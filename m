@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85E51EBA12
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 12:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05D31DA314
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 13:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733230197; cv=none; b=prAPAUQM3UyOPcfnVQp5V6YeGx/t24tni2uJfe4q1FTGTdAYbjq0VdMCPAdZWTt6DtzkkkQ4WQ1VgscoqYUUYVo1mvz/BI/6k0IIPJnUR4VZsk0zq/4KoIz1caZZHyTVk/J0GDkBuzmsU+29diklpf+SqDxZjkHVXNgK0RdkajI=
+	t=1733232429; cv=none; b=oOTngikIhREi1qTuyYO5oPR2fje2ifhGUtJBuM9j7c651lWzm7dgPkm5zfr11UsTW6gACxoIQ3NcOGQjgsUf18BVD8ABhDGAS1bLjKXFJ+ad7xswvf4JX0kqc+ESbA5CvATI7oEFD+O4tWCX8iallR6tFVtyk0J12DHFkrgLc40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733230197; c=relaxed/simple;
-	bh=coerDMI5kqf9Et+7NqvaFrN/OxjsnC/S6p3s9yDjjuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uVbd+DTlyijAmY+hFGnAirmQU6nP0hTGqcYTHowK9TbrM1jc5NZs2cJsM2vZCc1VijCNoeVXBqvN1C3HEfzKuZg0J7MDBNIAKg5+jrpxb71a4JZfxRFd89bk02cIBvP1oFnmcdEvUUYJkP75A99mtgnRtUdwtTlwEXWuy4QySD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEd7eiwF; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1733232429; c=relaxed/simple;
+	bh=GJJVRB+r+tZPQsZPmLAMOC0LuevwFBUN7eVBiP0dqYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C2SC0XGWEMRJp0zDbHrV/fQy5sYAr+QGO95FcbUmzNYtUTTMVEnjPM+wbyDMREwN3RSbH+zbYFhwff31Y3j7ETiDtNT0GlpdwFjjM1nMzxCuiRi/YaisNp6VuWB/ha0TIMWzQx1OhboxTjHnmbphs5ZwqBR+/sOawvkBl1jshZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tu/wc44g; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEd7eiwF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tu/wc44g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733230195; x=1764766195;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=coerDMI5kqf9Et+7NqvaFrN/OxjsnC/S6p3s9yDjjuQ=;
-  b=iEd7eiwFGg8Zyk55UtdKuM8tzicY7sC0U/QYfcBO2r1k5X7hbptkJyza
-   u0YdDKzVZ5maf14uVdTzQPH1nC2eO47/Dr6+jLtVFz+WvEkzCFuA+XDz7
-   kJvbzO26L6/PZjr+aSDbOdZyuZNYOnko0VWK+T0aNPv64MMYo0NCqT7+I
-   u2RVIypMEW51UjknKLSlRYd/XuwOBlEVfV+EHvnEsUhgq4z2GI11U5M6b
-   WNJSWXwLrmbGlIiXEDhaP30kL7sVyd1zxEMqFaRzt60ADv3DNxgJCQkjz
-   QJeCV7rJTRMCmnUsCWnZtVi7oD0GOxlrJiqjm9IViEGWmro0+dnkoK/vF
+  t=1733232428; x=1764768428;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GJJVRB+r+tZPQsZPmLAMOC0LuevwFBUN7eVBiP0dqYg=;
+  b=Tu/wc44gFlDSa2pctefsmQ2MhU08v/tRnvQwUgO0mTPOMZMAlkRuPsDQ
+   S0wXZqwEkOq9Jw8KP1zyw/uyrfDl+333pfvEeF+mbt/IqGgIbvyF3rOHq
+   KCsHJ8V7Lnx70Pr/j7n2HBxRI0lS17N/bCA0m4HC0b/jONAZzXyCpHN7e
+   hMlUacZCMspF+Hkln134c1PkL2i7kUYFhWGPFIFOINcJzUTH1mkRmsTxa
+   eKZAfjKha/Mnc5qdXuE9bhHoUGLAzmk+Gnl+UH2GkLtuTGxIVKfe0wPdg
+   lxjK2FVQ04+X4kxDLfUaUYTVGtvj57AiBqArFEqJ2qhQwmA1tE9eKCvh1
    g==;
-X-CSE-ConnectionGUID: dpU0vO+/Qnq4AcvA4Usbeg==
-X-CSE-MsgGUID: +xkBU38bTWqUXYdqCnVCDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="32798041"
+X-CSE-ConnectionGUID: bE89+1rtT9CJ/DjQispgtg==
+X-CSE-MsgGUID: sFnC8b9dTQKBplG+sziQWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33501945"
 X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="32798041"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 04:49:53 -0800
-X-CSE-ConnectionGUID: SZvPMnypQimoCgyNfQHU/A==
-X-CSE-MsgGUID: Q0l8ejH5ScW3WYNZU8ID0A==
+   d="scan'208";a="33501945"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 05:27:07 -0800
+X-CSE-ConnectionGUID: iQ8of2KEQFaQYa8+6lU9hA==
+X-CSE-MsgGUID: 1N8UxxxYRx2vCPnrVCh4Lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="98511197"
-Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Dec 2024 04:49:51 -0800
-Received: from kbuild by 388c121a226b with local (Exim 4.96)
+   d="scan'208";a="93519897"
+Received: from lkp-server02.sh.intel.com (HELO 3c97e37f0ba1) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 03 Dec 2024 05:27:07 -0800
+Received: from kbuild by 3c97e37f0ba1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tISLd-0000fv-0p;
-	Tue, 03 Dec 2024 12:49:49 +0000
-Date: Tue, 3 Dec 2024 20:49:17 +0800
+	id 1tISvg-000014-0O;
+	Tue, 03 Dec 2024 13:27:04 +0000
+Date: Tue, 3 Dec 2024 21:20:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruen@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph =?unknown-8bit?Q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: drivers/block/drbd/drbd_bitmap.c:1222: warning: Function parameter
- or member 'peer_device' not described in 'drbd_bm_read'
-Message-ID: <202412032005.4r4rb5ws-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, david@ixit.cz
+Subject: Re: [PATCH 1/1] media: ccs: Clean up parsed CCS static data on parse
+ failure
+Message-ID: <202412032012.8W7tXCJq-lkp@intel.com>
+References: <20241203102737.851076-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,108 +64,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241203102737.851076-1-sakari.ailus@linux.intel.com>
 
-Hi Andreas,
+Hi Sakari,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
-commit: 8164dd6c8ae158ec0740bf37f0f14645a1fb5355 drbd: Add peer device parameter to whole-bitmap I/O handlers
-date:   1 year, 8 months ago
-config: i386-randconfig-051-20240106 (https://download.01.org/0day-ci/archive/20241203/202412032005.4r4rb5ws-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412032005.4r4rb5ws-lkp@intel.com/reproduce)
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on linus/master media-tree/master sailus-media-tree/streams sailus-media-tree/master v6.13-rc1 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-ccs-Clean-up-parsed-CCS-static-data-on-parse-failure/20241203-183006
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20241203102737.851076-1-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 1/1] media: ccs: Clean up parsed CCS static data on parse failure
+config: arc-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412032012.8W7tXCJq-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412032012.8W7tXCJq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412032005.4r4rb5ws-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412032012.8W7tXCJq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/block/drbd/drbd_bitmap.c:1222: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_read'
->> drivers/block/drbd/drbd_bitmap.c:1234: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write'
->> drivers/block/drbd/drbd_bitmap.c:1246: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write_all'
->> drivers/block/drbd/drbd_bitmap.c:1273: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write_copy_pages'
---
->> drivers/block/drbd/drbd_main.c:3415: warning: Function parameter or member 'peer_device' not described in 'drbd_bmio_set_n_write'
->> drivers/block/drbd/drbd_main.c:3441: warning: Function parameter or member 'peer_device' not described in 'drbd_bmio_clear_n_write'
->> drivers/block/drbd/drbd_main.c:3502: warning: Function parameter or member 'peer_device' not described in 'drbd_queue_bitmap_io'
->> drivers/block/drbd/drbd_main.c:3544: warning: Function parameter or member 'peer_device' not described in 'drbd_bitmap_io'
+   drivers/media/i2c/ccs/ccs-data.c: In function 'ccs_data_parse':
+>> drivers/media/i2c/ccs/ccs-data.c:977:44: error: expected ')' before ';' token
+     977 |         memset(ccsdata, 0, sizeof(*ccsdata);
+         |               ~                            ^
+         |                                            )
+>> drivers/media/i2c/ccs/ccs-data.c:979:21: error: expected ';' before '}' token
+     979 |         return rval;
+         |                     ^
+         |                     ;
+     980 | }
+         | ~                    
+>> drivers/media/i2c/ccs/ccs-data.c:980:1: warning: control reaches end of non-void function [-Wreturn-type]
+     980 | }
+         | ^
 
 
-vim +1222 drivers/block/drbd/drbd_bitmap.c
+vim +977 drivers/media/i2c/ccs/ccs-data.c
 
-b411b3637fa71fc Philipp Reisner     2009-09-25  1214  
-b411b3637fa71fc Philipp Reisner     2009-09-25  1215  /**
-b411b3637fa71fc Philipp Reisner     2009-09-25  1216   * drbd_bm_read() - Read the whole bitmap from its on disk location.
-b30ab7913b0a7b1 Andreas Gruenbacher 2011-07-03  1217   * @device:	DRBD device.
-b411b3637fa71fc Philipp Reisner     2009-09-25  1218   */
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1219  int drbd_bm_read(struct drbd_device *device,
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1220  		 struct drbd_peer_device *peer_device) __must_hold(local)
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1221  
-b411b3637fa71fc Philipp Reisner     2009-09-25 @1222  {
-4ce4926683b820c Lars Ellenberg      2014-05-06  1223  	return bm_rw(device, BM_AIO_READ, 0);
-b411b3637fa71fc Philipp Reisner     2009-09-25  1224  }
-b411b3637fa71fc Philipp Reisner     2009-09-25  1225  
-b411b3637fa71fc Philipp Reisner     2009-09-25  1226  /**
-b411b3637fa71fc Philipp Reisner     2009-09-25  1227   * drbd_bm_write() - Write the whole bitmap to its on disk location.
-b30ab7913b0a7b1 Andreas Gruenbacher 2011-07-03  1228   * @device:	DRBD device.
-19f843aa08e2d8f Lars Ellenberg      2010-12-15  1229   *
-19f843aa08e2d8f Lars Ellenberg      2010-12-15  1230   * Will only write pages that have changed since last IO.
-b411b3637fa71fc Philipp Reisner     2009-09-25  1231   */
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1232  int drbd_bm_write(struct drbd_device *device,
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1233  		 struct drbd_peer_device *peer_device) __must_hold(local)
-b411b3637fa71fc Philipp Reisner     2009-09-25 @1234  {
-4ce4926683b820c Lars Ellenberg      2014-05-06  1235  	return bm_rw(device, 0, 0);
-b411b3637fa71fc Philipp Reisner     2009-09-25  1236  }
-b411b3637fa71fc Philipp Reisner     2009-09-25  1237  
-d1aa4d04da8de5c Philipp Reisner     2012-08-08  1238  /**
-d1aa4d04da8de5c Philipp Reisner     2012-08-08  1239   * drbd_bm_write_all() - Write the whole bitmap to its on disk location.
-b30ab7913b0a7b1 Andreas Gruenbacher 2011-07-03  1240   * @device:	DRBD device.
-d1aa4d04da8de5c Philipp Reisner     2012-08-08  1241   *
-d1aa4d04da8de5c Philipp Reisner     2012-08-08  1242   * Will write all pages.
-d1aa4d04da8de5c Philipp Reisner     2012-08-08  1243   */
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1244  int drbd_bm_write_all(struct drbd_device *device,
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1245  		struct drbd_peer_device *peer_device) __must_hold(local)
-d1aa4d04da8de5c Philipp Reisner     2012-08-08 @1246  {
-4ce4926683b820c Lars Ellenberg      2014-05-06  1247  	return bm_rw(device, BM_AIO_WRITE_ALL_PAGES, 0);
-d1aa4d04da8de5c Philipp Reisner     2012-08-08  1248  }
-d1aa4d04da8de5c Philipp Reisner     2012-08-08  1249  
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1250  /**
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1251   * drbd_bm_write_lazy() - Write bitmap pages 0 to @upper_idx-1, if they have changed.
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1252   * @device:	DRBD device.
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1253   * @upper_idx:	0: write all changed pages; +ve: page index to stop scanning for changed pages
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1254   */
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1255  int drbd_bm_write_lazy(struct drbd_device *device, unsigned upper_idx) __must_hold(local)
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1256  {
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1257  	return bm_rw(device, BM_AIO_COPY_PAGES, upper_idx);
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1258  }
-c7a58db4e9dc523 Lars Ellenberg      2013-12-20  1259  
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1260  /**
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1261   * drbd_bm_write_copy_pages() - Write the whole bitmap to its on disk location.
-b30ab7913b0a7b1 Andreas Gruenbacher 2011-07-03  1262   * @device:	DRBD device.
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1263   *
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1264   * Will only write pages that have changed since last IO.
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1265   * In contrast to drbd_bm_write(), this will copy the bitmap pages
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1266   * to temporary writeout pages. It is intended to trigger a full write-out
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1267   * while still allowing the bitmap to change, for example if a resync or online
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1268   * verify is aborted due to a failed peer disk, while local IO continues, or
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1269   * pending resync acks are still being processed.
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25  1270   */
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1271  int drbd_bm_write_copy_pages(struct drbd_device *device,
-8164dd6c8ae158e Andreas Gruenbacher 2023-03-30  1272  		struct drbd_peer_device *peer_device) __must_hold(local)
-0e8488ade26b4b1 Lars Ellenberg      2012-04-25 @1273  {
-4ce4926683b820c Lars Ellenberg      2014-05-06  1274  	return bm_rw(device, BM_AIO_COPY_PAGES, 0);
-19f843aa08e2d8f Lars Ellenberg      2010-12-15  1275  }
-19f843aa08e2d8f Lars Ellenberg      2010-12-15  1276  
-
-:::::: The code at line 1222 was first introduced by commit
-:::::: b411b3637fa71fce9cf2acf0639009500f5892fe The DRBD driver
-
-:::::: TO: Philipp Reisner <philipp.reisner@linbit.com>
-:::::: CC: Jens Axboe <jens.axboe@oracle.com>
+   933	
+   934	/**
+   935	 * ccs_data_parse - Parse a CCS static data file into a usable in-memory
+   936	 *		    data structure
+   937	 * @ccsdata:	CCS static data in-memory data structure
+   938	 * @data:	CCS static data binary
+   939	 * @len:	Length of @data
+   940	 * @dev:	Device the data is related to (used for printing debug messages)
+   941	 * @verbose:	Whether to be verbose or not
+   942	 */
+   943	int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
+   944			   size_t len, struct device *dev, bool verbose)
+   945	{
+   946		struct bin_container bin = { 0 };
+   947		int rval;
+   948	
+   949		rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, verbose);
+   950		if (rval)
+   951			return rval;
+   952	
+   953		rval = bin_backing_alloc(&bin);
+   954		if (rval)
+   955			return rval;
+   956	
+   957		rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, false);
+   958		if (rval)
+   959			goto out_free;
+   960	
+   961		if (verbose && ccsdata->version)
+   962			print_ccs_data_version(dev, ccsdata->version);
+   963	
+   964		if (bin.now != bin.end) {
+   965			rval = -EPROTO;
+   966			dev_dbg(dev, "parsing mismatch; base %p; now %p; end %p\n",
+   967				bin.base, bin.now, bin.end);
+   968			goto out_free;
+   969		}
+   970	
+   971		ccsdata->backing = bin.base;
+   972	
+   973		return 0;
+   974	
+   975	out_free:
+   976		kvfree(bin.base);
+ > 977		memset(ccsdata, 0, sizeof(*ccsdata);
+   978	
+ > 979		return rval;
+ > 980	}
 
 -- 
 0-DAY CI Kernel Test Service
