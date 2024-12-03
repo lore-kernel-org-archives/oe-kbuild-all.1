@@ -1,156 +1,115 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2CF1DDC0B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 08:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74241632E4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 09:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733216229; cv=none; b=ApjJrIVZkNFkpBepmWPKvkjPmK6PywXuKXsx/N16V7agK+hnoyReR8T1TK8bDeajwKl4ByjY1OR97siZDmlYh3LoSsnUS0ICOkaQDawv+d+8WVo3ahyqCe7W4VoxLOv7a/ipShO6CuY5mJ3pHsvd/8wX8mfSh7bENaiBt2EPnhI=
+	t=1733216657; cv=none; b=OsaC07C8IYnyIBDzj2SQ19CUL96CYyWNq88hjHGyxvnLOD133xzN8KUH90wRJVMajJ8XYs+ic9PgL0kx8Onsw931Xitl/ZOZAdARwzNoB1QI/+wc10l2cfpMvMbJDP1rIP08UlaMu9EmTu1rRK5GVu2VI+H8qBoMDYKo1h+zH8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733216229; c=relaxed/simple;
-	bh=OOceX6kz0XXbimZbAprvOOOhYfdQDD8f85dFSF0Tppg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UkiAm05CLETStVwoiGd4c22ap5AQYN+SdecoNYvg6pc5BLL3+g99GEYytH9VR5St+ntNGDsGYbF8qEmar2exXzcJodc/rGcxPcWvcVBAYJL1Z85zN1nK6Jd14l6xEnotHNWPPaMM8+PeqnqcmdyJyR/IRjv9BKAqVF+RtMwkSms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GvjhslKr; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1733216657; c=relaxed/simple;
+	bh=PKogFheRZ5x5MHjI6FGkRxA0qHArkmk+xgeA1ujDnE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f3tlXfqAaVowQFeGJJmDOzGz4C5rRbnfHehT7hsbiPRN9FL02xABQqh90Gxln4B8veMBJGpQ/boGK15d3OnHVO6vRXizBkDJBW4aWKujXqpOO8KwqPfdoXLnty/bH6d71sIpiNqU3TVQCbR7dx0wY4Sp8bB6OlT6qcfKn/v98MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g2+d67a5; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GvjhslKr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733216227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FGHz7ghiBxVIbssf5/hQmDMUZC5ROBwA/LtGFN8UTlY=;
-	b=GvjhslKrT9P2RCxCy/xOVSLKPaMoJWqo7ndZYINUjcYSKS6B8E391OGfZ76FNeyQYc9zAx
-	z3r3+X5emx/gynmEXFpmNJ7n0izf5wVzRbw+Ac8St2WAWYlndi2LuD4vuTsoQcYp/fksr8
-	wa6MSg50QuK9Czuh7E7ZioLrINMiG9A=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-187-MjMteSBQO46O_UVEmYtjsQ-1; Tue, 03 Dec 2024 03:57:03 -0500
-X-MC-Unique: MjMteSBQO46O_UVEmYtjsQ-1
-X-Mimecast-MFC-AGG-ID: MjMteSBQO46O_UVEmYtjsQ
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2ee6b027a90so4798745a91.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Dec 2024 00:57:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733216222; x=1733821022;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FGHz7ghiBxVIbssf5/hQmDMUZC5ROBwA/LtGFN8UTlY=;
-        b=vf5k1ZYtH8dq4JZCpdX2PXGzTsh6KJy5PYIELNbQDIhNql/nCYgJeievGE1wNjF+Mf
-         48Pw6xyCVCyYY2Dx5svUGh5yTM7WPcSO3Idrqx5vck/JCDmT10GxFX8dnAettboEzhui
-         vu0DThKoT1vOW0KdyIFaVzVYRE/PqKrsFgahPIfdYzLLB7h2rvBZfwJe2H3llBT7CJQm
-         OSstuR17CGD96onwdgDhgRb8LNtzO2tG2gN6GPsNrBisrJzZdje+/nLFAQXjCbqyhZmu
-         HnXkV20Hp3Kj9fkyhlMnKEHo3J2C0E6loge6KKwHiejsfUp8HZ5VpIei4DsvEKk4YKhO
-         ePVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVrK5x8viW2Tr/3V/Tk5tbTDnYDc7ujbuFYDxZMRRifO4VEYOiqnG8gS19lbBg9kwngZ2SZl64cJLoGghrC@lists.linux.dev
-X-Gm-Message-State: AOJu0YziSncUB+Feq5ibIjhDuAv15sb2xpheGxnCYI3SM+m4S2xgSABR
-	C5FdF+6WdmIyMEjHruxqFH8YDabg0RQ3fe3btukBjHyzGnrCkkzrNYFlbttVJ8QNPWnlSG4TK1d
-	5raZfG/38l8QVMedFDEnN6vS3AU91VmBz6LS9hdr7U9jNon8mcJURYl6cy3Mgx10=
-X-Gm-Gg: ASbGncs+RNxBOju608COny3BHQUfveaiPJo9gfi56aOYWkboYc+lEG4OCcgxkrkhnJm
-	3Gv3f9QSfgR1dCE6fW5PVgGw/n8CXpyAZv0Bw+ROr85qSgDTqTS1gCOVZgoEFXytG1V/NvHRL1M
-	IixP+AVVrziLe+lw56rK5fQ0g/CHLEedOdovhL28jE5sqvOSZbV9sfqRWUePxedqMAIvfllDCUx
-	S7ZAX818IhsTu12xFh3PkNo4nYTvRVJDfzEBUu6ffbsc39anOo=
-X-Received: by 2002:a17:90b:33c6:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-2ef011e4926mr2503896a91.7.1733216222622;
-        Tue, 03 Dec 2024 00:57:02 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEIcOl4s6XHMdDXHxmOpeH3xZ9kLRLW+50zloAvOHAMK7Z7v1F6jBYhjBcR7dhJA5/1Z8PpzQ==
-X-Received: by 2002:a17:90b:33c6:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-2ef011e4926mr2503625a91.7.1733216215342;
-        Tue, 03 Dec 2024 00:56:55 -0800 (PST)
-Received: from [10.72.112.157] ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2eead160674sm4605513a91.3.2024.12.03.00.56.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Dec 2024 00:56:54 -0800 (PST)
-Message-ID: <b1923d68-726a-4864-8661-54588a634d95@redhat.com>
-Date: Tue, 3 Dec 2024 18:56:49 +1000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g2+d67a5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733216656; x=1764752656;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PKogFheRZ5x5MHjI6FGkRxA0qHArkmk+xgeA1ujDnE0=;
+  b=g2+d67a5UUPbTnZqOufCsxY7BOBahqLDCTGXw1fCyY7b/KQJqpvl+nv8
+   ae+Kb2TaHHoaoaUK/Y8vONfTYIa3r7sInKZqYhCKxT4y70SYZtac0dGj0
+   7un1BCx+vgRwMV0ScPNMm/ULKbWH9KTsuk9wBVPzuTQKfLmZPOjy5W0sy
+   lQhc1puaqTjyF5So2jmAbvvkNcFBKbfjejkIrygDoM9SLhpYbNHK/y6yF
+   rPsEGMOoRzlCIVht27GH3Cu1uxmFOw93EbVrAMqWdZkn7OczXFd0JNHON
+   iRUlor8Jz23yr06BQkbmg/kUu4Had0m1pVGRaKz98sxGg9mP2HHq1eGKs
+   Q==;
+X-CSE-ConnectionGUID: SGOcwkOHSN6t1t136Sw+eA==
+X-CSE-MsgGUID: rBTlbfZqSiaCDCb5hqiwYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44446766"
+X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
+   d="scan'208";a="44446766"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 01:04:15 -0800
+X-CSE-ConnectionGUID: +80FZccWR6u6RxWNJAFpPg==
+X-CSE-MsgGUID: F/lELXC9QkG1UU21CLgkKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
+   d="scan'208";a="93775029"
+Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 03 Dec 2024 01:04:14 -0800
+Received: from kbuild by 388c121a226b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tIOpH-0000RP-2d;
+	Tue, 03 Dec 2024 09:04:11 +0000
+Date: Tue, 3 Dec 2024 17:03:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2516/2516] fs/proc/base.c:1454:6: warning: no
+ previous prototype for 'pbha_bit0_hide_file'
+Message-ID: <202412031640.QjUBley5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] arm64: rsi: Add automatic arm-cca-guest module
- loading
-To: kernel test robot <lkp@intel.com>, Jeremy Linton <jeremy.linton@arm.com>,
- linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- steven.price@arm.com, sami.mujawar@arm.com, suzuki.poulose@arm.com,
- will@kernel.org, catalin.marinas@arm.com, linux-kernel@vger.kernel.org
-References: <20241203000156.72451-2-jeremy.linton@arm.com>
- <202412031348.bp5i3ws2-lkp@intel.com>
-From: Gavin Shan <gshan@redhat.com>
-In-Reply-To: <202412031348.bp5i3ws2-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: N03gz_wbao8H692cEgwVdWxRbJ7Yr1Mdya7C1_1uom8_1733216223
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Ma,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   f86196bf02fd9bea8511335c45bf10b6b0a3ea13
+commit: bea38841945a52bd03004240eb0da6a5115bae21 [2516/2516] arm64: mm: Hide pbha_bit0 in procfs if pbha is not enabled
+config: arm64-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031640.QjUBley5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031640.QjUBley5-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031640.QjUBley5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/proc/base.c:1454:6: warning: no previous prototype for 'pbha_bit0_hide_file' [-Wmissing-prototypes]
+    1454 | bool pbha_bit0_hide_file(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
+   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
+   Selected by [y]:
+   - SDEI_WATCHDOG [=y] && ARM64 [=y] && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 
+vim +/pbha_bit0_hide_file +1454 fs/proc/base.c
 
-On 12/3/24 4:03 PM, kernel test robot wrote:
-> Hi Jeremy,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on arm64/for-next/core]
-> [also build test WARNING on linus/master v6.13-rc1 next-20241128]
-> [cannot apply to kvmarm/next soc/for-next arm/for-next arm/fixes]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Linton/arm64-rsi-Add-automatic-arm-cca-guest-module-loading/20241203-080347
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-> patch link:    https://lore.kernel.org/r/20241203000156.72451-2-jeremy.linton%40arm.com
-> patch subject: [PATCH v2 1/1] arm64: rsi: Add automatic arm-cca-guest module loading
-> config: arm64-randconfig-004-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031348.bp5i3ws2-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031348.bp5i3ws2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412031348.bp5i3ws2-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/virt/coco/arm-cca-guest/arm-cca-guest.c:224:21: warning: attribute declaration must precede definition [-Wignored-attributes]
->       224 | static const struct __maybe_unused platform_device_id arm_cca_match[] = {
->           |                     ^
->     include/linux/compiler_attributes.h:356:56: note: expanded from macro '__maybe_unused'
->       356 | #define __maybe_unused                  __attribute__((__unused__))
->           |                                                        ^
->     include/linux/mod_devicetable.h:607:8: note: previous definition is here
->       607 | struct platform_device_id {
->           |        ^
->>> drivers/virt/coco/arm-cca-guest/arm-cca-guest.c:224:55: warning: unused variable 'arm_cca_match' [-Wunused-const-variable]
->       224 | static const struct __maybe_unused platform_device_id arm_cca_match[] = {
->           |                                                       ^~~~~~~~~~~~~
->     2 warnings generated.
-> 
-> 
-> vim +224 drivers/virt/coco/arm-cca-guest/arm-cca-guest.c
-> 
->     222	
->     223	/* modalias, so userspace can autoload this module when RSI is available */
->   > 224	static const struct __maybe_unused platform_device_id arm_cca_match[] = {
->     225		{ RSI_PDEV_NAME, 0},
->     226		{ }
->     227	};
->     228	
-> 
+  1453	
+> 1454	bool pbha_bit0_hide_file(const char *name)
+  1455	{
+  1456		if (!system_support_pbha_bit0() && !strncmp("pbha_bit0", name, 9))
+  1457			return true;
+  1458	
+  1459		return false;
+  1460	}
+  1461	#else
+  1462	static bool pbha_bit0_hide_file(const char *name) { return false; }
+  1463	#endif
+  1464	
 
-The definition may have to be something like below, to avoid the compiling warning.
-
-static const struct platform_device_id __maybe_unused arm_cca_match[] = {
-        ...
-};
-
-Thanks,
-Gavin
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
