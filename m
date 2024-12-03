@@ -1,69 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C97B14A82
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 02:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FBE81ADA;
+	Tue,  3 Dec 2024 02:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733191479; cv=none; b=g2I6PHeOpq9n4u4tYwkX8w0k5RoPqicQAquR21F8n+jMIGDUSv9uLDnHgg/ZaNj/t93k9DtVnJImV9U71+DYYcwW8wnm8UrJV1yzsHj1z+gA/RjpDqutnusPtZlMcl6FXvUVEihuVdd04CWoCFfrwbSFe+NfQT3CMCXKzBFKTdg=
+	t=1733191485; cv=none; b=LeRIzv7MWG3qdc622Jlslgdxlj4mkpdw/iTRdwv+hehhC/BSNkmxdjD6iTpgz42Ba6EjH5qDp+ArFh1/sde7eHMHoZh/n+TioDVaZoYCtWtjTbfC0R+CqxQyKEmYHerLh5neFDE5eiR1doj3PTiSeOtgEJxDmKiEh7OTV6AOSxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733191479; c=relaxed/simple;
-	bh=xr/4Fwe3ocV4wZZiAFhod7Jm8urk9+EfI8yGAVuF37g=;
+	s=arc-20240116; t=1733191485; c=relaxed/simple;
+	bh=aZrmviilsvEZDeMEz8Oi+rFs521z/1qu21p6tkM0odw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NetnCpEafE34pWi80TSVydxp/HFD/pRJbZlBq952MuP53VLDnnsoYntpm/3qY74whiVl+s687Kf+iaxlcLvef9jBx8IpH0Ln6AVPKbbrPn79qXiV8UaiKTdXQzBUQLyq+urjD2c/wqsPvubJ0q+RRYu/KHpsDcpI9bTt19/o9lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WYij3DdI; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=ly32GRlv6FMNhCtZQIXVMuNMiAD2Gvv/gMbfxv8v0JevyUIcscvNlMD4UimnO8ol4BINnTBL+tQbQtLqWsE+TDN8WGLJ1BB9e7p95ikmMI3PItxOfJpKYdHOEokz5BayYG8vrj0CCJqQRKsSf3JfyxT8NDE9C443RP9Ac2DH99Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=If0ZBvD7; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYij3DdI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="If0ZBvD7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733191478; x=1764727478;
+  t=1733191482; x=1764727482;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xr/4Fwe3ocV4wZZiAFhod7Jm8urk9+EfI8yGAVuF37g=;
-  b=WYij3DdIfoLhRG1lcyCjxeWJYOz/9U8foPpjgKewjY1WY73BS8oLnerT
-   B4NWe83v9oERLGrIiuDAMp+rR4X3Dvu/4iO6OSiwlxVXzhPbMo/M9AeLf
-   MS8udL1hRDxmlUY2RXxM1aL35wi2NuA6pdF9FKEAELPF0FgBCyxzEQUeT
-   NkHy/+v0ilVQaG5YoXT2jro6d6v5Dr2NyCruTKWFGvIaONKtai60luX2F
-   IhRllDzHPBcuHtaIE8vGxXde4VJbCwdJ7J1NAFxEZWyuiceBNPgOaRjhq
-   SNEGv367OZD+jKc8cRy3kPn+4Sq8XGB5GDVEdBJ8301+iAJ21pUgVVCUj
+  bh=aZrmviilsvEZDeMEz8Oi+rFs521z/1qu21p6tkM0odw=;
+  b=If0ZBvD73QdKI6M22clZN0gMuzXWauZFZbgZibDKhVl00oL+JVIVdeLN
+   RWPwH6fdL1vgDPaWL8kPs35XVOUPSXNn7kHjeEsiej6y59CEvzd5AbaJ3
+   YWIaFKWbam82WCgV5a+T2uPTMnxUcT7v6LqSOG3wcvNLv2IQfoejqeVxQ
+   eXVg0znkwijxPpPiJDWWCmCxuIxqz/vLGym2Dsor2Iwgt+szLwWwiW3Wx
+   qZtdnKv/+ycLPsxWPoq0RqSvbcRI3mKdxH/HWRpxYb/2Akdx+ywfgIvEm
+   O6DfHxdem0gKQzwAdGBWIjsK1aHkGuAGDt6j3cIEnER7RIbLwc9FoqxhA
    Q==;
-X-CSE-ConnectionGUID: 6zMUxZGIQzeRztLoQ6eneA==
-X-CSE-MsgGUID: IL4K9dPaSRedrda1g2oFEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="37322931"
+X-CSE-ConnectionGUID: RVZmfRjoSJu0Xq1ijFys5Q==
+X-CSE-MsgGUID: wx1wcTw+TMOO+jpAWfH7Fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33535829"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="37322931"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 18:04:36 -0800
-X-CSE-ConnectionGUID: aScvZaJLTd+RglbCgCMfZQ==
-X-CSE-MsgGUID: hRGf8/VbQPCFJUIqz3AgLA==
+   d="scan'208";a="33535829"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 18:04:41 -0800
+X-CSE-ConnectionGUID: +3hlY5ufRvSmYM9wax/eHw==
+X-CSE-MsgGUID: BGSUtcLxQzeCBSsdKvD/HA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="98057774"
+   d="scan'208";a="97718699"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Dec 2024 18:04:33 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 18:04:37 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIIGw-00039h-1H;
-	Tue, 03 Dec 2024 02:04:23 +0000
-Date: Tue, 3 Dec 2024 10:03:57 +0800
+	id 1tIIH8-00039j-1o;
+	Tue, 03 Dec 2024 02:04:32 +0000
+Date: Tue, 3 Dec 2024 10:04:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev,
+To: Michal Schmidt <mschmidt@redhat.com>,
+	Rodolfo Giometti <giometti@enneenne.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Ma Ke <make24@iscas.ac.cn>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Chris Li <chrisl@kernel.org>, Hugh Dickins <hughd@google.com>,
-	"Huang, Ying" <ying.huang@intel.com>,
-	Yosry Ahmed <yosryahmed@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Barry Song <baohua@kernel.org>, Michal Hocko <mhocko@kernel.org>,
-	linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>
-Subject: Re: [PATCH 1/4] mm, memcontrol: avoid duplicated memcg enable check
-Message-ID: <202412030915.jyKBIDck-lkp@intel.com>
-References: <20241202184154.19321-2-ryncsn@gmail.com>
+	George Spelvin <linux@horizon.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/6] pps: embed "dev" in the pps_device
+Message-ID: <202412030942.aHisJx3i-lkp@intel.com>
+References: <20241202163451.1442566-6-mschmidt@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,73 +71,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202184154.19321-2-ryncsn@gmail.com>
+In-Reply-To: <20241202163451.1442566-6-mschmidt@redhat.com>
 
-Hi Kairui,
+Hi Michal,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on 7af08b57bcb9ebf78675c50069c54125c0a8b795]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-memcontrol-avoid-duplicated-memcg-enable-check/20241203-024957
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241202184154.19321-2-ryncsn%40gmail.com
-patch subject: [PATCH 1/4] mm, memcontrol: avoid duplicated memcg enable check
-config: arm-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030915.jyKBIDck-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030915.jyKBIDck-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Schmidt/pps-fix-cdev-use-after-free/20241203-025037
+base:   7af08b57bcb9ebf78675c50069c54125c0a8b795
+patch link:    https://lore.kernel.org/r/20241202163451.1442566-6-mschmidt%40redhat.com
+patch subject: [PATCH 5/6] pps: embed "dev" in the pps_device
+config: i386-buildonly-randconfig-005-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030942.aHisJx3i-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030942.aHisJx3i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030915.jyKBIDck-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030942.aHisJx3i-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memcontrol.c: In function 'mem_cgroup_swapin_uncharge_swap':
->> mm/memcontrol.c:4618:17: error: implicit declaration of function '__mem_cgroup_uncharge_swap'; did you mean 'mem_cgroup_uncharge_swap'? [-Wimplicit-function-declaration]
-    4618 |                 __mem_cgroup_uncharge_swap(entry, nr_pages);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 mem_cgroup_uncharge_swap
+>> drivers/pps/clients/pps-ktimer.c:59:11: error: passing 'struct device' to parameter of incompatible type 'const struct device *'; take the address with &
+      59 |         dev_info(pps->dev, "ktimer PPS source unregistered\n");
+         |                  ^~~~~~~~
+         |                  &
+   include/linux/dev_printk.h:160:46: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                     ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/linux/dev_printk.h:56:37: note: passing argument to parameter 'dev' here
+      56 | void _dev_info(const struct device *dev, const char *fmt, ...);
+         |                                     ^
+   drivers/pps/clients/pps-ktimer.c:77:11: error: passing 'struct device' to parameter of incompatible type 'const struct device *'; take the address with &
+      77 |         dev_info(pps->dev, "ktimer PPS source registered\n");
+         |                  ^~~~~~~~
+         |                  &
+   include/linux/dev_printk.h:160:46: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                     ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/linux/dev_printk.h:56:37: note: passing argument to parameter 'dev' here
+      56 | void _dev_info(const struct device *dev, const char *fmt, ...);
+         |                                     ^
+   2 errors generated.
 
 
-vim +4618 mm/memcontrol.c
+vim +59 drivers/pps/clients/pps-ktimer.c
 
-  4587	
-  4588	/*
-  4589	 * mem_cgroup_swapin_uncharge_swap - uncharge swap slot
-  4590	 * @entry: the first swap entry for which the pages are charged
-  4591	 * @nr_pages: number of pages which will be uncharged
-  4592	 *
-  4593	 * Call this function after successfully adding the charged page to swapcache.
-  4594	 *
-  4595	 * Note: This function assumes the page for which swap slot is being uncharged
-  4596	 * is order 0 page.
-  4597	 */
-  4598	void mem_cgroup_swapin_uncharge_swap(swp_entry_t entry, unsigned int nr_pages)
-  4599	{
-  4600		/*
-  4601		 * Cgroup1's unified memory+swap counter has been charged with the
-  4602		 * new swapcache page, finish the transfer by uncharging the swap
-  4603		 * slot. The swap slot would also get uncharged when it dies, but
-  4604		 * it can stick around indefinitely and we'd count the page twice
-  4605		 * the entire time.
-  4606		 *
-  4607		 * Cgroup2 has separate resource counters for memory and swap,
-  4608		 * so this is a non-issue here. Memory and swap charge lifetimes
-  4609		 * correspond 1:1 to page and swap slot lifetimes: we charge the
-  4610		 * page to memory here, and uncharge swap when the slot is freed.
-  4611		 */
-  4612		if (!mem_cgroup_disabled() && do_memsw_account()) {
-  4613			/*
-  4614			 * The swap entry might not get freed for a long time,
-  4615			 * let's not wait for it.  The page already received a
-  4616			 * memory+swap charge, drop the swap entry duplicate.
-  4617			 */
-> 4618			__mem_cgroup_uncharge_swap(entry, nr_pages);
-  4619		}
-  4620	}
-  4621	
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  52  
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  53  /*
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  54   * Module staff
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  55   */
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  56  
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  57  static void __exit pps_ktimer_exit(void)
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  58  {
+5e196d34a77642 Alexander Gordeev 2011-01-12 @59  	dev_info(pps->dev, "ktimer PPS source unregistered\n");
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  60  
+5e196d34a77642 Alexander Gordeev 2011-01-12  61  	del_timer_sync(&ktimer);
+5e196d34a77642 Alexander Gordeev 2011-01-12  62  	pps_unregister_source(pps);
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  63  }
+697fb85fcf21b5 Rodolfo Giometti  2010-03-10  64  
 
 -- 
 0-DAY CI Kernel Test Service
