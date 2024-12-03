@@ -1,163 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05D31DA314
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 13:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733232429; cv=none; b=oOTngikIhREi1qTuyYO5oPR2fje2ifhGUtJBuM9j7c651lWzm7dgPkm5zfr11UsTW6gACxoIQ3NcOGQjgsUf18BVD8ABhDGAS1bLjKXFJ+ad7xswvf4JX0kqc+ESbA5CvATI7oEFD+O4tWCX8iallR6tFVtyk0J12DHFkrgLc40=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733232429; c=relaxed/simple;
-	bh=GJJVRB+r+tZPQsZPmLAMOC0LuevwFBUN7eVBiP0dqYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C2SC0XGWEMRJp0zDbHrV/fQy5sYAr+QGO95FcbUmzNYtUTTMVEnjPM+wbyDMREwN3RSbH+zbYFhwff31Y3j7ETiDtNT0GlpdwFjjM1nMzxCuiRi/YaisNp6VuWB/ha0TIMWzQx1OhboxTjHnmbphs5ZwqBR+/sOawvkBl1jshZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tu/wc44g; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6258F1EB9E8;
+	Tue,  3 Dec 2024 13:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733233121; cv=fail; b=G1vLrfFTq1nnVJyt4ZFFXasPNo+N2+7LFxZpNoSwkMJLqyrqzqozr8Np9D+1iA+EtBj2v86nQkRN1jAhuEJJHecgHSt7EUgNXbgR7QRGAT04+yOTiBDu7G42nNBOHr6dGPla4DbQE4AMBKx76epqikCSVPbD+iwhTgQySXV7T6k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733233121; c=relaxed/simple;
+	bh=4RV9kp+1ToDsj6sfLdyWlIQMnFdRWMrJvKEf/bSjWJk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ppkbZ4O9NDAyhTIFQ/u9qavM+6aLcVhhBmjOVF4/q8tWdLvhbdImUdu3yMbiJ+lE4x/TBCLbZuo+jSWnXFUIMRMy1/ZjNPI+vwR8jfi6qJstQy3GfoRQmb4vniqSnrQ5Hlat38OxpSh7imwdCKGPlvk0oHO9BNk3epdgb5//gCY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJkn+Y4/; arc=fail smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tu/wc44g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJkn+Y4/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733232428; x=1764768428;
+  t=1733233119; x=1764769119;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GJJVRB+r+tZPQsZPmLAMOC0LuevwFBUN7eVBiP0dqYg=;
-  b=Tu/wc44gFlDSa2pctefsmQ2MhU08v/tRnvQwUgO0mTPOMZMAlkRuPsDQ
-   S0wXZqwEkOq9Jw8KP1zyw/uyrfDl+333pfvEeF+mbt/IqGgIbvyF3rOHq
-   KCsHJ8V7Lnx70Pr/j7n2HBxRI0lS17N/bCA0m4HC0b/jONAZzXyCpHN7e
-   hMlUacZCMspF+Hkln134c1PkL2i7kUYFhWGPFIFOINcJzUTH1mkRmsTxa
-   eKZAfjKha/Mnc5qdXuE9bhHoUGLAzmk+Gnl+UH2GkLtuTGxIVKfe0wPdg
-   lxjK2FVQ04+X4kxDLfUaUYTVGtvj57AiBqArFEqJ2qhQwmA1tE9eKCvh1
-   g==;
-X-CSE-ConnectionGUID: bE89+1rtT9CJ/DjQispgtg==
-X-CSE-MsgGUID: sFnC8b9dTQKBplG+sziQWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33501945"
+   in-reply-to:mime-version;
+  bh=4RV9kp+1ToDsj6sfLdyWlIQMnFdRWMrJvKEf/bSjWJk=;
+  b=QJkn+Y4/czQMqaQ3yh92IeRTNkCE7hJPraEPN1EUyTzGr/cTMwBPOi6c
+   sSBbIaPF6Xso/RDJ2f8SV1scQFvOP1SlXDnqGDTQp7dqRQobsd5EZINn4
+   DXV5ma3keYt5i1BONQ4sYXdyLMsBqr3houjRld6GjjY+FFkVkFmYF9bly
+   5+PfgNxMUA0mcHCgzEtuFA/oIpsTbcuv0GdijwXc16vHFaDAJ7NRCqKGS
+   frWr6DRFdmGrRhmJ9zdhY7pAHT5AXMcutYwXGIuB70U0Mq5MpsMN4Xqlm
+   hZl/Uhr5zls9EH00GZ+Lbl++UiNCLCireRp8fYxBkBYEOQH/g1l2op9Rt
+   w==;
+X-CSE-ConnectionGUID: RIyC2lmHTbmQyVom8hEqOw==
+X-CSE-MsgGUID: PJh1bhUmQzajGvNkcg6ZVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="55931779"
 X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="33501945"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 05:27:07 -0800
-X-CSE-ConnectionGUID: iQ8of2KEQFaQYa8+6lU9hA==
-X-CSE-MsgGUID: 1N8UxxxYRx2vCPnrVCh4Lg==
+   d="scan'208";a="55931779"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 05:38:39 -0800
+X-CSE-ConnectionGUID: HqVB8/MASk2krZemi57M4Q==
+X-CSE-MsgGUID: nR4PCUHvTsOOeNUiwF7skA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="93519897"
-Received: from lkp-server02.sh.intel.com (HELO 3c97e37f0ba1) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 03 Dec 2024 05:27:07 -0800
-Received: from kbuild by 3c97e37f0ba1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tISvg-000014-0O;
-	Tue, 03 Dec 2024 13:27:04 +0000
-Date: Tue, 3 Dec 2024 21:20:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, david@ixit.cz
-Subject: Re: [PATCH 1/1] media: ccs: Clean up parsed CCS static data on parse
- failure
-Message-ID: <202412032012.8W7tXCJq-lkp@intel.com>
-References: <20241203102737.851076-1-sakari.ailus@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="98447729"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Dec 2024 05:38:39 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 3 Dec 2024 05:38:38 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 3 Dec 2024 05:38:38 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.49) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 3 Dec 2024 05:38:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xa1apZIMI1OR8oIxM81mPL79FLWjhcX9Yh4kXDXFWL0u6bzvrrfGpsEr31wjrO9uMBaV+qXVGblj9XKb+3XkewR4r5xnvG7b/OpGW/hWVuHhZ2aOKslSRwO3MO1UoKoMqQOOc7Yp6MwTIIQEty2MxsomMaWlJD1cm3q4lM50QEbak94+TDItPxQDzVu03z4nrE2zP7/A2oN0YHpyk7g+6HnU/NEsnWn79pnoeyi4XW1bCr2Cu1CqF+hlrP9R0OxwmL0fhlpjIpkicQX0iHqa3aKbxaru7wwTbSM9plQKNG1TGnCC4Bxj4tY5t9S65scpl+lZzKL4Z0oIzNp5IULeKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ySTMVxRIGAovtsDCj87u6oTuz9BI8tK/jinQi14V98U=;
+ b=eo9s7Xq9hBxncopIsQKMSgpqMaMJN0J7Wvd0HDU6kPfavIQmXKtwSBnkJBUzsJR/hDRxLxkEV5UyTJTFJ/eclVK2sVj7HQX6Cfb9PqFmbdxLXe8vC7fQrMtTP9O1wkObRvESB2HKuYjHBQFHz4+nCYMqIKbvryN0CaptR3dG/08DVWLl6yHkkPpSDq4d/WDsN+8PyneK2MUisxrMaizV/N6T8ObY/TeG3sscDc4yLG7nYJrh4zVLXxrx8qzSdbrxCPl7woupsNTKlNdx3PkuB7D3M7ZcALnSobCdPP8ypi/+juc+nnmO5QVypXcXKm7Mi9PhNbbn5D0BWMANtSHuZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by DM6PR11MB4627.namprd11.prod.outlook.com (2603:10b6:5:2a2::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Tue, 3 Dec
+ 2024 13:38:36 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8207.017; Tue, 3 Dec 2024
+ 13:38:35 +0000
+Date: Tue, 3 Dec 2024 21:38:24 +0800
+From: Philip Li <philip.li@intel.com>
+To: "Melody (Huibo) Wang" <huibo.wang@amd.com>
+CC: kernel test robot <lkp@intel.com>, <kvm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <x86@kernel.org>, <llvm@lists.linux.dev>,
+	<oe-kbuild-all@lists.linux.dev>, Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+	Neeraj Upadhyay <neeraj.upadhyay@amd.com>, Ashish Kalra
+	<ashish.kalra@amd.com>, Michael Roth <michael.roth@amd.com>, Pankaj Gupta
+	<pankaj.gupta@amd.com>
+Subject: Re: [PATCH v3 5/7] KVM: SVM: Inject MCEs when restricted injection
+ is active
+Message-ID: <Z08J0EVu0VeA7Z/R@rli9-mobl>
+References: <20241127225539.5567-6-huibo.wang@amd.com>
+ <202411282157.6f84J7Wh-lkp@intel.com>
+ <5068baf4-7065-47c7-b339-b211b8fa80ed@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <5068baf4-7065-47c7-b339-b211b8fa80ed@amd.com>
+X-ClientProxiedBy: SG2PR04CA0158.apcprd04.prod.outlook.com (2603:1096:4::20)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203102737.851076-1-sakari.ailus@linux.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DM6PR11MB4627:EE_
+X-MS-Office365-Filtering-Correlation-Id: a51b3462-a52a-4b36-04f9-08dd139fc944
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2Zo+9IXM2ToMfDuLFIPqmCe4PKvAq6bmlbD2OeeGzWexNZAK2j0VMBySJ2FD?=
+ =?us-ascii?Q?MMGriwz9CKfB15Z1EDnLMakGxIzsS5Ghk+sVqxoCAZ0f1JPAHssHFAD+WZK4?=
+ =?us-ascii?Q?5HDmkxJZN/+JOdvMoqPl6KrfBj76VfqSeCqcSZ3z2S+y01vWUMvqb8huKgAF?=
+ =?us-ascii?Q?+dChJ/l60lDAo4Jsvs/M3ANdLDXcLrOPbgsOoy/enaeVT/i8l86M0H04KXIq?=
+ =?us-ascii?Q?FAfIMTcX0Ks/AFX1UVMjY1y3Y+SyL5H/7t9sy2Ksqlu+17+tDTXN0jxH2dXt?=
+ =?us-ascii?Q?1fkYK1s4tSvdLkBbb5HKbH8tgJwoh2BPBrWmFtIvRdv8aUhjdmST2Ou8Hci3?=
+ =?us-ascii?Q?1HMvFO7d3cdufVmUczrRPjF/3hWXFV2/EC2h3QiC2lFMuAItjRB4r6HgOwPT?=
+ =?us-ascii?Q?0v6yA09R/ctCeIG1HJDaaDM/wcH0nxfI0OGsBNmn08b5yuDsRynYM9oJOJg8?=
+ =?us-ascii?Q?dPCE1v/pIyi5nNIwhLNV2Ipw8tWPcRflwG6vnlUUHfCgoPMIW38J5uwkySJZ?=
+ =?us-ascii?Q?ZT4OjiWx6iftLeUYVY631bpLpVwoqCTmXVE+mNiBDHrFQbAvaHpiw1CyHdBp?=
+ =?us-ascii?Q?pskNl2C3flmR8ZpiK4q5uiMcFoit3uhtuPmEgpQGbCZxeTCIxm/xkRqXFfeJ?=
+ =?us-ascii?Q?RwZxa5jixalx5qqVH7X+pwrZ9sHoPN6jsdW7ZwsGP3T3s/rgPfI1L8OSwVtv?=
+ =?us-ascii?Q?QYqpLrhJjiBm1bEox/PFp3RbRa1xwEQmW+oKNqkCOoPubXI9dRDdtZqXvBX1?=
+ =?us-ascii?Q?zlVYzfsIGf/Khy3Vk2SjpSlxUvkGX5c9v+TkP/ovHl/LBM9Uu7HlnFajPh/1?=
+ =?us-ascii?Q?sCNrGssKsIGjd7/ztxirjWi8tJLLyLSmTEKHNCAyOOyGR5g8w0qLG09gk4MJ?=
+ =?us-ascii?Q?V2W5yK9Ke5lr0ANmjX4FXB5vhw1urciYVNvcr0Tgh3yDtX7L88ZhQf+WFQRt?=
+ =?us-ascii?Q?cmaGdvSS0n4RvPft8j4c6vLHaiqoaM6Egj0k+DSfHJdeY9Ds6Of1WcqJxivy?=
+ =?us-ascii?Q?NG5qlt1WT7AkJbxWV5U2A45sMkcn7nD4bhNSeagG+5ZBQo2nfydfmik0dJdl?=
+ =?us-ascii?Q?ieUvXGDVc6QWSt+gc7MbI7FwikXmtKaPlC6U/kTfuqZsOicGKjgyfoKuIaTf?=
+ =?us-ascii?Q?x2IqJFDACBxI/RQ1a2BDK4upIhSnyWxYFgec96ldyXLK9TehxsGYEA7r/iRK?=
+ =?us-ascii?Q?XWdMoKHA6uPskC3UArq8S1wIIVD9p6IPZDyB9Er6s8IeOEhVMVkYCSsy/Hp8?=
+ =?us-ascii?Q?rrozXVgkGcmRI0sxdC7FkfbqtZQ5Z7uG9WojZ+3J0jTcBY2snmjGiAFKD11t?=
+ =?us-ascii?Q?/bx9KLoLitBeRAED1Fa7j8bDyMdOeSPdxW2yKbDzw49ZCbfjaFCctz4eBVax?=
+ =?us-ascii?Q?p3nb4NE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FtTuGti/2W9SIEaSeMgEav/WUpHRVFIQP/cgspxHt3h5IyoOQX1JjJPOxQ8V?=
+ =?us-ascii?Q?HjHVB0X2ID4+8H+CEEwM1iH5y6jqgNI5o71UTb6K3FAIJC1Qij1Pe8z4MWmz?=
+ =?us-ascii?Q?LKq5p30Am+N6fShTd0eNgOi3PSz3ODli5g0wOL51nMUa21VW8PvfrlbY+qe6?=
+ =?us-ascii?Q?SVDPaEuksAlGYAkdo+/aeopgVNS1ZIpZzd3gCBFxcQaIR3+u1bX96lqfRWZZ?=
+ =?us-ascii?Q?WJ3YIyItY0l6TzKKybysOXMZ2fLrtFoV4LCKRLvk58TaJrAU6eZZnMtwYIkK?=
+ =?us-ascii?Q?Jt+vxU3ddt/7Ky7rVXU3n58nuUb0wXCZW4ORoYp3aJVVcX1dzWt6IZ8LAkhe?=
+ =?us-ascii?Q?ZZ1XBxp9p5+J2D+GMzH2lrcpFVTTLzAB0R3GMF5/WmWS33LVzW6o20ucYyiD?=
+ =?us-ascii?Q?h2sondW0ZZ7uxr0096rHFIA5RQyTXrQMdcCZ/Z/Dh7Lt6jhDDbx0D6TRb/2V?=
+ =?us-ascii?Q?52ezilIplI93M9j36NvbCN6aCgwC54Y9T8PbsJiiAWeFXdsNXUnMvckZSFJJ?=
+ =?us-ascii?Q?ZZIiXsgfvajKp6+45CBZAkIRSLY+QAjiV2go2X+s7tEV+aR9/1xlsMO5Kx5k?=
+ =?us-ascii?Q?Z0blfS/o5UU5MWVBYADJZpIRk49zpzchJW8TdzSphg31edltw7BFreZPlQMp?=
+ =?us-ascii?Q?bbOji7co0/X2IVxb/HbqCgIILb1N8KDQQXbI+DQDB2zKOUtjHrcuvW7HY5Eb?=
+ =?us-ascii?Q?X0GGMeYJr8yeiR+n0+CyVDjgoy1Y3yXCXhM1MFSyL65I2zCmMBloBh5H6Q4Z?=
+ =?us-ascii?Q?VgEOHc/UeVCf8U9/RCGLewrWLXdrT6ty+lWb7ro9CKr7aDm+kZzKK16odCHb?=
+ =?us-ascii?Q?DkWFLe7iOpjIUPXN5V6/Iiq9ZzfJ5B/sTXlyYaCagsgXVTwDwee9iGs45uuv?=
+ =?us-ascii?Q?58Ecb2AHcN2u7VWax476QdmCl9eh+X9vb1S+eWBgqDyspXFj9VC0Ds/jxx4I?=
+ =?us-ascii?Q?2hDd5V/5oOP3lkeRXEuIrr2u12lGhtNjjj/ys/aTde2jDicLMid1fUjOgA47?=
+ =?us-ascii?Q?sdkf75ArV05OdUtdwmF7vf8rr+aUfyiL7MsqWIu5Ytima+e1s1h/ldyOwnYe?=
+ =?us-ascii?Q?M0vQXwJeRKKLs0ttvtem+toiYS5NQY8g5yiuF2PfQbyqxc16pXnImV9FJXc7?=
+ =?us-ascii?Q?POZg32K9XdyioPQBsUPQD2n5oJ7dQ/InDup7LYfe0qa6d0RqxvDPeZWQkjvS?=
+ =?us-ascii?Q?oKLhbcKd1s+P6j2zYsmWSLWX4uow5pvbUMH21UVL9fS4G0T7DuzfLRbu3upD?=
+ =?us-ascii?Q?R3VrNH3SQ/0oO3/XtgHjwYFLAsuHtgBkarsgo0/X6SZSg2HADtJNfAHGUUCF?=
+ =?us-ascii?Q?Pt35/2xnvatShHQZi+We8VdQB8W5r/N2hNByCbZcf8toIpXhOFwU3IpxbMQR?=
+ =?us-ascii?Q?+ZfxWgQOA61ta3Mp8k5oPyajlm5XO02+FZabmjGlwU5SdqeJNElOATj8EGBE?=
+ =?us-ascii?Q?D7FJmNNNLQpdy/3Pz1Q/qbKLL8rwPI+2owSR/801ijYy5EpQPZ1MxlzkEL5R?=
+ =?us-ascii?Q?ljz/ub/7LeLWc6gEumrVgQDAycVy2RuT+1ZEI1N4pi/6XJZ3T5XOW8VYiePz?=
+ =?us-ascii?Q?UkcXSuZACtjTGeKBe1DYYQxLZkGXsYXOcxIh1i/v?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a51b3462-a52a-4b36-04f9-08dd139fc944
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2024 13:38:35.7167
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YS3xNKieat1O/rpdqFWUb19y/sPEyZNksB4/AqmtkCu8WskOYgt/pe83LrzAUsaPXATQdMlI6ZWy7JaqiX8HPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4627
+X-OriginatorOrg: intel.com
 
-Hi Sakari,
+On Sat, Nov 30, 2024 at 01:02:08PM -0800, Melody (Huibo) Wang wrote:
+> Hi,
+> 
+> On 11/28/2024 5:41 AM, kernel test robot wrote:
+> > Hi Melody,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on kvm/queue]
+> > [also build test WARNING on mst-vhost/linux-next tip/x86/core linus/master v6.12 next-20241128]
+> > [cannot apply to kvm/linux-next]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> The base of my tree is 
+> 
+> 4d911c7abee5 ("Merge tag 'kvm-riscv-6.13-2' of https://github.com/kvm-riscv/linux into HEAD")
+> 
+> which is the current kvm/next branch. 
 
-kernel test robot noticed the following build errors:
+Got it, thanks for info. We will configure this as the base candidate.
 
-[auto build test ERROR on linuxtv-media-pending/master]
-[also build test ERROR on linus/master media-tree/master sailus-media-tree/streams sailus-media-tree/master v6.13-rc1 next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-ccs-Clean-up-parsed-CCS-static-data-on-parse-failure/20241203-183006
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20241203102737.851076-1-sakari.ailus%40linux.intel.com
-patch subject: [PATCH 1/1] media: ccs: Clean up parsed CCS static data on parse failure
-config: arc-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412032012.8W7tXCJq-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412032012.8W7tXCJq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412032012.8W7tXCJq-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/media/i2c/ccs/ccs-data.c: In function 'ccs_data_parse':
->> drivers/media/i2c/ccs/ccs-data.c:977:44: error: expected ')' before ';' token
-     977 |         memset(ccsdata, 0, sizeof(*ccsdata);
-         |               ~                            ^
-         |                                            )
->> drivers/media/i2c/ccs/ccs-data.c:979:21: error: expected ';' before '}' token
-     979 |         return rval;
-         |                     ^
-         |                     ;
-     980 | }
-         | ~                    
->> drivers/media/i2c/ccs/ccs-data.c:980:1: warning: control reaches end of non-void function [-Wreturn-type]
-     980 | }
-         | ^
-
-
-vim +977 drivers/media/i2c/ccs/ccs-data.c
-
-   933	
-   934	/**
-   935	 * ccs_data_parse - Parse a CCS static data file into a usable in-memory
-   936	 *		    data structure
-   937	 * @ccsdata:	CCS static data in-memory data structure
-   938	 * @data:	CCS static data binary
-   939	 * @len:	Length of @data
-   940	 * @dev:	Device the data is related to (used for printing debug messages)
-   941	 * @verbose:	Whether to be verbose or not
-   942	 */
-   943	int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
-   944			   size_t len, struct device *dev, bool verbose)
-   945	{
-   946		struct bin_container bin = { 0 };
-   947		int rval;
-   948	
-   949		rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, verbose);
-   950		if (rval)
-   951			return rval;
-   952	
-   953		rval = bin_backing_alloc(&bin);
-   954		if (rval)
-   955			return rval;
-   956	
-   957		rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, false);
-   958		if (rval)
-   959			goto out_free;
-   960	
-   961		if (verbose && ccsdata->version)
-   962			print_ccs_data_version(dev, ccsdata->version);
-   963	
-   964		if (bin.now != bin.end) {
-   965			rval = -EPROTO;
-   966			dev_dbg(dev, "parsing mismatch; base %p; now %p; end %p\n",
-   967				bin.base, bin.now, bin.end);
-   968			goto out_free;
-   969		}
-   970	
-   971		ccsdata->backing = bin.base;
-   972	
-   973		return 0;
-   974	
-   975	out_free:
-   976		kvfree(bin.base);
- > 977		memset(ccsdata, 0, sizeof(*ccsdata);
-   978	
- > 979		return rval;
- > 980	}
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Thanks,
+> Melody
+> 
