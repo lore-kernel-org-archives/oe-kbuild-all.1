@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69EA187561
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 06:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF73E18871D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 06:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733208474; cv=none; b=mAQHTIt7IO/2ZQEqeJze3FhUExa6IpHgLltzZe7BeUEluVnXmHo2T56PU2ricF99x5ix8LonILkH+RyUegaefWLsuvjtCG0YDlikQbgHiyMjAJzwc+kEfvTyqRAqLJJotC89bDrtm7OXRLY8bz3PnoVuXRZtuAKZRZHjF52TgzA=
+	t=1733209195; cv=none; b=SI6JOQKfJVVlVUAOh1+RqfnCdKT0fwMGvuILxvr1A67aTfxiXAm0krhs5qLVKVmxFGz6Fgu1EjywsDMGWbpET+JYvAoCJstTo6xF+5N3C3SmkzWyJqG1dPv2MeFZefo17F6lm7ruU6seYVTDfUKsaW6rP7wZmB2xBJ5sURBISZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733208474; c=relaxed/simple;
-	bh=kuugUhtBYnp+bUU+lQ1TzedAgZe5FzJFVQuffo8rzCk=;
+	s=arc-20240116; t=1733209195; c=relaxed/simple;
+	bh=feEAa6key/8aqdzoio/EDcscGiwPJYH+RH753Faj3gU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PC+yD0DL/Z850LKVCMmxgs9rtAu4K7F8RQH4goupbAtaRic1ZTbZlnpISM2meNoiwM8vQIw9evdTB9bQxoDP9Po7Qe+i01XT1emk1K76Y30QaqIGvGSZJRDGa3/DVi8DUMxyAX1I6vVBqPucF1lSCUjPH0PohsLEurvLxzIu1IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uqz05e/J; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=azK3SlJ5bXh66/S4thPhzXD1DLaaYlYg0AEooadzOPViaPVrrf72zWBwkXvqVkX/4/st5ulQcuzsy1v93yxPMwfPpQOYWHHf9na+F9InPafn8hTM3uAddtJIDUduyqiuDnq0qFW4wZ6t8lc82DHXQ2GBc4Lx6ULcC571+U6LXzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJrpAiXo; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uqz05e/J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJrpAiXo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733208472; x=1764744472;
+  t=1733209194; x=1764745194;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kuugUhtBYnp+bUU+lQ1TzedAgZe5FzJFVQuffo8rzCk=;
-  b=Uqz05e/JllrnInO7QH7asb4B+5pOqH9p4jThggcHU7qiJZZS9FsZuBoy
-   44mTsR7PDqVChlrQyZxKOdzHT3cQ9SUKM/0VcmBDfMBkEbUTf5U+bz4la
-   rDKPLYEBtNAkPtcwB5+/U76ktyVunRQsUr1WEI3CV5XQDBlHFaWfp+cib
-   mnjLbbMaVFy4pbZxFD7ie5OLzkHJX1Kdgo1qJsxTR9aXz/ekE0rHHbWXM
-   FOEViTwNilNQ/pt6ba28jWRwdhb+3x06T6WX7uWiMeQScPiHgwlkZzGfJ
-   +VOsrtQi/ZafEYpFgejKBiwLfDJ4FkC2K37/ihHy9PXurdFV2rDg2dTst
-   A==;
-X-CSE-ConnectionGUID: Hwc4J3Z9T4KPsG3Ickv4wg==
-X-CSE-MsgGUID: p3v5TbBKT3+cifcWCnDwKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44071014"
+  bh=feEAa6key/8aqdzoio/EDcscGiwPJYH+RH753Faj3gU=;
+  b=RJrpAiXo4SDpGHhJk0884Vqe7AnbP40ClH/bxgRX/8ZdPUshUMwTKm1G
+   Nn74W3qr9d6xRh6x8OIcS4logbPpoUtD1NbBeSUm/3yDX80GUHdEruxhF
+   diPm7i1q0ixEHuPqlenBvAxWRblG4Ba2jXcC90rhLqwedv84f30T6mjnY
+   V5UBbc6/5mGNyTXYEvbBJtrBGgaj/Wrr6GbiZG4+ZN8RXbf8YNtoUHJD+
+   b9Cxia8j97Uud67X+gl56jz0BoJ3+ooaE1gkB/FXhI3qkQzRTmK+Eb58a
+   qh5YRRy/OYD/+2R+ocAxCNQaKfk5M3zq3yhR1KqRLFvMCVmzDjYfidX9G
+   Q==;
+X-CSE-ConnectionGUID: EYISbKCIQ1OBpKRRC3yJ5w==
+X-CSE-MsgGUID: JApmR006Rk+EQEzmysnEgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33537214"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="44071014"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 22:47:52 -0800
-X-CSE-ConnectionGUID: xnk2nUiJQPWsUeaW4W5qQQ==
-X-CSE-MsgGUID: nwBLQwHBTjmQ29qdtaZauA==
+   d="scan'208";a="33537214"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 22:59:53 -0800
+X-CSE-ConnectionGUID: 9l5vDfyMRT6hdCL1KNkioQ==
+X-CSE-MsgGUID: pUmx+9hFQ6ivFjojGG0plA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="97770675"
+   d="scan'208";a="93747604"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 22:47:50 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2024 22:59:52 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIMhH-0000Eb-36;
-	Tue, 03 Dec 2024 06:47:47 +0000
-Date: Tue, 3 Dec 2024 14:47:29 +0800
+	id 1tIMsv-0000Fi-2C;
+	Tue, 03 Dec 2024 06:59:49 +0000
+Date: Tue, 3 Dec 2024 14:58:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kashyap Desai <kashyap.desai@broadcom.com>
+To: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Hannes Reinecke <hare@suse.de>, Tomas Henzl <thenzl@redhat.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive
- output may be truncated writing up to 31 bytes into a region of size 11
-Message-ID: <202412031406.ymLEG23a-lkp@intel.com>
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: drivers/usb/typec/mux/intel_pmc_mux.c:664:43: warning: '%d'
+ directive output may be truncated writing between 1 and 3 bytes into a
+ region of size 2
+Message-ID: <202412031437.vX580pxx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,84 +64,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Rajat,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
-commit: 672ae26c82166d63e0352403b7ea16ab4705edc1 scsi: mpi3mr: Add support for internal watchdog thread
-date:   3 years, 6 months ago
-config: x86_64-randconfig-015-20240106 (https://download.01.org/0day-ci/archive/20241203/202412031406.ymLEG23a-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031406.ymLEG23a-lkp@intel.com/reproduce)
+commit: 0a453dc9f260281e3a063e07b526a7e494e496fe usb: typec: intel_pmc_mux: Expose IOM port status to debugfs
+date:   1 year, 6 months ago
+config: x86_64-buildonly-randconfig-002-20240106 (https://download.01.org/0day-ci/archive/20241203/202412031437.vX580pxx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031437.vX580pxx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031406.ymLEG23a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031437.vX580pxx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_setup_isr':
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:58: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
-         |                                                          ^~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 255]
-     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
-         |                                                       ^~~~~~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 65535]
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:9: note: 'snprintf' output between 8 and 45 bytes into a destination of size 32
-     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     454 |             mrioc->driver_name, mrioc->id, index);
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_start_watchdog':
->> drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive output may be truncated writing up to 31 bytes into a region of size 11 [-Wformat-truncation=]
-    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-         |                                                            ^~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:50: note: directive argument in the range [0, 255]
-    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-         |                                                  ^~~~~~~~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:1548:9: note: 'snprintf' output between 11 and 44 bytes into a destination of size 20
-    1548 |         snprintf(mrioc->watchdog_work_q_name,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1550 |             mrioc->id);
-         |             ~~~~~~~~~~
+   drivers/usb/typec/mux/intel_pmc_mux.c: In function 'pmc_usb_probe':
+>> drivers/usb/typec/mux/intel_pmc_mux.c:664:43: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size 2 [-Wformat-truncation=]
+     664 |         snprintf(name, sizeof(name), "port%d", port->usb3_port - 1);
+         |                                           ^~
+   In function 'pmc_mux_port_debugfs_init',
+       inlined from 'pmc_usb_probe' at drivers/usb/typec/mux/intel_pmc_mux.c:723:3:
+   drivers/usb/typec/mux/intel_pmc_mux.c:664:38: note: directive argument in the range [-1, 254]
+     664 |         snprintf(name, sizeof(name), "port%d", port->usb3_port - 1);
+         |                                      ^~~~~~~~
+   drivers/usb/typec/mux/intel_pmc_mux.c:664:9: note: 'snprintf' output between 6 and 8 bytes into a destination of size 6
+     664 |         snprintf(name, sizeof(name), "port%d", port->usb3_port - 1);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1549 drivers/scsi/mpi3mr/mpi3mr_fw.c
+vim +664 drivers/usb/typec/mux/intel_pmc_mux.c
 
-  1532	
-  1533	/**
-  1534	 * mpi3mr_start_watchdog - Start watchdog
-  1535	 * @mrioc: Adapter instance reference
-  1536	 *
-  1537	 * Create and start the watchdog thread to monitor controller
-  1538	 * faults.
-  1539	 *
-  1540	 * Return: Nothing.
-  1541	 */
-  1542	void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
-  1543	{
-  1544		if (mrioc->watchdog_work_q)
-  1545			return;
-  1546	
-  1547		INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
-  1548		snprintf(mrioc->watchdog_work_q_name,
-> 1549		    sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-  1550		    mrioc->id);
-  1551		mrioc->watchdog_work_q =
-  1552		    create_singlethread_workqueue(mrioc->watchdog_work_q_name);
-  1553		if (!mrioc->watchdog_work_q) {
-  1554			ioc_err(mrioc, "%s: failed (line=%d)\n", __func__, __LINE__);
-  1555			return;
-  1556		}
-  1557	
-  1558		if (mrioc->watchdog_work_q)
-  1559			queue_delayed_work(mrioc->watchdog_work_q,
-  1560			    &mrioc->watchdog_work,
-  1561			    msecs_to_jiffies(MPI3MR_WATCHDOG_INTERVAL));
-  1562	}
-  1563	
+   658	
+   659	static void pmc_mux_port_debugfs_init(struct pmc_usb_port *port)
+   660	{
+   661		struct dentry *debugfs_dir;
+   662		char name[6];
+   663	
+ > 664		snprintf(name, sizeof(name), "port%d", port->usb3_port - 1);
+   665	
+   666		debugfs_dir = debugfs_create_dir(name, port->pmc->dentry);
+   667		debugfs_create_file("iom_status", 0400, debugfs_dir, port,
+   668				    &port_iom_status_fops);
+   669	}
+   670	
 
 -- 
 0-DAY CI Kernel Test Service
