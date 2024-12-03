@@ -1,70 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0261126C16;
-	Tue,  3 Dec 2024 02:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EB517555
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 02:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733192102; cv=none; b=Ta4H8InxC2Q6OBucaSujxek3mztUA0F3Th4SzCCmZxC6V0qnhoTzw83tkokTvYBkzk2d3QgVj+I66VZJrUAsqC5eH/hJSttWBimbNx+4OSnWce2l5pd6BPHG2IfiTKtWxn9xF9jcpT+OukH+zXjop7Wa2pxQPnUid6JbtSUT7Ug=
+	t=1733193324; cv=none; b=Cg4nzzCm+tJJ14vQ5IkTRStjHYexzgLfGM/Th3IsjRtY9hEz2ql10YE0Svmx+kWb4JKgzedINZYikvismMGJxWgpLI1WmUDqbqgDM4zXZkrnkfmW2Aoq9A5cow1h3FkDRByTqMB4YJS8s6wXwzMyQGfkK8lkDjX+b2fapcdsOUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733192102; c=relaxed/simple;
-	bh=KMl61z9tsvm3GrPnsl3tt1vpi0kGYRETOOyBfgEWcZo=;
+	s=arc-20240116; t=1733193324; c=relaxed/simple;
+	bh=MD7yN6T570a3dTrpXRkAY3H7sEqAvs1BZRIMz5avi2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=osevCd5CcKkrrJC4UXcL5/XKRmq0h3o3l+JJmHK/zn+tZPGjx6c5fP9/EWSfL+3RVTnSFGqsplCre1d0tqakm4LaQ6wNcN7VPaE1aA/ilT4aaKqKS5q+IHZkpurVrNf+gnJoh1c1C4GE0eB/mvmsqbcYdjEHVB74dqm8pMfg5LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/hdNtaI; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=g4UYwKPiNJ3u9S6mS/SeJac+e1S5aEPBictFFZ4DZbWm711otlrR3JgDgVp725l3EyHgdJjlu+P8F5gNa04N8/KO09Fl/NQvhjLfLGrk4mgOKfYBkB6luC6ovGO763Nco1S6l7idtk+a77J3CasVPU/edKiEgSKy33Bo27NLCJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2fDGJjL; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/hdNtaI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2fDGJjL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733192100; x=1764728100;
+  t=1733193321; x=1764729321;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KMl61z9tsvm3GrPnsl3tt1vpi0kGYRETOOyBfgEWcZo=;
-  b=j/hdNtaIcReJq7FPrcFo/ADKrlQRP2d8H0nhADMV1FLxTCwhIEZUO0hf
-   zdBFQFmRwZSCAVhzciUtcwR86bnML0rLrsIZpmWleXxKOI7m9z1p8ncSd
-   uypznVOASuo4kN58TS0XCWsnr/oBHACOq0HhShTv8Q3VpS2e0XkJSNUc8
-   /q6zv/o7ZbWhVO8bFnbiWWUIDAsoQdI/wk/Z4JmWVSL5OVmzPaGC7GDaT
-   jvJKxOMIqsSqTcc3aCbqbo5g4vS+6uSwCLwdZwCRMXCgiLE9v8p5Y4pnG
-   5yzdFvC6wW1QgynFGvwZWQV+7cYNDNoAlU+WzE81bb+xKczRRqg5dREbg
-   A==;
-X-CSE-ConnectionGUID: +mejQq+pQCeHNFdvUHn9EA==
-X-CSE-MsgGUID: S7R/0ntaRZ6kFOxmm6xX/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="36242356"
+  bh=MD7yN6T570a3dTrpXRkAY3H7sEqAvs1BZRIMz5avi2s=;
+  b=H2fDGJjLTb/YrE52/JtJIZQIOBmOzjeEqY2XDMoOPY/GpQszJpG++Y3X
+   6HURA6akQDbxW2FLxvNw49tJscOFGM1jWCPyQnhS9Qef5F5yLidiuX5qh
+   VRNuPwBeryD0Fc24b1IorxNVPcgCN5ZoziXDOldHIU4owdUz2XUnC5uc3
+   xXurgioPOsFKQ55qzdy6+MRxysN9RW8FL25/S3+WrD3ClVJOYgGPfgypU
+   uwJBG9mTbWZ3E5h4ASgIwxAgu6wH02F6zOYtrhFJLLiAW9ZAzIXPykM5m
+   2b/7oumKa8o3xOZYMGwWFeZCV4q8fd1XVxanA8/Xuh3W6DdQVYHwZ+Ldq
+   Q==;
+X-CSE-ConnectionGUID: C+NIzeK9SO25LlnVsfPtqw==
+X-CSE-MsgGUID: rmDCcxj6T3WxcJYDJnsq/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="32742674"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="36242356"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 18:14:59 -0800
-X-CSE-ConnectionGUID: OlUF1z+yR1uiRGntj/TXVQ==
-X-CSE-MsgGUID: HH3AAsiUT/yQ8lvZl+QkBA==
+   d="scan'208";a="32742674"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 18:35:20 -0800
+X-CSE-ConnectionGUID: rZ042wZRS4uW9fxR0xbrVg==
+X-CSE-MsgGUID: XovcL0hpRNSqVvKhJO9hwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="93693481"
+   d="scan'208";a="130752458"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2024 18:14:56 -0800
+  by orviesa001.jf.intel.com with ESMTP; 02 Dec 2024 18:35:17 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIIRB-0003AP-17;
-	Tue, 03 Dec 2024 02:14:53 +0000
-Date: Tue, 3 Dec 2024 10:14:26 +0800
+	id 1tIIks-0003Az-1x;
+	Tue, 03 Dec 2024 02:35:14 +0000
+Date: Tue, 3 Dec 2024 10:34:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriele Monaco <gmonaco@redhat.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Gabriele Monaco <gmonaco@redhat.com>
-Subject: Re: [PATCH 1/2] sched: Optimise task_mm_cid_work duration
-Message-ID: <202412031029.B7lLh63F-lkp@intel.com>
-References: <20241202140735.56368-2-gmonaco@redhat.com>
+To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
+	netdev@vger.kernel.org, dan.j.williams@intel.com,
+	martin.habets@xilinx.com, edward.cree@amd.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	dave.jiang@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>
+Subject: Re: [PATCH v6 16/28] sfc: obtain root decoder with enough HPA free
+ space
+Message-ID: <202412031010.o6gZQgE3-lkp@intel.com>
+References: <20241202171222.62595-17-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,135 +67,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202140735.56368-2-gmonaco@redhat.com>
+In-Reply-To: <20241202171222.62595-17-alejandro.lucero-palau@amd.com>
 
-Hi Gabriele,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on e70140ba0d2b1a30467d4af6bcfe761327b9ec95]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gabriele-Monaco/sched-Optimise-task_mm_cid_work-duration/20241203-003033
+url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20241203-031134
 base:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-patch link:    https://lore.kernel.org/r/20241202140735.56368-2-gmonaco%40redhat.com
-patch subject: [PATCH 1/2] sched: Optimise task_mm_cid_work duration
-config: arm64-randconfig-004-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031029.B7lLh63F-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031029.B7lLh63F-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20241202171222.62595-17-alejandro.lucero-palau%40amd.com
+patch subject: [PATCH v6 16/28] sfc: obtain root decoder with enough HPA free space
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241203/202412031010.o6gZQgE3-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031010.o6gZQgE3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031029.B7lLh63F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031010.o6gZQgE3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/core.c:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/sched/core.c:10552:6: warning: variable 'cpu' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    10552 |         if (!try_cmpxchg(&mm->mm_cid_next_scan, &old_scan, next_scan))
-          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:10556:20: note: uninitialized use occurs here
-    10556 |         for_each_cpu_from(cpu, cidmask)
-          |                           ^~~
-   include/linux/cpumask.h:391:24: note: expanded from macro 'for_each_cpu_from'
-     391 |         for_each_set_bit_from(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |                               ^~~
-   include/linux/find.h:605:48: note: expanded from macro 'for_each_set_bit_from'
-     605 |         for (; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                                                       ^~~
-   kernel/sched/core.c:10552:2: note: remove the 'if' if its condition is always true
-    10552 |         if (!try_cmpxchg(&mm->mm_cid_next_scan, &old_scan, next_scan))
-          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    10553 |                 return;
-   kernel/sched/core.c:10529:17: note: initialize the variable 'cpu' to silence this warning
-    10529 |         int weight, cpu;
-          |                        ^
-          |                         = 0
-   kernel/sched/core.c:1809:1: warning: unused function 'uclamp_update_active' [-Wunused-function]
-    1809 | uclamp_update_active(struct task_struct *p)
-         | ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:6430:1: warning: unused function 'class_core_lock_lock_ptr' [-Wunused-function]
-    6430 | DEFINE_LOCK_GUARD_1(core_lock, int,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6431 |                     sched_core_lock(*_T->lock, &_T->flags),
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6432 |                     sched_core_unlock(*_T->lock, &_T->flags),
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6433 |                     unsigned long flags)
-         |                     ~~~~~~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:416:49: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
-     416 | __DEFINE_CLASS_IS_CONDITIONAL(_name, false);                            \
-         |                                                                         ^
-     417 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:392:21: note: expanded from macro '\
-   __DEFINE_UNLOCK_GUARD'
-     392 | static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T)     \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:63:1: note: expanded from here
-      63 | class_core_lock_lock_ptr
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/pci.h:37,
+                    from include/cxl/cxl.h:8,
+                    from drivers/net/ethernet/sfc/efx_cxl.c:12:
+   drivers/net/ethernet/sfc/efx_cxl.c: In function 'efx_cxl_init':
+>> drivers/net/ethernet/sfc/efx_cxl.c:117:34: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     117 |                 pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   include/linux/pci.h:2694:41: note: in expansion of macro 'dev_err'
+    2694 | #define pci_err(pdev, fmt, arg...)      dev_err(&(pdev)->dev, fmt, ##arg)
+         |                                         ^~~~~~~
+   drivers/net/ethernet/sfc/efx_cxl.c:117:17: note: in expansion of macro 'pci_err'
+     117 |                 pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
+         |                 ^~~~~~~
+   drivers/net/ethernet/sfc/efx_cxl.c:117:67: note: format string is defined here
+     117 |                 pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
+         |                                                                ~~~^
+         |                                                                   |
+         |                                                                   long long unsigned int
+         |                                                                %u
 
 
-vim +10552 kernel/sched/core.c
+vim +117 drivers/net/ethernet/sfc/efx_cxl.c
 
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10522  
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10523  static void task_mm_cid_work(struct callback_head *work)
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10524  {
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10525  	unsigned long now = jiffies, old_scan, next_scan;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10526  	struct task_struct *t = current;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10527  	struct cpumask *cidmask;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10528  	struct mm_struct *mm;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10529  	int weight, cpu;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10530  
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10531  	SCHED_WARN_ON(t != container_of(work, struct task_struct, cid_work));
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10532  
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10533  	work->next = work;	/* Prevent double-add */
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10534  	if (t->flags & PF_EXITING)
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10535  		return;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10536  	mm = t->mm;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10537  	if (!mm)
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10538  		return;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10539  	old_scan = READ_ONCE(mm->mm_cid_next_scan);
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10540  	next_scan = now + msecs_to_jiffies(MM_CID_SCAN_DELAY);
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10541  	if (!old_scan) {
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10542  		unsigned long res;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10543  
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10544  		res = cmpxchg(&mm->mm_cid_next_scan, old_scan, next_scan);
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10545  		if (res != old_scan)
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10546  			old_scan = res;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10547  		else
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10548  			old_scan = next_scan;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10549  	}
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10550  	if (time_before(now, old_scan))
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10551  		return;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20 @10552  	if (!try_cmpxchg(&mm->mm_cid_next_scan, &old_scan, next_scan))
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10553  		return;
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10554  	cidmask = mm_cidmask(mm);
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10555  	/* Clear cids that were not recently used. */
-2909dedb7586e2c Gabriele Monaco   2024-12-02  10556  	for_each_cpu_from(cpu, cidmask)
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10557  		sched_mm_cid_remote_clear_old(mm, cpu);
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10558  	weight = cpumask_weight(cidmask);
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10559  	/*
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10560  	 * Clear cids that are greater or equal to the cidmask weight to
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10561  	 * recompact it.
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10562  	 */
-2909dedb7586e2c Gabriele Monaco   2024-12-02  10563  	for_each_cpu_from(cpu, cidmask)
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10564  		sched_mm_cid_remote_clear_weight(mm, cpu, weight);
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10565  }
-223baf9d17f25e2 Mathieu Desnoyers 2023-04-20  10566  
+    20	
+    21	int efx_cxl_init(struct efx_probe_data *probe_data)
+    22	{
+    23		struct efx_nic *efx = &probe_data->efx;
+    24		DECLARE_BITMAP(expected, CXL_MAX_CAPS);
+    25		DECLARE_BITMAP(found, CXL_MAX_CAPS);
+    26		struct pci_dev *pci_dev;
+    27		struct efx_cxl *cxl;
+    28		struct resource res;
+    29		resource_size_t max;
+    30		u16 dvsec;
+    31		int rc;
+    32	
+    33		pci_dev = efx->pci_dev;
+    34		probe_data->cxl_pio_initialised = false;
+    35	
+    36		dvsec = pci_find_dvsec_capability(pci_dev, PCI_VENDOR_ID_CXL,
+    37						  CXL_DVSEC_PCIE_DEVICE);
+    38		if (!dvsec)
+    39			return 0;
+    40	
+    41		pci_dbg(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability found\n");
+    42	
+    43		cxl = kzalloc(sizeof(*cxl), GFP_KERNEL);
+    44		if (!cxl)
+    45			return -ENOMEM;
+    46	
+    47		cxl->cxlds = cxl_accel_state_create(&pci_dev->dev);
+    48		if (IS_ERR(cxl->cxlds)) {
+    49			pci_err(pci_dev, "CXL accel device state failed");
+    50			rc = -ENOMEM;
+    51			goto err1;
+    52		}
+    53	
+    54		cxl_set_dvsec(cxl->cxlds, dvsec);
+    55		cxl_set_serial(cxl->cxlds, pci_dev->dev.id);
+    56	
+    57		res = DEFINE_RES_MEM(0, EFX_CTPIO_BUFFER_SIZE);
+    58		if (cxl_set_resource(cxl->cxlds, res, CXL_RES_DPA)) {
+    59			pci_err(pci_dev, "cxl_set_resource DPA failed\n");
+    60			rc = -EINVAL;
+    61			goto err2;
+    62		}
+    63	
+    64		res = DEFINE_RES_MEM_NAMED(0, EFX_CTPIO_BUFFER_SIZE, "ram");
+    65		if (cxl_set_resource(cxl->cxlds, res, CXL_RES_RAM)) {
+    66			pci_err(pci_dev, "cxl_set_resource RAM failed\n");
+    67			rc = -EINVAL;
+    68			goto err2;
+    69		}
+    70	
+    71		rc = cxl_pci_accel_setup_regs(pci_dev, cxl->cxlds);
+    72		if (rc) {
+    73			pci_err(pci_dev, "CXL accel setup regs failed");
+    74			goto err2;
+    75		}
+    76	
+    77		bitmap_clear(expected, 0, CXL_MAX_CAPS);
+    78		bitmap_set(expected, CXL_DEV_CAP_HDM, 1);
+    79		bitmap_set(expected, CXL_DEV_CAP_RAS, 1);
+    80	
+    81		if (!cxl_pci_check_caps(cxl->cxlds, expected, found)) {
+    82			pci_err(pci_dev,
+    83				"CXL device capabilities found(%08lx) not as expected(%08lx)",
+    84				*found, *expected);
+    85			goto err2;
+    86		}
+    87	
+    88		rc = cxl_request_resource(cxl->cxlds, CXL_RES_RAM);
+    89		if (rc) {
+    90			pci_err(pci_dev, "CXL request resource failed");
+    91			goto err2;
+    92		}
+    93	
+    94		/* We do not have the register about media status. Hardware design
+    95		 * implies it is ready.
+    96		 */
+    97		cxl_set_media_ready(cxl->cxlds);
+    98	
+    99		cxl->cxlmd = devm_cxl_add_memdev(&pci_dev->dev, cxl->cxlds);
+   100		if (IS_ERR(cxl->cxlmd)) {
+   101			pci_err(pci_dev, "CXL accel memdev creation failed");
+   102			rc = PTR_ERR(cxl->cxlmd);
+   103			goto err3;
+   104		}
+   105	
+   106		cxl->cxlrd = cxl_get_hpa_freespace(cxl->cxlmd,
+   107						   CXL_DECODER_F_RAM | CXL_DECODER_F_TYPE2,
+   108						   &max);
+   109	
+   110		if (IS_ERR(cxl->cxlrd)) {
+   111			pci_err(pci_dev, "cxl_get_hpa_freespace failed\n");
+   112			rc = PTR_ERR(cxl->cxlrd);
+   113			goto err3;
+   114		}
+   115	
+   116		if (max < EFX_CTPIO_BUFFER_SIZE) {
+ > 117			pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
+   118				__func__, max, EFX_CTPIO_BUFFER_SIZE);
+   119			rc = -ENOSPC;
+   120			goto err3;
+   121		}
+   122	
+   123		probe_data->cxl = cxl;
+   124	
+   125		return 0;
+   126	
+   127	err3:
+   128		cxl_release_resource(cxl->cxlds, CXL_RES_RAM);
+   129	err2:
+   130		kfree(cxl->cxlds);
+   131	err1:
+   132		kfree(cxl);
+   133		return rc;
+   134	}
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
