@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB84E1E008B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 08:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B066C19C543
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 08:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733212927; cv=none; b=VTP/2SmaNKrF04GTsDj1ufDhtslQlBV5cVendMMtDKMQlsIgvukkCnTNHg6fu++p3DspMkzK1XFPN46I6cgls1RgPRkPJk5tVFxVnkP7ijoxvg9UBvUJN0eLF52p+po5DMW2u4X6B2ciBzD+dPcv3LxDlkm4AHJqx/3yDI0IJKo=
+	t=1733213526; cv=none; b=BQRhfkCdre+Lhu1Hp/03oEunYTrsWra9pcmnQqclQ8HDTAaDnzMW6JohbFEWAad/QL0KiJfrfnGT0zOIE+rCevZRLeTbvIjK6YdwnNZb7iOOMmxGsvQv4HG7SCYv+XdAba5Nrr1j7k/YauOOZ1EgCGjWtbhpCNj9kGZAHMS87SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733212927; c=relaxed/simple;
-	bh=TLdYz69D4oSs9byzuY4TBv15PtsAimwWNEYs64grDXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l56QKj9PXcZ0Ys2741AIR1AT7/fI3hxf6ndcSm+aBmS59mw4lbFg/9wg1hHRr8HHU6lOACQHa5ZR8OpNh9uqOHyHUj36XnWdRw1OHJbU53QvuXvYZ1RXyJiWKMegotoOCedG4tpFdOtw+kZBAublN4eLKB4LrpFyMugE+yETZ0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DS9EMnKI; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1733213526; c=relaxed/simple;
+	bh=nC/9AgYkQYd67w3OXGLKGdZT5swgyaOeE007rjrUoJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WxP2J4CSGlF5dMzOzZH7NckIxURZ3OMXct3SlOo0B8sTCS+TO6Z+YVOz23Ddv7lmr2pQMjZQq2B6VuZe1CIRSuw6x6TPQhzV/f6Q2GMzhPQwYJ6MVTqsGjgvojVPPi67uAXXVR3smZx+Pl8hYhz7sKAuY1reyyZTJlqPMoW9JZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1AqBuYB; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DS9EMnKI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1AqBuYB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733212926; x=1764748926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TLdYz69D4oSs9byzuY4TBv15PtsAimwWNEYs64grDXE=;
-  b=DS9EMnKIV3kQX/SUG33STGveorN8tQd4CsHUNA35lGHaF+SG11ph+68I
-   uVBvYCvw+BcymQzy03OwJYxJSz//h5nNxu6zE7CXnvPmDi14clVdnvUy4
-   QBv/+HO2Dt0I7ZUlPHdTB/l5dhE5tNVMbqywqI1bhKgfgeO2wck0pGXn/
-   gTHccG5jZ7IbMfHvn2vQ00O/fIh030KZgwZhdSq2BWerOkBVbBZY4hXIU
-   L1P7ybeyQKT2DafNO95nSHjE3+176qlq3Z8DhB9a0mimF7FiXtfULskKn
-   V0ezUEqaJuvDsscYwurGwocbMDdrlgT8Uk/Cq4oPNBrjyv48ianfJ1uiv
-   A==;
-X-CSE-ConnectionGUID: +RuOlHMCTFebAecdQEFMQw==
-X-CSE-MsgGUID: KNJ8JG33R9uzKf1R/CiWnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="20995786"
+  t=1733213525; x=1764749525;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nC/9AgYkQYd67w3OXGLKGdZT5swgyaOeE007rjrUoJQ=;
+  b=W1AqBuYB40battxNflvui5u8Yh/s5dR+yoJFR7f0N97nRJhIgHBIQT/p
+   RtAU0keW41FjswrjfYZVsbJI8l2QA7wolKUt1YQkfT450EopB4bvS4YGW
+   kzzOQomqPOMuTMBb0wq2Ssb40NqV+i0A2rdC9nL6oANlfKOhKye1I+EtK
+   BM/BlNfU2RswsjZVMC6lrPBOE6ZSy35wbF+MfDpWi80jCcq6pbqOxsjPv
+   6QRybRUNJ7OAccFwmQcuzUNAs+VNboTFhVQ74e5WT6dSg+B9GinjJwrO0
+   lmuU9gbFPbalPuphez1eRzohvT/aQmihkDN4jctvfVxmt/Z4NeJB+2zPQ
+   w==;
+X-CSE-ConnectionGUID: tI3dLKlDTmKHGYSnYUZjEA==
+X-CSE-MsgGUID: rOe55UmeRyq31nDozJD7Qg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="50939024"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="20995786"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 00:02:05 -0800
-X-CSE-ConnectionGUID: jlSieFyFTw21jcpHKNe2xQ==
-X-CSE-MsgGUID: ciUaPcTSQCWYpyhrqVDYag==
+   d="scan'208";a="50939024"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 00:12:04 -0800
+X-CSE-ConnectionGUID: PQE6BiHJT8qD/lEFg7NBJg==
+X-CSE-MsgGUID: SjMz3sqPQsaufOC5+hVDdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="93816380"
+   d="scan'208";a="116616497"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Dec 2024 00:02:01 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 03 Dec 2024 00:12:03 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tINr5-0000KF-1C;
-	Tue, 03 Dec 2024 08:01:59 +0000
-Date: Tue, 3 Dec 2024 16:01:25 +0800
+	id 1tIO0m-0000L6-2K;
+	Tue, 03 Dec 2024 08:12:00 +0000
+Date: Tue, 3 Dec 2024 16:11:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Subject: Re: [PATCH 02/10] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF
-Message-ID: <202412031510.Oh9kNGeK-lkp@intel.com>
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-2-f502ef01e016@quicinc.com>
+To: kernel@openeuler.org, Hui Tang <tanghui20@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2516/2516] kernel/sched/relationship.c:46:39:
+ error: no member named 'mems_allowed' in 'struct task_struct'
+Message-ID: <202412031643.JKJ5FFhF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,88 +61,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-2-f502ef01e016@quicinc.com>
 
-Hi Amirreza,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on f486c8aa16b8172f63bddc70116a0c897a7f3f02]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20241203-122412
-base:   f486c8aa16b8172f63bddc70116a0c897a7f3f02
-patch link:    https://lore.kernel.org/r/20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-2-f502ef01e016%40quicinc.com
-patch subject: [PATCH 02/10] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF
-config: i386-buildonly-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031510.Oh9kNGeK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031510.Oh9kNGeK-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   f86196bf02fd9bea8511335c45bf10b6b0a3ea13
+commit: 2ac826b258e9aceefd719f7b0c3e3a9e73901ce5 [2516/2516] sched: Introduce task relationship by net and memory
+config: x86_64-randconfig-r063-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031643.JKJ5FFhF-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031643.JKJ5FFhF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031510.Oh9kNGeK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031643.JKJ5FFhF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tee/tee_core.c: In function 'params_to_supp':
->> drivers/tee/tee_core.c:669:32: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     669 |                         ip.a = (u64)p->u.membuf.uaddr;
-         |                                ^
+   In file included from kernel/sched/relationship.c:19:
+   In file included from include/linux/bpf_sched.h:5:
+   In file included from include/linux/bpf.h:21:
+   In file included from include/linux/kallsyms.h:12:
+   In file included from include/linux/mm.h:1581:
+   include/linux/vmstat.h:417:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     417 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     418 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:424:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     424 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     425 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     437 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:445:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     445 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     446 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/relationship.c:22:
+   kernel/sched/sched.h:1838:15: warning: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Wcast-function-type-strict]
+    1838 |         head->func = (void (*)(struct callback_head *))func;
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/relationship.c:46:39: error: no member named 'mems_allowed' in 'struct task_struct'
+      46 |                 !nodes_subset(node_online_map, tsk->mems_allowed) ||
+         |                                                ~~~  ^
+   include/linux/nodemask.h:218:30: note: expanded from macro 'nodes_subset'
+     218 |                         __nodes_subset(&(src1), &(src2), MAX_NUMNODES)
+         |                                                   ^~~~
+   6 warnings and 1 error generated.
 
 
-vim +669 drivers/tee/tee_core.c
+vim +46 kernel/sched/relationship.c
 
-   648	
-   649	static int params_to_supp(struct tee_context *ctx,
-   650				  struct tee_ioctl_param __user *uparams,
-   651				  size_t num_params, struct tee_param *params)
-   652	{
-   653		size_t n;
-   654	
-   655		for (n = 0; n < num_params; n++) {
-   656			struct tee_ioctl_param ip;
-   657			struct tee_param *p = params + n;
-   658	
-   659			ip.attr = p->attr;
-   660			switch (p->attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
-   661			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
-   662			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-   663				ip.a = p->u.value.a;
-   664				ip.b = p->u.value.b;
-   665				ip.c = p->u.value.c;
-   666				break;
-   667			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT:
-   668			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
- > 669				ip.a = (u64)p->u.membuf.uaddr;
-   670				ip.b = p->u.membuf.size;
-   671				ip.c = 0;
-   672				break;
-   673			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
-   674			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
-   675			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-   676				ip.b = p->u.memref.size;
-   677				if (!p->u.memref.shm) {
-   678					ip.a = 0;
-   679					ip.c = (u64)-1; /* invalid shm id */
-   680					break;
-   681				}
-   682				ip.a = p->u.memref.shm_offs;
-   683				ip.c = p->u.memref.shm->id;
-   684				break;
-   685			default:
-   686				ip.a = 0;
-   687				ip.b = 0;
-   688				ip.c = 0;
-   689				break;
-   690			}
-   691	
-   692			if (copy_to_user(uparams + n, &ip, sizeof(ip)))
-   693				return -EFAULT;
-   694		}
-   695	
-   696		return 0;
-   697	}
-   698	
+    38	
+    39	bool task_relationship_supported(struct task_struct *tsk)
+    40	{
+    41		if (!task_relationship_used())
+    42			return false;
+    43	
+    44		if (!tsk->rship || !tsk->mm ||
+    45			!cpumask_subset(cpu_online_mask, tsk->cpus_ptr) ||
+  > 46			!nodes_subset(node_online_map, tsk->mems_allowed) ||
+    47			get_task_policy(tsk)->mode == MPOL_BIND ||
+    48			get_task_policy(tsk)->mode == MPOL_INTERLEAVE)
+    49			return false;
+    50	
+    51		return true;
+    52	}
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
