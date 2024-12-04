@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71C020FA82
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 16:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584B515B10D;
+	Wed,  4 Dec 2024 16:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733328142; cv=none; b=CewTJJzGKlS15Fut1TvoNXCe1YOok2mN6PUHlKQODCuFF5Wr4oEPuVVkrc04QRyDKUcAZGIuu26R1ES8C/VQTiCSON5WZ433D+rmYJI2vnYZAB4flAntgPGjawh4EwUcHQ7LsVmU4E7NqQqpexx65aTMf+PpHw5I7695GoR2tJU=
+	t=1733328752; cv=none; b=f7HpfbYq7l8e6+R1oqnyy6n7Nhg4sAgXkrhMAlDUlOzOQPNaAMHPLn270KRWAopBeyozgoocy8DSU1l22ozAjB3roiTW8sTccLO6mqE0PrJRkwIzhZAyW8nb17F8p+eXZR/TEk2KAiPnlZBliDybsAauQCXKLw1Jc/XW4pmBgrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733328142; c=relaxed/simple;
-	bh=M5aAQplFStc7QNBgtuUrsO7FDofGtyHwaWRYebw3YFk=;
+	s=arc-20240116; t=1733328752; c=relaxed/simple;
+	bh=A0mWy9FBXqC8mM3bOixPp1DSyoXn/b8myrlBMw7cjk8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KkHJzMhRY+27FvE/D2XInZRACgBi0LQCdbvV8m50AJ6l+WtNvsd9HJkcSDKRpTEGMYF/nOOkxaH/pNJ5lMOXIEAURCggWgOHovbl/tG49J1fHPKEaFhm0F24uVYDwhgkqGIXl5C6J6Ycpq2VJvCQBpk1/39YGtSfHEMnTRAGX2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ggiCUDue; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=to01NgnDINat5RuFnn0NYsBNpQWMIZr+lkLe9LYB9aVfkOQGhVnID9u61lyrxaFMNhIc3L5B0nM+rvfyMZja9MyOOEYErtbPv3BI5zxeCbsP0zeADhR5869e3CinnarlOkyxatp6LjjQ5Efc4NKAQ3ysPcw9Zucv4ADemlBHAUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VACpi4+8; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ggiCUDue"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VACpi4+8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733328141; x=1764864141;
+  t=1733328751; x=1764864751;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M5aAQplFStc7QNBgtuUrsO7FDofGtyHwaWRYebw3YFk=;
-  b=ggiCUDueaOERl0VrpX9MZctl4rgXN6Yyyl6y1O6tivMNu7jdlM94Gvai
-   MFV0kgJb2iuClTZub01hlnuoYMAsK4vx3xT3DJqsY6MiRM72VZh3cGuVY
-   RrqxgIKd2iNfGqbAVdWad/53viXm9tKwHr2JOzl6UWM3/UNfOuZVoTyC5
-   jkuxlG/nz1Z10ilr4ARNTnVIvuOSP+Q1trlHGtlZ4WDFEyjivuE6/FLMQ
-   ZzE+xiTAr5EBaMBjSL/E0glJxwzOLtHON9AF4fp6K5ef8B25du8xd4h/S
-   pN2ENVVxfN8+4pGiMMRtqYhnwTu/uwfTRCx7EkcK10H0jo10HQxMhrap3
-   w==;
-X-CSE-ConnectionGUID: K9jx3PRQReeS/fzRm+Pd3w==
-X-CSE-MsgGUID: LA2AK0gMQDaHUC2YiGVy4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44632341"
+  bh=A0mWy9FBXqC8mM3bOixPp1DSyoXn/b8myrlBMw7cjk8=;
+  b=VACpi4+8EvOzjnAYaEFylDGV1OHMpoxqigbSTZ1rPU1WVbSr49MLzF+4
+   Wj8DOaWTLLptR12iLinvPWsXdd3bO1GN6VCoJjYYU2s3DSC+sIA5H8Epr
+   Fiu0CjaUUnihiylmsM5qr9xR6t9H7N4ktK9OHOdUhOE8HdZ3o/1S449Xu
+   ofege1YRkFXuZMDY3IpCQEJmAFuk5qFGywgLaJEW1WhsdeG8u9zy77Tjl
+   spElzbaBcS2yF8KNTm4RmQglsCBdz2IEugz7097RbBCADVNAKsw0zTA34
+   tsMkVJZsxZ2F90m6QoNvMAYYfhaZHb2U79zN1w5KJD5tDHQvWuWakhC5+
+   A==;
+X-CSE-ConnectionGUID: AlcpLiIHTqq6TUD4S6MsLQ==
+X-CSE-MsgGUID: NHQHxCQiQf23ZO4lsLdpgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="56086851"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44632341"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 08:02:20 -0800
-X-CSE-ConnectionGUID: PmzgamnhQxCaFU6DIrO0gw==
-X-CSE-MsgGUID: eDbIUq7AT3ahnOLhwMqHYA==
+   d="scan'208";a="56086851"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 08:12:30 -0800
+X-CSE-ConnectionGUID: oPcqAMprTyyDLeolDmCVjw==
+X-CSE-MsgGUID: wWI8fBZTQnizCoRB3Fxq8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="98785148"
+   d="scan'208";a="131254580"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Dec 2024 08:02:16 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Dec 2024 08:12:28 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIrpN-0003EP-2D;
-	Wed, 04 Dec 2024 16:02:13 +0000
-Date: Thu, 5 Dec 2024 00:01:27 +0800
+	id 1tIrzG-0003FR-1J;
+	Wed, 04 Dec 2024 16:12:26 +0000
+Date: Thu, 5 Dec 2024 00:11:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
- drivers/iommu/arm-smmu.c:1590:10: error: 'struct iommu_ops' has no member
- named 'enable_nesting'
-Message-ID: <202412042329.aR9XHA50-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 176/180]
+ fs/bcachefs/inode.c:959:2: warning: label followed by a declaration is a C23
+ extension
+Message-ID: <202412050055.F6gaGrvq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,165 +63,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   f1811f6442501fe34d2339158aed4f85a64f0398
-commit: 592f1f62aa94ed7e396270951648e7d6230fd0f5 [1/1] Revert "iommu: remove DOMAIN_ATTR_NESTING"
-config: arm64-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241204/202412042329.aR9XHA50-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042329.aR9XHA50-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   24ae9afb293a4cbfc4c2bd727c956f16d2db072b
+commit: 7b158984d408fc2ee75b7877b1ef37ef496ef8ea [176/180] bcachefs: bcachefs_metadata_version_persistent_inode_cursors
+config: i386-buildonly-randconfig-002-20241204 (https://download.01.org/0day-ci/archive/20241205/202412050055.F6gaGrvq-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050055.F6gaGrvq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412042329.aR9XHA50-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050055.F6gaGrvq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_add_master':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1096:9: note: in expansion of macro 'for_each_cfg_sme'
-    1096 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1096:9: note: in expansion of macro 'for_each_cfg_sme'
-    1096 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_attach_dev':
-   drivers/iommu/arm-smmu.c:1127:20: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1127 |         if (!fwspec->iommu_priv)
-         |                    ^~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1130:16: note: in expansion of macro 'fwspec_smmu'
-    1130 |         smmu = fwspec_smmu(fwspec);
-         |                ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_add_device':
-   drivers/iommu/arm-smmu.c:1372:15: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1372 |         fwspec->iommu_priv = cfg;
-         |               ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_remove_device':
-   drivers/iommu/arm-smmu.c:1410:22: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1410 |         cfg  = fwspec->iommu_priv;
-         |                      ^~
-   drivers/iommu/arm-smmu.c:1423:21: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1423 |         kfree(fwspec->iommu_priv);
-         |                     ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_device_group':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1430:40: note: in expansion of macro 'fwspec_smmu'
-    1430 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
-         |                                        ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1434:9: note: in expansion of macro 'for_each_cfg_sme'
-    1434 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1434:9: note: in expansion of macro 'for_each_cfg_sme'
-    1434 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_get_attr':
-   drivers/iommu/arm-smmu.c:1476:22: error: 'DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE' undeclared (first use in this function)
-    1476 |                 case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1476:22: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_set_attr':
-   drivers/iommu/arm-smmu.c:1520:22: error: 'DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE' undeclared (first use in this function)
-    1520 |                 case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1530:1: warning: label 'out_unlock' defined but not used [-Wunused-label]
-    1530 | out_unlock:
-         | ^~~~~~~~~~
-   drivers/iommu/arm-smmu.c: At top level:
-   drivers/iommu/arm-smmu.c:1580:35: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
-    1580 |         .map                    = arm_smmu_map,
-         |                                   ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1580:35: note: (near initialization for 'arm_smmu_ops.map')
-   drivers/iommu/arm-smmu.c:1585:10: error: 'struct iommu_ops' has no member named 'add_device'
-    1585 |         .add_device             = arm_smmu_add_device,
-         |          ^~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1585:35: error: initialization of 'struct iommu_device * (*)(struct device *)' from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
-    1585 |         .add_device             = arm_smmu_add_device,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1585:35: note: (near initialization for 'arm_smmu_ops.probe_device')
-   drivers/iommu/arm-smmu.c:1586:10: error: 'struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
-    1586 |         .remove_device          = arm_smmu_remove_device,
-         |          ^~~~~~~~~~~~~
-         |          probe_device
->> drivers/iommu/arm-smmu.c:1590:10: error: 'struct iommu_ops' has no member named 'enable_nesting'
-    1590 |         .enable_nesting         = arm_smmu_enable_nesting,
-         |          ^~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu.c:1590:35: error: initialization of 'void (*)(struct device *, struct list_head *)' from incompatible pointer type 'int (*)(struct iommu_domain *)' [-Werror=incompatible-pointer-types]
-    1590 |         .enable_nesting         = arm_smmu_enable_nesting,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1590:35: note: (near initialization for 'arm_smmu_ops.get_resv_regions')
-   drivers/iommu/arm-smmu.c:1592:35: warning: initialized field overwritten [-Woverride-init]
-    1592 |         .get_resv_regions       = arm_smmu_get_resv_regions,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1592:35: note: (near initialization for 'arm_smmu_ops.get_resv_regions')
-   cc1: some warnings being treated as errors
+   In file included from fs/bcachefs/inode.c:3:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/bcachefs/inode.c:959:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     959 |         struct bkey_s_c k;
+         |         ^
+   fs/bcachefs/inode.c:871:19: warning: unused function 'bkey_generation' [-Wunused-function]
+     871 | static inline u32 bkey_generation(struct bkey_s_c k)
+         |                   ^~~~~~~~~~~~~~~
+   3 warnings generated.
 
 
-vim +1590 drivers/iommu/arm-smmu.c
+vim +959 fs/bcachefs/inode.c
 
-f3ebee80b3131d4 Eric Auger        2017-01-19  1574  
-518f7136244c167 Will Deacon       2014-11-14  1575  static struct iommu_ops arm_smmu_ops = {
-1fd0c775a573646 Joerg Roedel      2014-09-05  1576  	.capable		= arm_smmu_capable,
-1d672638fca24db Joerg Roedel      2015-03-26  1577  	.domain_alloc		= arm_smmu_domain_alloc,
-1d672638fca24db Joerg Roedel      2015-03-26  1578  	.domain_free		= arm_smmu_domain_free,
-45ae7cff3684ab4 Will Deacon       2013-06-24  1579  	.attach_dev		= arm_smmu_attach_dev,
-45ae7cff3684ab4 Will Deacon       2013-06-24  1580  	.map			= arm_smmu_map,
-45ae7cff3684ab4 Will Deacon       2013-06-24  1581  	.unmap			= arm_smmu_unmap,
-44f6876a00e83df Robin Murphy      2018-09-20  1582  	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
-32b124492bdf974 Robin Murphy      2017-09-28  1583  	.iotlb_sync		= arm_smmu_iotlb_sync,
-45ae7cff3684ab4 Will Deacon       2013-06-24  1584  	.iova_to_phys		= arm_smmu_iova_to_phys,
-45ae7cff3684ab4 Will Deacon       2013-06-24  1585  	.add_device		= arm_smmu_add_device,
-45ae7cff3684ab4 Will Deacon       2013-06-24  1586  	.remove_device		= arm_smmu_remove_device,
-af65993224c1cfd Joerg Roedel      2015-10-21  1587  	.device_group		= arm_smmu_device_group,
-c752ce45b213de8 Will Deacon       2014-06-25  1588  	.domain_get_attr	= arm_smmu_domain_get_attr,
-c752ce45b213de8 Will Deacon       2014-06-25  1589  	.domain_set_attr	= arm_smmu_domain_set_attr,
-3e38de275a876dc Christoph Hellwig 2021-04-01 @1590  	.enable_nesting		= arm_smmu_enable_nesting,
-021bb8420d44cf5 Robin Murphy      2016-09-14  1591  	.of_xlate		= arm_smmu_of_xlate,
-f3ebee80b3131d4 Eric Auger        2017-01-19  1592  	.get_resv_regions	= arm_smmu_get_resv_regions,
-f3ebee80b3131d4 Eric Auger        2017-01-19  1593  	.put_resv_regions	= arm_smmu_put_resv_regions,
-518f7136244c167 Will Deacon       2014-11-14  1594  	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
-45ae7cff3684ab4 Will Deacon       2013-06-24  1595  };
-45ae7cff3684ab4 Will Deacon       2013-06-24  1596  
-
-:::::: The code at line 1590 was first introduced by commit
-:::::: 3e38de275a876dcf09eb478610a9055366496bc9 iommu: remove DOMAIN_ATTR_NESTING
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jianping Liu <frankjpliu@tencent.com>
+   936	
+   937	/*
+   938	 * This just finds an empty slot:
+   939	 */
+   940	int bch2_inode_create(struct btree_trans *trans,
+   941			      struct btree_iter *iter,
+   942			      struct bch_inode_unpacked *inode_u,
+   943			      u32 snapshot, u64 cpu)
+   944	{
+   945		u64 min, max;
+   946		struct bkey_i_inode_alloc_cursor *cursor =
+   947			bch2_inode_alloc_cursor_get(trans, cpu, &min, &max);
+   948		int ret = PTR_ERR_OR_ZERO(cursor);
+   949		if (ret)
+   950			return ret;
+   951	
+   952		u64 start = le64_to_cpu(cursor->v.idx);
+   953		u64 pos = start;
+   954	
+   955		bch2_trans_iter_init(trans, iter, BTREE_ID_inodes, POS(0, pos),
+   956				     BTREE_ITER_all_snapshots|
+   957				     BTREE_ITER_intent);
+   958	again:
+ > 959		struct bkey_s_c k;
+   960		while ((k = bch2_btree_iter_peek(iter)).k &&
+   961		       !(ret = bkey_err(k)) &&
+   962		       bkey_lt(k.k->p, POS(0, max))) {
+   963			if (pos < iter->pos.offset)
+   964				goto found_slot;
+   965	
+   966			/*
+   967			 * We don't need to iterate over keys in every snapshot once
+   968			 * we've found just one:
+   969			 */
+   970			pos = iter->pos.offset + 1;
+   971			bch2_btree_iter_set_pos(iter, POS(0, pos));
+   972		}
+   973	
+   974		if (!ret && pos < max)
+   975			goto found_slot;
+   976	
+   977		if (!ret && start == min)
+   978			ret = -BCH_ERR_ENOSPC_inode_create;
+   979	
+   980		if (ret) {
+   981			bch2_trans_iter_exit(trans, iter);
+   982			return ret;
+   983		}
+   984	
+   985		/* Retry from start */
+   986		pos = start = min;
+   987		bch2_btree_iter_set_pos(iter, POS(0, pos));
+   988		le32_add_cpu(&cursor->v.gen, 1);
+   989		goto again;
+   990	found_slot:
+   991		bch2_btree_iter_set_pos(iter, SPOS(0, pos, snapshot));
+   992		k = bch2_btree_iter_peek_slot(iter);
+   993		ret = bkey_err(k);
+   994		if (ret) {
+   995			bch2_trans_iter_exit(trans, iter);
+   996			return ret;
+   997		}
+   998	
+   999		inode_u->bi_inum	= k.k->p.offset;
+  1000		inode_u->bi_generation	= le64_to_cpu(cursor->v.gen);
+  1001		cursor->v.idx		= cpu_to_le64(k.k->p.offset + 1);
+  1002		return 0;
+  1003	}
+  1004	
 
 -- 
 0-DAY CI Kernel Test Service
