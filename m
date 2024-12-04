@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AA716D9DF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 06:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A26D184
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 07:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733295197; cv=none; b=s+NNqrGolRggmaxbwd5x9Ujq6egOldFWq4FOgUmIDsxExlYEE3ECa1Mr4oF72LGf5l9nHOge/vXLA4tipgVuN/xe9r44x0zUeEL6tXn//5uAIlSjnpTO5R0aA/b7i+wAfPYlUDuhPb/EkaynoGgHBjxUY5Vy0tFzg6tl+EpoEhM=
+	t=1733297179; cv=none; b=XE+Rbgiu5FDefRy+GJmf9sGitHwsHPY7RKPmaPHIP0MgZCJWrO9G1xU0Rvpm6G9WmOxvs8ZpeAMjHsbvXj/O+O4fUWLIlqADOnfcV2X7zKzCx7tTAKb8uOP7zivJPwz7i2saf/4GmISsPNw8V8WljQEcfGtocxE60rNDhi648eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733295197; c=relaxed/simple;
-	bh=5YYCieRHIKg56QqE8ef4y8DMm4Imld1dQElk1UjeBxw=;
+	s=arc-20240116; t=1733297179; c=relaxed/simple;
+	bh=fhrAGcsR5Nx5U8Tl2tusVySRCy5LScFpshR1w1ws0rI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=saJY3xGAwNC98hbZZ1NuUUQv5cPLaw3/FI+q8xRA4+RrUadnV2LeBNr9OUeKuWECfz70bWY/7xscTuMg63hT4k1P0j/Y6jp6uX5ygGGkwZKZ9McuvPdD5g7W02XDtb00EXXyhqS5f0/kjyHSRQCX4ANHqw/EKooFGV3BcLOeML4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCw+Yi1V; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=ZNztqZvdqEer8Fyf4QAolnRScOs/nHuNBqaNWGBRQ1UtvCz2qH+xIQGB8KCpagpaXOTQseF85KhRfs4sRh3HfTAsXQ3X9i3wp9r78by5C1xJCvWSwjuvTnJqokSql+3NR9PigNtdG8f4qLNC9J+knKr2IvzrC65dYOe/BP0LahQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6SR0Uw3; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCw+Yi1V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6SR0Uw3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733295194; x=1764831194;
+  t=1733297178; x=1764833178;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5YYCieRHIKg56QqE8ef4y8DMm4Imld1dQElk1UjeBxw=;
-  b=CCw+Yi1VV9FfUYb3mNvQgJOmQTW7EvwUoFTofqo61yKuCnZ+L9Q+a9mb
-   KwVowgdWWpAw2OyTZFgiVQepHV8XA8MI8YA8XPUNqWQJjmiMB6aeacb7r
-   isgemVwhSQiYxIn8I5bugP2DhcamKxa8wKgkLW18Jum2JERAFjYub728A
-   tLhHBThvocSdkhkEcpsAj/NXuwOvZumX2qaMnzwI7JVgDpexqTmV2AkoK
-   xUvQt4q4Diu/VtzYIlEiINFB9Yh2zwWNGcJ/iu/Q8ps9OAWS4Afs2exLm
-   fis/HFl28XiWfAfqHvAtHm1gfn1pPQKG0d8WDdEtKdT1jZ0KFu6EAlZJY
+  bh=fhrAGcsR5Nx5U8Tl2tusVySRCy5LScFpshR1w1ws0rI=;
+  b=l6SR0Uw3se/mzw8odgEDkcvTFB99Su19sWdWjWp/o/0xP4vJKXL8EfCd
+   itHsYuCgBpDkhVGUZqZzxI75Q1FCUaAfZr/++vb2P6dcwKGedf2jwVXhR
+   s9rvcg7sIRpHKp8Zm4xbproqjWan1FFDWripFmSr8G//cVfR3fp2dsTFE
+   67tSIA0IdPDvD9VaPpVnPIaWyU38aM1vsZlgGdVWUrmSF2wsH0dtwRCE/
+   fOo6rCWUur5BJ/S5TQVOJllyxvmHt8wTOBzmBqllQ5/6zDKrnT40N5j3O
+   zCcPkFbAnUKKvGWHR3Kwk00eIgmxADqjV7cA/znaGEmOAjw3726/yN7A0
    w==;
-X-CSE-ConnectionGUID: 4Bv1DLkiRQuhBmYlRyXNBQ==
-X-CSE-MsgGUID: bQV+E5XqQni0hKVToYU42A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44207998"
+X-CSE-ConnectionGUID: NKkVbsQQQTCQ/qqrWfIAHw==
+X-CSE-MsgGUID: EvOAr8epRtiOvvcZSrR5kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44026401"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44207998"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 22:53:13 -0800
-X-CSE-ConnectionGUID: wnxh2ltsT1mM46iQ0pJ/Wg==
-X-CSE-MsgGUID: O9NKtI9mQl6hOLVU/OeP9w==
+   d="scan'208";a="44026401"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 23:26:17 -0800
+X-CSE-ConnectionGUID: YRd0A2EBTRmYSVngj28bmQ==
+X-CSE-MsgGUID: aSTR/pW/Sj+WwywGtTTLRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="98659431"
+   d="scan'208";a="98486773"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 03 Dec 2024 22:53:12 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 03 Dec 2024 23:26:13 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIjFy-0002gL-0I;
-	Wed, 04 Dec 2024 06:53:06 +0000
-Date: Wed, 4 Dec 2024 14:52:32 +0800
+	id 1tIjlz-0002hj-1j;
+	Wed, 04 Dec 2024 07:26:11 +0000
+Date: Wed, 4 Dec 2024 15:25:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1320/1320]
- drivers/tty/serial/sc16is7xx.c:1501:1: warning: label 'err_i2c' defined but
- not used
-Message-ID: <202412041458.vwP2M34t-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
+ drivers/iommu/arm-smmu.c:1591:10: error: 'struct iommu_ops' has no member
+ named 'add_device'
+Message-ID: <202412041509.bn4a2VwD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,150 +67,164 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mao,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   98beb6bc5000f977169e4f633e450f4e3e9d84d1
-commit: 1c30433d9fa5c5b48039990ba214c0e8e199a22d [1320/1320] sc16is7xx: missing unregister/delete driver on error in sc16is7xx_init()
-config: arm64-randconfig-003 (https://download.01.org/0day-ci/archive/20241204/202412041458.vwP2M34t-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   f1811f6442501fe34d2339158aed4f85a64f0398
+commit: 9c3888559fa80ba17dadeee3aa6c603fab6db09b [1/1] iommu: Remove add_device()/remove_device() code-paths
+config: arm64-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241204/202412041509.bn4a2VwD-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041458.vwP2M34t-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041509.bn4a2VwD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041458.vwP2M34t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041509.bn4a2VwD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_init':
->> drivers/tty/serial/sc16is7xx.c:1501:1: warning: label 'err_i2c' defined but not used [-Wunused-label]
-    1501 | err_i2c:
-         | ^~~~~~~
-   In file included from drivers/tty/serial/sc16is7xx.c:17:
-   drivers/tty/serial/sc16is7xx.c: At top level:
-   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'sc16is7xx_exit': 'cold' [-Wmissing-attributes]
-     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   drivers/tty/serial/sc16is7xx.c:1518:1: note: in expansion of macro 'module_exit'
-    1518 | module_exit(sc16is7xx_exit);
-         | ^~~~~~~~~~~
-   drivers/tty/serial/sc16is7xx.c:1507:20: note: 'cleanup_module' target declared here
-    1507 | static void __exit sc16is7xx_exit(void)
-         |                    ^~~~~~~~~~~~~~
-   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'sc16is7xx_init': 'cold' [-Wmissing-attributes]
-     134 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   drivers/tty/serial/sc16is7xx.c:1505:1: note: in expansion of macro 'module_init'
-    1505 | module_init(sc16is7xx_init);
-         | ^~~~~~~~~~~
-   drivers/tty/serial/sc16is7xx.c:1470:19: note: 'init_module' target declared here
-    1470 | static int __init sc16is7xx_init(void)
-         |                   ^~~~~~~~~~~~~~
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_remove.isra':
-   drivers/tty/serial/sc16is7xx.c:1309:17: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-    1309 |                 uart_remove_one_port(&sc16is7xx_uart, &s->p[i].port);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   drivers/tty/serial/sc16is7xx.c:1310:31: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-    1310 |                 clear_bit(s->p[i].port.line, &sc16is7xx_lines);
-         |                           ~~~~^~~
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   drivers/tty/serial/sc16is7xx.c:1309:60: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-    1309 |                 uart_remove_one_port(&sc16is7xx_uart, &s->p[i].port);
-         |                                                        ~~~~^~~
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   In function 'sc16is7xx_port_irq',
-       inlined from 'sc16is7xx_ist' at drivers/tty/serial/sc16is7xx.c:704:20:
-   drivers/tty/serial/sc16is7xx.c:662:34: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-     662 |         struct uart_port *port = &s->p[portno].port;
-         |                                  ^~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_ist':
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   In function 'sc16is7xx_port_irq',
-       inlined from 'sc16is7xx_ist' at drivers/tty/serial/sc16is7xx.c:704:20:
-   drivers/tty/serial/sc16is7xx.c:662:39: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-     662 |         struct uart_port *port = &s->p[portno].port;
-         |                                   ~~~~^~~~~~~~
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_ist':
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   In function 'sc16is7xx_port_irq',
-       inlined from 'sc16is7xx_ist' at drivers/tty/serial/sc16is7xx.c:704:20:
-   drivers/tty/serial/sc16is7xx.c:662:39: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-     662 |         struct uart_port *port = &s->p[portno].port;
-         |                                   ~~~~^~~~~~~~
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_ist':
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   In function 'sc16is7xx_port_irq',
-       inlined from 'sc16is7xx_ist' at drivers/tty/serial/sc16is7xx.c:704:20:
-   drivers/tty/serial/sc16is7xx.c:662:39: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-     662 |         struct uart_port *port = &s->p[portno].port;
-         |                                   ~~~~^~~~~~~~
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_ist':
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   In function 'sc16is7xx_port_irq',
-       inlined from 'sc16is7xx_ist' at drivers/tty/serial/sc16is7xx.c:704:20:
-   drivers/tty/serial/sc16is7xx.c:662:39: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-     662 |         struct uart_port *port = &s->p[portno].port;
-         |                                   ~~~~^~~~~~~~
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_ist':
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_probe':
-   drivers/tty/serial/sc16is7xx.c:1223:21: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-    1223 |                 s->p[i].line            = i;
-         |                 ~~~~^~~
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   drivers/tty/serial/sc16is7xx.c:1225:21: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
-    1225 |                 s->p[i].port.dev        = dev;
-         |                 ~~~~^~~
-   drivers/tty/serial/sc16is7xx.c:331:41: note: while referencing 'p'
-     331 |         struct sc16is7xx_one            p[0];
-         |                                         ^
-   drivers/tty/serial/sc16is7xx.c:1226:21: warning: array subscript i is outside array bounds of 'struct sc16is7xx_one[0]' [-Warray-bounds=]
+   drivers/iommu/arm-smmu.c:1076:40: note: in expansion of macro 'fwspec_smmu'
+    1076 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
+         |                                        ^~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1077:49: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+    1077 |         struct arm_smmu_master_cfg *cfg = fwspec->iommu_priv;
+         |                                                 ^~
+   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
+         |                                                           ^~
+   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
+     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
+         |                                              ^~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
+     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
+         |                           ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1081:9: note: in expansion of macro 'for_each_cfg_sme'
+    1081 |         for_each_cfg_sme(fwspec, i, idx) {
+         |         ^~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
+         |                                               ^
+   drivers/iommu/arm-smmu.c:1081:9: note: in expansion of macro 'for_each_cfg_sme'
+    1081 |         for_each_cfg_sme(fwspec, i, idx) {
+         |         ^~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_add_master':
+   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
+         |                                                           ^~
+   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
+     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
+         |                                              ^~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
+     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
+         |                           ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1103:9: note: in expansion of macro 'for_each_cfg_sme'
+    1103 |         for_each_cfg_sme(fwspec, i, idx) {
+         |         ^~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
+         |                                               ^
+   drivers/iommu/arm-smmu.c:1103:9: note: in expansion of macro 'for_each_cfg_sme'
+    1103 |         for_each_cfg_sme(fwspec, i, idx) {
+         |         ^~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c: In function 'arm_smmu_attach_dev':
+   drivers/iommu/arm-smmu.c:1134:20: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+    1134 |         if (!fwspec->iommu_priv)
+         |                    ^~
+   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
+         |                                                           ^~
+   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
+     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
+         |                           ^~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1137:16: note: in expansion of macro 'fwspec_smmu'
+    1137 |         smmu = fwspec_smmu(fwspec);
+         |                ^~~~~~~~~~~
+   drivers/iommu/arm-smmu.c: In function 'arm_smmu_add_device':
+   drivers/iommu/arm-smmu.c:1379:15: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+    1379 |         fwspec->iommu_priv = cfg;
+         |               ^~
+   drivers/iommu/arm-smmu.c: In function 'arm_smmu_remove_device':
+   drivers/iommu/arm-smmu.c:1417:22: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+    1417 |         cfg  = fwspec->iommu_priv;
+         |                      ^~
+   drivers/iommu/arm-smmu.c:1430:21: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+    1430 |         kfree(fwspec->iommu_priv);
+         |                     ^~
+   drivers/iommu/arm-smmu.c: In function 'arm_smmu_device_group':
+   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
+         |                                                           ^~
+   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
+     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
+         |                           ^~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1437:40: note: in expansion of macro 'fwspec_smmu'
+    1437 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
+         |                                        ^~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
+     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
+         |                                                           ^~
+   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
+     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
+         |                                              ^~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
+     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
+         |                           ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1441:9: note: in expansion of macro 'for_each_cfg_sme'
+    1441 |         for_each_cfg_sme(fwspec, i, idx) {
+         |         ^~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
+         |                                               ^
+   drivers/iommu/arm-smmu.c:1441:9: note: in expansion of macro 'for_each_cfg_sme'
+    1441 |         for_each_cfg_sme(fwspec, i, idx) {
+         |         ^~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c: At top level:
+   drivers/iommu/arm-smmu.c:1586:35: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+    1586 |         .map                    = arm_smmu_map,
+         |                                   ^~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1586:35: note: (near initialization for 'arm_smmu_ops.map')
+>> drivers/iommu/arm-smmu.c:1591:10: error: 'struct iommu_ops' has no member named 'add_device'
+    1591 |         .add_device             = arm_smmu_add_device,
+         |          ^~~~~~~~~~
+>> drivers/iommu/arm-smmu.c:1591:35: error: initialization of 'struct iommu_device * (*)(struct device *)' from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
+    1591 |         .add_device             = arm_smmu_add_device,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu.c:1591:35: note: (near initialization for 'arm_smmu_ops.probe_device')
+>> drivers/iommu/arm-smmu.c:1592:10: error: 'struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
+    1592 |         .remove_device          = arm_smmu_remove_device,
+         |          ^~~~~~~~~~~~~
+         |          probe_device
+   cc1: some warnings being treated as errors
 
 
-vim +/err_i2c +1501 drivers/tty/serial/sc16is7xx.c
+vim +1591 drivers/iommu/arm-smmu.c
 
-  1487	
-  1488	#ifdef CONFIG_SERIAL_SC16IS7XX_SPI
-  1489		ret = spi_register_driver(&sc16is7xx_spi_uart_driver);
-  1490		if (ret < 0) {
-  1491			pr_err("failed to init sc16is7xx spi --> %d\n", ret);
-  1492			goto err_spi;
-  1493		}
-  1494	#endif
-  1495		return ret;
-  1496	
-  1497	err_spi:
-  1498	#ifdef CONFIG_SERIAL_SC16IS7XX_I2C
-  1499		i2c_del_driver(&sc16is7xx_i2c_uart_driver);
-  1500	#endif
-> 1501	err_i2c:
-  1502		uart_unregister_driver(&sc16is7xx_uart);
-  1503		return ret;
-  1504	}
-  1505	module_init(sc16is7xx_init);
-  1506	
+f3ebee80b3131d4 Eric Auger   2017-01-19  1580  
+518f7136244c167 Will Deacon  2014-11-14  1581  static struct iommu_ops arm_smmu_ops = {
+1fd0c775a573646 Joerg Roedel 2014-09-05  1582  	.capable		= arm_smmu_capable,
+1d672638fca24db Joerg Roedel 2015-03-26  1583  	.domain_alloc		= arm_smmu_domain_alloc,
+1d672638fca24db Joerg Roedel 2015-03-26  1584  	.domain_free		= arm_smmu_domain_free,
+45ae7cff3684ab4 Will Deacon  2013-06-24  1585  	.attach_dev		= arm_smmu_attach_dev,
+45ae7cff3684ab4 Will Deacon  2013-06-24  1586  	.map			= arm_smmu_map,
+45ae7cff3684ab4 Will Deacon  2013-06-24  1587  	.unmap			= arm_smmu_unmap,
+44f6876a00e83df Robin Murphy 2018-09-20  1588  	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
+32b124492bdf974 Robin Murphy 2017-09-28  1589  	.iotlb_sync		= arm_smmu_iotlb_sync,
+45ae7cff3684ab4 Will Deacon  2013-06-24  1590  	.iova_to_phys		= arm_smmu_iova_to_phys,
+45ae7cff3684ab4 Will Deacon  2013-06-24 @1591  	.add_device		= arm_smmu_add_device,
+45ae7cff3684ab4 Will Deacon  2013-06-24 @1592  	.remove_device		= arm_smmu_remove_device,
+af65993224c1cfd Joerg Roedel 2015-10-21  1593  	.device_group		= arm_smmu_device_group,
+c752ce45b213de8 Will Deacon  2014-06-25  1594  	.domain_get_attr	= arm_smmu_domain_get_attr,
+c752ce45b213de8 Will Deacon  2014-06-25  1595  	.domain_set_attr	= arm_smmu_domain_set_attr,
+021bb8420d44cf5 Robin Murphy 2016-09-14  1596  	.of_xlate		= arm_smmu_of_xlate,
+f3ebee80b3131d4 Eric Auger   2017-01-19  1597  	.get_resv_regions	= arm_smmu_get_resv_regions,
+f3ebee80b3131d4 Eric Auger   2017-01-19  1598  	.put_resv_regions	= arm_smmu_put_resv_regions,
+518f7136244c167 Will Deacon  2014-11-14  1599  	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
+45ae7cff3684ab4 Will Deacon  2013-06-24  1600  };
+45ae7cff3684ab4 Will Deacon  2013-06-24  1601  
+
+:::::: The code at line 1591 was first introduced by commit
+:::::: 45ae7cff3684ab45f57fc13fc242c8546536a84e iommu/arm: Add support for ARM Ltd. System MMU architecture
+
+:::::: TO: Will Deacon <will.deacon@arm.com>
+:::::: CC: Joerg Roedel <joro@8bytes.org>
 
 -- 
 0-DAY CI Kernel Test Service
