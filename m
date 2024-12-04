@@ -1,127 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069341C3BE7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 19:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0A913D246
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 19:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733339262; cv=none; b=DeivX7w3Z5xGqc678I4LhAGmsG8l58Sws3z2qi9Rf9FZuh8NxqrvywcbzaKHD620Faq7Mvl+kxgMGArHff3oYVm0AE/gSHgD/2MMJoucgmanHnVAsmTP15DZiGhBpul8e5wi9WrcrLxNT0SfNVCny86qAKzyKdfaNNLw27Acowo=
+	t=1733340825; cv=none; b=l9RD9fphzJEq1CHOsKN7oJk9PND9m0prcUyl5jEHkgJBuYq2mX8E0J7s4ZCyJvxQ8Ap6riwlrAfj+kPArsLDxneAffI2wXmlimf2oglCX3EgxE8alqrX7LH0FqQ2DuWZY27NjmXM7IZn+yYgubxGGoB0F5LkMnSvo3gm7hWaiVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733339262; c=relaxed/simple;
-	bh=11N5LDB7QVT0DJEB5/5zBursMZ/55fhS8I0YGtfanqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IU+gvgMNWtERd81d9p4m8j9fSnWQ+BV9OV4tdiHNXGQx+vF/JsqkqwiyvO1xYS3vVN8kQKXhFA7y3YuwoLf9b6zeWdcnx2msxHRIbLMBJuqjXZe35JcwFZsnMrdg15cRMsJ4nCsbTKNOyyi+sIy2pX0Cn201gB5Oi5d1hGFUFZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StatR3Fe; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733340825; c=relaxed/simple;
+	bh=b1Xpy6CD6aMD49xSm64SabOF+AaRJHNJEm1DcSmxM48=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=biSqDP8F9ZFoFFgeiVqhGZYTE1hiLFjb9pu4pCfqZM9DWOVvP3Esk6ARb8rkjrkWMUnR7+HI0/Qry/vQAytJhEqBSMkzMCHYpIL2jAk4i7uY6t1PBkgYIhxBrQZcrdZn7JwN6sZGqBSOt6RRvuUTmVafHRJHmDMgRBbo3KMJ5cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oVd27Seu; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StatR3Fe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733339260; x=1764875260;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=11N5LDB7QVT0DJEB5/5zBursMZ/55fhS8I0YGtfanqI=;
-  b=StatR3FeDE2/TFdzns4aTg0qBM9KwwSfkT20gti41pK3UCo02EUESlBT
-   o+CK2+3GHKpJKuq1Vo6ZLelCc4K0FNwN0/aQE53vhax1V/k57PUjRVgtG
-   D6ZQk3lNpK+MRD3BFfto2/Wo7gsDA72pPRFxVeqlh8LQ7wQuLYZS2dScG
-   smmXXNhAYrUvhzyYlS/5Q8I5dzcMA80rG0puxJ1gRzgZPzSs0We07LRW0
-   c99NcVGT8LS7/dw69ORNvl41OL8QhmUnW9iJyA/N1ha59lneMOzklZj5a
-   3G+KW0UKudExILfdY0o8tV27RqNBOkGDfeRRQmdsSzWohzXw2AKxP5w0W
-   w==;
-X-CSE-ConnectionGUID: A4Je5v9sRry8RmX/CrBV2g==
-X-CSE-MsgGUID: Gdcuh5p1QOGsW8P9bJFQ0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44290868"
-X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="44290868"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 11:07:39 -0800
-X-CSE-ConnectionGUID: biGlDQh2SKKru+Wd6CoDjA==
-X-CSE-MsgGUID: AvNhPzLgR6qwR5V6QKkMyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="98929517"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 04 Dec 2024 11:07:39 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tIuim-0003PN-0N;
-	Wed, 04 Dec 2024 19:07:36 +0000
-Date: Thu, 5 Dec 2024 03:07:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:health-monitoring 162/163]
- fs/xfs/xfs_notify_failure.c:580:40: sparse: sparse: dereference of noderef
- expression
-Message-ID: <202412050254.hGYPGZOE-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oVd27Seu"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e3971be41d8so107957276.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Dec 2024 11:33:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733340823; x=1733945623; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aNJFJ6pRI65Hkx3S3msz6HnheriMpI4d7aUoNtf1ZHk=;
+        b=oVd27Seu+Zu0p0mR5Fiv3YYqP3FHu1fLDnfIEhBFpvFTwFIm3Kyrt3kyft9wnBL2UK
+         4DvCkgrB6yQtw/X5BP69GkvNcDx27+ta9+7YYrXLLvUVzpZizajF0B0zBHc6pgoHNnc0
+         2Us29QRrqXEgm3LDzI6MMLaQaCXMDhTI39WVk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733340823; x=1733945623;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aNJFJ6pRI65Hkx3S3msz6HnheriMpI4d7aUoNtf1ZHk=;
+        b=oU6Ag2el3DSJ40egaVMLj2+ViAEIDK/GWY9E9HEJUzeO+R29TirUcqeXhj2kOsh07k
+         VVtmd1FoJVwkqkw9xRdmjJxJJ7k2FdL5f2e5Fj9sGNRG8fDK70uZGs8qcfZdtROZNAin
+         3SB/YLqP78yMt6/iEOs5kkXvJh3dPGSy1gqGvcgmP/8Vy7/Du0ODeGxsc84vKU2hWqPE
+         8XkmuqZ5gAMv2V+anr5+taGvt4vFYopr7b61GPj+MDMboDf4damCzrd0iChuT3ExoMBT
+         P+Jk+6lpJBjrEWiYTo/h8gXmcV99nZHDvDd+4wS/cBiCIy2geoeyuvqozErxrvQQd6wn
+         tQZA==
+X-Gm-Message-State: AOJu0YwGHxv0haKcC2oHdaCzkiVSGb3vKzPo65l1BjBH9ma8tCa4xzDb
+	KLIRKygylf00UV0OiseksR5pehWqi8r1b2B/UXSl151mKWI67iFL1ru/ahhbvXzaa1No79+Qa9v
+	C9AdJurSSuUVUl5S2gOokGdejvOMb2s6Pg8Jx
+X-Gm-Gg: ASbGncsRPnFeqUbY0Q3+XfKMdFKwNtUUom16RXQb72B41onLjers0PmywDVufcdlJ6E
+	ToBh+06pqvTp2D0CQzmApCDgOBEZV/BrD6dEzQcJ1dCYac+MynOlRTW/iHn8=
+X-Google-Smtp-Source: AGHT+IH3lQTfDvoVM5SgtnrmkWgM8tKtP2qmtpTk83iDRH4qhKbofq2v85Sk9lkW6T3GFBZuCLJYvwma2CMebDYV29Q=
+X-Received: by 2002:a05:6902:726:b0:e39:8a36:5781 with SMTP id
+ 3f1490d57ef6-e39d39ee243mr6896832276.1.1733340823079; Wed, 04 Dec 2024
+ 11:33:43 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 4 Dec 2024 14:33:42 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202412041839.pjv6awcS-lkp@intel.com>
+References: <20241204000415.2404264-1-swboyd@chromium.org> <202412041839.pjv6awcS-lkp@intel.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Wed, 4 Dec 2024 14:33:42 -0500
+Message-ID: <CAE-0n51ZnUnL9Ghc4VV=hH0ju+VNnq4HWj_xV5cOA-Q0B-Au5Q@mail.gmail.com>
+Subject: Re: [PATCH] of: Hide of_default_bus_match_table[]
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git health-monitoring
-head:   3ef6d3267cdc0cf4ed98d255efb948c8d404eaf9
-commit: 0940e5a093a2135fd652bf527ef564c15f144da3 [162/163] xfs: add media error reporting ioctl
-config: i386-randconfig-061-20241204 (https://download.01.org/0day-ci/archive/20241205/202412050254.hGYPGZOE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050254.hGYPGZOE-lkp@intel.com/reproduce)
+Quoting kernel test robot (2024-12-04 03:00:44)
+> Hi Stephen,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Stephen-Boyd/of-Hide-of_default_bus_match_table/20241204-123701
+> base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+> patch link:    https://lore.kernel.org/r/20241204000415.2404264-1-swboyd%40chromium.org
+> patch subject: [PATCH] of: Hide of_default_bus_match_table[]
+> config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20241204/202412041839.pjv6awcS-lkp@intel.com/config)
+> compiler: sparc-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041839.pjv6awcS-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412041839.pjv6awcS-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> drivers/of/platform.c:27:34: warning: 'of_default_bus_match_table' defined but not used [-Wunused-const-variable=]
+>       27 | static const struct of_device_id of_default_bus_match_table[] = {
+>          |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050254.hGYPGZOE-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_notify_failure.c:580:40: sparse: sparse: dereference of noderef expression
-   fs/xfs/xfs_notify_failure.c:580:52: sparse: sparse: dereference of noderef expression
->> fs/xfs/xfs_notify_failure.c:580:40: sparse: sparse: dereference of noderef expression
-   fs/xfs/xfs_notify_failure.c:580:52: sparse: sparse: dereference of noderef expression
-
-vim +580 fs/xfs/xfs_notify_failure.c
-
-   543	
-   544	#define XFS_VALID_MEDIA_ERROR_FLAGS	(XFS_MEDIA_ERROR_DATADEV | \
-   545						 XFS_MEDIA_ERROR_LOGDEV | \
-   546						 XFS_MEDIA_ERROR_RTDEV)
-   547	int
-   548	xfs_ioc_media_error(
-   549		struct xfs_mount		*mp,
-   550		struct xfs_media_error __user	*arg)
-   551	{
-   552		struct xfs_media_error		me;
-   553		enum xfs_failed_device		fdev;
-   554	
-   555		if (!capable(CAP_SYS_ADMIN))
-   556			return -EPERM;
-   557	
-   558		if (copy_from_user(&me, arg, sizeof(me)))
-   559			return -EFAULT;
-   560	
-   561		if (me.pad)
-   562			return -EINVAL;
-   563		if (me.flags & ~XFS_VALID_MEDIA_ERROR_FLAGS)
-   564			return -EINVAL;
-   565	
-   566		switch (me.flags & XFS_MEDIA_ERROR_DEVMASK) {
-   567		case XFS_MEDIA_ERROR_DATADEV:
-   568			fdev = XFS_FAILED_DATADEV;
-   569			break;
-   570		case XFS_MEDIA_ERROR_LOGDEV:
-   571			fdev = XFS_FAILED_LOGDEV;
-   572			break;
-   573		case XFS_MEDIA_ERROR_RTDEV:
-   574			fdev = XFS_FAILED_RTDEV;
-   575			break;
-   576		default:
-   577			return -EINVAL;
-   578		}
-   579	
- > 580		xfs_media_error_hook(mp, fdev, arg->daddr, arg->bbcount, false);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I will move the array into the function that uses it then.
