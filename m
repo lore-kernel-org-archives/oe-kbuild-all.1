@@ -1,168 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE1E188012
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 08:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB5A18C03F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 08:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733299718; cv=none; b=FuONzKOxLIRU3gkBvDDLV55Cr4/EPMRt3Vi9akxgs4PI1IYS3Xh2+GEK57cYgiNhncmFlPmiWb7HuTVJzDZh1ww4XQcUK5/ukPoqEs5kKhHoaSYP+D28dpfma0cStVHPbhvrruiVImMWvqlgeIDkwBuhWKQo/wFa4O+0XxvvAUA=
+	t=1733301030; cv=none; b=gkZzTzVmywiH9EUdpAyNKX4dfXBdkcvN1IpP0Iu0hs6Gnrw5Rc+TqEi+dxeVf13wTzj2oeGCadUgmJaEw5AZ0E80Jy+/l4qODkZtfI0vRjhdTLFFZn7BWiS2PTu1n65R7EF3RUeNwcw2TRHbVQVTRrSXK/rQdKEw2xx5FpxPPU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733299718; c=relaxed/simple;
-	bh=SGw6XYxhUQRnna/TOCsN2pdSnWTY7AYyC+45JpAzHp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VN1Xhg85BGXrtgD2BrzQKAveyUiAXRpuvCNRQh5+glFQHW1BmmcXJYXdCQQOt/Z3bpeOdP1Hb/CGI+MuODUNHM6n9TF7+At2VPuBhBCUCA+wBzUR/SLTT0YFenSc8lAeyK/oT6tkWMTrkos64+0iWcQfhyGzuGTGvbyHXENdENw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AYyWADhV; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1733301030; c=relaxed/simple;
+	bh=gvOpS/CSU9zOtDTEg/2CzkuI1bv/x96uWiHEJDSy0l4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JPO33vEN/VQ98roxUPbzYY53wa45LOc5yA1jTsHF/F4VWOjGNCXnuRi9ZB8b+fJd3FP0zL2cQ0rXnpZm1v0ZzsjVYWaE2KMbbS2zOj4Nl3lMLXVwbdo9kbn/gkcIiD1FeNZAJX733nDBKAwsxHhbQXz/0HBgN2sbBmN1JJ4L8M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIfLPvQn; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AYyWADhV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIfLPvQn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733299716; x=1764835716;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SGw6XYxhUQRnna/TOCsN2pdSnWTY7AYyC+45JpAzHp8=;
-  b=AYyWADhVcHgiYH7ygfxiWvbkFBV3znh+uWDJ9d+OjEMtfkC9fsH9IZ2O
-   TgHJUn/1HkDNMnlUu1or0jgjOKMGZzJAqr60OT+4t332Uqupz2cwwx8DA
-   7irBS08I81Fi4Xz3vnh9iIFTuqFtUglTBk1mjwyt7TfIYjW2eCT9yLozl
-   OOdOR9TsCc+Ku0kTAKeYvbmgHvIAunsg816nGt5BgKYdslwEnJtJJPpk2
-   kSCOULlWCNBA1B5Hx21PcInN8Tf6oRZsSoiQAYKysC5lWPicylNuOxmOm
-   iIz5l8tS3j1VxS0DHaJa2iyaMqEc2DVYZ3maaFFSZoG3C54EsDYKTIITb
-   A==;
-X-CSE-ConnectionGUID: f4NBvINbRiGFZVFsvKbWzw==
-X-CSE-MsgGUID: eQGhUJAFS/uX1+MmieVYIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44214963"
+  t=1733301028; x=1764837028;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=gvOpS/CSU9zOtDTEg/2CzkuI1bv/x96uWiHEJDSy0l4=;
+  b=MIfLPvQnmGv5Fco+BW556A/JcHxsCop6UQc9CIFmWPTc92/2IVMcl60n
+   g0AXjtVzsQwo38/Tu77E1+j17Yi+rzGxdEkhopsHwB/IOiAxgo2twaP7L
+   KLNpHRg5SVxNJq1eLI9cwG9V88RtAKlOEogzeXql7/CIyU/M92vb4UHh9
+   OoC0FZDhRVMypuWygZ3a4GyyjDLrSYwl0K8x7xRZbGnIw8G26uTG/WUaj
+   S54sXHa8wbmGmSDNXbHWVgD1khhenWazoDbm0i2dVNwMzsv7vWD/KEuKe
+   RbuzSadfYkOsmkq9QF+Cpjb6s7xEi5l2FonNWNJDsQfd7T0Hqt4lxY8Om
+   Q==;
+X-CSE-ConnectionGUID: Md+Wkjt7S6mtz9UF6A6fDg==
+X-CSE-MsgGUID: bJLcgExbQny/zNiWI4HhQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="21135970"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44214963"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 00:08:34 -0800
-X-CSE-ConnectionGUID: 5DwepD4LRNaP/T6FC6zOvw==
-X-CSE-MsgGUID: daDZoRjAR2WD9zwPCxhepw==
+   d="scan'208";a="21135970"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 00:30:28 -0800
+X-CSE-ConnectionGUID: 9J2fsjFmSYmXETH0NbSCQQ==
+X-CSE-MsgGUID: wTnypkPZRRqunuh3ulGTaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="93781812"
+   d="scan'208";a="97760319"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 04 Dec 2024 00:08:33 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2024 00:30:24 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIkQw-0002k1-22;
-	Wed, 04 Dec 2024 08:08:30 +0000
-Date: Wed, 4 Dec 2024 16:08:27 +0800
+	id 1tIkly-0002lV-1c;
+	Wed, 04 Dec 2024 08:30:17 +0000
+Date: Wed, 4 Dec 2024 16:29:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yizhen Fan <fanyizhen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2516/2516]
- drivers/ub/urma/ubcore/ubcore_netdev.c:213:5: warning: no previous prototype
- for 'ubcore_unset_port_netdev'
-Message-ID: <202412041601.Eu6aB1G8-lkp@intel.com>
+To: =?unknown-8bit?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	=?unknown-8bit?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	=?unknown-8bit?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH 5/6] nvmem: rmem: add CRC validation for Mobileye EyeQ5
+ NVMEM
+Message-ID: <202412041614.WGhDRXyh-lkp@intel.com>
+References: <20241203-rmem-v1-5-24f4970cf14e@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241203-rmem-v1-5-24f4970cf14e@bootlin.com>
 
-Hi Yizhen,
+Hi Théo,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   b71af6f00ede58be00cb7306c9acb2660ec90947
-commit: 37c6170f742ef3a18a3131a2a157dd7b7aa08103 [2516/2516] ub: Fix bugs in urma kernel and user lib
-config: arm64-randconfig-003-20241203 (https://download.01.org/0day-ci/archive/20241204/202412041601.Eu6aB1G8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041601.Eu6aB1G8-lkp@intel.com/reproduce)
+[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Th-o-Lebrun/dt-bindings-nvmem-rmem-Add-mobileye-eyeq5-bootloader-config/20241204-103417
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/20241203-rmem-v1-5-24f4970cf14e%40bootlin.com
+patch subject: [PATCH 5/6] nvmem: rmem: add CRC validation for Mobileye EyeQ5 NVMEM
+config: arc-randconfig-001 (https://download.01.org/0day-ci/archive/20241204/202412041614.WGhDRXyh-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041614.WGhDRXyh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041601.Eu6aB1G8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041614.WGhDRXyh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/ub/urma/ubcore/ubcore_netdev.c:51:5: warning: no previous prototype for 'ubcore_check_port_state' [-Wmissing-prototypes]
-      51 | int ubcore_check_port_state(struct ubcore_device *dev, uint8_t port_idx)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:75:6: warning: no previous prototype for 'ubcore_find_port_netdev' [-Wmissing-prototypes]
-      75 | void ubcore_find_port_netdev(struct ubcore_device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:133:5: warning: no previous prototype for 'ubcore_set_port_netdev' [-Wmissing-prototypes]
-     133 | int ubcore_set_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_netdev.c:213:5: warning: no previous prototype for 'ubcore_unset_port_netdev' [-Wmissing-prototypes]
-     213 | int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:242:6: warning: no previous prototype for 'ubcore_put_port_netdev' [-Wmissing-prototypes]
-     242 | void ubcore_put_port_netdev(struct ubcore_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:262:10: warning: no previous prototype for 'ubcore_sip_idx_alloc' [-Wmissing-prototypes]
-     262 | uint32_t ubcore_sip_idx_alloc(uint32_t idx)
-         |          ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:290:5: warning: no previous prototype for 'ubcore_sip_idx_free' [-Wmissing-prototypes]
-     290 | int ubcore_sip_idx_free(uint32_t idx)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:303:6: warning: no previous prototype for 'ubcore_sip_table_init' [-Wmissing-prototypes]
-     303 | void ubcore_sip_table_init(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:309:6: warning: no previous prototype for 'ubcore_sip_table_uninit' [-Wmissing-prototypes]
-     309 | void ubcore_sip_table_uninit(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:324:5: warning: no previous prototype for 'ubcore_add_sip_entry' [-Wmissing-prototypes]
-     324 | int ubcore_add_sip_entry(const struct ubcore_sip_info *sip, uint32_t idx)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:344:5: warning: no previous prototype for 'ubcore_del_sip_entry' [-Wmissing-prototypes]
-     344 | int ubcore_del_sip_entry(uint32_t idx)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:358:5: warning: no previous prototype for 'ubcore_lookup_sip_idx' [-Wmissing-prototypes]
-     358 | int ubcore_lookup_sip_idx(struct ubcore_sip_info *sip, uint32_t *idx)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:379:10: warning: no previous prototype for 'ubcore_get_sip_max_cnt' [-Wmissing-prototypes]
-     379 | uint32_t ubcore_get_sip_max_cnt(void)
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:384:25: warning: no previous prototype for 'ubcore_lookup_sip_info' [-Wmissing-prototypes]
-     384 | struct ubcore_sip_info *ubcore_lookup_sip_info(uint32_t idx)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:395:5: warning: no previous prototype for 'ubcore_notify_uvs_del_sip' [-Wmissing-prototypes]
-     395 | int ubcore_notify_uvs_del_sip(struct ubcore_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:437:5: warning: no previous prototype for 'ubcore_notify_uvs_add_sip' [-Wmissing-prototypes]
-     437 | int ubcore_notify_uvs_add_sip(struct ubcore_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvmem/rmem.c: In function 'rmem_eyeq5_checksum':
+>> drivers/nvmem/rmem.c:66:9: error: cleanup argument not a function
+      66 |         void *buf __free(kfree) = NULL;
+         |         ^~~~
+>> drivers/nvmem/rmem.c:97:15: error: implicit declaration of function 'kmalloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
+      97 |         buf = kmalloc(header.size, GFP_KERNEL);
+         |               ^~~~~~~
+         |               mm_alloc
+>> drivers/nvmem/rmem.c:97:13: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      97 |         buf = kmalloc(header.size, GFP_KERNEL);
+         |             ^
+   cc1: some warnings being treated as errors
 
 
-vim +/ubcore_unset_port_netdev +213 drivers/ub/urma/ubcore/ubcore_netdev.c
+vim +66 drivers/nvmem/rmem.c
 
-   212	
- > 213	int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
-   214		unsigned int port_id)
-   215	{
-   216		struct ubcore_ndev_port *port_info;
-   217	
-   218		if (dev == NULL || ndev == NULL) {
-   219			ubcore_log_err("invalid input parameter.\n");
-   220			return -1;
-   221		}
-   222		down_write(&g_port_list_lock);
-   223		list_for_each_entry(port_info, &dev->port_list, node) {
-   224			if (port_info->ndev == ndev) {
-   225				if (ubcore_del_port(port_info, (uint8_t)port_id, dev, ndev) != 0) {
-   226					up_write(&g_port_list_lock);
-   227					ubcore_log_err("Failed to do ubcore_del_port");
-   228					return -1;
-   229				}
-   230				up_write(&g_port_list_lock);
-   231				return 0;
-   232			}
-   233		}
-   234		up_write(&g_port_list_lock);
-   235	
-   236		ubcore_log_err("Failed to find and remove ndev:%s dev_name: %s bound port: %u\n",
-   237			netdev_name(ndev), dev->dev_name, port_id);
-   238		return -1;
-   239	}
-   240	EXPORT_SYMBOL(ubcore_unset_port_netdev);
-   241	
+    62	
+    63	static int rmem_eyeq5_checksum(struct rmem *priv)
+    64	{
+    65		struct rmem_eyeq5_header header;
+  > 66		void *buf __free(kfree) = NULL;
+    67		u32 computed_crc, *target_crc;
+    68		size_t data_size;
+    69		int ret;
+    70	
+    71		ret = rmem_read(priv, 0, &header, sizeof(header));
+    72		if (ret)
+    73			return ret;
+    74	
+    75		if (header.magic != RMEM_EYEQ5_MAGIC)
+    76			return -EINVAL;
+    77	
+    78		/*
+    79		 * Avoid massive kmalloc() if header read is invalid;
+    80		 * the check would be done by the next rmem_read() anyway.
+    81		 */
+    82		if (header.size > priv->mem->size)
+    83			return -EINVAL;
+    84	
+    85		/*
+    86		 *           0 +-------------------+
+    87		 *             | Header (12 bytes) | \
+    88		 *             +-------------------+ |
+    89		 *             |                   | | data to be CRCed
+    90		 *             |        ...        | |
+    91		 *             |                   | /
+    92		 *   data_size +-------------------+
+    93		 *             |   CRC (4 bytes)   |
+    94		 * header.size +-------------------+
+    95		 */
+    96	
+  > 97		buf = kmalloc(header.size, GFP_KERNEL);
+    98		if (!buf)
+    99			return -ENOMEM;
+   100	
+   101		ret = rmem_read(priv, 0, buf, header.size);
+   102		if (ret)
+   103			return ret;
+   104	
+   105		data_size = header.size - sizeof(*target_crc);
+   106		target_crc = buf + data_size;
+   107		computed_crc = crc32(U32_MAX, buf, data_size) ^ U32_MAX;
+   108	
+   109		if (computed_crc == *target_crc)
+   110			return 0;
+   111	
+   112		dev_err(priv->dev,
+   113			"checksum failed: computed %#x, expected %#x, header (%#x, %#x, %#x)\n",
+   114			computed_crc, *target_crc, header.magic, header.version, header.size);
+   115		return -EINVAL;
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
