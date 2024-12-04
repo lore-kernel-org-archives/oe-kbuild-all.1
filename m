@@ -1,175 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584B515B10D;
-	Wed,  4 Dec 2024 16:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A6420E00E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 17:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733328752; cv=none; b=f7HpfbYq7l8e6+R1oqnyy6n7Nhg4sAgXkrhMAlDUlOzOQPNaAMHPLn270KRWAopBeyozgoocy8DSU1l22ozAjB3roiTW8sTccLO6mqE0PrJRkwIzhZAyW8nb17F8p+eXZR/TEk2KAiPnlZBliDybsAauQCXKLw1Jc/XW4pmBgrY=
+	t=1733331857; cv=none; b=Q2jDyUWf62Qj2qGOZFGXnA+0SF4zWUV3VyH6WNjJLg1ivdH8EJGHb3VljKQTBIFNNcqaRLMfJtJB58sO1dQQYL3yftFYRA8yuBPomke6RsFwmgsZSuENKo66ApWnkjy2PmaZokpBlzYOO97OF865S2FiA71RFYhsKEneWCp/YeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733328752; c=relaxed/simple;
-	bh=A0mWy9FBXqC8mM3bOixPp1DSyoXn/b8myrlBMw7cjk8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=to01NgnDINat5RuFnn0NYsBNpQWMIZr+lkLe9LYB9aVfkOQGhVnID9u61lyrxaFMNhIc3L5B0nM+rvfyMZja9MyOOEYErtbPv3BI5zxeCbsP0zeADhR5869e3CinnarlOkyxatp6LjjQ5Efc4NKAQ3ysPcw9Zucv4ADemlBHAUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VACpi4+8; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733331857; c=relaxed/simple;
+	bh=L5U4dSkV1I3cWCusRE3BIyX9nk34hT5kxbJWlQQq/1E=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=GE3/6PX6XfNhvG0FSJD5EIb483KWOdjqtduDst6IEzXP23WfPfenZwJAlyypDRAk+QlkfOJzocXM/hkSDShaoIZ9sautxlEcT0bvKEN+JraSEV8QQ9E6pvTykjqEoEkhDwua4Lj049G0FbrDEexbViK/LEW0Qw8vthuZjGgdvVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Z03Hk1+3; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VACpi4+8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733328751; x=1764864751;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A0mWy9FBXqC8mM3bOixPp1DSyoXn/b8myrlBMw7cjk8=;
-  b=VACpi4+8EvOzjnAYaEFylDGV1OHMpoxqigbSTZ1rPU1WVbSr49MLzF+4
-   Wj8DOaWTLLptR12iLinvPWsXdd3bO1GN6VCoJjYYU2s3DSC+sIA5H8Epr
-   Fiu0CjaUUnihiylmsM5qr9xR6t9H7N4ktK9OHOdUhOE8HdZ3o/1S449Xu
-   ofege1YRkFXuZMDY3IpCQEJmAFuk5qFGywgLaJEW1WhsdeG8u9zy77Tjl
-   spElzbaBcS2yF8KNTm4RmQglsCBdz2IEugz7097RbBCADVNAKsw0zTA34
-   tsMkVJZsxZ2F90m6QoNvMAYYfhaZHb2U79zN1w5KJD5tDHQvWuWakhC5+
-   A==;
-X-CSE-ConnectionGUID: AlcpLiIHTqq6TUD4S6MsLQ==
-X-CSE-MsgGUID: NHQHxCQiQf23ZO4lsLdpgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="56086851"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="56086851"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 08:12:30 -0800
-X-CSE-ConnectionGUID: oPcqAMprTyyDLeolDmCVjw==
-X-CSE-MsgGUID: wWI8fBZTQnizCoRB3Fxq8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="131254580"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 04 Dec 2024 08:12:28 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tIrzG-0003FR-1J;
-	Wed, 04 Dec 2024 16:12:26 +0000
-Date: Thu, 5 Dec 2024 00:11:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 176/180]
- fs/bcachefs/inode.c:959:2: warning: label followed by a declaration is a C23
- extension
-Message-ID: <202412050055.F6gaGrvq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Z03Hk1+3"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 254E2FF808;
+	Wed,  4 Dec 2024 17:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1733331851;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mN4X2mfRbhmCIAyp/AA6+Xam0Nv0+ZB04jq9dio6qPc=;
+	b=Z03Hk1+3HTvSePlLeXZJeyZVuM1IupIBCse5Hc0lL7dv7IICVwl/w0x7sHvLL9I6gXO84H
+	Y8c6R/6ojaDquwVcHfArTcXDRox6Awc6fyT+pJxqmZojatficEWjltAmRtrI6FylhVTsZV
+	/GTrSkg7AQK4qBTHhJ9cfKTNmv4iG7ly/KZz/YGBy4bQotaugMw4Jl/CochHdV/fD99GWf
+	rPpknOmjjEv35LL9F1m1Vpxb8Lu+JWdRSnWNYcgsj+DAAMEAGfFUmPfc425h+zlI9i+w+z
+	xcTfPy4K4DeUaWflUA9ukblZDdSEE0L/oB58DqEWfNJBLq0UomyIKUmwcHNcaQ==
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 04 Dec 2024 18:04:10 +0100
+Message-Id: <D632UZERSM8I.1O3J7O9QZ64EV@bootlin.com>
+Cc: <oe-kbuild-all@lists.linux.dev>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mips@vger.kernel.org>, "Vladimir
+ Kondratiev" <vladimir.kondratiev@mobileye.com>,
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
+ <tawfik.bayouk@mobileye.com>, =?utf-8?q?Th=C3=A9o_Lebrun?=
+ <theo.lebrun@bootlin.com>, "Srinivas Kandagatla"
+ <srinivas.kandagatla@linaro.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Nicolas Saenz Julienne" <nsaenz@kernel.org>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
+To: "kernel test robot" <lkp@intel.com>
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH 5/6] nvmem: rmem: add CRC validation for Mobileye EyeQ5
+ NVMEM
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241203-rmem-v1-5-24f4970cf14e@bootlin.com>
+ <202412041522.01H5Kj6F-lkp@intel.com>
+In-Reply-To: <202412041522.01H5Kj6F-lkp@intel.com>
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   24ae9afb293a4cbfc4c2bd727c956f16d2db072b
-commit: 7b158984d408fc2ee75b7877b1ef37ef496ef8ea [176/180] bcachefs: bcachefs_metadata_version_persistent_inode_cursors
-config: i386-buildonly-randconfig-002-20241204 (https://download.01.org/0day-ci/archive/20241205/202412050055.F6gaGrvq-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050055.F6gaGrvq-lkp@intel.com/reproduce)
+On Wed Dec 4, 2024 at 8:58 AM CET, kernel test robot wrote:
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Th-o-Lebrun/dt-bin=
+dings-nvmem-rmem-Add-mobileye-eyeq5-bootloader-config/20241204-103417
+> base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+> patch link:    https://lore.kernel.org/r/20241203-rmem-v1-5-24f4970cf14e%=
+40bootlin.com
+> patch subject: [PATCH 5/6] nvmem: rmem: add CRC validation for Mobileye E=
+yeQ5 NVMEM
+> config: arm-randconfig-002 (https://download.01.org/0day-ci/archive/20241=
+204/202412041522.01H5Kj6F-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241204/202412041522.01H5Kj6F-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412041522.01H5Kj6F-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    drivers/nvmem/rmem.c: In function 'rmem_eyeq5_checksum':
+>    drivers/nvmem/rmem.c:66:9: error: cleanup argument not a function
+>       66 |         void *buf __free(kfree) =3D NULL;
+>          |         ^~~~
+>    drivers/nvmem/rmem.c:97:15: error: implicit declaration of function 'k=
+malloc'; did you mean 'mm_alloc'? [-Wimplicit-function-declaration]
+>       97 |         buf =3D kmalloc(header.size, GFP_KERNEL);
+>          |               ^~~~~~~
+>          |               mm_alloc
+> >> drivers/nvmem/rmem.c:97:13: error: assignment to 'void *' from 'int' m=
+akes pointer from integer without a cast [-Wint-conversion]
+>       97 |         buf =3D kmalloc(header.size, GFP_KERNEL);
+>          |             ^
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050055.F6gaGrvq-lkp@intel.com/
+Will fix with the following.
+V2 incoming in a few days to avoid spam.
 
-All warnings (new ones prefixed by >>):
+	diff --git a/drivers/nvmem/rmem.c b/drivers/nvmem/rmem.c
+	index 04796f4fa8ae..1f0caf1d2dc1 100644
+	--- a/drivers/nvmem/rmem.c
+	+++ b/drivers/nvmem/rmem.c
+	@@ -9,6 +9,7 @@
+	 #include <linux/nvmem-provider.h>
+	 #include <linux/of_reserved_mem.h>
+	 #include <linux/platform_device.h>
+	+#include <linux/slab.h>
 
-   In file included from fs/bcachefs/inode.c:3:
-   In file included from fs/bcachefs/bcachefs.h:188:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/bcachefs/inode.c:959:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     959 |         struct bkey_s_c k;
-         |         ^
-   fs/bcachefs/inode.c:871:19: warning: unused function 'bkey_generation' [-Wunused-function]
-     871 | static inline u32 bkey_generation(struct bkey_s_c k)
-         |                   ^~~~~~~~~~~~~~~
-   3 warnings generated.
+	 struct rmem {
+	        struct device *dev;
 
+Regards,
 
-vim +959 fs/bcachefs/inode.c
+--
+Th=C3=A9o Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-   936	
-   937	/*
-   938	 * This just finds an empty slot:
-   939	 */
-   940	int bch2_inode_create(struct btree_trans *trans,
-   941			      struct btree_iter *iter,
-   942			      struct bch_inode_unpacked *inode_u,
-   943			      u32 snapshot, u64 cpu)
-   944	{
-   945		u64 min, max;
-   946		struct bkey_i_inode_alloc_cursor *cursor =
-   947			bch2_inode_alloc_cursor_get(trans, cpu, &min, &max);
-   948		int ret = PTR_ERR_OR_ZERO(cursor);
-   949		if (ret)
-   950			return ret;
-   951	
-   952		u64 start = le64_to_cpu(cursor->v.idx);
-   953		u64 pos = start;
-   954	
-   955		bch2_trans_iter_init(trans, iter, BTREE_ID_inodes, POS(0, pos),
-   956				     BTREE_ITER_all_snapshots|
-   957				     BTREE_ITER_intent);
-   958	again:
- > 959		struct bkey_s_c k;
-   960		while ((k = bch2_btree_iter_peek(iter)).k &&
-   961		       !(ret = bkey_err(k)) &&
-   962		       bkey_lt(k.k->p, POS(0, max))) {
-   963			if (pos < iter->pos.offset)
-   964				goto found_slot;
-   965	
-   966			/*
-   967			 * We don't need to iterate over keys in every snapshot once
-   968			 * we've found just one:
-   969			 */
-   970			pos = iter->pos.offset + 1;
-   971			bch2_btree_iter_set_pos(iter, POS(0, pos));
-   972		}
-   973	
-   974		if (!ret && pos < max)
-   975			goto found_slot;
-   976	
-   977		if (!ret && start == min)
-   978			ret = -BCH_ERR_ENOSPC_inode_create;
-   979	
-   980		if (ret) {
-   981			bch2_trans_iter_exit(trans, iter);
-   982			return ret;
-   983		}
-   984	
-   985		/* Retry from start */
-   986		pos = start = min;
-   987		bch2_btree_iter_set_pos(iter, POS(0, pos));
-   988		le32_add_cpu(&cursor->v.gen, 1);
-   989		goto again;
-   990	found_slot:
-   991		bch2_btree_iter_set_pos(iter, SPOS(0, pos, snapshot));
-   992		k = bch2_btree_iter_peek_slot(iter);
-   993		ret = bkey_err(k);
-   994		if (ret) {
-   995			bch2_trans_iter_exit(trans, iter);
-   996			return ret;
-   997		}
-   998	
-   999		inode_u->bi_inum	= k.k->p.offset;
-  1000		inode_u->bi_generation	= le64_to_cpu(cursor->v.gen);
-  1001		cursor->v.idx		= cpu_to_le64(k.k->p.offset + 1);
-  1002		return 0;
-  1003	}
-  1004	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
