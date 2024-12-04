@@ -1,69 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884EA18C034
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 21:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA5E18FC7B;
+	Wed,  4 Dec 2024 21:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733346088; cv=none; b=LDTQNbHgc854jqBmQLiSo/uP30O/s8hf9bcZBvlTTLKfEWCroZVi5OUMTxkfhc+rrTeqtTOvM6DQz08rhHsmH9gOV2YaLjbGAXCqVbT5mZTNTdcLDnAa0VsE0UbRHHvRA/tnLgG5EheqqDxfPuSRRDDyp3b8v50yTK2HNoACm4w=
+	t=1733346090; cv=none; b=gO4EFUFtEppyls50mLuW4HrpUqEXGsMeqBzYWj9TJM8lgwLh9oaKl4/AhY6qsOfFccUa76zYxTxLzJLcogwn5r7bYOvJkyqtH8HF7Ww0n7+GtO657p+sqwUdiakAIgFMyxeDKwKlIPuyy+dW+8BZckbeesOGcl63ockopy92hB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733346088; c=relaxed/simple;
-	bh=+B1b48erQIeQixduuLKyl6Gzmhalqkxt2Aqtmj7j3GM=;
+	s=arc-20240116; t=1733346090; c=relaxed/simple;
+	bh=YYisex5fANxvp1J7FXSt2wFTYyLxl4fy8A9aDQDg1FQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9Xo2CkEXdYygCmbMjmOesq34AG1eHT7MxhIjJxqkl49IyXuFvcmwNjmsuBFA71JAZQLiDc7gmXAUAGjSkNH/ShvDJsSaoVAFSV9OrBkRaseHXfL31T910yLhoNA4FF4aOOwgTO73UcaFVl1XDBCHSDkwuI4PLGoTmHP5qrwXH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TLC5gjIT; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zu82s5yC9IJ4wbIiA2rutz9yBXwyKRA0tKLcUL/dzP7oiYiouVF5BJIdE7g4e6VWKmE/m9VOP45xXIkGGEURBhHnz1PG0oF6xBJoDr26HeW+fAR7H3q5Bu14Yncljti44F75F3h/HunQh/bRzT5RgDRJYmq8+rJfrgfvf1IORnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCFt4JeZ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TLC5gjIT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCFt4JeZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733346087; x=1764882087;
+  t=1733346089; x=1764882089;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+B1b48erQIeQixduuLKyl6Gzmhalqkxt2Aqtmj7j3GM=;
-  b=TLC5gjITF5/nWmXCWgEBjkjdvsGE2TtCmsLHtPjMBjNYQlJq1n9I8qzy
-   FHxHcgEJZaY2xQJ2E/aU0VzbsTG61u7eR7TEwQx1jXgM18wjtIVAO6Wlw
-   F0RFKbwawm3cL88ltywisbLtvBw5Pn8WowmOsR3YfxDh/LtMa0NotcMZU
-   6focaZWrs77K+/tIsL2lCf1IFjd/q4EydF8DU9SlEvjmNRrnJwAhFucnS
-   emRodfJSEPW7Gjxz1+Df04pDzxzIw7/izvFz1PO8P0cB/WYxXWFs+DYgy
-   cX68FhkToFjovRfAoPun+40uyqxNh/DxUMWqvVo8ppYdmm36pwUb6BBPl
-   w==;
-X-CSE-ConnectionGUID: 3KYB01W4RhCmEUuRKOI27w==
-X-CSE-MsgGUID: pZinqI9WSJGY1JS7wIrevQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33376967"
+  bh=YYisex5fANxvp1J7FXSt2wFTYyLxl4fy8A9aDQDg1FQ=;
+  b=QCFt4JeZ6/2Q4MJssAH8pIyjXoo529CBj5IMfn4dFtPV4FCVuFETu3BQ
+   1rKjz5CL9+/53KYqftcqQ/xHRiZdiZA55vWsI5zmQN2tqUol1KB5crSMm
+   fpis/UZMw6JWRHrv2n6mSIquLEnojoYcLrgjgk0IBwp8k1U70vRMzeA6e
+   6INSZE/+npoqKXd1ciSDywFdVkW2A4unz/qnin3MoQdUdoOf1zt9JsBxw
+   kEb/djk8+FWY+9j1z/DT/auLLRiHt4V95VucIM/hivx/qhLdN1s2vvgYg
+   aKVYGS42vQmkbaHpPXjably/ExAiuLMQUraXRA7AXFTvphBlUM/9F/Enk
+   g==;
+X-CSE-ConnectionGUID: ESJa+yBeRSGfNjX2TE8Kvg==
+X-CSE-MsgGUID: 0XBtZlfkSx6ammeG6kSEaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33376976"
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="33376967"
+   d="scan'208";a="33376976"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 13:01:25 -0800
-X-CSE-ConnectionGUID: nWMhahjzT6unCm7yL0vWZw==
-X-CSE-MsgGUID: rdAyQyECS1GnVqSYeIN72A==
+X-CSE-ConnectionGUID: QWS2hJyNQWOxHgI42sEvdA==
+X-CSE-MsgGUID: 21i45RZzRYqLQ7OlhLyg3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="97937244"
+   d="scan'208";a="97937245"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
   by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2024 13:01:21 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIwUo-0003UF-2o;
+	id 1tIwUo-0003UD-2j;
 	Wed, 04 Dec 2024 21:01:18 +0000
-Date: Thu, 5 Dec 2024 05:00:57 +0800
+Date: Thu, 5 Dec 2024 05:00:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <dev@lankhorst.se>, linux-kernel@vger.kernel.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Friedrich Vock <friedrich.vock@gmx.de>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	cgroups@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting
- cgroup
-Message-ID: <202412050415.jf4sa0gH-lkp@intel.com>
-References: <20241204143112.1250983-1-dev@lankhorst.se>
+To: Tariq Toukan <tariqt@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
+	Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+	linux-rdma@vger.kernel.org, Carolina Jubran <cjubran@nvidia.com>,
+	Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>
+Subject: Re: [PATCH net-next V4 07/11] devlink: Extend devlink rate API with
+ traffic classes bandwidth management
+Message-ID: <202412050416.e7egEz4f-lkp@intel.com>
+References: <20241203202924.228440-8-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,117 +72,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204143112.1250983-1-dev@lankhorst.se>
+In-Reply-To: <20241203202924.228440-8-tariqt@nvidia.com>
 
-Hi Maarten,
+Hi Tariq,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tj-cgroup/for-next]
-[also build test WARNING on akpm-mm/mm-everything linus/master v6.13-rc1 next-20241204]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/kernel-cgroup-Add-dmem-memory-accounting-cgroup/20241204-233207
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20241204143112.1250983-1-dev%40lankhorst.se
-patch subject: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting cgroup
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241205/202412050415.jf4sa0gH-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050415.jf4sa0gH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-ifc-Reorganize-mlx5_ifc_flow_table_context_bits/20241204-124235
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241203202924.228440-8-tariqt%40nvidia.com
+patch subject: [PATCH net-next V4 07/11] devlink: Extend devlink rate API with traffic classes bandwidth management
+config: x86_64-buildonly-randconfig-001-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050416.e7egEz4f-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050416.e7egEz4f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050415.jf4sa0gH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050416.e7egEz4f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/cgroup/dmem.c: In function 'dmem_cgroup_state_evict_valuable':
->> kernel/cgroup/dmem.c:302:30: warning: variable 'climit' set but not used [-Wunused-but-set-variable]
-     302 |         struct page_counter *climit, *ctest;
-         |                              ^~~~~~
---
->> kernel/cgroup/dmem.c:300: warning: Excess function parameter 'dev' description in 'dmem_cgroup_state_evict_valuable'
->> kernel/cgroup/dmem.c:300: warning: Excess function parameter 'index' description in 'dmem_cgroup_state_evict_valuable'
->> kernel/cgroup/dmem.c:635: warning: Function parameter or struct member 'region' not described in 'dmem_cgroup_try_charge'
->> kernel/cgroup/dmem.c:635: warning: Excess function parameter 'dev' description in 'dmem_cgroup_try_charge'
+   In file included from net/devlink/rate.c:7:
+   In file included from net/devlink/devl_internal.h:7:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from net/devlink/rate.c:7:
+   net/devlink/devl_internal.h:29:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+      29 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:26:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      26 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:30:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+      30 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:26:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      26 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/devlink/rate.c:403:4: warning: 'snprintf' will always be truncated; specified size is 80, but format string expands to at least 83 [-Wformat-truncation]
+     403 |                         NL_SET_ERR_MSG_FMT(info->extack,
+         |                         ^
+   include/linux/netlink.h:116:6: note: expanded from macro 'NL_SET_ERR_MSG_FMT'
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^
+   7 warnings generated.
 
 
-vim +/climit +302 kernel/cgroup/dmem.c
+vim +/snprintf +403 net/devlink/rate.c
 
-   280	
-   281	/**
-   282	 * dmem_cgroup_state_evict_valuable() - Check if we should evict from test_pool
-   283	 * @dev: &dmem_cgroup_region
-   284	 * @index: The index number of the region being tested.
-   285	 * @limit_pool: The pool for which we hit limits
-   286	 * @test_pool: The pool for which to test
-   287	 * @ignore_low: Whether we have to respect low watermarks.
-   288	 * @ret_hit_low: Pointer to whether it makes sense to consider low watermark.
-   289	 *
-   290	 * This function returns true if we can evict from @test_pool, false if not.
-   291	 * When returning false and @ignore_low is false, @ret_hit_low may
-   292	 * be set to true to indicate this function can be retried with @ignore_low
-   293	 * set to true.
-   294	 *
-   295	 * Return: bool
-   296	 */
-   297	bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *limit_pool,
-   298					      struct dmem_cgroup_pool_state *test_pool,
-   299					      bool ignore_low, bool *ret_hit_low)
- > 300	{
-   301		struct dmem_cgroup_pool_state *pool = test_pool;
- > 302		struct page_counter *climit, *ctest;
-   303		u64 used, min, low;
-   304	
-   305		/* Can always evict from current pool, despite limits */
-   306		if (limit_pool == test_pool)
-   307			return true;
-   308	
-   309		if (limit_pool) {
-   310			if (!parent_dmemcs(limit_pool->cs))
-   311				return true;
-   312	
-   313			for (pool = test_pool; pool && limit_pool != pool; pool = pool_parent(pool))
-   314				{}
-   315	
-   316			if (!pool)
-   317				return false;
-   318		} else {
-   319			/*
-   320			 * If there is no cgroup limiting memory usage, use the root
-   321			 * cgroup instead for limit calculations.
-   322			 */
-   323			for (limit_pool = test_pool; pool_parent(limit_pool); limit_pool = pool_parent(limit_pool))
-   324				{}
-   325		}
-   326	
-   327		climit = &limit_pool->cnt;
-   328		ctest = &test_pool->cnt;
-   329	
-   330		dmem_cgroup_calculate_protection(limit_pool, test_pool);
-   331	
-   332		used = page_counter_read(ctest);
-   333		min = READ_ONCE(ctest->emin);
-   334	
-   335		if (used <= min)
-   336			return false;
-   337	
-   338		if (!ignore_low) {
-   339			low = READ_ONCE(ctest->elow);
-   340			if (used > low)
-   341				return true;
-   342	
-   343			*ret_hit_low = true;
-   344			return false;
-   345		}
-   346		return true;
-   347	}
-   348	EXPORT_SYMBOL_GPL(dmem_cgroup_state_evict_valuable);
-   349	
+   381	
+   382	static int devlink_nl_rate_tc_bw_set(struct devlink_rate *devlink_rate,
+   383					     struct genl_info *info)
+   384	{
+   385		DECLARE_BITMAP(bitmap, IEEE_8021QAZ_MAX_TCS) = {};
+   386		struct devlink *devlink = devlink_rate->devlink;
+   387		const struct devlink_ops *ops = devlink->ops;
+   388		u32 tc_bw[IEEE_8021QAZ_MAX_TCS] = {};
+   389		int rem, err = -EOPNOTSUPP, i;
+   390		struct nlattr *attr;
+   391	
+   392		nla_for_each_attr(attr, genlmsg_data(info->genlhdr),
+   393				  genlmsg_len(info->genlhdr), rem) {
+   394			if (nla_type(attr) == DEVLINK_ATTR_RATE_TC_BWS) {
+   395				err = devlink_nl_rate_tc_bw_parse(attr, tc_bw, bitmap, info->extack);
+   396				if (err)
+   397					return err;
+   398			}
+   399		}
+   400	
+   401		for (i = 0; i < IEEE_8021QAZ_MAX_TCS; i++) {
+   402			if (!test_bit(i, bitmap)) {
+ > 403				NL_SET_ERR_MSG_FMT(info->extack,
+   404						   "Incomplete traffic class bandwidth values, all %u traffic classes must be specified",
+   405						   IEEE_8021QAZ_MAX_TCS);
+   406				return -EINVAL;
+   407			}
+   408		}
+   409	
+   410		if (devlink_rate_is_leaf(devlink_rate))
+   411			err = ops->rate_leaf_tc_bw_set(devlink_rate, devlink_rate->priv, tc_bw,
+   412						       info->extack);
+   413		else if (devlink_rate_is_node(devlink_rate))
+   414			err = ops->rate_node_tc_bw_set(devlink_rate, devlink_rate->priv, tc_bw,
+   415						       info->extack);
+   416	
+   417		if (err)
+   418			return err;
+   419	
+   420		memcpy(devlink_rate->tc_bw, tc_bw, sizeof(tc_bw));
+   421	
+   422		return 0;
+   423	}
+   424	
 
 -- 
 0-DAY CI Kernel Test Service
