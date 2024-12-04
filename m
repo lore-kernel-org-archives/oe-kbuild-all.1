@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963AA1CEADF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEF21F6684
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:03:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733321040; cv=none; b=i9QXaf3Bde09eizmMyCN6XCTEYsHMbFMlHUxTCn0nN+FVzZoHvWkj6WKke3MJdnTnWNlxhGn7PrWbqKUjnSRBEPJvEx24tlwEdETOt8AKYpVU3ZNw9MYCn9LSZc8PCspekIb95zZgXEVtBTuzcoe8uPJuZ+v3bIzq1AJ6LUL5XA=
+	t=1733321041; cv=none; b=k8xNSXFu5B9U7UZ81cirTvmOmMW8gS376nVSKYreHF8MIQrB+LUy5/ZAX2UavT6bDch7Rz5//YFDi+l2/+MwxpjSwYBCe4fEruGiI7WornivlAgldZgWZIaWvk83BV5c2yRE/8Zk8XJzuxb3/05PUA7hPVkffwKYnBoRgz0sSB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733321040; c=relaxed/simple;
-	bh=81gpKJadFSvTKvMx7otkmqU74yODTXZmBugbQWFc5wE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oKtrFdN6cq+QWVPA9ghXufq7Xpsfw+nkRcIPRH00JVF3sFUY9wSpYmbyhwXOIq4cUQid6pjPLpDuqPm16mApFywFqCXsm4KmADb98QCJSXtcOwT6159lOHfP2NVO1DPlQ7IqiM9jl+fEttTFfYt6tWTL+w02KLCR/Xhya3w6oQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4idMuyr; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1733321041; c=relaxed/simple;
+	bh=MhiQkr0HjTqtkm+UreCdHu8O4JeAK81l4RKQDElTZM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r2wEHw+G0XHjrEbJIztIGNSpew90lU9qOsRg95XmSmrp3wl9GdNNAZmIPgB7ChYg22ucWJImW1IrgHZlUKX+a81WXLBHM93++gRqJ50o/FE2PZ9/grix+izm439d9jqhn/zLrSFtBgcj43BFTlWFQ4ou9X5CX9A2w7VKAa2FFbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jS83zOJb; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4idMuyr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS83zOJb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733321038; x=1764857038;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=81gpKJadFSvTKvMx7otkmqU74yODTXZmBugbQWFc5wE=;
-  b=U4idMuyrajyPqVkf90uCteRQRYCFPNpQS5w78o1rowntALjN6kwWQFf2
-   nSfVTby/GYVjKhX/Nk7peVoN1GoIYfR/tM9udSnPZQJjaP3wlpn6vGtI5
-   SGPkQHAulLimeQi37WalZpDQ2mvv+nT1ES6AWYb6x+9F936+m0y86ULGP
-   DI5AQ8ih6qT4kwX3wmH2axc1At0ij6i+4JjlpkZW0byvzFsc1N6eceC03
-   kAEzdh5TpWRTVsxqyMvDfbLB/3E7bAIEL2wQRqOj3GJ4tOroEZNWSjWi8
-   izxhoIKDKXbzoSm8C22Qazxx99Dndf2dG0VzvG9AYQFRNWfxBdtfm9DB1
-   g==;
-X-CSE-ConnectionGUID: Pgxh8KNZQPWl99gzead7vA==
-X-CSE-MsgGUID: r7cpYsPWSwqZSOIwk5wQEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44617543"
+  t=1733321039; x=1764857039;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MhiQkr0HjTqtkm+UreCdHu8O4JeAK81l4RKQDElTZM8=;
+  b=jS83zOJbK+n14z7lMZAWEZWCL8bBs98WPZKHL6askaXZzcMSPX5XsqDq
+   oAftzXa1Nv0RcSpUc05XgQV5axbiGaiOcrIJDgg1vemoR3gvPCBx5/OrE
+   qKxcVduACae8746X3bV0D9ZeddaNHRXBW1TQe0dAWV+GR04pk3R2LvvlR
+   gN8B0LvFGqtbP4zYlLI+FiSe+PRC3cu+58ejtBJZ58HDYnJa+rCTpJwr/
+   3hL81RJFV6IZWqdc+5BUZqz6W3mrDIGCYPDFOzaXWE0BNUvXGnGcEwvNV
+   Tr1bFHSklGGiMcSyI4G/KCqHPm/dX9d5JeXvhjl7vL0+wfPS1NBU/ckox
+   w==;
+X-CSE-ConnectionGUID: WnW62ePbSxqd6MEPmk3EKg==
+X-CSE-MsgGUID: FGVzGMJFQCGjjdUJ6IKq7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44617545"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44617543"
+   d="scan'208";a="44617545"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:03:58 -0800
-X-CSE-ConnectionGUID: kfkFvelOQ2SbGPFjpmJwiA==
-X-CSE-MsgGUID: 9BUe2tI6T9CsJLjgwyH1nQ==
+X-CSE-ConnectionGUID: R4i/M82mQBK+dDcehN2TYw==
+X-CSE-MsgGUID: hPx3zU8uQlqMYwuSBg5mvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94600324"
+   d="scan'208";a="94600325"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
   by orviesa008.jf.intel.com with ESMTP; 04 Dec 2024 06:03:57 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIpys-00035F-2E;
+	id 1tIpys-00035H-2J;
 	Wed, 04 Dec 2024 14:03:54 +0000
-Date: Wed, 4 Dec 2024 22:03:36 +0800
+Date: Wed, 4 Dec 2024 22:03:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 1/2] mm: vmascan: add find_folios_written_back()
- helper
-Message-ID: <202412042108.Mu208bDJ-lkp@intel.com>
-References: <20241204040158.2768519-2-chenridong@huaweicloud.com>
+To: "Alex Maftei (amaftei)" <amaftei@solarflare.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/sfc/ethtool_common.c:170:32: warning: '%-24s'
+ directive output may be truncated writing between 24 and 31 bytes into a
+ region of size between 0 and 25
+Message-ID: <202412042129.kPNOwHP4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +62,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204040158.2768519-2-chenridong@huaweicloud.com>
 
-Hi Chen,
+Hi Alex,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/mm-vmascan-add-find_folios_written_back-helper/20241204-123817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241204040158.2768519-2-chenridong%40huaweicloud.com
-patch subject: [RFC PATCH v3 1/2] mm: vmascan: add find_folios_written_back() helper
-config: i386-buildonly-randconfig-004 (https://download.01.org/0day-ci/archive/20241204/202412042108.Mu208bDJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042108.Mu208bDJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   feffde684ac29a3b7aec82d2df850fbdbdee55e4
+commit: 3653954da498fc80c5da3642ae3f8d8168d7f820 sfc: move some ethtool code
+date:   4 years, 11 months ago
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241204/202412042129.kPNOwHP4-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042129.kPNOwHP4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412042108.Mu208bDJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412042129.kPNOwHP4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/thread_info.h:27,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/vmscan.c:15:
-   mm/vmscan.c: In function 'find_folios_written_back':
->> mm/vmscan.c:318:78: error: 'LRU_REFS_FLAGS' undeclared (first use in this function); did you mean 'LRU_REFS_MASK'?
-     318 |                                 set_mask_bits(&folio->flags, LRU_REFS_MASK | LRU_REFS_FLAGS,
-         |                                                                              ^~~~~~~~~~~~~~
-   include/linux/bitops.h:330:40: note: in definition of macro 'set_mask_bits'
-     330 |         const typeof(*(ptr)) mask__ = (mask), bits__ = (bits);  \
-         |                                        ^~~~
-   mm/vmscan.c:318:78: note: each undeclared identifier is reported only once for each function it appears in
-     318 |                                 set_mask_bits(&folio->flags, LRU_REFS_MASK | LRU_REFS_FLAGS,
-         |                                                                              ^~~~~~~~~~~~~~
-   include/linux/bitops.h:330:40: note: in definition of macro 'set_mask_bits'
-     330 |         const typeof(*(ptr)) mask__ = (mask), bits__ = (bits);  \
-         |                                        ^~~~
+   drivers/net/ethernet/sfc/ethtool_common.c:150:6: warning: no previous prototype for 'efx_fill_test' [-Wmissing-prototypes]
+     150 | void efx_fill_test(unsigned int test_index, u8 *strings, u64 *data,
+         |      ^~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/ethtool_common.c:192:5: warning: no previous prototype for 'efx_fill_loopback_test' [-Wmissing-prototypes]
+     192 | int efx_fill_loopback_test(struct efx_nic *efx,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/ethtool_common.c:296:8: warning: no previous prototype for 'efx_describe_per_queue_stats' [-Wmissing-prototypes]
+     296 | size_t efx_describe_per_queue_stats(struct efx_nic *efx, u8 *strings)
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/ethtool_common.c: In function 'efx_fill_test':
+>> drivers/net/ethernet/sfc/ethtool_common.c:170:32: warning: '%-24s' directive output may be truncated writing between 24 and 31 bytes into a region of size between 0 and 25 [-Wformat-truncation=]
+     170 |                          "%-6s %-24s", unit_str, test_str);
+         |                                ^~~~~             ~~~~~~~~
+   drivers/net/ethernet/sfc/ethtool_common.c:168:17: note: 'snprintf' output between 32 and 64 bytes into a destination of size 32
+     168 |                 snprintf(strings + test_index * ETH_GSTRING_LEN,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     169 |                          ETH_GSTRING_LEN,
+         |                          ~~~~~~~~~~~~~~~~
+     170 |                          "%-6s %-24s", unit_str, test_str);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +318 mm/vmscan.c
+vim +170 drivers/net/ethernet/sfc/ethtool_common.c
 
-   285	
-   286	/**
-   287	 * find_folios_written_back - Find and move the written back folios to a new list.
-   288	 * @list: filios list
-   289	 * @clean: the written back folios list
-   290	 * @skip: whether skip to move the written back folios to clean list.
-   291	 */
-   292	static inline void find_folios_written_back(struct list_head *list,
-   293			struct list_head *clean, bool skip)
-   294	{
-   295		struct folio *folio;
-   296		struct folio *next;
-   297	
-   298		list_for_each_entry_safe_reverse(folio, next, list, lru) {
-   299			if (!folio_evictable(folio)) {
-   300				list_del(&folio->lru);
-   301				folio_putback_lru(folio);
-   302				continue;
-   303			}
-   304	
-   305			if (folio_test_reclaim(folio) &&
-   306			    (folio_test_dirty(folio) || folio_test_writeback(folio))) {
-   307				/* restore LRU_REFS_FLAGS cleared by isolate_folio() */
-   308				if (lru_gen_enabled() && folio_test_workingset(folio))
-   309					folio_set_referenced(folio);
-   310				continue;
-   311			}
-   312	
-   313			if (skip || folio_test_active(folio) || folio_test_referenced(folio) ||
-   314			    folio_mapped(folio) || folio_test_locked(folio) ||
-   315			    folio_test_dirty(folio) || folio_test_writeback(folio)) {
-   316				/* don't add rejected folios to the oldest generation */
-   317				if (lru_gen_enabled())
- > 318					set_mask_bits(&folio->flags, LRU_REFS_MASK | LRU_REFS_FLAGS,
-   319						      BIT(PG_active));
-   320				continue;
-   321			}
-   322	
-   323			/* retry folios that may have missed folio_rotate_reclaimable() */
-   324			list_move(&folio->lru, clean);
-   325		}
-   326	}
-   327	
+   136	
+   137	/**
+   138	 * efx_fill_test - fill in an individual self-test entry
+   139	 * @test_index:		Index of the test
+   140	 * @strings:		Ethtool strings, or %NULL
+   141	 * @data:		Ethtool test results, or %NULL
+   142	 * @test:		Pointer to test result (used only if data != %NULL)
+   143	 * @unit_format:	Unit name format (e.g. "chan\%d")
+   144	 * @unit_id:		Unit id (e.g. 0 for "chan0")
+   145	 * @test_format:	Test name format (e.g. "loopback.\%s.tx.sent")
+   146	 * @test_id:		Test id (e.g. "PHYXS" for "loopback.PHYXS.tx_sent")
+   147	 *
+   148	 * Fill in an individual self-test entry.
+   149	 */
+   150	void efx_fill_test(unsigned int test_index, u8 *strings, u64 *data,
+   151			   int *test, const char *unit_format, int unit_id,
+   152			   const char *test_format, const char *test_id)
+   153	{
+   154		char unit_str[ETH_GSTRING_LEN], test_str[ETH_GSTRING_LEN];
+   155	
+   156		/* Fill data value, if applicable */
+   157		if (data)
+   158			data[test_index] = *test;
+   159	
+   160		/* Fill string, if applicable */
+   161		if (strings) {
+   162			if (strchr(unit_format, '%'))
+   163				snprintf(unit_str, sizeof(unit_str),
+   164					 unit_format, unit_id);
+   165			else
+   166				strcpy(unit_str, unit_format);
+   167			snprintf(test_str, sizeof(test_str), test_format, test_id);
+   168			snprintf(strings + test_index * ETH_GSTRING_LEN,
+   169				 ETH_GSTRING_LEN,
+ > 170				 "%-6s %-24s", unit_str, test_str);
+   171		}
+   172	}
+   173	
+   174	#define EFX_CHANNEL_NAME(_channel) "chan%d", _channel->channel
+   175	#define EFX_TX_QUEUE_NAME(_tx_queue) "txq%d", _tx_queue->queue
+   176	#define EFX_RX_QUEUE_NAME(_rx_queue) "rxq%d", _rx_queue->queue
+   177	#define EFX_LOOPBACK_NAME(_mode, _counter)			\
+   178		"loopback.%s." _counter, STRING_TABLE_LOOKUP(_mode, efx_loopback_mode)
+   179	
+   180	/**
+   181	 * efx_fill_loopback_test - fill in a block of loopback self-test entries
+   182	 * @efx:		Efx NIC
+   183	 * @lb_tests:		Efx loopback self-test results structure
+   184	 * @mode:		Loopback test mode
+   185	 * @test_index:		Starting index of the test
+   186	 * @strings:		Ethtool strings, or %NULL
+   187	 * @data:		Ethtool test results, or %NULL
+   188	 *
+   189	 * Fill in a block of loopback self-test entries.  Return new test
+   190	 * index.
+   191	 */
+ > 192	int efx_fill_loopback_test(struct efx_nic *efx,
+   193				   struct efx_loopback_self_tests *lb_tests,
+   194				   enum efx_loopback_mode mode,
+   195				   unsigned int test_index, u8 *strings, u64 *data)
+   196	{
+   197		struct efx_channel *channel =
+   198			efx_get_channel(efx, efx->tx_channel_offset);
+   199		struct efx_tx_queue *tx_queue;
+   200	
+   201		efx_for_each_channel_tx_queue(tx_queue, channel) {
+   202			efx_fill_test(test_index++, strings, data,
+   203				      &lb_tests->tx_sent[tx_queue->queue],
+   204				      EFX_TX_QUEUE_NAME(tx_queue),
+   205				      EFX_LOOPBACK_NAME(mode, "tx_sent"));
+   206			efx_fill_test(test_index++, strings, data,
+   207				      &lb_tests->tx_done[tx_queue->queue],
+   208				      EFX_TX_QUEUE_NAME(tx_queue),
+   209				      EFX_LOOPBACK_NAME(mode, "tx_done"));
+   210		}
+   211		efx_fill_test(test_index++, strings, data,
+   212			      &lb_tests->rx_good,
+   213			      "rx", 0,
+   214			      EFX_LOOPBACK_NAME(mode, "rx_good"));
+   215		efx_fill_test(test_index++, strings, data,
+   216			      &lb_tests->rx_bad,
+   217			      "rx", 0,
+   218			      EFX_LOOPBACK_NAME(mode, "rx_bad"));
+   219	
+   220		return test_index;
+   221	}
+   222	
 
 -- 
 0-DAY CI Kernel Test Service
