@@ -1,140 +1,292 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 993EB646;
-	Tue,  3 Dec 2024 15:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C2317548;
+	Wed,  4 Dec 2024 02:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733239850; cv=none; b=jv8KDvtDb+dGpJqezPPEZUNJ5ijr2LftDuGzrZOgdyQ2bv+B6h1LRMYrS1LgXRIVji2OKnWOhaECPGcTmcwdyMgM1mqxvs8lsKyH7xRC8+Dk1wcFHDglfKgycZPWoHIbKxVruSNLH3FD3hpXSB1BfrlhRR1vnXIKULsTkPiIbQg=
+	t=1733278708; cv=none; b=VZgSvVjK0Tg6Gd30UUsDB1xTYMdZRd316db9QRoC5jGOtAqSqIKy61gw19mcJxUrUe17fGkrVeFgNZBhREq0/BCqcoNkVjJlu4SaGQodHGeWocT2zsQr6J5tLjNRNwlXi+e95qaL2j4dXdyx95N+o11T7fJ4fkcl0mFceWjBKKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733239850; c=relaxed/simple;
-	bh=sWHs7nX7SOc89lcoKsFsoe9Ki9Vx7/l7ucI/NQ4jw1Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iYTlwxjbTpniZbcnS4IU1aXKhbG3zmQ+IGvtKsmniB4YtouUxRvm0Xl7Fk2cGMO0LPF+6yUt6pVGG2zwBD6vvUxM4hvoe2duRf96ZmKfc7w8cX7+odEuXDVZDtxwY+9ftKUSWOoFCFP6WOjIm/U2r1BZIMN9D7HMvufs69JWfGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB204FEC;
-	Tue,  3 Dec 2024 07:31:15 -0800 (PST)
-Received: from [192.168.20.16] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26B2B3F71E;
-	Tue,  3 Dec 2024 07:30:44 -0800 (PST)
-Message-ID: <a64a21cc-6d10-4e8f-9ab9-87aca44ca858@arm.com>
-Date: Tue, 3 Dec 2024 09:30:43 -0600
+	s=arc-20240116; t=1733278708; c=relaxed/simple;
+	bh=bFSkPvAGT8/0F2pNgQAhnq8VRL9QDGPkIM+iUn6ALLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AMIg453bT3EEjiV0FkUa5KakxwgIvAzSkXrBNv4fv2NoMO37G5ergSPdC626J6k3TU9ku0+Y3GkGLARgtgqNDa8pWfnr4GeQR2zgmyiCfhWvjxfEdyKBvy3Xk69poq0+dYdAPsoS6pAowjS27FBo2JkX7HUfXT23/MjInZmwtkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGszsfQD; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGszsfQD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733278706; x=1764814706;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bFSkPvAGT8/0F2pNgQAhnq8VRL9QDGPkIM+iUn6ALLM=;
+  b=jGszsfQDNVA8Mk6PRlwTXe0MWDU6S1mAYPk1FJCbfPtdya6ug/ulzRKs
+   xaoR6U41mSQOGIu6hB1foSczBn7zS/Mod+8q9AdFIJjubYC7ziffBtacy
+   q/bUG/O+IaWHFc9O9FyoW3jiYACB7aAoOmgOfbF0Nsm66+AYkNIejoe+3
+   0R/id6aajlFBDFwggQSCUmWfPaOIWdhzb8yMlaXMSS3Pg17IUY6lqc60l
+   UUPYwB2TkYi25dx2/4iE/h899oUpdAxUfw7OwVKohkVIB6KYdRvxwo0A9
+   GmNGQJ5POaz869BwUA5nLOZ3HEOFadfw/rPYZaFE/U9r3bgv29t29/ud8
+   Q==;
+X-CSE-ConnectionGUID: ra4++763QRapzW5za3WeWQ==
+X-CSE-MsgGUID: HaY0YFXyTZejn1uTMsb/8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="33271948"
+X-IronPort-AV: E=Sophos;i="6.12,206,1728975600"; 
+   d="scan'208";a="33271948"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 18:18:25 -0800
+X-CSE-ConnectionGUID: jtf31CIwSVWX97RYKrpD4g==
+X-CSE-MsgGUID: GA8URj/0S9qXXcrW/xO29w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="98633958"
+Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 03 Dec 2024 18:18:23 -0800
+Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tIey0-0000Sr-2J;
+	Wed, 04 Dec 2024 02:18:17 +0000
+Date: Wed, 4 Dec 2024 10:18:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux@roeck-us.net,
+	Dave Penkler <dpenkler@gmail.com>
+Subject: Re: [PATCH v3] staging: gpib: Fix i386 build issue
+Message-ID: <202412040912.hxTuXBak-lkp@intel.com>
+References: <20241203084116.2228-1-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] arm64: rsi: Add automatic arm-cca-guest module
- loading
-To: Gavin Shan <gshan@redhat.com>, kernel test robot <lkp@intel.com>,
- linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- steven.price@arm.com, sami.mujawar@arm.com, suzuki.poulose@arm.com,
- will@kernel.org, catalin.marinas@arm.com, linux-kernel@vger.kernel.org
-References: <20241203000156.72451-2-jeremy.linton@arm.com>
- <202412031348.bp5i3ws2-lkp@intel.com>
- <b1923d68-726a-4864-8661-54588a634d95@redhat.com>
-Content-Language: en-US
-From: Jeremy Linton <jeremy.linton@arm.com>
-In-Reply-To: <b1923d68-726a-4864-8661-54588a634d95@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203084116.2228-1-dpenkler@gmail.com>
 
-On 12/3/24 2:56 AM, Gavin Shan wrote:
-> 
-> 
-> On 12/3/24 4:03 PM, kernel test robot wrote:
->> Hi Jeremy,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on arm64/for-next/core]
->> [also build test WARNING on linus/master v6.13-rc1 next-20241128]
->> [cannot apply to kvmarm/next soc/for-next arm/for-next arm/fixes]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Linton/ 
->> arm64-rsi-Add-automatic-arm-cca-guest-module-loading/20241203-080347
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/ 
->> linux.git for-next/core
->> patch link:    https://lore.kernel.org/r/20241203000156.72451-2- 
->> jeremy.linton%40arm.com
->> patch subject: [PATCH v2 1/1] arm64: rsi: Add automatic arm-cca-guest 
->> module loading
->> config: arm64-randconfig-004-20241203 (https://download.01.org/0day- 
->> ci/archive/20241203/202412031348.bp5i3ws2-lkp@intel.com/config)
->> compiler: clang version 20.0.0git (https://github.com/llvm/llvm- 
->> project 592c0fe55f6d9a811028b5f3507be91458ab2713)
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/ 
->> archive/20241203/202412031348.bp5i3ws2-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new 
->> version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202412031348.bp5i3ws2- 
->> lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> drivers/virt/coco/arm-cca-guest/arm-cca-guest.c:224:21: warning: 
->>>> attribute declaration must precede definition [-Wignored-attributes]
->>       224 | static const struct __maybe_unused platform_device_id 
->> arm_cca_match[] = {
->>           |                     ^
->>     include/linux/compiler_attributes.h:356:56: note: expanded from 
->> macro '__maybe_unused'
->>       356 | #define __maybe_unused                  
->> __attribute__((__unused__))
->>           |                                                        ^
->>     include/linux/mod_devicetable.h:607:8: note: previous definition 
->> is here
->>       607 | struct platform_device_id {
->>           |        ^
->>>> drivers/virt/coco/arm-cca-guest/arm-cca-guest.c:224:55: warning: 
->>>> unused variable 'arm_cca_match' [-Wunused-const-variable]
->>       224 | static const struct __maybe_unused platform_device_id 
->> arm_cca_match[] = {
->>           |                                                       
->> ^~~~~~~~~~~~~
->>     2 warnings generated.
->>
->>
->> vim +224 drivers/virt/coco/arm-cca-guest/arm-cca-guest.c
->>
->>     222
->>     223    /* modalias, so userspace can autoload this module when RSI 
->> is available */
->>   > 224    static const struct __maybe_unused platform_device_id 
->> arm_cca_match[] = {
->>     225        { RSI_PDEV_NAME, 0},
->>     226        { }
->>     227    };
->>     228
->>
-> 
-> The definition may have to be something like below, to avoid the 
-> compiling warning.
-> 
-> static const struct platform_device_id __maybe_unused arm_cca_match[] = {
+Hi Dave,
 
-I should have tested this with clang rather than copy/pasting the 
-utilization from somewhere else! It looks like a number of other kernel 
-users are putting it before the '=', but its sorta annoying because it 
-seems like the kind of warning that should be suppressed globally for 
-this case (module device description in module that can be built in).
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on staging/staging-testing]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Penkler/staging-gpib-Fix-i386-build-issue/20241203-164356
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20241203084116.2228-1-dpenkler%40gmail.com
+patch subject: [PATCH v3] staging: gpib: Fix i386 build issue
+config: i386-randconfig-063-20241203 (https://download.01.org/0day-ci/archive/20241204/202412040912.hxTuXBak-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412040912.hxTuXBak-lkp@intel.com/reproduce)
 
->         ...
-> };
-> 
-> Thanks,
-> Gavin
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412040912.hxTuXBak-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/gpib/cb7210/cb7210.c:738:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:739:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:743:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:744:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:745:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:746:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:747:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:748:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:749:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:750:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:751:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:752:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:753:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:754:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:755:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:756:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:757:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:758:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:759:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:760:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:761:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:762:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:763:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:764:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:765:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:766:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:770:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:771:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:772:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:773:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:774:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:775:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:776:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:777:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:778:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:779:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:780:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:781:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:782:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:783:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:784:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:785:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:786:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:787:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:788:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:789:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:790:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:791:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:792:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:793:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:794:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:798:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:799:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:800:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:801:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:802:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:803:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:804:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:805:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:806:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:807:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:808:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:809:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:810:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:811:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:812:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:813:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:814:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:815:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:816:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:817:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:818:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:819:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:820:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:821:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:825:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:826:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:827:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:828:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:829:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:830:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:831:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:832:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:833:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:834:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:835:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:836:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:837:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:838:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:839:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:840:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:841:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:842:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:843:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:844:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:845:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:846:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:847:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:848:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+   drivers/staging/gpib/cb7210/cb7210.c:849:1: sparse: sparse: obsolete struct initializer, use C99 syntax
+>> drivers/staging/gpib/cb7210/cb7210.c:974:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *iobase @@     got void [noderef] __iomem * @@
+   drivers/staging/gpib/cb7210/cb7210.c:974:34: sparse:     expected void *iobase
+   drivers/staging/gpib/cb7210/cb7210.c:974:34: sparse:     got void [noderef] __iomem *
+   drivers/staging/gpib/cb7210/cb7210.c:979:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *iobase @@     got void [noderef] __iomem * @@
+   drivers/staging/gpib/cb7210/cb7210.c:979:34: sparse:     expected void *iobase
+   drivers/staging/gpib/cb7210/cb7210.c:979:34: sparse:     got void [noderef] __iomem *
+   drivers/staging/gpib/cb7210/cb7210.c:1045:87: sparse: sparse: Using plain integer as NULL pointer
+   drivers/staging/gpib/cb7210/cb7210.c:686:18: sparse: sparse: symbol 'cb_pci_unaccel_interface' was not declared. Should it be static?
+   drivers/staging/gpib/cb7210/cb7210.c:714:18: sparse: sparse: symbol 'cb_pci_accel_interface' was not declared. Should it be static?
+   drivers/staging/gpib/cb7210/cb7210.c:742:18: sparse: sparse: symbol 'cb_pci_interface' was not declared. Should it be static?
+   drivers/staging/gpib/cb7210/cb7210.c:769:18: sparse: sparse: symbol 'cb_isa_unaccel_interface' was not declared. Should it be static?
+   drivers/staging/gpib/cb7210/cb7210.c:797:18: sparse: sparse: symbol 'cb_isa_interface' was not declared. Should it be static?
+   drivers/staging/gpib/cb7210/cb7210.c:824:18: sparse: sparse: symbol 'cb_isa_accel_interface' was not declared. Should it be static?
+
+vim +974 drivers/staging/gpib/cb7210/cb7210.c
+
+   925	
+   926	int cb_pci_attach(gpib_board_t *board, const gpib_board_config_t *config)
+   927	{
+   928		struct cb7210_priv *cb_priv;
+   929		struct nec7210_priv *nec_priv;
+   930		int isr_flags = 0;
+   931		int bits;
+   932		int retval;
+   933	
+   934		retval = cb7210_generic_attach(board);
+   935		if (retval)
+   936			return retval;
+   937	
+   938		cb_priv = board->private_data;
+   939		nec_priv = &cb_priv->nec7210_priv;
+   940	
+   941		cb_priv->pci_device = gpib_pci_get_device(config, PCI_VENDOR_ID_CBOARDS,
+   942							  PCI_DEVICE_ID_CBOARDS_PCI_GPIB, NULL);
+   943		if (cb_priv->pci_device)
+   944			cb_priv->pci_chip = PCI_CHIP_AMCC_S5933;
+   945		if (!cb_priv->pci_device) {
+   946			cb_priv->pci_device = gpib_pci_get_device(config, PCI_VENDOR_ID_CBOARDS,
+   947								  PCI_DEVICE_ID_CBOARDS_CPCI_GPIB, NULL);
+   948			if (cb_priv->pci_device)
+   949				cb_priv->pci_chip = PCI_CHIP_AMCC_S5933;
+   950		}
+   951		if (!cb_priv->pci_device) {
+   952			cb_priv->pci_device = gpib_pci_get_device(config, PCI_VENDOR_ID_QUANCOM,
+   953								  PCI_DEVICE_ID_QUANCOM_GPIB, NULL);
+   954			if (cb_priv->pci_device) {
+   955				cb_priv->pci_chip = PCI_CHIP_QUANCOM;
+   956				nec_priv->offset = 4;
+   957			}
+   958		}
+   959		if (!cb_priv->pci_device) {
+   960			pr_warn("cb7210: no supported boards found.\n");
+   961			return -1;
+   962		}
+   963	
+   964		if (pci_enable_device(cb_priv->pci_device)) {
+   965			pr_err("cb7210: error enabling pci device\n");
+   966			return -1;
+   967		}
+   968	
+   969		if (pci_request_regions(cb_priv->pci_device, "cb7210"))
+   970			return -1;
+   971		switch (cb_priv->pci_chip) {
+   972		case PCI_CHIP_AMCC_S5933:
+   973			cb_priv->amcc_iobase = pci_resource_start(cb_priv->pci_device, 0);
+ > 974			nec_priv->iobase = ioremap(pci_resource_start(cb_priv->pci_device, 1),
+   975						   pci_resource_len(cb_priv->pci_device, 1));
+   976			cb_priv->fifo_iobase = pci_resource_start(cb_priv->pci_device, 2);
+   977			break;
+   978		case PCI_CHIP_QUANCOM:
+   979			nec_priv->iobase = ioremap(pci_resource_start(cb_priv->pci_device, 0),
+   980						   pci_resource_len(cb_priv->pci_device, 0));
+   981			cb_priv->fifo_iobase = (unsigned long)nec_priv->iobase;
+   982			break;
+   983		default:
+   984			pr_err("cb7210: bug! unhandled pci_chip=%i\n", cb_priv->pci_chip);
+   985			return -EIO;
+   986		}
+   987		isr_flags |= IRQF_SHARED;
+   988		if (request_irq(cb_priv->pci_device->irq, cb_pci_interrupt, isr_flags, "cb7210", board)) {
+   989			pr_err("cb7210: can't request IRQ %d\n", cb_priv->pci_device->irq);
+   990			return -1;
+   991		}
+   992		cb_priv->irq = cb_priv->pci_device->irq;
+   993	
+   994		switch (cb_priv->pci_chip) {
+   995		case PCI_CHIP_AMCC_S5933:
+   996			// make sure mailbox flags are clear
+   997			inl(cb_priv->amcc_iobase + INCOMING_MAILBOX_REG(3));
+   998			// enable interrupts on amccs5933 chip
+   999			bits = INBOX_FULL_INTR_BIT | INBOX_BYTE_BITS(3) | INBOX_SELECT_BITS(3) |
+  1000				INBOX_INTR_CS_BIT;
+  1001			outl(bits, cb_priv->amcc_iobase + INTCSR_REG);
+  1002			break;
+  1003		default:
+  1004			break;
+  1005		}
+  1006		return cb7210_init(cb_priv, board);
+  1007	}
+  1008	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
