@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9647A18A6C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 09:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1491F1AC456
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 10:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733306173; cv=none; b=il/wBbu04UodYgSoK00vWoA/wxtU29WkRwUivLym6OYtDXRfG6iXQJ7Q3UINEHzhC1Fhg9NEVM35BeofWa0YjpFM7QVD25/gkTCIaOYHfOg7SxA9MvSKNGArOzWj7z9tPqQoeMnPIgPHw0mXn/s6W9AgHtUDJXDI+c502bUxpxY=
+	t=1733307457; cv=none; b=EEDT0oY8NR2mDgSc7g4WJl8/LadqCPOMR3951zE2msYCHnXMyGjwjEA5KSyA5wldwzrInWc2YcBnbn/DYMe3tCxdrumwsZHjYKTUqS/Wg8IFfsrtNL3v9zlJ6pNOK1/cNzig7ta/RaXtZLaNUJgZPtPl+L7v5plNSuNWKetsCkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733306173; c=relaxed/simple;
-	bh=558nlV72SMDrpnv9u5l0WTr4CWoEBbuPNUD668fPGRI=;
+	s=arc-20240116; t=1733307457; c=relaxed/simple;
+	bh=Xye7f9JONI2GFLTBqhijRnaZvgwGYUk/i7QbSr072Z8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ObKwDiK8OAc++ofh9O9+Cagxp4xR6JZWhtHAGi/E8Z/Mv4mFK+3JIWW8j6R3VAcFEq55EbxNym4t37pYhf/Tn162uAid+v+DyV6q9Prpy/9oRwZFgSWzr5qXfc/I+g0a+yRfquYCxrDDNg6FeTn4/K9etH8rmy85J2DZIERgZUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OPKqKy1D; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=muItxkcdzj5DZ16eeljhF4oQKpX7qLRt0Qq3aM6BpOVe/v7suO09eL7eTcSBRJxOluebu3HbSQmDsFYV63tmRy6DDrbkmBa3s0e19hly/GJH0K92jNdys/hOFdhT0vS7jO8WFK7v8a9Ze5Q/DO6a9PEWn1bGiwMPsa1vgcsd4d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDujPMTG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OPKqKy1D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDujPMTG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733306171; x=1764842171;
+  t=1733307456; x=1764843456;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=558nlV72SMDrpnv9u5l0WTr4CWoEBbuPNUD668fPGRI=;
-  b=OPKqKy1D/m1VZAokkW6S8/yANI7zvtogdW6l1DqZg6rrvV6ZYgJZE01F
-   pPX0qWO29DzAVCpWCaIhno+ULetq8fTPPYYGXH2NRZaDELDUYcmTsv/M+
-   GAl+F6z1yqHQ/RscnaCYSn8+KB/eD/Bw0zU8fT6SAXuNjcOOxOZLLpco4
-   YuS6538PVhyS/Ee3nHp57ONlGR7xe86jBs36nqWkp7rULG9+tjo8V2NDG
-   k3QbrWjK2wHkzR9tJNadej7U6x8FRVYR5iz6jZ46fOCAgLonXyM+IkKtJ
-   Vu8j23i6Istc1v1CXPh5z75D4MU2XaaZ4yAOO7EyjhhngtlKgF+GPNOx6
-   w==;
-X-CSE-ConnectionGUID: u2Ob8PGFTnqdtb4rasZe1A==
-X-CSE-MsgGUID: 1VbX8HoUTWewNCjbI5kcsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="32923199"
+  bh=Xye7f9JONI2GFLTBqhijRnaZvgwGYUk/i7QbSr072Z8=;
+  b=aDujPMTGkqIA8YtIjWImQIk54I4QaNFK0zjj8U1D5JBmtntiov+e8Vgv
+   3d6mFmmkswF7JVojqN0qjSemQl8RgWZoaL1fwmc/vS+lhPGgxRNMqPYxR
+   B0gWq6zzrYgvBlJFnRZTMgRHmdvlC9jYhsmBLF9zDSrVH78AnpHgzixC/
+   u2p+ElWJy+oaO7Chx6OWFPLxjYmg1Cgj79BZzr4LPr2m53FIPI+9PURtE
+   7ju6TinqfwMN/EHmkGJ/qOY5z52GcuV8wHOPD+WleOD2zx/kl9FvccxX5
+   ZrNFlhxRT0Y2YyfP7KT7lSCFJGa7YbXiaixFgV9POtbvWupQY6AYgYUS7
+   Q==;
+X-CSE-ConnectionGUID: rSbhnRSZSCiagbKzBotitQ==
+X-CSE-MsgGUID: r4fi/0+dQAq+qop+I7M/1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="56049875"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="32923199"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 01:56:10 -0800
-X-CSE-ConnectionGUID: SaxHeL5UQLm9rUer1zJypg==
-X-CSE-MsgGUID: 9S2Hoy1WTEqwHkZq3eByuQ==
+   d="scan'208";a="56049875"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 02:17:35 -0800
+X-CSE-ConnectionGUID: BfTo0SaZTHageSeJ8cYLdw==
+X-CSE-MsgGUID: D4ZTgxOwSo27jjiK/5MHAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="93608466"
+   d="scan'208";a="97784867"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 04 Dec 2024 01:56:09 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2024 02:17:33 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIm6w-0002qv-1J;
-	Wed, 04 Dec 2024 09:56:00 +0000
-Date: Wed, 4 Dec 2024 17:55:49 +0800
+	id 1tImRe-0002sZ-17;
+	Wed, 04 Dec 2024 10:17:25 +0000
+Date: Wed, 4 Dec 2024 18:17:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:shrunk-page 57/83] mm/zsmalloc.c:449:20: warning:
- function 'is_first_zpdesc' is not needed and will not be emitted
-Message-ID: <202412041726.PxBkFbuL-lkp@intel.com>
+To: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: drivers/scsi/mpt3sas/mpt3sas_base.c:3135:63: warning: '-mq-poll'
+ directive output may be truncated writing 8 bytes into a region of size
+ between 6 and 31
+Message-ID: <202412041848.xADfdU8S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +64,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache shrunk-page
-head:   9f845f82473f9b65c326afa7f81c70b7e27f02a9
-commit: b19fdb3a0ac16a88851e63449dfeedb21aee7c19 [57/83] mm/zsmalloc: use zpdesc in trylock_zspage()/lock_zspage()
-config: x86_64-randconfig-r061-20241204 (https://download.01.org/0day-ci/archive/20241204/202412041726.PxBkFbuL-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041726.PxBkFbuL-lkp@intel.com/reproduce)
+Hi Sreekanth,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   feffde684ac29a3b7aec82d2df850fbdbdee55e4
+commit: 432bc7caef4eaacc1101ee2569bb870bdfeed7ce scsi: mpt3sas: Add io_uring iopoll support
+date:   3 years, 4 months ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241204/202412041848.xADfdU8S-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041848.xADfdU8S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041726.PxBkFbuL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041848.xADfdU8S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/zsmalloc.c:49:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> mm/zsmalloc.c:449:20: warning: function 'is_first_zpdesc' is not needed and will not be emitted [-Wunneeded-internal-declaration]
-     449 | static inline bool is_first_zpdesc(struct zpdesc *zpdesc)
-         |                    ^~~~~~~~~~~~~~~
-   2 warnings generated.
+   drivers/scsi/mpt3sas/mpt3sas_base.c: In function '_base_request_irq':
+   drivers/scsi/mpt3sas/mpt3sas_base.c:3144:68: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 26 [-Wformat-truncation=]
+    3144 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+         |                                                                    ^~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:3144:58: note: directive argument in the range [0, 254]
+    3144 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+         |                                                          ^~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:3144:17: note: 'snprintf' output between 8 and 35 bytes into a destination of size 32
+    3144 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3145 |                     ioc->driver_name, ioc->id, index);
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/mpt3sas/mpt3sas_base.c:3135:63: warning: '-mq-poll' directive output may be truncated writing 8 bytes into a region of size between 6 and 31 [-Wformat-truncation=]
+    3135 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
+         |                                                               ^~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:3135:58: note: directive argument in the range [-255, 255]
+    3135 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
+         |                                                          ^~~~~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:3135:17: note: 'snprintf' output between 11 and 39 bytes into a destination of size 32
+    3135 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3136 |                     ioc->driver_name, ioc->id, qid);
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c: In function 'mpt3sas_base_start_watchdog':
+   drivers/scsi/mpt3sas/mpt3sas_base.c:831:57: warning: '%s' directive output may be truncated writing up to 23 bytes into a region of size 15 [-Wformat-truncation=]
+     831 |             sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
+         |                                                         ^~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:831:51: note: directive argument in the range [0, 255]
+     831 |             sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
+         |                                                   ^~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:830:9: note: 'snprintf' output between 14 and 39 bytes into a destination of size 20
+     830 |         snprintf(ioc->fault_reset_work_q_name,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     831 |             sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     832 |             ioc->driver_name, ioc->id);
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/is_first_zpdesc +449 mm/zsmalloc.c
+vim +3135 drivers/scsi/mpt3sas/mpt3sas_base.c
 
-   448	
- > 449	static inline bool is_first_zpdesc(struct zpdesc *zpdesc)
-   450	{
-   451		return PagePrivate(zpdesc_page(zpdesc));
-   452	}
-   453	
+  3107	
+  3108	/**
+  3109	 * _base_request_irq - request irq
+  3110	 * @ioc: per adapter object
+  3111	 * @index: msix index into vector table
+  3112	 *
+  3113	 * Inserting respective reply_queue into the list.
+  3114	 */
+  3115	static int
+  3116	_base_request_irq(struct MPT3SAS_ADAPTER *ioc, u8 index)
+  3117	{
+  3118		struct pci_dev *pdev = ioc->pdev;
+  3119		struct adapter_reply_queue *reply_q;
+  3120		int r, qid;
+  3121	
+  3122		reply_q =  kzalloc(sizeof(struct adapter_reply_queue), GFP_KERNEL);
+  3123		if (!reply_q) {
+  3124			ioc_err(ioc, "unable to allocate memory %zu!\n",
+  3125				sizeof(struct adapter_reply_queue));
+  3126			return -ENOMEM;
+  3127		}
+  3128		reply_q->ioc = ioc;
+  3129		reply_q->msix_index = index;
+  3130	
+  3131		atomic_set(&reply_q->busy, 0);
+  3132	
+  3133		if (index >= ioc->iopoll_q_start_index) {
+  3134			qid = index - ioc->iopoll_q_start_index;
+> 3135			snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
+  3136			    ioc->driver_name, ioc->id, qid);
+  3137			reply_q->is_iouring_poll_q = 1;
+  3138			ioc->io_uring_poll_queues[qid].reply_q = reply_q;
+  3139			goto out;
+  3140		}
+  3141	
+  3142	
+  3143		if (ioc->msix_enable)
+> 3144			snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+  3145			    ioc->driver_name, ioc->id, index);
+  3146		else
+  3147			snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d",
+  3148			    ioc->driver_name, ioc->id);
+  3149		r = request_irq(pci_irq_vector(pdev, index), _base_interrupt,
+  3150				IRQF_SHARED, reply_q->name, reply_q);
+  3151		if (r) {
+  3152			pr_err("%s: unable to allocate interrupt %d!\n",
+  3153			       reply_q->name, pci_irq_vector(pdev, index));
+  3154			kfree(reply_q);
+  3155			return -EBUSY;
+  3156		}
+  3157	out:
+  3158		INIT_LIST_HEAD(&reply_q->list);
+  3159		list_add_tail(&reply_q->list, &ioc->reply_queue_list);
+  3160		return 0;
+  3161	}
+  3162	
 
 -- 
 0-DAY CI Kernel Test Service
