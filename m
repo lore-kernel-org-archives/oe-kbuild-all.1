@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9CD1F6673
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28E31E3DCF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733321043; cv=none; b=tpQJGaWQGs72c9xQe6ZswrH7xz99OU8Hkgw9p/uIJLfrEpCPzQLo6BalQlHo6K7U/WuM9wwNqEWQj7PUr51ZWZAOHwB3egq/+Jv8ZyCeLkIFnVtDPbfObi+zTGBUzFt4mw7efMpYDl5XuuWPyjjtZaZaCLggV/6/wclvrdslWkg=
+	t=1733321767; cv=none; b=m3U/n/HoOJkttNVUldj54av3RsoWqzQoPUNmbg/Txe0r2pqhwRgPoB/7/kdAM8MTvrSkQBpzPYzjPsVAMMHtFTedcI6xfR14Co1bMlK1erq/Aax7jCMzvzYCOzrFHYiKPI1tvlwmOV+Mt1mq0AFgtARuyosklu8NIgQPqes8R+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733321043; c=relaxed/simple;
-	bh=ps12D0bZwaHSb7xCO9IWU0B3C0hpC+lWqvNS9LburUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oAb3N2gTKUcnSzXwekCPLU/yAAa6jdAmaPKUHCReJW0/NT47I7JZG7lkfY/xp0FpkkSmjR5woHbE7d/OVyQxShrhXu3VRwDvSL4Hrr+szXPp+zR7wIfK46P8+FyvpiPQRm5w1a8ltxfnhapfX1zDuIa9qh6kQ+zMWgOfCSVzKmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej8G7Xci; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1733321767; c=relaxed/simple;
+	bh=JHG7KcEIqvFjRcqFLcIvdL7/DNGiSmqWdKpWAIQGo6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CcMSvcF1Jv+6Lm77XVwOklAEtnjxckma8leuOheyKymusv1bSdm+g13fhLy7VX73/O8FGTpzSSUqATZpRqSKJH6T8RnchtaYZH7xzoXB1/L/Kf/QRavhj19q6IR/YuWL6641SMtw2MdX/KmVNZ8Vgo3M7JySFUgmSq/aLBRH0cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/OYmADo; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej8G7Xci"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/OYmADo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733321041; x=1764857041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ps12D0bZwaHSb7xCO9IWU0B3C0hpC+lWqvNS9LburUk=;
-  b=ej8G7XcixhiHQU45JrnQWFal8RFp+q2VyA1OjZCH/tEr3m3CBEAsabfs
-   vZXaw6fmOBxl/gtoKABGUsfK+W7RNT7u45eZ7TjC3L1b0q1AyPCOhS3BE
-   JxRRFizi04lY8oB1amApJeUC+KAGdhq5ebdToMGRbfg+U+9W1pmgHsKBK
-   Brc6bsroBsPiJ9Izj6EMZsYAvHWPCGzQ+ZIAodg0I1szl146PrhbR/hTc
-   2CeVq4HnjpTapv6Ms8ixax/w9J9WwppbUG27z+rM/YDwFXLjtS0ENkOGm
-   6Az0AKbPE6DvXUjAkGqmE8R0tyUi2p1118opQ2dTB22Oweb7JT96FAi83
-   Q==;
-X-CSE-ConnectionGUID: ci8WybXKSW+BXMTY5PyL4w==
-X-CSE-MsgGUID: CWHu8VsbSvSxhZQYMwWP/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44617549"
+  t=1733321766; x=1764857766;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JHG7KcEIqvFjRcqFLcIvdL7/DNGiSmqWdKpWAIQGo6k=;
+  b=B/OYmADoXBnH65sq//HeCHSiAOSD54B36O8m87Zd7QLnnGCUyf7BEgw2
+   qrSEH5qWO1LiesDuTS3auEUVM8kusYZoJQwXqsFfmOJDZx8lx03fLicM0
+   uykyO6YaBYUfdtjevZtyOJBb20b/lkaQ8nDovXHPMdExxC3ylW1lmeEJl
+   SjnHdjuVbJpWoGvibsm70QBkNARimsGbGC9kO5jORqsK5fKPfDoa6ehRV
+   Qbuf2Gxh5R5Su1M1MgT+yMg13N3uRKB1DLwVPEavFphb6GCLQHVOB0lbP
+   ROr8Svctnuc5IQEKf5fdjNIHwM+0JRXlX6nemutnIJvzajZmjWHuXrk9l
+   A==;
+X-CSE-ConnectionGUID: ZTv+DkNkRtGVliLS1wIFFg==
+X-CSE-MsgGUID: AI4ec6tBSKuYScjea8s5SA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="37250718"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44617549"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:03:59 -0800
-X-CSE-ConnectionGUID: gjC+p+6jSOm3xsHwcCUIuA==
-X-CSE-MsgGUID: ntkKCBwAQ+69Ytn2tRSSBQ==
+   d="scan'208";a="37250718"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:16:05 -0800
+X-CSE-ConnectionGUID: Nd/4m4BLTpukzM4e7s46eQ==
+X-CSE-MsgGUID: A7pUW/GiTU24NgxS6JuE8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94600329"
+   d="scan'208";a="94123197"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 04 Dec 2024 06:03:57 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 04 Dec 2024 06:16:04 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIpys-00035B-24;
-	Wed, 04 Dec 2024 14:03:54 +0000
-Date: Wed, 4 Dec 2024 22:03:35 +0800
+	id 1tIqAZ-00035x-0h;
+	Wed, 04 Dec 2024 14:16:00 +0000
+Date: Wed, 4 Dec 2024 22:15:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@suse.de>, Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Disseldorp <ddiss@suse.com>,
-	linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 2/2] NFS: move _maxsz and _sz #defines to the function
- which they describe.
-Message-ID: <202412042135.z6hANLmp-lkp@intel.com>
-References: <20241204025703.2662394-3-neilb@suse.de>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:for-nicolin 2/3] drivers/iommu/iommu.c:3602:5: error:
+ redefinition of 'iommu_dma_prepare_msi'
+Message-ID: <202412042213.UJFKBSz7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,121 +61,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204025703.2662394-3-neilb@suse.de>
 
-Hi NeilBrown,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on linus/master v6.13-rc1 next-20241203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/NFS-fix-open_owner_id_maxsz-and-related-fields/20241204-124433
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20241204025703.2662394-3-neilb%40suse.de
-patch subject: [PATCH 2/2] NFS: move _maxsz and _sz #defines to the function which they describe.
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20241204/202412042135.z6hANLmp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042135.z6hANLmp-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux for-nicolin
+head:   b17a3f31fb80cd096e5842d588a2adbc554c24ba
+commit: e4dafc45f0215bd522cf81419b29bb31fc894c90 [2/3] iommu: Make iommu_dma_prepare/compose_msi() into a generic operation
+config: arc-randconfig-001-20241204 (https://download.01.org/0day-ci/archive/20241204/202412042213.UJFKBSz7-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042213.UJFKBSz7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412042135.z6hANLmp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412042213.UJFKBSz7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/nfs/nfs4xdr.c:3040: warning: "decode_sequence_maxsz" redefined
-    3040 | #define decode_sequence_maxsz   (op_decode_hdr_maxsz + \
-         | 
-   fs/nfs/nfs4xdr.c:135: note: this is the location of the previous definition
-     135 | #define decode_sequence_maxsz   0
-         | 
->> fs/nfs/nfs4xdr.c:6068: warning: "encode_sequence_maxsz" redefined
-    6068 | #define encode_sequence_maxsz   (op_encode_hdr_maxsz + \
-         | 
-   fs/nfs/nfs4xdr.c:134: note: this is the location of the previous definition
-     134 | #define encode_sequence_maxsz   0
-         | 
+>> drivers/iommu/iommu.c:3602:5: error: redefinition of 'iommu_dma_prepare_msi'
+    3602 | int iommu_dma_prepare_msi(struct msi_desc *desc, phys_addr_t msi_addr)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/iommu.c:20:
+   include/linux/iommu.h:1536:19: note: previous definition of 'iommu_dma_prepare_msi' with type 'int(struct msi_desc *, phys_addr_t)' {aka 'int(struct msi_desc *, unsigned int)'}
+    1536 | static inline int iommu_dma_prepare_msi(struct msi_desc *desc, phys_addr_t msi_addr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/iommu.c:3625:6: error: redefinition of 'iommu_dma_compose_msi_msg'
+    3625 | void iommu_dma_compose_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/iommu.h:1541:20: note: previous definition of 'iommu_dma_compose_msi_msg' with type 'void(struct msi_desc *, struct msi_msg *)'
+    1541 | static inline void iommu_dma_compose_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/decode_sequence_maxsz +3040 fs/nfs/nfs4xdr.c
+vim +/iommu_dma_prepare_msi +3602 drivers/iommu/iommu.c
 
-  3039	
-> 3040	#define decode_sequence_maxsz	(op_decode_hdr_maxsz + \
-  3041					XDR_QUADLEN(NFS4_MAX_SESSIONID_LEN) + 5)
-  3042	static int decode_sequence(struct xdr_stream *xdr,
-  3043				   struct nfs4_sequence_res *res,
-  3044				   struct rpc_rqst *rqstp)
-  3045	{
-  3046	#if defined(CONFIG_NFS_V4_1)
-  3047		struct nfs4_session *session;
-  3048		struct nfs4_sessionid id;
-  3049		u32 dummy;
-  3050		int status;
-  3051		__be32 *p;
-  3052	
-  3053		if (res->sr_slot == NULL)
-  3054			return 0;
-  3055		if (!res->sr_slot->table->session)
-  3056			return 0;
-  3057	
-  3058		status = decode_op_hdr(xdr, OP_SEQUENCE);
-  3059		if (!status)
-  3060			status = decode_sessionid(xdr, &id);
-  3061		if (unlikely(status))
-  3062			goto out_err;
-  3063	
-  3064		/*
-  3065		 * If the server returns different values for sessionID, slotID or
-  3066		 * sequence number, the server is looney tunes.
-  3067		 */
-  3068		status = -EREMOTEIO;
-  3069		session = res->sr_slot->table->session;
-  3070	
-  3071		if (memcmp(id.data, session->sess_id.data,
-  3072			   NFS4_MAX_SESSIONID_LEN)) {
-  3073			dprintk("%s Invalid session id\n", __func__);
-  3074			goto out_err;
-  3075		}
-  3076	
-  3077		p = xdr_inline_decode(xdr, 20);
-  3078		if (unlikely(!p))
-  3079			goto out_overflow;
-  3080	
-  3081		/* seqid */
-  3082		dummy = be32_to_cpup(p++);
-  3083		if (dummy != res->sr_slot->seq_nr) {
-  3084			dprintk("%s Invalid sequence number\n", __func__);
-  3085			goto out_err;
-  3086		}
-  3087		/* slot id */
-  3088		dummy = be32_to_cpup(p++);
-  3089		if (dummy != res->sr_slot->slot_nr) {
-  3090			dprintk("%s Invalid slot id\n", __func__);
-  3091			goto out_err;
-  3092		}
-  3093		/* highest slot id */
-  3094		res->sr_highest_slotid = be32_to_cpup(p++);
-  3095		/* target highest slot id */
-  3096		res->sr_target_highest_slotid = be32_to_cpup(p++);
-  3097		/* result flags */
-  3098		res->sr_status_flags = be32_to_cpup(p);
-  3099		status = 0;
-  3100	out_err:
-  3101		res->sr_status = status;
-  3102		return status;
-  3103	out_overflow:
-  3104		status = -EIO;
-  3105		goto out_err;
-  3106	#else  /* CONFIG_NFS_V4_1 */
-  3107		return 0;
-  3108	#endif /* CONFIG_NFS_V4_1 */
-  3109	}
-  3110	
+  3590	
+  3591	/**
+  3592	 * iommu_dma_prepare_msi() - Map the MSI page in the IOMMU domain
+  3593	 * @desc: MSI descriptor, will store the MSI page
+  3594	 * @msi_addr: MSI target address to be mapped
+  3595	 *
+  3596	 * The implementation of sw_msi() should take msi_addr and map it to
+  3597	 * an IOVA in the domain. msi_desc_get_iommu_cookie() can be used to convay
+  3598	 * information to iommu_dma_compose_msi_msg()
+  3599	 *
+  3600	 * Return: 0 on success or negative error code if the mapping failed.
+  3601	 */
+> 3602	int iommu_dma_prepare_msi(struct msi_desc *desc, phys_addr_t msi_addr)
+  3603	{
+  3604		struct device *dev = msi_desc_to_dev(desc);
+  3605		struct iommu_group *group = dev->iommu_group;
+  3606		int ret = 0;
+  3607	
+  3608		if (!group)
+  3609			return 0;
+  3610	
+  3611		mutex_lock(&group->mutex);
+  3612		if (group->domain && group->domain->sw_msi)
+  3613			ret = group->domain->sw_msi(group->domain, desc, msi_addr,
+  3614						    NULL);
+  3615		mutex_unlock(&group->mutex);
+  3616		return ret;
+  3617	}
+  3618	
+  3619	/**
+  3620	 * iommu_dma_compose_msi_msg() - Apply translation to an MSI message
+  3621	 * @desc: MSI descriptor prepared by iommu_dma_prepare_msi()
+  3622	 * @msg: MSI message containing target physical address
+  3623	 *
+  3624	 */
+> 3625	void iommu_dma_compose_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
 
 -- 
 0-DAY CI Kernel Test Service
