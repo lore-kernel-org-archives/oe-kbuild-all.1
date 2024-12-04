@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28E31E3DCF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98401FC7EC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733321767; cv=none; b=m3U/n/HoOJkttNVUldj54av3RsoWqzQoPUNmbg/Txe0r2pqhwRgPoB/7/kdAM8MTvrSkQBpzPYzjPsVAMMHtFTedcI6xfR14Co1bMlK1erq/Aax7jCMzvzYCOzrFHYiKPI1tvlwmOV+Mt1mq0AFgtARuyosklu8NIgQPqes8R+I=
+	t=1733322504; cv=none; b=QFJVUqJ3WPiQlBT7ikbgtuNv1rVGZjLIo7l1uFr5IkMMVqHgW6O1HhsP8c4G/ewRgoR87PIXyjbSQwNZ2Kl9XlL6vvh8TliLLtzRi+In1Z8be1p/OFq19PnnI1pGd8sfYBaT94nUCt8y8asQzgLp35KCfG7EjWUwg1Q9y9Vrusc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733321767; c=relaxed/simple;
-	bh=JHG7KcEIqvFjRcqFLcIvdL7/DNGiSmqWdKpWAIQGo6k=;
+	s=arc-20240116; t=1733322504; c=relaxed/simple;
+	bh=F13nZ3+NJ27uT2x+zXIOB9CiwmK5mIc/BG14QgtKYGA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CcMSvcF1Jv+6Lm77XVwOklAEtnjxckma8leuOheyKymusv1bSdm+g13fhLy7VX73/O8FGTpzSSUqATZpRqSKJH6T8RnchtaYZH7xzoXB1/L/Kf/QRavhj19q6IR/YuWL6641SMtw2MdX/KmVNZ8Vgo3M7JySFUgmSq/aLBRH0cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/OYmADo; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=t7FpzkdqklgEU+oXky/BWwWkvYSV8NEbEXXEyk+5K/UTCJxObG88koNgQATMEHvhsB+gU3q88QJPyrREmieXopvyyTskD2/wDi+Z8EPowBdziV5fK5x2K4lxua+kMO4Z4mbQ7Toh/CQYYvpX8QDpW+g52EoqABKV0svGy8rMwR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXkZ9fuy; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/OYmADo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXkZ9fuy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733321766; x=1764857766;
+  t=1733322502; x=1764858502;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JHG7KcEIqvFjRcqFLcIvdL7/DNGiSmqWdKpWAIQGo6k=;
-  b=B/OYmADoXBnH65sq//HeCHSiAOSD54B36O8m87Zd7QLnnGCUyf7BEgw2
-   qrSEH5qWO1LiesDuTS3auEUVM8kusYZoJQwXqsFfmOJDZx8lx03fLicM0
-   uykyO6YaBYUfdtjevZtyOJBb20b/lkaQ8nDovXHPMdExxC3ylW1lmeEJl
-   SjnHdjuVbJpWoGvibsm70QBkNARimsGbGC9kO5jORqsK5fKPfDoa6ehRV
-   Qbuf2Gxh5R5Su1M1MgT+yMg13N3uRKB1DLwVPEavFphb6GCLQHVOB0lbP
-   ROr8Svctnuc5IQEKf5fdjNIHwM+0JRXlX6nemutnIJvzajZmjWHuXrk9l
+  bh=F13nZ3+NJ27uT2x+zXIOB9CiwmK5mIc/BG14QgtKYGA=;
+  b=GXkZ9fuyivF/ZkKfIn47gVvxNPGpQsFGzjooc2MEMe33HpE6/zL4GBiS
+   Xkdls0M5JpdIcqAzdNItfeg1N/CrfG8YNsXb/Vy6C1t4B9cnhPvCw2t6Z
+   MFfmiKWDRHanBIGlTc/SMZ2PXUk+NnhXr0WnFrRc28jCq++YEGwZB9KZe
+   41LT1vpHn2CsMUoodH5325s7L8tlFxmBKZXDgF0Y6U+jbbCBbzP0nKrJw
+   etR7i1lHAiEkxL6R/gaSBMi3j1QcMKskYfg8CDVBR6ssN63E2o5V0BvSZ
+   dOnDbVI1wU+uWpS/3nWpsvYUaklHkf6N4uAKvrXK7cqdncVh0wB5shULW
    A==;
-X-CSE-ConnectionGUID: ZTv+DkNkRtGVliLS1wIFFg==
-X-CSE-MsgGUID: AI4ec6tBSKuYScjea8s5SA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="37250718"
+X-CSE-ConnectionGUID: T0hKOOK2SK2arhnbQNljvA==
+X-CSE-MsgGUID: edqckcwlQ4KGGIoMReRo6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="51121253"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="37250718"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:16:05 -0800
-X-CSE-ConnectionGUID: Nd/4m4BLTpukzM4e7s46eQ==
-X-CSE-MsgGUID: A7pUW/GiTU24NgxS6JuE8w==
+   d="scan'208";a="51121253"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:28:21 -0800
+X-CSE-ConnectionGUID: KdGfnANiRCeMbODFWffEMg==
+X-CSE-MsgGUID: 3kBpGGubR++PsMrbpr3tYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94123197"
+   d="scan'208";a="117029579"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Dec 2024 06:16:04 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 04 Dec 2024 06:28:17 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIqAZ-00035x-0h;
-	Wed, 04 Dec 2024 14:16:00 +0000
-Date: Wed, 4 Dec 2024 22:15:24 +0800
+	id 1tIqMR-00036h-19;
+	Wed, 04 Dec 2024 14:28:15 +0000
+Date: Wed, 4 Dec 2024 22:27:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:for-nicolin 2/3] drivers/iommu/iommu.c:3602:5: error:
- redefinition of 'iommu_dma_prepare_msi'
-Message-ID: <202412042213.UJFKBSz7-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
+ kernel/dma/mapping.c:557:72: error: macro "alloc_pages" passed 5 arguments,
+ but takes just 2
+Message-ID: <202412042250.KmH1Nsq2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +67,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux for-nicolin
-head:   b17a3f31fb80cd096e5842d588a2adbc554c24ba
-commit: e4dafc45f0215bd522cf81419b29bb31fc894c90 [2/3] iommu: Make iommu_dma_prepare/compose_msi() into a generic operation
-config: arc-randconfig-001-20241204 (https://download.01.org/0day-ci/archive/20241204/202412042213.UJFKBSz7-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042213.UJFKBSz7-lkp@intel.com/reproduce)
+Hi Chen,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   f1811f6442501fe34d2339158aed4f85a64f0398
+commit: 0764432a5ada7a09ce36b0e980ec40340fae2a30 [1/1] dma-mapping: add a new dma_alloc_pages API
+config: arm64-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241204/202412042250.KmH1Nsq2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042250.KmH1Nsq2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412042213.UJFKBSz7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412042250.KmH1Nsq2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iommu/iommu.c:3602:5: error: redefinition of 'iommu_dma_prepare_msi'
-    3602 | int iommu_dma_prepare_msi(struct msi_desc *desc, phys_addr_t msi_addr)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/iommu/iommu.c:20:
-   include/linux/iommu.h:1536:19: note: previous definition of 'iommu_dma_prepare_msi' with type 'int(struct msi_desc *, phys_addr_t)' {aka 'int(struct msi_desc *, unsigned int)'}
-    1536 | static inline int iommu_dma_prepare_msi(struct msi_desc *desc, phys_addr_t msi_addr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/iommu.c:3625:6: error: redefinition of 'iommu_dma_compose_msi_msg'
-    3625 | void iommu_dma_compose_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/iommu.h:1541:20: note: previous definition of 'iommu_dma_compose_msi_msg' with type 'void(struct msi_desc *, struct msi_msg *)'
-    1541 | static inline void iommu_dma_compose_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/dma/mapping.c:10:
+   include/linux/dma-direct.h:87:7: error: conflicting types for 'dma_direct_alloc_pages'; have 'void *(struct device *, size_t,  dma_addr_t *, gfp_t,  long unsigned int)' {aka 'void *(struct device *, long unsigned int,  long long unsigned int *, unsigned int,  long unsigned int)'}
+      87 | void *dma_direct_alloc_pages(struct device *dev, size_t size,
+         |       ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-direct.h:82:14: note: previous declaration of 'dma_direct_alloc_pages' with type 'struct page *(struct device *, size_t,  dma_addr_t *, enum dma_data_direction,  gfp_t)' {aka 'struct page *(struct device *, long unsigned int,  long long unsigned int *, enum dma_data_direction,  unsigned int)'}
+      82 | struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-direct.h:89:6: error: conflicting types for 'dma_direct_free_pages'; have 'void(struct device *, size_t,  void *, dma_addr_t,  long unsigned int)' {aka 'void(struct device *, long unsigned int,  void *, long long unsigned int,  long unsigned int)'}
+      89 | void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-direct.h:84:6: note: previous declaration of 'dma_direct_free_pages' with type 'void(struct device *, size_t,  struct page *, dma_addr_t,  enum dma_data_direction)' {aka 'void(struct device *, long unsigned int,  struct page *, long long unsigned int,  enum dma_data_direction)'}
+      84 | void dma_direct_free_pages(struct device *dev, size_t size,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/mapping.c: In function 'dma_alloc_pages':
+>> kernel/dma/mapping.c:557:72: error: macro "alloc_pages" passed 5 arguments, but takes just 2
+     557 |                 page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
+         |                                                                        ^
+   In file included from include/linux/mm.h:10,
+                    from include/linux/memblock.h:13,
+                    from kernel/dma/mapping.c:8:
+   include/linux/gfp.h:540:9: note: macro "alloc_pages" defined here
+     540 | #define alloc_pages(gfp_mask, order) \
+         |         ^~~~~~~~~~~
+>> kernel/dma/mapping.c:557:22: error: assignment to 'struct page *' from incompatible pointer type 'struct page * (*)(struct device *, size_t,  dma_addr_t *, enum dma_data_direction,  gfp_t)' {aka 'struct page * (*)(struct device *, long unsigned int,  long long unsigned int *, enum dma_data_direction,  unsigned int)'} [-Werror=incompatible-pointer-types]
+     557 |                 page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
+         |                      ^
+   cc1: some warnings being treated as errors
 
 
-vim +/iommu_dma_prepare_msi +3602 drivers/iommu/iommu.c
+vim +/alloc_pages +557 kernel/dma/mapping.c
 
-  3590	
-  3591	/**
-  3592	 * iommu_dma_prepare_msi() - Map the MSI page in the IOMMU domain
-  3593	 * @desc: MSI descriptor, will store the MSI page
-  3594	 * @msi_addr: MSI target address to be mapped
-  3595	 *
-  3596	 * The implementation of sw_msi() should take msi_addr and map it to
-  3597	 * an IOVA in the domain. msi_desc_get_iommu_cookie() can be used to convay
-  3598	 * information to iommu_dma_compose_msi_msg()
-  3599	 *
-  3600	 * Return: 0 on success or negative error code if the mapping failed.
-  3601	 */
-> 3602	int iommu_dma_prepare_msi(struct msi_desc *desc, phys_addr_t msi_addr)
-  3603	{
-  3604		struct device *dev = msi_desc_to_dev(desc);
-  3605		struct iommu_group *group = dev->iommu_group;
-  3606		int ret = 0;
-  3607	
-  3608		if (!group)
-  3609			return 0;
-  3610	
-  3611		mutex_lock(&group->mutex);
-  3612		if (group->domain && group->domain->sw_msi)
-  3613			ret = group->domain->sw_msi(group->domain, desc, msi_addr,
-  3614						    NULL);
-  3615		mutex_unlock(&group->mutex);
-  3616		return ret;
-  3617	}
-  3618	
-  3619	/**
-  3620	 * iommu_dma_compose_msi_msg() - Apply translation to an MSI message
-  3621	 * @desc: MSI descriptor prepared by iommu_dma_prepare_msi()
-  3622	 * @msg: MSI message containing target physical address
-  3623	 *
-  3624	 */
-> 3625	void iommu_dma_compose_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
+   541	
+   542	struct page *dma_alloc_pages(struct device *dev, size_t size,
+   543			dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
+   544	{
+   545		const struct dma_map_ops *ops = get_dma_ops(dev);
+   546		struct page *page;
+   547	
+   548		if (WARN_ON_ONCE(!dev->coherent_dma_mask))
+   549			return NULL;
+   550		if (WARN_ON_ONCE(gfp & (__GFP_DMA | __GFP_DMA32 | __GFP_HIGHMEM)))
+   551			return NULL;
+   552	
+   553		size = PAGE_ALIGN(size);
+   554		if (dma_alloc_direct(dev, ops))
+   555			page = dma_direct_alloc_pages(dev, size, dma_handle, dir, gfp);
+   556		else if (ops->alloc_pages)
+ > 557			page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
+   558		else
+   559			return NULL;
+   560	
+   561		debug_dma_map_page(dev, page, 0, size, dir, *dma_handle);
+   562	
+   563		return page;
+   564	}
+   565	EXPORT_SYMBOL_GPL(dma_alloc_pages);
+   566	
 
 -- 
 0-DAY CI Kernel Test Service
