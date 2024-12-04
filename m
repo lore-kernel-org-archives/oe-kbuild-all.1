@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D8F1B0F29
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 11:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A0C1AE863;
+	Wed,  4 Dec 2024 11:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733311790; cv=none; b=SblOk7dWSAmH8hLhN2qtQ+ZtyMgIQGrgH0tXtTiIDefFCNQQBmBONDT049Lr8+30vgSw49QwTcQw5/syMZ0cnvxdcNEPg9r0+cU57I+Kosn7ZVOIyBEW7SZvRf0V24Xuz7ut/vgfTgzanAE6p99hOtaYtGqgP0Ga8TLBmLEXnIw=
+	t=1733312033; cv=none; b=BWlTGrDqKnBSks6F8coFWLxPHWJGfPN7P+KTNV0LSytGjqwy+ADUUklweV+snLeuZ+gugtjo616lekaGqNvtIIACzl3PhhDbiAcNSOF0FTszjsJAiF1cCCqdLM96QQ8Q3fi82jmdaNzk5FmXXOHrc+98pXZA3PQfUJyuK4vU0IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733311790; c=relaxed/simple;
-	bh=K9G3ow5eSG09Qm9mcHn2m/eM+zl0slGLHgi9J56zwRk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ZJWbjJPgDGdoKmh6vt9aMb6YzlnoDlD7v7QJCU6FGmFV/ltRY7KmqN4wNxp78EiS55t915ZcXDG4GcP+lxcbh4ulD3mycn/owdjhTqR2ug6TgEam7RRx8k0JbkH3xt7xIX46gqKS6IVD2zLFDlj/HWav4Qe2Ayd+7F9hMtO26hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BMqUUXG7; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1733312033; c=relaxed/simple;
+	bh=icNQ1hK/KEU+ydk3SKlmtjZgJ3jM4g14xAoPkqOL7KQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jw/kse7/gObNWA0P4OARwzkVJRVqkPO4aZwiKRso0VW6CyZ1flPk/Mo0nLnvAu0KsNK+5PlRv59jHePX0C81IyumdiEzesXm3sDqY95WQj8gLpxNzLy2iaaqGIqL0DMWDiLT96YvDUUVL135o3xFRybFMtAoMQIWZkS3T7gn/80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jf6XkKmj; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BMqUUXG7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jf6XkKmj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733311788; x=1764847788;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=K9G3ow5eSG09Qm9mcHn2m/eM+zl0slGLHgi9J56zwRk=;
-  b=BMqUUXG7mZT9z4FZUvaU2Xgiaxv2ljWWBO/dkPJFyxIsD/0/z8s68f6n
-   BJK4+gw/06dTvzwq9U/DrloegTdeROpzWVgOnjVYjTqVRCc+HwTEBzTnt
-   cAiNLQHj1KYqUhCT4R4uPk/LUvC7Mz1RPsHzJVeZ+QR1oVyBFttMNTveR
-   JaFPQfdLi3V68Oq+S+XORnPM5lJ+IdU3R8TIDcYUloS34Adq3I2hiVv4G
-   CkEKdzvUfRUuWLNpvnWI+2PQw+OgxMgwxWRT1jAitroerCFcmtiHY9VHb
-   Xeltutt1Q4M/kReX9es69u14n0T2LH8Mz9+dsFjb44jckZd8bE/7HJFoo
-   A==;
-X-CSE-ConnectionGUID: ZNBhFchMSgysgKA1LUDQ3A==
-X-CSE-MsgGUID: 0XS/v5qJQ9aBOAZAUPFQ5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="37510155"
+  t=1733312030; x=1764848030;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=icNQ1hK/KEU+ydk3SKlmtjZgJ3jM4g14xAoPkqOL7KQ=;
+  b=Jf6XkKmjX+UtWZz64oqL9eQsq02ZVEgMztXCJKxtq/3SKiDKQdKFtA9t
+   jNbiWl3KX0LP3RE4rChmZPeo+MFyy5ppfCYilh9nwmDj5PkJlWdFN+6Vj
+   VGyAFIj9hwkebh2WA61aqjwbWhesXkuAbfXJ/z7UryRlCWgckU1FncEgk
+   tux3kzFiOGCJT/+duMUt6YOauonUlI5MUcj6Sru6YE2Wu54d+K9myMu85
+   TYR5Io26GSOwVE50Pvo69qA5i56vmbI2Pi/tDTteaBtsw3JGr2yL6B/xQ
+   XwXDgyDxHxVtAVt7z/rn7Ks6+u0LjKjctcktjUKGj2Pwcm4T+3K4y0VXS
+   Q==;
+X-CSE-ConnectionGUID: QBBKeb4WTDSbWZfjRSclRQ==
+X-CSE-MsgGUID: L76J86EBS3mYHe3NV1JDOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="21155295"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="37510155"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 03:29:48 -0800
-X-CSE-ConnectionGUID: s2ZEqdPiRxC9jFVrSYL78A==
-X-CSE-MsgGUID: 2NfcIHAHREuypBw7LPKxlw==
+   d="scan'208";a="21155295"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 03:33:50 -0800
+X-CSE-ConnectionGUID: q+vr65RRTaSzksH6y/BXFQ==
+X-CSE-MsgGUID: TgHUJz4/SpCVjX0z0bEIKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="93822999"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="98766291"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 04 Dec 2024 03:29:48 -0800
+  by orviesa003.jf.intel.com with ESMTP; 04 Dec 2024 03:33:47 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tInZg-0002x7-2T;
-	Wed, 04 Dec 2024 11:29:44 +0000
-Date: Wed, 4 Dec 2024 19:29:42 +0800
+	id 1tIndZ-0002xZ-0a;
+	Wed, 04 Dec 2024 11:33:45 +0000
+Date: Wed, 4 Dec 2024 19:32:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] x86/mm: Add _PAGE_NOPTISHADOW bit to avoid updating
- userspace page tables
-Message-ID: <Z1A9JkG3JspS5tFO@fa4ec8514079>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>
+Subject: Re: [PATCH v1 3/4] iio: afe: rescale: Re-use generic struct s32_fract
+Message-ID: <202412041908.UaZf89I0-lkp@intel.com>
+References: <20241204013620.862943-4-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <412c90a4df7aef077141d9f68d19cbe5602d6c6d.camel@infradead.org>
+In-Reply-To: <20241204013620.862943-4-andriy.shevchenko@linux.intel.com>
 
-Hi,
+Hi Andy,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.13-rc1 next-20241203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/iio-afe-rescale-Don-t-use-for-booleans/20241204-124353
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20241204013620.862943-4-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 3/4] iio: afe: rescale: Re-use generic struct s32_fract
+config: arm-randconfig-003 (https://download.01.org/0day-ci/archive/20241204/202412041908.UaZf89I0-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041908.UaZf89I0-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] x86/mm: Add _PAGE_NOPTISHADOW bit to avoid updating userspace page tables
-Link: https://lore.kernel.org/stable/412c90a4df7aef077141d9f68d19cbe5602d6c6d.camel%40infradead.org
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041908.UaZf89I0-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/iio/test/iio-test-rescale.c:655:10: error: no member named 'numerator' in 'struct rescale'
+     655 |         rescale.numerator = t->numerator;
+         |         ~~~~~~~ ^
+>> drivers/iio/test/iio-test-rescale.c:656:10: error: no member named 'denominator' in 'struct rescale'
+     656 |         rescale.denominator = t->denominator;
+         |         ~~~~~~~ ^
+   drivers/iio/test/iio-test-rescale.c:684:10: error: no member named 'numerator' in 'struct rescale'
+     684 |         rescale.numerator = t->numerator;
+         |         ~~~~~~~ ^
+   drivers/iio/test/iio-test-rescale.c:685:10: error: no member named 'denominator' in 'struct rescale'
+     685 |         rescale.denominator = t->denominator;
+         |         ~~~~~~~ ^
+   4 errors generated.
+
+
+vim +655 drivers/iio/test/iio-test-rescale.c
+
+8e74a48d17d509 Liam Beguin 2022-02-12  645  
+8e74a48d17d509 Liam Beguin 2022-02-12  646  static void iio_rescale_test_scale(struct kunit *test)
+8e74a48d17d509 Liam Beguin 2022-02-12  647  {
+8e74a48d17d509 Liam Beguin 2022-02-12  648  	struct rescale_tc_data *t = (struct rescale_tc_data *)test->param_value;
+8e74a48d17d509 Liam Beguin 2022-02-12  649  	char *buff = kunit_kmalloc(test, PAGE_SIZE, GFP_KERNEL);
+8e74a48d17d509 Liam Beguin 2022-02-12  650  	struct rescale rescale;
+8e74a48d17d509 Liam Beguin 2022-02-12  651  	int values[2];
+8e74a48d17d509 Liam Beguin 2022-02-12  652  	int rel_ppm;
+8e74a48d17d509 Liam Beguin 2022-02-12  653  	int ret;
+8e74a48d17d509 Liam Beguin 2022-02-12  654  
+8e74a48d17d509 Liam Beguin 2022-02-12 @655  	rescale.numerator = t->numerator;
+8e74a48d17d509 Liam Beguin 2022-02-12 @656  	rescale.denominator = t->denominator;
+8e74a48d17d509 Liam Beguin 2022-02-12  657  	rescale.offset = t->offset;
+8e74a48d17d509 Liam Beguin 2022-02-12  658  	values[0] = t->schan_val;
+8e74a48d17d509 Liam Beguin 2022-02-12  659  	values[1] = t->schan_val2;
+8e74a48d17d509 Liam Beguin 2022-02-12  660  
+8e74a48d17d509 Liam Beguin 2022-02-12  661  	ret = rescale_process_scale(&rescale, t->schan_scale_type,
+8e74a48d17d509 Liam Beguin 2022-02-12  662  				    &values[0], &values[1]);
+8e74a48d17d509 Liam Beguin 2022-02-12  663  
+8e74a48d17d509 Liam Beguin 2022-02-12  664  	ret = iio_format_value(buff, ret, 2, values);
+8e74a48d17d509 Liam Beguin 2022-02-12  665  	KUNIT_EXPECT_EQ(test, (int)strlen(buff), ret);
+8e74a48d17d509 Liam Beguin 2022-02-12  666  
+8e74a48d17d509 Liam Beguin 2022-02-12  667  	rel_ppm = iio_test_relative_error_ppm(buff, t->expected);
+8e74a48d17d509 Liam Beguin 2022-02-12  668  	KUNIT_EXPECT_GE_MSG(test, rel_ppm, 0, "failed to compute ppm\n");
+8e74a48d17d509 Liam Beguin 2022-02-12  669  
+8e74a48d17d509 Liam Beguin 2022-02-12  670  	KUNIT_EXPECT_EQ_MSG(test, rel_ppm, 0,
+8e74a48d17d509 Liam Beguin 2022-02-12  671  			    "\t    real=%s"
+8e74a48d17d509 Liam Beguin 2022-02-12  672  			    "\texpected=%s\n",
+8e74a48d17d509 Liam Beguin 2022-02-12  673  			    buff, t->expected);
+8e74a48d17d509 Liam Beguin 2022-02-12  674  }
+8e74a48d17d509 Liam Beguin 2022-02-12  675  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
