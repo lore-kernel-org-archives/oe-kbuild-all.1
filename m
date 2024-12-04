@@ -1,69 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA5E18FC7B;
-	Wed,  4 Dec 2024 21:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350FA18732E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 21:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733346090; cv=none; b=gO4EFUFtEppyls50mLuW4HrpUqEXGsMeqBzYWj9TJM8lgwLh9oaKl4/AhY6qsOfFccUa76zYxTxLzJLcogwn5r7bYOvJkyqtH8HF7Ww0n7+GtO657p+sqwUdiakAIgFMyxeDKwKlIPuyy+dW+8BZckbeesOGcl63ockopy92hB4=
+	t=1733347416; cv=none; b=n323PQQHUlcgxo2zb33Vhdh5sSi9vu33ZcNTKcj4dBf3VVSvwTjHMFiDj0sMsu4OOEa2/GpL9Id3tdEOhzBZw/dXzekg9jRz/DacGvxxaF4u1QUmnmdz0KQATJCuxt596MB6tuN/xAyG0hWE9Mhj3iJpzVRfz125aWZp8o7HHfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733346090; c=relaxed/simple;
-	bh=YYisex5fANxvp1J7FXSt2wFTYyLxl4fy8A9aDQDg1FQ=;
+	s=arc-20240116; t=1733347416; c=relaxed/simple;
+	bh=vTdLKIs7ebBZu2Ws2Y+DnduT3TbI/7mQ85tTB/+fyB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zu82s5yC9IJ4wbIiA2rutz9yBXwyKRA0tKLcUL/dzP7oiYiouVF5BJIdE7g4e6VWKmE/m9VOP45xXIkGGEURBhHnz1PG0oF6xBJoDr26HeW+fAR7H3q5Bu14Yncljti44F75F3h/HunQh/bRzT5RgDRJYmq8+rJfrgfvf1IORnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCFt4JeZ; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQTKilaXELZMJ08utG7tqQ4psUIaG8eHWrMSEVvdzkGIyTMBd8ekvJJ6KorjSzvOtBkh6PclEePRKYDPJ+mOVN+LDhxyT2MQO8ROiOR2J08yTaDR56l6mQu0PHoBuT64110pdRaaSHPpuersiFXnCn3F+U6ZhyGsiansVbK7eMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrLcQHoF; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCFt4JeZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrLcQHoF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733346089; x=1764882089;
+  t=1733347413; x=1764883413;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YYisex5fANxvp1J7FXSt2wFTYyLxl4fy8A9aDQDg1FQ=;
-  b=QCFt4JeZ6/2Q4MJssAH8pIyjXoo529CBj5IMfn4dFtPV4FCVuFETu3BQ
-   1rKjz5CL9+/53KYqftcqQ/xHRiZdiZA55vWsI5zmQN2tqUol1KB5crSMm
-   fpis/UZMw6JWRHrv2n6mSIquLEnojoYcLrgjgk0IBwp8k1U70vRMzeA6e
-   6INSZE/+npoqKXd1ciSDywFdVkW2A4unz/qnin3MoQdUdoOf1zt9JsBxw
-   kEb/djk8+FWY+9j1z/DT/auLLRiHt4V95VucIM/hivx/qhLdN1s2vvgYg
-   aKVYGS42vQmkbaHpPXjably/ExAiuLMQUraXRA7AXFTvphBlUM/9F/Enk
+  bh=vTdLKIs7ebBZu2Ws2Y+DnduT3TbI/7mQ85tTB/+fyB8=;
+  b=hrLcQHoFUr7WFdgO99c17KS+58npLPHYAEs+oSlPrf013Apg1PQfoyP+
+   ZTx5z8P+qYapUQB/SPkyy3zmrQcLTlZoPYAVXc1sX/nPdpr64YRaYy1fp
+   GNDKamPnb668GVy2it7W/FMRCmZzuBAW3GZlq6kcxTTpRPAVeYAqO/IXL
+   gEw8dgfhhT7HTNopOB0miYwPiSB2IM4Rkuy4blwQiFZyJh0Oh5KmmqJDE
+   /xQtidCrYd602p384Bc8s6wfcAUvviBIXtzzbhOfxs79wWUr7i/2czBu0
+   sf7uwE6c0rmvMhbZYO2Kuwu9/7QMOSr+BgcDVM8nb9vyCY5fYFLQiCIYg
    g==;
-X-CSE-ConnectionGUID: ESJa+yBeRSGfNjX2TE8Kvg==
-X-CSE-MsgGUID: 0XBtZlfkSx6ammeG6kSEaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33376976"
+X-CSE-ConnectionGUID: MvdNcGGwT7qqmizkcJ0egQ==
+X-CSE-MsgGUID: uoCrERBrRuymh7kMpCJ93g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="37572700"
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="33376976"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 13:01:25 -0800
-X-CSE-ConnectionGUID: QWS2hJyNQWOxHgI42sEvdA==
-X-CSE-MsgGUID: 21i45RZzRYqLQ7OlhLyg3A==
+   d="scan'208";a="37572700"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 13:23:32 -0800
+X-CSE-ConnectionGUID: pOd312oXQZe8ugkbw+avLA==
+X-CSE-MsgGUID: YAuA8fusQ1i9fioUZWDaLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="97937245"
+   d="scan'208";a="98338115"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2024 13:01:21 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Dec 2024 13:23:29 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIwUo-0003UD-2j;
-	Wed, 04 Dec 2024 21:01:18 +0000
-Date: Thu, 5 Dec 2024 05:00:58 +0800
+	id 1tIwq9-0003Vl-2S;
+	Wed, 04 Dec 2024 21:23:23 +0000
+Date: Thu, 5 Dec 2024 05:22:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tariq Toukan <tariqt@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
-	Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
-	linux-rdma@vger.kernel.org, Carolina Jubran <cjubran@nvidia.com>,
-	Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>
-Subject: Re: [PATCH net-next V4 07/11] devlink: Extend devlink rate API with
- traffic classes bandwidth management
-Message-ID: <202412050416.e7egEz4f-lkp@intel.com>
-References: <20241203202924.228440-8-tariqt@nvidia.com>
+To: liujing <liujing@cmss.chinamobile.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, mat.jonczyk@o2.pl,
+	rdunlap@infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com,
+	mario.limonciello@amd.com, linux-kernel@vger.kernel.org,
+	liujing <liujing@cmss.chinamobile.com>
+Subject: Re: [PATCH] arch/x86: Fix the wrong format specifier
+Message-ID: <202412050541.CvNgnYXM-lkp@intel.com>
+References: <20241204143322.7772-1-liujing@cmss.chinamobile.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,125 +67,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241203202924.228440-8-tariqt@nvidia.com>
+In-Reply-To: <20241204143322.7772-1-liujing@cmss.chinamobile.com>
 
-Hi Tariq,
+Hi liujing,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on tip/master]
+[also build test WARNING on tip/x86/core tip/auto-latest linus/master v6.13-rc1 next-20241204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-ifc-Reorganize-mlx5_ifc_flow_table_context_bits/20241204-124235
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241203202924.228440-8-tariqt%40nvidia.com
-patch subject: [PATCH net-next V4 07/11] devlink: Extend devlink rate API with traffic classes bandwidth management
-config: x86_64-buildonly-randconfig-001-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050416.e7egEz4f-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050416.e7egEz4f-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/liujing/arch-x86-Fix-the-wrong-format-specifier/20241204-225811
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20241204143322.7772-1-liujing%40cmss.chinamobile.com
+patch subject: [PATCH] arch/x86: Fix the wrong format specifier
+config: x86_64-buildonly-randconfig-006-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050541.CvNgnYXM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050541.CvNgnYXM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050416.e7egEz4f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050541.CvNgnYXM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from net/devlink/rate.c:7:
-   In file included from net/devlink/devl_internal.h:7:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/devlink/rate.c:7:
-   net/devlink/devl_internal.h:29:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      29 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:26:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      26 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:30:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      30 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:26:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      26 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/devlink/rate.c:403:4: warning: 'snprintf' will always be truncated; specified size is 80, but format string expands to at least 83 [-Wformat-truncation]
-     403 |                         NL_SET_ERR_MSG_FMT(info->extack,
-         |                         ^
-   include/linux/netlink.h:116:6: note: expanded from macro 'NL_SET_ERR_MSG_FMT'
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^
-   7 warnings generated.
+   arch/x86/kernel/hpet.c: In function 'hpet_late_init':
+>> arch/x86/kernel/hpet.c:731:40: warning: '%u' directive writing between 1 and 10 bytes into a region of size 6 [-Wformat-overflow=]
+     731 |                 sprintf(hc->name, "hpet%u", i);
+         |                                        ^~
+   In function 'hpet_select_clockevents',
+       inlined from 'hpet_late_init' at arch/x86/kernel/hpet.c:1146:2:
+   arch/x86/kernel/hpet.c:731:35: note: directive argument in the range [0, 4294967294]
+     731 |                 sprintf(hc->name, "hpet%u", i);
+         |                                   ^~~~~~~~
+   arch/x86/kernel/hpet.c:731:17: note: 'sprintf' output between 6 and 15 bytes into a destination of size 10
+     731 |                 sprintf(hc->name, "hpet%u", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/snprintf +403 net/devlink/rate.c
+vim +731 arch/x86/kernel/hpet.c
 
-   381	
-   382	static int devlink_nl_rate_tc_bw_set(struct devlink_rate *devlink_rate,
-   383					     struct genl_info *info)
-   384	{
-   385		DECLARE_BITMAP(bitmap, IEEE_8021QAZ_MAX_TCS) = {};
-   386		struct devlink *devlink = devlink_rate->devlink;
-   387		const struct devlink_ops *ops = devlink->ops;
-   388		u32 tc_bw[IEEE_8021QAZ_MAX_TCS] = {};
-   389		int rem, err = -EOPNOTSUPP, i;
-   390		struct nlattr *attr;
-   391	
-   392		nla_for_each_attr(attr, genlmsg_data(info->genlhdr),
-   393				  genlmsg_len(info->genlhdr), rem) {
-   394			if (nla_type(attr) == DEVLINK_ATTR_RATE_TC_BWS) {
-   395				err = devlink_nl_rate_tc_bw_parse(attr, tc_bw, bitmap, info->extack);
-   396				if (err)
-   397					return err;
-   398			}
-   399		}
-   400	
-   401		for (i = 0; i < IEEE_8021QAZ_MAX_TCS; i++) {
-   402			if (!test_bit(i, bitmap)) {
- > 403				NL_SET_ERR_MSG_FMT(info->extack,
-   404						   "Incomplete traffic class bandwidth values, all %u traffic classes must be specified",
-   405						   IEEE_8021QAZ_MAX_TCS);
-   406				return -EINVAL;
-   407			}
-   408		}
-   409	
-   410		if (devlink_rate_is_leaf(devlink_rate))
-   411			err = ops->rate_leaf_tc_bw_set(devlink_rate, devlink_rate->priv, tc_bw,
-   412						       info->extack);
-   413		else if (devlink_rate_is_node(devlink_rate))
-   414			err = ops->rate_node_tc_bw_set(devlink_rate, devlink_rate->priv, tc_bw,
-   415						       info->extack);
-   416	
-   417		if (err)
-   418			return err;
-   419	
-   420		memcpy(devlink_rate->tc_bw, tc_bw, sizeof(tc_bw));
-   421	
-   422		return 0;
-   423	}
-   424	
+   703	
+   704	static void __init hpet_select_clockevents(void)
+   705	{
+   706		unsigned int i;
+   707	
+   708		hpet_base.nr_clockevents = 0;
+   709	
+   710		/* No point if MSI is disabled or CPU has an Always Running APIC Timer */
+   711		if (hpet_msi_disable || boot_cpu_has(X86_FEATURE_ARAT))
+   712			return;
+   713	
+   714		hpet_print_config();
+   715	
+   716		hpet_domain = hpet_create_irq_domain(hpet_blockid);
+   717		if (!hpet_domain)
+   718			return;
+   719	
+   720		for (i = 0; i < hpet_base.nr_channels; i++) {
+   721			struct hpet_channel *hc = hpet_base.channels + i;
+   722			int irq;
+   723	
+   724			if (hc->mode != HPET_MODE_UNUSED)
+   725				continue;
+   726	
+   727			/* Only consider HPET channel with MSI support */
+   728			if (!(hc->boot_cfg & HPET_TN_FSB_CAP))
+   729				continue;
+   730	
+ > 731			sprintf(hc->name, "hpet%u", i);
+   732	
+   733			irq = hpet_assign_irq(hpet_domain, hc, hc->num);
+   734			if (irq <= 0)
+   735				continue;
+   736	
+   737			hc->irq = irq;
+   738			hc->mode = HPET_MODE_CLOCKEVT;
+   739	
+   740			if (++hpet_base.nr_clockevents == num_possible_cpus())
+   741				break;
+   742		}
+   743	
+   744		pr_info("%d channels of %d reserved for per-cpu timers\n",
+   745			hpet_base.nr_channels, hpet_base.nr_clockevents);
+   746	}
+   747	
 
 -- 
 0-DAY CI Kernel Test Service
