@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACA71FAC5B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 22:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392A0202C4A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 22:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733352947; cv=none; b=AoHipead3mC2MOhv66T4Mtgvr3mrtOPAe0cf5LrXain49MyTrKlFB2GV9/76xDBn1mdVXocO25CaPGU19BR+1RE4sJ8noTKKdiPsy7AWhrN2nqy1Wg8nT/ACLz7GlS6dt+mz8wpzGGTTDx8puFr1h4x0qhULkD08G2QNTqPAIZo=
+	t=1733352948; cv=none; b=UlLJXym8at+f2hS7yRrpmnPnXNp1zWrL78eedgucE7+VpX9OSJWXbRIUJdbOnNpvLPF+ICHTf/3Bfd4Mc7UKbACKcyxKLDXOZKEqz21uEO4PvQs33CzoQjD74mYDs4ENZLC8dPkK/7dtV4vYn0paXscxfpqMv/yaFAfYFFBJivQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733352947; c=relaxed/simple;
-	bh=aGww9T9wZ8kG8b1KcIPaGEF9FCaUusb+/lfITlei+rk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IHFMT5nNRW0at0lfO3CpMp7Zi7gWJp7iruQL7NfIV449uAKfUAHYDxYvBDcxkqbFosfu4qacUi2RhrKhq/79Y+UhML/4eR7dVyta6q410lVc3ijeX2Z7EzaViNA746a0MLmfo38x5L6lMaX/7pc/zY7cbSdXMH91mz/qpWtcYKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQINozSe; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1733352948; c=relaxed/simple;
+	bh=cgJO1mT6QbFYcsRg42YFOL0quGCzPqrV4QxF7OZZOrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JWB30fgLerv+nu7/unvdcuqDBHrE5mHO+egWmMKGflXlko+iB63oB+7TelZIEh3wWdaOy2TdjLDNeG4Xn+1g9sIk9SYn0w7ORx5SrGqSErfM/3nIM4sjkxqguMKbELC1QQq3X5m9gGmV//acnvAqsMl6u5jP/N5NC+khjV20Of4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TYnWUYXl; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQINozSe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYnWUYXl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733352945; x=1764888945;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aGww9T9wZ8kG8b1KcIPaGEF9FCaUusb+/lfITlei+rk=;
-  b=kQINozSeVd++rT9UiLzihMZo8gCG1PFuHhd03fRHPbk/r7XVFQio5fzv
-   fKgBLmpLi8VRUex3BzbqfFUUeB9kVDt0aGNeSUFhCLND+7oDQwXQWdYQk
-   PvRlQ6DZp74Jkk0YfjEVHhZjAiIEj06Fy8+iNEUKJqKTJk7wflhgEB2VD
-   nxM6iRqCrgUVSSPdmcJyiPxnp7l4BruaqbPvuaG5KAAikU/R5lrvkqblP
-   elMP/DLrgI8O2wsYq58cWII/Br1btCZUgI/FsDOL6VQG3DSqHSnOTzFmN
-   dd1dCrGHUGnzDrfEIockolj+LO0eTFj3U6P4y8nTnqajUbZ2Eam/02kZ7
+  t=1733352946; x=1764888946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cgJO1mT6QbFYcsRg42YFOL0quGCzPqrV4QxF7OZZOrE=;
+  b=TYnWUYXlZkytAUJuVQpKZMzss0/R2NG4g6jgREQk9YCdIeeHGXaLY+hG
+   vRyUjIV3Of16WHPzviljXvLjQ3XOm60pMgjEfBAyzpqkLScY6kKmkLjIG
+   my5mTvq1Npv7lITP8ktOKTq/7HbeI2k0EHG62lHiwpJQVJ0MBXI1g6pbV
+   uchbBUoQ9cgugj9l2RKeVYkFk4/wCOSvFausJczaWdo/ZVZuqRD2ce6pm
+   QZQlqLco2P2YQ34xJwqo7SeAOKTmHdFQBdljwXR8c0wxE+kNgFa70xQmK
+   hPYMrvto+ICWMPPtr4cvh6KXsDeNPV0nG8v8jNByjrKq5G1yoZH2q+ziA
    A==;
-X-CSE-ConnectionGUID: 3vkiPU/hSuuuGA7Bzgf1nQ==
-X-CSE-MsgGUID: 37TnEJUvSbWaFEgqz/VuVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33889751"
+X-CSE-ConnectionGUID: ldDJNS9OQ8GTgkAyC6lqvw==
+X-CSE-MsgGUID: 77OidLmbQBSfNqY5qUGjnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44122753"
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="33889751"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 14:55:44 -0800
-X-CSE-ConnectionGUID: EBDVMqFPQ7eqrJFjkHPIAg==
-X-CSE-MsgGUID: DpfVyxqBRc6lnbGvB0QoBg==
+   d="scan'208";a="44122753"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 14:55:46 -0800
+X-CSE-ConnectionGUID: IsgjPig3SxWaIsvTMN9ylg==
+X-CSE-MsgGUID: WP+7dF4CQ8SgGxUUs7HR3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="98720868"
+   d="scan'208";a="93784255"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Dec 2024 14:55:43 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 04 Dec 2024 14:55:43 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIyHV-0003ZX-0N;
+	id 1tIyHV-0003ZV-0J;
 	Wed, 04 Dec 2024 22:55:41 +0000
-Date: Thu, 5 Dec 2024 06:55:31 +0800
+Date: Thu, 5 Dec 2024 06:55:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, hanliyang <hanliyang@hygon.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1590/1590]
- drivers/virt/coco/csv-guest/csv-guest.c:39:43: sparse: sparse: incorrect
- type in argument 2 (different address spaces)
-Message-ID: <202412050642.ZbO2qNHp-lkp@intel.com>
+To: Dhananjay Ugwekar <Dhananjay.Ugwekar@amd.com>, gautham.shenoy@amd.com,
+	mario.limonciello@amd.com, perry.yuan@amd.com, rafael@kernel.org,
+	viresh.kumar@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dhananjay Ugwekar <Dhananjay.Ugwekar@amd.com>
+Subject: Re: [PATCH 3/5] cpufreq/amd-pstate: Refactor
+ amd_pstate_epp_reenable() and amd_pstate_epp_offline()
+Message-ID: <202412050615.ObPzrf34-lkp@intel.com>
+References: <20241204144842.164178-4-Dhananjay.Ugwekar@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +67,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241204144842.164178-4-Dhananjay.Ugwekar@amd.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a2c7a5a53b2787fa56e28a271e9d3894f70e8374
-commit: be5ee944496f8e6f9b5d12ef9ce89ab7100fc84a [1590/1590] driver/virt/coco: Add HYGON CSV Guest dirver.
-config: x86_64-randconfig-121 (https://download.01.org/0day-ci/archive/20241205/202412050642.ZbO2qNHp-lkp@intel.com/config)
+Hi Dhananjay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.13-rc1 next-20241204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dhananjay-Ugwekar/cpufreq-amd-pstate-Convert-the-amd_pstate_get-set_epp-to-static-calls/20241204-225537
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20241204144842.164178-4-Dhananjay.Ugwekar%40amd.com
+patch subject: [PATCH 3/5] cpufreq/amd-pstate: Refactor amd_pstate_epp_reenable() and amd_pstate_epp_offline()
+config: x86_64-buildonly-randconfig-006-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050615.ObPzrf34-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050642.ZbO2qNHp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050615.ObPzrf34-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050642.ZbO2qNHp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050615.ObPzrf34-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/virt/coco/csv-guest/csv-guest.c:39:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] *[addressable] report_data @@
-   drivers/virt/coco/csv-guest/csv-guest.c:39:43: sparse:     expected void const [noderef] __user *from
-   drivers/virt/coco/csv-guest/csv-guest.c:39:43: sparse:     got unsigned char [usertype] *[addressable] report_data
->> drivers/virt/coco/csv-guest/csv-guest.c:49:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] *[addressable] report_data @@
-   drivers/virt/coco/csv-guest/csv-guest.c:49:29: sparse:     expected void [noderef] __user *to
-   drivers/virt/coco/csv-guest/csv-guest.c:49:29: sparse:     got unsigned char [usertype] *[addressable] report_data
+All warnings (new ones prefixed by >>):
 
-vim +39 drivers/virt/coco/csv-guest/csv-guest.c
+   drivers/cpufreq/amd-pstate.c: In function 'amd_pstate_epp_offline':
+>> drivers/cpufreq/amd-pstate.c:1664:13: warning: variable 'value' set but not used [-Wunused-but-set-variable]
+    1664 |         u64 value;
+         |             ^~~~~
 
-    19	
-    20	static long csv_get_report(void __user *argp)
-    21	{
-    22		u8	*csv_report;
-    23		long	ret;
-    24		struct	csv_report_req req;
-    25	
-    26		if (copy_from_user(&req, argp, sizeof(struct csv_report_req)))
-    27			return -EFAULT;
-    28	
-    29		if (req.len < CSV_REPORT_INPUT_DATA_LEN)
-    30			return -EINVAL;
-    31	
-    32		csv_report = kzalloc(req.len, GFP_KERNEL);
-    33		if (!csv_report) {
-    34			ret = -ENOMEM;
-    35			goto out;
-    36		}
-    37	
-    38		/* Save user input data */
-  > 39		if (copy_from_user(csv_report, req.report_data, CSV_REPORT_INPUT_DATA_LEN)) {
-    40			ret = -EFAULT;
-    41			goto out;
-    42		}
-    43	
-    44		/* Generate CSV_REPORT using "KVM_HC_VM_ATTESTATION" VMMCALL */
-    45		ret = kvm_hypercall2(KVM_HC_VM_ATTESTATION, __pa(csv_report), req.len);
-    46		if (ret)
-    47			goto out;
-    48	
-  > 49		if (copy_to_user(req.report_data, csv_report, req.len))
-    50			ret = -EFAULT;
-    51	
-    52	out:
-    53		kfree(csv_report);
-    54		return ret;
-    55	}
-    56	
+
+vim +/value +1664 drivers/cpufreq/amd-pstate.c
+
+d4da12f8033a123 Perry Yuan        2023-01-31  1659  
+d4da12f8033a123 Perry Yuan        2023-01-31  1660  static void amd_pstate_epp_offline(struct cpufreq_policy *policy)
+d4da12f8033a123 Perry Yuan        2023-01-31  1661  {
+d4da12f8033a123 Perry Yuan        2023-01-31  1662  	struct amd_cpudata *cpudata = policy->driver_data;
+d4da12f8033a123 Perry Yuan        2023-01-31  1663  	int min_perf;
+d4da12f8033a123 Perry Yuan        2023-01-31 @1664  	u64 value;
+d4da12f8033a123 Perry Yuan        2023-01-31  1665  
+d4da12f8033a123 Perry Yuan        2023-01-31  1666  	min_perf = READ_ONCE(cpudata->lowest_perf);
+d4da12f8033a123 Perry Yuan        2023-01-31  1667  	value = READ_ONCE(cpudata->cppc_req_cached);
+d4da12f8033a123 Perry Yuan        2023-01-31  1668  
+d4da12f8033a123 Perry Yuan        2023-01-31  1669  	mutex_lock(&amd_pstate_limits_lock);
+d4da12f8033a123 Perry Yuan        2023-01-31  1670  
+33cc0b550fa3510 Dhananjay Ugwekar 2024-12-04  1671  	amd_pstate_update_perf(cpudata, min_perf, 0, min_perf, false);
+33cc0b550fa3510 Dhananjay Ugwekar 2024-12-04  1672  	amd_pstate_set_epp(cpudata, AMD_CPPC_EPP_BALANCE_POWERSAVE);
+33cc0b550fa3510 Dhananjay Ugwekar 2024-12-04  1673  
+d4da12f8033a123 Perry Yuan        2023-01-31  1674  	mutex_unlock(&amd_pstate_limits_lock);
+d4da12f8033a123 Perry Yuan        2023-01-31  1675  }
+d4da12f8033a123 Perry Yuan        2023-01-31  1676  
 
 -- 
 0-DAY CI Kernel Test Service
