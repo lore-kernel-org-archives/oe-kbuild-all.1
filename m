@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D88481732;
-	Wed,  4 Dec 2024 04:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FAC17335C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 05:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733287719; cv=none; b=g4DIO0NCcIfF9rQmVqJwtRcYyjDHG6MvnKjSbO2eN5e4j1aXjuj79rDNTZM5owvrqOGXwOzysD7tUhFIQXD1pRBn4TfzAHeGXh7MkD+WZbhKERclK09x2bKrgpLIVn+TxkS09mbGM0jpqRNhWe66t1OWjCt4X1WUAPgSiVnYw1E=
+	t=1733289038; cv=none; b=iegnS0ey2SgetoGI/D2bte2yXPrBcZzH34h1Y77huvPz3qsBVuJjyPw2PYrA2vUThnIiKD02/pWfgvHasO6/5XoglzVP2lNJjcEveaeXOLj1feDP0dFqCN9e1nqjUb0OMbOu49GFNFI0UH5hz4Ay4MKWWN14L56KZrJ/S3p50t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733287719; c=relaxed/simple;
-	bh=hxH3Ca85gKY3h+glCmXY6pry3O7lllgZ7KRXnLA6w8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=feWkWEFgldioLsp9O/YVnnuG5c7OoeCaJ8dc1MO72dNXm3ow72xRey/wYWig5lK10vRraigJ6OAh932Mfhn4na5hr5GVrw5PNAcoEkVJ3LoPvF1lLE5EzPrFFtEssrirA3UdqtdASz/RUe6EkZnSSt04v2fmlQe0wGGbI9TDa5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AcvFX56B; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1733289038; c=relaxed/simple;
+	bh=EpiONNx3Awea6gxAEJuEObBVvFNLhfiTReodoWPWfyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=N1Fn21yhD0V8bn8UsT9cXanWHmi/jLtQEBfpxcuvMexAkytKXP7z71+TgP9iQ+s/HViLysaLPstvK3W94l26yUxHmZyrS+90kmKFWdOowfvj0jmKYS1pf/ZQu+q0G6c9KIOZmmpIZMBq1k02suq24K7RVSxzf1nKDQ2g+Y36lBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJlLkQc1; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AcvFX56B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJlLkQc1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733287717; x=1764823717;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hxH3Ca85gKY3h+glCmXY6pry3O7lllgZ7KRXnLA6w8U=;
-  b=AcvFX56B5Zzw3hvJ+RA9YiJ49RrpTbZuDhQd9YBCiaOeL2WF9GONEJjX
-   RiA0jxOwfGpl5lJstFrbgxEjT8PF0UnNN9LcmlJ1CjPlFXhiohnWzxXsZ
-   u4oh848DFLoiUr1Aa9OXHxmm7VTCJeuR6OrcxznXtt8JUHyAWxIfrezHR
-   ohp9vuocIJcacErxSpPl0pEFYQj22PNzfn49U1rBEm4LSvUrp1GdTp7/R
-   IAP+OIpxkKeTnlg3I0Buq/W7/qNwZ2PCz5GNJzXZcrBkKdABr9h9SdXr2
-   9XABrimV7mblG5rdLIOIMiPbTRNcXCutKS00AztJmAcDiCXRuf/bx8XDK
-   Q==;
-X-CSE-ConnectionGUID: dupyx2GYRuiSKdmviz6AAA==
-X-CSE-MsgGUID: uutI3M3QTauQtkRoMUL3gA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="33670016"
+  t=1733289036; x=1764825036;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=EpiONNx3Awea6gxAEJuEObBVvFNLhfiTReodoWPWfyk=;
+  b=kJlLkQc1ToUduMRLPTTMgMoc7CG5U4ZjEPpCC4YAuMNHLVSPAaAU6cIh
+   zeWPPQD8W/cGM+dYYnB4fEo1agX//CWhtq393TkB1Ba7vpSzcDJUkFAW0
+   8F4NiAHKUO6akTvqgVMhdAiXPo/yrR0wPSmoAeA7O6xQ+Q6lwW39q/MZw
+   V7ly9zPLM+LrB18a+AtCl/vbxHl9n+NZRRR11ImCeAmGiJeDSQbl57kwS
+   uORxccAslGKmnujumZGKHceXe/h2SGHcRyYXTkIFLMOjC2Opb1ebcPzMy
+   wk24qGuSydkmNf/a4fdzM7HZP4j0RSg7uVii7fcrG8pYXK1phqrEe4Tl0
+   A==;
+X-CSE-ConnectionGUID: nR7Zue1ASa6JofaACbpbag==
+X-CSE-MsgGUID: Bxn9fxLxTXGxwUmZFuHLrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44566256"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="33670016"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 20:48:36 -0800
-X-CSE-ConnectionGUID: qfPjScBATOugZ76VSQroDA==
-X-CSE-MsgGUID: mpEKrRGgTNCsCC+pHq9aQw==
+   d="scan'208";a="44566256"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 21:10:36 -0800
+X-CSE-ConnectionGUID: 9F5oESZRS/Sqm0fMDQN3oA==
+X-CSE-MsgGUID: LpeyXGqCSY22vyfm2VP2yA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="98454788"
+   d="scan'208";a="94483009"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Dec 2024 20:48:33 -0800
+  by orviesa008.jf.intel.com with ESMTP; 03 Dec 2024 21:10:35 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIhJO-0002az-39;
-	Wed, 04 Dec 2024 04:48:30 +0000
-Date: Wed, 4 Dec 2024 12:47:59 +0800
+	id 1tIhei-0002bx-1w;
+	Wed, 04 Dec 2024 05:10:32 +0000
+Date: Wed, 4 Dec 2024 13:09:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhiyuan Wan <kmlinuxm@gmail.com>, andrew@lunn.ch
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	willy.liu@realtek.com, Zhiyuan Wan <kmlinuxm@gmail.com>
-Subject: Re: [PATCH net-next] net: phy: realtek: disable broadcast address
- feature of rtl8211f
-Message-ID: <202412041255.6r9ogs5i-lkp@intel.com>
-References: <20241203125430.2078090-1-kmlinuxm@gmail.com>
+To: Koichiro Den <koichiro.den@canonical.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net-next v3 2/7] virtio_net: replace vq2rxq with vq2txq
+ where appropriate
+Message-ID: <Z0_kGx5kqFdUZXed@24ad928833eb>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,106 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241203125430.2078090-1-kmlinuxm@gmail.com>
+In-Reply-To: <20241204050724.307544-3-koichiro.den@canonical.com>
 
-Hi Zhiyuan,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on net-next/main]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhiyuan-Wan/net-phy-realtek-disable-broadcast-address-feature-of-rtl8211f/20241203-205751
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241203125430.2078090-1-kmlinuxm%40gmail.com
-patch subject: [PATCH net-next] net: phy: realtek: disable broadcast address feature of rtl8211f
-config: arm-randconfig-002-20241204 (https://download.01.org/0day-ci/archive/20241204/202412041255.6r9ogs5i-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041255.6r9ogs5i-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041255.6r9ogs5i-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/phy/realtek.c:12:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/net/phy/realtek.c:147:37: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
-     147 |                 return dev_err_probe(dev, PTR_ERR(ret),
-         |                                                   ^~~
-   include/linux/err.h:52:61: note: passing argument to parameter 'ptr' here
-      52 | static inline long __must_check PTR_ERR(__force const void *ptr)
-         |                                                             ^
-   1 warning and 1 error generated.
-
-
-vim +147 drivers/net/phy/realtek.c
-
-   126	
-   127	static int rtl821x_probe(struct phy_device *phydev)
-   128	{
-   129		struct device *dev = &phydev->mdio.dev;
-   130		struct rtl821x_priv *priv;
-   131		u32 phy_id = phydev->drv->phy_id;
-   132		int ret;
-   133	
-   134		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   135		if (!priv)
-   136			return -ENOMEM;
-   137	
-   138		priv->clk = devm_clk_get_optional_enabled(dev, NULL);
-   139		if (IS_ERR(priv->clk))
-   140			return dev_err_probe(dev, PTR_ERR(priv->clk),
-   141					     "failed to get phy clock\n");
-   142	
-   143		dev_dbg(dev, "disabling MDIO address 0 for this phy");
-   144		ret = phy_modify_paged(phydev, 0xa43, RTL8211F_PHYCR1,
-   145					       RTL8211F_PHYAD0_EN, 0);
-   146		if (ret < 0) {
- > 147			return dev_err_probe(dev, PTR_ERR(ret),
-   148					     "disabling MDIO address 0 failed\n");
-   149		}
-   150		/* Deny broadcast address as PHY address */
-   151		if (phydev->mdio.addr == 0)
-   152			return -ENODEV;
-   153	
-   154		ret = phy_read_paged(phydev, 0xa43, RTL8211F_PHYCR1);
-   155		if (ret < 0)
-   156			return ret;
-   157	
-   158		priv->phycr1 = ret & (RTL8211F_ALDPS_PLL_OFF | RTL8211F_ALDPS_ENABLE | RTL8211F_ALDPS_XTAL_OFF);
-   159		if (of_property_read_bool(dev->of_node, "realtek,aldps-enable"))
-   160			priv->phycr1 |= RTL8211F_ALDPS_PLL_OFF | RTL8211F_ALDPS_ENABLE | RTL8211F_ALDPS_XTAL_OFF;
-   161	
-   162		priv->has_phycr2 = !(phy_id == RTL_8211FVD_PHYID);
-   163		if (priv->has_phycr2) {
-   164			ret = phy_read_paged(phydev, 0xa43, RTL8211F_PHYCR2);
-   165			if (ret < 0)
-   166				return ret;
-   167	
-   168			priv->phycr2 = ret & RTL8211F_CLKOUT_EN;
-   169			if (of_property_read_bool(dev->of_node, "realtek,clkout-disable"))
-   170				priv->phycr2 &= ~RTL8211F_CLKOUT_EN;
-   171		}
-   172	
-   173		phydev->priv = priv;
-   174	
-   175		return 0;
-   176	}
-   177	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net-next v3 2/7] virtio_net: replace vq2rxq with vq2txq where appropriate
+Link: https://lore.kernel.org/stable/20241204050724.307544-3-koichiro.den%40canonical.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
