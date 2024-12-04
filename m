@@ -1,127 +1,91 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A6420E00E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 17:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C99E23875A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 17:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733331857; cv=none; b=Q2jDyUWf62Qj2qGOZFGXnA+0SF4zWUV3VyH6WNjJLg1ivdH8EJGHb3VljKQTBIFNNcqaRLMfJtJB58sO1dQQYL3yftFYRA8yuBPomke6RsFwmgsZSuENKo66ApWnkjy2PmaZokpBlzYOO97OF865S2FiA71RFYhsKEneWCp/YeI=
+	t=1733332448; cv=none; b=WDMglg5wIyfH0QJCItx98cn/JP72f3lpqAVqw6rNmQFv4LFaVktJIoK0kXyDxcp8SyIUGKaFpsfjJJ8YA0ruffv0+jlfIiTLAvx7RS3obEG/jTICmMVXQ/Hb2Jg+yx+G/E0z60C4YqwUCFF23OddkeYfCZTJyT+yF8aOUQfJmEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733331857; c=relaxed/simple;
-	bh=L5U4dSkV1I3cWCusRE3BIyX9nk34hT5kxbJWlQQq/1E=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=GE3/6PX6XfNhvG0FSJD5EIb483KWOdjqtduDst6IEzXP23WfPfenZwJAlyypDRAk+QlkfOJzocXM/hkSDShaoIZ9sautxlEcT0bvKEN+JraSEV8QQ9E6pvTykjqEoEkhDwua4Lj049G0FbrDEexbViK/LEW0Qw8vthuZjGgdvVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Z03Hk1+3; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1733332448; c=relaxed/simple;
+	bh=ChKkFSn+HqNwYxXPJrcJdOBEyWhHbGL/w0jr10G3JTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QzKmn771zYEQsYdtaUZvPHHET9HdkiNzoWq19veyFVNleDHF//Su13/ByQ56FoBhkSVLo3kn65CmGRQu26VgtLpPYFja3sGyKjFGp8Cot6BWuGt2QILFlMSOFKapsKVDZTcLn57EfLzf4I+ZbmgCB3FaTzxK+u80YHHg8kAO7Xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gttBN2bQ; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Z03Hk1+3"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 254E2FF808;
-	Wed,  4 Dec 2024 17:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733331851;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mN4X2mfRbhmCIAyp/AA6+Xam0Nv0+ZB04jq9dio6qPc=;
-	b=Z03Hk1+3HTvSePlLeXZJeyZVuM1IupIBCse5Hc0lL7dv7IICVwl/w0x7sHvLL9I6gXO84H
-	Y8c6R/6ojaDquwVcHfArTcXDRox6Awc6fyT+pJxqmZojatficEWjltAmRtrI6FylhVTsZV
-	/GTrSkg7AQK4qBTHhJ9cfKTNmv4iG7ly/KZz/YGBy4bQotaugMw4Jl/CochHdV/fD99GWf
-	rPpknOmjjEv35LL9F1m1Vpxb8Lu+JWdRSnWNYcgsj+DAAMEAGfFUmPfc425h+zlI9i+w+z
-	xcTfPy4K4DeUaWflUA9ukblZDdSEE0L/oB58DqEWfNJBLq0UomyIKUmwcHNcaQ==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gttBN2bQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733332446; x=1764868446;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ChKkFSn+HqNwYxXPJrcJdOBEyWhHbGL/w0jr10G3JTw=;
+  b=gttBN2bQaxzLOCAprxoYqDjS55WXDW7Vq1ihcHsWWCOKQmG741RtCt2F
+   Axij2UwH/vLUpC0VI4vxD8KcFUL8WVEGmLR+0VJ5VSOFJuQOe0cNhDnVc
+   i5ZQvov7NRvpeijtp9OONbeCvB2bfz9+Ilr07f6PcdXMxKl7KzQnsVduZ
+   FyY2ucD+007zDTnbG4n00UO5PT4WfTadwtuLXX+nzmBNokTk/12HBOflq
+   57da8XzZ/3LCsWj2bULLQKqmcPBiicp1iZwVtYur5nIDyy9fltxvekO5A
+   3O+OFyRnpyBDuOfx4/HcCBye5PVonc7+vWL4gvfjSNFRyJseC5ptKsgV0
+   Q==;
+X-CSE-ConnectionGUID: 9tUeuM5CSh6vAp2DDDaFdw==
+X-CSE-MsgGUID: bMPKUQiaT+S8n7K8RtWMKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33740153"
+X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
+   d="scan'208";a="33740153"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 09:14:06 -0800
+X-CSE-ConnectionGUID: htJ7TogrRwC2q/Wx6M7rYg==
+X-CSE-MsgGUID: 7d9Nt9ORRq6Ms9LRe0Pf6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
+   d="scan'208";a="94012862"
+Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 04 Dec 2024 09:14:05 -0800
+Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tIsws-0003KZ-2b;
+	Wed, 04 Dec 2024 17:14:02 +0000
+Date: Thu, 5 Dec 2024 01:13:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, heppen <hepeng68@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2544/2544] kismet: WARNING: unmet direct
+ dependencies detected for CPPC_CPUFREQ_SYSFS_INTERFACE when selected by
+ CPU_FREQ_GOV_SEEP
+Message-ID: <202412050118.uE81aGlX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Dec 2024 18:04:10 +0100
-Message-Id: <D632UZERSM8I.1O3J7O9QZ64EV@bootlin.com>
-Cc: <oe-kbuild-all@lists.linux.dev>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-mips@vger.kernel.org>, "Vladimir
- Kondratiev" <vladimir.kondratiev@mobileye.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
- <tawfik.bayouk@mobileye.com>, =?utf-8?q?Th=C3=A9o_Lebrun?=
- <theo.lebrun@bootlin.com>, "Srinivas Kandagatla"
- <srinivas.kandagatla@linaro.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Nicolas Saenz Julienne" <nsaenz@kernel.org>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
-To: "kernel test robot" <lkp@intel.com>
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Subject: Re: [PATCH 5/6] nvmem: rmem: add CRC validation for Mobileye EyeQ5
- NVMEM
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20241203-rmem-v1-5-24f4970cf14e@bootlin.com>
- <202412041522.01H5Kj6F-lkp@intel.com>
-In-Reply-To: <202412041522.01H5Kj6F-lkp@intel.com>
-X-GND-Sasl: theo.lebrun@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed Dec 4, 2024 at 8:58 AM CET, kernel test robot wrote:
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Th-o-Lebrun/dt-bin=
-dings-nvmem-rmem-Add-mobileye-eyeq5-bootloader-config/20241204-103417
-> base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-> patch link:    https://lore.kernel.org/r/20241203-rmem-v1-5-24f4970cf14e%=
-40bootlin.com
-> patch subject: [PATCH 5/6] nvmem: rmem: add CRC validation for Mobileye E=
-yeQ5 NVMEM
-> config: arm-randconfig-002 (https://download.01.org/0day-ci/archive/20241=
-204/202412041522.01H5Kj6F-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20241204/202412041522.01H5Kj6F-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412041522.01H5Kj6F-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/nvmem/rmem.c: In function 'rmem_eyeq5_checksum':
->    drivers/nvmem/rmem.c:66:9: error: cleanup argument not a function
->       66 |         void *buf __free(kfree) =3D NULL;
->          |         ^~~~
->    drivers/nvmem/rmem.c:97:15: error: implicit declaration of function 'k=
-malloc'; did you mean 'mm_alloc'? [-Wimplicit-function-declaration]
->       97 |         buf =3D kmalloc(header.size, GFP_KERNEL);
->          |               ^~~~~~~
->          |               mm_alloc
-> >> drivers/nvmem/rmem.c:97:13: error: assignment to 'void *' from 'int' m=
-akes pointer from integer without a cast [-Wint-conversion]
->       97 |         buf =3D kmalloc(header.size, GFP_KERNEL);
->          |             ^
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   b71af6f00ede58be00cb7306c9acb2660ec90947
+commit: c3fe0dc62217d6faa76128ed26d64e421767919e [2544/2544] cpufreq: Add SEEP governor for hardware-managed P-states
+config: arm64-kismet-CONFIG_CPPC_CPUFREQ_SYSFS_INTERFACE-CONFIG_CPU_FREQ_GOV_SEEP-0-0 (https://download.01.org/0day-ci/archive/20241205/202412050118.uE81aGlX-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241205/202412050118.uE81aGlX-lkp@intel.com/reproduce)
 
-Will fix with the following.
-V2 incoming in a few days to avoid spam.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050118.uE81aGlX-lkp@intel.com/
 
-	diff --git a/drivers/nvmem/rmem.c b/drivers/nvmem/rmem.c
-	index 04796f4fa8ae..1f0caf1d2dc1 100644
-	--- a/drivers/nvmem/rmem.c
-	+++ b/drivers/nvmem/rmem.c
-	@@ -9,6 +9,7 @@
-	 #include <linux/nvmem-provider.h>
-	 #include <linux/of_reserved_mem.h>
-	 #include <linux/platform_device.h>
-	+#include <linux/slab.h>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CPPC_CPUFREQ_SYSFS_INTERFACE when selected by CPU_FREQ_GOV_SEEP
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+     Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+     Selected by [y]:
+     - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
+   
+   WARNING: unmet direct dependencies detected for CPPC_CPUFREQ_SYSFS_INTERFACE
+     Depends on [n]: CPU_FREQ [=y] && (ARM || ARM64 [=y]) && ACPI_CPPC_CPUFREQ [=n]
+     Selected by [y]:
+     - CPU_FREQ_GOV_SEEP [=y] && CPU_FREQ [=y] && (ACPI_CPPC_CPUFREQ [=n] || ARM64 [=y])
 
-	 struct rmem {
-	        struct device *dev;
-
-Regards,
-
---
-Th=C3=A9o Lebrun, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
