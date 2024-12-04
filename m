@@ -1,66 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149A01F7094
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9CD1F6673
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 14:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733321042; cv=none; b=iZtrEc3cW0m/N/DxVSDbH2Ndx618NNf3DtUd8r/6l8ZB2ZAn+dq1cwYGdN4t7S/MHoLzaQEk9hyzIzfShV1ijShEtuz9OH7JHzDN+FwDzBTX7DmXvXgemQlfOhPRCr95tqilCQmOnJJt4Cb8G7seyiKYbauMKr0iGJwTBFvSHq0=
+	t=1733321043; cv=none; b=tpQJGaWQGs72c9xQe6ZswrH7xz99OU8Hkgw9p/uIJLfrEpCPzQLo6BalQlHo6K7U/WuM9wwNqEWQj7PUr51ZWZAOHwB3egq/+Jv8ZyCeLkIFnVtDPbfObi+zTGBUzFt4mw7efMpYDl5XuuWPyjjtZaZaCLggV/6/wclvrdslWkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733321042; c=relaxed/simple;
-	bh=7KLMpaj3psPE975L+wGRX1NRSUDet9hdWj+hEc/t+XE=;
+	s=arc-20240116; t=1733321043; c=relaxed/simple;
+	bh=ps12D0bZwaHSb7xCO9IWU0B3C0hpC+lWqvNS9LburUk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qtPMCihfjFE4I5lThvUs3PR3zWyJf0DJWjvdKDeaQyQAhfh9xQWAHja6zkC7maLEHaxM/pZpP7aRFcSSz9h+jfGfhzzw24Yqjmvhw0LttA4PSP03eTJ+HTJNF0+7VyEXqLjyisXSjWZLlU8m1Q3qahFmoRyqSTOqd8SFGfdZdX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SFcW0JUc; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=oAb3N2gTKUcnSzXwekCPLU/yAAa6jdAmaPKUHCReJW0/NT47I7JZG7lkfY/xp0FpkkSmjR5woHbE7d/OVyQxShrhXu3VRwDvSL4Hrr+szXPp+zR7wIfK46P8+FyvpiPQRm5w1a8ltxfnhapfX1zDuIa9qh6kQ+zMWgOfCSVzKmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej8G7Xci; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFcW0JUc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej8G7Xci"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733321041; x=1764857041;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7KLMpaj3psPE975L+wGRX1NRSUDet9hdWj+hEc/t+XE=;
-  b=SFcW0JUcV5HsTJwzIxd3YL4oeL+pZTiu6QCOJVI+wkPbtIYy3HJPNVhY
-   R7owYyAgwLRtXmlOizOd9fHIZz6LgcaOrieTIl1TlYfmDEQkTu1YpcDiC
-   IY+Wi4Ni3rX7B1h9TfpGgNndRcJ56OQEbaU4uou6/DWyQbqF6+Sn4e0tV
-   M73LM1fPh1S5CSTmXQS/4a6JewjZpFN4T+/Px/ASc3A+YicRLgrYwx8Ey
-   X4NnKgMrsDzjxMefB73obluOhqc+98Lmrqj6yWRttYTXbIEPfVCXi0YCL
-   SMUx4IeADGqqeK14sbJIEsvW4CPOYOMRyoOomN7GuWH7UxbpJ9a2RKTx8
-   w==;
-X-CSE-ConnectionGUID: zx2ybhg5QEuvqMcGf5TBCg==
-X-CSE-MsgGUID: DcOa2ZejTRit1bdwkVWLng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44617557"
+  bh=ps12D0bZwaHSb7xCO9IWU0B3C0hpC+lWqvNS9LburUk=;
+  b=ej8G7XcixhiHQU45JrnQWFal8RFp+q2VyA1OjZCH/tEr3m3CBEAsabfs
+   vZXaw6fmOBxl/gtoKABGUsfK+W7RNT7u45eZ7TjC3L1b0q1AyPCOhS3BE
+   JxRRFizi04lY8oB1amApJeUC+KAGdhq5ebdToMGRbfg+U+9W1pmgHsKBK
+   Brc6bsroBsPiJ9Izj6EMZsYAvHWPCGzQ+ZIAodg0I1szl146PrhbR/hTc
+   2CeVq4HnjpTapv6Ms8ixax/w9J9WwppbUG27z+rM/YDwFXLjtS0ENkOGm
+   6Az0AKbPE6DvXUjAkGqmE8R0tyUi2p1118opQ2dTB22Oweb7JT96FAi83
+   Q==;
+X-CSE-ConnectionGUID: ci8WybXKSW+BXMTY5PyL4w==
+X-CSE-MsgGUID: CWHu8VsbSvSxhZQYMwWP/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44617549"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44617557"
+   d="scan'208";a="44617549"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:04:00 -0800
-X-CSE-ConnectionGUID: 4yfn1dd1SteZ8DH1tW0vMg==
-X-CSE-MsgGUID: 435jbu0ITeikpMsf38kSJw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:03:59 -0800
+X-CSE-ConnectionGUID: gjC+p+6jSOm3xsHwcCUIuA==
+X-CSE-MsgGUID: ntkKCBwAQ+69Ytn2tRSSBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94600355"
+   d="scan'208";a="94600329"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
   by orviesa008.jf.intel.com with ESMTP; 04 Dec 2024 06:03:57 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIpys-00035D-2A;
+	id 1tIpys-00035B-24;
 	Wed, 04 Dec 2024 14:03:54 +0000
-Date: Wed, 4 Dec 2024 22:03:37 +0800
+Date: Wed, 4 Dec 2024 22:03:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v2 1/5] drm/i915/fbdev: Add intel_fbdev_get_vaddr()
-Message-ID: <202412042119.5ErpNlAU-lkp@intel.com>
-References: <20241203092836.426422-2-jfalempe@redhat.com>
+To: NeilBrown <neilb@suse.de>, Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Disseldorp <ddiss@suse.com>,
+	linux-nfs@vger.kernel.org
+Subject: Re: [PATCH 2/2] NFS: move _maxsz and _sz #defines to the function
+ which they describe.
+Message-ID: <202412042135.z6hANLmp-lkp@intel.com>
+References: <20241204025703.2662394-3-neilb@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,38 +65,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241203092836.426422-2-jfalempe@redhat.com>
+In-Reply-To: <20241204025703.2662394-3-neilb@suse.de>
 
-Hi Jocelyn,
+Hi NeilBrown,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 44cff6c5b0b17a78bc0b30372bcd816cf6dd282a]
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on linus/master v6.13-rc1 next-20241203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-i915-fbdev-Add-intel_fbdev_get_vaddr/20241203-173213
-base:   44cff6c5b0b17a78bc0b30372bcd816cf6dd282a
-patch link:    https://lore.kernel.org/r/20241203092836.426422-2-jfalempe%40redhat.com
-patch subject: [PATCH v2 1/5] drm/i915/fbdev: Add intel_fbdev_get_vaddr()
-config: i386-randconfig-062-20241204 (https://download.01.org/0day-ci/archive/20241204/202412042119.5ErpNlAU-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/NFS-fix-open_owner_id_maxsz-and-related-fields/20241204-124433
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20241204025703.2662394-3-neilb%40suse.de
+patch subject: [PATCH 2/2] NFS: move _maxsz and _sz #defines to the function which they describe.
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20241204/202412042135.z6hANLmp-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042119.5ErpNlAU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042135.z6hANLmp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412042119.5ErpNlAU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412042135.z6hANLmp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_fb_pin.c:333:34: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/i915/display/intel_fb_pin.c:333:34: sparse:     expected void *
-   drivers/gpu/drm/i915/display/intel_fb_pin.c:333:34: sparse:     got void [noderef] __iomem *
+All warnings (new ones prefixed by >>):
 
-vim +333 drivers/gpu/drm/i915/display/intel_fb_pin.c
+>> fs/nfs/nfs4xdr.c:3040: warning: "decode_sequence_maxsz" redefined
+    3040 | #define decode_sequence_maxsz   (op_decode_hdr_maxsz + \
+         | 
+   fs/nfs/nfs4xdr.c:135: note: this is the location of the previous definition
+     135 | #define decode_sequence_maxsz   0
+         | 
+>> fs/nfs/nfs4xdr.c:6068: warning: "encode_sequence_maxsz" redefined
+    6068 | #define encode_sequence_maxsz   (op_encode_hdr_maxsz + \
+         | 
+   fs/nfs/nfs4xdr.c:134: note: this is the location of the previous definition
+     134 | #define encode_sequence_maxsz   0
+         | 
 
-   330	
-   331	void *intel_fb_get_vaddr(struct i915_vma *vma)
-   332	{
- > 333		return i915_vma_get_iomap(vma);
+
+vim +/decode_sequence_maxsz +3040 fs/nfs/nfs4xdr.c
+
+  3039	
+> 3040	#define decode_sequence_maxsz	(op_decode_hdr_maxsz + \
+  3041					XDR_QUADLEN(NFS4_MAX_SESSIONID_LEN) + 5)
+  3042	static int decode_sequence(struct xdr_stream *xdr,
+  3043				   struct nfs4_sequence_res *res,
+  3044				   struct rpc_rqst *rqstp)
+  3045	{
+  3046	#if defined(CONFIG_NFS_V4_1)
+  3047		struct nfs4_session *session;
+  3048		struct nfs4_sessionid id;
+  3049		u32 dummy;
+  3050		int status;
+  3051		__be32 *p;
+  3052	
+  3053		if (res->sr_slot == NULL)
+  3054			return 0;
+  3055		if (!res->sr_slot->table->session)
+  3056			return 0;
+  3057	
+  3058		status = decode_op_hdr(xdr, OP_SEQUENCE);
+  3059		if (!status)
+  3060			status = decode_sessionid(xdr, &id);
+  3061		if (unlikely(status))
+  3062			goto out_err;
+  3063	
+  3064		/*
+  3065		 * If the server returns different values for sessionID, slotID or
+  3066		 * sequence number, the server is looney tunes.
+  3067		 */
+  3068		status = -EREMOTEIO;
+  3069		session = res->sr_slot->table->session;
+  3070	
+  3071		if (memcmp(id.data, session->sess_id.data,
+  3072			   NFS4_MAX_SESSIONID_LEN)) {
+  3073			dprintk("%s Invalid session id\n", __func__);
+  3074			goto out_err;
+  3075		}
+  3076	
+  3077		p = xdr_inline_decode(xdr, 20);
+  3078		if (unlikely(!p))
+  3079			goto out_overflow;
+  3080	
+  3081		/* seqid */
+  3082		dummy = be32_to_cpup(p++);
+  3083		if (dummy != res->sr_slot->seq_nr) {
+  3084			dprintk("%s Invalid sequence number\n", __func__);
+  3085			goto out_err;
+  3086		}
+  3087		/* slot id */
+  3088		dummy = be32_to_cpup(p++);
+  3089		if (dummy != res->sr_slot->slot_nr) {
+  3090			dprintk("%s Invalid slot id\n", __func__);
+  3091			goto out_err;
+  3092		}
+  3093		/* highest slot id */
+  3094		res->sr_highest_slotid = be32_to_cpup(p++);
+  3095		/* target highest slot id */
+  3096		res->sr_target_highest_slotid = be32_to_cpup(p++);
+  3097		/* result flags */
+  3098		res->sr_status_flags = be32_to_cpup(p);
+  3099		status = 0;
+  3100	out_err:
+  3101		res->sr_status = status;
+  3102		return status;
+  3103	out_overflow:
+  3104		status = -EIO;
+  3105		goto out_err;
+  3106	#else  /* CONFIG_NFS_V4_1 */
+  3107		return 0;
+  3108	#endif /* CONFIG_NFS_V4_1 */
+  3109	}
+  3110	
 
 -- 
 0-DAY CI Kernel Test Service
