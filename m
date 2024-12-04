@@ -1,63 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C571B3945
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 11:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D581B393A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 11:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733312693; cv=none; b=YMsjYfHUH/59/rmnL400VLeIAPmZKyhBBSd7D6IyMKMuLg8LIZJerJ4fxsimjZOFxGML63hXVabNZ9bmkSUrz9YwakejlT9gQSPu9DMNGdYK8WT3OHO2N5df5rdyW7cKan1fklxrdCQ7lke1/BYv7ZaeEXFpszhoDgcIFNw6Dig=
+	t=1733313356; cv=none; b=CX2gVZaIvzVb2zbKgdMwq7+DgIORzit2uSQYKBcrDY55Z+eBuuKAQ+B6zR9drjTR1YwWJworAwLozEHhBzRqOu8uQ33yVa5+0qe3vA7mpLGg7oGiAboffGVGz4tdqpiGgO+EjHwPaSHuUCs2tfDuDiY5UamCfZYDlvoHK/xXz7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733312693; c=relaxed/simple;
-	bh=pHwngGRAb/vPrnt8FnpBqAiQofRnngsM9ULIkXyMQ/k=;
+	s=arc-20240116; t=1733313356; c=relaxed/simple;
+	bh=b9+hThTl0irJhkh03Sww3rGHMjhjdRXKbCidlcCmBws=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TvognRBSneZs+hs1cW7TvKULpPE4Ss8V1/WKsAOC96qdpf0HGeDIk9QPKthA5VrBOSl+W+c0x2+UFcAKHhFsKBsnUBdOAJBGoNfxBlLh2T01RMgvF4HJM01vShSucKWeLYoxyn5y9dWQdc4TiqBbQD0J25NSU0JiPVcMJzBo/Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lSuU0YwM; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=nd4Y1og/28U9TsU8X0n5Qj2JgbB7iKlMGuM8/lULlNVAdcn2ONn/5veatIV22tQ5IW0JMSnE34FEj5Fc5KELC5zA0+v5BoRB7N7Z0qpW2ti4wWMKWTkEhqqzi+QSEFvJS/KU6OqZYJmge9UoRCjHifOS6UAVXvUXuPD+2/eZ+ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EH3MItMo; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lSuU0YwM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EH3MItMo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733312692; x=1764848692;
+  t=1733313354; x=1764849354;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pHwngGRAb/vPrnt8FnpBqAiQofRnngsM9ULIkXyMQ/k=;
-  b=lSuU0YwMyx/SGA2bvdQyQkMvdc4ma12WBTR9trLFXzc9LpkENPkTFatz
-   UeA3kEDvhBNM3lV+gckBju9+PdN9//p/qVUeSE1ELVEfNZPB5b3wCzl8Y
-   i9RIhRs7+Dx2hjv9PO+VkWZ/EKTKYKueLS/wTRPdvH+SranG05X2ZcEoA
-   19q1iToIEw2G2tYWOrDKEdD6geswiR3eCC+G8GirQLtq4OOeBazpYs7Da
-   wlKhgyg2KPrPdzEXTEU56qkhN2dS0spYP9hdITgKwU9XLOTOllpdzm/aC
-   wB11Rww1xQfTdttYNNijWFZxvu5LcJYxy2a+awc+zXdZmh/joNFTNFG16
-   A==;
-X-CSE-ConnectionGUID: VI3yLE0WR3mDNcJLZgfXHQ==
-X-CSE-MsgGUID: pyjcaYuWQ8yTf2cycgDR2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44966377"
+  bh=b9+hThTl0irJhkh03Sww3rGHMjhjdRXKbCidlcCmBws=;
+  b=EH3MItMoTcbonGS7Rjx0jyxqJI7/jnhK6P+Cmh/mGVN3L+1P94Ltyo+H
+   y3Pi4V6n8OoqZPwMFBx7onB9x97f9D1CvwgoFfYDEsijS4jZk0iQ8UcGB
+   FGvRr2BQbkuuffOPwGwOlCPwHkSY6NYgaAlCJhYEESVv8GKPtMUjcYpOe
+   xEz3DjsR1K45H+d4ApMi4vGZIkgOUbM10FdxX4EghMk6tL7NFiwi17pXU
+   B/GAZhEI+tXpys9HflFjt29Q3vxIyv/Rp5mPZEk2SFA5f8f3EpB5pi5Es
+   xSj1Hb8IfQ1SiH3IW3wHBrOvtJJMpopiZQZtJgdYGRyPT6RW/zN9WB02e
+   Q==;
+X-CSE-ConnectionGUID: 0hAjx7WgSiGt4jImPlZgXQ==
+X-CSE-MsgGUID: 7LvP+KlhQT6svP9KHOhexQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="33824304"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44966377"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 03:44:51 -0800
-X-CSE-ConnectionGUID: HDlhMaCOTWywTgMaKE+3LA==
-X-CSE-MsgGUID: jQRd2aMvS7iD2XB5yQMDDg==
+   d="scan'208";a="33824304"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 03:55:53 -0800
+X-CSE-ConnectionGUID: GAfJM3ckRdSWF3hqDqblhg==
+X-CSE-MsgGUID: fQuMZ+ddSAuzRmSw93Ualg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="124670341"
+   d="scan'208";a="98733643"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Dec 2024 03:44:48 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Dec 2024 03:55:50 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tInoE-0002yV-0R;
-	Wed, 04 Dec 2024 11:44:46 +0000
-Date: Wed, 4 Dec 2024 19:43:57 +0800
+	id 1tInyt-0002zB-0m;
+	Wed, 04 Dec 2024 11:55:47 +0000
+Date: Wed, 4 Dec 2024 19:55:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	eraretuya@gmail.com, l.rubusch@gmail.com
-Subject: Re: [PATCH v3 10/10] iio: accel: adxl345: add kfifo with watermark
-Message-ID: <202412041901.a986bAPP-lkp@intel.com>
-References: <20241203205241.48077-11-l.rubusch@gmail.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] mm/vma: move brk() internals to mm/vma.c
+Message-ID: <202412041907.3DXYQrz6-lkp@intel.com>
+References: <3d24b9e67bb0261539ca921d1188a10a1b4d4357.1733248985.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,81 +70,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241203205241.48077-11-l.rubusch@gmail.com>
+In-Reply-To: <3d24b9e67bb0261539ca921d1188a10a1b4d4357.1733248985.git.lorenzo.stoakes@oracle.com>
 
-Hi Lothar,
+Hi Lorenzo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.13-rc1 next-20241203]
-[cannot apply to jic23-iio/togreg v6.13-rc1 v6.12 v6.12-rc7 next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241204-121629
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241203205241.48077-11-l.rubusch%40gmail.com
-patch subject: [PATCH v3 10/10] iio: accel: adxl345: add kfifo with watermark
-config: i386-buildonly-randconfig-004 (https://download.01.org/0day-ci/archive/20241204/202412041901.a986bAPP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041901.a986bAPP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-vma-move-brk-internals-to-mm-vma-c/20241204-115150
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/3d24b9e67bb0261539ca921d1188a10a1b4d4357.1733248985.git.lorenzo.stoakes%40oracle.com
+patch subject: [PATCH 1/5] mm/vma: move brk() internals to mm/vma.c
+config: mips-allnoconfig (https://download.01.org/0day-ci/archive/20241204/202412041907.3DXYQrz6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041907.3DXYQrz6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041901.a986bAPP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041907.3DXYQrz6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/accel/adxl345_core.c:434: warning: expecting prototype for irqreturn_t adxl345_event_handler()(). Prototype was for adxl345_event_handler() instead
+   In file included from arch/mips/include/asm/cacheflush.h:13,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/writeback.h:13,
+                    from include/linux/backing-dev.h:16,
+                    from mm/vma_internal.h:12,
+                    from mm/vma.c:7:
+   mm/vma.c: In function 'do_brk_flags':
+>> include/linux/mm.h:450:44: error: 'READ_IMPLIES_EXEC' undeclared (first use in this function)
+     450 | #define TASK_EXEC ((current->personality & READ_IMPLIES_EXEC) ? VM_EXEC : 0)
+         |                                            ^~~~~~~~~~~~~~~~~
+   include/linux/mm.h:453:55: note: in expansion of macro 'TASK_EXEC'
+     453 | #define VM_DATA_FLAGS_TSK_EXEC  (VM_READ | VM_WRITE | TASK_EXEC | \
+         |                                                       ^~~~~~~~~
+   arch/mips/include/asm/page.h:215:33: note: in expansion of macro 'VM_DATA_FLAGS_TSK_EXEC'
+     215 | #define VM_DATA_DEFAULT_FLAGS   VM_DATA_FLAGS_TSK_EXEC
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   mm/vma.c:2503:18: note: in expansion of macro 'VM_DATA_DEFAULT_FLAGS'
+    2503 |         flags |= VM_DATA_DEFAULT_FLAGS | VM_ACCOUNT | mm->def_flags;
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/mm.h:450:44: note: each undeclared identifier is reported only once for each function it appears in
+     450 | #define TASK_EXEC ((current->personality & READ_IMPLIES_EXEC) ? VM_EXEC : 0)
+         |                                            ^~~~~~~~~~~~~~~~~
+   include/linux/mm.h:453:55: note: in expansion of macro 'TASK_EXEC'
+     453 | #define VM_DATA_FLAGS_TSK_EXEC  (VM_READ | VM_WRITE | TASK_EXEC | \
+         |                                                       ^~~~~~~~~
+   arch/mips/include/asm/page.h:215:33: note: in expansion of macro 'VM_DATA_FLAGS_TSK_EXEC'
+     215 | #define VM_DATA_DEFAULT_FLAGS   VM_DATA_FLAGS_TSK_EXEC
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   mm/vma.c:2503:18: note: in expansion of macro 'VM_DATA_DEFAULT_FLAGS'
+    2503 |         flags |= VM_DATA_DEFAULT_FLAGS | VM_ACCOUNT | mm->def_flags;
+         |                  ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +434 drivers/iio/accel/adxl345_core.c
+vim +/READ_IMPLIES_EXEC +450 include/linux/mm.h
 
-   425	
-   426	/**
-   427	 * irqreturn_t adxl345_event_handler() - Handle events of the ADXL345.
-   428	 * @irq: The irq being handled.
-   429	 * @p: The struct iio_device pointer for the device.
-   430	 *
-   431	 * Return: The interrupt was handled.
-   432	 */
-   433	static irqreturn_t adxl345_event_handler(int irq, void *p)
- > 434	{
-   435		struct iio_dev *indio_dev = p;
-   436		struct adxl345_state *st = iio_priv(indio_dev);
-   437		u8 int_stat;
-   438		int samples;
-   439	
-   440		int_stat = adxl345_get_status(st);
-   441		if (int_stat < 0)
-   442			return IRQ_NONE;
-   443	
-   444		if (int_stat == 0x0)
-   445			goto err;
-   446	
-   447		if (int_stat & ADXL345_INT_OVERRUN)
-   448			goto err;
-   449	
-   450		if (int_stat & (ADXL345_INT_DATA_READY | ADXL345_INT_WATERMARK)) {
-   451			samples = adxl345_get_samples(st);
-   452			if (samples < 0)
-   453				goto err;
-   454	
-   455			if (adxl345_fifo_push(indio_dev, samples) < 0)
-   456				goto err;
-   457	
-   458		}
-   459		return IRQ_HANDLED;
-   460	
-   461	err:
-   462		adxl345_fifo_reset(st);
-   463	
-   464		return IRQ_HANDLED;
-   465	}
-   466	
+a8bef8ff6ea15fa Mel Gorman        2010-05-24  449  
+c62da0c35d58518 Anshuman Khandual 2020-04-10 @450  #define TASK_EXEC ((current->personality & READ_IMPLIES_EXEC) ? VM_EXEC : 0)
+c62da0c35d58518 Anshuman Khandual 2020-04-10  451  
 
 -- 
 0-DAY CI Kernel Test Service
