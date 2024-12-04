@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A2A3D0D5;
-	Wed,  4 Dec 2024 20:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE6C3D0D5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 20:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733344222; cv=none; b=EYTcw9x+0Z1Q5cRcgnfjb042O1Jl62jkJpE30mFdci6da21xZus3zcsRPsqj8UJdkF3CCdhWG53ue6GB2XtZ4jh13SeKG44xHGsSKv0YgZIjrkbQqz+s3qc0tV305T2fIhr62DTJskqtlo/yiK++BqtWal0PLgRlY1wuIcDwrls=
+	t=1733344884; cv=none; b=LhNelQssdBkVQku7f0YcGV7xiLqKfK4PnVT68+kZqWRnB9qAox2LtJVQRh8m/cBc/SypHyiiXubV1XO5M+PyZudjMciOeeaFCxqOKda/545H6zrGleEL5M1kEoUnLv4IZMY0E5Gwej8SeHtRk9BelADvXve7g+OB/G3+YpHt6KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733344222; c=relaxed/simple;
-	bh=Hqvk2t+BsLSphs4WfQUre5lwOKVlFGQ6Nxe5CPShoMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/sFRCEeOr//XzHWq8Wk2MBsyn+1M+SR9hiYWx+h1+HrkBT6ZXHUkatP89z09nivlYKlj7A7Doetv2ze1SNam7a2QtMEXZzUFVnLzkAqKFDQe3ijEMcrNa5WtiIzQWO9vBOS665NiHHxV6oBO2OifQY+H9cyO8yx4Fq2l8s2Nek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nC6RrKHz; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1733344884; c=relaxed/simple;
+	bh=L4rp/2MLE+CiT4iNOJzpcuES+bxO21D4SqPYZ9iymGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EKj6W6ks8X8vvJWl8mQa1ENhy1XAositkUBTCYOkXLV36jANeHbsymHFxpqKi0rpci4DAN056ZsayI45kvpfWm7g2gQWuuS1qtGnq9Hzo4VhbQQxbibTo0Ga5sycX8iozdAgBjJ83ko3C22WkKFzcG76sRiab4ePi5jRa9ZtlcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KbENXr+L; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nC6RrKHz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KbENXr+L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733344220; x=1764880220;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Hqvk2t+BsLSphs4WfQUre5lwOKVlFGQ6Nxe5CPShoMA=;
-  b=nC6RrKHzVubJUglLj+0DqckszGyN5hubIROfoScUgpTfOEZK5q3TnWoS
-   nTluqMFiYjnE+4oUkfgDXWUWMCIzYpf57NQnYAoyVcMDrDkgvcRSJ0UbC
-   ljwTJLyVoPQAmyDl5HTNuqza7r5owbpAidVnLV3uq6HOp5xs55wu0AGFe
-   vHCJSfpNPbPTtxtU0fczZmYBT24MCmyZhxJkYf8Lcn6/sz+Zlq55m8kyr
-   A6wdXL9Gi6M4lt3mECyLNBhEpDX1Prxpj7F0mWqzAPT4LY46rx12sZXsg
-   QK8EGYEvFr1aNGCn5TcFP/zfwAaGukIQJKuIU6BLax1aL4sLdKecONRAl
-   g==;
-X-CSE-ConnectionGUID: bN56ab6NS9WlByzV0EcZRA==
-X-CSE-MsgGUID: SKNrjnRKQ3yczcI6VMH4PA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33550823"
+  t=1733344882; x=1764880882;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L4rp/2MLE+CiT4iNOJzpcuES+bxO21D4SqPYZ9iymGs=;
+  b=KbENXr+LmDMmRxM7lmoOiSZ1vWtFlbcZPOoYLa0jOe5GmjHdiQldZA6I
+   wuJdVCD+bn1Z4gzlG1HvGj5Hz+qCoLGLADdzIg+vP1L9c27klvOLaKsij
+   oIPJebEHFS8bXDQbCmURdxoLpz05b66+LPcw5VzPCRRNGzMg2JOKsIPir
+   0s3ymttIwaS4t98t31Rey6iV8EUJn+bfifVyeUDo6dWXKwmorV9LBzQQn
+   853VjJPluHQgD3A7lzdMOJnS5N1vhr395UmKDyqBBESf1yQWb1Zzc6NJi
+   LTPS6AmtZosfnoWHVoDMdIUAqhL/lb/Kgx1AyrRavLVX2EKGQEoA6j2PO
+   A==;
+X-CSE-ConnectionGUID: f1o1ssa5TVmivINUsX9qpg==
+X-CSE-MsgGUID: 7qKq3l0jTDKQtlo9z8aBbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33548146"
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="33550823"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 12:30:20 -0800
-X-CSE-ConnectionGUID: IrFc6JW0RjSOHUrx4Mgv3w==
-X-CSE-MsgGUID: adn2N2IWTPuik/VHoASs1Q==
+   d="scan'208";a="33548146"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 12:41:21 -0800
+X-CSE-ConnectionGUID: ZqW94lkcTGC/Wz8BtxpBiw==
+X-CSE-MsgGUID: rF5WPJdSSAyNxLI0YJZzVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="93951250"
+   d="scan'208";a="93725446"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 04 Dec 2024 12:30:19 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Dec 2024 12:41:20 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIw0m-0003Sf-0y;
-	Wed, 04 Dec 2024 20:30:16 +0000
-Date: Thu, 5 Dec 2024 04:29:39 +0800
+	id 1tIwBR-0003TG-0u;
+	Wed, 04 Dec 2024 20:41:17 +0000
+Date: Thu, 5 Dec 2024 04:40:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Piotr Kwapulinski <piotr.kwapulinski@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org,
-	Piotr Kwapulinski <piotr.kwapulinski@intel.com>,
-	Stefan Wegrzyn <stefan.wegrzyn@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v11 5/8] ixgbe: Add support
- for EEPROM dump in E610 device
-Message-ID: <202412050450.s26ZxK1U-lkp@intel.com>
-References: <20241204143112.29411-6-piotr.kwapulinski@intel.com>
+To: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Ilpo =?unknown-8bit?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [linux-next:master 1665/1849] drivers/gpu/drm/xe/xe_vsec.c:183:22:
+ sparse: sparse: symbol 'xe_pmt_cb' was not declared. Should it be static?
+Message-ID: <202412050418.8ecQxYXj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,67 +63,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204143112.29411-6-piotr.kwapulinski@intel.com>
 
-Hi Piotr,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tnguy-next-queue/dev-queue]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Piotr-Kwapulinski/ixgbe-Add-support-for-E610-FW-Admin-Command-Interface/20241204-223603
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20241204143112.29411-6-piotr.kwapulinski%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next v11 5/8] ixgbe: Add support for EEPROM dump in E610 device
-config: i386-buildonly-randconfig-003 (https://download.01.org/0day-ci/archive/20241205/202412050450.s26ZxK1U-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bcf2acd8f64b0a5783deeeb5fd70c6163ec5acd7
+commit: 0c45e76fcc6243723f1f90848170d6bcb4a5bc6c [1665/1849] drm/xe/vsec: Support BMG devices
+config: x86_64-randconfig-122 (https://download.01.org/0day-ci/archive/20241205/202412050418.8ecQxYXj-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050450.s26ZxK1U-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050418.8ecQxYXj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050450.s26ZxK1U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050418.8ecQxYXj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_vsec.c:183:22: sparse: sparse: symbol 'xe_pmt_cb' was not declared. Should it be static?
 
->> drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:2083: warning: expecting prototype for ixgbe_init_eeprom_params_E610(). Prototype was for ixgbe_init_eeprom_params_e610() instead
+vim +/xe_pmt_cb +183 drivers/gpu/drm/xe/xe_vsec.c
 
-
-vim +2083 drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c
-
-  2072	
-  2073	/**
-  2074	 * ixgbe_init_eeprom_params_E610 - Initialize EEPROM params
-  2075	 * @hw: pointer to hardware structure
-  2076	 *
-  2077	 * Initialize the EEPROM parameters ixgbe_eeprom_info within the ixgbe_hw
-  2078	 * struct in order to set up EEPROM access.
-  2079	 *
-  2080	 * Return: the operation exit code
-  2081	 */
-  2082	int ixgbe_init_eeprom_params_e610(struct ixgbe_hw *hw)
-> 2083	{
-  2084		struct ixgbe_eeprom_info *eeprom = &hw->eeprom;
-  2085		u32 gens_stat;
-  2086		u8 sr_size;
-  2087	
-  2088		if (eeprom->type != ixgbe_eeprom_uninitialized)
-  2089			return 0;
-  2090	
-  2091		eeprom->type = ixgbe_flash;
-  2092	
-  2093		gens_stat = IXGBE_READ_REG(hw, GLNVM_GENS);
-  2094		sr_size = FIELD_GET(GLNVM_GENS_SR_SIZE_M, gens_stat);
-  2095	
-  2096		/* Switching to words (sr_size contains power of 2). */
-  2097		eeprom->word_size = BIT(sr_size) * IXGBE_SR_WORDS_IN_1KB;
-  2098	
-  2099		hw_dbg(hw, "Eeprom params: type = %d, size = %d\n", eeprom->type,
-  2100		       eeprom->word_size);
-  2101	
-  2102		return 0;
-  2103	}
-  2104	
+   182	
+ > 183	struct pmt_callbacks xe_pmt_cb = {
+   184		.read_telem = xe_pmt_telem_read,
+   185	};
+   186	
 
 -- 
 0-DAY CI Kernel Test Service
