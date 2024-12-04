@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BFB184
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 07:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F2142052
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 07:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733297868; cv=none; b=KyEFbFn3kJSP2ETNfnHbzPUvIo5B8PuTu7euObADLdP658lLGr+a1Z34cQXr1Fh8lDqBYkJp5Fd6SKPK5W5MyOuVH+lvVVZacdPlJ1euIObFcWoIw2AdkdeK/1Z4LHDI6MdOHUjwWsCNyYTXt6dqYpu4dB9yVdX0GyrQRga5PN4=
+	t=1733297868; cv=none; b=uo4mF6oU6QSEZsRaN+LoQTTwBjl9uwS54j9H3LIcbPcgB1rk/L4BFqSdgJYb86e5tRTgXXJTUBtz4mVzVR9kYm3VTg97VbdIxjzIJOi11zGuz/333lqVtTFD26Xw+eHRvERfoHub70VWVi/cqx7n4Vr7iYZ2Ouw3RcuEFDL8Bdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733297868; c=relaxed/simple;
-	bh=3B+8G+kIJ/ToRwRUoLuHDZ3ivQQyrFSy1r8fOfPibqU=;
+	bh=ZekHrVG2IL/VJyVRo/4xAPFixUjOll1+f/j7hz32CzA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EMk9PQM1LcNzP7quoHlxC1XZq/a352ZQsH51vtNtqtUc7JYsYNxUMa6+leOejVwaewYZowT5DCkjsKYOgpUoBbfH0H1EJ4S1YciS4cCx3F7+9un1SDOnAq1lkILPcx2LToDsXO7YxN0DX4pu+MqEuFHZ0Wb0HUw3LgVQVf7UwZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oEiZa3ww; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=ismHqEFFrVwesha/GK8G5bDLRd2Z8EdQPom2FSKzrb58YZTjyAw68ONkYk917NKrYcVrseg/3I0l2RX2Cs7e0L3c/6vtzbzmXdbIn8Bh5u8om8hmPADjUeJ4A4mwxvgimx6O2RKBJuLSh0p01AgLh7aC4aTXMlc8i13m5rqmiJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEBn5+72; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEiZa3ww"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEBn5+72"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733297867; x=1764833867;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3B+8G+kIJ/ToRwRUoLuHDZ3ivQQyrFSy1r8fOfPibqU=;
-  b=oEiZa3wwAfTg+2XGWOIQx56btnhNBPrkuzTyRwEyAMJQ05Uv7xeCI+CD
-   /AbqbUnMAerADwtgGiInyjwlOe42NPUt/j8TQj2XyR75bF3WIkghIElqB
-   2CObfSKZD37InqvWGX+yE1IVBdvvkirv+I7nLOhOaG6vgnuNHLpAsuiKB
-   HMm7Xtn6Xt1o8HxwuaSjVz0PZQBAB7iSI11vy6TzaOKYZpiG1Z+Mkf+c9
-   zeLZmAK8xMDwMZ2Hp/ASzJmLdjAZbYSsS+TbdQWQPdamZK//c5NiYaf5t
-   NMuSQUfwamzkH7mLjGhdtXk/o75aFY9BSW/s7Wx+R0+QIi3GBBYk0ydJa
-   w==;
-X-CSE-ConnectionGUID: UZ7vaO8ISbSsYCrnOfUJEg==
-X-CSE-MsgGUID: O6zAVORVQYuLDkvabSsAUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44027726"
+  bh=ZekHrVG2IL/VJyVRo/4xAPFixUjOll1+f/j7hz32CzA=;
+  b=jEBn5+72/UIoEFaRXNJp1SuoRQgsjB2ikaaCeQ1DI9sjTL1d+S1q4uvG
+   8mA1YXP/VoO8dP4s1DJ1fYPjRXGMtnpCkfakMhtwMHSgjit951mWygtso
+   M80SKDlUJDhIeaJrFo5Luugurx71yxEmKCHI8EoK8W0u9KmSWWaUwrFeS
+   kfDGkhZUwCBNVHl90OZsfZ+H8lDUqcHOqV1fmUPu3DUdO/91pbI5Y8r9b
+   SAMuJVdOYFv3cWe7nLjlwyKtfhowsJQj8lXk5YKAKHsUtusG6Lr00TKOv
+   HxvLo1Es3r5aQ8lwAV7bMddFG7hrqLZBiw7bfrXf+2o710tqKa1ZqbdzC
+   A==;
+X-CSE-ConnectionGUID: bL7cq94hSdSncOw9Tafsfw==
+X-CSE-MsgGUID: xQ2dO+giTf2Lndt+4hc3Vg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="37208139"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44027726"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 23:37:46 -0800
-X-CSE-ConnectionGUID: kLgTuVMqR92so6TFXwzXqg==
-X-CSE-MsgGUID: p4bqXQ1GR+efbiL966zZNg==
+   d="scan'208";a="37208139"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 23:37:46 -0800
+X-CSE-ConnectionGUID: CPFR7nHiQSuy9r2xcJ092A==
+X-CSE-MsgGUID: EvIbz6gYSueXyGPM70Oz2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="98488778"
+   d="scan'208";a="94111827"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Dec 2024 23:37:44 -0800
+  by orviesa007.jf.intel.com with ESMTP; 03 Dec 2024 23:37:45 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIjx8-0002iB-0g;
+	id 1tIjx8-0002iD-0k;
 	Wed, 04 Dec 2024 07:37:42 +0000
-Date: Wed, 4 Dec 2024 15:36:42 +0800
+Date: Wed, 4 Dec 2024 15:36:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/1]
- drivers/misc/uid_sys_stats.c:38:12: sparse: sparse: symbol 'uid_lock' was
- not declared. Should it be static?
-Message-ID: <202412041557.2jyvt6y3-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1320/1320]
+ drivers/nfc/st-nci/i2c.c:295:34: warning: 'of_st_nci_i2c_match' defined but
+ not used
+Message-ID: <202412041541.cTSYXphC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +63,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Neill,
+Hi Paulo,
 
 First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   a9c2663f637f0f7668e4cb0dd065db13025b33fe
-commit: 4a5826e549a3bd3bc3d81e19a1e2420f5f2070ef [1/1] Revert "ANDROID: disble the UID_SYS_STATS driver"
-config: x86_64-randconfig-123 (https://download.01.org/0day-ci/archive/20241204/202412041557.2jyvt6y3-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   98beb6bc5000f977169e4f633e450f4e3e9d84d1
+commit: 71e217e85c3dff8a9151707ed3afc7b4b054a2d4 [1320/1320] selinux: use kernel linux/socket.h for genheaders and mdp
+config: x86_64-buildonly-randconfig-005 (https://download.01.org/0day-ci/archive/20241204/202412041541.cTSYXphC-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041557.2jyvt6y3-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041541.cTSYXphC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041557.2jyvt6y3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041541.cTSYXphC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/misc/uid_sys_stats.c:38:12: sparse: sparse: symbol 'uid_lock' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/uid_lock +38 drivers/misc/uid_sys_stats.c
+>> drivers/nfc/st-nci/i2c.c:295:34: warning: 'of_st_nci_i2c_match' defined but not used [-Wunused-const-variable=]
+     295 | static const struct of_device_id of_st_nci_i2c_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~
+   drivers/nfc/st-nci/i2c.c:288:36: warning: 'st_nci_i2c_acpi_match' defined but not used [-Wunused-const-variable=]
+     288 | static const struct acpi_device_id st_nci_i2c_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
 
-3669a3205af35a5 Neill Kapron 2023-05-08  31  
-12788836b1f36ef Jin Qian     2015-03-11  32  #define UID_HASH_BITS	10
-b6115e140102a29 Peifeng Li   2023-04-13  33  #define UID_HASH_NUMS	(1 << UID_HASH_BITS)
-12788836b1f36ef Jin Qian     2015-03-11  34  DECLARE_HASHTABLE(hash_table, UID_HASH_BITS);
-b6115e140102a29 Peifeng Li   2023-04-13  35  /*
-b6115e140102a29 Peifeng Li   2023-04-13  36   * uid_lock[bkt] ensure consistency of hash_table[bkt]
-b6115e140102a29 Peifeng Li   2023-04-13  37   */
-b6115e140102a29 Peifeng Li   2023-04-13 @38  spinlock_t uid_lock[UID_HASH_NUMS];
-12788836b1f36ef Jin Qian     2015-03-11  39  
 
-:::::: The code at line 38 was first introduced by commit
-:::::: b6115e140102a290143ec02a3a2b3d5aec506b3a ANDROID: uid_sys_stat: split the global lock uid_lock to the fine-grained locks for each hlist in hash_table.
+vim +/of_st_nci_i2c_match +295 drivers/nfc/st-nci/i2c.c
 
-:::::: TO: Peifeng Li <lipeifeng@oppo.com>
-:::::: CC: Neill Kapron <nkapron@google.com>
+ed6a2f3fb770ac drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-12-23  294  
+ed06aeefdac348 drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-06-09 @295  static const struct of_device_id of_st_nci_i2c_match[] = {
+1a94cb6025d49b drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-12-08  296  	{ .compatible = "st,st21nfcb-i2c", },
+35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  297  	{ .compatible = "st,st21nfcb_i2c", },
+ed06aeefdac348 drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-06-09  298  	{ .compatible = "st,st21nfcc-i2c", },
+35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  299  	{}
+35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  300  };
+ed06aeefdac348 drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-06-09  301  MODULE_DEVICE_TABLE(of, of_st_nci_i2c_match);
+35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  302  
+
+:::::: The code at line 295 was first introduced by commit
+:::::: ed06aeefdac348cfb91a3db5fe1067e3202afd70 nfc: st-nci: Rename st21nfcb to st-nci
+
+:::::: TO: Christophe Ricard <christophe.ricard@gmail.com>
+:::::: CC: Samuel Ortiz <sameo@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
