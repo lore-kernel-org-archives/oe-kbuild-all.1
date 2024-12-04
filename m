@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7CB18BC19
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 12:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51395746E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 13:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733316631; cv=none; b=UfkD6VJYwo9oynquDBR3zMDCkDCliIiUcXzDoGlKMdQ9Z2w4uHGPE/81R0EhMx/7WbM6fyHM23xvQg6KHHTEqVeWiE54q1CLW6SyPNlyDASHFZxdFHwNKkjzlNt7AVHWZatEtr8GSyTuOQDqfaO80AXFRbaMlPnLH74Jqx4VLR8=
+	t=1733317893; cv=none; b=LSz9VBst0tbUblG/Xupuf2kusQV5mhPnY2EaJ6gDmUZ95IjHRd95c+drTQ6uMp/RS2TvFSQlfAxxChWrYSvCuMKqItijK43+f6Gmms9cCG4fQgOnfncz9UEhWI2hD2qg601KrrWDNpUSdoyS4qIFR0oTkv3WuHk3VEeHow46Z2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733316631; c=relaxed/simple;
-	bh=ytG/XoRYYgx3JnmET/kn9VI2lJI/PfYpPxXN+uGIpKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M8XO+uNZLfKeqLW/llHTeQ7ukhBctx1vDDL8X22Sfk/a4o43qoNatFUsP9Wn4Q5BN2V0ogipd+yEaqDHxjZDvo/7xvyaySJryWgBNPosFmR3mN/X6bcKm/PR5Iew4oAJXLMIJumMIePIxvFPpdUgZlwNZW/7Pxnn2YaOFvuiicA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lxw2EmOP; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1733317893; c=relaxed/simple;
+	bh=Ofio2GaUo3BYECCkWzkKf022v7VX6gRxDeQfk5OMne8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PF/uTfUOH+TDSauygf4FVc2Y4FnOLi2wuvQkoI06KfLizhSLYgSYQKcPSN/XU6nu9Fl/goqX4b0HsQaz9OoQhlF/XIfk3EIMJe+AgiWPCP2p/Ad9+oQWKjPQGGk6y2amIQRjzT9SDOvARW8b8EN+mO263JCTSOQ9vipeLNdjC1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYd6nZeO; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lxw2EmOP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYd6nZeO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733316629; x=1764852629;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ytG/XoRYYgx3JnmET/kn9VI2lJI/PfYpPxXN+uGIpKM=;
-  b=lxw2EmOP5gUIiNaRY3OVxra2po8fNSaBATBSb9nq6K0lO7QHMT3T8mzo
-   GKAdMfMiVBwBEBcWnynwAFYUqj2f0GiWno//Vq/CNlUL+Xej8jTJwuD1u
-   vdiBXVH4LDMcpSWxQlBIdGhvlpfCzy19N98XtbGQBNglLgM3EJ4AUmPX+
-   IvnIs5Zun+zyyF/vyAMhbwrkXeQhtofFRybmqJKDbWmYnnIacXB+DPfsz
-   JHOHmaS/yTiyvFWSxjL9TnzCXfRrZqpMjP9+L5Fx1v7ltk1X8CwN5YpIu
-   adGbwFwFnsKeUscJg8SuFvAkxR7tW1T1ejPLBp7oOUe69BaIqQbP7eAmD
-   g==;
-X-CSE-ConnectionGUID: YDoUeYFwQ9y71+8kKEd3tQ==
-X-CSE-MsgGUID: ckxYJB6GTfS5ZmmwSS4NKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44244815"
+  t=1733317890; x=1764853890;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ofio2GaUo3BYECCkWzkKf022v7VX6gRxDeQfk5OMne8=;
+  b=lYd6nZeO3KS7mkT1gmtLPN5d9io1bd5GyU3EnwDJUxvayexItRsrijKR
+   Z3bC6gNOIDVzLxGDY4L0R2z2Tnl7DC0SeIvpM5mDMM1rNp0u3ZvpkDjTX
+   maNAH6rbA1XWS8MP1dLAzUF5KiB31u97CGQE/qxB2SNH1/DddpEFjB2xx
+   ArH8WbAe/j1WMnmUvbJvC3bpn2fWFNR/NnldVEa31gXDav7tSHvJVo0/6
+   Z8gTadVLyL8jgJSkVaJWQnGuRzYqDk6jmjn0vrkR/FZGRXO8AfGmRjne4
+   d2TJc2wSd0olM7gPKCDVbcB031SYBOxWeDCmeQ7onNQ8Bqy/oYrlFcl9c
+   A==;
+X-CSE-ConnectionGUID: xc96TUdhQZGZKol7BvQYBw==
+X-CSE-MsgGUID: IXHDwmtgQuudhban1Lhr+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33500200"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44244815"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 04:50:28 -0800
-X-CSE-ConnectionGUID: rAiBR9ECRvqwBpP6MfDnLw==
-X-CSE-MsgGUID: 4YQUGBuxQfCX8J9QU9F4Qw==
+   d="scan'208";a="33500200"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 05:11:30 -0800
+X-CSE-ConnectionGUID: aE1QXvDHTzaDeAjFKwnf3Q==
+X-CSE-MsgGUID: Ku4mZbNeSTCHzf9fcgKFhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94214086"
+   d="scan'208";a="93610487"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Dec 2024 04:50:25 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Dec 2024 05:11:27 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIopj-000327-0s;
-	Wed, 04 Dec 2024 12:50:23 +0000
-Date: Wed, 4 Dec 2024 20:48:47 +0800
+	id 1tIpA4-00032x-2h;
+	Wed, 04 Dec 2024 13:11:24 +0000
+Date: Wed, 4 Dec 2024 21:10:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
- drivers/iommu/arm-smmu.c:1537:1: warning: label 'out_unlock' defined but not
- used
-Message-ID: <202412042012.pvbwUPM5-lkp@intel.com>
+To: Fei Shao <fshao@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Fei Shao <fshao@chromium.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] drm/mediatek: dp: Support flexible length of DP
+ calibration data
+Message-ID: <202412042020.FZmfgvza-lkp@intel.com>
+References: <20241204053634.1365491-1-fshao@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,184 +68,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241204053634.1365491-1-fshao@chromium.org>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   f1811f6442501fe34d2339158aed4f85a64f0398
-commit: 3e38de275a876dcf09eb478610a9055366496bc9 [1/1] iommu: remove DOMAIN_ATTR_NESTING
-config: arm64-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241204/202412042012.pvbwUPM5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042012.pvbwUPM5-lkp@intel.com/reproduce)
+Hi Fei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.13-rc1 next-20241203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fei-Shao/drm-mediatek-dp-Support-flexible-length-of-DP-calibration-data/20241204-133854
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241204053634.1365491-1-fshao%40chromium.org
+patch subject: [PATCH] drm/mediatek: dp: Support flexible length of DP calibration data
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20241204/202412042020.FZmfgvza-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042020.FZmfgvza-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412042012.pvbwUPM5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412042020.FZmfgvza-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1076:40: note: in expansion of macro 'fwspec_smmu'
-    1076 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
-         |                                        ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1077:49: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1077 |         struct arm_smmu_master_cfg *cfg = fwspec->iommu_priv;
-         |                                                 ^~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1081:9: note: in expansion of macro 'for_each_cfg_sme'
-    1081 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1081:9: note: in expansion of macro 'for_each_cfg_sme'
-    1081 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_add_master':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1103:9: note: in expansion of macro 'for_each_cfg_sme'
-    1103 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1103:9: note: in expansion of macro 'for_each_cfg_sme'
-    1103 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_attach_dev':
-   drivers/iommu/arm-smmu.c:1134:20: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1134 |         if (!fwspec->iommu_priv)
-         |                    ^~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1137:16: note: in expansion of macro 'fwspec_smmu'
-    1137 |         smmu = fwspec_smmu(fwspec);
-         |                ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_add_device':
-   drivers/iommu/arm-smmu.c:1379:15: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1379 |         fwspec->iommu_priv = cfg;
-         |               ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_remove_device':
-   drivers/iommu/arm-smmu.c:1417:22: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1417 |         cfg  = fwspec->iommu_priv;
-         |                      ^~
-   drivers/iommu/arm-smmu.c:1430:21: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-    1430 |         kfree(fwspec->iommu_priv);
-         |                     ^~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_device_group':
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:112:27: note: in expansion of macro '__fwspec_cfg'
-     112 | #define fwspec_smmu(fw)  (__fwspec_cfg(fw)->smmu)
-         |                           ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1437:40: note: in expansion of macro 'fwspec_smmu'
-    1437 |         struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
-         |                                        ^~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:111:59: error: 'struct iommu_fwspec' has no member named 'iommu_priv'
-     111 | #define __fwspec_cfg(fw) ((struct arm_smmu_master_cfg *)fw->iommu_priv)
-         |                                                           ^~
-   drivers/iommu/arm-smmu.c:114:46: note: in expansion of macro '__fwspec_cfg'
-     114 |         (i >= fw->num_ids ? INVALID_SMENDX : __fwspec_cfg(fw)->smendx[i])
-         |                                              ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:27: note: in expansion of macro 'fwspec_smendx'
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                           ^~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1441:9: note: in expansion of macro 'for_each_cfg_sme'
-    1441 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:116:47: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     116 |         for (i = 0; idx = fwspec_smendx(fw, i), i < fw->num_ids; ++i)
-         |                                               ^
-   drivers/iommu/arm-smmu.c:1441:9: note: in expansion of macro 'for_each_cfg_sme'
-    1441 |         for_each_cfg_sme(fwspec, i, idx) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c: In function 'arm_smmu_domain_set_attr':
->> drivers/iommu/arm-smmu.c:1537:1: warning: label 'out_unlock' defined but not used [-Wunused-label]
-    1537 | out_unlock:
-         | ^~~~~~~~~~
-   drivers/iommu/arm-smmu.c: At top level:
-   drivers/iommu/arm-smmu.c:1587:35: error: initialization of 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int,  gfp_t)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int,  unsigned int)'} from incompatible pointer type 'int (*)(struct iommu_domain *, long unsigned int,  phys_addr_t,  size_t,  int)' {aka 'int (*)(struct iommu_domain *, long unsigned int,  long long unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
-    1587 |         .map                    = arm_smmu_map,
-         |                                   ^~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1587:35: note: (near initialization for 'arm_smmu_ops.map')
-   drivers/iommu/arm-smmu.c:1592:10: error: 'struct iommu_ops' has no member named 'add_device'
-    1592 |         .add_device             = arm_smmu_add_device,
-         |          ^~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1592:35: error: initialization of 'struct iommu_device * (*)(struct device *)' from incompatible pointer type 'int (*)(struct device *)' [-Werror=incompatible-pointer-types]
-    1592 |         .add_device             = arm_smmu_add_device,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu.c:1592:35: note: (near initialization for 'arm_smmu_ops.probe_device')
-   drivers/iommu/arm-smmu.c:1593:10: error: 'struct iommu_ops' has no member named 'remove_device'; did you mean 'probe_device'?
-    1593 |         .remove_device          = arm_smmu_remove_device,
-         |          ^~~~~~~~~~~~~
-         |          probe_device
-   cc1: some warnings being treated as errors
+   In file included from include/linux/device.h:15,
+                    from include/drm/display/drm_dp_aux_bus.h:13,
+                    from drivers/gpu/drm/mediatek/mtk_dp.c:7:
+   drivers/gpu/drm/mediatek/mtk_dp.c: In function 'mtk_dp_get_calibration_data':
+>> drivers/gpu/drm/mediatek/mtk_dp.c:1181:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    1181 |                                  "Out-of-bound efuse data access, fmt idx = %d, buf len = %lu\n",
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp.c:1180:25: note: in expansion of macro 'dev_warn'
+    1180 |                         dev_warn(mtk_dp->dev,
+         |                         ^~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp.c:1181:93: note: format string is defined here
+    1181 |                                  "Out-of-bound efuse data access, fmt idx = %d, buf len = %lu\n",
+         |                                                                                           ~~^
+         |                                                                                             |
+         |                                                                                             long unsigned int
+         |                                                                                           %u
 
 
-vim +/out_unlock +1537 drivers/iommu/arm-smmu.c
+vim +1181 drivers/gpu/drm/mediatek/mtk_dp.c
 
-3e38de275a876dc Christoph Hellwig 2021-04-01  1509  
-c752ce45b213de8 Will Deacon       2014-06-25  1510  static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
-c752ce45b213de8 Will Deacon       2014-06-25  1511  				    enum iommu_attr attr, void *data)
-c752ce45b213de8 Will Deacon       2014-06-25  1512  {
-518f7136244c167 Will Deacon       2014-11-14  1513  	int ret = 0;
-1d672638fca24db Joerg Roedel      2015-03-26  1514  	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-c752ce45b213de8 Will Deacon       2014-06-25  1515  
-518f7136244c167 Will Deacon       2014-11-14  1516  	mutex_lock(&smmu_domain->init_mutex);
-518f7136244c167 Will Deacon       2014-11-14  1517  
-44f6876a00e83df Robin Murphy      2018-09-20  1518  	switch(domain->type) {
-44f6876a00e83df Robin Murphy      2018-09-20  1519  	case IOMMU_DOMAIN_UNMANAGED:
-c752ce45b213de8 Will Deacon       2014-06-25  1520  		switch (attr) {
-c752ce45b213de8 Will Deacon       2014-06-25  1521  		default:
-518f7136244c167 Will Deacon       2014-11-14  1522  			ret = -ENODEV;
-c752ce45b213de8 Will Deacon       2014-06-25  1523  		}
-44f6876a00e83df Robin Murphy      2018-09-20  1524  		break;
-44f6876a00e83df Robin Murphy      2018-09-20  1525  	case IOMMU_DOMAIN_DMA:
-44f6876a00e83df Robin Murphy      2018-09-20  1526  		switch (attr) {
-44f6876a00e83df Robin Murphy      2018-09-20  1527  		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
-44f6876a00e83df Robin Murphy      2018-09-20  1528  			smmu_domain->non_strict = *(int *)data;
-44f6876a00e83df Robin Murphy      2018-09-20  1529  			break;
-44f6876a00e83df Robin Murphy      2018-09-20  1530  		default:
-44f6876a00e83df Robin Murphy      2018-09-20  1531  			ret = -ENODEV;
-44f6876a00e83df Robin Murphy      2018-09-20  1532  		}
-44f6876a00e83df Robin Murphy      2018-09-20  1533  		break;
-44f6876a00e83df Robin Murphy      2018-09-20  1534  	default:
-44f6876a00e83df Robin Murphy      2018-09-20  1535  		ret = -EINVAL;
-44f6876a00e83df Robin Murphy      2018-09-20  1536  	}
-518f7136244c167 Will Deacon       2014-11-14 @1537  out_unlock:
-518f7136244c167 Will Deacon       2014-11-14  1538  	mutex_unlock(&smmu_domain->init_mutex);
-518f7136244c167 Will Deacon       2014-11-14  1539  	return ret;
-c752ce45b213de8 Will Deacon       2014-06-25  1540  }
-c752ce45b213de8 Will Deacon       2014-06-25  1541  
-
-:::::: The code at line 1537 was first introduced by commit
-:::::: 518f7136244c167538f732691be589959310b295 iommu/arm-smmu: make use of generic LPAE allocator
-
-:::::: TO: Will Deacon <will.deacon@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+  1148	
+  1149	static void mtk_dp_get_calibration_data(struct mtk_dp *mtk_dp)
+  1150	{
+  1151		const struct mtk_dp_efuse_fmt *fmt;
+  1152		struct device *dev = mtk_dp->dev;
+  1153		struct nvmem_cell *cell;
+  1154		u32 *cal_data = mtk_dp->cal_data;
+  1155		u32 *buf;
+  1156		int i;
+  1157		size_t len;
+  1158	
+  1159		cell = nvmem_cell_get(dev, "dp_calibration_data");
+  1160		if (IS_ERR(cell)) {
+  1161			dev_warn(dev, "Failed to get nvmem cell dp_calibration_data\n");
+  1162			goto use_default_val;
+  1163		}
+  1164	
+  1165		buf = (u32 *)nvmem_cell_read(cell, &len);
+  1166		nvmem_cell_put(cell);
+  1167	
+  1168		if (IS_ERR(buf)) {
+  1169			dev_warn(dev, "Failed to read nvmem_cell_read\n");
+  1170			goto use_default_val;
+  1171		}
+  1172	
+  1173		/* The cell length is in bytes. Convert it to be compatible with u32 buffer. */
+  1174		len /= sizeof(u32);
+  1175	
+  1176		for (i = 0; i < MTK_DP_CAL_MAX; i++) {
+  1177			fmt = &mtk_dp->data->efuse_fmt[i];
+  1178	
+  1179			if (fmt->idx >= len) {
+  1180				dev_warn(mtk_dp->dev,
+> 1181					 "Out-of-bound efuse data access, fmt idx = %d, buf len = %lu\n",
+  1182					 fmt->idx, len);
+  1183				kfree(buf);
+  1184				goto use_default_val;
+  1185			}
+  1186	
+  1187			cal_data[i] = (buf[fmt->idx] >> fmt->shift) & fmt->mask;
+  1188	
+  1189			if (cal_data[i] < fmt->min_val || cal_data[i] > fmt->max_val) {
+  1190				dev_warn(mtk_dp->dev, "Invalid efuse data, idx = %d\n", i);
+  1191				kfree(buf);
+  1192				goto use_default_val;
+  1193			}
+  1194		}
+  1195		kfree(buf);
+  1196	
+  1197		return;
+  1198	
+  1199	use_default_val:
+  1200		dev_warn(mtk_dp->dev, "Use default calibration data\n");
+  1201		for (i = 0; i < MTK_DP_CAL_MAX; i++)
+  1202			cal_data[i] = mtk_dp->data->efuse_fmt[i].default_val;
+  1203	}
+  1204	
 
 -- 
 0-DAY CI Kernel Test Service
