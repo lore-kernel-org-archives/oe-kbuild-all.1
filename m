@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F2142052
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 07:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D69518C034
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Dec 2024 07:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733297868; cv=none; b=uo4mF6oU6QSEZsRaN+LoQTTwBjl9uwS54j9H3LIcbPcgB1rk/L4BFqSdgJYb86e5tRTgXXJTUBtz4mVzVR9kYm3VTg97VbdIxjzIJOi11zGuz/333lqVtTFD26Xw+eHRvERfoHub70VWVi/cqx7n4Vr7iYZ2Ouw3RcuEFDL8Bdg=
+	t=1733297870; cv=none; b=jJu/+sCCX7plpxJJaDpKDiK6E/Cg2DlKNNLWn07M/quF03g5KQ6yENEqoIP2vhZdgaKcw4x5F4S6/UD6stSszavr6sTyKe4C0vn0eOxcteBMGVJK9r2M2nVwauCBCho9F1tyTLTUw4v5QzNWt7alCZuCGTuLDL0WK6IM9pRDoRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733297868; c=relaxed/simple;
-	bh=ZekHrVG2IL/VJyVRo/4xAPFixUjOll1+f/j7hz32CzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ismHqEFFrVwesha/GK8G5bDLRd2Z8EdQPom2FSKzrb58YZTjyAw68ONkYk917NKrYcVrseg/3I0l2RX2Cs7e0L3c/6vtzbzmXdbIn8Bh5u8om8hmPADjUeJ4A4mwxvgimx6O2RKBJuLSh0p01AgLh7aC4aTXMlc8i13m5rqmiJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEBn5+72; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1733297870; c=relaxed/simple;
+	bh=ebhNcEjRwrrGcGYQzGz+ZLdeK/Qos26guvcvrZ6FEPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UC3QxVwjGpDWPldA+4dQKfQqPWXp4nIR+fsplLbK2jNFqG363R2QNIRujDwENHPGvalzWToeSqV9W8CxJfkvK40KHrWBDA052v2Na2khzmJMn3gDgYI55RVX+x0urIYGsSIly/HfO36qRtp7ycr6gzis4UFNlQJcrQDy5nWvd/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5tcKpbX; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEBn5+72"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5tcKpbX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733297867; x=1764833867;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZekHrVG2IL/VJyVRo/4xAPFixUjOll1+f/j7hz32CzA=;
-  b=jEBn5+72/UIoEFaRXNJp1SuoRQgsjB2ikaaCeQ1DI9sjTL1d+S1q4uvG
-   8mA1YXP/VoO8dP4s1DJ1fYPjRXGMtnpCkfakMhtwMHSgjit951mWygtso
-   M80SKDlUJDhIeaJrFo5Luugurx71yxEmKCHI8EoK8W0u9KmSWWaUwrFeS
-   kfDGkhZUwCBNVHl90OZsfZ+H8lDUqcHOqV1fmUPu3DUdO/91pbI5Y8r9b
-   SAMuJVdOYFv3cWe7nLjlwyKtfhowsJQj8lXk5YKAKHsUtusG6Lr00TKOv
-   HxvLo1Es3r5aQ8lwAV7bMddFG7hrqLZBiw7bfrXf+2o710tqKa1ZqbdzC
-   A==;
-X-CSE-ConnectionGUID: bL7cq94hSdSncOw9Tafsfw==
-X-CSE-MsgGUID: xQ2dO+giTf2Lndt+4hc3Vg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="37208139"
+  t=1733297869; x=1764833869;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ebhNcEjRwrrGcGYQzGz+ZLdeK/Qos26guvcvrZ6FEPs=;
+  b=d5tcKpbXZn4yjMLqPNoHSyT+3cKCnsipnD2+QZm1NXHnEsjdEy8LGpm2
+   8Zi7IALO9jmaoPZciColSQvX/VUno4DqJZrVUfGuiB+D+/MuunB/f3G+j
+   thUrzx39T87KUvlAiI60UNAzPIbaQLQgutnFcqfuTvWwNCQCdT+Ep53T3
+   nTkrhyHiPDjdeW+oA8qyHDYoao/6cKPgQGil+J6lhbTnT3BURlh4RU2rI
+   NeMOucwPTAsFL/ee6STjIgfD5RgmuJViptjh5DlDPR3HtRBgzH+yLkeqP
+   bRsCL6/T5+p0mRKqucNuhAgVb9DQnYg7eH0FTqKje43qvrkHAgw3cRAI8
+   Q==;
+X-CSE-ConnectionGUID: 5eVYBxgEQWKXGi/MDa8eHA==
+X-CSE-MsgGUID: g8gySofBTayLxllHTOOArg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44027737"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="37208139"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 23:37:46 -0800
-X-CSE-ConnectionGUID: CPFR7nHiQSuy9r2xcJ092A==
-X-CSE-MsgGUID: EvIbz6gYSueXyGPM70Oz2Q==
+   d="scan'208";a="44027737"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 23:37:48 -0800
+X-CSE-ConnectionGUID: CFCefRZoQlWIUldCS2TWHw==
+X-CSE-MsgGUID: Rul8T89gR/ma3HOuIlGcBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94111827"
+   d="scan'208";a="98488777"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 03 Dec 2024 23:37:45 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 03 Dec 2024 23:37:44 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIjx8-0002iD-0k;
+	id 1tIjx8-0002i9-0X;
 	Wed, 04 Dec 2024 07:37:42 +0000
-Date: Wed, 4 Dec 2024 15:36:43 +0800
+Date: Wed, 4 Dec 2024 15:36:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1320/1320]
- drivers/nfc/st-nci/i2c.c:295:34: warning: 'of_st_nci_i2c_match' defined but
- not used
-Message-ID: <202412041541.cTSYXphC-lkp@intel.com>
+To: Zhiyuan Wan <kmlinuxm@gmail.com>, andrew@lunn.ch
+Cc: oe-kbuild-all@lists.linux.dev, hkallweit1@gmail.com,
+	linux@armlinux.org.uk, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, willy.liu@realtek.com,
+	Zhiyuan Wan <kmlinuxm@gmail.com>
+Subject: Re: [PATCH net-next] net: phy: realtek: disable broadcast address
+ feature of rtl8211f
+Message-ID: <202412041520.hGCSOuph-lkp@intel.com>
+References: <20241203125430.2078090-1-kmlinuxm@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,50 +67,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241203125430.2078090-1-kmlinuxm@gmail.com>
 
-Hi Paulo,
+Hi Zhiyuan,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   98beb6bc5000f977169e4f633e450f4e3e9d84d1
-commit: 71e217e85c3dff8a9151707ed3afc7b4b054a2d4 [1320/1320] selinux: use kernel linux/socket.h for genheaders and mdp
-config: x86_64-buildonly-randconfig-005 (https://download.01.org/0day-ci/archive/20241204/202412041541.cTSYXphC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041541.cTSYXphC-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhiyuan-Wan/net-phy-realtek-disable-broadcast-address-feature-of-rtl8211f/20241203-205751
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241203125430.2078090-1-kmlinuxm%40gmail.com
+patch subject: [PATCH net-next] net: phy: realtek: disable broadcast address feature of rtl8211f
+config: mips-ip22_defconfig (https://download.01.org/0day-ci/archive/20241204/202412041520.hGCSOuph-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041520.hGCSOuph-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041541.cTSYXphC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041520.hGCSOuph-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/nfc/st-nci/i2c.c:295:34: warning: 'of_st_nci_i2c_match' defined but not used [-Wunused-const-variable=]
-     295 | static const struct of_device_id of_st_nci_i2c_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   drivers/nfc/st-nci/i2c.c:288:36: warning: 'st_nci_i2c_acpi_match' defined but not used [-Wunused-const-variable=]
-     288 | static const struct acpi_device_id st_nci_i2c_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/realtek.c: In function 'rtl821x_probe':
+>> drivers/net/phy/realtek.c:147:51: error: passing argument 1 of 'PTR_ERR' makes pointer from integer without a cast [-Wint-conversion]
+     147 |                 return dev_err_probe(dev, PTR_ERR(ret),
+         |                                                   ^~~
+         |                                                   |
+         |                                                   int
+   In file included from include/linux/kernfs.h:9,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:18,
+                    from drivers/net/phy/realtek.c:11:
+   include/linux/err.h:52:61: note: expected 'const void *' but argument is of type 'int'
+      52 | static inline long __must_check PTR_ERR(__force const void *ptr)
+         |                                                 ~~~~~~~~~~~~^~~
 
 
-vim +/of_st_nci_i2c_match +295 drivers/nfc/st-nci/i2c.c
+vim +/PTR_ERR +147 drivers/net/phy/realtek.c
 
-ed6a2f3fb770ac drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-12-23  294  
-ed06aeefdac348 drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-06-09 @295  static const struct of_device_id of_st_nci_i2c_match[] = {
-1a94cb6025d49b drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-12-08  296  	{ .compatible = "st,st21nfcb-i2c", },
-35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  297  	{ .compatible = "st,st21nfcb_i2c", },
-ed06aeefdac348 drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-06-09  298  	{ .compatible = "st,st21nfcc-i2c", },
-35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  299  	{}
-35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  300  };
-ed06aeefdac348 drivers/nfc/st-nci/i2c.c   Christophe Ricard 2015-06-09  301  MODULE_DEVICE_TABLE(of, of_st_nci_i2c_match);
-35630df68d6030 drivers/nfc/st21nfcb/i2c.c Christophe Ricard 2014-05-25  302  
-
-:::::: The code at line 295 was first introduced by commit
-:::::: ed06aeefdac348cfb91a3db5fe1067e3202afd70 nfc: st-nci: Rename st21nfcb to st-nci
-
-:::::: TO: Christophe Ricard <christophe.ricard@gmail.com>
-:::::: CC: Samuel Ortiz <sameo@linux.intel.com>
+   126	
+   127	static int rtl821x_probe(struct phy_device *phydev)
+   128	{
+   129		struct device *dev = &phydev->mdio.dev;
+   130		struct rtl821x_priv *priv;
+   131		u32 phy_id = phydev->drv->phy_id;
+   132		int ret;
+   133	
+   134		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   135		if (!priv)
+   136			return -ENOMEM;
+   137	
+   138		priv->clk = devm_clk_get_optional_enabled(dev, NULL);
+   139		if (IS_ERR(priv->clk))
+   140			return dev_err_probe(dev, PTR_ERR(priv->clk),
+   141					     "failed to get phy clock\n");
+   142	
+   143		dev_dbg(dev, "disabling MDIO address 0 for this phy");
+   144		ret = phy_modify_paged(phydev, 0xa43, RTL8211F_PHYCR1,
+   145					       RTL8211F_PHYAD0_EN, 0);
+   146		if (ret < 0) {
+ > 147			return dev_err_probe(dev, PTR_ERR(ret),
+   148					     "disabling MDIO address 0 failed\n");
+   149		}
+   150		/* Deny broadcast address as PHY address */
+   151		if (phydev->mdio.addr == 0)
+   152			return -ENODEV;
+   153	
+   154		ret = phy_read_paged(phydev, 0xa43, RTL8211F_PHYCR1);
+   155		if (ret < 0)
+   156			return ret;
+   157	
+   158		priv->phycr1 = ret & (RTL8211F_ALDPS_PLL_OFF | RTL8211F_ALDPS_ENABLE | RTL8211F_ALDPS_XTAL_OFF);
+   159		if (of_property_read_bool(dev->of_node, "realtek,aldps-enable"))
+   160			priv->phycr1 |= RTL8211F_ALDPS_PLL_OFF | RTL8211F_ALDPS_ENABLE | RTL8211F_ALDPS_XTAL_OFF;
+   161	
+   162		priv->has_phycr2 = !(phy_id == RTL_8211FVD_PHYID);
+   163		if (priv->has_phycr2) {
+   164			ret = phy_read_paged(phydev, 0xa43, RTL8211F_PHYCR2);
+   165			if (ret < 0)
+   166				return ret;
+   167	
+   168			priv->phycr2 = ret & RTL8211F_CLKOUT_EN;
+   169			if (of_property_read_bool(dev->of_node, "realtek,clkout-disable"))
+   170				priv->phycr2 &= ~RTL8211F_CLKOUT_EN;
+   171		}
+   172	
+   173		phydev->priv = priv;
+   174	
+   175		return 0;
+   176	}
+   177	
 
 -- 
 0-DAY CI Kernel Test Service
