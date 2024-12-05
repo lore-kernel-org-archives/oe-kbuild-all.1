@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F90192D63
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 05:08:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5F218FC74
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 05:08:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733375317; cv=none; b=AvbeM+9wRF4zdnZ3jeTTFdySLe8kEcSXrZNhN+7YHcJ50/oy98TDQj3LD/jPd7f1pFirQcVfEqIKl+eFJsmHKFtAruQUVY8mui8Ps+eSBHONYC/TbHIr9nP/l7iXjPJMTZRdfl19C1F55Q6hjf0ITiHUJCkEM3/LkyY8WWxkhow=
+	t=1733375318; cv=none; b=YPfMAzhnOXOfBax5FdS9GXYpCVZNzScwOys9IfJusAE6gFnN8YrOickNhTNDxU0jRS3PrtHMjs+Tk7ytVqWybhCIg7lqiNKBJ+UduWqt2irBVluJQoQ0dScOlcpKOZA4l/kJiBkGEZUvrKq5a1SaHRr/HyfdIJkeuGnoAG8nfQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733375317; c=relaxed/simple;
-	bh=tpT9ZLBO1WjplihcN3Ll5d0/6BaSo3vHPCg+7B6cXUA=;
+	s=arc-20240116; t=1733375318; c=relaxed/simple;
+	bh=kaJIIYmOmXwhaySRvCxcOsWIVInWMUf6mSKhWJIaQ20=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DsO1oYSZxX47mb1YOb2XrnNotibk3CU4GmzSQNMWDvk6gkmDFyIKcEEivFqwyvrU/vIkDz5y5zmJ7fLGKD6icdHeph4RThJyKCEh0xBYvgqMpKe0VUmRqRcbsIAXzROGEV3jAc3w2NxFqpMe2kQ/oelnO5xlV/w5p8S5N4qTHXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME6JFJf5; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=nGjt3cN3hXSnXLzl0khrbKktQ5cmyDMNBYT3dBh6tK7b/afOV9jqrR0z3uGniYh+GV+eUZpmrW+BBIJE0vDvgz+AqEckOeiOz7+Os+ZKq6IzesVHjWulePGlcodfgRy6CZjwkhVu8eMX2mdnl5MdPc0tdIhVrQsXtoRB83TKb+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DWpqZGHu; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME6JFJf5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWpqZGHu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733375316; x=1764911316;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tpT9ZLBO1WjplihcN3Ll5d0/6BaSo3vHPCg+7B6cXUA=;
-  b=ME6JFJf5uhunaIeMCyVVQbBRYUXhHRhK/uw5sjtWcDQfMD+XQ4CDV4EJ
-   bRcDr7sceXZWAFRwpXNAxZ7gs1klsEaL7r/9nBCeCZtuoHTu08zMV7iiN
-   DMbeWeZUJG2Acv/n3VMtmgh3NnIqEYeOcoKVijrt2QckiCfOWjbcevfAl
-   jAa+oU7L8vBDb+TVrRXaIJZnQUXoDmMZLc284TtB3KR0SRbaw5fU79997
-   p19rYfiGJOU4E84fxFKOf5yVtCsbt9vPX5FUSVWccTn1FzFooNfO1gSHS
-   GyX7idWbsyge6uIKFUdzTlKS+tmagobeC9zCCzZkJv8OHgRXvvWMmDqk4
-   Q==;
-X-CSE-ConnectionGUID: LH8B0l9aRDmHYZWG0PqaAg==
-X-CSE-MsgGUID: RCfOntC0RbGb5vwfx4cqfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33802255"
+  bh=kaJIIYmOmXwhaySRvCxcOsWIVInWMUf6mSKhWJIaQ20=;
+  b=DWpqZGHurrQbuol2VcdBEBKg5HSAAh4DvmxMoKFMe/HPY3MkhTpcxHAz
+   w79uLNx/yRgwd9O+zzpuptSiGI8rlPVzJc3ShlMO/Kfz/dfZQD9QTfpbk
+   0LQEHSdwbsGjPkz7IVvTky7JTGCyfrT4nUAkh9AECuqYD0JygQD8H7jR+
+   FJ/Z/VdxTafuhkd1U6euRyp6VSI3ilTNkhpVKC5jkejZNxahocmYMFsCF
+   sRmvCwTbHLpuQlTZ34wblTi3PjD43Pg2gUgstZV6LWgl/pm6Ehrea1KBY
+   dwaR4lv4y/KsjX06TU1ea3ZJtHfLg6g77x+p6DkZp6Wmkxj8Tt01IB8xN
+   w==;
+X-CSE-ConnectionGUID: I+YTLjGERrOUtEm/IqMxhw==
+X-CSE-MsgGUID: b0DsMz39QD29mKT8zGug7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33802257"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="33802255"
+   d="scan'208";a="33802257"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 21:08:33 -0800
-X-CSE-ConnectionGUID: tG981oLDTfOYkyEXRdlEGg==
-X-CSE-MsgGUID: pskDFVqNRKKNHFuK+z1p2Q==
+X-CSE-ConnectionGUID: tSAWH4rlRxW8+PTjuvqDWw==
+X-CSE-MsgGUID: zpGWDEznQ4yYAAjBiIa7jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="94818114"
+   d="scan'208";a="94818115"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
   by orviesa008.jf.intel.com with ESMTP; 04 Dec 2024 21:08:32 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ46H-0003ov-3B;
-	Thu, 05 Dec 2024 05:08:29 +0000
-Date: Thu, 5 Dec 2024 13:07:54 +0800
+	id 1tJ46I-0003ox-01;
+	Thu, 05 Dec 2024 05:08:30 +0000
+Date: Thu, 5 Dec 2024 13:07:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/4] ima_efi.c:undefined reference
- to `set_module_sig_enforced'
-Message-ID: <202412051311.vJpWsB7E-lkp@intel.com>
+Subject: [android-common:android11-kiwi-5.4 2980/30000]
+ kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for
+ function '__log_abort_or_abnormal_wake'
+Message-ID: <202412051247.m4NX9YFm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,137 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   138f7310004259ab588799bba9b3db9accd64468
-commit: 5ffc4c2275478f8d4c17795dc5f1b552559fff26 [1/4] Revert "Revert "ANDROID: GKI: Add module load time protected symbol lookup""
-config: arm64-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051311.vJpWsB7E-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051311.vJpWsB7E-lkp@intel.com/reproduce)
+Hi Kelly,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   eb0803d4658c42bd3e9de688fb72a1cf6cf4e28a
+commit: 189ced91cd7b0e440b0be876406fd36313a11c3f [2980/30000] ANDROID: power: wakeup_reason: wake reason enhancements
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241205/202412051247.m4NX9YFm-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051247.m4NX9YFm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051311.vJpWsB7E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051247.m4NX9YFm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: Entry trampoline text too big
-   aarch64-linux-ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   aarch64-linux-ld: security/integrity/ima/ima_efi.o: in function `arch_get_ima_policy':
->> ima_efi.c:(.text+0x264): undefined reference to `set_module_sig_enforced'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_fixed_state':
-   phylink.c:(.text+0x590): undefined reference to `linkmode_resolve_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mac_config':
-   phylink.c:(.text+0x814): undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x820): undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x8f4): undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x900): undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
-   phylink.c:(.text+0xcb0): undefined reference to `phy_disconnect'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
-   phylink.c:(.text+0xd54): undefined reference to `phy_ethtool_get_wol'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
-   phylink.c:(.text+0xdf0): undefined reference to `phy_ethtool_set_wol'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_get':
-   phylink.c:(.text+0xea0): undefined reference to `phy_ethtool_ksettings_get'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
-   phylink.c:(.text+0xfd0): undefined reference to `phy_get_eee_err'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_init_eee':
-   phylink.c:(.text+0x104c): undefined reference to `phy_init_eee'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
-   phylink.c:(.text+0x10b0): undefined reference to `phy_ethtool_get_eee'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
-   phylink.c:(.text+0x1150): undefined reference to `phy_ethtool_set_eee'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
-   phylink.c:(.text+0x11e4): undefined reference to `mdiobus_read'
-   aarch64-linux-ld: phylink.c:(.text+0x11fc): undefined reference to `mdiobus_write'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_emul_read':
-   phylink.c:(.text+0x126c): undefined reference to `swphy_read_reg'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
-   phylink.c:(.text+0x1314): undefined reference to `phy_speed_down'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
-   phylink.c:(.text+0x13dc): undefined reference to `phy_speed_up'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
-   phylink.c:(.text+0x15f8): undefined reference to `mdiobus_read'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_stop':
-   phylink.c:(.text+0x16cc): undefined reference to `phy_stop'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
-   phylink.c:(.text+0x1d40): undefined reference to `mdiobus_read'
-   aarch64-linux-ld: phylink.c:(.text+0x1de4): undefined reference to `phy_mii_ioctl'
-   aarch64-linux-ld: phylink.c:(.text+0x1e68): undefined reference to `mdiobus_write'
-   aarch64-linux-ld: phylink.c:(.text+0x1ed0): undefined reference to `mdiobus_read'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_link_up.isra.0':
-   phylink.c:(.text+0x2118): undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x2128): undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x216c): undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x2178): undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
-   phylink.c:(.text+0x24d8): undefined reference to `linkmode_set_pause'
-   aarch64-linux-ld: phylink.c:(.text+0x2520): undefined reference to `phy_set_asym_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
-   phylink.c:(.text+0x2b98): undefined reference to `mdiobus_modify_changed'
-   aarch64-linux-ld: phylink.c:(.text+0x2bd0): undefined reference to `mdiobus_modify'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_decode_c37_word':
-   phylink.c:(.text+0x2d5c): undefined reference to `linkmode_resolve_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
-   phylink.c:(.text+0x2f6c): undefined reference to `mdiobus_read'
-   aarch64-linux-ld: phylink.c:(.text+0x2f80): undefined reference to `mdiobus_read'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_parse_fixedlink':
-   phylink.c:(.text+0x3888): undefined reference to `phy_lookup_setting'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_bringup_phy':
-   phylink.c:(.text+0x3d88): undefined reference to `phy_support_asym_pause'
-   aarch64-linux-ld: phylink.c:(.text+0x3e48): undefined reference to `phy_attached_info_irq'
-   aarch64-linux-ld: phylink.c:(.text+0x3f38): undefined reference to `phy_request_interrupt'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
-   phylink.c:(.text+0x41a4): undefined reference to `phy_attach_direct'
-   aarch64-linux-ld: phylink.c:(.text+0x420c): undefined reference to `phy_detach'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
-   phylink.c:(.text+0x4284): undefined reference to `phy_ethtool_ksettings_set'
-   aarch64-linux-ld: phylink.c:(.text+0x449c): undefined reference to `phy_lookup_setting'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
-   phylink.c:(.text+0x4754): undefined reference to `phy_get_pause'
-   aarch64-linux-ld: phylink.c:(.text+0x484c): undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x485c): undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x4950): undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: phylink.c:(.text+0x4960): undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_start':
-   phylink.c:(.text+0x4a68): undefined reference to `phy_start'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
-   phylink.c:(.text+0x4db8): undefined reference to `phy_restart_aneg'
-   aarch64-linux-ld: drivers/media/common/videobuf2/videobuf2-core.o: in function `vb2_core_streamon':
-   videobuf2-core.c:(.text+0x413c): undefined reference to `v4l_vb2q_enable_media_source'
+>> kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for function '__log_abort_or_abnormal_wake' [-Wmissing-prototypes]
+     199 | void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
+         |      ^
+   kernel/power/wakeup_reason.c:199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     199 | void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
+         | ^
+         | static 
+   kernel/power/wakeup_reason.c:378:12: warning: no previous prototype for function 'wakeup_reason_init' [-Wmissing-prototypes]
+     378 | int __init wakeup_reason_init(void)
+         |            ^
+   kernel/power/wakeup_reason.c:378:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     378 | int __init wakeup_reason_init(void)
+         | ^
+         | static 
+   2 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
+
+vim +/__log_abort_or_abnormal_wake +199 kernel/power/wakeup_reason.c
+
+   198	
+ > 199	void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
+   200	{
+   201		unsigned long flags;
+   202	
+   203		spin_lock_irqsave(&wakeup_reason_lock, flags);
+   204	
+   205		/* Suspend abort or abnormal wake reason has already been logged. */
+   206		if (suspend_abort || abnormal_wake) {
+   207			spin_unlock_irqrestore(&wakeup_reason_lock, flags);
+   208			return;
+   209		}
+   210	
+   211		suspend_abort = abort;
+   212		abnormal_wake = !abort;
+   213		vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
+   214	
+   215		spin_unlock_irqrestore(&wakeup_reason_lock, flags);
+   216	}
+   217	
 
 -- 
 0-DAY CI Kernel Test Service
