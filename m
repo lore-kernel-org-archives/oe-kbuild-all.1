@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521EE208A0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 01:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7C27DA82;
+	Thu,  5 Dec 2024 01:24:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733361849; cv=none; b=k6QTumSDmwuxbgdyrQx6BwP0s544sLmfiVjMVs2Uf2QGQuXFvwLGH7jAZJ4TpEH+ZGA12w6AUZE4VvWoDxUYp/97tnNZ0/BUimETomS+unWupDmq9BuAy757JYpCnnnMladhpqX3dmghxkjo0lRSqIQwW2ZO2yLRkLSUz3Nax4A=
+	t=1733361851; cv=none; b=HX1LLtNlLt8BTkPta3YIIQ3gCAxQUmQuBScPK7Zn8n5RqFIO5uhkCczz5z9TCAVF9rF5EzhUFv2tXFsWx2GLM8i5x44F5wufBMc2p+1dFogw8e3ZKgStdjeplHLy66hm+mdDTYP0/lYQkBNZvxZpNvzH+rFjKOKvjx1lshpfEIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733361849; c=relaxed/simple;
-	bh=bj14wD9fWI982Q4yZS6suAMv+T1YtrUdXkmBxl2DsP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nAAVWbFNQadUbG+2EQdM5fOeH45iScV7RCWPHdTfG+tecehhRe3WqQVHswZ7aKkkWPIYq90PEDqB1aERvfk9QC6UouIyd8srvYc/4PqJgTF7qI9oLuta7E7eelNGy9n5goNkZ4mxahU3IpnJkxsx93Ti1TcY4+/les5TaaaRvx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bs7gOLBn; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1733361851; c=relaxed/simple;
+	bh=iw7fuXPYCUPZXzib8rOrienqpPhH7l+XsBbTP71d4Zo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e9DLO5CFaC+BUjOkVoPGpRAFZYGxy2oJiMAY0E+xgN9fRWs0NSC85Yjd+4XncJy3zzqdVzP0CvB6Rf913p69zHQmpU28ToBPCTuLr/8lrWYDKrbD5T5HOTG/L/zmPvusUVnB0TOnYuqnlxPdk8I/u1FZsyfiL+IzqDzm+SGqPkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRatOr4N; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bs7gOLBn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRatOr4N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733361847; x=1764897847;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bj14wD9fWI982Q4yZS6suAMv+T1YtrUdXkmBxl2DsP0=;
-  b=bs7gOLBnigC4/g6LUj7308J1He70WemdGPcnkZdCG6O/3mirGC0GRXTe
-   GRtxeWXMouqT/y0ug994/amkTyKnLFWIhq9OqeCczU21EupsRHqRw/jGL
-   pWGSVsT2LlW8NILUgWfXvS0Xp6U1BmdbqiOMnIg8zvegBcfixSCejKsnh
-   zF/aO9gi/RWyU+UrQ/Azm5A8wS0ofkjow0DFHxzsHLtdvlPxAYV8F3+Nr
-   skUWB+rdzXTJl1eTHylKASGDk+oI5wWaX822XS5Ys6aAcAdjdXaSBNy+1
-   j9fF9TPzV2ftUvnQt5z52udGDtdiVVBFi3wAjXXhuEF6AqN0xyaf3L3bJ
+  t=1733361850; x=1764897850;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iw7fuXPYCUPZXzib8rOrienqpPhH7l+XsBbTP71d4Zo=;
+  b=fRatOr4NI2CDdv4oBmyuv3OtW9kXkqLNOZxnP6tdv/C0wa1QUsh0THQR
+   wce14paob23SbNqMpoCqFdCzhcLDTS29eTuaMYWGBbTGM+A/3uFG+eMdB
+   y/ZW3/3vXxQudKGwO3pVTjnbbiV5qA+/Sfz8ZOfj2CMoFor7svzaJneqI
+   HcITQDlsazbY2hwfiEFsxl8l+sqZdXRlQT9PF+Hjaq2yP6QpVk8RMFvDs
+   ie/wm0zKGgWI5au9Td84pTcKgTc6zKfvrgdTAuwKQrA27I7CRdBTS9ZSd
+   bzetKv5Wwc9If5Fb0DPaBhxlFIKi+H9wR0alN1GvFWVyCyYppl70EkGaG
    Q==;
-X-CSE-ConnectionGUID: iQMc0lGkSgmGyGPX1MLefQ==
-X-CSE-MsgGUID: pSTJF/1aS0Se3jazK6e4wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44685138"
+X-CSE-ConnectionGUID: KaeEfJIJSES0lk1Omz0CWw==
+X-CSE-MsgGUID: MNxnk0p7SzaS7x1JSdHDPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44685140"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="44685138"
+   d="scan'208";a="44685140"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 17:24:07 -0800
-X-CSE-ConnectionGUID: VvfBq1XnT9ynjGNMyeoqwQ==
-X-CSE-MsgGUID: fUftj7lwRWOz2zwbPh9geA==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 17:24:08 -0800
+X-CSE-ConnectionGUID: P03VVCmST22TMFZDz086Nw==
+X-CSE-MsgGUID: Jq6R7X5tTxOL8zTJ/81Amw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="98003849"
+   d="scan'208";a="98003848"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
   by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2024 17:24:05 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ0b5-0003eH-0S;
+	id 1tJ0b5-0003eF-0O;
 	Thu, 05 Dec 2024 01:24:03 +0000
-Date: Thu, 5 Dec 2024 09:23:05 +0800
+Date: Thu, 5 Dec 2024 09:23:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yizhen Fan <fanyizhen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2544/2544]
- drivers/ub/urma/uburma/uburma_dev_ops.c:50:19: sparse: sparse: incompatible
- types in comparison expression (different address spaces):
-Message-ID: <202412050919.gZc1zM8m-lkp@intel.com>
+To: Guillaume Morin <guillaume@morinfr.org>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	guillaume@morinfr.org, Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Eric Hagberg <ehagberg@janestreet.com>
+Subject: Re: [PATCH v1] hugetlb: support FOLL_FORCE|FOLL_WRITE
+Message-ID: <202412050954.m9cwNOJC-lkp@intel.com>
+References: <Z1Ce6j5WiBE3kaGf@bender.morinfr.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,171 +66,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z1Ce6j5WiBE3kaGf@bender.morinfr.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   b71af6f00ede58be00cb7306c9acb2660ec90947
-commit: aeda8188894b2ed9ecf04dabaf5e147bce811725 [2544/2544] ub: change name in kconfig, and kconfig content of ub
-config: x86_64-randconfig-121-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050919.gZc1zM8m-lkp@intel.com/config)
+Hi Guillaume,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.13-rc1 next-20241204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Morin/hugetlb-support-FOLL_FORCE-FOLL_WRITE/20241205-022843
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/Z1Ce6j5WiBE3kaGf%40bender.morinfr.org
+patch subject: [PATCH v1] hugetlb: support FOLL_FORCE|FOLL_WRITE
+config: x86_64-buildonly-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050954.m9cwNOJC-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050919.gZc1zM8m-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050954.m9cwNOJC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050919.gZc1zM8m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050954.m9cwNOJC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/ub/urma/uburma/uburma_dev_ops.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/wait.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_dev_ops.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_dev_ops.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> drivers/ub/urma/uburma/uburma_dev_ops.c:50:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_dev_ops.c:50:19: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_dev_ops.c:50:19: sparse:    struct ubcore_device *
-   drivers/ub/urma/uburma/uburma_dev_ops.c:71:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_dev_ops.c:71:9: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_dev_ops.c:71:9: sparse:    struct ubcore_device *
-   drivers/ub/urma/uburma/uburma_dev_ops.c:98:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_dev_ops.c:98:19: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_dev_ops.c:98:19: sparse:    struct ubcore_device *
---
-   drivers/ub/urma/uburma/uburma_event.c: note: in included file (through include/linux/kernel.h, include/asm-generic/bug.h, arch/x86/include/asm/bug.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_event.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/asm-generic/bug.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_event.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> drivers/ub/urma/uburma/uburma_event.c:102:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_event.c:102:20: sparse:    void [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_event.c:102:20: sparse:    void *
---
-   drivers/ub/urma/uburma/uburma_main.c: note: in included file (through include/linux/kernel.h, include/asm-generic/bug.h, arch/x86/include/asm/bug.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_main.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/asm-generic/bug.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_main.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> drivers/ub/urma/uburma/uburma_main.c:215:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_main.c:215:9: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_main.c:215:9: sparse:    struct ubcore_device *
-   drivers/ub/urma/uburma/uburma_main.c:239:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_main.c:239:9: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_main.c:239:9: sparse:    struct ubcore_device *
---
-   drivers/ub/urma/uburma/uburma_uobj.c: note: in included file (through include/linux/kernel.h):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_uobj.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_uobj.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> drivers/ub/urma/uburma/uburma_uobj.c:95:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_uobj.c:95:19: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_uobj.c:95:19: sparse:    struct ubcore_device *
-   drivers/ub/urma/uburma/uburma_uobj.c:396:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_uobj.c:396:19: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_uobj.c:396:19: sparse:    struct ubcore_device *
---
-   drivers/ub/urma/uburma/uburma_cmd.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/wait.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_cmd.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   drivers/ub/urma/uburma/uburma_cmd.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> drivers/ub/urma/uburma/uburma_cmd.c:296:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_cmd.c:296:16: sparse:    void [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_cmd.c:296:16: sparse:    void *
-   drivers/ub/urma/uburma/uburma_cmd.c:1568:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_cmd.c:1568:19: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_cmd.c:1568:19: sparse:    struct ubcore_device *
+All warnings (new ones prefixed by >>):
 
-vim +50 drivers/ub/urma/uburma/uburma_dev_ops.c
+   In file included from mm/gup.c:7:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/gup.c:20:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/gup.c:681:33: warning: variable 'page' is uninitialized when used here [-Wuninitialized]
+     681 |             !can_follow_write_pud(pud, page, vma, flags))
+         |                                        ^~~~
+   mm/gup.c:673:19: note: initialize the variable 'page' to silence this warning
+     673 |         struct page *page;
+         |                          ^
+         |                           = NULL
+   7 warnings generated.
 
-cd637a6dded9c0 Yizhen Fan 2023-09-12  32  
-7d130c6018dbfd Yizhen Fan 2023-09-12  33  int uburma_mmap(struct file *filp, struct vm_area_struct *vma)
-7d130c6018dbfd Yizhen Fan 2023-09-12  34  {
-7d130c6018dbfd Yizhen Fan 2023-09-12  35  	struct uburma_file *file = filp->private_data;
-7d130c6018dbfd Yizhen Fan 2023-09-12  36  	struct uburma_device *ubu_dev;
-7d130c6018dbfd Yizhen Fan 2023-09-12  37  	struct ubcore_device *ubc_dev;
-7d130c6018dbfd Yizhen Fan 2023-09-12  38  	int srcu_idx;
-7d130c6018dbfd Yizhen Fan 2023-09-12  39  	int ret;
-7d130c6018dbfd Yizhen Fan 2023-09-12  40  
-7d130c6018dbfd Yizhen Fan 2023-09-12  41  	if (file == NULL || file->ucontext == NULL) {
-7d130c6018dbfd Yizhen Fan 2023-09-12  42  		uburma_log_err("can not find ucontext.\n");
-7d130c6018dbfd Yizhen Fan 2023-09-12  43  		return -EINVAL;
-7d130c6018dbfd Yizhen Fan 2023-09-12  44  	}
-7d130c6018dbfd Yizhen Fan 2023-09-12  45  
-7d130c6018dbfd Yizhen Fan 2023-09-12  46  	ubu_dev = file->ubu_dev;
-7d130c6018dbfd Yizhen Fan 2023-09-12  47  	uburma_cmd_inc(ubu_dev);
-7d130c6018dbfd Yizhen Fan 2023-09-12  48  
-7d130c6018dbfd Yizhen Fan 2023-09-12  49  	srcu_idx = srcu_read_lock(&ubu_dev->ubc_dev_srcu);
-7d130c6018dbfd Yizhen Fan 2023-09-12 @50  	ubc_dev = srcu_dereference(ubu_dev->ubc_dev, &ubu_dev->ubc_dev_srcu);
-7d130c6018dbfd Yizhen Fan 2023-09-12  51  	if (ubc_dev == NULL || ubc_dev->ops == NULL || ubc_dev->ops->mmap == NULL) {
-7d130c6018dbfd Yizhen Fan 2023-09-12  52  		uburma_log_err("can not find ubcore device.\n");
-7d130c6018dbfd Yizhen Fan 2023-09-12  53  		ret = -ENODEV;
-7d130c6018dbfd Yizhen Fan 2023-09-12  54  		goto out;
-7d130c6018dbfd Yizhen Fan 2023-09-12  55  	}
-7d130c6018dbfd Yizhen Fan 2023-09-12  56  
-7d130c6018dbfd Yizhen Fan 2023-09-12  57  	ret = ubc_dev->ops->mmap(file->ucontext, vma);
-7d130c6018dbfd Yizhen Fan 2023-09-12  58  
-7d130c6018dbfd Yizhen Fan 2023-09-12  59  out:
-7d130c6018dbfd Yizhen Fan 2023-09-12  60  	srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
-7d130c6018dbfd Yizhen Fan 2023-09-12  61  	uburma_cmd_dec(ubu_dev);
-7d130c6018dbfd Yizhen Fan 2023-09-12  62  	return ret;
-7d130c6018dbfd Yizhen Fan 2023-09-12  63  }
-7d130c6018dbfd Yizhen Fan 2023-09-12  64  
 
-:::::: The code at line 50 was first introduced by commit
-:::::: 7d130c6018dbfd09c6e1c5d91b347fdbf3924321 ub: add mmap ops support in ubcore and uburma
+vim +/page +681 mm/gup.c
 
-:::::: TO: Yizhen Fan <fanyizhen@huawei.com>
-:::::: CC: fanyizhen1995 <en_0015767@163.com>
+   667	
+   668	static struct page *follow_huge_pud(struct vm_area_struct *vma,
+   669					    unsigned long addr, pud_t *pudp,
+   670					    int flags, struct follow_page_context *ctx)
+   671	{
+   672		struct mm_struct *mm = vma->vm_mm;
+   673		struct page *page;
+   674		pud_t pud = *pudp;
+   675		unsigned long pfn = pud_pfn(pud);
+   676		int ret;
+   677	
+   678		assert_spin_locked(pud_lockptr(mm, pudp));
+   679	
+   680		if ((flags & FOLL_WRITE) &&
+ > 681		    !can_follow_write_pud(pud, page, vma, flags))
+   682			return NULL;
+   683	
+   684		if (!pud_present(pud))
+   685			return NULL;
+   686	
+   687		pfn += (addr & ~PUD_MASK) >> PAGE_SHIFT;
+   688	
+   689		if (IS_ENABLED(CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD) &&
+   690		    pud_devmap(pud)) {
+   691			/*
+   692			 * device mapped pages can only be returned if the caller
+   693			 * will manage the page reference count.
+   694			 *
+   695			 * At least one of FOLL_GET | FOLL_PIN must be set, so
+   696			 * assert that here:
+   697			 */
+   698			if (!(flags & (FOLL_GET | FOLL_PIN)))
+   699				return ERR_PTR(-EEXIST);
+   700	
+   701			if (flags & FOLL_TOUCH)
+   702				touch_pud(vma, addr, pudp, flags & FOLL_WRITE);
+   703	
+   704			ctx->pgmap = get_dev_pagemap(pfn, ctx->pgmap);
+   705			if (!ctx->pgmap)
+   706				return ERR_PTR(-EFAULT);
+   707		}
+   708	
+   709		page = pfn_to_page(pfn);
+   710	
+   711		if (!pud_devmap(pud) && !pud_write(pud) &&
+   712		    gup_must_unshare(vma, flags, page))
+   713			return ERR_PTR(-EMLINK);
+   714	
+   715		ret = try_grab_folio(page_folio(page), 1, flags);
+   716		if (ret)
+   717			page = ERR_PTR(ret);
+   718		else
+   719			ctx->page_mask = HPAGE_PUD_NR - 1;
+   720	
+   721		return page;
+   722	}
+   723	
 
 -- 
 0-DAY CI Kernel Test Service
