@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5F218FC74
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 05:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950B42119
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 05:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733375318; cv=none; b=YPfMAzhnOXOfBax5FdS9GXYpCVZNzScwOys9IfJusAE6gFnN8YrOickNhTNDxU0jRS3PrtHMjs+Tk7ytVqWybhCIg7lqiNKBJ+UduWqt2irBVluJQoQ0dScOlcpKOZA4l/kJiBkGEZUvrKq5a1SaHRr/HyfdIJkeuGnoAG8nfQM=
+	t=1733376585; cv=none; b=CV5uNWEJRmLZkf9EM6tP7Qz/WLw8K9la/mOLTUYlc2v5nUkUN9rBxt9nh582eYd1B5zzgjVHnHva32RbAFqJqIqxLadvc4FrZ0Vz47kf8TW1Z9oEeP/Z1CWR+pHeq9G1IJxxBtWGDGNkqsK1C+4o2cZ89m8nVq1Q1a09Z8jI3lM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733375318; c=relaxed/simple;
-	bh=kaJIIYmOmXwhaySRvCxcOsWIVInWMUf6mSKhWJIaQ20=;
+	s=arc-20240116; t=1733376585; c=relaxed/simple;
+	bh=lhSJcQ71un/L0ETK1QX46gP6NgaCVGZiAMMkd9VLerQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nGjt3cN3hXSnXLzl0khrbKktQ5cmyDMNBYT3dBh6tK7b/afOV9jqrR0z3uGniYh+GV+eUZpmrW+BBIJE0vDvgz+AqEckOeiOz7+Os+ZKq6IzesVHjWulePGlcodfgRy6CZjwkhVu8eMX2mdnl5MdPc0tdIhVrQsXtoRB83TKb+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DWpqZGHu; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=qoEis0XEDFAk10hDPfp1ePkxuZzEaflVNYgN9DlV8FWmoUo1nn8YsEZU0bHN4mIRVdYbEq7JNhL+go1rpJ9LT/TfBJfZHGqKaM5XVM4fnUUbm3g/jgGoUfVGuGWzC8VOl5QhfvReNUYd4xo8UlCtsWrb7rbJ28D9UvILaaRCRLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yx2QFcZH; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWpqZGHu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yx2QFcZH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733375316; x=1764911316;
+  t=1733376583; x=1764912583;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kaJIIYmOmXwhaySRvCxcOsWIVInWMUf6mSKhWJIaQ20=;
-  b=DWpqZGHurrQbuol2VcdBEBKg5HSAAh4DvmxMoKFMe/HPY3MkhTpcxHAz
-   w79uLNx/yRgwd9O+zzpuptSiGI8rlPVzJc3ShlMO/Kfz/dfZQD9QTfpbk
-   0LQEHSdwbsGjPkz7IVvTky7JTGCyfrT4nUAkh9AECuqYD0JygQD8H7jR+
-   FJ/Z/VdxTafuhkd1U6euRyp6VSI3ilTNkhpVKC5jkejZNxahocmYMFsCF
-   sRmvCwTbHLpuQlTZ34wblTi3PjD43Pg2gUgstZV6LWgl/pm6Ehrea1KBY
-   dwaR4lv4y/KsjX06TU1ea3ZJtHfLg6g77x+p6DkZp6Wmkxj8Tt01IB8xN
-   w==;
-X-CSE-ConnectionGUID: I+YTLjGERrOUtEm/IqMxhw==
-X-CSE-MsgGUID: b0DsMz39QD29mKT8zGug7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33802257"
+  bh=lhSJcQ71un/L0ETK1QX46gP6NgaCVGZiAMMkd9VLerQ=;
+  b=Yx2QFcZHTbmcM9UtVbXo4BJkLjAs+Ydoevfe8s3pt6Hc4v3FclR67/xk
+   D61GkzdtT/2jnRVxOuIRgQ+SX+Y/IGjbDfQwBCSaomBPKfz7GH3EMS6wY
+   WCsUEgquMXa8ILShhTK21sqXkMphfWZSt+YskKs7DvjIT0+Ucq31ayR/6
+   LvvoqXwhwxgM91vZZZHWBQUPd3Y/cfqeEOGavwh26RxVeSbJ0cwlhl0B4
+   LJeWoUIxPhqRJt3AP1t0MJ8IYYQt7Chy0GjDp75imOpFgEHBCfoUX9Icz
+   FE/AeSh7WDDvL9PL6aA4NGtMOilkyHtyGVB198KyK0zTKGy4m+NRILGve
+   Q==;
+X-CSE-ConnectionGUID: WmgiFwf4QEad0x/eVFocFg==
+X-CSE-MsgGUID: WZ/PCRSXT5GeC28oXnqSVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="56147749"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="33802257"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 21:08:33 -0800
-X-CSE-ConnectionGUID: tSAWH4rlRxW8+PTjuvqDWw==
-X-CSE-MsgGUID: zpGWDEznQ4yYAAjBiIa7jg==
+   d="scan'208";a="56147749"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 21:29:42 -0800
+X-CSE-ConnectionGUID: DuuwropmRfGPwcn7GqC/WA==
+X-CSE-MsgGUID: zo+kJZnKSt2NlXr8ZsmhgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="94818115"
+   d="scan'208";a="124904037"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 04 Dec 2024 21:08:32 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 04 Dec 2024 21:29:42 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ46I-0003ox-01;
-	Thu, 05 Dec 2024 05:08:30 +0000
-Date: Thu, 5 Dec 2024 13:07:53 +0800
+	id 1tJ4Ql-0003qR-1m;
+	Thu, 05 Dec 2024 05:29:39 +0000
+Date: Thu, 5 Dec 2024 13:29:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 2980/30000]
- kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for
- function '__log_abort_or_abnormal_wake'
-Message-ID: <202412051247.m4NX9YFm-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2516/2516]
+ drivers/ub/urma/ubcore/ubcore_vtp.c:261:6: warning: no previous prototype
+ for 'ubcore_hash_table_rmv_vtpn'
+Message-ID: <202412051356.um0lEVov-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kelly,
+Hi WenChen,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   eb0803d4658c42bd3e9de688fb72a1cf6cf4e28a
-commit: 189ced91cd7b0e440b0be876406fd36313a11c3f [2980/30000] ANDROID: power: wakeup_reason: wake reason enhancements
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241205/202412051247.m4NX9YFm-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051247.m4NX9YFm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   fdc4bca5e9e486a894194c2b6a956492b11d8cc5
+commit: 013280dfab06d20e73de842e8d2fc2a200055455 [2516/2516] urma: upload kernel patch for 20240224_rain
+config: arm64-randconfig-003-20241203 (https://download.01.org/0day-ci/archive/20241205/202412051356.um0lEVov-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051356.um0lEVov-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051247.m4NX9YFm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051356.um0lEVov-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for function '__log_abort_or_abnormal_wake' [-Wmissing-prototypes]
-     199 | void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-         |      ^
-   kernel/power/wakeup_reason.c:199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     199 | void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-         | ^
-         | static 
-   kernel/power/wakeup_reason.c:378:12: warning: no previous prototype for function 'wakeup_reason_init' [-Wmissing-prototypes]
-     378 | int __init wakeup_reason_init(void)
-         |            ^
-   kernel/power/wakeup_reason.c:378:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     378 | int __init wakeup_reason_init(void)
-         | ^
-         | static 
-   2 warnings generated.
+>> drivers/ub/urma/ubcore/ubcore_vtp.c:261:6: warning: no previous prototype for 'ubcore_hash_table_rmv_vtpn' [-Wmissing-prototypes]
+     261 | void ubcore_hash_table_rmv_vtpn(struct ubcore_device *dev, struct ubcore_vtpn *vtpn)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__log_abort_or_abnormal_wake +199 kernel/power/wakeup_reason.c
+vim +/ubcore_hash_table_rmv_vtpn +261 drivers/ub/urma/ubcore/ubcore_vtp.c
 
-   198	
- > 199	void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-   200	{
-   201		unsigned long flags;
-   202	
-   203		spin_lock_irqsave(&wakeup_reason_lock, flags);
-   204	
-   205		/* Suspend abort or abnormal wake reason has already been logged. */
-   206		if (suspend_abort || abnormal_wake) {
-   207			spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   208			return;
-   209		}
-   210	
-   211		suspend_abort = abort;
-   212		abnormal_wake = !abort;
-   213		vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
-   214	
-   215		spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   216	}
-   217	
+   260	
+ > 261	void ubcore_hash_table_rmv_vtpn(struct ubcore_device *dev, struct ubcore_vtpn *vtpn)
+   262	{
+   263		struct ubcore_hash_table *ht;
+   264	
+   265		ht = ubcore_get_vtpn_ht(dev, vtpn->trans_mode);
+   266		if (ht == NULL)
+   267			return;
+   268		ubcore_hash_table_remove(ht, &vtpn->hnode);
+   269	}
+   270	
 
 -- 
 0-DAY CI Kernel Test Service
