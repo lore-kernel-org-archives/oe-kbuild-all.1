@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFF6218E83;
-	Thu,  5 Dec 2024 15:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0342221D58F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 15:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733411801; cv=none; b=Wa+dI7RK6E9gH+1J55XlIjlEtK5kmZMJE2MdPMQrDbyM4mrFRW0Unv4sg930R96+/aZe3OUXy9seS5YzEXKYO5DuolrtytLtsfmCswDvcRKRWZfrxFdRPKb3aYOhAki4dab+iLQrWwSj5CRaMwQgc7TU629MpIYEAFEBUB0mgmU=
+	t=1733414267; cv=none; b=Y2V9fGu7t94ePParXRczIKCi8/n52/TjiiX7qY1jpQlTlgICkLB+qfozntH2IuNbF3Q/rJQzxM+NwVSoBRs6eWgZweixZRCBBA41GKWneCp8hvNPMH8EOeoekLmzU71JuZqQSkMmo4rWeS2Lc1DsxMRv2/oTVD5tN+1UNvWazWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733411801; c=relaxed/simple;
-	bh=HMHcEDj1u4GqWG3hL1RI/WKaNLDp5HE83xY8eaa6M1k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W3ld6kZoczcxvX2jnRgQFXF81px0BCbNKfxMFLxXMgmsazPSEYNm5wMVdAouZQZBr+LIShOwHv9bauOhfUD4PDYY2Ryl/11bi1FuIUW0/t4JfXZAJYBySUBYWI9nGZMxe8FOIl8mggMWd1PQPKXag/tjxQQtZLV0Lvo/3GAtVBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Odw6A6I9; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1733414267; c=relaxed/simple;
+	bh=pKt2LjyylvYko53aigygvSZx0SreYhY3bXAtH5iQQHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GipDzvRQOfcolSFfEo+Mr9V6jXBuf1dI6yUWS7xA7vYtf4bw0JQ2FKL+O4taYTmwcCNBjnPhighROMEj4pjB9zSuv6dmYiG985zCoc7sv24nBBz96jDn+U1q61v0+PfZA5haUj31XJEko/PE6ax4MfPJOAKn8aflDm/cO4X8Y8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQe6vRF+; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Odw6A6I9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQe6vRF+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733411800; x=1764947800;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HMHcEDj1u4GqWG3hL1RI/WKaNLDp5HE83xY8eaa6M1k=;
-  b=Odw6A6I9KyDl4gHdf88pBoFxVwkjaJsunlcFA/PPLYCQira2HTOeHpTH
-   wrljz12I7LmsybkNLM06rcjwI498uLmEA7To+8npZlXJXwBtHhTQc8hae
-   SLoTl5llLqUpIdsBYnpr7ie2xPkXFZdcsCW3I/vhT8xWz8TtAg5hc+waY
-   7Hdo0ViH7mCgTkPhDh36xudfADS3sTVXs/MWCXysCd8xD/mFKsojWdkwB
-   axAauEZAFlI2SWBAIdfZdGaSR2CKRuaI9LlHJxTJGzElGlyc9KUcUNfQP
-   ly0DNV/JqvISRi4qgtJVbLckRlOppo0JAcS8Kbmw5A89R0B2cJkQBvjpl
-   g==;
-X-CSE-ConnectionGUID: zJtgmFjsRWGe4WmSyxohtQ==
-X-CSE-MsgGUID: oqZJd0bASCSUusFFGaF6kQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="44204034"
+  t=1733414265; x=1764950265;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pKt2LjyylvYko53aigygvSZx0SreYhY3bXAtH5iQQHw=;
+  b=LQe6vRF+y8IBR9amXzl0ZOggZRIofwEO1XeBsJVZCcWEN2rxDTV4pFIz
+   nzpQjUnZL9FF7BcoYGNQhHwpcfHuNkNqDBuNgswJxnN2CAc4JXskyWWp/
+   fhh+OliWCZNgYnn8C0Ze89TdRBL1zzj5UxKHuciVjManVkUkDTqt1odN1
+   79OwVLfzHI4rumsehlUTMYC/IXnb4h2hYB+vl5od/62Yn9Moe0y/dDSKw
+   /UPgaV3+KIbrq2pN4Bx+XbbI+CCutV3bhwp5eiySnofj23shQXcR1NqKS
+   xNtUV/hM2m1YqEjor0Z6SRg838GTB8yi1bHzUEA1B4ozGMcuDi7xI+jie
+   Q==;
+X-CSE-ConnectionGUID: a3Ai/0gOTbaDq2p8zTvSxQ==
+X-CSE-MsgGUID: bXkc6LDORIqXHCr9NvQ/Cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33976405"
 X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="44204034"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 07:16:39 -0800
-X-CSE-ConnectionGUID: qM0wgrqgS0m4GFVf3rwMDw==
-X-CSE-MsgGUID: n8kyKvbxR1SYEXvK1hJoew==
+   d="scan'208";a="33976405"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 07:57:44 -0800
+X-CSE-ConnectionGUID: L5smxyioQK+rIxIuyIPsjA==
+X-CSE-MsgGUID: LUNfLXnfQbqcjzte+RrZXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="94201590"
+   d="scan'208";a="93959168"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Dec 2024 07:16:35 -0800
+  by orviesa010.jf.intel.com with ESMTP; 05 Dec 2024 07:57:43 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJDah-00006p-2h;
-	Thu, 05 Dec 2024 15:16:31 +0000
-Date: Thu, 5 Dec 2024 23:15:38 +0800
+	id 1tJEEW-0000AJ-34;
+	Thu, 05 Dec 2024 15:57:40 +0000
+Date: Thu, 5 Dec 2024 23:57:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vabhav Sharma <vabhav.sharma@nxp.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, frank.li@nxp.com,
-	pankaj.gupta@nxp.com, daniel.baluta@nxp.com,
-	silvano.dininno@nxp.com, V.Sethi@nxp.com,
-	meenakshi.aggarwal@nxp.com, Vabhav Sharma <vabhav.sharma@nxp.com>,
-	Franck LENORMAND <franck.lenormand@nxp.com>
-Subject: Re: [PATCH v4 4/4] firmware: imx: secvio: Add support for SNVS
- secvio and tamper via SCFW
-Message-ID: <202412052340.ub9tlWcC-lkp@intel.com>
-References: <20241205-secvio-v4-4-5c37cdc39573@nxp.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 186/189] fs/bcachefs/inode.c:819:9:
+ sparse: sparse: cast to restricted __le64
+Message-ID: <202412052327.TBN0gE0s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,36 +62,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205-secvio-v4-4-5c37cdc39573@nxp.com>
 
-Hi Vabhav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 9852d85ec9d492ebef56dc5f229416c925758edc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vabhav-Sharma/dt-bindings-firmware-imx-add-nvmem-phandle/20241205-125909
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241205-secvio-v4-4-5c37cdc39573%40nxp.com
-patch subject: [PATCH v4 4/4] firmware: imx: secvio: Add support for SNVS secvio and tamper via SCFW
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241205/202412052340.ub9tlWcC-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412052340.ub9tlWcC-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   63c87562a34eb03b4a605119b45026a342042c40
+commit: 91471cac1c75158ab9b46861b84ae9619346c13b [186/189] bcachefs: bcachefs_metadata_version_persistent_inode_cursors
+config: i386-randconfig-061 (https://download.01.org/0day-ci/archive/20241205/202412052327.TBN0gE0s-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412052327.TBN0gE0s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412052340.ub9tlWcC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412052327.TBN0gE0s-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/inode.c: note: in included file:
+   fs/bcachefs/bcachefs.h:998:9: sparse: sparse: array of flexible structures
+>> fs/bcachefs/inode.c:819:9: sparse: sparse: cast to restricted __le64
+>> fs/bcachefs/inode.c:819:9: sparse: sparse: cast from restricted __le32
+   fs/bcachefs/inode.c:1000:35: sparse: sparse: cast to restricted __le64
+   fs/bcachefs/inode.c:1000:35: sparse: sparse: cast from restricted __le32
 
-ERROR: modpost: missing MODULE_LICENSE() in drivers/firmware/imx/imx-scu-secvio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/imx/imx-scu-secvio.o
-ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
-ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
-ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
-ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
->> ERROR: modpost: "imx_secvio_sc_debugfs" [drivers/firmware/imx/imx-scu-secvio.ko] undefined!
+vim +819 fs/bcachefs/inode.c
+
+   813	
+   814	void bch2_inode_alloc_cursor_to_text(struct printbuf *out, struct bch_fs *c,
+   815					     struct bkey_s_c k)
+   816	{
+   817		struct bkey_s_c_inode_alloc_cursor i = bkey_s_c_to_inode_alloc_cursor(k);
+   818	
+ > 819		prt_printf(out, "idx %llu generation %llu",
+   820			   le64_to_cpu(i.v->idx),
+   821			   le64_to_cpu(i.v->gen));
+   822	}
+   823	
 
 -- 
 0-DAY CI Kernel Test Service
