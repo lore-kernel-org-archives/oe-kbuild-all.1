@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC8C21D592
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 15:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EAE21D595;
+	Thu,  5 Dec 2024 15:57:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733414269; cv=none; b=I2AGx6sx+DjMKFBn0UkLsG1ULQ6CkkkyEyXuop1P7y25pon07L2tNDVbfhziFo+xKXnIkTmoBHI+xX2LLqTSlN4S+iGvvRm5E9g/twZ2Q8wFZrbylazAjWLJ6bi02CyOr1HCALnFxQChwIGncAzmiLYQ0VJdEoE6pISB0lxx7V4=
+	t=1733414270; cv=none; b=MUK7OkciwRo7TiUGuko6OrAj+4iQtTuPsXcZuXQN4EaQ5vKpF7vUEsnb6UVF6J+bluOabtxx/ubHceE7LSvm0Vjk136jzqYPXr4+FwhBilpxQLhAVowZk9W1gKjC6vzyvC70KRvlswoJQ157M6ru5Zuo6RmlOeMGvqrlXgtnM3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733414269; c=relaxed/simple;
-	bh=yuXOfv1JqDWyxTHQ9UuP57ZZR1BO/vGVFUXm33S+Wy0=;
+	s=arc-20240116; t=1733414270; c=relaxed/simple;
+	bh=gYj2Cn0A25p30ukJU5NirjJCGlV3C1DFe68Dw8RwYzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QnXyX6MDJonaPQuFU+ZWsu00Kr+q5GIWsq4WSFP+jnLF4u6ln1gi77J55jWLUX3xt7ZNmLf+6kAaEm5OoEU/ziVCgoURYgPOlIH/GVd47hEEwYJt938JCLE+Cvp0n6pSzHQxFoKuYvCu4LIufLZKL9eKRQRZqYYtaaL75KNWW3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T7X1milL; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ICjPiYn3lAUM17WsxJmsr6NT01FzKcbxSuK6MkvL36/40DY2O8e69Zed6N1vdhlgsPHfQ732nOoxZOF1Z6pD/VvCixXZBIrUC3ZXtV90eiOJgMdgmAyyWDBsGoKsdhWbVCMBqxEyp1AC/GPF4BKHILpVCWMkiTMPdNaa23MYgco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQhiQmso; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7X1milL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQhiQmso"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733414267; x=1764950267;
+  t=1733414268; x=1764950268;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yuXOfv1JqDWyxTHQ9UuP57ZZR1BO/vGVFUXm33S+Wy0=;
-  b=T7X1milLyJ9NRK24V9DTTtR5evXZeTD4daNB2Vu6gPrAODhY5Tfu5XVb
-   agVdNBDO7zLtaWUvIeV3IxeHfflQ6IsLPHM6HuMsW1RJ3+qlr6nDFardL
-   Gpc3gaOND7mvTzKASXhAOUs3QRQI0PPxRglAE2yl/KU3LUUUIypRBPuI+
-   0G26h1jNikh75eDSGP3hNrlvH7ZYeM8yuskls2gDmelGLH+uNz4qLW4+B
-   r+YCTXYlNT6vq2la1x4Pm1yz88j7S4yU6zMFFG09oxbG7R4ZUJu3hKU+I
-   vdVNu0uvXqpx/E43pcSavPXdRWPy/NHiV+rbcxY1S1RPs9xO/Rv7xDy0h
-   w==;
-X-CSE-ConnectionGUID: HxZckiAvQ+S97z4Onji7WQ==
-X-CSE-MsgGUID: HjCKrblHSB6mp7Omzw6n6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33976408"
+  bh=gYj2Cn0A25p30ukJU5NirjJCGlV3C1DFe68Dw8RwYzg=;
+  b=YQhiQmsoZ/QxyEPuWYE4/OhF3iD4jL0hYs9pMxtZgJsV3v1SbAtBYBpK
+   KCvaQCgU5FDBH23mumIZQ/HA0pKMZDHXUTpqISXX3zRPMt6PrgeHVdUlY
+   bjG4ls2Kl/7v2kiCOF8/IDRmwWfOmifhJz+IHOqvsoOCdXGQAQakkZSmD
+   EKbrt6QrzQgfpCnO3utv6/a6YlSZrxwm5OqWFi+M5O0iuijZ6b56KsBCQ
+   9ywQcE9EloWmzPZp7mXxUZ2PAs09JjbCV0X+Ir+jBKUP8gKMSK0tTOFjZ
+   9MS8zjRCIaVSuOM5D4L0sS6iv7c60ZMmiG51GTNZziXQYfDw6/0Q++mF4
+   g==;
+X-CSE-ConnectionGUID: gsupaPHLRvquGaizY7Btsw==
+X-CSE-MsgGUID: w45mip0UTAyYvsg8kbkZ/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33976410"
 X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="33976408"
+   d="scan'208";a="33976410"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 07:57:44 -0800
-X-CSE-ConnectionGUID: Z+8sVC6OS5ygfZwfTUpJAg==
-X-CSE-MsgGUID: 40NrBJ15TiWoxy6+Q1y56Q==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 07:57:45 -0800
+X-CSE-ConnectionGUID: LVDT7OZJSRue19ygkYAYkQ==
+X-CSE-MsgGUID: dipDvXyMRlmwYrpo1fVt4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="93959167"
+   d="scan'208";a="93959166"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 05 Dec 2024 07:57:43 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJEEW-0000AE-2x;
+	id 1tJEEW-0000AG-31;
 	Thu, 05 Dec 2024 15:57:40 +0000
-Date: Thu, 5 Dec 2024 23:57:22 +0800
+Date: Thu, 5 Dec 2024 23:57:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sricharan R <quic_srichara@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH RFC 2/2] mailbox: tmelite-qmp: Introduce QCOM TMEL QMP
  mailbox driver
-Message-ID: <202412052339.XMsRYjf4-lkp@intel.com>
+Message-ID: <202412052337.B1J3nB8v-lkp@intel.com>
 References: <20241205080633.2623142-3-quic_srichara@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,69 +80,86 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Sricharan-R/dt-bindings-m
 base:   v6.12
 patch link:    https://lore.kernel.org/r/20241205080633.2623142-3-quic_srichara%40quicinc.com
 patch subject: [PATCH RFC 2/2] mailbox: tmelite-qmp: Introduce QCOM TMEL QMP mailbox driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241205/202412052339.XMsRYjf4-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412052339.XMsRYjf4-lkp@intel.com/reproduce)
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20241205/202412052337.B1J3nB8v-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412052337.B1J3nB8v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412052339.XMsRYjf4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412052337.B1J3nB8v-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:8,
-                    from drivers/mailbox/qcom-tmelite-qmp.c:10:
-   drivers/mailbox/qcom-tmelite-qmp.c: In function 'qmp_send_data':
->> drivers/mailbox/qcom-tmelite-qmp.c:303:36: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+   In file included from drivers/mailbox/qcom-tmelite-qmp.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/mailbox/qcom-tmelite-qmp.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/mailbox/qcom-tmelite-qmp.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/mailbox/qcom-tmelite-qmp.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/mailbox/qcom-tmelite-qmp.c:303:55: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
      303 |                 dev_err(mdev->dev, "Unsupported packet size %lu\n", pkt->iov_len);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+         |                                                             ~~~     ^~~~~~~~~~~~
+         |                                                             %zu
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
      154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/mailbox/qcom-tmelite-qmp.c:303:17: note: in expansion of macro 'dev_err'
-     303 |                 dev_err(mdev->dev, "Unsupported packet size %lu\n", pkt->iov_len);
-         |                 ^~~~~~~
-   drivers/mailbox/qcom-tmelite-qmp.c:303:63: note: format string is defined here
-     303 |                 dev_err(mdev->dev, "Unsupported packet size %lu\n", pkt->iov_len);
-         |                                                             ~~^
-         |                                                               |
-         |                                                               long unsigned int
-         |                                                             %u
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from drivers/mailbox/qcom-tmelite-qmp.c:7:
-   drivers/mailbox/qcom-tmelite-qmp.c: In function 'tmelcom_process_request':
->> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:462:25: note: in definition of macro 'printk_index_wrap'
-     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:533:9: note: in expansion of macro 'printk'
-     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:533:16: note: in expansion of macro 'KERN_ERR'
-     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   drivers/mailbox/qcom-tmelite-qmp.c:704:17: note: in expansion of macro 'pr_err'
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/mailbox/qcom-tmelite-qmp.c:705:10: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
      704 |                 pr_err("Invalid pkt.size received size: %lu, expected: %zu\n",
-         |                 ^~~~~~
+         |                                                         ~~~
+         |                                                         %zu
+     705 |                        tdev->pkt.iov_len, sizeof(struct tmel_ipc_pkt));
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:490:60: note: expanded from macro 'printk'
+     490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:462:19: note: expanded from macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   9 warnings generated.
 
 
 vim +303 drivers/mailbox/qcom-tmelite-qmp.c
