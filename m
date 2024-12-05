@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B251714CF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 02:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0ED79DC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 02:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733365685; cv=none; b=lck59kfYdaxip0YOMXQTNs2wtTHEkuh7aXXFrdb7U4Ho7CEBqiVFucM6hmS3n0cLHFsnfZROpHZwQ6UACqqLwj5a5uiqb/g/ex4ztq7LMjlqYf62oNbAOXbO9uodKwP5+mP18MjEGB7bKyY5oUdYCGclYi9jQ2aPtS0Uz3TompM=
+	t=1733366982; cv=none; b=KB/X0Qpq6xvzero3Rf248seotRcziFbII2V9V+m8AUJ0sPeHFWnBhC8exHu8Yk/uPyRnKmZ6GqiSLRD9NJ+DPTWrA5iQhycKo81K6OCkHzxEor+/ue/GhTRp0NrVtp+nTQxq2fluJFv4EItQKBruwZK1k3Bpu0wcZ1HuuRk6+cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733365685; c=relaxed/simple;
-	bh=QO5IboRu4sXKDliedTe2GJzHgDQy5oh6qE/bI1NxotM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LE+QGqjXkKIgjQa+r/BMUSoUKbmH0a/AbgWOaD2WjtmIn1dYaZwq1x04MTx2eL4BUeWjFMi8tQb7WNQYEziR6No15skFqF8fGNm5aYdvfi02wTM8a69PaHZQKjLrfFZtfn/XexJUvyOP5tiSi+V0pPP5gdR+UC0+hDxKFBibKkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EDvZ5ivj; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1733366982; c=relaxed/simple;
+	bh=a92wE5BKt+edWrlwyD03yGu54Ma8gfKhzD/KDmHPUyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uQULfvM7V0Oznqp3hBtU9SCHmT4wkZznihL/uvYRhoKA1qNQ+83WFw5Gyv/znLk69ehdUnPGYbY26UOxhk6NUOiA5kkseHwGTyEhyqR80FyRYXBduJaTkFnu1JthiiDyxRekX1azny8XzOicPKTe9mVkA/K2zJKnowXXQ2rb62Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmMQul/D; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EDvZ5ivj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmMQul/D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733365683; x=1764901683;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QO5IboRu4sXKDliedTe2GJzHgDQy5oh6qE/bI1NxotM=;
-  b=EDvZ5ivj15FqEzse7nNNZ9+7K28FSRMmNNWAt80YSBTUbMAr2UE+K7mY
-   7i57qib02rl9cEIK3xuEo7r085O+JGpqzniF0SDGHdcG0CSEebFwwdNS4
-   BvzMsJVxCJDjX3B/iFg86J4wI1kBATdASYxkEAwImxEEsf5VxObnwBIsu
-   MULe0MNb/L5SEqLEPkicRrKHbrnIsugFHbkvIPLiEIVZrWHEB4v3a+/Pg
-   x7bHtkAcivET2OL1d+lgE8OJPUfCZELvCevimK/ipvFaCvb1PCZ3cyNtq
-   GBkZmY0Lus5/pknW00n9ozp+vN76+UIxGysHdCmqHxmVaz7A0zj2BiSQD
-   g==;
-X-CSE-ConnectionGUID: 1FsaYZ+6Qa6K4ERhviySZw==
-X-CSE-MsgGUID: zk5MPrmbR7uBWu06D+2m9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33906100"
+  t=1733366979; x=1764902979;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a92wE5BKt+edWrlwyD03yGu54Ma8gfKhzD/KDmHPUyU=;
+  b=NmMQul/DkqyDb5MfNnjSH8ABoVDbNrv3gn4fhredm7AvO4VjUukDx2w5
+   slEHTV044/fAhENxcKQSslDRAiQkNkb/95qGQaIv5TxiOIjTTTHoYCWjk
+   eMIiA1Gsf4zkuYgYindZAuarWV3gKzSDmiBM8eDJZZ2WrsxvWP8kqil2/
+   cb4RNjPq93XICXbbqjL7De6PGml8p+2i0/AVH+1weVHNbOoIx1HKgqrn3
+   2klLnUZ4Vhx05tIuueOb83qprKtkEVkJ8TDeYhS6xi7jOpEa/IR2Dg66I
+   odBnjJGTF+hyWAfdvMvUUyZoyIJawf7zd3Fn7kbw88D3GV2sU5o0ksa0Z
+   A==;
+X-CSE-ConnectionGUID: E2tCKzhHQ6yzd+5y815e2w==
+X-CSE-MsgGUID: eILCYTUMQDWkHerBdf1h3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="51073680"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="33906100"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 18:28:00 -0800
-X-CSE-ConnectionGUID: Q5g3rUN6RcabXY/8BbzQOA==
-X-CSE-MsgGUID: nlNLgQgxTM6qb2x9125a6g==
+   d="scan'208";a="51073680"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 18:49:38 -0800
+X-CSE-ConnectionGUID: 7/nfsvMTS3iXrg21OnbJKw==
+X-CSE-MsgGUID: r8+fCEgiQ2eau20TqU1E4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="98025648"
+   d="scan'208";a="98923932"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2024 18:27:57 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Dec 2024 18:49:37 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ1as-0003gr-2k;
-	Thu, 05 Dec 2024 02:27:54 +0000
-Date: Thu, 5 Dec 2024 10:27:19 +0800
+	id 1tJ1vq-0003hz-3B;
+	Thu, 05 Dec 2024 02:49:34 +0000
+Date: Thu, 5 Dec 2024 10:49:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <dev@lankhorst.se>, linux-kernel@vger.kernel.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Friedrich Vock <friedrich.vock@gmx.de>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	cgroups@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting
- cgroup
-Message-ID: <202412051039.P06riwrP-lkp@intel.com>
-References: <20241204143112.1250983-1-dev@lankhorst.se>
+To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2516/2516]
+ drivers/ub/urma/ubcore/ubcore_device.c:1329:5: warning: no previous
+ prototype for 'ubcore_dispatch_event'
+Message-ID: <202412051043.VbAyfzTq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,231 +62,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204143112.1250983-1-dev@lankhorst.se>
 
-Hi Maarten,
+Hi WenChen,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on tj-cgroup/for-next]
-[also build test ERROR on akpm-mm/mm-everything linus/master v6.13-rc1 next-20241204]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/kernel-cgroup-Add-dmem-memory-accounting-cgroup/20241204-233207
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20241204143112.1250983-1-dev%40lankhorst.se
-patch subject: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting cgroup
-config: um-randconfig-r061-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   b71af6f00ede58be00cb7306c9acb2660ec90947
+commit: f1753f8b17480bdb750cbd33fbaa358aef5dbb23 [2516/2516] urma: upload kernel patch for 20240219_Spring
+config: arm64-randconfig-003-20241203 (https://download.01.org/0day-ci/archive/20241205/202412051043.VbAyfzTq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051043.VbAyfzTq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051039.P06riwrP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051043.VbAyfzTq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_min':
->> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
-   /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_low':
->> kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
-   /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_max':
->> kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
-   /usr/bin/ld: kernel/cgroup/dmem.o: in function `reset_all_resource_limits':
->> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
->> /usr/bin/ld: kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
->> /usr/bin/ld: kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
-   /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_uncharge':
->> kernel/cgroup/dmem.c:607: undefined reference to `page_counter_uncharge'
-   /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_calculate_protection':
->> kernel/cgroup/dmem.c:275: undefined reference to `page_counter_calculate_protection'
-   /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_try_charge':
->> kernel/cgroup/dmem.c:657: undefined reference to `page_counter_try_charge'
-   collect2: error: ld returned 1 exit status
+   drivers/ub/urma/ubcore/ubcore_device.c:352:6: warning: no previous prototype for 'ubcore_destroy_upi_list' [-Wmissing-prototypes]
+     352 | void ubcore_destroy_upi_list(struct ubcore_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:440:23: warning: no previous prototype for 'ubcore_find_tpf_device_legacy' [-Wmissing-prototypes]
+     440 | struct ubcore_device *ubcore_find_tpf_device_legacy(void)
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_device.c:1329:5: warning: no previous prototype for 'ubcore_dispatch_event' [-Wmissing-prototypes]
+    1329 | int ubcore_dispatch_event(struct ubcore_event *event)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:1454:6: warning: no previous prototype for 'ubcore_dev_accessible' [-Wmissing-prototypes]
+    1454 | bool ubcore_dev_accessible(struct ubcore_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_device.c:2015:6: warning: no previous prototype for 'ubcore_net_exit' [-Wmissing-prototypes]
+    2015 | void ubcore_net_exit(struct net *net)
+         |      ^~~~~~~~~~~~~~~
+--
+>> drivers/ub/urma/ubcore/ubcore_cdev_file.c:690:5: warning: no previous prototype for 'ubcore_create_port_attr_files' [-Wmissing-prototypes]
+     690 | int ubcore_create_port_attr_files(struct ubcore_logic_device *ldev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:785:5: warning: no previous prototype for 'ubcore_create_eid_attr_files' [-Wmissing-prototypes]
+     785 | int ubcore_create_eid_attr_files(struct ubcore_logic_device *ldev, uint32_t eid_num)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_cdev_file.c:797:5: warning: no previous prototype for 'ubcore_create_dev_attr_files' [-Wmissing-prototypes]
+     797 | int ubcore_create_dev_attr_files(struct ubcore_logic_device *ldev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_cdev_file.c:810:6: warning: no previous prototype for 'ubcore_remove_port_attr_files' [-Wmissing-prototypes]
+     810 | void ubcore_remove_port_attr_files(struct ubcore_logic_device *ldev, uint8_t port_id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:815:6: warning: no previous prototype for 'ubcore_remove_eid_attr_files' [-Wmissing-prototypes]
+     815 | void ubcore_remove_eid_attr_files(struct ubcore_logic_device *ldev, uint32_t eid_num)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_cdev_file.c:820:6: warning: no previous prototype for 'ubcore_remove_dev_attr_files' [-Wmissing-prototypes]
+     820 | void ubcore_remove_dev_attr_files(struct ubcore_logic_device *ldev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
+vim +/ubcore_dispatch_event +1329 drivers/ub/urma/ubcore/ubcore_device.c
 
-vim +115 kernel/cgroup/dmem.c
-
-   111	
-   112	static void
-   113	set_resource_min(struct dmem_cgroup_pool_state *pool, u64 val)
-   114	{
- > 115		page_counter_set_min(&pool->cnt, val);
-   116	}
-   117	
-   118	static void
-   119	set_resource_low(struct dmem_cgroup_pool_state *pool, u64 val)
-   120	{
- > 121		page_counter_set_low(&pool->cnt, val);
-   122	}
-   123	
-   124	static void
-   125	set_resource_max(struct dmem_cgroup_pool_state *pool, u64 val)
-   126	{
- > 127		page_counter_set_max(&pool->cnt, val);
-   128	}
-   129	
-   130	static u64 get_resource_low(struct dmem_cgroup_pool_state *pool)
-   131	{
-   132		return pool ? READ_ONCE(pool->cnt.low) : 0;
-   133	}
-   134	
-   135	static u64 get_resource_min(struct dmem_cgroup_pool_state *pool)
-   136	{
-   137		return pool ? READ_ONCE(pool->cnt.min) : 0;
-   138	}
-   139	
-   140	static u64 get_resource_max(struct dmem_cgroup_pool_state *pool)
-   141	{
-   142		return pool ? READ_ONCE(pool->cnt.max) : PAGE_COUNTER_MAX;
-   143	}
-   144	
-   145	static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
-   146	{
-   147		return pool ? page_counter_read(&pool->cnt) : 0;
-   148	}
-   149	
-   150	static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
-   151	{
-   152		set_resource_min(rpool, 0);
-   153		set_resource_low(rpool, 0);
-   154		set_resource_max(rpool, PAGE_COUNTER_MAX);
-   155	}
-   156	
-   157	static void dmemcs_offline(struct cgroup_subsys_state *css)
-   158	{
-   159		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
-   160		struct dmem_cgroup_pool_state *pool;
-   161	
-   162		rcu_read_lock();
-   163		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node)
-   164			reset_all_resource_limits(pool);
-   165		rcu_read_unlock();
-   166	}
-   167	
-   168	static void dmemcs_free(struct cgroup_subsys_state *css)
-   169	{
-   170		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
-   171		struct dmem_cgroup_pool_state *pool, *next;
-   172	
-   173		spin_lock(&dmemcg_lock);
-   174		list_for_each_entry_safe(pool, next, &dmemcs->pools, css_node) {
-   175			/*
-   176			 *The pool is dead and all references are 0,
-   177			 * no need for RCU protection with list_del_rcu or freeing.
-   178			 */
-   179			list_del(&pool->css_node);
-   180			free_cg_pool(pool);
-   181		}
-   182		spin_unlock(&dmemcg_lock);
-   183	
-   184		kfree(dmemcs);
-   185	}
-   186	
-   187	static struct cgroup_subsys_state *
-   188	dmemcs_alloc(struct cgroup_subsys_state *parent_css)
-   189	{
-   190		struct dmemcg_state *dmemcs = kzalloc(sizeof(*dmemcs), GFP_KERNEL);
-   191		if (!dmemcs)
-   192			return ERR_PTR(-ENOMEM);
-   193	
-   194		INIT_LIST_HEAD(&dmemcs->pools);
-   195		return &dmemcs->css;
-   196	}
-   197	
-   198	static struct dmem_cgroup_pool_state *
-   199	find_cg_pool_locked(struct dmemcg_state *dmemcs, struct dmem_cgroup_region *region)
-   200	{
-   201		struct dmem_cgroup_pool_state *pool;
-   202	
-   203		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node, spin_is_locked(&dmemcg_lock))
-   204			if (pool->region == region)
-   205				return pool;
-   206	
-   207		return NULL;
-   208	}
-   209	
-   210	static struct dmem_cgroup_pool_state *pool_parent(struct dmem_cgroup_pool_state *pool)
-   211	{
-   212		if (!pool->cnt.parent)
-   213			return NULL;
-   214	
-   215		return container_of(pool->cnt.parent, typeof(*pool), cnt);
-   216	}
-   217	
-   218	static void
-   219	dmem_cgroup_calculate_protection(struct dmem_cgroup_pool_state *limit_pool,
-   220					 struct dmem_cgroup_pool_state *test_pool)
-   221	{
-   222		struct page_counter *climit;
-   223		struct cgroup_subsys_state *css, *next_css;
-   224		struct dmemcg_state *dmemcg_iter;
-   225		struct dmem_cgroup_pool_state *pool, *parent_pool;
-   226		bool found_descendant;
-   227	
-   228		climit = &limit_pool->cnt;
-   229	
-   230		rcu_read_lock();
-   231		parent_pool = pool = limit_pool;
-   232		css = &limit_pool->cs->css;
-   233	
-   234		/*
-   235		 * This logic is roughly equivalent to css_foreach_descendant_pre,
-   236		 * except we also track the parent pool to find out which pool we need
-   237		 * to calculate protection values for.
-   238		 *
-   239		 * We can stop the traversal once we find test_pool among the
-   240		 * descendants since we don't really care about any others.
-   241		 */
-   242		while (pool != test_pool) {
-   243			next_css = css_next_child(NULL, css);
-   244			if (next_css) {
-   245				parent_pool = pool;
-   246			} else {
-   247				while (css != &limit_pool->cs->css) {
-   248					next_css = css_next_child(css, css->parent);
-   249					if (next_css)
-   250						break;
-   251					css = css->parent;
-   252					parent_pool = pool_parent(parent_pool);
-   253				}
-   254				/*
-   255				 * We can only hit this when test_pool is not a
-   256				 * descendant of limit_pool.
-   257				 */
-   258				if (WARN_ON_ONCE(css == &limit_pool->cs->css))
-   259					break;
-   260			}
-   261			css = next_css;
-   262	
-   263			found_descendant = false;
-   264			dmemcg_iter = container_of(css, struct dmemcg_state, css);
-   265	
-   266			list_for_each_entry_rcu(pool, &dmemcg_iter->pools, css_node) {
-   267				if (pool_parent(pool) == parent_pool) {
-   268					found_descendant = true;
-   269					break;
-   270				}
-   271			}
-   272			if (!found_descendant)
-   273				continue;
-   274	
- > 275			page_counter_calculate_protection(
-   276				climit, &pool->cnt, true);
-   277		}
-   278		rcu_read_unlock();
-   279	}
-   280	
+  1328	
+> 1329	int ubcore_dispatch_event(struct ubcore_event *event)
+  1330	{
+  1331		struct ubcore_event_work *l_ubcore_event;
+  1332	
+  1333		l_ubcore_event = kzalloc(sizeof(*l_ubcore_event), GFP_ATOMIC);
+  1334		if (!l_ubcore_event)
+  1335			return -ENOMEM;
+  1336	
+  1337		INIT_WORK(&l_ubcore_event->work, ubcore_dispatch_event_task);
+  1338		l_ubcore_event->event = *event;
+  1339	
+  1340		if (ubcore_queue_work((int)UBCORE_DISPATCH_EVENT_WQ, &l_ubcore_event->work) != 0) {
+  1341			kfree(l_ubcore_event);
+  1342			ubcore_log_err("Queue work failed");
+  1343		}
+  1344	
+  1345		return 0;
+  1346	}
+  1347	
 
 -- 
 0-DAY CI Kernel Test Service
