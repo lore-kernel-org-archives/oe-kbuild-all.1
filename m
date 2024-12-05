@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB93838C;
-	Thu,  5 Dec 2024 03:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6DD38C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 03:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733368926; cv=none; b=i6abTQcbnGJRiGp2awMCbS/j6vom+Ks8hXM4tKId1rODdLUgDNRMJOarr47kzaYoxnkMvySc20JIUiA0MmUecV4fbWZhcMWdoW6d6lvESVKXG7ZpfEfCsx0oPYKqzbarEvZwngV7ZLG4NtFfZ6ECYT/XP074x0insrv36/xwzHQ=
+	t=1733368945; cv=none; b=u4BJEn1eYqeHyr2thPRq3WhsEMqnezS/5A58iwVbUdmB5fOSCTtPYXcdOSrWbJGi8jyIykvQJn3MyRdRDzMOEpZHPcHGG2WyrIQOBEbdFUCbG1ecU3YM5UgNHyiWNxAxI3kPKHKQt3yfokgGFL/3Oa5TbaUmyKt2ZTwwinEUdcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733368926; c=relaxed/simple;
-	bh=LW97UTbUEzETtIv8YKM1GDFiyphI7gKF3SRR1b3SAgM=;
+	s=arc-20240116; t=1733368945; c=relaxed/simple;
+	bh=GWd9pG1FglgIBxcW2hHRJKly993XVdY5eLFcJlzre+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Et3r9xfs4D3fQlM364yRVZbtGdNQqfODUm7IIzEZ1TGrqLl37cvTJ9VCxVyJOxjFha5Q6+6wgybDek+l0TJPQRSnHEIsG1DDr/2R1NT1K71xO37XnmYpCq5EwhCPTf53A2+W4ywdEjuJlZnd72HddnqrJm6Otzrj0amVoWpLqa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8AjjGBL; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=qRyK3FemFtqtiHZe8e5WojpqcfhLQvBfZJqQUHdEdrPHropMql0sVGSEQdQenf2XjfmNB5UqxS9H2Z4TNNYi5Vg2l9AV2eKAKd4OWgHvlXy0pyW9Zq+m4jYtAYEVV345A3g2TxUVqlY/S11l5vf3uppKshSu3LYsYZM3dzNFXEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuAViAXt; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8AjjGBL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuAViAXt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733368924; x=1764904924;
+  t=1733368944; x=1764904944;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LW97UTbUEzETtIv8YKM1GDFiyphI7gKF3SRR1b3SAgM=;
-  b=X8AjjGBLZP1lCmxHj1gDATahZkOZYZL1k1yBsBN8Gtx0XXv6mVzdCrr2
-   uGgewZ2BI4ZOHEPaAHeubKHF3nCnGQn1IP54I86S5l1Oy8JpNtwZvRjA6
-   5cMVWpcOHpKLEqxiwyI1ZOoes04bbAPJehfH4arBDGFTPWz9WZ6o2AouK
-   zohx5ABFfWTP+l7ooOctqGJF60fKShlTIA7IBsispRAJn8Pwd12wvGu5m
-   083R9z+LJe6KxlHHzA/Ndl8FTHvzkx4V5sd1LLQWmqjrNLAzTySIOb8TN
-   PYNecnkNio+xHD0DA5vsvn7EhdjnKBrAWL66TYRijpnj6/pVjDucewZSo
+  bh=GWd9pG1FglgIBxcW2hHRJKly993XVdY5eLFcJlzre+U=;
+  b=CuAViAXt1Z0Sp2CSeCmPAiMm3YxbRnHJi4DtKlmPdJKrgJLoldbzMq2u
+   MzddtkNOpWlMKVPIfAkwPy2xdGhRxQThaqa9+x6WynHzMGONzyCh2soy3
+   Lrkunh73LWnu1NP/YgFppiLH60oJ0UanTXolQP16AEFdAEM4YLU9cQQQJ
+   2cyXT/yTq7OwQXVoqguEg7Evj1H1b4n/VNwU+0j5ZjyPoF3htLn5SQKaC
+   o+9pXmH5bJZlIpWNokLDhDpOqdIFBOtvir1Mhd0vxWOV6XiYfNH7CvIQL
+   B6hx6MSz38vjKk7GObD25l1ym2qRYoRwPB6QFmCXfRZ5fijrqyVzrcUQD
    g==;
-X-CSE-ConnectionGUID: vCw8gx25RPiQZvF5B9d9Uw==
-X-CSE-MsgGUID: 00hhNWPHRt2IImeMfNinwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="37600510"
+X-CSE-ConnectionGUID: BeEfTBS1QPSQaRniwmqRuQ==
+X-CSE-MsgGUID: PUL8CdupSaSIs5VONOWKcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33000668"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="37600510"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 19:22:01 -0800
-X-CSE-ConnectionGUID: 0CmyDsdjS1imlORgG3mfJQ==
-X-CSE-MsgGUID: KvOKe41IQCiilsdHWBC/Jw==
+   d="scan'208";a="33000668"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 19:22:22 -0800
+X-CSE-ConnectionGUID: QHPCtul5Q6Wl3hhnNDaPJw==
+X-CSE-MsgGUID: zPYauwrRQjST/EF8CYQB5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="94396092"
+   d="scan'208";a="93642518"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 04 Dec 2024 19:22:00 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Dec 2024 19:22:00 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ2RB-0003jc-2T;
+	id 1tJ2RB-0003jZ-2P;
 	Thu, 05 Dec 2024 03:21:57 +0000
-Date: Thu, 5 Dec 2024 11:21:05 +0800
+Date: Thu, 5 Dec 2024 11:21:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:for-nicolin 2/3] drivers/iommu/dma-iommu.c:1811:23:
- error: call to undeclared function 'msi_desc_to_dev'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202412051135.OFiFJMAy-lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:pci/xgene-fixes-6.13 14/18]
+ drivers/pci/controller/pci-xgene-msi.c:101:31: error: implicit declaration
+ of function 'FIELD_PREP'
+Message-ID: <202412051158.EfEkIVqu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +63,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux for-nicolin
-head:   0e29e6b0fc354c5123d013751f75aedb565ffa86
-commit: f4c17c72b6d21df5fa405ad0924fc298debd1b09 [2/3] iommu: Make iommu_dma_prepare/compose_msi() into a generic operation
-config: i386-buildonly-randconfig-002 (https://download.01.org/0day-ci/archive/20241205/202412051135.OFiFJMAy-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051135.OFiFJMAy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git pci/xgene-fixes-6.13
+head:   32627e010975ae9817552c5e21d1860ce9c9bdfa
+commit: 3d9c887e78e0ae9e97a531f2015c585b5c213a76 [14/18] PCI: xgene: Sanitise MSI allocation and affinity setting
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20241205/202412051158.EfEkIVqu-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051158.EfEkIVqu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051135.OFiFJMAy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051158.EfEkIVqu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/iommu/dma-iommu.c:13:
-   In file included from include/linux/crash_dump.h:5:
-   In file included from include/linux/kexec.h:18:
-   In file included from include/linux/vmcore_info.h:6:
-   In file included from include/linux/elfcore.h:11:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/iommu/dma-iommu.c:1811:23: error: call to undeclared function 'msi_desc_to_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1811 |         struct device *dev = msi_desc_to_dev(desc);
-         |                              ^
->> drivers/iommu/dma-iommu.c:1811:17: error: incompatible integer to pointer conversion initializing 'struct device *' with an expression of type 'int' [-Wint-conversion]
-    1811 |         struct device *dev = msi_desc_to_dev(desc);
-         |                        ^     ~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/dma-iommu.c:1815:7: error: incomplete definition of type 'struct msi_desc'
-    1815 |                 desc->iommu_cookie = NULL;
-         |                 ~~~~^
-   include/linux/iommu.h:47:8: note: forward declaration of 'struct msi_desc'
-      47 | struct msi_desc;
-         |        ^
->> drivers/iommu/dma-iommu.c:1821:14: error: call to undeclared function 'msi_desc_get_iommu_cookie'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1821 |                 msi_page = msi_desc_get_iommu_cookie(desc);
-         |                            ^
->> drivers/iommu/dma-iommu.c:1821:12: error: incompatible integer to pointer conversion assigning to 'const struct iommu_dma_msi_page *' from 'int' [-Wint-conversion]
-    1821 |                 msi_page = msi_desc_get_iommu_cookie(desc);
-         |                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/dma-iommu.c:1826:6: error: incomplete definition of type 'struct msi_msg'
-    1826 |                 msg->address_hi = upper_32_bits(msi_page->iova);
-         |                 ~~~^
-   include/linux/iommu.h:48:8: note: forward declaration of 'struct msi_msg'
-      48 | struct msi_msg;
-         |        ^
-   drivers/iommu/dma-iommu.c:1827:6: error: incomplete definition of type 'struct msi_msg'
-    1827 |                 msg->address_lo &= cookie_msi_granule(domain->iova_cookie) - 1;
-         |                 ~~~^
-   include/linux/iommu.h:48:8: note: forward declaration of 'struct msi_msg'
-      48 | struct msi_msg;
-         |        ^
-   drivers/iommu/dma-iommu.c:1828:6: error: incomplete definition of type 'struct msi_msg'
-    1828 |                 msg->address_lo += lower_32_bits(msi_page->iova);
-         |                 ~~~^
-   include/linux/iommu.h:48:8: note: forward declaration of 'struct msi_msg'
-      48 | struct msi_msg;
-         |        ^
->> drivers/iommu/dma-iommu.c:1835:2: error: call to undeclared function 'msi_desc_set_iommu_cookie'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1835 |         msi_desc_set_iommu_cookie(desc, msi_page);
-         |         ^
-   1 warning and 9 errors generated.
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/big_endian.h:14,
+                    from include/linux/byteorder/big_endian.h:5,
+                    from arch/arc/include/uapi/asm/byteorder.h:14,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/arc/include/asm/bitops.h:192,
+                    from include/linux/bitops.h:68,
+                    from include/linux/thread_info.h:27,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from drivers/pci/controller/pci-xgene-msi.c:9:
+   drivers/pci/controller/pci-xgene-msi.c: In function 'xgene_msi_ir_read':
+>> drivers/pci/controller/pci-xgene-msi.c:101:31: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     101 |                              (FIELD_PREP(MSI_GROUP_MASK, msi_grp) |
+         |                               ^~~~~~~~~~
+   include/uapi/linux/swab.h:118:38: note: in definition of macro '__swab32'
+     118 |         (__u32)(__builtin_constant_p(x) ?       \
+         |                                      ^
+   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
+      89 | #define le32_to_cpu __le32_to_cpu
+         |                     ^~~~~~~~~~~~~
+   drivers/pci/controller/pci-xgene-msi.c:100:16: note: in expansion of macro 'readl_relaxed'
+     100 |         return readl_relaxed(msi->msi_regs + MSI_IR0 +
+         |                ^~~~~~~~~~~~~
+   drivers/pci/controller/pci-xgene-msi.c: In function 'compute_hwirq':
+>> drivers/pci/controller/pci-xgene-msi.c:114:18: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     114 |         return ((FIELD_GET(BIT(3), grp_idx) << 7)       |
+         |                  ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/msi_desc_to_dev +1811 drivers/iommu/dma-iommu.c
+vim +/FIELD_PREP +101 drivers/pci/controller/pci-xgene-msi.c
 
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1807  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1808  static int iommu_dma_sw_msi(struct iommu_domain *domain, struct msi_desc *desc,
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1809  			    phys_addr_t msi_addr, struct msi_msg *msg)
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1810  {
-ece6e6f0218b77 Julien Grall      2019-05-01 @1811  	struct device *dev = msi_desc_to_dev(desc);
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1812  	const struct iommu_dma_msi_page *msi_page;
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1813  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1814  	if (!domain->iova_cookie) {
-ece6e6f0218b77 Julien Grall      2019-05-01 @1815  		desc->iommu_cookie = NULL;
-ece6e6f0218b77 Julien Grall      2019-05-01  1816  		return 0;
-ece6e6f0218b77 Julien Grall      2019-05-01  1817  	}
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1818  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1819  	/* Compose an already prepared mapping */
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1820  	if (msg) {
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03 @1821  		msi_page = msi_desc_get_iommu_cookie(desc);
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1822  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1823  		if (!domain->iova_cookie || WARN_ON(!msi_page))
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1824  			return 0;
-ece6e6f0218b77 Julien Grall      2019-05-01  1825  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03 @1826  		msg->address_hi = upper_32_bits(msi_page->iova);
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1827  		msg->address_lo &= cookie_msi_granule(domain->iova_cookie) - 1;
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03 @1828  		msg->address_lo += lower_32_bits(msi_page->iova);
-ece6e6f0218b77 Julien Grall      2019-05-01  1829  		return 0;
-ece6e6f0218b77 Julien Grall      2019-05-01  1830  	}
-ece6e6f0218b77 Julien Grall      2019-05-01  1831  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1832  	iommu_group_mutex_assert(dev);
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1833  	msi_page = iommu_dma_get_msi_page(dev, msi_addr, domain);
-ece6e6f0218b77 Julien Grall      2019-05-01  1834  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03 @1835  	msi_desc_set_iommu_cookie(desc, msi_page);
-ece6e6f0218b77 Julien Grall      2019-05-01  1836  
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1837  	if (!msi_page)
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1838  		return -ENOMEM;
-f4c17c72b6d21d Jason Gunthorpe   2024-12-03  1839  	return 0;
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1840  }
-06d60728ff5c01 Christoph Hellwig 2019-05-20  1841  
-
-:::::: The code at line 1811 was first introduced by commit
-:::::: ece6e6f0218b7777e650bf93728130ae6f4feb7d iommu/dma-iommu: Split iommu_dma_map_msi_msg() in two parts
-
-:::::: TO: Julien Grall <julien.grall@arm.com>
-:::::: CC: Marc Zyngier <marc.zyngier@arm.com>
+    43	
+    44	/*
+    45	 * X-Gene v1 has 16 frames of MSI termination registers MSInIRx, where n is
+    46	 * frame number (0..15), x is index of registers in each frame (0..7).  Each
+    47	 * 32b register is at the beginning of a 64kB region, each frame occupying
+    48	 * 512kB (and the whole thing 8MB of PA space).
+    49	 *
+    50	 * Each register supports 16 MSI vectors (0..15) to generate interrupts.
+    51	 *
+    52	 * Additionally, each MSI termination frame has 1 MSIINTn register (n is
+    53	 * 0..15) to indicate the MSI pending status caused by 1 of its 8 index
+    54	 * registers. Each 32b register is at the beginning of a 64kB region (and
+    55	 * overall occupying an extra 1MB).
+    56	 *
+    57	 * There is one GIC IRQ assigned for each MSI termination frame, 16 in
+    58	 * total.
+    59	 *
+    60	 * The register layout is as follows:
+    61	 * MSI0IR0			base_addr
+    62	 * MSI0IR1			base_addr +  0x10000
+    63	 * ...				...
+    64	 * MSI0IR6			base_addr +  0x60000
+    65	 * MSI0IR7			base_addr +  0x70000
+    66	 * MSI1IR0			base_addr +  0x80000
+    67	 * MSI1IR1			base_addr +  0x90000
+    68	 * ...				...
+    69	 * MSI1IR7			base_addr +  0xF0000
+    70	 * MSI2IR0			base_addr + 0x100000
+    71	 * ...				...
+    72	 * MSIFIR0			base_addr + 0x780000
+    73	 * MSIFIR1			base_addr + 0x790000
+    74	 * ...				...
+    75	 * MSIFIR7			base_addr + 0x7F0000
+    76	 * MSIINT0			base_addr + 0x800000
+    77	 * MSIINT1			base_addr + 0x810000
+    78	 * ...				...
+    79	 * MSIINTF			base_addr + 0x8F0000
+    80	 *
+    81	 * In order to allow an MSI to be moved from one CPU to another without
+    82	 * having to repaint both the address and the data (which cannot be done
+    83	 * atomically), we statically partitions the MSI frames between CPUs. Given
+    84	 * that XGene-1 has 8 CPUs, each CPU gets two frames assigned to it
+    85	 *
+    86	 * We adopt the convention that when an MSI is moved, it is configured to
+    87	 * target the same register number in the new frame. This reserves a given
+    88	 * MSI across all CPUs, and reduces the MSI capacity from 2048 to 256.
+    89	 *
+    90	 * Effectively, this amounts to:
+    91	 * - hwirq[7]::cpu[2:0] is the target frame number
+    92	 * - hwirq[6:4] is the register index in any given frame
+    93	 * - hwirq[3:0] is the MSI data
+    94	 */
+    95	
+    96	/* MSInIRx read helper */
+    97	static u32 xgene_msi_ir_read(struct xgene_msi *msi,
+    98					    u32 msi_grp, u32 msir_idx)
+    99	{
+   100		return readl_relaxed(msi->msi_regs + MSI_IR0 +
+ > 101				     (FIELD_PREP(MSI_GROUP_MASK, msi_grp) |
+   102				      FIELD_PREP(MSI_INDEX_MASK, msir_idx)));
+   103	}
+   104	
+   105	/* MSIINTn read helper */
+   106	static u32 xgene_msi_int_read(struct xgene_msi *msi, u32 msi_grp)
+   107	{
+   108		return readl_relaxed(msi->msi_regs + MSI_INT0 +
+   109				     FIELD_PREP(MSI_INTR_MASK, msi_grp));
+   110	}
+   111	
+   112	static irq_hw_number_t compute_hwirq(u32 grp_idx, u32 msir_idx, u32 intr_idx)
+   113	{
+ > 114		return ((FIELD_GET(BIT(3), grp_idx) << 7)	|
+   115			(msir_idx << 4)				|
+   116			intr_idx);
+   117	}
+   118	
 
 -- 
 0-DAY CI Kernel Test Service
