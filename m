@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8BDDF78
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 00:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA8914286
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 01:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733359216; cv=none; b=MpSk+8+Cfha2S24x9rGfMCGEzJErUp8Lelj7w4XHx+g8oDj6cymqjjTMqZbR1mXCaVPs4oAMD+fy6tKlLNPjLrN3n3TvB+zWlt6HdWxXnICpbzmzypJBOrcoOVJEyuaeWYa08ts9kM8ABqBOWLRJFzElv3qVfJ/MJXMc33G0SUE=
+	t=1733361105; cv=none; b=MdXQ8R2Ot0rPPnD6cOhkByhhGasQR8Xwa8BCIcdD60211l6/YpZbV/wnn9m5Tg/wE0daBK2YNlS8NGJJspPnHpB8MQkTDz94AgPICV7K7FYvJ2MeZgOCgHLyRC8IAmyjH6FnSXBMOK8thapfH/L0I6Sc3/aeTDSr+s4SB8xQiVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733359216; c=relaxed/simple;
-	bh=mG2/zhGPqNVr78ILSZ3rJnbvaMCbLegracNoJbp/+m4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cmiIqKswTyoGPMdWOF9ZY/F0dXdWW7Tmq1/P4WSvgeZ6f7fkUgfW8C1oX4LVxeSuNWztKc5goELX3Vmn4k7Hct23hIHRMTq8d/Ah63F5mxuA0TIKsduhIABR74OyjRzQffeu+hYnc5wBcKnJyv2bkgm24+XlTiFG7KH7xrKBGwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ldNIQCyF; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1733361105; c=relaxed/simple;
+	bh=gEZdEdNoKf5uTX532jaGQuk+Fdml9nZi57DxpaMVYLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aSdxB+K1TojfyrcAY/S9N3PClydGU9869NuszenW4r5Lpulrk/y5SM8efTeeLS5PnZxA50S0dO3/bGMb1GeVA+W09hWXFJN0E/8abSXEpqBXEKZQg2A+KxmpByprOPVZZ8gFjUsQIKb4bUktDGZqiYnaXa5qcwZ9Uj3dgMgJey0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrMBKaeT; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldNIQCyF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrMBKaeT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733359215; x=1764895215;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mG2/zhGPqNVr78ILSZ3rJnbvaMCbLegracNoJbp/+m4=;
-  b=ldNIQCyF8VJHvqX2Aqz7vQ0hE+EL9XBkDGcxZvrFvtgXie4JTnhs6D4X
-   Np1y5ZELehVr5i83CYvmLSOenSb5zmz2S2Y9k89qBQZ1zs7v69JKkRO9P
-   EE2qVPMR/0iQKJvU8I0bbY5LZ/xg+aNt0vMavga97RG/yYaWwTC6uDvb5
-   golZtve8tiZzgNtishLAQDQgWvqFymTHGSZ25ATL7KukH+MUdtlijXcAQ
-   ngYG3g0pP/BYNNjDkJ9iPHlGOwVpwNTAFDId6StBQcwdcY70wJ8u8vZ72
-   lzHsOVNbRJc0RLX9slgyLd/mhwS8dAHuME9G3BvwsfVzJd3DAMFzFQwU3
-   Q==;
-X-CSE-ConnectionGUID: kCyr3H/hQGas5CxeFhWxdA==
-X-CSE-MsgGUID: H3Vxaa3qS4iMVYaK8nLyMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33566618"
-X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="33566618"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 16:40:14 -0800
-X-CSE-ConnectionGUID: JgIFkJ+OSA+hVohjdSZxBA==
-X-CSE-MsgGUID: Z3Yx0UPpTFWgMyejkxZtxg==
+  t=1733361104; x=1764897104;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gEZdEdNoKf5uTX532jaGQuk+Fdml9nZi57DxpaMVYLY=;
+  b=hrMBKaeTeHMXDeotwpxtomUDPw7Uks6waZp6G9KIYnVSNkdEWSOgjI6J
+   yHt+lYAhfi/HcM1oTxYJbJU7YgphvMPgiVveovMVRH/uUOXYKoTcePcj+
+   Q09fqbI1lwgM0u+dyoEOzzTjuFPcI/MCFEJXWbj8VKnxK1BZXchjPXJ7l
+   YH3JSdHVDWIsA1K5+cnYKqMHLaNIs1KWE3F6OohwzvEhV2BN6PGmBKB9T
+   bDVdrNJpNw1OmwlKwBK+WY7eTosKOVzNGfXxcmzwVV/mHTCdIzvpmXSsc
+   v0bcOPSGuX89GXY6MlwtRydMiEss+6nJNpkr5t4fImkPvRWlc5+4a5S4u
+   g==;
+X-CSE-ConnectionGUID: 4h5x4G6PTSGLnnzMM53LdQ==
+X-CSE-MsgGUID: GyKx/Ue+Rq+LOxGtRVYnwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33010630"
+X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
+   d="scan'208";a="33010630"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 17:11:43 -0800
+X-CSE-ConnectionGUID: yb9zyFMlSImOkONMOMGBCw==
+X-CSE-MsgGUID: F/8OwehiRGKXugBEP8Jl8A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="99003200"
+X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
+   d="scan'208";a="94014319"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 04 Dec 2024 16:40:12 -0800
+  by orviesa006.jf.intel.com with ESMTP; 04 Dec 2024 17:11:42 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIzub-0003cX-2L;
-	Thu, 05 Dec 2024 00:40:09 +0000
-Date: Thu, 5 Dec 2024 08:39:25 +0800
+	id 1tJ0Oa-0003dV-2l;
+	Thu, 05 Dec 2024 01:11:18 +0000
+Date: Thu, 5 Dec 2024 09:10:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guillaume Morin <guillaume@morinfr.org>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	guillaume@morinfr.org, Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
-	Eric Hagberg <ehagberg@janestreet.com>
-Subject: Re: [PATCH v1] hugetlb: support FOLL_FORCE|FOLL_WRITE
-Message-ID: <202412050840.umPPa7cK-lkp@intel.com>
-References: <Z1Ce6j5WiBE3kaGf@bender.morinfr.org>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/optimized_usdt_6 3/12]
+ include/uapi/linux/swab.h:115:21: error: passing argument 4 of
+ 'uprobe_write_opcode' makes pointer from integer without a cast
+Message-ID: <202412050840.1GUtvMUm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,61 +62,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z1Ce6j5WiBE3kaGf@bender.morinfr.org>
 
-Hi Guillaume,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.13-rc1 next-20241204]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Morin/hugetlb-support-FOLL_FORCE-FOLL_WRITE/20241205-022843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/Z1Ce6j5WiBE3kaGf%40bender.morinfr.org
-patch subject: [PATCH v1] hugetlb: support FOLL_FORCE|FOLL_WRITE
-config: i386-buildonly-randconfig-004 (https://download.01.org/0day-ci/archive/20241205/202412050840.umPPa7cK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050840.umPPa7cK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_6
+head:   0c979434b43f72eae07adcc1ead90f252e87a308
+commit: 80a56926c17a6c3a59d709e771e9e963025cfe0b [3/12] uprobes: Add nbytes argument to uprobe_write_opcode
+config: arm-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050840.1GUtvMUm-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050840.1GUtvMUm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050840.umPPa7cK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050840.1GUtvMUm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/gup.c: In function 'can_follow_write_pud':
->> mm/gup.c:665:48: error: implicit declaration of function 'pud_soft_dirty'; did you mean 'pmd_soft_dirty'? [-Werror=implicit-function-declaration]
-     665 |         return !vma_soft_dirty_enabled(vma) || pud_soft_dirty(pud);
-         |                                                ^~~~~~~~~~~~~~
-         |                                                pmd_soft_dirty
-   cc1: some warnings being treated as errors
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/big_endian.h:14,
+                    from include/linux/byteorder/big_endian.h:5,
+                    from arch/arm/include/uapi/asm/byteorder.h:20,
+                    from include/linux/bitfield.h:11,
+                    from arch/arm/include/asm/ptrace.h:13,
+                    from arch/arm/include/asm/irqflags.h:7,
+                    from include/linux/irqflags.h:18,
+                    from arch/arm/include/asm/bitops.h:28,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from arch/arm/probes/uprobes/core.c:6:
+   arch/arm/probes/uprobes/core.c: In function 'set_swbp':
+>> include/uapi/linux/swab.h:115:21: error: passing argument 4 of 'uprobe_write_opcode' makes pointer from integer without a cast [-Wint-conversion]
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     unsigned int
+   include/linux/swab.h:8:17: note: in expansion of macro '__swab32'
+       8 | # define swab32 __swab32
+         |                 ^~~~~~~~
+   arch/arm/include/asm/opcodes.h:88:29: note: in expansion of macro 'swab32'
+      88 | #define ___opcode_swab32(x) swab32(x)
+         |                             ^~~~~~
+   arch/arm/include/asm/opcodes.h:100:32: note: in expansion of macro '___opcode_swab32'
+     100 | #define __opcode_to_mem_arm(x) ___opcode_swab32(x)
+         |                                ^~~~~~~~~~~~~~~~
+   arch/arm/probes/uprobes/core.c:33:20: note: in expansion of macro '__opcode_to_mem_arm'
+      33 |                    __opcode_to_mem_arm(auprobe->bpinsn));
+         |                    ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/mm_types.h:16,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/highmem.h:5,
+                    from arch/arm/probes/uprobes/core.c:9:
+   include/linux/uprobes.h:185:49: note: expected 'uprobe_opcode_t *' {aka 'unsigned int *'} but argument is of type 'unsigned int'
+     185 |                                uprobe_opcode_t *insn, int nbytes);
+         |                                ~~~~~~~~~~~~~~~~~^~~~
+   arch/arm/probes/uprobes/core.c:32:16: error: too few arguments to function 'uprobe_write_opcode'
+      32 |         return uprobe_write_opcode(auprobe, mm, vaddr,
+         |                ^~~~~~~~~~~~~~~~~~~
+   include/linux/uprobes.h:184:12: note: declared here
+     184 | extern int uprobe_write_opcode(struct arch_uprobe *auprobe, struct mm_struct *mm, unsigned long vaddr,
+         |            ^~~~~~~~~~~~~~~~~~~
+   arch/arm/probes/uprobes/core.c:34:1: warning: control reaches end of non-void function [-Wreturn-type]
+      34 | }
+         | ^
 
 
-vim +665 mm/gup.c
+vim +/uprobe_write_opcode +115 include/uapi/linux/swab.h
 
-   650	
-   651	#ifdef CONFIG_PGTABLE_HAS_HUGE_LEAVES
-   652	/* FOLL_FORCE can write to even unwritable PUDs in COW mappings. */
-   653	static inline bool can_follow_write_pud(pud_t pud, struct page *page,
-   654						struct vm_area_struct *vma,
-   655						unsigned int flags)
-   656	{
-   657		/* If the pud is writable, we can write to the page. */
-   658		if (pud_write(pud))
-   659			return true;
-   660	
-   661		if (!can_follow_write_common(page, vma, flags))
-   662			return false;
-   663	
-   664		/* ... and a write-fault isn't required for other reasons. */
- > 665		return !vma_soft_dirty_enabled(vma) || pud_soft_dirty(pud);
-   666	}
-   667	
+607ca46e97a1b65 David Howells 2012-10-13  109  
+607ca46e97a1b65 David Howells 2012-10-13  110  /**
+607ca46e97a1b65 David Howells 2012-10-13  111   * __swab32 - return a byteswapped 32-bit value
+607ca46e97a1b65 David Howells 2012-10-13  112   * @x: value to byteswap
+607ca46e97a1b65 David Howells 2012-10-13  113   */
+7322dd755e7dd34 Arnd Bergmann 2016-05-05  114  #ifdef __HAVE_BUILTIN_BSWAP32__
+7322dd755e7dd34 Arnd Bergmann 2016-05-05 @115  #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+7322dd755e7dd34 Arnd Bergmann 2016-05-05  116  #else
+607ca46e97a1b65 David Howells 2012-10-13  117  #define __swab32(x)				\
+d30dfd490f7dc4c Justin Stitt  2022-06-08  118  	(__u32)(__builtin_constant_p(x) ?	\
+607ca46e97a1b65 David Howells 2012-10-13  119  	___constant_swab32(x) :			\
+607ca46e97a1b65 David Howells 2012-10-13  120  	__fswab32(x))
+7322dd755e7dd34 Arnd Bergmann 2016-05-05  121  #endif
+607ca46e97a1b65 David Howells 2012-10-13  122  
+
+:::::: The code at line 115 was first introduced by commit
+:::::: 7322dd755e7dd34bc5359aa27abeed1687e0f628 byteswap: try to avoid __builtin_constant_p gcc bug
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
