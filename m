@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C7E17B506
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 09:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B832066D0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 09:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733390163; cv=none; b=jFxK2IlggUE/EOvNdgjp+KXvIMNOkn91X7gAEpYVk3Dl24CD/X2ga8E0edW4tcU85vFtlDlAkO7uw2jqzEW9keZxOKhiknMH5UcQIhL2ylzx/SN7TxrcJM5mqtJQfnQDJs7SwLxE1pHQppd3sVlmeHYJwNN81MX5gMT5DJwwWW8=
+	t=1733392727; cv=none; b=mtg3kbtxkpO4WvtBwkyxkiYQQma/oiCUya690qbBvm6IKVjd02awXneXKUd3zX5NPECv4gdKA37iuQFDmuvurcwUwk8b+qNs9eVasisdNRYFg/kSlEqnlQsDq491V/ZurVsthoSbrKfMovme8d6oAdlFk1hpXr1e2IJ/SgEGTPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733390163; c=relaxed/simple;
-	bh=4CEqEtvsMB75wa6Fw6NJycUWWxlqd4pztrsNyvf6Qjc=;
+	s=arc-20240116; t=1733392727; c=relaxed/simple;
+	bh=d2hRN6bugTHS4LP8ehRJgSru7OT6l0Sj0Ihp+G/Zw58=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dj7VrcozOAI1g0vnp2wuFtGP5UC7CTCqR0pyRs5g8nDD2KIkqvcWQfiA37Al5dfjyS8EEbfFtaySsqIs2D+8HBRAnbfCM3wlU0kRM/+CCDH7ovk0jm9Mq9eQhUZDkfMoyxunp0lWGC7hKfReOP4BP8HhqxDflOJ3kJsCJFvTBJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EUYs5wDe; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=INI+PwEB/qYzISQS78lObNGcbreXosm0r7tIGC5oK9GO0t8/CIC0PRiMYWu4VSAAKce3OussWR0HOCD/vGFYxWtX/iIXXThw4aj/0QMxdSwGr5dphW7g5UWl1OGBzBWgIfqqImXEz7naAjowonpu7OJ0VCz0howL5fzbxA5wUNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oEb7D8qB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EUYs5wDe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEb7D8qB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733390161; x=1764926161;
+  t=1733392725; x=1764928725;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4CEqEtvsMB75wa6Fw6NJycUWWxlqd4pztrsNyvf6Qjc=;
-  b=EUYs5wDehaC9FET+/wgnj573l0JiE0nM93K1LKvdm0o1ooNZ7iF8w+pl
-   IpgBaOk6TTjXedO7AGDh+rOZSCR3y0Qrw3DCg6ouCrvyq9CfjejuN9s64
-   OC0WNpx4ByBtAxVm1rh2DAGqTAEcEzLpMaYflrXimg8Ioiej7aBeHOKxA
-   rhcuEOqAZ+0yYORdMWFKwuFS8WxfsJ2KFBmXrapojGIi9WMhY1vOPtsAc
-   S0u6+rqjjMJSHeNGrglqo6o7c1cpplmOmMwbyy2fmzDdJ4RZ2ZSCSEcnD
-   JBOQzz+DsXVNsi3CzRx4McEMZaSpeJvw/qyeuCsbl8HBJ1TfL50oq8vzp
-   w==;
-X-CSE-ConnectionGUID: V6bLJXNQStOpcsBUPKk0gg==
-X-CSE-MsgGUID: RZ5ycG+DSCGnEEY7H2TndA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33609123"
+  bh=d2hRN6bugTHS4LP8ehRJgSru7OT6l0Sj0Ihp+G/Zw58=;
+  b=oEb7D8qB/jfZ+aa8Y18lyQxlB6irDt7fIXdGoMLS0RS2w1I+JjRlF960
+   tyfDsbnCt5LvHADU6ku0YKrfSxdwngL6EuU2R9nyiWDjI8NY7Ou8cyK/S
+   hN0sXGZdzug+e2sjKBVnMI63vUhPSdmD++HlT2A/A0JX0QftKNXTxyr+V
+   /aDp7U3n0ODaU9QZ9G7PW6OYqxCGoQRIyYQREGyVLyKuWh+30Ii7B6GTx
+   Vyjd7Xu2PRG2YLeazEFFbYGypja2LpKX9NddPFGWNITkbUFe1iF9lNDql
+   pXRsTjdD6eHzu9VP1cRnRgtYOvuZXPRsKakprUIz8Xmad0nyin5SGPQti
+   A==;
+X-CSE-ConnectionGUID: 6hAiouKaQ7eJq+Zd3g+kJg==
+X-CSE-MsgGUID: IOVMs0L4Qi+rrpHf14ZXqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="56174615"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="33609123"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 01:16:01 -0800
-X-CSE-ConnectionGUID: wHCDGO3OQnS8mADgaUslVg==
-X-CSE-MsgGUID: X0Tr+TgwRciTqBvOkZIH8w==
+   d="scan'208";a="56174615"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 01:58:44 -0800
+X-CSE-ConnectionGUID: ZPwPMryEQveldUrO5jG6rg==
+X-CSE-MsgGUID: Gmh3GftgQruyE18OXZARag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="99075845"
+X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
+   d="scan'208";a="99125974"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 05 Dec 2024 01:16:00 -0800
+  by orviesa004.jf.intel.com with ESMTP; 05 Dec 2024 01:58:43 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ7xl-00041D-1X;
-	Thu, 05 Dec 2024 09:15:57 +0000
-Date: Thu, 5 Dec 2024 17:15:34 +0800
+	id 1tJ8d2-00043H-2c;
+	Thu, 05 Dec 2024 09:58:38 +0000
+Date: Thu, 5 Dec 2024 17:57:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: kernel@openeuler.org, Wei Li <liwei391@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1321/1321] sas_expander.c:undefined
- reference to `ata_dev_same_device'
-Message-ID: <202412051729.ejnzHbRm-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2546/2546] net/netfilter/nft_set_pipapo.o:
+ warning: objtool: nft_pipapo_remove()+0x65f: unreachable instruction
+Message-ID: <202412051737.2B7Mf0Ys-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jason,
+Hi Florian,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d05ffd830132e58bd394d5e8123765b9037141b2
-commit: d856ec500c97835c591ffacc005f514509f1a931 [1321/1321] scsi: libsas: check if the same sata device when flutter
-config: x86_64-buildonly-randconfig-005-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051729.ejnzHbRm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051729.ejnzHbRm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   fdc4bca5e9e486a894194c2b6a956492b11d8cc5
+commit: 6da9c2b3be7f43cb2dc8c55be00b80bcdc27dba1 [2546/2546] netfilter: nft_set_pipapo: do not free live element
+config: x86_64-buildonly-randconfig-004-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051737.2B7Mf0Ys-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051737.2B7Mf0Ys-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051729.ejnzHbRm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051737.2B7Mf0Ys-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   ld: drivers/scsi/libsas/sas_expander.o: in function `sas_rediscover_dev':
->> sas_expander.c:(.text.unlikely+0x3f4): undefined reference to `ata_dev_same_device'
+>> net/netfilter/nft_set_pipapo.o: warning: objtool: nft_pipapo_remove()+0x65f: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
