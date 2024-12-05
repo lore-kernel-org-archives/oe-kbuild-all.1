@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA291A8F77;
-	Thu,  5 Dec 2024 07:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533F41AA1C7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 07:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733382350; cv=none; b=aV+G8/AWD06IkT4bLwrc1UBhe4elDV5FiculA+hruge41l4S7l8yU2nXo2t2I+MRKKcJGzGrPKv9d7QxskDuHFT1XfSvbEBFWFlo8FrQ4XU0vnQIg7AKUci9u9tXh1QgmQouPm0y1kmdBvXJs9m6CDoxTAtCuguSJ2rdRPe0kN4=
+	t=1733382350; cv=none; b=OVCHJs55tGhLbTCqfn+1OL07ex2ktUAUpJOuARUZYaV5j4f3RVZG5sDbRLG0RVhgZXHVoK/mZLOurqbzx/PQOycd3Gen5wkfZmnDMpWW652u16tpW1wmjdB1D4Qa0llf9OwECBemkSEIdh71IfH2/S2sm3M+NPNE/WIoTjX4Uxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733382350; c=relaxed/simple;
-	bh=s+aYMHHJ8wuTeVRxlKHDW0XZRBovFWgf3na/Vvfs+fY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJTiNKMtoHXg3jy6rv9UTzp7+5vunEF1TvI/0opyloU2aYij3bsoexMp90AKFT7r3CsptZt4hdX4g5u2egzCWWYJHQXbJ0lqsMlN8fMdt2KnLVqY9urEQdrDVfb+SJ9JMuEX+FUNnn4kJuorBcfD6mVhrmt15hniQ90t/2mP7vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qx8GKW9n; arc=none smtp.client-ip=198.175.65.12
+	bh=Wc6U++1Ha670xseqZf+ssSwkKrH08ehsD5xnj5nnHkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T3IgpRvui5zbURCEJ+cSeNkULNk1xADY+Ff81sl9jcX4cNsMbuLaUrFr86PPk2q2N4wAL+w/MXwS260fZtTJpODP5S5R0OIewlv+OLCbk/sxfrvr61Q9+YeUTMThxLikHm717GJURbz4VBvsrlOqvNhLaun+VdCkUt+iTaMKx+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lazWnJKD; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qx8GKW9n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lazWnJKD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733382348; x=1764918348;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s+aYMHHJ8wuTeVRxlKHDW0XZRBovFWgf3na/Vvfs+fY=;
-  b=Qx8GKW9n41FKKezzMctc6ddOhZWOuaZv+muaedebjqQe0sa0XMkE+VtW
-   Okprgmhl+XMXbc83PW8Ae+I7qvEKxGtlew4LlbdmcHuENLUnNi33dswhQ
-   hBeo7piCUxCi2IxyIjCIz7UPMIWLk/5CObLOmCDfNy+MJLnO91JtZ65PM
-   46IadGaG2LjJQeSB/HJNqbv1D4KBgZG7LD9CPuoJc04A1j8Xm90XQmtC4
-   fN8wsOOSw+KP7SKKBN03jsfr+BK9HssjbHnsbrK7DG9kCkfVZJ/KyO6BB
-   47Sz1132Z20xZcFE4sdItV54utk1t9eKkYXgYSUfzgjgTiCtAdD0TUAEL
-   Q==;
-X-CSE-ConnectionGUID: DG087+eCQ0qGhw0rcTfwYw==
-X-CSE-MsgGUID: GBij/8SxRV2L6VXdGfwLuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="45054703"
+  t=1733382349; x=1764918349;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Wc6U++1Ha670xseqZf+ssSwkKrH08ehsD5xnj5nnHkg=;
+  b=lazWnJKDuCwxYPvdPDxa6+jLVWX7meXY93zZEqVgda2Y2SvVnVbnJrN2
+   qlK9ehZYFSjQ9oin8cHPKH5iJ0slfVZOjlc5X3HDcxY3WNKykbwJH7Dkn
+   sD0bUztqcXRwlGWwu9M0VuHGxembA9bAvi960avzqjSNwMIeR2B1rrHBY
+   9YPEiooFhfTyd+IGriLhM/wbA3bMa+JgbkjcaH2tKwh+VcqITspx09KQ/
+   G/BdKu9DTh6+WSO8zv1+EbDUVM9K7NSEUDzU0seO1S7umk/9lsQfG3qZR
+   /fZAIN3n6LaL3YIgcVaB/VVUZvqeUw/p2xTxird2wizQw7wNf+WNo4S4/
+   A==;
+X-CSE-ConnectionGUID: qS/33pj+TUmgqerYMkzRSA==
+X-CSE-MsgGUID: 18mXosMkQiGcYrESf4gqYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33809644"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="45054703"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:05:47 -0800
-X-CSE-ConnectionGUID: UakgS2diSHWOqbGXFnxltQ==
-X-CSE-MsgGUID: HArFaIXhQOq9wXry2bxXjQ==
+   d="scan'208";a="33809644"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:05:48 -0800
+X-CSE-ConnectionGUID: SUMQhdRrTyie8XkQcdu98Q==
+X-CSE-MsgGUID: fZ2+E0bXQT689Sesp/drZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="93690738"
+   d="scan'208";a="124924429"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Dec 2024 23:05:46 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 04 Dec 2024 23:05:46 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ5vk-0003vV-1X;
+	id 1tJ5vk-0003vb-1o;
 	Thu, 05 Dec 2024 07:05:44 +0000
-Date: Thu, 5 Dec 2024 15:04:59 +0800
+Date: Thu, 5 Dec 2024 15:04:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tobias Huschle <huschle@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] s390/topology: Add initial implementation for
- selection of parked CPUs
-Message-ID: <202412051415.gGx8svUs-lkp@intel.com>
-References: <20241204112149.25872-3-huschle@linux.ibm.com>
+To: kernel@openeuler.org, heppen <hepeng68@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2546/2546] drivers/acpi/cppc_acpi.c:1530:
+ warning: Function parameter or member 'auto_act_window' not described in
+ 'cppc_set_auto_act_window'
+Message-ID: <202412051441.aDAuRsLp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,43 +62,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204112149.25872-3-huschle@linux.ibm.com>
 
-Hi Tobias,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on s390/features]
-[also build test ERROR on tip/sched/core linus/master v6.13-rc1 next-20241204]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tobias-Huschle/sched-fair-introduce-new-scheduler-group-type-group_parked/20241204-192421
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/20241204112149.25872-3-huschle%40linux.ibm.com
-patch subject: [RFC PATCH 2/2] s390/topology: Add initial implementation for selection of parked CPUs
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241205/202412051415.gGx8svUs-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051415.gGx8svUs-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   fdc4bca5e9e486a894194c2b6a956492b11d8cc5
+commit: 6d474065f368e21b77526a5c30f5a1aed017142a [2546/2546] ACPI: CPPC: Add three register ABIs
+config: arm64-randconfig-004-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051441.aDAuRsLp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051441.aDAuRsLp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051415.gGx8svUs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051441.aDAuRsLp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390x-linux-ld: kernel/sched/core.o: in function `ttwu_queue_wakelist':
->> core.c:(.text+0x2d66): undefined reference to `cpu_parked'
-   s390x-linux-ld: kernel/sched/core.o: in function `select_task_rq':
-   core.c:(.text+0x2f3e): undefined reference to `cpu_parked'
->> s390x-linux-ld: core.c:(.text+0x2f82): undefined reference to `cpu_parked'
-   s390x-linux-ld: kernel/sched/core.o: in function `select_fallback_rq':
-   core.c:(.text+0x5d02): undefined reference to `cpu_parked'
-   s390x-linux-ld: core.c:(.text+0x5d50): undefined reference to `cpu_parked'
-   s390x-linux-ld: kernel/sched/core.o:core.c:(.text+0x5e16): more undefined references to `cpu_parked' follow
+   drivers/acpi/cppc_acpi.c:450: warning: Function parameter or member 'cpc_pptr' not described in '__acpi_get_psd_map'
+   drivers/acpi/cppc_acpi.c:700: warning: Function parameter or member 'pcc_ss_id' not described in 'pcc_data_alloc'
+>> drivers/acpi/cppc_acpi.c:1530: warning: Function parameter or member 'auto_act_window' not described in 'cppc_set_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1530: warning: Excess function parameter 'enable' description in 'cppc_set_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Function parameter or member 'cpunum' not described in 'cppc_get_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Function parameter or member 'auto_act_window' not described in 'cppc_get_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Excess function parameter 'cpu' description in 'cppc_get_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Excess function parameter 'enable' description in 'cppc_get_auto_act_window'
+   drivers/acpi/cppc_acpi.c:1552: warning: Function parameter or member 'auto_sel' not described in 'cppc_get_auto_sel'
+>> drivers/acpi/cppc_acpi.c:1552: warning: Excess function parameter 'enable' description in 'cppc_get_auto_sel'
+>> drivers/acpi/cppc_acpi.c:1575: warning: Function parameter or member 'epp_val' not described in 'cppc_set_epp'
+>> drivers/acpi/cppc_acpi.c:1575: warning: Excess function parameter 'enable' description in 'cppc_set_epp'
+   drivers/acpi/cppc_acpi.c:1716: warning: Function parameter or member 'cpu_num' not described in 'cppc_get_transition_latency'
+
+
+vim +1530 drivers/acpi/cppc_acpi.c
+
+  1523	
+  1524	/**
+  1525	 * cppc_set_auto_act_window - Write autonomous act window register.
+  1526	 * @cpu    : CPU to which to write register.
+  1527	 * @enable : the desired value of autonomous act window register to be updated.
+  1528	 */
+  1529	int cppc_set_auto_act_window(int cpu, u64 auto_act_window)
+> 1530	{
+  1531		return cppc_set_reg(cpu, AUTO_ACT_WINDOW, auto_act_window);
+  1532	}
+  1533	EXPORT_SYMBOL_GPL(cppc_set_auto_act_window);
+  1534	
+  1535	/**
+  1536	 * cppc_get_auto_act_window - Read autonomous act window register.
+  1537	 * @cpu    : CPU to which to write register.
+  1538	 * @enable : the desired value of autonomous act window register to be updated.
+  1539	 */
+  1540	int cppc_get_auto_act_window(int cpunum, u64 *auto_act_window)
+> 1541	{
+  1542		return cppc_get_reg(cpunum, AUTO_ACT_WINDOW, auto_act_window);
+  1543	}
+  1544	EXPORT_SYMBOL_GPL(cppc_get_auto_act_window);
+  1545	
+  1546	/**
+  1547	 * cppc_get_auto_sel - Read autonomous selection register.
+  1548	 * @cpunum : CPU to which to write register.
+  1549	 * @enable : the desired value of autonomous selection resiter to be updated.
+  1550	 */
+  1551	int cppc_get_auto_sel(int cpunum, u64 *auto_sel)
+> 1552	{
+  1553		return cppc_get_reg(cpunum, AUTO_SEL_ENABLE, auto_sel);
+  1554	}
+  1555	EXPORT_SYMBOL_GPL(cppc_get_auto_sel);
+  1556	
+  1557	
+  1558	/**
+  1559	 * cppc_set_auto_sel - Write autonomous selection register.
+  1560	 * @cpu    : CPU to which to write register.
+  1561	 * @enable : the desired value of autonomous selection resiter to be updated.
+  1562	 */
+  1563	int cppc_set_auto_sel(int cpu, bool enable)
+  1564	{
+  1565		return cppc_set_reg(cpu, AUTO_SEL_ENABLE, enable);
+  1566	}
+  1567	EXPORT_SYMBOL_GPL(cppc_set_auto_sel);
+  1568	
+  1569	/**
+  1570	 * cppc_set_epp - Write energe perf register.
+  1571	 * @cpu    : CPU to which to write register.
+  1572	 * @enable : the desired value of energe perf register to be updated.
+  1573	 */
+  1574	int cppc_set_epp(int cpu, u64 epp_val)
+> 1575	{
+  1576		return cppc_set_reg(cpu, ENERGY_PERF, epp_val);
+  1577	}
+  1578	EXPORT_SYMBOL_GPL(cppc_set_epp);
+  1579	
 
 -- 
 0-DAY CI Kernel Test Service
