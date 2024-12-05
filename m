@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B951C3050;
-	Thu,  5 Dec 2024 07:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE83C1917EE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 07:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733384985; cv=none; b=gKyXqlpaL9jRVCWAKTnKu9TV/b9ODsVSO41/oor3v3K0VvY5aaGkcEZSE5kx5Ru+wA2oAcc/GDRmjpgFFX9Z+lLPKXmm+eLpdSKaLw05JPShOjMBFC+RcJhDIZ4lpWYDW9xaYIAEOKvQJt+KCx9wSmFoUbSsquOye2lGLPfw+4c=
+	t=1733385217; cv=none; b=Cs1UteQR7/y/FQigpZOnvx1DK+49e/S2r39mY2Ll7Wt+HUDgtpsiLGx9vAQGJw8rzuc7+pK91MmA6hxF+V63LB7BHlabrFFDlAUtT0wG7QRgxXY4Ivhn5jlTHr/oUVeq6hnuduHVdXks+LI9y7Em4r2kHz4Ir/T2WaJICLlKotg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733384985; c=relaxed/simple;
-	bh=v/NGVM2mVB413+xKdRcL6pDchULiswHB/AOoR3s6Vsg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l90EFNCQlghrOwY/A9pFvVRyUGxB2PJVBivJLvdwDMubk4q6j5GyCLSsoZgAjc41OgRT0keDoqQzptRNN1R+8hXXA5J1jLFRQQX8utnNrR9HNdHW4bGdqL2XEJyEi3OaoyNR4OzjACSRzrUQtZh607ADBCRPdiwZSowcETp3h8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lhAlTDeE; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733385217; c=relaxed/simple;
+	bh=rNLkOrja+fjelYi49mXop/QbH0nhaWqHZi1LrcwdE/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SUnS7e7HoBK/EmYBIyYQMzwkG8YnqXAM4AbtIlKBAi36q6IkSHvqXFgYLtGEIAS7tj8C93oBNwbFRWYI5iuH0upqpcv4YwTc5F/vLj0kWz/U568DzP9mA1cghzDErYpwg6F/9BmifXEt/6fJ5qEpw/HFwNGxjdcSI/2fYPVv5QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xuxTg2RC; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lhAlTDeE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733384984; x=1764920984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v/NGVM2mVB413+xKdRcL6pDchULiswHB/AOoR3s6Vsg=;
-  b=lhAlTDeEwjwdIS2S5TnGpgfxT2YAWo6B47HGwBZOTEnVM6je7x1dce53
-   aYzq4kglC7ZNhGfkQk2NyNQXO+4Ev2O8uGFVYVuhc3H747TG8ojLC1J32
-   6sak8PCZEW94/x3TPc2UOGZbyzX3Yd219t/0BLblKhSvJFGMTq0fdqUV4
-   1uPnnwKLgHZwWydkf7cbCAahrt8PbNTIvhm3PwWZYLLMnIPpZSqKwUimf
-   Iz5lVomDyG5J/tcQX6ZS4burGq5oSwlmu9KO8RTIHpyKCLtZcwS3kojnz
-   cd07TCo6dEG+QOHLVG9HSRYkJ7lV0Cezxi7yUpFwqHuVpjSNQR95AkSdm
-   w==;
-X-CSE-ConnectionGUID: TLZpPYZgR+GNPKryZkEMYQ==
-X-CSE-MsgGUID: 48QEc+F3TnaS0rPSIWSlNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="51215597"
-X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="51215597"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:49:43 -0800
-X-CSE-ConnectionGUID: w4REs25XTPytRAzCAF/rkg==
-X-CSE-MsgGUID: C0nIgHLAS/mMBN9VEKUMJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="98466878"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Dec 2024 23:49:44 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tJ6cG-0003x3-1J;
-	Thu, 05 Dec 2024 07:49:40 +0000
-Date: Thu, 5 Dec 2024 15:49:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kurt Borja <kuurtb@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 18/21] platform-x86: Add header file for alienware-wmi
-Message-ID: <202412051511.kNVhfP83-lkp@intel.com>
-References: <20241205004647.2186826-2-kuurtb@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xuxTg2RC"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-434aa222d96so6255065e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Dec 2024 23:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733385214; x=1733990014; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Cw0aKudym1GacjK1kSQ+ayXt2em3H+XIjkba+DLt6j4=;
+        b=xuxTg2RCffE3JrO5ITTeCBBBAGFLV+e7iIWmywuq5MYLLfh3FGf/JhF9TDudS2FWhm
+         TVljThOYtjsrkCW4h9B0kO6UK6bbLsurSS37PXb7obm9FpJH1qdrb8tvotQ09K6A4Hbd
+         QN0japVH9XDxc2ntQAEslDtqqko53m6uEdr/S1gBx2AHEa6OeEL1wjuCXz3Q7un9Ohac
+         sZW5AcztK7S+FoosFtzJErPJxaEpO1XOkJFXqRp/8eOcng5golDWkFHHP+p7DznEJYiN
+         WyP1xAkRA4JSAdKSrAEFIuY1V7Rwde2INTWRylzx567/a4zOyVaYyaE1iE/7wCsLIuYh
+         z2qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733385214; x=1733990014;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cw0aKudym1GacjK1kSQ+ayXt2em3H+XIjkba+DLt6j4=;
+        b=L1VIWqI+t+Y5pHl/qnBZgtJZwV1O54o8Ek5AlMWpW3awSvpH6RKlnMeHZ6a5gBTIYR
+         FTNHlaofY6/zhhkUxpK+FUMTKVIRJRBSkfKMdXb6l5UaQgRmSixB0lhW8OdR2HqPEKj0
+         cn52XAKvitRF/W+u4/SJ4vBSwIcZP0yYjkG/qrd+SsNEdoc7QT9Q96QjTOS3B1v/8T24
+         433GgXGMw6H/oxFtMtc189ztKByqn2PYhy9piNxKk3NzbZy8r5X3V5PMum+IBFaRnrBd
+         VNPznvQZZK6Q91h+i8/A0R9OsVsw52ljkGUQlupdE36bNbtLdbf/J91+a8oXOWYm3L//
+         ifHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU97Df3qBRpfo3p2Vl/ytvq6NmvEfTxQqrEiqm7POogI0NE4vMpDTsQtKwcqfTtBrBocmwNcVjpcwbvq05v@lists.linux.dev
+X-Gm-Message-State: AOJu0YxM2LsgUdf601um/UlD2WP5HF5csSIFo3nUEqcVmmp9n/Gh1xT4
+	iFzPLHE4WSc01gvZsjeUWsDKfkyurF4V6Nu2vSWS4zM58KYwzLt2djFZrpm1fEc=
+X-Gm-Gg: ASbGncthDHHq+HcWr/LMQNGJBdB5jrcSgARd1SOJ8lKUbfaLBqfwbzE2jIMspVrINWN
+	peCyAktC0sSnGsTVwENcvhSWKjjDJNYeUvR7e08ADGnUkjVz1xuDcvdA9F82G+pLim2oUhfROD2
+	qevgnEDokmtEgNksrqzQ/iAIIciGW4FzkvllmFBfRQaeKg4vRxIHIo9sIuQ5LCtDQkB4L4/sTv6
+	Un71xVGhxWieNvDJDSs2vM/IlQqMcw9mZTAMqeKeEJdxMtN2WXHeM0=
+X-Google-Smtp-Source: AGHT+IHeHx6J40zka1wLL2JkYZnlM+LhLjW9YE2vh1+GWCFVNs50wHfukGoUdRPwrZOGx+bmYNmclw==
+X-Received: by 2002:a05:600c:450e:b0:434:a30b:5445 with SMTP id 5b1f17b1804b1-434d09d1cfemr86118705e9.19.1733385214272;
+        Wed, 04 Dec 2024 23:53:34 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434da0d6961sm14679745e9.12.2024.12.04.23.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 23:53:33 -0800 (PST)
+Date: Thu, 5 Dec 2024 10:53:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: drivers/dma/idxd/device.c:370 idxd_cmd_exec() warn: mixing irqsave
+ and irq
+Message-ID: <0047f184-52c2-4d7c-8f03-425b6f185860@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +72,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205004647.2186826-2-kuurtb@gmail.com>
 
-Hi Kurt,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.13-rc1 next-20241204]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/alienware-wmi-Modify-parse_rgb-signature/20241205-085007
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241205004647.2186826-2-kuurtb%40gmail.com
-patch subject: [RFC PATCH 18/21] platform-x86: Add header file for alienware-wmi
-config: i386-buildonly-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051511.kNVhfP83-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051511.kNVhfP83-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   feffde684ac29a3b7aec82d2df850fbdbdee55e4
+commit: 0d5c10b4c84d6ae6255129e5f16a0d2119c74334 dmaengine: idxd: add work queue drain support
+config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241205/202412050237.MXIHJMPC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051511.kNVhfP83-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412050237.MXIHJMPC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+smatch warnings:
+drivers/dma/idxd/device.c:370 idxd_cmd_exec() warn: mixing irqsave and irq
 
->> WARNING: modpost: vmlinux: section mismatch in reference: alienfx_wmi_init+0x37 (section: .text) -> __platform_create_bundle (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: wmax_wmi_probe+0x7d (section: .text) -> __platform_create_bundle (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: legacy_wmi_probe+0x6c (section: .text) -> __platform_create_bundle (section: .init.text)
+vim +370 drivers/dma/idxd/device.c
+
+0d5c10b4c84d6a Dave Jiang 2020-06-26  357  static void idxd_cmd_exec(struct idxd_device *idxd, int cmd_code, u32 operand,
+0d5c10b4c84d6a Dave Jiang 2020-06-26  358  			  u32 *status)
+bfe1d56091c1a4 Dave Jiang 2020-01-21  359  {
+bfe1d56091c1a4 Dave Jiang 2020-01-21  360  	union idxd_command_reg cmd;
+0d5c10b4c84d6a Dave Jiang 2020-06-26  361  	DECLARE_COMPLETION_ONSTACK(done);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  362  	unsigned long flags;
+bfe1d56091c1a4 Dave Jiang 2020-01-21  363  
+bfe1d56091c1a4 Dave Jiang 2020-01-21  364  	memset(&cmd, 0, sizeof(cmd));
+bfe1d56091c1a4 Dave Jiang 2020-01-21  365  	cmd.cmd = cmd_code;
+bfe1d56091c1a4 Dave Jiang 2020-01-21  366  	cmd.operand = operand;
+0d5c10b4c84d6a Dave Jiang 2020-06-26  367  	cmd.int_req = 1;
+0d5c10b4c84d6a Dave Jiang 2020-06-26  368  
+0d5c10b4c84d6a Dave Jiang 2020-06-26  369  	spin_lock_irqsave(&idxd->dev_lock, flags);
+0d5c10b4c84d6a Dave Jiang 2020-06-26 @370  	wait_event_lock_irq(idxd->cmd_waitq,
+0d5c10b4c84d6a Dave Jiang 2020-06-26  371  			    !test_bit(IDXD_FLAG_CMD_RUNNING, &idxd->flags),
+0d5c10b4c84d6a Dave Jiang 2020-06-26  372  			    idxd->dev_lock);
+
+Please understand that these emails complaining about ancient code are
+from the zero day bot, not from me.  The issue here is that
+using spin_lock_irqsave() implies that perhaps the caller disabled IRQs
+but then the wait_event_lock_irq() macro enables IRQs when it is
+finished.
+
+0d5c10b4c84d6a Dave Jiang 2020-06-26  373  
+bfe1d56091c1a4 Dave Jiang 2020-01-21  374  	dev_dbg(&idxd->pdev->dev, "%s: sending cmd: %#x op: %#x\n",
+bfe1d56091c1a4 Dave Jiang 2020-01-21  375  		__func__, cmd_code, operand);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  376  
+0d5c10b4c84d6a Dave Jiang 2020-06-26  377  	__set_bit(IDXD_FLAG_CMD_RUNNING, &idxd->flags);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  378  	idxd->cmd_done = &done;
+bfe1d56091c1a4 Dave Jiang 2020-01-21  379  	iowrite32(cmd.bits, idxd->reg_base + IDXD_CMD_OFFSET);
+bfe1d56091c1a4 Dave Jiang 2020-01-21  380  
+0d5c10b4c84d6a Dave Jiang 2020-06-26  381  	/*
+0d5c10b4c84d6a Dave Jiang 2020-06-26  382  	 * After command submitted, release lock and go to sleep until
+0d5c10b4c84d6a Dave Jiang 2020-06-26  383  	 * the command completes via interrupt.
+0d5c10b4c84d6a Dave Jiang 2020-06-26  384  	 */
+0d5c10b4c84d6a Dave Jiang 2020-06-26  385  	spin_unlock_irqrestore(&idxd->dev_lock, flags);
+
+This irqrestore sets the IRQs back to whatever they were when the function
+was called.
+
+0d5c10b4c84d6a Dave Jiang 2020-06-26  386  	wait_for_completion(&done);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  387  	spin_lock_irqsave(&idxd->dev_lock, flags);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  388  	if (status)
+0d5c10b4c84d6a Dave Jiang 2020-06-26  389  		*status = ioread32(idxd->reg_base + IDXD_CMDSTS_OFFSET);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  390  	__clear_bit(IDXD_FLAG_CMD_RUNNING, &idxd->flags);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  391  	/* Wake up other pending commands */
+0d5c10b4c84d6a Dave Jiang 2020-06-26  392  	wake_up(&idxd->cmd_waitq);
+0d5c10b4c84d6a Dave Jiang 2020-06-26  393  	spin_unlock_irqrestore(&idxd->dev_lock, flags);
+bfe1d56091c1a4 Dave Jiang 2020-01-21  394  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
