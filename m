@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA8914286
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 01:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C02E14286
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 01:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733361105; cv=none; b=MdXQ8R2Ot0rPPnD6cOhkByhhGasQR8Xwa8BCIcdD60211l6/YpZbV/wnn9m5Tg/wE0daBK2YNlS8NGJJspPnHpB8MQkTDz94AgPICV7K7FYvJ2MeZgOCgHLyRC8IAmyjH6FnSXBMOK8thapfH/L0I6Sc3/aeTDSr+s4SB8xQiVk=
+	t=1733361166; cv=none; b=qx3vfBndRsNA9ctLDj2l+D3NIM4M7QaeEgdfAvQhQ6O0MyL0YRP40x0DhIn0a3RDlsMaMoaGMuI31UPRD1Jj7Kjojju/z9EYeb2gnqdeJaeSnfWhcqcP2Mb7ErQkaI8aVGKXVj2bNxPq0zpQs88snwODNnB7BgfgGq3ZUlytOB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733361105; c=relaxed/simple;
-	bh=gEZdEdNoKf5uTX532jaGQuk+Fdml9nZi57DxpaMVYLY=;
+	s=arc-20240116; t=1733361166; c=relaxed/simple;
+	bh=WC/Fha8I55zxNVtslAJv56DO+aNYlNbDibXjGeI5Loo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aSdxB+K1TojfyrcAY/S9N3PClydGU9869NuszenW4r5Lpulrk/y5SM8efTeeLS5PnZxA50S0dO3/bGMb1GeVA+W09hWXFJN0E/8abSXEpqBXEKZQg2A+KxmpByprOPVZZ8gFjUsQIKb4bUktDGZqiYnaXa5qcwZ9Uj3dgMgJey0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrMBKaeT; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=sD88TQXvir4hSSpPX71iZ/SGHHgjLhBGlNOS4Q6g/W4xbkRYVCGb31GQFE3WFrsAulphTg0OTkd7y41lJWVDAA8y/QEYPrC7bNKWXzT/3LWEDZnrRvF4GIgEIQpXFJXP5iN/v4c2LnlB4sBdKaeYvnryUeDMxfoLWN+SPSYwy7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CbF1g/xY; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrMBKaeT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CbF1g/xY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733361104; x=1764897104;
+  t=1733361164; x=1764897164;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gEZdEdNoKf5uTX532jaGQuk+Fdml9nZi57DxpaMVYLY=;
-  b=hrMBKaeTeHMXDeotwpxtomUDPw7Uks6waZp6G9KIYnVSNkdEWSOgjI6J
-   yHt+lYAhfi/HcM1oTxYJbJU7YgphvMPgiVveovMVRH/uUOXYKoTcePcj+
-   Q09fqbI1lwgM0u+dyoEOzzTjuFPcI/MCFEJXWbj8VKnxK1BZXchjPXJ7l
-   YH3JSdHVDWIsA1K5+cnYKqMHLaNIs1KWE3F6OohwzvEhV2BN6PGmBKB9T
-   bDVdrNJpNw1OmwlKwBK+WY7eTosKOVzNGfXxcmzwVV/mHTCdIzvpmXSsc
-   v0bcOPSGuX89GXY6MlwtRydMiEss+6nJNpkr5t4fImkPvRWlc5+4a5S4u
-   g==;
-X-CSE-ConnectionGUID: 4h5x4G6PTSGLnnzMM53LdQ==
-X-CSE-MsgGUID: GyKx/Ue+Rq+LOxGtRVYnwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33010630"
+  bh=WC/Fha8I55zxNVtslAJv56DO+aNYlNbDibXjGeI5Loo=;
+  b=CbF1g/xY7yx8tdGVByG2tYpiV1tOyaeYEFSrzZsfWSfY3Df6ZO58QUV9
+   MHWBw4ML/xd9h6Q5JZ60hs30HzPo7pzRziEp2hZ6VaCau02ufk2LtqjIc
+   t0FGs2MS2yM3dsw2icJIlmmV/MwdKL1zaNYmjItDv1ekUiI+UpGhIbXDg
+   gaw640yqn0y5fv3IUch+QDKsT8K4Xyd+83S/b8nkXxbqacHxkh/Z+OAfi
+   H8Ilf9AN+sdyWDgwiUsq24pTT9RH7NWrM1sMVEu1FJRf0djBJh8/mv6na
+   vuqyJthHwMYqrbdHxcQ2XpoJb9VYnu3ffcZQzHT4lFyBTLju9OQcS46IZ
+   A==;
+X-CSE-ConnectionGUID: lCXNGcUqSVioF09E7D/4hw==
+X-CSE-MsgGUID: LF56bNyOShuVqbgTWy/OYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="56132588"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="33010630"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 17:11:43 -0800
-X-CSE-ConnectionGUID: yb9zyFMlSImOkONMOMGBCw==
-X-CSE-MsgGUID: F/8OwehiRGKXugBEP8Jl8A==
+   d="scan'208";a="56132588"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 17:12:44 -0800
+X-CSE-ConnectionGUID: ZBr3JXcxTxe+6+j1hIOObg==
+X-CSE-MsgGUID: wOAS7N4qTaCgUpzVHWVDlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="94014319"
+   d="scan'208";a="94771029"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 04 Dec 2024 17:11:42 -0800
+  by orviesa008.jf.intel.com with ESMTP; 04 Dec 2024 17:12:43 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ0Oa-0003dV-2l;
-	Thu, 05 Dec 2024 01:11:18 +0000
-Date: Thu, 5 Dec 2024 09:10:53 +0800
+	id 1tJ0Q4-0003dg-12;
+	Thu, 05 Dec 2024 01:12:40 +0000
+Date: Thu, 5 Dec 2024 09:11:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
+To: kernel@openeuler.org, WenChen <chenwen54@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/optimized_usdt_6 3/12]
- include/uapi/linux/swab.h:115:21: error: passing argument 4 of
- 'uprobe_write_opcode' makes pointer from integer without a cast
-Message-ID: <202412050840.1GUtvMUm-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2516/2516]
+ drivers/ub/urma/ubcore/ubcore_tp.c:392:5: warning: no previous prototype for
+ 'ubcore_modify_tp_state'
+Message-ID: <202412050951.PkO7IjDp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,94 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_6
-head:   0c979434b43f72eae07adcc1ead90f252e87a308
-commit: 80a56926c17a6c3a59d709e771e9e963025cfe0b [3/12] uprobes: Add nbytes argument to uprobe_write_opcode
-config: arm-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241205/202412050840.1GUtvMUm-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050840.1GUtvMUm-lkp@intel.com/reproduce)
+Hi WenChen,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   b71af6f00ede58be00cb7306c9acb2660ec90947
+commit: 329bf7f331286ee5d571d374e31ed50d2877b110 [2516/2516] ubcore: fix the bug of tp negotiation concurrency
+config: arm64-randconfig-003-20241203 (https://download.01.org/0day-ci/archive/20241205/202412050951.PkO7IjDp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050951.PkO7IjDp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412050840.1GUtvMUm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050951.PkO7IjDp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/big_endian.h:14,
-                    from include/linux/byteorder/big_endian.h:5,
-                    from arch/arm/include/uapi/asm/byteorder.h:20,
-                    from include/linux/bitfield.h:11,
-                    from arch/arm/include/asm/ptrace.h:13,
-                    from arch/arm/include/asm/irqflags.h:7,
-                    from include/linux/irqflags.h:18,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/arm/probes/uprobes/core.c:6:
-   arch/arm/probes/uprobes/core.c: In function 'set_swbp':
->> include/uapi/linux/swab.h:115:21: error: passing argument 4 of 'uprobe_write_opcode' makes pointer from integer without a cast [-Wint-conversion]
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                     |
-         |                     unsigned int
-   include/linux/swab.h:8:17: note: in expansion of macro '__swab32'
-       8 | # define swab32 __swab32
-         |                 ^~~~~~~~
-   arch/arm/include/asm/opcodes.h:88:29: note: in expansion of macro 'swab32'
-      88 | #define ___opcode_swab32(x) swab32(x)
-         |                             ^~~~~~
-   arch/arm/include/asm/opcodes.h:100:32: note: in expansion of macro '___opcode_swab32'
-     100 | #define __opcode_to_mem_arm(x) ___opcode_swab32(x)
-         |                                ^~~~~~~~~~~~~~~~
-   arch/arm/probes/uprobes/core.c:33:20: note: in expansion of macro '__opcode_to_mem_arm'
-      33 |                    __opcode_to_mem_arm(auprobe->bpinsn));
-         |                    ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/mm_types.h:16,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/highmem.h:5,
-                    from arch/arm/probes/uprobes/core.c:9:
-   include/linux/uprobes.h:185:49: note: expected 'uprobe_opcode_t *' {aka 'unsigned int *'} but argument is of type 'unsigned int'
-     185 |                                uprobe_opcode_t *insn, int nbytes);
-         |                                ~~~~~~~~~~~~~~~~~^~~~
-   arch/arm/probes/uprobes/core.c:32:16: error: too few arguments to function 'uprobe_write_opcode'
-      32 |         return uprobe_write_opcode(auprobe, mm, vaddr,
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/uprobes.h:184:12: note: declared here
-     184 | extern int uprobe_write_opcode(struct arch_uprobe *auprobe, struct mm_struct *mm, unsigned long vaddr,
-         |            ^~~~~~~~~~~~~~~~~~~
-   arch/arm/probes/uprobes/core.c:34:1: warning: control reaches end of non-void function [-Wreturn-type]
-      34 | }
-         | ^
+   drivers/ub/urma/ubcore/ubcore_tp.c:66:17: warning: no previous prototype for 'ubcore_get_mtu' [-Wmissing-prototypes]
+      66 | enum ubcore_mtu ubcore_get_mtu(int mtu)
+         |                 ^~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_tp.c:392:5: warning: no previous prototype for 'ubcore_modify_tp_state' [-Wmissing-prototypes]
+     392 | int ubcore_modify_tp_state(struct ubcore_device *dev, struct ubcore_tp *tp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c:894:19: warning: no previous prototype for 'ubcore_create_vtp' [-Wmissing-prototypes]
+     894 | struct ubcore_tp *ubcore_create_vtp(struct ubcore_device *dev, union ubcore_eid *remote_eid,
+         |                   ^~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c:920:5: warning: no previous prototype for 'ubcore_destroy_vtp' [-Wmissing-prototypes]
+     920 | int ubcore_destroy_vtp(struct ubcore_tp *vtp)
+         |     ^~~~~~~~~~~~~~~~~~
 
 
-vim +/uprobe_write_opcode +115 include/uapi/linux/swab.h
+vim +/ubcore_modify_tp_state +392 drivers/ub/urma/ubcore/ubcore_tp.c
 
-607ca46e97a1b65 David Howells 2012-10-13  109  
-607ca46e97a1b65 David Howells 2012-10-13  110  /**
-607ca46e97a1b65 David Howells 2012-10-13  111   * __swab32 - return a byteswapped 32-bit value
-607ca46e97a1b65 David Howells 2012-10-13  112   * @x: value to byteswap
-607ca46e97a1b65 David Howells 2012-10-13  113   */
-7322dd755e7dd34 Arnd Bergmann 2016-05-05  114  #ifdef __HAVE_BUILTIN_BSWAP32__
-7322dd755e7dd34 Arnd Bergmann 2016-05-05 @115  #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-7322dd755e7dd34 Arnd Bergmann 2016-05-05  116  #else
-607ca46e97a1b65 David Howells 2012-10-13  117  #define __swab32(x)				\
-d30dfd490f7dc4c Justin Stitt  2022-06-08  118  	(__u32)(__builtin_constant_p(x) ?	\
-607ca46e97a1b65 David Howells 2012-10-13  119  	___constant_swab32(x) :			\
-607ca46e97a1b65 David Howells 2012-10-13  120  	__fswab32(x))
-7322dd755e7dd34 Arnd Bergmann 2016-05-05  121  #endif
-607ca46e97a1b65 David Howells 2012-10-13  122  
-
-:::::: The code at line 115 was first introduced by commit
-:::::: 7322dd755e7dd34bc5359aa27abeed1687e0f628 byteswap: try to avoid __builtin_constant_p gcc bug
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   391	
+ > 392	int ubcore_modify_tp_state(struct ubcore_device *dev, struct ubcore_tp *tp,
+   393		enum ubcore_tp_state new_state, struct ubcore_tp_attr *attr, union ubcore_tp_attr_mask mask)
+   394	{
+   395		if (ubcore_modify_tp_state_check(tp, new_state) != 0)
+   396			return -1;
+   397	
+   398		if (tp->state == UBCORE_TP_STATE_ERR && new_state == UBCORE_TP_STATE_ERR) {
+   399			ubcore_log_info("tp is already in ERR state and tpn = %u",
+   400				tp->tpn);
+   401			return 0;
+   402		}
+   403	
+   404		if (dev->ops->modify_tp(tp, attr, mask) != 0) {
+   405			/* tp->peer_ext.addr will be freed when called ubcore_destroy_tp */
+   406			ubcore_log_err("Failed to modify tp to %u from state %u and tpn = %u",
+   407				(uint32_t)new_state, (uint32_t)tp->state, tp->tpn);
+   408			return -1;
+   409		}
+   410		tp->state = new_state;
+   411		ubcore_log_info("tp state:(%u to %u) with tpn %u, peer_tpn %u",
+   412			(uint32_t)tp->state, (uint32_t)new_state, tp->tpn, tp->peer_tpn);
+   413		return 0;
+   414	}
+   415	
 
 -- 
 0-DAY CI Kernel Test Service
