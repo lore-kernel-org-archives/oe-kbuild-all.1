@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6CD18C33C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 06:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA291A8F77;
+	Thu,  5 Dec 2024 07:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733379851; cv=none; b=bvx5crDhd5s5aR92CPHMjoDMm2o8Omgca2yFsORjivlZA7dWNlRxC1ZFk3obbxUCwZKUBWNmGJ3CGxBMDp7tCp4HAONYk48XM0Xo204eg1G4kBdu7xQubzk0w2osVbyJax0vbN7nDLmouKSyDEtALcrnwlfLYj0jV3rMxy2ry+Q=
+	t=1733382350; cv=none; b=aV+G8/AWD06IkT4bLwrc1UBhe4elDV5FiculA+hruge41l4S7l8yU2nXo2t2I+MRKKcJGzGrPKv9d7QxskDuHFT1XfSvbEBFWFlo8FrQ4XU0vnQIg7AKUci9u9tXh1QgmQouPm0y1kmdBvXJs9m6CDoxTAtCuguSJ2rdRPe0kN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733379851; c=relaxed/simple;
-	bh=VUS9s3VNsX/vFPtTk6jAGcDvSqWGowHiEyuOHCJ54Qg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rdMUh+7yOqWyePm1po9ZogF7qTMw/Z65CEqRK92js4Gap0yBnP/PSsmsmgQsB+DGGPrQP6UguWte+4hKmjLiAAsj0swl3UcwyfGYeCUnIrpCZGCr3FGRmgRTQd7kgyJIR57raGX14VgeIVWdLLr+onlIl3bdJo4QlCbiUAY3csE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLK/Exp/; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1733382350; c=relaxed/simple;
+	bh=s+aYMHHJ8wuTeVRxlKHDW0XZRBovFWgf3na/Vvfs+fY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJTiNKMtoHXg3jy6rv9UTzp7+5vunEF1TvI/0opyloU2aYij3bsoexMp90AKFT7r3CsptZt4hdX4g5u2egzCWWYJHQXbJ0lqsMlN8fMdt2KnLVqY9urEQdrDVfb+SJ9JMuEX+FUNnn4kJuorBcfD6mVhrmt15hniQ90t/2mP7vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qx8GKW9n; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLK/Exp/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qx8GKW9n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733379850; x=1764915850;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VUS9s3VNsX/vFPtTk6jAGcDvSqWGowHiEyuOHCJ54Qg=;
-  b=ZLK/Exp/XBm4G2c1TfXy2/gPrwpHqFA+8WsjaZaaqjGDRKLrZ1eQTvh0
-   QvKo0+vm21K3ayUitZv4NMjfTk2xPm9WIEy1Xpciw6LSsyNEYM6aNn2Hs
-   RWuAl8d/N064rzaN2WqGVwJAxwinC9EoXzw+nYlvunrk87kHgXeTBihyR
-   wxjdXqUURG8cVPEZHWE0E8BW7w8GYw87ek8wZpdLUQXA38gsNAvMirfoI
-   Djz2TUE92CaTxI4n9oRhpgU2KLJbepP5JFiwKAmDU00q6rtjkI7xI1kD3
-   UJLB7vzv3f7LvaIVwMDB+UQ+WSzUoHGoXHxqFTtrKjwVDRRjrR59YnLV3
-   w==;
-X-CSE-ConnectionGUID: aUdCQRjOTq+ZhcG79dIntQ==
-X-CSE-MsgGUID: Plmr2Ej8TOaJ1xKx02jflQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="21256173"
+  t=1733382348; x=1764918348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s+aYMHHJ8wuTeVRxlKHDW0XZRBovFWgf3na/Vvfs+fY=;
+  b=Qx8GKW9n41FKKezzMctc6ddOhZWOuaZv+muaedebjqQe0sa0XMkE+VtW
+   Okprgmhl+XMXbc83PW8Ae+I7qvEKxGtlew4LlbdmcHuENLUnNi33dswhQ
+   hBeo7piCUxCi2IxyIjCIz7UPMIWLk/5CObLOmCDfNy+MJLnO91JtZ65PM
+   46IadGaG2LjJQeSB/HJNqbv1D4KBgZG7LD9CPuoJc04A1j8Xm90XQmtC4
+   fN8wsOOSw+KP7SKKBN03jsfr+BK9HssjbHnsbrK7DG9kCkfVZJ/KyO6BB
+   47Sz1132Z20xZcFE4sdItV54utk1t9eKkYXgYSUfzgjgTiCtAdD0TUAEL
+   Q==;
+X-CSE-ConnectionGUID: DG087+eCQ0qGhw0rcTfwYw==
+X-CSE-MsgGUID: GBij/8SxRV2L6VXdGfwLuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="45054703"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="21256173"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 22:24:10 -0800
-X-CSE-ConnectionGUID: JTmEkR3LQcuu52Gdz25yQA==
-X-CSE-MsgGUID: tySUhDOBQK2sbXbkboyW+w==
+   d="scan'208";a="45054703"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:05:47 -0800
+X-CSE-ConnectionGUID: UakgS2diSHWOqbGXFnxltQ==
+X-CSE-MsgGUID: HArFaIXhQOq9wXry2bxXjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="117246412"
+   d="scan'208";a="93690738"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Dec 2024 22:24:08 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Dec 2024 23:05:46 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJ5HE-0003sl-2c;
-	Thu, 05 Dec 2024 06:23:54 +0000
-Date: Thu, 5 Dec 2024 14:23:07 +0800
+	id 1tJ5vk-0003vV-1X;
+	Thu, 05 Dec 2024 07:05:44 +0000
+Date: Thu, 5 Dec 2024 15:04:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [linux-next:master 1023/1849]
- arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb:
- /soc@0/geniqup@bc0000/i2c@b8c000/typec-mux@8: failed to match any schema
- with compatible: ['parade,ps8830']
-Message-ID: <202412051437.zpPkzqUM-lkp@intel.com>
+To: Tobias Huschle <huschle@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/2] s390/topology: Add initial implementation for
+ selection of parked CPUs
+Message-ID: <202412051415.gGx8svUs-lkp@intel.com>
+References: <20241204112149.25872-3-huschle@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,32 +63,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241204112149.25872-3-huschle@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bcf2acd8f64b0a5783deeeb5fd70c6163ec5acd7
-commit: b16ee3d0cda492ded61f7224334e33eed986bd33 [1023/1849] arm64: dts: qcom: x1e80100-romulus: Set up PS8830s
-config: arm64-randconfig-051-20241204 (https://download.01.org/0day-ci/archive/20241205/202412051437.zpPkzqUM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051437.zpPkzqUM-lkp@intel.com/reproduce)
+Hi Tobias,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on s390/features]
+[also build test ERROR on tip/sched/core linus/master v6.13-rc1 next-20241204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tobias-Huschle/sched-fair-introduce-new-scheduler-group-type-group_parked/20241204-192421
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/20241204112149.25872-3-huschle%40linux.ibm.com
+patch subject: [RFC PATCH 2/2] s390/topology: Add initial implementation for selection of parked CPUs
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241205/202412051415.gGx8svUs-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051415.gGx8svUs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051437.zpPkzqUM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051415.gGx8svUs-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4357.11-4367.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: /soc@0/geniqup@bc0000/i2c@b8c000/typec-mux@8: failed to match any schema with compatible: ['parade,ps8830']
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: /soc@0/geniqup@bc0000/i2c@b9c000/typec-mux@8: failed to match any schema with compatible: ['parade,ps8830']
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4357.11-4367.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: /soc@0/geniqup@bc0000/i2c@b8c000/typec-mux@8: failed to match any schema with compatible: ['parade,ps8830']
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: /soc@0/geniqup@bc0000/i2c@b9c000/typec-mux@8: failed to match any schema with compatible: ['parade,ps8830']
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+All errors (new ones prefixed by >>):
+
+   s390x-linux-ld: kernel/sched/core.o: in function `ttwu_queue_wakelist':
+>> core.c:(.text+0x2d66): undefined reference to `cpu_parked'
+   s390x-linux-ld: kernel/sched/core.o: in function `select_task_rq':
+   core.c:(.text+0x2f3e): undefined reference to `cpu_parked'
+>> s390x-linux-ld: core.c:(.text+0x2f82): undefined reference to `cpu_parked'
+   s390x-linux-ld: kernel/sched/core.o: in function `select_fallback_rq':
+   core.c:(.text+0x5d02): undefined reference to `cpu_parked'
+   s390x-linux-ld: core.c:(.text+0x5d50): undefined reference to `cpu_parked'
+   s390x-linux-ld: kernel/sched/core.o:core.c:(.text+0x5e16): more undefined references to `cpu_parked' follow
 
 -- 
 0-DAY CI Kernel Test Service
