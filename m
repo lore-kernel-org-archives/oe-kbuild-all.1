@@ -1,67 +1,59 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162141D515B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 13:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6997F218ABF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 13:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733405701; cv=none; b=W+PW2k4bhRqV9XlGdfaKgXtBplp2iwyHjo1eupGzxlq5A7x70V6QGNzMTdXNwIORtRDPuTeeearX5I/idy50ve2/G9+setSGCAAao8yX4WK7Ktu4EgxkC8aOMIaCl7E4haK3/Qm/MWVT4SsQJf47SW+817XhyN8t2SNxdnvSVpg=
+	t=1733406664; cv=none; b=qMwZvZhUEFuswsTMSL+arKdqBYk+HwkWmHPIUzEP88ukmJ9aBKFT3Q951kovuK4Ngw6exvZUgLh6eUflFQNRCP9o8P1aMF0CwjMt3WWbe5RhQvu7l79cdVRr2gItvGVJKaB6aTPOkRbXrdqr6ojN61k33/8tx5pr8GMcCSxt27Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733405701; c=relaxed/simple;
-	bh=BoLGBVb1NPdm4L7pMGNdH6ioputrhx+cxasjf5qotXc=;
+	s=arc-20240116; t=1733406664; c=relaxed/simple;
+	bh=HabANso4b8uxc+y3kv1QWpVxs9VEGU3u9lSzhMlBBE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iC+5jhw+zmkOgismhhwyK9qRuSEeJ+W58ZPj05g99HwV2OITScUxFHxowinh6w5n5lJr5eYOYvtF+hkJJD6s+wIpRJZkYr5lbQrAC8D7cvdSogecJnTmTPFckljbmLR2pGyfTiNMGfTpR/+HHYLnJFwC1Fe5mBLA6OXP4Wlcu2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JvbMS+sB; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=SC9ix//PB+A25mXRscFUQY9ilcJQXn0eSsEKktG9muCQI0nSoug5fvj2bBWSecPjJ2Th1duWVB3/QCOnBduIvdU/dvaDE1wjDvFkFIhpQmZOHo2L8twuWw547VY6EVM2NBPgOFpg8/m78bm7wzJeOEYi5bw7Cg0Y0pQEW5HLVtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTny86yc; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JvbMS+sB"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4349fd77b33so9216205e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Dec 2024 05:34:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733405696; x=1734010496; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+JBc8KL57J8xHVYF4fKLeUkmEHOFhgXUcAjrh4skgb8=;
-        b=JvbMS+sB7VSEQyfRNxtrmb6L8OWmqXomng5XsvfsrNs8EQoeXVqmu+8AI/7SNQbWrn
-         Yeaj8bt4kTNdtDG33b6tEN1mLQj4gw11IeH4W1JVkCVatQeYNrMJufCAiHxZBn/bXtiT
-         ez533r6+71k/ky6vzF4V8N8t5qV3AatXv14PqJsS+gep8UzLJKuCziXO7g3rSeoWQM9A
-         +6Oyz+yxrUqWX1sCk4v0UHmtbqxV2ArPvZpjpmROzAwyoNJ9sYhygp9vmQ2yQopQLCaJ
-         ap1ncA8He99vcT4g5sEmnwcGnEm4TfVAU57suy2Eegz0LjrY06V00GRRUw5Kyu2xIHPj
-         1NEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733405696; x=1734010496;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+JBc8KL57J8xHVYF4fKLeUkmEHOFhgXUcAjrh4skgb8=;
-        b=AIOilvQ6snKiYotvCd3scssp196o1A+t8lRc290nfto67LbYOFmMzDiuEBCJx/c684
-         GYj6oiZa/TlR/3j81d5HhUc831O5dkUXnnK5GxQKHCcumS9SUsUmgbBSfFrqPoCmP/wm
-         z1oc20VyIfSFPZkSdhoAH4fHmNnBPVg+1OlTjdOgB7hhGqy3eT/5EOzYavByg2u1NsLg
-         k80t9ORg354ux7s/eRiKSj3hkBi/bmJLtZhPK65im9VEm/q/7K1Tof7U1yl8wpgBQRoY
-         6aiMBZ62oQxBaCKD8ZiM/fWEdgkyoDLYOLU5l2j6wbE39hKVVIx51ZknlQwEAe14IozG
-         qbBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUcy7Qnqfy36JTFjJcz+Hc86W9psd5mMkGUTscLjCbbBVkvEyqudSF3NcULmbgr9dVppHBUCErhixcDNcyq@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMnl0BsVsRaBiIZKOQ16y/qdzLdDh2KwUS4TRmsNUh3gbMMsx0
-	u4EKCCWRutNDxZkaT0R7zOahyq51iTu24YRekZDdAeJqAHz/0fg6VD3iIrEqsa0=
-X-Gm-Gg: ASbGnctJb3az3hG0JBxdIs3HKz+oxF1DDVwD0juKBt3RvIM0EIW1ieD308t/jvr8PvD
-	T6eFhQaTw+9Cu1hFYtY+OkuQCQITg6GdS5NZolX5/alXRn1JhjS/nC9ndyJRTF7YIuBnU27nZh/
-	B/M3oaAtyRR8SgdXRBziSdAyJoLnDwuhaF/GJlMLdg9yCINojtVXmx+rjhh5VeLA4LAdBx2ETSZ
-	r9MX2NZ/D8EtswhmWmMp9dKAMYo6I5TA+R+f5QesAfvOOMTUwE/oUY=
-X-Google-Smtp-Source: AGHT+IHbem+ThoKIpTAfmVUHsxyT17Xluqm4yopKeYyDxAcxf5LqmQ0p/xUeyzuaRpl08uRf9De+7A==
-X-Received: by 2002:a05:600c:4588:b0:434:9c44:678b with SMTP id 5b1f17b1804b1-434d09c2766mr91769655e9.19.1733405696503;
-        Thu, 05 Dec 2024 05:34:56 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d526b375sm62072225e9.9.2024.12.05.05.34.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 05:34:56 -0800 (PST)
-Date: Thu, 5 Dec 2024 16:34:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Syed Saba Kareem <Syed.SabaKareem@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: sound/soc/amd/acp/acp70.c:217 acp70_pcm_resume() error: we
- previously assumed 'stream' could be null (see line 218)
-Message-ID: <2c6a1bd0-7651-4c72-bca4-34674aabafe3@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTny86yc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733406663; x=1764942663;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HabANso4b8uxc+y3kv1QWpVxs9VEGU3u9lSzhMlBBE8=;
+  b=XTny86ycOMUkMEaHRQ2FGIwlSjyf0aT5yIZT43oLg5JoiPcOh8BIvIl/
+   Ka0YDvEkloCJpsmt2uOwEZgY22+Du5Ke+Dy5MBV+N8b0oUXwy+HX8CRVM
+   jCDF09jMdOWl034TOeVheA2czgwpxAryV3CibaAPdZwXI+AMbrm6L2sSr
+   9PBcqVa7dU/VhVUYiP7giocC67iPU5HaIHK0glPPQVGyhSukF36rRWDwW
+   bKSr3b2MpsSxZtd6Sd1WPC3cCtYy63C2uK+bRDL0xozjzOWWN6znmFEo8
+   jYLToTZQXbxIPyjwSVo0HlCrOrXTjz1rIjLeQuTreTiF+c5YqNK3vhS+s
+   w==;
+X-CSE-ConnectionGUID: OsBb6vQPRLq8Rq48p6MC+g==
+X-CSE-MsgGUID: xwTz8ZbVR5alc5QxsNeb8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33636233"
+X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
+   d="scan'208";a="33636233"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 05:51:02 -0800
+X-CSE-ConnectionGUID: qLGX/uVTSXmWhjc+lqgGDw==
+X-CSE-MsgGUID: RCJv/InLRM2OmI5s4ETN5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
+   d="scan'208";a="93980474"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 05 Dec 2024 05:51:00 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tJCFu-00002R-07;
+	Thu, 05 Dec 2024 13:50:58 +0000
+Date: Thu, 5 Dec 2024 21:50:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 10081/20170]
+ arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:597:5:
+ warning: no previous prototype for function 'smmu_domain_config_s2'
+Message-ID: <202412052143.nTkqml8t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,55 +63,189 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   feffde684ac29a3b7aec82d2df850fbdbdee55e4
-commit: d3534684ada99ef8c0899eb28c62b4462483ee19 ASoC: amd: acp: add Kconfig options for acp7.0 based platform driver
-config: x86_64-randconfig-161-20241205 (https://download.01.org/0day-ci/archive/20241205/202412052149.HYbkQDxc-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Mostafa,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   a8515ba19cb4ad9441001ea72d3375a9883d567f
+commit: edb183c2b760b28788587e86644d8a83b024be15 [10081/20170] ANDROID: drivers/arm-smmu-v3-kvm: Add smmu_domain_config_s2
+config: arm64-randconfig-001-20241205 (https://download.01.org/0day-ci/archive/20241205/202412052143.nTkqml8t-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412052143.nTkqml8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412052149.HYbkQDxc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412052143.nTkqml8t-lkp@intel.com/
 
-smatch warnings:
-sound/soc/amd/acp/acp70.c:217 acp70_pcm_resume() error: we previously assumed 'stream' could be null (see line 218)
+All warnings (new ones prefixed by >>):
 
-vim +/stream +217 sound/soc/amd/acp/acp70.c
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:597:5: warning: no previous prototype for function 'smmu_domain_config_s2' [-Wmissing-prototypes]
+   int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
+       ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:597:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
+   ^
+   static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:629:5: warning: no previous prototype for function 'smmu_domain_finalise' [-Wmissing-prototypes]
+   int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
+       ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:629:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
+   ^
+   static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:727:5: warning: no previous prototype for function 'smmu_alloc_domain' [-Wmissing-prototypes]
+   int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain, u32 type)
+       ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:727:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain, u32 type)
+   ^
+   static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:744:6: warning: no previous prototype for function 'smmu_free_domain' [-Wmissing-prototypes]
+   void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
+        ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
+   ^
+   static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:756:6: warning: no previous prototype for function 'smmu_dabt_device' [-Wmissing-prototypes]
+   bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
+        ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
+   ^
+   static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:799:6: warning: no previous prototype for function 'smmu_dabt_handler' [-Wmissing-prototypes]
+   bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
+        ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
+   ^
+   static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:811:5: warning: no previous prototype for function 'smmu_suspend' [-Wmissing-prototypes]
+   int smmu_suspend(struct kvm_hyp_iommu *iommu)
+       ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:811:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int smmu_suspend(struct kvm_hyp_iommu *iommu)
+   ^
+   static 
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:824:5: warning: no previous prototype for function 'smmu_resume' [-Wmissing-prototypes]
+   int smmu_resume(struct kvm_hyp_iommu *iommu)
+       ^
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:824:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int smmu_resume(struct kvm_hyp_iommu *iommu)
+   ^
+   static 
+   8 warnings generated.
 
-e84db124cb2158b Syed Saba Kareem 2023-10-21  208  static int __maybe_unused acp70_pcm_resume(struct device *dev)
-e84db124cb2158b Syed Saba Kareem 2023-10-21  209  {
-e84db124cb2158b Syed Saba Kareem 2023-10-21  210  	struct acp_dev_data *adata = dev_get_drvdata(dev);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  211  	struct acp_stream *stream;
-e84db124cb2158b Syed Saba Kareem 2023-10-21  212  	struct snd_pcm_substream *substream;
-e84db124cb2158b Syed Saba Kareem 2023-10-21  213  	snd_pcm_uframes_t buf_in_frames;
-e84db124cb2158b Syed Saba Kareem 2023-10-21  214  	u64 buf_size;
-e84db124cb2158b Syed Saba Kareem 2023-10-21  215  
-e84db124cb2158b Syed Saba Kareem 2023-10-21  216  	spin_lock(&adata->acp_lock);
-e84db124cb2158b Syed Saba Kareem 2023-10-21 @217  	list_for_each_entry(stream, &adata->stream_list, list) {
-e84db124cb2158b Syed Saba Kareem 2023-10-21 @218  		if (stream) {
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
 
-The list iterator can't be NULL so this check isn't required.
 
-e84db124cb2158b Syed Saba Kareem 2023-10-21  219  			substream = stream->substream;
-e84db124cb2158b Syed Saba Kareem 2023-10-21  220  			if (substream && substream->runtime) {
-e84db124cb2158b Syed Saba Kareem 2023-10-21  221  				buf_in_frames = (substream->runtime->buffer_size);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  222  				buf_size = frames_to_bytes(substream->runtime, buf_in_frames);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  223  				config_pte_for_stream(adata, stream);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  224  				config_acp_dma(adata, stream, buf_size);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  225  				if (stream->dai_id)
-e84db124cb2158b Syed Saba Kareem 2023-10-21  226  					restore_acp_i2s_params(substream, adata, stream);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  227  				else
-e84db124cb2158b Syed Saba Kareem 2023-10-21  228  					restore_acp_pdm_params(substream, adata);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  229  			}
-e84db124cb2158b Syed Saba Kareem 2023-10-21  230  		}
-e84db124cb2158b Syed Saba Kareem 2023-10-21  231  	}
-e84db124cb2158b Syed Saba Kareem 2023-10-21  232  	spin_unlock(&adata->acp_lock);
-e84db124cb2158b Syed Saba Kareem 2023-10-21  233  	return 0;
-e84db124cb2158b Syed Saba Kareem 2023-10-21  234  }
+vim +/smmu_domain_config_s2 +597 arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c
+
+   596	
+ > 597	int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
+   598	{
+   599		struct io_pgtable_cfg *cfg;
+   600		u64 ts, sl, ic, oc, sh, tg, ps;
+   601	
+   602		cfg = &domain->pgtable->cfg;
+   603		ps = cfg->arm_lpae_s2_cfg.vtcr.ps;
+   604		tg = cfg->arm_lpae_s2_cfg.vtcr.tg;
+   605		sh = cfg->arm_lpae_s2_cfg.vtcr.sh;
+   606		oc = cfg->arm_lpae_s2_cfg.vtcr.orgn;
+   607		ic = cfg->arm_lpae_s2_cfg.vtcr.irgn;
+   608		sl = cfg->arm_lpae_s2_cfg.vtcr.sl;
+   609		ts = cfg->arm_lpae_s2_cfg.vtcr.tsz;
+   610	
+   611		ent[0] = STRTAB_STE_0_V |
+   612			 FIELD_PREP(STRTAB_STE_0_CFG, STRTAB_STE_0_CFG_S2_TRANS);
+   613		ent[1] = FIELD_PREP(STRTAB_STE_1_SHCFG, STRTAB_STE_1_SHCFG_INCOMING);
+   614		ent[2] = FIELD_PREP(STRTAB_STE_2_VTCR,
+   615				FIELD_PREP(STRTAB_STE_2_VTCR_S2PS, ps) |
+   616				FIELD_PREP(STRTAB_STE_2_VTCR_S2TG, tg) |
+   617				FIELD_PREP(STRTAB_STE_2_VTCR_S2SH0, sh) |
+   618				FIELD_PREP(STRTAB_STE_2_VTCR_S2OR0, oc) |
+   619				FIELD_PREP(STRTAB_STE_2_VTCR_S2IR0, ic) |
+   620				FIELD_PREP(STRTAB_STE_2_VTCR_S2SL0, sl) |
+   621				FIELD_PREP(STRTAB_STE_2_VTCR_S2T0SZ, ts)) |
+   622			 FIELD_PREP(STRTAB_STE_2_S2VMID, domain->domain_id) |
+   623			 STRTAB_STE_2_S2AA64 | STRTAB_STE_2_S2R;
+   624		ent[3] = cfg->arm_lpae_s2_cfg.vttbr & STRTAB_STE_3_S2TTB_MASK;
+   625	
+   626		return 0;
+   627	}
+   628	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
