@@ -1,60 +1,73 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE802066EB
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 14:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5432066EB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 14:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733407386; cv=none; b=ti9P77SUBmnYRwdywIqKI79vFR0vxl6ks6nAwuncwh5cWlgmEdaOMuvHm126B0HC9wOGiQuamT4srL+58cziNIpor/jbjvz4hNrW/xyXwC1LpblFRpv3cjgBaIAuXUBXJcyYcbwoinV/4snSWjZq3asr+76xPyX15IRR8b8vaZo=
+	t=1733407388; cv=none; b=HZ5x4pKEEg7GfUambYWlLLOYLAiJ3ijlx0uUFHDgToQqxKA4Qy/BWjV7YKYo0J0jIYSsCqf9/hdhwwgjyrCumUloIwr8H3l7b7iBX/zwf346lO1v4wZfdCCZhJYbXxVR9YV1ATcnsRqKcRZP/sjzL5qV8fkbcSxpEB9OyEluSFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733407386; c=relaxed/simple;
-	bh=jmE08aHx6IRWjDFh9O+zkDzokPNSm7/r5BykigF5Y0w=;
+	s=arc-20240116; t=1733407388; c=relaxed/simple;
+	bh=OIckFGTFyrvwTHgdkzBEMtNkFA4+ORG0DJIsmkpwtX8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qguMlWuCfmQstVNcMe88NzdQmW81EZkCYOpL5OCKNQRB+2p2bAf4tbfHECcdItelhlQOZqwGJS/oLZihH2r8jdghUBA0SBE0G7lBtqb7v33NnvATfKNE+h5AiuyVqmulNZSvMi+/PRfyow7Mcd2aJcUI5fFG2XU3G82r4de0uGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMMX6Dcf; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=bYEZ4eagFl3DFj5WFSPABiek189JLGZeKEXiswLvBKCEMjJSiW3LX7NLkVyI406v0+cMPzw/kAigZLuPuOuNgGiyrCqMPmhieSxqfharMLJioDX2UIzxDahOJdBP2n4xCsgnMsFkqSeC/LoQvOLDT4U4RrBHjG3czazMJ5vXgCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CbBZX9g+; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMMX6Dcf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CbBZX9g+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733407384; x=1764943384;
+  t=1733407387; x=1764943387;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jmE08aHx6IRWjDFh9O+zkDzokPNSm7/r5BykigF5Y0w=;
-  b=XMMX6Dcf8ubxVW5CXcLaF/aDzMpSLNOBhxnW6AHQ71nCx7UZZIVUHJvb
-   l2QXBCFNYqhQqlWleqq2eVsgwbr9l2Zx3yy1LlDEwKRcGWOckUIyNhZ7H
-   EqSxfk8dv7TDui6qXbor5O0vCsjMIE93JGI7QVjxhURG6NPw84M4JhKyP
-   zJtI9ywOhLWuauW7K2WpghZe+vjPyFAjQmY+XZtyhfEHLiPrw74FFX1Ev
-   Qq9ea2L/PKp0pcm5offrJ25qkbPJZ/Ajogt8gTU8Xk2H5VVaY2HDg1w03
-   BuCm11zgD4eCiD38ALd4fEJ/ohl5O/eSuPLGGUlE3brnvWzKyPVZ1GqRO
-   A==;
-X-CSE-ConnectionGUID: XM0lA1I3RJ2pTB3HlL4hoQ==
-X-CSE-MsgGUID: 1hnyRSHrTji7oSUzNLRPAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33051192"
+  bh=OIckFGTFyrvwTHgdkzBEMtNkFA4+ORG0DJIsmkpwtX8=;
+  b=CbBZX9g+NAvMAsNZDLFLtYArM2oGbPCuy3sqXDqDokFe/Su4lENOBmkm
+   h/28VQrNo6QVObawQHnSM/hT0BuMcpdEHeYSaklMYfcr8qQyBRZEODJN9
+   4eatIOH6tpEIiBk0FYnmdQ4JwrXE10lg6+yKI+NUEXC0yP1A15aPXx1dW
+   4SNlyAkulpCGTsXjvUCw4bIZnMYavIw737S9Ol2sG7F8xBVbyZziTNl50
+   gC4kp0wMk2CNYoiOTywwhu9fgSNIGQd0x5TyKgckBImntxP2SsYmGJgtf
+   pP+y6I7WlSMgjv6jakBn7blpwZbjuxFnnHdJAnkJAFQ3fP55/193h/DAr
+   Q==;
+X-CSE-ConnectionGUID: 0YEurvP/SNukahjTpYUjdg==
+X-CSE-MsgGUID: uEkMmdQ8Q+qwEF+RTC1daQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33051200"
 X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="33051192"
+   d="scan'208";a="33051200"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 06:03:03 -0800
-X-CSE-ConnectionGUID: 78Np4Px6THSPt8CnWVzxeA==
-X-CSE-MsgGUID: eYLnincQSuuli1fGnLkhKQ==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 06:03:07 -0800
+X-CSE-ConnectionGUID: iXwf/TSFRg68PmixVnZL7w==
+X-CSE-MsgGUID: Jkpzol86RpuhwoMeiFmzgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="125011956"
+   d="scan'208";a="125011957"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 05 Dec 2024 06:03:02 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJCRY-00003o-1q;
+	id 1tJCRY-00003m-1m;
 	Thu, 05 Dec 2024 14:03:00 +0000
-Date: Thu, 5 Dec 2024 22:02:09 +0800
+Date: Thu, 5 Dec 2024 22:02:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xu Lu <luxu.kernel@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 08/21] riscv: mm: Reimplement page table entry
- atomic get function
-Message-ID: <202412052157.OnB29LbN-lkp@intel.com>
-References: <20241205103729.14798-9-luxu.kernel@bytedance.com>
+To: Cheng Jiang <quic_chejiang@quicinc.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Balakrishna Godavarthi <quic_bgodavar@quicinc.com>,
+	Rocky Liao <quic_rjliao@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, quic_chejiang@quicinc.com,
+	quic_jiaymao@quicinc.com, quic_shuaz@quicinc.com,
+	quic_zijuhu@quicinc.com, quic_mohamull@quicinc.com
+Subject: Re: [PATCH v3 2/3] Bluetooth: qca: Expand firmware-name to load
+ specific nvm and rampatch
+Message-ID: <202412052157.4fOQCv3u-lkp@intel.com>
+References: <20241205102213.1281865-3-quic_chejiang@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +76,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205103729.14798-9-luxu.kernel@bytedance.com>
+In-Reply-To: <20241205102213.1281865-3-quic_chejiang@quicinc.com>
 
-Hi Xu,
+Hi Cheng,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on arnd-asm-generic/master]
-[cannot apply to akpm-mm/mm-everything tip/perf/core perf-tools/perf-tools s390/features linus/master acme/perf/core v6.13-rc1 next-20241204]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c245a7a79602ccbee780c004c1e4abcda66aec32]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Lu/riscv-mm-Distinguish-hardware-base-page-and-software-base-page/20241205-184429
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20241205103729.14798-9-luxu.kernel%40bytedance.com
-patch subject: [RFC PATCH v2 08/21] riscv: mm: Reimplement page table entry atomic get function
-config: arm-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241205/202412052157.OnB29LbN-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cheng-Jiang/dt-bindings-net-bluetooth-qca-Expand-firmware-name-property/20241205-182449
+base:   c245a7a79602ccbee780c004c1e4abcda66aec32
+patch link:    https://lore.kernel.org/r/20241205102213.1281865-3-quic_chejiang%40quicinc.com
+patch subject: [PATCH v3 2/3] Bluetooth: qca: Expand firmware-name to load specific nvm and rampatch
+config: arm-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241205/202412052157.4fOQCv3u-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412052157.OnB29LbN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412052157.4fOQCv3u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412052157.OnB29LbN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412052157.4fOQCv3u-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mm.h:30,
-                    from arch/arm/kernel/asm-offsets.c:12:
->> include/linux/pgtable.h:616:21: error: 'pgdp_get_lockless' declared as function returning an array
-     616 | static inline pgd_t pgdp_get_lockless(pgd_t *pgdp)
-         |                     ^~~~~~~~~~~~~~~~~
-   In file included from ./arch/arm/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:317,
-                    from arch/arm/kernel/asm-offsets.c:10:
-   include/linux/pgtable.h: In function 'pgdp_get_lockless':
->> include/asm-generic/rwonce.h:48:2: error: returning 'const volatile pmdval_t *' {aka 'const volatile unsigned int *'} from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
-      48 | ({                                                                      \
-         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      50 |         __READ_ONCE(x);                                                 \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      51 | })
-         | ~~
-   arch/arm/include/asm/pgtable.h:154:33: note: in expansion of macro 'READ_ONCE'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                 ^~~~~~~~~
-   include/linux/pgtable.h:618:16: note: in expansion of macro 'pgdp_get'
-     618 |         return pgdp_get(pgdp);
-         |                ^~~~~~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=4053518211
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1203: prepare0] Error 2 shuffle=4053518211
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2 shuffle=4053518211
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2 shuffle=4053518211
-   make: Target 'prepare' not remade because of errors.
+   drivers/bluetooth/btqca.c: In function 'qca_get_nvm_name_by_board':
+>> drivers/bluetooth/btqca.c:775:21: warning: variable 'variant' set but not used [-Wunused-but-set-variable]
+     775 |         const char *variant;
+         |                     ^~~~~~~
+   drivers/bluetooth/btqca.c: In function 'qca_get_alt_nvm_path.constprop':
+>> drivers/bluetooth/btqca.c:288:45: warning: '.bin' directive output may be truncated writing 4 bytes into a region of size between 1 and 64 [-Wformat-truncation=]
+     288 |         snprintf(fwname, sizeof(fwname), "%s.bin", fwname);
+         |                                             ^~~~
+   drivers/bluetooth/btqca.c:288:9: note: 'snprintf' output between 5 and 68 bytes into a destination of size 64
+     288 |         snprintf(fwname, sizeof(fwname), "%s.bin", fwname);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bluetooth/btqca.c:288:9: warning: 'snprintf' argument 4 overlaps destination object 'fwname' [-Wrestrict]
+   drivers/bluetooth/btqca.c:277:14: note: destination object referenced by 'restrict'-qualified argument 1 was declared here
+     277 |         char fwname[64];
+         |              ^~~~~~
 
 
-vim +/pgdp_get_lockless +616 include/linux/pgtable.h
+vim +/variant +775 drivers/bluetooth/btqca.c
 
-   614	
-   615	#ifndef pgdp_get_lockless
- > 616	static inline pgd_t pgdp_get_lockless(pgd_t *pgdp)
-   617	{
-   618		return pgdp_get(pgdp);
-   619	}
-   620	#endif
-   621	
+   770	
+   771	static void qca_get_nvm_name_by_board(char *fwname, size_t max_size,
+   772			const char *firmware_name, struct qca_btsoc_version ver,
+   773			enum qca_btsoc_type soc_type, u16 bid)
+   774	{
+ > 775		const char *variant;
+   776	
+   777		/* Set the variant to empty by default */
+   778		variant = "";
+   779		/* hsp gf chip */
+   780		if (soc_type == QCA_WCN6855) {
+   781			if ((le32_to_cpu(ver.soc_id) & QCA_HSP_GF_SOC_MASK) == QCA_HSP_GF_SOC_ID)
+   782				variant = "g";
+   783		}
+   784	
+   785		if (bid == 0x0)
+   786			snprintf(fwname, max_size, "qca/%s.bin", firmware_name);
+   787		else if (bid & 0xff00)
+   788			snprintf(fwname, max_size, "qca/%s.b%x", firmware_name, bid);
+   789		else
+   790			snprintf(fwname, max_size, "qca/%s.b%02x", firmware_name, bid);
+   791	}
+   792	
 
 -- 
 0-DAY CI Kernel Test Service
