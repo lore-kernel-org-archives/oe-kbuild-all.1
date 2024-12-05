@@ -1,257 +1,279 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AB42144A5;
-	Thu,  5 Dec 2024 11:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBE9217F3C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Dec 2024 12:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733399640; cv=none; b=iErDWWpB+708BvylTgtiJmAqHCMybgdkJWdevvezYaSlbJ3sAG4pyJmYqRM8HXLDCSykqeefdRx7icdF547wowRKbcXBzOQL+E+HECcsBcWksx48QNdgG5B/b3oiM9Y8VI16waj7IBOqkZDOBT9ThikT+rGcwP2i0s0qO6L01qU=
+	t=1733400457; cv=none; b=PQK6shiH4OMOeAH5SR+jF4KlcDtdv3fIGXTA+KizhxfSaFy4se+ZQcuMH55+BAnadBPdK7S6DM63VLzjUQHf12PWdtGkOFY4ipTRNNSY/crGOtDQrn/MU/19VcLlVYVpaa1SjoRbG3vQlWmOEHlJYilkQYOiLy7emOH02dkNY0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733399640; c=relaxed/simple;
-	bh=FRyYeWHuT16TJ1pPRuXZ4fEoLV6czcJ/L3feRyc8wfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HcqEupMUOd3psLvSEmsXNl6A4D3BDnwRlcNhkjBgWxBM9Yg+t1L4K+FpGqwODf7zWEdt5vED0vXyTdHgmYY1DNK1FiUN+OikbE1auqFi2KWXA3bukTtwLVd3qD2gtPY+ZA/ELUfJk/RlNXnyK4ZLLQ+kY7+8MV5DOcpsY+qreYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIKTxC5n; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIKTxC5n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733399638; x=1764935638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FRyYeWHuT16TJ1pPRuXZ4fEoLV6czcJ/L3feRyc8wfg=;
-  b=bIKTxC5no9PJEC7e3Ua7YfnnNBtoZAQdhCc/BiOBywR36NOecrUm+Jzy
-   uZDHQ+6swQYPVt6N2rFYcIvyxRKB4PozommmSsC13xo85MO9hPVA7280b
-   jBVtYdw/vT5EX3uHMMDAHWfpvEwyCV3aKlGKWlT5m24Eseita4taTlK4B
-   M0mmaOswpbA+gKB9gmjHatwvAuHI75IVYpuijLKU9tylRvQB/8MZx7cIR
-   qOw3yj7wF39h0slCS4IRTt0SWXFlb1dB+pR9IQh7HEAmAbKVrHidoojde
-   GlxEiv8qdLHVJkPmOBNim9K+MQx7h2fkP/UkErydBkrcm1so93xWp3Uha
-   A==;
-X-CSE-ConnectionGUID: PFKSGdRXTbaK12PyEzHHpg==
-X-CSE-MsgGUID: 1LJIeWbURWuBR3AyWxySvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="59114646"
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="59114646"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 03:53:57 -0800
-X-CSE-ConnectionGUID: YEDaCdP7S3ebOP/c4wLnQg==
-X-CSE-MsgGUID: 1Yoj6dBFSq+1TfWPX6XJew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="99152051"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 05 Dec 2024 03:53:52 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tJAQX-00048n-2K;
-	Thu, 05 Dec 2024 11:53:49 +0000
-Date: Thu, 5 Dec 2024 19:52:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Houghton <jthoughton@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Yan Zhao <yan.y.zhao@intel.com>,
-	James Houghton <jthoughton@google.com>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Anish Moorthy <amoorthy@google.com>,
-	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>,
-	David Matlack <dmatlack@google.com>, Wang@google.com,
-	Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v1 01/13] KVM: Add KVM_MEM_USERFAULT memslot flag and
- bitmap
-Message-ID: <202412051904.GNL7BE1X-lkp@intel.com>
-References: <20241204191349.1730936-2-jthoughton@google.com>
+	s=arc-20240116; t=1733400457; c=relaxed/simple;
+	bh=K2M66A/BCRP/Lkx0IAOMVKwBZskPCMvyZDhQ9v5+lDI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E2n1RciXHJjUbIdvUZalgdNY8Bgg5kmylI84CFXHuXf/fmMfYRqqVmuEZD0XloP6rEQD8xqNrwXIWt+qV8eppZ24NfYWrXvjnf0CACzx3GrYB3Bc7zqBJwAQvCylpYDRjx/d8+N4qx1VKeQZiSgaLfma6Y0LbM1V5JSsi+hBY3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lankhorst.se; spf=none smtp.mailfrom=lankhorst.se; arc=none smtp.client-ip=141.105.120.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lankhorst.se
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=lankhorst.se
+Message-ID: <4ae9d042-c151-4b3a-b434-a178a0360b3c@lankhorst.se>
+Date: Thu, 5 Dec 2024 13:07:29 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204191349.1730936-2-jthoughton@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting
+ cgroup
+To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>, cgroups@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20241204143112.1250983-1-dev@lankhorst.se>
+ <202412051039.P06riwrP-lkp@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <202412051039.P06riwrP-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi James,
+Hey,
 
-kernel test robot noticed the following build warnings:
+Missing a select PAGE_COUNTER in init/Kconfig. I thought I had fixed it, 
+but I must have forgotten to commit those changes when developing 
+between 2 machines.
 
-[auto build test WARNING on 4d911c7abee56771b0219a9fbf0120d06bdc9c14]
+Cheers,
+~Maarten
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM-Add-KVM_MEM_USERFAULT-memslot-flag-and-bitmap/20241205-032516
-base:   4d911c7abee56771b0219a9fbf0120d06bdc9c14
-patch link:    https://lore.kernel.org/r/20241204191349.1730936-2-jthoughton%40google.com
-patch subject: [PATCH v1 01/13] KVM: Add KVM_MEM_USERFAULT memslot flag and bitmap
-config: x86_64-randconfig-121 (https://download.01.org/0day-ci/archive/20241205/202412051904.GNL7BE1X-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051904.GNL7BE1X-lkp@intel.com/reproduce)
+Den 2024-12-05 kl. 03:27, skrev kernel test robot:
+> Hi Maarten,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on tj-cgroup/for-next]
+> [also build test ERROR on akpm-mm/mm-everything linus/master v6.13-rc1 next-20241204]
+> [cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/kernel-cgroup-Add-dmem-memory-accounting-cgroup/20241204-233207
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+> patch link:    https://lore.kernel.org/r/20241204143112.1250983-1-dev%40lankhorst.se
+> patch subject: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting cgroup
+> config: um-randconfig-r061-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412051039.P06riwrP-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_min':
+>>> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_low':
+>>> kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_max':
+>>> kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `reset_all_resource_limits':
+>>> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
+>>> /usr/bin/ld: kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
+>>> /usr/bin/ld: kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_uncharge':
+>>> kernel/cgroup/dmem.c:607: undefined reference to `page_counter_uncharge'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_calculate_protection':
+>>> kernel/cgroup/dmem.c:275: undefined reference to `page_counter_calculate_protection'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_try_charge':
+>>> kernel/cgroup/dmem.c:657: undefined reference to `page_counter_try_charge'
+>     collect2: error: ld returned 1 exit status
+> 
+> Kconfig warnings: (for reference only)
+>     WARNING: unmet direct dependencies detected for GET_FREE_REGION
+>     Depends on [n]: SPARSEMEM [=n]
+>     Selected by [y]:
+>     - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+> 
+> 
+> vim +115 kernel/cgroup/dmem.c
+> 
+>     111	
+>     112	static void
+>     113	set_resource_min(struct dmem_cgroup_pool_state *pool, u64 val)
+>     114	{
+>   > 115		page_counter_set_min(&pool->cnt, val);
+>     116	}
+>     117	
+>     118	static void
+>     119	set_resource_low(struct dmem_cgroup_pool_state *pool, u64 val)
+>     120	{
+>   > 121		page_counter_set_low(&pool->cnt, val);
+>     122	}
+>     123	
+>     124	static void
+>     125	set_resource_max(struct dmem_cgroup_pool_state *pool, u64 val)
+>     126	{
+>   > 127		page_counter_set_max(&pool->cnt, val);
+>     128	}
+>     129	
+>     130	static u64 get_resource_low(struct dmem_cgroup_pool_state *pool)
+>     131	{
+>     132		return pool ? READ_ONCE(pool->cnt.low) : 0;
+>     133	}
+>     134	
+>     135	static u64 get_resource_min(struct dmem_cgroup_pool_state *pool)
+>     136	{
+>     137		return pool ? READ_ONCE(pool->cnt.min) : 0;
+>     138	}
+>     139	
+>     140	static u64 get_resource_max(struct dmem_cgroup_pool_state *pool)
+>     141	{
+>     142		return pool ? READ_ONCE(pool->cnt.max) : PAGE_COUNTER_MAX;
+>     143	}
+>     144	
+>     145	static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
+>     146	{
+>     147		return pool ? page_counter_read(&pool->cnt) : 0;
+>     148	}
+>     149	
+>     150	static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
+>     151	{
+>     152		set_resource_min(rpool, 0);
+>     153		set_resource_low(rpool, 0);
+>     154		set_resource_max(rpool, PAGE_COUNTER_MAX);
+>     155	}
+>     156	
+>     157	static void dmemcs_offline(struct cgroup_subsys_state *css)
+>     158	{
+>     159		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
+>     160		struct dmem_cgroup_pool_state *pool;
+>     161	
+>     162		rcu_read_lock();
+>     163		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node)
+>     164			reset_all_resource_limits(pool);
+>     165		rcu_read_unlock();
+>     166	}
+>     167	
+>     168	static void dmemcs_free(struct cgroup_subsys_state *css)
+>     169	{
+>     170		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
+>     171		struct dmem_cgroup_pool_state *pool, *next;
+>     172	
+>     173		spin_lock(&dmemcg_lock);
+>     174		list_for_each_entry_safe(pool, next, &dmemcs->pools, css_node) {
+>     175			/*
+>     176			 *The pool is dead and all references are 0,
+>     177			 * no need for RCU protection with list_del_rcu or freeing.
+>     178			 */
+>     179			list_del(&pool->css_node);
+>     180			free_cg_pool(pool);
+>     181		}
+>     182		spin_unlock(&dmemcg_lock);
+>     183	
+>     184		kfree(dmemcs);
+>     185	}
+>     186	
+>     187	static struct cgroup_subsys_state *
+>     188	dmemcs_alloc(struct cgroup_subsys_state *parent_css)
+>     189	{
+>     190		struct dmemcg_state *dmemcs = kzalloc(sizeof(*dmemcs), GFP_KERNEL);
+>     191		if (!dmemcs)
+>     192			return ERR_PTR(-ENOMEM);
+>     193	
+>     194		INIT_LIST_HEAD(&dmemcs->pools);
+>     195		return &dmemcs->css;
+>     196	}
+>     197	
+>     198	static struct dmem_cgroup_pool_state *
+>     199	find_cg_pool_locked(struct dmemcg_state *dmemcs, struct dmem_cgroup_region *region)
+>     200	{
+>     201		struct dmem_cgroup_pool_state *pool;
+>     202	
+>     203		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node, spin_is_locked(&dmemcg_lock))
+>     204			if (pool->region == region)
+>     205				return pool;
+>     206	
+>     207		return NULL;
+>     208	}
+>     209	
+>     210	static struct dmem_cgroup_pool_state *pool_parent(struct dmem_cgroup_pool_state *pool)
+>     211	{
+>     212		if (!pool->cnt.parent)
+>     213			return NULL;
+>     214	
+>     215		return container_of(pool->cnt.parent, typeof(*pool), cnt);
+>     216	}
+>     217	
+>     218	static void
+>     219	dmem_cgroup_calculate_protection(struct dmem_cgroup_pool_state *limit_pool,
+>     220					 struct dmem_cgroup_pool_state *test_pool)
+>     221	{
+>     222		struct page_counter *climit;
+>     223		struct cgroup_subsys_state *css, *next_css;
+>     224		struct dmemcg_state *dmemcg_iter;
+>     225		struct dmem_cgroup_pool_state *pool, *parent_pool;
+>     226		bool found_descendant;
+>     227	
+>     228		climit = &limit_pool->cnt;
+>     229	
+>     230		rcu_read_lock();
+>     231		parent_pool = pool = limit_pool;
+>     232		css = &limit_pool->cs->css;
+>     233	
+>     234		/*
+>     235		 * This logic is roughly equivalent to css_foreach_descendant_pre,
+>     236		 * except we also track the parent pool to find out which pool we need
+>     237		 * to calculate protection values for.
+>     238		 *
+>     239		 * We can stop the traversal once we find test_pool among the
+>     240		 * descendants since we don't really care about any others.
+>     241		 */
+>     242		while (pool != test_pool) {
+>     243			next_css = css_next_child(NULL, css);
+>     244			if (next_css) {
+>     245				parent_pool = pool;
+>     246			} else {
+>     247				while (css != &limit_pool->cs->css) {
+>     248					next_css = css_next_child(css, css->parent);
+>     249					if (next_css)
+>     250						break;
+>     251					css = css->parent;
+>     252					parent_pool = pool_parent(parent_pool);
+>     253				}
+>     254				/*
+>     255				 * We can only hit this when test_pool is not a
+>     256				 * descendant of limit_pool.
+>     257				 */
+>     258				if (WARN_ON_ONCE(css == &limit_pool->cs->css))
+>     259					break;
+>     260			}
+>     261			css = next_css;
+>     262	
+>     263			found_descendant = false;
+>     264			dmemcg_iter = container_of(css, struct dmemcg_state, css);
+>     265	
+>     266			list_for_each_entry_rcu(pool, &dmemcg_iter->pools, css_node) {
+>     267				if (pool_parent(pool) == parent_pool) {
+>     268					found_descendant = true;
+>     269					break;
+>     270				}
+>     271			}
+>     272			if (!found_descendant)
+>     273				continue;
+>     274	
+>   > 275			page_counter_calculate_protection(
+>     276				climit, &pool->cnt, true);
+>     277		}
+>     278		rcu_read_unlock();
+>     279	}
+>     280	
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051904.GNL7BE1X-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c: note: in included file:
-   include/linux/kvm_host.h:2080:54: sparse: sparse: array of flexible structures
-   include/linux/kvm_host.h:2082:56: sparse: sparse: array of flexible structures
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:2049:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long [noderef] __user *userfault_bitmap @@     got unsigned long * @@
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:2049:39: sparse:     expected unsigned long [noderef] __user *userfault_bitmap
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:2049:39: sparse:     got unsigned long *
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_invalidate_range_start' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_invalidate_range_end' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_clear_flush_young' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_clear_young' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_test_young' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c: note: in included file (through include/linux/mutex.h, include/linux/kvm_types.h, include/kvm/iodev.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:1960:49: sparse: sparse: self-comparison always evaluates to false
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +2049 arch/x86/kvm/../../../virt/kvm/kvm_main.c
-
-  1931	
-  1932	/*
-  1933	 * Allocate some memory and give it an address in the guest physical address
-  1934	 * space.
-  1935	 *
-  1936	 * Discontiguous memory is allowed, mostly for framebuffers.
-  1937	 *
-  1938	 * Must be called holding kvm->slots_lock for write.
-  1939	 */
-  1940	int __kvm_set_memory_region(struct kvm *kvm,
-  1941				    const struct kvm_userspace_memory_region2 *mem)
-  1942	{
-  1943		struct kvm_memory_slot *old, *new;
-  1944		struct kvm_memslots *slots;
-  1945		enum kvm_mr_change change;
-  1946		unsigned long npages;
-  1947		gfn_t base_gfn;
-  1948		int as_id, id;
-  1949		int r;
-  1950	
-  1951		r = check_memory_region_flags(kvm, mem);
-  1952		if (r)
-  1953			return r;
-  1954	
-  1955		as_id = mem->slot >> 16;
-  1956		id = (u16)mem->slot;
-  1957	
-  1958		/* General sanity checks */
-  1959		if ((mem->memory_size & (PAGE_SIZE - 1)) ||
-  1960		    (mem->memory_size != (unsigned long)mem->memory_size))
-  1961			return -EINVAL;
-  1962		if (mem->guest_phys_addr & (PAGE_SIZE - 1))
-  1963			return -EINVAL;
-  1964		/* We can read the guest memory with __xxx_user() later on. */
-  1965		if ((mem->userspace_addr & (PAGE_SIZE - 1)) ||
-  1966		    (mem->userspace_addr != untagged_addr(mem->userspace_addr)) ||
-  1967		     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
-  1968				mem->memory_size))
-  1969			return -EINVAL;
-  1970		if (mem->flags & KVM_MEM_GUEST_MEMFD &&
-  1971		    (mem->guest_memfd_offset & (PAGE_SIZE - 1) ||
-  1972		     mem->guest_memfd_offset + mem->memory_size < mem->guest_memfd_offset))
-  1973			return -EINVAL;
-  1974		if (as_id >= kvm_arch_nr_memslot_as_ids(kvm) || id >= KVM_MEM_SLOTS_NUM)
-  1975			return -EINVAL;
-  1976		if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-  1977			return -EINVAL;
-  1978		if ((mem->memory_size >> PAGE_SHIFT) > KVM_MEM_MAX_NR_PAGES)
-  1979			return -EINVAL;
-  1980	
-  1981		slots = __kvm_memslots(kvm, as_id);
-  1982	
-  1983		/*
-  1984		 * Note, the old memslot (and the pointer itself!) may be invalidated
-  1985		 * and/or destroyed by kvm_set_memslot().
-  1986		 */
-  1987		old = id_to_memslot(slots, id);
-  1988	
-  1989		if (!mem->memory_size) {
-  1990			if (!old || !old->npages)
-  1991				return -EINVAL;
-  1992	
-  1993			if (WARN_ON_ONCE(kvm->nr_memslot_pages < old->npages))
-  1994				return -EIO;
-  1995	
-  1996			return kvm_set_memslot(kvm, old, NULL, KVM_MR_DELETE);
-  1997		}
-  1998	
-  1999		base_gfn = (mem->guest_phys_addr >> PAGE_SHIFT);
-  2000		npages = (mem->memory_size >> PAGE_SHIFT);
-  2001	
-  2002		if (!old || !old->npages) {
-  2003			change = KVM_MR_CREATE;
-  2004	
-  2005			/*
-  2006			 * To simplify KVM internals, the total number of pages across
-  2007			 * all memslots must fit in an unsigned long.
-  2008			 */
-  2009			if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
-  2010				return -EINVAL;
-  2011		} else { /* Modify an existing slot. */
-  2012			/* Private memslots are immutable, they can only be deleted. */
-  2013			if (mem->flags & KVM_MEM_GUEST_MEMFD)
-  2014				return -EINVAL;
-  2015			if ((mem->userspace_addr != old->userspace_addr) ||
-  2016			    (npages != old->npages) ||
-  2017			    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-  2018				return -EINVAL;
-  2019	
-  2020			if (base_gfn != old->base_gfn)
-  2021				change = KVM_MR_MOVE;
-  2022			else if (mem->flags != old->flags)
-  2023				change = KVM_MR_FLAGS_ONLY;
-  2024			else /* Nothing to change. */
-  2025				return 0;
-  2026		}
-  2027	
-  2028		if ((change == KVM_MR_CREATE || change == KVM_MR_MOVE) &&
-  2029		    kvm_check_memslot_overlap(slots, id, base_gfn, base_gfn + npages))
-  2030			return -EEXIST;
-  2031	
-  2032		/* Allocate a slot that will persist in the memslot. */
-  2033		new = kzalloc(sizeof(*new), GFP_KERNEL_ACCOUNT);
-  2034		if (!new)
-  2035			return -ENOMEM;
-  2036	
-  2037		new->as_id = as_id;
-  2038		new->id = id;
-  2039		new->base_gfn = base_gfn;
-  2040		new->npages = npages;
-  2041		new->flags = mem->flags;
-  2042		new->userspace_addr = mem->userspace_addr;
-  2043		if (mem->flags & KVM_MEM_GUEST_MEMFD) {
-  2044			r = kvm_gmem_bind(kvm, new, mem->guest_memfd, mem->guest_memfd_offset);
-  2045			if (r)
-  2046				goto out;
-  2047		}
-  2048		if (mem->flags & KVM_MEM_USERFAULT)
-> 2049			new->userfault_bitmap = (unsigned long *)mem->userfault_bitmap;
-  2050	
-  2051		r = kvm_set_memslot(kvm, old, new, change);
-  2052		if (r)
-  2053			goto out_unbind;
-  2054	
-  2055		return 0;
-  2056	
-  2057	out_unbind:
-  2058		if (mem->flags & KVM_MEM_GUEST_MEMFD)
-  2059			kvm_gmem_unbind(new);
-  2060	out:
-  2061		kfree(new);
-  2062		return r;
-  2063	}
-  2064	EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-  2065	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
