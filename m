@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CD41AAD7;
-	Fri,  6 Dec 2024 00:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072F72391A4
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 00:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733443999; cv=none; b=ZPG00DnPn2DoJr3kO7dDy/y6Pipr2ammVMDb46WnEBaPTU76lCHeSDxH/BD5X/lTX9Agv/02BKat0tcTEVYKmiKgFfVemRTZsKIwpQSwZbJLcAOaQaUVqBiGhNPb+qY38C8C8v3wvhC/XaDcmwn6wQ918s3PYYB0RKe1oRWTT/o=
+	t=1733445262; cv=none; b=OBEWEx66nGcLOEFYukhd7/1aN/M0WFnzjlO8h2MrY3/flFWcYX4zRQTJmfp5tqJ7GIOjNlF5YLb+Z/JYsNlqc10pumuQ+taDpm8e+P9cpnmAnY7wrOED2H8WNmU8tyrT0T+Da3pcz6bl4SFl0xg+Dn4aR4uEGwhOhY1VQTC9lH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733443999; c=relaxed/simple;
-	bh=G3k5kdpZDzPR2z4Kv8oYbTAM4x/lxykBvWDQ8XU9s/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fE2fsU1CGUrmW0gkSVjju8Ja5DAfY9zKagjyZ31vmIMreRcUj2glSITfOCJoay5tURi4/ECIYDC6y48kjZHRAPHAwaAwfFK7fHEuQSVFzRuPOmhFw/VZaxzBRqrsKHLrBVknaSBCeJNYwBLDnKS8D3n9OwggJwzwKdq/gfruNhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h7kEMBmh; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1733445262; c=relaxed/simple;
+	bh=vrzgLWKp7zxTdqKDYIhVDv8qsfQpPySkGCYR3U5B4GE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ISiuHV/OC2OgABqV6ghpG87XlOVoH8TNH1jEZnQOR9aFgCo1PGBEQSnKKLqjsH1OgO2JeqZDn7gaJRYG+iI/Uvkks3ObBFzPxfYn2S/zxUdXGPGS1bw6ir0NqgL8ddhxFQgSKCMQgBF06jrJdMQAWAjPWmyxGZZn9/SQ/iLdmsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nvaXh1tF; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h7kEMBmh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nvaXh1tF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733443998; x=1764979998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G3k5kdpZDzPR2z4Kv8oYbTAM4x/lxykBvWDQ8XU9s/Q=;
-  b=h7kEMBmhmSzvYzDbIxqH6kmPwCh/opjTYIE85qX0O4fjVgzYEKxVxUVn
-   3wxXTd0WbML/26ZJrBnQwe3WNy5MgjCU9lcMOhD2ThV6w+7ZkTT4UX8qW
-   j6RrIWZv4ah3PvbRUGhV9vYx5s65OkAVlRP9enmOZgYzOSk1M3WtQLLp7
-   a3OOa4dZq/MtKXeugMhCFE4NtfoCGJLJ3ilRnKJKa5zse8FbB5gAOVx2/
-   KhrByeEW+kWAOqctft4+OxmWSkARBPA8l6kbtjJHOjGFK8+jWVjKHQVtp
-   LV/m0aBFEloot2+3IIYLLQrgeozf127Q+f6nOae2MeoUNiqNgit+mY+/c
-   w==;
-X-CSE-ConnectionGUID: /4rCYfqmS5ysQ8Mr7sYVBw==
-X-CSE-MsgGUID: 4L+KuEmRSO2ljX1fWqTtkQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="37567903"
+  t=1733445260; x=1764981260;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vrzgLWKp7zxTdqKDYIhVDv8qsfQpPySkGCYR3U5B4GE=;
+  b=nvaXh1tF3z0ODA+umEcRBC0dchIODrSL5LbSbLA3Tx8LOs/i2yrKsuP0
+   iDswPE33LjWBhDbSmbkuJD3SBPKyYNE7PflkqElcu3lEjCkyrzCmyVi9N
+   NZTPlEUF+qydvW3fSfXhZt49NpDZOV/nVOsnVI84oPieiog813TTCxvCA
+   UtJfF82MPncnOAQ0UyPr6Ty6L+rtd8VqsKwVT7Q3Y30IfTDu2wJStsu48
+   HPvgxWeKW/cy5RdMqe/5OgUQwRwJZIu4i3b7FiR0IEvNLzAA5Ep1a5ogA
+   57x6AhAHjtoBMxElcL1Q1IQfEKziZcq/ZchdSiJv2IahNX5C3VAFOkUfm
+   g==;
+X-CSE-ConnectionGUID: 1rAOmfdlQheFqbO+pxva3w==
+X-CSE-MsgGUID: GmANEIx6Tj+x0mZbZZKPRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="56269951"
 X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="37567903"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 16:13:17 -0800
-X-CSE-ConnectionGUID: xsOsT0DTRYmP2Xhx+3wfHA==
-X-CSE-MsgGUID: KZRQUGdxR9qVfBXCLAARKQ==
+   d="scan'208";a="56269951"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 16:34:19 -0800
+X-CSE-ConnectionGUID: sihBck1cTTG8v3Jl4fNhPQ==
+X-CSE-MsgGUID: ZqLzmCmuST+4VavwdMB0wQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="117498516"
+   d="scan'208";a="94455207"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Dec 2024 16:13:15 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 05 Dec 2024 16:34:18 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJLy4-0000Vz-2k;
-	Fri, 06 Dec 2024 00:13:12 +0000
-Date: Fri, 6 Dec 2024 08:12:49 +0800
+	id 1tJMIS-0000Wt-0Z;
+	Fri, 06 Dec 2024 00:34:16 +0000
+Date: Fri, 6 Dec 2024 08:33:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-coco@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bjorn Helgaas <helgaas@kernel.org>, Lukas Wunner <lukas@wunner.de>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>, linux-pci@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH 09/11] PCI/IDE: Report available IDE streams
-Message-ID: <202412060733.L2zUE7gx-lkp@intel.com>
-References: <173343744869.1074769.12345445223792172558.stgit@dwillia2-xfh.jf.intel.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ambarus:acpm-v3-upstream 9/10] ERROR: modpost: "acpm_do_xfer"
+ [drivers/firmware/samsung/exynos-acpm-mfd.ko] undefined!
+Message-ID: <202412060859.8uPau1KJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,43 +61,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <173343744869.1074769.12345445223792172558.stgit@dwillia2-xfh.jf.intel.com>
 
-Hi Dan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/configfs-tsm-Namespace-TSM-report-symbols/20241206-064224
-base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-patch link:    https://lore.kernel.org/r/173343744869.1074769.12345445223792172558.stgit%40dwillia2-xfh.jf.intel.com
-patch subject: [PATCH 09/11] PCI/IDE: Report available IDE streams
-config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20241206/202412060733.L2zUE7gx-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412060733.L2zUE7gx-lkp@intel.com/reproduce)
+tree:   https://github.com/ambarus/linux-0day acpm-v3-upstream
+head:   20f606fa2a40e27ec03a65c1a7e7d59617173b99
+commit: 2c7c337e69c51f04f63d04aa2c817eda43cf97ca [9/10] firmware: add exynos ACPM protocol driver
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20241206/202412060859.8uPau1KJ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412060859.8uPau1KJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412060733.L2zUE7gx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412060859.8uPau1KJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/pci/probe.c:597:33: warning: unused variable 'pci_host_bridge_type' [-Wunused-const-variable]
-   static const struct device_type pci_host_bridge_type = {
-                                   ^
-   1 warning generated.
-
-
-vim +/pci_host_bridge_type +597 drivers/pci/probe.c
-
-   596	
- > 597	static const struct device_type pci_host_bridge_type = {
-   598		.groups = pci_host_bridge_groups,
-   599		.release = pci_release_host_bridge_dev,
-   600	};
-   601	
+ERROR: modpost: missing MODULE_LICENSE() in drivers/firmware/samsung/exynos-acpm-mfd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/samsung/exynos-acpm-mfd.o
+ERROR: modpost: "acpm_pmic_read_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+ERROR: modpost: "acpm_pmic_bulk_read" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+ERROR: modpost: "acpm_pmic_write_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+ERROR: modpost: "acpm_pmic_bulk_write" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+ERROR: modpost: "acpm_pmic_update_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+>> ERROR: modpost: "acpm_do_xfer" [drivers/firmware/samsung/exynos-acpm-mfd.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
