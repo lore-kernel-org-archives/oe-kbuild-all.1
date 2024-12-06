@@ -1,58 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A2422C6C3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 21:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E81722C6C1;
+	Fri,  6 Dec 2024 22:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733522066; cv=none; b=lEmsd1ReHhWYW6HtylKoRRT5u8JiUrnvnxEQ7oqmH6+3w2vZGflCd+kILZwWU4AMIvNdvO/OJ8C7Xdqwbr5AvoieG6PczCBtxzRrdfiTeZhjqLcAAO2jaNPTp+WnH4kLzh7r8FWx4Oh2y4a88xqbnhaf8niyR4SmzP7dRlhmo6Q=
+	t=1733523933; cv=none; b=ZgI+eJC+GfYh9qMSqQuftw3RMuuNhJYdhQEFbrLLJR50v3o6lMWKz7yZqt2vN6/AIxgV9DUlw/TUa9hvlfz5rFTaDaGj0g/0UA20pyuMAkoZP53TH0Gc7tUOenOIM76D3RFjpj/edtbNIJX9mIPTbpS9gGntdd8l+MOoFS0vMRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733522066; c=relaxed/simple;
-	bh=A9WaURGMZaK9AFHBx2oL5vxX0v5fk8SnUBedRf8TbFo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r61qjx7pwPVhtCbSBBGBpTduWoBTex0RM0z9w0tAq8SziSb0HNsiZKwehOIu3M6dsu/wUwADa6pjU1//9Y6DHxM6jR8pfkqZYavPL8PENOsJ9um6NQdKQ6PSc8RyyTazK6VJdhEZn7CbtcnZhr3qNfO42UEMnJletRfnmKZs/SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G54Lw1J/; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1733523933; c=relaxed/simple;
+	bh=bCffiw8OTwFgkjUxdoGc91mQ61iZQnE3xHFFCbqUAlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t55td2gel9rPoyZK67IzKWBzPgKEzJXCHugoIQXmZksxOxUxF+j7gc8XCCdi+1iFWO4ClVICPv1hbnus6h5iIuQvaGxoO+GYf78iQDJUR7AYcSzjwws2EmUlVjL8CsKbtlCQDOYoCVqhVGENPnH5rYNsyAIYL3vd++41dgfMAAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDve/uQ6; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G54Lw1J/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDve/uQ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733522064; x=1765058064;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A9WaURGMZaK9AFHBx2oL5vxX0v5fk8SnUBedRf8TbFo=;
-  b=G54Lw1J/mqZ6lZQd6ud7RDgmOCKH8Ze4oUBA4vrJ9mEZffQYunAqc2Hx
-   HIuXNEwIud0usdzP3v9h4SoFWIwV3NzMFSSIxpofSojBv7KGIoMXjXItS
-   DJxo/kjWPvgClBlFPgpP6DCKkNutN+UX15e5we1UP3OTAo8i52NlT+XLw
-   0Lp17aqh7s44lfTlNvFxAsBkt971oPbs2Go2WIOaAdb5OZL7ZCZXZfFJ/
-   00kP8Nh5toqs8GQucdI0muS/JuFU4Zr/mge+xKLGaH8alhGx+c1tFemWq
-   xw+idh/hVgeA+Nuy68NV0GJrYyCJoZ8gGmxkijCQcRdf0T/nU+11J24EP
+  t=1733523931; x=1765059931;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bCffiw8OTwFgkjUxdoGc91mQ61iZQnE3xHFFCbqUAlY=;
+  b=PDve/uQ6pyPsz5bg+8xXP3pG6Bq74p9M/GHdgH7VtZLCLY3HjDHJy4zP
+   8SxqMa8Kw+MwDcec8fH6iDLZyepo5T8tDciB1AeTfm7LYWkinxFK97zR4
+   fDtDRcf9cN2aVIfZWSNlxVCHN4TVYHzPwfB1gsaxF5vYscFx4wG3OLllF
+   NGXjrel3qb6aHlDCj7CqiAmC8zw2T3aYlsw7JRb+P6oDjtsECIdqfKTZj
+   Yot14mYUZPvYc/aL7zdzd5xeSn6W+xzOtxQcddIP+DaNUo8cYtF+ck02g
+   LOCkY7ur9Y0/q/aODpmPIRqu7GomDRHINBler71QX9dWrE0TBBdb/mpKT
    Q==;
-X-CSE-ConnectionGUID: cY8b1HcCSiu6rdWnjDqO1Q==
-X-CSE-MsgGUID: povcHixnShOOfTDnNHWEtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="59287510"
+X-CSE-ConnectionGUID: yuT5AdOVS92rMnqQnL062A==
+X-CSE-MsgGUID: Zv8O2YtqSmmALOGtGHbArw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="44565160"
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="59287510"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 13:54:24 -0800
-X-CSE-ConnectionGUID: jnR+YfqlRgmOgTbK1DTiog==
-X-CSE-MsgGUID: EzY9K8zkTNuX037acxjJcQ==
+   d="scan'208";a="44565160"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 14:25:31 -0800
+X-CSE-ConnectionGUID: YiK7CDGQR8Kyz3eZXpGVJQ==
+X-CSE-MsgGUID: NLDm8aHvRMWdUqnSlq2szA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="125353863"
+   d="scan'208";a="95009660"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Dec 2024 13:54:23 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 06 Dec 2024 14:25:26 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJgHE-0002HV-1x;
-	Fri, 06 Dec 2024 21:54:20 +0000
-Date: Sat, 7 Dec 2024 05:53:58 +0800
+	id 1tJglH-0002J7-1P;
+	Fri, 06 Dec 2024 22:25:23 +0000
+Date: Sat, 7 Dec 2024 06:24:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] include/trace/hooks/usb.h:22:1:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202412070534.cvMtHiFv-lkp@intel.com>
+To: Mikael Gonella-Bolduc via B4 Relay <devnull+mgonellabolduc.dimonoff.com@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mikael Gonella-Bolduc <m.gonella.bolduc@gmail.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH v2 2/2] iio: light: Add APDS9160 ALS & Proximity sensor
+ driver
+Message-ID: <202412070600.aufBle2b-lkp@intel.com>
+References: <20241206-apds9160-driver-v2-2-be2cb72ef8f4@dimonoff.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,42 +77,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241206-apds9160-driver-v2-2-be2cb72ef8f4@dimonoff.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   74c0232c5b36765c11b577e9b81df9cfc95c2432
-commit: 26f9f515d1b98fb93c8c797bdedacf05ada5a75a [1/1] ANDROID: usb: Add vendor hook for usb suspend and resume
-config: x86_64-randconfig-122 (https://download.01.org/0day-ci/archive/20241207/202412070534.cvMtHiFv-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070534.cvMtHiFv-lkp@intel.com/reproduce)
+Hi Mikael,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 5de07b8a24cf44cdb78adeab790704bf577c2c1d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mikael-Gonella-Bolduc-via-B4-Relay/dt-bindings-iio-light-Add-APDS9160-binding/20241207-001144
+base:   5de07b8a24cf44cdb78adeab790704bf577c2c1d
+patch link:    https://lore.kernel.org/r/20241206-apds9160-driver-v2-2-be2cb72ef8f4%40dimonoff.com
+patch subject: [PATCH v2 2/2] iio: light: Add APDS9160 ALS & Proximity sensor driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241207/202412070600.aufBle2b-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070600.aufBle2b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070534.cvMtHiFv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070600.aufBle2b-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/usb/core/driver.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   drivers/usb/core/driver.c: note: in included file:
->> include/trace/hooks/usb.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/usb.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/usb.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+All error/warnings (new ones prefixed by >>):
 
-vim +22 include/trace/hooks/usb.h
+   drivers/iio/light/apds9160.c: In function 'apds9160_read_raw':
+>> drivers/iio/light/apds9160.c:911:32: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     911 |                         *val = FIELD_GET(APDS9160_PS_DATA_MASK, *val);
+         |                                ^~~~~~~~~
+   drivers/iio/light/apds9160.c: At top level:
+>> drivers/iio/light/apds9160.c:256:18: warning: 'apds9160_als_gain_avail' defined but not used [-Wunused-const-variable=]
+     256 | static const int apds9160_als_gain_avail[] = {
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
 
-    13	
-    14	DECLARE_HOOK(android_vh_configfs_uevent_work,
-    15			TP_PROTO(bool connected, bool disconnected, bool configured, bool uevent_sent),
-    16			TP_ARGS(connected, disconnected, configured, uevent_sent));
-    17	
-    18	/*
-    19	 * Following tracepoints are not exported in tracefs and provide a
-    20	 * mechanism for vendor modules to hook and extend functionality
-    21	 */
-  > 22	DECLARE_RESTRICTED_HOOK(android_rvh_usb_dev_suspend,
-    23		TP_PROTO(struct usb_device *udev, pm_message_t msg, int *bypass),
-    24		TP_ARGS(udev, msg, bypass), 1);
-    25	
+
+vim +/FIELD_GET +911 drivers/iio/light/apds9160.c
+
+   889	
+   890	static int apds9160_read_raw(struct iio_dev *indio_dev,
+   891				     struct iio_chan_spec const *chan, int *val,
+   892				     int *val2, long mask)
+   893	{
+   894		struct apds9160_chip *data = iio_priv(indio_dev);
+   895		int ret = -EINVAL;
+   896	
+   897		switch (mask) {
+   898		case IIO_CHAN_INFO_RAW:
+   899			switch (chan->type) {
+   900			case IIO_PROXIMITY: {
+   901				__le16 buf;
+   902	
+   903				ret = regmap_bulk_read(data->regmap, chan->address,
+   904						       &buf, 2);
+   905				if (ret)
+   906					return ret;
+   907	
+   908				ret = IIO_VAL_INT;
+   909				*val = le16_to_cpu(buf);
+   910				/* Remove overflow bits from result */
+ > 911				*val = FIELD_GET(APDS9160_PS_DATA_MASK, *val);
+   912			} break;
+   913			case IIO_LIGHT:
+   914			case IIO_INTENSITY: {
+   915				u8 buf[3];
+   916	
+   917				ret = regmap_bulk_read(data->regmap, chan->address,
+   918						       &buf, 3);
+   919				if (ret)
+   920					return ret;
+   921	
+   922				ret = IIO_VAL_INT;
+   923				*val = get_unaligned_le24(buf);
+   924			} break;
+   925			case IIO_CURRENT:
+   926				ret = IIO_VAL_INT;
+   927				*val = data->ps_current;
+   928				break;
+   929			default:
+   930				break;
+   931			}
+   932			break;
+   933		case IIO_CHAN_INFO_HARDWAREGAIN:
+   934			switch (chan->type) {
+   935			case IIO_LIGHT:
+   936				ret = IIO_VAL_INT;
+   937				*val = data->als_hwgain;
+   938				break;
+   939			case IIO_PROXIMITY:
+   940				ret = IIO_VAL_INT;
+   941				*val = data->ps_gain;
+   942				break;
+   943			default:
+   944				break;
+   945			}
+   946			break;
+   947		case IIO_CHAN_INFO_INT_TIME:
+   948			switch (chan->type) {
+   949			case IIO_LIGHT:
+   950				ret = IIO_VAL_INT;
+   951				*val = data->als_itime;
+   952				break;
+   953			default:
+   954				break;
+   955			}
+   956			break;
+   957		case IIO_CHAN_INFO_SAMP_FREQ:
+   958			switch (chan->type) {
+   959			case IIO_PROXIMITY:
+   960				ret = IIO_VAL_INT;
+   961				*val = data->ps_rate;
+   962				break;
+   963			default:
+   964				break;
+   965			}
+   966			break;
+   967		case IIO_CHAN_INFO_CALIBSCALE:
+   968			switch (chan->type) {
+   969			case IIO_PROXIMITY:
+   970				ret = IIO_VAL_INT;
+   971				*val = data->ps_cancellation_level;
+   972				break;
+   973			default:
+   974				break;
+   975			}
+   976			break;
+   977		case IIO_CHAN_INFO_CALIBBIAS:
+   978			switch (chan->type) {
+   979			case IIO_PROXIMITY:
+   980				ret = IIO_VAL_INT;
+   981				*val = data->ps_cancellation_analog;
+   982				break;
+   983			case IIO_CURRENT:
+   984				ret = IIO_VAL_INT;
+   985				*val = data->ps_cancellation_current;
+   986			default:
+   987				break;
+   988			}
+   989			break;
+   990		case IIO_CHAN_INFO_SCALE:
+   991			switch (chan->type) {
+   992			case IIO_LIGHT:
+   993				ret = IIO_VAL_INT_PLUS_MICRO;
+   994				*val = data->als_scale1;
+   995				*val2 = data->als_scale2;
+   996				break;
+   997			default:
+   998				break;
+   999			}
+  1000			break;
+  1001		default:
+  1002			break;
+  1003		}
+  1004	
+  1005		return ret;
+  1006	};
+  1007	
 
 -- 
 0-DAY CI Kernel Test Service
