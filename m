@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3D21D515D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 18:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA1D14B08C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 19:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733510292; cv=none; b=DNQZFH5lz663ugMJBHWGFCBw7/w80omIBFPUxoKOQhFkrVtKiorVLdj/1qjMRwBQkDaAwrP8VraIS6/13ZMX+7jEhMFzrPvXM0N6JQ1Scg8YtkYwygwhbMhqB0n8ybc9vlI2wmIoEsnHxsREHW5Lz52Unborbf5I5F49j8I62s0=
+	t=1733512754; cv=none; b=kan/ga4mounCxSNFinu3EraVNqIfJ5Asp6DKc4sPiYR2PYNjdCHMauOOMVALrgWOb66Y5QyRGKCbdeeMQwSYBgYR7o53REPbfMchYpwlUuHQdbC6k+3d41jzA588WrlfuEyYb10pwuYbdwgObjDDt2n0sbzkP53I8snQlZM96MA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733510292; c=relaxed/simple;
-	bh=WwUY9x2el1F2/anpPRl1wf8DjVDt734lmdw3+xDh0aU=;
+	s=arc-20240116; t=1733512754; c=relaxed/simple;
+	bh=YTR0cdHaq1fgoWNBmfun/KkPscJNkH1Q8NnuNAB1YDk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M22ti51WrnXL7s+MfFygukBooNC2tq0oFXXP9ZL510/LVnSKoZW6n9IaoJsLqsZGAUZhpJY4c8g2tDMUjjv5KTckdIQVnr9R4RAdDIlaRBF00huf8ix0kLiNYoaFO7YTUo0ftPzs9S6C9I5w0Pe13aWl8B5mvq/hb7jlMPp7YBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caMBef52; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=GM8zKH2dHkmwTMrbsgqDu/uQ2uDZnHo2R2pvavLGpkL4SsOoDvzY/iugd+CWEjE1XBtLQQamjpfWed05gTqtbD0fm6nAZssf++agVSPry9BbS2CyrHAYFGkfxEDbRW2OdGcUqN1Sbo2aQNlwM9OBxjDXmCOQ70vaX3D7Z5y8K6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpeTXIMn; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caMBef52"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpeTXIMn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733510290; x=1765046290;
+  t=1733512753; x=1765048753;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WwUY9x2el1F2/anpPRl1wf8DjVDt734lmdw3+xDh0aU=;
-  b=caMBef52QfwYWy/pFlchcMEIo40AywQt/lIABNYLNSiZn6H56AXolEUV
-   MBXkk7DWHG7wD+bCyOuejvzIN0hquoOyHF5MiDogzZ+6ckkb8Hfd6tSYL
-   Wl1xz05/VmdDk4zaJARrBfrs5nxYj5Smi4mCJe4L4YhGT34Dif1y5tIT8
-   iBF9JI+Mk59geT0Y4yzZhXTp+x/7THGa7dQ9elrHTdXQIzo88pxOsoS5W
-   kr1eU27v0Ii5CJ1ea4p5weboSWVI7Jak4pmQAfsgQZb2R1R/iELeJg3m+
-   bfSdqPYBUi17Glsk7fKPSKm2GViJCXjlHc9RdMHzE9kQ4ElLTLMCXq/Gh
-   A==;
-X-CSE-ConnectionGUID: KzXo0rnMTa2Zu2UbSP0ovw==
-X-CSE-MsgGUID: T+g2P7SnQ9afiG0Nmfi2ag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33606751"
+  bh=YTR0cdHaq1fgoWNBmfun/KkPscJNkH1Q8NnuNAB1YDk=;
+  b=OpeTXIMnBdNN3+ktmLQOk3rPeUW87+uBqewtt09hifsJSMt1cFPtO+ic
+   2yyHafRBUXy468FaX1v9XkW62iWaEb/cTCrxT3/2oD6t0JmU4Hd8A1XrG
+   PKp769ufR5oXWII5LJJaoomYPNUC4Hswh6JoChD9YzYwpZ5psJQ31BxY+
+   ISJ40j66kHxynKVuIhwPeEmmk2nfv483WrbKG/Ha3k2LKgNmcK6ib7R+V
+   t3SC/BxgZ59ZlFgAP+xonUK38AOnoHbshrl/YJcZOk89ilZZ9h4JnV2qR
+   qV4Omsumudtw87+sCtNYb8igpSWCGyH553uoVXQyC/ygBHXW3pK5QiiBc
+   w==;
+X-CSE-ConnectionGUID: u8e8PhKJS9ePxWEX7poBLw==
+X-CSE-MsgGUID: dQxgpGMqSc6CDQt9Ct5cAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="44346038"
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="33606751"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 10:38:10 -0800
-X-CSE-ConnectionGUID: pnKZNOHOS5mCD9HkXMHCMA==
-X-CSE-MsgGUID: hoG4gD5TQcWYfgfcDQdKEA==
+   d="scan'208";a="44346038"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 11:19:12 -0800
+X-CSE-ConnectionGUID: 8nsj1F6CQ+u5SwaxOS45Vg==
+X-CSE-MsgGUID: 2VOKt6G7S0ec00+lIGlKTA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="99521916"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
+   d="scan'208";a="99430743"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Dec 2024 10:38:08 -0800
+  by orviesa005.jf.intel.com with ESMTP; 06 Dec 2024 11:19:11 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJdDJ-0002AW-2Y;
-	Fri, 06 Dec 2024 18:38:05 +0000
-Date: Sat, 7 Dec 2024 02:37:41 +0800
+	id 1tJdr2-0002Bl-2E;
+	Fri, 06 Dec 2024 19:19:08 +0000
+Date: Sat, 7 Dec 2024 03:18:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>
-Subject: [chanwoo:devfreq-next 4/4] drivers/devfreq/sun8i-a33-mbus.c:384:47:
- error: passing argument 1 of 'devm_clk_rate_exclusive_get' from incompatible
- pointer type
-Message-ID: <202412070231.MzXdNrLv-lkp@intel.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ambarus:acpm-v3-upstream 9/10] ERROR: modpost:
+ "acpm_pmic_update_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+Message-ID: <202412070320.rqT5CimP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,154 +62,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git devfreq-next
-head:   27d1a5d95c5202f927f1155ad8f919778cd9f155
-commit: 27d1a5d95c5202f927f1155ad8f919778cd9f155 [4/4] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
-config: arm64-randconfig-002-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070231.MzXdNrLv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070231.MzXdNrLv-lkp@intel.com/reproduce)
+tree:   https://github.com/ambarus/linux-0day acpm-v3-upstream
+head:   20f606fa2a40e27ec03a65c1a7e7d59617173b99
+commit: 2c7c337e69c51f04f63d04aa2c817eda43cf97ca [9/10] firmware: add exynos ACPM protocol driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241207/202412070320.rqT5CimP-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070320.rqT5CimP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070231.MzXdNrLv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070320.rqT5CimP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/devfreq/sun8i-a33-mbus.c: In function 'sun8i_a33_mbus_probe':
->> drivers/devfreq/sun8i-a33-mbus.c:384:47: error: passing argument 1 of 'devm_clk_rate_exclusive_get' from incompatible pointer type [-Wincompatible-pointer-types]
-     384 |         ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
-         |                                           ~~~~^~~~~~~~~~
-         |                                               |
-         |                                               struct clk *
-   In file included from drivers/devfreq/sun8i-a33-mbus.c:6:
-   include/linux/clk.h:214:48: note: expected 'struct device *' but argument is of type 'struct clk *'
-     214 | int devm_clk_rate_exclusive_get(struct device *dev, struct clk *clk);
-         |                                 ~~~~~~~~~~~~~~~^~~
->> drivers/devfreq/sun8i-a33-mbus.c:384:15: error: too few arguments to function 'devm_clk_rate_exclusive_get'
-     384 |         ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:214:5: note: declared here
-     214 | int devm_clk_rate_exclusive_get(struct device *dev, struct clk *clk);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/devm_clk_rate_exclusive_get +384 drivers/devfreq/sun8i-a33-mbus.c
-
-   330	
-   331	static int sun8i_a33_mbus_probe(struct platform_device *pdev)
-   332	{
-   333		const struct sun8i_a33_mbus_variant *variant;
-   334		struct device *dev = &pdev->dev;
-   335		struct sun8i_a33_mbus *priv;
-   336		unsigned long base_freq;
-   337		unsigned int max_state;
-   338		const char *err;
-   339		int i, ret;
-   340	
-   341		variant = device_get_match_data(dev);
-   342		if (!variant)
-   343			return -EINVAL;
-   344	
-   345		max_state = variant->max_dram_divider - variant->min_dram_divider + 1;
-   346	
-   347		priv = devm_kzalloc(dev, struct_size(priv, freq_table, max_state), GFP_KERNEL);
-   348		if (!priv)
-   349			return -ENOMEM;
-   350	
-   351		platform_set_drvdata(pdev, priv);
-   352	
-   353		priv->variant = variant;
-   354	
-   355		priv->reg_dram = devm_platform_ioremap_resource_byname(pdev, "dram");
-   356		if (IS_ERR(priv->reg_dram))
-   357			return PTR_ERR(priv->reg_dram);
-   358	
-   359		priv->reg_mbus = devm_platform_ioremap_resource_byname(pdev, "mbus");
-   360		if (IS_ERR(priv->reg_mbus))
-   361			return PTR_ERR(priv->reg_mbus);
-   362	
-   363		priv->clk_bus = devm_clk_get_enabled(dev, "bus");
-   364		if (IS_ERR(priv->clk_bus))
-   365			return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
-   366					     "failed to get bus clock\n");
-   367	
-   368		priv->clk_dram = devm_clk_get(dev, "dram");
-   369		if (IS_ERR(priv->clk_dram))
-   370			return dev_err_probe(dev, PTR_ERR(priv->clk_dram),
-   371					     "failed to get dram clock\n");
-   372	
-   373		priv->clk_mbus = devm_clk_get(dev, "mbus");
-   374		if (IS_ERR(priv->clk_mbus))
-   375			return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
-   376					     "failed to get mbus clock\n");
-   377	
-   378		/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
-   379		ret = devm_clk_rate_exclusive_get(dev, priv->clk_dram);
-   380		if (ret)
-   381			return dev_err_probe(dev, ret, "failed to lock dram clock rate\n");
-   382	
-   383		/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
- > 384		ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
-   385		if (ret)
-   386			return dev_err_probe(dev, ret, "failed to lock mbus clock rate\n");
-   387	
-   388		priv->gov_data.upthreshold	= 10;
-   389		priv->gov_data.downdifferential	=  5;
-   390	
-   391		priv->profile.initial_freq	= clk_get_rate(priv->clk_dram);
-   392		priv->profile.polling_ms	= 1000;
-   393		priv->profile.target		= sun8i_a33_mbus_set_dram_target;
-   394		priv->profile.get_dev_status	= sun8i_a33_mbus_get_dram_status;
-   395		priv->profile.freq_table	= priv->freq_table;
-   396		priv->profile.max_state		= max_state;
-   397	
-   398		ret = devm_pm_opp_set_clkname(dev, "dram");
-   399		if (ret)
-   400			return dev_err_probe(dev, ret, "failed to add OPP table\n");
-   401	
-   402		base_freq = clk_get_rate(clk_get_parent(priv->clk_dram));
-   403		for (i = 0; i < max_state; ++i) {
-   404			unsigned int div = variant->max_dram_divider - i;
-   405	
-   406			priv->freq_table[i] = base_freq / div;
-   407	
-   408			ret = dev_pm_opp_add(dev, priv->freq_table[i], 0);
-   409			if (ret) {
-   410				err = "failed to add OPPs\n";
-   411				goto err_remove_opps;
-   412			}
-   413		}
-   414	
-   415		ret = sun8i_a33_mbus_hw_init(dev, priv, priv->profile.initial_freq);
-   416		if (ret) {
-   417			err = "failed to init hardware\n";
-   418			goto err_remove_opps;
-   419		}
-   420	
-   421		priv->devfreq_dram = devfreq_add_device(dev, &priv->profile,
-   422							DEVFREQ_GOV_SIMPLE_ONDEMAND,
-   423							&priv->gov_data);
-   424		if (IS_ERR(priv->devfreq_dram)) {
-   425			ret = PTR_ERR(priv->devfreq_dram);
-   426			err = "failed to add devfreq device\n";
-   427			goto err_remove_opps;
-   428		}
-   429	
-   430		/*
-   431		 * This must be set manually after registering the devfreq device,
-   432		 * because there is no way to select a dynamic OPP as the suspend OPP.
-   433		 */
-   434		priv->devfreq_dram->suspend_freq = priv->freq_table[0];
-   435	
-   436		return 0;
-   437	
-   438	err_remove_opps:
-   439		dev_pm_opp_remove_all_dynamic(dev);
-   440	
-   441		return dev_err_probe(dev, ret, err);
-   442	}
-   443	
+ERROR: modpost: missing MODULE_LICENSE() in drivers/firmware/samsung/exynos-acpm-mfd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/samsung/exynos-acpm-mfd.o
+ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
+>> ERROR: modpost: "acpm_pmic_update_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+>> ERROR: modpost: "acpm_pmic_bulk_read" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+>> ERROR: modpost: "acpm_pmic_write_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+>> ERROR: modpost: "acpm_pmic_bulk_write" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+>> ERROR: modpost: "acpm_pmic_read_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
+>> ERROR: modpost: "__udivdi3" [drivers/firmware/samsung/exynos-acpm-mfd.ko] undefined!
+WARNING: modpost: suppressed 7 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
