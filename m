@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225ED1DE4F6;
-	Fri,  6 Dec 2024 07:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D54328B6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 08:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733471948; cv=none; b=UcqaXR44xvoJRF8sVWOMQ+Be0CmB3/KKrGqgV8nq81IG4ULLPv2qiUcbYFfMjUMLHqtIgutNKzwqKqw3pLFJw2WsWBySk1h5BHNctlV6WFXGbTSJd/GTVz1z/d2pNcgZmnuQ9WAQEoev8FfeybJ8AoPwE+1Vk8wiTKYR99keI6k=
+	t=1733472607; cv=none; b=fLzk3e+vm/vWlaozVNXKESYodX6GCnyjKWfRx8KyB9en7mUqseICty83jfSd/Mch+ugv/3vm0Jm1aSgus1BOXVil5abTyuhpC6ZMLc2xQ8Q8zqCK6D5zyD6wsxtKSp7D2q9qYJgAlDaz8gnm6LRVoT6mBhsDlJrSmOVx4a3tWdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733471948; c=relaxed/simple;
-	bh=uh1GtNgeJXD3jjxW/WbErm5HG89T+2j4ihV8ipDenzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DrG2yGaYf4lXU9YnARgGVpqoZU0CyHrGqqvl/CxQz7z6IkYqKIBt3h8XacpypqwkD2ourMRuGdhXfvs8TnWBtFewSva6xip6vsYgzcd6QUhcr7zi/HVOvQpUxOJlAWwpCPkAp8Q33GH2gdT6UODLULzwN7rycjOHK1zJ3O74DBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kf10tiZj; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1733472607; c=relaxed/simple;
+	bh=FZWibkqG1CklV7HnkQbfevbZOqnEAKbjLU91MYfcDf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T5w5C/jCRe5dTo3f1248BXpHAX/HNuDYF8Ox8hrAXKGlQowmpZZUf8MEhw4UMbvMUtOMqZkppgbZmQuYH+bqKZnKah8yds1G5WRwUG6uxspOyLEWMBI4OoPG8hTlUnJUFMGY93aIEOZo6YEZMW3FMOIn569conXMMR1A8N6RsX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONsEF9Dl; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kf10tiZj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONsEF9Dl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733471947; x=1765007947;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uh1GtNgeJXD3jjxW/WbErm5HG89T+2j4ihV8ipDenzw=;
-  b=kf10tiZjl6IxDl/yTFUpvOa83oYPJWIpizA/buJvsVpm4omcT1m9rzm/
-   WrRdWc7tDjvj0CMuavvFzVVn9O/qwPBnnd90iqmbLLg361Fv4ewJTZHFD
-   yVvCQqbPgJuqYYnMpB9k6HfPdjOYvWVDrlAPmQWrw9dr8d1m4BKCLrKAI
-   rI+XO/3IQYWwnWHPW+Q/M92LUfps8CtjVXxo0STt9JJQYz092l/Mp1WkW
-   63SNKejb68ZZ7BKfFNRnaGeRNWp9BHAT3GliXBPLvN8cF8JhZv1h1kV5h
-   FEfV6avNqL4xU8x3A+kqHs7gFEKaW5sgU/PaudEKAb6vdhRdM/QYJBjRl
-   w==;
-X-CSE-ConnectionGUID: ss08mlhoQY6e8wdLAwFIyw==
-X-CSE-MsgGUID: mYK6oQ6xQ5+d/dk6L0vXag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="45192760"
+  t=1733472606; x=1765008606;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FZWibkqG1CklV7HnkQbfevbZOqnEAKbjLU91MYfcDf4=;
+  b=ONsEF9Dl6IPSJ4NkocSbYljdmbyb4VNozXIWXelv5T090gbsPdTD686u
+   QcDHKE9eQ74mFG5uheSBzjTAdUYfB50/QBs6saW8uw6wmLsWYhkR1Dbql
+   A1Ucj6hxpYHN8vDX5w0Ikict+CBhjT0u3vp8AzG9AZxnXPEpKqZV+nshX
+   3aW07n86s4CJR+u0gTx0/6aj69LLchDkh8DD2eqbcwETrDmkiOhVA+Glv
+   xYPz1/A6658aLT3S8UGk170z/UWx0+XgJ2iviy8FPYWRSc0C4nIR1vetT
+   hgF6UhQejhp3PUOcnCoqpiYXNrJIAqa+2V+Fa7iNu69E442eNJHsE/84O
+   g==;
+X-CSE-ConnectionGUID: 9ZiiM9lzQJiUoDQe3sXLGQ==
+X-CSE-MsgGUID: 50Je6f5WSi2Qp1+CcPyQCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33871931"
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="45192760"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:06 -0800
-X-CSE-ConnectionGUID: JvQ4gwdtSrS4ez3aatitGA==
-X-CSE-MsgGUID: tB2L8oKAREmMv3tfZ4NGxg==
+   d="scan'208";a="33871931"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 00:10:05 -0800
+X-CSE-ConnectionGUID: YP7sH8A6S2iU1dtaZxhkBg==
+X-CSE-MsgGUID: dheV3/5ZTByQGX73eyeexA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="94144258"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="99379676"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Dec 2024 23:59:03 -0800
+  by orviesa003.jf.intel.com with ESMTP; 06 Dec 2024 00:10:04 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJTEq-0000pj-1e;
-	Fri, 06 Dec 2024 07:59:00 +0000
-Date: Fri, 6 Dec 2024 15:58:50 +0800
+	id 1tJTPV-0000qJ-1g;
+	Fri, 06 Dec 2024 08:10:01 +0000
+Date: Fri, 6 Dec 2024 16:09:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Igor Belwon <igor.belwon@mentallysanemainliners.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] clk: samsung: Introduce Exynos990 clock
- controller driver
-Message-ID: <202412061549.wyFF9u8X-lkp@intel.com>
-References: <20241205193423.783815-4-igor.belwon@mentallysanemainliners.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/14]
+ include/trace/hooks/madvise.h:10:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202412061613.SW2dIQEc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,44 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205193423.783815-4-igor.belwon@mentallysanemainliners.org>
 
-Hi Igor,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on krzk/for-next]
-[also build test ERROR on krzk-dt/for-next clk/clk-next linus/master v6.13-rc1 next-20241205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Belwon/clk-samsung-clk-pll-Add-support-for-pll_-0717x-0718x-0732x/20241206-043559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241205193423.783815-4-igor.belwon%40mentallysanemainliners.org
-patch subject: [PATCH v1 3/3] clk: samsung: Introduce Exynos990 clock controller driver
-config: arm64-randconfig-004-20241206 (https://download.01.org/0day-ci/archive/20241206/202412061549.wyFF9u8X-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061549.wyFF9u8X-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   d92a210e49a13fdc3fb2141d0dbc9f63bc642533
+commit: c9b85866c78e7e00085c89ee4fd3b93f54659682 [2/14] ANDROID: madvise: add vendor hook to bypass process madvise
+config: i386-randconfig-062 (https://download.01.org/0day-ci/archive/20241206/202412061613.SW2dIQEc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061613.SW2dIQEc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412061549.wyFF9u8X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412061613.SW2dIQEc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/madvise.c: note: in included file:
+   include/trace/hooks/madvise.h:21:31: sparse: sparse: no newline at end of file
+   mm/madvise.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'madvise_cold_or_pageout_pte_range' - unexpected unlock
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'madvise_free_pte_range' - unexpected unlock
+   mm/madvise.c: note: in included file:
+>> include/trace/hooks/madvise.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/madvise.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/madvise.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
->> drivers/clk/samsung/clk-exynos990.c:13:10: fatal error: 'dt-bindings/clock/exynos990.h' file not found
-      13 | #include <dt-bindings/clock/exynos990.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+vim +10 include/trace/hooks/madvise.h
 
-
-vim +13 drivers/clk/samsung/clk-exynos990.c
-
-    12	
-  > 13	#include <dt-bindings/clock/exynos990.h>
-    14	
+     9	
+  > 10	DECLARE_RESTRICTED_HOOK(android_rvh_process_madvise_bypass,
+    11		TP_PROTO(int pidfd, const struct iovec __user *vec, size_t vlen,
+    12			int behavior, unsigned int flags, ssize_t *ret, bool *bypass),
+    13		TP_ARGS(pidfd, vec, vlen, behavior, flags, ret, bypass), 1);
+    14	struct vm_area_struct;
+    15	DECLARE_HOOK(android_vh_update_vma_flags,
+    16		TP_PROTO(struct vm_area_struct *vma),
+    17		TP_ARGS(vma));
+    18	
+    19	#endif
+    20	
+  > 21	#include <trace/define_trace.h>
 
 -- 
 0-DAY CI Kernel Test Service
