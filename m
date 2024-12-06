@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9CA1D61BF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 18:38:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3D21D515D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 18:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733510291; cv=none; b=mfv8SPzsE3B7XnBA2p29H1pV1BaKrB5F5r7RrMk2aSnr5sl869IZhmuw+5yofFlOcOLdnR/TASSyxQiQTR7JmP5gry4y3+yIQnJIWOBm/m30/NZsGYGaZoPrrv/6qhNUsFdrLRqtL5GF11OMiCnmxRdX721FKKKPi/x2DWJb3RU=
+	t=1733510292; cv=none; b=DNQZFH5lz663ugMJBHWGFCBw7/w80omIBFPUxoKOQhFkrVtKiorVLdj/1qjMRwBQkDaAwrP8VraIS6/13ZMX+7jEhMFzrPvXM0N6JQ1Scg8YtkYwygwhbMhqB0n8ybc9vlI2wmIoEsnHxsREHW5Lz52Unborbf5I5F49j8I62s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733510291; c=relaxed/simple;
-	bh=GA6us+GVYJxTNfnOwsTIOjQVni218eA9+F4h74tdXG8=;
+	s=arc-20240116; t=1733510292; c=relaxed/simple;
+	bh=WwUY9x2el1F2/anpPRl1wf8DjVDt734lmdw3+xDh0aU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UUP7fK156CFPw7bpFoyR8pKxHRo9oTxXiWijnWLtwJCEW4rg2QMOonugW6M9dTlGRjbk+24i6WeXbwzjD2sYVRMA4h8EjgilQRK5+YRaq8vbVWxwp//usfMMNNquPwjm9wN20flTJt3GjXu0AmWmlqsn04FJaYi4esCOJnhx+tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9LEOTvJ; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=M22ti51WrnXL7s+MfFygukBooNC2tq0oFXXP9ZL510/LVnSKoZW6n9IaoJsLqsZGAUZhpJY4c8g2tDMUjjv5KTckdIQVnr9R4RAdDIlaRBF00huf8ix0kLiNYoaFO7YTUo0ftPzs9S6C9I5w0Pe13aWl8B5mvq/hb7jlMPp7YBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caMBef52; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9LEOTvJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caMBef52"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733510289; x=1765046289;
+  t=1733510290; x=1765046290;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GA6us+GVYJxTNfnOwsTIOjQVni218eA9+F4h74tdXG8=;
-  b=U9LEOTvJQrx+RQlo1iLeZj3HmKq7f1IiANNgWj91dG+5cr77yCt9Be5y
-   qPKfci/Px0aBrdAGsUWtaVzfLeFAR0WC0fZmrcdPxS39GMLTm5v+0DJp6
-   TF8dc91rfQ+J7tXXBwTawE08fFPI6JHHf4JHMj2xToGpxNY7gcuo6KQBY
-   IZL5w7mYqdAcjpT1uy1pEnZffRt7rdKJboRsdYN/eG3aCq6jf+DG6OGh/
-   J7/COVUQxwoq6N0GmRQbtc/GxwklVmEdx2qu4AA8siW9+9UHdG3WVOlMw
-   ZE02u11Al4qaHO897Y0gx58gV484fwHBntAaimKiHZ9u0kQXwpdroEJj+
+  bh=WwUY9x2el1F2/anpPRl1wf8DjVDt734lmdw3+xDh0aU=;
+  b=caMBef52QfwYWy/pFlchcMEIo40AywQt/lIABNYLNSiZn6H56AXolEUV
+   MBXkk7DWHG7wD+bCyOuejvzIN0hquoOyHF5MiDogzZ+6ckkb8Hfd6tSYL
+   Wl1xz05/VmdDk4zaJARrBfrs5nxYj5Smi4mCJe4L4YhGT34Dif1y5tIT8
+   iBF9JI+Mk59geT0Y4yzZhXTp+x/7THGa7dQ9elrHTdXQIzo88pxOsoS5W
+   kr1eU27v0Ii5CJ1ea4p5weboSWVI7Jak4pmQAfsgQZb2R1R/iELeJg3m+
+   bfSdqPYBUi17Glsk7fKPSKm2GViJCXjlHc9RdMHzE9kQ4ElLTLMCXq/Gh
    A==;
-X-CSE-ConnectionGUID: ipUwq98HTba1Zqg8kWt6sw==
-X-CSE-MsgGUID: 3efxaPh0R9K/6HX1uuNjtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33606750"
+X-CSE-ConnectionGUID: KzXo0rnMTa2Zu2UbSP0ovw==
+X-CSE-MsgGUID: T+g2P7SnQ9afiG0Nmfi2ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33606751"
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="33606750"
+   d="scan'208";a="33606751"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 10:38:09 -0800
-X-CSE-ConnectionGUID: 3oWFxEioTx67vNoReAdYOg==
-X-CSE-MsgGUID: mwdZCAJ9SxiYhg8RGimSRQ==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 10:38:10 -0800
+X-CSE-ConnectionGUID: pnKZNOHOS5mCD9HkXMHCMA==
+X-CSE-MsgGUID: hoG4gD5TQcWYfgfcDQdKEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="99521914"
+   d="scan'208";a="99521916"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 06 Dec 2024 10:38:08 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJdDJ-0002AT-2Q;
+	id 1tJdDJ-0002AW-2Y;
 	Fri, 06 Dec 2024 18:38:05 +0000
-Date: Sat, 7 Dec 2024 02:37:42 +0800
+Date: Sat, 7 Dec 2024 02:37:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 8/9] include/trace/hooks/sys.h:24:1:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202412070225.VQM9TBVt-lkp@intel.com>
+To: Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>
+Subject: [chanwoo:devfreq-next 4/4] drivers/devfreq/sun8i-a33-mbus.c:384:47:
+ error: passing argument 1 of 'devm_clk_rate_exclusive_get' from incompatible
+ pointer type
+Message-ID: <202412070231.MzXdNrLv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +64,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   af57217229d320ec7829d770b8fe3529cde04e87
-commit: e41b8e8e59bf118ee5eb422d531390a141117dd0 [8/9] ANDROID: vendor_hooks: add hooks in prctl_set_vma
-config: i386-randconfig-062 (https://download.01.org/0day-ci/archive/20241207/202412070225.VQM9TBVt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070225.VQM9TBVt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git devfreq-next
+head:   27d1a5d95c5202f927f1155ad8f919778cd9f155
+commit: 27d1a5d95c5202f927f1155ad8f919778cd9f155 [4/4] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
+config: arm64-randconfig-002-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070231.MzXdNrLv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070231.MzXdNrLv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070225.VQM9TBVt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070231.MzXdNrLv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sys.c:1104:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/sys.c:1104:32: sparse:     expected struct task_struct *p1
-   kernel/sys.c:1104:32: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/sys.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:757:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:757:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:757:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/sys.c: note: in included file:
->> include/trace/hooks/sys.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/sys.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/sys.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   kernel/sys.c:2813:25: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +24 include/trace/hooks/sys.h
+   drivers/devfreq/sun8i-a33-mbus.c: In function 'sun8i_a33_mbus_probe':
+>> drivers/devfreq/sun8i-a33-mbus.c:384:47: error: passing argument 1 of 'devm_clk_rate_exclusive_get' from incompatible pointer type [-Wincompatible-pointer-types]
+     384 |         ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
+         |                                           ~~~~^~~~~~~~~~
+         |                                               |
+         |                                               struct clk *
+   In file included from drivers/devfreq/sun8i-a33-mbus.c:6:
+   include/linux/clk.h:214:48: note: expected 'struct device *' but argument is of type 'struct clk *'
+     214 | int devm_clk_rate_exclusive_get(struct device *dev, struct clk *clk);
+         |                                 ~~~~~~~~~~~~~~~^~~
+>> drivers/devfreq/sun8i-a33-mbus.c:384:15: error: too few arguments to function 'devm_clk_rate_exclusive_get'
+     384 |         ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/clk.h:214:5: note: declared here
+     214 | int devm_clk_rate_exclusive_get(struct device *dev, struct clk *clk);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-     9	
-    10	struct task_struct;
-    11	DECLARE_HOOK(android_vh_syscall_prctl_finished,
-    12		TP_PROTO(int option, struct task_struct *task),
-    13		TP_ARGS(option, task));
-    14	
-    15	struct mm_struct;
-    16	struct anon_vma_name;
-    17	DECLARE_HOOK(android_vh_anon_vma_name_recog,
-    18		TP_PROTO(struct mm_struct *mm, struct anon_vma_name *anon_name),
-    19		TP_ARGS(mm, anon_name));
-    20	DECLARE_HOOK(android_vh_restore_mm_flags,
-    21		TP_PROTO(struct mm_struct *mm),
-    22		TP_ARGS(mm));
-    23	
-  > 24	DECLARE_RESTRICTED_HOOK(android_rvh_pr_set_vma_name_bypass,
-    25		TP_PROTO(struct mm_struct *mm, unsigned long addr, unsigned long size,
-    26			      struct anon_vma_name *anon_name, int *error, bool *bypass),
-    27		TP_ARGS(mm, addr, size, anon_name, error, bypass), 1);
-    28	#endif
-    29	
+
+vim +/devm_clk_rate_exclusive_get +384 drivers/devfreq/sun8i-a33-mbus.c
+
+   330	
+   331	static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+   332	{
+   333		const struct sun8i_a33_mbus_variant *variant;
+   334		struct device *dev = &pdev->dev;
+   335		struct sun8i_a33_mbus *priv;
+   336		unsigned long base_freq;
+   337		unsigned int max_state;
+   338		const char *err;
+   339		int i, ret;
+   340	
+   341		variant = device_get_match_data(dev);
+   342		if (!variant)
+   343			return -EINVAL;
+   344	
+   345		max_state = variant->max_dram_divider - variant->min_dram_divider + 1;
+   346	
+   347		priv = devm_kzalloc(dev, struct_size(priv, freq_table, max_state), GFP_KERNEL);
+   348		if (!priv)
+   349			return -ENOMEM;
+   350	
+   351		platform_set_drvdata(pdev, priv);
+   352	
+   353		priv->variant = variant;
+   354	
+   355		priv->reg_dram = devm_platform_ioremap_resource_byname(pdev, "dram");
+   356		if (IS_ERR(priv->reg_dram))
+   357			return PTR_ERR(priv->reg_dram);
+   358	
+   359		priv->reg_mbus = devm_platform_ioremap_resource_byname(pdev, "mbus");
+   360		if (IS_ERR(priv->reg_mbus))
+   361			return PTR_ERR(priv->reg_mbus);
+   362	
+   363		priv->clk_bus = devm_clk_get_enabled(dev, "bus");
+   364		if (IS_ERR(priv->clk_bus))
+   365			return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
+   366					     "failed to get bus clock\n");
+   367	
+   368		priv->clk_dram = devm_clk_get(dev, "dram");
+   369		if (IS_ERR(priv->clk_dram))
+   370			return dev_err_probe(dev, PTR_ERR(priv->clk_dram),
+   371					     "failed to get dram clock\n");
+   372	
+   373		priv->clk_mbus = devm_clk_get(dev, "mbus");
+   374		if (IS_ERR(priv->clk_mbus))
+   375			return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
+   376					     "failed to get mbus clock\n");
+   377	
+   378		/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
+   379		ret = devm_clk_rate_exclusive_get(dev, priv->clk_dram);
+   380		if (ret)
+   381			return dev_err_probe(dev, ret, "failed to lock dram clock rate\n");
+   382	
+   383		/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+ > 384		ret = devm_clk_rate_exclusive_get(priv->clk_mbus);
+   385		if (ret)
+   386			return dev_err_probe(dev, ret, "failed to lock mbus clock rate\n");
+   387	
+   388		priv->gov_data.upthreshold	= 10;
+   389		priv->gov_data.downdifferential	=  5;
+   390	
+   391		priv->profile.initial_freq	= clk_get_rate(priv->clk_dram);
+   392		priv->profile.polling_ms	= 1000;
+   393		priv->profile.target		= sun8i_a33_mbus_set_dram_target;
+   394		priv->profile.get_dev_status	= sun8i_a33_mbus_get_dram_status;
+   395		priv->profile.freq_table	= priv->freq_table;
+   396		priv->profile.max_state		= max_state;
+   397	
+   398		ret = devm_pm_opp_set_clkname(dev, "dram");
+   399		if (ret)
+   400			return dev_err_probe(dev, ret, "failed to add OPP table\n");
+   401	
+   402		base_freq = clk_get_rate(clk_get_parent(priv->clk_dram));
+   403		for (i = 0; i < max_state; ++i) {
+   404			unsigned int div = variant->max_dram_divider - i;
+   405	
+   406			priv->freq_table[i] = base_freq / div;
+   407	
+   408			ret = dev_pm_opp_add(dev, priv->freq_table[i], 0);
+   409			if (ret) {
+   410				err = "failed to add OPPs\n";
+   411				goto err_remove_opps;
+   412			}
+   413		}
+   414	
+   415		ret = sun8i_a33_mbus_hw_init(dev, priv, priv->profile.initial_freq);
+   416		if (ret) {
+   417			err = "failed to init hardware\n";
+   418			goto err_remove_opps;
+   419		}
+   420	
+   421		priv->devfreq_dram = devfreq_add_device(dev, &priv->profile,
+   422							DEVFREQ_GOV_SIMPLE_ONDEMAND,
+   423							&priv->gov_data);
+   424		if (IS_ERR(priv->devfreq_dram)) {
+   425			ret = PTR_ERR(priv->devfreq_dram);
+   426			err = "failed to add devfreq device\n";
+   427			goto err_remove_opps;
+   428		}
+   429	
+   430		/*
+   431		 * This must be set manually after registering the devfreq device,
+   432		 * because there is no way to select a dynamic OPP as the suspend OPP.
+   433		 */
+   434		priv->devfreq_dram->suspend_freq = priv->freq_table[0];
+   435	
+   436		return 0;
+   437	
+   438	err_remove_opps:
+   439		dev_pm_opp_remove_all_dynamic(dev);
+   440	
+   441		return dev_err_probe(dev, ret, err);
+   442	}
+   443	
 
 -- 
 0-DAY CI Kernel Test Service
