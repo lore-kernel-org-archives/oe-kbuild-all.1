@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B1E52F9B;
-	Fri,  6 Dec 2024 04:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298EB17991
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 05:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733460952; cv=none; b=Mh+9smrvL8LScJ1Y8q6hyj1JCx2oYkTEcmTcKZtOs3xDRPOm4mbOvPbAeZXaIjjy1iifvZL0yx94hUU3MENW7jlxj3MKP9ZgZDJE/+D7QuoRKPf9AD1lmN9gnF9XEhcy+oKe0vfpZCRbCmvFTTXoyLtdDTk+vGsX/dDPzfbpwcc=
+	t=1733461609; cv=none; b=ghhtWFbSzWoUi+ZB8R7zPHa/8QUtLI2vjMnu9iK0cyYf7WAK5gJOyKSTyS4/POW4UwrXOTEtCxaGBakTT+KnI35FpRh2r7Jy/kAMLUuyIt6q+ENDSWS3K4qtv1yzVdpJlqSB8R9aOw/jacohFGzIUDlSG2c+8eo135jXdhH6Jt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733460952; c=relaxed/simple;
-	bh=AmLWblXxxrtbKW+nU/XBqH+Po3pZ7cYVz5x5QTefPso=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V8TaVc/bD7iXSpTtAy7gUll6LsqP7AVZqOahlLsEoiupeiCOkDIxZjB1GZAKYiT06+Z7xS0Q9TF4848zsLGhtjJVFJzF6SCYFlp/j1N5G/pzHX7/Ckt7AAaLd9KmcXlnYeKiqAX8FjRYjLeo7vVJxZ1Nqo8faH/w+/NnlhRalAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJrw1aoU; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1733461609; c=relaxed/simple;
+	bh=7ZtB8KqKOtK5AQ6zAXsfvhKqLc9QzsirMSgKOSdcdRE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OG0oddTTlLvdPIQIhV6cgVr+qI5+AzExOqxFlQawlNCZv7icNoS5capsthiNMOlClAESW/GklbQFia5gK5sgflc99o5vrOzBZhJ8fNgD+Mt+BA/O3vUzQ3dF0Abu6/tELKobwLCejGM/Op9wNnisjB2MofR2nHBUZWYaLTkI5BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LyBTJTSp; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJrw1aoU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyBTJTSp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733460950; x=1764996950;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AmLWblXxxrtbKW+nU/XBqH+Po3pZ7cYVz5x5QTefPso=;
-  b=VJrw1aoUUN339RAP8sB+TXs+QrpadzoTFUH0yPngW0zN/SFfhjACZ1Lc
-   JqUnjDaz0Q1wzGy8Ist+RQ9g0rDrp7ttcAjuwf93ecImeGuJQQt2IRnKX
-   gzWBxJAwaFqyjphKTJJiNZfcgH6Iwx4a9AY1PyBJp42Rfsv9gLE+/ETjR
-   REJNx/uQd+Z3d5ctLmBT6NpuFHqTX8cRQ0A0lLH3J9gghJQSpaQNJTUT0
-   wIvqcRpxnDeyBl2+eeVxpjX48mT4Rn7Ph3OPyCGL63uS60w+fYRNOUL0u
-   soLA29h8hCRiMCmYHmHFPY0bSe3v7EXp/mr8NGubockmdsZrTe/2hdGyA
+  t=1733461608; x=1764997608;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7ZtB8KqKOtK5AQ6zAXsfvhKqLc9QzsirMSgKOSdcdRE=;
+  b=LyBTJTSpkAu0Lsp397g+cQ0Hl9W6kP7C0mm+05Vk+vmuWqPPNqvcgXrv
+   61+9HMrOHNF45tomCSyuy6wrOcDGXf6Khy6JWN9oLnrQoDov5OPHXORkz
+   DdO8LzawemS4VzZz4+moyP1pYgmvoQvPiUz9CJA4utZrBrZ3HjSyb/KOs
+   7ygSZsZ8FkSDROELtdqdJe36tbBAKAjd+QKXcthisC1VQGoDliiqX0Pn8
+   I+ZwVo3FbHoYXkgUR1Lg4rOVQMXj9HN6T9LaaKZPWvvm4DHTC1pGy5p3y
+   wvuSMoyRj9RlyeXDQgb/mG/9ZkGSaKXWAJTdbteF6hpkZNrLokejmlEcj
    A==;
-X-CSE-ConnectionGUID: TRKkt6nSTWGzSxY9eZpA8A==
-X-CSE-MsgGUID: YSiNwFsdSLisrgU6yyXrPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="56296862"
+X-CSE-ConnectionGUID: hXgwwBQRR/OLbl+sRQDqbA==
+X-CSE-MsgGUID: +WTKjmHvSBud1nSMnO03dQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33123710"
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="56296862"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 20:55:50 -0800
-X-CSE-ConnectionGUID: V0ByfAr8Rbm8yd//5J+6Rg==
-X-CSE-MsgGUID: qMY21bOjTaSKQohmsjCShw==
+   d="scan'208";a="33123710"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 21:06:47 -0800
+X-CSE-ConnectionGUID: /Rz1HwyeTae5IpS8Qtw2Wg==
+X-CSE-MsgGUID: vvVv8xYtT/Ov/oR8C9xrZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="125205266"
+   d="scan'208";a="94749828"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Dec 2024 20:55:44 -0800
+  by orviesa007.jf.intel.com with ESMTP; 05 Dec 2024 21:06:46 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJQNS-0000i7-0t;
-	Fri, 06 Dec 2024 04:55:42 +0000
-Date: Fri, 6 Dec 2024 12:54:51 +0800
+	id 1tJQY7-0000id-2p;
+	Fri, 06 Dec 2024 05:06:43 +0000
+Date: Fri, 6 Dec 2024 13:05:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zaid Alali <zaidal@os.amperecomputing.com>, rafael@kernel.org,
-	lenb@kernel.org, james.morse@arm.com, tony.luck@intel.com,
-	bp@alien8.de, robert.moore@intel.com, dan.j.williams@intel.com,
-	Jonathan.Cameron@huawei.com, Benjamin.Cheatham@amd.com,
-	Avadhut.Naik@amd.com, viro@zeniv.linux.org.uk, arnd@arndb.de,
-	ira.weiny@intel.com, dave.jiang@intel.com,
-	sthanneeru.opensrc@micron.com, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 5/9] ACPI: APEI: EINJ: Enable the discovery of EINJv2
- capabilities
-Message-ID: <202412061210.H6R0JvCL-lkp@intel.com>
-References: <20241205211854.43215-6-zaidal@os.amperecomputing.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 8/9] include/trace/hooks/sys.h:24:1:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202412061343.kIQucXWU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,101 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205211854.43215-6-zaidal@os.amperecomputing.com>
 
-Hi Zaid,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.13-rc1 next-20241205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zaid-Alali/ACPICA-Update-values-to-hex-to-follow-ACPI-specs/20241206-052420
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20241205211854.43215-6-zaidal%40os.amperecomputing.com
-patch subject: [PATCH v2 5/9] ACPI: APEI: EINJ: Enable the discovery of EINJv2 capabilities
-config: i386-buildonly-randconfig-005-20241206 (https://download.01.org/0day-ci/archive/20241206/202412061210.H6R0JvCL-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061210.H6R0JvCL-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   d92a210e49a13fdc3fb2141d0dbc9f63bc642533
+commit: e41b8e8e59bf118ee5eb422d531390a141117dd0 [8/9] ANDROID: vendor_hooks: add hooks in prctl_set_vma
+config: i386-randconfig-062 (https://download.01.org/0day-ci/archive/20241206/202412061343.kIQucXWU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061343.kIQucXWU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412061210.H6R0JvCL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412061343.kIQucXWU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sys.c:1104:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/sys.c:1104:32: sparse:     expected struct task_struct *p1
+   kernel/sys.c:1104:32: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/sys.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
+   include/linux/sched/signal.h:757:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:757:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:757:37: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/sys.c: note: in included file:
+>> include/trace/hooks/sys.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sys.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sys.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   kernel/sys.c:2813:25: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from drivers/acpi/apei/einj-core.c:23:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   drivers/acpi/apei/einj-core.c:342:6: warning: variable 'p' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     342 |         if (!r) {
-         |             ^~
-   drivers/acpi/apei/einj-core.c:440:6: note: uninitialized use occurs here
-     440 |         if (p)
-         |             ^
-   drivers/acpi/apei/einj-core.c:342:2: note: remove the 'if' if its condition is always false
-     342 |         if (!r) {
-         |         ^~~~~~~~~
-     343 |                 pr_err("Can not request [mem %#010llx-%#010llx] for Trigger table\n",
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     344 |                        (unsigned long long)trigger_paddr,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     345 |                        (unsigned long long)trigger_paddr +
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     346 |                             sizeof(*trigger_tab) - 1);
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     347 |                 goto out;
-         |                 ~~~~~~~~~
-     348 |         }
-         |         ~
-   drivers/acpi/apei/einj-core.c:338:17: note: initialize the variable 'p' to silence this warning
-     338 |         void __iomem *p;
-         |                        ^
-         |                         = NULL
->> drivers/acpi/apei/einj-core.c:728:29: warning: 'memset' call operates on objects of type 'char' while the size is based on a different type 'char *' [-Wsizeof-pointer-memaccess]
-     728 |         memset(einj_buf, 0, sizeof(einj_buf));
-         |                ~~~~~~~~            ^~~~~~~~
-   drivers/acpi/apei/einj-core.c:728:29: note: did you mean to provide an explicit length?
-     728 |         memset(einj_buf, 0, sizeof(einj_buf));
-         |                                    ^~~~~~~~
-   3 warnings generated.
+vim +24 include/trace/hooks/sys.h
 
-
-vim +728 drivers/acpi/apei/einj-core.c
-
-   721	
-   722	static ssize_t error_type_set(struct file *file, const char __user *buf,
-   723					size_t count, loff_t *ppos)
-   724	{
-   725		int rc;
-   726		u64 val;
-   727	
- > 728		memset(einj_buf, 0, sizeof(einj_buf));
-   729		if (copy_from_user(einj_buf, buf, count))
-   730			return -EFAULT;
-   731	
-   732		if (strncmp(einj_buf, "V2_", 3) == 0) {
-   733			if (!sscanf(einj_buf, "V2_%llx", &val))
-   734				return -EINVAL;
-   735		} else
-   736			if (!sscanf(einj_buf, "%llx", &val))
-   737				return -EINVAL;
-   738	
-   739		rc = einj_validate_error_type(val);
-   740		if (rc)
-   741			return rc;
-   742	
-   743		error_type = val;
-   744	
-   745		return count;
-   746	}
-   747	
+     9	
+    10	struct task_struct;
+    11	DECLARE_HOOK(android_vh_syscall_prctl_finished,
+    12		TP_PROTO(int option, struct task_struct *task),
+    13		TP_ARGS(option, task));
+    14	
+    15	struct mm_struct;
+    16	struct anon_vma_name;
+    17	DECLARE_HOOK(android_vh_anon_vma_name_recog,
+    18		TP_PROTO(struct mm_struct *mm, struct anon_vma_name *anon_name),
+    19		TP_ARGS(mm, anon_name));
+    20	DECLARE_HOOK(android_vh_restore_mm_flags,
+    21		TP_PROTO(struct mm_struct *mm),
+    22		TP_ARGS(mm));
+    23	
+  > 24	DECLARE_RESTRICTED_HOOK(android_rvh_pr_set_vma_name_bypass,
+    25		TP_PROTO(struct mm_struct *mm, unsigned long addr, unsigned long size,
+    26			      struct anon_vma_name *anon_name, int *error, bool *bypass),
+    27		TP_ARGS(mm, addr, size, anon_name, error, bypass), 1);
+    28	#endif
+    29	
 
 -- 
 0-DAY CI Kernel Test Service
