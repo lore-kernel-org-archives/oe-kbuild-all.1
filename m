@@ -1,120 +1,140 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55FC202C25
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 12:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FEEC1D63DF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 12:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733489265; cv=none; b=UaMybRHFQazUlVo+ba01WmoRyoYXOa3oxFcYr2UwxkNv4+KYd5vPrkLxLYJ7tnhmNDOlPdnr2wo1C+aie306jfJ81gGmnHxrfWgECv94rUlomfgfcZ8kZIDO8KKExspyaw98KIX7fdtDREDCN01rUPmhiSlVMTEWfbdUs5fDhPQ=
+	t=1733489890; cv=none; b=K05DA9LMCx/WHoTu3svAm130luT2P6e8lYn/9cxoj9+LNbxGDOjGxO9iYf3nRron8qYFB2m7dNOcDmNt/Hhjjihe9rKW2Xq33+E9+EI0Ig7Q8XSNYIb6UCraGJjFYXswRivo8T2eJBrTHrjpgBMVoOeWFDWTYVdQmlYCw1JpsUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733489265; c=relaxed/simple;
-	bh=luvaLEsir7NjCvJffVBs4WtdDScEoHm8FBWXtLtg1R4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QxCMZKP5dPA/sY+9DyyCWItC+NKqRemmdMtNcHdrJy2isq2AdQI3S+AL/35f78ym1p9pOFF2VGlbgyMZyqPcYHROCeLdsBNvacHKHG32gbsvHZAvZN0izzWvGKU9Pk1EulJxKOicjukcLOKQgnSvbiNvU1sY6K4itfN2Lkr5TtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QqmScRVq; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733489890; c=relaxed/simple;
+	bh=FIVzspjMpgaFIV18myNRUSMi6tpkwOKe5+PPw4pzjgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IBJNPv8GjRU0QwZu/bZHnpfWMnH9XhNwzyCnWhUOq4HKWSjiApNqQXJM0YVvGKHODcdVDlv1bRG2mgZZ/zJLtb+GAJBASEzmJzaHFNI/dAl1kxhhLjUtMSHnLuvm5HW7WwpjzKc7sg28pFhefCgamsfmktZFl/vLFWkqZfjWazc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b7mBdiGe; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqmScRVq"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2ef28f07dbaso1456133a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 06 Dec 2024 04:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733489263; x=1734094063; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AN6wSJOQKeS8K8OswS/K9JukacIPLWbnXcQDadD1vP8=;
-        b=QqmScRVqXJiLWw0aNp9XDwSUFCjDLD0POOhhMzK3bhT3nORzrJXbasGxLTir9UQMmJ
-         pdjjgzKOmFiG9nk203npoajp34ysoRMQ/uUNhnhOG+CkIM0zHPNEwPiwVDnELIiZinlD
-         kjdbIXexJtfDkY0r3Dhw6yVB/DJJLEoOntOwjBskGyuscMBJSSl1lvj9HmpRfCVgqBNm
-         9E2bWx3A5KEndB+G+XjhjA83YDW4yKrxxHa3RYbHLXplNqySgbKQgpHk/mX0kni5aT6a
-         3Y3aQCQv5JakI/rgR5tbkYjWJRGrP/1QXnsPQUUoz0GIfsdJ0VJwV2QVOvGtfXe68FBb
-         Nagg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733489263; x=1734094063;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AN6wSJOQKeS8K8OswS/K9JukacIPLWbnXcQDadD1vP8=;
-        b=GVRSdVcP8z8VS+TucP7TDb1plnVG1yCUs6feuQnhUkOMJRBKwCqDyvyg2mCv9Pw8yR
-         ZP9IeEI5ZZ47fgJ9OGdomSK0hkNhqY93K3RPns6rQ8JpDwxk/9buLP3CdeJgyFGKG3mA
-         XmksZqUtSKuVfRjbJg5F6QLZv09KX03Z7FiX9fzwpDKSI+6MJNrufgxunoVwxa2YYKGN
-         b7YHPiSwcxpBvn42UYEWb0G5tWWh8ooBUkWGOEfkUNdbPmJeB6ONjg7oMsO2p1224deL
-         LgNxK2SjGwmF4XijAybBcLag3hFFs+iifZVFqcngk5e8dSzHUrZdBxDXqSE3WlkkU8/P
-         5OfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWb+wed8eAGd2COhH85hgx/lxtW+15hRQ74QhzFpxOnMrPD8ZCs0MCjaOIy45WF2mDnbZbG3C5Ih08a0wle@lists.linux.dev
-X-Gm-Message-State: AOJu0YwskbmcXGsa/HK7LP9b3eyi/1YgeoXUj0gH7jAa6zPvzjhijt8s
-	Z02wKcbWBf/zRzOF6OND/PGSzSXUggVGCdqmC4qzbEPKG7TuzOz3Ybxx0SKX5jv2WLB9T7Ux4mF
-	xvPLvegHGvzPTUzn2MRx9w3fy1Uk=
-X-Gm-Gg: ASbGncu/le7C1SPTIt1FnVu15RqrWbys0m1zIv3wKu8zbnQusL+RlwSxuhQTn15TQ7f
-	IkpogVh0aDrBjM34AXqVMWRAOzE9shQ==
-X-Google-Smtp-Source: AGHT+IFIuAmE5evZRQVOpWixS07pJUiCWd6rEIDUBIPKl09LCARVG3DFqnIcjP/XHH0456aJoyhfu8BCInBZIcs6m6g=
-X-Received: by 2002:a17:90b:5101:b0:2ee:964e:67ce with SMTP id
- 98e67ed59e1d1-2ef6955f6fdmr4458139a91.3.1733489262934; Fri, 06 Dec 2024
- 04:47:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b7mBdiGe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733489889; x=1765025889;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FIVzspjMpgaFIV18myNRUSMi6tpkwOKe5+PPw4pzjgM=;
+  b=b7mBdiGej3dIRzucwFooR1E8em4Rgu1DqYhjVXV6UqjPsmjnh4yntjmN
+   psIQvBz9uh/FlKbb9JQ6JtNQ2l7Tk17EE82+20rUhZDs2GPWYjnNF6HZb
+   Jei8rii5jBBrZjb6XTvow3SSAuAAgZ4UlK6W6Ibo2M5tqFosnMvS8HVKH
+   kAdcambwf+/p5u67G/xG9AbN26NLkntoHznrKs+DlCsaiJd6QiZxmgipG
+   H7EKNNum1jIxFc794CwaIGVKfk/Yh/EHsfeGnS8qZ23+TmCVEPt25xoFW
+   pkdfW1DgGoTV0RzBYZMqH9/2FTmtCL7u4bC42Sl3anzgnS6l0DNZLPrSg
+   w==;
+X-CSE-ConnectionGUID: leKusZrJS+6UZ7kfEsqDNA==
+X-CSE-MsgGUID: jR2Kn6iNRYm8gCArB8dE4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="37626183"
+X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
+   d="scan'208";a="37626183"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 04:58:08 -0800
+X-CSE-ConnectionGUID: gD9MHrRLQx6yWYrHlj7LlQ==
+X-CSE-MsgGUID: 1FiAXVIuRMG7y5l1DIXsBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
+   d="scan'208";a="98855020"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 06 Dec 2024 04:58:06 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tJXuG-00013t-0R;
+	Fri, 06 Dec 2024 12:58:04 +0000
+Date: Fri, 6 Dec 2024 20:56:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Jie Liu <liujie375@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2564/2564]
+ drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:5776:1: warning: label
+ 'out_dbg_init' defined but not used
+Message-ID: <202412062047.T2j25jn7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202408220755.LlaA10C6-lkp@intel.com> <3ba6caea-654e-4dcd-a4a4-bfdcf808f0e5@intel.com>
- <CAMo8BfJOPNaHb0f3Rf2GyhApCDg5bFfCGETWU9-LBJWiJpLeFw@mail.gmail.com> <20241204230526.GA1166824@ZenIV>
-In-Reply-To: <20241204230526.GA1166824@ZenIV>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Fri, 6 Dec 2024 04:47:52 -0800
-Message-ID: <CAMo8BfLYSRxEXJVJxrZEe-SpLhcz2ScZs7avCoh=_C4taWuL2Q@mail.gmail.com>
-Subject: Re: WARNING: [xtensa] modpost: vmlinux: section mismatch in
- reference: ice_adv_lnk_speed_maps+0x14 (section: .data) ->
- __setup_str_initcall_blacklist (section: .init.rodata)
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>, kernel test robot <lkp@intel.com>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Pawel Chmielewski <pawel.chmielewski@intel.com>, Jacob Keller <jacob.e.keller@intel.com>, 
-	Paul Greenwalt <paul.greenwalt@intel.com>, Simon Horman <horms@kernel.org>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Dec 4, 2024 at 3:05=E2=80=AFPM Al Viro <viro@zeniv.linux.org.uk> wr=
-ote:
->
-> On Fri, Aug 23, 2024 at 11:41:17PM -0700, Max Filippov wrote:
->
-> > static struct ethtool_forced_speed_map ice_adv_lnk_speed_maps[]
-> > __ro_after_init =3D {
-> >        ETHTOOL_FORCED_SPEED_MAP(ice_adv_lnk_speed, 100),
-> >
-> > that array goes into the .data,
->
-> ... due to
->
-> #define __ro_after_init __read_mostly
->
-> in your asm/cache.h,
+Hi Haibin,
 
-Oh, the trail leads back to me (:
+FYI, the error/warning still remains.
 
-> instead of the usual .data..ro_after_init,
-> which would be enough for modpost to assume that driver knows
-> what it's doing and won't access the dangling pointers to
-> .init.rodata in there after the initmem had been freed.
->
-> The same goes for qed and the same thing happens on openrisc,
-> for exact same reason.
->
-> While we are at it, that might as well had been
-> #define __ro_after_init
-> since __read_mostly is not defined on xtensa and default is empty.
->
-> If you don't want that stuff to go into RODATA, why not
-> simply define an empty RO_AFTER_INIT_DATA in your vmlinux.lds
-> and put those sections explicitly there, along with the data ones,
-> as e.g. s390 does?  Or arch/arm/kernel/vmlinux-xip.lds.S,
-> for that matter...
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   9cf5f60a8d57b2498fb9f9223825d6933b2d2fd5
+commit: b0c148879a02ad602d4526521d88b0a274aabe8d [2564/2564] UNIC: The driver loading process is terminated when the guid fails to be obtained.
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241206/202412062047.T2j25jn7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412062047.T2j25jn7-lkp@intel.com/reproduce)
 
-I'll do that, thanks for digging into it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412062047.T2j25jn7-lkp@intel.com/
 
---=20
-Thanks.
--- Max
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/hisilicon/hns3/hns3_enet.c: In function 'hns3_client_init':
+>> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:5776:1: warning: label 'out_dbg_init' defined but not used [-Wunused-label]
+    5776 | out_dbg_init:
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3_enet.c: In function 'hns3_reset_notify_init_enet':
+>> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:6088:1: warning: label 'err_init_guid_fail' defined but not used [-Wunused-label]
+    6088 | err_init_guid_fail:
+         | ^~~~~~~~~~~~~~~~~~
+
+
+vim +/out_dbg_init +5776 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
+
+  5757	
+  5758		hns3_state_init(handle);
+  5759	
+  5760		if (test_bit(HNAE3_DEV_SUPPORT_QB_B, ae_dev->caps))
+  5761			set_bit(HNAE3_PFLAG_FD_QB_ENABLE, &handle->supported_pflags);
+  5762	
+  5763		ret = register_netdev(netdev);
+  5764		if (ret) {
+  5765			dev_err(priv->dev, "probe register netdev fail!\n");
+  5766			goto out_reg_netdev_fail;
+  5767		}
+  5768	
+  5769		if (netif_msg_drv(handle))
+  5770			hns3_info_show(priv);
+  5771	
+  5772		return ret;
+  5773	
+  5774	out_reg_netdev_fail:
+  5775		hns3_state_uninit(handle);
+> 5776	out_dbg_init:
+  5777		hns3_dbg_uninit(handle);
+  5778		hns3_client_stop(handle);
+  5779	out_client_start:
+  5780		hns3_free_rx_cpu_rmap(netdev);
+  5781		hns3_nic_uninit_irq(priv);
+  5782	out_init_irq_fail:
+  5783		hns3_uninit_phy(netdev);
+  5784	out_init_phy:
+  5785		hns3_uninit_all_ring(priv);
+  5786	out_init_ring:
+  5787		hns3_nic_uninit_vector_data(priv);
+  5788	out_init_vector_data:
+  5789		hns3_nic_dealloc_vector_data(priv);
+  5790	out_alloc_vector_data:
+  5791		priv->ring = NULL;
+  5792	out_get_ring_cfg:
+  5793		priv->ae_handle = NULL;
+  5794		free_netdev(netdev);
+  5795		return ret;
+  5796	}
+  5797	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
