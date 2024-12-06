@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9511720CCFC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 16:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CAA20628A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 16:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733501390; cv=none; b=X1qYmiD7u0a3TiEFnb6I7zwm8e5OAzrQRLqTCcKvJuYzf6hGaPBXaqY8PYSJxT0yN0BWSclzgNDsTM3DQYeA8AELdPZ7niV8N8eP4fpxzDDZRjT3qvpFuLAF3QB0pxI7hRvk1OFXj1Fkij/MCDgDn4a78BscZOqD3Vmq6mufYR4=
+	t=1733503862; cv=none; b=kK2c2FH1jPYzTw3gcVgsENyBDzjUfsmUjj/PA/WcEvMRUYUgpZG08JebZOobZbguzJpWeyBHnv9DDBWMgsodBf7CBEB+QHr6QOt/e9hKSISpPLjUMufZYxQ1QPMv6kZ1+13QF5HEjV9rNcSWcpcTbTdnOtgInL5WsZtiwOTmp/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733501390; c=relaxed/simple;
-	bh=otxmMdDnfllSw/3neoZSsOheCA51QwRYqoWIY04Yiuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TkW1tzkarUtmiCmy/PZ4ND0ZeA638ncWJr2fe9Xaf37/R2obS+23nnH2aqQI7hTd9KqJAYqkqSAGyZd0ON2MRZe+K0lkZd7mRiVPnKf0Z8CqZAOSf58FTooIupWQ/etJtYO640DgXeLcUjUBHbf50r0uDxLVIeW56c9VcKZtoWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h7JSJ91b; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1733503862; c=relaxed/simple;
+	bh=qZin4s7pr/icRgVdzO97D3u6bbOWBXIsiZysGZ7DEsg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tr/TsPs1YvMRvUm1wfz1/Yip2FbvjSnyvmf+eZL1VXhs6mBc1ib+19uwJhGh8f3JCPm1NBHyNNipIeoPxj9YskI+QdbVxiuE4XamTSJIzLeHHrIwNWu/3pUT0ZZM/sGVPaUzhHBDb6FjpihERC+tguI8WPXLuy6OryY7fVh7AzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=exZj0BRs; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h7JSJ91b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exZj0BRs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733501389; x=1765037389;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=otxmMdDnfllSw/3neoZSsOheCA51QwRYqoWIY04Yiuc=;
-  b=h7JSJ91bx/wq9TquoH5lxKHTRFRukgjCAdjjGvF6A49YVe+3vUd/+sFA
-   IgdWZAyIVEU+akJZ/FDmHSiPYamKvcMGUhYdOl7HDt35Ny/4W64VSvQSZ
-   NwHcZz4gkFNhV3MiiyKcDqvcHQexPF2/X64VV2zmavE+gKkyWgTbuIHrw
-   0Gq5oJPcpr2tD3HqZLqecNIo8hDvg1GNEf2dp/c7Nu8fHpYnDREAltVw8
-   BJB5LU+IEx/gs96cQwRm1Vn4lJP9rNl2gXQukJ3iuyglrXgFz7VqG0VPb
-   6K9IV6NGvjOkbsGt7RamkG9250GRYIkzkbkgrhlH0xRpg42n+dEDXoLLD
+  t=1733503861; x=1765039861;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qZin4s7pr/icRgVdzO97D3u6bbOWBXIsiZysGZ7DEsg=;
+  b=exZj0BRsCUStHxK3ioP4wjJU3tmkKSJVqY4XBwe2LB3+lwNi3Y9ydVUf
+   USgwbJMdI2bvZLN7n1QFViz7IjxWWb0gcC8DI/SpH8o9tbrBd7bqhUYMw
+   j+fQPI2hoWSXfJFuru/tJ0b4jwRFDVlYok11BtC6zmRBw3+NciKW7DWXH
+   izegpX84P25QAYf//zfFyH4T05b6oQ/NvJosE4b3KFc7b/4LyTirxAciP
+   eq7V6xM8kcfxT3slcUL7tPbY8sgTQTLYd4Znyn5+AmHc4h+Xz+NzkOkly
+   TCJBp8XftA2UcHVNPLgKnndHX9Wk1ViPUTXMdFTeGBUYF9xUPecrOld/k
    g==;
-X-CSE-ConnectionGUID: D9PvhCJyTJmyJqQSNiQkwg==
-X-CSE-MsgGUID: 9UXsvcgbQhWGOSJU2MeEmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="44329008"
+X-CSE-ConnectionGUID: vOqbeCDHQfGDclas2ZzqoQ==
+X-CSE-MsgGUID: DXVWf3pQQIKtK9aNDsGGwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="37542116"
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="44329008"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 08:09:48 -0800
-X-CSE-ConnectionGUID: c5jIciafR8C5yEZ0ND3zfg==
-X-CSE-MsgGUID: fLf5JZBuR0WHjLGQBHTu8Q==
+   d="scan'208";a="37542116"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 08:51:00 -0800
+X-CSE-ConnectionGUID: oRQMPDqISjKNULJpuObSSw==
+X-CSE-MsgGUID: ZJirkQbVQ0Wc5urIA1B7ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="94640280"
+   d="scan'208";a="94550901"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Dec 2024 08:09:46 -0800
+  by orviesa006.jf.intel.com with ESMTP; 06 Dec 2024 08:50:54 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJatk-00023x-1a;
-	Fri, 06 Dec 2024 16:09:44 +0000
-Date: Sat, 7 Dec 2024 00:09:08 +0800
+	id 1tJbXX-00025j-31;
+	Fri, 06 Dec 2024 16:50:51 +0000
+Date: Sat, 7 Dec 2024 00:50:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ruslan V. Sushko" <ruslan.sushko@zii.aero>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
-Subject: [lunn:v6.12.0-scu4-dt-overlay 5/30] versioncheck:
- ./drivers/platform/x86/scu.c: 24 linux/version.h not needed.
-Message-ID: <202412070004.8ScV7a8h-lkp@intel.com>
+To: Jijie Shao <shaojijie@huawei.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, shenjian15@huawei.com,
+	wangpeiyang1@huawei.com, liuyonglong@huawei.com,
+	chenhao418@huawei.com, sudongming1@huawei.com,
+	xujunsheng@huawei.com, shiyongbang@huawei.com, libaihan@huawei.com,
+	jonathan.cameron@huawei.com, shameerali.kolothum.thodi@huawei.com,
+	salil.mehta@huawei.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, shaojijie@huawei.com,
+	hkelam@marvell.com
+Subject: Re: [PATCH V5 net-next 1/8] debugfs: Add debugfs_create_devm_dir()
+ helper
+Message-ID: <202412070055.uUO1oKY8-lkp@intel.com>
+References: <20241206111629.3521865-2-shaojijie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,33 +72,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241206111629.3521865-2-shaojijie@huawei.com>
 
-tree:   https://github.com/lunn/linux.git v6.12.0-scu4-dt-overlay
-head:   e5a74312d60c715601af06df72b460f497b0483e
-commit: f639c4ae67b2eed2b3780f0d68df20faa5234521 [5/30] Initial support for SCU platform
-reproduce: (https://download.01.org/0day-ci/archive/20241207/202412070004.8ScV7a8h-lkp@intel.com/reproduce)
+Hi Jijie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jijie-Shao/debugfs-Add-debugfs_create_devm_dir-helper/20241206-192734
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241206111629.3521865-2-shaojijie%40huawei.com
+patch subject: [PATCH V5 net-next 1/8] debugfs: Add debugfs_create_devm_dir() helper
+config: x86_64-buildonly-randconfig-003-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070055.uUO1oKY8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070055.uUO1oKY8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070004.8ScV7a8h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070055.uUO1oKY8-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/platform/x86/scu.c: 24 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 423: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   fs/debugfs/inode.c: In function 'debugfs_create_devm_dir':
+>> fs/debugfs/inode.c:643:17: warning: ignoring return value of 'ERR_PTR' declared with attribute 'warn_unused_result' [-Wunused-result]
+     643 |                 ERR_PTR(ret);
+         |                 ^~~~~~~~~~~~
+
+
+vim +643 fs/debugfs/inode.c
+
+   619	
+   620	/**
+   621	 * debugfs_create_devm_dir - Managed debugfs_create_dir()
+   622	 * @dev: Device that owns the action
+   623	 * @name: a pointer to a string containing the name of the directory to
+   624	 *        create.
+   625	 * @parent: a pointer to the parent dentry for this file.  This should be a
+   626	 *          directory dentry if set.  If this parameter is NULL, then the
+   627	 *          directory will be created in the root of the debugfs filesystem.
+   628	 * Managed debugfs_create_dir(). dentry will automatically be remove on
+   629	 * driver detach.
+   630	 */
+   631	struct dentry *debugfs_create_devm_dir(struct device *dev, const char *name,
+   632					       struct dentry *parent)
+   633	{
+   634		struct dentry *dentry;
+   635		int ret;
+   636	
+   637		dentry = debugfs_create_dir(name, parent);
+   638		if (IS_ERR(dentry))
+   639			return dentry;
+   640	
+   641		ret = devm_add_action_or_reset(dev, debugfs_remove_devm, dentry);
+   642		if (ret)
+ > 643			ERR_PTR(ret);
+   644	
+   645		return dentry;
+   646	}
+   647	EXPORT_SYMBOL_GPL(debugfs_create_devm_dir);
+   648	
 
 -- 
 0-DAY CI Kernel Test Service
