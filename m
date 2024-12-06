@@ -1,166 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EA81DDC01
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 08:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2874F1F8EFE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 09:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733475169; cv=none; b=hrFCXHjWXKvMs3IEQRi1TQI5z0jOkNGIzc39mCz4rgFZnCCcz3QPZ9M/qNoR8r0VNx84Bmi+wR/b8RMUAJHL5IJRxOPOGQRsMZ/hLwxrLoGi7CgAQLbgs+385F/RvMAvHVwXEI7j69oItq85UAG42xMCOZCvM5fLJnYZWqsWUME=
+	t=1733477691; cv=none; b=HVSvWX1He9BZJue/3RYGrslGxAQs3UEWG+jyd1SoemDnxWqQ8BygDi4eiGEuRHpsGFtXifJA74TNbrYJrL6YaV7/mROTVo5B5PJimD1TL1zEeOxCq12KmsN/CSE8FxKaD5q71B/FAkgiS8CrTLPnOWq88HnxZX+FsrRtZN4bhg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733475169; c=relaxed/simple;
-	bh=okRB92TkJDue+P+VrxfwfyzQ+j7be88BbDlnZikfQJg=;
+	s=arc-20240116; t=1733477691; c=relaxed/simple;
+	bh=vtX1xLYZNTyiL1UsRWfI5+qW3oEcr6oN3ut+pfovAkc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vop4YtfbQ44E6eql1OF1EaMfJ2nObMQMSSDUIEz1y9ap9i3VHAstDuZFnq49RA+/OZnn7jmhz0qdTtPAgRlLZgHh2dJBRVdb5WXllGj3jGeMPpl5Rknfq5Un7jx+up388d/kW0oWOSNrFQ1QE2daU/LUXTFeutDQtbH+AuH5csc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BKrKfK1b; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=PIfGvZgHTYZY+DJ9p83Bkq/HNiKERE9JmDOqKX5oDrLO+tslIp0xzZGsq6cUy3xqVm9Xjjh3wP6B1VWWcMclJm57Atc8SokTP1XV+DlfHszeciEy7jEb8qMP8eLNwMjmUehqK1LwknWvvNKSU+fjGio/DkFD92UwJdQEm5+uBvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c045NSbv; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BKrKfK1b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c045NSbv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733475167; x=1765011167;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=okRB92TkJDue+P+VrxfwfyzQ+j7be88BbDlnZikfQJg=;
-  b=BKrKfK1bOgL5cfCAstqFSzONzmqjANZNZdEIl555HNijVuE5jqdIXrrK
-   YEMtJywM1E6lGmSyrKLfU53T/jXSMTDX+vTiZ10YJbqRDsqHiM3cAHinz
-   e7mkBJNmAFq5tJUjJRWyeq9XpNzMRlYHUhF3xBSTH3AqVjPau3wCxVyAf
-   3ZpRZHA33MhTyBz4p8A+oA3H49AXg7JBLWq1c3rUz3E8SjlDWie7GnF9Q
-   Jb04VvY3np7Tl4OPd7AKfv12Dy6SkUbuvfK5CPb69/01WDGbEkCBXZSEc
-   JYplrcvw48h+p11uZJSBJB3gg1EH8Iq3Ffwty2FM8FAHSZM7dT4Gzfn6H
+  t=1733477689; x=1765013689;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vtX1xLYZNTyiL1UsRWfI5+qW3oEcr6oN3ut+pfovAkc=;
+  b=c045NSbvkQYbrcpNwNGy7v3t5YuGOWpo5uOS7vP1IIh/hZpixEn9bK9z
+   u2n8+2opPofv6FS3xY3HEViHQ8fKtRJzutLun/g0acXuW7gdyGfTzQ8fL
+   BxMlGEGcFN6m2m1P+SnGUKQfgxydiqndqkkPdLHeytvciQ3THIL5/EpDI
+   cyKKi8VCN0iBZsn8a3FYxtoKLRKBsLkYzTYU+hwDQPZU2CkvUfjYTsEhX
+   3kevWvX2D4QGGG5nkjiCGuTR8KWfw4bKzEDLofL2G3ss8XpPggfidCmNh
+   1Zuzh5VSRPNdiIriPCTqyPyQi4U/LkBjXAiv+b9NgxuNIqO1hZiCVtkYB
    g==;
-X-CSE-ConnectionGUID: kqUIjunPSfCr6RfzKbGuoA==
-X-CSE-MsgGUID: OtrsrUfyRaa0Co0aEWXj/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="37754476"
-X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="37754476"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 00:52:46 -0800
-X-CSE-ConnectionGUID: 0N1SxQNZR8CSOfnQm3Sbtg==
-X-CSE-MsgGUID: YXnncUGNRUassnL2+h3Qcg==
+X-CSE-ConnectionGUID: 4d+Rn6sBTmatEnNGgKfVEQ==
+X-CSE-MsgGUID: I/mbCYghS3Gt/mlC/XWmJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="51239645"
+X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
+   d="scan'208";a="51239645"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 01:34:48 -0800
+X-CSE-ConnectionGUID: ZPpm7EOlQOWVwnhosDvL5A==
+X-CSE-MsgGUID: 0iJgZF46QziQ5E1mW9rgvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="94029362"
+   d="scan'208";a="98426321"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Dec 2024 00:52:42 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 06 Dec 2024 01:34:47 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJU4m-0000rs-2G;
-	Fri, 06 Dec 2024 08:52:40 +0000
-Date: Fri, 6 Dec 2024 16:51:47 +0800
+	id 1tJUjV-0000tx-0Q;
+	Fri, 06 Dec 2024 09:34:45 +0000
+Date: Fri, 6 Dec 2024 17:33:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
- arch/arm64/kvm/../../../virt/kvm/arm/arm.c:212:21: error: 'KVM_MAX_VCPU_ID'
- undeclared; did you mean 'KVM_MAX_VCPU_IDS'?
-Message-ID: <202412061644.GDvOxkh0-lkp@intel.com>
+To: Kyle Deng <quic_chunkaid@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
+Subject: [linux-next:master 992/2197]
+ arch/arm64/boot/dts/qcom/qcs615-ride.dtb: power-controller@c300000:
+ '#power-domain-cells' does not match any of the regexes: '^(cx|mx|ebi)$',
+ 'pinctrl-[0-9]+'
+Message-ID: <202412061702.g338r9kf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Zhuo,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   f1811f6442501fe34d2339158aed4f85a64f0398
-commit: 2e1cb4523f3590fd773eeea95c0a8c436308a98a [1/1] kvm: rename KVM_MAX_VCPU_ID to KVM_MAX_VCPU_IDS
-config: arm64-randconfig-r051-20241204 (https://download.01.org/0day-ci/archive/20241206/202412061644.GDvOxkh0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   af2ea8ab7a546b430726183458da0a173d331272
+commit: 0775021783b5536e390d1602d054542a29875593 [992/2197] arm64: dts: qcom: qcs615: add AOSS_QMP node
+config: arm64-randconfig-051-20241204 (https://download.01.org/0day-ci/archive/20241206/202412061702.g338r9kf-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061644.GDvOxkh0-lkp@intel.com/reproduce)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061702.g338r9kf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412061644.GDvOxkh0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412061702.g338r9kf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/arm64/kvm/../../../virt/kvm/arm/arm.c:147:5: warning: no previous prototype for 'kvm_arch_create_vcpu_debugfs' [-Wmissing-prototypes]
-     147 | int kvm_arch_create_vcpu_debugfs(struct kvm_vcpu *vcpu)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/arm/arm.c: In function 'kvm_vm_ioctl_check_extension':
->> arch/arm64/kvm/../../../virt/kvm/arm/arm.c:212:21: error: 'KVM_MAX_VCPU_ID' undeclared (first use in this function); did you mean 'KVM_MAX_VCPU_IDS'?
-     212 |                 r = KVM_MAX_VCPU_ID;
-         |                     ^~~~~~~~~~~~~~~
-         |                     KVM_MAX_VCPU_IDS
-   arch/arm64/kvm/../../../virt/kvm/arm/arm.c:212:21: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +212 arch/arm64/kvm/../../../virt/kvm/arm/arm.c
-
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  179  
-784aa3d7fb6f729 arch/arm/kvm/arm.c Alexander Graf   2014-07-14  180  int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  181  {
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  182  	int r;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  183  	switch (ext) {
-1a89dd9113badd7 arch/arm/kvm/arm.c Marc Zyngier     2013-01-21  184  	case KVM_CAP_IRQCHIP:
-c7da6fa43cb1c5e arch/arm/kvm/arm.c Pavel Fedin      2015-12-18  185  		r = vgic_present;
-c7da6fa43cb1c5e arch/arm/kvm/arm.c Pavel Fedin      2015-12-18  186  		break;
-d44758c0dfc5993 arch/arm/kvm/arm.c Nikolay Nikolaev 2015-01-24  187  	case KVM_CAP_IOEVENTFD:
-7330672befe6269 arch/arm/kvm/arm.c Christoffer Dall 2013-10-25  188  	case KVM_CAP_DEVICE_CTRL:
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  189  	case KVM_CAP_USER_MEMORY:
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  190  	case KVM_CAP_SYNC_MMU:
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  191  	case KVM_CAP_DESTROY_MEMORY_REGION_WORKS:
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  192  	case KVM_CAP_ONE_REG:
-aa024c2f35a07cc arch/arm/kvm/arm.c Marc Zyngier     2013-01-20  193  	case KVM_CAP_ARM_PSCI:
-4447a208f7fc2e2 arch/arm/kvm/arm.c Anup Patel       2014-04-29  194  	case KVM_CAP_ARM_PSCI_0_2:
-98047888bb9fd57 arch/arm/kvm/arm.c Christoffer Dall 2014-08-19  195  	case KVM_CAP_READONLY_MEM:
-ecccf0cc722f40e arch/arm/kvm/arm.c Alex Bennée      2015-03-13  196  	case KVM_CAP_MP_STATE:
-460df4c1fc7c008 arch/arm/kvm/arm.c Paolo Bonzini    2017-02-08  197  	case KVM_CAP_IMMEDIATE_EXIT:
-58bf437ff64eac8 virt/kvm/arm/arm.c Dongjiu Geng     2018-10-13  198  	case KVM_CAP_VCPU_EVENTS:
-92f35b751c71d14 virt/kvm/arm/arm.c Marc Zyngier     2019-08-18  199  	case KVM_CAP_ARM_IRQ_LINE_LAYOUT_2:
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  200  		r = 1;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  201  		break;
-3401d54696f992e arch/arm/kvm/arm.c Christoffer Dall 2013-01-23  202  	case KVM_CAP_ARM_SET_DEVICE_ADDR:
-3401d54696f992e arch/arm/kvm/arm.c Christoffer Dall 2013-01-23  203  		r = 1;
-ca46e10fb239d46 arch/arm/kvm/arm.c Marc Zyngier     2013-04-03  204  		break;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  205  	case KVM_CAP_NR_VCPUS:
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  206  		r = num_online_cpus();
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  207  		break;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  208  	case KVM_CAP_MAX_VCPUS:
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  209  		r = KVM_MAX_VCPUS;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  210  		break;
-a86cb413f4bf273 virt/kvm/arm/arm.c Thomas Huth      2019-05-23  211  	case KVM_CAP_MAX_VCPU_ID:
-a86cb413f4bf273 virt/kvm/arm/arm.c Thomas Huth      2019-05-23 @212  		r = KVM_MAX_VCPU_ID;
-a86cb413f4bf273 virt/kvm/arm/arm.c Thomas Huth      2019-05-23  213  		break;
-2988509dd8a0e9c arch/arm/kvm/arm.c Vladimir Murzin  2016-11-02  214  	case KVM_CAP_MSI_DEVID:
-2988509dd8a0e9c arch/arm/kvm/arm.c Vladimir Murzin  2016-11-02  215  		if (!kvm)
-2988509dd8a0e9c arch/arm/kvm/arm.c Vladimir Murzin  2016-11-02  216  			r = -EINVAL;
-2988509dd8a0e9c arch/arm/kvm/arm.c Vladimir Murzin  2016-11-02  217  		else
-2988509dd8a0e9c arch/arm/kvm/arm.c Vladimir Murzin  2016-11-02  218  			r = kvm->arch.vgic.msis_require_devid;
-2988509dd8a0e9c arch/arm/kvm/arm.c Vladimir Murzin  2016-11-02  219  		break;
-f7214e6023c86cb arch/arm/kvm/arm.c Christoffer Dall 2017-02-01  220  	case KVM_CAP_ARM_USER_IRQ:
-f7214e6023c86cb arch/arm/kvm/arm.c Christoffer Dall 2017-02-01  221  		/*
-f7214e6023c86cb arch/arm/kvm/arm.c Christoffer Dall 2017-02-01  222  		 * 1: EL1_VTIMER, EL1_PTIMER, and PMU.
-f7214e6023c86cb arch/arm/kvm/arm.c Christoffer Dall 2017-02-01  223  		 * (bump this number if adding more devices)
-f7214e6023c86cb arch/arm/kvm/arm.c Christoffer Dall 2017-02-01  224  		 */
-f7214e6023c86cb arch/arm/kvm/arm.c Christoffer Dall 2017-02-01  225  		r = 1;
-f7214e6023c86cb arch/arm/kvm/arm.c Christoffer Dall 2017-02-01  226  		break;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  227  	default:
-375bdd3b5d4f7cf virt/kvm/arm/arm.c Dongjiu Geng     2018-10-13  228  		r = kvm_arch_vm_ioctl_check_extension(kvm, ext);
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  229  		break;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  230  	}
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  231  	return r;
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  232  }
-749cf76c5a363e1 arch/arm/kvm/arm.c Christoffer Dall 2013-01-20  233  
-
-:::::: The code at line 212 was first introduced by commit
-:::::: a86cb413f4bf273a9d341a3ab2c2ca44e12eb317 KVM: s390: Do not report unusabled IDs via KVM_CAP_MAX_VCPU_ID
-
-:::::: TO: Thomas Huth <thuth@redhat.com>
-:::::: CC: Christian Borntraeger <borntraeger@de.ibm.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: efuse@780000: compatible:0: 'qcom,qcs615-qfprom' is not one of ['qcom,apq8064-qfprom', 'qcom,apq8084-qfprom', 'qcom,ipq5332-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ipq8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,msm8226-qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', 'qcom,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,qcs404-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom', 'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,sdm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qfprom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'qcom,sm8550-qfprom', 'qcom,sm8650-qfprom']
+   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: efuse@780000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/efuse@780000: failed to match any schema with compatible: ['qcom,qcs615-qfprom', 'qcom,qfprom']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: interrupt-controller@b220000: compatible:0: 'qcom,qcs615-pdc' is not one of ['qcom,qdu1000-pdc', 'qcom,sa8255p-pdc', 'qcom,sa8775p-pdc', 'qcom,sar2130p-pdc', 'qcom,sc7180-pdc', 'qcom,sc7280-pdc', 'qcom,sc8180x-pdc', 'qcom,sc8280xp-pdc', 'qcom,sdm670-pdc', 'qcom,sdm845-pdc', 'qcom,sdx55-pdc', 'qcom,sdx65-pdc', 'qcom,sdx75-pdc', 'qcom,sm4450-pdc', 'qcom,sm6350-pdc', 'qcom,sm8150-pdc', 'qcom,sm8250-pdc', 'qcom,sm8350-pdc', 'qcom,sm8450-pdc', 'qcom,sm8550-pdc', 'qcom,sm8650-pdc', 'qcom,x1e80100-pdc']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,pdc.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/interrupt-controller@b220000: failed to match any schema with compatible: ['qcom,qcs615-pdc', 'qcom,pdc']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: power-controller@c300000: compatible:0: 'qcom,qcs615-aoss-qmp' is not one of ['qcom,qcs8300-aoss-qmp', 'qcom,qdu1000-aoss-qmp', 'qcom,sa8255p-aoss-qmp', 'qcom,sa8775p-aoss-qmp', 'qcom,sar2130p-aoss-qmp', 'qcom,sc7180-aoss-qmp', 'qcom,sc7280-aoss-qmp', 'qcom,sc8180x-aoss-qmp', 'qcom,sc8280xp-aoss-qmp', 'qcom,sdx75-aoss-qmp', 'qcom,sdm845-aoss-qmp', 'qcom,sm6350-aoss-qmp', 'qcom,sm8150-aoss-qmp', 'qcom,sm8250-aoss-qmp', 'qcom,sm8350-aoss-qmp', 'qcom,sm8450-aoss-qmp', 'qcom,sm8550-aoss-qmp', 'qcom,sm8650-aoss-qmp', 'qcom,sm8750-aoss-qmp', 'qcom,x1e80100-aoss-qmp']
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,aoss-qmp.yaml#
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: power-controller@c300000: '#power-domain-cells' does not match any of the regexes: '^(cx|mx|ebi)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,aoss-qmp.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/power-controller@c300000: failed to match any schema with compatible: ['qcom,qcs615-aoss-qmp', 'qcom,aoss-qmp']
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: mailbox@17c00000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,qcs615-apss-shared', 'qcom,sdm845-apss-shared'] is too short
+   	['qcom,qcs615-apss-shared', 'qcom,sdm845-apss-shared'] is too long
+   	'qcom,qcs615-apss-shared' is not one of ['qcom,ipq5018-apcs-apps-global', 'qcom,ipq5332-apcs-apps-global', 'qcom,ipq8074-apcs-apps-global', 'qcom,ipq9574-apcs-apps-global']
+   	'qcom,qcs615-apss-shared' is not one of ['qcom,qcs404-apcs-apps-global']
+   	'qcom,qcs615-apss-shared' is not one of ['qcom,msm8974-apcs-kpss-global', 'qcom,msm8976-apcs-kpss-global']
+   	'qcom,qcs615-apss-shared' is not one of ['qcom,msm8998-apcs-hmss-global', 'qcom,sdm660-apcs-hmss-global', 'qcom,sm4250-apcs-hmss-global', 'qcom,sm6115-apcs-hmss-global', 'qcom,sm6125-apcs-hmss-global']
+   	'qcom,qcs615-apss-shared' is not one of ['qcom,sc7180-apss-shared', 'qcom,sc8180x-apss-shared', 'qcom,sm8150-apss-shared']
+   	'qcom,qcs615-apss-shared' is not one of ['qcom,msm8916-apcs-kpss-global', 'qcom,msm8939-apcs-kpss-global', 'qcom,msm8953-apcs-kpss-global', 'qcom,msm8994-apcs-kpss-global', 'qcom,sdx55-apcs-gcc']
+   	'qcom,qcs615-apss-shared' is not one of ['qcom,ipq6018-apcs-apps-global', 'qcom,msm8996-apcs-hmss-global', 'qcom,qcm2290-apcs-hmss-global', 'qcom,sdm845-apss-shared']
+   	'qcom,ipq6018-apcs-apps-global' was expected
+   	'qcom,msm8916-apcs-kpss-global' was expected
+   	'qcom,msm8994-apcs-kpss-global' was expected
+   	'syscon' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/qcom,apcs-kpss-global.yaml#
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/mailbox@17c00000: failed to match any schema with compatible: ['qcom,qcs615-apss-shared', 'qcom,sdm845-apss-shared']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: watchdog@17c10000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt'] is too long
+   	['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt'] is too short
+   	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-ipq4019', 'qcom,apss-wdt-ipq5018', 'qcom,apss-wdt-ipq5332', 'qcom,apss-wdt-ipq9574', 'qcom,apss-wdt-msm8226', 'qcom,apss-wdt-msm8974', 'qcom,apss-wdt-msm8994', 'qcom,apss-wdt-qcm2290', 'qcom,apss-wdt-qcs404', 'qcom,apss-wdt-sa8255p', 'qcom,apss-wdt-sa8775p', 'qcom,apss-wdt-sc7180', 'qcom,apss-wdt-sc7280', 'qcom,apss-wdt-sc8180x', 'qcom,apss-wdt-sc8280xp', 'qcom,apss-wdt-sdm845', 'qcom,apss-wdt-sdx55', 'qcom,apss-wdt-sdx65', 'qcom,apss-wdt-sm6115', 'qcom,apss-wdt-sm6350', 'qcom,apss-wdt-sm8150', 'qcom,apss-wdt-sm8250']
+   	'qcom,kpss-wdt' was expected
+   	'qcom,scss-timer' was expected
+   	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
+   	'qcom,msm-timer' was expected
+   	'qcom,kpss-timer' was expected
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
