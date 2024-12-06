@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5FF20628B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 17:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0419F170A11
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 17:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733504579; cv=none; b=eLbqyJ1+rQwsiC4HpOPHFp6g95hzGf6ukNRClXr9TFO+UUxXOYkzFdQkPGBKK/VRn+oXtR4xVMYfc4onLLx8hMthKAIJ6oGVGGH80LRLndzqwdqVc4EBr0NhwZvjoaOUptpGrJTmBPGCqynIdhgjk5B1+YgXtxNwMEybTnPpi8Q=
+	t=1733504581; cv=none; b=OF7hhQUkzBu+FTekKGyULTPKcvLQpWtYAmE3jSNbfhgokSwb7jplmiG1zuxgK7vrwTJS4AQgje1yBdOZoCWn0rd/tRyVKM01ZkIwHr2PF6XlVOMeTKCSnqgAo9xSINHlWO6M7l7ytLeVj6mShtOTRiDVLwdCCJkTNM6UMs72ne8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733504579; c=relaxed/simple;
-	bh=EwnyuvsgZeL0Q/mPIZi2NgLTRE+uhlEmk1plCulhg6Q=;
+	s=arc-20240116; t=1733504581; c=relaxed/simple;
+	bh=ux0yYXEb1iC9mXDwPqR6kY3Tu9X3mqmnqOo1y4A/1No=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fw8opL+atdbBXjXmIvAqrtlwg6WdNgo/Zxrk49xSVPxF7d3pbipRZBpKIPk4dN9+1GFxrxcn7mmWXjfkLa+poSJscoYpxM5C4Bqbc8xstdvGDkQiGnUSd9d2qbajiAQMGO1Y2YG4Yw/BEnC5o083VZ40oP9KVdifNrt8vx3gPiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xw1Ru+pc; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=I95xBy7qZGAPk+j8Gj3QYBxxTs8RcG6vRerTy1eK/iXRpTDycht6vmt6yXTun+9+GNenrriEseUhBqZffnNPNrniaSuAPC++otSKW6YHhpxpu6SRmEGdtpL7gdSUngKc9TjOXtKuHh2lKHUUpKoKZLjNYMheoqc8SvBt0fsilFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VZzsc32N; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xw1Ru+pc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VZzsc32N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733504578; x=1765040578;
+  t=1733504580; x=1765040580;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EwnyuvsgZeL0Q/mPIZi2NgLTRE+uhlEmk1plCulhg6Q=;
-  b=Xw1Ru+pcXbU6xZpZ8g1+X5voyDRBPEWSXa7rpiodRhQwC/4fRHmgqwFe
-   t9fOqL5iJ3p1kiT8pv4wICCb9jTdB6bcUxBt6mHPjugkljkW1GQZeO9Y7
-   HPtJty8bbxOMgL1UqocVO2QWG8SHIywU8CIUv++gRM2Bt1l8jox7C5dkZ
-   Iw9wWaoU5kC1d2ZpcMU5dKYXV+paqZXYlQyMNax+EUyE/t8U2vnBMJak9
-   gN+1uXUjq11H6+vd9tL2lvIftzcEZmDOyJo02cNGDX9x9ia0Ssq1RKkp0
-   PGxckAttaAwRN+gONb1es60nR/zjx4bTqxU2tefQRgIn4mf8nr0DJcyEx
-   w==;
-X-CSE-ConnectionGUID: f00UK60USjiT69EROClHrw==
-X-CSE-MsgGUID: bO2AafXqRiKPbgsM7kfxdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33599512"
+  bh=ux0yYXEb1iC9mXDwPqR6kY3Tu9X3mqmnqOo1y4A/1No=;
+  b=VZzsc32N3qOPGHupfxpENw84snoSAMzM41X79RUq5pnaTrQntOqo/DCv
+   M2Ns4HDyfn5o/oJ9Gkcb5DoEAhSyQ/7Pnxf38XRAJndLePcoh1Zr6AzNX
+   Jv8rVx++oYEY2laKXuU2vGqZgSnpqTr4MTAYzmCN4rm5EI0bkHJj/szu0
+   m362zLMlSppsscMxWHm7Ubfc10MgDi8WsxQx/L/DxSDA/LrL7QrNiiqL+
+   O5l483fLkRxUIwba4GWqFtAT1rhQulhI4uW69EDZBDvr7k7n8xlIaCVg0
+   aWKkPy3gREDogMul903ow9uukeUE5TsZIvo2lPVEfyv9YyhlQRvHru4iG
+   g==;
+X-CSE-ConnectionGUID: Zt+nUW4pRIOVXV/eRpjltA==
+X-CSE-MsgGUID: Xf0rb6D+TCuoSWucZPjLuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33599513"
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="33599512"
+   d="scan'208";a="33599513"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 09:02:58 -0800
-X-CSE-ConnectionGUID: 1WpsT9+IQ+aDEijTKvecfw==
-X-CSE-MsgGUID: u1U2n8T4ReGKG40itda3DA==
+X-CSE-ConnectionGUID: ZZhvRsQ7R9KErjCWDQCrlA==
+X-CSE-MsgGUID: 9tSE8WBwRny3zmQW2QFSZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="99268401"
+   d="scan'208";a="99268400"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 06 Dec 2024 09:02:56 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJbjC-00026h-0t;
+	id 1tJbjC-00026f-0p;
 	Fri, 06 Dec 2024 17:02:54 +0000
-Date: Sat, 7 Dec 2024 01:02:11 +0800
+Date: Sat, 7 Dec 2024 01:02:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:syscon-rework-2 10/11] drivers/clk/davinci/pll.c:241:46:
- error: 'clk_divider_ops' undeclared; did you mean 'divider_ops'?
-Message-ID: <202412070033.SPZhLDpd-lkp@intel.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Subject: [chanwoo:devfreq-next 2/4]
+ drivers/devfreq/event/rockchip-dfi.c:645:9: error: implicit declaration of
+ function 'hrtimer_setup'; did you mean 'timer_setup'?
+Message-ID: <202412070000.0qhtOPGl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,116 +64,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework-2
-head:   42a4c7e62a39fecc74b811e4faae3e4d65417107
-commit: 35904222355e971c24b3eb9b9fad3dd0c38d1393 [10/11] clk: divider, gate: trivially implement regmaps
-config: arm-multi_v5_defconfig (https://download.01.org/0day-ci/archive/20241207/202412070033.SPZhLDpd-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git devfreq-next
+head:   27d1a5d95c5202f927f1155ad8f919778cd9f155
+commit: ba13bb7cee6699cfa97ea0f9f84f8d683a5c001d [2/4] PM / devfreq: rockchip-dfi: Switch to use hrtimer_setup()
+config: arm-randconfig-002-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070000.0qhtOPGl-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070033.SPZhLDpd-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070000.0qhtOPGl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070033.SPZhLDpd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070000.0qhtOPGl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/clk/davinci/pll.c: In function 'davinci_pll_div_register':
->> drivers/clk/davinci/pll.c:241:46: error: 'clk_divider_ops' undeclared (first use in this function); did you mean 'divider_ops'?
-     241 |         const struct clk_ops *divider_ops = &clk_divider_ops;
-         |                                              ^~~~~~~~~~~~~~~
-         |                                              divider_ops
-   drivers/clk/davinci/pll.c:241:46: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/clk/davinci/pll.c:266:32: error: 'clk_divider_ro_ops' undeclared (first use in this function)
-     266 |                 divider_ops = &clk_divider_ro_ops;
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/clk/davinci/pll.c: In function 'davinci_pll_obsclk_register':
-   drivers/clk/davinci/pll.c:618:53: error: 'clk_divider_ops' undeclared (first use in this function); did you mean 'clk_divider'?
-     618 |                                      &divider->hw, &clk_divider_ops,
-         |                                                     ^~~~~~~~~~~~~~~
-         |                                                     clk_divider
-   drivers/clk/davinci/pll.c: In function 'davinci_pll_sysclk_register':
-   drivers/clk/davinci/pll.c:680:46: error: 'clk_divider_ops' undeclared (first use in this function); did you mean 'divider_ops'?
-     680 |         const struct clk_ops *divider_ops = &clk_divider_ops;
-         |                                              ^~~~~~~~~~~~~~~
-         |                                              divider_ops
-   drivers/clk/davinci/pll.c:714:32: error: 'clk_divider_ro_ops' undeclared (first use in this function)
-     714 |                 divider_ops = &clk_divider_ro_ops;
-         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/devfreq/event/rockchip-dfi.c: In function 'rockchip_ddr_perf_init':
+>> drivers/devfreq/event/rockchip-dfi.c:645:9: error: implicit declaration of function 'hrtimer_setup'; did you mean 'timer_setup'? [-Wimplicit-function-declaration]
+     645 |         hrtimer_setup(&dfi->timer, rockchip_dfi_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+         |         ^~~~~~~~~~~~~
+         |         timer_setup
 
 
-vim +241 drivers/clk/davinci/pll.c
+vim +645 drivers/devfreq/event/rockchip-dfi.c
 
-2d172691515961 David Lechner 2018-03-15  223  
-2d172691515961 David Lechner 2018-03-15  224  /**
-2d172691515961 David Lechner 2018-03-15  225   * davinci_pll_div_register - common *DIV clock implementation
-76c9dd9dbd6459 David Lechner 2018-05-25  226   * @dev: The PLL platform device or NULL
-2d172691515961 David Lechner 2018-03-15  227   * @name: the clock name
-2d172691515961 David Lechner 2018-03-15  228   * @parent_name: the parent clock name
-2d172691515961 David Lechner 2018-03-15  229   * @reg: the *DIV register
-2d172691515961 David Lechner 2018-03-15  230   * @fixed: if true, the divider is a fixed value
-2d172691515961 David Lechner 2018-03-15  231   * @flags: bitmap of CLK_* flags from clock-provider.h
-2d172691515961 David Lechner 2018-03-15  232   */
-2d172691515961 David Lechner 2018-03-15  233  static struct clk *davinci_pll_div_register(struct device *dev,
-2d172691515961 David Lechner 2018-03-15  234  					    const char *name,
-2d172691515961 David Lechner 2018-03-15  235  					    const char *parent_name,
-2d172691515961 David Lechner 2018-03-15  236  					    void __iomem *reg,
-2d172691515961 David Lechner 2018-03-15  237  					    bool fixed, u32 flags)
-2d172691515961 David Lechner 2018-03-15  238  {
-2d172691515961 David Lechner 2018-03-15  239  	const char * const *parent_names = parent_name ? &parent_name : NULL;
-2d172691515961 David Lechner 2018-03-15  240  	int num_parents = parent_name ? 1 : 0;
-2d172691515961 David Lechner 2018-03-15 @241  	const struct clk_ops *divider_ops = &clk_divider_ops;
-2d172691515961 David Lechner 2018-03-15  242  	struct clk_gate *gate;
-2d172691515961 David Lechner 2018-03-15  243  	struct clk_divider *divider;
-76c9dd9dbd6459 David Lechner 2018-05-25  244  	struct clk *clk;
-76c9dd9dbd6459 David Lechner 2018-05-25  245  	int ret;
-2d172691515961 David Lechner 2018-03-15  246  
-76c9dd9dbd6459 David Lechner 2018-05-25  247  	gate = kzalloc(sizeof(*gate), GFP_KERNEL);
-2d172691515961 David Lechner 2018-03-15  248  	if (!gate)
-2d172691515961 David Lechner 2018-03-15  249  		return ERR_PTR(-ENOMEM);
-2d172691515961 David Lechner 2018-03-15  250  
-2d172691515961 David Lechner 2018-03-15  251  	gate->reg = reg;
-2d172691515961 David Lechner 2018-03-15  252  	gate->bit_idx = DIV_ENABLE_SHIFT;
-2d172691515961 David Lechner 2018-03-15  253  
-76c9dd9dbd6459 David Lechner 2018-05-25  254  	divider = kzalloc(sizeof(*divider), GFP_KERNEL);
-76c9dd9dbd6459 David Lechner 2018-05-25  255  	if (!divider) {
-76c9dd9dbd6459 David Lechner 2018-05-25  256  		ret = -ENOMEM;
-76c9dd9dbd6459 David Lechner 2018-05-25  257  		goto err_free_gate;
-76c9dd9dbd6459 David Lechner 2018-05-25  258  	}
-2d172691515961 David Lechner 2018-03-15  259  
-2d172691515961 David Lechner 2018-03-15  260  	divider->reg = reg;
-2d172691515961 David Lechner 2018-03-15  261  	divider->shift = DIV_RATIO_SHIFT;
-2d172691515961 David Lechner 2018-03-15  262  	divider->width = DIV_RATIO_WIDTH;
-2d172691515961 David Lechner 2018-03-15  263  
-2d172691515961 David Lechner 2018-03-15  264  	if (fixed) {
-2d172691515961 David Lechner 2018-03-15  265  		divider->flags |= CLK_DIVIDER_READ_ONLY;
-2d172691515961 David Lechner 2018-03-15 @266  		divider_ops = &clk_divider_ro_ops;
-2d172691515961 David Lechner 2018-03-15  267  	}
-2d172691515961 David Lechner 2018-03-15  268  
-76c9dd9dbd6459 David Lechner 2018-05-25  269  	clk = clk_register_composite(dev, name, parent_names, num_parents,
-2d172691515961 David Lechner 2018-03-15  270  				     NULL, NULL, &divider->hw, divider_ops,
-2d172691515961 David Lechner 2018-03-15  271  				     &gate->hw, &clk_gate_ops, flags);
-76c9dd9dbd6459 David Lechner 2018-05-25  272  	if (IS_ERR(clk)) {
-76c9dd9dbd6459 David Lechner 2018-05-25  273  		ret = PTR_ERR(clk);
-76c9dd9dbd6459 David Lechner 2018-05-25  274  		goto err_free_divider;
-76c9dd9dbd6459 David Lechner 2018-05-25  275  	}
-76c9dd9dbd6459 David Lechner 2018-05-25  276  
-76c9dd9dbd6459 David Lechner 2018-05-25  277  	return clk;
-76c9dd9dbd6459 David Lechner 2018-05-25  278  
-76c9dd9dbd6459 David Lechner 2018-05-25  279  err_free_divider:
-76c9dd9dbd6459 David Lechner 2018-05-25  280  	kfree(divider);
-76c9dd9dbd6459 David Lechner 2018-05-25  281  err_free_gate:
-76c9dd9dbd6459 David Lechner 2018-05-25  282  	kfree(gate);
-76c9dd9dbd6459 David Lechner 2018-05-25  283  
-76c9dd9dbd6459 David Lechner 2018-05-25  284  	return ERR_PTR(ret);
-2d172691515961 David Lechner 2018-03-15  285  }
-2d172691515961 David Lechner 2018-03-15  286  
-
-:::::: The code at line 241 was first introduced by commit
-:::::: 2d172691515961cad2abb4bf1b15d187bf2106cf clk: davinci: New driver for davinci PLL clocks
-
-:::::: TO: David Lechner <david@lechnology.com>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+   596	
+   597	static int rockchip_ddr_perf_init(struct rockchip_dfi *dfi)
+   598	{
+   599		struct pmu *pmu = &dfi->pmu;
+   600		int ret;
+   601	
+   602		seqlock_init(&dfi->count_seqlock);
+   603	
+   604		pmu->module = THIS_MODULE;
+   605		pmu->capabilities = PERF_PMU_CAP_NO_EXCLUDE;
+   606		pmu->task_ctx_nr = perf_invalid_context;
+   607		pmu->attr_groups = attr_groups;
+   608		pmu->event_init  = rockchip_ddr_perf_event_init;
+   609		pmu->add = rockchip_ddr_perf_event_add;
+   610		pmu->del = rockchip_ddr_perf_event_del;
+   611		pmu->start = rockchip_ddr_perf_event_start;
+   612		pmu->stop = rockchip_ddr_perf_event_stop;
+   613		pmu->read = rockchip_ddr_perf_event_update;
+   614	
+   615		dfi->cpu = raw_smp_processor_id();
+   616	
+   617		ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN,
+   618					      "rockchip_ddr_perf_pmu",
+   619					      NULL,
+   620					      ddr_perf_offline_cpu);
+   621	
+   622		if (ret < 0) {
+   623			dev_err(dfi->dev, "cpuhp_setup_state_multi failed: %d\n", ret);
+   624			return ret;
+   625		}
+   626	
+   627		dfi->cpuhp_state = ret;
+   628	
+   629		rockchip_dfi_enable(dfi);
+   630	
+   631		ret = devm_add_action_or_reset(dfi->dev, rockchip_ddr_cpuhp_remove_state, dfi);
+   632		if (ret)
+   633			return ret;
+   634	
+   635		ret = cpuhp_state_add_instance_nocalls(dfi->cpuhp_state, &dfi->node);
+   636		if (ret) {
+   637			dev_err(dfi->dev, "Error %d registering hotplug\n", ret);
+   638			return ret;
+   639		}
+   640	
+   641		ret = devm_add_action_or_reset(dfi->dev, rockchip_ddr_cpuhp_remove_instance, dfi);
+   642		if (ret)
+   643			return ret;
+   644	
+ > 645		hrtimer_setup(&dfi->timer, rockchip_dfi_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+   646	
+   647		switch (dfi->ddr_type) {
+   648		case ROCKCHIP_DDRTYPE_LPDDR2:
+   649		case ROCKCHIP_DDRTYPE_LPDDR3:
+   650			dfi->burst_len = 8;
+   651			break;
+   652		case ROCKCHIP_DDRTYPE_LPDDR4:
+   653		case ROCKCHIP_DDRTYPE_LPDDR4X:
+   654			dfi->burst_len = 16;
+   655			break;
+   656		}
+   657	
+   658		ret = perf_pmu_register(pmu, "rockchip_ddr", -1);
+   659		if (ret)
+   660			return ret;
+   661	
+   662		return devm_add_action_or_reset(dfi->dev, rockchip_ddr_perf_remove, dfi);
+   663	}
+   664	#else
+   665	static int rockchip_ddr_perf_init(struct rockchip_dfi *dfi)
+   666	{
+   667		return 0;
+   668	}
+   669	#endif
+   670	
 
 -- 
 0-DAY CI Kernel Test Service
