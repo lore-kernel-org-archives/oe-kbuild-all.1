@@ -1,71 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D781E522;
-	Thu,  5 Dec 2024 22:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CD41AAD7;
+	Fri,  6 Dec 2024 00:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733438956; cv=none; b=bxOrA+i2Ypqdxt/x0c+x00KRI3mLLRDITTqll2Sw3uFpujfTOEHqwCZXgytLDSly6Jw3FTBeU7RC3Jc71I6xkO6jxsC/kjHGMlSTKdunlDE07QGImRqa3eu36LchrfN9iq0iAgVGDw4TaHvgKlVlEGK8DSGzz5L6eQiuvaVS4wA=
+	t=1733443999; cv=none; b=ZPG00DnPn2DoJr3kO7dDy/y6Pipr2ammVMDb46WnEBaPTU76lCHeSDxH/BD5X/lTX9Agv/02BKat0tcTEVYKmiKgFfVemRTZsKIwpQSwZbJLcAOaQaUVqBiGhNPb+qY38C8C8v3wvhC/XaDcmwn6wQ918s3PYYB0RKe1oRWTT/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733438956; c=relaxed/simple;
-	bh=eQJA8gt/+Gn9iJvh/y6xFlkCm3roALrW99s5s7lFyB4=;
+	s=arc-20240116; t=1733443999; c=relaxed/simple;
+	bh=G3k5kdpZDzPR2z4Kv8oYbTAM4x/lxykBvWDQ8XU9s/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cv5Kx1KEhJAAqOW/e46VnErWjjIgFENI2GX8ElDUGJNwl3GtmlS2uRseB6G+dwypKk1T9CsFguxbtwG2vUYhJznclbOOzu3UXB+No1sx23eyzqqli4qzeyODyjwz74zkSZelmYMYHTClDuBtlJk12fzksyaO4QvI3AZyP53Btt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huQB4W93; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=fE2fsU1CGUrmW0gkSVjju8Ja5DAfY9zKagjyZ31vmIMreRcUj2glSITfOCJoay5tURi4/ECIYDC6y48kjZHRAPHAwaAwfFK7fHEuQSVFzRuPOmhFw/VZaxzBRqrsKHLrBVknaSBCeJNYwBLDnKS8D3n9OwggJwzwKdq/gfruNhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h7kEMBmh; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huQB4W93"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h7kEMBmh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733438954; x=1764974954;
+  t=1733443998; x=1764979998;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eQJA8gt/+Gn9iJvh/y6xFlkCm3roALrW99s5s7lFyB4=;
-  b=huQB4W93jK93TayzOhVvaZbPuIaIklFtK2us2WYmrEoycdMoL2MwrbZl
-   VlqgU8y3tdAsIC26AqYGu9jU5Egfxs5eFx6wsNgpHQP0BCcy/1iwsmt17
-   HA93jsKM1uGx/PYY8YyTKUrbEYcUOMIcF3reO9vhXT4GtaRJfB+sLVqWF
-   OTAjKHIKnoK4aUUh0dZBCus4JxPhWqB2h+0Iaip5dERV3C6egYP7FuIqI
-   oaEcBxLuTuEHH6u/vbvnJj5frCzT58sb6RmBibGdJAmur7C7KoCnDgP18
-   bWz+kP5boerUs487HTj5KxbZaDeb2WP79E3NwLjCKZnn3hvhiU2ZksGhl
-   A==;
-X-CSE-ConnectionGUID: YnH3FX81S2u9H/2H9U4+Ag==
-X-CSE-MsgGUID: XVWtBofbTumag7ZHiW5vDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="59182018"
+  bh=G3k5kdpZDzPR2z4Kv8oYbTAM4x/lxykBvWDQ8XU9s/Q=;
+  b=h7kEMBmhmSzvYzDbIxqH6kmPwCh/opjTYIE85qX0O4fjVgzYEKxVxUVn
+   3wxXTd0WbML/26ZJrBnQwe3WNy5MgjCU9lcMOhD2ThV6w+7ZkTT4UX8qW
+   j6RrIWZv4ah3PvbRUGhV9vYx5s65OkAVlRP9enmOZgYzOSk1M3WtQLLp7
+   a3OOa4dZq/MtKXeugMhCFE4NtfoCGJLJ3ilRnKJKa5zse8FbB5gAOVx2/
+   KhrByeEW+kWAOqctft4+OxmWSkARBPA8l6kbtjJHOjGFK8+jWVjKHQVtp
+   LV/m0aBFEloot2+3IIYLLQrgeozf127Q+f6nOae2MeoUNiqNgit+mY+/c
+   w==;
+X-CSE-ConnectionGUID: /4rCYfqmS5ysQ8Mr7sYVBw==
+X-CSE-MsgGUID: 4L+KuEmRSO2ljX1fWqTtkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="37567903"
 X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="59182018"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 14:49:13 -0800
-X-CSE-ConnectionGUID: JX65fdsCRgKOoxGGtSwVMA==
-X-CSE-MsgGUID: m5jj8HO8Trak+cnRf2CGEg==
+   d="scan'208";a="37567903"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 16:13:17 -0800
+X-CSE-ConnectionGUID: xsOsT0DTRYmP2Xhx+3wfHA==
+X-CSE-MsgGUID: KZRQUGdxR9qVfBXCLAARKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="93909721"
+   d="scan'208";a="117498516"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Dec 2024 14:49:07 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Dec 2024 16:13:15 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJKef-0000Sd-28;
-	Thu, 05 Dec 2024 22:49:05 +0000
-Date: Fri, 6 Dec 2024 06:48:57 +0800
+	id 1tJLy4-0000Vz-2k;
+	Fri, 06 Dec 2024 00:13:12 +0000
+Date: Fri, 6 Dec 2024 08:12:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chunkuang.hu@kernel.org
+To: Dan Williams <dan.j.williams@intel.com>, linux-coco@lists.linux.dev
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
-	jitao.shi@mediatek.com, jie.qiu@mediatek.com,
-	junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel@collabora.com
-Subject: Re: [PATCH v2 15/15] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-Message-ID: <202412060636.00bzNpm9-lkp@intel.com>
-References: <20241205114518.53527-16-angelogioacchino.delregno@collabora.com>
+	Bjorn Helgaas <helgaas@kernel.org>, Lukas Wunner <lukas@wunner.de>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>, linux-pci@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH 09/11] PCI/IDE: Report available IDE streams
+Message-ID: <202412060733.L2zUE7gx-lkp@intel.com>
+References: <173343744869.1074769.12345445223792172558.stgit@dwillia2-xfh.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,75 +67,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205114518.53527-16-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <173343744869.1074769.12345445223792172558.stgit@dwillia2-xfh.jf.intel.com>
 
-Hi AngeloGioacchino,
+Hi Dan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on pza/reset/next linus/master drm-misc/drm-misc-next v6.13-rc1 next-20241205]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20241205-194853
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241205114518.53527-16-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v2 15/15] drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241206/202412060636.00bzNpm9-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412060636.00bzNpm9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/configfs-tsm-Namespace-TSM-report-symbols/20241206-064224
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/173343744869.1074769.12345445223792172558.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH 09/11] PCI/IDE: Report available IDE streams
+config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20241206/202412060733.L2zUE7gx-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412060733.L2zUE7gx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412060636.00bzNpm9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412060733.L2zUE7gx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:15:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:39:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:389:47: error: expected ';' after top level declarator
-     389 | MODULE_DEVICE_TABLE(of, mtk_hdmi_ddc_v2_match)
-         |                                               ^
-         |                                               ;
-   4 warnings and 1 error generated.
+>> drivers/pci/probe.c:597:33: warning: unused variable 'pci_host_bridge_type' [-Wunused-const-variable]
+   static const struct device_type pci_host_bridge_type = {
+                                   ^
+   1 warning generated.
 
 
-vim +389 drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c
+vim +/pci_host_bridge_type +597 drivers/pci/probe.c
 
-   384	
-   385	static const struct of_device_id mtk_hdmi_ddc_v2_match[] = {
-   386		{ .compatible = "mediatek,mt8195-hdmi-ddc" },
-   387		{ /* sentinel */ }
-   388	};
- > 389	MODULE_DEVICE_TABLE(of, mtk_hdmi_ddc_v2_match)
-   390	
+   596	
+ > 597	static const struct device_type pci_host_bridge_type = {
+   598		.groups = pci_host_bridge_groups,
+   599		.release = pci_release_host_bridge_dev,
+   600	};
+   601	
 
 -- 
 0-DAY CI Kernel Test Service
