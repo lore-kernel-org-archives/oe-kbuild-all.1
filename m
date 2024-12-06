@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC6EB641
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 10:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8ED1DD0EC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 11:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733482799; cv=none; b=oXeOCf0kaAMRMHUzw9FRQSXxc4l32VAPNAHc1iqydePRzBx4VaDh+NyYFDJs/CHUUk8SdjyFcpu62aSpO4mD2iv9sr85OuMe+53YcjpZtpOK7F0y6AKCm3XD6WPLkoGG5Ey2+e5ceJacoIWOnw4g9RNInaGxY1Ou2dT6rSt2PPA=
+	t=1733484672; cv=none; b=GGQAIGR7tEIRYetGGuN0u7S95COBmA8sAjH1GPyGt9XRog1bxWjsxthN5sV8CafVf68abk9g9djdMZE+TiEpJ/xpjpLFaIkJyORdeSC1a2Pzg0vB4grw3V2HV2wm/kuc2uKeq0qeK3X970R3Mtt+kgWEcAAN8+XhZ7EJUAl7R5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733482799; c=relaxed/simple;
-	bh=Tc3c0kQUVv/8jdJa5V8Ftb9wVLYIF3cGQ+E4FuP4gIE=;
+	s=arc-20240116; t=1733484672; c=relaxed/simple;
+	bh=W/c5WOD3JkaFkLlOR3q+VkG2nSovimZmDoQ57cTuwBo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CJ32kx4t7bHWGYAF+icTeGtifBvw7tSqCQzySDsXDWd+F7LN8th+G9c8GUl5lFfm2roYWjLCreptLvUs9E12tjcz8jPrQ8WthwfmsBiFPj7CodoxkI1D5a80T2M/asKZVlfCSVPWCPERcNdp4MEhnrgzdV3XUHrHJAk/dTRn2b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWIaCJeh; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=RIT5tdiru/XFfOnL88o6FmEvbBL0JuSCBbh3+0xq9CcBPb0fQk/k7vc6K38Qrb8WMbZrWp4IgXrv7est7L9FV5Hhgkp1qr6qm14tU5ZCATxDtC/Z59MTs90zBdWffq97e+4Cn2K3hW0gp8u+2U43nr/o8AtsDAM7WKzJ6oZDSVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zf/b1fOW; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWIaCJeh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zf/b1fOW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733482798; x=1765018798;
+  t=1733484660; x=1765020660;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tc3c0kQUVv/8jdJa5V8Ftb9wVLYIF3cGQ+E4FuP4gIE=;
-  b=OWIaCJehSrWoowjT3Elj2J6HX6xsMUiNgd10M6RQJHnKx8tNOyx1dFTO
-   wiEn+MPc9auy3FT1e7ajibtyjFcH0G3DL5uAGbYH/NvE6AbHYgr1W3vQW
-   XwTmhVFXU4ZzXj4RiAcQ9XFR4tqRmNin72f+C1H5iX7oz2y0MksHehk4I
-   jCumT4ioCW029YyumP8+Tg8jUpbdnWnRLLb3By0LhQkKlP2qTETuMu2zM
-   ubHbSFHG0t1eHjLJsCzEyRyLSX9/WfsqyoLsrQ87EO3if5homZsLXvECY
-   tbE1Ps2UlYpBxvfARja0vZWe+5b+J0ukiqBkhfbqbYsf/9zMROjXqyWZk
+  bh=W/c5WOD3JkaFkLlOR3q+VkG2nSovimZmDoQ57cTuwBo=;
+  b=Zf/b1fOWD9bYQmlRLPyp5a5uHYR7EY1L+h0tCFxifVyevcuL5XVFxK0Z
+   LbWUi9IvCSjCybLWx6Ls6B/+jgFSqWr+7iCJkYur8+HddeP6TgsLxp9TO
+   QNpgNNSIBpXlDkWTi7Ko772abKux2vsRWLsJVKwXXT5ThRmqPdd4xGIqp
+   yqbRcjPm9tjHa3pm4crx4x0v/Lf0XVckarV/Af0LHTDQlRd9mzTfWU/d7
+   M59IxOabM66T+qSWFh9THJ6C1M9mmZnPX7Zj43gpbUsMZ8xKs2iKn//3p
+   05CXADhFt+9aCPbRYDYLxE0QAGScR4HCsT1uiL5U59IO8jVvbegAZAF+v
    Q==;
-X-CSE-ConnectionGUID: zo1q+GNLSpmx47uB69uVvg==
-X-CSE-MsgGUID: hMVCXBA+Tvy+KU5hy+yvRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="37616922"
+X-CSE-ConnectionGUID: GS6uWPEYTgWdGuDUNopbNw==
+X-CSE-MsgGUID: h0qnhe2zQ1igEMA57mUOgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33566610"
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="37616922"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 02:59:57 -0800
-X-CSE-ConnectionGUID: tJ5n0wQ+TF26wzye5N/z/A==
-X-CSE-MsgGUID: 8tam1HpNTRi0enEj0me7iA==
+   d="scan'208";a="33566610"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 03:30:59 -0800
+X-CSE-ConnectionGUID: RXOc4pN+SCOk/4gqj2YooQ==
+X-CSE-MsgGUID: lhSHj7JER4KShcXgsKIu9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="99441343"
+   d="scan'208";a="94859616"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 06 Dec 2024 02:59:55 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 06 Dec 2024 03:30:57 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJW3s-0000xV-29;
-	Fri, 06 Dec 2024 10:59:52 +0000
-Date: Fri, 6 Dec 2024 18:59:14 +0800
+	id 1tJWXv-0000z1-14;
+	Fri, 06 Dec 2024 11:30:55 +0000
+Date: Fri, 6 Dec 2024 19:30:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, JiangShui <1175135535@qq.com>
+To: kernel@openeuler.org, tianx <tianx@yunsilicon.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2564/2564] drivers/crypto/hisilicon/qm.c:2755:9:
- warning: 'strncpy' specified bound depends on the length of the source
- argument
-Message-ID: <202412061809.pAIeGbw0-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2544/2544]
+ drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse:
+ invalid bitfield specifier for type restricted __be32.
+Message-ID: <202412061939.xbaFzshA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,82 +63,2333 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Weili,
-
-FYI, the error/warning still remains.
-
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   9cf5f60a8d57b2498fb9f9223825d6933b2d2fd5
-commit: a1666f44c2250f7413e73e2f4c02cb2c01f9e3b0 [2564/2564] crypto: hisilicon/qm - support no-sva feature
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241206/202412061809.pAIeGbw0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061809.pAIeGbw0-lkp@intel.com/reproduce)
+commit: 23b8024ef459f8b615c223df6175ea17c6b50c48 [2544/2544] drivers: update yunsilicon drivers to version 1.1.0.375
+config: x86_64-randconfig-123-20241205 (https://download.01.org/0day-ci/archive/20241206/202412061939.xbaFzshA-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061939.xbaFzshA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412061809.pAIeGbw0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412061939.xbaFzshA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c: note: in included file:
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:25:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:26:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:27:32: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:28:36: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:29:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:36:53: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:42:52: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:43:50: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:46:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:47:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:48:15: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:53:40: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:55:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:56:48: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:61:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:62:44: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/intf.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/intf.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/intf.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/intf.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/intf.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/intf.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/eq.c: note: in included file (through include/linux/kernel.h, include/linux/interrupt.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eq.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/interrupt.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eq.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eq.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/eq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/eq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/pci/wq.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:25:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:26:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:27:32: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:28:36: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:29:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:36:53: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:42:52: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:43:50: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:46:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:47:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:48:15: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:53:40: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:55:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:56:48: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:61:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:62:44: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/wq.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/wq.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/wq.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/wq.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/wq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/wq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/wq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/pci/wq.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:25:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:26:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:27:32: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:28:36: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:29:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:36:53: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:42:52: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:43:50: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:46:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:47:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:48:15: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:53:40: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:55:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:56:48: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:61:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:62:44: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/debugfs.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/wait.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/debugfs.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/debugfs.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/debugfs.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/debugfs.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/debugfs.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/debugfs.c: note: in included file:
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:25:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:26:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:27:32: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:28:36: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:29:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:36:53: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:42:52: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:43:50: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:46:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:47:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:48:15: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:53:40: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:55:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:56:48: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:61:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:62:44: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/alloc.c: note: in included file (through include/linux/kernel.h, include/asm-generic/bug.h, arch/x86/include/asm/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/alloc.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/asm-generic/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/alloc.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/alloc.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/alloc.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/alloc.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/cq.c: note: in included file (through include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cq.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cq.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cq.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/cq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/pd.c: note: in included file (through include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pd.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pd.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pd.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pd.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/pd.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/mad.c: note: in included file (through include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mad.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mad.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mad.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mad.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/mad.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/mr.c: note: in included file (through include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mr.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mr.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mr.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/mr.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/mr.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/port.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/module.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/port.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/port.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/port.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/port.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/port.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/kobject.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_lag.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/timer.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_lag.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_lag.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_lag.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_lag.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_lag.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/vport.c: note: in included file (through include/linux/kernel.h, include/linux/skbuff.h, include/linux/if_ether.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/vport.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/skbuff.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/vport.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/vport.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/vport.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/vport.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c: note: in included file (through include/linux/string.h, include/linux/uuid.h, include/linux/mod_devicetable.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c: note: in included file (through include/linux/kernel.h, include/asm-generic/bug.h, arch/x86/include/asm/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/asm-generic/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/qp.c: note: in included file (through include/linux/kernel.h, include/asm-generic/bug.h, arch/x86/include/asm/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qp.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/asm-generic/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qp.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qp.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qp.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/qp.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/qp.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h, ...):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/qp.c: note: in included file:
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:25:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:26:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:27:32: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:28:36: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:29:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:36:53: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:42:52: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:43:50: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:46:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:47:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:48:15: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:53:40: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:55:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:56:48: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:61:31: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/qp.h:62:44: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/cmd.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/cmd.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/cmd.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/cmd.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/cmd.c: note: in included file:
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/cmd.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/devlink.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/devlink.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/devlink.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/devlink.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/devlink.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/devlink.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_port_ctrl.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/module.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_port_ctrl.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_port_ctrl.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_port_ctrl.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_port_ctrl.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_port_ctrl.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_flow.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_flow.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_flow.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_flow.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_flow.c: note: in included file:
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_flow.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_res.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_res.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_res.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_res.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_res.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/pci/fw/osdep.h, ...):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_res.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, ...):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_pci_ctrl.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/module.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_pci_ctrl.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_pci_ctrl.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_pci_ctrl.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_pci_ctrl.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/xsc_pci_ctrl.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c: note: in included file (through include/linux/string.h, include/linux/uuid.h, include/linux/mod_devicetable.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c: note: in included file (through include/linux/kernel.h, include/asm-generic/bug.h, arch/x86/include/asm/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/asm-generic/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/osdep.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/osdep.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/osdep.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/osdep.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/osdep.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/osdep.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/eswitch.c: note: in included file (through include/linux/kernel.h, include/linux/skbuff.h, include/linux/if_ether.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eswitch.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/skbuff.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eswitch.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eswitch.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/eswitch.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/vport.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/eswitch.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, ...):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/qpts.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/module.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qpts.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qpts.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qpts.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/qpts.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/qpts.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_mem.c: note: in included file (through include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_mem.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_mem.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_mem.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_mem.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/fw/xsc_mem.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/res_obj.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, drivers/net/ethernet/yunsilicon/xsc/common/res_obj.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/res_obj.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/res_obj.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/res_obj.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/res_obj.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/res_obj.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/res_obj.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h, drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, ...):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+--
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/module.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h, include/linux/ipv6.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h, drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:913:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:914:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:915:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:916:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:918:41: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:919:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:920:48: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:921:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:922:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:923:51: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:924:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+>> drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:935:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:936:35: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:937:36: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:938:37: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:939:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:940:42: sparse: sparse: invalid bitfield specifier for type restricted __be16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:988:36: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:989:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:990:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:991:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:992:34: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:993:35: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:994:28: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:995:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:996:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:997:42: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:998:40: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:999:39: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1000:32: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1001:29: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1006:44: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1007:45: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h:1008:37: sparse: sparse: invalid bitfield specifier for type restricted __be32.
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c: note: in included file (through drivers/net/ethernet/yunsilicon/xsc/common/driver.h):
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:209:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:219:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:222:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:234:30: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:244:27: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:247:29: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:265:24: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:360:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:361:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:362:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:365:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:366:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:367:23: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:370:35: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:371:27: sparse: sparse: invalid bitfield specifier for type restricted __le32.
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:372:33: sparse: sparse: invalid bitfield specifier for type restricted __le32.
 
-   drivers/crypto/hisilicon/qm.c: In function 'qm_alloc_uacce':
->> drivers/crypto/hisilicon/qm.c:2755:9: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-    2755 |         strncpy(interface.name, pdev->driver->name, name_len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/hisilicon/qm.c:2748:20: note: length computed here
-    2748 |         name_len = strlen(pdev->driver->name);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +913 drivers/net/ethernet/yunsilicon/xsc/common/xsc_cmd.h
 
-
-vim +/strncpy +2755 drivers/crypto/hisilicon/qm.c
-
-  2737	
-  2738	static int qm_alloc_uacce(struct hisi_qm *qm)
-  2739	{
-  2740		struct pci_dev *pdev = qm->pdev;
-  2741		struct uacce_interface interface;
-  2742		struct uacce_device *uacce;
-  2743		int name_len;
-  2744	
-  2745		if (!qm->use_uacce)
-  2746			return 0;
-  2747	
-  2748		name_len = strlen(pdev->driver->name);
-  2749		if (name_len >= UACCE_MAX_NAME_SIZE) {
-  2750			pci_err(pdev, "The driver name(%d) is longer than %d!\n",
-  2751				name_len, UACCE_MAX_NAME_SIZE);
-  2752			return -EINVAL;
-  2753		}
-  2754	
-> 2755		strncpy(interface.name, pdev->driver->name, name_len);
-  2756		interface.name[name_len] = '\0';
-  2757	
-  2758		interface.flags = qm->use_iommu ? UACCE_DEV_IOMMU : UACCE_DEV_NOIOMMU;
-  2759		if (qm->mode == UACCE_MODE_SVA) {
-  2760			if (!qm->use_iommu) {
-  2761				pci_err(pdev, "iommu not support sva!\n");
-  2762				return -EINVAL;
-  2763			}
-  2764	
-  2765			interface.flags |= UACCE_DEV_SVA;
-  2766		}
-  2767	
-  2768		interface.ops = &uacce_qm_ops;
-  2769		uacce = uacce_alloc(&pdev->dev, &interface);
-  2770		if (IS_ERR(uacce)) {
-  2771			pci_err(pdev, "fail to alloc uacce device\n!");
-  2772			return PTR_ERR(uacce);
-  2773		}
-  2774		qm->uacce = uacce;
-  2775	
-  2776		qm_uacce_base_init(qm);
-  2777		qm->uacce = uacce;
-  2778		INIT_LIST_HEAD(&qm->isolate_data.qm_hw_errs);
-  2779		mutex_init(&qm->isolate_data.isolate_lock);
-  2780	
-  2781		return 0;
-  2782	}
-  2783	
+   910	
+   911	/* vport mbox */
+   912	struct xsc_nic_vport_context {
+ > 913		__be32		min_wqe_inline_mode:3;
+   914		__be32		disable_mc_local_lb:1;
+ > 915		__be32		disable_uc_local_lb:1;
+   916		__be32		roce_en:1;
+   917	
+   918		__be32		arm_change_event:1;
+   919		__be32		event_on_mtu:1;
+   920		__be32		event_on_promisc_change:1;
+   921		__be32		event_on_vlan_change:1;
+   922		__be32		event_on_mc_address_change:1;
+   923		__be32		event_on_uc_address_change:1;
+   924		__be32		affiliation_criteria:4;
+   925		__be32		affiliated_vhca_id;
+   926	
+   927		__be16		mtu;
+   928	
+   929		__be64		system_image_guid;
+   930		__be64		port_guid;
+   931		__be64		node_guid;
+   932	
+   933		__be32		qkey_violation_counter;
+   934	
+ > 935		__be16		promisc_uc:1;
+   936		__be16		promisc_mc:1;
+   937		__be16		promisc_all:1;
+   938		__be16		vlan_allowed:1;
+   939		__be16		allowed_list_type:3;
+   940		__be16		allowed_list_size:10;
+   941	
+   942		u8		permanent_address[6];
+   943		u8		current_address[6];
+   944		u8		current_uc_mac_address[0][2];
+   945	};
+   946	
 
 -- 
 0-DAY CI Kernel Test Service
