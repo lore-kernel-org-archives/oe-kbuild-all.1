@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8811CD1FB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 16:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5FF20628B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 17:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733503919; cv=none; b=jxiJ3bWu7TxgW9Hg44ZaytBTrtdnrpR+LR5Wg6hiu/Q8UndPYFci7v1NIirNotjyCAEkU9IJ4RNNg7HHTJ29OInB677Oy5BzlHQ8wCFoKA6NLGJE7v3MsZeM3KBkF/uBnEXo0/DrSVXIXBuiHr8wjvYcxZAV8vfsZ5YEjmdlvUI=
+	t=1733504579; cv=none; b=eLbqyJ1+rQwsiC4HpOPHFp6g95hzGf6ukNRClXr9TFO+UUxXOYkzFdQkPGBKK/VRn+oXtR4xVMYfc4onLLx8hMthKAIJ6oGVGGH80LRLndzqwdqVc4EBr0NhwZvjoaOUptpGrJTmBPGCqynIdhgjk5B1+YgXtxNwMEybTnPpi8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733503919; c=relaxed/simple;
-	bh=c8SK7d9EShWRzfJCsSDpefN6sk05dSCp9GIGUfm+lTc=;
+	s=arc-20240116; t=1733504579; c=relaxed/simple;
+	bh=EwnyuvsgZeL0Q/mPIZi2NgLTRE+uhlEmk1plCulhg6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uO7GLwt082wVKmxpJaj/sIo3la5G9ZKQ4yFbfVjtMR8//p4uFsVOEkxBgm4Ixz+rbE4Q/vNwGQxCU8VIThwTcbrmz3+Anh5SdGNWnI4P1TJWiyEqOn6WFn9vuPqJ6m3E1KwAEHLkLOs9oHswbMnss5gT9hwdTA9tV6X7CWpzgMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iciEloOc; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=fw8opL+atdbBXjXmIvAqrtlwg6WdNgo/Zxrk49xSVPxF7d3pbipRZBpKIPk4dN9+1GFxrxcn7mmWXjfkLa+poSJscoYpxM5C4Bqbc8xstdvGDkQiGnUSd9d2qbajiAQMGO1Y2YG4Yw/BEnC5o083VZ40oP9KVdifNrt8vx3gPiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xw1Ru+pc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iciEloOc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xw1Ru+pc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733503918; x=1765039918;
+  t=1733504578; x=1765040578;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c8SK7d9EShWRzfJCsSDpefN6sk05dSCp9GIGUfm+lTc=;
-  b=iciEloOcHLd2BnEndwyLJ+o4sq68AxPkYdbvUqcO+GcPWAmgP+drVGWu
-   +IM4yV4Sa70zxIjKTqPkHf74uZ1utpBG/bQ0temEy2BvWNNvvLkKhN53K
-   kjV7+sMxkNSGcPOGpSJT1CG9b3UHCHdqArRWg75G3ODWd1qzDno6XwQTd
-   0F0ZV1UJnXUHCfn4dttON169CvY4aLm7h7pyl1VsEa8n05NZrlh/nZgb6
-   rQkMY2SfAxEMVxpeQunkpRE0MC0IyMn2OYqyJFBDe3X2E83G8tt8jipNy
-   CCb1SfxowwVjq3BMigR8xVjZbuQ3VyYQNT9C3RAv21e+gtzzhKvdm/s8i
-   A==;
-X-CSE-ConnectionGUID: FKWQCBsmS76IzIkqq+jryw==
-X-CSE-MsgGUID: LdzsaDQBTRSkSFrgV6rKQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33746614"
+  bh=EwnyuvsgZeL0Q/mPIZi2NgLTRE+uhlEmk1plCulhg6Q=;
+  b=Xw1Ru+pcXbU6xZpZ8g1+X5voyDRBPEWSXa7rpiodRhQwC/4fRHmgqwFe
+   t9fOqL5iJ3p1kiT8pv4wICCb9jTdB6bcUxBt6mHPjugkljkW1GQZeO9Y7
+   HPtJty8bbxOMgL1UqocVO2QWG8SHIywU8CIUv++gRM2Bt1l8jox7C5dkZ
+   Iw9wWaoU5kC1d2ZpcMU5dKYXV+paqZXYlQyMNax+EUyE/t8U2vnBMJak9
+   gN+1uXUjq11H6+vd9tL2lvIftzcEZmDOyJo02cNGDX9x9ia0Ssq1RKkp0
+   PGxckAttaAwRN+gONb1es60nR/zjx4bTqxU2tefQRgIn4mf8nr0DJcyEx
+   w==;
+X-CSE-ConnectionGUID: f00UK60USjiT69EROClHrw==
+X-CSE-MsgGUID: bO2AafXqRiKPbgsM7kfxdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33599512"
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="33746614"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 08:51:56 -0800
-X-CSE-ConnectionGUID: Ce9ulhLaRZWJfelSGXjQfw==
-X-CSE-MsgGUID: uiWY02WDThWplwS1t6RV3Q==
+   d="scan'208";a="33599512"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 09:02:58 -0800
+X-CSE-ConnectionGUID: 1WpsT9+IQ+aDEijTKvecfw==
+X-CSE-MsgGUID: u1U2n8T4ReGKG40itda3DA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="125292397"
+   d="scan'208";a="99268401"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Dec 2024 08:51:55 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 06 Dec 2024 09:02:56 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJbYW-00025p-0A;
-	Fri, 06 Dec 2024 16:51:52 +0000
-Date: Sat, 7 Dec 2024 00:51:35 +0800
+	id 1tJbjC-00026h-0t;
+	Fri, 06 Dec 2024 17:02:54 +0000
+Date: Sat, 7 Dec 2024 01:02:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
+To: Conor Dooley <conor+lkp@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/v9-wip 21/22] drivers/net/veth.c:831:24: error:
- implicit declaration of function 'io_iov_get_page'
-Message-ID: <202412070033.pIZAqCu2-lkp@intel.com>
+Subject: [conor:syscon-rework-2 10/11] drivers/clk/davinci/pll.c:241:46:
+ error: 'clk_divider_ops' undeclared; did you mean 'divider_ops'?
+Message-ID: <202412070033.SPZhLDpd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,121 +62,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zcrx/v9-wip
-head:   265a57e2057eabebef11b4b533a65ecf75284489
-commit: 72118a096b5f2056c9fa57009c90c7d7ecd2e208 [21/22] [NOT-FOR-UPSTREAM] veth: add support for io_uring zc rx
-config: i386-buildonly-randconfig-004 (https://download.01.org/0day-ci/archive/20241207/202412070033.pIZAqCu2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070033.pIZAqCu2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework-2
+head:   42a4c7e62a39fecc74b811e4faae3e4d65417107
+commit: 35904222355e971c24b3eb9b9fad3dd0c38d1393 [10/11] clk: divider, gate: trivially implement regmaps
+config: arm-multi_v5_defconfig (https://download.01.org/0day-ci/archive/20241207/202412070033.SPZhLDpd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070033.SPZhLDpd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070033.pIZAqCu2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070033.SPZhLDpd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/veth.c: In function 'veth_iou_rcv_skb':
->> drivers/net/veth.c:831:24: error: implicit declaration of function 'io_iov_get_page' [-Werror=implicit-function-declaration]
-     831 |                 page = io_iov_get_page(netmem);
-         |                        ^~~~~~~~~~~~~~~
-   drivers/net/veth.c:831:22: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     831 |                 page = io_iov_get_page(netmem);
-         |                      ^
-   cc1: some warnings being treated as errors
+   drivers/clk/davinci/pll.c: In function 'davinci_pll_div_register':
+>> drivers/clk/davinci/pll.c:241:46: error: 'clk_divider_ops' undeclared (first use in this function); did you mean 'divider_ops'?
+     241 |         const struct clk_ops *divider_ops = &clk_divider_ops;
+         |                                              ^~~~~~~~~~~~~~~
+         |                                              divider_ops
+   drivers/clk/davinci/pll.c:241:46: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/clk/davinci/pll.c:266:32: error: 'clk_divider_ro_ops' undeclared (first use in this function)
+     266 |                 divider_ops = &clk_divider_ro_ops;
+         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/clk/davinci/pll.c: In function 'davinci_pll_obsclk_register':
+   drivers/clk/davinci/pll.c:618:53: error: 'clk_divider_ops' undeclared (first use in this function); did you mean 'clk_divider'?
+     618 |                                      &divider->hw, &clk_divider_ops,
+         |                                                     ^~~~~~~~~~~~~~~
+         |                                                     clk_divider
+   drivers/clk/davinci/pll.c: In function 'davinci_pll_sysclk_register':
+   drivers/clk/davinci/pll.c:680:46: error: 'clk_divider_ops' undeclared (first use in this function); did you mean 'divider_ops'?
+     680 |         const struct clk_ops *divider_ops = &clk_divider_ops;
+         |                                              ^~~~~~~~~~~~~~~
+         |                                              divider_ops
+   drivers/clk/davinci/pll.c:714:32: error: 'clk_divider_ro_ops' undeclared (first use in this function)
+     714 |                 divider_ops = &clk_divider_ro_ops;
+         |                                ^~~~~~~~~~~~~~~~~~
 
 
-vim +/io_iov_get_page +831 drivers/net/veth.c
+vim +241 drivers/clk/davinci/pll.c
 
-   771	
-   772	static noinline struct sk_buff *veth_iou_rcv_skb(struct veth_rq *rq,
-   773						struct sk_buff *skb)
-   774	{
-   775		struct sk_buff *nskb;
-   776		u32 size, len, off, max_head_size;
-   777		struct page *page;
-   778		int ret, i, head_off;
-   779		void *vaddr;
-   780	
-   781		/* Testing only, randomly send normal pages to test copy fallback */
-   782		if (ktime_get_ns() % 16 == 0)
-   783			return skb;
-   784	
-   785		skb_prepare_for_gro(skb);
-   786		max_head_size = skb_headlen(skb);
-   787	
-   788		rcu_read_lock();
-   789		nskb = napi_alloc_skb(&rq->xdp_napi, max_head_size);
-   790		if (!nskb)
-   791			goto drop;
-   792	
-   793		skb_copy_header(nskb, skb);
-   794		skb_mark_for_recycle(nskb);
-   795	
-   796		size = max_head_size;
-   797		if (skb_copy_bits(skb, 0, nskb->data, size)) {
-   798		consume_skb(nskb);
-   799			goto drop;
-   800		}
-   801		skb_put(nskb, size);
-   802		head_off = skb_headroom(nskb) - skb_headroom(skb);
-   803		skb_headers_offset_update(nskb, head_off);
-   804	
-   805		/* Allocate paged area of new skb */
-   806		off = size;
-   807		len = skb->len - off;
-   808	
-   809		for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
-   810			netmem_ref netmem;
-   811			unsigned frag_offset;
-   812	
-   813			size = min_t(u32, len, PAGE_SIZE);
-   814			// netmem = page_pool_alloc_frag_netmem(rq->page_pool,
-   815			// 				     &frag_offset, size,
-   816			// 				     GFP_ATOMIC | __GFP_NOWARN);
-   817	
-   818			printk("alloc frag %p size %i off %i\n", (void*)netmem,
-   819								  (int)size, (int)frag_offset);
-   820	
-   821			netmem = page_pool_alloc_netmem(rq->page_pool, GFP_ATOMIC | __GFP_NOWARN);
-   822			if (!netmem) {
-   823				consume_skb(nskb);
-   824				goto drop;
-   825			}
-   826			if (WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
-   827				consume_skb(nskb);
-   828				goto drop;
-   829			}
-   830	
- > 831			page = io_iov_get_page(netmem);
-   832			if (WARN_ON_ONCE(!page))
-   833				goto drop;
-   834	
-   835			skb_add_rx_frag_netmem(nskb, i, netmem, frag_offset, size,
-   836						PAGE_SIZE);
-   837	
-   838			vaddr = kmap_atomic(page);
-   839			ret = skb_copy_bits(skb, off, vaddr + frag_offset, size);
-   840			kunmap_atomic(vaddr);
-   841	
-   842			if (ret) {
-   843				consume_skb(nskb);
-   844				goto drop;
-   845			}
-   846			len -= size;
-   847			off += size;
-   848		}
-   849		rcu_read_unlock();
-   850	
-   851		consume_skb(skb);
-   852		skb = nskb;
-   853		return skb;
-   854	drop:
-   855		rcu_read_unlock();
-   856		kfree_skb(skb);
-   857		return NULL;
-   858	}
-   859	
+2d172691515961 David Lechner 2018-03-15  223  
+2d172691515961 David Lechner 2018-03-15  224  /**
+2d172691515961 David Lechner 2018-03-15  225   * davinci_pll_div_register - common *DIV clock implementation
+76c9dd9dbd6459 David Lechner 2018-05-25  226   * @dev: The PLL platform device or NULL
+2d172691515961 David Lechner 2018-03-15  227   * @name: the clock name
+2d172691515961 David Lechner 2018-03-15  228   * @parent_name: the parent clock name
+2d172691515961 David Lechner 2018-03-15  229   * @reg: the *DIV register
+2d172691515961 David Lechner 2018-03-15  230   * @fixed: if true, the divider is a fixed value
+2d172691515961 David Lechner 2018-03-15  231   * @flags: bitmap of CLK_* flags from clock-provider.h
+2d172691515961 David Lechner 2018-03-15  232   */
+2d172691515961 David Lechner 2018-03-15  233  static struct clk *davinci_pll_div_register(struct device *dev,
+2d172691515961 David Lechner 2018-03-15  234  					    const char *name,
+2d172691515961 David Lechner 2018-03-15  235  					    const char *parent_name,
+2d172691515961 David Lechner 2018-03-15  236  					    void __iomem *reg,
+2d172691515961 David Lechner 2018-03-15  237  					    bool fixed, u32 flags)
+2d172691515961 David Lechner 2018-03-15  238  {
+2d172691515961 David Lechner 2018-03-15  239  	const char * const *parent_names = parent_name ? &parent_name : NULL;
+2d172691515961 David Lechner 2018-03-15  240  	int num_parents = parent_name ? 1 : 0;
+2d172691515961 David Lechner 2018-03-15 @241  	const struct clk_ops *divider_ops = &clk_divider_ops;
+2d172691515961 David Lechner 2018-03-15  242  	struct clk_gate *gate;
+2d172691515961 David Lechner 2018-03-15  243  	struct clk_divider *divider;
+76c9dd9dbd6459 David Lechner 2018-05-25  244  	struct clk *clk;
+76c9dd9dbd6459 David Lechner 2018-05-25  245  	int ret;
+2d172691515961 David Lechner 2018-03-15  246  
+76c9dd9dbd6459 David Lechner 2018-05-25  247  	gate = kzalloc(sizeof(*gate), GFP_KERNEL);
+2d172691515961 David Lechner 2018-03-15  248  	if (!gate)
+2d172691515961 David Lechner 2018-03-15  249  		return ERR_PTR(-ENOMEM);
+2d172691515961 David Lechner 2018-03-15  250  
+2d172691515961 David Lechner 2018-03-15  251  	gate->reg = reg;
+2d172691515961 David Lechner 2018-03-15  252  	gate->bit_idx = DIV_ENABLE_SHIFT;
+2d172691515961 David Lechner 2018-03-15  253  
+76c9dd9dbd6459 David Lechner 2018-05-25  254  	divider = kzalloc(sizeof(*divider), GFP_KERNEL);
+76c9dd9dbd6459 David Lechner 2018-05-25  255  	if (!divider) {
+76c9dd9dbd6459 David Lechner 2018-05-25  256  		ret = -ENOMEM;
+76c9dd9dbd6459 David Lechner 2018-05-25  257  		goto err_free_gate;
+76c9dd9dbd6459 David Lechner 2018-05-25  258  	}
+2d172691515961 David Lechner 2018-03-15  259  
+2d172691515961 David Lechner 2018-03-15  260  	divider->reg = reg;
+2d172691515961 David Lechner 2018-03-15  261  	divider->shift = DIV_RATIO_SHIFT;
+2d172691515961 David Lechner 2018-03-15  262  	divider->width = DIV_RATIO_WIDTH;
+2d172691515961 David Lechner 2018-03-15  263  
+2d172691515961 David Lechner 2018-03-15  264  	if (fixed) {
+2d172691515961 David Lechner 2018-03-15  265  		divider->flags |= CLK_DIVIDER_READ_ONLY;
+2d172691515961 David Lechner 2018-03-15 @266  		divider_ops = &clk_divider_ro_ops;
+2d172691515961 David Lechner 2018-03-15  267  	}
+2d172691515961 David Lechner 2018-03-15  268  
+76c9dd9dbd6459 David Lechner 2018-05-25  269  	clk = clk_register_composite(dev, name, parent_names, num_parents,
+2d172691515961 David Lechner 2018-03-15  270  				     NULL, NULL, &divider->hw, divider_ops,
+2d172691515961 David Lechner 2018-03-15  271  				     &gate->hw, &clk_gate_ops, flags);
+76c9dd9dbd6459 David Lechner 2018-05-25  272  	if (IS_ERR(clk)) {
+76c9dd9dbd6459 David Lechner 2018-05-25  273  		ret = PTR_ERR(clk);
+76c9dd9dbd6459 David Lechner 2018-05-25  274  		goto err_free_divider;
+76c9dd9dbd6459 David Lechner 2018-05-25  275  	}
+76c9dd9dbd6459 David Lechner 2018-05-25  276  
+76c9dd9dbd6459 David Lechner 2018-05-25  277  	return clk;
+76c9dd9dbd6459 David Lechner 2018-05-25  278  
+76c9dd9dbd6459 David Lechner 2018-05-25  279  err_free_divider:
+76c9dd9dbd6459 David Lechner 2018-05-25  280  	kfree(divider);
+76c9dd9dbd6459 David Lechner 2018-05-25  281  err_free_gate:
+76c9dd9dbd6459 David Lechner 2018-05-25  282  	kfree(gate);
+76c9dd9dbd6459 David Lechner 2018-05-25  283  
+76c9dd9dbd6459 David Lechner 2018-05-25  284  	return ERR_PTR(ret);
+2d172691515961 David Lechner 2018-03-15  285  }
+2d172691515961 David Lechner 2018-03-15  286  
+
+:::::: The code at line 241 was first introduced by commit
+:::::: 2d172691515961cad2abb4bf1b15d187bf2106cf clk: davinci: New driver for davinci PLL clocks
+
+:::::: TO: David Lechner <david@lechnology.com>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
