@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298EB17991
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 05:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC2E1953BA;
+	Fri,  6 Dec 2024 05:27:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733461609; cv=none; b=ghhtWFbSzWoUi+ZB8R7zPHa/8QUtLI2vjMnu9iK0cyYf7WAK5gJOyKSTyS4/POW4UwrXOTEtCxaGBakTT+KnI35FpRh2r7Jy/kAMLUuyIt6q+ENDSWS3K4qtv1yzVdpJlqSB8R9aOw/jacohFGzIUDlSG2c+8eo135jXdhH6Jt8=
+	t=1733462876; cv=none; b=QhrDlbHq5U89wevGPAXKXQHUZxZLyjbvQGoBIYtjewzqY8wrtW5g41wrORkfmj0CkDRu2yJSrTXjvt1NXw6RiQNiXoyoJXFW8UjThbjqVEE+ZyeFE3bsTT5dkQtfnpOfXzut6pRsMcohgUzLcXPMgSSotXIC4N0U13uMzFv9ECA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733461609; c=relaxed/simple;
-	bh=7ZtB8KqKOtK5AQ6zAXsfvhKqLc9QzsirMSgKOSdcdRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OG0oddTTlLvdPIQIhV6cgVr+qI5+AzExOqxFlQawlNCZv7icNoS5capsthiNMOlClAESW/GklbQFia5gK5sgflc99o5vrOzBZhJ8fNgD+Mt+BA/O3vUzQ3dF0Abu6/tELKobwLCejGM/Op9wNnisjB2MofR2nHBUZWYaLTkI5BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LyBTJTSp; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1733462876; c=relaxed/simple;
+	bh=X9VFMKr7/fJOGLXPS8atTYCy0j+P7k6TXaVhXB6yhIM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H8Ez+OB+2tAm3bAmpNY/4X4SiKffB8HMIvUBQjmHSBPmJHk9oLLU36yl64FrQgQx/NBWpQzipYKtj41G7LW9uYkgxV3m9Y+6CHjTm+ZD5belssJ9CzTHno4h0CEq785o9NIEN2E2OBibrZCA67GkqmNSIUiu9DOfFtzf1lU7XUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=by6NMBS3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyBTJTSp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="by6NMBS3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733461608; x=1764997608;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7ZtB8KqKOtK5AQ6zAXsfvhKqLc9QzsirMSgKOSdcdRE=;
-  b=LyBTJTSpkAu0Lsp397g+cQ0Hl9W6kP7C0mm+05Vk+vmuWqPPNqvcgXrv
-   61+9HMrOHNF45tomCSyuy6wrOcDGXf6Khy6JWN9oLnrQoDov5OPHXORkz
-   DdO8LzawemS4VzZz4+moyP1pYgmvoQvPiUz9CJA4utZrBrZ3HjSyb/KOs
-   7ygSZsZ8FkSDROELtdqdJe36tbBAKAjd+QKXcthisC1VQGoDliiqX0Pn8
-   I+ZwVo3FbHoYXkgUR1Lg4rOVQMXj9HN6T9LaaKZPWvvm4DHTC1pGy5p3y
-   wvuSMoyRj9RlyeXDQgb/mG/9ZkGSaKXWAJTdbteF6hpkZNrLokejmlEcj
-   A==;
-X-CSE-ConnectionGUID: hXgwwBQRR/OLbl+sRQDqbA==
-X-CSE-MsgGUID: +WTKjmHvSBud1nSMnO03dQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33123710"
+  t=1733462871; x=1764998871;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X9VFMKr7/fJOGLXPS8atTYCy0j+P7k6TXaVhXB6yhIM=;
+  b=by6NMBS3uuoSS7jABjt9Zm3SNEQdWKKljeRvA2gA5evSGQVa+tuRN77R
+   E+FmhGtvHfLck/XXpnliXxwOep7ut6Oti0NmIF2zrSn3BFofTrHro9Hy9
+   b3M6oeU2hXU/JRV5yuutDkrlRavEEppee1yGMbqz1ymoEPmJWTGmk+W0n
+   DmN2OeIc0Ct6h4LLss1B8zmCbe1mkqxaBsV0LwZnir1md/5xJcf2Xb4XH
+   9ywufUdn6dwbQusn1Ukfo79lzwSf8SFUur/h1xG4NZHLwlYhEqXHlyLUi
+   S2F4fd0xg/+oTAfYuW4YkI/cVDIz6N1KCiyQaBMgSoGPC3Lh9//r7RDn4
+   g==;
+X-CSE-ConnectionGUID: fUPictq2Ti6bMjcTungBWg==
+X-CSE-MsgGUID: h/0DfSn4TK6BqhzlvysFXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="56299062"
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="33123710"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 21:06:47 -0800
-X-CSE-ConnectionGUID: /Rz1HwyeTae5IpS8Qtw2Wg==
-X-CSE-MsgGUID: vvVv8xYtT/Ov/oR8C9xrZA==
+   d="scan'208";a="56299062"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 21:27:50 -0800
+X-CSE-ConnectionGUID: 46M0KqbPSFGW7xrYdXXJNA==
+X-CSE-MsgGUID: DsKRuo40THuu3yk9bYd+6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="94749828"
+   d="scan'208";a="131724228"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 Dec 2024 21:06:46 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Dec 2024 21:27:48 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJQY7-0000id-2p;
-	Fri, 06 Dec 2024 05:06:43 +0000
-Date: Fri, 6 Dec 2024 13:05:56 +0800
+	id 1tJQsT-0000jD-1x;
+	Fri, 06 Dec 2024 05:27:45 +0000
+Date: Fri, 6 Dec 2024 13:26:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 8/9] include/trace/hooks/sys.h:24:1:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202412061343.kIQucXWU-lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, sagi@grimberg.me,
+	asml.silence@gmail.com, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv11 09/10] nvme: register fdp queue limits
+Message-ID: <202412061328.YMG9MZn5-lkp@intel.com>
+References: <20241206015308.3342386-10-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,56 +65,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241206015308.3342386-10-kbusch@meta.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   d92a210e49a13fdc3fb2141d0dbc9f63bc642533
-commit: e41b8e8e59bf118ee5eb422d531390a141117dd0 [8/9] ANDROID: vendor_hooks: add hooks in prctl_set_vma
-config: i386-randconfig-062 (https://download.01.org/0day-ci/archive/20241206/202412061343.kIQucXWU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061343.kIQucXWU-lkp@intel.com/reproduce)
+Hi Keith,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20241205]
+[cannot apply to brauner-vfs/vfs.all hch-configfs/for-next linus/master v6.13-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-a-write-stream-field-to-the-kiocb/20241206-095707
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20241206015308.3342386-10-kbusch%40meta.com
+patch subject: [PATCHv11 09/10] nvme: register fdp queue limits
+config: i386-buildonly-randconfig-003 (https://download.01.org/0day-ci/archive/20241206/202412061328.YMG9MZn5-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061328.YMG9MZn5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412061343.kIQucXWU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412061328.YMG9MZn5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sys.c:1104:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/sys.c:1104:32: sparse:     expected struct task_struct *p1
-   kernel/sys.c:1104:32: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/sys.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:757:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:757:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:757:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/sys.c: note: in included file:
->> include/trace/hooks/sys.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/sys.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/sys.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   kernel/sys.c:2813:25: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +24 include/trace/hooks/sys.h
+   In file included from drivers/nvme/host/core.c:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/nvme/host/core.c:2178:18: warning: variable 'h' is uninitialized when used here [-Wuninitialized]
+    2178 |         n = le16_to_cpu(h->numfdpc) + 1;
+         |                         ^
+   include/linux/byteorder/generic.h:91:21: note: expanded from macro 'le16_to_cpu'
+      91 | #define le16_to_cpu __le16_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   drivers/nvme/host/core.c:2157:36: note: initialize the variable 'h' to silence this warning
+    2157 |         struct nvme_fdp_config_log hdr, *h;
+         |                                           ^
+         |                                            = NULL
+   2 warnings generated.
 
-     9	
-    10	struct task_struct;
-    11	DECLARE_HOOK(android_vh_syscall_prctl_finished,
-    12		TP_PROTO(int option, struct task_struct *task),
-    13		TP_ARGS(option, task));
-    14	
-    15	struct mm_struct;
-    16	struct anon_vma_name;
-    17	DECLARE_HOOK(android_vh_anon_vma_name_recog,
-    18		TP_PROTO(struct mm_struct *mm, struct anon_vma_name *anon_name),
-    19		TP_ARGS(mm, anon_name));
-    20	DECLARE_HOOK(android_vh_restore_mm_flags,
-    21		TP_PROTO(struct mm_struct *mm),
-    22		TP_ARGS(mm));
-    23	
-  > 24	DECLARE_RESTRICTED_HOOK(android_rvh_pr_set_vma_name_bypass,
-    25		TP_PROTO(struct mm_struct *mm, unsigned long addr, unsigned long size,
-    26			      struct anon_vma_name *anon_name, int *error, bool *bypass),
-    27		TP_ARGS(mm, addr, size, anon_name, error, bypass), 1);
-    28	#endif
-    29	
+
+vim +/h +2178 drivers/nvme/host/core.c
+
+  2153	
+  2154	static int nvme_check_fdp(struct nvme_ns *ns, struct nvme_ns_info *info,
+  2155				  u8 fdp_idx)
+  2156	{
+  2157		struct nvme_fdp_config_log hdr, *h;
+  2158		size_t size = sizeof(hdr);
+  2159		int i, n, ret;
+  2160		void *log;
+  2161	
+  2162		info->runs = 0;
+  2163		ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIG, 0, NVME_CSI_NVM,
+  2164				   (void *)&hdr, size, 0, info->endgid);
+  2165		if (ret)
+  2166			return ret;
+  2167	
+  2168		size = le32_to_cpu(hdr.sze);
+  2169		log = kzalloc(size, GFP_KERNEL);
+  2170		if (!log)
+  2171			return 0;
+  2172	
+  2173		ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIG, 0, NVME_CSI_NVM,
+  2174				   log, size, 0, info->endgid);
+  2175		if (ret)
+  2176			goto out;
+  2177	
+> 2178		n = le16_to_cpu(h->numfdpc) + 1;
+  2179		if (fdp_idx > n)
+  2180			goto out;
+  2181	
+  2182		h = log;
+  2183		log = h->configs;
+  2184		for (i = 0; i < n; i++) {
+  2185			struct nvme_fdp_config_desc *config = log;
+  2186	
+  2187			if (i == fdp_idx) {
+  2188				info->runs = le64_to_cpu(config->runs);
+  2189				break;
+  2190			}
+  2191			log += le16_to_cpu(config->size);
+  2192		}
+  2193	out:
+  2194		kfree(h);
+  2195		return ret;
+  2196	}
+  2197	
 
 -- 
 0-DAY CI Kernel Test Service
