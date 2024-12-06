@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0629E13BAC6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 02:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8D81714C0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 02:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733450911; cv=none; b=VvSbEe/MATYqdXhjcIRY0daq3+nXTxvQR5SPT+4z6y2mEZawnKdb1N7EIUSiEr1jyQTv4thylqbHYOKyOaoSgCKbFAHqC0IS9s1eSmoRH21qlq7oZ4/KMZ5CklaANIVq+SC+FSKuU8NZONzKBgFFM1NJo1wi+SgZd9czHr34l2U=
+	t=1733452177; cv=none; b=ngQMTUm+juz0mdvlct/Ck7nh1Lo0sv3f9bijxdRIs8J7hFSLe6ghFWaTc1kq1wvjFtPNXGDia/10BxrUaC5F9YeWO0BSJfYQcnZcLftsavEkpmnWXo90yTkOrvhB3HOpsNBLWzVLShznIS2K1tgCeW0qREZMHr+hTDUhOm5acEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733450911; c=relaxed/simple;
-	bh=/2/SB3twESFHZRADp3BJ7fgVNAtYfYj6jijMxm2fbEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fcHkg4cppp6TfUrlA9Dih2IPyHUl2b9YNab+wGr0cMGqzFsreLeaS+heXT05Y3SAsKb2C9FbJ6c5kCrHc1vM51Ow8ylRGCiWea12OZpL6sg5g8XAvlft6wFbkv2bI6dnxMAObcWNd8ECnQJmM/JAn/uYObjeCEhX/l2i06yZ++k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aLJmm8wB; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1733452177; c=relaxed/simple;
+	bh=UWYkmQgJqsODlM0e3u/6lpT+QT8jC6RKy54hcLbglIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tDtgZOEWvLnMbmIjlAh11/kkBXRMzjvP4KDjVfI8wBDswav+pVmhnhm+70aHLPLvP+3IR4ptdY5tiE43eoswAhOxhgvoVNapM0SaQuDQnZjUkk8RuWSryi79JqrCXxSzYCDElRFXeVXFdiIXt++ktmuqxWZmLpj9lmlFCOq3EzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIL9QXuV; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aLJmm8wB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIL9QXuV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733450910; x=1764986910;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/2/SB3twESFHZRADp3BJ7fgVNAtYfYj6jijMxm2fbEw=;
-  b=aLJmm8wBIUojO4r9me3mMKtmcoddlf9zrogGGZByUWMejIsa0DzY1tcI
-   SoKfADkR/MqfoaGZOQh86JbjZe5LOusftYnc5YqduPJQ+Leo21So6QJ8O
-   fCQUS4ayuRsV0nooPAZ49OQuAlKuaYHAm41q3uMzz4pwxqn0E1fp07UgZ
-   n3ySE17IEMyHFkbjtHN2v6/Qj5Z0aT/YQg8nmXvUw9Wp1yvjgHZK7tOw4
-   tiCL/ZHZrdfHyEYNsllrhqBBhY9e+8AODq11HBuq85vvhzoGu/zUkC4CF
-   U0dtUxch5KjEDt/A2i5yL+8W73JGDKFot2C6S4vgd9bbFd+ToSYJexgYV
+  t=1733452175; x=1764988175;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UWYkmQgJqsODlM0e3u/6lpT+QT8jC6RKy54hcLbglIU=;
+  b=LIL9QXuV+GNjwHTQrUabY7xAZB9fqlP6czkc9zZjAhrmfAxkgA3TAnBq
+   MeNyjckJKWTKHxzt3CLSjJng1LKIV7E14WEfIex6LzCtr4E0zGwi534Bh
+   A5pifKZRvHGT4sGXuLQfzOnpGohsFCFbDejq2q0/nHfu6LzK5iMhh7TkD
+   64AFD0c3IEaWO/wPHXj2811MJ1vX6pgM0rtafxqleXm1HWknEGVgMr/zd
+   NoNI2iBygJlajyJdL4MRE+VQsy8u8nbOm/Y5TXaMTaWgz7F21b2e8xgP+
+   tQhl9LSZRea2pw+KYfK7ggCy6L1V/micAW41HipyJMzoxGjtbeJS4UDbJ
    g==;
-X-CSE-ConnectionGUID: ArG7zDNsSCyGC8lk36TFyg==
-X-CSE-MsgGUID: iZxaw6h7QGecj3VZ/JYzJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="36628911"
+X-CSE-ConnectionGUID: r7sjqfUsQJWR0fAVlRQnow==
+X-CSE-MsgGUID: bQYeT+g/Q1u4Oa7UR+XWRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33943016"
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="36628911"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 18:08:30 -0800
-X-CSE-ConnectionGUID: IQk8onOsSEKvPDfuDp2RSw==
-X-CSE-MsgGUID: Rk2yA06aQtqOQ9ma3CfXmg==
+   d="scan'208";a="33943016"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 18:29:35 -0800
+X-CSE-ConnectionGUID: lwXnpxdgQ6yYKcNCD6eNMA==
+X-CSE-MsgGUID: znHyy5KWTeu/Yt7uR8mtgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="99341701"
+   d="scan'208";a="94749549"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Dec 2024 18:08:29 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 05 Dec 2024 18:29:32 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJNlZ-0000c3-2u;
-	Fri, 06 Dec 2024 02:08:25 +0000
-Date: Fri, 6 Dec 2024 10:07:48 +0800
+	id 1tJO5x-0000cl-24;
+	Fri, 06 Dec 2024 02:29:29 +0000
+Date: Fri, 6 Dec 2024 10:28:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 10840/30000]
- drivers/dma-buf/heaps/deferred-free-helper.c:23:19: sparse: sparse: symbol
- 'freelist_waitqueue' was not declared. Should it be static?
-Message-ID: <202412061007.p81dUqrJ-lkp@intel.com>
+To: Igor Belwon <igor.belwon@mentallysanemainliners.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] clk: samsung: Introduce Exynos990 clock
+ controller driver
+Message-ID: <202412061048.3gu75pLi-lkp@intel.com>
+References: <20241205193423.783815-4-igor.belwon@mentallysanemainliners.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +72,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241205193423.783815-4-igor.belwon@mentallysanemainliners.org>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   0c0e4e7af1d88f89746df9473da789f2cee2a15e
-commit: e3919bfeb0066ab9b5f9765e5610b95672990e64 [10840/30000] ANDROID: dma-buf: system_heap: Add deferred freeing to the system heap
-config: i386-randconfig-063 (https://download.01.org/0day-ci/archive/20241206/202412061007.p81dUqrJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061007.p81dUqrJ-lkp@intel.com/reproduce)
+Hi Igor,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on krzk-dt/for-next clk/clk-next linus/master v6.13-rc1 next-20241205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Belwon/clk-samsung-clk-pll-Add-support-for-pll_-0717x-0718x-0732x/20241206-043559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241205193423.783815-4-igor.belwon%40mentallysanemainliners.org
+patch subject: [PATCH v1 3/3] clk: samsung: Introduce Exynos990 clock controller driver
+config: arc-randconfig-001-20241206 (https://download.01.org/0day-ci/archive/20241206/202412061048.3gu75pLi-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061048.3gu75pLi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412061007.p81dUqrJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412061048.3gu75pLi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma-buf/heaps/deferred-free-helper.c:23:19: sparse: sparse: symbol 'freelist_waitqueue' was not declared. Should it be static?
->> drivers/dma-buf/heaps/deferred-free-helper.c:24:20: sparse: sparse: symbol 'freelist_task' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/freelist_waitqueue +23 drivers/dma-buf/heaps/deferred-free-helper.c
+>> drivers/clk/samsung/clk-exynos990.c:13:10: fatal error: dt-bindings/clock/exynos990.h: No such file or directory
+      13 | #include <dt-bindings/clock/exynos990.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-bd1639945c3029 John Stultz 2020-12-09  20  
-bd1639945c3029 John Stultz 2020-12-09  21  static LIST_HEAD(free_list);
-bd1639945c3029 John Stultz 2020-12-09  22  static size_t list_nr_pages;
-bd1639945c3029 John Stultz 2020-12-09 @23  wait_queue_head_t freelist_waitqueue;
-bd1639945c3029 John Stultz 2020-12-09 @24  struct task_struct *freelist_task;
-bd1639945c3029 John Stultz 2020-12-09  25  static DEFINE_SPINLOCK(free_list_lock);
-bd1639945c3029 John Stultz 2020-12-09  26  
 
-:::::: The code at line 23 was first introduced by commit
-:::::: bd1639945c30298e4bea2b611d6b0cd08d3cdd98 ANDROID: dma-buf: heaps: Add deferred-free-helper library code
+vim +13 drivers/clk/samsung/clk-exynos990.c
 
-:::::: TO: John Stultz <john.stultz@linaro.org>
-:::::: CC: John Stultz <john.stultz@linaro.org>
+    12	
+  > 13	#include <dt-bindings/clock/exynos990.h>
+    14	
 
 -- 
 0-DAY CI Kernel Test Service
