@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA1D14B08C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 19:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451361D63C0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Dec 2024 19:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733512754; cv=none; b=kan/ga4mounCxSNFinu3EraVNqIfJ5Asp6DKc4sPiYR2PYNjdCHMauOOMVALrgWOb66Y5QyRGKCbdeeMQwSYBgYR7o53REPbfMchYpwlUuHQdbC6k+3d41jzA588WrlfuEyYb10pwuYbdwgObjDDt2n0sbzkP53I8snQlZM96MA=
+	t=1733514015; cv=none; b=Jq7uRatbGxWFB8MUtRv8isHhkdKR1zQFuoo69YG6PM3ZoG7FhpaZEzRninPI927ASv42BGwzHRgDOuhbnTwRp/oytDysEIrojQ5WOUgS761atu/4gmVwBizysdGWMccNrrUBzI8xtu6OC9kBDNaCcTDrzOVTgzcVCSVFNzZRLGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733512754; c=relaxed/simple;
-	bh=YTR0cdHaq1fgoWNBmfun/KkPscJNkH1Q8NnuNAB1YDk=;
+	s=arc-20240116; t=1733514015; c=relaxed/simple;
+	bh=Zh6Bt3A/Sc0s/2wc0zaqlXL4Cv1NhQAfBtFf1htJuj8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GM8zKH2dHkmwTMrbsgqDu/uQ2uDZnHo2R2pvavLGpkL4SsOoDvzY/iugd+CWEjE1XBtLQQamjpfWed05gTqtbD0fm6nAZssf++agVSPry9BbS2CyrHAYFGkfxEDbRW2OdGcUqN1Sbo2aQNlwM9OBxjDXmCOQ70vaX3D7Z5y8K6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpeTXIMn; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=KAyRhNNUeUooRDS+WBwkUU9RRXwffCjVwBewfbrn0ck8/baVQb5tB85UV20dtRgI/Mc9op7lWnAeMbwH+F9DVEZ/nR2vWq9xDqPr0jjkoOfhlXGZBcLBC49FwxPTIfEZSwxSHQe+QxvmkWwSEyFAontPBmlP+vdnFMBxe9H4grQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iuw1mPJU; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpeTXIMn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iuw1mPJU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733512753; x=1765048753;
+  t=1733514014; x=1765050014;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YTR0cdHaq1fgoWNBmfun/KkPscJNkH1Q8NnuNAB1YDk=;
-  b=OpeTXIMnBdNN3+ktmLQOk3rPeUW87+uBqewtt09hifsJSMt1cFPtO+ic
-   2yyHafRBUXy468FaX1v9XkW62iWaEb/cTCrxT3/2oD6t0JmU4Hd8A1XrG
-   PKp769ufR5oXWII5LJJaoomYPNUC4Hswh6JoChD9YzYwpZ5psJQ31BxY+
-   ISJ40j66kHxynKVuIhwPeEmmk2nfv483WrbKG/Ha3k2LKgNmcK6ib7R+V
-   t3SC/BxgZ59ZlFgAP+xonUK38AOnoHbshrl/YJcZOk89ilZZ9h4JnV2qR
-   qV4Omsumudtw87+sCtNYb8igpSWCGyH553uoVXQyC/ygBHXW3pK5QiiBc
-   w==;
-X-CSE-ConnectionGUID: u8e8PhKJS9ePxWEX7poBLw==
-X-CSE-MsgGUID: dQxgpGMqSc6CDQt9Ct5cAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="44346038"
+  bh=Zh6Bt3A/Sc0s/2wc0zaqlXL4Cv1NhQAfBtFf1htJuj8=;
+  b=Iuw1mPJU0hzujN7APwNqV3gjC9zpmuI8pEHdse7R6JTpvPsvW9TB9798
+   lYREnz4E742tm48NGWKLMJkFLc9M7SWlQ/6l9QrNSxjRZFReaAkEZ9LGM
+   RXyzkTPQJNh2/09O+SO1OYakqAZUjm+YfzrPrcBFfFp9uwAzy0ImN6JtN
+   YVWyYiX1Z+bWqrMmUPWYkS4CU6EYu0gcBaYZhM8H0zSDk3EnkbK2BQwvt
+   6HZk/8WxxYSWqtpO74SoM2yFgXUeac3dbE4rSVMnuoONxD1QsZhM/X3UZ
+   jUVWhHacOConmpJp7t3dxCtCDc3EsrdRZ4D6rphY+44X7mMwIDHeFqO9g
+   Q==;
+X-CSE-ConnectionGUID: hZpptuq1TDahuZHUC2/MqQ==
+X-CSE-MsgGUID: P+9jTYvsRYeMdhEVEr3eeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="33803799"
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="44346038"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 11:19:12 -0800
-X-CSE-ConnectionGUID: 8nsj1F6CQ+u5SwaxOS45Vg==
-X-CSE-MsgGUID: 2VOKt6G7S0ec00+lIGlKTA==
+   d="scan'208";a="33803799"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 11:40:14 -0800
+X-CSE-ConnectionGUID: 1s8AYjSGTayPHaDBX/00oA==
+X-CSE-MsgGUID: WzEGyG8XTZSbciYxLNiLGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="99430743"
+   d="scan'208";a="94861247"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 Dec 2024 11:19:11 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 06 Dec 2024 11:40:12 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJdr2-0002Bl-2E;
-	Fri, 06 Dec 2024 19:19:08 +0000
-Date: Sat, 7 Dec 2024 03:18:54 +0800
+	id 1tJeBO-0002Ct-0d;
+	Fri, 06 Dec 2024 19:40:10 +0000
+Date: Sat, 7 Dec 2024 03:39:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ambarus:acpm-v3-upstream 9/10] ERROR: modpost:
- "acpm_pmic_update_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
-Message-ID: <202412070320.rqT5CimP-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 1/2]
+ drivers/virtio/virtio_pvclock.c:49:6: warning: no previous prototype for
+ 'update_suspend_time'
+Message-ID: <202412070322.5wdqeaH3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +63,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ambarus/linux-0day acpm-v3-upstream
-head:   20f606fa2a40e27ec03a65c1a7e7d59617173b99
-commit: 2c7c337e69c51f04f63d04aa2c817eda43cf97ca [9/10] firmware: add exynos ACPM protocol driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241207/202412070320.rqT5CimP-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070320.rqT5CimP-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   195d9cb705b62681ea7f7d60f84ad75dfacdb871
+commit: bf3f6f01039f7f03350da296935c1f2e2fca7550 [1/2] ANDROID: virtio: virtio_pvclock: initial driver impl
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241207/202412070322.5wdqeaH3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070322.5wdqeaH3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070320.rqT5CimP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070322.5wdqeaH3-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: missing MODULE_LICENSE() in drivers/firmware/samsung/exynos-acpm-mfd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/samsung/exynos-acpm-mfd.o
-ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
-ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
-ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
-ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
->> ERROR: modpost: "acpm_pmic_update_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
->> ERROR: modpost: "acpm_pmic_bulk_read" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
->> ERROR: modpost: "acpm_pmic_write_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
->> ERROR: modpost: "acpm_pmic_bulk_write" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
->> ERROR: modpost: "acpm_pmic_read_reg" [drivers/firmware/samsung/exynos-acpm.ko] undefined!
->> ERROR: modpost: "__udivdi3" [drivers/firmware/samsung/exynos-acpm-mfd.ko] undefined!
-WARNING: modpost: suppressed 7 unresolved symbol warnings because there were too many)
+>> drivers/virtio/virtio_pvclock.c:49:6: warning: no previous prototype for 'update_suspend_time' [-Wmissing-prototypes]
+      49 | void update_suspend_time(struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/update_suspend_time +49 drivers/virtio/virtio_pvclock.c
+
+    48	
+  > 49	void update_suspend_time(struct work_struct *work)
+    50	{
+    51		u64 suspend_ns, suspend_time_delta = 0;
+    52		struct timespec64 inject_time;
+    53		struct virtio_pvclock *vp;
+    54	
+    55		vp = container_of(work, struct virtio_pvclock,
+    56				  update_suspend_time_work);
+    57	
+    58		virtio_cread(vp->vdev, struct virtio_pvclock_config, suspend_time_ns,
+    59			     &suspend_ns);
+    60	
+    61		mutex_lock(&vp->inject_suspend_lock);
+    62		if (suspend_ns > vp->injected_suspend_ns) {
+    63			suspend_time_delta = suspend_ns - vp->injected_suspend_ns;
+    64			vp->injected_suspend_ns = suspend_ns;
+    65		}
+    66		mutex_unlock(&vp->inject_suspend_lock);
+    67	
+    68		if (suspend_time_delta == 0) {
+    69			dev_err(&vp->vdev->dev,
+    70				"%s: suspend_time_ns is less than injected_suspend_ns\n",
+    71				__func__);
+    72			return;
+    73		}
+    74	
+    75		inject_time = ns_to_timespec64(suspend_time_delta);
+    76	
+    77		timekeeping_inject_sleeptime64(&inject_time);
+    78	
+    79		dev_info(&vp->vdev->dev, "injected sleeptime: %llu ns\n",
+    80			 suspend_time_delta);
+    81	}
+    82	
 
 -- 
 0-DAY CI Kernel Test Service
