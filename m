@@ -1,86 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A5313B59A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Dec 2024 08:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00741147C91
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Dec 2024 12:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733647357; cv=none; b=XgrRXXwDVEeI5ciCjmqJTh5TazudR/2cLObpUWuBZ7GDcLFWG8it9hJgTrHwQ2d5ENTMyIlploCdUuvIydkF5DPJVK6eDSYJkHSTO5sR5oKvsadmKLclIYkGWwiwYJ0MQhdN1tlZaG03cX7l1Ynq13NJUNuyaamW9rJdWqz3H7o=
+	t=1733661792; cv=none; b=Dgo9jPo/HUO+gASBbjHiMWCnFo8aNX49STEqECLu/PsYZ18iOTSloL3vdN/aPzLrTHKWTBD2CEWWaU/gr2FbfvyAJzNhS31xP/97IbCHFzjuBCl3B9jf/nSZ2jn5pfxfpSNscc5FZbKpiBU72Eou8RQswwldWJSqVV81TJ1650M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733647357; c=relaxed/simple;
-	bh=0SIJDo6MX/QEQO85LU0ihdjDe1Dt56/YEKfiRIPfEqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Y7qLpSOf9nWURsIiTyKNieyEQ9XOq2oc7aLLmTAumPDz4eFiV317ahJlKN+29Rywqedv0HAiarOC8pIYx9H6ZswbowEDL+x1lg0+4rBBgmjvACeqbo5I16GdQUpoogFZk7sjV4q+2ArErp2v5HH+OxuoWr/k12YFWotYhqScQV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmwYF3hj; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733661792; c=relaxed/simple;
+	bh=Y1VrfaUJOsHO1WFsOHnhUnMmpc+knkf8+T6J1ZH+360=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a7WG0t9owyTm1SV6xwcVOrstlgRtJwaD0k/ZimcY+kZkS/SMwtWSeaBnDhb7uPCT/sY9SyQpBhxYDFBznxIPu4Q7MG130duXBUzEqEfSoQYf6zeS/Qr+YHXp05bK0OqOhaSNVzgw9ZclwXsN4nLsaBb50BSa/k7xYFrJ5yepT1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyhJNTCi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmwYF3hj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733647356; x=1765183356;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=0SIJDo6MX/QEQO85LU0ihdjDe1Dt56/YEKfiRIPfEqc=;
-  b=dmwYF3hjGYnqiUnr9iI7B/g0ceyHsebFpzbwLHpj9IzyxKvKp159fDyM
-   yfv1NTHBhwE8P8ynTjPKru2L/RdKgNYlIUy3M9Z0wyuG7esBOyuF1L4NT
-   Bjo8kJF2c6IaSjta3fJqqH6VIjGzdBK2GUvO3ZdNXyLRcmu2NymvGFFjC
-   Fc/752mRbGvJ5sf5M+XXfwl9jR6jyVrOjo0tBIIDjntXJh9nnpqciSDbc
-   gK6GFRQc1buNHQtjai0HgnrpKNbd0+dxpZosGW4WapxqiZla2AnG1jv5c
-   P8yEdozUrgdM9gmvqXJJ22j6m6b80/I0JqKVvXa5xfPsahZteNkH5uday
-   Q==;
-X-CSE-ConnectionGUID: Vs30nvDiSPK2gh3fg+Lj8Q==
-X-CSE-MsgGUID: qMd7hmNvQpG++PDiMaK9Ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11279"; a="44557420"
-X-IronPort-AV: E=Sophos;i="6.12,217,1728975600"; 
-   d="scan'208";a="44557420"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 00:42:32 -0800
-X-CSE-ConnectionGUID: +5h7JRTCSDeNb6ox4Uv6/Q==
-X-CSE-MsgGUID: CT4riyY+TTWJONpXklhAGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,217,1728975600"; 
-   d="scan'208";a="94888291"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Dec 2024 00:42:30 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKCs0-0003Dx-0N;
-	Sun, 08 Dec 2024 08:42:28 +0000
-Date: Sun, 8 Dec 2024 16:42:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nikolay Kuratov <kniv@yandex-team.ru>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 6.1] KVM: x86/mmu: Ensure that kvm_release_pfn_clean()
- takes exact pfn from kvm_faultin_pfn()
-Message-ID: <Z1Vb6mMqvlZHBQ8z@a512c14b2e7e>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyhJNTCi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E30BC4CEE2
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Dec 2024 12:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733661791;
+	bh=Y1VrfaUJOsHO1WFsOHnhUnMmpc+knkf8+T6J1ZH+360=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=JyhJNTCiW50mZQhwiOkkRceY8SYIGl0bPdnLmEdR4PDpOIRBk2UZNOGnq12S4Ut+6
+	 3nyTam2ylc+T3VFg4uivwD1VRLuCPjRKli+mJLNNPF4gg0Qnvti57/IZcxOsabOcJq
+	 0VYObQvVjR8sBVNlxVEmfSJQL6KIG967hahZcSyNIFnYj3IAzSBM8IV1WEMBjKANvP
+	 lHM4TEcBaWAgX6zdKiHCxFHIhPdBA4hior1CBBCqqDEnUB0Y4zLuGivfg8m1Jic5xB
+	 3v8HvDDwDnplzSV2gzVZuqWHovTgRtd6jmCaqBZKvQvkiXD0Fj9MNmH1TWsuMPuh/Z
+	 8uAVLavPHFLTQ==
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso390243a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 04:43:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXbtoot1QKuthvXSnkcs927DxwEpHnzmWhXA1C577uEmbmJ+dhowsA/fBHOAbceP9h0W32q1N2KYx8n8+aF@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKRo7E78VQXjXxJwT6MYvdNtantajB9Z966c+aBczs5rSmLMu+
+	hd32vp696jeD7oHBNcZIXXUbsr2+IkHR6lvg/nIrJm2o/mcMsC4sIpGBjpCDpjYthS/eOz6q+vc
+	K6MX7F/5AFnWrlRRsDIoN5SZLZwM=
+X-Google-Smtp-Source: AGHT+IEwMdJAK1TEIbACXHy0BbMLfAFH2951o0gRCPTzx5amZVYs+eE3LjkD4Lm7z7Ax4i9ZpMDZ4K8dvkv2F0pucxM=
+X-Received: by 2002:aa7:d3c8:0:b0:5d3:cd5b:64a9 with SMTP id
+ 4fb4d7f45d1cf-5d3cd5b656dmr6300254a12.34.1733661790431; Sun, 08 Dec 2024
+ 04:43:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241208083743.77295-1-kniv@yandex-team.ru>
+References: <202412070231.MzXdNrLv-lkp@intel.com> <faqkdyfv4wstpsc6miyfwq73nyj7tke4epses4msjewrh26her@vpovriyfjtcv>
+In-Reply-To: <faqkdyfv4wstpsc6miyfwq73nyj7tke4epses4msjewrh26her@vpovriyfjtcv>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Sun, 8 Dec 2024 21:42:27 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH1uDfp+tD395SyA201880rUKRKGYwjM+pCaFRMzDzF9-Q@mail.gmail.com>
+Message-ID: <CAGTfZH1uDfp+tD395SyA201880rUKRKGYwjM+pCaFRMzDzF9-Q@mail.gmail.com>
+Subject: Re: [chanwoo:devfreq-next 4/4] drivers/devfreq/sun8i-a33-mbus.c:384:47:
+ error: passing argument 1 of 'devm_clk_rate_exclusive_get' from incompatible
+ pointer type
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Thanks for your patch.
+I'd like you to make the new patch without error.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+Thanks,
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+On Sat, Dec 7, 2024 at 5:37=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> Hello,
+>
+> On Sat, Dec 07, 2024 at 02:37:41AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.g=
+it devfreq-next
+> > head:   27d1a5d95c5202f927f1155ad8f919778cd9f155
+> > commit: 27d1a5d95c5202f927f1155ad8f919778cd9f155 [4/4] PM / devfreq: su=
+n8i-a33-mbus: Simplify by using more devm functions
+> > config: arm64-randconfig-002-20241206 (https://download.01.org/0day-ci/=
+archive/20241207/202412070231.MzXdNrLv-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 14.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20241207/202412070231.MzXdNrLv-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202412070231.MzXdNrLv-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    drivers/devfreq/sun8i-a33-mbus.c: In function 'sun8i_a33_mbus_probe'=
+:
+> > >> drivers/devfreq/sun8i-a33-mbus.c:384:47: error: passing argument 1 o=
+f 'devm_clk_rate_exclusive_get' from incompatible pointer type [-Wincompati=
+ble-pointer-types]
+> >      384 |         ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
+> >          |                                           ~~~~^~~~~~~~~~
+> >          |                                               |
+> >          |                                               struct clk *
+> >    In file included from drivers/devfreq/sun8i-a33-mbus.c:6:
+> >    include/linux/clk.h:214:48: note: expected 'struct device *' but arg=
+ument is of type 'struct clk *'
+> >      214 | int devm_clk_rate_exclusive_get(struct device *dev, struct c=
+lk *clk);
+> >          |                                 ~~~~~~~~~~~~~~~^~~
+>
+> Huh, back then something with my build testing must have been broken.
+> The right thing is to squash the following into said commit:
+>
+> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
+-mbus.c
+> index fae0793182a7..52e146fe389d 100644
+> --- a/drivers/devfreq/sun8i-a33-mbus.c
+> +++ b/drivers/devfreq/sun8i-a33-mbus.c
+> @@ -381,7 +381,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
+e *pdev)
+>                 return dev_err_probe(dev, ret, "failed to lock dram clock=
+ rate\n");
+>
+>         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+> -       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
+> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
+>         if (ret)
+>                 return dev_err_probe(dev, ret, "failed to lock mbus clock=
+ rate\n");
+>
+>
+> If you don't want to rewrite history, tell me, then I create a proper
+> patch.
+>
+> Thanks and sorry,
+> Uwe
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH v2 6.1] KVM: x86/mmu: Ensure that kvm_release_pfn_clean() takes exact pfn from kvm_faultin_pfn()
-Link: https://lore.kernel.org/stable/20241208083743.77295-1-kniv%40yandex-team.ru
-
-Please ignore this mail if the patch is not relevant for upstream.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
 
-
+--=20
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
