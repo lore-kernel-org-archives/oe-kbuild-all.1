@@ -1,164 +1,121 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C1C1D555
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 06:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB451D555
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 06:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733727280; cv=none; b=DaQikXsUuw2bla2t5n7M7s+NSJ8aJt8mdpXr046ttQQNjHChAO4Y+m5WAiy8xg5OvipM54/byUali0yAseOUfBdxw32ggMt8rGzsMwhLFSKbHNkO0jnA1tPlrLMh4NXRXnDbbOZuS+Lo2Iu5117FYTxX8bYDfy/qpqtU7NQf8EI=
+	t=1733727435; cv=none; b=F+nW9AwBkqj0hP25eysT+3Et7udaaEiFkplkXwZLNWLLNtUsJVtdJsSFNY3hWGTRs0dL+ryq5rvpXus2mwfsqKbacChuIjwrlybDXaw/51lTt0K65caEQZYkyfnN3d3T6Z+cHGbQKePecAr+fQhM2QGgPo3mCmSsSZnxdctNt0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733727280; c=relaxed/simple;
-	bh=RqUneqpUhmcrSoHGXpMo7Z8F82JswvQ1xbaMFu8kxRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=smWj1GnsmsAqalDLVBHhSVgYOzFb+sgs9DdGn7SO3ax+xUQt1C/5+S26m3Yieuk1ozDmA4JF7GkD0U4L6I8lx5XFJrhOq5ZZhpT7F1J5bGV5CVTNjw5eRU93bIbjruyZdxCxrtdN0FXjw31urlHbj9c4BZFYJ24v+XWdFNrUDPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O6n0O32m; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733727435; c=relaxed/simple;
+	bh=MPEFIdQ8Bu/ia699SckXDn3Mrzv58kmDf8uy9Hdm77s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KidZzH+gbKF/Jo4RaHzO041hTfM7Ebq2RaMrm6AW94+mGOFjM4Gx7LvlhuGIfXoKYrbio0MYwykm8f6ymx4ZsCUlrTxDEuRmePwVfX93+WTtQlSpecykonM3f7FTbPecDGB3OJgvLCqltSYxUrn+pYn1a7a9+TrEDEvwba/MUwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PhmIsa9r; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O6n0O32m"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385d7f19f20so1725104f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 22:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733727276; x=1734332076; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1XkYmMcglmPJPLj7yIBMaRqPFFNs7AsBNyFGLW7rqPA=;
-        b=O6n0O32mC90j4H5WWGZDLUDn8U34uJPe+m/UyzRPFV93gJWmi15l4rDZNK8thW2ZR9
-         pK4IJGExHTE1A08Rn/qku5L51ViQvrAYbDBOJPK11JN2geCr5Yzr4JrvogqP9S5RlL2h
-         Z23qfRdwM4WQvxT6zIDy/xWVuNNlV9kwDeegCyoPiv21IYztGOXhqeAZBSw3ErwBwUlF
-         37tbRXTh1jM1H4RpaGaqmlIW0miMI4qL95jCLkI2I8/njO4JjlwgTl5dUyuQBCHwNfpL
-         03OdZXZsq4op1pA9C3Pii7OAM6FykCuoOewoG/VQACpKH/llxDuMPUvwRgL5tr4S0l55
-         Icjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733727276; x=1734332076;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1XkYmMcglmPJPLj7yIBMaRqPFFNs7AsBNyFGLW7rqPA=;
-        b=qp5eF3NAafDWgbPbc0XwvNX9kV+7NKHTvFSQgEOEbg/K9pAgdDB9je9oA+35p3pgkU
-         ug74ud7pGIaj6wPWlJeQbCmOZY9tyUxf/aSkMJlRM+gg8NP8gsLAPQcjwFm9GfE9pmTT
-         rf0DzzELLt64P/rcqUmmLE5mPNmQ4FwOLMdXPlwgIceHJt16yeWgGEVvPPoO+a54rz7W
-         HJ2LrZDWe4lm69iW0A7j+t7ZJOV29gUfOkVV79L8BFz161tIqmcI952Eaq3oTrp1JqbZ
-         a2B3CBndDfnc45T4j9GmOcyLi9pEbUXTURwksSZ/kkqUwteHKcsNOmH2rxk3HArMmHA+
-         eZfw==
-X-Forwarded-Encrypted: i=1; AJvYcCWf7FnyQ9q4ReRytC68RZLi2EP600M5I6V8YpGrKafpRWqVRXrgWwuQsEdDPnpcnoOpsPfSAKMuBuvx7Ro7@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlZhVJ4gTvfXyA5BPfrEkp3uL+IBzbhzV9//cjxl3OYaZMDCXT
-	OGAG/zBfPaWNS7xuCyi3yfyXbv6JErmyC613hj/KNLb5cqqTEKxDRhib28x3FoI=
-X-Gm-Gg: ASbGncsqa49Ej2c6dmdv02osuPgURB9z67NjZaNQDOdAa0/Z4559U/lhKdgG9Tj02Qw
-	3nvx6FRoGhSbh+28Wmrkgf5wGxo2VXGYD/zhW++rihVjuFmZxWWNPE6AZNLovJrzuq45Fhxdrc7
-	Hr6AGheC53buNWPWYGiGoOiHueTgCOTPcUI+d0JINvQSKCuCRgMkvgA9IJ+A6NfE3b2G3Ctg1jZ
-	XNRzUCXLl4UKGLolM0bBpMASLzEHced+YsJIaBs5sAzZox97WGTNxc=
-X-Google-Smtp-Source: AGHT+IEqObb+yJVuKMo10u1GICUj6PlIqe4BQ2nSUX3aEAQCyQiZ5zXPlE4klQPttrFDLRgVLcapJA==
-X-Received: by 2002:a05:6000:184d:b0:385:ef39:6cd5 with SMTP id ffacd0b85a97d-3862b33ef3dmr7644466f8f.1.1733727274905;
-        Sun, 08 Dec 2024 22:54:34 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3862190966bsm12523537f8f.75.2024.12.08.22.54.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 22:54:34 -0800 (PST)
-Date: Mon, 9 Dec 2024 09:54:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	leoliu-oc <leoliu-oc@zhaoxin.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1590/1590] drivers/cpufreq/acpi-cpufreq.c:661
- get_max_boost_ratio() error: uninitialized symbol 'highest_perf'.
-Message-ID: <3f07747f-0a5d-4b4c-8e14-ab6bc0c8d31b@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PhmIsa9r"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B8NR0eT005904;
+	Mon, 9 Dec 2024 06:57:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UPQrbwKLMc1aTxfBSst4W4YEF32HnLuWsT6LGHsy6H0=; b=PhmIsa9r7J/t6Zdb
+	hUKITPEJ2H4h3mVRpcPZs+o13MoCbkczGLIVKoZm0Zyrz5+VR/EBxUE5cGdXRVD+
+	AKZ/ZLgkbma+Nw4LxClCetrKMjrrNitL3kiRL7GCJ4Qwjgz/QdujDEHnIMcJioHc
+	HnsPpIJit6Wg3mbx1gj1/dQPpC1TuCKXhX+dGPotcXX7r1i0H/xFUoyouoYsjlKw
+	EjtQQdRpq4bqBl4pxgntNytUWc3R+tcmaUS4D1WwVWYUSqy9D2ipija88ohwfdLu
+	TTqrBcLCevOXi601U3g/5lbgtFpOWSVrSm6xzoMrDeeVXbDOBgQe/B89fZrfYpeE
+	iGU8Cw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cfn8uj5u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Dec 2024 06:57:09 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B96v8IB015366
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 9 Dec 2024 06:57:08 GMT
+Received: from [10.216.63.9] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 8 Dec 2024
+ 22:57:06 -0800
+Message-ID: <a3bdd990-70aa-4948-a70b-e6d48fcc1bc6@quicinc.com>
+Date: Mon, 9 Dec 2024 12:27:03 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 1007/2462]
+ arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0:
+ 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3',
+ 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3',
+ 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom...
+To: kernel test robot <lkp@intel.com>, Bjorn Andersson <andersson@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>
+References: <202412091110.kq7tXw3J-lkp@intel.com>
+Content-Language: en-US
+From: Krishna Kurapati <quic_kriskura@quicinc.com>
+In-Reply-To: <202412091110.kq7tXw3J-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: DcIdiAksrqkL-tqtfRCEIEfkzYjUWLnA
+X-Proofpoint-ORIG-GUID: DcIdiAksrqkL-tqtfRCEIEfkzYjUWLnA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
+ spamscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 bulkscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412090053
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   330348879858de86a15cef38738cbf022633f403
-commit: a5456c60ffb4f5d4147d8b8da36b81f729cac83b [1590/1590] cpufreq: ACPI: add ITMT support when CPPC enabled
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20241208/202412080814.UU32PXsv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412080814.UU32PXsv-lkp@intel.com/
 
-smatch warnings:
-drivers/cpufreq/acpi-cpufreq.c:661 get_max_boost_ratio() error: uninitialized symbol 'highest_perf'.
-drivers/cpufreq/acpi-cpufreq.c:661 get_max_boost_ratio() error: uninitialized symbol 'nominal_perf'.
-drivers/cpufreq/acpi-cpufreq.c:689 cpufreq_set_itmt_prio() error: uninitialized symbol 'highest_perf'.
+On 12/9/2024 10:38 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   ebe1b11614e079c5e366ce9bd3c8f44ca0fbcc1b
+> commit: 4b2769c7d7ce47a64f874eac92b324f3561339ab [1007/2462] arm64: dts: qcom: qcs615: Add primary USB interface
+> config: arm64-randconfig-051-20241204 (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.2.0
+> dtschema version: 2024.12.dev3+g93ee800
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412091110.kq7tXw3J-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>     	'qcom,kpss-wdt' was expected
+>     	'qcom,scss-timer' was expected
+>     	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
+>     	'qcom,msm-timer' was expected
+>     	'qcom,kpss-timer' was expected
+>     	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/watchdog@17c10000: failed to match any schema with compatible: ['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt']
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: rsc@18200000: clock-controller:compatible:0: 'qcom,qcs615-rpmh-clk' is not one of ['qcom,qdu1000-rpmh-clk', 'qcom,sa8775p-rpmh-clk', 'qcom,sar2130p-rpmh-clk', 'qcom,sc7180-rpmh-clk', 'qcom,sc7280-rpmh-clk', 'qcom,sc8180x-rpmh-clk', 'qcom,sc8280xp-rpmh-clk', 'qcom,sdm670-rpmh-clk', 'qcom,sdm845-rpmh-clk', 'qcom,sdx55-rpmh-clk', 'qcom,sdx65-rpmh-clk', 'qcom,sdx75-rpmh-clk', 'qcom,sm4450-rpmh-clk', 'qcom,sm6350-rpmh-clk', 'qcom,sm8150-rpmh-clk', 'qcom,sm8250-rpmh-clk', 'qcom,sm8350-rpmh-clk', 'qcom,sm8450-rpmh-clk', 'qcom,sm8550-rpmh-clk', 'qcom,sm8650-rpmh-clk', 'qcom,x1e80100-rpmh-clk']
+>     	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/rsc@18200000/clock-controller: failed to match any schema with compatible: ['qcom,qcs615-rpmh-clk']
+>>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0: 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3', 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,qcs8300-dwc3', 'qcom,qdu1000-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sar2130p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8180x-dwc3', 'qcom,sc8180x-dwc3-mp', 'qcom,sc8280xp-dwc3', 'qcom,sc8280xp-dwc3-mp', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sdx75-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3', 'qcom,sm8650-dwc3', 'qcom,x1e80100-dwc3', 'qcom,x1e80100-dwc3-mp']
+>     	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,qcs615-dwc3', 'qcom,dwc3']
+> 
 
-vim +/highest_perf +661 drivers/cpufreq/acpi-cpufreq.c
 
-a5456c60ffb4f5 leoliu-oc         2024-07-10  652  static u64 get_max_boost_ratio(unsigned int cpu)
-a5456c60ffb4f5 leoliu-oc         2024-07-10  653  {
-a5456c60ffb4f5 leoliu-oc         2024-07-10  654  	u64 highest_perf, nominal_perf;
-a5456c60ffb4f5 leoliu-oc         2024-07-10  655  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  656  	if (acpi_pstate_strict)
-a5456c60ffb4f5 leoliu-oc         2024-07-10  657  		return 0;
-a5456c60ffb4f5 leoliu-oc         2024-07-10  658  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  659  	cppc_get_highest_nominal_perf(cpu, &highest_perf, &nominal_perf);
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  660  
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04 @661  	if (!highest_perf || !nominal_perf) {
+Seems the patch for bindings is ACKed but not merged yet:
 
-I don't have context outside this email, but I guess that
-cppc_get_highest_nominal_perf() must not initialize these on error.
+https://lore.kernel.org/all/20241017130701.3301785-2-quic_kriskura@quicinc.com/
 
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  662  		pr_debug("CPU%d: highest or nominal performance missing\n", cpu);
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  663  		return 0;
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  664  	}
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  665  
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  666  	if (highest_perf < nominal_perf) {
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  667  		pr_debug("CPU%d: nominal performance above highest\n", cpu);
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  668  		return 0;
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  669  	}
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  670  
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  671  	return div_u64(highest_perf << SCHED_CAPACITY_SHIFT, nominal_perf);
-3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  672  }
-a5456c60ffb4f5 leoliu-oc         2024-07-10  673  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  674  /* The work item is needed to avoid CPU hotplug locking issues */
-a5456c60ffb4f5 leoliu-oc         2024-07-10  675  static void cpufreq_sched_itmt_work_fn(struct work_struct *work)
-a5456c60ffb4f5 leoliu-oc         2024-07-10  676  {
-a5456c60ffb4f5 leoliu-oc         2024-07-10  677  	sched_set_itmt_support();
-a5456c60ffb4f5 leoliu-oc         2024-07-10  678  }
-a5456c60ffb4f5 leoliu-oc         2024-07-10  679  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  680  static DECLARE_WORK(sched_itmt_work, cpufreq_sched_itmt_work_fn);
-a5456c60ffb4f5 leoliu-oc         2024-07-10  681  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  682  static void cpufreq_set_itmt_prio(int cpu)
-a5456c60ffb4f5 leoliu-oc         2024-07-10  683  {
-a5456c60ffb4f5 leoliu-oc         2024-07-10  684  	u64 highest_perf, nominal_perf;
-a5456c60ffb4f5 leoliu-oc         2024-07-10  685  	static u64 max_highest_perf = 0, min_highest_perf = U64_MAX;
-a5456c60ffb4f5 leoliu-oc         2024-07-10  686  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  687  	cppc_get_highest_nominal_perf(cpu, &highest_perf, &nominal_perf);
-a5456c60ffb4f5 leoliu-oc         2024-07-10  688  
-a5456c60ffb4f5 leoliu-oc         2024-07-10 @689  	sched_set_itmt_core_prio(highest_perf, cpu);
-a5456c60ffb4f5 leoliu-oc         2024-07-10  690  	cpumask_set_cpu(cpu, &core_prior_mask);
-a5456c60ffb4f5 leoliu-oc         2024-07-10  691  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  692  	if (max_highest_perf <= min_highest_perf) {
-a5456c60ffb4f5 leoliu-oc         2024-07-10  693  		if (highest_perf > max_highest_perf)
-a5456c60ffb4f5 leoliu-oc         2024-07-10  694  			max_highest_perf = highest_perf;
-a5456c60ffb4f5 leoliu-oc         2024-07-10  695  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  696  		if (highest_perf < min_highest_perf)
-a5456c60ffb4f5 leoliu-oc         2024-07-10  697  			min_highest_perf = highest_perf;
-a5456c60ffb4f5 leoliu-oc         2024-07-10  698  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  699  		if (max_highest_perf > min_highest_perf) {
-a5456c60ffb4f5 leoliu-oc         2024-07-10  700  			/*
-a5456c60ffb4f5 leoliu-oc         2024-07-10  701  			 * This code can be run during CPU online under the
-a5456c60ffb4f5 leoliu-oc         2024-07-10  702  			 * CPU hotplug locks, so sched_set_itmt_support()
-a5456c60ffb4f5 leoliu-oc         2024-07-10  703  			 * cannot be called from here.  Queue up a work item
-a5456c60ffb4f5 leoliu-oc         2024-07-10  704  			 * to invoke it.
-a5456c60ffb4f5 leoliu-oc         2024-07-10  705  			 */
-a5456c60ffb4f5 leoliu-oc         2024-07-10  706  			cppc_highest_perf_diff = true;
-a5456c60ffb4f5 leoliu-oc         2024-07-10  707  		}
-a5456c60ffb4f5 leoliu-oc         2024-07-10  708  	}
-a5456c60ffb4f5 leoliu-oc         2024-07-10  709  
-a5456c60ffb4f5 leoliu-oc         2024-07-10  710  	if (cppc_highest_perf_diff && cpumask_equal(&core_prior_mask, cpu_online_mask)) {
-a5456c60ffb4f5 leoliu-oc         2024-07-10  711  		pr_debug("queue a work to set itmt enabled\n");
-a5456c60ffb4f5 leoliu-oc         2024-07-10  712  		schedule_work(&sched_itmt_work);
-a5456c60ffb4f5 leoliu-oc         2024-07-10  713  	}
-a5456c60ffb4f5 leoliu-oc         2024-07-10  714  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Regards,
+Krishna,
