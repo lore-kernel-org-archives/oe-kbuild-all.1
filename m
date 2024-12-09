@@ -1,76 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E957193079
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61F3176AC7;
+	Mon,  9 Dec 2024 04:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719423; cv=none; b=fhEdCZhWfWrzpiTdUQIOHQVCoJS7zvlxJDvZUt+675/XJG16Lrc0RewOi1OMDWsTshEWGofa+LbZReI+YJvLTqDLjmAUzJqCngckW2LuWtps0qKJbAR/Xf0RyVzyz5dUWtpnT2FXogLmNreDgswgnwbeR+lsQRjZfMJ1t55LpiI=
+	t=1733719482; cv=none; b=o2WNkQ3PMS5L6ZQqF/JVzvItfI8w6CX2ZWmar8IcSqRU4x/IAD48vzNAq6CL8CsekIvH2mHCW/IpZMIvAGwnJCFFsdQ/qYJLyIdktJxss9H2A9kIhsRAT88IhkH//yWoDTB50HbrPXjeEwCQKSmxTaTebRH+HPGeQloLGzfP18Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733719423; c=relaxed/simple;
-	bh=CnZh5PzuBjSJ5i81gB2eROtQAtISkclOyWpu/tX4BSo=;
+	s=arc-20240116; t=1733719482; c=relaxed/simple;
+	bh=LHdowryXzqQdVdkjfptOPo5XBccx32PtE3ujdcb8Xh0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YF11JFlVE9KYn4SQm2ARh7mHJR1kWhj8ozlpCp+B1Soakp3ay9tg4cN0hIb+008eCU4UJ8HIz7gk3d8VEaw2Ijh4CVOEWftZ5OCCc0C8eTEXpOPNiDHm+99YQfS9pCoOyqCV27JK0F9kk8UaLnWhz+UhZnsu3LJdi4+ly7HHHKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkxUamp7; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=jM/KF37BubTm6SH+cBWoA07PYcJvTVozG6psyzRwaXKqBFOPeKgt3I4Dbk++rpmT9xtv7/E6LuxQxM2T9W1lB9rCAWH0yDSEvmKAm/HftQe2nPeHlB22IkqQZTUUEJwrPBIv7DCPF7ob914Z9SMzKec6IbvsTI1kYyLB4X3YS2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyxRVjlU; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkxUamp7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyxRVjlU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733719421; x=1765255421;
+  t=1733719481; x=1765255481;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CnZh5PzuBjSJ5i81gB2eROtQAtISkclOyWpu/tX4BSo=;
-  b=mkxUamp7W5uZwAWSTedbL/CIf+9Vag+34C4DQbFdpmxLWibXW68EezRq
-   e87WCC3RjGLZaVPcmSwNVoFh0YY8/+lxNFQGh2RJdG7yrPzXfAOKVBiT0
-   cPEdcugeYZU0bffLUVcjFEFESkUqbnsszcnTxGztcR7tXKO/2mm+rGCoj
-   KaiDCooagRn48Rk6N6JbxERpMvVdxfxjK4BF+wJumf+05tjc1oJScIyoi
-   /R7ReVOE442CxptQoSn6kJFdF/IRrLgXGBbU8oAjn8BeTiknuxCAdECVP
-   KWnyC77147Vy5vGkuX1TGKDt+C1WWk2Q7a2wsAW4xIWGPexLBWz/JcPwZ
-   g==;
-X-CSE-ConnectionGUID: sPmah+g8SKizvM/QVy8QrA==
-X-CSE-MsgGUID: IhvinwWoT0+UaK9vJhsQUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33348892"
+  bh=LHdowryXzqQdVdkjfptOPo5XBccx32PtE3ujdcb8Xh0=;
+  b=PyxRVjlUqfRVE/ckpJDIf7xGrV32FxbgBe4o4gvpmrYd4fLTUXi/xbxQ
+   XFNispItwQ/z8qT/Hrig0GDUclnLVY0cFvQS9yjJ9JiI93dtAuIw8XfyN
+   98tmQ3WNeHgTSintjcADfSqaMX7ESukf6FeTOu/bHMl2dlRxpJkuj0Hkb
+   t04NGQY3WxZ/tyXqV58efyashf0w8QuapoU1+PH/anIR4yBp58olpRqDQ
+   GV47DMzbxNRoD5lJoyHNB2gRakJakR6q7iiQzsfD62XiVrGDjjYyY6iVr
+   Ea1kWZJfqI0JS9snolCVx474l5GK2L9jc/6YiH7uf6iZ94hrtu8lhe4ii
+   Q==;
+X-CSE-ConnectionGUID: Znu74l5vTNStDYWx3c1YEQ==
+X-CSE-MsgGUID: 7VOUVUadQ6CXhR2akxTRHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33916999"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="33348892"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:43:39 -0800
-X-CSE-ConnectionGUID: Flp2HtyeTY66gH19/gozDg==
-X-CSE-MsgGUID: brSxjW+KShqcUGtJAxw2Pw==
+   d="scan'208";a="33916999"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:44:40 -0800
+X-CSE-ConnectionGUID: tpp8DdWqTCK1r34HNWe2jQ==
+X-CSE-MsgGUID: 7XgwCz8RT7y4mjsjo7S4sg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="99995074"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="118205074"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Dec 2024 20:43:34 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 08 Dec 2024 20:44:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVcJ-0003u3-18;
-	Mon, 09 Dec 2024 04:43:31 +0000
-Date: Mon, 9 Dec 2024 12:42:57 +0800
+	id 1tKVdM-0003uH-1J;
+	Mon, 09 Dec 2024 04:44:36 +0000
+Date: Mon, 9 Dec 2024 12:44:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, upstream@airoha.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v10 8/9] net: dsa: Add Airoha AN8855 5-Port
- Gigabit DSA Switch driver
-Message-ID: <202412081353.I0203taL-lkp@intel.com>
-References: <20241208002105.18074-9-ansuelsmth@gmail.com>
+To: Kyle Hendry <kylehendrydev@gmail.com>, linus.walleij@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kyle Hendry <kylehendrydev@gmail.com>
+Subject: Re: [PATCH] pinctrl: bcm63268: Add gpio function
+Message-ID: <202412081215.VyJuftPL-lkp@intel.com>
+References: <20241207223335.17535-1-kylehendrydev@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,92 +64,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241208002105.18074-9-ansuelsmth@gmail.com>
+In-Reply-To: <20241207223335.17535-1-kylehendrydev@gmail.com>
 
-Hi Christian,
+Hi Kyle,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next linus/master v6.13-rc1 next-20241206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvmem-Document-support-for-Airoha-AN8855-Switch-EFUSE/20241208-082533
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241208002105.18074-9-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH v10 8/9] net: dsa: Add Airoha AN8855 5-Port Gigabit DSA Switch driver
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20241208/202412081353.I0203taL-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412081353.I0203taL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hendry/pinctrl-bcm63268-Add-gpio-function/20241208-063718
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20241207223335.17535-1-kylehendrydev%40gmail.com
+patch subject: [PATCH] pinctrl: bcm63268: Add gpio function
+config: x86_64-buildonly-randconfig-005-20241208 (https://download.01.org/0day-ci/archive/20241208/202412081215.VyJuftPL-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412081215.VyJuftPL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412081353.I0203taL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412081215.VyJuftPL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/dsa/an8855.c: In function 'an8855_switch_probe':
-   drivers/net/dsa/an8855.c:2227:34: error: invalid use of undefined type 'struct platform_device'
-    2227 |         priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-         |                                  ^~
-   drivers/net/dsa/an8855.c:2231:26: error: invalid use of undefined type 'struct platform_device'
-    2231 |         priv->dev = &pdev->dev;
-         |                          ^~
-   drivers/net/dsa/an8855.c: In function 'an8855_switch_remove':
-   drivers/net/dsa/an8855.c:2282:57: error: invalid use of undefined type 'struct platform_device'
-    2282 |         struct an8855_priv *priv = dev_get_drvdata(&pdev->dev);
-         |                                                         ^~
-   drivers/net/dsa/an8855.c: At top level:
-   drivers/net/dsa/an8855.c:2295:15: error: variable 'an8855_switch_driver' has initializer but incomplete type
-    2295 | static struct platform_driver an8855_switch_driver = {
-         |               ^~~~~~~~~~~~~~~
-   drivers/net/dsa/an8855.c:2296:10: error: 'struct platform_driver' has no member named 'probe'
-    2296 |         .probe = an8855_switch_probe,
-         |          ^~~~~
-   drivers/net/dsa/an8855.c:2296:18: warning: excess elements in struct initializer
-    2296 |         .probe = an8855_switch_probe,
-         |                  ^~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/an8855.c:2296:18: note: (near initialization for 'an8855_switch_driver')
-   drivers/net/dsa/an8855.c:2297:10: error: 'struct platform_driver' has no member named 'remove'
-    2297 |         .remove = an8855_switch_remove,
-         |          ^~~~~~
-   drivers/net/dsa/an8855.c:2297:19: warning: excess elements in struct initializer
-    2297 |         .remove = an8855_switch_remove,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/an8855.c:2297:19: note: (near initialization for 'an8855_switch_driver')
-   drivers/net/dsa/an8855.c:2298:10: error: 'struct platform_driver' has no member named 'driver'
-    2298 |         .driver = {
-         |          ^~~~~~
-   drivers/net/dsa/an8855.c:2298:19: error: extra brace group at end of initializer
-    2298 |         .driver = {
-         |                   ^
-   drivers/net/dsa/an8855.c:2298:19: note: (near initialization for 'an8855_switch_driver')
-   drivers/net/dsa/an8855.c:2298:19: warning: excess elements in struct initializer
-   drivers/net/dsa/an8855.c:2298:19: note: (near initialization for 'an8855_switch_driver')
-   drivers/net/dsa/an8855.c:2303:1: warning: data definition has no type or storage class
-    2303 | module_platform_driver(an8855_switch_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/an8855.c:2303:1: error: type defaults to 'int' in declaration of 'module_platform_driver' [-Werror=implicit-int]
->> drivers/net/dsa/an8855.c:2303:1: warning: parameter names (without types) in function declaration
-   drivers/net/dsa/an8855.c:2295:31: error: storage size of 'an8855_switch_driver' isn't known
-    2295 | static struct platform_driver an8855_switch_driver = {
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/an8855.c:2295:31: warning: 'an8855_switch_driver' defined but not used [-Wunused-variable]
-   cc1: some warnings being treated as errors
+>> drivers/pinctrl/bcm/pinctrl-bcm63268.c:630:7: warning: variable 'reg' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     630 |         case BCM63268_NOREG:
+         |              ^~~~~~~~~~~~~~
+   drivers/pinctrl/bcm/pinctrl-bcm63268.c:638:31: note: uninitialized use occurs here
+     638 |         regmap_update_bits(pc->regs, reg, mask, val);
+         |                                      ^~~
+   drivers/pinctrl/bcm/pinctrl-bcm63268.c:603:18: note: initialize the variable 'reg' to silence this warning
+     603 |         unsigned int reg;
+         |                         ^
+         |                          = 0
+>> drivers/pinctrl/bcm/pinctrl-bcm63268.c:630:7: warning: variable 'mask' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     630 |         case BCM63268_NOREG:
+         |              ^~~~~~~~~~~~~~
+   drivers/pinctrl/bcm/pinctrl-bcm63268.c:638:36: note: uninitialized use occurs here
+     638 |         regmap_update_bits(pc->regs, reg, mask, val);
+         |                                           ^~~~
+   drivers/pinctrl/bcm/pinctrl-bcm63268.c:604:24: note: initialize the variable 'mask' to silence this warning
+     604 |         unsigned int val, mask;
+         |                               ^
+         |                                = 0
+>> drivers/pinctrl/bcm/pinctrl-bcm63268.c:630:7: warning: variable 'val' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     630 |         case BCM63268_NOREG:
+         |              ^~~~~~~~~~~~~~
+   drivers/pinctrl/bcm/pinctrl-bcm63268.c:638:42: note: uninitialized use occurs here
+     638 |         regmap_update_bits(pc->regs, reg, mask, val);
+         |                                                 ^~~
+   drivers/pinctrl/bcm/pinctrl-bcm63268.c:604:18: note: initialize the variable 'val' to silence this warning
+     604 |         unsigned int val, mask;
+         |                         ^
+         |                          = 0
+   3 warnings generated.
 
 
-vim +2303 drivers/net/dsa/an8855.c
+vim +/reg +630 drivers/pinctrl/bcm/pinctrl-bcm63268.c
 
-  2294	
-  2295	static struct platform_driver an8855_switch_driver = {
-  2296		.probe = an8855_switch_probe,
-  2297		.remove = an8855_switch_remove,
-  2298		.driver = {
-  2299			.name = "an8855-switch",
-  2300			.of_match_table = an8855_switch_of_match,
-  2301		},
-  2302	};
-> 2303	module_platform_driver(an8855_switch_driver);
-  2304	
+   595	
+   596	static int bcm63268_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+   597					    unsigned selector, unsigned group)
+   598	{
+   599		struct bcm63xx_pinctrl *pc = pinctrl_dev_get_drvdata(pctldev);
+   600		const struct pingroup *pg = &bcm63268_groups[group];
+   601		const struct bcm63268_function *f = &bcm63268_funcs[selector];
+   602		unsigned i;
+   603		unsigned int reg;
+   604		unsigned int val, mask;
+   605	
+   606		for (i = 0; i < pg->npins; i++)
+   607			bcm63268_set_gpio(pc, pg->pins[i]);
+   608	
+   609		switch (f->reg) {
+   610		case BCM63268_LEDCTRL:
+   611			reg = BCM63268_LED_REG;
+   612			mask = BIT(pg->pins[0]);
+   613			val = BIT(pg->pins[0]);
+   614			break;
+   615		case BCM63268_MODE:
+   616			reg = BCM63268_MODE_REG;
+   617			mask = BIT(pg->pins[0]);
+   618			val = BIT(pg->pins[0]);
+   619			break;
+   620		case BCM63268_CTRL:
+   621			reg = BCM63268_CTRL_REG;
+   622			mask = BIT(pg->pins[0]);
+   623			val = 0;
+   624			break;
+   625		case BCM63268_BASEMODE:
+   626			reg = BCM63268_BASEMODE_REG;
+   627			mask = f->mask;
+   628			val = f->mask;
+   629			break;
+ > 630		case BCM63268_NOREG:
+   631			/*Do nothing, leave registers as default*/
+   632			break;
+   633		default:
+   634			WARN_ON(1);
+   635			return -EINVAL;
+   636		}
+   637	
+   638		regmap_update_bits(pc->regs, reg, mask, val);
+   639	
+   640		return 0;
+   641	}
+   642	
 
 -- 
 0-DAY CI Kernel Test Service
