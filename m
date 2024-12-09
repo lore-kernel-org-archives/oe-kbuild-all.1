@@ -1,112 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7457021571D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 09:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8F9214A9F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 09:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733735546; cv=none; b=L5EMTzvgj9ZWav5Au7yo7Il3obpRmTyuIO2e7QVq6SB61y8Y0wyPSIaK6qNtSt3ZVfHUlmH6VLQkx1vT/mD/UEWDqbK+SOTi1QnvhHKCXRPEy8+w7EGyW3qYY56YfbYXpJZxndNjMxJo0HasAqa3RlOJctzVjLz4Fnskjl/j2Tk=
+	t=1733736609; cv=none; b=hCEKU/Hl3YD95i6f4t8xMOCL7x9tvSc+Sus3UXtKU2DM49UPJgoLIGA3PD7bICEWJbvG0iSo60vUpgrKNnQ7vbfL4NtPn+nbSetmOqXIjqc8z3jottofcLsQRwzjFwZqIt2baSulBq4si1tU5ShaPU4einvlfHsP77pT6mVVM5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733735546; c=relaxed/simple;
-	bh=VteMjDQ0yt3nfI/UjEWZnfVYIifu/A00pv9wCItusRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FH7326HH3XW40tC34k3OexrsZrLnFhuCE55L0Pl5QJEnozb5lafNtZ/PN0pFe3WlZ0eDgwZGFWEH4qEqDHa9ZwKDjoLV0aWYrI6mbXrJMSt8hgvbfnMkGQV2OdILQdfz5CJMwYoPNpusHx/6bUG8KZG3qNxuHGUzuerBux4eH7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d8KtLDOu; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733736609; c=relaxed/simple;
+	bh=aejW8lohHUSDFMCS7USRN+tdhS4pBbMff4Hio4VbJ2U=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=YAK5jwdR1tquHybi4ukKK+acKcwvmWjj3pxt4kedrlQ+iWHNtOGStbGnHB5lpmgWcvjVZS00v5iSKuEWJEL31mi40m2ehdTFYOfyrheexQUQs5/47dXO5rjV3u8cFHKhtoZKTqAEn4GVlET1KO/vcdJiGPqR5uSHQIojtYmJ1Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e74yOYxW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8KtLDOu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733735544; x=1765271544;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VteMjDQ0yt3nfI/UjEWZnfVYIifu/A00pv9wCItusRc=;
-  b=d8KtLDOuKD71OYMxDOMJk/GOtz+XkeF11cWVLbzI8idEk0zlPG/xMPez
-   D8f32L6CzMAABpHZX/72+1tEcaCuA4ZFtEY0JHabkhFMHHspYOhtrgKyY
-   Pg0DhWT5VWcYBnJIuj7lawTYVpbtzfQs4UxnFAEU7SVSwoh4BpSyyAFPi
-   zQ4QTTSAC/tyv6XTcCdW4GUT6Mn5yUNvIc2zBSRJ/eKaKmSqx5sioD2fH
-   e5xonCe+vKHaPP3cNmCC7vjBl7NtwDYHQyeH8Jtz47AUP1rwIkfFfW/2K
-   IKk8NOav+my5IWBseubX+IDSwTHj+xzbS1V7tWJ5VuJzEqytalb2z7Uec
-   A==;
-X-CSE-ConnectionGUID: kX7o7yaZTD2gJYy4rlzK7A==
-X-CSE-MsgGUID: 8G4GSoWlTayChynQfjnWqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34081248"
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34081248"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 01:12:23 -0800
-X-CSE-ConnectionGUID: 56Ba2d2FTkabE+Y5k+Micg==
-X-CSE-MsgGUID: In+rYV5UTH2csz1ypcKMZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95212097"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Dec 2024 01:12:16 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKZoM-00049d-0D;
-	Mon, 09 Dec 2024 09:12:14 +0000
-Date: Mon, 9 Dec 2024 17:12:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e74yOYxW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33F88C4CEDE;
+	Mon,  9 Dec 2024 09:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733736609;
+	bh=aejW8lohHUSDFMCS7USRN+tdhS4pBbMff4Hio4VbJ2U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=e74yOYxWKcFFErExLonCAgjyHDF6erPpYOPYerUO3dLky1gcTVBUApCGA96NOh/Ry
+	 Al57zR8p99lob/uYOcDm078h9+eZB07QSu2Vga4iGfeOMn1/Scvp+FK4srN7L4Smx6
+	 CsoRVHSesoeDemeFzjZ7WyQvVb8fuPoGVxuMTBpbB16ed3eN8vSIxVcBs9fKIs6BqG
+	 r7eJ46nxMDUmYCmszIeuDPIW1O8r9TYrzhhMRLyOnRZjIeOO8zzuvoHsEpLHYnY9Bk
+	 RRxBSA/Bgl8FMRHEgosdPVUoclaSDIvofJ3JIAh+uyYEIxq55QOZYoJjvxvC92iEYH
+	 bCsJCuNDmaEHA==
+Date: Mon, 9 Dec 2024 18:30:05 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 09/11] iommu/intel: Convert to
- msi_create_parent_irq_domain() helper
-Message-ID: <202412091649.0tJFbTad-lkp@intel.com>
-References: <20241204124549.607054-10-maz@kernel.org>
+Subject: Re: [mhiramat:topic/fprobe-on-fgraph 19/19]
+ kernel/trace/bpf_trace.c:1053:22: error: call to undeclared function
+ 'ftrace_get_symaddr'; ISO C99 and later do not support implicit function
+ declarations
+Message-Id: <20241209183005.a67852bcbb4a8a95d1784719@kernel.org>
+In-Reply-To: <202412061859.I5bvmqEu-lkp@intel.com>
+References: <202412061859.I5bvmqEu-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204124549.607054-10-maz@kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Marc,
+On Fri, 6 Dec 2024 18:38:12 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-on-fgraph
+> head:   e6369db4372d722c47a45887eeb6a0f483c20ced
+> commit: e6369db4372d722c47a45887eeb6a0f483c20ced [19/19] bpf: Use ftrace_get_symaddr() in get_entry_ip()
+> config: x86_64-randconfig-161-20241206 (https://download.01.org/0day-ci/archive/20241206/202412061859.I5bvmqEu-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241206/202412061859.I5bvmqEu-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412061859.I5bvmqEu-lkp@intel.com/
+> 
 
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on pci/next pci/for-linus linus/master v6.13-rc2 next-20241206]
-[cannot apply to joro-iommu/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >> kernel/trace/bpf_trace.c:1053:22: error: call to undeclared function 'ftrace_get_symaddr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>     1053 |         unsigned long ret = ftrace_get_symaddr(fentry_ip);
+>          |                             ^
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Zyngier/irqchip-Make-irq-msi-lib-h-globally-available/20241204-204904
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20241204124549.607054-10-maz%40kernel.org
-patch subject: [PATCH 09/11] iommu/intel: Convert to msi_create_parent_irq_domain() helper
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241209/202412091649.0tJFbTad-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091649.0tJFbTad-lkp@intel.com/reproduce)
+OK, this comes from the real issue, bpf_trace.c can be built without
+CONFIG_DYNAMIC_FTRACE. Let's define it outside of CONFIG_DYNAMIC_FTRACE.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412091649.0tJFbTad-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/iommu/intel/irq_remapping.c:1520:10: error: 'const struct msi_parent_ops' has no member named 'bus_token'
-    1520 |         .bus_token              = DOMAIN_BUS_DMAR,
-         |          ^~~~~~~~~
-
-
-vim +1520 drivers/iommu/intel/irq_remapping.c
-
-  1517	
-  1518	static const struct msi_parent_ops dmar_msi_parent_ops = {
-  1519		.supported_flags	= X86_VECTOR_MSI_FLAGS_SUPPORTED | MSI_FLAG_MULTI_PCI_MSI,
-> 1520		.bus_token		= DOMAIN_BUS_DMAR,
-  1521		.prefix			= "IR-",
-  1522		.init_dev_msi_info	= msi_parent_init_dev_msi_info,
-  1523	};
-  1524	
+Thank you,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
