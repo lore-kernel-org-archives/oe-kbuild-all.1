@@ -1,44 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C901917E4;
-	Mon,  9 Dec 2024 18:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854C433D1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 19:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733769502; cv=none; b=kN5ioK3c6GEIAi/BzmaUZjeTxZRW5SjDWhNi1V5s0P2xX7yl/LM2jqSWnseTrTWj2qdMybHi++aYUYbj6/ElN9A5ciycB9hLmK/0IU9157hsmvsRC8Xy3D5jOc7FUxQOsLDVv7MZpJZ6+OqDNOG9eDX4LuJN0ASeJGoRphzo47o=
+	t=1733771568; cv=none; b=XuoFwjOa0DG8urogKAxsw+PyestbzxeMZGvBxaurIuYA1h/rqyjI025BOmcDt/PIBe0sWLjbNtANXkJgsoX3BXsxpFYuv7HMfml4WEXl3mDquy5TDhMX79B9hcEG7u0W1rweynpLKIOpcXb8Aok+X9Xw1lGOq5O/kJLLhOnfQ6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733769502; c=relaxed/simple;
-	bh=BbA4t37gNDuPaVp+phA5si3yZnk3BtKkyG3dbN7F6lY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NgTB8+I6QMTUJaQRnWzx+LI6cFjiTUEArl1fiN2+/JAUNVWVwdD0pH6mKuBE0XONIyRSNmRtM9Ta+8FEmgFMIHWutMwQE2YeeKwiCxlniKp8PibX5+sXdYiRYtBVrJEWu1yKVaWxjusaYb3ubZnPjpODHcnYSmBajSbxB1Tee+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LEQXEGrr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733771568; c=relaxed/simple;
+	bh=tWDp1sWI+Zcw2X5Z0krY7Stv3V7yPVyYhlszcXNzgaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=LmGQPVXXu6MV2laoEiPDwYZHuFb6DEsf8QYD++WO9Y9pAG+k2b5Bb6j3iuBjcVK79/QK9W7qCivKDUju5FHuVuI5JiWNurNm02oGFABbQ685msPWVUdKDo6txrqT1fBDv3nFkqGxxsENHRICGokiMEYIWx/KuSCxgfAMqHb8TcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdxsRQ3Q; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LEQXEGrr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8216BC4CEDF;
-	Mon,  9 Dec 2024 18:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733769502;
-	bh=BbA4t37gNDuPaVp+phA5si3yZnk3BtKkyG3dbN7F6lY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LEQXEGrr9QDBONh4Ctq6YL0U8KHT9HaXGr1gSHgekHVEJr6T5DcDmD7SpTZ/20azn
-	 vGZJzP96pQkxzNbKkwcqY42hVSd8PxSY0v2aBF2QEIt2ktd1uy9Ec/Tsgknt8P28uU
-	 1yKBGL9lndSRfMg5Pbbs6GAHqusCWHSSu0Gh/URt2V+PovrtIvp/b+yR1Z1d7RCLRv
-	 H89mSeNPW5Euh62hBEgCs/jeplHbt++9sgV31sJQp8n8Y1ppq/9s5J6rZRrNSOpJDn
-	 Y1Y415UC0/5PF879/PUPOd4b70sIGhetmTe2nEqAhnsoLJZZxDtvfEBNRftnwdZO1p
-	 ITMx4aIJoo1yg==
-Date: Mon, 9 Dec 2024 18:38:21 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Michael Kelley <mhklinux@outlook.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [hyperv:hyperv-fixes 5/11] drivers/hv/vmbus_drv.c:2510:45:
- error: call to undeclared function 'secs_to_jiffies'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <Z1c5HfhCCd44LntZ@liuwe-devbox-debian-v2>
-References: <202412091658.m9g4L9gw-lkp@intel.com>
- <fba68cce-2445-4a1d-a609-b6308a62c1b3@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdxsRQ3Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733771567; x=1765307567;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=tWDp1sWI+Zcw2X5Z0krY7Stv3V7yPVyYhlszcXNzgaA=;
+  b=PdxsRQ3Qo6VXODwVQvJfwPJTGFBOx7lDLenYkP+2JINOtOkadknn3u6j
+   1kTglxWgQIZwF/RLF4+pr2dGw8j2tg4wCfW5gA/y8yYfXuY9vTMGouHhJ
+   lEB0cnMR/oyb/iNO0EAyQW3J+Y1KAVdieTe5lPZCpCCzNP3vIl3Rw4Htn
+   4qSKoX28Glc/CGi0/HCjIm6UtNvW237aTYFxf/5y8QPmNu3mMuliSibyo
+   JUQePH3yi0FKyWiQQqOiP3JEvUd9Wv9ds6IReMxwl2sh7V/FcmnQ7oo+8
+   ECuHOXg2VmghLEff1J36B3it2NLVsmpl/XcgTb9WosccRPpRNux+98y+l
+   w==;
+X-CSE-ConnectionGUID: DXqvz8iUQ9ylS2rIxpqXGg==
+X-CSE-MsgGUID: 8uUqbrZjS9GTO5oyh8rNqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34234759"
+X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
+   d="scan'208";a="34234759"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 11:12:47 -0800
+X-CSE-ConnectionGUID: faMw1IrvSzqfe3sh+6Y8kA==
+X-CSE-MsgGUID: AmSu8griSNCfsaxld5jDmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="100203121"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Dec 2024 11:12:45 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKjBS-0004j7-25;
+	Mon, 09 Dec 2024 19:12:42 +0000
+Date: Tue, 10 Dec 2024 03:11:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?J=F6rg?= Sommer <joerg@jo-so.de>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] net: dsa: microchip: correct KSZ8795 static MAC table
+ access
+Message-ID: <Z1dA-V5rnnZLiPtd@0945f8898a0b>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,31 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fba68cce-2445-4a1d-a609-b6308a62c1b3@linux.microsoft.com>
+In-Reply-To: <b4a802ae7dfac66efa5175313228f0ba2fc769ef.1733771269.git.joerg@jo-so.de>
 
-On Mon, Dec 09, 2024 at 08:52:27AM -0800, Easwar Hariharan wrote:
-> On 12/8/2024 9:50 PM, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git hyperv-fixes
-> > head:   b8ea8cd0fbd358feee3e9172c5ef8afd671e0d11
-> > commit: eced6df67f6b76889e80ded109a73ca5fac1e5cd [5/11] drivers: hv: Convert open-coded timeouts to secs_to_jiffies()
-> > config: i386-buildonly-randconfig-004-20241209 (https://download.01.org/0day-ci/archive/20241209/202412091658.m9g4L9gw-lkp@intel.com/config)
-> > compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091658.m9g4L9gw-lkp@intel.com/reproduce)
-> > 
-> 
-> Hi Wei,
-> 
-> It appears hyperv-fixes needs to be rebased on 6.13-rc1 to provide
-> secs_to_jiffies() from commit b35108a51cf7bab58d7eace1267d7965978bcdb8
-> (jiffies: Define secs_to_jiffies()). I suppose you'll do that before
-> sending the PR to Linus.
+Hi,
 
-Yes. I will fix that up.
+Thanks for your patch.
 
-I originally based it on 6.13-rc1, but that tag was broken. Now that
-6.13-rc2 is out, I'll rebase on that.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] net: dsa: microchip: correct KSZ8795 static MAC table access
+Link: https://lore.kernel.org/stable/b4a802ae7dfac66efa5175313228f0ba2fc769ef.1733771269.git.joerg%40jo-so.de
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
-> 
-> Thanks,
-> Easwar
+
