@@ -1,63 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374EF2AF1B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243EE2AF1B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717108; cv=none; b=EkyrqNmOPw09JSGyoHPNDZZ8LKrv+i88VtVKPhDGcoANWhSjspLio9U12YW+5lK1KB/wpVwOqTXSODMtLNX6QLtbX7N0P+u3MlSzwSFaYbagiXihReBk4LaZqh3L823Ic2q9YggBTbqdpuBCF/CiE6Rtt5macA4caXP/YFui1Dg=
+	t=1733717118; cv=none; b=VikgFOylne1x6srwZ1WgktJLtmtm/JsmXR8uJwHE6nxgoS7shyYysd7Y4rCEIzKYBD/N2pkutcSeNOOgVCgBoXXY6cejLH1LbW7Fp7v/rA92pu0I1dM1jj2oBmHnCxTcUd2q9DyIhKXPMLc8aP0ERQv4xEoYKv3aGSRHhrnv+dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717108; c=relaxed/simple;
-	bh=tnFN3cKLuaolTpd0KOneZQrwC6WFLR7ZhF2p0bYuJwk=;
+	s=arc-20240116; t=1733717118; c=relaxed/simple;
+	bh=E3ZvC3O2eZ9A0yzuZHGVlm2/05VOaS+KPtoBU2Cfenc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qlh0MwqRa6Td6sj962RR9es3coXFXH7AXSI5nM7dleuklnWZueG8+/eGe/AH15UWhcqucuQ9mskixdgZSu47Vk790mOGrpXSeeFR5p/T5C769UPOUhMgAUrUJ+3DxrZaTEb7clvoFRBD6IZ0ixh2bW4m0LY8dLlhDFWu39EFomU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iG+yl8cA; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=k9O5LiKL6UQV0gwEmAEtT3JdPdALLX+07X8NoY+g2CqUQwjKgxGTeWep3wo6IEJANH/aUSjzPNFVhwkQslCdFIhW7fk6T2Tbw/oRajQfsYuiKqGE7DxYdtqLy+l13Hv5pTzFP2qlMvSArRIc8iIvoJX/MVm5feS5h0MyaoY9SFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXm/tprS; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iG+yl8cA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXm/tprS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717107; x=1765253107;
+  t=1733717118; x=1765253118;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tnFN3cKLuaolTpd0KOneZQrwC6WFLR7ZhF2p0bYuJwk=;
-  b=iG+yl8cA9nxaF0I3u99FHNgdopaI6y/yIVMFaeKg7tfCpY1PlOSX6El9
-   29A+JNwKQCcYmgPKO5eX7WDVTZDtH7JllRjwLAuT8rAeeL0ZoQaDnbh//
-   4OasZfg/7Xztn1GbISpCo+/jlnTxRIrJPfiUXbBsu5iyQ36Uk0g/8kEBx
-   V13bGEC2+S1cBZoKb3fT3u5YlBG/Ijto3pOSvypDMi1GNf3CnfiGe0369
-   ZL61JZTb4dTY3ptAAOwXXdygwnZu8IN9vIwswCzEelcaPgmi7s/2y/jzK
-   4NkFeAGMtcsRNGM4UNSUz0tFgl0/mL/OAHIb1GBM8PmiUWCGRKxs8t9ra
-   Q==;
-X-CSE-ConnectionGUID: CuD/IqWbR2KQujR5HbzSnw==
-X-CSE-MsgGUID: gWO0smQ1TYuo3yrVza8d6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34235269"
+  bh=E3ZvC3O2eZ9A0yzuZHGVlm2/05VOaS+KPtoBU2Cfenc=;
+  b=HXm/tprSEC24pOw25Y9ZIey2NL/J/IaDXKlF4E0oXRw9ze8k6IOY51u8
+   oUIoiCDiEgbfgOKt0Oj3PNLGCEVJGQMkNICkPN3uaR5VjZY/YulXmrLob
+   FhCK06LNN5SQWCfByCResLmBfCNwX3wB7j/7fmmdLzWPy+UbHtiBrfBmz
+   LbszQmmrcIFi7ysNmLsltaCOGDbZkHfCO82qaE4nubm7v5Fi0LN8bT8Bk
+   EbCg2hCCeR6A6Qg5sQ+rJU38nOJOqBVkEw+98xr3z4ms/4n6BTPDlng8H
+   tyGVwPqCrS2XRN/30I2aWsCVebXfyTP/BsMmkf1eF9BMDkKzu5Pw2/A99
+   g==;
+X-CSE-ConnectionGUID: +htaBK5dRieOq3FM0DhDYQ==
+X-CSE-MsgGUID: 8BZ3n7/4TViGLZw68fhTSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33923808"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34235269"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:05:07 -0800
-X-CSE-ConnectionGUID: oVNjYBGfRsGlxE8W03ASyA==
-X-CSE-MsgGUID: eL0kmTS8QjeB8IHS+Sx9QQ==
+   d="scan'208";a="33923808"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:05:08 -0800
+X-CSE-ConnectionGUID: w3nAQ+5PSquIWdMR3H5efw==
+X-CSE-MsgGUID: u3V0gI3gTH+lD4g+PwNdUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94822674"
+   d="scan'208";a="125793224"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Dec 2024 20:05:04 -0800
+  by orviesa002.jf.intel.com with ESMTP; 08 Dec 2024 20:05:05 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKV14-0003mh-0Z;
+	id 1tKV14-0003mk-0d;
 	Mon, 09 Dec 2024 04:05:02 +0000
-Date: Mon, 9 Dec 2024 12:04:10 +0800
+Date: Mon, 9 Dec 2024 12:04:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Kuniyuki Iwashima <kuniyu@amazon.com>
-Subject: Re: [PATCH v1 net-next 08/15] socket: Pass hold_net to sk_alloc().
-Message-ID: <202412071110.UY8rjRf1-lkp@intel.com>
-References: <20241206075504.24153-9-kuniyu@amazon.com>
+To: Umer Uddin <umer.uddin@mentallysanemainliners.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	igor.belwon@mentallysanemainliners.org
+Subject: Re: [PATCH v6 4/4] arm64: dts: exynos: Add initial support for
+ Samsung Galaxy S20 (x1slte)
+Message-ID: <202412071131.v9GOab0D-lkp@intel.com>
+References: <20241206184609.2437-5-umer.uddin@mentallysanemainliners.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,87 +69,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241206075504.24153-9-kuniyu@amazon.com>
+In-Reply-To: <20241206184609.2437-5-umer.uddin@mentallysanemainliners.org>
 
-Hi Kuniyuki,
+Hi Umer,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on next-20241206]
+[cannot apply to krzk-dt/for-next pinctrl-samsung/for-next krzk-mem-ctrl/for-next linus/master v6.13-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/socket-Un-export-__sock_create/20241206-160139
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241206075504.24153-9-kuniyu%40amazon.com
-patch subject: [PATCH v1 net-next 08/15] socket: Pass hold_net to sk_alloc().
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241207/202412071110.UY8rjRf1-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071110.UY8rjRf1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Umer-Uddin/dt-bindings-arm-samsung-samsung-boards-Add-bindings-for-SM-G981B-and-SM-G980F-board/20241207-024917
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241206184609.2437-5-umer.uddin%40mentallysanemainliners.org
+patch subject: [PATCH v6 4/4] arm64: dts: exynos: Add initial support for Samsung Galaxy S20 (x1slte)
+config: arm64-randconfig-002-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071131.v9GOab0D-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071131.v9GOab0D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412071110.UY8rjRf1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412071131.v9GOab0D-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/iucv/af_iucv.c: In function 'iucv_sock_alloc':
->> net/iucv/af_iucv.c:455:14: error: too few arguments to function 'sk_alloc'
-     455 |         sk = sk_alloc(&init_net, PF_IUCV, prio, &iucv_proto, kern);
-         |              ^~~~~~~~
-   In file included from net/iucv/af_iucv.c:30:
-   include/net/sock.h:1745:14: note: declared here
-    1745 | struct sock *sk_alloc(struct net *net, int family, gfp_t priority,
-         |              ^~~~~~~~
+>> arch/arm64/boot/dts/exynos/exynos990-x1slte.dts:9:10: fatal error: exynos990-hubble-common.dtsi: No such file or directory
+       9 | #include "exynos990-hubble-common.dtsi"
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/sk_alloc +455 net/iucv/af_iucv.c
+vim +9 arch/arm64/boot/dts/exynos/exynos990-x1slte.dts
 
-eac3731bd04c713 Jennifer Hunt     2007-02-08  448  
-8424c284851b97e Kuniyuki Iwashima 2024-12-06  449  static struct sock *iucv_sock_alloc(struct socket *sock, int proto, gfp_t prio,
-8424c284851b97e Kuniyuki Iwashima 2024-12-06  450  				    bool kern, bool hold_net)
-eac3731bd04c713 Jennifer Hunt     2007-02-08  451  {
-eac3731bd04c713 Jennifer Hunt     2007-02-08  452  	struct sock *sk;
-493d3971a65c921 Ursula Braun      2011-08-08  453  	struct iucv_sock *iucv;
-eac3731bd04c713 Jennifer Hunt     2007-02-08  454  
-11aa9c28b420924 Eric W. Biederman 2015-05-08 @455  	sk = sk_alloc(&init_net, PF_IUCV, prio, &iucv_proto, kern);
-eac3731bd04c713 Jennifer Hunt     2007-02-08  456  	if (!sk)
-eac3731bd04c713 Jennifer Hunt     2007-02-08  457  		return NULL;
-493d3971a65c921 Ursula Braun      2011-08-08  458  	iucv = iucv_sk(sk);
-eac3731bd04c713 Jennifer Hunt     2007-02-08  459  
-eac3731bd04c713 Jennifer Hunt     2007-02-08  460  	sock_init_data(sock, sk);
-493d3971a65c921 Ursula Braun      2011-08-08  461  	INIT_LIST_HEAD(&iucv->accept_q);
-493d3971a65c921 Ursula Braun      2011-08-08  462  	spin_lock_init(&iucv->accept_q_lock);
-493d3971a65c921 Ursula Braun      2011-08-08  463  	skb_queue_head_init(&iucv->send_skb_q);
-493d3971a65c921 Ursula Braun      2011-08-08  464  	INIT_LIST_HEAD(&iucv->message_q.list);
-493d3971a65c921 Ursula Braun      2011-08-08  465  	spin_lock_init(&iucv->message_q.lock);
-493d3971a65c921 Ursula Braun      2011-08-08  466  	skb_queue_head_init(&iucv->backlog_skb_q);
-493d3971a65c921 Ursula Braun      2011-08-08  467  	iucv->send_tag = 0;
-3881ac441f642d5 Ursula Braun      2011-08-08  468  	atomic_set(&iucv->pendings, 0);
-493d3971a65c921 Ursula Braun      2011-08-08  469  	iucv->flags = 0;
-3881ac441f642d5 Ursula Braun      2011-08-08  470  	iucv->msglimit = 0;
-ef6af7bdb9e6c14 Julian Wiedmann   2021-01-28  471  	atomic_set(&iucv->skbs_in_xmit, 0);
-3881ac441f642d5 Ursula Braun      2011-08-08  472  	atomic_set(&iucv->msg_sent, 0);
-3881ac441f642d5 Ursula Braun      2011-08-08  473  	atomic_set(&iucv->msg_recv, 0);
-493d3971a65c921 Ursula Braun      2011-08-08  474  	iucv->path = NULL;
-3881ac441f642d5 Ursula Braun      2011-08-08  475  	iucv->sk_txnotify = afiucv_hs_callback_txnotify;
-b5d8cf0af167f3a Kees Cook         2021-11-18  476  	memset(&iucv->init, 0, sizeof(iucv->init));
-3881ac441f642d5 Ursula Braun      2011-08-08  477  	if (pr_iucv)
-3881ac441f642d5 Ursula Braun      2011-08-08  478  		iucv->transport = AF_IUCV_TRANS_IUCV;
-3881ac441f642d5 Ursula Braun      2011-08-08  479  	else
-3881ac441f642d5 Ursula Braun      2011-08-08  480  		iucv->transport = AF_IUCV_TRANS_HIPER;
-eac3731bd04c713 Jennifer Hunt     2007-02-08  481  
-eac3731bd04c713 Jennifer Hunt     2007-02-08  482  	sk->sk_destruct = iucv_sock_destruct;
-eac3731bd04c713 Jennifer Hunt     2007-02-08  483  	sk->sk_sndtimeo = IUCV_CONN_TIMEOUT;
-eac3731bd04c713 Jennifer Hunt     2007-02-08  484  
-eac3731bd04c713 Jennifer Hunt     2007-02-08  485  	sock_reset_flag(sk, SOCK_ZAPPED);
-eac3731bd04c713 Jennifer Hunt     2007-02-08  486  
-eac3731bd04c713 Jennifer Hunt     2007-02-08  487  	sk->sk_protocol = proto;
-eac3731bd04c713 Jennifer Hunt     2007-02-08  488  	sk->sk_state	= IUCV_OPEN;
-eac3731bd04c713 Jennifer Hunt     2007-02-08  489  
-eac3731bd04c713 Jennifer Hunt     2007-02-08  490  	iucv_sock_link(&iucv_sk_list, sk);
-eac3731bd04c713 Jennifer Hunt     2007-02-08  491  	return sk;
-eac3731bd04c713 Jennifer Hunt     2007-02-08  492  }
-eac3731bd04c713 Jennifer Hunt     2007-02-08  493  
+   > 9	#include "exynos990-hubble-common.dtsi"
+    10	
 
 -- 
 0-DAY CI Kernel Test Service
