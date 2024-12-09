@@ -1,60 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD6C155335
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C74155C87
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717952; cv=none; b=UrHRbcw2iU4njzCI6CT0CY0Yxaw8xXria4F5kpaP1f2KfZLGdChZQRVMszaNxeJ1BoT1l5aPYia+HdhV9NIS6Aa48fLExzdjaDfgj44+YFKJCJg3YnhWgj59NZ+mnveHR72YKKKjLUpjzTW9pvVl9550mmqSArp0/A3wukv5Mfo=
+	t=1733717957; cv=none; b=mc8FMoKhxkNDGVrPY8usa8NB7NwL/DkLPq4EVKCuF/3cshVMS8cx2HkTWMc3o/UcW8JW1/2zo6eYq47mBZsSxJONH3SEjrabsHu/2neqvpnojHm2TIFJOaoG65rSaHSbPjjAQ/Fp8kprJIuhcXalNLPzkHgdOq6yIQrYhRbSTQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717952; c=relaxed/simple;
-	bh=pc/BL/Q6gdDRfe6U6klROe+OVDUcsnWuGDxJ0w3NDdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lt+Il5PCu0mT1cRNMq1RJez+aMqtSKB7HEeuIesVVxGnbaE9VKp8hUF5K5RG60a+ACLUmASYeF3PA93g0PRxdjpfJsONGes9ExdhsSZ50eYaquQxpEHWt94a2idDv8W6jA6NEN8QF3BJv6N1rmjkn7qC+2fkNoDzIaNGPETyyNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huUopA0R; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1733717957; c=relaxed/simple;
+	bh=zp8zwg1v/0rRuvtcn1LIzYdetcNxAtZ4+5efiS+tdxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CyJ1W88wz+XuqRQtkbpK/+yB6nMb2jdTAnFoki1DAY5FDy8ooFsmoXFHSg/qHj7EnV1G8A3/QtvUxbnu6CdO0aO+eGHgFc5+qwmfZSpu9kw6x/dGc8bjajvf/JMb6YSFM/WwfFFbbtaIpxjSwIj/TWzlQMvz0F7AO3vBWOhAqR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EIwi1rHz; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huUopA0R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EIwi1rHz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717951; x=1765253951;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pc/BL/Q6gdDRfe6U6klROe+OVDUcsnWuGDxJ0w3NDdQ=;
-  b=huUopA0RoYNXAbz66YparfZh9efb6IlvvE612pvNpGSphzfU+cMb4GFp
-   6v1auVUmVKh/DLYhlv80byVItSC5Cfg8Lw4f7cj9aKPFqontTgFt9OBoY
-   SypHg8aVRsBkfikI+s/KbQJY/CZ5BwBfUjbmJovnzMSw0jLiJ2FmBUzzL
-   rMpFdf2iuPWtC1zpdmDOZZYpPxP29Wnzt7FEFHMvjLWb1TM4KV+wnzE5e
-   j9fk9T1yQuhK1wNWj51X99WZrhxGq3SWijKH1Iz128s5iaU6yX5odWqg4
-   BEGXdkJLUmSAdHjHmWJKnpOZ+wjj0xsRzO+vWTU0KdMMPaYKNsNt3pjA+
+  t=1733717955; x=1765253955;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zp8zwg1v/0rRuvtcn1LIzYdetcNxAtZ4+5efiS+tdxA=;
+  b=EIwi1rHzu61Ho6Kj+1jQWui9MBPpQm3NqCuf95pokE0CsFCLx1UikqB4
+   fiiMGHA3crxUOyTUlrXOs6IABo95goCwJNafXcp1xv6AimsupS4BTCa2G
+   TYaE4oQBeFHJIiwOd2lOgIRJ7uIQVz3hupzJ9tWP8P6sUa/nNavBLnZCm
+   Ju4TCEiAmGojrTu7oLCLlBmenYcLCHWYcKcWMu/bXXZ/AnMavUlRhhluZ
+   55howb1mYg2jz+EXjHEuSVJy3i5wG792rCznvLz8DrY/1FL5QLoo6L/V6
+   c0mifvpKlGU3JXvyRTwAqJVlRMF6IIFkoZ4ajh6WZy211k+6DnXV3n4mT
    g==;
-X-CSE-ConnectionGUID: doRCrsm6RCSqRwJXl6yLRw==
-X-CSE-MsgGUID: ke+UE2snRjW0pxwlTlWNVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="44682901"
+X-CSE-ConnectionGUID: LB1yPAU+T3m1ShSh5v1rQQ==
+X-CSE-MsgGUID: ytePWOTbSseSEcKI60vV1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34236163"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="44682901"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:19:10 -0800
-X-CSE-ConnectionGUID: CygpXtAlQvaahQprnMTRLw==
-X-CSE-MsgGUID: QoRzZM1QQDWdBVmR1fWubw==
+   d="scan'208";a="34236163"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:19:15 -0800
+X-CSE-ConnectionGUID: 7XnRLWcQTAOCyxGyb0LRFw==
+X-CSE-MsgGUID: gekYYh6HQUiFahOzGbcbcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99776699"
+   d="scan'208";a="95750385"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Dec 2024 20:19:09 -0800
+  by orviesa008.jf.intel.com with ESMTP; 08 Dec 2024 20:19:09 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVEg-0003pT-2B;
+	id 1tKVEg-0003pR-25;
 	Mon, 09 Dec 2024 04:19:06 +0000
-Date: Mon, 9 Dec 2024 12:18:50 +0800
+Date: Mon, 9 Dec 2024 12:18:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1325/1325]
- sound/soc/soc-generic-dmaengine-pcm.c:318:25: warning: 'strncpy' accessing
- 80 bytes at offsets 100 and 36 may overlap up to 0 bytes at offset
- [9223372036854775807, -9223372036854775808]
-Message-ID: <202412071942.X656h6F5-lkp@intel.com>
+To: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>,
+	Uros Bizjak <ubizjak@gmail.com>,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Eric Biggers <ebiggers@google.com>, Xin Li <xin3.li@intel.com>,
+	Alexander Shishkin <alexander.shishkin@intel.com>,
+	Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] x86/cpufeature: Add a debug print for unmet
+ dependencies
+Message-ID: <202412071926.MHYBbSb1-lkp@intel.com>
+References: <20241207004126.2054658-2-sohil.mehta@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +79,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241207004126.2054658-2-sohil.mehta@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   faa52e40c08916893e09ba030e616f92e4fc020b
-commit: a24ec7d8d3462ba48b4bd932960c397d92de8782 [1325/1325] ASoC: dmaengine: Make the pcm->name equal to pcm->id if the name is not set
-config: arm64-randconfig-004-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071942.X656h6F5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071942.X656h6F5-lkp@intel.com/reproduce)
+Hi Sohil,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/master]
+[also build test WARNING on tip/x86/core tip/auto-latest bp/for-next linus/master v6.13-rc1 next-20241206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sohil-Mehta/x86-cpufeature-Add-a-debug-print-for-unmet-dependencies/20241207-084543
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20241207004126.2054658-2-sohil.mehta%40intel.com
+patch subject: [PATCH v3 2/2] x86/cpufeature: Add a debug print for unmet dependencies
+config: x86_64-randconfig-103-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071926.MHYBbSb1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071926.MHYBbSb1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412071942.X656h6F5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412071926.MHYBbSb1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/soc-generic-dmaengine-pcm.c: In function 'dmaengine_pcm_new':
->> sound/soc/soc-generic-dmaengine-pcm.c:318:25: warning: 'strncpy' accessing 80 bytes at offsets 100 and 36 may overlap up to 0 bytes at offset [9223372036854775807, -9223372036854775808] [-Wrestrict]
-     318 |                         strncpy(rtd->pcm->streams[i].pcm->name,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     319 |                                 rtd->pcm->streams[i].pcm->id,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     320 |                                 sizeof(rtd->pcm->streams[i].pcm->name));
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/cpuid-deps.c: In function 'filter_feature_dependencies':
+>> arch/x86/kernel/cpu/cpuid-deps.c:160:30: warning: '*32+' directive output may be truncated writing 4 bytes into a region of size between 3 and 11 [-Wformat-truncation=]
+     160 |         snprintf(buf, 12, "%d*32+%2d", feature / 32, feature % 32);
+         |                              ^~~~
+   In function 'x86_feature_name',
+       inlined from 'x86_feature_name' at arch/x86/kernel/cpu/cpuid-deps.c:155:20,
+       inlined from 'filter_feature_dependencies' at arch/x86/kernel/cpu/cpuid-deps.c:172:4:
+   arch/x86/kernel/cpu/cpuid-deps.c:160:27: note: directive argument in the range [0, 31]
+     160 |         snprintf(buf, 12, "%d*32+%2d", feature / 32, feature % 32);
+         |                           ^~~~~~~~~~~
+   arch/x86/kernel/cpu/cpuid-deps.c:160:9: note: 'snprintf' output between 8 and 16 bytes into a destination of size 12
+     160 |         snprintf(buf, 12, "%d*32+%2d", feature / 32, feature % 32);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/cpuid-deps.c: In function 'filter_feature_dependencies':
+>> arch/x86/kernel/cpu/cpuid-deps.c:160:30: warning: '*32+' directive output may be truncated writing 4 bytes into a region of size between 3 and 11 [-Wformat-truncation=]
+     160 |         snprintf(buf, 12, "%d*32+%2d", feature / 32, feature % 32);
+         |                              ^~~~
+   In function 'x86_feature_name',
+       inlined from 'x86_feature_name' at arch/x86/kernel/cpu/cpuid-deps.c:155:20,
+       inlined from 'filter_feature_dependencies' at arch/x86/kernel/cpu/cpuid-deps.c:172:4:
+   arch/x86/kernel/cpu/cpuid-deps.c:160:27: note: directive argument in the range [0, 31]
+     160 |         snprintf(buf, 12, "%d*32+%2d", feature / 32, feature % 32);
+         |                           ^~~~~~~~~~~
+   arch/x86/kernel/cpu/cpuid-deps.c:160:9: note: 'snprintf' output between 8 and 16 bytes into a destination of size 12
+     160 |         snprintf(buf, 12, "%d*32+%2d", feature / 32, feature % 32);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/strncpy +318 sound/soc/soc-generic-dmaengine-pcm.c
+vim +160 arch/x86/kernel/cpu/cpuid-deps.c
 
-   260	
-   261	static int dmaengine_pcm_new(struct snd_soc_pcm_runtime *rtd)
-   262	{
-   263		struct snd_soc_component *component =
-   264			snd_soc_rtdcom_lookup(rtd, SND_DMAENGINE_PCM_DRV_NAME);
-   265		struct dmaengine_pcm *pcm = soc_component_to_pcm(component);
-   266		const struct snd_dmaengine_pcm_config *config = pcm->config;
-   267		struct device *dev = component->dev;
-   268		struct snd_dmaengine_dai_dma_data *dma_data;
-   269		struct snd_pcm_substream *substream;
-   270		size_t prealloc_buffer_size;
-   271		size_t max_buffer_size;
-   272		unsigned int i;
-   273		int ret;
-   274	
-   275		if (config && config->prealloc_buffer_size) {
-   276			prealloc_buffer_size = config->prealloc_buffer_size;
-   277			max_buffer_size = config->pcm_hardware->buffer_bytes_max;
-   278		} else {
-   279			prealloc_buffer_size = 512 * 1024;
-   280			max_buffer_size = SIZE_MAX;
-   281		}
-   282	
-   283		for (i = SNDRV_PCM_STREAM_PLAYBACK; i <= SNDRV_PCM_STREAM_CAPTURE; i++) {
-   284			substream = rtd->pcm->streams[i].substream;
-   285			if (!substream)
-   286				continue;
-   287	
-   288			dma_data = snd_soc_dai_get_dma_data(rtd->cpu_dai, substream);
-   289	
-   290			if (!pcm->chan[i] &&
-   291			    (pcm->flags & SND_DMAENGINE_PCM_FLAG_CUSTOM_CHANNEL_NAME))
-   292				pcm->chan[i] = dma_request_slave_channel(dev,
-   293					dma_data->chan_name);
-   294	
-   295			if (!pcm->chan[i] && (pcm->flags & SND_DMAENGINE_PCM_FLAG_COMPAT)) {
-   296				pcm->chan[i] = dmaengine_pcm_compat_request_channel(rtd,
-   297					substream);
-   298			}
-   299	
-   300			if (!pcm->chan[i]) {
-   301				dev_err(component->dev,
-   302					"Missing dma channel for stream: %d\n", i);
-   303				return -EINVAL;
-   304			}
-   305	
-   306			ret = snd_pcm_lib_preallocate_pages(substream,
-   307					SNDRV_DMA_TYPE_DEV_IRAM,
-   308					dmaengine_dma_dev(pcm, substream),
-   309					prealloc_buffer_size,
-   310					max_buffer_size);
-   311			if (ret)
-   312				return ret;
-   313	
-   314			if (!dmaengine_pcm_can_report_residue(dev, pcm->chan[i]))
-   315				pcm->flags |= SND_DMAENGINE_PCM_FLAG_NO_RESIDUE;
-   316	
-   317			if (rtd->pcm->streams[i].pcm->name[0] == '\0') {
- > 318				strncpy(rtd->pcm->streams[i].pcm->name,
-   319					rtd->pcm->streams[i].pcm->id,
-   320					sizeof(rtd->pcm->streams[i].pcm->name));
-   321			}
-   322		}
-   323	
-   324		return 0;
-   325	}
-   326	
+   149	
+   150	/*
+   151	 * Return the feature "name" if available otherwise return
+   152	 * the X86_FEATURE_* numerals to make it easier to identify
+   153	 * the feature.
+   154	 */
+   155	static const char *x86_feature_name(unsigned int feature, char *buf)
+   156	{
+   157		if (x86_cap_flags[feature])
+   158			return x86_cap_flags[feature];
+   159	
+ > 160		snprintf(buf, 12, "%d*32+%2d", feature / 32, feature % 32);
+   161	
+   162		return buf;
+   163	}
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
