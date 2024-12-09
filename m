@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C87142903
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 23:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31CF19B3EE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 23:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733785659; cv=none; b=OalN9aIupgjSEXFdZtZIb7qygsw2mxwd0VciAPFGNweB/R4b3enUUMgcvipr9AMIi855Ay5QkYtOzToo1htujacnwsPYgamUnwKAiLrBhGfQzzIG7pXVBGH6Y5afPApLlOpjt+JXHSTB7POh2rlHcOqHwFbgk5LPURUwjay7GRQ=
+	t=1733787722; cv=none; b=s94itTGlPXK0FYuA4jkB6WTc+5KQY+ujqisR4GEQNqJRj0v8anOvLPT9EkxLCWxylgZ5mRM6oHrP42jsX8QhkWheKuPapUjpDYjqoljZx5kSvr9K8KUbffNmh1nDXKkmbZGsF8Ftox9M71xMpM7dpIgM1uztb6H/Jyn7N2S8cVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733785659; c=relaxed/simple;
-	bh=YI8IStfm9/XL2pr/5dm6e0iuhG2TUvKIGeemD3T67Ns=;
+	s=arc-20240116; t=1733787722; c=relaxed/simple;
+	bh=8HczzigI34Omk2GpKqfD30P6+GdiqA82IWpQBcaOTCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C4AR1Fo6PPxd7S2r9G/gjzJfpO6VnkNZKzjK/cUuVDNYN2AQmIb9g56ggj3NAa7EQQSI+yhshhdJivHXwpDBs5fmhaffVj5HuebEf0ub20N6XJv6KOWe1QLUqW9iu10ChWBe5B74Tk674jiMHcf9Hx6I3ZsOyaW1VNuRM3uUsfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3MtEGcp; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=BeZuvonRx+5YUtP3xPNysoWya6Pjftec26ho5L/2kItmP1G+E2AHppNrDm6/7njH7BtSSLpIZzDwXhoD4yuisYE2os6m2u/FNS0QT89GGAKB4rYYvU7S8FhCgQY41oJlqodSpKD7fIRiyLMi3J+JX0Rrir6eznC9dr0/RWGqWTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQ/lIbjj; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3MtEGcp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQ/lIbjj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733785657; x=1765321657;
+  t=1733787721; x=1765323721;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YI8IStfm9/XL2pr/5dm6e0iuhG2TUvKIGeemD3T67Ns=;
-  b=P3MtEGcpHVJwuqTu57Vt3Daro5imDPJa6IzdYn5dgx2fC2xhVAq+KpRs
-   hKUXTZNUqbeo8BkLW/A3V3SF2ez7uCihu1rKyNbe5qPkzYy60FKu5KkMR
-   G3nGIeK/exEmoPm1Vb2rZgaDUdVfFYXA3BlWRPBSOg98wgyIWK0LRa9dJ
-   +VO4FcGVEyzG7xkhgT7uY+quHpUZSUExpXxRGoT8DbTjD/r97xasbZWmo
-   rxtop7kv4oWOolxED+z2corXfu+4Dpx3S/KxbYwIJjxNUtx/otomR2OAB
-   Pu/t6C1yYZ06h5D6TAgeTu58wEN/zXp+AY9lOs4LgrnzSQzlMeNT51Yj4
-   w==;
-X-CSE-ConnectionGUID: PItKZgkJTmKRsZN34lg0xA==
-X-CSE-MsgGUID: KhIxnRtOSsq7PTcwjxDneQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33842038"
+  bh=8HczzigI34Omk2GpKqfD30P6+GdiqA82IWpQBcaOTCs=;
+  b=CQ/lIbjj17FL2LeHQXDCCgPyi9gdVQjoiVceSA8tdT0eTPsRio4x3wtt
+   YZUFlEHNCkEotuiFSLUi9DdPiudL4Y09OTnRUn5nHDUPgw8mPC5Ot5iLi
+   C1YGeW3lpcjBuMvvogeeyvIZvBWGH09MsoQ+x4XFb5XoSLXXJCWNdgnwT
+   igPgbPvoVjoiYz+WoPfGB4ASB47C/cDjwhk7UlJe4jGON4tvwq8or6xAO
+   sQ9ftM9CQd24QUwyQOo/u22JhyKgFozcxiUD859xzA5G/pqVxboW/35dg
+   lM5XM6ujnO4sNIosi0d32swuUUhn+p/DiEnoD/BeO/o19z/EIwRImtCtw
+   Q==;
+X-CSE-ConnectionGUID: jjZgQE1/SxignNJQgiMCeA==
+X-CSE-MsgGUID: IclnOv8KTwemNtWOimISxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34245099"
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="33842038"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 15:07:37 -0800
-X-CSE-ConnectionGUID: eNCDM9jhSoqzVSM1meUfgw==
-X-CSE-MsgGUID: hZhAnYjrSoidX9bmOYMBHg==
+   d="scan'208";a="34245099"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 15:42:01 -0800
+X-CSE-ConnectionGUID: XZNXikM5Sayp0p0b29Gm/w==
+X-CSE-MsgGUID: MZkW17vmS2qt4s6ol7QQ9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="96011473"
+   d="scan'208";a="126049232"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Dec 2024 15:07:35 -0800
+  by orviesa002.jf.intel.com with ESMTP; 09 Dec 2024 15:41:59 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKmqi-0004tl-31;
-	Mon, 09 Dec 2024 23:07:32 +0000
-Date: Tue, 10 Dec 2024 07:07:13 +0800
+	id 1tKnO1-0004vf-03;
+	Mon, 09 Dec 2024 23:41:57 +0000
+Date: Tue, 10 Dec 2024 07:41:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, sanglipeng <sanglipeng1@jd.com>
+To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2570/2570]
- drivers/net/dsa/mv88e6xxx/chip.c:2320:4: error: implicit declaration of
- function 'mv88e6xxx_g2_eeprom_wait'
-Message-ID: <202412100719.EfO2Bdyg-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1613/1613] arch/arm64/kernel/cpufeature.c:2387:6:
+ warning: no previous prototype for function 'fast_syscall_enabled'
+Message-ID: <202412100701.gJFnUZcV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Fabio,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   fbaada49082c23aa4e4ed43386a1ad4a457a0354
-commit: 02956abc74ede6549249eb21e5b319b92dd147f3 [2570/2570] net: dsa: mv88e6xxx: Avoid EEPROM timeout when EEPROM is absent
-config: x86_64-randconfig-161-20241210 (https://download.01.org/0day-ci/archive/20241210/202412100719.EfO2Bdyg-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100719.EfO2Bdyg-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   db988390007bce595dba0dfd782c610578e26d2d
+commit: 5c3cf22892983304b18d87296ed96ff0ab7d6c95 [1613/1613] arm64: Introduce xcall a faster svc exception handling
+config: arm64-randconfig-001-20241210 (https://download.01.org/0day-ci/archive/20241210/202412100701.gJFnUZcV-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100701.gJFnUZcV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412100719.EfO2Bdyg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412100701.gJFnUZcV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/dsa/mv88e6xxx/chip.c:15:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:14:
-   In file included from include/linux/mm.h:1581:
-   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   In file included from arch/arm64/kernel/cpufeature.c:67:
+   In file included from include/linux/crash_dump.h:5:
+   In file included from include/linux/kexec.h:18:
+   In file included from include/linux/crash_core.h:6:
+   In file included from include/linux/elfcore.h:11:
+   In file included from include/linux/ptrace.h:10:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2247:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/net/dsa/mv88e6xxx/chip.c:32:
-   In file included from include/net/dsa.h:22:
-   include/net/devlink.h:28:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      28 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/devlink.h:25:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      25 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/devlink.h:29:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      29 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/devlink.h:25:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      25 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/dsa/mv88e6xxx/chip.c:2320:4: error: implicit declaration of function 'mv88e6xxx_g2_eeprom_wait' [-Werror,-Wimplicit-function-declaration]
-    2320 |                         mv88e6xxx_g2_eeprom_wait(chip);
-         |                         ^
-   drivers/net/dsa/mv88e6xxx/chip.c:2320:4: note: did you mean 'mv88e6xxx_g2_pvt_write'?
-   drivers/net/dsa/mv88e6xxx/global2.h:457:19: note: 'mv88e6xxx_g2_pvt_write' declared here
-     457 | static inline int mv88e6xxx_g2_pvt_write(struct mv88e6xxx_chip *chip,
-         |                   ^
-   3 warnings and 1 error generated.
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/cpufeature.c:2387:6: warning: no previous prototype for function 'fast_syscall_enabled' [-Wmissing-prototypes]
+    2387 | bool fast_syscall_enabled(void)
+         |      ^
+   arch/arm64/kernel/cpufeature.c:2387:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2387 | bool fast_syscall_enabled(void)
+         | ^
+         | static 
+   6 warnings generated.
 
 
-vim +/mv88e6xxx_g2_eeprom_wait +2320 drivers/net/dsa/mv88e6xxx/chip.c
+vim +/fast_syscall_enabled +2387 arch/arm64/kernel/cpufeature.c
 
-  2306	
-  2307	static void mv88e6xxx_hardware_reset(struct mv88e6xxx_chip *chip)
-  2308	{
-  2309		struct gpio_desc *gpiod = chip->reset;
-  2310	
-  2311		/* If there is a GPIO connected to the reset pin, toggle it */
-  2312		if (gpiod) {
-  2313			/* If the switch has just been reset and not yet completed
-  2314			 * loading EEPROM, the reset may interrupt the I2C transaction
-  2315			 * mid-byte, causing the first EEPROM read after the reset
-  2316			 * from the wrong location resulting in the switch booting
-  2317			 * to wrong mode and inoperable.
-  2318			 */
-  2319			if (chip->info->ops->get_eeprom)
-> 2320				mv88e6xxx_g2_eeprom_wait(chip);
-  2321	
-  2322			gpiod_set_value_cansleep(gpiod, 1);
-  2323			usleep_range(10000, 20000);
-  2324			gpiod_set_value_cansleep(gpiod, 0);
-  2325			usleep_range(10000, 20000);
-  2326	
-  2327			if (chip->info->ops->get_eeprom)
-  2328				mv88e6xxx_g2_eeprom_wait(chip);
-  2329		}
-  2330	}
-  2331	
+  2386	
+> 2387	bool fast_syscall_enabled(void)
+  2388	{
+  2389		return is_xcall_support;
+  2390	}
+  2391	
 
 -- 
 0-DAY CI Kernel Test Service
