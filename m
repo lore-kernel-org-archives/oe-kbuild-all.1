@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9411C2572
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 03:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BC741A8F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 03:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733716326; cv=none; b=m+cFsbYL96tJ4PmcEgFFDhzJr/fSByN96l11k1/TnwDLN1C7uCQBg7Ikur7uuFvNRjzS0BIQf8nCi2/4aVCpjihd5neVE7EqVBCEMPoJTGkX3PhUU+mn1vxFnGa8w5sYL6D7cZZ9qk6Zib2y2D7KLrKo3CrWDh/k/s0qgLlRhs4=
+	t=1733716327; cv=none; b=nGzaUhAI4Filq8CNF7ZRiEFqzKtfcrVDpyC6ZzXfHKUNAQRXmKrTnTfk7NB5kSmgdW8PSgb6xSJCX/ZYvjjW8+dhNfizxNEPDdTRZFKdAdxtXsUCNbjM474OH8ZA+OS3Dk7hj9u2KPohflbh5OiQcNlghlnAzVJ2JpMckzFR9hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733716326; c=relaxed/simple;
-	bh=5f+EKzLruWIZvUHHCL3VF+E0f6HNQAGcmnw77Sziaao=;
+	s=arc-20240116; t=1733716327; c=relaxed/simple;
+	bh=Fr3yASwmzec6lHkUzFNFx5jV7QsvoUOqoMzS6NGjHcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XXK6xcGBwEADmk7lbMea/iFmI2XYvTnzpNolzB5bfEo0fk7nJc9irP70akxmEiAwFN9cbgm2ZmLuTtpIAbypIdeog425+l2viM28+GbqOLTxI9daCF/ERvuhaLSB0BmwmhxYL+D57GTbtvXJqMG8tlO+dgtjOT6lTqgTbFWP1FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dEFEImnr; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=kDxIaG7NFD/x4AiNGG4WrViiwzynMTWo4CaieMcN3kE+pSlsPRIRfMPlz6anwifmzDmHcN01Z7Ems+rs7rF012yjafpf6rLWsbhNr242EySUEFMwGS13EfHDfIwCN9hiT+wgDrJJfl9kNYodya+q85oYRMOcfOQ+kyZ+YtZzOYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gakdu6dO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dEFEImnr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gakdu6dO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733716325; x=1765252325;
+  t=1733716326; x=1765252326;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5f+EKzLruWIZvUHHCL3VF+E0f6HNQAGcmnw77Sziaao=;
-  b=dEFEImnr0/WULQ/543PiS0ZVLVUpP16mdTnHAq8dzQXVk9Bq5/DKD9Z3
-   uDCRsSLl9tRMdLxJYZIAZXvdnhwrwA1T550ZR4GoOhjvGpn5v5bRINw3c
-   G2gekVrxJbGO4RajMD40wb4nvnT5hQsAoHLxv/uTOSvkFRRulGjwn6qFk
-   0Hrno450Lq7Z11Nk6C428cGbNKIf1KLgdHc0lRxKUAxQSAYdznRjx3gXJ
-   bC4T1YouNJgi/XnJ/16r9/x5jJ5RuTtqBFf9SuUmZVyqmmysh7hi56dsd
-   oFS0TZ63h3puFdl3yotT82UUz3ulAMAH/EaYWcBYVgJqet4kIdcMXzoYx
-   g==;
-X-CSE-ConnectionGUID: z30L3/r3Rz24HQnPWx40iQ==
-X-CSE-MsgGUID: uZwY37NLTyyvmQmPEhtB6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="59401551"
+  bh=Fr3yASwmzec6lHkUzFNFx5jV7QsvoUOqoMzS6NGjHcg=;
+  b=Gakdu6dOiBEnsMVoSqTSuYCRhdPxymMNmKAAb9ci6mNdmwTaZBX9w1ak
+   obAbeRrRGuE+Lh5IvYGhWPB/g9p+SNEdXAJxDNPn1OI2SwnZUGVO5xxof
+   m3lgCQMwlCYEqH5C/Yf19eBsWKo/3Qa/MLkWy6C6ep7BE659KvyDPTDv6
+   IiEuf450pUSzsIishCSUJSlFXx4pNGLBD/1UjaVZevfsq3amc7ybt8lie
+   5zuhcHo8/e1BMZVohcHY/MkWICzlQ93v2/RcswuDiuytl1fq0o+aLiulR
+   9lLJT8/drRUt5prR/jm9nFwGE+sajy/oYkBGbfOaaFonmbF+pNucXiBWw
+   w==;
+X-CSE-ConnectionGUID: PgnSn3EnTy6ymmLxc6y3qg==
+X-CSE-MsgGUID: biZieY+IRzaCvlAguwjU+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="37928646"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="59401551"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:52:04 -0800
-X-CSE-ConnectionGUID: 9jyGdJPZRjCUQ3UkIxxfEQ==
-X-CSE-MsgGUID: y7HjST92QoGVQqH3YA8xfA==
+   d="scan'208";a="37928646"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:52:04 -0800
+X-CSE-ConnectionGUID: J0/Q29VAS8SM2dF7RVo4yA==
+X-CSE-MsgGUID: TuZpi7lFRUuWUWNs46z4aA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="100000434"
+   d="scan'208";a="99898166"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Dec 2024 19:52:03 -0800
+  by orviesa005.jf.intel.com with ESMTP; 08 Dec 2024 19:52:03 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKUoS-0003kx-1d;
+	id 1tKUoS-0003kt-1A;
 	Mon, 09 Dec 2024 03:52:00 +0000
-Date: Mon, 9 Dec 2024 11:51:35 +0800
+Date: Mon, 9 Dec 2024 11:51:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast
- truncates bits from constant value (8000000000000000 becomes 0)
-Message-ID: <202412070819.BY7VDlYB-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:chromeos-6.6-f9d942cf7d57 73/1491] make[7]: *** No
+ rule to make target 'drivers/gpu/drm/panel/panel-himax-hx83112a.o', needed
+ by 'drivers/gpu/drm/panel/modules.order'.
+Message-ID: <202412070846.bk78sa2r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +63,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c7cde621b2acfd6bc7d5f002b19b60ad2ed25df8
-commit: 453924de6212ac159f946b75c6b59918e2e30944 afs: Overhaul invalidation handling to better support RO volumes
-date:   11 months ago
-config: loongarch-randconfig-r123-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070819.BY7VDlYB-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241207/202412070819.BY7VDlYB-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
+head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
+commit: 5231012766cc9828fd7af0e87d481f5e95599e26 [73/1491] BACKPORT: FROMGIT: drm/panel: himax-hx83102: Break out as separate driver
+config: arm64-randconfig-003-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070846.bk78sa2r-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070846.bk78sa2r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070819.BY7VDlYB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070846.bk78sa2r-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/afs/callback.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
->> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
---
-   fs/afs/rotate.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
->> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+All errors (new ones prefixed by >>):
 
-vim +70 arch/loongarch/include/asm/cmpxchg.h
-
-720dc7ab252bbdf Huacai Chen   2022-08-25  63  
-ddf502717da029c Huacai Chen   2022-10-12  64  static __always_inline unsigned long
-068550631fbe0b7 Andrzej Hajda 2023-01-18  65  __arch_xchg(volatile void *ptr, unsigned long x, int size)
-5b0b14e550a006b Huacai Chen   2022-05-31  66  {
-5b0b14e550a006b Huacai Chen   2022-05-31  67  	switch (size) {
-720dc7ab252bbdf Huacai Chen   2022-08-25  68  	case 1:
-720dc7ab252bbdf Huacai Chen   2022-08-25  69  	case 2:
-720dc7ab252bbdf Huacai Chen   2022-08-25 @70  		return __xchg_small(ptr, x, size);
-720dc7ab252bbdf Huacai Chen   2022-08-25  71  
-5b0b14e550a006b Huacai Chen   2022-05-31  72  	case 4:
-5b0b14e550a006b Huacai Chen   2022-05-31  73  		return __xchg_asm("amswap_db.w", (volatile u32 *)ptr, (u32)x);
-5b0b14e550a006b Huacai Chen   2022-05-31  74  
-5b0b14e550a006b Huacai Chen   2022-05-31  75  	case 8:
-5b0b14e550a006b Huacai Chen   2022-05-31  76  		return __xchg_asm("amswap_db.d", (volatile u64 *)ptr, (u64)x);
-5b0b14e550a006b Huacai Chen   2022-05-31  77  
-5b0b14e550a006b Huacai Chen   2022-05-31  78  	default:
-5b0b14e550a006b Huacai Chen   2022-05-31  79  		BUILD_BUG();
-5b0b14e550a006b Huacai Chen   2022-05-31  80  	}
-5b0b14e550a006b Huacai Chen   2022-05-31  81  
-5b0b14e550a006b Huacai Chen   2022-05-31  82  	return 0;
-5b0b14e550a006b Huacai Chen   2022-05-31  83  }
-5b0b14e550a006b Huacai Chen   2022-05-31  84  
-
-:::::: The code at line 70 was first introduced by commit
-:::::: 720dc7ab252bbdf404cab7b909e26b31e602bf7e LoongArch: Add subword xchg/cmpxchg emulation
-
-:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+>> make[7]: *** No rule to make target 'drivers/gpu/drm/panel/panel-himax-hx83112a.o', needed by 'drivers/gpu/drm/panel/modules.order'.
+   make[7]: Target 'drivers/gpu/drm/panel/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
