@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2436E76410
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 03:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB775FEED
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733716627; cv=none; b=lfzgZ4B5ZWwd/jkkHKvt2yoMEh0d6yxaunLBdO/LolxGD3V98sT3ri2i2/84FvHpAtXZBbpNPK+BfYca/0HQoXVdsHHJWyEIqa+POm2llUfyo0fKOl1qwTYiet4KubD7IGxo/zcQqQ2u/ITnq1Jms/HWzzN+mIevXsAhYjiNmDo=
+	t=1733716806; cv=none; b=uXTD5/7TlPqFa/skD4osISiG18V4ShbscihPIWHNT2i9XiHQnseGsTsH4HJwNtAAcurQBOViMNyAa6tBChkruJiY/8Wfx3QhwR4dntOpRdRrWbRmWndzDQeQhD3b4v4JAz5MlAJG61npefMqOKBULywh9KsTfDa9z28Uz8la0dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733716627; c=relaxed/simple;
-	bh=xeDaEktiXKNRX9+8lnlmiatf46YKce3jpTZDNGYdpzg=;
+	s=arc-20240116; t=1733716806; c=relaxed/simple;
+	bh=bnWxl3IcPfOhZvL45cnAyZRMxCNIQGAfYykVt/uiO4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gRJRPdKUutIswzEvfFjuu0Qbw27pjb8epi2ltY+K9lMOdHIcJYyU1aEyxc2AytNI6AdP+h+JdH0o40qZMdD83AIciQRYCyIx+o3EKpcH8Ls18IFZ53K1KBRsephfca/+YOuMxHjQjXejHAIoCMjM6dXQ2Pszp6C28r7PWCfto0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNNHsMK+; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=U1EIZ5xsRCaVtBP8f1QdnNTUelA5hvtIVLeAiwoiD/mqugxOdyTLzXKlMP4WR6GxnoaE9HemA8tGl1N8VUDkonD1pUz861HiaGgOce0pMisISgGniR8wqPo6Dqrb9vZjnWHwKOWnsvyPKtrFzdxt2LxoDuHi+eYuQApzsm8RDcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5knzCei; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNNHsMK+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5knzCei"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733716625; x=1765252625;
+  t=1733716805; x=1765252805;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xeDaEktiXKNRX9+8lnlmiatf46YKce3jpTZDNGYdpzg=;
-  b=SNNHsMK+KBFuQs48jGXrQkhK4hKP7BP4YAtgL7bxnqbD0wqCuP4W/IW+
-   pp3B4QPyJxV/62bFgKTdS7PgJfzHPLLQfZsLKLsWCtG4syVCDh79Fwxem
-   nQ+rvYSVIYOrAh1NiR9e2ZIEwAcsGEyqqbX0HmJx7F3hP/jFW1RjIfjbT
-   3Uqvg7ZH8wyRsa4IPazf8uMaFbUQ6+SvTPgTYg1p/aowWNJKyq6pnjbP1
-   ExXFFFhozSWxf+7OYF1LfbHBz0tTVkZb3H/mg6uaVpzj4RGwDvitBmzz2
-   DD2MIic8ImZh+HvqqH3ArYK5Yu/8ZELITkJZAQAhh7uX9EBs9EQafKiRe
-   g==;
-X-CSE-ConnectionGUID: XTzl2C6wQRiYdW5u3ZSaDQ==
-X-CSE-MsgGUID: thJFisRhTu23G+2UDB+1mA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34136360"
+  bh=bnWxl3IcPfOhZvL45cnAyZRMxCNIQGAfYykVt/uiO4c=;
+  b=j5knzCeig0ejCiNYAbXrjfDMmOXW8bhUIK38e97JUfTU6S1m5BsHzvss
+   UlwTh0lj4DBV1lF6ZxHxKyVA19onBlflGLd3hwGviXtPQYvmZtSV5Bq08
+   FZgCNXYCFm0qOdY/7C/puyTPS+7ebzwVAUeRr/SiTqAhwdXmAaaz7gcUB
+   Tv2I5zmrGaqv2MUNoOdWuoGr/yfS4z/FJ1d8ytHJxENxc6taqvpRn2rDb
+   YysslpsHtK4Ga9zUct2V1DUhFMWUbg/EAQ4o/JKi4mkAXSAig6wcvAKiZ
+   duJimigsrTegh4F9MPzVVHlKX5XqVpq52Kj7X88JEqGBhQ4mcgaMIw1rm
+   w==;
+X-CSE-ConnectionGUID: THuhhP04QV+jshGAo9oYiw==
+X-CSE-MsgGUID: mj84DWzsSDaKxv/eLAavaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33923308"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34136360"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:57:05 -0800
-X-CSE-ConnectionGUID: gCwA66t6SdmRic+kTIAT0Q==
-X-CSE-MsgGUID: t+1RKwtRTwGNdCkHNFQgDw==
+   d="scan'208";a="33923308"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:00:05 -0800
+X-CSE-ConnectionGUID: My5b5+6CSemwuMxxLfLbqQ==
+X-CSE-MsgGUID: 1AkiX6ixScONUVw5A/yuAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94753766"
+   d="scan'208";a="95149131"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2024 19:57:03 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 08 Dec 2024 20:00:03 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKUtJ-0003ld-0B;
-	Mon, 09 Dec 2024 03:57:01 +0000
-Date: Mon, 9 Dec 2024 11:56:28 +0800
+	id 1tKUwD-0003lp-1P;
+	Mon, 09 Dec 2024 04:00:01 +0000
+Date: Mon, 9 Dec 2024 11:59:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 1/2]
- drivers/virtio/virtio_pvclock.c:49:6: warning: no previous prototype for
- function 'update_suspend_time'
-Message-ID: <202412070918.rNq973VG-lkp@intel.com>
+Subject: [jgunthorpe:for-nicolin 6/6] drivers/iommu/iommufd/device.c:304:1:
+ warning: 'iommufd_sw_msi_get_map' defined but not used
+Message-ID: <202412070927.rImSTb0a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,94 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   195d9cb705b62681ea7f7d60f84ad75dfacdb871
-commit: bf3f6f01039f7f03350da296935c1f2e2fca7550 [1/2] ANDROID: virtio: virtio_pvclock: initial driver impl
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241207/202412070918.rNq973VG-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070918.rNq973VG-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux for-nicolin
+head:   e0c7417c5a977930a0951821100a3ac0353d456e
+commit: e0c7417c5a977930a0951821100a3ac0353d456e [6/6] iommufd: Implement sw_msi support natively
+config: arc-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070927.rImSTb0a-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070927.rImSTb0a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070918.rNq973VG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070927.rImSTb0a-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/virtio/virtio_pvclock.c:9:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2030:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_pvclock.c:49:6: warning: no previous prototype for function 'update_suspend_time' [-Wmissing-prototypes]
-      49 | void update_suspend_time(struct work_struct *work)
-         |      ^
-   drivers/virtio/virtio_pvclock.c:49:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      49 | void update_suspend_time(struct work_struct *work)
-         | ^
-         | static 
-   6 warnings generated.
+>> drivers/iommu/iommufd/device.c:304:1: warning: 'iommufd_sw_msi_get_map' defined but not used [-Wunused-function]
+     304 | iommufd_sw_msi_get_map(struct iommufd_ctx *ictx, phys_addr_t msi_addr,
+         | ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/update_suspend_time +49 drivers/virtio/virtio_pvclock.c
+vim +/iommufd_sw_msi_get_map +304 drivers/iommu/iommufd/device.c
 
-    48	
-  > 49	void update_suspend_time(struct work_struct *work)
-    50	{
-    51		u64 suspend_ns, suspend_time_delta = 0;
-    52		struct timespec64 inject_time;
-    53		struct virtio_pvclock *vp;
-    54	
-    55		vp = container_of(work, struct virtio_pvclock,
-    56				  update_suspend_time_work);
-    57	
-    58		virtio_cread(vp->vdev, struct virtio_pvclock_config, suspend_time_ns,
-    59			     &suspend_ns);
-    60	
-    61		mutex_lock(&vp->inject_suspend_lock);
-    62		if (suspend_ns > vp->injected_suspend_ns) {
-    63			suspend_time_delta = suspend_ns - vp->injected_suspend_ns;
-    64			vp->injected_suspend_ns = suspend_ns;
-    65		}
-    66		mutex_unlock(&vp->inject_suspend_lock);
-    67	
-    68		if (suspend_time_delta == 0) {
-    69			dev_err(&vp->vdev->dev,
-    70				"%s: suspend_time_ns is less than injected_suspend_ns\n",
-    71				__func__);
-    72			return;
-    73		}
-    74	
-    75		inject_time = ns_to_timespec64(suspend_time_delta);
-    76	
-    77		timekeeping_inject_sleeptime64(&inject_time);
-    78	
-    79		dev_info(&vp->vdev->dev, "injected sleeptime: %llu ns\n",
-    80			 suspend_time_delta);
-    81	}
-    82	
+   296	
+   297	/*
+   298	 * Get a iommufd_sw_msi_map for the msi physical address requested by the irq
+   299	 * layer. The mapping to IOVA is global to the iommufd file descriptor, every
+   300	 * domain that is attached to a device using the same MSI parameters will use
+   301	 * the same IOVA.
+   302	 */
+   303	static struct iommufd_sw_msi_map *
+ > 304	iommufd_sw_msi_get_map(struct iommufd_ctx *ictx, phys_addr_t msi_addr,
+   305			       phys_addr_t sw_msi_start)
+   306	{
+   307		struct iommufd_sw_msi_map *cur;
+   308		unsigned int max_pgoff = 0;
+   309	
+   310		lockdep_assert_held(&ictx->sw_msi_lock);
+   311	
+   312		list_for_each_entry(cur, &ictx->sw_msi_list, sw_msi_item) {
+   313			if (cur->sw_msi_start != sw_msi_start)
+   314				continue;
+   315			max_pgoff = max(max_pgoff, cur->pgoff + 1);
+   316			if (cur->msi_addr == msi_addr)
+   317				return cur;
+   318		}
+   319	
+   320		if (ictx->sw_msi_id >=
+   321		    BITS_PER_BYTE * sizeof_field(struct iommufd_sw_msi_maps, bitmap))
+   322			return ERR_PTR(-EOVERFLOW);
+   323	
+   324		cur = kzalloc(sizeof(*cur), GFP_KERNEL);
+   325		if (!cur)
+   326			cur = ERR_PTR(-ENOMEM);
+   327		cur->sw_msi_start = sw_msi_start;
+   328		cur->msi_addr = msi_addr;
+   329		cur->pgoff = max_pgoff;
+   330		cur->id = ictx->sw_msi_id++;
+   331		list_add_tail(&cur->sw_msi_item, &ictx->sw_msi_list);
+   332		return cur;
+   333	}
+   334	
 
 -- 
 0-DAY CI Kernel Test Service
