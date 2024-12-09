@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548FFEAF9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0FA320B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733716927; cv=none; b=QLE87si7OuRqb44lYpajuhEG2pY1DJH0/bx19++TYuSCieK8WGBIrpICBmMHSOduDWAp8no7YzEMpyl2SSWkYANOWvMZFJyxyyAtJKp+TibpfDyz0UfAmqvj778rv5sxlZ9fE4jXso8Voa1DEVSc0q051SfXr9lEjU7XrBoVywQ=
+	t=1733716991; cv=none; b=YVRCv8lnpTvaFM0MkHQUeUSU7zBKVWb1/ovfkz9/SN93Ix+Ve09/FY+PqHq2Cs2sUrYSSysak4Pm43KCIB0YGi/GHmv77S09YWETv/Zr5vV7ZHUl9LwaZhqmEZSHWk+wqacMkM+9AuuPcANAIWGIy6U3MK6AbsqJ9ZHcMZYpzao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733716927; c=relaxed/simple;
-	bh=IbpLkYT0aO8MIeYJ8GdwcF7td7B6R3AWyISPloTHf6Y=;
+	s=arc-20240116; t=1733716991; c=relaxed/simple;
+	bh=5HU9vC8YTKkPRlE/FTgRhqQL22paAl6UbXUyQymrPa4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pQ+J73rZ5pDIUihZidwEmRa2qTsyJRGI22SdDUdvI2lMiNeJVR24q+66yhRH7zAz9DM7wzdymdGQBZsYwX9m6pP0pPtWyq3wOyKUrQQ1v/+WkCLNA1bvrO0z2aQISxEDo8/2ueByij/UePMZZ52edZV7MbkllhKMYb7VtoAjB/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GrmF43l5; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Z+vS0GmG79aPjF8Qrml8tUDxG0CD68i+mExpmY+Mzo8J8HAYUoGKcARzLlf2FRP+53pL7mGLcfH0fCEJITB3EAl7FPAfiT7MOwX+sxmVNDTWTGCxd00ZcwbAWmYM1EiXVdrbjjET5bFIgMUXWePLd16D3FoUuSoa897mnkLLVzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgudMLPn; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GrmF43l5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgudMLPn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733716926; x=1765252926;
+  t=1733716989; x=1765252989;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IbpLkYT0aO8MIeYJ8GdwcF7td7B6R3AWyISPloTHf6Y=;
-  b=GrmF43l5zqr2V7HBRlzQx0v/Efb+hRsI5tKABmvw2weoJrqYrpI7xkM5
-   HBDXkcKKTjX8qmg02ilYVT9xGBW9fynxb0/IulqaX5J7jhk/9IY6RuDJp
-   nnkHGmhnz2PZIQvhsvjB69WF8mrF+BIVhW4gDGBjwdE81LVCYoqFhVS83
-   CzoKFxVPBqo0xgnZ0I5Rnwkh4yCIm6/idT6x8tX1y/TKF8eCDXD4aCiA/
-   roP3GBjtUyQDHVS/Kr/CRH4UwY9uJ2e9HhOm25QUzS304PPCdVk/sNOPS
-   qqPux0Is1YsazQdt1GTWuC3MyAiKXSvTwiT0QyEnxyGZewyZI4PQ+e5zT
-   g==;
-X-CSE-ConnectionGUID: NoGq/GmtQb6evhvWhnWHPg==
-X-CSE-MsgGUID: UEZ/Xb9cQOOwGwHzF3nftA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34235126"
+  bh=5HU9vC8YTKkPRlE/FTgRhqQL22paAl6UbXUyQymrPa4=;
+  b=hgudMLPn8R+kcbCCMuZONRbuNPJvimEtB2P4sZuOWWOOVPy9P8v0aMDf
+   HRopphvD87jV8xhGwjWM7Zt0EMbagOKp1hwdqtCv6dzz1E+HbRs2jIftO
+   OL58QlzQcn0Ih+AtZYKUFKkxUE1QH0tw87n0kAvJqwn49Epp8MHICCYZy
+   nVToAUEtyoFK9Qmg1q/J70qR9CccmrUOgTcAxnRhkD1NnbjBhEvoAOxRW
+   TjHwOul1RLyTUQ9uOSA9TnYkqf9i2ArzaDHc/6m27Q1uQOMXHdt0CJcir
+   aQwj23YBX1hbqdknrB2suwktPGNb0lZBD6zLrtLSIi8gXlgOUtaOwBcpb
+   A==;
+X-CSE-ConnectionGUID: O375rjVaR9O2OO8aKN0okg==
+X-CSE-MsgGUID: GnGwvWyoTiC0eZOutUQb0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="21590209"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34235126"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:02:06 -0800
-X-CSE-ConnectionGUID: DYmFgp7jSOS9zASxft3kbg==
-X-CSE-MsgGUID: nboRWYJCSMavK3D43A7ulQ==
+   d="scan'208";a="21590209"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:03:06 -0800
+X-CSE-ConnectionGUID: wZZ/J9fbTRKRHGvQpI2gpQ==
+X-CSE-MsgGUID: Ax69q/VHRFKpSTvvDnrUgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94822159"
+   d="scan'208";a="94754848"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Dec 2024 20:02:04 -0800
+  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2024 20:03:04 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKUy9-0003mH-2Y;
-	Mon, 09 Dec 2024 04:02:01 +0000
-Date: Mon, 9 Dec 2024 12:01:10 +0800
+	id 1tKUz7-0003mL-2n;
+	Mon, 09 Dec 2024 04:03:01 +0000
+Date: Mon, 9 Dec 2024 12:02:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Rob Herring <robh@kernel.org>
-Subject: arch/powerpc/kernel/prom_init.c:2897:22: sparse: sparse: incorrect
- type in initializer (different base types)
-Message-ID: <202412071026.URGzioD6-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1] include/trace/hooks/perf.h:18:1:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202412071036.mkuNXCDu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,51 +62,166 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
-commit: cf89c9434af122f28a3552e6f9cc5158c33ce50a powerpc/prom_init: Fixup missing powermac #size-cells
-date:   10 days ago
-config: powerpc64-randconfig-r113-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071026.URGzioD6-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241207/202412071026.URGzioD6-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   f10cf63d3ff9411bbd227f76d9ac8f4ca543918e
+commit: eec127b5484d09fef414b9914710cd1faa7be1bc [1/1] ANDROID: vendor_hooks:vendor hook for perf
+config: i386-randconfig-062 (https://download.01.org/0day-ci/archive/20241207/202412071036.mkuNXCDu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071036.mkuNXCDu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412071026.URGzioD6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412071036.mkuNXCDu-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/kernel/prom_init.c:2897:22: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 [usertype] val @@     got int @@
-   arch/powerpc/kernel/prom_init.c:2897:22: sparse:     expected restricted __be32 [usertype] val
-   arch/powerpc/kernel/prom_init.c:2897:22: sparse:     got int
+   kernel/events/core.c:1386:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1386:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1386:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:1399:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1399:28: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1399:28: sparse:    struct perf_event_context *
+   kernel/events/core.c:3504:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3504:20: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3504:20: sparse:    struct perf_event_context *
+   kernel/events/core.c:3508:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3508:18: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3508:18: sparse:    struct perf_event_context *
+   kernel/events/core.c:3509:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3509:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3509:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:3558:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3558:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3558:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3559:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3559:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3559:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3946:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3946:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3946:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4340:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4340:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4340:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4820:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4820:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4820:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:6229:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6229:9: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6229:9: sparse:    struct perf_buffer *
+   kernel/events/core.c:5701:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
+   kernel/events/core.c:5945:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:5945:22: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:5945:22: sparse:    struct perf_buffer *
+   kernel/events/core.c:6069:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6069:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6069:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6102:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6102:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6102:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6159:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6159:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6159:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6250:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6250:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6250:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6266:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6266:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6266:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:7991:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:7991:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:7991:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:8078:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8078:13: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:8078:13: sparse:    struct perf_buffer *
+   kernel/events/core.c:8182:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8182:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8182:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:8184:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8184:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8184:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:8872:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8872:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:8872:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:9912:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9912:9: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9912:9: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9951:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9951:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9951:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10226:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10226:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:10226:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:11339:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
+   kernel/events/core.c:13106:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13106:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13106:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:13200:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13200:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13200:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:13212:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13212:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13212:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:13635:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13635:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:13635:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:162:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
+   kernel/events/core.c:170:17: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
+   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
+   include/linux/rcupdate.h:815:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
+   kernel/events/core.c:1433:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
+   kernel/events/core.c:2813:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
+   kernel/events/core.c: note: in included file:
+>> include/trace/hooks/perf.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   kernel/events/core.c:4794:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:209:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *buf @@
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:191:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'perf_get_pgtable_size' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:183:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/core.c:9761:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9761:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9761:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9781:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9781:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9781:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
 
-vim +2897 arch/powerpc/kernel/prom_init.c
+vim +18 include/trace/hooks/perf.h
 
-  2893	
-  2894	#ifdef CONFIG_PPC_PMAC
-  2895	static void __init fixup_device_tree_pmac(void)
-  2896	{
-> 2897		__be32 val = 1;
-  2898		char type[8];
-  2899		phandle node;
-  2900	
-  2901		// Some pmacs are missing #size-cells on escc nodes
-  2902		for (node = 0; prom_next_node(&node); ) {
-  2903			type[0] = '\0';
-  2904			prom_getprop(node, "device_type", type, sizeof(type));
-  2905			if (prom_strcmp(type, "escc"))
-  2906				continue;
-  2907	
-  2908			if (prom_getproplen(node, "#size-cells") != PROM_ERROR)
-  2909				continue;
-  2910	
-  2911			prom_setprop(node, NULL, "#size-cells", &val, sizeof(val));
-  2912		}
-  2913	}
-  2914	#else
-  2915	static inline void fixup_device_tree_pmac(void) { }
-  2916	#endif
-  2917	
+    11	
+    12	struct perf_event;
+    13	DECLARE_RESTRICTED_HOOK(android_rvh_armv8pmu_counter_overflowed,
+    14		TP_PROTO(struct perf_event *event),
+    15		TP_ARGS(event), 1);
+    16	
+    17	struct perf_cpu_pmu_context;
+  > 18	DECLARE_RESTRICTED_HOOK(android_rvh_perf_rotate_context,
+    19		TP_PROTO(struct perf_cpu_pmu_context *cpc),
+    20		TP_ARGS(cpc), 1);
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
