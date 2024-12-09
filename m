@@ -1,121 +1,220 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB451D555
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 06:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E367E189BB6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 07:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733727435; cv=none; b=F+nW9AwBkqj0hP25eysT+3Et7udaaEiFkplkXwZLNWLLNtUsJVtdJsSFNY3hWGTRs0dL+ryq5rvpXus2mwfsqKbacChuIjwrlybDXaw/51lTt0K65caEQZYkyfnN3d3T6Z+cHGbQKePecAr+fQhM2QGgPo3mCmSsSZnxdctNt0U=
+	t=1733728154; cv=none; b=Yo21kKmVlP59l19b/O3mVhg6AP8XBa1GpA2/Fs7nVvxV2+84b9ZTkenn/jMQ5jhnZqwXNUdVzZrJft1zehrT2BjOJSuSVlSOTp1p0ak3K/uFz0lOZRZ/wvvxeM64cqpj+LNj6mozoHwE0HQv3gyehuyb1KZlRtNLD6YYFowdOaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733727435; c=relaxed/simple;
-	bh=MPEFIdQ8Bu/ia699SckXDn3Mrzv58kmDf8uy9Hdm77s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KidZzH+gbKF/Jo4RaHzO041hTfM7Ebq2RaMrm6AW94+mGOFjM4Gx7LvlhuGIfXoKYrbio0MYwykm8f6ymx4ZsCUlrTxDEuRmePwVfX93+WTtQlSpecykonM3f7FTbPecDGB3OJgvLCqltSYxUrn+pYn1a7a9+TrEDEvwba/MUwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PhmIsa9r; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733728154; c=relaxed/simple;
+	bh=A1Dj57cwqTAkQ0w0kV+pI60cQ0dIK/XnPoMWuzzs8EQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=A6JjUrYQ31Wup+E5rImcrxlBxsS9IGzHlExXX2ZRmzRDSEsu8/UGqFY0Hr6rXbZD9eQW2H99S4bsBkipD6sztGVtKQgRmC27xlP+Rne7RQ7BXuhb+BZJUXoWNbbZokuwq+qu/8kiBsxa2iQiIqeIa/+0QRes4FVEGRCosRQXZ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f8UUKt1L; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PhmIsa9r"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B8NR0eT005904;
-	Mon, 9 Dec 2024 06:57:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	UPQrbwKLMc1aTxfBSst4W4YEF32HnLuWsT6LGHsy6H0=; b=PhmIsa9r7J/t6Zdb
-	hUKITPEJ2H4h3mVRpcPZs+o13MoCbkczGLIVKoZm0Zyrz5+VR/EBxUE5cGdXRVD+
-	AKZ/ZLgkbma+Nw4LxClCetrKMjrrNitL3kiRL7GCJ4Qwjgz/QdujDEHnIMcJioHc
-	HnsPpIJit6Wg3mbx1gj1/dQPpC1TuCKXhX+dGPotcXX7r1i0H/xFUoyouoYsjlKw
-	EjtQQdRpq4bqBl4pxgntNytUWc3R+tcmaUS4D1WwVWYUSqy9D2ipija88ohwfdLu
-	TTqrBcLCevOXi601U3g/5lbgtFpOWSVrSm6xzoMrDeeVXbDOBgQe/B89fZrfYpeE
-	iGU8Cw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cfn8uj5u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Dec 2024 06:57:09 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B96v8IB015366
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 9 Dec 2024 06:57:08 GMT
-Received: from [10.216.63.9] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 8 Dec 2024
- 22:57:06 -0800
-Message-ID: <a3bdd990-70aa-4948-a70b-e6d48fcc1bc6@quicinc.com>
-Date: Mon, 9 Dec 2024 12:27:03 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f8UUKt1L"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434e69857d9so9255005e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 23:09:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733728150; x=1734332950; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hZqVZywIpteq8+LKOFkdEOvIE5EvvecHIPHqCrLqtv0=;
+        b=f8UUKt1L4wJtnAtYwV5aMuKpBJPjrbCvWl7XTgyoAuFS/gvh3RB5U7pNqSkZE+8HZX
+         ruRc93zZPZux5cJzvsptCzhzVByECWtbqIBGLiMsWzTnrmhVFh9s4iUaiTVnbR4NsBRX
+         Cfl+CO5K0/N1LhZZ2wRc9ViMhICWUp0HbRYCz6UBNTX95o8bBv9ERxA3k0L4qFJqq86s
+         aS/pdByOxjObMFel/yvzfZpjMlVVx10bMMZ/d/sk/t14z9NvVQ/R6y3V1sQ69B89p+En
+         lIEUDTwjNNC4tQexYldE0m2tjRdCtLmm615cSwuqF2H9snMaeWtAWi5rUm8OAeZZ+O8z
+         JVeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733728150; x=1734332950;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hZqVZywIpteq8+LKOFkdEOvIE5EvvecHIPHqCrLqtv0=;
+        b=YzJYgDA05ZXTnvguecnNRmolI0kOZZPTNA+tI382gnXdPrxMbD+WoFx+g2c/Btu2KP
+         Fh8dPrivvndT/XkiStqS7ltiTi9JxeXSNFeduEa8Xi9FCuy9Lkfp1697RXwFhuW3tyW+
+         xp0IWAo5X+vVyVR/ZNlTXSTGdA0BEyE4um+ukyXSDvoMg4GcUjBdTYJQumlmEy9+ny6j
+         wKxysvrukC2TNXloZhzUmfvpIom5CXJJJDnXrghUD3TTlOfHnOBpW2d3O+SnsZjpWSGk
+         NItL6CHqOBz9nalcEb0z3hAMd13BIvYfk+r7oJBBt6dlE69pJMOVe/xm/zRfh+vz9UYv
+         FJDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbTO3f/NlsHJAnMcAWvKTR2bdY2yl3b97q9TcAU7Zf0E6xrpZ5zSzoYVrCuwOlF4OdmR9QkidTWUbWQ4or@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywo09dddP9NG086JHm+vXCPoyAQDDoeXGEI28/A3i61BgJc2OgS
+	cDUzGz5ZQ/F67U2cuyjcp4yKT7jSPxN34/zA6PsFQkTHU5TIwxRyLYOFJbrXnk4=
+X-Gm-Gg: ASbGncuj5OPckW66lWQ1nB/8K/yzyEYpysbAvYNxP9y1DZbYBNaDWM3PDcg+8109lQL
+	hqQEefJ2UANdOWvF0FQsMB3uOL6/0Ku7WKBJU8xyxgUHc+XyPohi8OpY/CGfIo8oz9nZ2cgIy7x
+	t8Okzi51Qz/WHzZVcpn78WJauj7MjzKVIAWYSMj/kgDdislCiQ+S8E66qRKqdeRmoatKXo8latm
+	CQ4147+F2TSnIsfq8UUSyH4KorX5hMYPRh/Wzzg5W29v4FfChXa2Q8=
+X-Google-Smtp-Source: AGHT+IGvxFv3GHrja2zX2o8FdXqu71o/qvW9LeHgpLr9i+OW7fsC4WKg7e3TEoJzJFTsgrfAf/KK1g==
+X-Received: by 2002:a05:600c:55c2:b0:434:9f90:2583 with SMTP id 5b1f17b1804b1-434d92bf6d3mr112685575e9.11.1733728150204;
+        Sun, 08 Dec 2024 23:09:10 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434da0da4a1sm146718655e9.19.2024.12.08.23.09.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2024 23:09:09 -0800 (PST)
+Date: Mon, 9 Dec 2024 10:09:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	sanglipeng <sanglipeng1@jd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2563/2563] drivers/block/null_blk/main.c:1839
+ null_add_dev() warn: missing error code 'rv'
+Message-ID: <4b55dc8e-036c-4302-a397-0e48c30b531c@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 1007/2462]
- arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0:
- 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3',
- 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3',
- 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom...
-To: kernel test robot <lkp@intel.com>, Bjorn Andersson <andersson@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>
-References: <202412091110.kq7tXw3J-lkp@intel.com>
-Content-Language: en-US
-From: Krishna Kurapati <quic_kriskura@quicinc.com>
-In-Reply-To: <202412091110.kq7tXw3J-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: DcIdiAksrqkL-tqtfRCEIEfkzYjUWLnA
-X-Proofpoint-ORIG-GUID: DcIdiAksrqkL-tqtfRCEIEfkzYjUWLnA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
- spamscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 bulkscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412090053
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   c8dbb3a6e214ad66d5d6099bf76e1f1c6eefc06f
+commit: 35959f33a5dde63a001111516adda66dbe7a7027 [2563/2563] null_blk: Move driver into its own directory
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20241209/202412090230.RlMObRZI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412090230.RlMObRZI-lkp@intel.com/
 
-On 12/9/2024 10:38 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   ebe1b11614e079c5e366ce9bd3c8f44ca0fbcc1b
-> commit: 4b2769c7d7ce47a64f874eac92b324f3561339ab [1007/2462] arm64: dts: qcom: qcs615: Add primary USB interface
-> config: arm64-randconfig-051-20241204 (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.2.0
-> dtschema version: 2024.12.dev3+g93ee800
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412091110.kq7tXw3J-lkp@intel.com/
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->     	'qcom,kpss-wdt' was expected
->     	'qcom,scss-timer' was expected
->     	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
->     	'qcom,msm-timer' was expected
->     	'qcom,kpss-timer' was expected
->     	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
->     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/watchdog@17c10000: failed to match any schema with compatible: ['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt']
->     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: rsc@18200000: clock-controller:compatible:0: 'qcom,qcs615-rpmh-clk' is not one of ['qcom,qdu1000-rpmh-clk', 'qcom,sa8775p-rpmh-clk', 'qcom,sar2130p-rpmh-clk', 'qcom,sc7180-rpmh-clk', 'qcom,sc7280-rpmh-clk', 'qcom,sc8180x-rpmh-clk', 'qcom,sc8280xp-rpmh-clk', 'qcom,sdm670-rpmh-clk', 'qcom,sdm845-rpmh-clk', 'qcom,sdx55-rpmh-clk', 'qcom,sdx65-rpmh-clk', 'qcom,sdx75-rpmh-clk', 'qcom,sm4450-rpmh-clk', 'qcom,sm6350-rpmh-clk', 'qcom,sm8150-rpmh-clk', 'qcom,sm8250-rpmh-clk', 'qcom,sm8350-rpmh-clk', 'qcom,sm8450-rpmh-clk', 'qcom,sm8550-rpmh-clk', 'qcom,sm8650-rpmh-clk', 'qcom,x1e80100-rpmh-clk']
->     	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
->     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/rsc@18200000/clock-controller: failed to match any schema with compatible: ['qcom,qcs615-rpmh-clk']
->>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0: 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3', 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,qcs8300-dwc3', 'qcom,qdu1000-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sar2130p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8180x-dwc3', 'qcom,sc8180x-dwc3-mp', 'qcom,sc8280xp-dwc3', 'qcom,sc8280xp-dwc3-mp', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sdx75-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3', 'qcom,sm8650-dwc3', 'qcom,x1e80100-dwc3', 'qcom,x1e80100-dwc3-mp']
->     	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,qcs615-dwc3', 'qcom,dwc3']
-> 
+smatch warnings:
+drivers/block/null_blk/main.c:1839 null_add_dev() warn: missing error code 'rv'
 
+vim +/rv +1839 drivers/block/null_blk/main.c
 
-Seems the patch for bindings is ACKed but not merged yet:
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1803  static int null_add_dev(struct nullb_device *dev)
+9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bjørling   2016-09-16  1804  {
+9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bjørling   2016-09-16  1805  	struct nullb *nullb;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1806  	int rv;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1807  
+5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  1808  	rv = null_validate_conf(dev);
+5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  1809  	if (rv)
+5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  1810  		return rv;
+cedcafad8277b3a drivers/block/null_blk.c      Shaohua Li        2017-08-14  1811  
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1812  	nullb = kzalloc_node(sizeof(*nullb), GFP_KERNEL, dev->home_node);
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1813  	if (!nullb) {
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1814  		rv = -ENOMEM;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1815  		goto out;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1816  	}
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1817  	nullb->dev = dev;
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1818  	dev->nullb = nullb;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1819  
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1820  	spin_lock_init(&nullb->lock);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1821  
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1822  	rv = setup_queues(nullb);
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1823  	if (rv)
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1824  		goto out_free_nullb;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1825  
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1826  	if (dev->queue_mode == NULL_Q_MQ) {
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1827  		if (shared_tags) {
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1828  			nullb->tag_set = &tag_set;
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1829  			rv = 0;
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1830  		} else {
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1831  			nullb->tag_set = &nullb->__tag_set;
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1832  			rv = null_init_tag_set(nullb, nullb->tag_set);
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1833  		}
+db5bcf87bb9e856 drivers/block/null_blk.c      Jens Axboe        2017-03-30  1834  
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1835  		if (rv)
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1836  			goto out_cleanup_queues;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1837  
+93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10  1838  		if (!null_setup_fault())
+93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10 @1839  			goto out_cleanup_queues;
 
-https://lore.kernel.org/all/20241017130701.3301785-2-quic_kriskura@quicinc.com/
+Set "rv = " before the goto?
 
-Regards,
-Krishna,
+93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10  1840  
+5448aca41cd58e1 drivers/block/null_blk.c      Jens Axboe        2018-01-09  1841  		nullb->tag_set->timeout = 5 * HZ;
+8d96a1117c21faa drivers/block/null_blk_main.c Christoph Hellwig 2020-03-27  1842  		nullb->q = blk_mq_init_queue_data(nullb->tag_set, nullb);
+35b489d32fcc37e drivers/block/null_blk.c      Ming Lei          2015-01-02  1843  		if (IS_ERR(nullb->q)) {
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1844  			rv = -ENOMEM;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1845  			goto out_cleanup_tags;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1846  		}
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1847  	} else if (dev->queue_mode == NULL_Q_BIO) {
+c62b37d96b6eb3e drivers/block/null_blk_main.c Christoph Hellwig 2020-07-01  1848  		nullb->q = blk_alloc_queue(dev->home_node);
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1849  		if (!nullb->q) {
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1850  			rv = -ENOMEM;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1851  			goto out_cleanup_queues;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1852  		}
+31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22  1853  		rv = init_driver_queues(nullb);
+31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22  1854  		if (rv)
+31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22  1855  			goto out_cleanup_blk_queue;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1856  	}
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1857  
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1858  	if (dev->mbps) {
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1859  		set_bit(NULLB_DEV_FL_THROTTLED, &dev->flags);
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1860  		nullb_setup_bwtimer(nullb);
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1861  	}
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1862  
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1863  	if (dev->cache_size > 0) {
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1864  		set_bit(NULLB_DEV_FL_CACHE, &nullb->dev->flags);
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1865  		blk_queue_write_cache(nullb->q, true, true);
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1866  	}
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1867  
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1868  	if (dev->zoned) {
+d205bde78fa53e1 drivers/block/null_blk_main.c Damien Le Moal    2020-04-23  1869  		rv = null_init_zoned_dev(dev, nullb->q);
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1870  		if (rv)
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1871  			goto out_cleanup_blk_queue;
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1872  	}
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1873  
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1874  	nullb->q->queuedata = nullb;
+8b904b5b6b58b9a drivers/block/null_blk.c      Bart Van Assche   2018-03-07  1875  	blk_queue_flag_set(QUEUE_FLAG_NONROT, nullb->q);
+8b904b5b6b58b9a drivers/block/null_blk.c      Bart Van Assche   2018-03-07  1876  	blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, nullb->q);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1877  
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1878  	mutex_lock(&lock);
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1879  	rv = ida_simple_get(&nullb_indexes, 0, 0, GFP_KERNEL);
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1880  	if (rv < 0) {
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1881  		mutex_unlock(&lock);
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1882  		goto out_cleanup_zone;
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1883  	}
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1884  	nullb->index = rv;
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1885  	dev->index = rv;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1886  	mutex_unlock(&lock);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1887  
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1888  	blk_queue_logical_block_size(nullb->q, dev->blocksize);
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1889  	blk_queue_physical_block_size(nullb->q, dev->blocksize);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1890  
+306eb6b4ad4f2d5 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1891  	null_config_discard(nullb);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1892  
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1893  	sprintf(nullb->disk_name, "nullb%d", nullb->index);
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1894  
+9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bjørling   2016-09-16  1895  	rv = null_gendisk_register(nullb);
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1896  	if (rv)
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1897  		goto out_ida_free;
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1898  
+a514379b0c77085 drivers/block/null_blk.c      Matias Bjørling   2016-02-11  1899  	mutex_lock(&lock);
+a514379b0c77085 drivers/block/null_blk.c      Matias Bjørling   2016-02-11  1900  	list_add_tail(&nullb->list, &nullb_list);
+a514379b0c77085 drivers/block/null_blk.c      Matias Bjørling   2016-02-11  1901  	mutex_unlock(&lock);
+3681c85dffda70e drivers/block/null_blk.c      Wenwei Tao        2016-03-05  1902  
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1903  	return 0;
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1904  
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1905  out_ida_free:
+f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1906  	ida_free(&nullb_indexes, nullb->index);
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1907  out_cleanup_zone:
+d205bde78fa53e1 drivers/block/null_blk_main.c Damien Le Moal    2020-04-23  1908  	null_free_zoned_dev(dev);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1909  out_cleanup_blk_queue:
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1910  	blk_cleanup_queue(nullb->q);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1911  out_cleanup_tags:
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1912  	if (dev->queue_mode == NULL_Q_MQ && nullb->tag_set == &nullb->__tag_set)
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1913  		blk_mq_free_tag_set(nullb->tag_set);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1914  out_cleanup_queues:
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1915  	cleanup_queues(nullb);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1916  out_free_nullb:
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1917  	kfree(nullb);
+2004bfdef945fe5 drivers/block/null_blk_main.c Bart Van Assche   2020-03-09  1918  	dev->nullb = NULL;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1919  out:
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1920  	return rv;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1921  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
