@@ -1,220 +1,86 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E367E189BB6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 07:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0775215166
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 08:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733728154; cv=none; b=Yo21kKmVlP59l19b/O3mVhg6AP8XBa1GpA2/Fs7nVvxV2+84b9ZTkenn/jMQ5jhnZqwXNUdVzZrJft1zehrT2BjOJSuSVlSOTp1p0ak3K/uFz0lOZRZ/wvvxeM64cqpj+LNj6mozoHwE0HQv3gyehuyb1KZlRtNLD6YYFowdOaI=
+	t=1733733648; cv=none; b=X2QFpNavHLVScTBblfhDAMlXIqkKhAvR/6bgzwNwNiEJLtyQZoVafm2YhtwsvYgctSG7IxPSiHEuA8BLIYYlqaAdn+XT60T42UA4Xn2r4dOb0ynSNaqqOtL16A0nBwWfHansJQHBbI5irYB0TstzV/HTayR80GU3B2ml9Y5uLiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733728154; c=relaxed/simple;
-	bh=A1Dj57cwqTAkQ0w0kV+pI60cQ0dIK/XnPoMWuzzs8EQ=;
+	s=arc-20240116; t=1733733648; c=relaxed/simple;
+	bh=u0Pc8QekQ+kW9gZHAdLCyXAGl4jXCC20PrP38+8qTu8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A6JjUrYQ31Wup+E5rImcrxlBxsS9IGzHlExXX2ZRmzRDSEsu8/UGqFY0Hr6rXbZD9eQW2H99S4bsBkipD6sztGVtKQgRmC27xlP+Rne7RQ7BXuhb+BZJUXoWNbbZokuwq+qu/8kiBsxa2iQiIqeIa/+0QRes4FVEGRCosRQXZ3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f8UUKt1L; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=gRnDtOJoRcd3q0fVrlq+HAXh8kPPV8/jb726Uic2GtcwOAcuwH/PnsV1zHpweKXfECtxwRBk3CqnNwbXdRpuWIvnwtRmWt5aMBhrHBvvdRzFlmfFEW92fA4UctXbq0jjBA4Qq/44yRKlK2RwTpTvOtgGZpcY0t5y8iy6YMpjuig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ShPgAoyX; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f8UUKt1L"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434e69857d9so9255005e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 23:09:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733728150; x=1734332950; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hZqVZywIpteq8+LKOFkdEOvIE5EvvecHIPHqCrLqtv0=;
-        b=f8UUKt1L4wJtnAtYwV5aMuKpBJPjrbCvWl7XTgyoAuFS/gvh3RB5U7pNqSkZE+8HZX
-         ruRc93zZPZux5cJzvsptCzhzVByECWtbqIBGLiMsWzTnrmhVFh9s4iUaiTVnbR4NsBRX
-         Cfl+CO5K0/N1LhZZ2wRc9ViMhICWUp0HbRYCz6UBNTX95o8bBv9ERxA3k0L4qFJqq86s
-         aS/pdByOxjObMFel/yvzfZpjMlVVx10bMMZ/d/sk/t14z9NvVQ/R6y3V1sQ69B89p+En
-         lIEUDTwjNNC4tQexYldE0m2tjRdCtLmm615cSwuqF2H9snMaeWtAWi5rUm8OAeZZ+O8z
-         JVeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733728150; x=1734332950;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hZqVZywIpteq8+LKOFkdEOvIE5EvvecHIPHqCrLqtv0=;
-        b=YzJYgDA05ZXTnvguecnNRmolI0kOZZPTNA+tI382gnXdPrxMbD+WoFx+g2c/Btu2KP
-         Fh8dPrivvndT/XkiStqS7ltiTi9JxeXSNFeduEa8Xi9FCuy9Lkfp1697RXwFhuW3tyW+
-         xp0IWAo5X+vVyVR/ZNlTXSTGdA0BEyE4um+ukyXSDvoMg4GcUjBdTYJQumlmEy9+ny6j
-         wKxysvrukC2TNXloZhzUmfvpIom5CXJJJDnXrghUD3TTlOfHnOBpW2d3O+SnsZjpWSGk
-         NItL6CHqOBz9nalcEb0z3hAMd13BIvYfk+r7oJBBt6dlE69pJMOVe/xm/zRfh+vz9UYv
-         FJDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbTO3f/NlsHJAnMcAWvKTR2bdY2yl3b97q9TcAU7Zf0E6xrpZ5zSzoYVrCuwOlF4OdmR9QkidTWUbWQ4or@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywo09dddP9NG086JHm+vXCPoyAQDDoeXGEI28/A3i61BgJc2OgS
-	cDUzGz5ZQ/F67U2cuyjcp4yKT7jSPxN34/zA6PsFQkTHU5TIwxRyLYOFJbrXnk4=
-X-Gm-Gg: ASbGncuj5OPckW66lWQ1nB/8K/yzyEYpysbAvYNxP9y1DZbYBNaDWM3PDcg+8109lQL
-	hqQEefJ2UANdOWvF0FQsMB3uOL6/0Ku7WKBJU8xyxgUHc+XyPohi8OpY/CGfIo8oz9nZ2cgIy7x
-	t8Okzi51Qz/WHzZVcpn78WJauj7MjzKVIAWYSMj/kgDdislCiQ+S8E66qRKqdeRmoatKXo8latm
-	CQ4147+F2TSnIsfq8UUSyH4KorX5hMYPRh/Wzzg5W29v4FfChXa2Q8=
-X-Google-Smtp-Source: AGHT+IGvxFv3GHrja2zX2o8FdXqu71o/qvW9LeHgpLr9i+OW7fsC4WKg7e3TEoJzJFTsgrfAf/KK1g==
-X-Received: by 2002:a05:600c:55c2:b0:434:9f90:2583 with SMTP id 5b1f17b1804b1-434d92bf6d3mr112685575e9.11.1733728150204;
-        Sun, 08 Dec 2024 23:09:10 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434da0da4a1sm146718655e9.19.2024.12.08.23.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 23:09:09 -0800 (PST)
-Date: Mon, 9 Dec 2024 10:09:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	sanglipeng <sanglipeng1@jd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2563/2563] drivers/block/null_blk/main.c:1839
- null_add_dev() warn: missing error code 'rv'
-Message-ID: <4b55dc8e-036c-4302-a397-0e48c30b531c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ShPgAoyX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733733646; x=1765269646;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u0Pc8QekQ+kW9gZHAdLCyXAGl4jXCC20PrP38+8qTu8=;
+  b=ShPgAoyXkENH9JHRwa3q/Vc75HhuJL4NIFuohrgnxB0RQxu75oomtLHl
+   ZbNusmjlzE1H1Ye83B1rEIANBUvrsqAAk7bik54aMixQl3Q3GLljS3Sei
+   7Z8ZM5qQ3YVLmrjZRAQZgQ8bgeLW0jDuixGV5hAw1t13QvwylI6bGvzSi
+   1NVJSHu6hg6HbXUnZIYuqI2T+BD16hvTLu62m9nKE/f5XzK6xbQAco7X3
+   sNreZTCKdwFbpSKuVTdtkoA0mJpsGkF9vOYzI0u+qiszgRabf27Vnf5YD
+   7zoEjf2H320cI18xOWJ1PbAKhtxfQceIs9I5BfGrTrbJxlh+TF0LEpvAH
+   w==;
+X-CSE-ConnectionGUID: LDTRRxu1QVyHjeQY9cpxnA==
+X-CSE-MsgGUID: XBwX0btrTZKNm0ri9MCIzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33941704"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="33941704"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 00:40:45 -0800
+X-CSE-ConnectionGUID: MXGxMUu8QCC7JfPXdj1f8A==
+X-CSE-MsgGUID: ITRO+a8ZQ72WJdwYv5nuAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="100035689"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Dec 2024 00:40:44 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKZJp-00045l-35;
+	Mon, 09 Dec 2024 08:40:41 +0000
+Date: Mon, 9 Dec 2024 16:39:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:fs-next 67/417] fs/bcachefs/btree_trans_commit.o:
+ warning: objtool: bch2_trans_verify_not_unlocked_or_in_restart+0x16: return
+ with modified stack frame
+Message-ID: <202412091605.nGDsAkIO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   c8dbb3a6e214ad66d5d6099bf76e1f1c6eefc06f
-commit: 35959f33a5dde63a001111516adda66dbe7a7027 [2563/2563] null_blk: Move driver into its own directory
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20241209/202412090230.RlMObRZI-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git fs-next
+head:   8cc0a7d04f430898beeea84cf5fd4ab9501ae395
+commit: 6f056ab64993bfa3fa51bc0f0ab3fc4b41856244 [67/417] bcachefs: bch2_trans_verify_not_unlocked_or_in_restart()
+config: x86_64-randconfig-121-20241209 (https://download.01.org/0day-ci/archive/20241209/202412091605.nGDsAkIO-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091605.nGDsAkIO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412090230.RlMObRZI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412091605.nGDsAkIO-lkp@intel.com/
 
-smatch warnings:
-drivers/block/null_blk/main.c:1839 null_add_dev() warn: missing error code 'rv'
+All warnings (new ones prefixed by >>):
 
-vim +/rv +1839 drivers/block/null_blk/main.c
-
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1803  static int null_add_dev(struct nullb_device *dev)
-9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bjørling   2016-09-16  1804  {
-9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bjørling   2016-09-16  1805  	struct nullb *nullb;
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1806  	int rv;
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1807  
-5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  1808  	rv = null_validate_conf(dev);
-5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  1809  	if (rv)
-5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  1810  		return rv;
-cedcafad8277b3a drivers/block/null_blk.c      Shaohua Li        2017-08-14  1811  
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1812  	nullb = kzalloc_node(sizeof(*nullb), GFP_KERNEL, dev->home_node);
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1813  	if (!nullb) {
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1814  		rv = -ENOMEM;
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1815  		goto out;
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1816  	}
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1817  	nullb->dev = dev;
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1818  	dev->nullb = nullb;
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1819  
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1820  	spin_lock_init(&nullb->lock);
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1821  
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1822  	rv = setup_queues(nullb);
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1823  	if (rv)
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1824  		goto out_free_nullb;
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1825  
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1826  	if (dev->queue_mode == NULL_Q_MQ) {
-82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1827  		if (shared_tags) {
-82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1828  			nullb->tag_set = &tag_set;
-82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1829  			rv = 0;
-82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1830  		} else {
-82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1831  			nullb->tag_set = &nullb->__tag_set;
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1832  			rv = null_init_tag_set(nullb, nullb->tag_set);
-82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1833  		}
-db5bcf87bb9e856 drivers/block/null_blk.c      Jens Axboe        2017-03-30  1834  
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1835  		if (rv)
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1836  			goto out_cleanup_queues;
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1837  
-93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10  1838  		if (!null_setup_fault())
-93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10 @1839  			goto out_cleanup_queues;
-
-Set "rv = " before the goto?
-
-93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10  1840  
-5448aca41cd58e1 drivers/block/null_blk.c      Jens Axboe        2018-01-09  1841  		nullb->tag_set->timeout = 5 * HZ;
-8d96a1117c21faa drivers/block/null_blk_main.c Christoph Hellwig 2020-03-27  1842  		nullb->q = blk_mq_init_queue_data(nullb->tag_set, nullb);
-35b489d32fcc37e drivers/block/null_blk.c      Ming Lei          2015-01-02  1843  		if (IS_ERR(nullb->q)) {
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1844  			rv = -ENOMEM;
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1845  			goto out_cleanup_tags;
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1846  		}
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1847  	} else if (dev->queue_mode == NULL_Q_BIO) {
-c62b37d96b6eb3e drivers/block/null_blk_main.c Christoph Hellwig 2020-07-01  1848  		nullb->q = blk_alloc_queue(dev->home_node);
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1849  		if (!nullb->q) {
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1850  			rv = -ENOMEM;
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1851  			goto out_cleanup_queues;
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1852  		}
-31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22  1853  		rv = init_driver_queues(nullb);
-31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22  1854  		if (rv)
-31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22  1855  			goto out_cleanup_blk_queue;
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1856  	}
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1857  
-eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1858  	if (dev->mbps) {
-eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1859  		set_bit(NULLB_DEV_FL_THROTTLED, &dev->flags);
-eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1860  		nullb_setup_bwtimer(nullb);
-eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1861  	}
-eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14  1862  
-deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1863  	if (dev->cache_size > 0) {
-deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1864  		set_bit(NULLB_DEV_FL_CACHE, &nullb->dev->flags);
-deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1865  		blk_queue_write_cache(nullb->q, true, true);
-deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1866  	}
-deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1867  
-ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1868  	if (dev->zoned) {
-d205bde78fa53e1 drivers/block/null_blk_main.c Damien Le Moal    2020-04-23  1869  		rv = null_init_zoned_dev(dev, nullb->q);
-ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1870  		if (rv)
-ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1871  			goto out_cleanup_blk_queue;
-ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1872  	}
-ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1873  
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1874  	nullb->q->queuedata = nullb;
-8b904b5b6b58b9a drivers/block/null_blk.c      Bart Van Assche   2018-03-07  1875  	blk_queue_flag_set(QUEUE_FLAG_NONROT, nullb->q);
-8b904b5b6b58b9a drivers/block/null_blk.c      Bart Van Assche   2018-03-07  1876  	blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, nullb->q);
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1877  
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1878  	mutex_lock(&lock);
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1879  	rv = ida_simple_get(&nullb_indexes, 0, 0, GFP_KERNEL);
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1880  	if (rv < 0) {
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1881  		mutex_unlock(&lock);
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1882  		goto out_cleanup_zone;
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1883  	}
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1884  	nullb->index = rv;
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1885  	dev->index = rv;
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1886  	mutex_unlock(&lock);
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1887  
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1888  	blk_queue_logical_block_size(nullb->q, dev->blocksize);
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1889  	blk_queue_physical_block_size(nullb->q, dev->blocksize);
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1890  
-306eb6b4ad4f2d5 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1891  	null_config_discard(nullb);
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1892  
-b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1893  	sprintf(nullb->disk_name, "nullb%d", nullb->index);
-b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1894  
-9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bjørling   2016-09-16  1895  	rv = null_gendisk_register(nullb);
-b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1896  	if (rv)
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1897  		goto out_ida_free;
-b2b7e00148a203e drivers/block/null_blk.c      Matias Bjørling   2015-11-12  1898  
-a514379b0c77085 drivers/block/null_blk.c      Matias Bjørling   2016-02-11  1899  	mutex_lock(&lock);
-a514379b0c77085 drivers/block/null_blk.c      Matias Bjørling   2016-02-11  1900  	list_add_tail(&nullb->list, &nullb_list);
-a514379b0c77085 drivers/block/null_blk.c      Matias Bjørling   2016-02-11  1901  	mutex_unlock(&lock);
-3681c85dffda70e drivers/block/null_blk.c      Wenwei Tao        2016-03-05  1902  
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1903  	return 0;
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1904  
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1905  out_ida_free:
-f85cd1a9bc972b6 drivers/block/null_blk_main.c Dan Carpenter     2022-11-18  1906  	ida_free(&nullb_indexes, nullb->index);
-ca4b2a011948fae drivers/block/null_blk.c      Matias Bjørling   2018-07-06  1907  out_cleanup_zone:
-d205bde78fa53e1 drivers/block/null_blk_main.c Damien Le Moal    2020-04-23  1908  	null_free_zoned_dev(dev);
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1909  out_cleanup_blk_queue:
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1910  	blk_cleanup_queue(nullb->q);
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1911  out_cleanup_tags:
-2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14  1912  	if (dev->queue_mode == NULL_Q_MQ && nullb->tag_set == &nullb->__tag_set)
-82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20  1913  		blk_mq_free_tag_set(nullb->tag_set);
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1914  out_cleanup_queues:
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1915  	cleanup_queues(nullb);
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1916  out_free_nullb:
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1917  	kfree(nullb);
-2004bfdef945fe5 drivers/block/null_blk_main.c Bart Van Assche   2020-03-09  1918  	dev->nullb = NULL;
-24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  1919  out:
-dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02  1920  	return rv;
-f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25  1921  }
+>> fs/bcachefs/btree_trans_commit.o: warning: objtool: bch2_trans_verify_not_unlocked_or_in_restart+0x16: return with modified stack frame
+--
+>> fs/bcachefs/btree_update_interior.o: warning: objtool: bch2_trans_verify_not_unlocked_or_in_restart+0x16: return with modified stack frame
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
