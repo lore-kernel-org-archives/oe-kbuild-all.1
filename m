@@ -1,69 +1,34 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25722227562
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 12:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26539184545;
+	Mon,  9 Dec 2024 12:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733747853; cv=none; b=XRN7HECOj+0VDUaAoc835uRcG5ArgmIdjj/oYnOB9yGF/zOC7nDzytmdLXmQzuaa4B/3hn5a/nrDKFDPA59wQnXIOmvSDt0NQfTMNClPnNszVjestILgcABUJxtthdDG/7wUpfMLrK3OAxxYxelCEtfeW2Dy0XrR9KLFFajox5I=
+	t=1733748272; cv=none; b=ohfX2YqTf7YS2qYYWk5dGPa1h88iX2lOA/Oq8bSjl+hmqaWJok6L1j7UjvMNGJf4vR8jo8AvEwCAN7g3uRDirfGcEFT6wubbeAOeJc0s8W7N+dcGemq3R0coQa2HFgiipvV+qo8itpMMKnqw7gXzSGM8b3VL6QFuEke5S489fMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733747853; c=relaxed/simple;
-	bh=LYTEcPL033S5OYdOqoOU0GJya+KGHL3PTqelirKDtPI=;
+	s=arc-20240116; t=1733748272; c=relaxed/simple;
+	bh=/LfXVqgbf3ucFNgzXBGj/R4r0+6y9xamFU2lQ/HfMWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MkOZjsW7R73jhPvLuOlKRLfohBtpm2xkEZQ/6A181nuYNxESvFwINnuPqt3zTLWL6KAk3GpcL96enhA2ZvFACgyW+q/tcr/Nt0gD7FHMmUvdOkD8CBuPYK+LuPEA7SLNd+NxDQDt/Kp1BzywUcujZYz0LcRkQQ0WZR3qOdkdO1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxDl/38c; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxDl/38c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733747852; x=1765283852;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LYTEcPL033S5OYdOqoOU0GJya+KGHL3PTqelirKDtPI=;
-  b=bxDl/38cQg5oO3lVwtLSJEiJwBwjSu215mjMHx923PTsEQBhgIusnuFJ
-   EcgTaDbhe7KcBgbLzt1Ue2As6ZL4cBPDW9uVh+0tC3pAgZmLTQkr3vAg0
-   u5eVe6/xTyY+qksQKQxCl/zzF4FMzTpNupHjXPKgIdZ1Ld2VxLfez+kTe
-   N4F6d6Z8jQv7nAKW9HiONlc0OwyghnN0amwO2a3HA3JabUu62H59xINso
-   7FH4pKq83RdriL9I+RxOkxzpXpqRVsvkvl9Un2uU7bYyGBatPtNMfbXpU
-   1n4g1NgD0PZV6HgbbHvzaKw04uLq33qVmS3p35usabWcPLMTD2wRXIh+f
-   Q==;
-X-CSE-ConnectionGUID: 25bT7LIwRUOlZnVcj0zJ5A==
-X-CSE-MsgGUID: bDn4WYa8TF2grthAwInttQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33954477"
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="33954477"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 04:37:31 -0800
-X-CSE-ConnectionGUID: gDggGBkFT2aWFsMGEIkWng==
-X-CSE-MsgGUID: OEqzAqrNRvSllQHKzND+cA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="95260217"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Dec 2024 04:37:29 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKd0w-0004Jz-22;
-	Mon, 09 Dec 2024 12:37:26 +0000
-Date: Mon, 9 Dec 2024 20:36:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kees Cook <kees@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/execmem: Make ARCH_WANTS_EXECMEM_LATE depend on
- EXECMEM
-Message-ID: <202412092048.tTzJ5szH-lkp@intel.com>
-References: <20241209031251.515903-1-anshuman.khandual@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bDRllUm2iJM4QyWlCWySH0JxMWD+5UdUgxYY33BsdJBnQ7mDBJGt4ZGXuUwv54XdtVLFVWXKhpVOLtewNQ3GTvecqR68VZr+ihE5ETNGUuvAey5KCWcVeUHvJ4Iq8XtJcMNvbb3Ep2ilYaU9IKX80q8qyoGnlKSmMcO22kflVfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BB39C68D09; Mon,  9 Dec 2024 13:44:25 +0100 (CET)
+Date: Mon, 9 Dec 2024 13:44:25 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	sagi@grimberg.me, asml.silence@gmail.com, anuj20.g@samsung.com,
+	joshi.k@samsung.com, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
+ layer
+Message-ID: <20241209124425.GA14066@lst.de>
+References: <20241206221801.790690-12-kbusch@meta.com> <202412071144.9uXFLnls-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,33 +37,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241209031251.515903-1-anshuman.khandual@arm.com>
+In-Reply-To: <202412071144.9uXFLnls-lkp@intel.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Anshuman,
+On Mon, Dec 09, 2024 at 12:05:27PM +0800, kernel test robot wrote:
+> >> drivers/nvme/host/core.c:2187:11: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+>     2187 |         } while (i++ < fdp_idx);
+>          |                  ^
+>    drivers/nvme/host/core.c:2160:7: note: initialize the variable 'i' to silence this warning
+>     2160 |         int i, n, ret;
+>          |              ^
+>          |               = 0
+>    2 warnings generated.
 
-kernel test robot noticed the following build warnings:
+Yeah, looks like this is uninitialized.  Did I mention I hate these
+variable length log entries in nvme?  They've already been a major
+pain in ANA before..
 
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/mm-execmem-Make-ARCH_WANTS_EXECMEM_LATE-depend-on-EXECMEM/20241209-111533
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241209031251.515903-1-anshuman.khandual%40arm.com
-patch subject: [PATCH] mm/execmem: Make ARCH_WANTS_EXECMEM_LATE depend on EXECMEM
-config: arm64-kismet-CONFIG_ARCH_WANTS_EXECMEM_LATE-CONFIG_ARM64-0-0 (https://download.01.org/0day-ci/archive/20241209/202412092048.tTzJ5szH-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241209/202412092048.tTzJ5szH-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412092048.tTzJ5szH-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ARCH_WANTS_EXECMEM_LATE when selected by ARM64
-   WARNING: unmet direct dependencies detected for ARCH_WANTS_EXECMEM_LATE
-     Depends on [n]: EXECMEM [=n]
-     Selected by [y]:
-     - ARM64 [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
