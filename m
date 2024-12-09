@@ -1,59 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905472AF1B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFEB156885;
+	Mon,  9 Dec 2024 04:06:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717170; cv=none; b=Qyzxi+arKK6bsc8sPNMQvVrzhl09tzgusJJ9M9kOAdFlPXGqDmnnsNz3C+nKMDIpOg5kmyUkOjcYL6NISC4ORNcKRpbDRhJpRyGWr7EmKumZ5sX87faccSVpI7cdOzNRTAuNtgwzYAZxO30cwGj1L6xtpp1qFNCJRIJdgcxhMNw=
+	t=1733717171; cv=none; b=QXNsTAx4zOzzYQhPccT+cC+Kv48A6xF6/Jixn+kz21H2SiE6yR17ZQt/0gZpLl1ABLhgEr19PSBG7ISl2sF2Kr78GXCUh9IasFk7eVY3e5gcpa8CklJcPKTPAfR9QIc9/yZHWfwdA1h2vDdyg1Jp2mdeEHnGog2W8MCSVaQx+zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717170; c=relaxed/simple;
-	bh=Ib6LYbNyHMWi0bvWNTR1siEDoJmbwYPzqVMwKR6VjSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C9IZR8QbcDVPoAXu3RXL8zNcLssuWU28GhNi2HGDfGkGZXLQX4cnYiMNaduLLIFO4dLtF87BUgzirC+Ox0L0x6WvJPtxKSwxo9n/3SjEvzTOBuc3BCxwdLQj4vdVWJV2ad2m788rMT6UIx8+R2kyKSBNuJhiNRcearxSx/qway0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrlktDQy; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1733717171; c=relaxed/simple;
+	bh=9BZ3Vp8ClbzYwVR5+MOqxWZF2tgpKKxLlNgbbyHpqPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kuGboMIpl1W7Frzi6C0s/J3WXhoDy7mCkntLBUP3EMh+wN+erBkjTCooI7JIoR+yyXS7PkjXPfFApfWqGlTk7j0FfsICEEwgm2qg4K013n/M5kd/ZEIAhU134lYMhWkJ9oPiAWF+E7bZTvUkH/tleoyGfODPBf9x10z4Glfu5g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HYLWPxpX; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrlktDQy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYLWPxpX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717169; x=1765253169;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ib6LYbNyHMWi0bvWNTR1siEDoJmbwYPzqVMwKR6VjSg=;
-  b=VrlktDQy01OIdIPB8uRO4QaY3WzWHqdEkUMsOSRNesTiLSBqjJjJkwRE
-   5aQ+I5+I/j8Xq5ONDFTNBnGZcn3JZxWVxWoYD7OAyy9fDE5pMc/vbP7uF
-   yo8IXzaIt/M1rug+fV5jGjLVBD6RwvSdeqEwZSzerkJQYmyHnSkYjbRD9
-   JDiM5R+p92VviklZzoytzeYyQVeo7yheLxck4wF9kLL7fN05nKO9U8RRe
-   RDVKTPu80siuQ4/IZGFM9pcPrkV6/bjWRz5nVY6SSqPglxTxhijH59kAd
-   NO+Htf78FbaF9c49lexPbUD4MMvIboMtw3qWp5ZnHiN14/fmUMoiRrrrY
-   w==;
-X-CSE-ConnectionGUID: G7KIU7xAQGKNcv3TmEghmg==
-X-CSE-MsgGUID: XcAZzKhbQaKeBWSfrQduhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="59402285"
+  t=1733717170; x=1765253170;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9BZ3Vp8ClbzYwVR5+MOqxWZF2tgpKKxLlNgbbyHpqPA=;
+  b=HYLWPxpXiwR7um1UPu/Gxd3AerTs1P5IQ1E977k68orInXag3sYTKRIH
+   zPkR7CNEPZJtvOEPm+FW7JiJJu0HmWBBVDaN9LlyjTHXbTaljBsDs1ZxG
+   y98QiqE70vQIx2KooGKuGtgmAB+3DaxGCqvR/umg8kJWMFpMuBVhDV7MP
+   XVVtEbquvWUy5SbDN3Hrx/HyCDWn/4BtT4LotRAUHGylxk5mU2VAB8WTO
+   BFAzulqHmpTqjuE/nm+J69zzl4+rlxt5rVvu3AAonV9CIlWfFZ7eADAx/
+   IESZu1z7TREx4/4Z7m6c/AzGjp1iF3r3q7HRuzzpT6qjusIMC9RRS7S0U
+   A==;
+X-CSE-ConnectionGUID: VvyQVBJvQg6PT4kchaDGAw==
+X-CSE-MsgGUID: TX9OangsRRmk2penIkFIRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="59402296"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="59402285"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:06:06 -0800
-X-CSE-ConnectionGUID: Ox+TqtLwRKCpQTKtYSsC5w==
-X-CSE-MsgGUID: b9+Yw6bFRIy3C0QNGBn2hg==
+   d="scan'208";a="59402296"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:06:08 -0800
+X-CSE-ConnectionGUID: 5VScRe/8TWaEic8tbsZI0A==
+X-CSE-MsgGUID: 0aG8DFmkSZ6aaWljP+LPYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="99987603"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="100003027"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Dec 2024 20:06:05 -0800
+  by orviesa004.jf.intel.com with ESMTP; 08 Dec 2024 20:06:05 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKV22-0003mt-0y;
+	id 1tKV22-0003mr-0s;
 	Mon, 09 Dec 2024 04:06:02 +0000
-Date: Mon, 9 Dec 2024 12:05:14 +0800
+Date: Mon, 9 Dec 2024 12:05:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Subject: drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in
- argument 2 (different address spaces)
-Message-ID: <202412071146.uzl1t7vz-lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, sagi@grimberg.me,
+	asml.silence@gmail.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
+ layer
+Message-ID: <202412071144.9uXFLnls-lkp@intel.com>
+References: <20241206221801.790690-12-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,99 +67,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241206221801.790690-12-kbusch@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
-commit: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 drm/xe/oa/uapi: Add/remove OA config perf ops
-date:   6 months ago
-config: s390-randconfig-r112-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071146.uzl1t7vz-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241207/202412071146.uzl1t7vz-lkp@intel.com/reproduce)
+Hi Keith,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20241206]
+[cannot apply to brauner-vfs/vfs.all hch-configfs/for-next linus/master v6.13-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-write-stream-information-to-statx/20241207-063826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20241206221801.790690-12-kbusch%40meta.com
+patch subject: [PATCHv12 11/12] nvme: register fdp parameters with the block layer
+config: i386-buildonly-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071144.9uXFLnls-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071144.9uXFLnls-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412071146.uzl1t7vz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412071144.9uXFLnls-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __user * @@
-   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     expected unsigned long long [usertype] *ptr
-   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     got void [noderef] __user *
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long long [usertype] *ptr @@
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
->> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got unsigned long long [usertype] *ptr @@
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected void const [noderef] __user *ptr
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
->> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got unsigned long long [usertype] *ptr @@
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected void const [noderef] __user *ptr
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
->> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got unsigned long long [usertype] *ptr @@
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected void const [noderef] __user *ptr
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
->> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got unsigned long long [usertype] *ptr @@
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected void const [noderef] __user *ptr
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
+All warnings (new ones prefixed by >>):
 
-vim +401 drivers/gpu/drm/xe/xe_oa.c
+   In file included from drivers/nvme/host/core.c:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/nvme/host/core.c:2187:11: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+    2187 |         } while (i++ < fdp_idx);
+         |                  ^
+   drivers/nvme/host/core.c:2160:7: note: initialize the variable 'i' to silence this warning
+    2160 |         int i, n, ret;
+         |              ^
+         |               = 0
+   2 warnings generated.
 
-   377	
-   378	/**
-   379	 * xe_oa_remove_config_ioctl - Removes one OA config
-   380	 * @dev: @drm_device
-   381	 * @data: pointer to struct @drm_xe_perf_param
-   382	 * @file: @drm_file
-   383	 */
-   384	int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
-   385	{
-   386		struct xe_oa *oa = &to_xe_device(dev)->oa;
-   387		struct xe_oa_config *oa_config;
- > 388		u64 arg, *ptr = u64_to_user_ptr(data);
-   389		int ret;
-   390	
-   391		if (!oa->xe) {
-   392			drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
-   393			return -ENODEV;
-   394		}
-   395	
-   396		if (xe_perf_stream_paranoid && !perfmon_capable()) {
-   397			drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
-   398			return -EACCES;
-   399		}
-   400	
- > 401		ret = get_user(arg, ptr);
-   402		if (XE_IOCTL_DBG(oa->xe, ret))
-   403			return ret;
-   404	
-   405		ret = mutex_lock_interruptible(&oa->metrics_lock);
-   406		if (ret)
-   407			return ret;
-   408	
-   409		oa_config = idr_find(&oa->metrics_idr, arg);
-   410		if (!oa_config) {
-   411			drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
-   412			ret = -ENOENT;
-   413			goto err_unlock;
-   414		}
-   415	
-   416		WARN_ON(arg != oa_config->id);
-   417	
-   418		sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
-   419		idr_remove(&oa->metrics_idr, arg);
-   420	
-   421		mutex_unlock(&oa->metrics_lock);
-   422	
-   423		drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
-   424	
-   425		xe_oa_config_put(oa_config);
-   426	
-   427		return 0;
-   428	
-   429	err_unlock:
-   430		mutex_unlock(&oa->metrics_lock);
-   431		return ret;
-   432	}
-   433	
+
+vim +/i +2187 drivers/nvme/host/core.c
+
+  2153	
+  2154	static int nvme_check_fdp(struct nvme_ns *ns, struct nvme_ns_info *info,
+  2155				  u8 fdp_idx)
+  2156	{
+  2157		struct nvme_fdp_config_log hdr, *h;
+  2158		struct nvme_fdp_config_desc *desc;
+  2159		size_t size = sizeof(hdr);
+  2160		int i, n, ret;
+  2161		void *log;
+  2162	
+  2163		info->runs = 0;
+  2164		ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+  2165				   (void *)&hdr, size, 0, info->endgid);
+  2166		if (ret)
+  2167			return ret;
+  2168	
+  2169		size = le32_to_cpu(hdr.sze);
+  2170		h = kzalloc(size, GFP_KERNEL);
+  2171		if (!h)
+  2172			return 0;
+  2173	
+  2174		ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+  2175				   h, size, 0, info->endgid);
+  2176		if (ret)
+  2177			goto out;
+  2178	
+  2179		n = le16_to_cpu(h->numfdpc) + 1;
+  2180		if (fdp_idx > n)
+  2181			goto out;
+  2182	
+  2183		log = h + 1;
+  2184		do {
+  2185			desc = log;
+  2186			log += le16_to_cpu(desc->dsze);
+> 2187		} while (i++ < fdp_idx);
+  2188	
+  2189		info->runs = le64_to_cpu(desc->runs);
+  2190	out:
+  2191		kfree(h);
+  2192		return ret;
+  2193	}
+  2194	
 
 -- 
 0-DAY CI Kernel Test Service
