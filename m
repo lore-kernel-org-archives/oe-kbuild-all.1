@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A47156C52
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E5D155751
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717653; cv=none; b=I2dONf3WSseKTRWTphTl/PFnbzbcCuHgoxB7iXYisuFfSvKFKIkTFA8LjLlu/X2BnzjUsqP4Cq5WxTtJFo6RCPruaY7orRRGw39ceIwxyas4B+h8h1WWDpRFRiKmql+L/BoFveIvYtvvPx7esRB79rDFT80BIIo2fGmqDZ088dA=
+	t=1733717710; cv=none; b=Ja7QuEENQ3W/3M2y8a/vJMgfxImULPOYbPdQqTmCw4r4pSiVL9cSLmuGiiILs9IWrfynWnC47hh9unt3mCykPZEqu5LGLu1LZBjwAGHuvwQktOSiE1NVOXHeXCedk5aqAZBP0XBYt3vDx16m/WJGdd8uhauWPW1J8hKMXn4Ve6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717653; c=relaxed/simple;
-	bh=JIcsHLVaQXDNxXHbfmPvkui92K3mZSu6YIA1YrNXmFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KcxOwLWhOtx4diSF85YcOpmu1KvLAEeVQhyIjYRjZbxAji37iyWXdAgcuc/F8LesC3sVrv0RcXbdvMQB9b/MEqrWyKw8g11j+dw1LUbYSkASopW3xzhNFy4QvhaAmZrZfEQcS4uH6FBMtyHUlPm2s33/wy4wAVH6e026vlesxKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyB5l5Sq; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1733717710; c=relaxed/simple;
+	bh=gD9SaiWn/weY9+EGG7ma0oaEkANmw5t7wEMX3zV1d+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K8l8M4JgTtPRI8FJmpoWVDhZm6VyAw5WFIycd19xkB/X5kM2gPgjOQiJBAIFZwpUaI3At4Xp494yo+2y9TVQlQnBkNHdn8JNqMIpdsF7nVMgWWLY1/hVgjfobk1eiQvqmc/84DddRElMD7i/koanc+EVSR9McS6RsbqSCL9yzGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GyKUk9HT; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyB5l5Sq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GyKUk9HT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717652; x=1765253652;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JIcsHLVaQXDNxXHbfmPvkui92K3mZSu6YIA1YrNXmFA=;
-  b=HyB5l5SqE8A+hNc3RBraPbg8DtI4LI3m75KUB1U1JIUjiPToCEIEQrMX
-   B3L1aDy2fJODOFMdC1l3SoXNIQ7iIJHbCVbmDSdlmUp0wGtYz3HLsLYCB
-   lpKZd3Wy5sJrzsufkKxLfdND6G6HIT37/5a2UfusUE1KoPf40evnJa3H1
-   e6sBiTufNKXxtm+Z3ihe+sTpjHtBJn4mNz91AYGdduIXaGDJQOaMdEbd0
-   2FHrAwWrjhwhv/5+xsPi/jZ+FEkcsP2kXHG2wztVV1tVxLtEmXofN2MRI
-   Fc8zXPh5BGfPgpXGEsKg8Q9Epaq6grQvCJEOzHEB8ky7e02i7eZP7IE7t
-   A==;
-X-CSE-ConnectionGUID: T/MfzhZtTje3xv3mKTtWcw==
-X-CSE-MsgGUID: haxCjfZTQpq8ZPoxgYCNEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34122104"
+  t=1733717709; x=1765253709;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gD9SaiWn/weY9+EGG7ma0oaEkANmw5t7wEMX3zV1d+Y=;
+  b=GyKUk9HTr+h+3zdCJ6sCcMMx+YGxTvMIOQLuOAd8sKqjAZ1ZvxmPzsPB
+   G+NMBsYZE+LHCom5+m/aD0TivpSkyJRdgYhP8HrsngrbG6EynDtKB4j4r
+   9o/ePtM40HQCpzlf6Jyq8cd3LyUA7hwqb3lXF0/gThKEnst4mwZj/x2nQ
+   rqE0zhE3b5Ku4qwWKrfGlDrPiM7mM9G/pok7xhYvvGJzrPdgc08sMaIYP
+   4L2SIr0u1+Nb+gbzN0FqDY4yjkAspbDa7GsfeJceiB5WkFjVYrRVnjONn
+   exSqvvdKEkU+9b7tsXa9lEmI1y3E3RTNhehvPx0SC9+R09GCrT63/yjir
+   Q==;
+X-CSE-ConnectionGUID: mXumKBxZSf+CdAGcpiBIPg==
+X-CSE-MsgGUID: a1QuXGavQrK65L2C3dWd7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33915625"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34122104"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:14:12 -0800
-X-CSE-ConnectionGUID: QA2esDbzSnSewFNXow8KMA==
-X-CSE-MsgGUID: 9puMgUeyQQ+s7vZz2YJDAA==
+   d="scan'208";a="33915625"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:15:09 -0800
+X-CSE-ConnectionGUID: 9kE8jldQSze0mbbuJOlP4A==
+X-CSE-MsgGUID: 48Pei4+sSKeksZSL7RqDdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99401323"
+   d="scan'208";a="95299790"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 20:14:08 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 20:15:08 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKV9p-0003ob-33;
-	Mon, 09 Dec 2024 04:14:05 +0000
-Date: Mon, 9 Dec 2024 12:13:16 +0800
+	id 1tKVAo-0003on-0K;
+	Mon, 09 Dec 2024 04:15:06 +0000
+Date: Mon, 9 Dec 2024 12:14:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taniya Das <quic_tdas@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ajit Pandey <quic_ajipan@quicinc.com>,
-	Imran Shaik <quic_imrashai@quicinc.com>,
-	Jagadeesh Kona <quic_jkona@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Taniya Das <quic_tdas@quicinc.com>
-Subject: Re: [PATCH 3/3] clk: qcom: videocc-sm8750: Add video clock
- controller driver for SM8750
-Message-ID: <202412071610.5vUMFjRk-lkp@intel.com>
-References: <20241206-sm8750_videocc-v1-3-5da6e7eea2bd@quicinc.com>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:syscon-rework-2 2/11]
+ drivers/mailbox/mailbox-mpfs.c:254:5-11: inconsistent IS_ERR and PTR_ERR on
+ line 255.
+Message-ID: <202412071737.nVkRQVKt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,64 +62,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241206-sm8750_videocc-v1-3-5da6e7eea2bd@quicinc.com>
 
-Hi Taniya,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on af2ea8ab7a546b430726183458da0a173d331272]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-branch-Extend-invert-logic-for-branch2-mem-clocks/20241207-015655
-base:   af2ea8ab7a546b430726183458da0a173d331272
-patch link:    https://lore.kernel.org/r/20241206-sm8750_videocc-v1-3-5da6e7eea2bd%40quicinc.com
-patch subject: [PATCH 3/3] clk: qcom: videocc-sm8750: Add video clock controller driver for SM8750
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241207/202412071610.5vUMFjRk-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071610.5vUMFjRk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework-2
+head:   9f279391fc4ab2693ea0fe60dca080c7db2691e0
+commit: 6692ff5a8ee2df1c83af1c1d1a0dce7bc947d2a2 [2/11] mailbox: mpfs: support new, syscon based, devicetree configuration
+config: m68k-randconfig-r054-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071737.nVkRQVKt-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412071610.5vUMFjRk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412071737.nVkRQVKt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/mailbox/mailbox-mpfs.c:254:5-11: inconsistent IS_ERR and PTR_ERR on line 255.
 
->> drivers/clk/qcom/videocc-sm8750.c:56:36: error: 'CLK_ALPHA_PLL_TYPE_TAYCAN_ELU' undeclared here (not in a function); did you mean 'CLK_ALPHA_PLL_TYPE_RIVIAN_EVO'?
-      56 |         .regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_TAYCAN_ELU],
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                    CLK_ALPHA_PLL_TYPE_RIVIAN_EVO
->> drivers/clk/qcom/videocc-sm8750.c:64:33: error: 'clk_alpha_pll_taycan_elu_ops' undeclared here (not in a function); did you mean 'clk_alpha_pll_rivian_evo_ops'?
-      64 |                         .ops = &clk_alpha_pll_taycan_elu_ops,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 clk_alpha_pll_rivian_evo_ops
-   drivers/clk/qcom/videocc-sm8750.c: In function 'video_cc_sm8750_probe':
->> drivers/clk/qcom/videocc-sm8750.c:426:9: error: implicit declaration of function 'clk_taycan_elu_pll_configure'; did you mean 'clk_rivian_evo_pll_configure'? [-Wimplicit-function-declaration]
-     426 |         clk_taycan_elu_pll_configure(&video_cc_pll0, regmap, &video_cc_pll0_config);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         clk_rivian_evo_pll_configure
+vim +254 drivers/mailbox/mailbox-mpfs.c
 
-
-vim +56 drivers/clk/qcom/videocc-sm8750.c
-
-    51	
-    52	static struct clk_alpha_pll video_cc_pll0 = {
-    53		.offset = 0x0,
-    54		.vco_table = taycan_elu_vco,
-    55		.num_vco = ARRAY_SIZE(taycan_elu_vco),
-  > 56		.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_TAYCAN_ELU],
-    57		.clkr = {
-    58			.hw.init = &(const struct clk_init_data) {
-    59				.name = "video_cc_pll0",
-    60				.parent_data = &(const struct clk_parent_data) {
-    61					.index = DT_BI_TCXO,
-    62				},
-    63				.num_parents = 1,
-  > 64				.ops = &clk_alpha_pll_taycan_elu_ops,
-    65			},
-    66		},
-    67	};
-    68	
+   242	
+   243	static inline int mpfs_mbox_syscon_probe(struct mpfs_mbox *mbox, struct platform_device *pdev)
+   244	{
+   245		mbox->control_scb = syscon_regmap_lookup_by_compatible("microchip,mpfs-control-scb");
+   246		if (IS_ERR(mbox->control_scb))
+   247			return PTR_ERR(mbox->control_scb);
+   248	
+   249		mbox->sysreg_scb = syscon_regmap_lookup_by_compatible("microchip,mpfs-sysreg-scb");
+   250		if (IS_ERR(mbox->sysreg_scb))
+   251			return PTR_ERR(mbox->sysreg_scb);
+   252	
+   253		mbox->mbox_base = devm_platform_ioremap_resource(pdev, 0);
+ > 254		if (IS_ERR(mbox->ctrl_base))
+ > 255			return PTR_ERR(mbox->mbox_base);
+   256	
+   257		return 0;
+   258	}
+   259	
 
 -- 
 0-DAY CI Kernel Test Service
