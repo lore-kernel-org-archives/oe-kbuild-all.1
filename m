@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F7615E5BB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971F219067A
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:47:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719666; cv=none; b=cK8YNnQydlHg6ehAI2P1s02UeLITQy0kv6kvm6LmQoMZ7BA/LM3BVYcMqTSJG23/1kn93qSEHQOFb9Q7Hbe+kCqETFV5XY4iiZqXb3ynR50hnF0MLFNvhYj5psogWrndB+JDjYODc3nFizuDcbYmeZqiuTL67Fl00QGHqIUghGI=
+	t=1733719666; cv=none; b=R93m7NyJivhgFnBcqhsXLygPffhrTEbYtv+h+QORnKXwuaEJXgM8ye1YHNFLFv0hwf/fPWmcY1XGGCV/eKoBFQgZxPFPHzTmPJXrkDCse0yUNps97LJg1QrQzXDNPkxC+QV2U4z7hJ0PRFjRdoxlBZ8F+iEY3nmuy1xXlzHn/YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733719666; c=relaxed/simple;
-	bh=ui55O3msYADFIzUT6zTIgxhOYmb94gvKSS6soHlx3q0=;
+	bh=ta5HyEkv4LyXIaiAiJmp/G5ALNhmPKY2Go1p98rKrbs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ud1ODmUN6ZrzWbbE0XCnKEZgzmzucUpqiZDbHTb9qgII7hObNlmk8W95o/APPm6MLThTFuLKEv3eNC+c3K4ebS9YEqaAflw7hyMC3O8Ocd6xte4QW9CodMtxSopgSQJqcxD5mvOSsByrveBMg9ha0wTT3k2QENX4+QixCsve83o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKciFzH7; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=Zjsy3y3+VdqxWksKrSzA9k5UU4J2LYXcHFaWQTS63NZR7YCcd7dvdMTLw0bVUj6oq09k9mjHYgwG3mtxuavlgqVMMmOBTcOUc8ZsULiv+5PSFsDUOIVePEL5S2yLN5HXPfbIcgP+Rm9Fgs70iP4AespIUu27leNouC5T9z9reC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWJ8SIZw; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKciFzH7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWJ8SIZw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733719665; x=1765255665;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ui55O3msYADFIzUT6zTIgxhOYmb94gvKSS6soHlx3q0=;
-  b=bKciFzH7yGDywL1fqhUu4Fcmb2RVLShdiFXIJ/Bj4bHadjMkS5aiC+VK
-   k6JTGuZqThNlNeOt5/uAUJtoldtg1ZYn6sqlJ2/8cbTBnn7BlkEKN6wB8
-   1KtoYFjjcx0bgLlPy+63+NqdZA1n/WQ0wrlghWa6CPkcLsKOoTwYMvzaE
-   DhbLk4oJbwb0EL++ley1UufFToflUBtCf+jXjn4GW50E/dHohHM4SxPeu
-   8pgGu3DoRnl0y98yRjGMo3V56jKc/PfeQq7yLMvPvSbZ2+uVRWrqQ+zwJ
-   VFUrYs0Ia0+ft51q6IyqGD+IrLyGXlzMQBqVpT1y7DRNYRGibwOk+aUZS
+  bh=ta5HyEkv4LyXIaiAiJmp/G5ALNhmPKY2Go1p98rKrbs=;
+  b=BWJ8SIZwlvZ0FMbVu4KUThdMO1S/Yd8TqgVEVYPhDZ9efPbG9d8keO32
+   f17c24ZA+Jf4ApzkW651oAILzRWaH7wlbZXL7YwWGtEJeb7ctGKbaeei4
+   nVaNqFJh9rWaJ3JId9HCK257sVLOL8/BqNnhySGEYD8ueNjkOzEkIbfcC
+   eQDixGgSeRMRw45poF+yQrOC46H09IHwn1mzYjz5IunzBanc5nAAkTsAU
+   lqNjVHxzVCdTXEz2o2THjgbnPTij68Bwtvc3oWnCn9xp0CPwAZCmiVdlT
+   56rVTFfvOB9+flAzFntDcQZqJYLsaxT26qbhzdyVnbbfZ2H+tia8y7pVS
    w==;
-X-CSE-ConnectionGUID: M01hca4CS8CcOlI7/7026Q==
-X-CSE-MsgGUID: hztDxFfKTvyGfgTwtMD35Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34060168"
+X-CSE-ConnectionGUID: sl5BQCxKSzafGWXn0I4oQA==
+X-CSE-MsgGUID: eD5jm4h7Squ13dcODc1C8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34060166"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34060168"
+   d="scan'208";a="34060166"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:47:41 -0800
-X-CSE-ConnectionGUID: PMWSuzA4TqWYMwXX9HVACw==
-X-CSE-MsgGUID: Js4t0n5ESMSlO+YZqEX9Ag==
+X-CSE-ConnectionGUID: WB2wvWQNSSO/iqvUWK9CMA==
+X-CSE-MsgGUID: p6Eu0iETRiGnNBg1kq/jYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99012424"
+   d="scan'208";a="99012422"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 08 Dec 2024 20:47:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVgG-0003v1-39;
+	id 1tKVgG-0003uv-2x;
 	Mon, 09 Dec 2024 04:47:36 +0000
-Date: Mon, 9 Dec 2024 12:47:29 +0800
+Date: Mon, 9 Dec 2024 12:47:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>
-Subject: arch/arm64/kvm/arm.c:204:16: sparse: sparse: incompatible types in
- comparison expression (different address spaces):
-Message-ID: <202412081814.ZLkp3NHX-lkp@intel.com>
+To: kernel@openeuler.org, "gu.huiguang" <guhuiguang@mucse.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2544/2544]
+ drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:389:9: sparse: sparse:
+ incompatible types in conditional expression (different types):
+Message-ID: <202412081856.3zlECgE7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,203 +63,254 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7503345ac5f5e82fd9a36d6e6b447c016376403a
-commit: ce5d2448eb8fe83aed331db53a08612286a137dd KVM: arm64: Destroy mpidr_data for 'late' vCPU creation
-date:   7 months ago
-config: arm64-randconfig-r133-20241208 (https://download.01.org/0day-ci/archive/20241208/202412081814.ZLkp3NHX-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce: (https://download.01.org/0day-ci/archive/20241208/202412081814.ZLkp3NHX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   c8dbb3a6e214ad66d5d6099bf76e1f1c6eefc06f
+commit: a0c5bfdbc099daf30cbadb9657803f0cb3f89d0b [2544/2544] drivers: support for rnpm drivers from Mucse Technology N10/N400
+config: x86_64-randconfig-123-20241205 (https://download.01.org/0day-ci/archive/20241208/202412081856.3zlECgE7-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412081856.3zlECgE7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412081814.ZLkp3NHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412081856.3zlECgE7-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
->> arch/arm64/kvm/arm.c:204:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/arm.c:204:16: sparse:    struct kvm_mpidr_data [noderef] __rcu *
-   arch/arm64/kvm/arm.c:204:16: sparse:    struct kvm_mpidr_data *
-   arch/arm64/kvm/arm.c:207:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/arm.c:207:17: sparse:    struct kvm_mpidr_data [noderef] __rcu *
-   arch/arm64/kvm/arm.c:207:17: sparse:    struct kvm_mpidr_data *
-   arch/arm64/kvm/arm.c:622:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/arm.c:622:13: sparse:    struct kvm_mpidr_data [noderef] __rcu *
-   arch/arm64/kvm/arm.c:622:13: sparse:    struct kvm_mpidr_data *
-   arch/arm64/kvm/arm.c:660:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/arm.c:660:9: sparse:    struct kvm_mpidr_data [noderef] __rcu *
-   arch/arm64/kvm/arm.c:660:9: sparse:    struct kvm_mpidr_data *
-   arch/arm64/kvm/arm.c:2506:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/arm.c:2506:16: sparse:    struct kvm_mpidr_data [noderef] __rcu *
-   arch/arm64/kvm/arm.c:2506:16: sparse:    struct kvm_mpidr_data *
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c: note: in included file (through include/linux/string.h, include/linux/uuid.h, include/linux/mod_devicetable.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c: note: in included file (through include/linux/kernel.h, include/asm-generic/bug.h, arch/x86/include/asm/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/asm-generic/bug.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+>> drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:389:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:389:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:389:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:747:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:747:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:747:9: sparse:    void *
+--
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/module.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: note: in included file (through include/linux/filter.h, include/net/sock.h, include/linux/tcp.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+>> drivers/net/ethernet/mucse/rnpm/rnpm_main.c:296:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:296:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:296:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2845:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2845:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2845:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2950:17: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2950:17: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2950:17: sparse:    void *
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:4748:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:4748:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:4748:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:4847:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:4847:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:4847:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5069:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5069:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5069:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5143:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5143:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5143:9: sparse:    void *
 
-vim +204 arch/arm64/kvm/arm.c
+vim +389 drivers/net/ethernet/mucse/rnpm/rnpm_lib.c
 
-    51	
-  > 52	DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_page);
-    53	DECLARE_KVM_NVHE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
-    54	
-    55	DECLARE_KVM_NVHE_PER_CPU(struct kvm_cpu_context, kvm_hyp_ctxt);
-    56	
-    57	static bool vgic_present, kvm_arm_initialised;
-    58	
-    59	static DEFINE_PER_CPU(unsigned char, kvm_hyp_initialized);
-    60	DEFINE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
-    61	
-    62	bool is_kvm_arm_initialised(void)
-    63	{
-    64		return kvm_arm_initialised;
-    65	}
-    66	
-    67	int kvm_arch_vcpu_should_kick(struct kvm_vcpu *vcpu)
-    68	{
-    69		return kvm_vcpu_exiting_guest_mode(vcpu) == IN_GUEST_MODE;
-    70	}
-    71	
-    72	int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
-    73				    struct kvm_enable_cap *cap)
-    74	{
-    75		int r;
-    76		u64 new_cap;
-    77	
-    78		if (cap->flags)
-    79			return -EINVAL;
-    80	
-    81		switch (cap->cap) {
-    82		case KVM_CAP_ARM_NISV_TO_USER:
-    83			r = 0;
-    84			set_bit(KVM_ARCH_FLAG_RETURN_NISV_IO_ABORT_TO_USER,
-    85				&kvm->arch.flags);
-    86			break;
-    87		case KVM_CAP_ARM_MTE:
-    88			mutex_lock(&kvm->lock);
-    89			if (!system_supports_mte() || kvm->created_vcpus) {
-    90				r = -EINVAL;
-    91			} else {
-    92				r = 0;
-    93				set_bit(KVM_ARCH_FLAG_MTE_ENABLED, &kvm->arch.flags);
-    94			}
-    95			mutex_unlock(&kvm->lock);
-    96			break;
-    97		case KVM_CAP_ARM_SYSTEM_SUSPEND:
-    98			r = 0;
-    99			set_bit(KVM_ARCH_FLAG_SYSTEM_SUSPEND_ENABLED, &kvm->arch.flags);
-   100			break;
-   101		case KVM_CAP_ARM_EAGER_SPLIT_CHUNK_SIZE:
-   102			new_cap = cap->args[0];
-   103	
-   104			mutex_lock(&kvm->slots_lock);
-   105			/*
-   106			 * To keep things simple, allow changing the chunk
-   107			 * size only when no memory slots have been created.
-   108			 */
-   109			if (!kvm_are_all_memslots_empty(kvm)) {
-   110				r = -EINVAL;
-   111			} else if (new_cap && !kvm_is_block_size_supported(new_cap)) {
-   112				r = -EINVAL;
-   113			} else {
-   114				r = 0;
-   115				kvm->arch.mmu.split_page_chunk_size = new_cap;
-   116			}
-   117			mutex_unlock(&kvm->slots_lock);
-   118			break;
-   119		default:
-   120			r = -EINVAL;
-   121			break;
-   122		}
-   123	
-   124		return r;
-   125	}
-   126	
-   127	static int kvm_arm_default_max_vcpus(void)
-   128	{
-   129		return vgic_present ? kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
-   130	}
-   131	
-   132	/**
-   133	 * kvm_arch_init_vm - initializes a VM data structure
-   134	 * @kvm:	pointer to the KVM struct
-   135	 */
-   136	int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
-   137	{
-   138		int ret;
-   139	
-   140		mutex_init(&kvm->arch.config_lock);
-   141	
-   142	#ifdef CONFIG_LOCKDEP
-   143		/* Clue in lockdep that the config_lock must be taken inside kvm->lock */
-   144		mutex_lock(&kvm->lock);
-   145		mutex_lock(&kvm->arch.config_lock);
-   146		mutex_unlock(&kvm->arch.config_lock);
-   147		mutex_unlock(&kvm->lock);
-   148	#endif
-   149	
-   150		ret = kvm_share_hyp(kvm, kvm + 1);
-   151		if (ret)
-   152			return ret;
-   153	
-   154		ret = pkvm_init_host_vm(kvm);
-   155		if (ret)
-   156			goto err_unshare_kvm;
-   157	
-   158		if (!zalloc_cpumask_var(&kvm->arch.supported_cpus, GFP_KERNEL_ACCOUNT)) {
-   159			ret = -ENOMEM;
-   160			goto err_unshare_kvm;
-   161		}
-   162		cpumask_copy(kvm->arch.supported_cpus, cpu_possible_mask);
-   163	
-   164		ret = kvm_init_stage2_mmu(kvm, &kvm->arch.mmu, type);
-   165		if (ret)
-   166			goto err_free_cpumask;
-   167	
-   168		kvm_vgic_early_init(kvm);
-   169	
-   170		kvm_timer_init_vm(kvm);
-   171	
-   172		/* The maximum number of VCPUs is limited by the host's GIC model */
-   173		kvm->max_vcpus = kvm_arm_default_max_vcpus();
-   174	
-   175		kvm_arm_init_hypercalls(kvm);
-   176	
-   177		bitmap_zero(kvm->arch.vcpu_features, KVM_VCPU_MAX_FEATURES);
-   178	
-   179		return 0;
-   180	
-   181	err_free_cpumask:
-   182		free_cpumask_var(kvm->arch.supported_cpus);
-   183	err_unshare_kvm:
-   184		kvm_unshare_hyp(kvm, kvm + 1);
-   185		return ret;
-   186	}
-   187	
-   188	vm_fault_t kvm_arch_vcpu_fault(struct kvm_vcpu *vcpu, struct vm_fault *vmf)
-   189	{
-   190		return VM_FAULT_SIGBUS;
-   191	}
-   192	
-   193	void kvm_arch_create_vm_debugfs(struct kvm *kvm)
-   194	{
-   195		kvm_sys_regs_create_debugfs(kvm);
-   196	}
-   197	
-   198	static void kvm_destroy_mpidr_data(struct kvm *kvm)
-   199	{
-   200		struct kvm_mpidr_data *data;
-   201	
-   202		mutex_lock(&kvm->arch.config_lock);
-   203	
- > 204		data = rcu_dereference_protected(kvm->arch.mpidr_data,
-   205						 lockdep_is_held(&kvm->arch.config_lock));
-   206		if (data) {
-   207			rcu_assign_pointer(kvm->arch.mpidr_data, NULL);
-   208			synchronize_rcu();
-   209			kfree(data);
-   210		}
-   211	
-   212		mutex_unlock(&kvm->arch.config_lock);
-   213	}
-   214	
+   363	
+   364	/**
+   365	 * rnpm_alloc_q_vector - Allocate memory for a single interrupt vector
+   366	 * @adapter: board private structure to initialize
+   367	 * @v_count: q_vectors allocated on adapter, used for ring interleaving
+   368	 * @v_idx: index of vector in adapter struct
+   369	 * @txr_count: total number of Tx rings to allocate
+   370	 * @txr_idx: index of first Tx ring to allocate
+   371	 * @rxr_count: total number of Rx rings to allocate
+   372	 * @rxr_idx: index of first Rx ring to allocate
+   373	 *
+   374	 * We allocate one q_vector.  If allocation fails we return -ENOMEM.
+   375	 **/
+   376	static int rnpm_alloc_q_vector(struct rnpm_adapter *adapter, int eth_queue_idx,
+   377				       int v_idx, int r_idx, int r_count, int step)
+   378	{
+   379		struct rnpm_q_vector *q_vector;
+   380		struct rnpm_ring *ring;
+   381		struct rnpm_hw *hw = &adapter->hw;
+   382		int node = NUMA_NO_NODE;
+   383		int cpu = -1;
+   384		int ring_count, size;
+   385		int txr_count, rxr_count, idx;
+   386		int rxr_idx = r_idx, txr_idx = r_idx;
+   387		// u8 tcs = netdev_get_num_tc(adapter->netdev);
+   388	
+ > 389		DPRINTK(PROBE, INFO,
+   390			"eth_queue_idx:%d v_idx:%d(off:%d) ring:%d ring_cnt:%d step:%d\n",
+   391			eth_queue_idx, v_idx, adapter->vector_off, r_idx, r_count,
+   392			step);
+   393	
+   394		txr_count = rxr_count = r_count;
+   395	
+   396		ring_count = txr_count + rxr_count;
+   397	
+   398		/* alloc ring memory together with q_vector */
+   399		size = sizeof(struct rnpm_q_vector) +
+   400		       (sizeof(struct rnpm_ring) * ring_count);
+   401	
+   402		/* should minis adapter->vector_off */
+   403		if (cpu_online(v_idx - adapter->vector_off)) {
+   404			/* cpu 1 - 7 */
+   405			//cpu = 1 + v_idx - adapter->vector_off;
+   406			cpu = v_idx - adapter->vector_off;
+   407			node = cpu_to_node(cpu);
+   408		}
+   409	
+   410		/* allocate q_vector and rings */
+   411		q_vector = kzalloc_node(size, GFP_KERNEL, node);
+   412		if (!q_vector)
+   413			q_vector = kzalloc(size, GFP_KERNEL);
+   414		if (!q_vector)
+   415			return -ENOMEM;
+   416	
+   417		cpumask_copy(&q_vector->affinity_mask, cpu_possible_mask);
+   418		/* setup affinity mask and node */
+   419		q_vector->numa_node = node;
+   420	
+   421		/* initialize timer */
+   422		q_vector->irq_check_usecs = RNPM_IRQ_CHECK_USEC;
+   423		//q_vector->new_rx_count = RNPM_PKT_TIMEOUT;
+   424		//q_vector->old_rx_count = RNPM_PKT_TIMEOUT;
+   425	
+   426		hrtimer_init(&q_vector->irq_miss_check_timer, CLOCK_MONOTONIC,
+   427			     HRTIMER_MODE_REL_PINNED);
+   428		q_vector->irq_miss_check_timer.function = irq_miss_check;
+   429	
+   430		/* initialize NAPI */
+   431		netif_napi_add(adapter->netdev, &q_vector->napi, rnpm_poll,
+   432			       adapter->napi_budge);
+   433	
+   434		/* tie q_vector and adapter together */
+   435		adapter->q_vector[v_idx - adapter->vector_off] = q_vector;
+   436		q_vector->adapter = adapter;
+   437		/* this indicate vector table */
+   438		q_vector->v_idx = v_idx;
+   439	
+   440		/* initialize work limits */
+   441		q_vector->tx.work_limit = adapter->tx_work_limit;
+   442	
+   443		q_vector->rx.itr = q_vector->itr = adapter->rx_frames;
+   444	#ifdef CONFIG_HZ
+   445		q_vector->factor = DIV_ROUND_UP(1000, CONFIG_HZ);
+   446	#else
+   447		q_vector->factor = 1;
+   448	#endif
+   449	
+   450		/* initialize pointer to rings */
+   451		ring = q_vector->ring;
+   452	
+   453		for (idx = 0; idx < txr_count; idx++) {
+   454			/* assign generic ring traits */
+   455			ring->dev = &adapter->pdev->dev;
+   456			ring->netdev = adapter->netdev;
+   457	
+   458			/* configure backlink on ring */
+   459			ring->q_vector = q_vector;
+   460	
+   461			/* update q_vector Tx values */
+   462			rnpm_add_ring(ring, &q_vector->tx);
+   463	
+   464			/* apply Tx specific ring traits */
+   465			ring->count = adapter->tx_ring_item_count;
+   466			ring->queue_index = eth_queue_idx + idx;
+   467	
+   468			/* rnpm_queue_idx can be changed after */
+   469			/* it is used to location hw reg */
+   470			ring->rnpm_queue_idx = txr_idx;
+   471			ring->dma_int_stat =
+   472				hw->hw_addr + RNPM_DMA_INT_STAT(ring->rnpm_queue_idx);
+   473			ring->dma_int_mask = ring->dma_int_stat + 4;
+   474			ring->dma_int_clr = ring->dma_int_stat + 8;
+   475			ring->device_id = adapter->pdev->device;
+   476			ring->pfvfnum = hw->pfvfnum;
+   477	
+   478			/* assign ring to adapter */
+   479			adapter->tx_ring[ring->queue_index] = ring;
+   480	
+   481			/* update count and index */
+   482			txr_idx += step;
+   483	
+   484			rnpm_dbg("\t\t%s:vector[%d] <--RNPM TxRing:%d, eth_queue:%d\n",
+   485				 adapter->netdev->name, v_idx, ring->rnpm_queue_idx,
+   486				 ring->queue_index);
+   487	
+   488			/* push pointer to next ring */
+   489			ring++;
+   490		}
+   491	
+   492		for (idx = 0; idx < rxr_count; idx++) {
+   493			/* assign generic ring traits */
+   494			ring->dev = &adapter->pdev->dev;
+   495			ring->netdev = adapter->netdev;
+   496	
+   497			/* configure backlink on ring */
+   498			ring->q_vector = q_vector;
+   499	
+   500			/* update q_vector Rx values */
+   501			rnpm_add_ring(ring, &q_vector->rx);
+   502	
+   503			/* apply Rx specific ring traits */
+   504			ring->count = adapter->rx_ring_item_count;
+   505			/* rnpm_queue_idx can be changed after */
+   506			/* it is used to location hw reg */
+   507			ring->queue_index = eth_queue_idx + idx;
+   508			ring->rnpm_queue_idx = rxr_idx;
+   509			ring->dma_int_stat =
+   510				hw->hw_addr + RNPM_DMA_INT_STAT(ring->rnpm_queue_idx);
+   511			ring->dma_int_mask = ring->dma_int_stat + 4;
+   512			ring->dma_int_clr = ring->dma_int_stat + 8;
+   513			ring->device_id = adapter->pdev->device;
+   514			ring->pfvfnum = hw->pfvfnum;
+   515	
+   516			/* assign ring to adapter */
+   517			adapter->rx_ring[ring->queue_index] = ring;
+   518			rnpm_dbg("\t\t%s:vector[%d] <--RNPM RxRing:%d, eth_queue:%d\n",
+   519				 adapter->netdev->name, v_idx, ring->rnpm_queue_idx,
+   520				 ring->queue_index);
+   521	
+   522			/* update count and index */
+   523			rxr_idx += step;
+   524	
+   525			/* push pointer to next ring */
+   526			ring++;
+   527		}
+   528	
+   529		return 0;
+   530	}
+   531	
 
 -- 
 0-DAY CI Kernel Test Service
