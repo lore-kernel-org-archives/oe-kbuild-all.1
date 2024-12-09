@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854C433D1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 19:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2240B1990C9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 19:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733771568; cv=none; b=XuoFwjOa0DG8urogKAxsw+PyestbzxeMZGvBxaurIuYA1h/rqyjI025BOmcDt/PIBe0sWLjbNtANXkJgsoX3BXsxpFYuv7HMfml4WEXl3mDquy5TDhMX79B9hcEG7u0W1rweynpLKIOpcXb8Aok+X9Xw1lGOq5O/kJLLhOnfQ6k=
+	t=1733772354; cv=none; b=cL5qeK9ABsh3ciOQ2r/BP3XSHAk7TR8cBerFQIL26TTonz36tMIDNr5TA204CMq5wfXf+gPcLI8KMNIpE7158sFnmHmud612AvBmE9Y+Mpykn+gW2algcQNd/GALd8D1e8obxIpEB/iymdeUN6Sg//l2V3OWPnGVZIIYkE1BX50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733771568; c=relaxed/simple;
-	bh=tWDp1sWI+Zcw2X5Z0krY7Stv3V7yPVyYhlszcXNzgaA=;
+	s=arc-20240116; t=1733772354; c=relaxed/simple;
+	bh=kFLzPPOxk/BwhOM+xWgT/KlPu4qy1i8v5WZyZmHTI5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LmGQPVXXu6MV2laoEiPDwYZHuFb6DEsf8QYD++WO9Y9pAG+k2b5Bb6j3iuBjcVK79/QK9W7qCivKDUju5FHuVuI5JiWNurNm02oGFABbQ685msPWVUdKDo6txrqT1fBDv3nFkqGxxsENHRICGokiMEYIWx/KuSCxgfAMqHb8TcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdxsRQ3Q; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=I8Jlszn7ua6hqQQeNjJYdHXAl2XRQ9u7N6/zawzSP5lHnSDtsSb68+LtxWzpeYrlZ2WhS/dvWxDexSFIDKh8qZ4zi/jv4gbTSxqzPY4vwRkoDRlOuJALPmJoNagNyfTG3V0QvPAI/sIhOIrbHc9eR25lmEHSIGYNPcVAkCjoNcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ga30GIWu; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdxsRQ3Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ga30GIWu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733771567; x=1765307567;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=tWDp1sWI+Zcw2X5Z0krY7Stv3V7yPVyYhlszcXNzgaA=;
-  b=PdxsRQ3Qo6VXODwVQvJfwPJTGFBOx7lDLenYkP+2JINOtOkadknn3u6j
-   1kTglxWgQIZwF/RLF4+pr2dGw8j2tg4wCfW5gA/y8yYfXuY9vTMGouHhJ
-   lEB0cnMR/oyb/iNO0EAyQW3J+Y1KAVdieTe5lPZCpCCzNP3vIl3Rw4Htn
-   4qSKoX28Glc/CGi0/HCjIm6UtNvW237aTYFxf/5y8QPmNu3mMuliSibyo
-   JUQePH3yi0FKyWiQQqOiP3JEvUd9Wv9ds6IReMxwl2sh7V/FcmnQ7oo+8
-   ECuHOXg2VmghLEff1J36B3it2NLVsmpl/XcgTb9WosccRPpRNux+98y+l
-   w==;
-X-CSE-ConnectionGUID: DXqvz8iUQ9ylS2rIxpqXGg==
-X-CSE-MsgGUID: 8uUqbrZjS9GTO5oyh8rNqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34234759"
+  t=1733772353; x=1765308353;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kFLzPPOxk/BwhOM+xWgT/KlPu4qy1i8v5WZyZmHTI5o=;
+  b=ga30GIWuNUt1lrU0ujRvdER70pCF5HGPS26TUFnvH1kCRNJMJ9hchsWI
+   IXDQGL5YUo8yLZLTtOyWN+qWSqX4Tnu9O6kHGjeI2SymEYXr/XDE7Blqi
+   SXMyXX/gZ750Ln1RIVmCDakJanv/wl5K3AFGW1W017RrsD6H83rSin/qF
+   Kg/zK0/QM8EpqvwWzG7V5si3o2HaZRt5xCithN74K0zrR7T37sF2NkA1w
+   NwV5OY6qoaioVXwFnto01+qTKrngaTytyQsdkOIvRf3W/P6PVyphaHTCs
+   YWuOfpHnxW6qsNYy4HtCbCjhB+VHJWG7qh5x17lXhdp3rGcgUPMkH+1CW
+   Q==;
+X-CSE-ConnectionGUID: ptA47X/9Rr+V8rtIbYvtCA==
+X-CSE-MsgGUID: zM/YjYfqQIaSU/BbEYSgbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33427544"
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="34234759"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 11:12:47 -0800
-X-CSE-ConnectionGUID: faMw1IrvSzqfe3sh+6Y8kA==
-X-CSE-MsgGUID: AmSu8griSNCfsaxld5jDmA==
+   d="scan'208";a="33427544"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 11:25:53 -0800
+X-CSE-ConnectionGUID: FZcgd8aqSCyal24JqjZkVw==
+X-CSE-MsgGUID: TsayRejVS3K4W6A+fPs+pg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="100203121"
+X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
+   d="scan'208";a="95618314"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Dec 2024 11:12:45 -0800
+  by orviesa007.jf.intel.com with ESMTP; 09 Dec 2024 11:25:52 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKjBS-0004j7-25;
-	Mon, 09 Dec 2024 19:12:42 +0000
-Date: Tue, 10 Dec 2024 03:11:53 +0800
+	id 1tKjO8-0004jl-33;
+	Mon, 09 Dec 2024 19:25:48 +0000
+Date: Tue, 10 Dec 2024 03:25:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?J=F6rg?= Sommer <joerg@jo-so.de>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] net: dsa: microchip: correct KSZ8795 static MAC table
- access
-Message-ID: <Z1dA-V5rnnZLiPtd@0945f8898a0b>
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1613/1613] include/linux/suspend.h:36:60: error:
+ expected ')' before numeric constant
+Message-ID: <202412100354.AFJ414Ch-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +61,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b4a802ae7dfac66efa5175313228f0ba2fc769ef.1733771269.git.joerg@jo-so.de>
 
-Hi,
+Hi Jianmin,
 
-Thanks for your patch.
+FYI, the error/warning still remains.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   db988390007bce595dba0dfd782c610578e26d2d
+commit: 1f46f3a128f21c190281c72cad99267bcc177e34 [1613/1613] PCI: PM: fix pcie mrrs restoring
+config: loongarch-randconfig-001-20241210 (https://download.01.org/0day-ci/archive/20241210/202412100354.AFJ414Ch-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100354.AFJ414Ch-lkp@intel.com/reproduce)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412100354.AFJ414Ch-lkp@intel.com/
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] net: dsa: microchip: correct KSZ8795 static MAC table access
-Link: https://lore.kernel.org/stable/b4a802ae7dfac66efa5175313228f0ba2fc769ef.1733771269.git.joerg%40jo-so.de
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/pci/pci.c:35:
+>> include/linux/suspend.h:36:60: error: expected ')' before numeric constant
+      36 | #define PM_SUSPEND_ON           ((__force suspend_state_t) 0)
+         |                                                            ^
+   include/linux/suspend.h:341:34: note: in expansion of macro 'PM_SUSPEND_ON'
+     341 | #define pm_suspend_target_state (PM_SUSPEND_ON)
+         |                                  ^~~~~~~~~~~~~
+   drivers/pci/pci.c:177:17: note: in expansion of macro 'pm_suspend_target_state'
+     177 | suspend_state_t pm_suspend_target_state;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +36 include/linux/suspend.h
+
+95d9ffbe01fb21d Rafael J. Wysocki 2007-10-18  35  
+95d9ffbe01fb21d Rafael J. Wysocki 2007-10-18 @36  #define PM_SUSPEND_ON		((__force suspend_state_t) 0)
+690cbb90a709c1b Rafael J. Wysocki 2017-08-10  37  #define PM_SUSPEND_TO_IDLE	((__force suspend_state_t) 1)
+7e73c5ae6e7991a Zhang Rui         2013-02-06  38  #define PM_SUSPEND_STANDBY	((__force suspend_state_t) 2)
+95d9ffbe01fb21d Rafael J. Wysocki 2007-10-18  39  #define PM_SUSPEND_MEM		((__force suspend_state_t) 3)
+690cbb90a709c1b Rafael J. Wysocki 2017-08-10  40  #define PM_SUSPEND_MIN		PM_SUSPEND_TO_IDLE
+95d9ffbe01fb21d Rafael J. Wysocki 2007-10-18  41  #define PM_SUSPEND_MAX		((__force suspend_state_t) 4)
+95d9ffbe01fb21d Rafael J. Wysocki 2007-10-18  42  
+
+:::::: The code at line 36 was first introduced by commit
+:::::: 95d9ffbe01fb21d524c86bf77871255066bc6e55 PM: Move definition of struct pm_ops to suspend.h
+
+:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
