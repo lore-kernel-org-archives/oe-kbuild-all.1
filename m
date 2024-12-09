@@ -1,62 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581667BB1D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 05:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7052115A842;
+	Mon,  9 Dec 2024 05:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733720988; cv=none; b=dZWYRNUcrTT3YXo6PsLHNwKjyIOQTtyM6Ir6Wb4I5nKTI4myWr2Niyl1jFMRsFgo0kTVw1yb6Ui0n5Hjde5rRzDsIpCwi1UDlJpv2z0lojAyTaJ0lk7ik0hkm0pFqC4YR05BIrgRRDDBpurtt2Xh7u0HrAmDZ7kWDmQTJDU4z30=
+	t=1733720989; cv=none; b=ozpI98ubQmlI2sv75z+OMfZq8dUkhTK/2tgmYavtEeyote73LuEPX4n+G3kyXWeqPK24D7i7kI7KL6YmBSS7RMMDyB4etpOZrROhYIG6Y/oX8fy7khpQjTIpLNyCEbV2cRwDwTvAeFirwyhwZQux36x92uSFW7Qv6fWAWVV46nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733720988; c=relaxed/simple;
-	bh=mROy6++Dn7mlH/KUc2GTh0vbl+qhbcQlfQEY+6Shp0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fub1nrn6FGM/7qbIlR59HWn4C5FDaavsuFaGks9bA0aUo37b3X3MtHauIeXUMYFwhTeCdjGkqLWuUQjMP2J2zUpNOocgd6WPCj8zNBXeabrdWKx1TZUEAZxDX1PwWApf9PRCJzbJn2uDDXRG2v0OdkIJm5Vaw6rChvu0Ft+/Uac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYi9JHGW; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1733720989; c=relaxed/simple;
+	bh=qarSG/Xlsa2PChZEa3NjRcGB+cNCc51vkdcp8HxhR8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u6DG0wZHPRd1w5KltjvY8TxwVKi0Dr+ZP4eor5D9TPAg175fdNG8civKJQE6CUMZ4kP+AgCiIDlT35uJlYAmxpvbrPyI9R1PnzZTXzTA1smiNogCGskELBkLZla0VXdZmiBQ9XCXbzk1BddDc87GaV1dJKQtFmXp4AEW9QGCvRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PnbzrlCu; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYi9JHGW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PnbzrlCu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733720987; x=1765256987;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mROy6++Dn7mlH/KUc2GTh0vbl+qhbcQlfQEY+6Shp0c=;
-  b=GYi9JHGWcsxXDtbRkqmY/kSw1KsESZAmkvj2qQ+WGOTzmjp48YHBIZAu
-   Ny4UByi5Pn9ej2wvrb+2WoPqSNqiImxtB5H5d+3oZZh7IGrVavaig7PBO
-   9pbLhUJhHOBWtLtqe5lfDet23UtqcpMC6NSBvzpbgTiihkaKTDJnp+NV0
-   Ezl3GtE32o/2sY9vgRorLL/YwyFs4c5cSab+cc2xGwmLZUdHbkrTF1kAg
-   mKt/P6L37rqfruqauOJ7qtql3zIWi+MFxYpdXfcYGUHrimvautTvvKh7b
-   5KFXvykfV+IhhOKcscXLnNxrfOihRnuFFz+eztL2dJOcYjF+5GnjA/Iy9
-   g==;
-X-CSE-ConnectionGUID: ZlcpXrOWQOuAtgfmkS1vkA==
-X-CSE-MsgGUID: RUqVEEabQjGy9iXCajdGhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="37683980"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qarSG/Xlsa2PChZEa3NjRcGB+cNCc51vkdcp8HxhR8U=;
+  b=PnbzrlCuw6L/pzLrH/vHem7o61D2xn6aq+TNhX4qPfh1E9TMZiEGYi5r
+   SEWVnSadxx2co12BXBor19SEj3erJv0du9478DrHafoHK3VxKF1x7CBOQ
+   S75On2z7Dx6rjsGTJH5rMBOkYoCgomOsfTpfKzQjrmOgBpHOVQyeG/Tnl
+   Z9Z3o8JhxYKdN94mOTu/jwEONLTBDOlgwoXyM3v7+At77jqqCXspOnrW+
+   XpR0v7N1VZFmbkaAx5L0xkzb4atvjEpfplnnFWP16r7/dBkmn/NlqGedT
+   XbjFmiY8kVwqr4xN5p/Q05dRPHXZe5+3wQQX3JU8zWL64aLz/9xdp3aUp
+   w==;
+X-CSE-ConnectionGUID: gRRAz0MmTLuhxZXHkf2WKg==
+X-CSE-MsgGUID: 61IZTWJeTpy5weQnWFXUSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="37683983"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="37683980"
+   d="scan'208";a="37683983"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 21:09:46 -0800
-X-CSE-ConnectionGUID: 8sqBzBTOQLmf410N/6KP9A==
-X-CSE-MsgGUID: 0xQ5HaRSTCejeLE9D7A09w==
+X-CSE-ConnectionGUID: CAC8SyyPToKePDqcyIl4Zw==
+X-CSE-MsgGUID: qCK9x+ZSRguKvk7mjtsWGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="125806857"
+   d="scan'208";a="125806855"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 08 Dec 2024 21:09:45 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKW1e-0003yI-0w;
+	id 1tKW1e-0003yC-0Z;
 	Mon, 09 Dec 2024 05:09:42 +0000
-Date: Mon, 9 Dec 2024 13:08:43 +0800
+Date: Mon, 9 Dec 2024 13:08:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Kurapati <quic_kriskura@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [linux-next:master 1007/2462]
- arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0:
- 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3',
- 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3',
- 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom...
-Message-ID: <202412091110.kq7tXw3J-lkp@intel.com>
+To: "Roger L. Beckermeyer III" <beckerlee3@gmail.com>,
+	linux-btrfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Roger L. Beckermeyer III" <beckerlee3@gmail.com>
+Subject: Re: [PATCH] btrfs: edits tree_insert() to use rb helpers
+Message-ID: <202412091004.4vQ7P5Kl-lkp@intel.com>
+References: <5e023dcf8f086296da987f8ba2b43be0aca15b86.1733695544.git.beckerlee3@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,34 +64,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <5e023dcf8f086296da987f8ba2b43be0aca15b86.1733695544.git.beckerlee3@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ebe1b11614e079c5e366ce9bd3c8f44ca0fbcc1b
-commit: 4b2769c7d7ce47a64f874eac92b324f3561339ab [1007/2462] arm64: dts: qcom: qcs615: Add primary USB interface
-config: arm64-randconfig-051-20241204 (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/reproduce)
+Hi Roger,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.13-rc2 next-20241206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roger-L-Beckermeyer-III/btrfs-edits-tree_insert-to-use-rb-helpers/20241209-064230
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/5e023dcf8f086296da987f8ba2b43be0aca15b86.1733695544.git.beckerlee3%40gmail.com
+patch subject: [PATCH] btrfs: edits tree_insert() to use rb helpers
+config: i386-buildonly-randconfig-003-20241209 (https://download.01.org/0day-ci/archive/20241209/202412091004.4vQ7P5Kl-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091004.4vQ7P5Kl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412091110.kq7tXw3J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412091004.4vQ7P5Kl-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'qcom,kpss-wdt' was expected
-   	'qcom,scss-timer' was expected
-   	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
-   	'qcom,msm-timer' was expected
-   	'qcom,kpss-timer' was expected
-   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/watchdog@17c10000: failed to match any schema with compatible: ['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt']
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: rsc@18200000: clock-controller:compatible:0: 'qcom,qcs615-rpmh-clk' is not one of ['qcom,qdu1000-rpmh-clk', 'qcom,sa8775p-rpmh-clk', 'qcom,sar2130p-rpmh-clk', 'qcom,sc7180-rpmh-clk', 'qcom,sc7280-rpmh-clk', 'qcom,sc8180x-rpmh-clk', 'qcom,sc8280xp-rpmh-clk', 'qcom,sdm670-rpmh-clk', 'qcom,sdm845-rpmh-clk', 'qcom,sdx55-rpmh-clk', 'qcom,sdx65-rpmh-clk', 'qcom,sdx75-rpmh-clk', 'qcom,sm4450-rpmh-clk', 'qcom,sm6350-rpmh-clk', 'qcom,sm8150-rpmh-clk', 'qcom,sm8250-rpmh-clk', 'qcom,sm8350-rpmh-clk', 'qcom,sm8450-rpmh-clk', 'qcom,sm8550-rpmh-clk', 'qcom,sm8650-rpmh-clk', 'qcom,x1e80100-rpmh-clk']
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/rsc@18200000/clock-controller: failed to match any schema with compatible: ['qcom,qcs615-rpmh-clk']
->> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0: 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3', 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,qcs8300-dwc3', 'qcom,qdu1000-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sar2130p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8180x-dwc3', 'qcom,sc8180x-dwc3-mp', 'qcom,sc8280xp-dwc3', 'qcom,sc8280xp-dwc3-mp', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sdx75-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3', 'qcom,sm8650-dwc3', 'qcom,x1e80100-dwc3', 'qcom,x1e80100-dwc3-mp']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,qcs615-dwc3', 'qcom,dwc3']
+All errors (new ones prefixed by >>):
+
+   In file included from fs/btrfs/delayed-ref.c:10:
+   In file included from fs/btrfs/ctree.h:10:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/btrfs/delayed-ref.c:342:10: error: call to undeclared function 'rb_find_add_cached'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     342 |         exist = rb_find_add_cached(node, root, comp_refs_node);
+         |                 ^
+>> fs/btrfs/delayed-ref.c:342:8: error: incompatible integer to pointer conversion assigning to 'struct rb_node *' from 'int' [-Wint-conversion]
+     342 |         exist = rb_find_add_cached(node, root, comp_refs_node);
+         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
+
+
+vim +/rb_find_add_cached +342 fs/btrfs/delayed-ref.c
+
+   334	
+   335	static struct btrfs_delayed_ref_node* tree_insert(struct rb_root_cached *root,
+   336			struct btrfs_delayed_ref_node *ins)
+   337	{
+   338		struct rb_node *node = &ins->ref_node;
+   339		struct rb_node *exist;
+   340		struct btrfs_delayed_ref_node *entry;
+   341	
+ > 342		exist = rb_find_add_cached(node, root, comp_refs_node);
+   343		if (exist != NULL) {
+   344			entry = rb_entry(exist, struct btrfs_delayed_ref_node, ref_node);
+   345			return entry;
+   346		}
+   347		return NULL;
+   348	}
+   349	
 
 -- 
 0-DAY CI Kernel Test Service
