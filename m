@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA2E189BA8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D5217625C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733720084; cv=none; b=B0U8otfAri7aBX4+xPmRmKZHNX9YXap0XrTkfWmuUGwnEPZhLxR4q7xJgld6haiUGPsgEFGcdsOUI8M+BeG+k3o4f/ijK8o/i2uUl9t1/yRj6JayucMRvc1YoB3agiPBGlm0Fba7ONY8eBk12iN678gP/J9PxaSNw/xLhJdwk6Y=
+	t=1733720085; cv=none; b=pBlCXvDFahRX44UPlV1XUCcz5SJ0qDItq7SXxwj++DaCP5v0qOe4X/sTqwgG4Rezot0LeAS9evuGWdPhNKG0C5Vm70ytozV7CZS9tVowYOLuUatgnMeO4JDbRYv312yzSPJrZ2pzaFhF0hFTdXn2cwafIDj4xr+rx41kcfYtgJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733720084; c=relaxed/simple;
-	bh=10vjRbIyGuOt3akUY9HVmZQkF5VXE6KQZ4r6X1aeSUM=;
+	s=arc-20240116; t=1733720085; c=relaxed/simple;
+	bh=25AC0ZW8bDmUdUGshgsdLaQkBtoAoEyjU9c5Pp/iVX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AkrYH/e+2d1GLAy/hxgr4IjM9NZSODynQ7vZP3UuAhkSJ9OASB5Vs2wOVef5XS6qCwkIGso0MVZJeHScFzSHtH0FW/cxPbk+gZ/ZdQjjySTvzjln3b7V4k9Fkce+zW8Q1WKuNxHzcWN9X3UxBhGb3m+xjtDEvQuJagprwZfoBME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzEK4nmU; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=nmiNzEjyh00sF8qqAUqbc0Gp9lPtlsWivK4CeLQtZ8Un0ucODYIoco31rJnpYaYYEmYPFYLPjyRDJ4ZYqAdOHnvmYsrWLM6Ti9SJM0CulFoUfM2TJengN4Fb92S4ltwZ7gTy/q0kQXTrOWzgXLGiH+x3x4ISOR0zF0M8r8ouWuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=THlDcfV5; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzEK4nmU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="THlDcfV5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733720083; x=1765256083;
+  t=1733720082; x=1765256082;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=10vjRbIyGuOt3akUY9HVmZQkF5VXE6KQZ4r6X1aeSUM=;
-  b=KzEK4nmUdU1z/cFuDf95v2DFiQf5S3SA0Gbv0DcOeErH9yYSvGl2G4s2
-   17pDHRIO0xVfTQgzQPzU3yvtu32LiOnUl7+d7BJdupYYxH6l1nN6OwMFs
-   ev+J9kEl2wN5VZwh0Y8gwCYwPcNyXlT8XmIf5CNl/fwYFQ6krI5WCyOwP
-   wWdapHIsyIpf4tr+BJqy1y02Iu3qWqmdtxguBgRdT/S6jnDuNy3RSiag8
-   E9z2XRaFYEtYuT7zwIawziASQDcnVNVVMIp3t9NUkqziUF1z/xDo/ZTIB
-   ZgXRPH97stfQiLQY6v3V0JlpYxEbxN8Tqfwov5uG34+sqejSGLuOdtMHI
-   A==;
-X-CSE-ConnectionGUID: tNpff+QHSI689ikgrCxHgw==
-X-CSE-MsgGUID: IsTQVfoWSOi6k8j1WxvLpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="51416634"
+  bh=25AC0ZW8bDmUdUGshgsdLaQkBtoAoEyjU9c5Pp/iVX0=;
+  b=THlDcfV5TWLx4XX9yvk84hILB01T8kwR2lr1jRTUoNVmSoQzfAL0US/L
+   EDptPM6cbOVwhLo4xIxbXONB1LPAo+CJYIjQ0A3MLx+ZSJ8kW3ViYyrRm
+   mlpgJYDYM6QFozz77klsIi1J+6/V45TCJi9z2MR7m/y294CL9JQip4405
+   8RTQ+q1MnZ2CskbEB/G/c945/exMU+fLlFB2NOHMfxtfmnv15unapH0Ha
+   v8GcO7+CofrxIXog/V+YHrnKiL/jL/cNXdXQBgiYHa0OxElcJ3uViorbP
+   SIeJNFbHIl7hdxeAkpyn8W8jX0U4QKQV4qTLuyyMdP2MLpnYGbw0VqfsJ
+   g==;
+X-CSE-ConnectionGUID: FsgFD8GDSQWF9UcSm1EQ2A==
+X-CSE-MsgGUID: eHXR20dbTBqnSm18bwlfhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="37932336"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="51416634"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:54:41 -0800
-X-CSE-ConnectionGUID: ialcBvR3RZSd09hHWiU9tA==
-X-CSE-MsgGUID: maiey5FwRoOaXSXhhzJsGA==
+   d="scan'208";a="37932336"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:54:42 -0800
+X-CSE-ConnectionGUID: 5uhkmB6oQBuCdWikGDMc2g==
+X-CSE-MsgGUID: 9KHn7Ma2TiuN5KkxsJeTvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94802484"
+   d="scan'208";a="94829900"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Dec 2024 20:54:40 -0800
+  by orviesa009.jf.intel.com with ESMTP; 08 Dec 2024 20:54:40 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVn3-0003wF-33;
+	id 1tKVn3-0003wI-38;
 	Mon, 09 Dec 2024 04:54:37 +0000
-Date: Mon, 9 Dec 2024 12:53:54 +0800
+Date: Mon, 9 Dec 2024 12:53:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <yunshenglin0825@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:pcp_prototype_241208 1/1] mm/page_pcp.c:991
- setup_zone_pageset() warn: unsigned '0' is never less than zero.
-Message-ID: <202412090351.9bNV9bSR-lkp@intel.com>
+To: Tao Zhang <quic_taozha@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: drivers/hwtracing/coresight/coresight-tpdm.c:288 dsb_mode_store()
+ warn: unsigned 'val' is never less than zero.
+Message-ID: <202412090231.UXsQuWrr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gestionlin/linux.git pcp_prototype_241208
-head:   bb0461da06e9c2a5e9fe31362a5cc15077568de4
-commit: bb0461da06e9c2a5e9fe31362a5cc15077568de4 [1/1] mm: split out per cpu page
-config: i386-randconfig-141-20241208 (https://download.01.org/0day-ci/archive/20241209/202412090351.9bNV9bSR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7503345ac5f5e82fd9a36d6e6b447c016376403a
+commit: 018e43ad1eeefbb8797e4c933953c50c09e3f4f6 coresight-tpdm: Add node to set dsb programming mode
+date:   1 year, 1 month ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241209/202412090231.UXsQuWrr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412090351.9bNV9bSR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412090231.UXsQuWrr-lkp@intel.com/
 
 smatch warnings:
-mm/page_pcp.c:991 setup_zone_pageset() warn: unsigned '0' is never less than zero.
+drivers/hwtracing/coresight/coresight-tpdm.c:288 dsb_mode_store() warn: unsigned 'val' is never less than zero.
 
-vim +/0 +991 mm/page_pcp.c
+vim +/val +288 drivers/hwtracing/coresight/coresight-tpdm.c
 
-   985	
-   986	void __meminit setup_zone_pageset(struct zone *zone)
-   987	{
-   988		int cpu;
-   989	
-   990		/* Size may be 0 on !SMP && !NUMA */
- > 991		if (sizeof(struct per_cpu_zonestat) > 0)
-   992			zone->per_cpu_zonestats = alloc_percpu(struct per_cpu_zonestat);
-   993	
-   994		zone->per_cpu_pageset = alloc_percpu(struct per_cpu_pages);
-   995		for_each_possible_cpu(cpu) {
-   996			struct per_cpu_pages *pcp;
-   997			struct per_cpu_zonestat *pzstats;
-   998	
-   999			pcp = per_cpu_ptr(zone->per_cpu_pageset, cpu);
-  1000			pzstats = per_cpu_ptr(zone->per_cpu_zonestats, cpu);
-  1001			per_cpu_pages_init(pcp, pzstats);
-  1002		}
-  1003	
-  1004		zone_set_pageset_high_and_batch(zone, 0);
-  1005	}
-  1006	
+   279	
+   280	static ssize_t dsb_mode_store(struct device *dev,
+   281				      struct device_attribute *attr,
+   282				      const char *buf,
+   283				      size_t size)
+   284	{
+   285		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
+   286		unsigned long val;
+   287	
+ > 288		if ((kstrtoul(buf, 0, &val)) || (val < 0) ||
+   289				(val & ~TPDM_DSB_MODE_MASK))
+   290			return -EINVAL;
+   291	
+   292		spin_lock(&drvdata->spinlock);
+   293		drvdata->dsb->mode = val & TPDM_DSB_MODE_MASK;
+   294		spin_unlock(&drvdata->spinlock);
+   295		return size;
+   296	}
+   297	static DEVICE_ATTR_RW(dsb_mode);
+   298	
 
 -- 
 0-DAY CI Kernel Test Service
