@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E881465BA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 16:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C234E145B18
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 16:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733761806; cv=none; b=XhLJbW6SUktcXZDGLcclITrhmsaqlej21YrRAczkl5F01DZyg0r0QbvXv1AvP3WT/nJVYdaZBvdiY9OpxW0njZyblDcRW/h3IVW9eWZerB3ZxkkuHeqdX79Z/Fne32w2jUF388Kg3ACOE35j6NHEmIB8kQcBZotwgY3YpAa6g4I=
+	t=1733762463; cv=none; b=rNsuHCy0vmvIc/HDKkbvcKjQdU4P4FbdNZJpmECMJa6KYeVN6s4uag/0198FdKrjZMWg79fj6Icl/yAbsrL1BO5T3JV4jf61Ngjomw3+4x3UpDx/HekUKC+zGa4y7QdO2jVm/fyUg3mnsJpvjJGopPD6zJ18bzmD49GVNtk7GYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733761806; c=relaxed/simple;
-	bh=Lyt9qdOiLP1zElgb7DW5128anurEE4jCACdvrq1D9vQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YITXDIDCuVzGLcq6Fgw+uOUJ8H1019ZLstTSKx/PQayIWtyi2WgQHwRQcM+O0q8VpNEKVMeo15/QqCyVkDAOyAuvvBHwVOFev65AEYsx8jAcG9qj9hfdJfe1C4dpWDk3T6slA5f52EOz70H11pK0jWydkebx0pYtGqPTjptigPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3/XxFVX; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1733762463; c=relaxed/simple;
+	bh=/9jifZgyzZcofDrbzZiXJrwlNUJaT4lJ3PoiuFN9Ovs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WiVspxwiSwaLvYZFGB779ZowEB3ApupIjWlZhiwwJZ2UQM5zm7dv5LwiKlaNHQ9FyT8YJbiEuBGJk6X2k1foZTkdaT1LUATzEi55G4AKAw0TAdoLHDjjUmb7GbPRLuZiGTHLvKU+eEP4F0Gw9mOf3fWZ91Vp0M+qNf5YasTS+1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDgDyx9t; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3/XxFVX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDgDyx9t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733761804; x=1765297804;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Lyt9qdOiLP1zElgb7DW5128anurEE4jCACdvrq1D9vQ=;
-  b=E3/XxFVXDOfw8QVe43hikCWzFNh5Ur+Wr2WskSD3KkVDRu1lGhhQG/Fc
-   PhnjSMCzzJypRpj53tZs8mKZ4EVD+LdM3EdldomrwVV9TtLe2GHDd7i9L
-   621fybhoOaTCZiQUh8jQxl+PE1vRNTKATNvvjutMgphv2DXDQ88B13Qm5
-   ih9EOVcebo4EjhORCRuNB2iafZMia87lpX3CxW/sX3Oz2GnZ1MNvIvmiR
-   TSNUglWLuV3KAa4dsgxk0J3UUg5ATSsqWB222SRXvgSTF1Vzkcq9C8pDK
-   aaW/FfNY9Ldk9afMsnG5nIqIG6VaHGRubYkTjvJzKMAxO2hGV8+4lyZh8
-   g==;
-X-CSE-ConnectionGUID: tbzgvguwRzSVAGU3TdHBWA==
-X-CSE-MsgGUID: DhvU+eU4TTezt/gu+K/9EA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34306653"
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="34306653"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 08:30:04 -0800
-X-CSE-ConnectionGUID: SDkVm3V4StSPJUjX2sNrCg==
-X-CSE-MsgGUID: ggrtIes9QFy7ULPM/3X3cw==
+  t=1733762462; x=1765298462;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/9jifZgyzZcofDrbzZiXJrwlNUJaT4lJ3PoiuFN9Ovs=;
+  b=JDgDyx9t5xulOao1iXxOWc+PMJik8Bc1c/p5go6vYYCDJeADNIoozG5U
+   FrRpDae801KViQ3KNgq/8uXsGoFFkG9EOrlydRVlG/CsWuBX4FLYaaovn
+   R3wu1NZewUsjr4Y2qTQBh5or/7kM2GP9CH55YLUUI4bl2MLwYY7DHGKRG
+   J4/KUqIxv1JJCDW7g5EXodmcQhfJpr/zJIcpe9Q5trEiO9LlNczph5XqY
+   XD0nJ+PiTLU3o2D+AnVBRjUF5vouYIvq2EaKYZosbxzi+gh94BHsZ4aXy
+   gdXgI1bq/J7n5/6V7v4lP+u3MWAIkZw/wGON7WozDZn1nHB/lnRiDhsvX
+   w==;
+X-CSE-ConnectionGUID: MKxq9sE9SFaVNLcmxreSww==
+X-CSE-MsgGUID: bkngGqRMSUSM3RlKOpsvZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45449591"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
+   d="scan'208";a="45449591"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 08:41:02 -0800
+X-CSE-ConnectionGUID: NlEqHQM7QtenKaO7Hlz+2w==
+X-CSE-MsgGUID: IPVDIDh4T/CFllMwR4TrCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="94824930"
+   d="scan'208";a="99599776"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Dec 2024 08:29:59 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 09 Dec 2024 08:41:00 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKgdv-0004bb-2m;
-	Mon, 09 Dec 2024 16:29:55 +0000
-Date: Tue, 10 Dec 2024 00:29:21 +0800
+	id 1tKgoc-0004cG-0V;
+	Mon, 09 Dec 2024 16:40:58 +0000
+Date: Tue, 10 Dec 2024 00:40:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Sebastian Reichel <sre@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH 04/14] power: supply: ab8500: use
- power_supply_for_each_psy()
-Message-ID: <202412092219.bRJmBwIP-lkp@intel.com>
-References: <20241208-power-supply-dev_to_psy-v1-4-f95de9117558@weissschuh.net>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:proposed-fixes-6.13 17/28] fs/xfs/xfs_trans.c:869:33:
+ error: too few arguments provided to function-like macro invocation
+Message-ID: <202412100039.XlMj94ZZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,232 +61,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241208-power-supply-dev_to_psy-v1-4-f95de9117558@weissschuh.net>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 39f3bd9c9a27d526858da153090376decdf7bfea]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/power-supply-mm8013-use-accessor-for-driver-data/20241208-210605
-base:   39f3bd9c9a27d526858da153090376decdf7bfea
-patch link:    https://lore.kernel.org/r/20241208-power-supply-dev_to_psy-v1-4-f95de9117558%40weissschuh.net
-patch subject: [PATCH 04/14] power: supply: ab8500: use power_supply_for_each_psy()
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20241209/202412092219.bRJmBwIP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412092219.bRJmBwIP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git proposed-fixes-6.13
+head:   8d401a19ce541ebf4bedb34ad2d838c8cf4ecef6
+commit: 33459986badab198566fc6063378dfb6c3281644 [17/28] xfs: don't lose solo dquot update transactions
+config: x86_64-randconfig-161-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100039.XlMj94ZZ-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100039.XlMj94ZZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412092219.bRJmBwIP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412100039.XlMj94ZZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/power/supply/ab8500_btemp.c:543:49: warning: 'struct power_supply_ext' declared inside parameter list will not be visible outside of this definition or declaration
-     543 | static int ab8500_btemp_get_ext_psy_data(struct power_supply_ext *ext, void *data)
-         |                                                 ^~~~~~~~~~~~~~~~
-   drivers/power/supply/ab8500_btemp.c: In function 'ab8500_btemp_get_ext_psy_data':
-   drivers/power/supply/ab8500_btemp.c:546:54: error: invalid use of undefined type 'struct power_supply_ext'
-     546 |         const char **supplicants = (const char **)ext->supplied_to;
-         |                                                      ^~
-   drivers/power/supply/ab8500_btemp.c:558:42: error: invalid use of undefined type 'struct power_supply_ext'
-     558 |         j = match_string(supplicants, ext->num_supplicants, psy->desc->name);
-         |                                          ^~
-   drivers/power/supply/ab8500_btemp.c:563:28: error: invalid use of undefined type 'struct power_supply_ext'
-     563 |         for (j = 0; j < ext->desc->num_properties; j++) {
-         |                            ^~
-   drivers/power/supply/ab8500_btemp.c:565:27: error: invalid use of undefined type 'struct power_supply_ext'
-     565 |                 prop = ext->desc->properties[j];
-         |                           ^~
-   drivers/power/supply/ab8500_btemp.c:567:47: error: passing argument 1 of 'power_supply_get_property' from incompatible pointer type [-Wincompatible-pointer-types]
-     567 |                 if (power_supply_get_property(ext, prop, &ret))
-         |                                               ^~~
-         |                                               |
-         |                                               struct power_supply_ext *
-   In file included from drivers/power/supply/ab8500_btemp.c:21:
-   include/linux/power_supply.h:855:59: note: expected 'struct power_supply *' but argument is of type 'struct power_supply_ext *'
-     855 | extern int power_supply_get_property(struct power_supply *psy,
-         |                                      ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/power/supply/ab8500_btemp.c:572:36: error: invalid use of undefined type 'struct power_supply_ext'
-     572 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_btemp.c: In function 'ab8500_btemp_external_power_changed':
-   drivers/power/supply/ab8500_btemp.c:619:40: error: passing argument 2 of 'power_supply_for_each_psy' from incompatible pointer type [-Wincompatible-pointer-types]
-     619 |         power_supply_for_each_psy(psy, ab8500_btemp_get_ext_psy_data);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                        |
-         |                                        int (*)(struct power_supply_ext *, void *)
-   include/linux/power_supply.h:885:56: note: expected 'int (*)(struct power_supply *, void *)' but argument is of type 'int (*)(struct power_supply_ext *, void *)'
-     885 | extern int power_supply_for_each_psy(void *data, int (*fn)(struct power_supply *psy, void *data));
-         |                                                  ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/power/supply/ab8500_chargalg.c:847:52: warning: 'struct power_supply_ext' declared inside parameter list will not be visible outside of this definition or declaration
-     847 | static int ab8500_chargalg_get_ext_psy_data(struct power_supply_ext *ext, void *data)
-         |                                                    ^~~~~~~~~~~~~~~~
-   drivers/power/supply/ab8500_chargalg.c: In function 'ab8500_chargalg_get_ext_psy_data':
-   drivers/power/supply/ab8500_chargalg.c:850:54: error: invalid use of undefined type 'struct power_supply_ext'
-     850 |         const char **supplicants = (const char **)ext->supplied_to;
-         |                                                      ^~
-   drivers/power/supply/ab8500_chargalg.c:859:42: error: invalid use of undefined type 'struct power_supply_ext'
-     859 |         j = match_string(supplicants, ext->num_supplicants, psy->desc->name);
-         |                                          ^~
-   drivers/power/supply/ab8500_chargalg.c:868:40: error: passing argument 1 of 'power_supply_get_property' from incompatible pointer type [-Wincompatible-pointer-types]
-     868 |         if (!power_supply_get_property(ext, POWER_SUPPLY_PROP_CAPACITY, &ret)) {
-         |                                        ^~~
-         |                                        |
-         |                                        struct power_supply_ext *
-   In file included from drivers/power/supply/ab8500_chargalg.c:24:
-   include/linux/power_supply.h:855:59: note: expected 'struct power_supply *' but argument is of type 'struct power_supply_ext *'
-     855 | extern int power_supply_get_property(struct power_supply *psy,
-         |                                      ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/power/supply/ab8500_chargalg.c:874:28: error: invalid use of undefined type 'struct power_supply_ext'
-     874 |         for (j = 0; j < ext->desc->num_properties; j++) {
-         |                            ^~
-   drivers/power/supply/ab8500_chargalg.c:876:27: error: invalid use of undefined type 'struct power_supply_ext'
-     876 |                 prop = ext->desc->properties[j];
-         |                           ^~
-   drivers/power/supply/ab8500_chargalg.c:882:28: error: invalid use of undefined type 'struct power_supply_ext'
-     882 |                         ext->desc->type == POWER_SUPPLY_TYPE_MAINS)
-         |                            ^~
-   In file included from drivers/power/supply/ab8500_chargalg.c:35:
-   drivers/power/supply/ab8500_chargalg.c:883:59: error: passing argument 1 of 'power_supply_get_drvdata' from incompatible pointer type [-Wincompatible-pointer-types]
-     883 |                         di->ac_chg = psy_to_ux500_charger(ext);
-         |                                                           ^~~
-         |                                                           |
-         |                                                           struct power_supply_ext *
-   drivers/power/supply/ab8500-chargalg.h:18:58: note: in definition of macro 'psy_to_ux500_charger'
-      18 | #define psy_to_ux500_charger(x) power_supply_get_drvdata(x)
-         |                                                          ^
-   include/linux/power_supply.h:883:60: note: expected 'struct power_supply *' but argument is of type 'struct power_supply_ext *'
-     883 | extern void *power_supply_get_drvdata(struct power_supply *psy);
-         |                                       ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/power/supply/ab8500_chargalg.c:885:28: error: invalid use of undefined type 'struct power_supply_ext'
-     885 |                         ext->desc->type == POWER_SUPPLY_TYPE_USB)
-         |                            ^~
-   drivers/power/supply/ab8500_chargalg.c:886:60: error: passing argument 1 of 'power_supply_get_drvdata' from incompatible pointer type [-Wincompatible-pointer-types]
-     886 |                         di->usb_chg = psy_to_ux500_charger(ext);
-         |                                                            ^~~
-         |                                                            |
-         |                                                            struct power_supply_ext *
-   drivers/power/supply/ab8500-chargalg.h:18:58: note: in definition of macro 'psy_to_ux500_charger'
-      18 | #define psy_to_ux500_charger(x) power_supply_get_drvdata(x)
-         |                                                          ^
-   include/linux/power_supply.h:883:60: note: expected 'struct power_supply *' but argument is of type 'struct power_supply_ext *'
-     883 | extern void *power_supply_get_drvdata(struct power_supply *psy);
-         |                                       ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/power/supply/ab8500_chargalg.c:888:47: error: passing argument 1 of 'power_supply_get_property' from incompatible pointer type [-Wincompatible-pointer-types]
-     888 |                 if (power_supply_get_property(ext, prop, &ret))
-         |                                               ^~~
-         |                                               |
-         |                                               struct power_supply_ext *
-   include/linux/power_supply.h:855:59: note: expected 'struct power_supply *' but argument is of type 'struct power_supply_ext *'
-     855 | extern int power_supply_get_property(struct power_supply *psy,
-         |                                      ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/power/supply/ab8500_chargalg.c:892:36: error: invalid use of undefined type 'struct power_supply_ext'
-     892 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c:939:36: error: invalid use of undefined type 'struct power_supply_ext'
-     939 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c:984:36: error: invalid use of undefined type 'struct power_supply_ext'
-     984 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c:1068:36: error: invalid use of undefined type 'struct power_supply_ext'
-    1068 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c:1084:36: error: invalid use of undefined type 'struct power_supply_ext'
-    1084 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c:1109:36: error: invalid use of undefined type 'struct power_supply_ext'
-    1109 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c:1127:36: error: invalid use of undefined type 'struct power_supply_ext'
-    1127 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c:1143:36: error: invalid use of undefined type 'struct power_supply_ext'
-    1143 |                         switch (ext->desc->type) {
-         |                                    ^~
-   drivers/power/supply/ab8500_chargalg.c: In function 'ab8500_chargalg_algorithm':
-   drivers/power/supply/ab8500_chargalg.c:1233:53: error: passing argument 2 of 'power_supply_for_each_psy' from incompatible pointer type [-Wincompatible-pointer-types]
-    1233 |         power_supply_for_each_psy(di->chargalg_psy, ab8500_chargalg_get_ext_psy_data);
-         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                     |
-         |                                                     int (*)(struct power_supply_ext *, void *)
-   include/linux/power_supply.h:885:56: note: expected 'int (*)(struct power_supply *, void *)' but argument is of type 'int (*)(struct power_supply_ext *, void *)'
-     885 | extern int power_supply_for_each_psy(void *data, int (*fn)(struct power_supply *psy, void *data));
-         |                                                  ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/xfs/xfs_trans.c:7:
+   In file included from fs/xfs/xfs.h:26:
+   In file included from fs/xfs/xfs_linux.h:25:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/xfs/xfs_trans.c:869:33: error: too few arguments provided to function-like macro invocation
+     869 |         xfs_trans_apply_dquot_deltas(tp);
+         |                                        ^
+   fs/xfs/xfs_quota.h:176:9: note: macro 'xfs_trans_apply_dquot_deltas' defined here
+     176 | #define xfs_trans_apply_dquot_deltas(tp, a)
+         |         ^
+>> fs/xfs/xfs_trans.c:869:2: error: use of undeclared identifier 'xfs_trans_apply_dquot_deltas'; did you mean 'xfs_trans_apply_sb_deltas'?
+     869 |         xfs_trans_apply_dquot_deltas(tp);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         xfs_trans_apply_sb_deltas
+   fs/xfs/xfs_trans.c:485:1: note: 'xfs_trans_apply_sb_deltas' declared here
+     485 | xfs_trans_apply_sb_deltas(
+         | ^
+   fs/xfs/xfs_trans.c:869:2: warning: expression result unused [-Wunused-value]
+     869 |         xfs_trans_apply_dquot_deltas(tp);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings and 2 errors generated.
 
 
-vim +543 drivers/power/supply/ab8500_btemp.c
+vim +869 fs/xfs/xfs_trans.c
 
-   542	
- > 543	static int ab8500_btemp_get_ext_psy_data(struct power_supply_ext *ext, void *data)
-   544	{
-   545		struct power_supply *psy;
-   546		const char **supplicants = (const char **)ext->supplied_to;
-   547		struct ab8500_btemp *di;
-   548		union power_supply_propval ret;
-   549		int j;
-   550	
-   551		psy = (struct power_supply *)data;
-   552		di = power_supply_get_drvdata(psy);
-   553	
-   554		/*
-   555		 * For all psy where the name of your driver
-   556		 * appears in any supplied_to
-   557		 */
-   558		j = match_string(supplicants, ext->num_supplicants, psy->desc->name);
-   559		if (j < 0)
-   560			return 0;
-   561	
-   562		/* Go through all properties for the psy */
-   563		for (j = 0; j < ext->desc->num_properties; j++) {
-   564			enum power_supply_property prop;
-   565			prop = ext->desc->properties[j];
-   566	
-   567			if (power_supply_get_property(ext, prop, &ret))
-   568				continue;
-   569	
-   570			switch (prop) {
-   571			case POWER_SUPPLY_PROP_PRESENT:
-   572				switch (ext->desc->type) {
-   573				case POWER_SUPPLY_TYPE_MAINS:
-   574					/* AC disconnected */
-   575					if (!ret.intval && di->events.ac_conn) {
-   576						di->events.ac_conn = false;
-   577					}
-   578					/* AC connected */
-   579					else if (ret.intval && !di->events.ac_conn) {
-   580						di->events.ac_conn = true;
-   581						if (!di->events.usb_conn)
-   582							ab8500_btemp_periodic(di, true);
-   583					}
-   584					break;
-   585				case POWER_SUPPLY_TYPE_USB:
-   586					/* USB disconnected */
-   587					if (!ret.intval && di->events.usb_conn) {
-   588						di->events.usb_conn = false;
-   589					}
-   590					/* USB connected */
-   591					else if (ret.intval && !di->events.usb_conn) {
-   592						di->events.usb_conn = true;
-   593						if (!di->events.ac_conn)
-   594							ab8500_btemp_periodic(di, true);
-   595					}
-   596					break;
-   597				default:
-   598					break;
-   599				}
-   600				break;
-   601			default:
-   602				break;
-   603			}
-   604		}
-   605		return 0;
-   606	}
-   607	
+   837	
+   838	/*
+   839	 * Commit the given transaction to the log.
+   840	 *
+   841	 * XFS disk error handling mechanism is not based on a typical
+   842	 * transaction abort mechanism. Logically after the filesystem
+   843	 * gets marked 'SHUTDOWN', we can't let any new transactions
+   844	 * be durable - ie. committed to disk - because some metadata might
+   845	 * be inconsistent. In such cases, this returns an error, and the
+   846	 * caller may assume that all locked objects joined to the transaction
+   847	 * have already been unlocked as if the commit had succeeded.
+   848	 * Do not reference the transaction structure after this call.
+   849	 */
+   850	static int
+   851	__xfs_trans_commit(
+   852		struct xfs_trans	*tp,
+   853		bool			regrant)
+   854	{
+   855		struct xfs_mount	*mp = tp->t_mountp;
+   856		struct xlog		*log = mp->m_log;
+   857		xfs_csn_t		commit_seq = 0;
+   858		int			error = 0;
+   859		int			sync = tp->t_flags & XFS_TRANS_SYNC;
+   860	
+   861		trace_xfs_trans_commit(tp, _RET_IP_);
+   862	
+   863		/*
+   864		 * Commit per-transaction changes that are not already tracked through
+   865		 * log items.  This can add dirty log items to the transaction.
+   866		 */
+   867		if (tp->t_flags & XFS_TRANS_SB_DIRTY)
+   868			xfs_trans_apply_sb_deltas(tp);
+ > 869		xfs_trans_apply_dquot_deltas(tp);
+   870	
+   871		error = xfs_trans_run_precommits(tp);
+   872		if (error)
+   873			goto out_unreserve;
+   874	
+   875		/*
+   876		 * If there is nothing to be logged by the transaction,
+   877		 * then unlock all of the items associated with the
+   878		 * transaction and free the transaction structure.
+   879		 * Also make sure to return any reserved blocks to
+   880		 * the free pool.
+   881		 */
+   882		if (!(tp->t_flags & XFS_TRANS_DIRTY))
+   883			goto out_unreserve;
+   884	
+   885		/*
+   886		 * We must check against log shutdown here because we cannot abort log
+   887		 * items and leave them dirty, inconsistent and unpinned in memory while
+   888		 * the log is active. This leaves them open to being written back to
+   889		 * disk, and that will lead to on-disk corruption.
+   890		 */
+   891		if (xlog_is_shutdown(log)) {
+   892			error = -EIO;
+   893			goto out_unreserve;
+   894		}
+   895	
+   896		ASSERT(tp->t_ticket != NULL);
+   897	
+   898		xlog_cil_commit(log, tp, &commit_seq, regrant);
+   899	
+   900		xfs_trans_free(tp);
+   901	
+   902		/*
+   903		 * If the transaction needs to be synchronous, then force the
+   904		 * log out now and wait for it.
+   905		 */
+   906		if (sync) {
+   907			error = xfs_log_force_seq(mp, commit_seq, XFS_LOG_SYNC, NULL);
+   908			XFS_STATS_INC(mp, xs_trans_sync);
+   909		} else {
+   910			XFS_STATS_INC(mp, xs_trans_async);
+   911		}
+   912	
+   913		return error;
+   914	
+   915	out_unreserve:
+   916		xfs_trans_unreserve_and_mod_sb(tp);
+   917	
+   918		/*
+   919		 * It is indeed possible for the transaction to be not dirty but
+   920		 * the dqinfo portion to be.  All that means is that we have some
+   921		 * (non-persistent) quota reservations that need to be unreserved.
+   922		 */
+   923		xfs_trans_unreserve_and_mod_dquots(tp, true);
+   924		if (tp->t_ticket) {
+   925			if (regrant && !xlog_is_shutdown(log))
+   926				xfs_log_ticket_regrant(log, tp->t_ticket);
+   927			else
+   928				xfs_log_ticket_ungrant(log, tp->t_ticket);
+   929			tp->t_ticket = NULL;
+   930		}
+   931		xfs_trans_free_items(tp, !!error);
+   932		xfs_trans_free(tp);
+   933	
+   934		XFS_STATS_INC(mp, xs_trans_empty);
+   935		return error;
+   936	}
+   937	
 
 -- 
 0-DAY CI Kernel Test Service
