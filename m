@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E7A197A67
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DE549625
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719668; cv=none; b=ek7fbxnoT41D2sTPfD4KCNpSH1UBaxrsvJVopCelrrQ3l6jt5U2Id8dEyOSUMJ8vi/qBvVwe5FBI0R7Fm8dGDb0u7XVUofpxHl8Vadjp80DhnrkCzgSgGR/FPr33pge3xOfq5W3BZaFEif1PDVV33HII2HNFDhfvxZFQuDLN40E=
+	t=1733719783; cv=none; b=Z6JBu6Bqx48du8ETviibKYDFX9JMSWobLwVL9/MypXQhj2K9I23NUaUPI9gwZwyD2+UPpypgdaImHRVce/s+S7GGKGoAjbV/pM9SLmMpCmSeKA3CPUPs20ftddjs3Fh/7BHD9QQhGBh1YMM67UlcUPRVY0xbdPUJ6QutTg76zYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733719668; c=relaxed/simple;
-	bh=oGQLEO9Jk5yk6DnfCNJIWMvX22cHDx9xeH8e6qrGBJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LO9rfZe9EdHZF7hZtKkkkLGdrqu69PDmWQY/hGXSqbS8Z15nidaOE0MDWYyHf42KwuBpyn18t2+sfasZoiw4q2KZugPxONMrfiV0tYs1kLd2qFuz3mTksyBhHTRBg3O+nuxtTHH9p/XYuxM09rv0LNfLMQrT1Kp5xodAaTNq284=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jx4aEV/z; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1733719783; c=relaxed/simple;
+	bh=T9IweMdG9rW7HFX2Od6WkOu3/mMasGW6ZgeYJKgdOgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DDLIr1IAFQE6J3r5sbeQE2Vi0/ZmCqWE7JQpizCk6tBfI8a8/ki/+uhI3IBRzRxInk74zjyp7PF/4nSd4OA1xDyNIiiyra/a2nrZiCAk/bENj3BcEarwz+koJ7+5VEzjr5F7+Eqy9/BeWR5TKT3lnWu35QkzsOWMPrszGP0dKsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRS0ITCu; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jx4aEV/z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRS0ITCu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733719667; x=1765255667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oGQLEO9Jk5yk6DnfCNJIWMvX22cHDx9xeH8e6qrGBJI=;
-  b=jx4aEV/zZkkRYeJGqr0P6e6QY88vAL1EWw9Q/hkKy5NWRfCBoQhFwrZF
-   DYFD6zUugeIw4yQ8cQIcH02fXPlsm4U215oAeoSNzdY7atufdJO7hfNFq
-   Xf6LMvdjdSRY0R0XSm2NcJNtOMh46MJFq5CUlRSShJFyb5XSHKOMonSaO
-   8s94CVHwELttA5mplbaHZf/GVkFLu15HTOH2ZjrpWrpDagoONNGukYPVP
-   5YMeegNk+q6CO/SypqcPm1dDrj7olM7mVAe7j0LGkXsDRwSY9j6ctWfOT
-   OdOQtY9MGSvTU87/G8WSlSYyrPtaj67LVGsly3PIg7JyyTA8eegqnQwja
-   Q==;
-X-CSE-ConnectionGUID: UkOUKIH0SZCbNq0ynda/ig==
-X-CSE-MsgGUID: lyU9MWriQDK66VqysO0xJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34060170"
+  t=1733719781; x=1765255781;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T9IweMdG9rW7HFX2Od6WkOu3/mMasGW6ZgeYJKgdOgg=;
+  b=FRS0ITCuMKmBodLRjrKhsqBUmaEJhNrnK54GRZK4u2qLdGLBi/Ii2CqD
+   83EGjE5h8aR8XYwbbeNu4DBB96eHIWUAJPZFCt/g25l0YAOTJJ/njeI7z
+   eOYG4L2AgWUo89yaTcCtK9D6UssW6KsEe+S0tB6IpvIj8LM4rwqV4INRh
+   4CUYoeMAu/1oXjYFHbd2oTOIhlGNvkJ/+u9osoUKtxVxlUiUUHsDkshZn
+   Y75kh7UZfPuen90H6Ykx6LE4YilBelyyKtHAd/vd4ESKS3IOMEsKNH3bE
+   b8DewSyV/fUVNdNo2yCWQUJqFvQRhICMpbj2d0gWNi+BPukHAY9B+oHL3
+   A==;
+X-CSE-ConnectionGUID: 5myiC5bsRBqBhbWEzH/Vyg==
+X-CSE-MsgGUID: fG96Ng4lTbefCW9e3Buq8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="51416432"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34060170"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:47:42 -0800
-X-CSE-ConnectionGUID: MZbzW0C7S7W33okZ/hyHDA==
-X-CSE-MsgGUID: fxGVWoO2Rlq1vyVVCgyBhQ==
+   d="scan'208";a="51416432"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:49:41 -0800
+X-CSE-ConnectionGUID: GwAMzYByTyCmL27sBANmdA==
+X-CSE-MsgGUID: AEgRbWwgTcaDMlI+V0BdEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99012438"
+   d="scan'208";a="95406774"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Dec 2024 20:47:39 -0800
+  by orviesa007.jf.intel.com with ESMTP; 08 Dec 2024 20:49:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVgG-0003un-2g;
-	Mon, 09 Dec 2024 04:47:36 +0000
-Date: Mon, 9 Dec 2024 12:47:30 +0800
+	id 1tKViD-0003vX-0r;
+	Mon, 09 Dec 2024 04:49:37 +0000
+Date: Mon, 9 Dec 2024 12:48:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karan Tilak Kumar <kartilak@cisco.com>, sebaddel@cisco.com
-Cc: oe-kbuild-all@lists.linux.dev, arulponn@cisco.com, djhawar@cisco.com,
-	gcboffa@cisco.com, mkai2@cisco.com, satishkh@cisco.com,
-	aeasi@cisco.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v6 08/15] scsi: fnic: Add and integrate support for FIP
-Message-ID: <202412081904.pXwdx15J-lkp@intel.com>
-References: <20241206210852.3251-9-kartilak@cisco.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 51/84]
+ arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: thermal-zones: 'soc_max' does
+ not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$',
+ 'pinctrl-[0-9]+'
+Message-ID: <202412082136.o4SI9ukT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,84 +63,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241206210852.3251-9-kartilak@cisco.com>
 
-Hi Karan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on linus/master v6.13-rc1]
-[cannot apply to mkp-scsi/for-next next-20241206]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karan-Tilak-Kumar/scsi-fnic-Replace-shost_printk-with-dev_info-dev_err/20241207-054453
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20241206210852.3251-9-kartilak%40cisco.com
-patch subject: [PATCH v6 08/15] scsi: fnic: Add and integrate support for FIP
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241208/202412081904.pXwdx15J-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412081904.pXwdx15J-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   ebfb3a7ab8a9ff5202e3d9aaf3156efc9d82d36c
+commit: 89dc2b08fe62d3a00f865cb18aa4748dbb760c12 [51/84] CHROMIUM: arm64: dts: mediatek: mt8188: Add soc_max thermal zone
+config: arm64-randconfig-051-20241206 (https://download.01.org/0day-ci/archive/20241208/202412082136.o4SI9ukT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412082136.o4SI9ukT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412081904.pXwdx15J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412082136.o4SI9ukT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/scsi/fnic/fnic_fcs.c:21:
-   drivers/scsi/fnic/fnic_fcs.c: In function 'fnic_rq_cmpl_frame_recv':
->> drivers/scsi/fnic/fnic.h:235:33: warning: format '%ld' expects argument of type 'long int', but argument 7 has type 'unsigned int' [-Wformat=]
-     235 |                                 "fnic<%d>: %s: %d: " fmt, fnic_num,\
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/fnic/fnic.h:222:25: note: in definition of macro 'FNIC_CHECK_LOGGING'
-     222 |                         CMD;                                    \
-         |                         ^~~
-   include/scsi/scsi_host.h:737:9: note: in expansion of macro 'dev_printk'
-     737 |         dev_printk(prefix, &(shost)->shost_gendev, fmt, ##a)
-         |         ^~~~~~~~~~
-   drivers/scsi/fnic/fnic.h:234:26: note: in expansion of macro 'shost_printk'
-     234 |                          shost_printk(kern_level, host,                 \
-         |                          ^~~~~~~~~~~~
-   drivers/scsi/fnic/fnic_fcs.c:491:17: note: in expansion of macro 'FNIC_FCS_DBG'
-     491 |                 FNIC_FCS_DBG(KERN_INFO, fnic->lport->host, fnic->fnic_num,
-         |                 ^~~~~~~~~~~~
-   drivers/scsi/fnic/fnic_fcs.c: In function 'fdls_send_fcoe_frame':
-   drivers/scsi/fnic/fnic.h:235:33: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'unsigned int' [-Wformat=]
-     235 |                                 "fnic<%d>: %s: %d: " fmt, fnic_num,\
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/fnic/fnic.h:222:25: note: in definition of macro 'FNIC_CHECK_LOGGING'
-     222 |                         CMD;                                    \
-         |                         ^~~
-   include/scsi/scsi_host.h:737:9: note: in expansion of macro 'dev_printk'
-     737 |         dev_printk(prefix, &(shost)->shost_gendev, fmt, ##a)
-         |         ^~~~~~~~~~
-   drivers/scsi/fnic/fnic.h:234:26: note: in expansion of macro 'shost_printk'
-     234 |                          shost_printk(kern_level, host,                 \
-         |                          ^~~~~~~~~~~~
-   drivers/scsi/fnic/fnic_fcs.c:675:25: note: in expansion of macro 'FNIC_FCS_DBG'
-     675 |                         FNIC_FCS_DBG(KERN_INFO, fnic->lport->host, fnic->fnic_num,
-         |                         ^~~~~~~~~~~~
-
-
-vim +235 drivers/scsi/fnic/fnic.h
-
-5df6d737dd4b0f Abhijeet Joglekar 2009-04-17  225  
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11  226  #define FNIC_MAIN_DBG(kern_level, host, fnic_num, fmt, args...)		\
-5df6d737dd4b0f Abhijeet Joglekar 2009-04-17  227  	FNIC_CHECK_LOGGING(FNIC_MAIN_LOGGING,			\
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11  228  			 shost_printk(kern_level, host,			\
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11  229  				"fnic<%d>: %s: %d: " fmt, fnic_num,\
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11  230  				__func__, __LINE__, ##args);)
-5df6d737dd4b0f Abhijeet Joglekar 2009-04-17  231  
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11  232  #define FNIC_FCS_DBG(kern_level, host, fnic_num, fmt, args...)		\
-5df6d737dd4b0f Abhijeet Joglekar 2009-04-17  233  	FNIC_CHECK_LOGGING(FNIC_FCS_LOGGING,			\
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11  234  			 shost_printk(kern_level, host,			\
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11 @235  				"fnic<%d>: %s: %d: " fmt, fnic_num,\
-3df9dd0d51c2e4 Karan Tilak Kumar 2023-12-11  236  				__func__, __LINE__, ##args);)
-5df6d737dd4b0f Abhijeet Joglekar 2009-04-17  237  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: sound: Unevaluated properties are not allowed ('mediatek,adsp' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt8188-mt6359.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /vtemp: failed to match any schema with compatible: ['mediatek,virtual-temp']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: syscon@10001000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/syscon@10003000: failed to match any schema with compatible: ['mediatek,mt8188-pericfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8188-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pwrap@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
 
 -- 
 0-DAY CI Kernel Test Service
