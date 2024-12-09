@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E5D155751
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C8870817
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717710; cv=none; b=Ja7QuEENQ3W/3M2y8a/vJMgfxImULPOYbPdQqTmCw4r4pSiVL9cSLmuGiiILs9IWrfynWnC47hh9unt3mCykPZEqu5LGLu1LZBjwAGHuvwQktOSiE1NVOXHeXCedk5aqAZBP0XBYt3vDx16m/WJGdd8uhauWPW1J8hKMXn4Ve6E=
+	t=1733717714; cv=none; b=rNHjArPg9g8xfveBpZGRGqSDYkGQZOSmecdpzPUZnqnf7w1xKocNI2KxZp9Hubjggiub/IglOOnm6m5A4iGVfhZ+NRmMCUkARFqo64NPzx2quw7mYEudHsv/JyqXxW+K+rPkqNK/d+/hcSdONgARCiYnCqlwDaCXfUmJpOHXaQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717710; c=relaxed/simple;
-	bh=gD9SaiWn/weY9+EGG7ma0oaEkANmw5t7wEMX3zV1d+Y=;
+	s=arc-20240116; t=1733717714; c=relaxed/simple;
+	bh=1fmST9iQW250EK4xwJEqRp0ejY6lwiQ33GJKs19WgrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K8l8M4JgTtPRI8FJmpoWVDhZm6VyAw5WFIycd19xkB/X5kM2gPgjOQiJBAIFZwpUaI3At4Xp494yo+2y9TVQlQnBkNHdn8JNqMIpdsF7nVMgWWLY1/hVgjfobk1eiQvqmc/84DddRElMD7i/koanc+EVSR9McS6RsbqSCL9yzGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GyKUk9HT; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=jQBbT27Gd5GmcmXlQo0XDWvQNZj4vfJ3EpzaNVazT5AWp+Hu7FS5xdzWdCpVNwfuT23Fub60b+YqmhOTJtpAwanYfyMNDhIysgOEzoMQM88YshVi7vQwUBZW3TSYB6nX+RjWR16Zn2g7XnbTg2R1cHRVu9qmM4G8e239dOAPstw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRWMpWxo; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GyKUk9HT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRWMpWxo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717709; x=1765253709;
+  t=1733717713; x=1765253713;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gD9SaiWn/weY9+EGG7ma0oaEkANmw5t7wEMX3zV1d+Y=;
-  b=GyKUk9HTr+h+3zdCJ6sCcMMx+YGxTvMIOQLuOAd8sKqjAZ1ZvxmPzsPB
-   G+NMBsYZE+LHCom5+m/aD0TivpSkyJRdgYhP8HrsngrbG6EynDtKB4j4r
-   9o/ePtM40HQCpzlf6Jyq8cd3LyUA7hwqb3lXF0/gThKEnst4mwZj/x2nQ
-   rqE0zhE3b5Ku4qwWKrfGlDrPiM7mM9G/pok7xhYvvGJzrPdgc08sMaIYP
-   4L2SIr0u1+Nb+gbzN0FqDY4yjkAspbDa7GsfeJceiB5WkFjVYrRVnjONn
-   exSqvvdKEkU+9b7tsXa9lEmI1y3E3RTNhehvPx0SC9+R09GCrT63/yjir
-   Q==;
-X-CSE-ConnectionGUID: mXumKBxZSf+CdAGcpiBIPg==
-X-CSE-MsgGUID: a1QuXGavQrK65L2C3dWd7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33915625"
+  bh=1fmST9iQW250EK4xwJEqRp0ejY6lwiQ33GJKs19WgrE=;
+  b=KRWMpWxogS+d6xQQqchHRzBbsFvbn1D7ktivQT4fDYLt1bMMhmj7mlD6
+   hO1UdiiTI2vtmhPg24vRLv+PAY2ncDcjcdG5atLlZhnZwp2tIyBJeTVp1
+   K+d0yx+w1VfoVJk3HTCEAnsb7Dh8KzJdXQJ5xJszHo8f9DfENdwPEgcKI
+   DIHsUVNs2SkhCxMhJ6dnEa2ciOPDS0OvC2QadBFiYPliZ0/JCW4Kb+jqi
+   vLmzf4jHgxSheaZiHn7f+hxCke4VQZZbTTP4u0dUbOkav6G1qcCqtbhjU
+   owybPuTxt1+Nqr2WiDXJwPrK/TwDL2NTtssEJ7/VpcfzwVkplQQMgwKtb
+   g==;
+X-CSE-ConnectionGUID: iSj8eMHERv6dEaxawWXtvw==
+X-CSE-MsgGUID: o2KROJp6Q+iKP5FcUeVL2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="21591489"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="33915625"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:15:09 -0800
-X-CSE-ConnectionGUID: 9kE8jldQSze0mbbuJOlP4A==
-X-CSE-MsgGUID: 48Pei4+sSKeksZSL7RqDdA==
+   d="scan'208";a="21591489"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:15:10 -0800
+X-CSE-ConnectionGUID: WLaEhhMMRfiIi4LEms6ENw==
+X-CSE-MsgGUID: qsGcPSjyRVqoKMnrBwXKJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95299790"
+   d="scan'208";a="94756355"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 20:15:08 -0800
+  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2024 20:15:08 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVAo-0003on-0K;
+	id 1tKVAo-0003op-0O;
 	Mon, 09 Dec 2024 04:15:06 +0000
-Date: Mon, 9 Dec 2024 12:14:26 +0800
+Date: Mon, 9 Dec 2024 12:14:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:syscon-rework-2 2/11]
- drivers/mailbox/mailbox-mpfs.c:254:5-11: inconsistent IS_ERR and PTR_ERR on
- line 255.
-Message-ID: <202412071737.nVkRQVKt-lkp@intel.com>
+Subject: [isilence:zcrx/v9-wip 21/22] drivers/net/veth.c:818:17: sparse:
+ sparse: cast from restricted netmem_ref
+Message-ID: <202412071854.TFX4utCB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,40 +62,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework-2
-head:   9f279391fc4ab2693ea0fe60dca080c7db2691e0
-commit: 6692ff5a8ee2df1c83af1c1d1a0dce7bc947d2a2 [2/11] mailbox: mpfs: support new, syscon based, devicetree configuration
-config: m68k-randconfig-r054-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071737.nVkRQVKt-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/isilence/linux zcrx/v9-wip
+head:   265a57e2057eabebef11b4b533a65ecf75284489
+commit: 72118a096b5f2056c9fa57009c90c7d7ecd2e208 [21/22] [NOT-FOR-UPSTREAM] veth: add support for io_uring zc rx
+config: um-randconfig-r122-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071854.TFX4utCB-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071854.TFX4utCB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412071737.nVkRQVKt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412071854.TFX4utCB-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/mailbox/mailbox-mpfs.c:254:5-11: inconsistent IS_ERR and PTR_ERR on line 255.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/veth.c:818:17: sparse: sparse: cast from restricted netmem_ref
 
-vim +254 drivers/mailbox/mailbox-mpfs.c
+vim +818 drivers/net/veth.c
 
-   242	
-   243	static inline int mpfs_mbox_syscon_probe(struct mpfs_mbox *mbox, struct platform_device *pdev)
-   244	{
-   245		mbox->control_scb = syscon_regmap_lookup_by_compatible("microchip,mpfs-control-scb");
-   246		if (IS_ERR(mbox->control_scb))
-   247			return PTR_ERR(mbox->control_scb);
-   248	
-   249		mbox->sysreg_scb = syscon_regmap_lookup_by_compatible("microchip,mpfs-sysreg-scb");
-   250		if (IS_ERR(mbox->sysreg_scb))
-   251			return PTR_ERR(mbox->sysreg_scb);
-   252	
-   253		mbox->mbox_base = devm_platform_ioremap_resource(pdev, 0);
- > 254		if (IS_ERR(mbox->ctrl_base))
- > 255			return PTR_ERR(mbox->mbox_base);
-   256	
-   257		return 0;
-   258	}
-   259	
+   771	
+   772	static noinline struct sk_buff *veth_iou_rcv_skb(struct veth_rq *rq,
+   773						struct sk_buff *skb)
+   774	{
+   775		struct sk_buff *nskb;
+   776		u32 size, len, off, max_head_size;
+   777		struct page *page;
+   778		int ret, i, head_off;
+   779		void *vaddr;
+   780	
+   781		/* Testing only, randomly send normal pages to test copy fallback */
+   782		if (ktime_get_ns() % 16 == 0)
+   783			return skb;
+   784	
+   785		skb_prepare_for_gro(skb);
+   786		max_head_size = skb_headlen(skb);
+   787	
+   788		rcu_read_lock();
+   789		nskb = napi_alloc_skb(&rq->xdp_napi, max_head_size);
+   790		if (!nskb)
+   791			goto drop;
+   792	
+   793		skb_copy_header(nskb, skb);
+   794		skb_mark_for_recycle(nskb);
+   795	
+   796		size = max_head_size;
+   797		if (skb_copy_bits(skb, 0, nskb->data, size)) {
+   798		consume_skb(nskb);
+   799			goto drop;
+   800		}
+   801		skb_put(nskb, size);
+   802		head_off = skb_headroom(nskb) - skb_headroom(skb);
+   803		skb_headers_offset_update(nskb, head_off);
+   804	
+   805		/* Allocate paged area of new skb */
+   806		off = size;
+   807		len = skb->len - off;
+   808	
+   809		for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
+   810			netmem_ref netmem;
+   811			unsigned frag_offset;
+   812	
+   813			size = min_t(u32, len, PAGE_SIZE);
+   814			// netmem = page_pool_alloc_frag_netmem(rq->page_pool,
+   815			// 				     &frag_offset, size,
+   816			// 				     GFP_ATOMIC | __GFP_NOWARN);
+   817	
+ > 818			printk("alloc frag %p size %i off %i\n", (void*)netmem,
+   819								  (int)size, (int)frag_offset);
+   820	
+   821			netmem = page_pool_alloc_netmem(rq->page_pool, GFP_ATOMIC | __GFP_NOWARN);
+   822			if (!netmem) {
+   823				consume_skb(nskb);
+   824				goto drop;
+   825			}
+   826			if (WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
+   827				consume_skb(nskb);
+   828				goto drop;
+   829			}
+   830	
+   831			page = io_iov_get_page(netmem);
+   832			if (WARN_ON_ONCE(!page))
+   833				goto drop;
+   834	
+   835			skb_add_rx_frag_netmem(nskb, i, netmem, frag_offset, size,
+   836						PAGE_SIZE);
+   837	
+   838			vaddr = kmap_atomic(page);
+   839			ret = skb_copy_bits(skb, off, vaddr + frag_offset, size);
+   840			kunmap_atomic(vaddr);
+   841	
+   842			if (ret) {
+   843				consume_skb(nskb);
+   844				goto drop;
+   845			}
+   846			len -= size;
+   847			off += size;
+   848		}
+   849		rcu_read_unlock();
+   850	
+   851		consume_skb(skb);
+   852		skb = nskb;
+   853		return skb;
+   854	drop:
+   855		rcu_read_unlock();
+   856		kfree_skb(skb);
+   857		return NULL;
+   858	}
+   859	
 
 -- 
 0-DAY CI Kernel Test Service
