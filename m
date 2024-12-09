@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40691581F8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 05:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581667BB1D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 05:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733720988; cv=none; b=Tth8q3Og8aguLUA1EtBnM8/b8spnN/5Y1xm+7ws4aLFOraqX787kQUn6IYQwBFiG/iaZze47S+jBfLjkndvMmYoRjt0sliKHTUIPV0tBljM6VkmyntCuBN7hXauJETcCkc3xB2q1kz7WgaxWR0K9peLnrFcEuVQDac4fsCImxyE=
+	t=1733720988; cv=none; b=dZWYRNUcrTT3YXo6PsLHNwKjyIOQTtyM6Ir6Wb4I5nKTI4myWr2Niyl1jFMRsFgo0kTVw1yb6Ui0n5Hjde5rRzDsIpCwi1UDlJpv2z0lojAyTaJ0lk7ik0hkm0pFqC4YR05BIrgRRDDBpurtt2Xh7u0HrAmDZ7kWDmQTJDU4z30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733720988; c=relaxed/simple;
-	bh=ZNrupPILGC9C46x9sKjJ6mh7dmj5FIPdsrJCFQi11UM=;
+	bh=mROy6++Dn7mlH/KUc2GTh0vbl+qhbcQlfQEY+6Shp0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mIFX+GI0Bcm4eq8z1M/OQ+tVMYHF/JyqszIBNGExe3qu4lzg9B0wLTGEc/fd6yzM9XZW/Ccq353L4uH/Ib/56e2afNlLyYedZHhA8JJog7TXaoq1NPg8ZTFIT6IVmQW9Hl15HtHhCQJwOyWxPNwJ32pgRoz+WoLbkY5pguZ8b/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PEGKFiWE; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Fub1nrn6FGM/7qbIlR59HWn4C5FDaavsuFaGks9bA0aUo37b3X3MtHauIeXUMYFwhTeCdjGkqLWuUQjMP2J2zUpNOocgd6WPCj8zNBXeabrdWKx1TZUEAZxDX1PwWApf9PRCJzbJn2uDDXRG2v0OdkIJm5Vaw6rChvu0Ft+/Uac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYi9JHGW; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PEGKFiWE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYi9JHGW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733720987; x=1765256987;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZNrupPILGC9C46x9sKjJ6mh7dmj5FIPdsrJCFQi11UM=;
-  b=PEGKFiWEIjLzEYN5moFlHA6bNDV5rtOfQn5CCMObBiJLiTkvFJyTnaXi
-   vG6Fx0zfjfj+zmFpgHeYtTuw1yUiFOa2Z39vwTkG2gX98LMUH6SMjIgwN
-   nBMHTKx1ZSUrN0ptNO3Wkim3a1lsX9iNrtFyors5efq5/exaKc9yjb5JO
-   3/mkMDkU9Lwa9QASGWuw5aQ3ZPZNGyG0s5M0pBPfUWKXDh/6Xn9YJtowP
-   OS54MEL8T1KWgZyphBbK8TWQnkLKcHEp0Bars452hmT1c7ERWQ15HgGYn
-   IMTHpoYaNvxjn1EdWNU6J4P6qKVbusWHGPLPi24pKi8cmvNxKqjF9Zhss
+  bh=mROy6++Dn7mlH/KUc2GTh0vbl+qhbcQlfQEY+6Shp0c=;
+  b=GYi9JHGWcsxXDtbRkqmY/kSw1KsESZAmkvj2qQ+WGOTzmjp48YHBIZAu
+   Ny4UByi5Pn9ej2wvrb+2WoPqSNqiImxtB5H5d+3oZZh7IGrVavaig7PBO
+   9pbLhUJhHOBWtLtqe5lfDet23UtqcpMC6NSBvzpbgTiihkaKTDJnp+NV0
+   Ezl3GtE32o/2sY9vgRorLL/YwyFs4c5cSab+cc2xGwmLZUdHbkrTF1kAg
+   mKt/P6L37rqfruqauOJ7qtql3zIWi+MFxYpdXfcYGUHrimvautTvvKh7b
+   5KFXvykfV+IhhOKcscXLnNxrfOihRnuFFz+eztL2dJOcYjF+5GnjA/Iy9
    g==;
-X-CSE-ConnectionGUID: pObfG/ceRPqqGBIaJh0VpQ==
-X-CSE-MsgGUID: az0BaUXmQayk0t0L1wAa5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45383757"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45383757"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 21:09:46 -0800
-X-CSE-ConnectionGUID: 9lWnx3CEQ2W+Z/3S3GIfCg==
-X-CSE-MsgGUID: 1AOSv+4zQ0qESYIKMgSd+g==
+X-CSE-ConnectionGUID: ZlcpXrOWQOuAtgfmkS1vkA==
+X-CSE-MsgGUID: RUqVEEabQjGy9iXCajdGhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="37683980"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="37683980"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 21:09:46 -0800
+X-CSE-ConnectionGUID: 8sqBzBTOQLmf410N/6KP9A==
+X-CSE-MsgGUID: 0xQ5HaRSTCejeLE9D7A09w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95053901"
+   d="scan'208";a="125806857"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Dec 2024 21:09:45 -0800
+  by orviesa002.jf.intel.com with ESMTP; 08 Dec 2024 21:09:45 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKW1e-0003yN-1W;
+	id 1tKW1e-0003yI-0w;
 	Mon, 09 Dec 2024 05:09:42 +0000
-Date: Mon, 9 Dec 2024 13:08:48 +0800
+Date: Mon, 9 Dec 2024 13:08:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1610/1610] include/linux/mmzone.h:1788:2: error:
- #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202412091235.rrPD4MTM-lkp@intel.com>
+To: Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [linux-next:master 1007/2462]
+ arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0:
+ 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3',
+ 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3',
+ 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom...
+Message-ID: <202412091110.kq7tXw3J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,92 +66,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi zhangtianyang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   31c4fffa86e17e8a946c944e91e7412db7f8427b
-commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [1610/1610] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-001-20241209 (https://download.01.org/0day-ci/archive/20241209/202412091235.rrPD4MTM-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091235.rrPD4MTM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ebe1b11614e079c5e366ce9bd3c8f44ca0fbcc1b
+commit: 4b2769c7d7ce47a64f874eac92b324f3561339ab [1007/2462] arm64: dts: qcom: qcs615: Add primary USB interface
+config: arm64-randconfig-051-20241204 (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091110.kq7tXw3J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412091235.rrPD4MTM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412091110.kq7tXw3J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
->> include/linux/mmzone.h:1788:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^~~~~
-   arch/loongarch/kernel/asm-offsets.c:18:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      18 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:65:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      65 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:80:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      80 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:96:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      96 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:132:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     132 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:173:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     173 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:183:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     183 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:215:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     215 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:223:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     223 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:261:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     261 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:283:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
-     283 | void output_fgraph_ret_regs_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:294:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     294 | void output_kvm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=2238233371
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=2238233371
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=2238233371
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=2238233371
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +1788 include/linux/mmzone.h
-
-d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
-835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1786  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+dtcheck warnings: (new ones prefixed by >>)
+   	'qcom,kpss-wdt' was expected
+   	'qcom,scss-timer' was expected
+   	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
+   	'qcom,msm-timer' was expected
+   	'qcom,kpss-timer' was expected
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/watchdog@17c10000: failed to match any schema with compatible: ['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: rsc@18200000: clock-controller:compatible:0: 'qcom,qcs615-rpmh-clk' is not one of ['qcom,qdu1000-rpmh-clk', 'qcom,sa8775p-rpmh-clk', 'qcom,sar2130p-rpmh-clk', 'qcom,sc7180-rpmh-clk', 'qcom,sc7280-rpmh-clk', 'qcom,sc8180x-rpmh-clk', 'qcom,sc8280xp-rpmh-clk', 'qcom,sdm670-rpmh-clk', 'qcom,sdm845-rpmh-clk', 'qcom,sdx55-rpmh-clk', 'qcom,sdx65-rpmh-clk', 'qcom,sdx75-rpmh-clk', 'qcom,sm4450-rpmh-clk', 'qcom,sm6350-rpmh-clk', 'qcom,sm8150-rpmh-clk', 'qcom,sm8250-rpmh-clk', 'qcom,sm8350-rpmh-clk', 'qcom,sm8450-rpmh-clk', 'qcom,sm8550-rpmh-clk', 'qcom,sm8650-rpmh-clk', 'qcom,x1e80100-rpmh-clk']
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/rsc@18200000/clock-controller: failed to match any schema with compatible: ['qcom,qcs615-rpmh-clk']
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: usb@a6f8800: compatible:0: 'qcom,qcs615-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq5018-dwc3', 'qcom,ipq5332-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,qcs8300-dwc3', 'qcom,qdu1000-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sar2130p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8180x-dwc3', 'qcom,sc8180x-dwc3-mp', 'qcom,sc8280xp-dwc3', 'qcom,sc8280xp-dwc3-mp', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sdx75-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3', 'qcom,sm8650-dwc3', 'qcom,x1e80100-dwc3', 'qcom,x1e80100-dwc3-mp']
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,qcs615-dwc3', 'qcom,dwc3']
 
 -- 
 0-DAY CI Kernel Test Service
