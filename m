@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD2B1552E4
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 20:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70FD1991DB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 20:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733774403; cv=none; b=Zuk4hVSSlB6H9dvVCX2h6ZpMmSxxy7AnXZHFaj0MyOHcZGqKSiwrrOLBFFAOvZs0bsPzOSPuDIVhZ6NoD5clCM+1C6l1MUTFnQMqp/u1X7Npa2x7OprbmuECsMl0Jax0rS9KpupQfH/Yw36cz2Hfo7sVTiLSuVuMGYpqtBB51Zs=
+	t=1733774943; cv=none; b=PAmxzLd+1f4L42I6PsfE/4FxX6IAkJRBWZeIe+gIAhoe51zPEiAzIZIvJ8PqTeaeCKWF8R21IDCjDsOJNwT/rZt4FJlsU0ycWAIkUzSC4WJP1FWYHpTaNYWFPjz9mAUhxbQDv6cl8kBsr6rJBefKIMF4uG5f8JDEY8Si3QxLlnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733774403; c=relaxed/simple;
-	bh=eQBveyN1pHC75gstsx0yKUpsTLYd/lJualW+vXfS+2M=;
+	s=arc-20240116; t=1733774943; c=relaxed/simple;
+	bh=AhF6b+TJ4jEUuL9GjeBDcaokIjj9FXU7AIb+5WtycUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FIF97v88qBtKEfTdJc+njahHANJKClWt8uSZ4Xq0oyAEeyQLCDpC8IwC2SvxelZxNJARY5dUhp7e0yCwSaKwT1A+Pt/6S6SlJ11btorFU/3T/1eCu5GovwTUF6wkTXnq/Joe0Tsh1jMZwy1Q7kW8qSv95MOYgRIjidGMEvODAZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heaRTV0y; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=kLLNabS0+OKyExrhL/nPrxWFSgM9kLmE6zOko4uvf/1h/nIr+1f9S6jrHJyhgb/DcsN0i47DYqQLsaucy4rzvGfo4tfiBnNhXyCcf53hHsxw8tRLUd/3Iu22w07vF3954JQR+j+y+yvt/b24Xal2VYFwU45dJ73GSI25DWLmvHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TSi+tKT/; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heaRTV0y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSi+tKT/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733774401; x=1765310401;
+  t=1733774942; x=1765310942;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eQBveyN1pHC75gstsx0yKUpsTLYd/lJualW+vXfS+2M=;
-  b=heaRTV0y15DAK2BqUSwMJt+iWmuLwfs+1oP6mEE6KrQsaghjQSt+hnYs
-   /NSodYRTsAPXrwWbJfracrVhB7gJGfJKZRjpPf21hkL2zbUnr0vyemwdN
-   XSvofC4sDX+xg37AU4nE8BGB24TH4q2LJEgv09GS3gLD+M5CNKn+CTN0Y
-   d/MQ1ERnA2VsacyZ95IAbPGGLhNlQ8FX7jJT8tZdTvKGmTOzhwZ4rGHJF
-   CVG2izZE7H6z5M0aiSAtPjtDrRObINBFuJfyWdWp4GTbc7ra5pbVGv4xU
-   HLbGd9AvIB35vxPhFy8RlQoXzDmDZNRNtKwci9FvQxuBJRsy+DGEBzFI0
-   w==;
-X-CSE-ConnectionGUID: 6EUj59qzTAiHstLTrL1FSQ==
-X-CSE-MsgGUID: hqjE9fUwTxG3scipY5OGQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="56572825"
+  bh=AhF6b+TJ4jEUuL9GjeBDcaokIjj9FXU7AIb+5WtycUs=;
+  b=TSi+tKT/dUPJY44DUBW41mzhqMoonFB/B4VxPxdbRp1Uwe2cKtNTQLxE
+   PoIEFRNJUrPrJobjqS3NjyrRszRnJT8cXBDi7/jMTqUzszksAVdG7qr/q
+   5O4f1jsyEH1qpSt+MjajNDhtL55L77dMTIDCLUWSbeMIl/hQFAtgGymvB
+   yYw5FlLstjK7pZwSjFDCOFgBmHon7LlbUwohcKS7DOlnrC1JoZgjGYyA+
+   A3HaiHi/6rIYmktqqzXc2f13xIGz4IQghOxxJDtXX1VJRqvkrfu9y5yIY
+   BQa7aGp2Sj7fxMlTFvcU0Besd7kppdpafYX07XgYO3L6RU0ewxctpnGJr
+   Q==;
+X-CSE-ConnectionGUID: rZw9MmXpR0mXioEDQ3QkFA==
+X-CSE-MsgGUID: z2/pRxLcTDmpOZU0NKmomQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="37781545"
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="56572825"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 12:00:00 -0800
-X-CSE-ConnectionGUID: 14fLcE4CQyyvZPsTD3caQQ==
-X-CSE-MsgGUID: HrzNSA+7QG+77IT2VnsttQ==
+   d="scan'208";a="37781545"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 12:09:01 -0800
+X-CSE-ConnectionGUID: WBU2/Y25Twa5TsY/rhHdjQ==
+X-CSE-MsgGUID: wS6SLenKRmqXK/uLWW2swg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="100125041"
+   d="scan'208";a="126009434"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Dec 2024 11:59:59 -0800
+  by orviesa002.jf.intel.com with ESMTP; 09 Dec 2024 12:09:01 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKjvA-0004mD-30;
-	Mon, 09 Dec 2024 19:59:56 +0000
-Date: Tue, 10 Dec 2024 03:58:00 +0800
+	id 1tKk3t-0004mU-2B;
+	Mon, 09 Dec 2024 20:08:57 +0000
+Date: Tue, 10 Dec 2024 04:08:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Ma Wupeng <mawupeng1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 1/2]
- drivers/misc/vmw_balloon.c:681:31: error: too few arguments to function
- call, single argument 'order' was not specified
-Message-ID: <202412100358.XLPRAaLK-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1613/1613] kernel/sched/isolation.c:134:53:
+ error: 'setup_max_cpus' undeclared
+Message-ID: <202412100312.eJPOmnjW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +62,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   4332228773d8f5cd3b07c96d0aa41095be5b0446
-commit: 12748383a4ceb5771ff4034cff6685953d00c6b1 [1/2] ANDROID: virtio-balloon: Allow pagesize configuration
-config: i386-buildonly-randconfig-004-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100358.XLPRAaLK-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100358.XLPRAaLK-lkp@intel.com/reproduce)
+Hi Oleg,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   db988390007bce595dba0dfd782c610578e26d2d
+commit: 54bee36be952f18f6a9e8303822459e89daaa336 [1613/1613] sched/isolation: Fix boot crash when maxcpus < first housekeeping CPU
+config: x86_64-buildonly-randconfig-004-20241210 (https://download.01.org/0day-ci/archive/20241210/202412100312.eJPOmnjW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100312.eJPOmnjW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412100358.XLPRAaLK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412100312.eJPOmnjW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/misc/vmw_balloon.c:22:
-   In file included from include/linux/mm.h:2030:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/misc/vmw_balloon.c:681:31: error: too few arguments to function call, single argument 'order' was not specified
-     681 |                                 page = balloon_page_alloc();
-         |                                        ~~~~~~~~~~~~~~~~~~ ^
-   include/linux/balloon_compaction.h:63:21: note: 'balloon_page_alloc' declared here
-      63 | extern struct page *balloon_page_alloc(int order);
-         |                     ^                  ~~~~~~~~~
-   1 warning and 1 error generated.
+   In file included from kernel/sched/build_utility.c:105:
+   kernel/sched/isolation.c: In function 'housekeeping_setup':
+>> kernel/sched/isolation.c:134:53: error: 'setup_max_cpus' undeclared (first use in this function)
+     134 |         if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
+         |                                                     ^~~~~~~~~~~~~~
+   kernel/sched/isolation.c:134:53: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/order +681 drivers/misc/vmw_balloon.c
+vim +/setup_max_cpus +134 kernel/sched/isolation.c
 
-453dc65931915a drivers/misc/vmware_balloon.c Dmitry Torokhov    2010-04-23  646  
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  647  /**
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  648   * vmballoon_alloc_page_list - allocates a list of pages.
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  649   *
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  650   * @b: pointer to the balloon.
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  651   * @ctl: pointer for the %struct vmballoon_ctl, which defines the operation.
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  652   * @req_n_pages: the number of requested pages.
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  653   *
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  654   * Tries to allocate @req_n_pages. Add them to the list of balloon pages in
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  655   * @ctl.pages and updates @ctl.n_pages to reflect the number of pages.
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  656   *
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  657   * Return: zero on success or error code otherwise.
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  658   */
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  659  static int vmballoon_alloc_page_list(struct vmballoon *b,
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  660  				     struct vmballoon_ctl *ctl,
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  661  				     unsigned int req_n_pages)
-365bd7ef7ec8eb drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  662  {
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  663  	struct page *page;
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  664  	unsigned int i;
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  665  
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  666  	for (i = 0; i < req_n_pages; i++) {
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  667  		/*
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  668  		 * First check if we happen to have pages that were allocated
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  669  		 * before. This happens when 2MB page rejected during inflation
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  670  		 * by the hypervisor, and then split into 4KB pages.
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  671  		 */
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  672  		if (!list_empty(&ctl->prealloc_pages)) {
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  673  			page = list_first_entry(&ctl->prealloc_pages,
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  674  						struct page, lru);
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  675  			list_del(&page->lru);
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  676  		} else {
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  677  			if (ctl->page_size == VMW_BALLOON_2M_PAGE)
-83a8afa72e9c0a drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  678  				page = alloc_pages(__GFP_HIGHMEM|__GFP_NOWARN|
-83a8afa72e9c0a drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  679  					__GFP_NOMEMALLOC, VMW_BALLOON_2M_ORDER);
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  680  			else
-83a8afa72e9c0a drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25 @681  				page = balloon_page_alloc();
-365bd7ef7ec8eb drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  682  
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  683  			vmballoon_stats_page_inc(b, VMW_BALLOON_PAGE_STAT_ALLOC,
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  684  						 ctl->page_size);
-ae29783d3333b8 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  685  		}
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  686  
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  687  		if (page) {
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  688  			/* Success. Add the page to the list and continue. */
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  689  			list_add(&page->lru, &ctl->pages);
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  690  			continue;
-365bd7ef7ec8eb drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  691  		}
-365bd7ef7ec8eb drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  692  
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  693  		/* Allocation failed. Update statistics and stop. */
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  694  		vmballoon_stats_page_inc(b, VMW_BALLOON_PAGE_STAT_ALLOC_FAIL,
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  695  					 ctl->page_size);
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  696  		break;
-365bd7ef7ec8eb drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  697  	}
-365bd7ef7ec8eb drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  698  
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  699  	ctl->n_pages = i;
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  700  
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  701  	return req_n_pages == ctl->n_pages ? 0 : -ENOMEM;
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  702  }
-6e4453b3211d14 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  703  
-
-:::::: The code at line 681 was first introduced by commit
-:::::: 83a8afa72e9c0a200d9d400ce83a0cb5193b0e3d vmw_balloon: Compaction support
-
-:::::: TO: Nadav Amit <namit@vmware.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   108	
+   109	static int __init housekeeping_setup(char *str, unsigned long flags)
+   110	{
+   111		cpumask_var_t non_housekeeping_mask, housekeeping_staging;
+   112		unsigned int first_cpu;
+   113		int err = 0;
+   114	
+   115		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK)) {
+   116			if (!IS_ENABLED(CONFIG_NO_HZ_FULL)) {
+   117				pr_warn("Housekeeping: nohz unsupported."
+   118					" Build with CONFIG_NO_HZ_FULL\n");
+   119				return 0;
+   120			}
+   121		}
+   122	
+   123		alloc_bootmem_cpumask_var(&non_housekeeping_mask);
+   124		if (cpulist_parse(str, non_housekeeping_mask) < 0) {
+   125			pr_warn("Housekeeping: nohz_full= or isolcpus= incorrect CPU range\n");
+   126			goto free_non_housekeeping_mask;
+   127		}
+   128	
+   129		alloc_bootmem_cpumask_var(&housekeeping_staging);
+   130		cpumask_andnot(housekeeping_staging,
+   131			       cpu_possible_mask, non_housekeeping_mask);
+   132	
+   133		first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
+ > 134		if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
+   135			__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
+   136			__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
+   137			if (!housekeeping.flags) {
+   138				pr_warn("Housekeeping: must include one present CPU, "
+   139					"using boot CPU:%d\n", smp_processor_id());
+   140			}
+   141		}
+   142	
+   143		if (cpumask_empty(non_housekeeping_mask))
+   144			goto free_housekeeping_staging;
+   145	
+   146		if (!housekeeping.flags) {
+   147			/* First setup call ("nohz_full=" or "isolcpus=") */
+   148			enum hk_type type;
+   149	
+   150			for_each_set_bit(type, &flags, HK_TYPE_MAX)
+   151				housekeeping_setup_type(type, housekeeping_staging);
+   152		} else {
+   153			/* Second setup call ("nohz_full=" after "isolcpus=" or the reverse) */
+   154			enum hk_type type;
+   155			unsigned long iter_flags = flags & housekeeping.flags;
+   156	
+   157			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX) {
+   158				if (!cpumask_equal(housekeeping_staging,
+   159						   housekeeping.cpumasks[type])) {
+   160					pr_warn("Housekeeping: nohz_full= must match isolcpus=\n");
+   161					goto free_housekeeping_staging;
+   162				}
+   163			}
+   164	
+   165			iter_flags = flags & ~housekeeping.flags;
+   166	
+   167			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX)
+   168				housekeeping_setup_type(type, housekeeping_staging);
+   169		}
+   170	
+   171		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK))
+   172			tick_nohz_full_setup(non_housekeeping_mask);
+   173	
+   174		housekeeping.flags |= flags;
+   175		err = 1;
+   176	
+   177	free_housekeeping_staging:
+   178		free_bootmem_cpumask_var(housekeeping_staging);
+   179	free_non_housekeeping_mask:
+   180		free_bootmem_cpumask_var(non_housekeeping_mask);
+   181	
+   182		return err;
+   183	}
+   184	
 
 -- 
 0-DAY CI Kernel Test Service
