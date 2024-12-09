@@ -1,64 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EDB18EFC1;
-	Mon,  9 Dec 2024 03:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE631922F1;
+	Mon,  9 Dec 2024 03:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733715667; cv=none; b=rIgcuDZNoCL0JKtXohGiKV1oa/QwoK26nSf6+SLfR3F/7xzI27Ws8jJvAEXInHBy9VRKaJTyw40ZlrIPnIc22brcqYi0sg8f9b0qUMrSLabLDKKz5BjQ+9+GBa6umN0fEsfPSx9Vjp1k797g+X50UPwFfWE8i01JSOcfEVGI5XA=
+	t=1733715668; cv=none; b=AlHo2qkHmMEP8QtH491mcFkmhOIpFalBojCTkakuRD91lucL0Jm2ABheEoQJIbKZnL1zh3PJJjH9mU9FBOQlXHIgh9xI5cdDPy3QUEvVoPfpETBoWQp4bBH3mSP5ROS2jtEWHKvFHb7jfn8RpotwpnnSB83BBx3hMbNchLiAXbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733715667; c=relaxed/simple;
-	bh=uTNZqUf0pQn0sEQrdm6iDAs3Wxr8P+TD55zoNhMtirs=;
+	s=arc-20240116; t=1733715668; c=relaxed/simple;
+	bh=ncK/sE8+KnlE+XPzzVk25YCDyXg/f1NqF+jwwsC606M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rn8XU/QJFApoVB4BiyNK0POGgfVobuZhfLjSk7aPK1B4I0RY+BEhdvHrburDkd8UScw5hKJsJu1f1KVmIbqxojq3F6IxpfPDy/j+xlJsh70MKMG33ROHZUlKL3HnzQTGM+yAoCKyhDgHaWvzPOz3HSVNXNxgt901p6KTFF2rQsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJfOyi9s; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eecuc9Pd691mwylDCZ9Jr+FialQ7h4ASmcI55pFmAg4zydZtnmBe3MOof+xHDTEgFXyIiBdCXtBMee7OKe5D+ncOKT+qSrNCDmdZhnbvpYNkqtUxCA+rXnCZ4Lo/uCn9puxyrGhLCw+TSjVn2/5kS7KvpG23iluCf0XDaSmlRE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEnEG7pA; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJfOyi9s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEnEG7pA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733715665; x=1765251665;
+  t=1733715666; x=1765251666;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uTNZqUf0pQn0sEQrdm6iDAs3Wxr8P+TD55zoNhMtirs=;
-  b=hJfOyi9sKwftQeeFFOPJunelHcU9tFayxzJn+Wyvo0cYLP54GYzwCOTT
-   n+k0kxiMb8qNqefhX+swC7e2kPXxW9QMyefldLPUSI6/9MCEAor4yfEcD
-   WLhw0k/sqNTa4VHiBufyCLFHZjF1s5KDO8c54fEfZ57g3dl/Uvzo5js+y
-   MOChlNOxGaVTa4pMLf0DE7rwtHciEVtpKS2yFtujqMezj6AZBl/hXIi6Y
-   K/Ldqqpj8NNWpHEumr5wcjbVdrW/nyubuY6Te+zV+tQHurT1ZTppJa9bL
-   cUEnxbW8jk7B/TuVBlJqg+0w29iamyEZSPsWT41M+ag9LUKyol9CHNZYA
-   g==;
-X-CSE-ConnectionGUID: XF+Wg4kcSiiCNn9ypwPmAQ==
-X-CSE-MsgGUID: I0/VtmpwRkCtVrs3/J3Ftw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="59400869"
+  bh=ncK/sE8+KnlE+XPzzVk25YCDyXg/f1NqF+jwwsC606M=;
+  b=hEnEG7pAZ1aPRWgU5BUMJmr6xRn0U0qe25wHFuJFjOf/OrusXHx/ymcB
+   hvgzz6vvkUZA/KbBaQTU7gYOi+T7ykRBNT3BRscP9610c9FZsYs3Vgmuo
+   wohapfzsWQk20VAQGxH4z2gVISloGUGhM22EdS2aZmB/QyEGuAbJZz0kg
+   vxFqyXIGfDbBjD7/KyyRtOr6ESBPI7HrJ6bPqx4DrAE/pyS0+ow9uzUBy
+   feGAYGadSWlJJojge34UWEKLyAC1fjLdLkemW1kmnJbFzOtzTOCEYsCld
+   8HLgUesgQ2f+ZE/+Lkua3VkDjAhd8P6hajNBmsclqWg/F2BAZFspgIDlh
+   A==;
+X-CSE-ConnectionGUID: CaLH7h9DRnawXTeAPHh2eg==
+X-CSE-MsgGUID: HXHqvo4HQ++nY0Lx7fwzGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33889106"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="59400869"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:41:04 -0800
-X-CSE-ConnectionGUID: r2ecLHP2Tx+V7jisDXIsfQ==
-X-CSE-MsgGUID: 6gJ3FpjhQjW8LbqAi4o5JA==
+   d="scan'208";a="33889106"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:41:06 -0800
+X-CSE-ConnectionGUID: X3YHOIjOT4KxtkQC+kKXTQ==
+X-CSE-MsgGUID: nkT5gCzYSmOuxlFtB3DBpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99895657"
+   d="scan'208";a="95295523"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Dec 2024 19:41:01 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 19:41:02 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKUdn-0003k9-0E;
+	id 1tKUdn-0003kB-0K;
 	Mon, 09 Dec 2024 03:40:59 +0000
-Date: Mon, 9 Dec 2024 11:40:32 +0800
+Date: Mon, 9 Dec 2024 11:40:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-coco@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Samuel Ortiz <sameo@rivosinc.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>, linux-pci@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH 06/11] samples/devsec: PCI device-security bus / endpoint
- sample
-Message-ID: <202412070726.Au4TQYYS-lkp@intel.com>
-References: <173343743095.1074769.17985181033044298157.stgit@dwillia2-xfh.jf.intel.com>
+To: Nick Chan <towinchenmi@gmail.com>, Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
+Message-ID: <202412070721.9tZI9Ogl-lkp@intel.com>
+References: <20241206172735.4310-3-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,83 +73,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <173343743095.1074769.17985181033044298157.stgit@dwillia2-xfh.jf.intel.com>
+In-Reply-To: <20241206172735.4310-3-towinchenmi@gmail.com>
 
-Hi Dan,
+Hi Nick,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/configfs-tsm-Namespace-TSM-report-symbols/20241206-064224
+url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Chan/dt-bindings-leds-backlight-apple-dwi-bl-Add-bindings-for-Apple-DWI-backlight/20241207-013254
 base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-patch link:    https://lore.kernel.org/r/173343743095.1074769.17985181033044298157.stgit%40dwillia2-xfh.jf.intel.com
-patch subject: [PATCH 06/11] samples/devsec: PCI device-security bus / endpoint sample
-config: i386-randconfig-r123-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070726.Au4TQYYS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070726.Au4TQYYS-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20241206172735.4310-3-towinchenmi%40gmail.com
+patch subject: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
+config: arc-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070726.Au4TQYYS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070721.9tZI9Ogl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   samples/devsec/bus.c: In function 'doe_process':
->> samples/devsec/bus.c:172:18: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-     172 |         u8 type, index;
-         |                  ^~~~~
+   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_update_status':
+>> drivers/video/backlight/dwi_bl.c:46:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+      46 |         cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
+         |                ^~~~~~~~~~
+   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_get_brightness':
+>> drivers/video/backlight/dwi_bl.c:61:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+      61 |         return FIELD_GET(DWI_BL_CMD_DATA, cmd);
+         |                ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for TSM
-   Depends on [n]: VIRT_DRIVERS [=n]
-   Selected by [y]:
-   - SAMPLE_DEVSEC [=y] && SAMPLES [=y] && PCI [=y] && X86 [=y]
 
-sparse warnings: (new ones prefixed by >>)
->> samples/devsec/bus.c:539:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] subsystem_vendor_id @@     got restricted __le16 [usertype] @@
-   samples/devsec/bus.c:539:37: sparse:     expected unsigned short [usertype] subsystem_vendor_id
-   samples/devsec/bus.c:539:37: sparse:     got restricted __le16 [usertype]
->> samples/devsec/bus.c:546:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] devcap @@     got restricted __le16 [usertype] @@
-   samples/devsec/bus.c:546:34: sparse:     expected restricted __le32 [usertype] devcap
-   samples/devsec/bus.c:546:34: sparse:     got restricted __le16 [usertype]
->> samples/devsec/bus.c:609:59: sparse: sparse: cast truncates bits from constant value (1000000000 becomes 0)
+vim +/FIELD_PREP +46 drivers/video/backlight/dwi_bl.c
 
-vim +/index +172 samples/devsec/bus.c
-
-   168	
-   169	/* just indicate support for CMA */
-   170	static void doe_process(struct devsec_dev_doe *doe)
-   171	{
- > 172		u8 type, index;
-   173		u16 vid;
-   174	
-   175		vid = FIELD_GET(PCI_DOE_DATA_OBJECT_HEADER_1_VID, doe->req[0]);
-   176		type = FIELD_GET(PCI_DOE_DATA_OBJECT_HEADER_1_TYPE, doe->req[0]);
-   177	
-   178		if (vid != PCI_VENDOR_ID_PCI_SIG) {
-   179			doe->read_ttl = -1;
-   180			return;
-   181		}
-   182	
-   183		if (type != PCI_DOE_PROTOCOL_DISCOVERY) {
-   184			doe->read_ttl = -1;
-   185			return;
-   186		}
-   187	
-   188		index = FIELD_GET(PCI_DOE_DATA_OBJECT_DISC_REQ_3_INDEX, doe->req[2]);
-   189	
-   190		doe->rsp[0] = doe->req[0];
-   191		doe->rsp[1] = FIELD_PREP(PCI_DOE_DATA_OBJECT_HEADER_2_LENGTH, 3);
-   192		doe->read_ttl = 3;
-   193		doe->rsp[2] = FIELD_PREP(PCI_DOE_DATA_OBJECT_DISC_RSP_3_VID,
-   194					 PCI_VENDOR_ID_PCI_SIG) |
-   195			      FIELD_PREP(PCI_DOE_DATA_OBJECT_DISC_RSP_3_PROTOCOL,
-   196					 PCI_DOE_FEATURE_CMA) |
-   197			      FIELD_PREP(PCI_DOE_DATA_OBJECT_DISC_RSP_3_NEXT_INDEX, 0);
-   198	}
-   199	
+    37	
+    38	static int dwi_bl_update_status(struct backlight_device *bl)
+    39	{
+    40		struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
+    41	
+    42		int brightness = backlight_get_brightness(bl);
+    43	
+    44		u32 cmd = 0;
+    45	
+  > 46		cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
+    47		cmd |= FIELD_PREP(DWI_BL_CMD_TYPE, DWI_BL_CMD_TYPE_SET_BRIGHTNESS);
+    48	
+    49		writel(cmd, dwi_bl->base + DWI_BL_CMD);
+    50		writel(DWI_BL_CTL_SEND, dwi_bl->base + DWI_BL_CTL);
+    51	
+    52		return 0;
+    53	}
+    54	
+    55	static int dwi_bl_get_brightness(struct backlight_device *bl)
+    56	{
+    57		struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
+    58	
+    59		u32 cmd = readl(dwi_bl->base + DWI_BL_CMD);
+    60	
+  > 61		return FIELD_GET(DWI_BL_CMD_DATA, cmd);
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
