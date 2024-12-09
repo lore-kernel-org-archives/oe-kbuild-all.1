@@ -1,85 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9587E233151
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 17:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E539155345;
+	Mon,  9 Dec 2024 18:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733766206; cv=none; b=gnNeuQsD6t/L4aq5pgFj0xc3SOOrclLJmDM4oJaOVS2aHi/DbLo9vaQSDG4WYg5v9zrEJ31x0V0CDK8XlaA1HDCK0u6Hfp26oGnJPclojHgq6HuWcXNgUECa+7EH2ch/f4S/Azu7/X9inpHTvv3lYMawEf2H5lRqe+Wbjpw6GYk=
+	t=1733768829; cv=none; b=YieHbMwqd4DkQ2xlyGpKokb9iL4vmEURkbKevvaAII/p+FFYPM6QjDKkdu+ibQUSQWp7AD8Om1RunEqXDE+yX8uSWdcIrRwfpKJ/j0Jv0gS4/u1cl/ajtJGbzAkxGOH9iHC9nYNBbUi0Squ65O9MiiRl+fAelY6jJEfOzSxffKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733766206; c=relaxed/simple;
-	bh=J18g49BqTzch8Yhu2rBZI0yVn8NmDJzzl63DsmAqVSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=us7/dFTnGOjcw6HjpueWvCRCx0y3aHUekd5msjhZPuQwwKYsCNNjOrm3boJ3zvDea5AdE+1K2aEKd4QgttdgvP4HMlH1p9aR6OY29CSvW5zGd3hYjXuaD4zjCkNe4oCLJpX/KaIY6V8H5KcfeVNqZxzfbEx1Kk6ugjbswUAiy7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0EdZ/Of; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733768829; c=relaxed/simple;
+	bh=f9qJTFyXFyyNKKG3cYnLGjDTXRWksWJ5bSdnCn8V8zo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=eluIxJIdNYFQr3I1CRrCI69UIxRvUZSufPXdrAKc3E9s/fNRORghwloiWA5Gt7eptyxXN1Mk8I9vjDgwZVyDCZRsoWefrTtSSk6e/5IsElHzMP48k99iXWI+/IuhBidKT2xTP0wuFR0tHe0FiHmrRuGSItFZPvFiwECxDEZeQMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I8iTdejB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0EdZ/Of"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733766204; x=1765302204;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J18g49BqTzch8Yhu2rBZI0yVn8NmDJzzl63DsmAqVSc=;
-  b=O0EdZ/Of+Oq2gqumznyliPzUmfZsPIFxEJ0+cQoZSwGRLMTrkY9D9xr/
-   Qi0C4hxRhd6ViOkI1j5dciepyLIsJqP0ARLQ3hTKntmzR8+LuEuhWzdWA
-   yW11XgUaNYzGEtpa2kES20bWiC7RCzFFrzPhPS8rdNxprAtaqSXSb3bti
-   AK9OLOj29NCN2zBv4Ya/k1DpeWQ9o0nDWX8y9GHQt8tZgLysvenJnCrAe
-   KiQjr6aKxf58gKBfTcMosqBxYZU5kNLM1C4LAoOHR4adrC0Y+/YRyRhox
-   uObFkIfjxC1IpgvPYpHlVN99HFQ3Ut2XnvecNzRssBwEHGYn58sOS/9+a
-   Q==;
-X-CSE-ConnectionGUID: abgxF0N7Sf6/8wr3Z9bn8Q==
-X-CSE-MsgGUID: mTY1SQEkRVe48hvd4aAE4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34321470"
-X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="34321470"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 09:43:24 -0800
-X-CSE-ConnectionGUID: 6AGFuUf6TYGH4YqkQZXZ2w==
-X-CSE-MsgGUID: ZKx6jZ68TR+PAGjzcTRNIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="118390833"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Dec 2024 09:43:23 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKhmz-0004fb-0B;
-	Mon, 09 Dec 2024 17:43:21 +0000
-Date: Tue, 10 Dec 2024 01:42:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 11/12] cc1: error:
- drivers/media/platform/mediatek/isp/isp_7x/mtk-hcp: No such file or
- directory
-Message-ID: <202412100120.dnuhV76K-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I8iTdejB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7F4C4CED1;
+	Mon,  9 Dec 2024 18:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733768828;
+	bh=f9qJTFyXFyyNKKG3cYnLGjDTXRWksWJ5bSdnCn8V8zo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=I8iTdejBzdvu/wVU9GQDf821juswSbAj+Kfty+fr+4OzKsrJMZ9YRNXO3iQbzuQfj
+	 mZfFYNYf0FtEGlIbXlwbLIqZeELF6wUKmBg0fRQwn0+y4U/jPJFUVwqZxrn31EIB8E
+	 LwQLak6Tqlj7R/aPkX3aQijB484s1iCbBaALj/Ql1SmwprhUZ/DD3WHs0AAj3K/FEQ
+	 0q6bvO70Yo6FV/tJHqSzroTSQoFbaQrEdNzZpE9LzIpWiniyfEc5Bss3IhUg4ocfxa
+	 35eApdPBewEEA+tWGhI6P7RzDyzb7KiVtEdkvfX6RW6qqRxJEwAE4Aa7+M3mt3zcfX
+	 z9YUeH/bUtGUA==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 76/76] mm/damon/paddr.c:493:3: warning: variable 'applied' is uninitialized when used here
+Date: Mon,  9 Dec 2024 10:27:05 -0800
+Message-Id: <20241209182705.10593-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <202412071433.DgqslKRN-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   87f02bef3628d61ca3d6598a6572270dd9452ea8
-commit: ee0941e8f5004aa3f8190c4d1bbbea2837aac4a2 [11/12] CHROMIUM: media: platform: mediatek: isp: remove the hcp driver
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20241210/202412100120.dnuhV76K-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100120.dnuhV76K-lkp@intel.com/reproduce)
+On Mon, 9 Dec 2024 12:10:42 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412100120.dnuhV76K-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   25b6468a712e65fa59ad8724e87ed32fb3e1d0c3
+> commit: 25b6468a712e65fa59ad8724e87ed32fb3e1d0c3 [76/76] mm/damon: add a new DAMOS action for fine-grained filter-aware stat
+> config: i386-buildonly-randconfig-004-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071433.DgqslKRN-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071433.DgqslKRN-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412071433.DgqslKRN-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from mm/damon/paddr.c:12:
+>    In file included from include/linux/pagemap.h:8:
+>    In file included from include/linux/mm.h:2223:
+>    include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>      518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+>          |                               ~~~~~~~~~~~ ^ ~~~
+>    In file included from mm/damon/paddr.c:17:
+>    include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>       47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+>          |                                    ~~~~~~~~~~~ ^ ~~~
+>    include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>       49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+>          |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+> >> mm/damon/paddr.c:493:3: warning: variable 'applied' is uninitialized when used here [-Wuninitialized]
+>      493 |                 applied += folio_size(folio);
+>          |                 ^~~~~~~
+>    mm/damon/paddr.c:482:29: note: initialize the variable 'applied' to silence this warning
+>      482 |         unsigned long addr, applied;
+>          |                                    ^
+>          |                                     = 0
+>    4 warnings generated.
 
-All errors (new ones prefixed by >>):
+Thank you for this kind report!  Just pushed a fix:
+https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=48b4e032de1655313ff3cdf08d36bd6633993f93
 
->> cc1: error: drivers/media/platform/mediatek/isp/isp_7x/mtk-hcp: No such file or directory [-Werror=missing-include-dirs]
-   cc1: all warnings being treated as errors
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+SJ
+
+[...]
