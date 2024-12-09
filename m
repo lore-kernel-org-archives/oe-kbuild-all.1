@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA9720FA99;
-	Mon,  9 Dec 2024 05:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BA916C69F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 06:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733723460; cv=none; b=mszJs5DPLkGV4yKqjADkyi0YUb93KJmf546S8Ox90+IOu6fDIWDgVhVfukcePtjUIu6UlJn+OzNdOHvUlQdH6AErJ1PudA6KWUGbrE4LOPHxwDcgbaPTKfp6QCJUH0AKOUK+WmS+Q0P1lqhjYsp5u/sO+yAQjZyRyXkhWI2HOUA=
+	t=1733725255; cv=none; b=TawIhO3gsCr++U5nJBIdCy7htvZs7XZxPD0ofxa8G0m+OHPR3HtNRZhkH2FWqNrvGJnXcEp6TggF9a00fooSqa6cweP9+OVKO4jCXsr1CATu3Udrlsr8mxa6BO557UkE1HFtAYwgflfNWZIIuIVqu2uhmEIy5NNHo9DdjpNT4JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733723460; c=relaxed/simple;
-	bh=3bH83qn7I2EaQcJW+jlGfspn/KSUVZt+At8nB/YEfRs=;
+	s=arc-20240116; t=1733725255; c=relaxed/simple;
+	bh=GpYynn+iuoP7VK0sSmVZgMS2aLLGAqJHZ9w4DCaAhoc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TXwOFuf5duzZfwaX4CKJuauh9jSYvrd9mJEY0W8yKrZbk7W6pp4JJRvftnuxnvDmCojs1Mj+GvRaDZ9F7ubK6IdN0c6VsfDwainSLX1L2GZarEcrgoWrck0XBOW/bVYkya/mU5ynRATQS39lB/Cx/0HdX1qjX1SufRstOMIuc4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auEMp1c/; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=IUjT5z/WCn/U6dbv3uDy+bzHJ1Z751A17sRKY2fg7sYv5GCy7TPyHUWMzXxlX/T4TWrI82qkJTF0yRJhUYDswmUUEcWb2RKpgk0D7flmqBeZrdSUtRZmKvdAf+TWM61MhaZ7dZW3ZtQUqRKaFNogGrVjJUeHGT8XCpJ61c0Ck0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qthyGVDk; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auEMp1c/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733723458; x=1765259458;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3bH83qn7I2EaQcJW+jlGfspn/KSUVZt+At8nB/YEfRs=;
-  b=auEMp1c/JjoN9FzNJMu9mbOW7qhbP96BOKGON9dhrUkhlGYRNxPNH6Z1
-   G5nw1nUHOgNRkcFAmyRHVj22vY2/iVROqvyXj6dGIVAYlEBhXWyAhm7cN
-   sH26oe2CXFCg6zvD9+ciQsbppIujNtF6zKlq0P0i2w0GOHoxWSTn15NfF
-   PHo+8y28uu2tSELFChJ6oYy/aqYU+a1vF8qFZQXNuiqNFSigvHv4cR8Cp
-   u4/+Iuyly/w5OGNi0zpK1QVyCN4vpLe4cfXhomV4IbuWtV8/mK+U8aaIM
-   uIxecbapnZmq+y7vbvuL97DG+HRG1kxJwBIAHB8NAZ6lmvh70VtuVn5+1
-   Q==;
-X-CSE-ConnectionGUID: yxM4qlR0SPq8bpgGtyWfAQ==
-X-CSE-MsgGUID: Pdvmn3riS/2ylEsVKngwmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="44687840"
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="44687840"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 21:50:57 -0800
-X-CSE-ConnectionGUID: mapl7kcMTcG0vIQ7EUfVBg==
-X-CSE-MsgGUID: x7/RxJCPRCyJ2og5uWt9/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="125814833"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Dec 2024 21:50:57 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKWfW-0003zh-0I;
-	Mon, 09 Dec 2024 05:50:54 +0000
-Date: Mon, 9 Dec 2024 13:50:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>
-Subject: [hyperv:hyperv-fixes 5/11] drivers/hv/vmbus_drv.c:2510:45: error:
- call to undeclared function 'secs_to_jiffies'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202412091658.m9g4L9gw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qthyGVDk"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385e87b25f0so2898333f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 22:20:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733725251; x=1734330051; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7jJkWSBwztPHLc8SnWGYUODZCuX3iLbpG5bezmk5dRU=;
+        b=qthyGVDkUM8Zcjo1kemnGMSZE1HENnQUW14t6refeKW4TUpeCCmXC2kyHkYWI7uRUy
+         P3ry7Mct0rWgQVrBrUvdytS2y5SLQOYko1h2Jhec7RhRVluz4vCvUCwVekBIDih0xg9n
+         ankduYb3pyupy5Cyuioduyxu0Q8OqngJar65vG5pGwCLAD5jIeMAIXCONzRcGwP9Nznw
+         qosVte1p3EYzvqdxjJAwyG3GCm9Mm1wdykQqgjYmvaRhOA6MC/g3SIKA2kM0pUV4S+6X
+         TvyGbOB2Sj+kbygm2etSs662OcLGuE9aoOZ8b9C4tVixKQ2klBAvj+3NRWc62CNOwkmC
+         Cccg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733725251; x=1734330051;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7jJkWSBwztPHLc8SnWGYUODZCuX3iLbpG5bezmk5dRU=;
+        b=fmy9WcGFVrIw5F8bJka1Nf1xqBQNUYFQQ7lGYSCQgA+wiOZUvLrsa9DOdRU3UlPFlU
+         YgtreCTI31ZqRLlUX8HsnG1nalNQ6XTOyBz+WVVvbDN/qi0C5LYKrc7N35sBqB7SXuA1
+         ltbJhOCIdLchzWyUQNIBmlVkjJWXxAmmRN6icpB2QVdZDJPwzXQ3lQwWq08jTM2AkCeq
+         rB3s8e3uNI8vfKrNpIn6kTy0ZVnMyKvE7lOcftF+dBLEkNQqe5xPYO4z+TA4+Rox3Vu1
+         5ENEbbAiOworp2Yy75jYDTN6Hgy0gNVdfInaOiq6aU/m0etIe/zBFZZntXHyrFsE3VC/
+         0yHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWu98w4nuVTZobeoltXj+6yn8h57OFYIyqU5n4plbzSaxM8X4c6ABFn/lFT41LB3eRsf2sxl77Ni0dppdqR@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzj+LfM3AfUKxlHmTk/5+aFH16CXyTu8xR0dBIi36aKX6dx6DZ5
+	9GvlKzVLtJ+3xirWcCD/qLXnaLV6BbKZjT+zf55XuUebcKt/CDVizD15/OhGukE=
+X-Gm-Gg: ASbGnctHo4lm4Xezn/eytIObhefADicRRqZ1uhl3fuOcK2us6Qv9HwZ5uf/YB6W2P8a
+	OLWI9EON7OKrSQTODWOeymY7Xfqdw14lQY2fpISnjcI1megoDcvpa6YiDUwwn16/bg7iCqgqQUN
+	Imr66iPf6QGYHOqAI5E+etBqCgaBN5f5E74938N1R0E+uTCNmh9hVIccmvWWb6i2ZMqfJn6FNLH
+	O8vV/01Nmz+S4BHKA/7Hfxu8/v3dVoEFqKAVFqfLsVx2V3fFZmFEgQ=
+X-Google-Smtp-Source: AGHT+IG7w4/4RKpd6Mi9/6A3a434elfjyRGJzlFv7WKBL0P6cJmpxGL1+tFZA6BscihXHw4JGki09A==
+X-Received: by 2002:a05:6000:2ac:b0:385:f7e5:de88 with SMTP id ffacd0b85a97d-3862a7722d0mr7780821f8f.3.1733725251254;
+        Sun, 08 Dec 2024 22:20:51 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3862190989fsm12360852f8f.73.2024.12.08.22.20.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2024 22:20:50 -0800 (PST)
+Date: Mon, 9 Dec 2024 09:20:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Cosmin Ratiu <cratiu@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c:173
+ mlx5_fc_stats_query_all_counters() error: uninitialized symbol
+ 'bulk_query_time'.
+Message-ID: <1ce44712-7b81-4ace-aae8-7284974b11f1@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,90 +73,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git hyperv-fixes
-head:   b8ea8cd0fbd358feee3e9172c5ef8afd671e0d11
-commit: eced6df67f6b76889e80ded109a73ca5fac1e5cd [5/11] drivers: hv: Convert open-coded timeouts to secs_to_jiffies()
-config: i386-buildonly-randconfig-004-20241209 (https://download.01.org/0day-ci/archive/20241209/202412091658.m9g4L9gw-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091658.m9g4L9gw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
+commit: 918af0219a4d6a89cf02839005ede24e91f13bf6 net/mlx5: hw counters: Replace IDR+lists with xarray
+config: openrisc-randconfig-r072-20241206 (https://download.01.org/0day-ci/archive/20241207/202412071312.oNFnyT9f-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412091658.m9g4L9gw-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412071312.oNFnyT9f-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c:173 mlx5_fc_stats_query_all_counters() error: uninitialized symbol 'bulk_query_time'.
+drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c:174 mlx5_fc_stats_query_all_counters() error: uninitialized symbol 'bulk_base_id'.
 
-   In file included from drivers/hv/vmbus_drv.c:21:
-   In file included from include/linux/hyperv.h:17:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/hv/vmbus_drv.c:21:
-   include/linux/hyperv.h:646:2: warning: 'counted_by' should not be applied to an array with element of unknown size because 'struct gpa_range' is a struct type with a flexible array member. This will be an error in a future compiler version [-Wbounds-safety-counted-by-elt-type-unknown-size]
-     646 |         struct gpa_range range[] __counted_by(rangecount);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hv/vmbus_drv.c:2510:45: error: call to undeclared function 'secs_to_jiffies'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2510 |                 &vmbus_connection.ready_for_resume_event, secs_to_jiffies(10)) == 0)
-         |                                                           ^
-   2 warnings and 1 error generated.
+vim +/bulk_query_time +173 drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c
 
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  138  static void mlx5_fc_stats_query_all_counters(struct mlx5_core_dev *dev)
+a351a1b03bf169f Amir Vadai   2016-07-14  139  {
+5acd957a986c167 Cosmin Ratiu 2024-10-01  140  	struct mlx5_fc_stats *fc_stats = dev->priv.fc_stats;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  141  	u32 bulk_len = fc_stats->bulk_query_len;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  142  	XA_STATE(xas, &fc_stats->counters, 0);
+6f06e04b67baa1c Gavi Teitz   2019-07-29  143  	u32 *data = fc_stats->bulk_query_out;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  144  	struct mlx5_fc *counter;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  145  	u32 last_bulk_id = 0;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  146  	u64 bulk_query_time;
+6f06e04b67baa1c Gavi Teitz   2019-07-29  147  	u32 bulk_base_id;
+a351a1b03bf169f Amir Vadai   2016-07-14  148  	int err;
+a8ffcc741acb3c7 Rabie Loulou 2017-07-09  149  
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  150  	xas_lock(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  151  	xas_for_each(&xas, counter, U32_MAX) {
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  152  		if (xas_retry(&xas, counter))
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  153  			continue;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  154  		if (unlikely(counter->id >= last_bulk_id)) {
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  155  			/* Start new bulk query. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  156  			/* First id must be aligned to 4 when using bulk query. */
+6f06e04b67baa1c Gavi Teitz   2019-07-29  157  			bulk_base_id = counter->id & ~0x3;
+                                                                ^^^^^^^^^^^^
 
-vim +/secs_to_jiffies +2510 drivers/hv/vmbus_drv.c
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  158  			last_bulk_id = bulk_base_id + bulk_len;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  159  			/* The lock is released while querying the hw and reacquired after. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  160  			xas_unlock(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  161  			/* The same id needs to be processed again in the next loop iteration. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  162  			xas_reset(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  163  			bulk_query_time = jiffies;
 
-  2472	
-  2473	static int vmbus_bus_resume(struct device *dev)
-  2474	{
-  2475		struct vmbus_channel_msginfo *msginfo;
-  2476		size_t msgsize;
-  2477		int ret;
-  2478	
-  2479		vmbus_connection.ignore_any_offer_msg = false;
-  2480	
-  2481		/*
-  2482		 * We only use the 'vmbus_proto_version', which was in use before
-  2483		 * hibernation, to re-negotiate with the host.
-  2484		 */
-  2485		if (!vmbus_proto_version) {
-  2486			pr_err("Invalid proto version = 0x%x\n", vmbus_proto_version);
-  2487			return -EINVAL;
-  2488		}
-  2489	
-  2490		msgsize = sizeof(*msginfo) +
-  2491			  sizeof(struct vmbus_channel_initiate_contact);
-  2492	
-  2493		msginfo = kzalloc(msgsize, GFP_KERNEL);
-  2494	
-  2495		if (msginfo == NULL)
-  2496			return -ENOMEM;
-  2497	
-  2498		ret = vmbus_negotiate_version(msginfo, vmbus_proto_version);
-  2499	
-  2500		kfree(msginfo);
-  2501	
-  2502		if (ret != 0)
-  2503			return ret;
-  2504	
-  2505		WARN_ON(atomic_read(&vmbus_connection.nr_chan_fixup_on_resume) == 0);
-  2506	
-  2507		vmbus_request_offers();
-  2508	
-  2509		if (wait_for_completion_timeout(
-> 2510			&vmbus_connection.ready_for_resume_event, secs_to_jiffies(10)) == 0)
-  2511			pr_err("Some vmbus device is missing after suspending?\n");
-  2512	
-  2513		/* Reset the event for the next suspend. */
-  2514		reinit_completion(&vmbus_connection.ready_for_suspend_event);
-  2515	
-  2516		return 0;
-  2517	}
-  2518	#else
-  2519	#define vmbus_bus_suspend NULL
-  2520	#define vmbus_bus_resume NULL
-  2521	#endif /* CONFIG_PM_SLEEP */
-  2522	
+bulk_query_time is only initialized on this path which is marked as unlikely()
+and not initialized on the else statement.
+
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  164  			err = mlx5_cmd_fc_bulk_query(dev, bulk_base_id, bulk_len, data);
+a351a1b03bf169f Amir Vadai   2016-07-14  165  			if (err) {
+a351a1b03bf169f Amir Vadai   2016-07-14  166  				mlx5_core_err(dev, "Error doing bulk query: %d\n", err);
+6f06e04b67baa1c Gavi Teitz   2019-07-29  167  				return;
+a351a1b03bf169f Amir Vadai   2016-07-14  168  			}
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  169  			xas_lock(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  170  			continue;
+6f06e04b67baa1c Gavi Teitz   2019-07-29  171  		}
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  172  		/* Do not update counters added after bulk query was started. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01 @173  		if (time_after64(bulk_query_time, counter->cache.lastuse))
+                                                                         ^^^^^^^^^^^^^^^
+
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01 @174  			update_counter_cache(counter->id - bulk_base_id, data,
+                                                                                                   ^^^^^^^^^^^^
+
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  175  					     &counter->cache);
+a351a1b03bf169f Amir Vadai   2016-07-14  176  	}
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  177  	xas_unlock(&xas);
+a351a1b03bf169f Amir Vadai   2016-07-14  178  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
