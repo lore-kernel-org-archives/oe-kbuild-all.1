@@ -1,67 +1,77 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054EB2101AA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 06:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFEC20FA9A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 06:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733727023; cv=none; b=Siz2nmP9yZf/EuaHPWCtowV3V4YS33memh2EZTRYoSXbY+ALILTlsURElHOnGGNk73Jd4AlYziWrBJtxr8D4ScYI1FmXaenpNbPnC4dLgBmgBTn6l0/GvRyHXTfi6hmTnOTJPYjBmDBd2my/u0qHsSD12Jqo4NSGNqRfCUcdnBg=
+	t=1733727116; cv=none; b=o0/s/jKtiAINu44mgNovDXQfRQrJx5YfdNHs/sOWA+Yhhx24MioMt6ebRwg2M891WkP8GE5sqeFS5tcut6S931de047ewBVCF1R1J7XjctXMONILrR7qS5F2/XyWRwgoLm7iSmtt+JWxxITNQyIpZSIavPMnnajRQ9I+1/5qnEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733727023; c=relaxed/simple;
-	bh=+GhGwCv8ofq/9GZ2ew1JPdfaGFVwujvxmv1+Lf9CGyE=;
+	s=arc-20240116; t=1733727116; c=relaxed/simple;
+	bh=gjWi9UfQlY8GyExiw+avsaQCZ/mlkQOOqNPCHaN/8Mc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pWLxI6I5DInyXs95KgZRkBQDYV8Ze9fEkDH4DSIYwcn4slDfcSJUMhZNUanldseRKBuIQHPB3FAlzM2cN6owmi7DlyeKIRoUqnwyraCVaOzCDCd20UbeiwWR4m1/zZeRpttO46pdtLIn33YiHhNuiKo+MfX6N9aOoqKQd8k4pmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FtIgcqu4; arc=none smtp.client-ip=209.85.221.46
+	 Content-Disposition:In-Reply-To; b=KpQ93zQryrf00Z5uTOxx//eOcpncLcLPH3KzQEFrtqic/I4PPobocI3XkUj5Qx/jdjyffIr1Y0bnzAJNIp/JBpJ2irqbn4m2HTJgSNKTPSZ0vNzbBl/KS4RvK8mlAfLh8sfdBs7L4KHE7hyWZUOd8UdNlrNTXMvj2pD6o+ba4sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pNg01lwq; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FtIgcqu4"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-385e1fcb0e1so2218818f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 22:50:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pNg01lwq"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434a766b475so39024115e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 22:51:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733727019; x=1734331819; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7n3+yHETFS99MANvj/793YHaxjKIibOUlJpNB+JuQZo=;
-        b=FtIgcqu4/S9zmfxp4x9IVP3EatC2ZpXvgYCYNXde3TRksvQBP5MEHEOkQhX1/4245l
-         5OcpJAAEJ+t4anrvUb67v6B4RGrb0BoRh0PebbhIEUR6z47B3iYL3IaJ+9ueMYheReWr
-         tgThOHbyk1ibIaJVBuAz2nZwjfNsvguNMKd/37LtOoYulwoZg59P8CP0NfuncJ+B1RHb
-         1xHtzO9WLyHkLLWlstVASVCTBm/zt2aAHAuhP/NJqVXiaDiqFJFsVcdvOrWREPy043rH
-         QfzRFsq5f1IGYMcR7LxOaeFRcekZ+UHGSn0rWPtRrm2Ces40c5+kzfhJfAaJ6kEXjFCb
-         t8gA==
+        d=linaro.org; s=google; t=1733727113; x=1734331913; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UU+rFrYBqU+HyZU9fxW7fsHHwD25k+Ib4ntmd1sD3tw=;
+        b=pNg01lwqUFlMO6A9LWuyqvPoxgEie92HsWKRticCtFslBED4CFt7PYCaDR3LpX1m+4
+         vXi8cjcTLOvKGFEv6DICW+/IdDzXJ36HWWe+Yo0I3FMO63eaA19c201Wl0iLrdApkbzm
+         3Eas+eDCfc3bEgyZMk5XH67Vz524El48PwO5VU//+g+noeCuECm9VuvdQ17WE3hDEg/N
+         exzcvc1h+8pek1ugVyJ6SS9TPUAC0xQPIRoEDB2AT9hH7VOHvuw1yL2M9BZTDYFi6pUP
+         M3dzEiek1KkADtceWcedqFyppxRsn8qDrwi/z+1h57RdpPmEt6Ay2A3ao6w4bAeLisi+
+         o6kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733727019; x=1734331819;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7n3+yHETFS99MANvj/793YHaxjKIibOUlJpNB+JuQZo=;
-        b=keEauDMllOVfGgZjlrGoCoHBZtLfZsF0Jx9Gw7Rpd1L0U8hfFLZ+eLjz1c4yJdjDfT
-         MP6SY84K5TUKVcGneL/WFrj7Vr0zradidj86W6henNscLxndrq0Xrr9owORKyIzbJvcL
-         Z2BAmwyWph1aw11gvGRHOjc5N5E3PUB9HCrjadytuaR5sMXGApyTNEFwfNdLSXdm/B0Z
-         ZBK7lJQ9BGbMw9oDA2xjbZjtBS7GYcFk69k15voBraIRiD6IvmJfvj0+Zeg1ulgNtYk+
-         084+0HW4HGUPRfwfTxas8rjWtfvOsGi9DMNLC01F3fzn7eGD39Scn8KdGZ77y6Ut9Zr3
-         GSXw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4KddhHkcX3lJF3Pf/3NiWzC1ftTfamq9C2mmckjC/77WTHseGBKhXCHoT1d1AV/AcyVYckOzqvPBBQOIu@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7ACFIpDd2xC7MRYMxjQ9vUdir7Sddj7OIp/fiIwplN427O2ca
-	EPeC5r8B90CRE2BO/eKFZT49HJT7t6bPLIMWcILRW8Myehm4YstEa1sV+xUe7ng=
-X-Gm-Gg: ASbGnct2VwC6tELVWNMEMWIJ4OP9vOxFHnXYssLQil4IwzYlet87lGNejqhG8/7GOdr
-	w3r+Xcjzwbwo083uqso7fdWu9OGK6q8YKZDSYjnlF5ZL7WOU/MRS6EfT5XPwoqE/x9jTmyFTvdA
-	mKfHDPjikg5oIHMI9To9MB0IjEKDZXQXCoP7Bjx9oHwfSb7Kg4RA0DGNexGqUujYtWRG4/FpzK3
-	nNCKzm+xdOkW0mkLbJnCwLlddfbslY7X45pvsTFXitvhMJQcG7+Ggk=
-X-Google-Smtp-Source: AGHT+IFwxXb0+vWvp52C40XV8eGEYPTakNcNRKHR6QYRRUjzfRuWboo9IHX2DAFNzl4BWYOe/qUukw==
-X-Received: by 2002:a5d:5f8c:0:b0:385:e67d:9e0 with SMTP id ffacd0b85a97d-3862b37d51amr8320678f8f.29.1733727019248;
-        Sun, 08 Dec 2024 22:50:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733727113; x=1734331913;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UU+rFrYBqU+HyZU9fxW7fsHHwD25k+Ib4ntmd1sD3tw=;
+        b=QlGmAbOb/TvwN2bxS2Jh8yEHH+4ZKV/u06+mcdUR1tfD1WrR0vD5VI44I4DeNKMeoa
+         ctnn+fx/K/HNGjJR+jwUyt1pi830JS7KFjSSUCl6LEE6BCmw7DwAp+1tFOSDTWdRYWUU
+         DNRKqOUVKjTDup0TOzzeREoNa2VNnQ1XyaQ00rt83hXzTyJVQzrHqcgOJY6emSGZczs9
+         XylOBVaH9g1P6De9jxJsjSuXwAK0BvcIQdGUt9zCU9cgMd4md79U2sXndC9KUx/ZR57e
+         OpkF6dioqqz4S0D2GXX3TzvXP3Zic6pNNF/o758Ub+0lTVg84rt+aIb6s/quDFMuZE9P
+         hKHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWqVF3nzbJM02xsWfpZv73XGKlQiVTgPJS5lOmMw2J3l71rf6wpzG7l1kmDfwZ7VeJBBYv+J9J2yI9+gnGQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzL+XjJGKTeVXoKk3YRFhzCek7pMLuyfTcEXElHnvR/nMvL3EJE
+	bCcyq4Dl5Kjh3Altvzy387ALqPYfyS7PAs0jvuTp4FCoQp2rPOooMPWlQUO/QxA=
+X-Gm-Gg: ASbGncsVpovwx9C0DoWB9ioQ7kpP6SDlNYqCLRnwccylfBiV+5/s3sM0Rf5UB2XAUD3
+	+mx8aRsRhsAt+EjgCWiq7tWEltM+CKIpOz6o3MNvGrk8BZRp+3iKbT0YsS186ncvZffNvpCWdEJ
+	GAYcEozxiCH7oHV/0NVOs5ZAkDHeDMhEcOqplx+Ghx6gVPBl4BKgzBIdSjjKuV+l/kuWVxW7Mvh
+	9kZTXKfF4qPFWND+M55bnz2xU9X01KJ0HXZb32nvWl+F90OBZyrxqk=
+X-Google-Smtp-Source: AGHT+IGEzc4vwHmaIfvTMIfIV37e15tsohqeHODjPaefoObT5Iz92AFnPqv8LysQYDOG0yI6+qlhwA==
+X-Received: by 2002:a05:600c:3155:b0:431:52b7:a499 with SMTP id 5b1f17b1804b1-434dded67b1mr79239335e9.20.1733727112718;
+        Sun, 08 Dec 2024 22:51:52 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38637ab4ae8sm5683141f8f.110.2024.12.08.22.50.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434eb8f18fcsm72397395e9.24.2024.12.08.22.51.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 22:50:18 -0800 (PST)
-Date: Mon, 9 Dec 2024 09:50:15 +0300
+        Sun, 08 Dec 2024 22:51:52 -0800 (PST)
+Date: Mon, 9 Dec 2024 09:51:48 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
+To: oe-kbuild@lists.linux.dev, Haylen Chu <heylenay@4d2.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Haylen Chu <heylenay@outlook.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/staging/gpib/common/gpib_os.c:871 ibioctl() warn:
- inconsistent returns '&board->big_gpib_mutex'.
-Message-ID: <869e62e1-cdcb-47b3-8092-2d5c203ecf1a@stanley.mountain>
+	linux-riscv@lists.infradead.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Chen Wang <unicornxdotw@foxmail.com>,
+	Jisheng Zhang <jszhang@kernel.org>
+Subject: Re: [PATCH v3 3/3] clk: spacemit: Add clock support for Spacemit K1
+ SoC
+Message-ID: <9a3f6975-d99d-430b-9a09-697638667e97@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,241 +80,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241126143125.9980-7-heylenay@4d2.org>
 
-Hi Dave,
+Hi Haylen,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
-commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
-config: riscv-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241207/202412072053.WNj69og0-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Haylen-Chu/dt-bindings-clock-spacemit-Add-clock-controllers-of-Spacemit-K1-SoC/20241128-101248
+base:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
+patch link:    https://lore.kernel.org/r/20241126143125.9980-7-heylenay%404d2.org
+patch subject: [PATCH v3 3/3] clk: spacemit: Add clock support for Spacemit K1 SoC
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241207/202412072123.ne7GnRyJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412072053.WNj69og0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412072123.ne7GnRyJ-lkp@intel.com/
 
-New smatch warnings:
-drivers/staging/gpib/common/gpib_os.c:871 ibioctl() warn: inconsistent returns '&board->big_gpib_mutex'.
+smatch warnings:
+drivers/clk/spacemit/ccu-k1.c:1686 k1_ccu_probe() error: uninitialized symbol 'lock_map'.
 
-Old smatch warnings:
-drivers/staging/gpib/common/gpib_os.c:889 board_type_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
+vim +/lock_map +1686 drivers/clk/spacemit/ccu-k1.c
 
-vim +871 drivers/staging/gpib/common/gpib_os.c
+e71e4621b06cd42 Haylen Chu 2024-11-26  1651  static int k1_ccu_probe(struct platform_device *pdev)
+e71e4621b06cd42 Haylen Chu 2024-11-26  1652  {
+e71e4621b06cd42 Haylen Chu 2024-11-26  1653  	const struct spacemit_ccu_data *data;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1654  	struct regmap *base_map, *lock_map;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1655  	struct device *dev = &pdev->dev;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1656  	struct spacemit_ccu_priv *priv;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1657  	struct device_node *parent;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1658  	int ret;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1659  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1660  	data = of_device_get_match_data(dev);
+e71e4621b06cd42 Haylen Chu 2024-11-26  1661  	if (WARN_ON(!data))
+e71e4621b06cd42 Haylen Chu 2024-11-26  1662  		return -EINVAL;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1663  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1664  	parent   = of_get_parent(dev->of_node);
+e71e4621b06cd42 Haylen Chu 2024-11-26  1665  	base_map = syscon_node_to_regmap(parent);
+e71e4621b06cd42 Haylen Chu 2024-11-26  1666  	of_node_put(parent);
+e71e4621b06cd42 Haylen Chu 2024-11-26  1667  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1668  	if (IS_ERR(base_map))
+e71e4621b06cd42 Haylen Chu 2024-11-26  1669  		return dev_err_probe(dev, PTR_ERR(base_map),
+e71e4621b06cd42 Haylen Chu 2024-11-26  1670  				     "failed to get regmap\n");
+e71e4621b06cd42 Haylen Chu 2024-11-26  1671  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1672  	if (data->need_pll_lock) {
+e71e4621b06cd42 Haylen Chu 2024-11-26  1673  		lock_map = syscon_regmap_lookup_by_phandle(dev->of_node,
+e71e4621b06cd42 Haylen Chu 2024-11-26  1674  							   "spacemit,mpmu");
+e71e4621b06cd42 Haylen Chu 2024-11-26  1675  		if (IS_ERR(lock_map))
+e71e4621b06cd42 Haylen Chu 2024-11-26  1676  			return dev_err_probe(dev, PTR_ERR(lock_map),
+e71e4621b06cd42 Haylen Chu 2024-11-26  1677  					     "failed to get lock regmap\n");
+e71e4621b06cd42 Haylen Chu 2024-11-26  1678  	}
 
-9dde4559e93955 Dave Penkler 2024-09-18  666  long ibioctl(struct file *filep, unsigned int cmd, unsigned long arg)
-9dde4559e93955 Dave Penkler 2024-09-18  667  {
-9dde4559e93955 Dave Penkler 2024-09-18  668  	unsigned int minor = iminor(filep->f_path.dentry->d_inode);
-9dde4559e93955 Dave Penkler 2024-09-18  669  	gpib_board_t *board;
-9dde4559e93955 Dave Penkler 2024-09-18  670  	gpib_file_private_t *file_priv = filep->private_data;
-9dde4559e93955 Dave Penkler 2024-09-18  671  	long retval = -ENOTTY;
-9dde4559e93955 Dave Penkler 2024-09-18  672  
-9dde4559e93955 Dave Penkler 2024-09-18  673  	if (minor >= GPIB_MAX_NUM_BOARDS) {
-9dde4559e93955 Dave Penkler 2024-09-18  674  		pr_err("gpib: invalid minor number of device file\n");
-9dde4559e93955 Dave Penkler 2024-09-18  675  		return -ENODEV;
-9dde4559e93955 Dave Penkler 2024-09-18  676  	}
-9dde4559e93955 Dave Penkler 2024-09-18  677  	board = &board_array[minor];
-9dde4559e93955 Dave Penkler 2024-09-18  678  
-9dde4559e93955 Dave Penkler 2024-09-18  679  	if (mutex_lock_interruptible(&board->big_gpib_mutex))
-9dde4559e93955 Dave Penkler 2024-09-18  680  		return -ERESTARTSYS;
-9dde4559e93955 Dave Penkler 2024-09-18  681  
-9dde4559e93955 Dave Penkler 2024-09-18  682  	GPIB_DPRINTK("pid %i, minor %i, ioctl %d, interface=%s, use=%d, onl=%d\n",
-9dde4559e93955 Dave Penkler 2024-09-18  683  		     current->pid, minor, cmd & 0xff,
-9dde4559e93955 Dave Penkler 2024-09-18  684  		     board->interface ? board->interface->name : "",
-9dde4559e93955 Dave Penkler 2024-09-18  685  		     board->use_count,
-9dde4559e93955 Dave Penkler 2024-09-18  686  		     board->online);
-9dde4559e93955 Dave Penkler 2024-09-18  687  
-9dde4559e93955 Dave Penkler 2024-09-18  688  	switch (cmd) {
-9dde4559e93955 Dave Penkler 2024-09-18  689  	case CFCBOARDTYPE:
-9dde4559e93955 Dave Penkler 2024-09-18  690  		retval = board_type_ioctl(file_priv, board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  691  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  692  	case IBONL:
-9dde4559e93955 Dave Penkler 2024-09-18  693  		retval = online_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  694  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  695  	default:
-9dde4559e93955 Dave Penkler 2024-09-18  696  		break;
-9dde4559e93955 Dave Penkler 2024-09-18  697  	}
-9dde4559e93955 Dave Penkler 2024-09-18  698  	if (!board->interface) {
-9dde4559e93955 Dave Penkler 2024-09-18  699  		pr_err("gpib: no gpib board configured on /dev/gpib%i\n", minor);
-9dde4559e93955 Dave Penkler 2024-09-18  700  		retval = -ENODEV;
-9dde4559e93955 Dave Penkler 2024-09-18  701  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  702  	}
-9dde4559e93955 Dave Penkler 2024-09-18  703  	if (file_priv->got_module == 0)	{
-9dde4559e93955 Dave Penkler 2024-09-18  704  		if (!try_module_get(board->provider_module)) {
-9dde4559e93955 Dave Penkler 2024-09-18  705  			pr_err("gpib: try_module_get() failed\n");
-9dde4559e93955 Dave Penkler 2024-09-18  706  			retval = -EIO;
-9dde4559e93955 Dave Penkler 2024-09-18  707  			goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  708  		}
-9dde4559e93955 Dave Penkler 2024-09-18  709  		file_priv->got_module = 1;
-9dde4559e93955 Dave Penkler 2024-09-18  710  		board->use_count++;
-9dde4559e93955 Dave Penkler 2024-09-18  711  	}
-9dde4559e93955 Dave Penkler 2024-09-18  712  	switch (cmd) {
-9dde4559e93955 Dave Penkler 2024-09-18  713  	case CFCBASE:
-9dde4559e93955 Dave Penkler 2024-09-18  714  		retval = iobase_ioctl(&board->config, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  715  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  716  	case CFCIRQ:
-9dde4559e93955 Dave Penkler 2024-09-18  717  		retval = irq_ioctl(&board->config, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  718  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  719  	case CFCDMA:
-9dde4559e93955 Dave Penkler 2024-09-18  720  		retval = dma_ioctl(&board->config, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  721  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  722  	case IBAUTOSPOLL:
-9dde4559e93955 Dave Penkler 2024-09-18  723  		retval = autospoll_ioctl(board, file_priv, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  724  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  725  	case IBBOARD_INFO:
-9dde4559e93955 Dave Penkler 2024-09-18  726  		retval = board_info_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  727  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  728  	case IBMUTEX:
-9dde4559e93955 Dave Penkler 2024-09-18  729  		/* Need to unlock board->big_gpib_mutex before potentially locking board->user_mutex
-9dde4559e93955 Dave Penkler 2024-09-18  730  		 *  to maintain consistent locking order
-9dde4559e93955 Dave Penkler 2024-09-18  731  		 */
-9dde4559e93955 Dave Penkler 2024-09-18  732  		mutex_unlock(&board->big_gpib_mutex);
-9dde4559e93955 Dave Penkler 2024-09-18  733  		return mutex_ioctl(board, file_priv, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  734  	case IBPAD:
-9dde4559e93955 Dave Penkler 2024-09-18  735  		retval = pad_ioctl(board, file_priv, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  736  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  737  	case IBSAD:
-9dde4559e93955 Dave Penkler 2024-09-18  738  		retval = sad_ioctl(board, file_priv, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  739  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  740  	case IBSELECT_PCI:
-9dde4559e93955 Dave Penkler 2024-09-18  741  		retval = select_pci_ioctl(&board->config, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  742  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  743  	case IBSELECT_DEVICE_PATH:
-9dde4559e93955 Dave Penkler 2024-09-18  744  		retval = select_device_path_ioctl(&board->config, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  745  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  746  	default:
-9dde4559e93955 Dave Penkler 2024-09-18  747  		break;
-9dde4559e93955 Dave Penkler 2024-09-18  748  	}
-9dde4559e93955 Dave Penkler 2024-09-18  749  
-9dde4559e93955 Dave Penkler 2024-09-18  750  	if (!board->online) {
-9dde4559e93955 Dave Penkler 2024-09-18  751  		pr_err("gpib: ioctl %i invalid for offline board\n",
-9dde4559e93955 Dave Penkler 2024-09-18  752  		       cmd & 0xff);
-9dde4559e93955 Dave Penkler 2024-09-18  753  		retval = -EINVAL;
-9dde4559e93955 Dave Penkler 2024-09-18  754  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  755  	}
-9dde4559e93955 Dave Penkler 2024-09-18  756  
-9dde4559e93955 Dave Penkler 2024-09-18  757  	switch (cmd) {
-9dde4559e93955 Dave Penkler 2024-09-18  758  	case IBEVENT:
-9dde4559e93955 Dave Penkler 2024-09-18  759  		retval = event_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  760  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  761  	case IBCLOSEDEV:
-9dde4559e93955 Dave Penkler 2024-09-18  762  		retval = close_dev_ioctl(filep, board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  763  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  764  	case IBOPENDEV:
-9dde4559e93955 Dave Penkler 2024-09-18  765  		retval = open_dev_ioctl(filep, board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  766  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  767  	case IBSPOLL_BYTES:
-9dde4559e93955 Dave Penkler 2024-09-18  768  		retval = status_bytes_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  769  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  770  	case IBWAIT:
-9dde4559e93955 Dave Penkler 2024-09-18  771  		retval = wait_ioctl(file_priv, board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  772  		if (retval == -ERESTARTSYS)
-9dde4559e93955 Dave Penkler 2024-09-18  773  			return retval;
+lock_map not initialized on else path.
 
-mutex_unlock(&board->big_gpib_mutex) before returning.
+e71e4621b06cd42 Haylen Chu 2024-11-26  1679  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1680  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+e71e4621b06cd42 Haylen Chu 2024-11-26  1681  	if (!priv)
+e71e4621b06cd42 Haylen Chu 2024-11-26  1682  		return -ENOMEM;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1683  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1684  	priv->data	= data;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1685  	priv->base	= base_map;
+e71e4621b06cd42 Haylen Chu 2024-11-26 @1686  	priv->lock_base	= lock_map;
+                                                                  ^^^^^^^^^
 
-9dde4559e93955 Dave Penkler 2024-09-18  774  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  775  	case IBLINES:
-9dde4559e93955 Dave Penkler 2024-09-18  776  		retval = line_status_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  777  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  778  	case IBLOC:
-9dde4559e93955 Dave Penkler 2024-09-18  779  		board->interface->return_to_local(board);
-9dde4559e93955 Dave Penkler 2024-09-18  780  		retval = 0;
-9dde4559e93955 Dave Penkler 2024-09-18  781  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  782  	default:
-9dde4559e93955 Dave Penkler 2024-09-18  783  		break;
-9dde4559e93955 Dave Penkler 2024-09-18  784  	}
-9dde4559e93955 Dave Penkler 2024-09-18  785  
-9dde4559e93955 Dave Penkler 2024-09-18  786  	spin_lock(&board->locking_pid_spinlock);
-9dde4559e93955 Dave Penkler 2024-09-18  787  	if (current->pid != board->locking_pid)	{
-9dde4559e93955 Dave Penkler 2024-09-18  788  		spin_unlock(&board->locking_pid_spinlock);
-9dde4559e93955 Dave Penkler 2024-09-18  789  		pr_err("gpib: need to hold board lock to perform ioctl %i\n",
-9dde4559e93955 Dave Penkler 2024-09-18  790  		       cmd & 0xff);
-9dde4559e93955 Dave Penkler 2024-09-18  791  		retval = -EPERM;
-9dde4559e93955 Dave Penkler 2024-09-18  792  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  793  	}
-9dde4559e93955 Dave Penkler 2024-09-18  794  	spin_unlock(&board->locking_pid_spinlock);
-9dde4559e93955 Dave Penkler 2024-09-18  795  
-9dde4559e93955 Dave Penkler 2024-09-18  796  	switch (cmd) {
-9dde4559e93955 Dave Penkler 2024-09-18  797  	case IB_T1_DELAY:
-9dde4559e93955 Dave Penkler 2024-09-18  798  		retval = t1_delay_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  799  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  800  	case IBCAC:
-9dde4559e93955 Dave Penkler 2024-09-18  801  		retval = take_control_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  802  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  803  	case IBCMD:
-9dde4559e93955 Dave Penkler 2024-09-18  804  		/* IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
-9dde4559e93955 Dave Penkler 2024-09-18  805  		 *  before we call them.
-9dde4559e93955 Dave Penkler 2024-09-18  806  		 */
-9dde4559e93955 Dave Penkler 2024-09-18  807  		mutex_unlock(&board->big_gpib_mutex);
-9dde4559e93955 Dave Penkler 2024-09-18  808  		return command_ioctl(file_priv, board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  809  	case IBEOS:
-9dde4559e93955 Dave Penkler 2024-09-18  810  		retval = eos_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  811  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  812  	case IBGTS:
-9dde4559e93955 Dave Penkler 2024-09-18  813  		retval = ibgts(board);
-9dde4559e93955 Dave Penkler 2024-09-18  814  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  815  	case IBPPC:
-9dde4559e93955 Dave Penkler 2024-09-18  816  		retval = ppc_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  817  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  818  	case IBPP2_SET:
-9dde4559e93955 Dave Penkler 2024-09-18  819  		retval = set_local_ppoll_mode_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  820  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  821  	case IBPP2_GET:
-9dde4559e93955 Dave Penkler 2024-09-18  822  		retval = get_local_ppoll_mode_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  823  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  824  	case IBQUERY_BOARD_RSV:
-9dde4559e93955 Dave Penkler 2024-09-18  825  		retval = query_board_rsv_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  826  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  827  	case IBRD:
-9dde4559e93955 Dave Penkler 2024-09-18  828  		/* IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
-9dde4559e93955 Dave Penkler 2024-09-18  829  		 *  before we call them.
-9dde4559e93955 Dave Penkler 2024-09-18  830  		 */
-9dde4559e93955 Dave Penkler 2024-09-18  831  		mutex_unlock(&board->big_gpib_mutex);
-9dde4559e93955 Dave Penkler 2024-09-18  832  		return read_ioctl(file_priv, board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  833  	case IBRPP:
-9dde4559e93955 Dave Penkler 2024-09-18  834  		retval = parallel_poll_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  835  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  836  	case IBRSC:
-9dde4559e93955 Dave Penkler 2024-09-18  837  		retval = request_system_control_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  838  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  839  	case IBRSP:
-9dde4559e93955 Dave Penkler 2024-09-18  840  		retval = serial_poll_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  841  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  842  	case IBRSV:
-9dde4559e93955 Dave Penkler 2024-09-18  843  		retval = request_service_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  844  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  845  	case IBRSV2:
-9dde4559e93955 Dave Penkler 2024-09-18  846  		retval = request_service2_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  847  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  848  	case IBSIC:
-9dde4559e93955 Dave Penkler 2024-09-18  849  		retval = interface_clear_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  850  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  851  	case IBSRE:
-9dde4559e93955 Dave Penkler 2024-09-18  852  		retval = remote_enable_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  853  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  854  	case IBTMO:
-9dde4559e93955 Dave Penkler 2024-09-18  855  		retval = timeout_ioctl(board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  856  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  857  	case IBWRT:
-9dde4559e93955 Dave Penkler 2024-09-18  858  		/* IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
-9dde4559e93955 Dave Penkler 2024-09-18  859  		 *  before we call them.
-9dde4559e93955 Dave Penkler 2024-09-18  860  		 */
-9dde4559e93955 Dave Penkler 2024-09-18  861  		mutex_unlock(&board->big_gpib_mutex);
-9dde4559e93955 Dave Penkler 2024-09-18  862  		return write_ioctl(file_priv, board, arg);
-9dde4559e93955 Dave Penkler 2024-09-18  863  	default:
-9dde4559e93955 Dave Penkler 2024-09-18  864  		retval = -ENOTTY;
-9dde4559e93955 Dave Penkler 2024-09-18  865  		goto done;
-9dde4559e93955 Dave Penkler 2024-09-18  866  	}
-9dde4559e93955 Dave Penkler 2024-09-18  867  
-9dde4559e93955 Dave Penkler 2024-09-18  868  done:
-9dde4559e93955 Dave Penkler 2024-09-18  869  	mutex_unlock(&board->big_gpib_mutex);
-9dde4559e93955 Dave Penkler 2024-09-18  870  	GPIB_DPRINTK("ioctl done status = 0x%lx\n", board->status);
-9dde4559e93955 Dave Penkler 2024-09-18 @871  	return retval;
-9dde4559e93955 Dave Penkler 2024-09-18  872  }
+e71e4621b06cd42 Haylen Chu 2024-11-26  1687  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1688  	ret = spacemit_ccu_register(dev, priv);
+e71e4621b06cd42 Haylen Chu 2024-11-26  1689  	if (ret)
+e71e4621b06cd42 Haylen Chu 2024-11-26  1690  		return dev_err_probe(dev, ret, "failed to register clocks\n");
+e71e4621b06cd42 Haylen Chu 2024-11-26  1691  
+e71e4621b06cd42 Haylen Chu 2024-11-26  1692  	return 0;
+e71e4621b06cd42 Haylen Chu 2024-11-26  1693  }
 
 -- 
 0-DAY CI Kernel Test Service
