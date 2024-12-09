@@ -1,59 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F4F15DBC1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38BE15DBC1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719167; cv=none; b=WeCOKSfyXJhRhu3WathsscnEZV80a9aDPAciVOdDnyUJrlqvYt9TCQxDiioJ6iWY+dbKITDsPzcl6gyhXIkuVFiNEC6GhQ5J0yhA2umsNALsOdCNH4li6oFIZbMWogykJPCCDmZ7slhRF5+F/kY8yAN87mru31xbogpajkGqLZY=
+	t=1733719171; cv=none; b=K5nRclwb5yzmlqsvfRNt1An0T/aODN/QPPnA3PKMO2LfTfqaN/T+esyfCdqSHbKLQxVoqDmEIenSpzX9wbs6KK81ZNrwUJVglVhbdXniRM9lHexXyKz6gaB7nrkg8SO1vTYrg+8qChXt39Z2Pe54M48Ol9Bw83tp1wR20k14dSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733719167; c=relaxed/simple;
-	bh=fwcAKkdsGsfjKUqG8hVSyHoPImxFxn1vfb/P3RitlcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WxIelinyB+mTkxneyAmgniEUIrtern9WbQdXLouxQQkn/Cb45LIXvuvBIcsPJzW13/XquGTxPao7lTp9jnLOar9awoi3PWaIujQUCKrZcJ/4ImcknQbNZ4OZutYuVRjlPppOtlD0fAgqVwQ46soCXkIxYH61q9bbznwKzq85LTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGXIA/Ht; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1733719171; c=relaxed/simple;
+	bh=WxSdxf8pLdMWv4fY9QRvr5Gkcta72PxtTHjRQUY08Xo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AItMsdKtzURC8XdY7cvNOHogEHLXutlHn06lEmJepSifef9WunmN3aOX9vUfowZopW0mrFvnIWcD0XKIowXNgrXPQkNbogs3kQH3hsaD6GsNwGa+fP3tV0fHIlBUiwoAT/VdnfmYNouSbBHqPvXaRPSu9DoQbTchAy6xjikKdhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/PXr8M2; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGXIA/Ht"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/PXr8M2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733719165; x=1765255165;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fwcAKkdsGsfjKUqG8hVSyHoPImxFxn1vfb/P3RitlcQ=;
-  b=HGXIA/Ht1sFMqErgZyF6wqAgIHjAxPZ9QkcGjEHE+cs65MQaIqdQ20v8
-   dVTvKzMZV1ShaDgSntrbfx5X0MqTtz5/zALNM2zbx5JNDbP0bNinvC3Xd
-   Oa2OV+eyLzGI4nUOGBh/Tqxe8fWYlp9hvQs08DNY1sF1zGswxz11du37Z
-   AnBnwfMT1Z4y91Gn0LQp5svCVunLZOiuWvc3/tLQtrp7kbEDdD7sm3skm
-   tMngV4ownOCpqkcW+CEWxtfkLRJlDxDQo5D/P6THc/mOocawQNXZd5XW5
-   rxb3sNOv6C6lGNwJJg+83LakCkjglK5MGvda07tNXNpIoIpvHNimEqaqu
-   w==;
-X-CSE-ConnectionGUID: EhchUepGQiGNn8eF1hycow==
-X-CSE-MsgGUID: CNjVrbw7Rv+2tef6DGJ/oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="51415831"
+  t=1733719169; x=1765255169;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WxSdxf8pLdMWv4fY9QRvr5Gkcta72PxtTHjRQUY08Xo=;
+  b=W/PXr8M2yNW+LVxMDNLe//0FjvTQdsZi0/O+kJRk74qNLYcxiwbHrVS9
+   u83W+qt3yqq+eaJH2tBfTTwIMEmUdFj3WFR9Gxu19Bp3RazTls1I39/SZ
+   C4kvW5+RTo9ffh4n3a7HwDE1EqFdmyHmyKby/1P3SjTrB9PSd3uj/EE4i
+   m6xu8EWdeanqMKh2BVqV308bZz/O7tkt9PggyQwxTjTxMitLuPjU5ldOV
+   9ns+wsLCpSPttXcrwNUus+asc+yr6z/kc4qWWJ+mLjFEAdLtezPD5aa3X
+   4ivIISbn+b84H+RcYfdMYxeL37qPhYzk/VIYUiDY57W0+Ug3Ies223rZK
+   Q==;
+X-CSE-ConnectionGUID: 85cb1iZ4Ri2c9HGat+fg6A==
+X-CSE-MsgGUID: FOOyIAmBT1aTamw7RBFf3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="37931436"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="51415831"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:39:25 -0800
-X-CSE-ConnectionGUID: FR9l7mQCREyJM6PTnpRvvA==
-X-CSE-MsgGUID: IUMJKgZQR0awSeFE+0HGQA==
+   d="scan'208";a="37931436"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:39:29 -0800
+X-CSE-ConnectionGUID: eBVdfRJ/Qwq0407wVB29Vg==
+X-CSE-MsgGUID: wjhdMOM7T+Ctp8wtjgcWgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94653425"
+   d="scan'208";a="95751895"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Dec 2024 20:39:24 -0800
+  by orviesa008.jf.intel.com with ESMTP; 08 Dec 2024 20:39:24 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVYH-0003tH-0Q;
+	id 1tKVYH-0003tF-0M;
 	Mon, 09 Dec 2024 04:39:21 +0000
-Date: Mon, 9 Dec 2024 12:38:37 +0800
+Date: Mon, 9 Dec 2024 12:38:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1321/1321]
- sound/soc/codecs/simple-amplifier.o: warning: objtool: missing symbol for
- section .init.text
-Message-ID: <202412081030.HpEhO2B9-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, upstream@airoha.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v10 8/9] net: dsa: Add Airoha AN8855 5-Port
+ Gigabit DSA Switch driver
+Message-ID: <202412081038.lJvmpuB2-lkp@intel.com>
+References: <20241208002105.18074-9-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,32 +79,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241208002105.18074-9-ansuelsmth@gmail.com>
 
-Hi Mark,
+Hi Christian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   faa52e40c08916893e09ba030e616f92e4fc020b
-commit: 4aa5db22d35588e1a5d2ee88472348ea73d9fb23 [1321/1321] Merge branch 'asoc-4.19' into asoc-next
-config: x86_64-buildonly-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241208/202412081030.HpEhO2B9-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412081030.HpEhO2B9-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvmem-Document-support-for-Airoha-AN8855-Switch-EFUSE/20241208-082533
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241208002105.18074-9-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH v10 8/9] net: dsa: Add Airoha AN8855 5-Port Gigabit DSA Switch driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241208/202412081038.lJvmpuB2-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412081038.lJvmpuB2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412081030.HpEhO2B9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412081038.lJvmpuB2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> sound/soc/codecs/simple-amplifier.o: warning: objtool: missing symbol for section .init.text
---
-   sound/soc/codecs/es7241.c:206:33: warning: unused variable 'es7241_chip' [-Wunused-const-variable]
-     206 | static const struct es7241_chip es7241_chip = {
-         |                                 ^~~~~~~~~~~
-   1 warning generated.
->> sound/soc/codecs/es7241.o: warning: objtool: missing symbol for section .init.text
+   drivers/net/dsa/an8855.c: In function 'an8855_switch_probe':
+>> drivers/net/dsa/an8855.c:2227:34: error: invalid use of undefined type 'struct platform_device'
+    2227 |         priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+         |                                  ^~
+   drivers/net/dsa/an8855.c:2231:26: error: invalid use of undefined type 'struct platform_device'
+    2231 |         priv->dev = &pdev->dev;
+         |                          ^~
+   drivers/net/dsa/an8855.c: In function 'an8855_switch_remove':
+   drivers/net/dsa/an8855.c:2282:57: error: invalid use of undefined type 'struct platform_device'
+    2282 |         struct an8855_priv *priv = dev_get_drvdata(&pdev->dev);
+         |                                                         ^~
+   drivers/net/dsa/an8855.c: At top level:
+>> drivers/net/dsa/an8855.c:2295:15: error: variable 'an8855_switch_driver' has initializer but incomplete type
+    2295 | static struct platform_driver an8855_switch_driver = {
+         |               ^~~~~~~~~~~~~~~
+>> drivers/net/dsa/an8855.c:2296:10: error: 'struct platform_driver' has no member named 'probe'
+    2296 |         .probe = an8855_switch_probe,
+         |          ^~~~~
+>> drivers/net/dsa/an8855.c:2296:18: warning: excess elements in struct initializer
+    2296 |         .probe = an8855_switch_probe,
+         |                  ^~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/an8855.c:2296:18: note: (near initialization for 'an8855_switch_driver')
+>> drivers/net/dsa/an8855.c:2297:10: error: 'struct platform_driver' has no member named 'remove'
+    2297 |         .remove = an8855_switch_remove,
+         |          ^~~~~~
+   drivers/net/dsa/an8855.c:2297:19: warning: excess elements in struct initializer
+    2297 |         .remove = an8855_switch_remove,
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/an8855.c:2297:19: note: (near initialization for 'an8855_switch_driver')
+>> drivers/net/dsa/an8855.c:2298:10: error: 'struct platform_driver' has no member named 'driver'
+    2298 |         .driver = {
+         |          ^~~~~~
+>> drivers/net/dsa/an8855.c:2298:19: error: extra brace group at end of initializer
+    2298 |         .driver = {
+         |                   ^
+   drivers/net/dsa/an8855.c:2298:19: note: (near initialization for 'an8855_switch_driver')
+   drivers/net/dsa/an8855.c:2298:19: warning: excess elements in struct initializer
+   drivers/net/dsa/an8855.c:2298:19: note: (near initialization for 'an8855_switch_driver')
+>> drivers/net/dsa/an8855.c:2303:1: warning: data definition has no type or storage class
+    2303 | module_platform_driver(an8855_switch_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/dsa/an8855.c:2303:1: error: type defaults to 'int' in declaration of 'module_platform_driver' [-Wimplicit-int]
+>> drivers/net/dsa/an8855.c:2303:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>> drivers/net/dsa/an8855.c:2295:31: error: storage size of 'an8855_switch_driver' isn't known
+    2295 | static struct platform_driver an8855_switch_driver = {
+         |                               ^~~~~~~~~~~~~~~~~~~~
+>> drivers/net/dsa/an8855.c:2295:31: warning: 'an8855_switch_driver' defined but not used [-Wunused-variable]
+
+
+vim +2227 drivers/net/dsa/an8855.c
+
+  2220	
+  2221	static int an8855_switch_probe(struct platform_device *pdev)
+  2222	{
+  2223		struct an8855_priv *priv;
+  2224		u32 val;
+  2225		int ret;
+  2226	
+> 2227		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+  2228		if (!priv)
+  2229			return -ENOMEM;
+  2230	
+> 2231		priv->dev = &pdev->dev;
+  2232		priv->phy_require_calib = of_property_read_bool(priv->dev->of_node,
+  2233								"airoha,ext-surge");
+  2234	
+  2235		priv->reset_gpio = devm_gpiod_get_optional(priv->dev, "reset",
+  2236							   GPIOD_OUT_LOW);
+  2237		if (IS_ERR(priv->reset_gpio))
+  2238			return PTR_ERR(priv->reset_gpio);
+  2239	
+  2240		/* Get regmap from MFD */
+  2241		priv->regmap = dev_get_regmap(priv->dev->parent, NULL);
+  2242	
+  2243		if (priv->reset_gpio) {
+  2244			usleep_range(100000, 150000);
+  2245			gpiod_set_value_cansleep(priv->reset_gpio, 0);
+  2246			usleep_range(100000, 150000);
+  2247			gpiod_set_value_cansleep(priv->reset_gpio, 1);
+  2248	
+  2249			/* Poll HWTRAP reg to wait for Switch to fully Init */
+  2250			ret = regmap_read_poll_timeout(priv->regmap, AN8855_HWTRAP, val,
+  2251						       val, 20, 200000);
+  2252			if (ret)
+  2253				return ret;
+  2254		}
+  2255	
+  2256		ret = an8855_read_switch_id(priv);
+  2257		if (ret)
+  2258			return ret;
+  2259	
+  2260		priv->ds = devm_kzalloc(priv->dev, sizeof(*priv->ds), GFP_KERNEL);
+  2261		if (!priv->ds)
+  2262			return -ENOMEM;
+  2263	
+  2264		priv->ds->dev = priv->dev;
+  2265		priv->ds->num_ports = AN8855_NUM_PORTS;
+  2266		priv->ds->priv = priv;
+  2267		priv->ds->ops = &an8855_switch_ops;
+  2268		devm_mutex_init(priv->dev, &priv->reg_mutex);
+  2269		priv->ds->phylink_mac_ops = &an8855_phylink_mac_ops;
+  2270	
+  2271		priv->pcs.ops = &an8855_pcs_ops;
+  2272		priv->pcs.neg_mode = true;
+  2273		priv->pcs.poll = true;
+  2274	
+  2275		dev_set_drvdata(priv->dev, priv);
+  2276	
+  2277		return dsa_register_switch(priv->ds);
+  2278	}
+  2279	
+  2280	static void an8855_switch_remove(struct platform_device *pdev)
+  2281	{
+> 2282		struct an8855_priv *priv = dev_get_drvdata(&pdev->dev);
+  2283	
+  2284		if (!priv)
+  2285			return;
+  2286	
+  2287		dsa_unregister_switch(priv->ds);
+  2288	}
+  2289	
+  2290	static const struct of_device_id an8855_switch_of_match[] = {
+  2291		{ .compatible = "airoha,an8855-switch" },
+  2292		{ /* sentinel */ }
+  2293	};
+  2294	
+> 2295	static struct platform_driver an8855_switch_driver = {
+> 2296		.probe = an8855_switch_probe,
+> 2297		.remove = an8855_switch_remove,
+> 2298		.driver = {
+  2299			.name = "an8855-switch",
+  2300			.of_match_table = an8855_switch_of_match,
+  2301		},
+  2302	};
+> 2303	module_platform_driver(an8855_switch_driver);
+  2304	
 
 -- 
 0-DAY CI Kernel Test Service
