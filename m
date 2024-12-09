@@ -1,69 +1,60 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501152101AD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 09:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7457021571D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 09:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733735319; cv=none; b=MLBVi/yS7zw72bKl1QwIu0V5yBDk1PBOOLWMIwSyMVwmIK/wEsbN0b9E5juYbsA6givFtskn5BZaUSV+Mf//nGKJqEoIwKngTVQk+Wy3N02q8BXMdBNov2OPciMzoByHDwYYGevaucmv6M4DbrKy3PZ6x7ktJLizT80F1Yzl1eY=
+	t=1733735546; cv=none; b=L5EMTzvgj9ZWav5Au7yo7Il3obpRmTyuIO2e7QVq6SB61y8Y0wyPSIaK6qNtSt3ZVfHUlmH6VLQkx1vT/mD/UEWDqbK+SOTi1QnvhHKCXRPEy8+w7EGyW3qYY56YfbYXpJZxndNjMxJo0HasAqa3RlOJctzVjLz4Fnskjl/j2Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733735319; c=relaxed/simple;
-	bh=RGRaiSPrJ4Fjoa4wWn+D2mUhO0ZTQN9y2c6gK5ph/fM=;
+	s=arc-20240116; t=1733735546; c=relaxed/simple;
+	bh=VteMjDQ0yt3nfI/UjEWZnfVYIifu/A00pv9wCItusRc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n3zaYJM4nik66WRQwfHPkJd3S9HcHpo2pB5D6t8z2z6vjZGduRzu4rXi8OCd6Ux78Z6aLj3F19UBFYC2FiydmYHo+zH0wy7VOP/MJpPgUEZgYYNiH6JdQRogvK6Lr18kaneApEBNTxt8dGjXEN3gAb+1yQa7g7k3gJ5BtMHB/Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GAwWSu8e; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=FH7326HH3XW40tC34k3OexrsZrLnFhuCE55L0Pl5QJEnozb5lafNtZ/PN0pFe3WlZ0eDgwZGFWEH4qEqDHa9ZwKDjoLV0aWYrI6mbXrJMSt8hgvbfnMkGQV2OdILQdfz5CJMwYoPNpusHx/6bUG8KZG3qNxuHGUzuerBux4eH7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d8KtLDOu; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GAwWSu8e"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-434a736518eso44061115e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Dec 2024 01:08:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733735315; x=1734340115; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZsJTx3PH9goQcoDcessIJUZiUDgu6MKdF7cPS5GqSak=;
-        b=GAwWSu8emM6WwS2oIXdqL05EBTTaWHeaR9wGlry3kXlwueUavAHdnb3OwyKcVSdYHC
-         uhg+VyKNfDAqeujRWyJFCHhxn+2uzFkBL2KeLG107V0LJ7fnPN1LZo7F2udvufq31/Tj
-         +nykqQikdU4uNxBx+xKplF3g7VzVWzr23iIVpK45wlC9u24RYKjRAwSr7nvFm1abIDVJ
-         W4IjGe++YxTimQlXr5K+g4jcDyWlknmFHlSpRy1TbdT3UkJRqziAADXTqg7k8Qm6/HMv
-         ofzddx71oeqf5Z148bTUzIeLfGmSZmYZWl5DCN9x4TyVt+hc909Vb41fDDboMTatnK9K
-         BeEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733735315; x=1734340115;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZsJTx3PH9goQcoDcessIJUZiUDgu6MKdF7cPS5GqSak=;
-        b=uWZNDI4qwLYLDk5AhIXum9jOS4a2XsPHMsIldZUJ08Qm2l1WAAF4ywN4oonorrRRjL
-         avZjQUKR93PwYiijHbd0NVpBxeAz/NfNNy5qXgjERpA+jM1MSlVgPnF6NUNdVjJ6ZWwO
-         THmBQB7NIOSquP2IDz1BpKv72+56FIBxgjV033WWYwcRdjC3wkHqa2lP+vjI63ZuODLV
-         je6LMC9yx089gGzVRBS/t4ZnutwAYhUOscDT43++z4EJh0ESNqOKMKDy6qGPJo/C2Lmj
-         HJ0ttTAH4w5EIQGTR7juJVXlPiOCUY4Tneedwue1Fjkp0/HGzPVzR4+gh7HkHyBqXSy5
-         Rvcw==
-X-Forwarded-Encrypted: i=1; AJvYcCUI9YLKIEzi2FciNir7aXwmONLVT0hLOnNx7vkGVnS2u4w5/4S/Sv1+n/c4eUkwUtgUPdyf5x2orE7QX0+t@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDlTlmepSPIufZuG9ECnDgdvR3ib/LEmIkyz03CoV0LAhYo7dz
-	8kXRTQW9dPYFp5vIog5txv9vDV8mwue1xzvbkQe2o9ydGZ+u+UE07u4LtKMwS2A=
-X-Gm-Gg: ASbGnctJZUQzstp/9KSTlLsJI3sI7l4Q+O1tBWVtz/JgnsWalsRlr2+J/M8aZzsx5bV
-	etZaAI73ry8NrmL0smG/Z9SBwu3hQKvqmN+icFpETGMux6Ndd6jP42MBf7quKUU6aspdYmkgb2B
-	tNwZd2f2MlBwhKVEquU1VNMq9iwU82TXooCW2hTsLvdU4fxH6psH+ZtAYXOk1aSErqNyI5LbiJt
-	SBBKeGHDjhr0f1RjK019YJ47UXgMrKugrWI5LHfVlP7v38RYIjKaGc=
-X-Google-Smtp-Source: AGHT+IHwHqNdsCzlg9RIis7WzBaAxcQt1cpiTsM/IaFi643v+MgHZjlMz6/EDDZGZNLcoK/eGnRCDg==
-X-Received: by 2002:a05:600c:1f91:b0:434:a26c:8291 with SMTP id 5b1f17b1804b1-434dded8240mr96456195e9.24.1733735315514;
-        Mon, 09 Dec 2024 01:08:35 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861ecf4087sm12827984f8f.5.2024.12.09.01.08.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 01:08:34 -0800 (PST)
-Date: Mon, 9 Dec 2024 12:08:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: drivers/staging/gpib/common/gpib_os.c:871 ibioctl() warn:
- inconsistent returns '&board->big_gpib_mutex'.
-Message-ID: <d19c29ac-a084-4feb-a272-5ae6361732db@stanley.mountain>
-References: <869e62e1-cdcb-47b3-8092-2d5c203ecf1a@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8KtLDOu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733735544; x=1765271544;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VteMjDQ0yt3nfI/UjEWZnfVYIifu/A00pv9wCItusRc=;
+  b=d8KtLDOuKD71OYMxDOMJk/GOtz+XkeF11cWVLbzI8idEk0zlPG/xMPez
+   D8f32L6CzMAABpHZX/72+1tEcaCuA4ZFtEY0JHabkhFMHHspYOhtrgKyY
+   Pg0DhWT5VWcYBnJIuj7lawTYVpbtzfQs4UxnFAEU7SVSwoh4BpSyyAFPi
+   zQ4QTTSAC/tyv6XTcCdW4GUT6Mn5yUNvIc2zBSRJ/eKaKmSqx5sioD2fH
+   e5xonCe+vKHaPP3cNmCC7vjBl7NtwDYHQyeH8Jtz47AUP1rwIkfFfW/2K
+   IKk8NOav+my5IWBseubX+IDSwTHj+xzbS1V7tWJ5VuJzEqytalb2z7Uec
+   A==;
+X-CSE-ConnectionGUID: kX7o7yaZTD2gJYy4rlzK7A==
+X-CSE-MsgGUID: 8G4GSoWlTayChynQfjnWqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34081248"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="34081248"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 01:12:23 -0800
+X-CSE-ConnectionGUID: 56Ba2d2FTkabE+Y5k+Micg==
+X-CSE-MsgGUID: In+rYV5UTH2csz1ypcKMZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="95212097"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 09 Dec 2024 01:12:16 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKZoM-00049d-0D;
+	Mon, 09 Dec 2024 09:12:14 +0000
+Date: Mon, 9 Dec 2024 17:12:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 09/11] iommu/intel: Convert to
+ msi_create_parent_irq_domain() helper
+Message-ID: <202412091649.0tJFbTad-lkp@intel.com>
+References: <20241204124549.607054-10-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,34 +63,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <869e62e1-cdcb-47b3-8092-2d5c203ecf1a@stanley.mountain>
+In-Reply-To: <20241204124549.607054-10-maz@kernel.org>
 
-On Mon, Dec 09, 2024 at 09:50:15AM +0300, Dan Carpenter wrote:
-> 9dde4559e93955 Dave Penkler 2024-09-18  757  	switch (cmd) {
-> 9dde4559e93955 Dave Penkler 2024-09-18  758  	case IBEVENT:
-> 9dde4559e93955 Dave Penkler 2024-09-18  759  		retval = event_ioctl(board, arg);
-> 9dde4559e93955 Dave Penkler 2024-09-18  760  		goto done;
-> 9dde4559e93955 Dave Penkler 2024-09-18  761  	case IBCLOSEDEV:
-> 9dde4559e93955 Dave Penkler 2024-09-18  762  		retval = close_dev_ioctl(filep, board, arg);
-> 9dde4559e93955 Dave Penkler 2024-09-18  763  		goto done;
-> 9dde4559e93955 Dave Penkler 2024-09-18  764  	case IBOPENDEV:
-> 9dde4559e93955 Dave Penkler 2024-09-18  765  		retval = open_dev_ioctl(filep, board, arg);
-> 9dde4559e93955 Dave Penkler 2024-09-18  766  		goto done;
-> 9dde4559e93955 Dave Penkler 2024-09-18  767  	case IBSPOLL_BYTES:
-> 9dde4559e93955 Dave Penkler 2024-09-18  768  		retval = status_bytes_ioctl(board, arg);
-> 9dde4559e93955 Dave Penkler 2024-09-18  769  		goto done;
-> 9dde4559e93955 Dave Penkler 2024-09-18  770  	case IBWAIT:
-> 9dde4559e93955 Dave Penkler 2024-09-18  771  		retval = wait_ioctl(file_priv, board, arg);
-> 9dde4559e93955 Dave Penkler 2024-09-18  772  		if (retval == -ERESTARTSYS)
-> 9dde4559e93955 Dave Penkler 2024-09-18  773  			return retval;
-> 
-> mutex_unlock(&board->big_gpib_mutex) before returning.
-> 
+Hi Marc,
 
-Sorry, this is a false positive.  The kbuild-bot can't use cross function
-analysis because it doesn't scale.  But if you had cross function analysis
-enabled then it wouldn't have printed this false positive.
+kernel test robot noticed the following build errors:
 
-regards,
-dan carpenter
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on pci/next pci/for-linus linus/master v6.13-rc2 next-20241206]
+[cannot apply to joro-iommu/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Zyngier/irqchip-Make-irq-msi-lib-h-globally-available/20241204-204904
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20241204124549.607054-10-maz%40kernel.org
+patch subject: [PATCH 09/11] iommu/intel: Convert to msi_create_parent_irq_domain() helper
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241209/202412091649.0tJFbTad-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091649.0tJFbTad-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412091649.0tJFbTad-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/iommu/intel/irq_remapping.c:1520:10: error: 'const struct msi_parent_ops' has no member named 'bus_token'
+    1520 |         .bus_token              = DOMAIN_BUS_DMAR,
+         |          ^~~~~~~~~
+
+
+vim +1520 drivers/iommu/intel/irq_remapping.c
+
+  1517	
+  1518	static const struct msi_parent_ops dmar_msi_parent_ops = {
+  1519		.supported_flags	= X86_VECTOR_MSI_FLAGS_SUPPORTED | MSI_FLAG_MULTI_PCI_MSI,
+> 1520		.bus_token		= DOMAIN_BUS_DMAR,
+  1521		.prefix			= "IR-",
+  1522		.init_dev_msi_info	= msi_parent_init_dev_msi_info,
+  1523	};
+  1524	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
