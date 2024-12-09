@@ -1,95 +1,205 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB6C35971
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 14:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B1535972;
+	Mon,  9 Dec 2024 14:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733753622; cv=none; b=uZyjrqKmiqzRcp/zZoLtzowPf9Dwk2wwWJPAIaZJwQ1mluD94L9D1zCIY0ZeqgX/c4MhH6XywgtgpjFwpLwD9nQLGcbF3OYN6dbILZIshHT5EzqWXPDT6hJhf6/79tOa7pcZ5Fh4rWQmBCOxMWd9lhrhcu1RVjOIegsKDbdFsS4=
+	t=1733755429; cv=none; b=Ko3sAs+Nap7chyHp9OAUOckU7wDISYFgNaBXM5korXhw10eQpxVeCeu2n68IV6tbJk4Mwl0zFGDnHw9t5sDlz6tOr3w8Padkf8lDjy6W2M6lMhMdosBRR5kS6clmethcF2pxDtjkvmjG8fVda/D/ndfUNFCm0jkJM/ZDFXJqYo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733753622; c=relaxed/simple;
-	bh=hkFFobiPfJFgKqd6pacUZzf5t/NkeN1EYKEHfXVZS4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FMkPOIQiRVbbZMQV0xeXBg5mk089Tl+eISd0PKgGpebTLBZD1rQIRPRDwhpUwP8AGtY6jmFHA60c5r4NJgmBm1vEXqjKOT9PA1tox9OkcRdZXT150ulhzrfyHAXBQaRxuyefmmaPwhvqc6fg6U9vOyG9rjeeumHcFOnc4jXsrB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C7AC113E;
-	Mon,  9 Dec 2024 06:14:07 -0800 (PST)
-Received: from [10.163.51.127] (unknown [10.163.51.127])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5715B3F720;
-	Mon,  9 Dec 2024 06:13:36 -0800 (PST)
-Message-ID: <f492ac51-9dad-4b18-8cd4-81dc236b3162@arm.com>
-Date: Mon, 9 Dec 2024 19:43:32 +0530
+	s=arc-20240116; t=1733755429; c=relaxed/simple;
+	bh=0HAPuOO8MalcKud6f/kbs/l+xIbPS+Al7Xt8OGAWeP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dACAJqZxnRdR3ogPUSGZejjR7CJ+QoYaW2H2OjF/S+BPVkHuakaT7p8toEYC6e+UhUyepmg5+un/I41918GpMQaiOrnV7w/ykMFhwALev2pbpomY2QaD0l4ysDwvGyr0FLNhqAEk3JUs1gTOw9ZjOysoA+9ul4JekNn+JnHJxYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJBADEKf; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJBADEKf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733755427; x=1765291427;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0HAPuOO8MalcKud6f/kbs/l+xIbPS+Al7Xt8OGAWeP0=;
+  b=OJBADEKfeM1q+8SjtmYVUdeTiUY6d9FVS9tNdDRtpcjUR+R4+QLwr5Ow
+   8Ag6+AdaXE9FI9xVY7VtBmzEQs3UkAyzgGepVhEYrGxNH0oGIFjLE58Ox
+   NWu0NAd5txBIqd3HGn7jpbv4kEGh4Ds97zSINM8riyoRzr7+kTGp/yodn
+   WUxwpXVqtb/1nbsn+Y9XoYEoQyLjQvAIlgHPm1lsZBCYDc8BtZr+zjfT+
+   7PwWHQfOBYTRH7panTdNsdfOq0V+ucDSfocwQVMkVeyToin4TdcdfpJD3
+   Trrwt7oAJEt9t3bX0waO/Eh9VcmehTTxoF5bWuqfmG0F6yii07b8X6HBO
+   A==;
+X-CSE-ConnectionGUID: 8XQjZ/65Q46JHxhrCIrGXw==
+X-CSE-MsgGUID: ZG9DPjokTCi0uSqIUyeo7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34182560"
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
+   d="scan'208";a="34182560"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 06:43:46 -0800
+X-CSE-ConnectionGUID: TQZ+7GCGR4WylI8cc3kfoA==
+X-CSE-MsgGUID: vvrb9beIR8eRoB/r0s+zgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
+   d="scan'208";a="94790455"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Dec 2024 06:43:41 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKez5-0004Sn-0p;
+	Mon, 09 Dec 2024 14:43:39 +0000
+Date: Mon, 9 Dec 2024 22:42:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>, Lee Jones <lee@kernel.org>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH v2 2/2] rust: miscdevice: access the `struct miscdevice`
+ from fops->open()
+Message-ID: <202412092214.P4acQ6Rn-lkp@intel.com>
+References: <20241209-miscdevice-file-param-v2-2-83ece27e9ff6@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/execmem: Make ARCH_WANTS_EXECMEM_LATE depend on
- EXECMEM
-To: kernel test robot <lkp@intel.com>, linux-mm@kvack.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Kees Cook <kees@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20241209031251.515903-1-anshuman.khandual@arm.com>
- <202412092048.tTzJ5szH-lkp@intel.com>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <202412092048.tTzJ5szH-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209-miscdevice-file-param-v2-2-83ece27e9ff6@google.com>
 
+Hi Alice,
 
+kernel test robot noticed the following build errors:
 
-On 12/9/24 18:06, kernel test robot wrote:
-> Hi Anshuman,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/mm-execmem-Make-ARCH_WANTS_EXECMEM_LATE-depend-on-EXECMEM/20241209-111533
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20241209031251.515903-1-anshuman.khandual%40arm.com
-> patch subject: [PATCH] mm/execmem: Make ARCH_WANTS_EXECMEM_LATE depend on EXECMEM
-> config: arm64-kismet-CONFIG_ARCH_WANTS_EXECMEM_LATE-CONFIG_ARM64-0-0 (https://download.01.org/0day-ci/archive/20241209/202412092048.tTzJ5szH-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20241209/202412092048.tTzJ5szH-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412092048.tTzJ5szH-lkp@intel.com/
-> 
-> kismet warnings: (new ones prefixed by >>)
->>> kismet: WARNING: unmet direct dependencies detected for ARCH_WANTS_EXECMEM_LATE when selected by ARM64
->    WARNING: unmet direct dependencies detected for ARCH_WANTS_EXECMEM_LATE
->      Depends on [n]: EXECMEM [=n]
->      Selected by [y]:
->      - ARM64 [=y]
+[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
 
-Although above mentioned config here has CONFIG_ARCH_WANTS_EXECMEM_LATE=y
-and CONFIG_EXECMEM=n (actually absent), could that really happen though ?
+url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-miscdevice-access-file-in-fops/20241209-153054
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/20241209-miscdevice-file-param-v2-2-83ece27e9ff6%40google.com
+patch subject: [PATCH v2 2/2] rust: miscdevice: access the `struct miscdevice` from fops->open()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20241209/202412092214.P4acQ6Rn-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412092214.P4acQ6Rn-lkp@intel.com/reproduce)
 
-Tried making CONFIG_EXECMEM=n (rather deselecting) but that did now allow
-setting CONFIG_EXECMEM=n, it always remained set. Reverting this patch i.e
-the current behaviour is also the same (CONFIG_EXECMEM always remains set).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412092214.P4acQ6Rn-lkp@intel.com/
 
-select ARCH_WANTS_EXECMEM_LATE if EXECMEM
+All errors (new ones prefixed by >>):
 
-Above statement seems to be selecting EXECMEM as well but the intent seems
-to be a dependency check instead! OR arch selection for a config brings in
-all its dependencies as well.
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   505 |                            item];
+   |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   512 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   525 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 19.1.3
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   505 |                            item];
+   |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   512 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   525 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   4 warnings generated.
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+>> error[E0277]: the size for values of type `Self` cannot be known at compilation time
+   --> rust/kernel/miscdevice.rs:107:35
+   |
+   107 |     fn open(_file: &File, _misc: &MiscDeviceRegistration<Self>) -> Result<Self::Ptr>;
+   |                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+   |
+   note: required by an implicit `Sized` bound in `MiscDeviceRegistration`
+   --> rust/kernel/miscdevice.rs:52:35
+   |
+   52  | pub struct MiscDeviceRegistration<T> {
+   |                                   ^ required by the implicit `Sized` requirement on this type parameter in `MiscDeviceRegistration`
+   help: consider further restricting `Self`
+   |
+   107 |     fn open(_file: &File, _misc: &MiscDeviceRegistration<Self>) -> Result<Self::Ptr> where Self: Sized;
+   |                                                                                      +++++++++++++++++
+   help: consider relaxing the implicit `Sized` restriction
+   |
+   52  | pub struct MiscDeviceRegistration<T: ?Sized> {
+   |                                    ++++++++
+--
+>> error[E0609]: no field `private_data` on type `File`
+   --> rust/kernel/miscdevice.rs:215:22
+   |
+   215 |     unsafe { (*file).private_data = ptr.into_foreign().cast_mut() };
+   |                      ^^^^^^^^^^^^ unknown field
 
-If the selection is always, should this change be like the following ?
-
-config ARCH_WANTS_EXECMEM_LATE
- 	bool
-	selects EXECMEM
-
-Although a similar config ARCH_WANTS_EXECMEM_ROX is dependent on MMU and
-!HIGHMEM at the generic memory level.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
