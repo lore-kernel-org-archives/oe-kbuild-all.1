@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3525A49652
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 20:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B7D19ABAC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 21:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733776947; cv=none; b=lLlqVjGg/xVIE4Jy93Dc8HkOrtPIlcZmJ6cJYTCSVBbvnbb1wQyXbyRG35JyfYn/mnXRQu6nGJDSkrAgItNDbuX9MmDYkccTzj+47yWoWXZFe6+y673fwq1MaM0/zHoJ0ffjkI7jFIP6W73WXnKp6LfPsNHS14n0e0a12aKwcUE=
+	t=1733778836; cv=none; b=LpXJurQOA+N9HZ1N1qAgbZ3Divxpjn2jMqt3KlOxEQu2MpbwfMd+mZ3O7/i2JKQTeyiuxfiNJrQldlnrmtUjFtnpdZckbqB8wLm5F8+Kno9IPo/DdsdmFwjjCRmypc1sPwxVF5tZxoX2WsENw598wUvttlF/gRj5U2TBuJjz7PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733776947; c=relaxed/simple;
-	bh=W/xkV6sDFmYYVD+vLT43ep5TBZ4c0rf/CthDA5dES/4=;
+	s=arc-20240116; t=1733778836; c=relaxed/simple;
+	bh=XfTDQRWvpB9LqasNeyrDse5prX4npB2RyBL/G9FYNMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iu4fu89WBUapxu+VPQaQTXx16ky5v2ELoKevawECDYCBQSWom38mTuy/NQ0GN6tdoRCjVmNLiJil4LYo4hLU8PV+0DbBBKFotLFvwRAW8DxruV9JvUJmh4Ij/eWINXa64FgheQu1K0YAELdsfhea5lOONYN0gV6z2eNX4LP5NrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sqh0AaMR; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=s2neIg0qQnID/2HSWgDYOX4l5EGz5i1h3o4Z1NylZKNGp2xaO283LUKgpOiTwCaTSxLfJ6UsGbRDMTikNxktxBc37bKqXF4ZKVG5YOvU+jeKq5JqVdqIVPnfyf/R4G4T2Vcy7/0nLpm3kWVbMgFPdBM1MrnY7dYrFua3Zgh3WuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDjTtage; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sqh0AaMR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDjTtage"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733776945; x=1765312945;
+  t=1733778834; x=1765314834;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W/xkV6sDFmYYVD+vLT43ep5TBZ4c0rf/CthDA5dES/4=;
-  b=Sqh0AaMRpzuCPQpQYVO03mww2VAEgkPyPHbMVNBL7c5Rl3RFKo2eVGnl
-   MzXflNUbWkEyTDpNPCHauS3F7BTsDeVCBySAP7ebgnENFttvbFfkapN8w
-   qw2NIW9pFgmRvrKnBOfxnZOrsrVmTPrp3BgjMtutShlUoAW2R3wYQyr9R
-   G8sFfMRkTZimgK+JqP3MuOlgOWQ79+vrTZuPYUmjxFQgdT0g6zGAv5It7
-   RzKL9B4UwZvAQBzYY157ESD3vRd1n80LXJVanKYHkr/YYNaOUtfZLcIlN
-   qIwn1QmWRxfeUiRTIz7xc5u9ZZ4EvCMoRqHlvKgwiK0WdaG3ZuRN3K0dg
+  bh=XfTDQRWvpB9LqasNeyrDse5prX4npB2RyBL/G9FYNMY=;
+  b=cDjTtageJwxx+tD00ijKVL60SV4VIvzdbQo9wFhcqAqFexqTQ1COiQoX
+   lsUhHNNenFwj1ETwHUSzfBKCFQMutuZ2Z6UvQF3vWl5HFp8IkpeCYw3Pm
+   OoxCQ1zVoSk5n7G6nDDwq7PLS/3exrI2PYPc6YcDPRh9Endjh8qmBvB5y
+   jWRV4VNi5dGtXHa8OWDmvEBY0LG3XpERPJ8q+rmavMMeYH5tOH0wtA/ma
+   8+n8VTgS9ntm6rORra1a20wGxgqq5IXBl+PTQ6w25uTsl3E9NMI0TdB/G
+   XeDrPll1ZBdc/OblE9ftzrO1JwSPRRi8Fzsl7yb9Q/SCJU4hw5TxCsHKt
    g==;
-X-CSE-ConnectionGUID: u8Q5i+U0SDObEIFsWZnxjw==
-X-CSE-MsgGUID: yYJPFuMIRTKGn5wpCO8SAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34022238"
+X-CSE-ConnectionGUID: 7I/RfHy4R7CM1thh6CmuGw==
+X-CSE-MsgGUID: 2+ExolUYQcCciaepxxaruw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="45500284"
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="34022238"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 12:42:25 -0800
-X-CSE-ConnectionGUID: gJmTr0jNTpGTEZMfTrKjug==
-X-CSE-MsgGUID: 4mOOmzEdRiOep9ZmHtMEIQ==
+   d="scan'208";a="45500284"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 13:13:53 -0800
+X-CSE-ConnectionGUID: zvDApJW4RTuUzry25bo28g==
+X-CSE-MsgGUID: yEXPMjeqTNSB8TG/i4X8lA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="126080780"
+   d="scan'208";a="95389226"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Dec 2024 12:42:24 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 09 Dec 2024 13:13:52 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKkaD-0004nd-28;
-	Mon, 09 Dec 2024 20:42:21 +0000
-Date: Tue, 10 Dec 2024 04:41:39 +0800
+	id 1tKl4f-0004p3-2g;
+	Mon, 09 Dec 2024 21:13:49 +0000
+Date: Tue, 10 Dec 2024 05:12:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
+To: kernel@openeuler.org, "gu.huiguang" <guhuiguang@mucse.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/v9-wip 20/22] ERROR: modpost:
- "netdev_rx_queue_restart" [drivers/net/ethernet/broadcom/bnxt/bnxt_en.ko]
- undefined!
-Message-ID: <202412100401.mQaYXpDH-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1610/1610] rnpm_ptp.c:(.data.rel.ro.local+0x0):
+ multiple definition of `mac_ptp';
+ drivers/net/ethernet/mucse/rnp/rnp_ptp.o:rnp_ptp.c:(.data.rel.ro.local+0x0):
+ first defined here
+Message-ID: <202412100554.9O1I0kbd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,21 +64,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zcrx/v9-wip
-head:   265a57e2057eabebef11b4b533a65ecf75284489
-commit: 7224437921cd25a9eb2481390e5e26b37f620182 [20/22] [NOT-FOR-UPSTREAM] bnxt_en: add debugfs file for restarting rx queues
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241210/202412100401.mQaYXpDH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100401.mQaYXpDH-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   db988390007bce595dba0dfd782c610578e26d2d
+commit: 5deaf74c4b3edcf88f67f18aa352690deb9dc212 [1610/1610] drivers: initial support for rnpm drivers from Mucse Technology
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241210/202412100554.9O1I0kbd-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100554.9O1I0kbd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412100401.mQaYXpDH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412100554.9O1I0kbd-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "netdev_rx_queue_restart" [drivers/net/ethernet/broadcom/bnxt/bnxt_en.ko] undefined!
+   loongarch64-linux-ld: drivers/net/ethernet/mucse/rnp/rnp_mbx.o:(.data.rel.local+0x0): multiple definition of `mbx_ops_generic'; drivers/net/ethernet/intel/ixgbe/ixgbe_mbx.o:(.data.rel.ro.local+0x0): first defined here
+   loongarch64-linux-ld: drivers/net/ethernet/mucse/rnpm/rnpm_main.o: in function `.LANCHOR3':
+   rnpm_main.c:(.bss+0x110): multiple definition of `mpe_pkt_version'; drivers/net/ethernet/mucse/rnp/rnp_main.o:rnp_main.c:(.bss+0x60): first defined here
+   loongarch64-linux-ld: drivers/net/ethernet/mucse/rnpm/rnpm_main.o: in function `.LANCHOR3':
+   rnpm_main.c:(.bss+0x114): multiple definition of `mpe_src_port'; drivers/net/ethernet/mucse/rnp/rnp_main.o:rnp_main.c:(.bss+0x64): first defined here
+   loongarch64-linux-ld: drivers/net/ethernet/mucse/rnpm/rnpm_mbx.o:(.data.rel.local+0x0): multiple definition of `mbx_ops_generic'; drivers/net/ethernet/intel/ixgbe/ixgbe_mbx.o:(.data.rel.ro.local+0x0): first defined here
+   loongarch64-linux-ld: drivers/net/ethernet/mucse/rnpm/rnpm_pcs.o:(.data.rel.local+0x0): multiple definition of `pcs_ops_generic'; drivers/net/ethernet/mucse/rnp/rnp_pcs.o:(.data.rel.local+0x0): first defined here
+   loongarch64-linux-ld: drivers/net/ethernet/mucse/rnpm/rnpm_ptp.o: in function `.LANCHOR1':
+>> rnpm_ptp.c:(.data.rel.ro.local+0x0): multiple definition of `mac_ptp'; drivers/net/ethernet/mucse/rnp/rnp_ptp.o:rnp_ptp.c:(.data.rel.ro.local+0x0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
