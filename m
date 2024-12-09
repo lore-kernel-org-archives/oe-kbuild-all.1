@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52972158851
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103ED15A864
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733718561; cv=none; b=V5Zzv6jmDe92G2O3ygBmJnR21cuTVCZyRQZ/VR8gUerhdg09Zo303IuYLaLfSdOloSZfOOFyxLG/J8ujKCBXCAg/Lo+qnSHnxrgro19Q2/OIYANqHgz9lh59TYj7U0WGQAiyG1xYcfiwR18iqnXbjzetI+VFDxikx8dZoIUUtxA=
+	t=1733718561; cv=none; b=b9dbAJ00Kao5l9qunpKs+9xcZz8GWEto8IqIKJLOwmtzHpLY+cU3rmwh1lqD0/Ohvx8J1Vh++RrypSv3YcKcv51WjKAeni1j2JA4iqu2fj2hoO42luk337aDX/7ZSi3Qui0S/7zRLNix8EBvyHd5EgZwZ5uN+57ggebvrLCi4Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733718561; c=relaxed/simple;
-	bh=qcP3khs7G1JoHWy1MW4nS2PoU8BIjszkWd3wsPuw5UU=;
+	bh=2tRIn1Im9chGWJ/YQhLJxWLMKwpT6EryNGestoecC0I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TMyGAauEWFPxFEAz5gc5ROJTCqfUu1TMyc2BTHZmlot2NHY+/UhzA8QYZuDlX1u1A+KkqhIw5GXoUV0NdRBSj+rIYfGcU2/T4xo//U04K+bQpPBCydmklZwbyE/44Il/GvURmBxUrIZEryr7NF0l5ZMqrVXHmYcjfVy3o4igg7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yi+Jy6PQ; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=knhse1vaCiiiV0E8tk3e7f/wCq97j7mz1fi/QvFwrE/ca8C1Q4DgFTUa64+BzrvvCijUbS0NLM8X3CE4zZQf9YcPAPeAIsQVzT6l+arCZvrW0OoF0/XPdbMUR/83wl9WlpDXyws7ei52mMNpoumL7uVNl5B/ny7JvPEThCZVbUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQ2S2w6Z; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yi+Jy6PQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQ2S2w6Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733718559; x=1765254559;
+  t=1733718560; x=1765254560;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qcP3khs7G1JoHWy1MW4nS2PoU8BIjszkWd3wsPuw5UU=;
-  b=Yi+Jy6PQJ6lEf143Z/jWf2FnN7R69Dio7Ef8WkAozxom4XNhO8olLTll
-   uxo+ngGXy5+uAKSoFEAlRTFQ77u8q9pBLYSmvH1S9hKl+dKy3Rt7xo3w1
-   9McXPIHmbr9iA29T2P6Wn7fVPVLJi+82ytLwiCcB5bZVG5CkE2AAdvhJ5
-   GrJnx29F0oWbaSunBCdVxdQTsXTW7VaFchbluo8VxS7AQvb7MyRYz4GnL
-   MjX5PW2Y/XNhYDYnehZUKBlXRu+UF3l+lVNGq9Jqjppj+CvG3ZOpxGEb4
-   5zIUyWSsqWJmYwGJr9HLi7+TSEPue0jd2E3ZU02nYaCYX3Fh/DuWh1z87
-   g==;
-X-CSE-ConnectionGUID: B2K3LEWnTbal3v/6sNzx+Q==
-X-CSE-MsgGUID: r2Ri8ByDSqSdl94y7jQ7fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34236749"
+  bh=2tRIn1Im9chGWJ/YQhLJxWLMKwpT6EryNGestoecC0I=;
+  b=RQ2S2w6ZcBdJOI23SOwye28eztEvy0vPAx2XhcbHpCStf7oa2afBK5S3
+   AR9NXa22jA+R9RsArrHSI4fnzGuTPsFDxrJGsjwwLd7Q8TGvfhwOb76oH
+   h4+B6k76cYtgNRnXEwXa+o474c8450xdHjHvPTV7f5q3z+MVH/RAkjKfT
+   IBc43oA+BPeGT6JNWNaACqKOFs+Ds/5E8AMyNndIThxPlMHpKq4/fP7g9
+   aSDBDiNKxPfO91LIfe8/uBL5PRPXoGgzeSZQKl+m103qepGPZWsacoQQa
+   dBF8wo5jb3pFP89EVOQS79FVdbgp7keLyrz5nfqEyoaVdBa0O9LAOHgYQ
+   Q==;
+X-CSE-ConnectionGUID: K4veH1yxTzaCqXiEBVCW3A==
+X-CSE-MsgGUID: 2SgLq4PdSt6HjA7be42CRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34122920"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34236749"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:29:16 -0800
-X-CSE-ConnectionGUID: okWGlxFcSN6yWgdnUsuksg==
-X-CSE-MsgGUID: lHj7TcE+STKIVMJogxBOmg==
+   d="scan'208";a="34122920"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:29:19 -0800
+X-CSE-ConnectionGUID: aAltwH/4Rc+DhphsGJ8/YQ==
+X-CSE-MsgGUID: 1zPo4DKGSni97mHW2CzCTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95429285"
+   d="scan'208";a="99404846"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Dec 2024 20:29:15 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 20:29:18 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVOT-0003rL-0B;
-	Mon, 09 Dec 2024 04:29:13 +0000
-Date: Mon, 9 Dec 2024 12:28:30 +0800
+	id 1tKVOV-0003rV-2u;
+	Mon, 09 Dec 2024 04:29:15 +0000
+Date: Mon, 9 Dec 2024 12:28:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 199/199]
- fs/bcachefs/alloc_background.c:2019:13: warning:
- 'bch2_discard_one_bucket_fast' defined but not used
-Message-ID: <202412080102.Yfb8Lo3Q-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c:79
+ devm_imx_drm_legacy_bridge() warn: inconsistent indenting
+Message-ID: <202412080122.CgaCjXX5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   1e50bc1ed8f08e32678d83b4216f26be485d15a5
-commit: 1e50bc1ed8f08e32678d83b4216f26be485d15a5 [199/199] disable bucket reuse withut flush - test
-config: arc-randconfig-002-20241207 (https://download.01.org/0day-ci/archive/20241208/202412080102.Yfb8Lo3Q-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241208/202412080102.Yfb8Lo3Q-lkp@intel.com/reproduce)
+Hi Dmitry,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
+commit: 4c3d525f65733e760f3700c0f3c83e8e46d2dcd8 drm/imx: ldb: switch to imx_legacy_bridge / drm_bridge_connector
+date:   3 months ago
+config: nios2-randconfig-r073-20241206 (https://download.01.org/0day-ci/archive/20241208/202412080122.CgaCjXX5-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412080102.Yfb8Lo3Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412080122.CgaCjXX5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c:79 devm_imx_drm_legacy_bridge() warn: inconsistent indenting
 
->> fs/bcachefs/alloc_background.c:2019:13: warning: 'bch2_discard_one_bucket_fast' defined but not used [-Wunused-function]
-    2019 | static void bch2_discard_one_bucket_fast(struct bch_dev *ca, u64 bucket)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +79 drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
 
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  53  
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  54  struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  55  					      struct device_node *np,
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  56  					      int type)
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  57  {
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  58  	struct imx_legacy_bridge *imx_bridge;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  59  	int ret;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  60  
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  61  	imx_bridge = devm_kzalloc(dev, sizeof(*imx_bridge), GFP_KERNEL);
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  62  	if (!imx_bridge)
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  63  		return ERR_PTR(-ENOMEM);
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  64  
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  65  	ret = of_get_drm_display_mode(np,
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  66  				      &imx_bridge->mode,
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  67  				      &imx_bridge->bus_flags,
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  68  				      OF_USE_NATIVE_MODE);
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  69  	if (ret)
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  70  		return ERR_PTR(ret);
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  71  
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  72  	imx_bridge->mode.type |= DRM_MODE_TYPE_DRIVER;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  73  
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  74  	imx_bridge->base.funcs = &imx_legacy_bridge_funcs;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  75  	imx_bridge->base.of_node = np;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  76  	imx_bridge->base.ops = DRM_BRIDGE_OP_MODES;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  77  	imx_bridge->base.type = type;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  78  
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02 @79         ret = devm_drm_bridge_add(dev, &imx_bridge->base);
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  80         if (ret)
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  81                 return ERR_PTR(ret);
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  82  
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  83  	return &imx_bridge->base;
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  84  }
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  85  EXPORT_SYMBOL_GPL(devm_imx_drm_legacy_bridge);
+cc3e8a216d6b817 Dmitry Baryshkov 2024-06-02  86  
 
-vim +/bch2_discard_one_bucket_fast +2019 fs/bcachefs/alloc_background.c
+:::::: The code at line 79 was first introduced by commit
+:::::: cc3e8a216d6b817c509e1e1a3700055d178e04f8 drm/imx: add internal bridge handling display-timings DT node
 
-a393f3312387597 Kent Overstreet 2024-02-16  2018  
-64ee1431cc7d11e Kent Overstreet 2024-06-23 @2019  static void bch2_discard_one_bucket_fast(struct bch_dev *ca, u64 bucket)
-a393f3312387597 Kent Overstreet 2024-02-16  2020  {
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2021  	struct bch_fs *c = ca->fs;
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2022  
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2023  	if (discard_in_flight_add(ca, bucket, false))
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2024  		return;
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2025  
-5a6e43af1e5341a Kent Overstreet 2024-09-04  2026  	if (!bch2_write_ref_tryget(c, BCH_WRITE_REF_discard_fast))
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2027  		return;
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2028  
-5a6e43af1e5341a Kent Overstreet 2024-09-04  2029  	if (!bch2_dev_get_ioref(c, ca->dev_idx, WRITE))
-5a6e43af1e5341a Kent Overstreet 2024-09-04  2030  		goto put_ref;
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2031  
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2032  	if (queue_work(c->write_ref_wq, &ca->discard_fast_work))
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2033  		return;
-a393f3312387597 Kent Overstreet 2024-02-16  2034  
-64ee1431cc7d11e Kent Overstreet 2024-06-23  2035  	percpu_ref_put(&ca->io_ref);
-5a6e43af1e5341a Kent Overstreet 2024-09-04  2036  put_ref:
-5a6e43af1e5341a Kent Overstreet 2024-09-04  2037  	bch2_write_ref_put(c, BCH_WRITE_REF_discard_fast);
-a393f3312387597 Kent Overstreet 2024-02-16  2038  }
-a393f3312387597 Kent Overstreet 2024-02-16  2039  
-
-:::::: The code at line 2019 was first introduced by commit
-:::::: 64ee1431cc7d11e01a1007ead0afe737781cbbab bcachefs: Discard, invalidate workers are now per device
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
