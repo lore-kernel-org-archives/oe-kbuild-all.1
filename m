@@ -1,75 +1,61 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87491216E22
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 11:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C3C228C89
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 12:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733743158; cv=none; b=UQQue7Kr99xTLPilEsE/kAhEixmT2ymCRj84nYGTIpdQOZV4YKbwn/z63xbmD0fGhcJaKhS1SjroGb9Oanb5eqzNmmY6Aur0ym9/XRe60t0tjFkhyvj/1jhLe8Tf853Ctxh9lvYkFzczPO/A/UZ5rVCUPIBeYQpIZPufW3YoWHo=
+	t=1733747852; cv=none; b=WfWJ8kiyHVRy4B0W3XclNwpah4+1EKX2Ag44B+qdG3a8DwgdYuyMZHd2bpStU2yfuk5RT0wYt1szClH2pFRW5yG6o8TvvmMj/FZKux4FHUP/6vpyPbzRA0zPoJ31p4blBQhqfA3uwkdf2RrP+5ZHxw/RdzNFD73LramYujOljHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733743158; c=relaxed/simple;
-	bh=EvNBtcuq66wlU4z6cIC7cBgd2PLoedbD/n/wBA3pDus=;
+	s=arc-20240116; t=1733747852; c=relaxed/simple;
+	bh=BqxO5EXIqsAcnDQE81MAzZXKdCnlZS1jBEPAa5BMhcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pSl0xNbil4p/b1w+KyBxVWgTENcEdMPc8ILZRhfhc6KMMVrEL9mcHOI2gSgW5lKl3loWA9gpehhC6f5saodePUYMTSwkn6jn/l0spfjIP1P/WpgvHaUQu0kZZzhf7ZKKhiid2hgGz7RP4+8toflb9s70dE4ygFOP2WDHRz8C9dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vpwe8oqg; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=u0+fSLnSevpvgjc3wCinZKE8TGPbldNBGdntLBx0z8Hw/4wRyTxW9Q6J2lKVZ8XLee2mTO+Z66ycd2z7p4xRzXVLijnHm5CRnCd9IfJLGMl2Ic6VC75sfPwgO/MsR7trExo0WFpEYjRB0IfAAcLC2B64GGcfvdmms0lPXSAWe/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+h7eZwJ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vpwe8oqg"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-434fef8203fso1442405e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Dec 2024 03:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733743155; x=1734347955; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WEaS0oTkc/etYl+1hpLKLxIspdSSIIqHv8Jv//XY3V8=;
-        b=vpwe8oqgvsDzuCSGVTq7u1mHiGuxkv0pSC3MrHNFCGLwjCng5S7xjChMVCwji27fFA
-         jiEPOWCIjr2u7k3eTFdXyzRGkK/nw10jtnmoWHPOHDBLv9XhEoGUHCmg7W1SuwmvGqQp
-         n6wLUqgih8WbqaFJx/jdvJXT6yqPTjXB43wSEouUhtGcweaznScfWC0I00dJlyvsr874
-         XD+mN8Vd8gCGII0qwLIySrgMDbPOL47A8Il76sKPPb2r5r9sh6IKfaQb2kWD27ZNnX0H
-         ntxRq5rlgNVkoSmeGyckO/Qp0bGvTXqSFDPLnY4uNAuFKCeDO7zUbVjzwUtji7PMXZMs
-         aLVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733743155; x=1734347955;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WEaS0oTkc/etYl+1hpLKLxIspdSSIIqHv8Jv//XY3V8=;
-        b=WGQcfrXQbQAAQb1b5myuxeJQy/Mw+jp+ny+cWVa7AixOwN2bFQqCXMT33B0/Ky88OY
-         H+Gi/YaX7yOFFJDVadVZgu44zYr/rV3gsLLnD+XocbWiIgYfhivzHjmaeTF4Q+1+ODGr
-         ngZeSqNgGfc7Eu7B9wFKIIyRRw5QwQAE7d2DFA3sDsSuolKX5hb6UuVqhuHqR/5Adcd1
-         4CSbNPJ6Km63FoW97DfsSf3ZImvSkO9Tmo30ham+/JsK44qBc5V+LSpRdSAKwx/RPMbr
-         E0W+VTtlucbW+u+3bTLrHOlIdqflva/zzpQw7dC3Oc1oN6lPSUl+GJGEokXcJ3caE93U
-         vSwA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfiI2DH2prpGLPT51nxMH0e2dGbBC2JNBRrVX9/kMVslQYqgx3xBU/LxAjrUOApJHdMcqhMjlU6mAP8Ao8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxb4KbdkfWKgBWfoC6aZP0hkHbv6ySrYOBd2f0h2jGBo/BOyR2z
-	a1ClhxWzEiAAvml9ruJBtd1CzN8/5rGIPBosX3KUtJOOUb1IsXbNYgrBO3DM27w=
-X-Gm-Gg: ASbGncui7Bh53oNQT0Mijw53noolPdMNrZjGMaMpCGUgfQmklQP4czDgzN1fyTXFAzY
-	4W+gAghZkoaWcpoWmv6x6wwTGuMgafCei8yNLYNizDl+VJUXoRUNehwHtpSfPsxBOuJAq7zbZGK
-	RU4cWYv8wMuMaPwKp4EGXBCfeGxWqWg43P3CaEb7SjllkmepW9P3RlWBXtv3g9BgQQWw8hmxg4N
-	vNVguVP7Zxpc6b3Z01LiNn4tQEu7SEs0BQ5jsI1ONuQ+UVqBOO9ht8=
-X-Google-Smtp-Source: AGHT+IEOw6Y2qfshQI8PWqV2AbSlpXw9I5f7b9iOiCuMN6pqeJhfrRidRhlF2d20YiBeUwISSDGC+A==
-X-Received: by 2002:a05:6000:1a86:b0:386:2aba:a7f6 with SMTP id ffacd0b85a97d-3862b3e752fmr6170429f8f.49.1733743154863;
-        Mon, 09 Dec 2024 03:19:14 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434faba810csm24283085e9.18.2024.12.09.03.19.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 03:19:14 -0800 (PST)
-Date: Mon, 9 Dec 2024 14:19:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Cosmin Ratiu <cratiu@nvidia.com>
-Cc: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"lkp@intel.com" <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"kuba@kernel.org" <kuba@kernel.org>
-Subject: Re: drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c:173
- mlx5_fc_stats_query_all_counters() error: uninitialized symbol
- 'bulk_query_time'.
-Message-ID: <c90846fa-7296-4d68-9d1b-81de0b6a611a@stanley.mountain>
-References: <1ce44712-7b81-4ace-aae8-7284974b11f1@stanley.mountain>
- <59b9f96ace8fe9b6fc1de39ff060e4deeb712ff6.camel@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+h7eZwJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733747850; x=1765283850;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BqxO5EXIqsAcnDQE81MAzZXKdCnlZS1jBEPAa5BMhcg=;
+  b=i+h7eZwJOBFHYnPjZV8UopeFL2j3CKF/s5DGNFLBAuqHCYAx9GIjXrOC
+   ID3cKnCp9o3gqrznQAWbLbp7l5hGtbZ14PRV9yZpfLQGyVocvOZ05vV26
+   d1Lg1RFl9MiQvcbxI7pPmEexKJ7e/VcZocrR6N5gCwVw2FVLbIUTpnAy3
+   Nm4TQD2XUAKRES8hohg/qA6A0xT8rUBtIJc2WxzqaHWjfosKk5Mz+5QhG
+   oiCKuHfsJe1U6a8hBysOAkZfHtX8S3HH2Vfu7sUt1CnUuXfTQ5+WHzkXE
+   Dtp3YQ1W46MxcghjpYL3uMoEdUQoV1Unwywdwo7N9PFijEdcz5dWhby83
+   A==;
+X-CSE-ConnectionGUID: JsC8tTo7STyRlSJzdK9z7w==
+X-CSE-MsgGUID: S/5Ib8edRuuSNtC4fMdotQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33954469"
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
+   d="scan'208";a="33954469"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 04:37:29 -0800
+X-CSE-ConnectionGUID: hatdD59FRRyHNVM6Fk0H8Q==
+X-CSE-MsgGUID: zF/PBI+gQNyW9wa0M45Ixw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
+   d="scan'208";a="95260216"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 09 Dec 2024 04:37:29 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKd0w-0004Jx-1x;
+	Mon, 09 Dec 2024 12:37:26 +0000
+Date: Mon, 9 Dec 2024 20:36:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Roger L. Beckermeyer III" <beckerlee3@gmail.com>,
+	linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Roger L. Beckermeyer III" <beckerlee3@gmail.com>
+Subject: Re: [PATCH] btrfs: edits tree_insert() to use rb helpers
+Message-ID: <202412092033.josUXvY4-lkp@intel.com>
+References: <5e023dcf8f086296da987f8ba2b43be0aca15b86.1733695544.git.beckerlee3@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,29 +64,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <59b9f96ace8fe9b6fc1de39ff060e4deeb712ff6.camel@nvidia.com>
+In-Reply-To: <5e023dcf8f086296da987f8ba2b43be0aca15b86.1733695544.git.beckerlee3@gmail.com>
 
-On Mon, Dec 09, 2024 at 10:09:59AM +0000, Cosmin Ratiu wrote:
-> 
-> Hi Dan,
-> 
-> Thanks for the report. But this came up during the submission and the
-> conclusion was that this is a false positive from Smatch.
-> See the discussions:
-> https://lore.kernel.org/netdev/0dce2c1d2f8adccbfbff39118af9796d84404a67.camel@nvidia.com/
-> https://lore.kernel.org/netdev/66ccbb841794c98b91d9e8aba48b90c63caa45e7.camel@nvidia.com/
-> You were also part of that thread and you reported no issue on your
-> side back then:
-> https://lore.kernel.org/netdev/fcecb18a-1a30-400d-b8ec-1806d856d145@stanley.mountain/
-> 
-> I am not sure what the conclusion was on the Smatch side, whether there
-> were planned fixes or the whole thing was just forgotten.
+Hi Roger,
 
-Ah, yes.  Thanks.  I have written a patch to silence this in Smatch, and
-I'll test and push it later.
+kernel test robot noticed the following build errors:
 
-As a human reader it was the unlikely() annotation which confused me.
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.13-rc2 next-20241209]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Roger-L-Beckermeyer-III/btrfs-edits-tree_insert-to-use-rb-helpers/20241209-104108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/5e023dcf8f086296da987f8ba2b43be0aca15b86.1733695544.git.beckerlee3%40gmail.com
+patch subject: [PATCH] btrfs: edits tree_insert() to use rb helpers
+config: x86_64-buildonly-randconfig-001-20241209 (https://download.01.org/0day-ci/archive/20241209/202412092033.josUXvY4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412092033.josUXvY4-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412092033.josUXvY4-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/btrfs/delayed-ref.c: In function 'tree_insert':
+>> fs/btrfs/delayed-ref.c:342:17: error: implicit declaration of function 'rb_find_add_cached'; did you mean 'rb_find_add_rcu'? [-Werror=implicit-function-declaration]
+     342 |         exist = rb_find_add_cached(node, root, comp_refs_node);
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 rb_find_add_rcu
+   fs/btrfs/delayed-ref.c:342:15: warning: assignment to 'struct rb_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     342 |         exist = rb_find_add_cached(node, root, comp_refs_node);
+         |               ^
+   cc1: some warnings being treated as errors
+
+
+vim +342 fs/btrfs/delayed-ref.c
+
+   334	
+   335	static struct btrfs_delayed_ref_node* tree_insert(struct rb_root_cached *root,
+   336			struct btrfs_delayed_ref_node *ins)
+   337	{
+   338		struct rb_node *node = &ins->ref_node;
+   339		struct rb_node *exist;
+   340		struct btrfs_delayed_ref_node *entry;
+   341	
+ > 342		exist = rb_find_add_cached(node, root, comp_refs_node);
+   343		if (exist != NULL) {
+   344			entry = rb_entry(exist, struct btrfs_delayed_ref_node, ref_node);
+   345			return entry;
+   346		}
+   347		return NULL;
+   348	}
+   349	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
