@@ -1,140 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00741147C91
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Dec 2024 12:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE785156C70
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 03:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733661792; cv=none; b=Dgo9jPo/HUO+gASBbjHiMWCnFo8aNX49STEqECLu/PsYZ18iOTSloL3vdN/aPzLrTHKWTBD2CEWWaU/gr2FbfvyAJzNhS31xP/97IbCHFzjuBCl3B9jf/nSZ2jn5pfxfpSNscc5FZbKpiBU72Eou8RQswwldWJSqVV81TJ1650M=
+	t=1733715607; cv=none; b=LprNok5MQ4f9CscPAccHj15sIewrLFETUZVVXB67pH+t0/xnveVm8D1LXd5qJe9HaV2A1aRVpz7O7kuhIuNEYoYRAYMSwU9bJhzd+SoI2hT8oZUL7KNxjhU+0HT6/w5Rv0cSL4a4qUFDMD9XLh1H/cAWrcTlVbQnVFgE56l8xGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733661792; c=relaxed/simple;
-	bh=Y1VrfaUJOsHO1WFsOHnhUnMmpc+knkf8+T6J1ZH+360=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a7WG0t9owyTm1SV6xwcVOrstlgRtJwaD0k/ZimcY+kZkS/SMwtWSeaBnDhb7uPCT/sY9SyQpBhxYDFBznxIPu4Q7MG130duXBUzEqEfSoQYf6zeS/Qr+YHXp05bK0OqOhaSNVzgw9ZclwXsN4nLsaBb50BSa/k7xYFrJ5yepT1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyhJNTCi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733715607; c=relaxed/simple;
+	bh=O5wj9X04xILpIYZfDjYm3tMbeAznkw3hHoShD/CJqSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cKTqg6WgrNGqUapHJRKF05Im1ECcfkXXkcGUdWH36f+sRIb3WyCui8MJ55q7xcwVP6bQwqxzbXbmYXMRoDR4M6Sf9vQbH+N8znkUry3wMwgIwa1LZmoFZy7e1VOtUw2oZmzjSGMv07UyYK3Rd9jXrwMozDTETM6myveJ9iRyFW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sq6Ef7yY; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyhJNTCi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E30BC4CEE2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Dec 2024 12:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733661791;
-	bh=Y1VrfaUJOsHO1WFsOHnhUnMmpc+knkf8+T6J1ZH+360=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JyhJNTCiW50mZQhwiOkkRceY8SYIGl0bPdnLmEdR4PDpOIRBk2UZNOGnq12S4Ut+6
-	 3nyTam2ylc+T3VFg4uivwD1VRLuCPjRKli+mJLNNPF4gg0Qnvti57/IZcxOsabOcJq
-	 0VYObQvVjR8sBVNlxVEmfSJQL6KIG967hahZcSyNIFnYj3IAzSBM8IV1WEMBjKANvP
-	 lHM4TEcBaWAgX6zdKiHCxFHIhPdBA4hior1CBBCqqDEnUB0Y4zLuGivfg8m1Jic5xB
-	 3v8HvDDwDnplzSV2gzVZuqWHovTgRtd6jmCaqBZKvQvkiXD0Fj9MNmH1TWsuMPuh/Z
-	 8uAVLavPHFLTQ==
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso390243a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Dec 2024 04:43:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXbtoot1QKuthvXSnkcs927DxwEpHnzmWhXA1C577uEmbmJ+dhowsA/fBHOAbceP9h0W32q1N2KYx8n8+aF@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKRo7E78VQXjXxJwT6MYvdNtantajB9Z966c+aBczs5rSmLMu+
-	hd32vp696jeD7oHBNcZIXXUbsr2+IkHR6lvg/nIrJm2o/mcMsC4sIpGBjpCDpjYthS/eOz6q+vc
-	K6MX7F/5AFnWrlRRsDIoN5SZLZwM=
-X-Google-Smtp-Source: AGHT+IEwMdJAK1TEIbACXHy0BbMLfAFH2951o0gRCPTzx5amZVYs+eE3LjkD4Lm7z7Ax4i9ZpMDZ4K8dvkv2F0pucxM=
-X-Received: by 2002:aa7:d3c8:0:b0:5d3:cd5b:64a9 with SMTP id
- 4fb4d7f45d1cf-5d3cd5b656dmr6300254a12.34.1733661790431; Sun, 08 Dec 2024
- 04:43:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sq6Ef7yY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733715606; x=1765251606;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O5wj9X04xILpIYZfDjYm3tMbeAznkw3hHoShD/CJqSw=;
+  b=Sq6Ef7yYBrDVa3ejcvVGvptb/sFNZv9O12oX9x+/ZUUgS2B4MbA8ujIJ
+   lSImKU+OqUqstGyzE4XtETNNmCbwdRLCt7VybKFh4CP6vbZZ94Thv7Xv3
+   qxzGS6kqeUAJM+i+KZotAcMooemlotNnfMpBvjSNOZ7bose2bCoecnSRc
+   uCkJGQEU8M75JNP3dW3Rcv6NaF3NxTTrMRPUQD672obpRVuNA3bgtWDkk
+   bn/K67M09WvPeeH9bQJSrqluoxbPZbTnFX/DM+bQylFxJFN4H0rr0ov51
+   JoTEu5rN20LPNpvMk5i4k2NK4sLGzBLaGw+uW0tf5GT4Dk32wrv5LptOv
+   Q==;
+X-CSE-ConnectionGUID: OJ2Sd7mtRNGnUlMvFFHuLw==
+X-CSE-MsgGUID: 6HT5uCu6TKKUJ/6kBJAL/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="45010035"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="45010035"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:40:05 -0800
+X-CSE-ConnectionGUID: 9jOl30N2SmCT5dHOtGBebw==
+X-CSE-MsgGUID: y6vwFSgzSAiDdBQGSj52ew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="99393151"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 19:40:01 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKUcp-0003k5-02;
+	Mon, 09 Dec 2024 03:39:59 +0000
+Date: Mon, 9 Dec 2024 11:39:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Roy Im <roy.im.opensource@diasemi.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2] dt-bindings: input: convert dlg,da7280.txt to
+ dt-schema
+Message-ID: <202412070625.zZpw80SM-lkp@intel.com>
+References: <20241206-topic-misc-da7280-convert-v2-1-1c3539f75604@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202412070231.MzXdNrLv-lkp@intel.com> <faqkdyfv4wstpsc6miyfwq73nyj7tke4epses4msjewrh26her@vpovriyfjtcv>
-In-Reply-To: <faqkdyfv4wstpsc6miyfwq73nyj7tke4epses4msjewrh26her@vpovriyfjtcv>
-From: Chanwoo Choi <chanwoo@kernel.org>
-Date: Sun, 8 Dec 2024 21:42:27 +0900
-X-Gmail-Original-Message-ID: <CAGTfZH1uDfp+tD395SyA201880rUKRKGYwjM+pCaFRMzDzF9-Q@mail.gmail.com>
-Message-ID: <CAGTfZH1uDfp+tD395SyA201880rUKRKGYwjM+pCaFRMzDzF9-Q@mail.gmail.com>
-Subject: Re: [chanwoo:devfreq-next 4/4] drivers/devfreq/sun8i-a33-mbus.c:384:47:
- error: passing argument 1 of 'devm_clk_rate_exclusive_get' from incompatible
- pointer type
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241206-topic-misc-da7280-convert-v2-1-1c3539f75604@linaro.org>
 
-Hi,
+Hi Neil,
 
-I'd like you to make the new patch without error.
+kernel test robot noticed the following build warnings:
 
-Thanks,
+[auto build test WARNING on c245a7a79602ccbee780c004c1e4abcda66aec32]
 
-On Sat, Dec 7, 2024 at 5:37=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Hello,
->
-> On Sat, Dec 07, 2024 at 02:37:41AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.g=
-it devfreq-next
-> > head:   27d1a5d95c5202f927f1155ad8f919778cd9f155
-> > commit: 27d1a5d95c5202f927f1155ad8f919778cd9f155 [4/4] PM / devfreq: su=
-n8i-a33-mbus: Simplify by using more devm functions
-> > config: arm64-randconfig-002-20241206 (https://download.01.org/0day-ci/=
-archive/20241207/202412070231.MzXdNrLv-lkp@intel.com/config)
-> > compiler: aarch64-linux-gcc (GCC) 14.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20241207/202412070231.MzXdNrLv-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202412070231.MzXdNrLv-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    drivers/devfreq/sun8i-a33-mbus.c: In function 'sun8i_a33_mbus_probe'=
-:
-> > >> drivers/devfreq/sun8i-a33-mbus.c:384:47: error: passing argument 1 o=
-f 'devm_clk_rate_exclusive_get' from incompatible pointer type [-Wincompati=
-ble-pointer-types]
-> >      384 |         ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
-> >          |                                           ~~~~^~~~~~~~~~
-> >          |                                               |
-> >          |                                               struct clk *
-> >    In file included from drivers/devfreq/sun8i-a33-mbus.c:6:
-> >    include/linux/clk.h:214:48: note: expected 'struct device *' but arg=
-ument is of type 'struct clk *'
-> >      214 | int devm_clk_rate_exclusive_get(struct device *dev, struct c=
-lk *clk);
-> >          |                                 ~~~~~~~~~~~~~~~^~~
->
-> Huh, back then something with my build testing must have been broken.
-> The right thing is to squash the following into said commit:
->
-> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
--mbus.c
-> index fae0793182a7..52e146fe389d 100644
-> --- a/drivers/devfreq/sun8i-a33-mbus.c
-> +++ b/drivers/devfreq/sun8i-a33-mbus.c
-> @@ -381,7 +381,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
-e *pdev)
->                 return dev_err_probe(dev, ret, "failed to lock dram clock=
- rate\n");
->
->         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
-> -       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
-> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
->         if (ret)
->                 return dev_err_probe(dev, ret, "failed to lock mbus clock=
- rate\n");
->
->
-> If you don't want to rewrite history, tell me, then I create a proper
-> patch.
->
-> Thanks and sorry,
-> Uwe
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-input-convert-dlg-da7280-txt-to-dt-schema/20241206-180220
+base:   c245a7a79602ccbee780c004c1e4abcda66aec32
+patch link:    https://lore.kernel.org/r/20241206-topic-misc-da7280-convert-v2-1-1c3539f75604%40linaro.org
+patch subject: [PATCH v2] dt-bindings: input: convert dlg,da7280.txt to dt-schema
+reproduce: (https://download.01.org/0day-ci/archive/20241207/202412070625.zZpw80SM-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070625.zZpw80SM-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
 
---=20
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/input/dlg,da72??.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
