@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD467156861
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A47156C52
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Dec 2024 04:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717651; cv=none; b=WQmkd3/3t66IKzjpev1VMPVjrRbWzQxcalTgdQ7JQTYyTYBfIGNXt+cAgUe95jaGBg9ZhujLkV5w2MxdOinMUvfNZfVHoVHS6PxbbEevarIVso+/DXHFGd7sY5uK3s1N8fdyzX7h4Uz59cjwysLy6yknsSX4ALh3kPJ5PA8gKb8=
+	t=1733717653; cv=none; b=I2dONf3WSseKTRWTphTl/PFnbzbcCuHgoxB7iXYisuFfSvKFKIkTFA8LjLlu/X2BnzjUsqP4Cq5WxTtJFo6RCPruaY7orRRGw39ceIwxyas4B+h8h1WWDpRFRiKmql+L/BoFveIvYtvvPx7esRB79rDFT80BIIo2fGmqDZ088dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717651; c=relaxed/simple;
-	bh=a/qKYmIeDQCd8O4dWhg/UTtzkHlrx1/pm4fM1Ttm7ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qRiHNLhFvezaK6VUh7/DIUtk0PQ4ajmBbkgwK5A6QmrzXi1OEsZGmqSAu8aDmX+en387/TtCqLfmTFKeSWpRbASypkoQfYxq8NAnC0bMjlKgp7q6ToZcihzZuwpRYAt4e+LHHjswGRPSRBYYVXCUeQFF+K2sQyYDKq7zvhjxAD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NburoyCB; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1733717653; c=relaxed/simple;
+	bh=JIcsHLVaQXDNxXHbfmPvkui92K3mZSu6YIA1YrNXmFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KcxOwLWhOtx4diSF85YcOpmu1KvLAEeVQhyIjYRjZbxAji37iyWXdAgcuc/F8LesC3sVrv0RcXbdvMQB9b/MEqrWyKw8g11j+dw1LUbYSkASopW3xzhNFy4QvhaAmZrZfEQcS4uH6FBMtyHUlPm2s33/wy4wAVH6e026vlesxKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyB5l5Sq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NburoyCB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyB5l5Sq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717650; x=1765253650;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a/qKYmIeDQCd8O4dWhg/UTtzkHlrx1/pm4fM1Ttm7ys=;
-  b=NburoyCBJJQwTrdZiT5dkLVR8GmjlXKON+AvygHkbxaPTTHtcUlSNNrC
-   8xFRVYCmN+zttVlR41DDTUGniCgVWSr3fkj3q4eYgV94G1uapsTXUmpZp
-   3pRaGdSCs12ZEf1NU7uEKQ9PeHOWwKuUj34b1FvX5KrNDMK/DTb5NdD5o
-   Jkt+O2zRoO1cFffWDGWIe847DGvBwrzWu5xcfNP0bmnGVrlwEGb/wY7Vt
-   f3pWu4PfsXrhz2Hz+fx05bwbpZohFZY2sMmAjyGdUyp4E5mR8fiut1fOH
-   UeGoO7XQYLaUuV+4bGoW4NHsyQDtJMtqnsbgL0CdTVJIXY0ltvJ9Jfk27
+  t=1733717652; x=1765253652;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JIcsHLVaQXDNxXHbfmPvkui92K3mZSu6YIA1YrNXmFA=;
+  b=HyB5l5SqE8A+hNc3RBraPbg8DtI4LI3m75KUB1U1JIUjiPToCEIEQrMX
+   B3L1aDy2fJODOFMdC1l3SoXNIQ7iIJHbCVbmDSdlmUp0wGtYz3HLsLYCB
+   lpKZd3Wy5sJrzsufkKxLfdND6G6HIT37/5a2UfusUE1KoPf40evnJa3H1
+   e6sBiTufNKXxtm+Z3ihe+sTpjHtBJn4mNz91AYGdduIXaGDJQOaMdEbd0
+   2FHrAwWrjhwhv/5+xsPi/jZ+FEkcsP2kXHG2wztVV1tVxLtEmXofN2MRI
+   Fc8zXPh5BGfPgpXGEsKg8Q9Epaq6grQvCJEOzHEB8ky7e02i7eZP7IE7t
    A==;
-X-CSE-ConnectionGUID: OrgwZXNqS/C9oYROEObvnA==
-X-CSE-MsgGUID: mL/ZrktVRH+zORDcTcW2fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="51414332"
+X-CSE-ConnectionGUID: T/MfzhZtTje3xv3mKTtWcw==
+X-CSE-MsgGUID: haxCjfZTQpq8ZPoxgYCNEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34122104"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="51414332"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:14:09 -0800
-X-CSE-ConnectionGUID: sd5zlvQTRjeFyH2IB3/XNg==
-X-CSE-MsgGUID: v33mCQ9BT4WA78vJOFSVSQ==
+   d="scan'208";a="34122104"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:14:12 -0800
+X-CSE-ConnectionGUID: QA2esDbzSnSewFNXow8KMA==
+X-CSE-MsgGUID: 9puMgUeyQQ+s7vZz2YJDAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94648612"
+   d="scan'208";a="99401323"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Dec 2024 20:14:08 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 20:14:08 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKV9p-0003od-39;
+	id 1tKV9p-0003ob-33;
 	Mon, 09 Dec 2024 04:14:05 +0000
-Date: Mon, 9 Dec 2024 12:13:51 +0800
+Date: Mon, 9 Dec 2024 12:13:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-partner_predev 53/81]
- Documentation/devicetree/bindings/iommu/pkvm,pviommu.yaml: ignoring, error
- parsing file
-Message-ID: <202412071747.lQCQNv9m-lkp@intel.com>
+To: Taniya Das <quic_tdas@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ajit Pandey <quic_ajipan@quicinc.com>,
+	Imran Shaik <quic_imrashai@quicinc.com>,
+	Jagadeesh Kona <quic_jkona@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Taniya Das <quic_tdas@quicinc.com>
+Subject: Re: [PATCH 3/3] clk: qcom: videocc-sm8750: Add video clock
+ controller driver for SM8750
+Message-ID: <202412071610.5vUMFjRk-lkp@intel.com>
+References: <20241206-sm8750_videocc-v1-3-5da6e7eea2bd@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,32 +73,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241206-sm8750_videocc-v1-3-5da6e7eea2bd@quicinc.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
-head:   189fb017ecf5ae2222e37e4461dc2369022a9b99
-commit: 763fac409fa0424d3a5082112e1a308cc50d62cb [53/81] ANDROID: drivers: iommu: pviommu: Add basic driver structure
-config: arm-randconfig-052-20241206 (https://download.01.org/0day-ci/archive/20241207/202412071747.lQCQNv9m-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071747.lQCQNv9m-lkp@intel.com/reproduce)
+Hi Taniya,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on af2ea8ab7a546b430726183458da0a173d331272]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-branch-Extend-invert-logic-for-branch2-mem-clocks/20241207-015655
+base:   af2ea8ab7a546b430726183458da0a173d331272
+patch link:    https://lore.kernel.org/r/20241206-sm8750_videocc-v1-3-5da6e7eea2bd%40quicinc.com
+patch subject: [PATCH 3/3] clk: qcom: videocc-sm8750: Add video clock controller driver for SM8750
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241207/202412071610.5vUMFjRk-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071610.5vUMFjRk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412071747.lQCQNv9m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412071610.5vUMFjRk-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/iommu/pkvm,pviommu.yaml: ignoring, error parsing file
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/memory-region.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/memory-region.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/framebuffer.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/reserved-memory.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/reserved-memory.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/shared-dma-pool.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml#'
-   Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml: i2c-alias: missing type definition
-   Documentation/devicetree/bindings/sound/audio-graph-port.yaml: convert-sample-format: missing type definition
-   Documentation/devicetree/bindings/input/touchscreen/ti,tsc2005.yaml: ti,x-plate-ohms: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-odd-pixels: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-even-pixels: missing type definition
-   Warning: Duplicate compatible "nvidia,tegra186-ccplex-cluster" found in schemas matching "$id":
+All errors (new ones prefixed by >>):
+
+>> drivers/clk/qcom/videocc-sm8750.c:56:36: error: 'CLK_ALPHA_PLL_TYPE_TAYCAN_ELU' undeclared here (not in a function); did you mean 'CLK_ALPHA_PLL_TYPE_RIVIAN_EVO'?
+      56 |         .regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_TAYCAN_ELU],
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    CLK_ALPHA_PLL_TYPE_RIVIAN_EVO
+>> drivers/clk/qcom/videocc-sm8750.c:64:33: error: 'clk_alpha_pll_taycan_elu_ops' undeclared here (not in a function); did you mean 'clk_alpha_pll_rivian_evo_ops'?
+      64 |                         .ops = &clk_alpha_pll_taycan_elu_ops,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 clk_alpha_pll_rivian_evo_ops
+   drivers/clk/qcom/videocc-sm8750.c: In function 'video_cc_sm8750_probe':
+>> drivers/clk/qcom/videocc-sm8750.c:426:9: error: implicit declaration of function 'clk_taycan_elu_pll_configure'; did you mean 'clk_rivian_evo_pll_configure'? [-Wimplicit-function-declaration]
+     426 |         clk_taycan_elu_pll_configure(&video_cc_pll0, regmap, &video_cc_pll0_config);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         clk_rivian_evo_pll_configure
+
+
+vim +56 drivers/clk/qcom/videocc-sm8750.c
+
+    51	
+    52	static struct clk_alpha_pll video_cc_pll0 = {
+    53		.offset = 0x0,
+    54		.vco_table = taycan_elu_vco,
+    55		.num_vco = ARRAY_SIZE(taycan_elu_vco),
+  > 56		.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_TAYCAN_ELU],
+    57		.clkr = {
+    58			.hw.init = &(const struct clk_init_data) {
+    59				.name = "video_cc_pll0",
+    60				.parent_data = &(const struct clk_parent_data) {
+    61					.index = DT_BI_TCXO,
+    62				},
+    63				.num_parents = 1,
+  > 64				.ops = &clk_alpha_pll_taycan_elu_ops,
+    65			},
+    66		},
+    67	};
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
