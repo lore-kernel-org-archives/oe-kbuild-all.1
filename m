@@ -1,29 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C1A1B423A;
-	Mon,  9 Dec 2024 15:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE336233139;
+	Mon,  9 Dec 2024 15:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733758647; cv=none; b=Xnecs2wodbTW63A9ZYdeeecwZqEk/OTiyQANDWD6qkchznpdsQ5vqiF18Lx05Nrr/un/pwRROXHcehG6/W/D9dS7WFPtTotEhctziJ8Qd8htn3wg3F4hA+b9tmRo1FVCo0yrBRwdInhY/x2xWWMLulAVQ1c7H/1zPPbT8Nq2Wxs=
+	t=1733759931; cv=none; b=o6QwNF+J+PndvOmWqU5cMO9rwMX55aTs9zh1PVCypkhI9K4BEYTYdjekWcO74yAC/14hFx6h2WJIG4a/tcv60FcA4XesXXUJK54gzFEX6HottdchPdWvSxL0Mh4q+JoSCkGaYmxVrYcBoGyAQ7CAfDsNdIn6MATQbEJI55GVcac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733758647; c=relaxed/simple;
-	bh=lkBrgp6rkOeLfvB7fdrtpF13W4DkNBpJo7urfDYaWkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usoaa20UmNFW6W61awxSowCK/u5s815PucRJi6fwnJIpIw5vbVxWxlSSPce1ETz/mZAShN0PrN1Po+SE68MbSatLk0nSqtaMBJYjscTsBInVJVBphTd+yeLBpObS/fhEEmsWOwicuodUV2xdwexllJm6xlFhrmsNrekkxv6gRgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E052DC4CED1;
-	Mon,  9 Dec 2024 15:37:25 +0000 (UTC)
-Date: Mon, 9 Dec 2024 15:37:23 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Mark Brown <broonie@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Subject: Re: arch/arm64/kernel/signal.c:1046:36: sparse: sparse: cast removes
- address space '__user' of expression
-Message-ID: <Z1cOs2sGff1_TtQZ@arm.com>
-References: <202412082005.OBJ0BbWs-lkp@intel.com>
+	s=arc-20240116; t=1733759931; c=relaxed/simple;
+	bh=tRjyEATjYe+2D6uqY55D559UaOzGfKgVdiw0kzsC368=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RBiM4VHvTMgeVBxabGvl4oEsYctyVKOXIjEGoUtszXAHrfV4DEAttPGaV6cVWxrW83T9vFEEhru/yWzmYD5ZQlmH/RwOwDHC4yB/duw6/zhv8dEkrjtPVtPpu8kHrJe5v1g3lb8siDtuLYbDb198IBOmzHqA3HnBLWQMKmGBzfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eH3ZVnyW; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eH3ZVnyW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733759930; x=1765295930;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tRjyEATjYe+2D6uqY55D559UaOzGfKgVdiw0kzsC368=;
+  b=eH3ZVnyW/yHa0R294U4bZnocf/1ZLba5PxTrFlhGLvpa3GhBo2Ljq8ht
+   BnEARbNuNWdxOfjcKIwaVz7pwQlarKQi1Equ9pN2Vr14dyyIIz2fquj5t
+   VUXjP40spP9vfdpWOrTIS7OpxJogiuU0ZgmDwA3bC/WhrxmaoTtoCD0qd
+   IazRtzBtsfa0+TgISCyYqVZ1htNk1tChdjhJBtzzoa2zYaLfQhmu5OFDU
+   9Yrc4zgMxcVsXQ60L0jVWzcHF7g9fVP7/YBZLdmPGMrxFQOcaf5Sywoqy
+   PfY/zJxtwOqxxMx6Q76IcNN3oAa9AQ44iNfPeX92NMVmorMh0oRWD6m1A
+   Q==;
+X-CSE-ConnectionGUID: 6DQkFeGuR5KgM0SbJ9ubJg==
+X-CSE-MsgGUID: i5z/CAnpQ7yEtbEjQR6VoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="51598445"
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
+   d="scan'208";a="51598445"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 07:58:49 -0800
+X-CSE-ConnectionGUID: Vp8ksGHUT+mvNihRA4oqAQ==
+X-CSE-MsgGUID: gdGP4vglScS53gYEzcyZtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
+   d="scan'208";a="126010511"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 09 Dec 2024 07:58:48 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKg9l-0004Yq-2z;
+	Mon, 09 Dec 2024 15:58:45 +0000
+Date: Mon, 9 Dec 2024 23:57:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 204/207]
+ fs/bcachefs/str_hash.c:164:2: error: expected expression
+Message-ID: <202412092339.QB7hffGC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -32,88 +61,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202412082005.OBJ0BbWs-lkp@intel.com>
 
-On Mon, Dec 09, 2024 at 12:47:33PM +0800, kernel test robot wrote:
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/arm64/kernel/signal.c:1046:36: sparse: sparse: cast removes address space '__user' of expression
->    arch/arm64/kernel/signal.c:1054:9: sparse: sparse: cast removes address space '__user' of expression
->    arch/arm64/kernel/signal.c:1461:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void ( [noderef] [usertype] __user *[assigned] [usertype] sigtramp )( ... ) @@     got void * @@
->    arch/arm64/kernel/signal.c:1461:26: sparse:     expected void ( [noderef] [usertype] __user *[assigned] [usertype] sigtramp )( ... )
->    arch/arm64/kernel/signal.c:1461:26: sparse:     got void *
-> 
-> vim +/__user +1046 arch/arm64/kernel/signal.c
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   49f6359f9883c937742e95cef8eb3cb0e5aa2bb8
+commit: 41df8115fe32fe3911ea5c1d7cb6d182abd689a7 [204/207] bcachefs: bch2_str_hash_check_key() now checks inode hash info
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20241209/202412092339.QB7hffGC-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412092339.QB7hffGC-lkp@intel.com/reproduce)
 
-Thanks for this, the warning is valid.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412092339.QB7hffGC-lkp@intel.com/
 
-> 2c020ed8d148f7 Catalin Marinas 2012-03-05  1010  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1011  #ifdef CONFIG_ARM64_GCS
-> eaf62ce1563b85 Mark Brown      2024-10-01  1012  static int gcs_restore_signal(void)
-> eaf62ce1563b85 Mark Brown      2024-10-01  1013  {
-> eaf62ce1563b85 Mark Brown      2024-10-01  1014  	unsigned long __user *gcspr_el0;
+All errors (new ones prefixed by >>):
 
-I think we should keep this as u64 since it's a sysreg.
+>> fs/bcachefs/str_hash.c:164:2: error: expected expression
+           struct bch_inode_unpacked inode;
+           ^
+>> fs/bcachefs/str_hash.c:165:30: error: use of undeclared identifier 'inode'
+           ret = bch2_inode_unpack(k, &inode);
+                                       ^
+   fs/bcachefs/str_hash.c:169:55: error: use of undeclared identifier 'inode'
+           struct bch_hash_info hash2 = bch2_hash_info_init(c, &inode);
+                                                                ^
+   fs/bcachefs/str_hash.c:171:40: error: use of undeclared identifier 'inode'
+                   ret = repair_inode_hash_info(trans, &inode);
+                                                        ^
+   4 errors generated.
 
-> eaf62ce1563b85 Mark Brown      2024-10-01  1015  	u64 cap;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1016  	int ret;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1017  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1018  	if (!system_supports_gcs())
-> eaf62ce1563b85 Mark Brown      2024-10-01  1019  		return 0;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1020  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1021  	if (!(current->thread.gcs_el0_mode & PR_SHADOW_STACK_ENABLE))
-> eaf62ce1563b85 Mark Brown      2024-10-01  1022  		return 0;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1023  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1024  	gcspr_el0 = (unsigned long __user *)read_sysreg_s(SYS_GCSPR_EL0);
 
-Remove the cast here.
+vim +164 fs/bcachefs/str_hash.c
 
-> eaf62ce1563b85 Mark Brown      2024-10-01  1025  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1026  	/*
-> eaf62ce1563b85 Mark Brown      2024-10-01  1027  	 * Ensure that any changes to the GCS done via GCS operations
-> eaf62ce1563b85 Mark Brown      2024-10-01  1028  	 * are visible to the normal reads we do to validate the
-> eaf62ce1563b85 Mark Brown      2024-10-01  1029  	 * token.
-> eaf62ce1563b85 Mark Brown      2024-10-01  1030  	 */
-> eaf62ce1563b85 Mark Brown      2024-10-01  1031  	gcsb_dsync();
-> eaf62ce1563b85 Mark Brown      2024-10-01  1032  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1033  	/*
-> eaf62ce1563b85 Mark Brown      2024-10-01  1034  	 * GCSPR_EL0 should be pointing at a capped GCS, read the cap.
-> eaf62ce1563b85 Mark Brown      2024-10-01  1035  	 * We don't enforce that this is in a GCS page, if it is not
-> eaf62ce1563b85 Mark Brown      2024-10-01  1036  	 * then faults will be generated on GCS operations - the main
-> eaf62ce1563b85 Mark Brown      2024-10-01  1037  	 * concern is to protect GCS pages.
-> eaf62ce1563b85 Mark Brown      2024-10-01  1038  	 */
-> eaf62ce1563b85 Mark Brown      2024-10-01  1039  	ret = copy_from_user(&cap, gcspr_el0, sizeof(cap));
-
-Add one here.
-
-> eaf62ce1563b85 Mark Brown      2024-10-01  1040  	if (ret)
-> eaf62ce1563b85 Mark Brown      2024-10-01  1041  		return -EFAULT;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1042  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1043  	/*
-> eaf62ce1563b85 Mark Brown      2024-10-01  1044  	 * Check that the cap is the actual GCS before replacing it.
-> eaf62ce1563b85 Mark Brown      2024-10-01  1045  	 */
-> eaf62ce1563b85 Mark Brown      2024-10-01 @1046  	if (!gcs_signal_cap_valid((u64)gcspr_el0, cap))
-
-Drop the cast here.
-
-> eaf62ce1563b85 Mark Brown      2024-10-01  1047  		return -EINVAL;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1048  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1049  	/* Invalidate the token to prevent reuse */
-> eaf62ce1563b85 Mark Brown      2024-10-01  1050  	put_user_gcs(0, (__user void*)gcspr_el0, &ret);
-
-We need a cast here if we are to go with u64 gcspr_el0 (it wasn't needed
-before, not sure why it was cast to void *).
-
-> eaf62ce1563b85 Mark Brown      2024-10-01  1051  	if (ret != 0)
-> eaf62ce1563b85 Mark Brown      2024-10-01  1052  		return -EFAULT;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1053  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1054  	write_sysreg_s(gcspr_el0 + 1, SYS_GCSPR_EL0);
-
-And this would be +8 I guess.
-
-> eaf62ce1563b85 Mark Brown      2024-10-01  1055  
-> eaf62ce1563b85 Mark Brown      2024-10-01  1056  	return 0;
-> eaf62ce1563b85 Mark Brown      2024-10-01  1057  }
-> eaf62ce1563b85 Mark Brown      2024-10-01  1058  
+   140	
+   141	/*
+   142	 * All versions of the same inode in different snapshots must have the same hash
+   143	 * seed/type: verify that the hash info we're using matches the root
+   144	 */
+   145	static int check_inode_hash_info_matches_root(struct btree_trans *trans, u64 inum,
+   146						      struct bch_hash_info *hash_info)
+   147	{
+   148		struct bch_fs *c = trans->c;
+   149		struct btree_iter iter;
+   150		struct bkey_s_c k;
+   151		int ret = 0;
+   152	
+   153		for_each_btree_key_reverse_norestart(trans, iter, BTREE_ID_inodes, SPOS(0, inum, U32_MAX),
+   154						     BTREE_ITER_all_snapshots, k, ret) {
+   155			if (k.k->p.offset != inum)
+   156				break;
+   157			if (bkey_is_inode(k.k))
+   158				goto found;
+   159		}
+   160		bch_err(c, "%s(): inum %llu not found", __func__, inum);
+   161		ret = -BCH_ERR_fsck_repair_unimplemented;
+   162		goto err;
+   163	found:
+ > 164		struct bch_inode_unpacked inode;
+ > 165		ret = bch2_inode_unpack(k, &inode);
+   166		if (ret)
+   167			goto err;
+   168	
+   169		struct bch_hash_info hash2 = bch2_hash_info_init(c, &inode);
+   170		if (memcmp(hash_info, &hash2, sizeof(hash2))) {
+   171			ret = repair_inode_hash_info(trans, &inode);
+   172			if (!ret) {
+   173				bch_err(c, "inode hash info mismatch with root, but mismatch not found");
+   174				ret = -BCH_ERR_fsck_repair_unimplemented;
+   175			}
+   176		}
+   177	err:
+   178		bch2_trans_iter_exit(trans, &iter);
+   179		return ret;
+   180	}
+   181	
 
 -- 
-Catalin
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
