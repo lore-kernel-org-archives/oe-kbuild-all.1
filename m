@@ -1,169 +1,116 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9241C07F4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 17:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD8B199951
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 18:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733850408; cv=none; b=jEzBJvjAYbyYGqBhfDQsZrs6KaIDlCql5rhel5QDxgTRMMXy/sA/tkuEOghyIDppZVPspD6FntRMy/ZzQDsivpYnfhvbywxSlcRGxZv0NwZJ7vR2252E85zIh1KyMVXmKFyfrgpvnYPo0mhp+VYPsN5lP3VYAJnm4H82u4GrGZw=
+	t=1733855725; cv=none; b=RqAuFid396yHrRkwGYBZHGHy4H4rdCP1R4rS6q5FZe2b0TlbDYcdfSp9hgLFkWyR47WTvAWWtgenPuxESUfrWnPYeTYsmst9hdtxwT2GBATyhjXGiRWTfHjQrarKDcSVQzOQxw8cdNlhiknjzm0u5yLasp5gkSiK8O+sicurJMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733850408; c=relaxed/simple;
-	bh=rFN7TvLsCXA3VO1va/jH8l4a57uI2N9NxnTrkX7z2Uk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HHfNly/bcQnBh+/Bq7FqwqsS4Hba/anPMOCBTkuzesH4e7o5atO9Mrd5qAL5EUc4SelJG6g5Vtxc7CSQhugJ+zgxmsmxQCOQ21BMggRMHt5LJVZkdQ6LfRt7KtSiJC4nFxVRsJ7+anIi7QA4xL5SKq+u+1kpgtIWYGG7jla5atU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N0ikOrkL; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1733855725; c=relaxed/simple;
+	bh=FdRhiTf0H0C251ouPst6kpD29MZnOFFx0UOQiwCT1/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sY/h7hihAZhTfzwo2rZC7xSzjOfUtaTgBbxWdD81H7ge0NmDbGESv/9x47R4i3XCSsx1KFLYP7pRdc1PhlmnZIyhBjniNgNkKTQkxfH/LXBqNXRSslqOB4errmCz8e7BJi88Z934QfqDPwvzoFPGph5RJjDkm5GnM5DJY73NeGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqkgUM7w; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N0ikOrkL"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 32654C0006;
-	Tue, 10 Dec 2024 17:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733850398;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tqxoxktpoqzZXfIrDIKHGCR9iQyRTGI04sSZ/7C4j1o=;
-	b=N0ikOrkLwxlTixrruieaZ+V7YxUcX0qM6BGOXicQX8UzqgkAe2ukpMdQCQFJp4ujuDtTlv
-	iLFDupZ8U093lzxWIcjzJ3PYhgUwRD72cUdT4FwQ8yf1T9arVi0IYhSoKkCe4ahSygoUsy
-	X4w/F/Je/Tl1DThg585AElxyCDVEOIoZF/6aVdF6kv0elvEsXKS6ckXGgyH5pL0QBAtG+j
-	V0EFaVV7GD07FwrFgfp5IlqaEPa7gnL12Hu9EWTC5+X4jxbqfpVuqac7U9AnKsWa0MO+R7
-	6yBRNd7MOTVkY+97vvAUHIq3BNBtax0+Xz75Ne+GuNkG3UY6+ME0TTFAcqB+cw==
-From: Gregory CLEMENT <gregory.clement@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, =?utf-8?Q?Th=C3=A9o?= Lebrun
- <theo.lebrun@bootlin.com>
-Subject: Re: arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: cast
- truncates bits from constant value (fffffffff000 becomes fffff000)
-In-Reply-To: <202412091227.KUZgstBB-lkp@intel.com>
-References: <202412091227.KUZgstBB-lkp@intel.com>
-Date: Tue, 10 Dec 2024 18:06:37 +0100
-Message-ID: <87ed2flb6q.fsf@BLaptop.bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqkgUM7w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733855723; x=1765391723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FdRhiTf0H0C251ouPst6kpD29MZnOFFx0UOQiwCT1/E=;
+  b=IqkgUM7wSoeEd/bbDgVM1tvlO9tobsuB+2ou3L7+zuj7zRWw28G3gnwb
+   uenyHzeNzLMuZjhpN4wFuvOSCQYfuiYrIOCyAaR7yJuruo8y9zIvb/xHO
+   L9dUSQ5cumNVZfkWu12OHueM6vJmaxwaijaQ/lW77QE4jKdgFnn/bfX3F
+   tHE9P82CpQKhtyVtAjyU8VJc2qQBUh9lCrYUrwrpB5HU/Ky2F/gGBtdWs
+   fomS85trhCl4mZMcLEdUxrPYVFRoeesAF1csubrJvG69fOhcecq0cGOO9
+   jt41gX6iUefJdYiBQM6bNENVLR0JaiQh/ZLK1kFHkeCNCOqmcDuWBEGId
+   Q==;
+X-CSE-ConnectionGUID: ClBVmqmeT4+sieGXmwR44Q==
+X-CSE-MsgGUID: G/YqYrjFRzS7W5rNQg/9gg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="37901796"
+X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
+   d="scan'208";a="37901796"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 10:35:23 -0800
+X-CSE-ConnectionGUID: qMcCP1BFTf6GYnBNbWFPfQ==
+X-CSE-MsgGUID: uQSxdHw8SI2pdZwNqnwP6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
+   d="scan'208";a="95321237"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 10 Dec 2024 10:35:18 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tL54l-0005r9-3A;
+	Tue, 10 Dec 2024 18:35:15 +0000
+Date: Wed, 11 Dec 2024 02:34:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen Wang <unicornxw@gmail.com>, u.kleine-koenig@baylibre.com,
+	aou@eecs.berkeley.edu, arnd@arndb.de, unicorn_wang@outlook.com,
+	conor+dt@kernel.org, guoren@kernel.org, inochiama@outlook.com,
+	krzk+dt@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
+	robh@kernel.org, tglx@linutronix.de, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	chao.wei@sophgo.com, xiaoguang.xing@sophgo.com,
+	fengchun.li@sophgo.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] irqchip: Add the Sophgo SG2042 MSI interrupt
+ controller
+Message-ID: <202412110248.fdcNDwnt-lkp@intel.com>
+References: <c882fe329932409131be76ce47b81a6155595ce4.1733726057.git.unicorn_wang@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: gregory.clement@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c882fe329932409131be76ce47b81a6155595ce4.1733726057.git.unicorn_wang@outlook.com>
 
-Hello,
+Hi Chen,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-> commit: 6f14293257309a02a6d451e80e4ef1d78560479e MIPS: Allow using more t=
-han 32-bit addresses for reset vectors when possible
-> date:   6 weeks ago
-> config: mips-randconfig-r112-20241209 (https://download.01.org/0day-ci/ar=
-chive/20241209/202412091227.KUZgstBB-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5=
-92c0fe55f6d9a811028b5f3507be91458ab2713)
-> reproduce: (https://download.01.org/0day-ci/archive/20241209/202412091227=
-.KUZgstBB-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412091227.KUZgstBB-lkp=
-@intel.com/
+kernel test robot noticed the following build warnings:
 
-[...]
+[auto build test WARNING on fac04efc5c793dccbd07e2d59af9f90b7fc0dca4]
 
->    arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/=
-include/asm/mips-cps.h):
->    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
-in argument 2 (different address spaces) @@     expected void volatile [nod=
-eref] __iomem *mem @@     got void * @@
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
-ile [noderef] __iomem *mem
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
-in argument 2 (different address spaces) @@     expected void volatile [nod=
-eref] __iomem *mem @@     got void * @@
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
-ile [noderef] __iomem *mem
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
-in argument 2 (different address spaces) @@     expected void volatile [nod=
-eref] __iomem *mem @@     got void * @@
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
-ile [noderef] __iomem *mem
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
-in argument 2 (different address spaces) @@     expected void volatile [nod=
-eref] __iomem *mem @@     got void * @@
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
-ile [noderef] __iomem *mem
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
->>> arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: cast truncates b=
-its from constant value (fffffffff000 becomes fffff000)
->    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
-in return expression (different address spaces) @@     expected void * @@  =
-   got void [noderef] __iomem * @@
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void [noderef] =
-__iomem *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
-in return expression (different address spaces) @@     expected void * @@  =
-   got void [noderef] __iomem * @@
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void [noderef] =
-__iomem *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
-in return expression (different address spaces) @@     expected void * @@  =
-   got void [noderef] __iomem * @@
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void *
->    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void [noderef] =
-__iomem *
->>> arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: cast truncates b=
-its from constant value (fffffffff000 becomes fffff000)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Wang/dt-bindings-interrupt-controller-Add-Sophgo-SG2042-MSI/20241209-151429
+base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+patch link:    https://lore.kernel.org/r/c882fe329932409131be76ce47b81a6155595ce4.1733726057.git.unicorn_wang%40outlook.com
+patch subject: [PATCH v2 2/3] irqchip: Add the Sophgo SG2042 MSI interrupt controller
+config: arm-randconfig-r131-20241210 (https://download.01.org/0day-ci/archive/20241211/202412110248.fdcNDwnt-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241211/202412110248.fdcNDwnt-lkp@intel.com/reproduce)
 
-So I looked for from where this error comes and found that it was caused
-by:
-  write_gcr_co_reset64_base(CM_GCR_Cx_RESET64_BASE_BEVEXCBASE);
-in function check_64bit_reset() (smp-cps.c)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412110248.fdcNDwnt-lkp@intel.com/
 
-The constant value being CM_GCR_Cx_RESET64_BASE_BEVEXCBASE.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-sg2042-msi.c:64:9: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/irqchip/irq-sg2042-msi.c:64:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/irqchip/irq-sg2042-msi.c:64:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/irqchip/irq-sg2042-msi.c:64:9: sparse:     got unsigned int *
 
-It occurs due to:
-  __raw_writel(val, addr_##unit##_##name());
-in write_##unit##_##name(uint##sz##_t val) (mips-cps.h)
+vim +/__iomem +64 drivers/irqchip/irq-sg2042-msi.c
 
-However, check_64bit_reset() is only called when mips_cm_is64 is true,
-whereas in write_##unit##_##name(uint##sz##_t val) __raw_writel is not
-called when mips_cm_is64 is true. This warning is therefore a false
-positive and I do not see any reasonable way to silence it, so I think
-we should simply ignore it unless someone has a better proposal.
+    58	
+    59	static void sg2042_msi_irq_ack(struct irq_data *d)
+    60	{
+    61		struct sg2042_msi_data *data  = irq_data_get_irq_chip_data(d);
+    62		int bit_off = d->hwirq - data->irq_first;
+    63	
+  > 64		writel(1 << bit_off, (unsigned int *)data->reg_clr);
+    65	
+    66		irq_chip_ack_parent(d);
+    67	}
+    68	
 
-Gregory
-
-[...]
-
-
->
-> vim +329 arch/mips/include/asm/mips-cm.h
->
->    326=09
->    327	/* GCR_Cx_RESET_BASE - Configure where powered up cores will fetch=
- from */
->    328	GCR_CX_ACCESSOR_RW(32, 0x020, reset_base)
->  > 329	GCR_CX_ACCESSOR_RW(64, 0x020, reset64_base)
->    330	#define CM_GCR_Cx_RESET_BASE_BEVEXCBASE		GENMASK(31, 12)
->    331	#define CM_GCR_Cx_RESET64_BASE_BEVEXCBASE	GENMASK_ULL(47, 12)
->    332	#define CM_GCR_Cx_RESET_BASE_MODE		BIT(1)
->    333=09
->
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
---=20
-Gr=C3=A9gory CLEMENT, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
