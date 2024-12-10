@@ -1,139 +1,122 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E5579FD;
-	Tue, 10 Dec 2024 04:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1D2226EF3;
+	Tue, 10 Dec 2024 05:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733806483; cv=none; b=kJ8bQ7PGVleM0UME68/bDvojI3zo69jxXmJqD5vVMo2hUjOyuiAaNlChFpDq6cvHFa4kEASetSVoHcfTw3uSkH5FhgQpSecwTkzDm72lUA1294TIDN4RU0Kj6BCv4ZG40ULXRXzIag/hXQmPkg0Kjrnxs52RhBUsNnTAOA23uaQ=
+	t=1733808232; cv=none; b=JFJh+2Xfs4FVFu5mxwFnp2UvHukrKzkgydZwcDzZl4RMrUxl28oNCo7XgZ3Ls7kbq5igH7vVJw9ZjIIMal4VZ4Gin3Wek4gcWT5oYPuOLjTYxnAXK0BiblzkBLxxjD+woTjRtCPQoPcm11LB5XXh/RKbYfOSy2ziujld9u+N2BI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733806483; c=relaxed/simple;
-	bh=gdEbNFPl5kPLl0+Fyt3/DtxwUw1JlBhuVFojii4rjfw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=omtPw8BYgufYZ5/tyaKuIUE5xqbOuk1jXZX6P18zk5j4yKVXe38hov1GM576pBJ6OEXojQvb0m0mUDp3HqtIqx5f1QFl+ciXETSn88h2qnKBgttTaATFVAeM/3+nD+piTgyYN2N/P9SieF22E0h7K2LhCWfQj9qSrU3qOW0OFAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dceYg8XA; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733808232; c=relaxed/simple;
+	bh=+yvIxadNHP2tMjc38a6nuEX5dE9n2JekZyl1HOaVL4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/IFApbZQt4ajt/9CY9wXNi5sZuSuAHfBEqoAYnoGZJ8yB5t/HmtHFlmeukJUodDNuv6HsWgC5QDnkOUd0P5A08AWtRBhneXMENgtFlNp8DYraobUgmiS3wH2wFj5wIKvY7BRc8wKE1xgKSdY/TURFi6xpSzmBHa//SySy46N6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h3QpNI84; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dceYg8XA"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B9JKj9F014588;
-	Tue, 10 Dec 2024 04:54:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IlC79XGTk+ZcsfIIqjz57EXU6SX3DgAASoT3HuQrm/c=; b=dceYg8XAWZBIpXgq
-	iJ35yg6Ej6GpfnQVWpJtACqzuog4OGIfPRRxScQTeeJNda1xQVF3HVSEJ98qPPzf
-	hjs6rCeP89F1HO/YL5QcirPDUs+uEAV+XGAXd7nt/VnzvDqo7bAnKGN/22ZqyXmj
-	rMkTQ9VyqZDHk5FI3JLZ6Hyqq/reyD496mhHExL8rWLlS34VNz4rYMXxwiEKctCA
-	vrwxpXhWCyMM3FsZzNOCSTZldn3zLKLwu0Y5O3qvt7yQcNpKtKAczLx2NoqyZ2gT
-	z4rJnsQfKIEXoDwNB8jgwswME7Sm8F2yiXdDFTSISOD90bKMmgdSamWZXmOxnycn
-	673pnQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43dy8ttr4x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 04:54:34 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BA4sXd1007710
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 04:54:33 GMT
-Received: from [10.216.2.81] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Dec 2024
- 20:54:26 -0800
-Message-ID: <a4df0d32-0223-4913-946b-ba6566798a1b@quicinc.com>
-Date: Tue, 10 Dec 2024 10:24:23 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h3QpNI84"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733808231; x=1765344231;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+yvIxadNHP2tMjc38a6nuEX5dE9n2JekZyl1HOaVL4I=;
+  b=h3QpNI84o4cXamOJUIDAXd13JmtZIK3MhiVTm19byiFwozBlXGJX5iXq
+   kgDhAkCzirNxDZzbmpRp6VzjZ/cww01Np/lvhJJt43MVcn/RjFSAQAenz
+   1zSNZlTPrQdHg3Q9p5hsIzIgkRu3+JPdLMpM5m0ifd/dNdvVhB2tIHUSX
+   FedcIQANvrtKsGboHs3RlBw1KbQHiYPYjiYU/G/tgiJcBlxu+5qFWcYDA
+   FtuSAnr6zxe+j1fF+c3syVGxYs8/B4zZ9Z1FbZhuKmc0Be6FvHK65Y/Tq
+   PCeXO/kb0vcbob7z3mNNvkkqNKHRFpPyTIB5T5XExd8rdwvcFJImGuYua
+   Q==;
+X-CSE-ConnectionGUID: gybU5xvZS42MGmypjdE5rQ==
+X-CSE-MsgGUID: IbMlL313RbycCuTR35rwsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="56616476"
+X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
+   d="scan'208";a="56616476"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 21:23:50 -0800
+X-CSE-ConnectionGUID: SyTKH2znT7iIfSGI/sbSmg==
+X-CSE-MsgGUID: 8BL6lDlHTTuI51xf1CTxPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
+   d="scan'208";a="95134854"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Dec 2024 21:23:45 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKsil-00058Z-1M;
+	Tue, 10 Dec 2024 05:23:43 +0000
+Date: Tue, 10 Dec 2024 13:22:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, NXP S32 Linux <s32@nxp.com>,
+	imx@lists.linux.dev, Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Bogdan Hamciuc <bogdan.hamciuc@nxp.com>,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>
+Subject: Re: [PATCH v6 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+Message-ID: <202412101248.CBSpbBCZ-lkp@intel.com>
+References: <20241206070955.1503412-3-ciprianmarian.costea@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/7] soc: qcom: geni-se:: Add support to load QUP SE
- Firmware via Linux subsystem
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        kernel test robot
-	<lkp@intel.com>
-CC: <andi.shyti@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <gregkh@linuxfoundation.org>,
-        <jirislaby@kernel.org>, <broonie@kernel.or>, <andersson@kernel.org>,
-        <konradybcio@kernel.org>, <johan+linaro@kernel.org>,
-        <dianders@chromium.org>, <agross@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <oe-kbuild-all@lists.linux.dev>, <quic_anupkulk@quicinc.com>,
-        "Mukesh Kumar
- Savaliya" <quic_msavaliy@quicinc.com>
-References: <20241204150326.1470749-5-quic_vdadhani@quicinc.com>
- <202412050429.SJvNsU2f-lkp@intel.com>
- <5sni4plocjjtzdijtmlxnipthpfz4w3x27th3mergdhhaqjs3y@aqyngjkmg33h>
-Content-Language: en-US
-From: Viken Dadhaniya <quic_vdadhani@quicinc.com>
-In-Reply-To: <5sni4plocjjtzdijtmlxnipthpfz4w3x27th3mergdhhaqjs3y@aqyngjkmg33h>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Cu0LDME5EqKYmt2dRoMiqga4Q6SFiD2H
-X-Proofpoint-GUID: Cu0LDME5EqKYmt2dRoMiqga4Q6SFiD2H
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- priorityscore=1501 mlxlogscore=999 clxscore=1011 mlxscore=0 spamscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412100033
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241206070955.1503412-3-ciprianmarian.costea@oss.nxp.com>
 
+Hi Ciprian,
 
+kernel test robot noticed the following build errors:
 
-On 12/5/2024 4:07 AM, Dmitry Baryshkov wrote:
-> On Thu, Dec 05, 2024 at 04:19:25AM +0800, kernel test robot wrote:
->> Hi Viken,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on andi-shyti/i2c/i2c-host]
->> [also build test WARNING on tty/tty-testing tty/tty-next tty/tty-linus broonie-spi/for-next linus/master v6.13-rc1 next-20241204]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Viken-Dadhaniya/dt-bindings-i2c-qcom-i2c-geni-Document-DT-properties-for-QUP-firmware-loading/20241204-230736
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
->> patch link:    https://lore.kernel.org/r/20241204150326.1470749-5-quic_vdadhani%40quicinc.com
->> patch subject: [PATCH v1 4/7] soc: qcom: geni-se:: Add support to load QUP SE Firmware via Linux subsystem
->> config: arm-randconfig-002 (https://download.01.org/0day-ci/archive/20241205/202412050429.SJvNsU2f-lkp@intel.com/config)
->> compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050429.SJvNsU2f-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202412050429.SJvNsU2f-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     drivers/soc/qcom/qcom-geni-se.c: In function 'read_elf':
->>>> drivers/soc/qcom/qcom-geni-se.c:975:23: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
->>       975 |                 *phdr = &phdrs[i];
->>           |                       ^
->>     drivers/soc/qcom/qcom-geni-se.c: At top level:
->>     drivers/soc/qcom/qcom-geni-se.c:1268:5: warning: no previous prototype for 'qup_fw_load' [-Wmissing-prototypes]
->>      1268 | int qup_fw_load(struct qup_se_rsc *rsc)
->>           |     ^~~~~~~~~~~
-> 
-> This doesn't looks like it was properly compile-tested. Please always
-> make sure that the build cleanly passes "make W=1" for the changed
-> paths.
-> 
-> 
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on robh/for-next linus/master v6.13-rc2 next-20241209]
+[cannot apply to arm64/for-next/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-we have compiled with -Werror but there was something missing.
-Tried with with W=1 and now i see this error coming locally. Will 
-incorporate and take care in future.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/dt-bindings-rtc-add-schema-for-NXP-S32G2-S32G3-SoCs/20241206-151308
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20241206070955.1503412-3-ciprianmarian.costea%40oss.nxp.com
+patch subject: [PATCH v6 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241210/202412101248.CBSpbBCZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412101248.CBSpbBCZ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412101248.CBSpbBCZ-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+ERROR: modpost: "__udivdi3" [drivers/rtc/rtc-s32g.ko] undefined!
+>> ERROR: modpost: "__divdi3" [drivers/rtc/rtc-s32g.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
