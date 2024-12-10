@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1B3522A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 00:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FA433EA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 00:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733790276; cv=none; b=p1MU02FROkkc+TL/Jfu8bbKwp6UpzOaWzZELKYEVVroRIW/rdWoEAx8merCqZKQHoepE8a9g2ikUFU2QL48trZLcup4lLH96LclAGeB/Jr9eEUeFsRnyGeH0qq6/Etc2cRXPWT8/Si3rPFjVNpAubvvfh835tm3ILGE6Ibttlvo=
+	t=1733790936; cv=none; b=G6ZOpgfVNbTZ0VwQ2QKv/0l74POteHDGSY8RhclT8Ssu2oD/dIOIfF71kAKW9vZv+rkLdaHDQhFLB6y43+TdyheaNXnFim6ZT9nEpmTQWyiyda8HqGpYYFCJabuFptk6LiMv6zXtfVsgzCPgEOLhWNf13iy+wYUA7MPlvbnnwtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733790276; c=relaxed/simple;
-	bh=Pc1Gs7fNB+wMBsFexlQ37q55EF6uTO5z4TbYvdAneos=;
+	s=arc-20240116; t=1733790936; c=relaxed/simple;
+	bh=uwoSdkxYzQeeXOcOVV+J9w+dIK18ypNar//0T6XPgdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jDCqXvnGhOV8pkXHp3OOpFNTqGg0AVeeu641HP1iL/uW0IUvoCBQQMaAX/cPJh9A2LS8w/l4j/kFJ7fPWVrPcJIoKSz0cNrIjSLeAVG7e9LswMA+IEpJdSxXgO8+9lVX+ZPlT4GKtXi7adrMcb7kqNJfF3d4et5YqC5X3LJsYt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j4kiw7+E; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=Picy8tqdY7dIWFIIMnnuDvtGPvZyFsBp+FYsKQqfYDE7m/SN9PzGcTrXANCrVy2Gli1ndyAQvg0kj8spSEFx2DGozxXW3NtXxvZ51BhkSnIOct3xQZp1lQTaZvgPqSrKG16N50k3JOBU+ZxZLK4VnWIOMQNhRjmHBuv/IsgMcKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kT++G8Kc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j4kiw7+E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kT++G8Kc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733790273; x=1765326273;
+  t=1733790935; x=1765326935;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pc1Gs7fNB+wMBsFexlQ37q55EF6uTO5z4TbYvdAneos=;
-  b=j4kiw7+EB+WciOYtUSoLilFowdspSRge5zS6dDdJe1Ewm1q904+ulEVD
-   DJtEqHO7MW966fTndlB8E6L5+P8rrNjbGDItIeF5K678pvI2v8zCRtFy/
-   9ZVze9ScPoAtuxSpT2QUGi9ML+byZOTESEz+bDCJMze8I8pCAneUNkPR2
-   pZLONRkpPjQebgnQdQuDKq71iG0zKtNsyTKYPXLHuqXrkZZP1dQ0otAxW
-   gExc4aTVyQliIze7ORDB927dYFtkxEzmMIyvnwvK13rIRiB0A35UXYF6f
-   +J9hxweu+KXZPyJNYXWAYLkl1NxcN08K57DCjiMcUa2yzXjumLOfRAHoP
-   A==;
-X-CSE-ConnectionGUID: qL78HgTmRHeYET3Tu1jWGA==
-X-CSE-MsgGUID: 3wlC29ReSz6qWt2+KIykaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="44717221"
+  bh=uwoSdkxYzQeeXOcOVV+J9w+dIK18ypNar//0T6XPgdw=;
+  b=kT++G8Kc/Oap2vTsN3g1AFqZOQ+lWAknTWHFd+T5foi7oxHoTHoFiiu9
+   PmDnuvTHL5ymGuMCRGjFFaIMjgUP8SfSEdpXUKm6xMZlQvM8EYM2jO+Go
+   wObfnozeAp01ZyHdbJ/FMOolQH5oMslqRoerLxbfer43zKVAehfiOLdeN
+   058rPqm7pJkB4PKWQeinI0/h+JYHhXi9U1+iXV+8kmz7/X2AfIneFSJYR
+   NrxpH2cE3bx9ao4qa5HolMpARcOR+qQDMREBjQMegz7cGqhdOLj8AzCGz
+   IsRU9Xw6kcefMh09ZQUA4r+MEqV6/A7jQq9+CQhN1fJvZmxQMA51pwwrD
+   g==;
+X-CSE-ConnectionGUID: yVwfdyeZR+SK3g5kcntDbQ==
+X-CSE-MsgGUID: Ng9veHw5SCCoz6lX3c57wA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33848550"
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="44717221"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 16:24:33 -0800
-X-CSE-ConnectionGUID: PI20LDWVRhWaUpEStlBJ4g==
-X-CSE-MsgGUID: UdgbmwSyRqSKiF0Tk1TJpQ==
+   d="scan'208";a="33848550"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 16:35:34 -0800
+X-CSE-ConnectionGUID: iLzzmT+uRo29pOCM9RIxGw==
+X-CSE-MsgGUID: +G35/cQjSPmjADdyoanrpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="95104120"
+   d="scan'208";a="95717151"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Dec 2024 16:24:32 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 09 Dec 2024 16:35:33 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKo3B-0004yD-1Q;
-	Tue, 10 Dec 2024 00:24:29 +0000
-Date: Tue, 10 Dec 2024 08:24:10 +0800
+	id 1tKoDq-0004yS-30;
+	Tue, 10 Dec 2024 00:35:30 +0000
+Date: Tue, 10 Dec 2024 08:35:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 1/2]
- drivers/misc/vmw_balloon.c:681:40: error: too few arguments to function
- 'balloon_page_alloc'
-Message-ID: <202412100816.ZFdYKlu7-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1321/1321] arch/x86/power/cpu.o:
+ warning: objtool: missing symbol for section .exit.text
+Message-ID: <202412100840.h8kOEWMA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +62,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   4332228773d8f5cd3b07c96d0aa41095be5b0446
-commit: 12748383a4ceb5771ff4034cff6685953d00c6b1 [1/2] ANDROID: virtio-balloon: Allow pagesize configuration
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241210/202412100816.ZFdYKlu7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100816.ZFdYKlu7-lkp@intel.com/reproduce)
+Hi Borislav,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   faa52e40c08916893e09ba030e616f92e4fc020b
+commit: 27dd57ae7b305c8c1bcf55eab82c45d85b605149 [1321/1321] x86/cpu: Load microcode during restore_processor_state()
+config: x86_64-buildonly-randconfig-002-20241205 (https://download.01.org/0day-ci/archive/20241210/202412100840.h8kOEWMA-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100840.h8kOEWMA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412100816.ZFdYKlu7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412100840.h8kOEWMA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/misc/vmw_balloon.c: In function 'vmballoon_alloc_page_list':
->> drivers/misc/vmw_balloon.c:681:40: error: too few arguments to function 'balloon_page_alloc'
-     681 |                                 page = balloon_page_alloc();
-         |                                        ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/misc/vmw_balloon.c:32:
-   include/linux/balloon_compaction.h:63:21: note: declared here
-      63 | extern struct page *balloon_page_alloc(int order);
-         |                     ^~~~~~~~~~~~~~~~~~
-
-
-vim +/balloon_page_alloc +681 drivers/misc/vmw_balloon.c
-
-453dc65931915ab drivers/misc/vmware_balloon.c Dmitry Torokhov    2010-04-23  646  
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  647  /**
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  648   * vmballoon_alloc_page_list - allocates a list of pages.
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  649   *
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  650   * @b: pointer to the balloon.
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  651   * @ctl: pointer for the %struct vmballoon_ctl, which defines the operation.
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  652   * @req_n_pages: the number of requested pages.
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  653   *
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  654   * Tries to allocate @req_n_pages. Add them to the list of balloon pages in
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  655   * @ctl.pages and updates @ctl.n_pages to reflect the number of pages.
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  656   *
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  657   * Return: zero on success or error code otherwise.
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  658   */
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  659  static int vmballoon_alloc_page_list(struct vmballoon *b,
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  660  				     struct vmballoon_ctl *ctl,
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  661  				     unsigned int req_n_pages)
-365bd7ef7ec8eb9 drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  662  {
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  663  	struct page *page;
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  664  	unsigned int i;
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  665  
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  666  	for (i = 0; i < req_n_pages; i++) {
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  667  		/*
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  668  		 * First check if we happen to have pages that were allocated
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  669  		 * before. This happens when 2MB page rejected during inflation
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  670  		 * by the hypervisor, and then split into 4KB pages.
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  671  		 */
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  672  		if (!list_empty(&ctl->prealloc_pages)) {
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  673  			page = list_first_entry(&ctl->prealloc_pages,
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  674  						struct page, lru);
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  675  			list_del(&page->lru);
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  676  		} else {
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  677  			if (ctl->page_size == VMW_BALLOON_2M_PAGE)
-83a8afa72e9c0a2 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  678  				page = alloc_pages(__GFP_HIGHMEM|__GFP_NOWARN|
-83a8afa72e9c0a2 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  679  					__GFP_NOMEMALLOC, VMW_BALLOON_2M_ORDER);
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  680  			else
-83a8afa72e9c0a2 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25 @681  				page = balloon_page_alloc();
-365bd7ef7ec8eb9 drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  682  
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  683  			vmballoon_stats_page_inc(b, VMW_BALLOON_PAGE_STAT_ALLOC,
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  684  						 ctl->page_size);
-ae29783d3333b82 drivers/misc/vmw_balloon.c    Nadav Amit         2019-04-25  685  		}
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  686  
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  687  		if (page) {
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  688  			/* Success. Add the page to the list and continue. */
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  689  			list_add(&page->lru, &ctl->pages);
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  690  			continue;
-365bd7ef7ec8eb9 drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  691  		}
-365bd7ef7ec8eb9 drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  692  
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  693  		/* Allocation failed. Update statistics and stop. */
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  694  		vmballoon_stats_page_inc(b, VMW_BALLOON_PAGE_STAT_ALLOC_FAIL,
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  695  					 ctl->page_size);
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  696  		break;
-365bd7ef7ec8eb9 drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  697  	}
-365bd7ef7ec8eb9 drivers/misc/vmw_balloon.c    Philip P. Moltmann 2015-08-06  698  
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  699  	ctl->n_pages = i;
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  700  
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  701  	return req_n_pages == ctl->n_pages ? 0 : -ENOMEM;
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  702  }
-6e4453b3211d144 drivers/misc/vmw_balloon.c    Nadav Amit         2018-09-20  703  
-
-:::::: The code at line 681 was first introduced by commit
-:::::: 83a8afa72e9c0a200d9d400ce83a0cb5193b0e3d vmw_balloon: Compaction support
-
-:::::: TO: Nadav Amit <namit@vmware.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   In file included from arch/x86/power/cpu.c:27:
+   In file included from arch/x86/include/asm/mmu_context.h:12:
+   In file included from arch/x86/include/asm/pgalloc.h:7:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   arch/x86/power/cpu.c:78: warning: Function parameter or member 'ctxt' not described in '__save_processor_state'
+   arch/x86/power/cpu.c:200: warning: Function parameter or member 'ctxt' not described in '__restore_processor_state'
+>> arch/x86/power/cpu.o: warning: objtool: missing symbol for section .exit.text
 
 -- 
 0-DAY CI Kernel Test Service
