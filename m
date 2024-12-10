@@ -1,60 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1C58633A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 20:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AC614E2CC;
+	Tue, 10 Dec 2024 20:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733861251; cv=none; b=FmtdIJJx2Kakv+DF8YIUDF4e4sGl9EO4EBU7eoERWvaFZztvLjgN5CahiklxD1Yl+d39FqCK3SqKKe9TLTqBLak1DS4hR5wiGVQbqxm+sB5aEtdCg1qoGNwzr8vwJbWLIXsutLIE+bP16oKlhPQ3Fo1X3IEWh51f/qko37carBQ=
+	t=1733862956; cv=none; b=MiXoiNshbSZxLivIb2kxEzhUeYmYvIN181xdZ7vd4TtAxkX+pjYXsPVqFSkS1Mjujbwb2D3tGnPa1oTZrkrEPkML4e0kYSNtc6Ap6T3UPfPOMiacTFt6yX2AxBznkcbIRkC9r5b+wEvT12Ickqe/0+SkH3O3tqGGsb1ifEBL4xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733861251; c=relaxed/simple;
-	bh=Jv02ebSQ+J6tYXnmrpAzugfVStvKj+5lA7lXy8ZC3sk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BF3CsS7nAYTl4lT4pXpqJDcMgMVr4NIu2hokQSuItCezj8AesFS100iMas42j6blAAvHlEKRlo0TMhKIdAgVjLvhph3OpTHos/JJaN49+1OGqKYOs0grv96KRRXsaibdpx8gXC5mpglGJZmRKvoxozGsnbEjeI98y7xF+lcg5dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G30A+l6L; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733862956; c=relaxed/simple;
+	bh=129M7TzOabzFP/G4M/RaCFMu/FfHMyujlf6UAFRPfRE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y7yoTPyuVAxCKmU7GKI6dXW+uTgR91DZ2lh4W47zIZ0SaZm08PYD+mx6Q8RAE/Vl3wkYE29+Jk1ujHRw4mXytRP+sSVxnfNNGQyccn3vBu2rSuoO+ihZoWQ6u4JcYt5wh2iBYKg7wT+0fO9NoAm2bqgJ6nqrxGYuff2V1bx+m9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgKWQE6q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G30A+l6L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733861249; x=1765397249;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jv02ebSQ+J6tYXnmrpAzugfVStvKj+5lA7lXy8ZC3sk=;
-  b=G30A+l6LXijE6QJgQX6iqn/Lhfh6xRVYylRR2cUW59Pr6HVfmvtPGhMs
-   KYoxyB1oYO4UgkZJ9lbd2EnTNCTSOrH9+1wcP6s4W2Nf+uB80lmKBIm/L
-   yNDMsVtptRHEMFCu3tQQnBxmJwlo0dpIisDB74WKlA/obV4YRuX5I+B/M
-   nt5Iws7CGBUWZQ+vPWm6HUkK7DwJIq8ii6HuXl7PFkLCx81S5wMNM+L+5
-   NOZXfpQHxICt1aiOD3OaXhlcgRwK3ZV9coRqfWy34YCDRraRrQwJEDJ+B
-   o4kzoPXfecvsEUfRGqMO/aG8BT9HBoiSgzL0rmKpawE+btrEra3EvM/xT
-   w==;
-X-CSE-ConnectionGUID: iG2vgDVsRduml0XY6JgzYg==
-X-CSE-MsgGUID: ZTnEMEq7Tj+tglkwm8KsZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="33546767"
-X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="33546767"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 12:07:27 -0800
-X-CSE-ConnectionGUID: 3sY2FjP7RNKxHJ9nLw4mzw==
-X-CSE-MsgGUID: jnraRs9LTGOw7/ay+Ddg5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="118749882"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Dec 2024 12:07:26 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tL6Vw-0005uL-0O;
-	Tue, 10 Dec 2024 20:07:24 +0000
-Date: Wed, 11 Dec 2024 04:06:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, sanglipeng <sanglipeng1@jd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2574/2574]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_timing_generator.o:
- warning: objtool: dce110_timing_generator_set_test_pattern()+0x40d:
- unreachable instruction
-Message-ID: <202412110343.SnsYTxbB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgKWQE6q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBEFEC4CED6;
+	Tue, 10 Dec 2024 20:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733862955;
+	bh=129M7TzOabzFP/G4M/RaCFMu/FfHMyujlf6UAFRPfRE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jgKWQE6qEmyCU9VSf10hqUPcpw7U1nFy9I7Wes8NTlauaFrIchEbS/cTIiXM+OMcZ
+	 Q6GX1cBqoHq5EPHxYtxhtXvQo0hZx8EBfEjPYTDwypt3yl6/JZp0T8dM/sbMJ80L/X
+	 YyhmUfCbLlLmb/E8VomOck52TlUGFak0cBUZMd6LdVv4G5uZkM1ArLa6v2S57+MBsk
+	 kbJDtlRLWjU+edjXWFlr0HeAFFunuHepz1nK+I4ncI+mUFWnf0bbj8Ysbm2SEbJqGW
+	 LGXgFFefLZ/D7esQ9NJfUaPuWJ1HhcJctGPjv9pRPqA4wcLRTKv8V7CDvgJSKDawKU
+	 n8LglAcRIWYag==
+Date: Tue, 10 Dec 2024 13:35:52 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:dev 47/49] ERROR: modpost:
+ "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+Message-ID: <20241210203552.GA4141507@ax162>
+References: <202412041204.ys3dSglL-lkp@intel.com>
+ <41482ec9-5048-46ea-9c8b-9d33a05ea2a6@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,27 +44,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <41482ec9-5048-46ea-9c8b-9d33a05ea2a6@paulmck-laptop>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   5c3dff2dbd96a0929b37a4f5331b76089f8f6285
-commit: f2c902d8c653f8021f9761092a27f7b9db42b662 [2574/2574] tracing: Make tracepoint lockdep check actually test something
-config: x86_64-buildonly-randconfig-003-20241210 (https://download.01.org/0day-ci/archive/20241211/202412110343.SnsYTxbB-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412110343.SnsYTxbB-lkp@intel.com/reproduce)
+On Tue, Dec 10, 2024 at 10:47:22AM -0800, Paul E. McKenney wrote:
+> On Wed, Dec 04, 2024 at 12:04:15PM +0800, kernel test robot wrote:
+> > tree:   https://github.com/paulmckrcu/linux dev
+> > head:   48ca997e8632db65609dcc6a715207a1b6dded57
+> > commit: 13e3224fa73ec6c7dfeda04b2741c95787196588 [47/49] rcutorture: Include grace-period sequence numbers in failure/close-call
+> > config: arm-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241204/202412041204.ys3dSglL-lkp@intel.com/config)
+> > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041204.ys3dSglL-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202412041204.ys3dSglL-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > 
+> > ERROR: modpost: "rcutorture_gather_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+> > >> ERROR: modpost: "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+> 
+> This commit has EXPORT_SYMBOL_GPL() for both the Tree and Tiny definitions
+> of both of these functions.  What am I missing here?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412110343.SnsYTxbB-lkp@intel.com/
+This configuration has CONFIG_RCU_TINY=y and CONFIG_RCU_TORTURE_TEST=m,
+so the definition and export do not work correctly because the define is
+CONFIG_RCU_TORTURE_TEST_MODULE in that case. I think you should be using
+IS_ENABLED(), which will handle =y and =m. This resolves the error for
+me.
 
-All warnings (new ones prefixed by >>):
+Cheers,
+Nathan
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_timing_generator.o: warning: objtool: dce110_timing_generator_set_test_pattern()+0x40d: unreachable instruction
---
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_transform_v.o: warning: objtool: dce110_xfmv_set_scaler()+0x1047: unreachable instruction
---
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce120/dce120_timing_generator.o: warning: objtool: dce120_timing_generator_set_test_pattern()+0x96d: unreachable instruction
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/kernel/rcu/tiny.c b/kernel/rcu/tiny.c
+index f068bd9dc037..773944257e79 100644
+--- a/kernel/rcu/tiny.c
++++ b/kernel/rcu/tiny.c
+@@ -257,7 +257,7 @@ void kvfree_call_rcu(struct rcu_head *head, void *ptr)
+ EXPORT_SYMBOL_GPL(kvfree_call_rcu);
+ #endif
+ 
+-#ifdef CONFIG_RCU_TORTURE_TEST
++#if IS_ENABLED(CONFIG_RCU_TORTURE_TEST)
+ unsigned long rcutorture_gather_gp_seqs(void)
+ {
+ 	return READ_ONCE(rcu_ctrlblk.gp_seq) & 0xff;
