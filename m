@@ -1,120 +1,97 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40D31D31A0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 03:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425DF111A8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 03:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733801129; cv=none; b=tJgMq0a6OfJpyhZTmaP4xiUXKLb8mNqUigKrWTrhZU+7suzB3artWK6xXPqfma60tt87BNePKvFGmxUcPI2+YN8zwA8rTMU3IXMs3syvvxrO2i4sPQLH2694NlkTL7n3Tj3f+k51epD0eiuvhBa3957ILz/3VoP7PDVKkuI1218=
+	t=1733801677; cv=none; b=qui2IxRoGK9SLMoaPeoIlYZPyBHQ5GWOYLZ65ijhRtEMRGJa+0U3LDiGBvk5Hx8kJFyKdn2N87T5RlIve2jobBV+131x18QZkLNkgQHunNSG0/bmFJnQlclEvmmjkYYvOLjAdBkUdUipzqIQgJvRd94rAta50trikRV6iLCmy2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733801129; c=relaxed/simple;
-	bh=6s92LB4hy4I65Qor+FdlJMIeq0F3LdVO/k8zzov8Az0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tl8lA6HwQ/fxO973jz6T4IyfzZmjH775eCcLKBpIgeMRvFyf9QGAnl7dvmunf5FRaqK66qdrAGgXhzvbKTuPG8RQrSaZGcciWnGTtXN3z7YEJgpnc96HSkUsDVTBtDrmGfSrveCVOaNgZdpMFhT7IqAijQz2P8xSTbxp0OaS484=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CDC10339;
-	Mon,  9 Dec 2024 19:25:47 -0800 (PST)
-Received: from [10.163.48.173] (unknown [10.163.48.173])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A0D543F720;
-	Mon,  9 Dec 2024 19:25:16 -0800 (PST)
-Message-ID: <c17a45b9-a3a2-4f9d-8243-399f65fc1a52@arm.com>
-Date: Tue, 10 Dec 2024 08:55:14 +0530
+	s=arc-20240116; t=1733801677; c=relaxed/simple;
+	bh=tC5sfZkk4Drn7ar2VZmaMdGE6e5QEN5J+RQv5ssQKcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OkZHw+8g/B3xHLC8dzuppR0kvM/NMN7pS2W0boOKeexQGmdCFoyIOiWLaCpOM8NkSAwCeqAEp2lQ2qcXn6pWbRZkkIxygnOiPfPsihvRyICjDXj0dnB4zXD2sbRR6+0/8fbsBasx5oBKMudmlRuZQwE/4RW1eyBr7blpidMVVMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAxt9/4k; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAxt9/4k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733801675; x=1765337675;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tC5sfZkk4Drn7ar2VZmaMdGE6e5QEN5J+RQv5ssQKcw=;
+  b=TAxt9/4kIviiSohGkq75rpBPEs84ZRPmUucNGAgNHki6udvBIyft3/WC
+   v8VMHJZY5MxrPWWzpGtcnl5HtTdVy9wVf4Aom5B3U0z1nv4CHvbGKVPHB
+   qXQEnjo3NqjIvx9gCx5C1caFn9rs6ogRATqaAjwRofC1keBoSDy6S9VP+
+   3Buese4MbHlFpp83UnxBcY2QjNJ34w9Euk6U8XmPNM5itz1UZnAMCB+WY
+   yWyoOanRMCSXDZRFDJ6i+aTO2YZAl5Kge+lDceL0apw37wWhhg7Mnw3xb
+   h1sRV7PuiyT3lze8PyVr2cCzBcxfDT4jILvOOI5RiXPk+bD9Ua7pqhcpJ
+   A==;
+X-CSE-ConnectionGUID: 8JO2deS/STeX7TdTAc/BkQ==
+X-CSE-MsgGUID: itV64Bl+Rl2rgw3+z/zZAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="51662000"
+X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
+   d="scan'208";a="51662000"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 19:34:35 -0800
+X-CSE-ConnectionGUID: gixyEk7mTTaeByWNsAwl/A==
+X-CSE-MsgGUID: PO2Eow9wSEKTVqJsOGM6FA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
+   d="scan'208";a="94976880"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Dec 2024 19:34:34 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKr15-00054L-1M;
+	Tue, 10 Dec 2024 03:34:31 +0000
+Date: Tue, 10 Dec 2024 11:34:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 05/10] drm/xe: Add histogram support to Xe builds
+Message-ID: <202412101133.WdDoP1Cm-lkp@intel.com>
+References: <20241209162504.2146697-6-arun.r.murthy@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/execmem: Make ARCH_WANTS_EXECMEM_LATE depend on
- EXECMEM
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
- Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Kees Cook <kees@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20241209031251.515903-1-anshuman.khandual@arm.com>
- <202412092048.tTzJ5szH-lkp@intel.com>
- <f492ac51-9dad-4b18-8cd4-81dc236b3162@arm.com> <Z1ckOoPMSXfNdrXd@arm.com>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <Z1ckOoPMSXfNdrXd@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209162504.2146697-6-arun.r.murthy@intel.com>
 
+Hi Arun,
 
+kernel test robot noticed the following build errors:
 
-On 12/9/24 22:39, Catalin Marinas wrote:
-> On Mon, Dec 09, 2024 at 07:43:32PM +0530, Anshuman Khandual wrote:
->> On 12/9/24 18:06, kernel test robot wrote:
->>> kernel test robot noticed the following build warnings:
->>>
->>> [auto build test WARNING on akpm-mm/mm-everything]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/mm-execmem-Make-ARCH_WANTS_EXECMEM_LATE-depend-on-EXECMEM/20241209-111533
->>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->>> patch link:    https://lore.kernel.org/r/20241209031251.515903-1-anshuman.khandual%40arm.com
->>> patch subject: [PATCH] mm/execmem: Make ARCH_WANTS_EXECMEM_LATE depend on EXECMEM
->>> config: arm64-kismet-CONFIG_ARCH_WANTS_EXECMEM_LATE-CONFIG_ARM64-0-0 (https://download.01.org/0day-ci/archive/20241209/202412092048.tTzJ5szH-lkp@intel.com/config)
->>> reproduce: (https://download.01.org/0day-ci/archive/20241209/202412092048.tTzJ5szH-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202412092048.tTzJ5szH-lkp@intel.com/
->>>
->>> kismet warnings: (new ones prefixed by >>)
->>>>> kismet: WARNING: unmet direct dependencies detected for ARCH_WANTS_EXECMEM_LATE when selected by ARM64
->>>    WARNING: unmet direct dependencies detected for ARCH_WANTS_EXECMEM_LATE
->>>      Depends on [n]: EXECMEM [=n]
->>>      Selected by [y]:
->>>      - ARM64 [=y]
->>
->> Although above mentioned config here has CONFIG_ARCH_WANTS_EXECMEM_LATE=y
->> and CONFIG_EXECMEM=n (actually absent), could that really happen though ?
->>
->> Tried making CONFIG_EXECMEM=n (rather deselecting) but that did now allow
->> setting CONFIG_EXECMEM=n, it always remained set. Reverting this patch i.e
->> the current behaviour is also the same (CONFIG_EXECMEM always remains set).
->>
->> select ARCH_WANTS_EXECMEM_LATE if EXECMEM
->>
->> Above statement seems to be selecting EXECMEM as well but the intent seems
->> to be a dependency check instead! OR arch selection for a config brings in
->> all its dependencies as well.
->>
->> If the selection is always, should this change be like the following ?
->>
->> config ARCH_WANTS_EXECMEM_LATE
->>  	bool
->> 	selects EXECMEM
-> 
-> This is wrong. What ARCH_WANTS_EXECMEM_LATE means is that, _if_ EXECMEM
-> is enabled, the arch code require its late initialisation. Currently for
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.13-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Which implies that even if ARCH_WANTS_EXECMEM_LATE is only applicable when
-EXECMEM is enabled, there is no real dependence on the later for platforms
-that need a certain init behaviour.
+url:    https://github.com/intel-lab-lkp/linux/commits/Arun-R-Murthy/drm-crtc-Add-histogram-properties/20241210-003717
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241209162504.2146697-6-arun.r.murthy%40intel.com
+patch subject: [PATCH 05/10] drm/xe: Add histogram support to Xe builds
+config: parisc-randconfig-001-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101133.WdDoP1Cm-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412101133.WdDoP1Cm-lkp@intel.com/reproduce)
 
-> arm64 EXECMEM is selected by KPROBES, BPF_JIT and MODULES. So if you
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412101133.WdDoP1Cm-lkp@intel.com/
 
-EXECMEM gets enabled from the above, not via ARCH_WANTS_EXECMEM_LATE as I
-had anticipated earlier.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> don't have any of these on, you don't need EXECMEM either, no point in
-> selecting it above just because arm64 wants a specific behaviour (late
-> initialisation) for EXECMEM.
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+>> ERROR: modpost: "__udivdi3" [drivers/gpu/drm/xe/xe.ko] undefined!
 
-Right, specific behaviour preference for a function on a platform should
-not necessarily pull in that function itself.
-
-> 
-> If you do want a patch for this, I think for arm64 we simply need to
-> select ARCH_WANTS_EXECMEM_LATE unconditionally. Not much use in having
-> any dependencies really, it just adds to the clutter. And don't change
-> the core Kconfig either.
-
-Sure, will do.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
