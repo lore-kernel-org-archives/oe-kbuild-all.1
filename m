@@ -1,70 +1,72 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6222E13D509;
-	Tue, 10 Dec 2024 14:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B311AE01D;
+	Tue, 10 Dec 2024 14:46:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733842009; cv=none; b=nRZiAocabQs0qlee34m/G6NwoSBAYaJ1MJh+cT0lBRwJrjr51KNwATWPK8ZfJaz6MnxP5WLkTe3aivQWLRHogDSJuKM/YYrFDUDJSfY5qttP/yGHYWyd3502UXXz0Ek1typAZ2et7fbB0GzlAnLCZbt4qUEGdXiPs9FbZi7NzQg=
+	t=1733842013; cv=none; b=CQnvWpGRlp9h/vytl/UyYjX4MvZDEwVSD6pyyWtzZSJQsXH6vVE6orPdfZkfteKAJV1uBWLXgTB5VjbTh/V4UA39vtwUQLSEQsiV683tjGOGa/2QpjcLOAS1HDE/c/xBnQXyPcsZWlqNde0uGfK6kIXaQqAPifvpBP55Vr1WfKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733842009; c=relaxed/simple;
-	bh=Do7dwzzjllAqqtvBa73eePMIDuR9IMn0/w3h50zwnJw=;
+	s=arc-20240116; t=1733842013; c=relaxed/simple;
+	bh=zCVNItat7KAJZV5fl9f36Lgf1b8uI6A148fvl6A9d1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iiiPaHPtGzVPeCKcW2VhBy1nHzsYqyKrqRwRpxooDShnLPPf5cpl/cnDmXqiOuOARW9QxQMP8P3y7hg7MibfwSyXLuRo3wYwc6ZCtw+2n0Qhkk+GvRk1MYm8J5qwODu6EPFSDZjCvSIpk8/JbjOqnMRVSvKo+T64vkNpo125Rvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRcwoQvv; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=kIQlRovUrBssmg5AKhVn0/kJ9CDBUD954osPu09/95kg9VnM5pwluvJBqx9vjoCNtxxgJtlPAtnBQTmSRM5sv7IIa+crRelMWZ5fUiYtZ4O5kTP5fpy2lfIu7Ig/a4j9XjJLlwCFqdBJfoDtZh0FP7VOXwGNjAsBYnu+5lXlLck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jMBXDUUG; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRcwoQvv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jMBXDUUG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733842007; x=1765378007;
+  t=1733842011; x=1765378011;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Do7dwzzjllAqqtvBa73eePMIDuR9IMn0/w3h50zwnJw=;
-  b=RRcwoQvvLca5ZxaYH/uhB+nQEIRxcAMKLP0qDA8jXDzvwaZZidj/4vCE
-   oWWC8Q5gOOQZ80mwmgt94bluBIKbN7KTAwp2BnuQcsBKyuhn3JDCR0VEa
-   bk4IZMbN1lbrq4S6mPTwW/lGMIjJ7d49np5PKuOKJmRlNK2DRV0Vh4VVk
-   K8BQ/cMo9tuujYDmqhEVpc5Q/PwJhzGDAeAQ0SNZDKD44I+9mnCw/MLmO
-   gl10EFTdQgiCFKA+AYNTQJF/h9qU8crDjQEinousQ+e47Var3Xg7wdDqy
-   N2PyzqpBklrD+n8BNL8WhXTfR1/DxED6YLHyE5c7673Mqi8scNezJznuh
-   Q==;
-X-CSE-ConnectionGUID: r1uau2x1QtiMfccb7M/jtw==
-X-CSE-MsgGUID: y3AbouJ4TpmeB6JsqBkrSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="33918591"
+  bh=zCVNItat7KAJZV5fl9f36Lgf1b8uI6A148fvl6A9d1U=;
+  b=jMBXDUUG6jvk5mjQ9QLt5TzA/RqQZHdQlx5/L81Ho9I+IQKG/Qevpjpy
+   xj2CYHGrgx1TFG5m6Yr+TmgxkRWKLd8V3oYBSUUaOcUFfonaYVqwOylcj
+   S5AIZ0atueN2mpd1GjIaecAxl79dVXMUalcFVZynmHRt/FlsTbeAu39BM
+   V8pON+vIS9yiT4bNHZxqEM7PYQEGnOUh9Lj7RieSaN3M4LPS/04L5CjXO
+   yq4mM0rSnVQOumMgBaho909SzrvE1DecmKqRqyR/x0NZl+jTg0D/AzP/0
+   844fUkP/umWM1ARZu1w+wd1d/NT/XqXlU8dj/ZQC6DVcJuQDUqlPD0j9U
+   A==;
+X-CSE-ConnectionGUID: veE/d6G4Toi38n6Zor2Quw==
+X-CSE-MsgGUID: pq4xPewdQv+0QOmbm9OOiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="33918605"
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="33918591"
+   d="scan'208";a="33918605"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 06:46:47 -0800
-X-CSE-ConnectionGUID: 8UXF8N9lQmy0iqLdrqk76A==
-X-CSE-MsgGUID: dgzL6dt7ThijvCzrvWlGLA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 06:46:51 -0800
+X-CSE-ConnectionGUID: orNCXP5iSfORxIjovRQcxQ==
+X-CSE-MsgGUID: EY2JQNdjRmSVxx2IfMJGSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="95264819"
+   d="scan'208";a="95264822"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 10 Dec 2024 06:46:44 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tL1VZ-0005fp-2N;
+	id 1tL1VZ-0005fr-2R;
 	Tue, 10 Dec 2024 14:46:41 +0000
-Date: Tue, 10 Dec 2024 22:45:42 +0800
+Date: Tue, 10 Dec 2024 22:45:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Douglas Anderson <dianders@chromium.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Julius Werner <jwerner@chromium.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Roxana Bradescu <roxabee@google.com>,
-	bjorn.andersson@oss.qualcomm.com,
-	linux-arm-kernel@lists.infradead.org,
-	Trilok Soni <quic_tsoni@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] arm64: errata: Add QCOM_KRYO_5XX_GOLD to the
- spectre_bhb_k24_list
-Message-ID: <202412102224.bmEeK15u-lkp@intel.com>
-References: <20241209094310.5.I41e227ed809ea607114027209b57d02dc0e98384@changeid>
+To: Kalesh Singh <kaleshsingh@google.com>, akpm@linux-foundation.org,
+	vbabka@suse.cz, yang@os.amperecomputing.com, riel@surriel.com,
+	david@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux@armlinux.org.uk,
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com,
+	ysato@users.sourceforge.jp, dalias@libc.org,
+	glaubitz@physik.fu-berlin.de, davem@davemloft.net,
+	andreas@gaisler.com, tglx@linutronix.de, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, chris@zankel.net,
+	jcmvbkbc@gmail.com, bhelgaas@google.com, jason.andryuk@amd.com,
+	leitao@debian.org, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org
+Subject: Re: [PATCH mm-unstable 13/17] mm: sparc64: Introduce arch_mmap_hint()
+Message-ID: <202412102215.fF34r4Uo-lkp@intel.com>
+References: <20241210024119.2488608-14-kaleshsingh@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,120 +75,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241209094310.5.I41e227ed809ea607114027209b57d02dc0e98384@changeid>
+In-Reply-To: <20241210024119.2488608-14-kaleshsingh@google.com>
 
-Hi Douglas,
+Hi Kalesh,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on arm-perf/for-next/perf kvmarm/next soc/for-next arm/for-next arm/fixes linus/master v6.13-rc2 next-20241210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/arm64-errata-Add-QCOM_KRYO_4XX_GOLD-to-the-spectre_bhb_k24_list/20241210-014833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20241209094310.5.I41e227ed809ea607114027209b57d02dc0e98384%40changeid
-patch subject: [PATCH 5/6] arm64: errata: Add QCOM_KRYO_5XX_GOLD to the spectre_bhb_k24_list
-config: arm64-randconfig-002-20241210 (https://download.01.org/0day-ci/archive/20241210/202412102224.bmEeK15u-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412102224.bmEeK15u-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kalesh-Singh/mm-Introduce-generic_mmap_hint/20241210-104424
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241210024119.2488608-14-kaleshsingh%40google.com
+patch subject: [PATCH mm-unstable 13/17] mm: sparc64: Introduce arch_mmap_hint()
+config: sparc-randconfig-002-20241210 (https://download.01.org/0day-ci/archive/20241210/202412102215.fF34r4Uo-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412102215.fF34r4Uo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412102224.bmEeK15u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412102215.fF34r4Uo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/proton-pack.c:21:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/proton-pack.c:870:22: error: use of undeclared identifier 'MIDR_QCOM_KRYO_5XX_GOLD'
-     870 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_5XX_GOLD),
-         |                                           ^
-   4 warnings and 1 error generated.
+   arch/sparc/kernel/sys_sparc_64.c: In function 'arch_get_unmapped_area':
+>> arch/sparc/kernel/sys_sparc_64.c:135:13: warning: variable 'do_color_align' set but not used [-Wunused-but-set-variable]
+     135 |         int do_color_align;
+         |             ^~~~~~~~~~~~~~
 
 
-vim +/MIDR_QCOM_KRYO_5XX_GOLD +870 arch/arm64/kernel/proton-pack.c
+vim +/do_color_align +135 arch/sparc/kernel/sys_sparc_64.c
 
-   843	
-   844	/*
-   845	 * This must be called with SCOPE_LOCAL_CPU for each type of CPU, before any
-   846	 * SCOPE_SYSTEM call will give the right answer.
-   847	 */
-   848	u8 spectre_bhb_loop_affected(int scope)
-   849	{
-   850		u8 k = 0;
-   851		static u8 max_bhb_k;
-   852	
-   853		if (scope == SCOPE_LOCAL_CPU) {
-   854			static const struct midr_range spectre_bhb_k32_list[] = {
-   855				MIDR_ALL_VERSIONS(MIDR_CORTEX_A78),
-   856				MIDR_ALL_VERSIONS(MIDR_CORTEX_A78AE),
-   857				MIDR_ALL_VERSIONS(MIDR_CORTEX_A78C),
-   858				MIDR_ALL_VERSIONS(MIDR_CORTEX_X1),
-   859				MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
-   860				MIDR_ALL_VERSIONS(MIDR_CORTEX_X2),
-   861				MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
-   862				MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V1),
-   863				{},
-   864			};
-   865			static const struct midr_range spectre_bhb_k24_list[] = {
-   866				MIDR_ALL_VERSIONS(MIDR_CORTEX_A76),
-   867				MIDR_ALL_VERSIONS(MIDR_CORTEX_A77),
-   868				MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N1),
-   869				MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_4XX_GOLD),
- > 870				MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_5XX_GOLD),
-   871				{},
-   872			};
-   873			static const struct midr_range spectre_bhb_k11_list[] = {
-   874				MIDR_ALL_VERSIONS(MIDR_AMPERE1),
-   875				{},
-   876			};
-   877			static const struct midr_range spectre_bhb_k8_list[] = {
-   878				MIDR_ALL_VERSIONS(MIDR_CORTEX_A72),
-   879				MIDR_ALL_VERSIONS(MIDR_CORTEX_A57),
-   880				{},
-   881			};
-   882	
-   883			if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k32_list))
-   884				k = 32;
-   885			else if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k24_list))
-   886				k = 24;
-   887			else if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k11_list))
-   888				k = 11;
-   889			else if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k8_list))
-   890				k =  8;
-   891	
-   892			max_bhb_k = max(max_bhb_k, k);
-   893		} else {
-   894			k = max_bhb_k;
-   895		}
-   896	
-   897		return k;
-   898	}
-   899	
+aef9ae8eac4116 arch/sparc/kernel/sys_sparc_64.c Kalesh Singh      2024-12-09  131  
+25d4054cc97484 arch/sparc/kernel/sys_sparc_64.c Mark Brown        2024-09-04  132  unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr, unsigned long len, unsigned long pgoff, unsigned long flags, vm_flags_t vm_flags)
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  133  {
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  134  	unsigned long task_size = TASK_SIZE;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16 @135  	int do_color_align;
+b80fa3cbb78c0f arch/sparc/kernel/sys_sparc_64.c Rick Edgecombe    2024-03-25  136  	struct vm_unmapped_area_info info = {};
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  137  	bool file_hugepage = false;
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  138  
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  139  	if (filp && is_file_hugepages(filp))
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  140  		file_hugepage = true;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  141  
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  142  	if (flags & MAP_FIXED) {
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  143  		/* We do not accept a shared mapping if it would violate
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  144  		 * cache aliasing constraints.
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  145  		 */
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  146  		if (!file_hugepage && (flags & MAP_SHARED) &&
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  147  		    ((addr - (pgoff << PAGE_SHIFT)) & (SHMLBA - 1)))
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  148  			return -EINVAL;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  149  		return addr;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  150  	}
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  151  
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  152  	if (test_thread_flag(TIF_32BIT))
+d61e16df940e02 arch/sparc64/kernel/sys_sparc.c  David S. Miller   2006-03-17  153  		task_size = STACK_TOP32;
+a91690ddd05ab0 arch/sparc64/kernel/sys_sparc.c  David S. Miller   2006-03-17  154  	if (unlikely(len > task_size || len >= VA_EXCLUDE_START))
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  155  		return -ENOMEM;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  156  
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  157  	do_color_align = 0;
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  158  	if ((filp || (flags & MAP_SHARED)) && !file_hugepage)
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  159  		do_color_align = 1;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  160  
+aef9ae8eac4116 arch/sparc/kernel/sys_sparc_64.c Kalesh Singh      2024-12-09  161  	addr = arch_mmap_hint(filp, addr, len, pgoff, flags);
+aef9ae8eac4116 arch/sparc/kernel/sys_sparc_64.c Kalesh Singh      2024-12-09  162  	if (addr)
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  163  		return addr;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  164  
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  165  	info.length = len;
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  166  	info.low_limit = TASK_UNMAPPED_BASE;
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  167  	info.high_limit = min(task_size, VA_EXCLUDE_START);
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  168  	info.align_mask = get_align_mask(filp, flags);
+a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  169  	if (!file_hugepage)
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  170  		info.align_offset = pgoff << PAGE_SHIFT;
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  171  	addr = vm_unmapped_area(&info);
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  172  
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  173  	if ((addr & ~PAGE_MASK) && task_size > VA_EXCLUDE_END) {
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  174  		VM_BUG_ON(addr != -ENOMEM);
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  175  		info.low_limit = VA_EXCLUDE_END;
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  176  		info.high_limit = task_size;
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  177  		addr = vm_unmapped_area(&info);
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  178  	}
+1363c3cd8603a9 arch/sparc64/kernel/sys_sparc.c  Wolfgang Wander   2005-06-21  179  
+bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  180  	return addr;
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  181  }
+^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  182  
 
 -- 
 0-DAY CI Kernel Test Service
