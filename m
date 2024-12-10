@@ -1,70 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4925723312A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 05:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAAB227573
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 05:48:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733808291; cv=none; b=GrjLwaCSbS4Px0X53OCohhW0e3rL9bpPuPco77jiALvCc3L3fC2hJJ1K7T3T6Lll72s2pOHBCkMdNtXQhYjjXslKEAtTkaqP/ZTml4a8JlTVCPGKWI6LcX5jsD2MyfQj5750i73avyuTNrvLNVE9dZT4dJc7aMEr2q0xig9kU+U=
+	t=1733809731; cv=none; b=EWvT8a0+3Qq2HPjtbtI2KAJvafFitLcoNqnPExt2Nv2Arub3DlhTWNyLic3WYAFTqTMTBGc68NXTRkfobDIEc+H4H0wJe3MnYk/nW+CkPftr8vwRd7T5CxN+LqLgEJtSm7pSKbsJYlZ3Bb9+ORyWaTxzysfFK4DTL5Ls0vhlbLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733808291; c=relaxed/simple;
-	bh=DAxhrU8nYe3wIVwTN/sHDUPcQXoFKKbHmXYU8frJH4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GTCKoZKvZivP+V4GlMSiLa+JSYMjZlhySwRHLAU2ZsSyr4NX7U+43e1RtuKyEAL8gwJeKtq67Tbculv5P6EUae9jpTaosgNQEQe2Q9T1X75NpNv2xx0wAHR3uujr/Z7z8QjMoLmHVdODDJGXYxl37SA4kuIb6ccPb5PrnojnYCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXf6BTqq; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1733809731; c=relaxed/simple;
+	bh=e/iSgJBjz+8LETnfthQQUZhrlYS3XoG5kEjrkS1h0wQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FOJ6FXv18I/bgRHAaP9Z362w4C+A8a0eS5pkeAt41HjrhNmOGarqvc7QgSx32Rrl+ecbg2VduBJR93dYlWi1Hhth0Qhtb/DLr6Wu6hlGlcQMEgWkLSsrN/Gca6A+mkRfv4EOacvLOuBFwHbrIY3iEP7uCsYijw6jdYOzirJvpI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UK+8O2k/; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXf6BTqq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UK+8O2k/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733808291; x=1765344291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DAxhrU8nYe3wIVwTN/sHDUPcQXoFKKbHmXYU8frJH4s=;
-  b=SXf6BTqqt3Qnx3YmO1u/cfFRn+xCztCQ5xfxwojDjulJxscLVjgAgzx7
-   Gun9e9QGeJ/MA8cJT6TKI9JvUJTRPauaNipUInZoNkEUK0mNnfBjKedZK
-   wwiCSs2rmSyzJtvImtdCV3ulcPhBGQlYsdhR+Gqd+8XC6QsGZiqfCgVwh
-   AKNUF82JswU1SvYJQhCygzDVZ8caoKE2f7/VKQjGNIwJBDbVdtzGAT0Ld
-   GsDndVgB/l6/GtyX4ISQ6kPWtGB4Wd8x/jjgi2O518Mn46vOeIl6RJ+kj
-   iCXpgt43ngpYR7YDdg5PwzDuPV+HkYVCpKTZzNgw8aB1LaMpohVXOe4qL
-   w==;
-X-CSE-ConnectionGUID: yK+4d0IbQkiBaF9AYjJmyA==
-X-CSE-MsgGUID: 5buhsFRGQJuNjX+6MRsMdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45517235"
+  t=1733809729; x=1765345729;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e/iSgJBjz+8LETnfthQQUZhrlYS3XoG5kEjrkS1h0wQ=;
+  b=UK+8O2k/MBzVV46IYzN/XFiknMoCRj2dHkoudIkDub9tghRtcaKUdtdc
+   MC9gYQeR1zYOk753tXqaKpUIjXsmnUUZkRWjgtobatFZn5VsSO/uWZxlU
+   W2GZ8B5zUIHgIQJXuYu3F8TyZzpCLyT/VCyjcQaSLWspIcsc9C2h8V7XR
+   dzkRkMNNug6SIWOp30YuEYu500VyLbQz6Xs50Dl675p+I0gArJyZxP5WY
+   pgQFxhuV64mFfBdlT50Nh0kUVfu7SduBT8Gs5At0DpR7O5VGXbGfSAlnv
+   onmVQietADDTE5UeR2XnvKgMOBuEJGRbMf1BVqxKM05VLONNQiFBQRZPm
+   Q==;
+X-CSE-ConnectionGUID: UhZbeEB8QKqhyblawrae4w==
+X-CSE-MsgGUID: W1+ToD9jRGeiWjK+MT3iPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45519785"
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45517235"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 21:24:50 -0800
-X-CSE-ConnectionGUID: yT3wQW55SUqvh5zoMS2Sng==
-X-CSE-MsgGUID: atNr2jojQd+IxiaOFRtDGw==
+   d="scan'208";a="45519785"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 21:48:49 -0800
+X-CSE-ConnectionGUID: Mr5u+/hvQZa1lTHR+WVRcw==
+X-CSE-MsgGUID: IZEOWQkJQnOuht3nWNmuZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
-   d="scan'208";a="95490968"
+   d="scan'208";a="100344747"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Dec 2024 21:24:46 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Dec 2024 21:48:48 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKsjj-00058n-1q;
-	Tue, 10 Dec 2024 05:24:43 +0000
-Date: Tue, 10 Dec 2024 13:23:47 +0800
+	id 1tKt6z-00059N-1s;
+	Tue, 10 Dec 2024 05:48:45 +0000
+Date: Tue, 10 Dec 2024 13:47:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Inochi Amaoto <inochiama@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@outlook.com>,
-	Richard Cochran <richardcochran@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, Yixun Lan <dlan@gentoo.org>,
-	Longbin Li <looong.bin@gmail.com>
-Subject: Re: [PATCH 2/2] clk: sophgo: Add clock controller support for SG2044
- SoC
-Message-ID: <202412101358.czZY7XmR-lkp@intel.com>
-References: <20241209082132.752775-3-inochiama@gmail.com>
+To: kernel@openeuler.org, "Carrie.Cai" <carrie.cai@montage-tech.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1609/1609]
+ drivers/crypto/montage/tsse/tsse_ipc_api.c:62:36: warning: variable
+ 'device_handle' is uninitialized when used here
+Message-ID: <202412101347.Sow2DxhA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,64 +62,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241209082132.752775-3-inochiama@gmail.com>
 
-Hi Inochi,
+Hi Carrie.Cai,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on sophgo/for-next]
-[also build test WARNING on sophgo/fixes clk/clk-next robh/for-next linus/master v6.13-rc2 next-20241209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Inochi-Amaoto/dt-bindings-clock-sophgo-add-clock-controller-for-SG2044/20241209-162418
-base:   https://github.com/sophgo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241209082132.752775-3-inochiama%40gmail.com
-patch subject: [PATCH 2/2] clk: sophgo: Add clock controller support for SG2044 SoC
-config: parisc-randconfig-r053-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101358.czZY7XmR-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c0c5f5fdc62998e0c68e6c77d6aae2566185bfd5
+commit: 914854f2adb6988ac3b6521088ec96833d6743e2 [1609/1609] driver: crypto - update support for Mont-TSSE Driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241210/202412101347.Sow2DxhA-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412101347.Sow2DxhA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412101358.czZY7XmR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412101347.Sow2DxhA-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/sophgo/clk-sg2044.c:133:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
->> drivers/clk/sophgo/clk-sg2044.c:149:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+All warnings (new ones prefixed by >>):
 
-vim +133 drivers/clk/sophgo/clk-sg2044.c
+   In file included from drivers/crypto/montage/tsse/tsse_ipc_api.c:10:
+   In file included from drivers/crypto/montage/tsse/tsse_dev.h:13:
+   In file included from include/linux/pci.h:1669:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2243:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/crypto/montage/tsse/tsse_ipc_api.c:62:36: warning: variable 'device_handle' is uninitialized when used here [-Wuninitialized]
+      62 |         service_instance->device_handle = device_handle;
+         |                                           ^~~~~~~~~~~~~
+   drivers/crypto/montage/tsse/tsse_ipc_api.c:56:19: note: initialize the variable 'device_handle' to silence this warning
+      56 |         int device_handle;
+         |                          ^
+         |                           = 0
+   6 warnings generated.
 
-   126	
-   127	static unsigned long sg2044_pll_calc_vco_rate(unsigned long parent_rate,
-   128						      unsigned long refdiv,
-   129						      unsigned long fbdiv)
-   130	{
-   131		u64 numerator = parent_rate * fbdiv;
-   132	
- > 133		do_div(numerator, refdiv);
-   134	
-   135		return numerator;
-   136	}
-   137	
-   138	static unsigned long sg2044_pll_calc_rate(unsigned long parent_rate,
-   139						  unsigned long refdiv,
-   140						  unsigned long fbdiv,
-   141						  unsigned long postdiv1,
-   142						  unsigned long postdiv2)
-   143	{
-   144		u64 numerator, denominator;
-   145	
-   146		numerator = parent_rate * fbdiv;
-   147		denominator = refdiv * (postdiv1 + 1) * (postdiv2 + 1);
-   148	
- > 149		do_div(numerator, denominator);
-   150	
-   151		return numerator;
-   152	}
-   153	
+
+vim +/device_handle +62 drivers/crypto/montage/tsse/tsse_ipc_api.c
+
+    41	
+    42	/**
+    43	 * tsse_im_service_handle_alloc() - Allocate IPC Message service handle for specific service.
+    44	 * @name: IPC Message service name
+    45	 * @cb: request callback for the service
+    46	 * @handle: function output for the service handle
+    47	 * Return: 0 if allocated successfully, other values for failure
+    48	 */
+    49	int tsse_im_service_handle_alloc(
+    50		const char *name,
+    51		tsse_im_cb_func cb,
+    52		tsse_im_service_handle *handle)
+    53	{
+    54		struct tsse_service_instance *service_instance;
+    55		int ret;
+    56		int device_handle;
+    57	
+    58		service_instance = kzalloc(sizeof(struct tsse_service_instance), GFP_ATOMIC);
+    59		if (!service_instance)
+    60			return -ENOMEM;
+    61		service_instance->service_opened = 0;
+  > 62		service_instance->device_handle = device_handle;
+    63		service_instance->cb = cb;
+    64		strscpy(service_instance->service_name, name, TSSE_IM_SERVICE_NAME_LEN);
+    65	
+    66		ret = tsse_schedule_device_handle(service_instance);
+    67		if (ret) {
+    68			kfree(service_instance);
+    69			return ret;
+    70		}
+    71	
+    72		ret = tsse_service_open(service_instance);
+    73		if (ret) {
+    74			pr_err("%s(): open service: %s failed: %d\n",
+    75				__func__, service_instance->service_name, ret);
+    76			kfree(service_instance);
+    77			return ret;
+    78		}
+    79		*handle = service_instance;
+    80		return 0;
+    81	}
+    82	EXPORT_SYMBOL_GPL(tsse_im_service_handle_alloc);
+    83	
 
 -- 
 0-DAY CI Kernel Test Service
