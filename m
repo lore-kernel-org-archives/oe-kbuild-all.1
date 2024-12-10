@@ -1,213 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B16722FE17
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 17:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9241C07F4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 17:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733850193; cv=none; b=b6DQ9ZtQfaTrgfcA6QKhq7IYi1sd2yIGlcD/HraQklUS/EuKdjQnIyk/N2X24q/5jOBc8TSIakkMtrEXzaxaRcPz62O7L9ilKRYJpgRxe707juMUXpbVMuvLhg1m7aKg4tcHPHURlVPLv3NZGJDrFDB1wyHQvpKg9cKuVfhrAqc=
+	t=1733850408; cv=none; b=jEzBJvjAYbyYGqBhfDQsZrs6KaIDlCql5rhel5QDxgTRMMXy/sA/tkuEOghyIDppZVPspD6FntRMy/ZzQDsivpYnfhvbywxSlcRGxZv0NwZJ7vR2252E85zIh1KyMVXmKFyfrgpvnYPo0mhp+VYPsN5lP3VYAJnm4H82u4GrGZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733850193; c=relaxed/simple;
-	bh=f1uDp17DDJ/J/DvndkER4E+QcGCcpN2FmP6SxQ+irRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LWXgx7rZfSZF4snrBQvHXQme7HRgyCR4nLqSpqbrHi+E+jwvL5X4NWHRdeWSy3t+ZY6KjEa5Y5GHi4dd036SuXLUOuT4vJxG6BLMh/ySJ+HmhooiPoOygL1YKlWmSwof3iyWLefNoLvVZcZC6qpafV4jtAyjJOdMYD1y4sODQLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7B3ViMC; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733850408; c=relaxed/simple;
+	bh=rFN7TvLsCXA3VO1va/jH8l4a57uI2N9NxnTrkX7z2Uk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HHfNly/bcQnBh+/Bq7FqwqsS4Hba/anPMOCBTkuzesH4e7o5atO9Mrd5qAL5EUc4SelJG6g5Vtxc7CSQhugJ+zgxmsmxQCOQ21BMggRMHt5LJVZkdQ6LfRt7KtSiJC4nFxVRsJ7+anIi7QA4xL5SKq+u+1kpgtIWYGG7jla5atU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N0ikOrkL; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7B3ViMC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733850193; x=1765386193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f1uDp17DDJ/J/DvndkER4E+QcGCcpN2FmP6SxQ+irRw=;
-  b=Z7B3ViMC3YUGOYmK+ns1QEtp8qugHYx3eSOrISuvvok/d/tekUR+o8A1
-   xuI93Z2ft7nhojERE4P42Q6ch69zXKVbuHaFuUzsGvtd9bjaYge+yimyk
-   Wh0x65xT6IUYM9AncIEFWPlmEvaNHbLNLWtUzKs6C4P0GJqoSOENCLrcX
-   U628c3OGqHk5mUCRnzVxJHFYa/4pGLw4fcYCZPKbEBz+7WIgoqf6KBERG
-   ajYQhQDJeE8di8g2s47Ob0JiSW7kQRRWEM6ov/NS/tpW2hC1vxBKz8nH2
-   CIOGWn6CuMLvACmW6KiRADRivYneVQuFhN3o1mwNJ2Q5VImzY5JiETvgm
-   w==;
-X-CSE-ConnectionGUID: UAvRT7TjTE6QvJDjSVUP1g==
-X-CSE-MsgGUID: 62NvsreLR5WrhnoPQCtBnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="34089285"
-X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="34089285"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 09:03:12 -0800
-X-CSE-ConnectionGUID: G85RQGGIS3SYVxkvj13IyA==
-X-CSE-MsgGUID: 7A5EG28lTrOQUe4ZG1m6nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="95333830"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Dec 2024 09:03:08 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tL3da-0005nJ-0f;
-	Tue, 10 Dec 2024 17:03:06 +0000
-Date: Wed, 11 Dec 2024 01:02:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Douglas Anderson <dianders@chromium.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Julius Werner <jwerner@chromium.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Roxana Bradescu <roxabee@google.com>,
-	bjorn.andersson@oss.qualcomm.com,
-	linux-arm-kernel@lists.infradead.org,
-	Trilok Soni <quic_tsoni@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] arm64: errata: Add QCOM_KRYO_6XX_GOLD/PRIME to the
- spectre_bhb_k32_list
-Message-ID: <202412110032.Sku0iZvD-lkp@intel.com>
-References: <20241209094310.6.I722621804be859e4ae4b7479ce191c5e3367b37c@changeid>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N0ikOrkL"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 32654C0006;
+	Tue, 10 Dec 2024 17:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1733850398;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tqxoxktpoqzZXfIrDIKHGCR9iQyRTGI04sSZ/7C4j1o=;
+	b=N0ikOrkLwxlTixrruieaZ+V7YxUcX0qM6BGOXicQX8UzqgkAe2ukpMdQCQFJp4ujuDtTlv
+	iLFDupZ8U093lzxWIcjzJ3PYhgUwRD72cUdT4FwQ8yf1T9arVi0IYhSoKkCe4ahSygoUsy
+	X4w/F/Je/Tl1DThg585AElxyCDVEOIoZF/6aVdF6kv0elvEsXKS6ckXGgyH5pL0QBAtG+j
+	V0EFaVV7GD07FwrFgfp5IlqaEPa7gnL12Hu9EWTC5+X4jxbqfpVuqac7U9AnKsWa0MO+R7
+	6yBRNd7MOTVkY+97vvAUHIq3BNBtax0+Xz75Ne+GuNkG3UY6+ME0TTFAcqB+cw==
+From: Gregory CLEMENT <gregory.clement@bootlin.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, =?utf-8?Q?Th=C3=A9o?= Lebrun
+ <theo.lebrun@bootlin.com>
+Subject: Re: arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: cast
+ truncates bits from constant value (fffffffff000 becomes fffff000)
+In-Reply-To: <202412091227.KUZgstBB-lkp@intel.com>
+References: <202412091227.KUZgstBB-lkp@intel.com>
+Date: Tue, 10 Dec 2024 18:06:37 +0100
+Message-ID: <87ed2flb6q.fsf@BLaptop.bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241209094310.6.I722621804be859e4ae4b7479ce191c5e3367b37c@changeid>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: gregory.clement@bootlin.com
 
-Hi Douglas,
+Hello,
 
-kernel test robot noticed the following build errors:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+> commit: 6f14293257309a02a6d451e80e4ef1d78560479e MIPS: Allow using more t=
+han 32-bit addresses for reset vectors when possible
+> date:   6 weeks ago
+> config: mips-randconfig-r112-20241209 (https://download.01.org/0day-ci/ar=
+chive/20241209/202412091227.KUZgstBB-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5=
+92c0fe55f6d9a811028b5f3507be91458ab2713)
+> reproduce: (https://download.01.org/0day-ci/archive/20241209/202412091227=
+.KUZgstBB-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412091227.KUZgstBB-lkp=
+@intel.com/
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on arm-perf/for-next/perf kvmarm/next soc/for-next arm/for-next arm/fixes linus/master v6.13-rc2 next-20241210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/arm64-errata-Add-QCOM_KRYO_4XX_GOLD-to-the-spectre_bhb_k24_list/20241210-014833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20241209094310.6.I722621804be859e4ae4b7479ce191c5e3367b37c%40changeid
-patch subject: [PATCH 6/6] arm64: errata: Add QCOM_KRYO_6XX_GOLD/PRIME to the spectre_bhb_k32_list
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20241211/202412110032.Sku0iZvD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412110032.Sku0iZvD-lkp@intel.com/reproduce)
+>    arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/=
+include/asm/mips-cps.h):
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
+in argument 2 (different address spaces) @@     expected void volatile [nod=
+eref] __iomem *mem @@     got void * @@
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
+ile [noderef] __iomem *mem
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
+in argument 2 (different address spaces) @@     expected void volatile [nod=
+eref] __iomem *mem @@     got void * @@
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
+ile [noderef] __iomem *mem
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
+in argument 2 (different address spaces) @@     expected void volatile [nod=
+eref] __iomem *mem @@     got void * @@
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
+ile [noderef] __iomem *mem
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
+in argument 2 (different address spaces) @@     expected void volatile [nod=
+eref] __iomem *mem @@     got void * @@
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void volat=
+ile [noderef] __iomem *mem
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void *
+>>> arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: cast truncates b=
+its from constant value (fffffffff000 becomes fffff000)
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
+in return expression (different address spaces) @@     expected void * @@  =
+   got void [noderef] __iomem * @@
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void [noderef] =
+__iomem *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
+in return expression (different address spaces) @@     expected void * @@  =
+   got void [noderef] __iomem * @@
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void [noderef] =
+__iomem *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: incorrect type =
+in return expression (different address spaces) @@     expected void * @@  =
+   got void [noderef] __iomem * @@
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     expected void *
+>    arch/mips/include/asm/mips-cm.h:329:1: sparse:     got void [noderef] =
+__iomem *
+>>> arch/mips/include/asm/mips-cm.h:329:1: sparse: sparse: cast truncates b=
+its from constant value (fffffffff000 becomes fffff000)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412110032.Sku0iZvD-lkp@intel.com/
+So I looked for from where this error comes and found that it was caused
+by:
+  write_gcr_co_reset64_base(CM_GCR_Cx_RESET64_BASE_BEVEXCBASE);
+in function check_64bit_reset() (smp-cps.c)
 
-All errors (new ones prefixed by >>):
+The constant value being CM_GCR_Cx_RESET64_BASE_BEVEXCBASE.
 
-   In file included from arch/arm64/include/asm/cache.h:43,
-                    from include/linux/cache.h:6,
-                    from include/linux/jiffies.h:5,
-                    from include/linux/ktime.h:25,
-                    from include/linux/timer.h:6,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:10,
-                    from arch/arm64/kernel/proton-pack.c:21:
-   arch/arm64/kernel/proton-pack.c: In function 'spectre_bhb_loop_affected':
->> arch/arm64/kernel/proton-pack.c:863:43: error: 'MIDR_QCOM_KRYO_6XX_GOLD' undeclared (first use in this function); did you mean 'MIDR_QCOM_KRYO_4XX_GOLD'?
-     863 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_GOLD),
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/cputype.h:251:26: note: in definition of macro 'MIDR_RANGE'
-     251 |                 .model = m,                                     \
-         |                          ^
-   arch/arm64/kernel/proton-pack.c:863:25: note: in expansion of macro 'MIDR_ALL_VERSIONS'
-     863 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_GOLD),
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/proton-pack.c:863:43: note: each undeclared identifier is reported only once for each function it appears in
-     863 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_GOLD),
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/cputype.h:251:26: note: in definition of macro 'MIDR_RANGE'
-     251 |                 .model = m,                                     \
-         |                          ^
-   arch/arm64/kernel/proton-pack.c:863:25: note: in expansion of macro 'MIDR_ALL_VERSIONS'
-     863 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_GOLD),
-         |                         ^~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/proton-pack.c:864:43: error: 'MIDR_QCOM_KRYO_6XX_PRIME' undeclared (first use in this function); did you mean 'MIDR_QCOM_KRYO_3XX_SILVER'?
-     864 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_PRIME),
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/cputype.h:251:26: note: in definition of macro 'MIDR_RANGE'
-     251 |                 .model = m,                                     \
-         |                          ^
-   arch/arm64/kernel/proton-pack.c:864:25: note: in expansion of macro 'MIDR_ALL_VERSIONS'
-     864 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_PRIME),
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/proton-pack.c:872:43: error: 'MIDR_QCOM_KRYO_5XX_GOLD' undeclared (first use in this function); did you mean 'MIDR_QCOM_KRYO_4XX_GOLD'?
-     872 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_5XX_GOLD),
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/cputype.h:251:26: note: in definition of macro 'MIDR_RANGE'
-     251 |                 .model = m,                                     \
-         |                          ^
-   arch/arm64/kernel/proton-pack.c:872:25: note: in expansion of macro 'MIDR_ALL_VERSIONS'
-     872 |                         MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_5XX_GOLD),
-         |                         ^~~~~~~~~~~~~~~~~
+It occurs due to:
+  __raw_writel(val, addr_##unit##_##name());
+in write_##unit##_##name(uint##sz##_t val) (mips-cps.h)
+
+However, check_64bit_reset() is only called when mips_cm_is64 is true,
+whereas in write_##unit##_##name(uint##sz##_t val) __raw_writel is not
+called when mips_cm_is64 is true. This warning is therefore a false
+positive and I do not see any reasonable way to silence it, so I think
+we should simply ignore it unless someone has a better proposal.
+
+Gregory
+
+[...]
 
 
-vim +863 arch/arm64/kernel/proton-pack.c
+>
+> vim +329 arch/mips/include/asm/mips-cm.h
+>
+>    326=09
+>    327	/* GCR_Cx_RESET_BASE - Configure where powered up cores will fetch=
+ from */
+>    328	GCR_CX_ACCESSOR_RW(32, 0x020, reset_base)
+>  > 329	GCR_CX_ACCESSOR_RW(64, 0x020, reset64_base)
+>    330	#define CM_GCR_Cx_RESET_BASE_BEVEXCBASE		GENMASK(31, 12)
+>    331	#define CM_GCR_Cx_RESET64_BASE_BEVEXCBASE	GENMASK_ULL(47, 12)
+>    332	#define CM_GCR_Cx_RESET_BASE_MODE		BIT(1)
+>    333=09
+>
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-   843	
-   844	/*
-   845	 * This must be called with SCOPE_LOCAL_CPU for each type of CPU, before any
-   846	 * SCOPE_SYSTEM call will give the right answer.
-   847	 */
-   848	u8 spectre_bhb_loop_affected(int scope)
-   849	{
-   850		u8 k = 0;
-   851		static u8 max_bhb_k;
-   852	
-   853		if (scope == SCOPE_LOCAL_CPU) {
-   854			static const struct midr_range spectre_bhb_k32_list[] = {
-   855				MIDR_ALL_VERSIONS(MIDR_CORTEX_A78),
-   856				MIDR_ALL_VERSIONS(MIDR_CORTEX_A78AE),
-   857				MIDR_ALL_VERSIONS(MIDR_CORTEX_A78C),
-   858				MIDR_ALL_VERSIONS(MIDR_CORTEX_X1),
-   859				MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
-   860				MIDR_ALL_VERSIONS(MIDR_CORTEX_X2),
-   861				MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
-   862				MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V1),
- > 863				MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_GOLD),
- > 864				MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_6XX_PRIME),
-   865				{},
-   866			};
-   867			static const struct midr_range spectre_bhb_k24_list[] = {
-   868				MIDR_ALL_VERSIONS(MIDR_CORTEX_A76),
-   869				MIDR_ALL_VERSIONS(MIDR_CORTEX_A77),
-   870				MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N1),
-   871				MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_4XX_GOLD),
-   872				MIDR_ALL_VERSIONS(MIDR_QCOM_KRYO_5XX_GOLD),
-   873				{},
-   874			};
-   875			static const struct midr_range spectre_bhb_k11_list[] = {
-   876				MIDR_ALL_VERSIONS(MIDR_AMPERE1),
-   877				{},
-   878			};
-   879			static const struct midr_range spectre_bhb_k8_list[] = {
-   880				MIDR_ALL_VERSIONS(MIDR_CORTEX_A72),
-   881				MIDR_ALL_VERSIONS(MIDR_CORTEX_A57),
-   882				{},
-   883			};
-   884	
-   885			if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k32_list))
-   886				k = 32;
-   887			else if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k24_list))
-   888				k = 24;
-   889			else if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k11_list))
-   890				k = 11;
-   891			else if (is_midr_in_range_list(read_cpuid_id(), spectre_bhb_k8_list))
-   892				k =  8;
-   893	
-   894			max_bhb_k = max(max_bhb_k, k);
-   895		} else {
-   896			k = max_bhb_k;
-   897		}
-   898	
-   899		return k;
-   900	}
-   901	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Gr=C3=A9gory CLEMENT, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
