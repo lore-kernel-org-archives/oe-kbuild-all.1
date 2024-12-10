@@ -1,550 +1,359 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698C21B422E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 16:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7193A22FE0D;
+	Tue, 10 Dec 2024 16:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733848478; cv=none; b=m+X9fTtBoH/bTW8IiGTPHcaF2BXr8l6TPSOBy5xSk5GFurAdAskl/AS9MUWpzEDujFL5brH2YwXXmguga4WkW410nU5rB4Fce286UR9evFVZwC2S4+9bwd4I7oUNfYxqcSyiJXFiq1bH4xnYeePpaKt67OEZViuXHUdeF0ZwIso=
+	t=1733849412; cv=none; b=Xfo61akwC1TcXlnwYm7LKnVmixyI9VhbY/LcARsQhFPKTenLSg6w2LMmcQeQy2ZVI9vc/71UaRJbqGGNFkR5KHp+UzpGoCJHbtetWn8F8OTb0XgVOaTHQeAOCkgn4nBIddioZgQrOzR4AttCUMMXw1Y436quW70Rp4VOynUdfyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733848478; c=relaxed/simple;
-	bh=nZI7XfU27kPJXdg1x3tUblQVb3NKDoTIh1yr+4o5zzw=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=Y9csPqLglDKRKPOpK/vKCuukm6CdqISqeIWW3lk712VeIN3uCjxcJ7ZkRbY95ENCetdJPYhAvr11PsQQZkdbcXWlIPMNuHOmXhADOCNCkxLS116qQa83dusOcm3zd3LNL/Hk6EyPk2NOFvbo2nu89oF37vt6aKw8XhQLLPhUyks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rpbpZatN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytWnKGwJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rpbpZatN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytWnKGwJ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1733849412; c=relaxed/simple;
+	bh=71uAQ4JUddtXpW9NYf17jj0D7lcF+NuUQWpQVGv60rc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=M5Xy2xWGSL2psje8Ty5no/eImbSxYVGHjZ74otxuuYVthQv497ilDqMwrwrkjx3p9bY/uNXUTzDEdNj+oJF7vRK1XIWb2D5LXQE6q21ZHvFWhE/HwicffcsszLFFVRdZeuNOCOc59xXAzZ/e7eK14JuQFLCQcFkIsRxAgaw4r2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G3x5IsMs; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rpbpZatN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytWnKGwJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rpbpZatN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytWnKGwJ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 97FAF210F2;
-	Tue, 10 Dec 2024 16:34:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733848474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jkGpqLCIKMaHKx4zZZuWx31TXzSGMol/+IvVniTOhsU=;
-	b=rpbpZatNFY6ip0fwhXjVAwgH0sADv3kjRFty46fgI96ZYKEmP1KgYx137uQAHvI+UVu6MU
-	TQZzG4cbKE87E4No+fP6avlSiTh8mjNv9kAd1b4Y9tNMJQuXd4xoyKXvRo5WnCLZwbzfew
-	wD9aQJEFN1+nUBhctg1VJMrwZv/P4OM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733848474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jkGpqLCIKMaHKx4zZZuWx31TXzSGMol/+IvVniTOhsU=;
-	b=ytWnKGwJ1KeRdQbvDslIjx3EgLNZvxWEJVqzo7DQl/YpxHzdfyrtDXdSWiOokbEPAJkBJ4
-	zaf5rzP1CrktI9AQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733848474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jkGpqLCIKMaHKx4zZZuWx31TXzSGMol/+IvVniTOhsU=;
-	b=rpbpZatNFY6ip0fwhXjVAwgH0sADv3kjRFty46fgI96ZYKEmP1KgYx137uQAHvI+UVu6MU
-	TQZzG4cbKE87E4No+fP6avlSiTh8mjNv9kAd1b4Y9tNMJQuXd4xoyKXvRo5WnCLZwbzfew
-	wD9aQJEFN1+nUBhctg1VJMrwZv/P4OM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733848474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jkGpqLCIKMaHKx4zZZuWx31TXzSGMol/+IvVniTOhsU=;
-	b=ytWnKGwJ1KeRdQbvDslIjx3EgLNZvxWEJVqzo7DQl/YpxHzdfyrtDXdSWiOokbEPAJkBJ4
-	zaf5rzP1CrktI9AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B648313A15;
-	Tue, 10 Dec 2024 16:34:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eE+3HJhtWGccPgAAD6G6ig
-	(envelope-from <colyli@suse.de>); Tue, 10 Dec 2024 16:34:32 +0000
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G3x5IsMs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733849409; x=1765385409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=71uAQ4JUddtXpW9NYf17jj0D7lcF+NuUQWpQVGv60rc=;
+  b=G3x5IsMs+76MCPENPeTi1FnQsbHWks7W2LJzi/hk0PyEhNk8ZPJTSJi8
+   5/M8CHtRiU4D+rmSKRPIBdD/q62m12nBrEtGaoTagG2Zc8aTYX5+TwcoZ
+   WGAnzGW703BaMlWNZb5mEOaLlfX+xnaN1e54GAm7nnL9/z8Me8uK6XT3E
+   vXjeGogI5MYzZnJTWJGPIuzThdEJtWERpNo2rMo6bE9RoOtacnrxUigX5
+   bZrNLjPYvNKqBjgXTnf+a/b7PHkmwg0aQoL7gS+MJVOQPGesaGlRPhTXa
+   aloZVaHgKrpzmNSqsyLMqb7PbkYGoO5RJLzAoEXw/QYxlS56Rupb0ghTw
+   A==;
+X-CSE-ConnectionGUID: eQelWk13Sjaa/kpCY5l/bg==
+X-CSE-MsgGUID: 2wS3VR6lTUSuA3u5Vu6NTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="51613940"
+X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
+   d="scan'208";a="51613940"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 08:50:09 -0800
+X-CSE-ConnectionGUID: 5qtHoAuuQwisr4k7PGT2ZQ==
+X-CSE-MsgGUID: bUat1f+LR3OarGXn2fB6Lw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
+   d="scan'208";a="95276689"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 10 Dec 2024 08:50:08 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tL3Qz-0005mb-0A;
+	Tue, 10 Dec 2024 16:50:05 +0000
+Date: Wed, 11 Dec 2024 00:49:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrea Gelmini <andrea.gelmini@gelma.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:pr/739 1/1] fs/bcachefs/acl.c:139:8: error:
+ use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+Message-ID: <202412110006.zHztRBkT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: drivers/md/bcache/super.c:108:14: sparse: sparse: restricted
- __le64 degrades to integer
-From: Coly Li <colyli@suse.de>
-In-Reply-To: <202412071044.tthTVBw4-lkp@intel.com>
-Date: Wed, 11 Dec 2024 00:34:20 +0800
-Cc: Christoph Hellwig <hch@lst.de>,
- oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <33E9C2B1-BF96-46DD-BE45-00811C986ABD@suse.de>
-References: <202412071044.tthTVBw4-lkp@intel.com>
-To: kernel test robot <lkp@intel.com>
-X-Mailer: Apple Mail (2.3826.200.121)
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
-	MIME_GOOD(-0.10)[text/plain];
-	APPLE_MAILER_COMMON(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I don=E2=80=99t know whom to ask, just try to ask kernel test robot =
-directly.
+tree:   https://github.com/koverstreet/bcachefs pr/739
+head:   0bc1f3e0b86e80939dc960c265b3fdddd078bc85
+commit: 0bc1f3e0b86e80939dc960c265b3fdddd078bc85 [1/1] Fix typos
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241211/202412110006.zHztRBkT-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412110006.zHztRBkT-lkp@intel.com/reproduce)
 
-Although this patch was not composed from me, I still wonder who to =
-understand the following warning information and where the problem is.
-e.g. for the following warning,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412110006.zHztRBkT-lkp@intel.com/
 
-> sparse warnings: (new ones prefixed by >>)
->   drivers/md/bcache/super.c:108:24: sparse: sparse: incorrect type in =
-argument 2 (different base types) @@     expected unsigned int nr_keys =
-@@     got restricted __le16 [usertype] keys @@
->   drivers/md/bcache/super.c:108:24: sparse:     expected unsigned int =
-nr_keys
->   drivers/md/bcache/super.c:108:24: sparse:     got restricted __le16 =
-[usertype] keys
->>> drivers/md/bcache/super.c:108:14: sparse: sparse: restricted __le64 =
-degrades to integer
+All errors (new ones prefixed by >>):
 
-It complains about line 108 which is,
-> cafe563591446cf Kent Overstreet   2013-03-23  107   err =3D "Bad =
-checksum";
-> cafe563591446cf Kent Overstreet   2013-03-23 @108   if (s->csum !=3D =
-csum_set(s))
-> cafe563591446cf Kent Overstreet   2013-03-23  109   goto err;
+   In file included from fs/bcachefs/acl.c:3:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/acl.c:139:8: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     139 |         acl = allocate_dropping_locks(trans, ret,
+         |               ^
+   fs/bcachefs/btree_iter.h:905:37: note: expanded from macro 'allocate_dropping_locks'
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^
+>> fs/bcachefs/acl.c:139:8: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:905:59: note: expanded from macro 'allocate_dropping_locks'
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^
+   fs/bcachefs/acl.c:425:8: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     425 |         ret = allocate_dropping_locks_errcode(trans,
+         |               ^
+   fs/bcachefs/btree_iter.h:895:31: note: expanded from macro 'allocate_dropping_locks_errcode'
+     895 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                      ^
+   fs/bcachefs/acl.c:425:8: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:895:53: note: expanded from macro 'allocate_dropping_locks_errcode'
+     895 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                            ^
+   4 warnings and 4 errors generated.
+--
+   In file included from fs/bcachefs/btree_cache.c:3:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_cache.c:831:24: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'; did you mean 'KMALLOC_RECLAIM'?
+     831 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+         |                               KMALLOC_RECLAIM
+   fs/bcachefs/btree_iter.h:887:46: note: expanded from macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^
+   include/linux/slab.h:584:2: note: 'KMALLOC_RECLAIM' declared here
+     584 |         KMALLOC_RECLAIM = KMALLOC_NORMAL,
+         |         ^
+   4 warnings and 1 error generated.
+--
+   In file included from fs/bcachefs/btree_key_cache.c:3:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_key_cache.c:149:7: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     149 |         ck = allocate_dropping_locks(trans, ret,
+         |              ^
+   fs/bcachefs/btree_iter.h:905:37: note: expanded from macro 'allocate_dropping_locks'
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^
+>> fs/bcachefs/btree_key_cache.c:149:7: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:905:59: note: expanded from macro 'allocate_dropping_locks'
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^
+   fs/bcachefs/btree_key_cache.c:243:26: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     243 |                 struct bkey_i *new_k = allocate_dropping_locks(trans, ret,
+         |                                        ^
+   fs/bcachefs/btree_iter.h:905:37: note: expanded from macro 'allocate_dropping_locks'
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^
+   fs/bcachefs/btree_key_cache.c:243:26: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:905:59: note: expanded from macro 'allocate_dropping_locks'
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^
+   4 warnings and 4 errors generated.
+--
+   In file included from fs/bcachefs/ec.c:5:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/ec.c:950:9: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     950 |         return allocate_dropping_locks_errcode(trans,
+         |                ^
+   fs/bcachefs/btree_iter.h:895:31: note: expanded from macro 'allocate_dropping_locks_errcode'
+     895 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                      ^
+>> fs/bcachefs/ec.c:950:9: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:895:53: note: expanded from macro 'allocate_dropping_locks_errcode'
+     895 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                            ^
+   4 warnings and 2 errors generated.
 
-Here s->sum is __le64, csum_set() is uint64_t, these two types have same =
-length. I don=E2=80=99t see the direct connection between code and =
-warning.
 
-Thanks in advance for the patience to give me a hint.
+vim +/PF_MEMALLOC_NORECLAIM +139 fs/bcachefs/acl.c
 
-Coly Li
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   87  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   88  /*
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   89   * Convert from filesystem to in-memory representation.
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   90   */
+5ff10c0a04c421 Kent Overstreet 2023-05-28   91  static struct posix_acl *bch2_acl_from_disk(struct btree_trans *trans,
+5ff10c0a04c421 Kent Overstreet 2023-05-28   92  					    const void *value, size_t size)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   93  {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   94  	const void *p, *end = value + size;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   95  	struct posix_acl *acl;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   96  	struct posix_acl_entry *out;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   97  	unsigned count = 0;
+5ff10c0a04c421 Kent Overstreet 2023-05-28   98  	int ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16   99  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  100  	if (!value)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  101  		return NULL;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  102  	if (size < sizeof(bch_acl_header))
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  103  		goto invalid;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  104  	if (((bch_acl_header *)value)->a_version !=
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  105  	    cpu_to_le32(BCH_ACL_VERSION))
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  106  		goto invalid;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  107  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  108  	p = value + sizeof(bch_acl_header);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  109  	while (p < end) {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  110  		const bch_acl_entry *entry = p;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  111  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  112  		if (p + sizeof(bch_acl_entry_short) > end)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  113  			goto invalid;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  114  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  115  		switch (le16_to_cpu(entry->e_tag)) {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  116  		case ACL_USER_OBJ:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  117  		case ACL_GROUP_OBJ:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  118  		case ACL_MASK:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  119  		case ACL_OTHER:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  120  			p += sizeof(bch_acl_entry_short);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  121  			break;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  122  		case ACL_USER:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  123  		case ACL_GROUP:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  124  			p += sizeof(bch_acl_entry);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  125  			break;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  126  		default:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  127  			goto invalid;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  128  		}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  129  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  130  		count++;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  131  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  132  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  133  	if (p > end)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  134  		goto invalid;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  135  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  136  	if (!count)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  137  		return NULL;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  138  
+5ff10c0a04c421 Kent Overstreet 2023-05-28 @139  	acl = allocate_dropping_locks(trans, ret,
+0bc1f3e0b86e80 Andrea Gelmini  2024-11-14  140  			posix_acl_alloc(count, GFP_KERNEL));
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  141  	if (!acl)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  142  		return ERR_PTR(-ENOMEM);
+5ff10c0a04c421 Kent Overstreet 2023-05-28  143  	if (ret) {
+5ff10c0a04c421 Kent Overstreet 2023-05-28  144  		kfree(acl);
+5ff10c0a04c421 Kent Overstreet 2023-05-28  145  		return ERR_PTR(ret);
+5ff10c0a04c421 Kent Overstreet 2023-05-28  146  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  147  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  148  	out = acl->a_entries;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  149  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  150  	p = value + sizeof(bch_acl_header);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  151  	while (p < end) {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  152  		const bch_acl_entry *in = p;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  153  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  154  		out->e_tag  = le16_to_cpu(in->e_tag);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  155  		out->e_perm = le16_to_cpu(in->e_perm);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  156  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  157  		switch (out->e_tag) {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  158  		case ACL_USER_OBJ:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  159  		case ACL_GROUP_OBJ:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  160  		case ACL_MASK:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  161  		case ACL_OTHER:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  162  			p += sizeof(bch_acl_entry_short);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  163  			break;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  164  		case ACL_USER:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  165  			out->e_uid = make_kuid(&init_user_ns,
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  166  					       le32_to_cpu(in->e_id));
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  167  			p += sizeof(bch_acl_entry);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  168  			break;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  169  		case ACL_GROUP:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  170  			out->e_gid = make_kgid(&init_user_ns,
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  171  					       le32_to_cpu(in->e_id));
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  172  			p += sizeof(bch_acl_entry);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  173  			break;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  174  		}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  175  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  176  		out++;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  177  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  178  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  179  	BUG_ON(out != acl->a_entries + acl->a_count);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  180  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  181  	return acl;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  182  invalid:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  183  	pr_err("invalid acl entry");
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  184  	return ERR_PTR(-EINVAL);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  185  }
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  186  
 
+:::::: The code at line 139 was first introduced by commit
+:::::: 5ff10c0a04c4217b24997d9b127c50602d717ab3 bcachefs: Convert acl.c to allocate_dropping_locks()
 
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
-> 2024=E5=B9=B412=E6=9C=889=E6=97=A5 12:00=EF=BC=8Ckernel test robot =
-<lkp@intel.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> tree:   =
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-> head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
-> commit: a702a692cd7559053ea573f4e2c84828f0e62824 bcache: use a =
-separate data structure for the on-disk super block
-> date:   4 years, 10 months ago
-> config: x86_64-randconfig-r133-20240105 =
-(https://download.01.org/0day-ci/archive/20241207/202412071044.tthTVBw4-lk=
-p@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): =
-(https://download.01.org/0day-ci/archive/20241207/202412071044.tthTVBw4-lk=
-p@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: =
-https://lore.kernel.org/oe-kbuild-all/202412071044.tthTVBw4-lkp@intel.com/=
-
->=20
-> sparse warnings: (new ones prefixed by >>)
->   drivers/md/bcache/super.c:108:24: sparse: sparse: incorrect type in =
-argument 2 (different base types) @@     expected unsigned int nr_keys =
-@@     got restricted __le16 [usertype] keys @@
->   drivers/md/bcache/super.c:108:24: sparse:     expected unsigned int =
-nr_keys
->   drivers/md/bcache/super.c:108:24: sparse:     got restricted __le16 =
-[usertype] keys
->>> drivers/md/bcache/super.c:108:14: sparse: sparse: restricted __le64 =
-degrades to integer
->   drivers/md/bcache/super.c:237:21: sparse: sparse: incorrect type in =
-argument 2 (different base types) @@     expected unsigned int nr_keys =
-@@     got restricted __le16 [usertype] keys @@
->   drivers/md/bcache/super.c:237:21: sparse:     expected unsigned int =
-nr_keys
->   drivers/md/bcache/super.c:237:21: sparse:     got restricted __le16 =
-[usertype] keys
->>> drivers/md/bcache/super.c:237:19: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected restricted __le64 =
-[usertype] csum @@     got unsigned long long @@
->   drivers/md/bcache/super.c:237:19: sparse:     expected restricted =
-__le64 [usertype] csum
->   drivers/md/bcache/super.c:237:19: sparse:     got unsigned long long
->   drivers/md/bcache/super.c: note: in included file (through =
-drivers/md/bcache/bcache.h):
->   include/uapi/linux/bcache.h:345:38: sparse: sparse: array of =
-flexible structures
->   drivers/md/bcache/super.c:574:33: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned short =
-[usertype] prio @@     got restricted __le16 [usertype] @@
->   drivers/md/bcache/super.c:574:33: sparse:     expected unsigned =
-short [usertype] prio
->   drivers/md/bcache/super.c:574:33: sparse:     got restricted __le16 =
-[usertype]
->   drivers/md/bcache/super.c:642:27: sparse: sparse: cast to restricted =
-__le16
->   drivers/md/bcache/super.c:744:32: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int =
-[usertype] invalidated @@     got restricted __le32 [usertype] @@
->   drivers/md/bcache/super.c:744:32: sparse:     expected unsigned int =
-[usertype] invalidated
->   drivers/md/bcache/super.c:744:32: sparse:     got restricted __le32 =
-[usertype]
->   drivers/md/bcache/super.c:1104:26: sparse: sparse: incorrect type in =
-initializer (different base types) @@     expected unsigned int =
-[usertype] rtime @@     got restricted __le32 [usertype] @@
->   drivers/md/bcache/super.c:1104:26: sparse:     expected unsigned int =
-[usertype] rtime
->   drivers/md/bcache/super.c:1104:26: sparse:     got restricted __le32 =
-[usertype]
->   drivers/md/bcache/super.c:1148:32: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int =
-[usertype] invalidated @@     got restricted __le32 [usertype] @@
->   drivers/md/bcache/super.c:1148:32: sparse:     expected unsigned int =
-[usertype] invalidated
->   drivers/md/bcache/super.c:1148:32: sparse:     got restricted __le32 =
-[usertype]
->   drivers/md/bcache/super.c:1502:36: sparse: sparse: incorrect type in =
-assignment (different base types) @@     expected unsigned int =
-[usertype] last_reg @@     got restricted __le32 [usertype] @@
->   drivers/md/bcache/super.c:1502:36: sparse:     expected unsigned int =
-[usertype] last_reg
->   drivers/md/bcache/super.c:1502:36: sparse:     got restricted __le32 =
-[usertype]
->   drivers/md/bcache/super.c: note: in included file (through =
-drivers/md/bcache/bcache.h):
->   drivers/md/bcache/bset.h:231:36: sparse: sparse: array of flexible =
-structures
->=20
-> vim +108 drivers/md/bcache/super.c
->=20
-> cafe563591446cf Kent Overstreet   2013-03-23   61 =20
-> cafe563591446cf Kent Overstreet   2013-03-23   62  static const char =
-*read_super(struct cache_sb *sb, struct block_device *bdev,
-> cafe563591446cf Kent Overstreet   2013-03-23   63        struct page =
-**res)
-> cafe563591446cf Kent Overstreet   2013-03-23   64  {
-> cafe563591446cf Kent Overstreet   2013-03-23   65   const char *err;
-> a702a692cd75590 Christoph Hellwig 2020-01-24   66   struct =
-cache_sb_disk *s;
-> cafe563591446cf Kent Overstreet   2013-03-23   67   struct buffer_head =
-*bh =3D __bread(bdev, 1, SB_SIZE);
-> 6f10f7d1b02b1bb Coly Li           2018-08-11   68   unsigned int i;
-> cafe563591446cf Kent Overstreet   2013-03-23   69 =20
-> cafe563591446cf Kent Overstreet   2013-03-23   70   if (!bh)
-> cafe563591446cf Kent Overstreet   2013-03-23   71   return "IO error";
-> cafe563591446cf Kent Overstreet   2013-03-23   72 =20
-> a702a692cd75590 Christoph Hellwig 2020-01-24   73   s =3D (struct =
-cache_sb_disk *)bh->b_data;
-> cafe563591446cf Kent Overstreet   2013-03-23   74 =20
-> cafe563591446cf Kent Overstreet   2013-03-23   75   sb->offset =3D =
-le64_to_cpu(s->offset);
-> cafe563591446cf Kent Overstreet   2013-03-23   76   sb->version =3D =
-le64_to_cpu(s->version);
-> cafe563591446cf Kent Overstreet   2013-03-23   77 =20
-> cafe563591446cf Kent Overstreet   2013-03-23   78   memcpy(sb->magic, =
-s->magic, 16);
-> cafe563591446cf Kent Overstreet   2013-03-23   79   memcpy(sb->uuid, =
-s->uuid, 16);
-> cafe563591446cf Kent Overstreet   2013-03-23   80   =
-memcpy(sb->set_uuid, s->set_uuid, 16);
-> cafe563591446cf Kent Overstreet   2013-03-23   81   memcpy(sb->label, =
-s->label, SB_LABEL_SIZE);
-> cafe563591446cf Kent Overstreet   2013-03-23   82 =20
-> cafe563591446cf Kent Overstreet   2013-03-23   83   sb->flags =3D =
-le64_to_cpu(s->flags);
-> cafe563591446cf Kent Overstreet   2013-03-23   84   sb->seq =3D =
-le64_to_cpu(s->seq);
-> cafe563591446cf Kent Overstreet   2013-03-23   85   sb->last_mount =3D =
-le32_to_cpu(s->last_mount);
-> cafe563591446cf Kent Overstreet   2013-03-23   86   sb->first_bucket =3D=
- le16_to_cpu(s->first_bucket);
-> cafe563591446cf Kent Overstreet   2013-03-23   87   sb->keys =3D =
-le16_to_cpu(s->keys);
-> cafe563591446cf Kent Overstreet   2013-03-23   88 =20
-> cafe563591446cf Kent Overstreet   2013-03-23   89   for (i =3D 0; i < =
-SB_JOURNAL_BUCKETS; i++)
-> cafe563591446cf Kent Overstreet   2013-03-23   90   sb->d[i] =3D =
-le64_to_cpu(s->d[i]);
-> cafe563591446cf Kent Overstreet   2013-03-23   91 =20
-> cafe563591446cf Kent Overstreet   2013-03-23   92   pr_debug("read sb =
-version %llu, flags %llu, seq %llu, journal size %u",
-> cafe563591446cf Kent Overstreet   2013-03-23   93   sb->version, =
-sb->flags, sb->seq, sb->keys);
-> cafe563591446cf Kent Overstreet   2013-03-23   94 =20
-> aaf8dbeab586572 Coly Li           2019-11-13   95   err =3D "Not a =
-bcache superblock (bad offset)";
-> cafe563591446cf Kent Overstreet   2013-03-23   96   if (sb->offset !=3D =
-SB_SECTOR)
-> cafe563591446cf Kent Overstreet   2013-03-23   97   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23   98 =20
-> aaf8dbeab586572 Coly Li           2019-11-13   99   err =3D "Not a =
-bcache superblock (bad magic)";
-> cafe563591446cf Kent Overstreet   2013-03-23  100   if =
-(memcmp(sb->magic, bcache_magic, 16))
-> cafe563591446cf Kent Overstreet   2013-03-23  101   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  102 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  103   err =3D "Too many =
-journal buckets";
-> cafe563591446cf Kent Overstreet   2013-03-23  104   if (sb->keys > =
-SB_JOURNAL_BUCKETS)
-> cafe563591446cf Kent Overstreet   2013-03-23  105   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  106 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  107   err =3D "Bad =
-checksum";
-> cafe563591446cf Kent Overstreet   2013-03-23 @108   if (s->csum !=3D =
-csum_set(s))
-> cafe563591446cf Kent Overstreet   2013-03-23  109   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  110 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  111   err =3D "Bad =
-UUID";
-> 169ef1cf6171d35 Kent Overstreet   2013-03-28  112   if =
-(bch_is_zero(sb->uuid, 16))
-> cafe563591446cf Kent Overstreet   2013-03-23  113   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  114 =20
-> 8abb2a5dbadab91 Kent Overstreet   2013-04-23  115   sb->block_size =3D =
-le16_to_cpu(s->block_size);
-> 8abb2a5dbadab91 Kent Overstreet   2013-04-23  116 =20
-> 8abb2a5dbadab91 Kent Overstreet   2013-04-23  117   err =3D =
-"Superblock block size smaller than device block size";
-> 8abb2a5dbadab91 Kent Overstreet   2013-04-23  118   if (sb->block_size =
-<< 9 < bdev_logical_block_size(bdev))
-> 8abb2a5dbadab91 Kent Overstreet   2013-04-23  119   goto err;
-> 8abb2a5dbadab91 Kent Overstreet   2013-04-23  120 =20
-> 2903381fce71004 Kent Overstreet   2013-04-11  121   switch =
-(sb->version) {
-> 2903381fce71004 Kent Overstreet   2013-04-11  122   case =
-BCACHE_SB_VERSION_BDEV:
-> 2903381fce71004 Kent Overstreet   2013-04-11  123   sb->data_offset =3D =
-BDEV_DATA_START_DEFAULT;
-> 2903381fce71004 Kent Overstreet   2013-04-11  124   break;
-> 2903381fce71004 Kent Overstreet   2013-04-11  125   case =
-BCACHE_SB_VERSION_BDEV_WITH_OFFSET:
-> 2903381fce71004 Kent Overstreet   2013-04-11  126   sb->data_offset =3D =
-le64_to_cpu(s->data_offset);
-> cafe563591446cf Kent Overstreet   2013-03-23  127 =20
-> 2903381fce71004 Kent Overstreet   2013-04-11  128   err =3D "Bad data =
-offset";
-> 2903381fce71004 Kent Overstreet   2013-04-11  129   if =
-(sb->data_offset < BDEV_DATA_START_DEFAULT)
-> cafe563591446cf Kent Overstreet   2013-03-23  130   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  131 =20
-> 2903381fce71004 Kent Overstreet   2013-04-11  132   break;
-> 2903381fce71004 Kent Overstreet   2013-04-11  133   case =
-BCACHE_SB_VERSION_CDEV:
-> 2903381fce71004 Kent Overstreet   2013-04-11  134   case =
-BCACHE_SB_VERSION_CDEV_WITH_UUID:
-> 2903381fce71004 Kent Overstreet   2013-04-11  135   sb->nbuckets =3D =
-le64_to_cpu(s->nbuckets);
-> 2903381fce71004 Kent Overstreet   2013-04-11  136   sb->bucket_size =3D =
-le16_to_cpu(s->bucket_size);
-> 2903381fce71004 Kent Overstreet   2013-04-11  137 =20
-> 2903381fce71004 Kent Overstreet   2013-04-11  138   sb->nr_in_set =3D =
-le16_to_cpu(s->nr_in_set);
-> 2903381fce71004 Kent Overstreet   2013-04-11  139   sb->nr_this_dev =3D =
-le16_to_cpu(s->nr_this_dev);
-> 2903381fce71004 Kent Overstreet   2013-04-11  140 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  141   err =3D "Too many =
-buckets";
-> cafe563591446cf Kent Overstreet   2013-03-23  142   if (sb->nbuckets > =
-LONG_MAX)
-> cafe563591446cf Kent Overstreet   2013-03-23  143   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  144 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  145   err =3D "Not =
-enough buckets";
-> cafe563591446cf Kent Overstreet   2013-03-23  146   if (sb->nbuckets < =
-1 << 7)
-> cafe563591446cf Kent Overstreet   2013-03-23  147   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  148 =20
-> 2903381fce71004 Kent Overstreet   2013-04-11  149   err =3D "Bad =
-block/bucket size";
-> 2903381fce71004 Kent Overstreet   2013-04-11  150   if =
-(!is_power_of_2(sb->block_size) ||
-> 2903381fce71004 Kent Overstreet   2013-04-11  151      sb->block_size =
-> PAGE_SECTORS ||
-> 2903381fce71004 Kent Overstreet   2013-04-11  152      =
-!is_power_of_2(sb->bucket_size) ||
-> 2903381fce71004 Kent Overstreet   2013-04-11  153      sb->bucket_size =
-< PAGE_SECTORS)
-> 2903381fce71004 Kent Overstreet   2013-04-11  154   goto err;
-> 2903381fce71004 Kent Overstreet   2013-04-11  155 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  156   err =3D "Invalid =
-superblock: device too small";
-> b0d30981c05f32d Coly Li           2018-08-11  157   if =
-(get_capacity(bdev->bd_disk) <
-> b0d30981c05f32d Coly Li           2018-08-11  158      sb->bucket_size =
-* sb->nbuckets)
-> cafe563591446cf Kent Overstreet   2013-03-23  159   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  160 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  161   err =3D "Bad =
-UUID";
-> 169ef1cf6171d35 Kent Overstreet   2013-03-28  162   if =
-(bch_is_zero(sb->set_uuid, 16))
-> cafe563591446cf Kent Overstreet   2013-03-23  163   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  164 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  165   err =3D "Bad cache =
-device number in set";
-> cafe563591446cf Kent Overstreet   2013-03-23  166   if (!sb->nr_in_set =
-||
-> cafe563591446cf Kent Overstreet   2013-03-23  167      sb->nr_in_set =
-<=3D sb->nr_this_dev ||
-> cafe563591446cf Kent Overstreet   2013-03-23  168      sb->nr_in_set > =
-MAX_CACHES_PER_SET)
-> cafe563591446cf Kent Overstreet   2013-03-23  169   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  170 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  171   err =3D "Journal =
-buckets not sequential";
-> cafe563591446cf Kent Overstreet   2013-03-23  172   for (i =3D 0; i < =
-sb->keys; i++)
-> cafe563591446cf Kent Overstreet   2013-03-23  173   if (sb->d[i] !=3D =
-sb->first_bucket + i)
-> cafe563591446cf Kent Overstreet   2013-03-23  174   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  175 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  176   err =3D "Too many =
-journal buckets";
-> cafe563591446cf Kent Overstreet   2013-03-23  177   if =
-(sb->first_bucket + sb->keys > sb->nbuckets)
-> cafe563591446cf Kent Overstreet   2013-03-23  178   goto err;
-> cafe563591446cf Kent Overstreet   2013-03-23  179 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  180   err =3D "Invalid =
-superblock: first bucket comes before end of super";
-> cafe563591446cf Kent Overstreet   2013-03-23  181   if =
-(sb->first_bucket * sb->bucket_size < 16)
-> cafe563591446cf Kent Overstreet   2013-03-23  182   goto err;
-> 2903381fce71004 Kent Overstreet   2013-04-11  183 =20
-> 2903381fce71004 Kent Overstreet   2013-04-11  184   break;
-> 2903381fce71004 Kent Overstreet   2013-04-11  185   default:
-> 2903381fce71004 Kent Overstreet   2013-04-11  186   err =3D =
-"Unsupported superblock version";
-> 2903381fce71004 Kent Overstreet   2013-04-11  187   goto err;
-> 2903381fce71004 Kent Overstreet   2013-04-11  188   }
-> 2903381fce71004 Kent Overstreet   2013-04-11  189 =20
-> 75cbb3f1d840429 Arnd Bergmann     2018-07-26  190   sb->last_mount =3D =
-(u32)ktime_get_real_seconds();
-> cafe563591446cf Kent Overstreet   2013-03-23  191   err =3D NULL;
-> cafe563591446cf Kent Overstreet   2013-03-23  192 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  193   =
-get_page(bh->b_page);
-> cafe563591446cf Kent Overstreet   2013-03-23  194   *res =3D =
-bh->b_page;
-> cafe563591446cf Kent Overstreet   2013-03-23  195  err:
-> cafe563591446cf Kent Overstreet   2013-03-23  196   put_bh(bh);
-> cafe563591446cf Kent Overstreet   2013-03-23  197   return err;
-> cafe563591446cf Kent Overstreet   2013-03-23  198  }
-> cafe563591446cf Kent Overstreet   2013-03-23  199 =20
-> 4246a0b63bd8f56 Christoph Hellwig 2015-07-20  200  static void =
-write_bdev_super_endio(struct bio *bio)
-> cafe563591446cf Kent Overstreet   2013-03-23  201  {
-> cafe563591446cf Kent Overstreet   2013-03-23  202   struct cached_dev =
-*dc =3D bio->bi_private;
-> 08ec1e6282f2716 Coly Li           2019-06-28  203 =20
-> 08ec1e6282f2716 Coly Li           2019-06-28  204   if =
-(bio->bi_status)
-> 08ec1e6282f2716 Coly Li           2019-06-28  205   =
-bch_count_backing_io_errors(dc, bio);
-> cafe563591446cf Kent Overstreet   2013-03-23  206 =20
-> cb7a583e6a6ace6 Kent Overstreet   2013-12-16  207   =
-closure_put(&dc->sb_write);
-> cafe563591446cf Kent Overstreet   2013-03-23  208  }
-> cafe563591446cf Kent Overstreet   2013-03-23  209 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  210  static void =
-__write_super(struct cache_sb *sb, struct bio *bio)
-> cafe563591446cf Kent Overstreet   2013-03-23  211  {
-> a702a692cd75590 Christoph Hellwig 2020-01-24  212   struct =
-cache_sb_disk *out =3D page_address(bio_first_page_all(bio));
-> 6f10f7d1b02b1bb Coly Li           2018-08-11  213   unsigned int i;
-> cafe563591446cf Kent Overstreet   2013-03-23  214 =20
-> 4f024f3797c43cb Kent Overstreet   2013-10-11  215   =
-bio->bi_iter.bi_sector =3D SB_SECTOR;
-> 4f024f3797c43cb Kent Overstreet   2013-10-11  216   =
-bio->bi_iter.bi_size =3D SB_SIZE;
-> ad0d9e76a412470 Mike Christie     2016-06-05  217   =
-bio_set_op_attrs(bio, REQ_OP_WRITE, REQ_SYNC|REQ_META);
-> 169ef1cf6171d35 Kent Overstreet   2013-03-28  218   bch_bio_map(bio, =
-NULL);
-> cafe563591446cf Kent Overstreet   2013-03-23  219 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  220   out->offset =3D =
-cpu_to_le64(sb->offset);
-> cafe563591446cf Kent Overstreet   2013-03-23  221   out->version =3D =
-cpu_to_le64(sb->version);
-> cafe563591446cf Kent Overstreet   2013-03-23  222 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  223   memcpy(out->uuid, =
-sb->uuid, 16);
-> cafe563591446cf Kent Overstreet   2013-03-23  224   =
-memcpy(out->set_uuid, sb->set_uuid, 16);
-> cafe563591446cf Kent Overstreet   2013-03-23  225   memcpy(out->label, =
-sb->label, SB_LABEL_SIZE);
-> cafe563591446cf Kent Overstreet   2013-03-23  226 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  227   out->flags =3D =
-cpu_to_le64(sb->flags);
-> cafe563591446cf Kent Overstreet   2013-03-23  228   out->seq =3D =
-cpu_to_le64(sb->seq);
-> cafe563591446cf Kent Overstreet   2013-03-23  229 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  230   out->last_mount =3D =
-cpu_to_le32(sb->last_mount);
-> cafe563591446cf Kent Overstreet   2013-03-23  231   out->first_bucket =
-=3D cpu_to_le16(sb->first_bucket);
-> cafe563591446cf Kent Overstreet   2013-03-23  232   out->keys =3D =
-cpu_to_le16(sb->keys);
-> cafe563591446cf Kent Overstreet   2013-03-23  233 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  234   for (i =3D 0; i < =
-sb->keys; i++)
-> cafe563591446cf Kent Overstreet   2013-03-23  235   out->d[i] =3D =
-cpu_to_le64(sb->d[i]);
-> cafe563591446cf Kent Overstreet   2013-03-23  236 =20
-> cafe563591446cf Kent Overstreet   2013-03-23 @237   out->csum =3D =
-csum_set(out);
-> cafe563591446cf Kent Overstreet   2013-03-23  238 =20
-> cafe563591446cf Kent Overstreet   2013-03-23  239   pr_debug("ver =
-%llu, flags %llu, seq %llu",
-> cafe563591446cf Kent Overstreet   2013-03-23  240   sb->version, =
-sb->flags, sb->seq);
-> cafe563591446cf Kent Overstreet   2013-03-23  241 =20
-> 4e49ea4a3d27636 Mike Christie     2016-06-05  242   submit_bio(bio);
-> cafe563591446cf Kent Overstreet   2013-03-23  243  }
-> cafe563591446cf Kent Overstreet   2013-03-23  244 =20
->=20
-> :::::: The code at line 108 was first introduced by commit
-> :::::: cafe563591446cf80bfbc2fe3bc72a2e36cf1060 bcache: A block layer =
-cache
->=20
-> :::::: TO: Kent Overstreet <koverstreet@google.com>
-> :::::: CC: Kent Overstreet <koverstreet@google.com>
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
