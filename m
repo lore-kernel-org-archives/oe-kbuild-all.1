@@ -1,72 +1,72 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B6B2AEE7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 08:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6CC230993
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 08:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733820351; cv=none; b=bJZkOxacvHWx1yAYIl0GzFlfw8/HGKmsFbJkCu4a6fVOFFaXOV5HkBUdzMed0NAvEX22S0pCDEiNpIIFWxsTtbLBjf0/DyBgvqPKUVDtXcOhb9v9dIsx4EtgVMQw9RAiENwFffL7zYRUqholO9yoQU9ADNnCGNv8980YigipxPU=
+	t=1733820464; cv=none; b=PetLNqb4HAYX4q+bBfc1tKuzwcq0BBY2bd379EvNM47B3e1D4jr2WKAe+bV98ziRYX4nSFosmmIn96eEWKmXKzRvdoxEAp9dbNgXXhS7XMWVr8vWed80Y2h+rBllEAIqNwFoRui+o2TroXTGkt5LRyiI6FK1n0xAJuN416No048=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733820351; c=relaxed/simple;
-	bh=WIWAsIkTD/ygTaEqJZlgomNhVL+0e/j6V2MWkNKDLuo=;
+	s=arc-20240116; t=1733820464; c=relaxed/simple;
+	bh=ECuAT4nP7i9BweFK7juZ/y9yq7LiAJKWQ8pjhyaZfU4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=fG4k24TwkYYsU1DfQlY4lXKduOjY2OtmhS4oITuU1ZAY7NFJtVZ+eUZrpLdJzpWaVp/Lv7HgXXUFXAn21Hxt0MIsk2aEoMUd7a/jddgz6oRN1xruOVKMApRbPPrTrgkcj2xA8Jq7XE5+WEHAa5X151DUlzU6WHeWc+x0HDRToJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M25dtMEM; arc=none smtp.client-ip=209.85.128.46
+	 Content-Disposition:In-Reply-To; b=bvrrTw8BFiqYQwmE+3UhbzYaBNNUsSbzV8aTwv6EXiXrQyLPkdYFsW29zL5pghZO4ifjZd+Xweo7Wu7M+Ws3Q5BvGL8Ll41YQ63ve5CSG3focXDor0KDy1f/VMJFe4gg8c+ttQmj6A9va9MtrMdq+qhXFwamkXvsksypE69sB7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hj/EUlbj; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M25dtMEM"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4361815b96cso818705e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 00:45:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hj/EUlbj"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4361815b96cso830935e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 00:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733820347; x=1734425147; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1733820461; x=1734425261; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jblJqgnONYB3Ttb04kcM1REB0r64XNYjHV8iVLuGuGg=;
-        b=M25dtMEM1mOLpnSN187i8K3dWrxAjSOr8d52wocLtIUOfiLB7OdQ6e4hruGDb2iESL
-         5tyjVCFbCRFkSHNu1HI0sgNHMZsGTmdv1hknOXK/1RXVJ5VEUq4KRHvtDeeUYm5xbkU8
-         o9XWHLkK3rSjxji7vqIrBBUVCE7qXybRc5DgIiIgeVQUJ22sERyKNFw25AJiyzyUgMAt
-         MC++PAiKh+DCd/soiwN/xIJRY6K/vtbtb+pGBwoXK3wLYMk3y5gWwmzgBH4FwIBM8LS1
-         XQPnezI1DDUSM1p3Oi6xV7wFSSHT1AFt3/L8q4y/Wv9NrcoGkVgW/rsHN8Okn9VZis7S
-         Ue8Q==
+        bh=LN3mYjDf0WLLoooPbhO+3Eb4XaEvDNDr4DXqom+zuiQ=;
+        b=Hj/EUlbjmFsEUFXRV7Qxfbz8ixJxSSRkkaSmk05974R5frq+lgSacGf1bC+QgpcH1M
+         8Dh4pbOCKOGshmxTOfUJ1MjEoQi81VLo1rZZYg3d8rQ6mfsnQy5HylUTIxp8LUWnfqHq
+         E3YNI3pW13lhELmI/Kyj0QQUlVC5/JPmVWNq2fqIU0lzO14UOG84mqegiEvV6KRwfsy6
+         G/6dZE2rLHSPSg6eIYbO4YdYdymYSUs85lQQwUTVm4i7DEjkyVAMZl6Jw61ZXAvD6dSR
+         Iwo3poPWeqqpTGqKhMui8Zrprc9WrU5d4kZ9RekFMP3fAfgvdsZrEybc+AyBVuT0L694
+         fI6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733820347; x=1734425147;
+        d=1e100.net; s=20230601; t=1733820461; x=1734425261;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jblJqgnONYB3Ttb04kcM1REB0r64XNYjHV8iVLuGuGg=;
-        b=g57j5HyLkQw57yhqN61q7YYguQwrpl4JNejaYGmpEggul26y8lsB3MdlMG8RaFACBM
-         r4KCL5fdMJ0ErNPrM6TXXLYp/EJun1fSRiuJZWkMQGyPxMe9lhgIcTR/Q/uZadpZPRmY
-         6y1Miws00KA2Nn0AdKPWHmUMNswvKj+aHiVSnTdL2AulLFPVJcHFt8C8kynGG4hwOXqP
-         Sa2xTAdVYv9U4Xe+e2BNzJJPFq+uqHKkC8UluZOuAPaI7U4ZlR6R/fQLt3sYD9R/a4pY
-         KTOi3BsRrfd7w8aTa7CbUJbjP7QbhjZs1EQkVemdywtsdm3N7UHRc1NkkacRQVBoVmGg
-         PCUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUM1cuzVDBJF2MLL9C5rAzDBWu/RLMYoh0RVp8z7O0z4ZkRlyz5xMa0IgORSdXmQpV96Noht6owEbgMqCJ3@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYJ5E8X6OTocWWxnBccP+W1gOBaOybT7i4Fn60Ph0X1GQ0ngIx
-	agXQc74odGLN9iLRi4aEwimpXCr6gkTMU9EIUTLbk46lfhctnlAaGE6bVej9dCI=
-X-Gm-Gg: ASbGncsDj+rIlAjxLhFtVtV2IvA15gTMKsW1mbmaNkuNAvy+fO/FGi9dhKLUKCPuhIB
-	wwgD2LTZS4Mx4Q0G+9SjbMKWmAQO3aPjqUD1s9LdsrKsXbxKHmNrUFKONpGtLAQ8JTvKLjH5hJ2
-	pCAvvqJzkn8oZB/Hcu2wmQvXJRVuGr8nrcXPI0YJJeafBi/enn66kzTjzjQMIq5zC48AonRNvHu
-	uenKQjpnJTAldRTCVfRccvzMvvfglUhDtvo0LBBVN4+GWGssPxOMsbVAl4=
-X-Google-Smtp-Source: AGHT+IHBg7FH0RfI63+Vg3g5RF/j5aX39c5DAnNY2YHqX7RE5+k+C41N38XjDYzZeGnDTOmqptoH7w==
-X-Received: by 2002:a05:600c:4e8a:b0:434:ffd7:6fca with SMTP id 5b1f17b1804b1-434fff36e7cmr31129635e9.2.1733820346746;
-        Tue, 10 Dec 2024 00:45:46 -0800 (PST)
+        bh=LN3mYjDf0WLLoooPbhO+3Eb4XaEvDNDr4DXqom+zuiQ=;
+        b=nJogNmNjqF45miIvwKLZQyNQtrqPLvnj1kjxlyom1HNzN9/NsiDtDiwixEPulSGbA4
+         VyfoPAda4x0Krpb6UYIX1Do6RdXO0oopXjfZD//c+tnACRi+kVdoOWX8g9Q9XZHUYWTM
+         lonOzcQ8ZPFPVMa1gVKFesqlk46l4Cv1obHgbM8ld7V6TX0r7QVl6JVAqcMx1rwyuig9
+         EXCPtcQ4I2YQNble4vD//Wd67tj9Y5eohREFodG/fFx0wq28zQvMgWMJraG6wpXmGeUM
+         gHSw0iBAd/IR0/JZOuKVDKoGfb4agu0Bp3HWNS4iSJ4l5b7nu87wmgc94NZMdNrzJbEq
+         RSBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCkVlaq38Vgus/Ds1sZ/0MQFGN5t4h22YQB8iebqCve3u6ilKH7wtHeK+xKCCr4FD2mtZpQ9b7QrrzmrXs@lists.linux.dev
+X-Gm-Message-State: AOJu0YwMz0XV+yqAFokR6XUoRZUlnd4+MQfQ1bD+i+Y1CldH+iPwmaIS
+	mojYoCszEtCZCgtXw3YxJi4Ko8BDN/Rjlsn5SPzYueq1TQxemv/CUN4WBBhbD7U=
+X-Gm-Gg: ASbGncvQxmRZwE51ASCGRMzgE5ZnY9gkWaMrlxJCwZUUZGAgAR2lKwV/u1fQZZUmci0
+	8VJ8yE375F5EXz6hpOQNhq6FbXjlkxAuZeu31kEHTQjCKiFerGd8w5mdABfjJ/IOwaJkmP1RESl
+	Oe+gdYz4cYvCNKO4dCYUXm/GkTEBCeLs9+tVZUeWvXplzqoEbQMH0/qEA4eTUMHds9El/+JMZXU
+	LYs0hsQv46zxg8zyeE35Fvi5jgMKg3OpXXM4pE83K+rTwcwzeZoVoX5588=
+X-Google-Smtp-Source: AGHT+IG5cwePAttfHDiwnbYJqi1bg7G1KUe+FWSYgo/LN7Cys+F7UYQC66MSd4jFa0z12FH5wxvVww==
+X-Received: by 2002:a5d:47c9:0:b0:386:3328:6106 with SMTP id ffacd0b85a97d-386453e5101mr2651418f8f.35.1733820460851;
+        Tue, 10 Dec 2024 00:47:40 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d526b577sm224504225e9.3.2024.12.10.00.45.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861f4a859esm15209515f8f.23.2024.12.10.00.47.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 00:45:46 -0800 (PST)
-Date: Tue, 10 Dec 2024 11:45:43 +0300
+        Tue, 10 Dec 2024 00:47:40 -0800 (PST)
+Date: Tue, 10 Dec 2024 11:47:37 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Keith Busch <kbusch@meta.com>,
-	axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, sagi@grimberg.me,
-	asml.silence@gmail.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
- layer
-Message-ID: <8d69680a-a958-4e9d-a1ba-097489fe98d1@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Lothar Rubusch <l.rubusch@gmail.com>,
+	lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, eraretuya@gmail.com,
+	l.rubusch@gmail.com
+Subject: Re: [PATCH v5 10/10] iio: accel: adxl345: add FIFO with watermark
+ events
+Message-ID: <dc914326-7eae-4e4a-8c93-ae1a7007bcc9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,129 +75,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241206221801.790690-12-kbusch@meta.com>
+In-Reply-To: <20241205171343.308963-11-l.rubusch@gmail.com>
 
-Hi Keith,
+Hi Lothar,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-write-stream-information-to-statx/20241207-063826
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20241206221801.790690-12-kbusch%40meta.com
-patch subject: [PATCHv12 11/12] nvme: register fdp parameters with the block layer
-config: csky-randconfig-r072-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100319.Y5vv98P8-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-refrase-comment-on-probe/20241206-011802
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20241205171343.308963-11-l.rubusch%40gmail.com
+patch subject: [PATCH v5 10/10] iio: accel: adxl345: add FIFO with watermark events
+config: nios2-randconfig-r072-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101132.Kj6R6i3h-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412100319.Y5vv98P8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412101132.Kj6R6i3h-lkp@intel.com/
 
-New smatch warnings:
-drivers/nvme/host/core.c:2187 nvme_check_fdp() error: uninitialized symbol 'i'.
-drivers/nvme/host/core.c:2232 nvme_query_fdp_info() warn: missing error code 'ret'
+smatch warnings:
+drivers/iio/accel/adxl345_core.c:441 adxl345_event_handler() warn: unsigned 'int_stat' is never less than zero.
 
-vim +/i +2187 drivers/nvme/host/core.c
+vim +/ret +321 drivers/iio/accel/adxl345_core.c
 
-04ca0849938146 Keith Busch   2024-12-06  2154  static int nvme_check_fdp(struct nvme_ns *ns, struct nvme_ns_info *info,
-04ca0849938146 Keith Busch   2024-12-06  2155  			  u8 fdp_idx)
-04ca0849938146 Keith Busch   2024-12-06  2156  {
-04ca0849938146 Keith Busch   2024-12-06  2157  	struct nvme_fdp_config_log hdr, *h;
-04ca0849938146 Keith Busch   2024-12-06  2158  	struct nvme_fdp_config_desc *desc;
-04ca0849938146 Keith Busch   2024-12-06  2159  	size_t size = sizeof(hdr);
-04ca0849938146 Keith Busch   2024-12-06  2160  	int i, n, ret;
-04ca0849938146 Keith Busch   2024-12-06  2161  	void *log;
-04ca0849938146 Keith Busch   2024-12-06  2162  
-04ca0849938146 Keith Busch   2024-12-06  2163  	info->runs = 0;
-04ca0849938146 Keith Busch   2024-12-06  2164  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
-04ca0849938146 Keith Busch   2024-12-06  2165  			   (void *)&hdr, size, 0, info->endgid);
-04ca0849938146 Keith Busch   2024-12-06  2166  	if (ret)
-04ca0849938146 Keith Busch   2024-12-06  2167  		return ret;
-04ca0849938146 Keith Busch   2024-12-06  2168  
-04ca0849938146 Keith Busch   2024-12-06  2169  	size = le32_to_cpu(hdr.sze);
-04ca0849938146 Keith Busch   2024-12-06  2170  	h = kzalloc(size, GFP_KERNEL);
-04ca0849938146 Keith Busch   2024-12-06  2171  	if (!h)
-04ca0849938146 Keith Busch   2024-12-06  2172  		return 0;
-04ca0849938146 Keith Busch   2024-12-06  2173  
-04ca0849938146 Keith Busch   2024-12-06  2174  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
-04ca0849938146 Keith Busch   2024-12-06  2175  			   h, size, 0, info->endgid);
-04ca0849938146 Keith Busch   2024-12-06  2176  	if (ret)
-04ca0849938146 Keith Busch   2024-12-06  2177  		goto out;
-04ca0849938146 Keith Busch   2024-12-06  2178  
-04ca0849938146 Keith Busch   2024-12-06  2179  	n = le16_to_cpu(h->numfdpc) + 1;
-04ca0849938146 Keith Busch   2024-12-06  2180  	if (fdp_idx > n)
-04ca0849938146 Keith Busch   2024-12-06  2181  		goto out;
-04ca0849938146 Keith Busch   2024-12-06  2182  
-04ca0849938146 Keith Busch   2024-12-06  2183  	log = h + 1;
-04ca0849938146 Keith Busch   2024-12-06  2184  	do {
-04ca0849938146 Keith Busch   2024-12-06  2185  		desc = log;
-04ca0849938146 Keith Busch   2024-12-06  2186  		log += le16_to_cpu(desc->dsze);
-04ca0849938146 Keith Busch   2024-12-06 @2187  	} while (i++ < fdp_idx);
-                                                         ^
-i needs to be initialized to zero at the start.
+55d2386488598bb Lothar Rubusch 2024-12-05  433  static irqreturn_t adxl345_event_handler(int irq, void *p)
+55d2386488598bb Lothar Rubusch 2024-12-05  434  {
+55d2386488598bb Lothar Rubusch 2024-12-05  435  	struct iio_dev *indio_dev = p;
+55d2386488598bb Lothar Rubusch 2024-12-05  436  	struct adxl345_state *st = iio_priv(indio_dev);
+55d2386488598bb Lothar Rubusch 2024-12-05  437  	u8 int_stat;
+                                                        ^^^^^^^^^^^
 
-04ca0849938146 Keith Busch   2024-12-06  2188  
-04ca0849938146 Keith Busch   2024-12-06  2189  	info->runs = le64_to_cpu(desc->runs);
-04ca0849938146 Keith Busch   2024-12-06  2190  out:
-04ca0849938146 Keith Busch   2024-12-06  2191  	kfree(h);
-04ca0849938146 Keith Busch   2024-12-06  2192  	return ret;
-04ca0849938146 Keith Busch   2024-12-06  2193  }
-04ca0849938146 Keith Busch   2024-12-06  2194  
-04ca0849938146 Keith Busch   2024-12-06  2195  static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
-04ca0849938146 Keith Busch   2024-12-06  2196  {
-04ca0849938146 Keith Busch   2024-12-06  2197  	struct nvme_ns_head *head = ns->head;
-04ca0849938146 Keith Busch   2024-12-06  2198  	struct nvme_fdp_ruh_status *ruhs;
-04ca0849938146 Keith Busch   2024-12-06  2199  	struct nvme_fdp_config fdp;
-04ca0849938146 Keith Busch   2024-12-06  2200  	struct nvme_command c = {};
-04ca0849938146 Keith Busch   2024-12-06  2201  	int size, ret;
-04ca0849938146 Keith Busch   2024-12-06  2202  
-04ca0849938146 Keith Busch   2024-12-06  2203  	ret = nvme_get_features(ns->ctrl, NVME_FEAT_FDP, info->endgid, NULL, 0,
-04ca0849938146 Keith Busch   2024-12-06  2204  				&fdp);
-04ca0849938146 Keith Busch   2024-12-06  2205  	if (ret)
-04ca0849938146 Keith Busch   2024-12-06  2206  		goto err;
-04ca0849938146 Keith Busch   2024-12-06  2207  
-04ca0849938146 Keith Busch   2024-12-06  2208  	if (!(fdp.flags & FDPCFG_FDPE))
-04ca0849938146 Keith Busch   2024-12-06  2209  		goto err;
-04ca0849938146 Keith Busch   2024-12-06  2210  
-04ca0849938146 Keith Busch   2024-12-06  2211  	ret = nvme_check_fdp(ns, info, fdp.fdpcidx);
-04ca0849938146 Keith Busch   2024-12-06  2212  	if (ret || !info->runs)
-04ca0849938146 Keith Busch   2024-12-06  2213  		goto err;
-04ca0849938146 Keith Busch   2024-12-06  2214  
-04ca0849938146 Keith Busch   2024-12-06  2215  	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
-04ca0849938146 Keith Busch   2024-12-06  2216  	ruhs = kzalloc(size, GFP_KERNEL);
-04ca0849938146 Keith Busch   2024-12-06  2217  	if (!ruhs) {
-04ca0849938146 Keith Busch   2024-12-06  2218  		ret = -ENOMEM;
-04ca0849938146 Keith Busch   2024-12-06  2219  		goto err;
-04ca0849938146 Keith Busch   2024-12-06  2220  	}
-04ca0849938146 Keith Busch   2024-12-06  2221  
-04ca0849938146 Keith Busch   2024-12-06  2222  	c.imr.opcode = nvme_cmd_io_mgmt_recv;
-04ca0849938146 Keith Busch   2024-12-06  2223  	c.imr.nsid = cpu_to_le32(head->ns_id);
-04ca0849938146 Keith Busch   2024-12-06  2224  	c.imr.mo = NVME_IO_MGMT_RECV_MO_RUHS;
-04ca0849938146 Keith Busch   2024-12-06  2225  	c.imr.numd = cpu_to_le32(nvme_bytes_to_numd(size));
-04ca0849938146 Keith Busch   2024-12-06  2226  	ret = nvme_submit_sync_cmd(ns->queue, &c, ruhs, size);
-04ca0849938146 Keith Busch   2024-12-06  2227  	if (ret)
-04ca0849938146 Keith Busch   2024-12-06  2228  		goto free;
-04ca0849938146 Keith Busch   2024-12-06  2229  
-04ca0849938146 Keith Busch   2024-12-06  2230  	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
-04ca0849938146 Keith Busch   2024-12-06  2231  	if (!head->nr_plids)
-04ca0849938146 Keith Busch   2024-12-06 @2232  		goto free;
+55d2386488598bb Lothar Rubusch 2024-12-05  438  	int samples;
+55d2386488598bb Lothar Rubusch 2024-12-05  439  
+55d2386488598bb Lothar Rubusch 2024-12-05  440  	int_stat = adxl345_get_status(st);
+55d2386488598bb Lothar Rubusch 2024-12-05 @441  	if (int_stat < 0)
+                                                            ^^^^^^^^^^^^
+signedness bug
 
-ret = -EINVAL?
-
-04ca0849938146 Keith Busch   2024-12-06  2233  
-04ca0849938146 Keith Busch   2024-12-06  2234  	kfree(ruhs);
-04ca0849938146 Keith Busch   2024-12-06  2235  	return 0;
-04ca0849938146 Keith Busch   2024-12-06  2236  
-04ca0849938146 Keith Busch   2024-12-06  2237  free:
-04ca0849938146 Keith Busch   2024-12-06  2238  	kfree(ruhs);
-04ca0849938146 Keith Busch   2024-12-06  2239  err:
-04ca0849938146 Keith Busch   2024-12-06  2240  	head->nr_plids = 0;
-04ca0849938146 Keith Busch   2024-12-06  2241  	info->runs = 0;
-04ca0849938146 Keith Busch   2024-12-06  2242  	return ret;
-04ca0849938146 Keith Busch   2024-12-06  2243  }
+55d2386488598bb Lothar Rubusch 2024-12-05  442  		return IRQ_NONE;
+55d2386488598bb Lothar Rubusch 2024-12-05  443  
+55d2386488598bb Lothar Rubusch 2024-12-05  444  	if (int_stat == 0x0)
+55d2386488598bb Lothar Rubusch 2024-12-05  445  		goto err;
+55d2386488598bb Lothar Rubusch 2024-12-05  446  
+55d2386488598bb Lothar Rubusch 2024-12-05  447  	if (int_stat & ADXL345_INT_OVERRUN)
+55d2386488598bb Lothar Rubusch 2024-12-05  448  		goto err;
+55d2386488598bb Lothar Rubusch 2024-12-05  449  
+55d2386488598bb Lothar Rubusch 2024-12-05  450  	if (int_stat & (ADXL345_INT_DATA_READY | ADXL345_INT_WATERMARK)) {
+55d2386488598bb Lothar Rubusch 2024-12-05  451  		samples = adxl345_get_samples(st);
+55d2386488598bb Lothar Rubusch 2024-12-05  452  		if (samples < 0)
+55d2386488598bb Lothar Rubusch 2024-12-05  453  			goto err;
+55d2386488598bb Lothar Rubusch 2024-12-05  454  
+55d2386488598bb Lothar Rubusch 2024-12-05  455  		if (adxl345_fifo_push(indio_dev, samples) < 0)
+55d2386488598bb Lothar Rubusch 2024-12-05  456  			goto err;
+55d2386488598bb Lothar Rubusch 2024-12-05  457  
+55d2386488598bb Lothar Rubusch 2024-12-05  458  	}
+55d2386488598bb Lothar Rubusch 2024-12-05  459  	return IRQ_HANDLED;
+55d2386488598bb Lothar Rubusch 2024-12-05  460  
+55d2386488598bb Lothar Rubusch 2024-12-05  461  err:
+55d2386488598bb Lothar Rubusch 2024-12-05  462  	adxl345_fifo_reset(st);
+55d2386488598bb Lothar Rubusch 2024-12-05  463  
+55d2386488598bb Lothar Rubusch 2024-12-05  464  	return IRQ_HANDLED;
+55d2386488598bb Lothar Rubusch 2024-12-05  465  }
 
 -- 
 0-DAY CI Kernel Test Service
