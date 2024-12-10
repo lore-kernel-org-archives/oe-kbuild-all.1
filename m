@@ -1,107 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235031A08A8;
-	Tue, 10 Dec 2024 12:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1951A4E77
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 12:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733834023; cv=none; b=bgK6DS3AyEttHgDJnShtf25GoK2j+W3k4LthEyYqsPBhuTLqmbkwe7lkVEWCMqMpk3YDJ1FqazYJoNGqkg8nVJkHmHXzKTZlkPn4or3Ll9019mFQbf0pj2x7UGjc7cAaCdkyRZ9lgnaosBJD0cMlVGVow6OdA/BN7w2kZeOTEB0=
+	t=1733834563; cv=none; b=gGQVai2Q3rKTRYUpdeeazItF75Q8wm1spNKPr0uKdhWNtNOpbH+1n3nHfegGeWQSTniL4CY9KWIbqq3IhFXR/J86bSHIIFkNO6GHypt3QNEcCo1usFXGNseLuY+9n+9YpvBSd13hG6xoZs89/ddkRv7a151NByPQYvsBPH5bnZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733834023; c=relaxed/simple;
-	bh=rIwU7Xexky01EHWp4VIkrifVyY4Q5MPQE5gig+JRHK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kGvswLJdRbAgnXgi/mKvH4Yif6w7ebSiKVPq0tUUpUuYMtUW5d2Z+FKIxugaxogesz/H3LWQ7zja0VqpgPo6WTbAHakBEUz8ZIJZTe7MFXenStL6nUfk/Wbv/HBtq0rIZfW2eyZqQ1K+zHX2gfgaRBVndBGPpaC4qE20b5kK7Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGSDNjeN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733834563; c=relaxed/simple;
+	bh=FKpcB3MEcv9bVy7k7khv93pfJgAbXYQmLRdUCV7XMDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=itvOzVcUHGykMnGC9CC8rhg/HuSzPdZVagj0NUVKTtXy/KrogzcPFZxNpz78yAKPwaPqcVjRYs21iNgzudZ8Jf4mGJYOfNWXyg6G3pReThySEqdU8H/XaKwzNf/Lwg/J0ihDmekCtDImtssII7ksDfrCIYVSu01e+QyjKX9NBiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DgVW3grD; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGSDNjeN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79DE9C4CED6;
-	Tue, 10 Dec 2024 12:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733834022;
-	bh=rIwU7Xexky01EHWp4VIkrifVyY4Q5MPQE5gig+JRHK8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QGSDNjeNqa5SaKnmBBzkqPJP/zINrW33eg7/39hXTjK9w/YR7cxb35XgQnTPKEsnf
-	 cUIAeQx0W2GCCe3hzplTjiGyLfu8FSORky0MwlTvtwV3C4ptmW4WMG20pxWd1VMs9j
-	 RuJwplVOKG1tW9rYhrl3e0ZB3K9OuCrNlJiruP5VQ6zhVj/HfRmGQ5GqwOOuahch0D
-	 SSkaSjwSFXqsmAa20FMCJqw8LD0He3QaT2VDDNu1lobrLQ9/GFSxSsy3RGVhmuRWr6
-	 BBwvaCJAOuqTkgsaOgtQWET9DuoWjJ+Xy00a2ftInopP3b0QS5AFrkVBnYpShE0uiT
-	 XOS6L7VpLKK4A==
-Date: Tue, 10 Dec 2024 12:33:38 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Subject: Re: arch/arm64/kernel/signal.c:1046:36: sparse: sparse: cast removes
- address space '__user' of expression
-Message-ID: <4fb5acc6-350e-4f7b-8512-4e1799cb2a37@sirena.org.uk>
-References: <202412082005.OBJ0BbWs-lkp@intel.com>
- <Z1cOs2sGff1_TtQZ@arm.com>
- <c8379d04-420b-4039-99ce-5a462d820685@sirena.org.uk>
- <Z1gh809HUGRZI258@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DgVW3grD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733834561; x=1765370561;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FKpcB3MEcv9bVy7k7khv93pfJgAbXYQmLRdUCV7XMDM=;
+  b=DgVW3grDVQsdHKTxBlZ15GK9VcJqSCaZfrlZkazbPs7gg7S12emah7HU
+   N16MbHAHk1ZiZnyiyd/TmvgOVohO2CWa20gsBPPZ7LtjeTWwIUZjLMktT
+   PpFy8yHdha9/YAkNCPlFJQfzb/oN6ja+wH5Hocb+vXb9Yv6mR7EvtwbZ7
+   FzPUzlA6qVCgJquBH+L9PZNR747Vjkfo6mQHAH7YOMomqi63q6R0mThJ2
+   oTBoKjc65ojVLGv0GLJW8B02r/Qo/WpPzo2xAyYZHufPXd5KuzTSBiPbA
+   A5NxiOouf3vPeIt+UAVUiSPD+KQVps8jjrP2OwrwiheYf7llDeODrJyqD
+   g==;
+X-CSE-ConnectionGUID: LSYxV+CwTWa7wIQNuY5tjw==
+X-CSE-MsgGUID: utCFw9JmTxW8lO/y5VciVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45557321"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
+   d="scan'208";a="45557321"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 04:42:41 -0800
+X-CSE-ConnectionGUID: 9d/Dvm67Tv+k32DV6T21dQ==
+X-CSE-MsgGUID: 8IV8GeK4S0yX9YQPZz4z8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
+   d="scan'208";a="95741296"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 10 Dec 2024 04:42:38 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKzZT-0005Xp-2t;
+	Tue, 10 Dec 2024 12:42:35 +0000
+Date: Tue, 10 Dec 2024 20:42:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: drivers/usb/typec/ucsi/ucsi_yoga_c630.c:101:30: sparse: sparse:
+ symbol 'yoga_c630_ucsi_ops' was not declared. Should it be static?
+Message-ID: <202412102033.J4vZNaaR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JcZFkG1T/beSswj9"
-Content-Disposition: inline
-In-Reply-To: <Z1gh809HUGRZI258@arm.com>
-X-Cookie: Leave no stone unturned.
-
-
---JcZFkG1T/beSswj9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Dec 10, 2024 at 11:11:47AM +0000, Catalin Marinas wrote:
-> On Mon, Dec 09, 2024 at 04:11:00PM +0000, Mark Brown wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7cb1b466315004af98f6ba6c2546bb713ca3c237
+commit: 2ea6d07efe5388d47afdb49079423334c97fe22b usb: typec: ucsi: add Lenovo Yoga C630 glue driver
+date:   6 months ago
+config: hexagon-randconfig-r122-20241210 (https://download.01.org/0day-ci/archive/20241210/202412102033.J4vZNaaR-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce: (https://download.01.org/0day-ci/archive/20241210/202412102033.J4vZNaaR-lkp@intel.com/reproduce)
 
-> > The value we get from the
-> > sysreg is a pointer so it makes the uses of the value clearer if we keep
-> > it as a pointer in C code, it seems to be defeating the point of doing
-> > static analysis to discard the pointerness to make it happier.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412102033.J4vZNaaR-lkp@intel.com/
 
-> We have other cases where we treat a reg as u64 and convert it to
-> pointer as needed. While not a sysreg, the pt_regs::sp is u64 and we end
-> up treating it as a pointer eventually for writing the signal stack.
-> Another case is user_insn_read(). It's bit of bikeshedding around the
-> primary use in this function, do we need more conversions one way or the
-> other? In general I'd consider a sysreg read to be u64, especially as
-> the architecture has a habit of adding bits around the actual address
-> occasionally.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/typec/ucsi/ucsi_yoga_c630.c:101:30: sparse: sparse: symbol 'yoga_c630_ucsi_ops' was not declared. Should it be static?
 
-The sysreg read is a u64, but we then interpret it as a pointer and do
-pointer things with it for the remainder of the function until we need
-to store it back in the register (which is where the warning comes from,
-for some reason there's a cast in write_sysreg_s()).
+vim +/yoga_c630_ucsi_ops +101 drivers/usb/typec/ucsi/ucsi_yoga_c630.c
 
-> Anyway, I'd like to silence sparse on this. The u64 (non-pointer) has
-> some precedence in the arm64 code but, if you want, I'm happy to keep it
-> as a pointer (and maybe just rename it to shadow_stack or something that
-> does not imply a sysreg). I think for the actual warning, we can
-> probably fix it with a __force to silence sparse on conversion to u64.
+   100	
+ > 101	const struct ucsi_operations yoga_c630_ucsi_ops = {
+   102		.read = yoga_c630_ucsi_read,
+   103		.sync_write = yoga_c630_ucsi_sync_write,
+   104		.async_write = yoga_c630_ucsi_async_write,
+   105	};
+   106	
 
-Apparently the rune for this with sparse is to cast the value to an
-unsigned long (type safety for the win!).  I wrote a patch last night,
-should be done testing by now.  Given sparse we should probably have
-that cast in write_sysreg_s() be to unsigned long.
-
---JcZFkG1T/beSswj9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdYNSIACgkQJNaLcl1U
-h9AWrAf/Q6HCpuaqGw1+HNp4qT2q1hdxI3KR+pnMfxrlQFJ7cvvoKcfVAkLQwjsN
-RA/fV11q3RL/6p890FgaO1IhXbyfnuRgNSUJTOnUMOCPWWoxk9QVJ1qOK+FiapYo
-M82Vfm0LfM7tvCIPR0xA3VfP6cQGpR5pDlKL/qefktfg7t3FauiJrcT6HPRwktTo
-LU7bIGz+D+ariTXR/gKzZuI4kmTdwql6f5Boy26BN2YloUwMQaH3a1lhW3+/o8mt
-DVkQ1NQrhGrNaPBcU3gliPqfFb5pM21zCoAS954yfXca26Dyh5qpp360B/pgijzv
-NizKjsy2pbQ9WEVxGBCSFl6yP4B5ug==
-=nSaN
------END PGP SIGNATURE-----
-
---JcZFkG1T/beSswj9--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
