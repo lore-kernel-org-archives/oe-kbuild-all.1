@@ -1,129 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE9221576D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 11:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235031A08A8;
+	Tue, 10 Dec 2024 12:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733830606; cv=none; b=jv5DKeoKLV6LxX+75jJ9VvgaRNdfc/bAPOzYm5Q7hUJOEqRElcLBnntaGwXKtUyLCLYQ3P20QHeTa1H0FRw9ugMbsk1L07vOAybjIEGEvcen7FPIpdIDe/iR5RMopvU+Ua0F1KsAS8z2UH+knEIv0trHUlS4aAwSqqvI4USInes=
+	t=1733834023; cv=none; b=bgK6DS3AyEttHgDJnShtf25GoK2j+W3k4LthEyYqsPBhuTLqmbkwe7lkVEWCMqMpk3YDJ1FqazYJoNGqkg8nVJkHmHXzKTZlkPn4or3Ll9019mFQbf0pj2x7UGjc7cAaCdkyRZ9lgnaosBJD0cMlVGVow6OdA/BN7w2kZeOTEB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733830606; c=relaxed/simple;
-	bh=tFukGSdVcRfo7BjKJxP9JFbwgrH3R5mr2GurHftOwVo=;
+	s=arc-20240116; t=1733834023; c=relaxed/simple;
+	bh=rIwU7Xexky01EHWp4VIkrifVyY4Q5MPQE5gig+JRHK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vD/JMduhiZzqyhrkjFK/vVM82DTnI30OHBwCn12GQ1s5QenOkFCUk2kFFKpLPGPKoyrU3TuVfOEy9fUx2T5k97zds1iyq2QRlIKzrr1UnguDVf2KeiMtMmSr+O9o6lrqhLHcbleG3w2xrCIm3rTjl34XCtdwSUhSuTZqxnwAeWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOtjenVv; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kGvswLJdRbAgnXgi/mKvH4Yif6w7ebSiKVPq0tUUpUuYMtUW5d2Z+FKIxugaxogesz/H3LWQ7zja0VqpgPo6WTbAHakBEUz8ZIJZTe7MFXenStL6nUfk/Wbv/HBtq0rIZfW2eyZqQ1K+zHX2gfgaRBVndBGPpaC4qE20b5kK7Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGSDNjeN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOtjenVv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733830604; x=1765366604;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tFukGSdVcRfo7BjKJxP9JFbwgrH3R5mr2GurHftOwVo=;
-  b=lOtjenVvqsp2zx8bOWBZTWzhgiwN/Bhhkug0bRG+0vOtVqRmIRTcFREN
-   6NA+JUDcfIb/p56ZI4oggc+vUfq7PmaaT2x3ohnKpTfZS4hPICNbjrbtD
-   HrhAzbTNprJYLTbr1DovrhJwzHohzOnGfgHW1J2TbrE43b8eP9FhLX1KG
-   9NNmGV3vsM02rlprCkCiQlqbHywoSAs5iOTFNV0RRttsT1r4JpoLb2GgV
-   IecrX6AgjpKDbt7+S8JenVOiX/FcUmNQk7ye+waMML8YH1N7Yf3CSpmvG
-   P5wc/V113adjs998HOGGyJ83WBjMmnI8H5DO/IRrD11ArtyqdKsATxNxP
-   w==;
-X-CSE-ConnectionGUID: oUx89ZLGTqCN6ICtYkeDzA==
-X-CSE-MsgGUID: 1Q8PU36dRFeERwoYq54bxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33498295"
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="33498295"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 03:36:43 -0800
-X-CSE-ConnectionGUID: G5xZz9cUTXiym/xnzjxrog==
-X-CSE-MsgGUID: 8fj7j00/QQOeNX34eSSlaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="100428898"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Dec 2024 03:36:37 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKyXa-0005TZ-1x;
-	Tue, 10 Dec 2024 11:36:34 +0000
-Date: Tue, 10 Dec 2024 19:35:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, donald.hunter@gmail.com,
-	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
-	maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
-	cmllamas@google.com, surenb@google.com, arnd@arndb.de,
-	masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kernel-team@android.com
-Subject: Re: [PATCH net-next v9 1/1] binder: report txn errors via generic
- netlink
-Message-ID: <202412101942.kbghVu3V-lkp@intel.com>
-References: <20241209192247.3371436-2-dualli@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGSDNjeN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79DE9C4CED6;
+	Tue, 10 Dec 2024 12:33:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733834022;
+	bh=rIwU7Xexky01EHWp4VIkrifVyY4Q5MPQE5gig+JRHK8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QGSDNjeNqa5SaKnmBBzkqPJP/zINrW33eg7/39hXTjK9w/YR7cxb35XgQnTPKEsnf
+	 cUIAeQx0W2GCCe3hzplTjiGyLfu8FSORky0MwlTvtwV3C4ptmW4WMG20pxWd1VMs9j
+	 RuJwplVOKG1tW9rYhrl3e0ZB3K9OuCrNlJiruP5VQ6zhVj/HfRmGQ5GqwOOuahch0D
+	 SSkaSjwSFXqsmAa20FMCJqw8LD0He3QaT2VDDNu1lobrLQ9/GFSxSsy3RGVhmuRWr6
+	 BBwvaCJAOuqTkgsaOgtQWET9DuoWjJ+Xy00a2ftInopP3b0QS5AFrkVBnYpShE0uiT
+	 XOS6L7VpLKK4A==
+Date: Tue, 10 Dec 2024 12:33:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+Subject: Re: arch/arm64/kernel/signal.c:1046:36: sparse: sparse: cast removes
+ address space '__user' of expression
+Message-ID: <4fb5acc6-350e-4f7b-8512-4e1799cb2a37@sirena.org.uk>
+References: <202412082005.OBJ0BbWs-lkp@intel.com>
+ <Z1cOs2sGff1_TtQZ@arm.com>
+ <c8379d04-420b-4039-99ce-5a462d820685@sirena.org.uk>
+ <Z1gh809HUGRZI258@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JcZFkG1T/beSswj9"
+Content-Disposition: inline
+In-Reply-To: <Z1gh809HUGRZI258@arm.com>
+X-Cookie: Leave no stone unturned.
+
+
+--JcZFkG1T/beSswj9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241209192247.3371436-2-dualli@chromium.org>
 
-Hi Li,
+On Tue, Dec 10, 2024 at 11:11:47AM +0000, Catalin Marinas wrote:
+> On Mon, Dec 09, 2024 at 04:11:00PM +0000, Mark Brown wrote:
 
-kernel test robot noticed the following build warnings:
+> > The value we get from the
+> > sysreg is a pointer so it makes the uses of the value clearer if we keep
+> > it as a pointer in C code, it seems to be defeating the point of doing
+> > static analysis to discard the pointerness to make it happier.
 
-[auto build test WARNING on 6145fefc1e42c1895c0c1c2c8593de2c085d8c56]
+> We have other cases where we treat a reg as u64 and convert it to
+> pointer as needed. While not a sysreg, the pt_regs::sp is u64 and we end
+> up treating it as a pointer eventually for writing the signal stack.
+> Another case is user_insn_read(). It's bit of bikeshedding around the
+> primary use in this function, do we need more conversions one way or the
+> other? In general I'd consider a sysreg read to be u64, especially as
+> the architecture has a habit of adding bits around the actual address
+> occasionally.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/binder-report-txn-errors-via-generic-netlink/20241210-032559
-base:   6145fefc1e42c1895c0c1c2c8593de2c085d8c56
-patch link:    https://lore.kernel.org/r/20241209192247.3371436-2-dualli%40chromium.org
-patch subject: [PATCH net-next v9 1/1] binder: report txn errors via generic netlink
-config: s390-randconfig-002-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101942.kbghVu3V-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412101942.kbghVu3V-lkp@intel.com/reproduce)
+The sysreg read is a u64, but we then interpret it as a pointer and do
+pointer things with it for the remainder of the function until we need
+to store it back in the register (which is where the warning comes from,
+for some reason there's a cast in write_sysreg_s()).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412101942.kbghVu3V-lkp@intel.com/
+> Anyway, I'd like to silence sparse on this. The u64 (non-pointer) has
+> some precedence in the arm64 code but, if you want, I'm happy to keep it
+> as a pointer (and maybe just rename it to shadow_stack or something that
+> does not imply a sysreg). I think for the actual warning, we can
+> probably fix it with a __force to silence sparse on conversion to u64.
 
-All warnings (new ones prefixed by >>):
+Apparently the rune for this with sparse is to cast the value to an
+unsigned long (type safety for the win!).  I wrote a patch last night,
+should be done testing by now.  Given sparse we should probably have
+that cast in write_sysreg_s() be to unsigned long.
 
-   drivers/android/binder.c:1983: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
-   drivers/android/binder.c:1983: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
-   drivers/android/binder.c:2434: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2434: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2434: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2434: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2454: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2454: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2454: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2454: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
-   drivers/android/binder.c:4181: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
->> drivers/android/binder.c:7185: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Add a binder device to binder_devices
+--JcZFkG1T/beSswj9
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-vim +7185 drivers/android/binder.c
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdYNSIACgkQJNaLcl1U
+h9AWrAf/Q6HCpuaqGw1+HNp4qT2q1hdxI3KR+pnMfxrlQFJ7cvvoKcfVAkLQwjsN
+RA/fV11q3RL/6p890FgaO1IhXbyfnuRgNSUJTOnUMOCPWWoxk9QVJ1qOK+FiapYo
+M82Vfm0LfM7tvCIPR0xA3VfP6cQGpR5pDlKL/qefktfg7t3FauiJrcT6HPRwktTo
+LU7bIGz+D+ariTXR/gKzZuI4kmTdwql6f5Boy26BN2YloUwMQaH3a1lhW3+/o8mt
+DVkQ1NQrhGrNaPBcU3gliPqfFb5pM21zCoAS954yfXca26Dyh5qpp360B/pgijzv
+NizKjsy2pbQ9WEVxGBCSFl6yP4B5ug==
+=nSaN
+-----END PGP SIGNATURE-----
 
-  7183	
-  7184	/**
-> 7185	 * Add a binder device to binder_devices
-  7186	 * @device: the new binder device to add to the global list
-  7187	 *
-  7188	 * Not reentrant as the list is not protected by any locks
-  7189	 */
-  7190	void binder_add_device(struct binder_device *device)
-  7191	{
-  7192		hlist_add_head(&device->hlist, &binder_devices);
-  7193	}
-  7194	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--JcZFkG1T/beSswj9--
