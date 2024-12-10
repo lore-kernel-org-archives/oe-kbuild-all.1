@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F82F1F1936
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 23:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB222C35E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Dec 2024 23:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733872469; cv=none; b=QJgEH1sXS25PvkOQ/zzZ0qH7qN5ulEe5UHSIEVDKwAPQKrvEao4LtjrTHT8SrM5LVnteUDYC/O0Wzro5LtaPr2vpguV7qChH5UjACspArPCx5fxM2734Mu5lLM+0er9TfEIe99tJNd20Qvh5eofzSwh8sY/uzdS5IncQuB0eIrQ=
+	t=1733875026; cv=none; b=lfvcDw9CKx56UVgUBIZbyqw6qMsQUrs+foh1DBIAf+K6r35g6BJmcrLmDi3f8pM++PCiRxIakewo75r/V1xDWr7KNEo796o/WThNJAk4qOiPjKG1DoTxVanaC8nOGdzE67hGUXKh/SRdF5FzDu9zZtlfB7uCNiQPU8LjQhLh7HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733872469; c=relaxed/simple;
-	bh=QhancFfHEpXah3jU6ipqRKrhjIQ2v4c43WG3bvdT+jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ObE/VzmYlQuCgm2w2i+GGHyDkr1YWNkO6bYmKOaDJGBKi8oy1Vd1j3UvrxP67xmPadC4QTiMgAaZxfnpxgRuvbKmgOtjPGeJ22ryFb5aADhCH3D9v27nNSHXDJDXNe09lNzcEBiUs0VD+XpUtoRs6Pupw9fubOJh6lizrqMldyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSqS1OUX; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1733875026; c=relaxed/simple;
+	bh=EqygIXHKtdGNvOsZOigbsmCEMu5TwQj3TkApYZIr7Qg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sF+piW6Vdan/UlRdsO1GHfll+8fKiIauwev22F4y+p+WwDGjoaRXwD+acpBKcngqcpXFCi/ZkQJ2pNDD6jOYcGDbqxx/OPW1jhz3YXYImoKdfwLzN/8MOxy++rkr/6m0SqmtGYXPHHdJGo1tipiDAswIDHF0Gcm86yrq7/0KTUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NSiV5939; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSqS1OUX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NSiV5939"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733872468; x=1765408468;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QhancFfHEpXah3jU6ipqRKrhjIQ2v4c43WG3bvdT+jc=;
-  b=hSqS1OUXbrgFDhfn0bp5Puyy8DdWJVkyB3vC/CtSNmEMQpq5WiWwUjcu
-   MO2vY2UNO4BDXxhaYMIL2TV+tGAJyNf7/ZnS4ez5cqtlYzy2lLCHqtnpn
-   WVYuZ3YUYMCz06tX1sn2jlDdmAcVYz4z/IApK/lazWunkQmn8k90dmE6a
-   TzWgd/3Btt5PCTlTZj9Mh8rgnjPc0isY4i4zN2SIPJCa4VTo4MQR44s6t
-   2bK8YpsKOl/3BkSM64QgR7V5ZqvyBk3rYVASwd3RFTwTGTBaVPKKRBVRz
-   ol8t2AG+ywdvsqhnPvS2mvx6nJXwjX3VKgDJZwIfxSUN6eDTjy7U+ldfZ
-   g==;
-X-CSE-ConnectionGUID: 0BDIyF/xS7aHZi57VFOv5w==
-X-CSE-MsgGUID: leaxtHpYSb+RxjJIUULZ1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="37072626"
+  t=1733875024; x=1765411024;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EqygIXHKtdGNvOsZOigbsmCEMu5TwQj3TkApYZIr7Qg=;
+  b=NSiV5939DxjD8tDHT4MX0tkaf+3GsHg210QgzWfFtX6SlB8dh9pmD2p7
+   UE/sldfuAyYlJ87PWYUA+TcHEShVNkQurJcSX6YtS0ixdSuXNAI3vGXjq
+   XibkYqMwkLYUIs2pE0hvyKGh/GB366zh/1IOrG/afjAs4stzF2kcE0nJa
+   RCF3p9Z0sVr0lud74Y2XmK+oQHc207FmExiTOIviQt+Yak23MsQhv0+jK
+   AcUrzsqQx6IgimyLnV99rjQ+IYT6xhIbmHQK0p/5dxZU8nxLb5Snplhhu
+   1Ah4qT5LH45XFS4Fr3OYVl/EdK58bCv5Q5HdjJX4cy2EvLtf9OPiG/GJ1
+   w==;
+X-CSE-ConnectionGUID: vhoLk8vESgKIKpuf8z5rmg==
+X-CSE-MsgGUID: iBAJthDASoSP3ddyH6yRKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="21822787"
 X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="37072626"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 15:14:27 -0800
-X-CSE-ConnectionGUID: Uoxh1te9RZm7pk3qzNS0lQ==
-X-CSE-MsgGUID: YuExtJVvSTyTHC5eUVxziA==
+   d="scan'208";a="21822787"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 15:57:03 -0800
+X-CSE-ConnectionGUID: H9RSBiuQQkeD7vOv3ITWxw==
+X-CSE-MsgGUID: 7hYt4exhRru4UJVfrJofKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="95381244"
+   d="scan'208";a="95638404"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Dec 2024 15:14:23 -0800
+  by orviesa006.jf.intel.com with ESMTP; 10 Dec 2024 15:57:02 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tL9Qr-00062j-0e;
-	Tue, 10 Dec 2024 23:14:21 +0000
-Date: Wed, 11 Dec 2024 07:14:02 +0800
+	id 1tLA67-00064Y-1o;
+	Tue, 10 Dec 2024 23:56:59 +0000
+Date: Wed, 11 Dec 2024 07:56:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bernd Schubert <bschubert@ddn.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Ming Lei <tom.leiming@gmail.com>, David Wei <dw@davidwei.uk>,
-	bernd@bsbernd.com, Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v8 13/16] fuse: Allow to queue fg requests through
- io-uring
-Message-ID: <202412110703.cax0xtFn-lkp@intel.com>
-References: <20241209-fuse-uring-for-6-10-rfc4-v8-13-d9f9f2642be3@ddn.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Subject: drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202412110733.NL3DGHyV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,35 +62,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241209-fuse-uring-for-6-10-rfc4-v8-13-d9f9f2642be3@ddn.com>
 
-Hi Bernd,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e70140ba0d2b1a30467d4af6bcfe761327b9ec95]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-to-fuse_dev_end_requests-and-make-non-static/20241210-003313
-base:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-patch link:    https://lore.kernel.org/r/20241209-fuse-uring-for-6-10-rfc4-v8-13-d9f9f2642be3%40ddn.com
-patch subject: [PATCH v8 13/16] fuse: Allow to queue fg requests through io-uring
-config: m68k-randconfig-r112-20241211 (https://download.01.org/0day-ci/archive/20241211/202412110703.cax0xtFn-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241211/202412110703.cax0xtFn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7cb1b466315004af98f6ba6c2546bb713ca3c237
+commit: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 drm/xe/oa/uapi: Add/remove OA config perf ops
+date:   6 months ago
+config: csky-randconfig-r121-20241211 (https://download.01.org/0day-ci/archive/20241211/202412110733.NL3DGHyV-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241211/202412110733.NL3DGHyV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412110703.cax0xtFn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412110733.NL3DGHyV-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/fuse/dev_uring.c:33:30: sparse: sparse: symbol 'fuse_io_uring_ops' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __user * @@
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     expected unsigned long long [usertype] *ptr
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     got void [noderef] __user *
+>> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __user *__p @@     got unsigned long long [usertype] *ptr @@
+   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected void const [noderef] __user *__p
+   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
+   drivers/gpu/drm/xe/xe_oa.c: note: in included file (through include/linux/sched/task.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/uaccess.h:102:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *from @@     got void const [noderef] __user *from @@
+   include/linux/uaccess.h:102:38: sparse:     expected void const *from
+   include/linux/uaccess.h:102:38: sparse:     got void const [noderef] __user *from
 
-vim +/fuse_io_uring_ops +33 fs/fuse/dev_uring.c
+vim +401 drivers/gpu/drm/xe/xe_oa.c
 
-    32	
-  > 33	const struct fuse_iqueue_ops fuse_io_uring_ops;
-    34	
+   377	
+   378	/**
+   379	 * xe_oa_remove_config_ioctl - Removes one OA config
+   380	 * @dev: @drm_device
+   381	 * @data: pointer to struct @drm_xe_perf_param
+   382	 * @file: @drm_file
+   383	 */
+   384	int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+   385	{
+   386		struct xe_oa *oa = &to_xe_device(dev)->oa;
+   387		struct xe_oa_config *oa_config;
+   388		u64 arg, *ptr = u64_to_user_ptr(data);
+   389		int ret;
+   390	
+   391		if (!oa->xe) {
+   392			drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
+   393			return -ENODEV;
+   394		}
+   395	
+   396		if (xe_perf_stream_paranoid && !perfmon_capable()) {
+   397			drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
+   398			return -EACCES;
+   399		}
+   400	
+ > 401		ret = get_user(arg, ptr);
+   402		if (XE_IOCTL_DBG(oa->xe, ret))
+   403			return ret;
+   404	
+   405		ret = mutex_lock_interruptible(&oa->metrics_lock);
+   406		if (ret)
+   407			return ret;
+   408	
+   409		oa_config = idr_find(&oa->metrics_idr, arg);
+   410		if (!oa_config) {
+   411			drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
+   412			ret = -ENOENT;
+   413			goto err_unlock;
+   414		}
+   415	
+   416		WARN_ON(arg != oa_config->id);
+   417	
+   418		sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+   419		idr_remove(&oa->metrics_idr, arg);
+   420	
+   421		mutex_unlock(&oa->metrics_lock);
+   422	
+   423		drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
+   424	
+   425		xe_oa_config_put(oa_config);
+   426	
+   427		return 0;
+   428	
+   429	err_unlock:
+   430		mutex_unlock(&oa->metrics_lock);
+   431		return ret;
+   432	}
+   433	
 
 -- 
 0-DAY CI Kernel Test Service
