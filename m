@@ -1,59 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CFA259498;
-	Wed, 11 Dec 2024 20:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A9F1C3038;
+	Wed, 11 Dec 2024 21:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733950355; cv=none; b=EW889osOUR3ig4GpWluUQH1DKbYEqd06kQeAj+ukhrRbvvbawwrY+HC1QbW26KTJSGbFyd/NfuRbKOXlAS+HulP1uGdt/GokUro24EOz0BUo2OTYJQdoBc9T9mEwkNfl0BwqjEv+KEEOkdnXMP1T0A5vcSneI/ujVUHreFni0Sg=
+	t=1733952383; cv=none; b=UsKIjBJenRNfcAanhe+xn1bB8w9LLS/n6aWGrrtLUjO2S8RqorYVVyDOr6DRAbmQp3JFuiHQREm2Sdf+U3mkKhXvgsdWfJftqFzF8JXzROjVFOxba3VMkD0aRFkSUo22JZXgyh/kNLGZl6Gho0J7FwC51SY0OTyz62yaPoDpK7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733950355; c=relaxed/simple;
-	bh=3h6Hu7L9W7Pn/7K1xmkGQ8Hj7lA9WEbVPJILUV7jb2I=;
+	s=arc-20240116; t=1733952383; c=relaxed/simple;
+	bh=Ml9pOMh14snCpL3/AxJPY0pPoQz+ajNxV4vAOphsCaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r+jjsvw9UVRuDyqY1EFtB1Xgg14h5nID2yr7OX80/0KsGLfzkyzISmPRf9exbm4YJbtuiycgNOT8abxJRf1BRGrRsP3HZOe5kkEpQz/NPuOV0A4yv0ocV05hcojNX4XWpdBDhMW/lNpX/JDe58jduhwb9kEbDNojZHDaIujVDGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S5VWHPg+; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPD7hMVL+6DMwhmrPk8OH/UupdMajzcWeZHv5/1w5sSykbtkzGKt6cr+JRYIzYcVd7lUxl3a//tmahapst4l/W26pTA31ufJp2j+xJJHUbRbvledNCKN9B1nSn1jxoI7UyrmDrz+Z3RvQ6ZV8cK5RW8E+FBUZHWBuWxUmo7B+go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Nrv0FbFu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V2MaSrnc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Nrv0FbFu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V2MaSrnc; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S5VWHPg+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733950353; x=1765486353;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3h6Hu7L9W7Pn/7K1xmkGQ8Hj7lA9WEbVPJILUV7jb2I=;
-  b=S5VWHPg+OOSNXy/l4psBfMfRyg2MF/ytCtdQeKiCUIq9Y0RyFFdOqzDR
-   HfOBjiUfep+LIZt6wvaz763KIqHaioknPetl9SbAkLgB0jJzOsUlHclQz
-   jAzBZJjZ5KbNeyzYdhGKQhwO/nX8KTBcDUT8gffddXByYslEHSveIH+yf
-   mN5tvGL3iUWiiOovWG2KyS82v/zz/2WydHl1pDmIQRpIKmpY5PlxBuE+n
-   04kFssjWJrQc9cUMUR275hFpK+ZQRJ0JQSy3em1JUbp8PV9tqTOR+ivL0
-   am69CVxVkIQLnP2C7eL4D/rATpb+9Nlc/qJbqD77LhTDKQslbUe/519ka
-   Q==;
-X-CSE-ConnectionGUID: 5/y1B7UAQFOm+aaDnscz7A==
-X-CSE-MsgGUID: RBM7k/5pRzGFgZ6rzBEM0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34249602"
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="34249602"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 12:52:00 -0800
-X-CSE-ConnectionGUID: bg6DSzQPTveL/Hd/LBSe9w==
-X-CSE-MsgGUID: mxni/ChpSWqCFYIy9Bxjbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="126918291"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Dec 2024 12:51:53 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLTgV-00074X-20;
-	Wed, 11 Dec 2024 20:51:51 +0000
-Date: Thu, 12 Dec 2024 04:50:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 2/3] pinctrl: Add driver support for Amlogic SoCs
-Message-ID: <202412120425.1OdD2sa1-lkp@intel.com>
-References: <20241211-amlogic-pinctrl-v1-2-410727335119@amlogic.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Nrv0FbFu";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V2MaSrnc";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Nrv0FbFu";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V2MaSrnc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 850D521168;
+	Wed, 11 Dec 2024 21:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733952379;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I9t52aNN1WA38YeqAzxTq1mhfjrN7Dt0kB/Wf/DtE4A=;
+	b=Nrv0FbFuI+O+SGHfAysYzS82JodrYMzFynAecDKT0MlSo37AmLRp6cpkqxaXCq/TG0fq9w
+	qZZZSZP3ORzaxRaRqIe9Ob7CO2QVLz+R27lfp9JW0JXK36mLPc3VNZ1dq9+RKdbDJ89vwG
+	PUIqGqqJVq5yxsJVaNaOVzrYZ18AW5c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733952379;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I9t52aNN1WA38YeqAzxTq1mhfjrN7Dt0kB/Wf/DtE4A=;
+	b=V2MaSrncSy+tj4q/ywEQZbr04qsuwTy/xy9IRTHOoHPQcveHDnrOgGfqBL7qLiDoCexSFP
+	w2cJ+1DzSvWfG5DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Nrv0FbFu;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=V2MaSrnc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733952379;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I9t52aNN1WA38YeqAzxTq1mhfjrN7Dt0kB/Wf/DtE4A=;
+	b=Nrv0FbFuI+O+SGHfAysYzS82JodrYMzFynAecDKT0MlSo37AmLRp6cpkqxaXCq/TG0fq9w
+	qZZZSZP3ORzaxRaRqIe9Ob7CO2QVLz+R27lfp9JW0JXK36mLPc3VNZ1dq9+RKdbDJ89vwG
+	PUIqGqqJVq5yxsJVaNaOVzrYZ18AW5c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733952379;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I9t52aNN1WA38YeqAzxTq1mhfjrN7Dt0kB/Wf/DtE4A=;
+	b=V2MaSrncSy+tj4q/ywEQZbr04qsuwTy/xy9IRTHOoHPQcveHDnrOgGfqBL7qLiDoCexSFP
+	w2cJ+1DzSvWfG5DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 689C11344A;
+	Wed, 11 Dec 2024 21:26:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /PBAGXsDWmfcLAAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Wed, 11 Dec 2024 21:26:19 +0000
+Date: Wed, 11 Dec 2024 22:26:14 +0100
+From: David Sterba <dsterba@suse.cz>
+To: Qu Wenruo <quwenruo.btrfs@gmx.com>
+Cc: kernel test robot <lkp@intel.com>, Qu Wenruo <wqu@suse.com>,
+	linux-btrfs@vger.kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] btrfs: enhance ordered extent double freeing detection
+Message-ID: <20241211212614.GV31418@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <53b793f2e7a7788f89cda97de565cfc1577cbf75.1733890357.git.wqu@suse.com>
+ <202412120136.6OwbbtZf-lkp@intel.com>
+ <2e8ec0ba-aaa8-4107-9fbe-b3288a45f5a6@gmx.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +92,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241211-amlogic-pinctrl-v1-2-410727335119@amlogic.com>
+In-Reply-To: <2e8ec0ba-aaa8-4107-9fbe-b3288a45f5a6@gmx.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Rspamd-Queue-Id: 850D521168
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.21 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[gmx.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmx.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.21
+X-Spam-Flag: NO
 
-Hi Xianwei,
+On Thu, Dec 12, 2024 at 06:17:37AM +1030, Qu Wenruo wrote:
+> >>> fs/btrfs/ordered-data.c:200:10: error: no member named 'finished_bitmap' in 'struct btrfs_ordered_extent'
+> >       200 |                 entry->finished_bitmap = bitmap_zalloc(
+> >           |                 ~~~~~  ^
+> 
+> I don't know why but it looks like IS_ENABLED() is not exactly doing the
+> #ifdef #endif, thus those checks are not fully skipped in this case.
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 171aa289a6fe65faffeb92a1fda283c055435a62]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-pinctrl-Add-support-for-Amlogic-SoCs/20241211-144931
-base:   171aa289a6fe65faffeb92a1fda283c055435a62
-patch link:    https://lore.kernel.org/r/20241211-amlogic-pinctrl-v1-2-410727335119%40amlogic.com
-patch subject: [PATCH RFC 2/3] pinctrl: Add driver support for Amlogic SoCs
-config: i386-buildonly-randconfig-004-20241212 (https://download.01.org/0day-ci/archive/20241212/202412120425.1OdD2sa1-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120425.1OdD2sa1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120425.1OdD2sa1-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/pinctrl/pinctrl-amlogic.c:38:2: error: expected identifier
-      38 |         REG_OUT,
-         |         ^
-   arch/x86/include/asm/arch_hweight.h:12:17: note: expanded from macro 'REG_OUT'
-      12 | #define REG_OUT "a"
-         |                 ^
-   drivers/pinctrl/pinctrl-amlogic.c:39:2: error: expected identifier
-      39 |         REG_IN,
-         |         ^
-   arch/x86/include/asm/arch_hweight.h:11:16: note: expanded from macro 'REG_IN'
-      11 | #define REG_IN "a"
-         |                ^
->> drivers/pinctrl/pinctrl-amlogic.c:45:14: warning: excess elements in array initializer [-Wexcess-initializers]
-      45 |         1, 1, 1, 1, 1, 2
-         |                     ^
-   drivers/pinctrl/pinctrl-amlogic.c:49:14: warning: excess elements in array initializer [-Wexcess-initializers]
-      49 |         3, 4, 2, 1, 0, 7
-         |                     ^
->> drivers/pinctrl/pinctrl-amlogic.c:311:45: error: incompatible pointer to integer conversion passing 'char[2]' to parameter of type 'unsigned int' [-Wint-conversion]
-     311 |         return aml_pinconf_get_gpio_bit(info, pin, REG_OUT);
-         |                                                    ^~~~~~~
-   arch/x86/include/asm/arch_hweight.h:12:17: note: expanded from macro 'REG_OUT'
-      12 | #define REG_OUT "a"
-         |                 ^~~
-   drivers/pinctrl/pinctrl-amlogic.c:284:22: note: passing argument to parameter 'reg_type' here
-     284 |                                     unsigned int reg_type)
-         |                                                  ^
-   drivers/pinctrl/pinctrl-amlogic.c:446:45: error: incompatible pointer to integer conversion passing 'char[2]' to parameter of type 'unsigned int' [-Wint-conversion]
-     446 |         return aml_pinconf_set_gpio_bit(info, pin, REG_OUT, high);
-         |                                                    ^~~~~~~
-   arch/x86/include/asm/arch_hweight.h:12:17: note: expanded from macro 'REG_OUT'
-      12 | #define REG_OUT "a"
-         |                 ^~~
-   drivers/pinctrl/pinctrl-amlogic.c:425:22: note: passing argument to parameter 'reg_type' here
-     425 |                                     unsigned int reg_type,
-         |                                                  ^
->> drivers/pinctrl/pinctrl-amlogic.c:936:34: error: incompatible pointer to integer conversion passing 'char[2]' to parameter of type 'enum aml_reg_type' [-Wint-conversion]
-     936 |         aml_gpio_calc_reg_and_bit(bank, REG_OUT, gpio, &reg, &bit);
-         |                                         ^~~~~~~
-   arch/x86/include/asm/arch_hweight.h:12:17: note: expanded from macro 'REG_OUT'
-      12 | #define REG_OUT "a"
-         |                 ^~~
-   drivers/pinctrl/pinctrl-amlogic.c:884:28: note: passing argument to parameter 'reg_type' here
-     884 |                                             enum aml_reg_type reg_type,
-         |                                                               ^
-   drivers/pinctrl/pinctrl-amlogic.c:948:34: error: incompatible pointer to integer conversion passing 'char[2]' to parameter of type 'enum aml_reg_type' [-Wint-conversion]
-     948 |         aml_gpio_calc_reg_and_bit(bank, REG_OUT, gpio, &reg, &bit);
-         |                                         ^~~~~~~
-   arch/x86/include/asm/arch_hweight.h:12:17: note: expanded from macro 'REG_OUT'
-      12 | #define REG_OUT "a"
-         |                 ^~~
-   drivers/pinctrl/pinctrl-amlogic.c:884:28: note: passing argument to parameter 'reg_type' here
-     884 |                                             enum aml_reg_type reg_type,
-         |                                                               ^
-   drivers/pinctrl/pinctrl-amlogic.c:960:34: error: incompatible pointer to integer conversion passing 'char[2]' to parameter of type 'enum aml_reg_type' [-Wint-conversion]
-     960 |         aml_gpio_calc_reg_and_bit(bank, REG_IN, gpio, &reg, &bit);
-         |                                         ^~~~~~
-   arch/x86/include/asm/arch_hweight.h:11:16: note: expanded from macro 'REG_IN'
-      11 | #define REG_IN "a"
-         |                ^~~
-   drivers/pinctrl/pinctrl-amlogic.c:884:28: note: passing argument to parameter 'reg_type' here
-     884 |                                             enum aml_reg_type reg_type,
-         |                                                               ^
-   2 warnings and 7 errors generated.
-
-
-vim +38 drivers/pinctrl/pinctrl-amlogic.c
-
-    28	
-    29	#define gpio_chip_to_bank(chip) \
-    30			container_of(chip, struct aml_gpio_bank, gpio_chip)
-    31	/**
-    32	 * enum aml_reg_type - type of registers encoded in @aml_reg_desc
-    33	 */
-    34	enum aml_reg_type {
-    35		REG_PULLEN,
-    36		REG_PULL,
-    37		REG_DIR,
-  > 38		REG_OUT,
-    39		REG_IN,
-    40		REG_DS,
-    41		NUM_REG,
-    42	};
-    43	
-    44	static const unsigned int aml_bit_strides[NUM_REG] = {
-  > 45		1, 1, 1, 1, 1, 2
-    46	};
-    47	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+It's never been equvalent to ifdef/endif, it evaluates to 0 or 1 if the
+config option is enabled or not but otherwise the source code is still
+compiled. The compiler then finds out it's dead code and eliminates it.
