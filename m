@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56BB1DE4C8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 18:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A87C1DE2DF;
+	Wed, 11 Dec 2024 18:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733940024; cv=none; b=X0JPUIAsQQNRjLNirPYtn07+MW/MGZ1NUE9a3TLme6/fcjzLItM28vGM0nKBEv1t8RqsdWnKV5arqACVXzNgF3c9frS0Q1CKBNM2mtxImYM3uH8GaWVzaSBUP/bXE6dbOpVJ6OOP8d5DLtkUqE9q0IML0vVQtCzzpaguUS5TAS8=
+	t=1733940752; cv=none; b=TP21DqulhkYw3OtG1zOZvuOyWMPOYdq8xz9Cmwf8P7fRr/MjNLcJ0GgN3k2hkCU6NOdbQRPQJG88mK/a1eLvkhF1O+/PpFKjx9+H4Bdu43daI/ebImadA0wm4ic+mOGWcMtRkoAJk5h1TJ+gpJa48+tYibOhnC+ztCpjgwemTdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733940024; c=relaxed/simple;
-	bh=jPTzKbMP+NexNycrcc4J71VjgwSgEGQyfWJzbuIRDiE=;
+	s=arc-20240116; t=1733940752; c=relaxed/simple;
+	bh=Mf7GkJjGkt2JSWnTUAizF7N8btKeN4+sAHrltHpx65c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ga3HY1vfNK8bqhAGInETgbB+MDQue3joedLM3dJmLk4fYs5O9BAIa33Hb0Xfrk2RzrzsEd0+FdDuMf/70ZbFWhPit+PVmQ7APReb1vjGOFk0I7bQQQnUSg4nSZf/oNUzTd48/q+ImZLFnFyYIr1mxLTpcAVTiA+fY4RkS4f3AAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMg+yjID; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=HQvMEauC6c0T0ZFywoW5GVmfAkzBkNILJa712Oaru6Wz6x1CyTgVsYmogpCTVFu79OIn+c75lPXS7w+n1dgk3Zmdms6ulKNZgdtRsZnU/3mQKsMCZ3msuC65Rhrwcqz4LzNP6v2ZoeWtRdnCEYQXHTwm1b7A2sQHKbBZiex+pIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ItHCi9sY; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMg+yjID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ItHCi9sY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733940022; x=1765476022;
+  t=1733940751; x=1765476751;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jPTzKbMP+NexNycrcc4J71VjgwSgEGQyfWJzbuIRDiE=;
-  b=nMg+yjIDw5CjiVZbdb35fYOvoQ5sKn+foQXP+Hy/wLuBlPnkx00nvHq9
-   Am6VHOPGMMTW1eepZ2gEcq4NCf4IJA2O/JM1UbWLPlOXLAEt/25vCyfig
-   1miYRhV4Erf0UnWLVQE4mXVx0PFe0YwCsjwG6mNclEGe0pOqI9om4a22s
-   QAkHgebIQ3yXVds3X5D/hxiV7DtEHmLDbnKn7oN+WF6pBCpROXBqXF4s9
-   Syt08juMfhWzbAAAmCV6I8kUTNnQSdICQbw2DaY0CpqIiX9X3Vg9X9yS2
-   OdzyM4msSqFjtIXdFHo8GgE7K4GM+2vQQWy9PHblcBU37+jRYPiO+bvqe
-   g==;
-X-CSE-ConnectionGUID: 1usxmaUPRPCtwLKkw6GnlA==
-X-CSE-MsgGUID: B+fPPkvATPuqZwWPjSbKfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="38265564"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="38265564"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 10:00:20 -0800
-X-CSE-ConnectionGUID: dYZmt2/STNOAWQ4fi5iyaQ==
-X-CSE-MsgGUID: 7yuu4rA1TCWSb8pK26M7OA==
-X-ExtLoop1: 1
+  bh=Mf7GkJjGkt2JSWnTUAizF7N8btKeN4+sAHrltHpx65c=;
+  b=ItHCi9sYzC6z9ZHqNsMV21HwWw8Kgml157BReX9Kn/xXd4ul4s7B2J1j
+   ueApGaRYwP2vgHRnzsObPHLFkbg/PuhjJhjUW8vzdOtNzbolQSm0ySaXe
+   XyES7kBIjZHBv9/VAUJeBZEpYkqpIQu7m/KZD+QUSntYMTs1l1G4fu2tO
+   WwN4wyFG/+PdWb2p8FMy+rzD7ifbwY5JrG53Gj4IJ6WZm9k9nNyErS27q
+   XaCRSdl6tazyw2lmqjLUi/kFPESdIgN6f9GL++duW6cQRUU1gi+EbBDs9
+   BecIlm5g9Vtu+IjBPCPwCjGjkJGin+N6nnp0kWUletNE45uPfZRiO0/PD
+   A==;
+X-CSE-ConnectionGUID: hyjtuWsiTNmTJry3pm/kvw==
+X-CSE-MsgGUID: S0Lfkn6TT2WNiNyjCTLi9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="51748723"
 X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="126720578"
+   d="scan'208";a="51748723"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 10:12:30 -0800
+X-CSE-ConnectionGUID: w1JJMNQcRIGT3WD+wzxjrg==
+X-CSE-MsgGUID: y02M2BNrSherz02dZ3hUCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="100849348"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Dec 2024 10:00:18 -0800
+  by orviesa005.jf.intel.com with ESMTP; 11 Dec 2024 10:12:29 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLR0R-0006xV-03;
-	Wed, 11 Dec 2024 18:00:15 +0000
-Date: Thu, 12 Dec 2024 02:00:01 +0800
+	id 1tLRCD-0006yH-2w;
+	Wed, 11 Dec 2024 18:12:25 +0000
+Date: Thu, 12 Dec 2024 02:12:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ping-Ke Shih <pkshih@realtek.com>
-Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
- "sizeof(struct rtw88xxa_efuse) == 512"
-Message-ID: <202412120131.qk0x6OhE-lkp@intel.com>
+To: Sonny Jiang <sonjiang@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: [linux-next:master 2910/3192]
+ drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c:560:12: warning: stack frame size
+ (2576) exceeds limit (2048) in 'vcn_v5_0_1_start'
+Message-ID: <202412120216.XAgRfNLD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +64,184 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f92f4749861b06fed908d336b4dee1326003291b
-commit: 0e3e8284f8e1bf2fc0f7bf247194efe5cfc568c1 wifi: rtw88: Enable the new RTL8821AU/RTL8812AU drivers
-date:   5 weeks ago
-config: arm-randconfig-r054-20241211 (https://download.01.org/0day-ci/archive/20241212/202412120131.qk0x6OhE-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120131.qk0x6OhE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   91e71d606356e50f238d7a87aacdee4abc427f07
+commit: 346492f30ce3581bf5324c4ae417eab8537dc998 [2910/3192] drm/amdgpu: Add VCN_5_0_1 support
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20241212/202412120216.XAgRfNLD-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120216.XAgRfNLD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120131.qk0x6OhE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120216.XAgRfNLD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bitfield.h:10,
-                    from include/linux/fortify-string.h:5,
-                    from include/linux/string.h:390,
-                    from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from include/linux/usb.h:5,
-                    from drivers/net/wireless/realtek/rtw88/rtw88xxa.c:5:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct rtw88xxa_efuse) == 512"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.h:64:1: note: in expansion of macro 'static_assert'
-      64 | static_assert(sizeof(struct rtw88xxa_efuse) == 512);
-         | ^~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c:560:12: warning: stack frame size (2576) exceeds limit (2048) in 'vcn_v5_0_1_start' [-Wframe-larger-than]
+   static int vcn_v5_0_1_start(struct amdgpu_device *adev)
+              ^
+   2443/2576 (94.84%) spills, 133/2576 (5.16%) variables
+   1 warning generated.
 
 
-vim +78 include/linux/build_bug.h
+vim +/vcn_v5_0_1_start +560 drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   552	
+   553	/**
+   554	 * vcn_v5_0_1_start - VCN start
+   555	 *
+   556	 * @adev: amdgpu_device pointer
+   557	 *
+   558	 * Start VCN block
+   559	 */
+ > 560	static int vcn_v5_0_1_start(struct amdgpu_device *adev)
+   561	{
+   562		volatile struct amdgpu_vcn4_fw_shared *fw_shared;
+   563		struct amdgpu_ring *ring;
+   564		uint32_t tmp;
+   565		int i, j, k, r, vcn_inst;
+   566	
+   567		if (adev->pm.dpm_enabled)
+   568			amdgpu_dpm_enable_uvd(adev, true);
+   569	
+   570		for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+   571			fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
+   572	
+   573			if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
+   574				r = vcn_v5_0_1_start_dpg_mode(adev, i, adev->vcn.indirect_sram);
+   575				continue;
+   576			}
+   577	
+   578			vcn_inst = GET_INST(VCN, i);
+   579	
+   580			/* set VCN status busy */
+   581			tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_STATUS) | UVD_STATUS__UVD_BUSY;
+   582			WREG32_SOC15(VCN, vcn_inst, regUVD_STATUS, tmp);
+   583	
+   584			/* enable VCPU clock */
+   585			WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_VCPU_CNTL),
+   586				UVD_VCPU_CNTL__CLK_EN_MASK, ~UVD_VCPU_CNTL__CLK_EN_MASK);
+   587	
+   588			/* disable master interrupt */
+   589			WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_MASTINT_EN), 0,
+   590				~UVD_MASTINT_EN__VCPU_EN_MASK);
+   591	
+   592			/* enable LMI MC and UMC channels */
+   593			WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_LMI_CTRL2), 0,
+   594				~UVD_LMI_CTRL2__STALL_ARB_UMC_MASK);
+   595	
+   596			tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_SOFT_RESET);
+   597			tmp &= ~UVD_SOFT_RESET__LMI_SOFT_RESET_MASK;
+   598			tmp &= ~UVD_SOFT_RESET__LMI_UMC_SOFT_RESET_MASK;
+   599			WREG32_SOC15(VCN, vcn_inst, regUVD_SOFT_RESET, tmp);
+   600	
+   601			/* setup regUVD_LMI_CTRL */
+   602			tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_LMI_CTRL);
+   603			WREG32_SOC15(VCN, vcn_inst, regUVD_LMI_CTRL, tmp |
+   604				UVD_LMI_CTRL__WRITE_CLEAN_TIMER_EN_MASK |
+   605				UVD_LMI_CTRL__MASK_MC_URGENT_MASK |
+   606				UVD_LMI_CTRL__DATA_COHERENCY_EN_MASK |
+   607				UVD_LMI_CTRL__VCPU_DATA_COHERENCY_EN_MASK);
+   608	
+   609			vcn_v5_0_1_mc_resume(adev, i);
+   610	
+   611			/* VCN global tiling registers */
+   612			WREG32_SOC15(VCN, vcn_inst, regUVD_GFX10_ADDR_CONFIG,
+   613				adev->gfx.config.gb_addr_config);
+   614	
+   615			/* unblock VCPU register access */
+   616			WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_RB_ARB_CTRL), 0,
+   617				~UVD_RB_ARB_CTRL__VCPU_DIS_MASK);
+   618	
+   619			/* release VCPU reset to boot */
+   620			WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_VCPU_CNTL), 0,
+   621				~UVD_VCPU_CNTL__BLK_RST_MASK);
+   622	
+   623			for (j = 0; j < 10; ++j) {
+   624				uint32_t status;
+   625	
+   626				for (k = 0; k < 100; ++k) {
+   627					status = RREG32_SOC15(VCN, vcn_inst, regUVD_STATUS);
+   628					if (status & 2)
+   629						break;
+   630					mdelay(100);
+   631					if (amdgpu_emu_mode == 1)
+   632						msleep(20);
+   633				}
+   634	
+   635				if (amdgpu_emu_mode == 1) {
+   636					r = -1;
+   637					if (status & 2) {
+   638						r = 0;
+   639						break;
+   640					}
+   641				} else {
+   642					r = 0;
+   643					if (status & 2)
+   644						break;
+   645	
+   646					dev_err(adev->dev,
+   647					    "VCN[%d] is not responding, trying to reset the VCPU!!!\n", i);
+   648					WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_VCPU_CNTL),
+   649								UVD_VCPU_CNTL__BLK_RST_MASK,
+   650								~UVD_VCPU_CNTL__BLK_RST_MASK);
+   651					mdelay(10);
+   652					WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_VCPU_CNTL), 0,
+   653								~UVD_VCPU_CNTL__BLK_RST_MASK);
+   654	
+   655					mdelay(10);
+   656					r = -1;
+   657				}
+   658			}
+   659	
+   660			if (r) {
+   661				dev_err(adev->dev, "VCN[%d] is not responding, giving up!!!\n", i);
+   662				return r;
+   663			}
+   664	
+   665			/* enable master interrupt */
+   666			WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_MASTINT_EN),
+   667					UVD_MASTINT_EN__VCPU_EN_MASK,
+   668					~UVD_MASTINT_EN__VCPU_EN_MASK);
+   669	
+   670			/* clear the busy bit of VCN_STATUS */
+   671			WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_STATUS), 0,
+   672				~(2 << UVD_STATUS__VCPU_REPORT__SHIFT));
+   673	
+   674			ring = &adev->vcn.inst[i].ring_enc[0];
+   675	
+   676			WREG32_SOC15(VCN, vcn_inst, regVCN_RB1_DB_CTRL,
+   677				ring->doorbell_index << VCN_RB1_DB_CTRL__OFFSET__SHIFT |
+   678				VCN_RB1_DB_CTRL__EN_MASK);
+   679	
+   680			/* Read DB_CTRL to flush the write DB_CTRL command. */
+   681			RREG32_SOC15(VCN, vcn_inst, regVCN_RB1_DB_CTRL);
+   682	
+   683			WREG32_SOC15(VCN, vcn_inst, regUVD_RB_BASE_LO, ring->gpu_addr);
+   684			WREG32_SOC15(VCN, vcn_inst, regUVD_RB_BASE_HI, upper_32_bits(ring->gpu_addr));
+   685			WREG32_SOC15(VCN, vcn_inst, regUVD_RB_SIZE, ring->ring_size / 4);
+   686	
+   687			tmp = RREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE);
+   688			tmp &= ~(VCN_RB_ENABLE__RB1_EN_MASK);
+   689			WREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE, tmp);
+   690			fw_shared->sq.queue_mode |= FW_QUEUE_RING_RESET;
+   691			WREG32_SOC15(VCN, vcn_inst, regUVD_RB_RPTR, 0);
+   692			WREG32_SOC15(VCN, vcn_inst, regUVD_RB_WPTR, 0);
+   693	
+   694			tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_RB_RPTR);
+   695			WREG32_SOC15(VCN, vcn_inst, regUVD_RB_WPTR, tmp);
+   696			ring->wptr = RREG32_SOC15(VCN, vcn_inst, regUVD_RB_WPTR);
+   697	
+   698			tmp = RREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE);
+   699			tmp |= VCN_RB_ENABLE__RB1_EN_MASK;
+   700			WREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE, tmp);
+   701			fw_shared->sq.queue_mode &= ~(FW_QUEUE_RING_RESET | FW_QUEUE_DPG_HOLD_OFF);
+   702		}
+   703	
+   704		return 0;
+   705	}
+   706	
 
 -- 
 0-DAY CI Kernel Test Service
