@@ -1,66 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45691C07C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 05:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7E91C1F06;
+	Wed, 11 Dec 2024 05:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733893972; cv=none; b=QQePcSyQYWXVTc6DZevszPBlA8ksqjrGD+4DjrLTgF9IqfSt7cV32Azoswb+1sPxEyEyrXtfzgJwhAQB267cS6TpkB9zUcRNhYmlMkECIxX9lL8KO4y289WcmuYhzVs//9n17crX3Aqa1WwCd9o5kcI7oPrYUdH2Y/Mgz+ai7Zc=
+	t=1733894683; cv=none; b=AdoYMFwu0O35nr+aD2thpsZqQl9+5KK+XKeGjZoXw5GK4thIbvoci5xjswphiaGQi+ywcyfQ7PqmP22K0nLWSKWBY49Z1L+SzaQQ+3VT8/uwHSEjO4qdu7zSWsehoEeQEEHg4gHjfI0TlYCB44iLTL2k8gd5gJMZOzNlECGqc3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733893972; c=relaxed/simple;
-	bh=TmSuMxI+37qp//b+Vc1lTofp/uZJ35cEAzMFBvx1dhw=;
+	s=arc-20240116; t=1733894683; c=relaxed/simple;
+	bh=EP3SMizGJI2wc1I8BNp9nfPCWzn5RZBTqatW2/k/Y6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e2h5JnKqNXgBKDBOy6scftRLETwRpJZ0Sqei28K6tO4Ipu2OgqnEn5DZWz56UPs8HWbcijG6Xlpj1Cxl/tr/SBFoWG5zUhUaQE3R5wDpYpj/pvCe67K2xcbEm/M5PBo/I6wIBSZnGLwpnRs3EENsfRM/hD5QDkN6hb2RziCMizc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XdH1zUkz; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7Yb2mYTpDPxObWtCKm1hgdY7dheSJR3FDNK1PqdHJFN/Nn3UG1mgTDyyJ+KXpycI7t2EFqr4nCQjk9+r7Ee0UqTCIUKgGdt3vU7MOFBlQWf4dkk2blVmsnkPcCopX8w1QHFfvv9KNvX3LB27lVo+Owv7oNKOatqWYWC6xzcDDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vA/Gm6Lf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XdH1zUkz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733893970; x=1765429970;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TmSuMxI+37qp//b+Vc1lTofp/uZJ35cEAzMFBvx1dhw=;
-  b=XdH1zUkzuEAEePZl7khXDrBC5Fgh+QVTRjQV4iH3nE6JNvs2qUoch9tM
-   +APab0HRsPg+UER6JsK7Rh/FffhS1HLuCXBnrC7q+9EJQTVcEQH53/e1i
-   3D9xKHtiUJ8OLTZE+IY1bTJNwyZsyRmajq4jsO1YKGJlpIRWg2w1NWLAK
-   NMx2xx23fwN5xSdn8ASOYPjBUW1WKl1FC2JVuqUFNiD1/EQfqB0oe4tBK
-   JGGr6Y1z54TVXrAUXIyH74c/a6HrWjEv/N+cAWE9jq2/mg1oQ32mBbIa6
-   UQkPIHpE3PQSAdoxRQaPCKvd+urk6aaiorHas0gIpIEFQXYK0Uj/CbjS/
-   Q==;
-X-CSE-ConnectionGUID: +7HQDO8mTAGhNVBK7YcXeA==
-X-CSE-MsgGUID: AkvsdENiS/S+9Yd+U3D/tQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="33989699"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="33989699"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 21:12:49 -0800
-X-CSE-ConnectionGUID: aq4+8XcnQbiDK1Q+Njg5aA==
-X-CSE-MsgGUID: sEnUX6MqT9ajffeP+66V+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100715439"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 Dec 2024 21:12:46 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLF1f-0006J7-0o;
-	Wed, 11 Dec 2024 05:12:43 +0000
-Date: Wed, 11 Dec 2024 13:12:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
-	linux-ext4@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Mingming Cao <cmm@us.ibm.com>, Kalpak Shah <kalpak@clusterfs.com>,
-	linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
-	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
-	syzbot+57934e2c8e7a99992e41@syzkaller.appspotmail.com
-Subject: Re: [PATCH] ext4: only test for inode xattr state when expanding
- inode
-Message-ID: <202412111225.cNzuFVRM-lkp@intel.com>
-References: <20241210174850.4027690-1-cascardo@igalia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vA/Gm6Lf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46393C4CED2;
+	Wed, 11 Dec 2024 05:24:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733894683;
+	bh=EP3SMizGJI2wc1I8BNp9nfPCWzn5RZBTqatW2/k/Y6U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vA/Gm6LfxD1RvBiMETojxd/jlBT544liIV8nMcb48zNxxFNdUW0mqu53kA7bOtE+d
+	 iKTksXHAHErkk1eRKjR98nj+FijSYOeYouKj1fHlMkHoqW90v+UXcurZqNUCEz9a4a
+	 MXNXGltQ/Qjkv+mPKAqcFggnqJ56yBLRSMBoKMxG12SXiDupULHEVBeEu2l0M3j0e5
+	 38KaHahYFmKN7o9Bg7PFOoa4ZJ9I7Ll65PS0D4ZPXs2ww4FVwBgE/NW9Vg5YpmkTEu
+	 48Qn4Gd8H7PJ1yUQeJ6MJEFlZ617lcBbPWPvUY0KXen/h0ZWnApBXWpNacUp+AzbKM
+	 jR4djlZLKkX/w==
+Date: Tue, 10 Dec 2024 22:24:39 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:dev 47/49] ERROR: modpost:
+ "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+Message-ID: <20241211052439.GA1322346@ax162>
+References: <202412041204.ys3dSglL-lkp@intel.com>
+ <41482ec9-5048-46ea-9c8b-9d33a05ea2a6@paulmck-laptop>
+ <20241210203552.GA4141507@ax162>
+ <2d1f4904-68ae-49d7-a8b6-b37558ec4aa8@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,101 +46,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241210174850.4027690-1-cascardo@igalia.com>
+In-Reply-To: <2d1f4904-68ae-49d7-a8b6-b37558ec4aa8@paulmck-laptop>
 
-Hi Thadeu,
+On Tue, Dec 10, 2024 at 01:37:48PM -0800, Paul E. McKenney wrote:
+> On Tue, Dec 10, 2024 at 01:35:52PM -0700, Nathan Chancellor wrote:
+> > On Tue, Dec 10, 2024 at 10:47:22AM -0800, Paul E. McKenney wrote:
+> > > On Wed, Dec 04, 2024 at 12:04:15PM +0800, kernel test robot wrote:
+> > > > tree:   https://github.com/paulmckrcu/linux dev
+> > > > head:   48ca997e8632db65609dcc6a715207a1b6dded57
+> > > > commit: 13e3224fa73ec6c7dfeda04b2741c95787196588 [47/49] rcutorture: Include grace-period sequence numbers in failure/close-call
+> > > > config: arm-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241204/202412041204.ys3dSglL-lkp@intel.com/config)
+> > > > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041204.ys3dSglL-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202412041204.ys3dSglL-lkp@intel.com/
+> > > > 
+> > > > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > > > 
+> > > > ERROR: modpost: "rcutorture_gather_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+> > > > >> ERROR: modpost: "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+> > > 
+> > > This commit has EXPORT_SYMBOL_GPL() for both the Tree and Tiny definitions
+> > > of both of these functions.  What am I missing here?
+> > 
+> > This configuration has CONFIG_RCU_TINY=y and CONFIG_RCU_TORTURE_TEST=m,
+> > so the definition and export do not work correctly because the define is
+> > CONFIG_RCU_TORTURE_TEST_MODULE in that case. I think you should be using
+> > IS_ENABLED(), which will handle =y and =m. This resolves the error for
+> > me.
+> 
+> Thank you for the analysis and the fix!
+> 
+> If this fixes things in the kernel test robot run, may I have your
+> Signed-off-by?
 
-kernel test robot noticed the following build warnings:
+Sure thing:
 
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on linus/master v6.13-rc2 next-20241210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thadeu-Lima-de-Souza-Cascardo/ext4-only-test-for-inode-xattr-state-when-expanding-inode/20241211-015015
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20241210174850.4027690-1-cascardo%40igalia.com
-patch subject: [PATCH] ext4: only test for inode xattr state when expanding inode
-config: csky-randconfig-002-20241211 (https://download.01.org/0day-ci/archive/20241211/202412111225.cNzuFVRM-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412111225.cNzuFVRM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412111225.cNzuFVRM-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   fs/ext4/inode.c: In function '__ext4_expand_extra_isize':
->> fs/ext4/inode.c:5818:41: warning: variable 'header' set but not used [-Wunused-but-set-variable]
-    5818 |         struct ext4_xattr_ibody_header *header;
-         |                                         ^~~~~~
-
-
-vim +/header +5818 fs/ext4/inode.c
-
-ac27a0ec112a089 Dave Kleikamp                 2006-10-11  5811  
-c03b45b853f5829 Miao Xie                      2017-08-06  5812  static int __ext4_expand_extra_isize(struct inode *inode,
-c03b45b853f5829 Miao Xie                      2017-08-06  5813  				     unsigned int new_extra_isize,
-c03b45b853f5829 Miao Xie                      2017-08-06  5814  				     struct ext4_iloc *iloc,
-c03b45b853f5829 Miao Xie                      2017-08-06  5815  				     handle_t *handle, int *no_expand)
-c03b45b853f5829 Miao Xie                      2017-08-06  5816  {
-c03b45b853f5829 Miao Xie                      2017-08-06  5817  	struct ext4_inode *raw_inode;
-c03b45b853f5829 Miao Xie                      2017-08-06 @5818  	struct ext4_xattr_ibody_header *header;
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5819  	unsigned int inode_size = EXT4_INODE_SIZE(inode->i_sb);
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5820  	struct ext4_inode_info *ei = EXT4_I(inode);
-c03b45b853f5829 Miao Xie                      2017-08-06  5821  	int error;
-c03b45b853f5829 Miao Xie                      2017-08-06  5822  
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5823  	/* this was checked at iget time, but double check for good measure */
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5824  	if ((EXT4_GOOD_OLD_INODE_SIZE + ei->i_extra_isize > inode_size) ||
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5825  	    (ei->i_extra_isize & 3)) {
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5826  		EXT4_ERROR_INODE(inode, "bad extra_isize %u (inode size %u)",
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5827  				 ei->i_extra_isize,
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5828  				 EXT4_INODE_SIZE(inode->i_sb));
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5829  		return -EFSCORRUPTED;
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5830  	}
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5831  	if ((new_extra_isize < ei->i_extra_isize) ||
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5832  	    (new_extra_isize < 4) ||
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5833  	    (new_extra_isize > inode_size - EXT4_GOOD_OLD_INODE_SIZE))
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5834  		return -EINVAL;	/* Should never happen */
-4ea99936a1630f5 Theodore Ts'o                 2019-11-07  5835  
-c03b45b853f5829 Miao Xie                      2017-08-06  5836  	raw_inode = ext4_raw_inode(iloc);
-c03b45b853f5829 Miao Xie                      2017-08-06  5837  
-c03b45b853f5829 Miao Xie                      2017-08-06  5838  	header = IHDR(inode, raw_inode);
-c03b45b853f5829 Miao Xie                      2017-08-06  5839  
-c03b45b853f5829 Miao Xie                      2017-08-06  5840  	/* No extended attributes present */
-555d75b1e3bf941 Thadeu Lima de Souza Cascardo 2024-12-10  5841  	if (!ext4_test_inode_state(inode, EXT4_STATE_XATTR)) {
-c03b45b853f5829 Miao Xie                      2017-08-06  5842  		memset((void *)raw_inode + EXT4_GOOD_OLD_INODE_SIZE +
-c03b45b853f5829 Miao Xie                      2017-08-06  5843  		       EXT4_I(inode)->i_extra_isize, 0,
-c03b45b853f5829 Miao Xie                      2017-08-06  5844  		       new_extra_isize - EXT4_I(inode)->i_extra_isize);
-c03b45b853f5829 Miao Xie                      2017-08-06  5845  		EXT4_I(inode)->i_extra_isize = new_extra_isize;
-c03b45b853f5829 Miao Xie                      2017-08-06  5846  		return 0;
-c03b45b853f5829 Miao Xie                      2017-08-06  5847  	}
-c03b45b853f5829 Miao Xie                      2017-08-06  5848  
-8994d11395f8165 Jan Kara                      2022-12-07  5849  	/*
-8994d11395f8165 Jan Kara                      2022-12-07  5850  	 * We may need to allocate external xattr block so we need quotas
-8994d11395f8165 Jan Kara                      2022-12-07  5851  	 * initialized. Here we can be called with various locks held so we
-8994d11395f8165 Jan Kara                      2022-12-07  5852  	 * cannot affort to initialize quotas ourselves. So just bail.
-8994d11395f8165 Jan Kara                      2022-12-07  5853  	 */
-8994d11395f8165 Jan Kara                      2022-12-07  5854  	if (dquot_initialize_needed(inode))
-8994d11395f8165 Jan Kara                      2022-12-07  5855  		return -EAGAIN;
-8994d11395f8165 Jan Kara                      2022-12-07  5856  
-c03b45b853f5829 Miao Xie                      2017-08-06  5857  	/* try to expand with EAs present */
-c03b45b853f5829 Miao Xie                      2017-08-06  5858  	error = ext4_expand_extra_isize_ea(inode, new_extra_isize,
-c03b45b853f5829 Miao Xie                      2017-08-06  5859  					   raw_inode, handle);
-c03b45b853f5829 Miao Xie                      2017-08-06  5860  	if (error) {
-c03b45b853f5829 Miao Xie                      2017-08-06  5861  		/*
-c03b45b853f5829 Miao Xie                      2017-08-06  5862  		 * Inode size expansion failed; don't try again
-c03b45b853f5829 Miao Xie                      2017-08-06  5863  		 */
-c03b45b853f5829 Miao Xie                      2017-08-06  5864  		*no_expand = 1;
-c03b45b853f5829 Miao Xie                      2017-08-06  5865  	}
-c03b45b853f5829 Miao Xie                      2017-08-06  5866  
-c03b45b853f5829 Miao Xie                      2017-08-06  5867  	return error;
-c03b45b853f5829 Miao Xie                      2017-08-06  5868  }
-c03b45b853f5829 Miao Xie                      2017-08-06  5869  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
