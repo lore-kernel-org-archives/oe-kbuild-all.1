@@ -1,134 +1,110 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE15238E27
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 11:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26490238E2A;
+	Wed, 11 Dec 2024 12:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733917756; cv=none; b=G9dmb63rXW1CjrRPKHogp2h85ZJZmDMlPSPYnlwruslgXie63ZaveSLRkc9AVoe2k9ycySgOhIfL5yF5Y3Fw03jKZO5h8U8PkYa6KwEpmpaJ8e//1tlh8d2rRndLJ4D0OoCGzyq1avD1Yb2xVRJnZ5cJ7POYghwU4dXsexICvuo=
+	t=1733918715; cv=none; b=Nv1lwIjWSkhOo2DP9fOF6fldWeQBc24OfKGUgBDcArPxzjyrvrgrf1ARgil+wbICOVR5QyZGMQHXknHDW+8gL+Sc+O/bUVG/SpeO2Bpy/2k189KBQtwUGlY3I8kUhQxpvuts9nBM9gZx3uhmyU95WWCjI4Zya9AKGi1o4UxyXEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733917756; c=relaxed/simple;
-	bh=Afz7Md+4SGxygkYzcj/QROHNaaIWlCVNEawMwRt3y44=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ksy/0miK6n7WnYPfc2+iq4T8t1LRhX8gdhXO7TR7uapoDmSBYNZcgSqCHvYT7X+GeGwKLH5BGdndP97XSzkqVeUZ1Gi7bgL8siV8I8x3os4/ot8zaUF7Qw/gAzH6sSTSzvperNGl0PjuXXdscgtoOZ+nhjb0O2Fn8eLu+0jb7rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KfZSD0Xb; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1733918715; c=relaxed/simple;
+	bh=u4XWX926mDyaQJxp4ycS42AhC/tMjf4h0McUvfYw+GQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DjJVH2FRwZ6m2Iqe157D5Ilg98ZQk6QhWO+XfpWqRUONL2tCnAZ/sLTzr32VxPsDake50q8ir6DNRB3ZDmV4aNMtLNUbxcFjsKXVamhRIHYtBe8Dhk5I8kQVtEKuzffS8c10NFAOQwPz5PHnXGK2X9ZzXDgwQesGFx23Pi3frYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=LcijISB4; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KfZSD0Xb"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385e1fcb0e1so3585991f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 03:49:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733917753; x=1734522553; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F2EqaIbo3wdkBMFqNSfSBUJWTerrNTKyiQvdFD0aob0=;
-        b=KfZSD0XbQaid/TWdvKR+Cg/8MHc14QMkn06lILTl2B5eBl6CB7mUGf9CGDpA3A2xwy
-         vEx8U3t38GV4l9ep4cKAO0+972E/FiGBQ82B08WASpSok4mHeO9r3+nxqdJYCh+99Q8W
-         y36QwaG6GD13vb3SXt022XZoibDinK8TpWeygnG741Ce0wiwyozt9tQfBPS47Z9aZeJO
-         5pPS3ZSOS592t+c0niEIqNpRLfnvkVyfwDCxRPyebHNgP5Ri0B77wCWhzNl4zEOF+L/8
-         JJv6UYYaEeWucaR6IpQjegVBkjHjE9ztscV7EktSLB177vH8vmIbrNhYHlVMV2R+Uith
-         3OFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733917753; x=1734522553;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F2EqaIbo3wdkBMFqNSfSBUJWTerrNTKyiQvdFD0aob0=;
-        b=tNwXw25Y2rOJDlZzc5i/4zUZJCGIJmG+DAYOd8/moJCHxgng7tgNxZzlTyoaJQ0BeZ
-         x+hWK8n47dPbwv7W7dEwP+Z0dxTH4l1Ua+KluN9in08NLyWZN0eLKsFBydiJLls7jJML
-         M0+hTsdP64sHKh1Dg2BWbUdBVtdINlO80u9wgY23474yieNyoFxJCPRF3mp2C/PE/G6H
-         sorYXDg0PYehjMDplNsWAefNWVgqf03J5SGk+X0DjA1DkxfsY9jnbGy9Vc1V5LCwIT3r
-         /sngZl+ENgiMOxw+R2bb0842dFCNE6XgHuu8ydx6M3p9QckOjSl+veiDHl549IHfTJfJ
-         6x1A==
-X-Forwarded-Encrypted: i=1; AJvYcCU4CYF66LW9FDeu7hkTaJvluCkHYn+S3leIAbUhRAVhHJUStk1b61FRthtiqriChzDUH9zqwM0oo5Zo+Jc3@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyexfm23o1LviRdju607HUUHUGO/ZyFrOmTlG31V4sWmy4jHVuF
-	YyJUzvXFHxQtpPwU6fcMzLgR8sCFBZ7cc/aoKUsQalUH0zavzyXel2CtKlKabfZWii3wdAm+U3B
-	ngkt7VAH5F/shlvUXs8OHpNIZAH2wEdx7S4Mx
-X-Gm-Gg: ASbGncvb6bNDismTLTNRUWmCnWC/h7DXEd4dDqBH1EZ7w4qiKiAa4cWMzbmV6lIayIt
-	OJmFtt6KmXtbHgCpWYkIRx5Y7S0RoE85ZCjS/cUTtHidDYTukWmFjq72KeUtVD6JEEw==
-X-Google-Smtp-Source: AGHT+IEgqLUMUT+juj9Mz/4TVFLG854CMxmP4SkHc3G7aR8QuFtzd3qYLUl66jeKf0yyTAiDhmt6EUqT8QmMjt4DZac=
-X-Received: by 2002:a5d:64aa:0:b0:385:e0d6:fb48 with SMTP id
- ffacd0b85a97d-3864ce894b6mr2199747f8f.7.1733917752950; Wed, 11 Dec 2024
- 03:49:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="LcijISB4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=2pRZ/eXShbUq1MO5oovE7csxNQQTAqDIDmPLX+j1Ssk=; b=LcijISB4joU+uEFF
+	66gZmz/W13GKmAnDF30NXP7irkoyxCrALJtUK6FBaEVQC73liZR2rokWB+0swelpTGErRYdq59r9S
+	DKbdOPR6a3uuf7+9lFoTj7MEkKjEZkR9SZSRJvkbOewCaWnntVVbMNKgDn5nxQ/W1Ic0+EV/fms+i
+	+L6daAOrQM7zcJbkiwbr0kFgndyDh3QozgprqoiD2TZaBzrF8QclH5sijmTmrZqEv3MMXlqKoFDme
+	gRmwcqRvItnl/shOG4PPPXnau9+c4On15jQUUSMsK0+9W4jDnctgtG5O7Uh6t7DFbjeW5TIv7KBtp
+	fkMVd9hwuqAgWPhjHA==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1tLLSl-004jUW-2W;
+	Wed, 11 Dec 2024 12:05:07 +0000
+Date: Wed, 11 Dec 2024 12:05:07 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: rogerq@kernel.org, tony@atomide.com, krzk@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] memory: omap-gpmc: deadcode a pair of functions
+Message-ID: <Z1l_85Cq10KbRWl2@gallifrey>
+References: <20241210220628.237604-1-linux@treblig.org>
+ <202412111932.lp8jHbeT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202412111617.7lVvmoPB-lkp@intel.com>
-In-Reply-To: <202412111617.7lVvmoPB-lkp@intel.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Wed, 11 Dec 2024 12:49:01 +0100
-Message-ID: <CAH5fLgjmtuZ7Sxp49GoGC079sXqS4wmsEmZKM-T4Mh9FycDYGQ@mail.gmail.com>
-Subject: Re: error[E0425]: cannot find value `__tracepoint_rust_sample_loaded`
- in crate `$crate::bindings`
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, "Steven Rostedt (Google)" <rostedt@goodmis.org>, 
-	Boqun Feng <boqun.feng@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <202412111932.lp8jHbeT-lkp@intel.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 12:04:29 up 216 days, 23:18,  1 user,  load average: 0.02, 0.02,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Wed, Dec 11, 2024 at 9:20=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   f92f4749861b06fed908d336b4dee1326003291b
-> commit: 91d39024e1b02914cc5e2dbc137908e29b269ce4 rust: samples: add trace=
-point to Rust sample
-> date:   5 weeks ago
-> config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/202=
-41211/202412111617.7lVvmoPB-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51=
-eccf88f5321e7c60591c5546b254b6afab99)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20241211/202412111617.7lVvmoPB-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+* kernel test robot (lkp@intel.com) wrote:
+> Hi,
+> 
+> kernel test robot noticed the following build warnings:
+
+Good bot!
+
+> [auto build test WARNING on krzk-mem-ctrl/for-next]
+> [also build test WARNING on linus/master v6.13-rc2 next-20241211]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/linux-treblig-org/memory-omap-gpmc-deadcode-a-pair-of-functions/20241211-062027
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+> patch link:    https://lore.kernel.org/r/20241210220628.237604-1-linux%40treblig.org
+> patch subject: [PATCH] memory: omap-gpmc: deadcode a pair of functions
+> config: i386-buildonly-randconfig-002-20241211 (https://download.01.org/0day-ci/archive/20241211/202412111932.lp8jHbeT-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412111932.lp8jHbeT-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412111617.7lVvmoPB-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> error[E0425]: cannot find value `__tracepoint_rust_sample_loaded` in c=
-rate `$crate::bindings`
->    --> samples/rust/rust_print.rs:87:5
->    |
->    87 | /     kernel::declare_trace! {
->    88 | |         /// # Safety
->    89 | |         ///
->    90 | |         /// Always safe to call.
->    91 | |         unsafe fn rust_sample_loaded(magic: c_int);
->    92 | |     }
->    | |_____^ not found in `$crate::bindings`
->    |
->    =3D note: this error originates in the macro `kernel::declare_trace` (=
-in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0425]: cannot find function `rust_do_trace_rust_sample_loaded` =
-in crate `$crate::bindings`
->    --> samples/rust/rust_print.rs:87:5
->    |
->    87 | /     kernel::declare_trace! {
->    88 | |         /// # Safety
->    89 | |         ///
->    90 | |         /// Always safe to call.
->    91 | |         unsafe fn rust_sample_loaded(magic: c_int);
->    92 | |     }
->    | |_____^ not found in `$crate::bindings`
->    |
->    =3D note: this error originates in the macro `kernel::declare_trace` (=
-in Nightly builds, run with -Z macro-backtrace for more info)
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412111932.lp8jHbeT-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/memory/omap-gpmc.c:361:21: warning: 'gpmc_clk_ticks_to_ns' defined but not used [-Wunused-function]
+>      361 | static unsigned int gpmc_clk_ticks_to_ns(unsigned int ticks, int cs,
+>          |                     ^~~~~~~~~~~~~~~~~~~~
 
-Would it be possible to update the bindgen version used by this robot?
-See commit b2603f8ac821 ("rust: warn on bindgen < 0.69.5 and libclang
->=3D 19.1") for details on why.
+Ooh, right, I'll clean that out as well and send a v2.
 
-Alice
+Dave
+
+> 
+> 
+> vim +/gpmc_clk_ticks_to_ns +361 drivers/memory/omap-gpmc.c
+> 
+> a3551f5b0c3ca7a arch/arm/mach-omap2/gpmc.c Adrian Hunter 2010-12-09  360  
+> 3950fffdf0c088d drivers/memory/omap-gpmc.c Baoyou Xie    2016-08-28 @361  static unsigned int gpmc_clk_ticks_to_ns(unsigned int ticks, int cs,
+> 7f2e8c58ae9e352 drivers/memory/omap-gpmc.c Robert ABEL   2015-02-27  362  					 enum gpmc_clk_domain cd)
+> 7f2e8c58ae9e352 drivers/memory/omap-gpmc.c Robert ABEL   2015-02-27  363  {
+> 7f2e8c58ae9e352 drivers/memory/omap-gpmc.c Robert ABEL   2015-02-27  364  	return ticks * gpmc_get_clk_period(cs, cd) / 1000;
+> 7f2e8c58ae9e352 drivers/memory/omap-gpmc.c Robert ABEL   2015-02-27  365  }
+> 7f2e8c58ae9e352 drivers/memory/omap-gpmc.c Robert ABEL   2015-02-27  366  
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
