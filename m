@@ -1,379 +1,356 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26C4239BCF;
-	Wed, 11 Dec 2024 10:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40098239BDA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 11:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733914491; cv=none; b=Au7j6ekknkBA/W0p+zZo+1IHy8C3WC9r5QJMRYW1DqrQIX5T7HcLPD6FRkt0EJdD2z4a2AiuAGMnFeb+UdgYVKo0Wrrmxte06BCy6KUSTWI/4JrCRiNhfRZ0nUtzjBm9H2mP+cahHpf4Zx6Zlg96mJB3vNjCR7iSzNftVPzTGiE=
+	t=1733915989; cv=none; b=Ue0/nXQgNzjINe9xz+vkAvxaW+IghKKwBmISKgVCs0lSyYxmfqQcMXXxiC4dx0LZg6mE4lmfC911Gmb/u4E+TJTy7DjP756ebOPxYaNULHpf9sQypJPCsGzhDD1yJjX2rVMG23wRi7Mh9VX9s96G5sGGSqbioQ5TrQI6sItkfD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733914491; c=relaxed/simple;
-	bh=88xhvCZVVQ7MMWEjV5gF/Jgx9nuJ7UiTlfm2nIm28bs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kxeEbi+F5qdKcT8st/d0+REuIReA7/BEKmwtM1ME6XJO/7Ll/FglKfG74ktUHZVi8wMeBz1QH1K3RhV43jfDhpHp0d9Ot6yR7eoO/LMTAynWRltUox5Gd7V+aXuP0ltmcxxsPpfDac/lixQPvAtaL994s5XBVjD3m4r9oAZqiD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VO/SKcbh; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733915989; c=relaxed/simple;
+	bh=llL5moX2KHW/2uRXH4i/uDRDdwusbGBqMi0xZB7sRO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u2+oP2UCuvTRpjpcKeg/X6WsitetbriVvuHGOAUCTMsMunKhz3vEyP8Pj9jFAwHazuBKPNFEjx5igfTUzPjWxzShisSnAGJ4lVXs3gBm8O2y5cB0MbexJbQToWQ7pZ/XFnfehSP3twT0pdl4L9rC4TlloEdrknlQJcrCHiuqxTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hVYyjiOq; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VO/SKcbh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733914490; x=1765450490;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=88xhvCZVVQ7MMWEjV5gF/Jgx9nuJ7UiTlfm2nIm28bs=;
-  b=VO/SKcbhDw6+vzifQrfvORGLpxQl1z32IEcxZxK1Vefhy2sJTuY8sAHR
-   vs1Nb0BDQhAVBHbSv9YH+zedro+ujoPoNDH/aPAyT5EnHBc+cJs+hVPN7
-   Mq+evMTTDaGP3g1Wg+oRsrC7vlRqpEKohNCT9mWaeiLEH/honitDGNMtc
-   9gV1gggrWUAuUqdT146qy56NRJmYlhNSm93D58W+NjJKPm6782hJxC6i4
-   wlrMYBS4bI7QKx0oUcig28E5Z22xW/0Zjks/WIhBte1EtAoae7RSBLd16
-   +mjp8iUX8/SBpidFjgCIZXrsQnA/VKsyncArKJmEX5uYTbDb05BUCouPB
-   Q==;
-X-CSE-ConnectionGUID: +m7spXQSTuaWwoj6jm7xTA==
-X-CSE-MsgGUID: ZqvSDMr1TGOPB75S0r7aYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="33608790"
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="33608790"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 02:54:49 -0800
-X-CSE-ConnectionGUID: BHu3gHueTVi+j0VZZSIKLQ==
-X-CSE-MsgGUID: rOeH2C9eSM2PphypSv/M2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="95591184"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Dec 2024 02:54:46 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLKMe-0006ZB-2i;
-	Wed, 11 Dec 2024 10:54:44 +0000
-Date: Wed, 11 Dec 2024 18:53:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux trace kernel <linux-trace-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH] tracing: Fix trace output when pointer hash is disabled
-Message-ID: <202412111800.LkbDgOfH-lkp@intel.com>
-References: <20241210172533.04bcd5f7@batman.local.home>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hVYyjiOq"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361ecebc4dso2817475e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 03:19:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733915985; x=1734520785; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j1A1dVjoRY77904gapHqEsiXi2lpddJRpqr9FUQAz+U=;
+        b=hVYyjiOq2HRSnCy0a0x80d3zshoPg1CSYjxOB+ujL0p/Nb9uwhxvDJNeZC/PjUNaY5
+         F/VLmuTMrqVRAVrSXxFL070/hMmfKN/y4EgIdzbUefCfUchTKXAT5/7dr25/5Pv5FYFf
+         eif+trnbPJfYwSZuOFBC18ohm8E7iRzcForA8Vra7KXtp+1XIIz6mbkrZUDqYdOgNUyw
+         S/CDPna8yvfEIEoIDXn8N/pyv1cNqxtC8/Eu2WpZze3nzPcr1q1e97FtEyHZHr8f6HaP
+         rQtcoavlvmvO9DD8X0rRjxZmaj0qMFORlt9ubYWPuIETXKLxpXuZV2h1JzRf6j4fUlh4
+         nJVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733915985; x=1734520785;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j1A1dVjoRY77904gapHqEsiXi2lpddJRpqr9FUQAz+U=;
+        b=fbE8isjYbAOnrIfRgJxNLRO8F0DSKimt0HCdY1exWle9qkchnLpIIO+Braa6K1qjSO
+         y20JE5RetymbbK4Gq/Fly1/QvFPEFknmpgOAL93jZsjzUf32WNeFkGm6D69bmWYi6e1l
+         cZRKPsgUbm62pqX115hEUVusQAuIVZg2s8sYiHpQQadkRKnjePlP19vbRB3d4cN6Rlta
+         dMG3r6tQNUcGz140DhcvCuxynGOAQ2RpMOM7jstJiky97U8U2OoAgX342nO7z4VqhURY
+         Enw9bvMrfPaI1nwl2ApDIxfls7tBJTRkoouSjA1wSTKE+auoa2rylUK0HR7mj26P810p
+         kccQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTkZ56tEPzEuetrtwUMufS0/bFquHgDlDvmxoq1+zYr86hDQKPVZwGb01roTbdbUPsoLwc0rn4zfWgjEWt@lists.linux.dev
+X-Gm-Message-State: AOJu0YzsZdXhV4kl7u4cV30ygcjvK5OA2QvQ9GLCVdisWZsbISSM0SUG
+	Y48Ov+mR0eZImCPAkw2A2zjcNe0BmuLuZHVuLMpxSHEwQ6IRCSICGOMTLGMX064=
+X-Gm-Gg: ASbGnctOnppoUWJWuLU6rH8GGfON1XqwCvfBaJkaG9q+6N8JLCZHGvzJX6IyT8VhtZB
+	E3wNij06qersPdeRz2SrcblaCWuHtU7vVsUHw7qOduunf7rHcJXQmSDPyTs8MNcq7Rs8/hckrZE
+	16v1SrjbjJl8jGEmCskyIp2SWRzHrcji31tKADjvaDU06603Ma5wfN+526QHieq4tO1Oz8aNd9i
+	ocrFk8JJdvlnu0n/QB0fx54kORWE+b/1KV0q+xhs7Rw+PdJtS+nCGWFpic=
+X-Google-Smtp-Source: AGHT+IFP+aS2ClpF97EDzKTojdZ/hl9L3cPsB1kFHpBoO+gM/gTEXUGkcMGYBlD5G06OE1m/VfsNvw==
+X-Received: by 2002:a05:600c:3108:b0:434:f953:eed with SMTP id 5b1f17b1804b1-4361c4406bdmr20145565e9.30.1733915985287;
+        Wed, 11 Dec 2024 03:19:45 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38782527520sm1035110f8f.109.2024.12.11.03.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 03:19:44 -0800 (PST)
+Date: Wed, 11 Dec 2024 14:19:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Eduard Zingerman <eddyz87@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 2974/3192] kernel/bpf/verifier.c:22231
+ bpf_check_attach_target() error: we previously assumed 'aux->func' could be
+ null (see line 22212)
+Message-ID: <7de4b716-f0de-4cad-8cd9-3d6b0862644b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241210172533.04bcd5f7@batman.local.home>
+Content-Transfer-Encoding: 8bit
 
-Hi Steven,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.13-rc2 next-20241211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Fix-trace-output-when-pointer-hash-is-disabled/20241211-062827
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241210172533.04bcd5f7%40batman.local.home
-patch subject: [PATCH] tracing: Fix trace output when pointer hash is disabled
-config: i386-buildonly-randconfig-003-20241211 (https://download.01.org/0day-ci/archive/20241211/202412111800.LkbDgOfH-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412111800.LkbDgOfH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   91e71d606356e50f238d7a87aacdee4abc427f07
+commit: 81f6d0530ba031b5f038a091619bf2ff29568852 [2974/3192] bpf: check changes_pkt_data property for extension programs
+config: i386-randconfig-141-20241211 (https://download.01.org/0day-ci/archive/20241211/202412111822.qGw6tOyB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412111800.LkbDgOfH-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412111822.qGw6tOyB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/bpf/verifier.c:22231 bpf_check_attach_target() error: we previously assumed 'aux->func' could be null (see line 22212)
 
-   In file included from kernel/trace/trace.c:15:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/trace/trace.c:3749:8: warning: variable 'p' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    3749 |                         if (!trace_iter_expand_format(iter))
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:3900:7: note: uninitialized use occurs here
-    3900 |         if (*p)
-         |              ^
-   kernel/trace/trace.c:3749:4: note: remove the 'if' if its condition is always false
-    3749 |                         if (!trace_iter_expand_format(iter))
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3750 |                                 goto print;
-         |                                 ~~~~~~~~~~
-   kernel/trace/trace.c:3739:6: warning: variable 'p' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    3739 |         if (iter->fmt == static_fmt_buf)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:3900:7: note: uninitialized use occurs here
-    3900 |         if (*p)
-         |              ^
-   kernel/trace/trace.c:3739:2: note: remove the 'if' if its condition is always false
-    3739 |         if (iter->fmt == static_fmt_buf)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3740 |                 goto print;
-         |                 ~~~~~~~~~~
-   kernel/trace/trace.c:3724:6: warning: variable 'p' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    3724 |         if (static_branch_unlikely(&trace_no_verify))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:497:40: note: expanded from macro 'static_branch_unlikely'
-     497 | #define static_branch_unlikely(x)                                               \
-         |                                                                                 ^
-     498 | ({                                                                              \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     499 |         bool branch;                                                            \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     500 |         if (__builtin_types_compatible_p(typeof(*x), struct static_key_true))   \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     501 |                 branch = arch_static_branch_jump(&(x)->key, false);             \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     502 |         else if (__builtin_types_compatible_p(typeof(*x), struct static_key_false)) \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     503 |                 branch = arch_static_branch(&(x)->key, false);                  \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     504 |         else                                                                    \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     505 |                 branch = ____wrong_branch_error();                              \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     506 |         unlikely_notrace(branch);                                                       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     507 | })
-         | ~~
-   kernel/trace/trace.c:3900:7: note: uninitialized use occurs here
-    3900 |         if (*p)
-         |              ^
-   kernel/trace/trace.c:3724:2: note: remove the 'if' if its condition is always false
-    3724 |         if (static_branch_unlikely(&trace_no_verify))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3725 |                 goto print;
-         |                 ~~~~~~~~~~
-   kernel/trace/trace.c:3715:9: note: initialize the variable 'p' to silence this warning
-    3715 |         char *p;
-         |                ^
-         |                 = NULL
-   4 warnings generated.
+vim +22231 kernel/bpf/verifier.c
 
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22155  int bpf_check_attach_target(struct bpf_verifier_log *log,
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22156  			    const struct bpf_prog *prog,
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22157  			    const struct bpf_prog *tgt_prog,
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22158  			    u32 btf_id,
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22159  			    struct bpf_attach_target_info *tgt_info)
+382072916044015 Martin KaFai Lau        2019-10-24  22160  {
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22161  	bool prog_extension = prog->type == BPF_PROG_TYPE_EXT;
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22162  	bool prog_tracing = prog->type == BPF_PROG_TYPE_TRACING;
+8aeaed21befc90f Philo Lu                2024-09-11  22163  	char trace_symbol[KSYM_SYMBOL_LEN];
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22164  	const char prefix[] = "btf_trace_";
+8aeaed21befc90f Philo Lu                2024-09-11  22165  	struct bpf_raw_event_map *btp;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22166  	int ret = 0, subprog = -1, i;
+382072916044015 Martin KaFai Lau        2019-10-24  22167  	const struct btf_type *t;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22168  	bool conservative = true;
+8aeaed21befc90f Philo Lu                2024-09-11  22169  	const char *tname, *fname;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22170  	struct btf *btf;
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22171  	long addr = 0;
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22172  	struct module *mod = NULL;
+382072916044015 Martin KaFai Lau        2019-10-24  22173  
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22174  	if (!btf_id) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22175  		bpf_log(log, "Tracing programs must provide btf_id\n");
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22176  		return -EINVAL;
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22177  	}
+22dc4a0f5ed11b6 Andrii Nakryiko         2020-12-03  22178  	btf = tgt_prog ? tgt_prog->aux->btf : prog->aux->attach_btf;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22179  	if (!btf) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22180  		bpf_log(log,
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22181  			"FENTRY/FEXIT program can only be attached to another program annotated with BTF\n");
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22182  		return -EINVAL;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22183  	}
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22184  	t = btf_type_by_id(btf, btf_id);
+382072916044015 Martin KaFai Lau        2019-10-24  22185  	if (!t) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22186  		bpf_log(log, "attach_btf_id %u is invalid\n", btf_id);
+382072916044015 Martin KaFai Lau        2019-10-24  22187  		return -EINVAL;
+382072916044015 Martin KaFai Lau        2019-10-24  22188  	}
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22189  	tname = btf_name_by_offset(btf, t->name_off);
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22190  	if (!tname) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22191  		bpf_log(log, "attach_btf_id %u doesn't have a name\n", btf_id);
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22192  		return -EINVAL;
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22193  	}
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22194  	if (tgt_prog) {
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22195  		struct bpf_prog_aux *aux = tgt_prog->aux;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22196  
+fd7c211d6875013 Toke Høiland-Jørgensen  2023-01-19  22197  		if (bpf_prog_is_dev_bound(prog->aux) &&
+fd7c211d6875013 Toke Høiland-Jørgensen  2023-01-19  22198  		    !bpf_prog_dev_bound_match(prog, tgt_prog)) {
+fd7c211d6875013 Toke Høiland-Jørgensen  2023-01-19  22199  			bpf_log(log, "Target program bound device mismatch");
+3d76a4d3d4e591a Stanislav Fomichev      2023-01-19  22200  			return -EINVAL;
+3d76a4d3d4e591a Stanislav Fomichev      2023-01-19  22201  		}
+3d76a4d3d4e591a Stanislav Fomichev      2023-01-19  22202  
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22203  		for (i = 0; i < aux->func_info_cnt; i++)
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22204  			if (aux->func_info[i].type_id == btf_id) {
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22205  				subprog = i;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22206  				break;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22207  			}
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22208  		if (subprog == -1) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22209  			bpf_log(log, "Subprog %s doesn't exist\n", tname);
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22210  			return -EINVAL;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22211  		}
+fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13 @22212  		if (aux->func && aux->func[subprog]->aux->exception_cb) {
+                                                                            ^^^^^^^^^
+This code assumes "aux->func" can be NULL
 
-vim +3749 kernel/trace/trace.c
+fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22213  			bpf_log(log,
+fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22214  				"%s programs cannot attach to exception callback\n",
+fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22215  				prog_extension ? "Extension" : "FENTRY/FEXIT");
+fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22216  			return -EINVAL;
+fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22217  		}
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22218  		conservative = aux->func_info_aux[subprog].unreliable;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22219  		if (prog_extension) {
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22220  			if (conservative) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22221  				bpf_log(log,
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22222  					"Cannot replace static functions\n");
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22223  				return -EINVAL;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22224  			}
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22225  			if (!prog->jit_requested) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22226  				bpf_log(log,
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22227  					"Extension programs should be JITed\n");
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22228  				return -EINVAL;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22229  			}
+81f6d0530ba031b Eduard Zingerman        2024-12-09  22230  			if (prog->aux->changes_pkt_data &&
+81f6d0530ba031b Eduard Zingerman        2024-12-09 @22231  			    !aux->func[subprog]->aux->changes_pkt_data) {
+                                                                                     ^^^^^^^^^
+But this code does an unchecked dereference
 
-  3696	
-  3697	/**
-  3698	 * trace_check_vprintf - Check dereferenced strings while writing to the seq buffer
-  3699	 * @iter: The iterator that holds the seq buffer and the event being printed
-  3700	 * @fmt: The format used to print the event
-  3701	 * @ap: The va_list holding the data to print from @fmt.
-  3702	 *
-  3703	 * This writes the data into the @iter->seq buffer using the data from
-  3704	 * @fmt and @ap. If the format has a %s, then the source of the string
-  3705	 * is examined to make sure it is safe to print, otherwise it will
-  3706	 * warn and print "[UNSAFE MEMORY]" in place of the dereferenced string
-  3707	 * pointer.
-  3708	 */
-  3709	void trace_check_vprintf(struct trace_iterator *iter, const char *fmt,
-  3710				 va_list ap)
-  3711	{
-  3712		long text_delta = 0;
-  3713		long data_delta = 0;
-  3714		const char *str;
-  3715		char *p;
-  3716		char save_ch;
-  3717		char *buf = NULL;
-  3718		bool good;
-  3719		int i, j;
-  3720	
-  3721		if (WARN_ON_ONCE(!fmt))
-  3722			return;
-  3723	
-  3724		if (static_branch_unlikely(&trace_no_verify))
-  3725			goto print;
-  3726	
-  3727		/*
-  3728		 * When the kernel is booted with the tp_printk command line
-  3729		 * parameter, trace events go directly through to printk().
-  3730		 * It also is checked by this function, but it does not
-  3731		 * have an associated trace_array (tr) for it.
-  3732		 */
-  3733		if (iter->tr) {
-  3734			text_delta = iter->tr->text_delta;
-  3735			data_delta = iter->tr->data_delta;
-  3736		}
-  3737	
-  3738		/* Don't bother checking when doing a ftrace_dump() */
-  3739		if (iter->fmt == static_fmt_buf)
-  3740			goto print;
-  3741	
-  3742		if (fmt != iter->fmt) {
-  3743			int len = strlen(fmt);
-  3744			while (iter->fmt_size < len + 1) {
-  3745				/*
-  3746				 * If we can't expand the copy buffer,
-  3747				 * just print it.
-  3748				 */
-> 3749				if (!trace_iter_expand_format(iter))
-  3750					goto print;
-  3751			}
-  3752			strscpy(iter->fmt, fmt, iter->fmt_size);
-  3753		}
-  3754		p = iter->fmt;
-  3755		while (*p) {
-  3756			bool star = false;
-  3757			int len = 0;
-  3758	
-  3759			j = 0;
-  3760	
-  3761			/*
-  3762			 * We only care about %s and variants
-  3763			 * as well as %p[sS] if delta is non-zero
-  3764			 */
-  3765			for (i = 0; p[i]; i++) {
-  3766	
-  3767				if (p[i] == '\\' && p[i+1]) {
-  3768					i++;
-  3769					continue;
-  3770				}
-  3771				if (p[i] == '%') {
-  3772					/* Need to test cases like %08.*s */
-  3773					for (j = 1; p[i+j]; j++) {
-  3774						if (isdigit(p[i+j]) ||
-  3775						    p[i+j] == '.')
-  3776							continue;
-  3777						if (p[i+j] == '*') {
-  3778							star = true;
-  3779							continue;
-  3780						}
-  3781						break;
-  3782					}
-  3783					if (p[i+j] == 's')
-  3784						break;
-  3785	
-  3786					if (text_delta && p[i+1] == 'p' &&
-  3787					    ((p[i+2] == 's' || p[i+2] == 'S')))
-  3788						break;
-  3789	
-  3790					star = false;
-  3791				}
-  3792				j = 0;
-  3793			}
-  3794			/* If no %s found then just print normally */
-  3795			if (!p[i])
-  3796				break;
-  3797	
-  3798			/* Print up to the %s */
-  3799			save_ch = p[i];
-  3800			p[i] = '\0';
-  3801			trace_seq_vprintf(&iter->seq, p, ap);
-  3802			p[i] = save_ch;
-  3803	
-  3804			/* Add delta to %pS pointers */
-  3805			if (p[i+1] == 'p') {
-  3806				unsigned long addr;
-  3807				char fmt[4];
-  3808	
-  3809				fmt[0] = '%';
-  3810				fmt[1] = 'p';
-  3811				fmt[2] = p[i+2]; /* Either %ps or %pS */
-  3812				fmt[3] = '\0';
-  3813	
-  3814				addr = va_arg(ap, unsigned long);
-  3815				addr += text_delta;
-  3816				trace_seq_printf(&iter->seq, fmt, (void *)addr);
-  3817	
-  3818				p += i + 3;
-  3819				continue;
-  3820			}
-  3821	
-  3822			/*
-  3823			 * If iter->seq is full, the above call no longer guarantees
-  3824			 * that ap is in sync with fmt processing, and further calls
-  3825			 * to va_arg() can return wrong positional arguments.
-  3826			 *
-  3827			 * Ensure that ap is no longer used in this case.
-  3828			 */
-  3829			if (iter->seq.full) {
-  3830				p = "";
-  3831				break;
-  3832			}
-  3833	
-  3834			if (star)
-  3835				len = va_arg(ap, int);
-  3836	
-  3837			/* The ap now points to the string data of the %s */
-  3838			str = va_arg(ap, const char *);
-  3839	
-  3840			good = trace_safe_str(iter, str, star, len);
-  3841	
-  3842			/* Could be from the last boot */
-  3843			if (data_delta && !good) {
-  3844				str += data_delta;
-  3845				good = trace_safe_str(iter, str, star, len);
-  3846			}
-  3847	
-  3848			p += i;
-  3849	
-  3850			/*
-  3851			 * If you hit this warning, it is likely that the
-  3852			 * trace event in question used %s on a string that
-  3853			 * was saved at the time of the event, but may not be
-  3854			 * around when the trace is read. Use __string(),
-  3855			 * __assign_str() and __get_str() helpers in the TRACE_EVENT()
-  3856			 * instead. See samples/trace_events/trace-events-sample.h
-  3857			 * for reference.
-  3858			 */
-  3859			if (WARN_ONCE(!good, "fmt: '%s' current_buffer: '%s'",
-  3860				      fmt, seq_buf_str(&iter->seq.seq))) {
-  3861				int ret;
-  3862	#define TEMP_BUFSIZ 1024
-  3863	
-  3864				if (!buf) {
-  3865					char *buf = kmalloc(TEMP_BUFSIZ, GFP_KERNEL);
-  3866					if (!buf) {
-  3867						/* Need buffer to read address */
-  3868						trace_seq_printf(&iter->seq, "(0x%px)[UNSAFE-MEMORY]", str);
-  3869						goto print;
-  3870					}
-  3871				}
-  3872				if (len >= TEMP_BUFSIZ)
-  3873					len = TEMP_BUFSIZ - 1;
-  3874	
-  3875				/* Try to safely read the string */
-  3876				if (star) {
-  3877					ret = copy_from_kernel_nofault(buf, str, len);
-  3878					buf[len] = 0;
-  3879				} else {
-  3880					ret = strncpy_from_kernel_nofault(buf, str, 1024);
-  3881				}
-  3882				if (ret < 0)
-  3883					trace_seq_printf(&iter->seq, "(0x%px)", str);
-  3884				else
-  3885					trace_seq_printf(&iter->seq, "(0x%px:%s)", str, buf);
-  3886				trace_seq_puts(&iter->seq, "[UNSAFE-MEMORY]");
-  3887			} else {
-  3888				save_ch = p[j + 1];
-  3889				p[j + 1] = '\0';
-  3890				if (star)
-  3891					trace_seq_printf(&iter->seq, p, len, str);
-  3892				else
-  3893					trace_seq_printf(&iter->seq, p, str);
-  3894				p[j + 1] = save_ch;
-  3895			}
-  3896	
-  3897			p += j + 1;
-  3898		}
-  3899	 print:
-  3900		if (*p)
-  3901			trace_seq_vprintf(&iter->seq, p, ap);
-  3902		kfree(buf);
-  3903	}
-  3904	
+81f6d0530ba031b Eduard Zingerman        2024-12-09  22232  				bpf_log(log,
+81f6d0530ba031b Eduard Zingerman        2024-12-09  22233  					"Extension program changes packet data, while original does not\n");
+81f6d0530ba031b Eduard Zingerman        2024-12-09  22234  				return -EINVAL;
+81f6d0530ba031b Eduard Zingerman        2024-12-09  22235  			}
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22236  		}
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22237  		if (!tgt_prog->jited) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22238  			bpf_log(log, "Can attach to only JITed progs\n");
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22239  			return -EINVAL;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22240  		}
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22241  		if (prog_tracing) {
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22242  			if (aux->attach_tracing_prog) {
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22243  				/*
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22244  				 * Target program is an fentry/fexit which is already attached
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22245  				 * to another tracing program. More levels of nesting
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22246  				 * attachment are not allowed.
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22247  				 */
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22248  				bpf_log(log, "Cannot nest tracing program attach more than once\n");
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22249  				return -EINVAL;
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22250  			}
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22251  		} else if (tgt_prog->type == prog->type) {
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22252  			/*
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22253  			 * To avoid potential call chain cycles, prevent attaching of a
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22254  			 * program extension to another extension. It's ok to attach
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22255  			 * fentry/fexit to extension program.
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22256  			 */
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22257  			bpf_log(log, "Cannot recursively attach\n");
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22258  			return -EINVAL;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22259  		}
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22260  		if (tgt_prog->type == BPF_PROG_TYPE_TRACING &&
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22261  		    prog_extension &&
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22262  		    (tgt_prog->expected_attach_type == BPF_TRACE_FENTRY ||
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22263  		     tgt_prog->expected_attach_type == BPF_TRACE_FEXIT)) {
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22264  			/* Program extensions can extend all program types
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22265  			 * except fentry/fexit. The reason is the following.
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22266  			 * The fentry/fexit programs are used for performance
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22267  			 * analysis, stats and can be attached to any program
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22268  			 * type. When extension program is replacing XDP function
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22269  			 * it is necessary to allow performance analysis of all
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22270  			 * functions. Both original XDP program and its program
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22271  			 * extension. Hence attaching fentry/fexit to
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22272  			 * BPF_PROG_TYPE_EXT is allowed. If extending of
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22273  			 * fentry/fexit was allowed it would be possible to create
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22274  			 * long call chain fentry->extension->fentry->extension
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22275  			 * beyond reasonable stack size. Hence extending fentry
+19bfcdf9498aa96 Dmitrii Dolgov          2024-01-03  22276  			 * is not allowed.
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22277  			 */
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22278  			bpf_log(log, "Cannot extend fentry/fexit\n");
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22279  			return -EINVAL;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22280  		}
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22281  	} else {
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22282  		if (prog_extension) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22283  			bpf_log(log, "Cannot replace kernel functions\n");
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22284  			return -EINVAL;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22285  		}
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22286  	}
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22287  
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22288  	switch (prog->expected_attach_type) {
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22289  	case BPF_TRACE_RAW_TP:
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22290  		if (tgt_prog) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22291  			bpf_log(log,
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22292  				"Only FENTRY/FEXIT progs are attachable to another BPF prog\n");
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22293  			return -EINVAL;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22294  		}
+382072916044015 Martin KaFai Lau        2019-10-24  22295  		if (!btf_type_is_typedef(t)) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22296  			bpf_log(log, "attach_btf_id %u is not a typedef\n",
+382072916044015 Martin KaFai Lau        2019-10-24  22297  				btf_id);
+382072916044015 Martin KaFai Lau        2019-10-24  22298  			return -EINVAL;
+382072916044015 Martin KaFai Lau        2019-10-24  22299  		}
+f1b9509c2fb0ef4 Alexei Starovoitov      2019-10-30  22300  		if (strncmp(prefix, tname, sizeof(prefix) - 1)) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22301  			bpf_log(log, "attach_btf_id %u points to wrong type name %s\n",
+382072916044015 Martin KaFai Lau        2019-10-24  22302  				btf_id, tname);
+382072916044015 Martin KaFai Lau        2019-10-24  22303  			return -EINVAL;
+382072916044015 Martin KaFai Lau        2019-10-24  22304  		}
+382072916044015 Martin KaFai Lau        2019-10-24  22305  		tname += sizeof(prefix) - 1;
+8aeaed21befc90f Philo Lu                2024-09-11  22306  
+8aeaed21befc90f Philo Lu                2024-09-11  22307  		/* The func_proto of "btf_trace_##tname" is generated from typedef without argument
+8aeaed21befc90f Philo Lu                2024-09-11  22308  		 * names. Thus using bpf_raw_event_map to get argument names.
+8aeaed21befc90f Philo Lu                2024-09-11  22309  		 */
+8aeaed21befc90f Philo Lu                2024-09-11  22310  		btp = bpf_get_raw_tracepoint(tname);
+8aeaed21befc90f Philo Lu                2024-09-11  22311  		if (!btp)
+8aeaed21befc90f Philo Lu                2024-09-11  22312  			return -EINVAL;
+8aeaed21befc90f Philo Lu                2024-09-11  22313  		fname = kallsyms_lookup((unsigned long)btp->bpf_func, NULL, NULL, NULL,
+8aeaed21befc90f Philo Lu                2024-09-11  22314  					trace_symbol);
+8aeaed21befc90f Philo Lu                2024-09-11  22315  		bpf_put_raw_tracepoint(btp);
+8aeaed21befc90f Philo Lu                2024-09-11  22316  
+8aeaed21befc90f Philo Lu                2024-09-11  22317  		if (fname)
+8aeaed21befc90f Philo Lu                2024-09-11  22318  			ret = btf_find_by_name_kind(btf, fname, BTF_KIND_FUNC);
+8aeaed21befc90f Philo Lu                2024-09-11  22319  
+8aeaed21befc90f Philo Lu                2024-09-11  22320  		if (!fname || ret < 0) {
+8aeaed21befc90f Philo Lu                2024-09-11  22321  			bpf_log(log, "Cannot find btf of tracepoint template, fall back to %s%s.\n",
+8aeaed21befc90f Philo Lu                2024-09-11  22322  				prefix, tname);
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22323  			t = btf_type_by_id(btf, t->type);
+382072916044015 Martin KaFai Lau        2019-10-24  22324  			if (!btf_type_is_ptr(t))
+382072916044015 Martin KaFai Lau        2019-10-24  22325  				/* should never happen in valid vmlinux build */
+382072916044015 Martin KaFai Lau        2019-10-24  22326  				return -EINVAL;
+8aeaed21befc90f Philo Lu                2024-09-11  22327  		} else {
+8aeaed21befc90f Philo Lu                2024-09-11  22328  			t = btf_type_by_id(btf, ret);
+8aeaed21befc90f Philo Lu                2024-09-11  22329  			if (!btf_type_is_func(t))
+8aeaed21befc90f Philo Lu                2024-09-11  22330  				/* should never happen in valid vmlinux build */
+8aeaed21befc90f Philo Lu                2024-09-11  22331  				return -EINVAL;
+8aeaed21befc90f Philo Lu                2024-09-11  22332  		}
+8aeaed21befc90f Philo Lu                2024-09-11  22333  
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22334  		t = btf_type_by_id(btf, t->type);
+382072916044015 Martin KaFai Lau        2019-10-24  22335  		if (!btf_type_is_func_proto(t))
+382072916044015 Martin KaFai Lau        2019-10-24  22336  			/* should never happen in valid vmlinux build */
+382072916044015 Martin KaFai Lau        2019-10-24  22337  			return -EINVAL;
+382072916044015 Martin KaFai Lau        2019-10-24  22338  
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22339  		break;
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22340  	case BPF_TRACE_ITER:
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22341  		if (!btf_type_is_func(t)) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22342  			bpf_log(log, "attach_btf_id %u is not a function\n",
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22343  				btf_id);
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22344  			return -EINVAL;
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22345  		}
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22346  		t = btf_type_by_id(btf, t->type);
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22347  		if (!btf_type_is_func_proto(t))
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22348  			return -EINVAL;
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22349  		ret = btf_distill_func_proto(log, btf, t, tname, &tgt_info->fmodel);
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22350  		if (ret)
+15d83c4d7cef5c0 Yonghong Song           2020-05-09  22351  			return ret;
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22352  		break;
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22353  	default:
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22354  		if (!prog_extension)
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22355  			return -EINVAL;
+df561f6688fef77 Gustavo A. R. Silva     2020-08-23  22356  		fallthrough;
+ae24082331d9bba KP Singh                2020-03-04  22357  	case BPF_MODIFY_RETURN:
+9e4e01dfd3254c7 KP Singh                2020-03-29  22358  	case BPF_LSM_MAC:
+69fd337a975c7e6 Stanislav Fomichev      2022-06-28  22359  	case BPF_LSM_CGROUP:
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22360  	case BPF_TRACE_FENTRY:
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22361  	case BPF_TRACE_FEXIT:
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22362  		if (!btf_type_is_func(t)) {
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22363  			bpf_log(log, "attach_btf_id %u is not a function\n",
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22364  				btf_id);
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22365  			return -EINVAL;
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22366  		}
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22367  		if (prog_extension &&
+efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22368  		    btf_check_type_match(log, prog, btf, t))
+be8704ff07d2374 Alexei Starovoitov      2020-01-20  22369  			return -EINVAL;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22370  		t = btf_type_by_id(btf, t->type);
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22371  		if (!btf_type_is_func_proto(t))
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22372  			return -EINVAL;
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22373  
+4a1e7c0c63e02da Toke Høiland-Jørgensen  2020-09-29  22374  		if ((prog->aux->saved_dst_prog_type || prog->aux->saved_dst_attach_type) &&
+4a1e7c0c63e02da Toke Høiland-Jørgensen  2020-09-29  22375  		    (!tgt_prog || prog->aux->saved_dst_prog_type != tgt_prog->type ||
+4a1e7c0c63e02da Toke Høiland-Jørgensen  2020-09-29  22376  		     prog->aux->saved_dst_attach_type != tgt_prog->expected_attach_type))
+4a1e7c0c63e02da Toke Høiland-Jørgensen  2020-09-29  22377  			return -EINVAL;
+4a1e7c0c63e02da Toke Høiland-Jørgensen  2020-09-29  22378  
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22379  		if (tgt_prog && conservative)
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22380  			t = NULL;
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22381  
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22382  		ret = btf_distill_func_proto(log, btf, t, tname, &tgt_info->fmodel);
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22383  		if (ret < 0)
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22384  			return ret;
+f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22385  
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22386  		if (tgt_prog) {
+e9eeec58c992c47 Yonghong Song           2019-12-04  22387  			if (subprog == 0)
+e9eeec58c992c47 Yonghong Song           2019-12-04  22388  				addr = (long) tgt_prog->bpf_func;
+e9eeec58c992c47 Yonghong Song           2019-12-04  22389  			else
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22390  				addr = (long) tgt_prog->aux->func[subprog]->bpf_func;
+                                                                                                      ^^^^^^^^^^^^^^
+There is another unchecked dereference here so perhaps the NULL check
+is unnecessary.  Or possibly there are some other rules outside this
+email with determine when the NULL check is needed.
+
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22391  		} else {
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22392  			if (btf_is_module(btf)) {
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22393  				mod = btf_try_get_module(btf);
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22394  				if (mod)
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22395  					addr = find_kallsyms_symbol_value(mod, tname);
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22396  				else
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22397  					addr = 0;
+5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22398  			} else {
+fec56f5890d93fc Alexei Starovoitov      2019-11-14  22399  				addr = kallsyms_lookup_name(tname);
+31bf1dbccfb0a98 Viktor Malik            2023-03-10  22400  			}
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
