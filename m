@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46635246356
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 18:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F12594B1;
+	Wed, 11 Dec 2024 19:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733940762; cv=none; b=TRly3lbxrTaNrqSxcAZKDd642s78yxnOwGohylo4bMOEUWqt4y5dAr1r3Ka2/3WsR3GwdlWeT1Lp8sMDjQQhl82lCaZo2UyYBMvghzSeuUoZCIaHTLykUdI/kZM1eH4NxMJJDtOfq9ZaZnzMUbK6BWQAZ1cMsPSONaTVUcpygd4=
+	t=1733944484; cv=none; b=kcNdowJ+hbKdAy3E6r2eMGtFjHTwI2EgsuxS01W/k1EVpFpeKHmPw/FhPmncAgW2k2GQc6usQsmUgfioJzWUb13GTgBsBdtgT3jJsJsboUjU0EhDmMpVpgsO1K6zvVSibfdViGvMpI7JRD1ZZtkSBxQQanTsHhQpLpsz+aroKb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733940762; c=relaxed/simple;
-	bh=XD+BA6M0sURn4DZ5siN73KCcaHXGq/t4AEVTAe03Dtw=;
+	s=arc-20240116; t=1733944484; c=relaxed/simple;
+	bh=LoelWbPE6h3w4ImeyPrWnS2h7HbJfCpr6GMroutnPZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FkBCU+hjT66bf8r3wK6akoPr0GjSKPo8VcwS3Sw6aoYAtmw7U+PBTk92v4gWB7zXoPirYDoI4a10wUJnhHdPtamq+wFStFNjqk9tzj9TtpWDQI3KFA+2Rwd1do1yCgAdATBXFH/PA3I2yzJxMdhmapGD0u0SO0giqRxrgD5y89A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9qV6j11; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=aP1J5hNUrw/qsNiC/4BjjuY5aP2FEo3rxY4mXE5xEbFnuNozwIuG1qtq7dsxLFxvG8cotE8nXhZ7cf4KoanhGb3CUxuW1K4BP87vs+nbGdY3xquEvvDGa+HiDemqZLuuM3fsNacUXeYg6kixxou1C9eo/RU/b2VGljvaaGcm6Kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yx1BLb2o; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9qV6j11"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yx1BLb2o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733940760; x=1765476760;
+  t=1733944482; x=1765480482;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XD+BA6M0sURn4DZ5siN73KCcaHXGq/t4AEVTAe03Dtw=;
-  b=Y9qV6j11KXZHdCJ3pHDQseWbRNxm7tNZuc4Yh1GHikmRB/I+Lvdhn43Q
-   wz+Fw7HW09IcloC4tlvGYOtWwRf8WpZuys2tbb8GTBcYMpkWCF2I1TYje
-   uM1fSXkAvsPMV99u9PnJ9v5LOG04tI0ga0HTZO1Sz4owpgk0bKQFJ5t/4
-   lcjcuKS/m7UDEujlxBmgjZd9sU9XxSDmqOurMUmOj68MLeNoyfD1cKjlh
-   c+DtM+H+UfrNeKXaPbLGBDl6ENetTSbAxMadJVMISsw/xt1PRQd3bjXLQ
-   qNqTZyHfshZfLffzYk4dUvJT+ZId2FIP2alaS1mr0RIhQFGKLreqqxYla
-   w==;
-X-CSE-ConnectionGUID: ZZq6s1VuT/yNu4jixZkOAg==
-X-CSE-MsgGUID: je7mjWrjRpG8/IKlLJon7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45717085"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45717085"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 10:12:30 -0800
-X-CSE-ConnectionGUID: 25BFb73hT1u3UocqRVJCTQ==
-X-CSE-MsgGUID: nOrnXZFDSMG6x9yyW2wcsA==
-X-ExtLoop1: 1
+  bh=LoelWbPE6h3w4ImeyPrWnS2h7HbJfCpr6GMroutnPZA=;
+  b=Yx1BLb2ofx0E3274bjC65kGYWWJ2Y0ZLoNT4Za/i66i3WDAKgGCdNtiw
+   atx7sLcsX7WclQnJ1/bPtb7iv+4kRffI9TuOO8gebxVefy2uvxEHsZRkC
+   9eysCcX2VLNb9NRpDKWWqWHnqPvp79kPR4n7DqoL948U6XqGKNA/r8Co/
+   MwGlwe1ewFy20Pbjd/vKa75MB+1DaavUL7T4g51A1AZk9QQoBqu+5hBY0
+   R7NQF/50BXW/WF2En69xiA/P5vtlDMJRAigNvJcra/IkBuGz6pxaGr870
+   B0jlLBigAu+q1KMI8NXnrGxXc5/NB6T1hil+yjhCloFIfYLz+rvlHHc6M
+   Q==;
+X-CSE-ConnectionGUID: mKoR+GNOTsCwSz0thSHWsQ==
+X-CSE-MsgGUID: ky5t8sAaRJeMEVQT/0bEfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="38126367"
 X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="126726753"
+   d="scan'208";a="38126367"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 11:14:42 -0800
+X-CSE-ConnectionGUID: YHlGPK9VQ0mHlUtTTtXhmg==
+X-CSE-MsgGUID: f01i83YnQVOVZnfG0fSYdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="100014301"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Dec 2024 10:12:29 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 11 Dec 2024 11:14:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLRCD-0006yF-2s;
-	Wed, 11 Dec 2024 18:12:25 +0000
-Date: Thu, 12 Dec 2024 02:12:24 +0800
+	id 1tLSAO-00070r-2U;
+	Wed, 11 Dec 2024 19:14:36 +0000
+Date: Thu, 12 Dec 2024 03:14:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] btrfs: enhance ordered extent double freeing detection
-Message-ID: <202412120129.tEVBFsR6-lkp@intel.com>
-References: <53b793f2e7a7788f89cda97de565cfc1577cbf75.1733890357.git.wqu@suse.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] vmalloc: Move memcg logic into memcg code
+Message-ID: <202412120251.VSLmEgIe-lkp@intel.com>
+References: <20241210193035.2667005-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,160 +72,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <53b793f2e7a7788f89cda97de565cfc1577cbf75.1733890357.git.wqu@suse.com>
+In-Reply-To: <20241210193035.2667005-1-willy@infradead.org>
 
-Hi Qu,
+Hi Matthew,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kdave/for-next]
+[auto build test ERROR on akpm-mm/mm-everything]
 [also build test ERROR on linus/master v6.13-rc2 next-20241211]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-enhance-ordered-extent-double-freeing-detection/20241211-121647
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/53b793f2e7a7788f89cda97de565cfc1577cbf75.1733890357.git.wqu%40suse.com
-patch subject: [PATCH] btrfs: enhance ordered extent double freeing detection
-config: i386-buildonly-randconfig-005-20241211 (https://download.01.org/0day-ci/archive/20241212/202412120129.tEVBFsR6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120129.tEVBFsR6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/vmalloc-Move-memcg-logic-into-memcg-code/20241211-033214
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241210193035.2667005-1-willy%40infradead.org
+patch subject: [PATCH] vmalloc: Move memcg logic into memcg code
+config: arm-randconfig-001-20241211 (https://download.01.org/0day-ci/archive/20241212/202412120251.VSLmEgIe-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120251.VSLmEgIe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120129.tEVBFsR6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120251.VSLmEgIe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/btrfs/ordered-data.c: In function 'alloc_ordered_extent':
->> fs/btrfs/ordered-data.c:200:22: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     200 |                 entry->finished_bitmap = bitmap_zalloc(
-         |                      ^~
-   fs/btrfs/ordered-data.c:202:27: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     202 |                 if (!entry->finished_bitmap) {
-         |                           ^~
-   fs/btrfs/ordered-data.c: In function 'can_finish_ordered_extent':
-   fs/btrfs/ordered-data.c:380:50: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     380 |                 nr_set = bitmap_count_set(ordered->finished_bitmap, start_bit, nbits);
-         |                                                  ^~
-   In file included from fs/btrfs/ordered-data.c:10:
-   fs/btrfs/ordered-data.c:388:43: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     388 |                                    ordered->finished_bitmap);
-         |                                           ^~
-   fs/btrfs/messages.h:36:41: note: in definition of macro 'btrfs_printk'
-      36 |         btrfs_no_printk(fs_info, fmt, ##args)
-         |                                         ^~~~
-   fs/btrfs/ordered-data.c:382:25: note: in expansion of macro 'btrfs_crit'
-     382 |                         btrfs_crit(fs_info,
-         |                         ^~~~~~~~~~
-   fs/btrfs/ordered-data.c:390:35: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     390 |                 bitmap_set(ordered->finished_bitmap, start_bit, nbits);
-         |                                   ^~
-   In file included from arch/x86/include/asm/bug.h:99,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from fs/btrfs/ordered-data.c:6:
-   fs/btrfs/ordered-data.c:418:49: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     418 |                 if (WARN_ON(!bitmap_full(ordered->finished_bitmap,
-         |                                                 ^~
-   include/asm-generic/bug.h:171:32: note: in definition of macro 'WARN_ON'
-     171 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   fs/btrfs/ordered-data.c:426:40: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     426 |                                 ordered->finished_bitmap);
-         |                                        ^~
-   fs/btrfs/messages.h:36:41: note: in definition of macro 'btrfs_printk'
-      36 |         btrfs_no_printk(fs_info, fmt, ##args)
-         |                                         ^~~~
-   fs/btrfs/ordered-data.c:420:25: note: in expansion of macro 'btrfs_crit'
-     420 |                         btrfs_crit(fs_info,
-         |                         ^~~~~~~~~~
-   fs/btrfs/ordered-data.c: In function 'btrfs_put_ordered_extent':
-   fs/btrfs/ordered-data.c:675:42: error: 'struct btrfs_ordered_extent' has no member named 'finished_bitmap'
-     675 |                         bitmap_free(entry->finished_bitmap);
-         |                                          ^~
-
-
-vim +200 fs/btrfs/ordered-data.c
-
-   147	
-   148	static struct btrfs_ordered_extent *alloc_ordered_extent(
-   149				struct btrfs_inode *inode, u64 file_offset, u64 num_bytes,
-   150				u64 ram_bytes, u64 disk_bytenr, u64 disk_num_bytes,
-   151				u64 offset, unsigned long flags, int compress_type)
-   152	{
-   153		struct btrfs_ordered_extent *entry;
-   154		int ret;
-   155		u64 qgroup_rsv = 0;
-   156	
-   157		if (flags &
-   158		    ((1 << BTRFS_ORDERED_NOCOW) | (1 << BTRFS_ORDERED_PREALLOC))) {
-   159			/* For nocow write, we can release the qgroup rsv right now */
-   160			ret = btrfs_qgroup_free_data(inode, NULL, file_offset, num_bytes, &qgroup_rsv);
-   161			if (ret < 0)
-   162				return ERR_PTR(ret);
-   163		} else {
-   164			/*
-   165			 * The ordered extent has reserved qgroup space, release now
-   166			 * and pass the reserved number for qgroup_record to free.
-   167			 */
-   168			ret = btrfs_qgroup_release_data(inode, file_offset, num_bytes, &qgroup_rsv);
-   169			if (ret < 0)
-   170				return ERR_PTR(ret);
-   171		}
-   172		entry = kmem_cache_zalloc(btrfs_ordered_extent_cache, GFP_NOFS);
-   173		if (!entry)
-   174			return ERR_PTR(-ENOMEM);
-   175	
-   176		entry->file_offset = file_offset;
-   177		entry->num_bytes = num_bytes;
-   178		entry->ram_bytes = ram_bytes;
-   179		entry->disk_bytenr = disk_bytenr;
-   180		entry->disk_num_bytes = disk_num_bytes;
-   181		entry->offset = offset;
-   182		entry->bytes_left = num_bytes;
-   183		entry->inode = BTRFS_I(igrab(&inode->vfs_inode));
-   184		entry->compress_type = compress_type;
-   185		entry->truncated_len = (u64)-1;
-   186		entry->qgroup_rsv = qgroup_rsv;
-   187		entry->flags = flags;
-   188		refcount_set(&entry->refs, 1);
-   189		init_waitqueue_head(&entry->wait);
-   190		INIT_LIST_HEAD(&entry->list);
-   191		INIT_LIST_HEAD(&entry->log_list);
-   192		INIT_LIST_HEAD(&entry->root_extent_list);
-   193		INIT_LIST_HEAD(&entry->work_list);
-   194		INIT_LIST_HEAD(&entry->bioc_list);
-   195		init_completion(&entry->completion);
-   196	
-   197		if (IS_ENABLED(CONFIG_BTRFS_DEBUG)) {
-   198			struct btrfs_fs_info *fs_info = inode->root->fs_info;
-   199	
- > 200			entry->finished_bitmap = bitmap_zalloc(
-   201				num_bytes >> fs_info->sectorsize_bits, GFP_NOFS);
-   202			if (!entry->finished_bitmap) {
-   203				kmem_cache_free(btrfs_ordered_extent_cache, entry);
-   204				return ERR_PTR(-ENOMEM);
-   205			}
-   206		}
-   207		/*
-   208		 * We don't need the count_max_extents here, we can assume that all of
-   209		 * that work has been done at higher layers, so this is truly the
-   210		 * smallest the extent is going to get.
-   211		 */
-   212		spin_lock(&inode->lock);
-   213		btrfs_mod_outstanding_extents(inode, 1);
-   214		spin_unlock(&inode->lock);
-   215	
-   216		return entry;
-   217	}
-   218	
+>> ld.lld: error: undefined symbol: obj_cgroup_uncharge_vmalloc
+   >>> referenced by vmalloc.c
+   >>>               mm/vmalloc.o:(vfree) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: obj_cgroup_charge_vmalloc
+   >>> referenced by vmalloc.c
+   >>>               mm/vmalloc.o:(__vmalloc_node_range_noprof) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
