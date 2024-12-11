@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609E91D61BB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 15:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D4524634B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 17:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733932538; cv=none; b=Chi7614d+pUwhtZvoDnokPSoy09uq/uqlwLWjodZaMNuBeLKM9Dff2H60SOK6eaRsop5STPCpUQMJguMKBchPiy2iJk7EKgPSfzhhyoDUX5NPfhPKK4y5Wk+Qi5ieSiar2c9ZsXq5M6T44Mm5m46bN6PAEHFCHfsfMprdFvfQUk=
+	t=1733937537; cv=none; b=Xg7UZpRUEqVfp+1hCkzr7woHd/ZxgFrKu7Mq8B1ZfUCpfIaWeKcPPzSnWA5r2NUdluIItRGjomDeLnxxyvjMiN5/kh8V5UWSzUOE2cVQdV3o5wP51vRm/JUydaAszBKjC7K+ADrtMXAbQHLqNubice/M2PCKL4IgHBOUQoo/T84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733932538; c=relaxed/simple;
-	bh=HmOxCZxjCiU378CSb7oKJA9Sc+js1sJTAFxOWMlCJmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CviuH4nRHI9BnFsMVQBVG4LuQIY02/7jEvjF8UKGhnSB6KdNzQtZQ2DX4k0NcLIbq3gEuwiluDlTFZzrOJ72JSTXj5PD5eEKkY9VCQtPOpUTlgiIG/kABd3SvQkstnNfVuc7p1CRkS8YLYJp8RTFBhl4r1pezvOxOh1WFULn55E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcLiBDpF; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1733937537; c=relaxed/simple;
+	bh=Ck+PVhr4fHniz5Eg+zhhB78UyZZdlCm0HtuiQWn6AFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QmXvOTvB5w//Hqg0q0Iae3PeQp31Avy9wG49drC2+ijhb9eCLA4AtQSDn6wiKb6phmZyH4F88iR13lZ4H3xE513ZWfA3GZmhanhK4mb2/hGyEn4TIC40bR+uupDmYStwbFIWE6CODflFmGs6feAOWYcS3uvrYf/7LEPefxcefYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N1sOs//g; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcLiBDpF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1sOs//g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733932536; x=1765468536;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HmOxCZxjCiU378CSb7oKJA9Sc+js1sJTAFxOWMlCJmE=;
-  b=dcLiBDpFgzGyp4Kc+k549p5BIaMb+Yec9fkqAbuWtTQYTdzVVd23pXN/
-   r34Qjr1OG5AmZwSTlK7gKLAzqKQkKohwQ2k8QtisBGovTSX5eSrYVolEU
-   ELqwkbo9zQCfpxMQn/Kly8gouJruVjA5mVE/pVAV0kgVd/yfJ0Wdd6Wl9
-   C+jWBm0yom0BFGkLZcVpAzIPF27BcLRGqeF1yxbzxwDGFdw7qm+tLlcMg
-   +mPn5FMHq9wVzYqj/nuzXrJso2PQNtG2WRCwMLMwPC9kecY/DUauUyPFN
-   sNjcE6D3yLlF1V98PckA5HsxTLG7D4ylFAmvf9OfjQUI46S5aMYq17oQN
+  t=1733937534; x=1765473534;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ck+PVhr4fHniz5Eg+zhhB78UyZZdlCm0HtuiQWn6AFk=;
+  b=N1sOs//gvWV6Z/gjh8MQfdElQZE0dQ70v0FiAcOo2t/wfOnWzoqKgSuw
+   ro3zPTukoDJx95s4HtfS+B1fm0BG/OiyArhUXoyPDKWuXNowQGwOW96Jx
+   ZhqzdApQcU69TzfPhq/zxkf/CuYt/Fz8m8AwckqT58tVcYXJV3b5sa2S8
+   I6MiQIA+xBu9iGiVLhDwQmvVEoB/SBSNo+kxn7fkfjGdQebBx8StlC6QU
+   y7u86DDF82cWyOJuioN7epyEsU4wo1Y//ABkLtYK7a60WkALoa86a5JKb
+   OThT9LFEIPqtNQr8BPxkWC0OrYUqfZpAJojSOKFAwSdLnK5ip2+HUacG9
    w==;
-X-CSE-ConnectionGUID: 5rWDOwwJTwmpU2Uz5y/uzw==
-X-CSE-MsgGUID: DPxI2IKMRJOSGZYAjpfktQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="44988547"
+X-CSE-ConnectionGUID: BZcC2V+BR3i3v7jBL6ZUJA==
+X-CSE-MsgGUID: kWS6vulMQOeDBo05vaFUvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34203261"
 X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="44988547"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 07:55:35 -0800
-X-CSE-ConnectionGUID: UHIfsOldR3+nqNbRXD6RFA==
-X-CSE-MsgGUID: J0U5wcbMRZSxJwP6ZlSaoQ==
+   d="scan'208";a="34203261"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 09:18:54 -0800
+X-CSE-ConnectionGUID: CBUOilqoRsm+7CIBPNeM7Q==
+X-CSE-MsgGUID: DwmC44QBSTyW/BFN3cRSbw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133238907"
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
+   d="scan'208";a="95714130"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Dec 2024 07:55:34 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 11 Dec 2024 09:18:52 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLP3j-0006pp-1K;
-	Wed, 11 Dec 2024 15:55:31 +0000
-Date: Wed, 11 Dec 2024 23:55:06 +0800
+	id 1tLQML-0006vf-1b;
+	Wed, 11 Dec 2024 17:18:49 +0000
+Date: Thu, 12 Dec 2024 01:18:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Arinzon <darinzon@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Shay Agroskin <shayagr@amazon.com>
-Subject: drivers/net/ethernet/amazon/ena/ena_netdev.c:77 ena_tx_timeout()
- warn: inconsistent indenting
-Message-ID: <202412112324.Ybl6uMc0-lkp@intel.com>
+To: Hao Ge <hao.ge@linux.dev>, surenb@google.com, kent.overstreet@linux.dev,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, hao.ge@linux.dev,
+	Hao Ge <gehao@kylinos.cn>, Ben Greear <greearb@candelatech.com>
+Subject: Re: [PATCH v3] mm/alloc_tag: Fix panic when CONFIG_KASAN enabled and
+ CONFIG_KASAN_VMALLOC not enabled
+Message-ID: <202412120143.l3g6vx8b-lkp@intel.com>
+References: <20241211025755.56173-1-hao.ge@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +66,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241211025755.56173-1-hao.ge@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f92f4749861b06fed908d336b4dee1326003291b
-commit: 071271f39ce833a3534d1fbd47174d1bed6d9326 net: ena: Add more information on TX timeouts
-date:   10 months ago
-config: arm-randconfig-r073-20241209 (https://download.01.org/0day-ci/archive/20241211/202412112324.Ybl6uMc0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+Hi Hao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Ge/mm-alloc_tag-Fix-panic-when-CONFIG_KASAN-enabled-and-CONFIG_KASAN_VMALLOC-not-enabled/20241211-110206
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241211025755.56173-1-hao.ge%40linux.dev
+patch subject: [PATCH v3] mm/alloc_tag: Fix panic when CONFIG_KASAN enabled and CONFIG_KASAN_VMALLOC not enabled
+config: i386-buildonly-randconfig-005-20241211 (https://download.01.org/0day-ci/archive/20241212/202412120143.l3g6vx8b-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120143.l3g6vx8b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412112324.Ybl6uMc0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120143.l3g6vx8b-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/amazon/ena/ena_netdev.c:77 ena_tx_timeout() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +77 drivers/net/ethernet/amazon/ena/ena_netdev.c
+   lib/alloc_tag.c: In function 'vm_module_tags_populate':
+>> lib/alloc_tag.c:409:40: error: 'KASAN_SHADOW_SCALE_SHIFT' undeclared (first use in this function)
+     409 |                                  (2 << KASAN_SHADOW_SCALE_SHIFT) - 1) >> KASAN_SHADOW_SCALE_SHIFT;
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~
+   lib/alloc_tag.c:409:40: note: each undeclared identifier is reported only once for each function it appears in
 
-    47	
-    48	static void ena_tx_timeout(struct net_device *dev, unsigned int txqueue)
-    49	{
-    50		enum ena_regs_reset_reason_types reset_reason = ENA_REGS_RESET_OS_NETDEV_WD;
-    51		struct ena_adapter *adapter = netdev_priv(dev);
-    52		unsigned int time_since_last_napi, threshold;
-    53		struct ena_ring *tx_ring;
-    54		int napi_scheduled;
-    55	
-    56		if (txqueue >= adapter->num_io_queues) {
-    57			netdev_err(dev, "TX timeout on invalid queue %u\n", txqueue);
-    58			goto schedule_reset;
-    59		}
-    60	
-    61		threshold = jiffies_to_usecs(dev->watchdog_timeo);
-    62		tx_ring = &adapter->tx_ring[txqueue];
-    63	
-    64		time_since_last_napi = jiffies_to_usecs(jiffies - tx_ring->tx_stats.last_napi_jiffies);
-    65		napi_scheduled = !!(tx_ring->napi->state & NAPIF_STATE_SCHED);
-    66	
-    67		netdev_err(dev,
-    68			   "TX q %d is paused for too long (threshold %u). Time since last napi %u usec. napi scheduled: %d\n",
-    69			   txqueue,
-    70			   threshold,
-    71			   time_since_last_napi,
-    72			   napi_scheduled);
-    73	
-    74		if (threshold < time_since_last_napi && napi_scheduled) {
-    75			netdev_err(dev,
-    76				   "napi handler hasn't been called for a long time but is scheduled\n");
-  > 77				   reset_reason = ENA_REGS_RESET_SUSPECTED_POLL_STARVATION;
-    78		}
-    79	schedule_reset:
-    80		/* Change the state of the device to trigger reset
-    81		 * Check that we are not in the middle or a trigger already
-    82		 */
-    83		if (test_and_set_bit(ENA_FLAG_TRIGGER_RESET, &adapter->flags))
-    84			return;
-    85	
-    86		ena_reset_device(adapter, reset_reason);
-    87		ena_increase_stat(&adapter->dev_stats.tx_timeout, 1, &adapter->syncp);
-    88	}
-    89	
+
+vim +/KASAN_SHADOW_SCALE_SHIFT +409 lib/alloc_tag.c
+
+   402	
+   403	static int vm_module_tags_populate(void)
+   404	{
+   405		unsigned long phys_end = ALIGN_DOWN(module_tags.start_addr, PAGE_SIZE) +
+   406					 (vm_module_tags->nr_pages << PAGE_SHIFT);
+   407		unsigned long new_end = module_tags.start_addr + module_tags.size;
+   408		unsigned long phys_idx = (vm_module_tags->nr_pages +
+ > 409					 (2 << KASAN_SHADOW_SCALE_SHIFT) - 1) >> KASAN_SHADOW_SCALE_SHIFT;
+   410		unsigned long new_idx = 0;
+   411	
+   412		if (phys_end < new_end) {
+   413			struct page **next_page = vm_module_tags->pages + vm_module_tags->nr_pages;
+   414			unsigned long more_pages;
+   415			unsigned long nr;
+   416	
+   417			more_pages = ALIGN(new_end - phys_end, PAGE_SIZE) >> PAGE_SHIFT;
+   418			nr = alloc_pages_bulk_array_node(GFP_KERNEL | __GFP_NOWARN,
+   419							 NUMA_NO_NODE, more_pages, next_page);
+   420			if (nr < more_pages ||
+   421			    vmap_pages_range(phys_end, phys_end + (nr << PAGE_SHIFT), PAGE_KERNEL,
+   422					     next_page, PAGE_SHIFT) < 0) {
+   423				/* Clean up and error out */
+   424				for (int i = 0; i < nr; i++)
+   425					__free_page(next_page[i]);
+   426				return -ENOMEM;
+   427			}
+   428	
+   429			vm_module_tags->nr_pages += nr;
+   430	
+   431			new_idx = (vm_module_tags->nr_pages +
+   432				  (2 << KASAN_SHADOW_SCALE_SHIFT) - 1) >> KASAN_SHADOW_SCALE_SHIFT;
+   433	
+   434			/*
+   435			 * Kasan allocates 1 byte of shadow for every 8 bytes of data.
+   436			 * When kasan_alloc_module_shadow allocates shadow memory,
+   437			 * its unit of allocation is a page.
+   438			 * Therefore, here we need to align to MODULE_ALIGN.
+   439			 *
+   440			 * For every KASAN_SHADOW_SCALE_SHIFT, a shadow page is allocated.
+   441			 * So, we determine whether to allocate based on whether the
+   442			 * number of pages falls within the scope of the same KASAN_SHADOW_SCALE_SHIFT.
+   443			 */
+   444			if (phys_idx != new_idx)
+   445				kasan_alloc_module_shadow((void *)round_up(phys_end, MODULE_ALIGN),
+   446							  (new_idx - phys_idx) * MODULE_ALIGN,
+   447							  GFP_KERNEL);
+   448		}
+   449	
+   450		/*
+   451		 * Mark the pages as accessible, now that they are mapped.
+   452		 * With hardware tag-based KASAN, marking is skipped for
+   453		 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
+   454		 */
+   455		kasan_unpoison_vmalloc((void *)module_tags.start_addr,
+   456					new_end - module_tags.start_addr,
+   457					KASAN_VMALLOC_PROT_NORMAL);
+   458	
+   459		return 0;
+   460	}
+   461	
 
 -- 
 0-DAY CI Kernel Test Service
