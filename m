@@ -1,42 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BE81F0E26
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 23:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8A31C173C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 23:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733960770; cv=none; b=OWTOO0yiAhykGmdzr4FN/Xh+V4kslOkhCDTTWXnLqP7uWvF1IlDEYn563BiscpH3GpOnViSA0r00OLPzvufuPKUYhE3P8eBQf2Bsg2L8IjA/CU9v4bFuzkxeLE+pxRGGcpiNHzkDuFF5kwOeTQCSM5El9Ms5PwAu0c8QT6LCZx4=
+	t=1733960919; cv=none; b=AWT7D7UZ1nXsS7PZIoDCW3GegeOaWY0jQwsBL3dh6BDs5LU3/PylVM9bpsCocTta1gOqkKA1vrNUWbyqNbdLPf3DCWuAY/Nov3lwpcqqRwBayTL2kunfgbcJX3BwASaY51aNeIX/lDfcjL7JEHb9c7I5AWKQJeOQ+nnl/PSV/38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733960770; c=relaxed/simple;
-	bh=c0cAAcj+jfzZ9jBhsS1y5Faz1EPtZnZBIVeHidv0x7I=;
+	s=arc-20240116; t=1733960919; c=relaxed/simple;
+	bh=HT9vWnuJvMkKoH6OJBts+t/Nw8Pw/TFcNjyZbryYkBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Er5CcqPVTq752mcWnmG/g+ukKRLLmzES2rGETSIVeiHVxatNGzlKc00kOJlbLz0v9jKS97nMtUQv7e7Al/R2Jf5r+tX2t/YUPEkw+/LCCJAW0SvLEbKLFPqSFJpved1qBktmh1WTXB9DtuEQS977ach3wtkNBbieHPWjCjwSb0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TnbKDxAu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WOzUaHHrpgSV3PltspPG+bLQ7GKYpHjomn1WpVBDTAy/0HrDSbWJPC0k+ESCihgtbwHIYpvx9Bk+A7ZMQ3QcKA1dsw7WX0NtFtgNSaeaALL9IGOzgSMPtRi0dAa2OwajlrfljufnYYbzkRQ07AuQpsK+z8YsD/zUL0z+wZmr5+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hMTKd8Zj; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TnbKDxAu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C912C4CEDE;
-	Wed, 11 Dec 2024 23:46:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733960769;
-	bh=c0cAAcj+jfzZ9jBhsS1y5Faz1EPtZnZBIVeHidv0x7I=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=TnbKDxAuPXnsqKbUKIZCLO9HNntt4pI0PlzL7mI7qxRGaB4dHRXyk+8QXUi7Vg5Th
-	 FOGO36rCw8GDV7SWCE5nv4GzFxwZ54mTVS+8n1ecEL0zjtXRAG3NXDl4vWSTWLdK/p
-	 z6noY9U+g9usmwqNWptvCOVpFBZLoxf7zF97nlAsCyl/B5B9kECM33vOv6S5948RnN
-	 bf/lPkryx62L6sZKQtiOEwu3gAv2Rxa3fz98A/Rp+TpuDmM8QXlMUKAY43I+ebmcOI
-	 HEO9mybp1OZnVkiXIrCYBoZz2pA5IHVcy/RfJnxQws6FlLMoHkIc0h53Y0URpdrCDa
-	 FZ7UBQYrf5lRg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 49E6FCE0A32; Wed, 11 Dec 2024 15:46:09 -0800 (PST)
-Date: Wed, 11 Dec 2024 15:46:09 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev 51/57] ERROR: modpost:
- "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
-Message-ID: <12f955e3-bbd8-482d-83dd-b9ac00bc2f68@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202412120535.T5YZArL9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMTKd8Zj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733960917; x=1765496917;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HT9vWnuJvMkKoH6OJBts+t/Nw8Pw/TFcNjyZbryYkBA=;
+  b=hMTKd8ZjAF8WS1u4wB8C10XfRQQ1/DCDvTP6/UGc4mHV+DszRKCNqd82
+   zXREhwGUv3pPSm/8xkR///9doD6gPsrOmhW2LbhXh3AAUlOtKs+uZNu2f
+   sgQzULbMMG5uIu7TI0JdpbWggDDoJ3aOTHupTZtM6wGeAOE8J3LUcTQlU
+   laAhVC89PRKP5jyoo6jN/nPux/d+Ks0QGP61mv/2DMFk4Nkx5CgFD3KrH
+   oQAiXs5kJZi3HbCSXvHCdWeXHWsMi3ksXVcS68qyw7rSDJ98JDthX3pop
+   jvPVlUrDPH4UqMtt8sE4mv6KIFbqs3B+C2Ye2AW8Id0SbZt1nR8vruJta
+   A==;
+X-CSE-ConnectionGUID: +NvrtzTkR+KuLwr43HQAHQ==
+X-CSE-MsgGUID: 26gl6gW/SjyRhxDRG2zjsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="33691241"
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
+   d="scan'208";a="33691241"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 15:48:36 -0800
+X-CSE-ConnectionGUID: bq3i4svtSZSf5WOqLcGDeQ==
+X-CSE-MsgGUID: DQbRrX2SRLOXrlcvAGAUZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="133384402"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Dec 2024 15:48:32 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLWRQ-0007DZ-2m;
+	Wed, 11 Dec 2024 23:48:28 +0000
+Date: Thu, 12 Dec 2024 07:47:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, memxor@gmail.com,
+	akpm@linux-foundation.org, peterz@infradead.org, vbabka@suse.cz,
+	bigeasy@linutronix.de, rostedt@goodmis.org, houtao1@huawei.com,
+	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@suse.com,
+	willy@infradead.org, tglx@linutronix.de, tj@kernel.org,
+	linux-mm@kvack.org, kernel-team@fb.com
+Subject: Re: [PATCH bpf-next v2 4/6] memcg: Add __GFP_TRYLOCK support.
+Message-ID: <202412120745.nnianRgw-lkp@intel.com>
+References: <20241210023936.46871-5-alexei.starovoitov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,70 +67,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202412120535.T5YZArL9-lkp@intel.com>
+In-Reply-To: <20241210023936.46871-5-alexei.starovoitov@gmail.com>
 
-On Thu, Dec 12, 2024 at 05:55:36AM +0800, kernel test robot wrote:
-> tree:   https://github.com/paulmckrcu/linux dev
-> head:   58b186eb8049230c475262f8e9eab34299677b8a
-> commit: 9133bc2bf728593225932a2574688beeb602b1ef [51/57] rcutorture: Include grace-period sequence numbers in failure/close-call
-> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241212/202412120535.T5YZArL9-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120535.T5YZArL9-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412120535.T5YZArL9-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> ERROR: modpost: "rcutorture_gather_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
-> >> ERROR: modpost: "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
-> ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
-> ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
-> ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
-> ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
-> ERROR: modpost: "inb_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
-> ERROR: modpost: "inw_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
-> ERROR: modpost: "nec7210_locking_ioport_write_byte" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
-> ERROR: modpost: "nec7210_locking_ioport_read_byte" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
-> WARNING: modpost: suppressed 2 unresolved symbol warnings because there were too many)
+Hi Alexei,
 
-I believe that this is fixed by the following commit, which I will likely
-fold into the original.  Does it do the trick for you?
+kernel test robot noticed the following build warnings:
 
-							Thanx, Paul
+[auto build test WARNING on bpf-next/master]
 
-------------------------------------------------------------------------
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/mm-bpf-Introduce-__GFP_TRYLOCK-for-opportunistic-page-allocation/20241210-104250
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241210023936.46871-5-alexei.starovoitov%40gmail.com
+patch subject: [PATCH bpf-next v2 4/6] memcg: Add __GFP_TRYLOCK support.
+config: x86_64-buildonly-randconfig-001-20241210 (https://download.01.org/0day-ci/archive/20241212/202412120745.nnianRgw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120745.nnianRgw-lkp@intel.com/reproduce)
 
-commit c2cf9cf59e746aa60badcb07f58b09b7f604c19b
-Author: Nathan Chancellor <nathan@kernel.org>
-Date:   Wed Dec 11 12:43:01 2024 -0800
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120745.nnianRgw-lkp@intel.com/
 
-    rcu: Use IS_ENABLED() for Tiny RCU rcutorture definitions
-    
-    The rcutorture_gather_gp_seqs() and rcutorture_format_gp_seqs() functions
-    are currently guarded by "#ifdef CONFIG_RCU_TORTURE_TEST".  This fails
-    in kernels built with CONFIG_RCU_TINY=y and CONFIG_RCU_TORTURE_TEST=m
-    because in that case there is no CONFIG_RCU_TORTURE_TEST cpp macro.
-    There is instead a CONFIG_RCU_TORTURE_TEST_MODULE cpp macro.
-    
-    This commit uses "#if IS_ENABLED(CONFIG_RCU_TORTURE_TEST)" to correctly
-    handle modular as well as built-in rcutorture for kernels using Tiny RCU.
-    
-    Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+All warnings (new ones prefixed by >>):
 
-diff --git a/kernel/rcu/tiny.c b/kernel/rcu/tiny.c
-index 1971683f1a82d..b97c64e99a905 100644
---- a/kernel/rcu/tiny.c
-+++ b/kernel/rcu/tiny.c
-@@ -257,7 +257,7 @@ void kvfree_call_rcu(struct rcu_head *head, void *ptr)
- EXPORT_SYMBOL_GPL(kvfree_call_rcu);
- #endif
- 
--#ifdef CONFIG_RCU_TORTURE_TEST
-+#if IS_ENABLED(CONFIG_RCU_TORTURE_TEST)
- unsigned long long rcutorture_gather_gp_seqs(void)
- {
- 	return READ_ONCE(rcu_ctrlblk.gp_seq) & 0xffffULL;
+>> mm/memcontrol.c:1761: warning: Function parameter or struct member 'gfp_mask' not described in 'consume_stock'
+
+
+vim +1761 mm/memcontrol.c
+
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15  1743  
+56751146238723 Sebastian Andrzej Siewior 2022-03-22  1744  static struct obj_cgroup *drain_obj_stock(struct memcg_stock_pcp *stock);
+bf4f059954dcb2 Roman Gushchin            2020-08-06  1745  static bool obj_stock_flush_required(struct memcg_stock_pcp *stock,
+bf4f059954dcb2 Roman Gushchin            2020-08-06  1746  				     struct mem_cgroup *root_memcg);
+bf4f059954dcb2 Roman Gushchin            2020-08-06  1747  
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1748  /**
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1749   * consume_stock: Try to consume stocked charge on this cpu.
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1750   * @memcg: memcg to consume from.
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1751   * @nr_pages: how many pages to charge.
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1752   *
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1753   * The charges will only happen if @memcg matches the current cpu's memcg
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1754   * stock, and at least @nr_pages are available in that stock.  Failure to
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1755   * service an allocation will refill the stock.
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1756   *
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1757   * returns true if successful, false otherwise.
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15  1758   */
+c889f3c0bc9a18 Alexei Starovoitov        2024-12-09  1759  static bool consume_stock(struct mem_cgroup *memcg, unsigned int nr_pages,
+c889f3c0bc9a18 Alexei Starovoitov        2024-12-09  1760  			  gfp_t gfp_mask)
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15 @1761  {
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15  1762  	struct memcg_stock_pcp *stock;
+1872b3bcd5874b Breno Leitao              2024-05-01  1763  	unsigned int stock_pages;
+db2ba40c277dc5 Johannes Weiner           2016-09-19  1764  	unsigned long flags;
+3e32cb2e0a12b6 Johannes Weiner           2014-12-10  1765  	bool ret = false;
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15  1766  
+a983b5ebee5720 Johannes Weiner           2018-01-31  1767  	if (nr_pages > MEMCG_CHARGE_BATCH)
+3e32cb2e0a12b6 Johannes Weiner           2014-12-10  1768  		return ret;
+a0956d54492eb7 Suleiman Souhlal          2012-12-18  1769  
+c889f3c0bc9a18 Alexei Starovoitov        2024-12-09  1770  	if (!local_trylock_irqsave(&memcg_stock.stock_lock, flags)) {
+c889f3c0bc9a18 Alexei Starovoitov        2024-12-09  1771  		if (gfp_mask & __GFP_TRYLOCK)
+c889f3c0bc9a18 Alexei Starovoitov        2024-12-09  1772  			return ret;
+56751146238723 Sebastian Andrzej Siewior 2022-03-22  1773  		local_lock_irqsave(&memcg_stock.stock_lock, flags);
+c889f3c0bc9a18 Alexei Starovoitov        2024-12-09  1774  	}
+db2ba40c277dc5 Johannes Weiner           2016-09-19  1775  
+db2ba40c277dc5 Johannes Weiner           2016-09-19  1776  	stock = this_cpu_ptr(&memcg_stock);
+1872b3bcd5874b Breno Leitao              2024-05-01  1777  	stock_pages = READ_ONCE(stock->nr_pages);
+1872b3bcd5874b Breno Leitao              2024-05-01  1778  	if (memcg == READ_ONCE(stock->cached) && stock_pages >= nr_pages) {
+1872b3bcd5874b Breno Leitao              2024-05-01  1779  		WRITE_ONCE(stock->nr_pages, stock_pages - nr_pages);
+3e32cb2e0a12b6 Johannes Weiner           2014-12-10  1780  		ret = true;
+3e32cb2e0a12b6 Johannes Weiner           2014-12-10  1781  	}
+db2ba40c277dc5 Johannes Weiner           2016-09-19  1782  
+56751146238723 Sebastian Andrzej Siewior 2022-03-22  1783  	local_unlock_irqrestore(&memcg_stock.stock_lock, flags);
+db2ba40c277dc5 Johannes Weiner           2016-09-19  1784  
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15  1785  	return ret;
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15  1786  }
+cdec2e4265dfa0 KAMEZAWA Hiroyuki         2009-12-15  1787  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
