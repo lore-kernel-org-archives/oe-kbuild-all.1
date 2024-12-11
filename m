@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C7E22912C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 12:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E77D1CD3F;
+	Wed, 11 Dec 2024 14:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733921057; cv=none; b=GoWu3bzsL33xO/aOKMLJrRYsFFhwNxOkMna57J+ti0yPrKemXqDL19QZmd0IEPbdak7ITvQqgOTc+VbvlFlC3MZ1AleaWqrwHRQgyVkcmOYsD8n9uyAI48OrluK1fIFtaV5THnL8gizVPQPFlXuXptYBUeQ+F++mO8+SVKZBZiU=
+	t=1733926752; cv=none; b=ryZ7ACmJBIceVeNG5IS7aYPbAegL3j+lVlhmFUUYYqc21LEQU3eYeceaPiJYaDYX+vWtCjBE4JNguAMeJS/NHZDSOC5rcOC6APx7DA+/W+4bJqJprJIMz1+PGNB8nhpiXwYSkNOOaAmDHGzpZxtGwgkHNPMYYb01hS86ngH44RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733921057; c=relaxed/simple;
-	bh=+JUK+gTk/O2CThlR/5lfYtwBXju0DUTQPSj5cblh6fk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k5nU+0jBP3cSz3HXE86NzxQbXs+yKrd7+lV9VptxjReoEs9XestTukPSFEFymR3F2pX3yCLvhZwolMfYmyIIkSxlhSRIRKvHfYG5BjJuyn+nfReXVMB/2d1BFRrGTnd26xJyixxmHXa8f4Rpa35rAxWh0be42EoEuWuMbfPe3nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHH/8J0z; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1733926752; c=relaxed/simple;
+	bh=n/bW5X2P50IWGPskV8bddp7mr3+Mz84TOOqK8/Bw/oE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kmykREvi99miHQTG00AECaRSww5jNi2kHu0jUxy8xkWBcqxzul8+57oAdc+08WcktukXdU93MKUmb8ajhjYz/mxc4RdQaSPMrIZ//RkMVdMHc7OWQIIZy9Rp3lCPdGAxD5bYT9l+5ml3FR/KCkHoYIM9bngPdCzuDOxyoNDBSOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YnXptYsC; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHH/8J0z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YnXptYsC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733921056; x=1765457056;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+JUK+gTk/O2CThlR/5lfYtwBXju0DUTQPSj5cblh6fk=;
-  b=QHH/8J0zq6j8Eu4spS6DTxxfWkPOviaCdEvU/0aLDuHpxowy9vQ/olxO
-   GvBrBOqKn3wul4rNNpl08IEQMPCnp/84KkvG8A5OP+HCgDGyfw1i9BzsS
-   rhn3a7nrvQ9HxQUDzpa57biAUogj/3Tcs/jtWJi5D9laXxH8OUOlp3ph3
-   wOtrHcK2dtCR6mXlCtX8fuwxhU4uxEjQ02LWCMv2jAi7vn8bM+v075yF7
-   3byTQvzX75jH+hUjbuYO8NB3v8R965ORP76bbvMI3AzgDppujXYTVOOh3
-   sKJ6zdY48SPTpEuNmGpLhdl6K5hR1I/5DDw98GhFLs9dFCHBsVKIrstyx
-   Q==;
-X-CSE-ConnectionGUID: Sd1ABHU6Q6yVdxxhKy/9Aw==
-X-CSE-MsgGUID: M4hHclt7Qfe/pLHftf9r1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45705847"
+  t=1733926750; x=1765462750;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n/bW5X2P50IWGPskV8bddp7mr3+Mz84TOOqK8/Bw/oE=;
+  b=YnXptYsCDuCz67z68OVhd+q6IgWg25VH2cA3Dj9ZEJuSv4mCkhwMCeme
+   CLaXoodKYM1vUgNoqdSZiiOei0pqwB7FvfRs2uSP17/fowO8cGYkGnoa0
+   /Z74sQTsz4M5lm10Iu2uJSW5mIzoenBtUlvbTx7Q4LYzPdbziczaaG5aV
+   eO/B8G4kIarIHtAd5gV8tDhwsDKIOjvuW/XK3x3UzZuU+qL30Z+v40SP8
+   2szoybsT/voFWQdCX2K8D2lEn3Z7kzfMnSCDy9+u+Wh5akfUOQpmtWwTy
+   TgqzUG64wyAL5ECIW9nkXMEdHfAmuxZ+WFA3mOxOcQ8EoX51RBoR4sxh0
+   A==;
+X-CSE-ConnectionGUID: oKZK5FYWTiCb8Xn0/R53Kw==
+X-CSE-MsgGUID: VFHuih4YRmiV2rIThMHL0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="38239158"
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="45705847"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 04:44:15 -0800
-X-CSE-ConnectionGUID: Pe2Rv16bSBCVIEhy4LQPNg==
-X-CSE-MsgGUID: X46rf1YHQeSLEAB4cfn4aQ==
+   d="scan'208";a="38239158"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 06:19:09 -0800
+X-CSE-ConnectionGUID: V+dO8e6fQuaP7J/uGnbsQg==
+X-CSE-MsgGUID: 0Hp/6ujnREedJDCTms2R+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="100851404"
+X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
+   d="scan'208";a="95885459"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Dec 2024 04:44:14 -0800
+  by orviesa006.jf.intel.com with ESMTP; 11 Dec 2024 06:19:07 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLM4a-0006ep-0E;
-	Wed, 11 Dec 2024 12:44:12 +0000
-Date: Wed, 11 Dec 2024 20:42:47 +0800
+	id 1tLNYO-0006jh-1F;
+	Wed, 11 Dec 2024 14:19:04 +0000
+Date: Wed, 11 Dec 2024 22:18:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/v9-wip 20/21] drivers/net/veth.c:831:undefined
- reference to `io_iov_get_page'
-Message-ID: <202412112029.a37Xr6xi-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+	arnd@arndb.de, deller@gmx.de, simona@ffwll.ch, airlied@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+Message-ID: <202412112135.pzFeIjEo-lkp@intel.com>
+References: <20241210142329.660801-2-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,116 +67,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241210142329.660801-2-tzimmermann@suse.de>
 
-tree:   https://github.com/isilence/linux zcrx/v9-wip
-head:   57539d7d0009112e33f2baf7a975d4d2ba2c50cf
-commit: 5a2e200685de32ee0c8931b0b094fcccd6c1754a [20/21] [NOT-FOR-UPSTREAM] veth: add support for io_uring zc rx
-config: sparc64-randconfig-001-20241211 (https://download.01.org/0day-ci/archive/20241211/202412112029.a37Xr6xi-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412112029.a37Xr6xi-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus drm/drm-next drm-exynos/exynos-drm-next linus/master v6.13-rc2 next-20241211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Fix-recursive-dependencies-wrt-BACKLIGHT_CLASS_DEVICE/20241210-222618
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20241210142329.660801-2-tzimmermann%40suse.de
+patch subject: [PATCH 1/3] fbdev: Fix recursive dependencies wrt BACKLIGHT_CLASS_DEVICE
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20241211/202412112135.pzFeIjEo-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412112135.pzFeIjEo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412112029.a37Xr6xi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412112135.pzFeIjEo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sparc64-linux-ld: drivers/net/veth.o: in function `veth_iou_rcv_skb':
->> drivers/net/veth.c:831:(.text+0x7620): undefined reference to `io_iov_get_page'
-
-
-vim +831 drivers/net/veth.c
-
-   771	
-   772	static noinline struct sk_buff *veth_iou_rcv_skb(struct veth_rq *rq,
-   773						struct sk_buff *skb)
-   774	{
-   775		struct sk_buff *nskb;
-   776		u32 size, len, off, max_head_size;
-   777		struct page *page;
-   778		int ret, i, head_off;
-   779		void *vaddr;
-   780	
-   781		/* Testing only, randomly send normal pages to test copy fallback */
-   782		if (ktime_get_ns() % 16 == 0)
-   783			return skb;
-   784	
-   785		skb_prepare_for_gro(skb);
-   786		max_head_size = skb_headlen(skb);
-   787	
-   788		rcu_read_lock();
-   789		nskb = napi_alloc_skb(&rq->xdp_napi, max_head_size);
-   790		if (!nskb)
-   791			goto drop;
-   792	
-   793		skb_copy_header(nskb, skb);
-   794		skb_mark_for_recycle(nskb);
-   795	
-   796		size = max_head_size;
-   797		if (skb_copy_bits(skb, 0, nskb->data, size)) {
-   798		consume_skb(nskb);
-   799			goto drop;
-   800		}
-   801		skb_put(nskb, size);
-   802		head_off = skb_headroom(nskb) - skb_headroom(skb);
-   803		skb_headers_offset_update(nskb, head_off);
-   804	
-   805		/* Allocate paged area of new skb */
-   806		off = size;
-   807		len = skb->len - off;
-   808	
-   809		for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
-   810			netmem_ref netmem;
-   811			unsigned frag_offset;
-   812	
-   813			size = min_t(u32, len, PAGE_SIZE);
-   814			// netmem = page_pool_alloc_frag_netmem(rq->page_pool,
-   815			// 				     &frag_offset, size,
-   816			// 				     GFP_ATOMIC | __GFP_NOWARN);
-   817	
-   818			printk("alloc frag %p size %i off %i\n", (void*)netmem,
-   819								  (int)size, (int)frag_offset);
-   820	
-   821			netmem = page_pool_alloc_netmem(rq->page_pool, GFP_ATOMIC | __GFP_NOWARN);
-   822			if (!netmem) {
-   823				consume_skb(nskb);
-   824				goto drop;
-   825			}
-   826			if (WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
-   827				consume_skb(nskb);
-   828				goto drop;
-   829			}
-   830	
- > 831			page = io_iov_get_page(netmem);
-   832			if (WARN_ON_ONCE(!page))
-   833				goto drop;
-   834	
-   835			skb_add_rx_frag_netmem(nskb, i, netmem, frag_offset, size,
-   836						PAGE_SIZE);
-   837	
-   838			vaddr = kmap_atomic(page);
-   839			ret = skb_copy_bits(skb, off, vaddr + frag_offset, size);
-   840			kunmap_atomic(vaddr);
-   841	
-   842			if (ret) {
-   843				consume_skb(nskb);
-   844				goto drop;
-   845			}
-   846			len -= size;
-   847			off += size;
-   848		}
-   849		rcu_read_unlock();
-   850	
-   851		consume_skb(skb);
-   852		skb = nskb;
-   853		return skb;
-   854	drop:
-   855		rcu_read_unlock();
-   856		kfree_skb(skb);
-   857		return NULL;
-   858	}
-   859	
+   loongarch64-linux-ld: drivers/video/fbdev/aty/radeon_backlight.o: in function `radeonfb_bl_init':
+>> radeon_backlight.c:(.text+0x424): undefined reference to `backlight_device_register'
+   loongarch64-linux-ld: drivers/video/fbdev/aty/radeon_backlight.o: in function `radeonfb_bl_exit':
+>> radeon_backlight.c:(.text+0x560): undefined reference to `backlight_device_unregister'
 
 -- 
 0-DAY CI Kernel Test Service
