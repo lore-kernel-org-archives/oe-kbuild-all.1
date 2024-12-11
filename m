@@ -1,69 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D16A1C3F27
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 23:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BE81F0E26
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 23:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733960254; cv=none; b=fsJ0TE9wZ7bx50BksLz64TSRgRVnGAtNZpHN/08V9pMAkgVA9lx5cs+352BLsB5z1+UyGokiX2vIZ+YISvWf+7bdGq8oXTGW76wtXg3DTy+xQgaeS5xX38xtY6BbhSTDep+UB+5obPyhGFmUt4yGXBAhn4dtmW7Jzz1M98EXv1U=
+	t=1733960770; cv=none; b=OWTOO0yiAhykGmdzr4FN/Xh+V4kslOkhCDTTWXnLqP7uWvF1IlDEYn563BiscpH3GpOnViSA0r00OLPzvufuPKUYhE3P8eBQf2Bsg2L8IjA/CU9v4bFuzkxeLE+pxRGGcpiNHzkDuFF5kwOeTQCSM5El9Ms5PwAu0c8QT6LCZx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733960254; c=relaxed/simple;
-	bh=utgvRHnj1gJiZOnHD5B9sfHVvbJudFuB2vzSHjnVxu8=;
+	s=arc-20240116; t=1733960770; c=relaxed/simple;
+	bh=c0cAAcj+jfzZ9jBhsS1y5Faz1EPtZnZBIVeHidv0x7I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X7LQNJ1VuMpBYFl7UyBNFa67sjhDdVVbqAZNVF4X/3WFwHIhcyW3Iu0RJ6cwPKNEkHRbBadoaG6l2N61eKSuUgzjw3kLYEnzXo+/3LOpidhMp+bLKxqu9+tHvysYGedcKUbIlMgX02q8IC7WWLwDd1rmxr3v4csRVVEk2k4OaZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkgkb5nQ; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Er5CcqPVTq752mcWnmG/g+ukKRLLmzES2rGETSIVeiHVxatNGzlKc00kOJlbLz0v9jKS97nMtUQv7e7Al/R2Jf5r+tX2t/YUPEkw+/LCCJAW0SvLEbKLFPqSFJpved1qBktmh1WTXB9DtuEQS977ach3wtkNBbieHPWjCjwSb0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TnbKDxAu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkgkb5nQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733960253; x=1765496253;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=utgvRHnj1gJiZOnHD5B9sfHVvbJudFuB2vzSHjnVxu8=;
-  b=mkgkb5nQKts6T6yi/86tmUZG49wW/l9kRN6Cg7yEgZPMB2FaPwDv3Yx7
-   mZ+9my8Y+Aml7smT0Ue+4K9MFmOn//NUBTvl0fn+vv+OSnYblwx+EWFsp
-   NCLYRyZ987KH6qHIQF1nKKbYPeQHSqRKdURvE+KiZGGvOgXwkeJZRak0S
-   vQGTA+XwFNkIXAballNDEOYOG0PSwXHVLZ5A+aWnKNVg3YTD6DferAsJM
-   BGHqlLhV59MOwKHuzVnBn+FOr+4AUAW2gXZIPOT8Q8QpL2o+TY3tRMEPF
-   TbRtpTUvCyj8SrdY75Ek2QGTuZiEoI1YqWPWAw9GKMnHXvlRn6VbeXhbD
-   A==;
-X-CSE-ConnectionGUID: S+Kh5/tKQOuRn8NcuEQFIQ==
-X-CSE-MsgGUID: 3B0I6oV3QhiLqTS00Fy2Qg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="21944865"
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="21944865"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 15:37:32 -0800
-X-CSE-ConnectionGUID: xCKDKHoOQui+/6SOMOPh1w==
-X-CSE-MsgGUID: Jg0/3VBrSXecJmDkOFjPMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="95846851"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Dec 2024 15:37:30 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLWGl-0007DJ-0s;
-	Wed, 11 Dec 2024 23:37:27 +0000
-Date: Thu, 12 Dec 2024 07:36:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] vmalloc: Account memcg per vmalloc
-Message-ID: <202412120722.YWlWwpqk-lkp@intel.com>
-References: <20241211043252.3295947-2-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TnbKDxAu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C912C4CEDE;
+	Wed, 11 Dec 2024 23:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733960769;
+	bh=c0cAAcj+jfzZ9jBhsS1y5Faz1EPtZnZBIVeHidv0x7I=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=TnbKDxAuPXnsqKbUKIZCLO9HNntt4pI0PlzL7mI7qxRGaB4dHRXyk+8QXUi7Vg5Th
+	 FOGO36rCw8GDV7SWCE5nv4GzFxwZ54mTVS+8n1ecEL0zjtXRAG3NXDl4vWSTWLdK/p
+	 z6noY9U+g9usmwqNWptvCOVpFBZLoxf7zF97nlAsCyl/B5B9kECM33vOv6S5948RnN
+	 bf/lPkryx62L6sZKQtiOEwu3gAv2Rxa3fz98A/Rp+TpuDmM8QXlMUKAY43I+ebmcOI
+	 HEO9mybp1OZnVkiXIrCYBoZz2pA5IHVcy/RfJnxQws6FlLMoHkIc0h53Y0URpdrCDa
+	 FZ7UBQYrf5lRg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 49E6FCE0A32; Wed, 11 Dec 2024 15:46:09 -0800 (PST)
+Date: Wed, 11 Dec 2024 15:46:09 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:dev 51/57] ERROR: modpost:
+ "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+Message-ID: <12f955e3-bbd8-482d-83dd-b9ac00bc2f68@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202412120535.T5YZArL9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,105 +45,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241211043252.3295947-2-willy@infradead.org>
+In-Reply-To: <202412120535.T5YZArL9-lkp@intel.com>
 
-Hi Matthew,
+On Thu, Dec 12, 2024 at 05:55:36AM +0800, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux dev
+> head:   58b186eb8049230c475262f8e9eab34299677b8a
+> commit: 9133bc2bf728593225932a2574688beeb602b1ef [51/57] rcutorture: Include grace-period sequence numbers in failure/close-call
+> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241212/202412120535.T5YZArL9-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120535.T5YZArL9-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412120535.T5YZArL9-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> ERROR: modpost: "rcutorture_gather_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+> >> ERROR: modpost: "rcutorture_format_gp_seqs" [kernel/rcu/rcutorture.ko] undefined!
+> ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+> ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
+> ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
+> ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
+> ERROR: modpost: "inb_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+> ERROR: modpost: "inw_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+> ERROR: modpost: "nec7210_locking_ioport_write_byte" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+> ERROR: modpost: "nec7210_locking_ioport_read_byte" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+> WARNING: modpost: suppressed 2 unresolved symbol warnings because there were too many)
 
-kernel test robot noticed the following build errors:
+I believe that this is fixed by the following commit, which I will likely
+fold into the original.  Does it do the trick for you?
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.13-rc2 next-20241211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+							Thanx, Paul
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/vmalloc-Account-memcg-per-vmalloc/20241211-123433
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241211043252.3295947-2-willy%40infradead.org
-patch subject: [PATCH 2/2] vmalloc: Account memcg per vmalloc
-config: sparc64-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241212/202412120722.YWlWwpqk-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120722.YWlWwpqk-lkp@intel.com/reproduce)
+------------------------------------------------------------------------
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120722.YWlWwpqk-lkp@intel.com/
+commit c2cf9cf59e746aa60badcb07f58b09b7f604c19b
+Author: Nathan Chancellor <nathan@kernel.org>
+Date:   Wed Dec 11 12:43:01 2024 -0800
 
-All errors (new ones prefixed by >>):
+    rcu: Use IS_ENABLED() for Tiny RCU rcutorture definitions
+    
+    The rcutorture_gather_gp_seqs() and rcutorture_format_gp_seqs() functions
+    are currently guarded by "#ifdef CONFIG_RCU_TORTURE_TEST".  This fails
+    in kernels built with CONFIG_RCU_TINY=y and CONFIG_RCU_TORTURE_TEST=m
+    because in that case there is no CONFIG_RCU_TORTURE_TEST cpp macro.
+    There is instead a CONFIG_RCU_TORTURE_TEST_MODULE cpp macro.
+    
+    This commit uses "#if IS_ENABLED(CONFIG_RCU_TORTURE_TEST)" to correctly
+    handle modular as well as built-in rcutorture for kernels using Tiny RCU.
+    
+    Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
-   sparc64-linux-ld: mm/vmalloc.o: in function `vfree':
->> mm/vmalloc.c:3386:(.text+0x6bbc): undefined reference to `obj_cgroup_uncharge_vmalloc'
-   sparc64-linux-ld: mm/vmalloc.o: in function `__vmalloc_area_node':
->> mm/vmalloc.c:3676:(.text+0x6f94): undefined reference to `obj_cgroup_charge_vmalloc'
-
-
-vim +3386 mm/vmalloc.c
-
-  3329	
-  3330	/**
-  3331	 * vfree - Release memory allocated by vmalloc()
-  3332	 * @addr:  Memory base address
-  3333	 *
-  3334	 * Free the virtually continuous memory area starting at @addr, as obtained
-  3335	 * from one of the vmalloc() family of APIs.  This will usually also free the
-  3336	 * physical memory underlying the virtual allocation, but that memory is
-  3337	 * reference counted, so it will not be freed until the last user goes away.
-  3338	 *
-  3339	 * If @addr is NULL, no operation is performed.
-  3340	 *
-  3341	 * Context:
-  3342	 * May sleep if called *not* from interrupt context.
-  3343	 * Must not be called in NMI context (strictly speaking, it could be
-  3344	 * if we have CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG, but making the calling
-  3345	 * conventions for vfree() arch-dependent would be a really bad idea).
-  3346	 */
-  3347	void vfree(const void *addr)
-  3348	{
-  3349		struct vm_struct *vm;
-  3350		int i;
-  3351	
-  3352		if (unlikely(in_interrupt())) {
-  3353			vfree_atomic(addr);
-  3354			return;
-  3355		}
-  3356	
-  3357		BUG_ON(in_nmi());
-  3358		kmemleak_free(addr);
-  3359		might_sleep();
-  3360	
-  3361		if (!addr)
-  3362			return;
-  3363	
-  3364		vm = remove_vm_area(addr);
-  3365		if (unlikely(!vm)) {
-  3366			WARN(1, KERN_ERR "Trying to vfree() nonexistent vm area (%p)\n",
-  3367					addr);
-  3368			return;
-  3369		}
-  3370	
-  3371		if (unlikely(vm->flags & VM_FLUSH_RESET_PERMS))
-  3372			vm_reset_perms(vm);
-  3373		for (i = 0; i < vm->nr_pages; i++) {
-  3374			struct page *page = vm->pages[i];
-  3375	
-  3376			BUG_ON(!page);
-  3377			/*
-  3378			 * High-order allocs for huge vmallocs are split, so
-  3379			 * can be freed as an array of order-0 allocations
-  3380			 */
-  3381			__free_page(page);
-  3382			cond_resched();
-  3383		}
-  3384		if (!(vm->flags & VM_MAP_PUT_PAGES))
-  3385			atomic_long_sub(vm->nr_pages, &nr_vmalloc_pages);
-> 3386		obj_cgroup_uncharge_vmalloc(vm->objcg, vm->nr_pages);
-  3387		kvfree(vm->pages);
-  3388		kfree(vm);
-  3389	}
-  3390	EXPORT_SYMBOL(vfree);
-  3391	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/kernel/rcu/tiny.c b/kernel/rcu/tiny.c
+index 1971683f1a82d..b97c64e99a905 100644
+--- a/kernel/rcu/tiny.c
++++ b/kernel/rcu/tiny.c
+@@ -257,7 +257,7 @@ void kvfree_call_rcu(struct rcu_head *head, void *ptr)
+ EXPORT_SYMBOL_GPL(kvfree_call_rcu);
+ #endif
+ 
+-#ifdef CONFIG_RCU_TORTURE_TEST
++#if IS_ENABLED(CONFIG_RCU_TORTURE_TEST)
+ unsigned long long rcutorture_gather_gp_seqs(void)
+ {
+ 	return READ_ONCE(rcu_ctrlblk.gp_seq) & 0xffffULL;
