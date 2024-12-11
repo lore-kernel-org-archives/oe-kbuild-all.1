@@ -1,112 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F12594B1;
-	Wed, 11 Dec 2024 19:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28041C548F;
+	Wed, 11 Dec 2024 19:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733944484; cv=none; b=kcNdowJ+hbKdAy3E6r2eMGtFjHTwI2EgsuxS01W/k1EVpFpeKHmPw/FhPmncAgW2k2GQc6usQsmUgfioJzWUb13GTgBsBdtgT3jJsJsboUjU0EhDmMpVpgsO1K6zvVSibfdViGvMpI7JRD1ZZtkSBxQQanTsHhQpLpsz+aroKb0=
+	t=1733944545; cv=none; b=q+t2p2ckj+Ra58jLtfTwTlkQVGsN8viJMuUwEJhlVZzE7YxmEJzjcmTAOw1NiCfEIHBNh+JelVmtg0HKnhbK5oMECnmS3wFvtWIgtW2h8aFybOQlRrf4Ze6eXDW6Fbgz1/ov0IW3ehnpsXf3s7oLdhUB3+Attih/gbdV0e8YvpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733944484; c=relaxed/simple;
-	bh=LoelWbPE6h3w4ImeyPrWnS2h7HbJfCpr6GMroutnPZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aP1J5hNUrw/qsNiC/4BjjuY5aP2FEo3rxY4mXE5xEbFnuNozwIuG1qtq7dsxLFxvG8cotE8nXhZ7cf4KoanhGb3CUxuW1K4BP87vs+nbGdY3xquEvvDGa+HiDemqZLuuM3fsNacUXeYg6kixxou1C9eo/RU/b2VGljvaaGcm6Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yx1BLb2o; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733944545; c=relaxed/simple;
+	bh=TycHuwKOqMmwmgXtlpvbcP6Cd7VjA6M0ekrYMGO/yEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c6y1JWkehDF55nFYy2PR64XUvjwRi66AiyGf4ZPJR4XIqNR8olrd/m4YVx+DqrNjw2eD+q9OpZnEPEUH22ddIDCrd73SBkaklOFwS5fSx6e1awqkU+920srK6LYlgDQRuoRgsNLjRHwuavTAWalSIwHg1mRuWm94gh2CsF0tbhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HOKrypyn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yx1BLb2o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733944482; x=1765480482;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LoelWbPE6h3w4ImeyPrWnS2h7HbJfCpr6GMroutnPZA=;
-  b=Yx1BLb2ofx0E3274bjC65kGYWWJ2Y0ZLoNT4Za/i66i3WDAKgGCdNtiw
-   atx7sLcsX7WclQnJ1/bPtb7iv+4kRffI9TuOO8gebxVefy2uvxEHsZRkC
-   9eysCcX2VLNb9NRpDKWWqWHnqPvp79kPR4n7DqoL948U6XqGKNA/r8Co/
-   MwGlwe1ewFy20Pbjd/vKa75MB+1DaavUL7T4g51A1AZk9QQoBqu+5hBY0
-   R7NQF/50BXW/WF2En69xiA/P5vtlDMJRAigNvJcra/IkBuGz6pxaGr870
-   B0jlLBigAu+q1KMI8NXnrGxXc5/NB6T1hil+yjhCloFIfYLz+rvlHHc6M
-   Q==;
-X-CSE-ConnectionGUID: mKoR+GNOTsCwSz0thSHWsQ==
-X-CSE-MsgGUID: ky5t8sAaRJeMEVQT/0bEfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="38126367"
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="38126367"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 11:14:42 -0800
-X-CSE-ConnectionGUID: YHlGPK9VQ0mHlUtTTtXhmg==
-X-CSE-MsgGUID: f01i83YnQVOVZnfG0fSYdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100014301"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Dec 2024 11:14:39 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLSAO-00070r-2U;
-	Wed, 11 Dec 2024 19:14:36 +0000
-Date: Thu, 12 Dec 2024 03:14:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] vmalloc: Move memcg logic into memcg code
-Message-ID: <202412120251.VSLmEgIe-lkp@intel.com>
-References: <20241210193035.2667005-1-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HOKrypyn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F2E1C4CED2;
+	Wed, 11 Dec 2024 19:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733944545;
+	bh=TycHuwKOqMmwmgXtlpvbcP6Cd7VjA6M0ekrYMGO/yEk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HOKrypynG4At1cB14qOLL/okQZnfH9pGms2vTOQTsuWpmc3DqdEVOuG5Acsxv+faT
+	 j4Haut7R+d2d1Kz+QdZoJa3LEq4Qkwhg872K9rTqXE7LDiQPIB9Nw07pAdNEtBA4K1
+	 gF02VL4duNd5yPCfVqAVN1C5XyUSm8NI0hiIomaJNqEX+Y9S1G+gg8t+PrYesTkJDQ
+	 Df33m49aHVpa9hMpxr1GsrHr/8yhcOVraVRpWAxINJmSCWzezSVSVS+P9FPiteXI87
+	 3LNpR3cQd3i8rBHtUyAuaihf9RZfY5bJ822lk6zEUzHpNS0nlQEkoIsH9JAlEDebU4
+	 M+1PVhiLgEpMA==
+Date: Wed, 11 Dec 2024 19:15:36 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Lothar Rubusch <l.rubusch@gmail.com>,
+ lars@metafoo.de, Michael.Hennerich@analog.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ eraretuya@gmail.com
+Subject: Re: [PATCH v5 10/10] iio: accel: adxl345: add FIFO with watermark
+ events
+Message-ID: <20241211191536.224c89e9@jic23-huawei>
+In-Reply-To: <dc914326-7eae-4e4a-8c93-ae1a7007bcc9@stanley.mountain>
+References: <20241205171343.308963-11-l.rubusch@gmail.com>
+	<dc914326-7eae-4e4a-8c93-ae1a7007bcc9@stanley.mountain>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241210193035.2667005-1-willy@infradead.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Matthew,
+On Tue, 10 Dec 2024 11:47:37 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-kernel test robot noticed the following build errors:
+> Hi Lothar,
+> 
+> kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.13-rc2 next-20241211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Ah. This was the report you were referring to I guess.  Just fix these in v6 version
+of this patch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/vmalloc-Move-memcg-logic-into-memcg-code/20241211-033214
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241210193035.2667005-1-willy%40infradead.org
-patch subject: [PATCH] vmalloc: Move memcg logic into memcg code
-config: arm-randconfig-001-20241211 (https://download.01.org/0day-ci/archive/20241212/202412120251.VSLmEgIe-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120251.VSLmEgIe-lkp@intel.com/reproduce)
+Thanks,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120251.VSLmEgIe-lkp@intel.com/
+Jonathan
 
-All errors (new ones prefixed by >>):
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-refrase-comment-on-probe/20241206-011802
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20241205171343.308963-11-l.rubusch%40gmail.com
+> patch subject: [PATCH v5 10/10] iio: accel: adxl345: add FIFO with watermark events
+> config: nios2-randconfig-r072-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101132.Kj6R6i3h-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 14.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202412101132.Kj6R6i3h-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/accel/adxl345_core.c:441 adxl345_event_handler() warn: unsigned 'int_stat' is never less than zero.
+> 
+> vim +/ret +321 drivers/iio/accel/adxl345_core.c
+> 
+> 55d2386488598bb Lothar Rubusch 2024-12-05  433  static irqreturn_t adxl345_event_handler(int irq, void *p)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  434  {
+> 55d2386488598bb Lothar Rubusch 2024-12-05  435  	struct iio_dev *indio_dev = p;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  436  	struct adxl345_state *st = iio_priv(indio_dev);
+> 55d2386488598bb Lothar Rubusch 2024-12-05  437  	u8 int_stat;
+>                                                         ^^^^^^^^^^^
+> 
+> 55d2386488598bb Lothar Rubusch 2024-12-05  438  	int samples;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  439  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  440  	int_stat = adxl345_get_status(st);
+> 55d2386488598bb Lothar Rubusch 2024-12-05 @441  	if (int_stat < 0)
+>                                                             ^^^^^^^^^^^^
+> signedness bug
+> 
+> 55d2386488598bb Lothar Rubusch 2024-12-05  442  		return IRQ_NONE;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  443  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  444  	if (int_stat == 0x0)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  445  		goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  446  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  447  	if (int_stat & ADXL345_INT_OVERRUN)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  448  		goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  449  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  450  	if (int_stat & (ADXL345_INT_DATA_READY | ADXL345_INT_WATERMARK)) {
+> 55d2386488598bb Lothar Rubusch 2024-12-05  451  		samples = adxl345_get_samples(st);
+> 55d2386488598bb Lothar Rubusch 2024-12-05  452  		if (samples < 0)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  453  			goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  454  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  455  		if (adxl345_fifo_push(indio_dev, samples) < 0)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  456  			goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  457  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  458  	}
+> 55d2386488598bb Lothar Rubusch 2024-12-05  459  	return IRQ_HANDLED;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  460  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  461  err:
+> 55d2386488598bb Lothar Rubusch 2024-12-05  462  	adxl345_fifo_reset(st);
+> 55d2386488598bb Lothar Rubusch 2024-12-05  463  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  464  	return IRQ_HANDLED;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  465  }
+> 
 
->> ld.lld: error: undefined symbol: obj_cgroup_uncharge_vmalloc
-   >>> referenced by vmalloc.c
-   >>>               mm/vmalloc.o:(vfree) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: obj_cgroup_charge_vmalloc
-   >>> referenced by vmalloc.c
-   >>>               mm/vmalloc.o:(__vmalloc_node_range_noprof) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
