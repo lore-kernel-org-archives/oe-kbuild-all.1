@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146E121146B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 11:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E56021146F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 11:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734001429; cv=none; b=A0t6exPcY9L3DmoJsTVhNJXgOGlE/OVersGKqjDbyIbilg9D6BO7VZhcMGWEUMqtKp5XX5GsBmdkc6zCIeTdZNpgokaSJuefYQQYM2MtjyqnSMwXuLwHzdQUHmkkyTIvCYy1bElRHzuSWz2XQJi5mXON+GhZQXbaoEHDrQKOxwQ=
+	t=1734001429; cv=none; b=pAXWtpLoAnjAXpH/pnlTr3j+3x6cLTxJigGHcQNUwssr+x2tiHNEVWO1J39kjodCuz2Pn3IhXxs1spTZ9VYZ5BNDsigsJNQHcM4KkgCjg8t/hRpfypUGGLF71fFuIF09h2AsTmnM1lt61danZyG0nuehQDsBD8pUCON2HbIEc6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734001429; c=relaxed/simple;
-	bh=mm5TLBjrkx2hYqFRM4Lbif3khZBM7VHyM5M4tgyh+YY=;
+	bh=uNi8VYRXqzAJqytMdPO7sC7zCEtCZuyAocnf6y+XjqA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JGB6H8DUfze9aveTQ7i2n1V88twTVBNT15I7bSpvYEqJ+O49IhUxZH4wXv25Uwnk8aJLs5A3Nt+tB0AOSp/Llagoalhrakwz4Pl2jCjhZBn6jfvOOc403YUqeZmFpHo68/HBwQ+ewkJujWLFE2BbvWIzyyQuGlzmwAhC2Kr7wgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWw6sTbP; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=NcEJFVRxmLGNcbb5iY58C8HCIshzAg6S9oPADbiC2n76m7E7HLYsjtC6lZah/2bIy2ltsn28asV4YRn8DpZgIbaP0R7Qtowv8NeQK6nEMFLWCJ0XcMAegMCjtMK6kFydPmewULej4A8EHJX1o2HgBJbKsEF9ol17Xqb6aOjkGoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FxnbYZwf; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWw6sTbP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FxnbYZwf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734001427; x=1765537427;
+  t=1734001428; x=1765537428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mm5TLBjrkx2hYqFRM4Lbif3khZBM7VHyM5M4tgyh+YY=;
-  b=hWw6sTbPknIUFdB86li9fHlbcp3+pz0wD/cKX/oJ0ZagH0LyY0aZTjHq
-   NKzaQgn/3oPmnqTu4YZR6VlHGM60kvQ2DmvN7MKWN2Kg4rwBKYSsJe9+j
-   S8frfAirOHoy0LyNU4eIfD7+YFdMxEUP8BxPdYBbo2Hp75UG55z6wXr/m
-   dAyNe+ivtJsJSXvvQm19P/MwIwTlJwfZr9vOKxqn/vy2EvJ7VAZZwi0Cs
-   XFE2vbjlitOPeNRErVFcXAV2tqynNvQFI7fr05OMLFSMv/VG8AaivMgMn
-   rsODesTAmspOVw1UPC6e6uL2+A2GOVM/3SCqBI/vP61PBN4RLnF/sYK2d
+  bh=uNi8VYRXqzAJqytMdPO7sC7zCEtCZuyAocnf6y+XjqA=;
+  b=FxnbYZwf7BkjA/CyfTSnIUqM/L254TkKzN1v/q+ZOqn7V6vKjJUlX2CN
+   RpCzsYcSu0ye7YA/qE8neNNqhtVciY6+Ed23RycZooIU4xRt8sT9ZXUGU
+   G0hJ969Tc8J8knx+KXtMbiwnZFMwL9sDaGzFATH3z5jYbt6VNUm2KJ0b8
+   1RHhvIbJCv+Zecq3d+Ns0unoCg7dkucbsE1wp6sOpAxR1D0k0LLV//oiq
+   zZ9TlBc08PHB/6i67LP9iTqrEYrUn5LUrrVrkYh/cFGdTBEfVytUttJXm
+   X/nD/GC9BW4H/Il9OpmpbU+oDPEHl1J4xDKZmTsMUM/IpvdfT5vZc7xgx
    w==;
-X-CSE-ConnectionGUID: 0hoZ7ah5SqOfQ6eLnp/chg==
-X-CSE-MsgGUID: 7adE++8oRSKw+Vr6HE7YmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34654998"
+X-CSE-ConnectionGUID: GSD/GtUyQqqigPU4/quSMA==
+X-CSE-MsgGUID: 6r/2xFRoTSy+2cCOEiuFIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34458082"
 X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="34654998"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 03:03:46 -0800
-X-CSE-ConnectionGUID: mL4DqmMlQEW71kTXck1dMQ==
-X-CSE-MsgGUID: YGRMb8TmTRmGIqQXNRlE4Q==
+   d="scan'208";a="34458082"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 03:03:47 -0800
+X-CSE-ConnectionGUID: NWGq9Z7sTYin7wp2CN7IXw==
+X-CSE-MsgGUID: y2xHsOHGSpOGHi0F7iDMIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96038486"
+   d="scan'208";a="119444564"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Dec 2024 03:03:45 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 12 Dec 2024 03:03:45 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLgys-0007kn-1O;
+	id 1tLgys-0007kp-1S;
 	Thu, 12 Dec 2024 11:03:42 +0000
-Date: Thu, 12 Dec 2024 19:02:54 +0800
+Date: Thu, 12 Dec 2024 19:02:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 10965/30000]
- drivers/usb/host/xhci-mem.c:1840:6: warning: no previous prototype for
- function 'xhci_handle_sec_intr_events'
-Message-ID: <202412121849.jKztXIbv-lkp@intel.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Potapenko <glider@google.com>
+Subject: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space
+ '__user' of expression
+Message-ID: <202412121809.uLILCZRI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,198 +65,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   a8bf86a0e0fa05070897a210d706d5c4d83c26ac
-commit: 5dfdaa15caebc782d1c90ff6513d4cc9f6ac3663 [10965/30000] ANDROID: GKI: usb: xhci: Add support for secondary interrupters
-config: x86_64-buildonly-randconfig-006-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121849.jKztXIbv-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121849.jKztXIbv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   231825b2e1ff6ba799c5eaf396d3ab2354e37c6b
+commit: 3a8f6f3b469b4075919a3613e182f9a70df92d46 kmsan: enable on s390
+date:   5 months ago
+config: s390-randconfig-r121-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121809.uLILCZRI-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
+reproduce: (https://download.01.org/0day-ci/archive/20241212/202412121809.uLILCZRI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412121849.jKztXIbv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412121809.uLILCZRI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:271:75: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const *user_addr @@     got void [noderef] __user *to @@
+   mm/kmsan/hooks.c:271:75: sparse:     expected void const *user_addr
+   mm/kmsan/hooks.c:271:75: sparse:     got void [noderef] __user *to
+   mm/kmsan/hooks.c:280:50: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:306:59: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:319:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:325:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:421:78: sparse: sparse: Using plain integer as NULL pointer
 
-   drivers/usb/host/xhci-mem.c:936:6: warning: no previous prototype for function 'xhci_free_virt_devices_depth_first' [-Wmissing-prototypes]
-     936 | void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id)
-         |      ^
-   drivers/usb/host/xhci-mem.c:936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     936 | void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id)
-         | ^
-         | static 
->> drivers/usb/host/xhci-mem.c:1840:6: warning: no previous prototype for function 'xhci_handle_sec_intr_events' [-Wmissing-prototypes]
-    1840 | void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
-         |      ^
-   drivers/usb/host/xhci-mem.c:1840:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1840 | void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
-         | ^
-         | static 
->> drivers/usb/host/xhci-mem.c:1947:6: warning: no previous prototype for function 'xhci_event_ring_cleanup' [-Wmissing-prototypes]
-    1947 | void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
-         |      ^
-   drivers/usb/host/xhci-mem.c:1947:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1947 | void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
-         | ^
-         | static 
->> drivers/usb/host/xhci-mem.c:2486:5: warning: no previous prototype for function 'xhci_event_ring_setup' [-Wmissing-prototypes]
-    2486 | int xhci_event_ring_setup(struct xhci_hcd *xhci, struct xhci_ring **er,
-         |     ^
-   drivers/usb/host/xhci-mem.c:2486:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2486 | int xhci_event_ring_setup(struct xhci_hcd *xhci, struct xhci_ring **er,
-         | ^
-         | static 
->> drivers/usb/host/xhci-mem.c:2590:5: warning: no previous prototype for function 'xhci_event_ring_init' [-Wmissing-prototypes]
-    2590 | int xhci_event_ring_init(struct xhci_hcd *xhci, gfp_t flags)
-         |     ^
-   drivers/usb/host/xhci-mem.c:2590:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2590 | int xhci_event_ring_init(struct xhci_hcd *xhci, gfp_t flags)
-         | ^
-         | static 
-   5 warnings generated.
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'xhci' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'num_segs' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'cycle_state' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'type' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'max_packet' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'flags' not described in 'xhci_ring_alloc'
+vim +/__user +269 mm/kmsan/hooks.c
 
+b073d7f8aee4ebf Alexander Potapenko 2022-09-15  247  
+75cf0290271bf6d Alexander Potapenko 2022-09-15  248  void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
+75cf0290271bf6d Alexander Potapenko 2022-09-15  249  			size_t left)
+75cf0290271bf6d Alexander Potapenko 2022-09-15  250  {
+75cf0290271bf6d Alexander Potapenko 2022-09-15  251  	unsigned long ua_flags;
+75cf0290271bf6d Alexander Potapenko 2022-09-15  252  
+75cf0290271bf6d Alexander Potapenko 2022-09-15  253  	if (!kmsan_enabled || kmsan_in_runtime())
+75cf0290271bf6d Alexander Potapenko 2022-09-15  254  		return;
+75cf0290271bf6d Alexander Potapenko 2022-09-15  255  	/*
+75cf0290271bf6d Alexander Potapenko 2022-09-15  256  	 * At this point we've copied the memory already. It's hard to check it
+75cf0290271bf6d Alexander Potapenko 2022-09-15  257  	 * before copying, as the size of actually copied buffer is unknown.
+75cf0290271bf6d Alexander Potapenko 2022-09-15  258  	 */
+75cf0290271bf6d Alexander Potapenko 2022-09-15  259  
+75cf0290271bf6d Alexander Potapenko 2022-09-15  260  	/* copy_to_user() may copy zero bytes. No need to check. */
+75cf0290271bf6d Alexander Potapenko 2022-09-15  261  	if (!to_copy)
+75cf0290271bf6d Alexander Potapenko 2022-09-15  262  		return;
+75cf0290271bf6d Alexander Potapenko 2022-09-15  263  	/* Or maybe copy_to_user() failed to copy anything. */
+75cf0290271bf6d Alexander Potapenko 2022-09-15  264  	if (to_copy <= left)
+75cf0290271bf6d Alexander Potapenko 2022-09-15  265  		return;
+75cf0290271bf6d Alexander Potapenko 2022-09-15  266  
+75cf0290271bf6d Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
+f926e9326f3a79f Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
+f926e9326f3a79f Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
+75cf0290271bf6d Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
+75cf0290271bf6d Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
+75cf0290271bf6d Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
+75cf0290271bf6d Alexander Potapenko 2022-09-15  273  	} else {
+75cf0290271bf6d Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
+75cf0290271bf6d Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
+75cf0290271bf6d Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
+75cf0290271bf6d Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
+75cf0290271bf6d Alexander Potapenko 2022-09-15  278  		 * bytes.
+75cf0290271bf6d Alexander Potapenko 2022-09-15  279  		 */
+75cf0290271bf6d Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
+75cf0290271bf6d Alexander Potapenko 2022-09-15  281  						to_copy - left);
+75cf0290271bf6d Alexander Potapenko 2022-09-15  282  	}
+75cf0290271bf6d Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
+75cf0290271bf6d Alexander Potapenko 2022-09-15  284  }
+75cf0290271bf6d Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
+75cf0290271bf6d Alexander Potapenko 2022-09-15  286  
 
-vim +/xhci_handle_sec_intr_events +1840 drivers/usb/host/xhci-mem.c
+:::::: The code at line 269 was first introduced by commit
+:::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
 
-  1839	
-> 1840	void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
-  1841	{
-  1842		union xhci_trb *erdp_trb, *current_trb;
-  1843		struct xhci_segment	*seg;
-  1844		u64 erdp_reg;
-  1845		u32 iman_reg;
-  1846		dma_addr_t deq;
-  1847		unsigned long segment_offset;
-  1848	
-  1849		/* disable irq, ack pending interrupt and ack all pending events */
-  1850	
-  1851		iman_reg =
-  1852			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
-  1853		iman_reg &= ~IMAN_IE;
-  1854		writel_relaxed(iman_reg,
-  1855				&xhci->sec_ir_set[intr_num]->irq_pending);
-  1856		iman_reg =
-  1857			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
-  1858		if (iman_reg & IMAN_IP)
-  1859			writel_relaxed(iman_reg,
-  1860				&xhci->sec_ir_set[intr_num]->irq_pending);
-  1861	
-  1862		/* last acked event trb is in erdp reg  */
-  1863		erdp_reg =
-  1864			xhci_read_64(xhci, &xhci->sec_ir_set[intr_num]->erst_dequeue);
-  1865		deq = (dma_addr_t)(erdp_reg & ~ERST_PTR_MASK);
-  1866		if (!deq) {
-  1867			pr_debug("%s: event ring handling not required\n", __func__);
-  1868			return;
-  1869		}
-  1870	
-  1871		seg = xhci->sec_event_ring[intr_num]->first_seg;
-  1872		segment_offset = deq - seg->dma;
-  1873	
-  1874		/* find out virtual address of the last acked event trb */
-  1875		erdp_trb = current_trb = &seg->trbs[0] +
-  1876					(segment_offset/sizeof(*current_trb));
-  1877	
-  1878		/* read cycle state of the last acked trb to find out CCS */
-  1879		xhci->sec_event_ring[intr_num]->cycle_state =
-  1880					(current_trb->event_cmd.flags & TRB_CYCLE);
-  1881	
-  1882		while (1) {
-  1883			/* last trb of the event ring: toggle cycle state */
-  1884			if (current_trb == &seg->trbs[TRBS_PER_SEGMENT - 1]) {
-  1885				xhci->sec_event_ring[intr_num]->cycle_state ^= 1;
-  1886				current_trb = &seg->trbs[0];
-  1887			} else {
-  1888				current_trb++;
-  1889			}
-  1890	
-  1891			/* cycle state transition */
-  1892			if ((le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE) !=
-  1893			    xhci->sec_event_ring[intr_num]->cycle_state)
-  1894				break;
-  1895		}
-  1896	
-  1897		if (erdp_trb != current_trb) {
-  1898			deq =
-  1899			xhci_trb_virt_to_dma(xhci->sec_event_ring[intr_num]->deq_seg,
-  1900						current_trb);
-  1901			if (deq == 0)
-  1902				xhci_warn(xhci,
-  1903					"WARN invalid SW event ring dequeue ptr.\n");
-  1904			/* Update HC event ring dequeue pointer */
-  1905			erdp_reg &= ERST_PTR_MASK;
-  1906			erdp_reg |= ((u64) deq & (u64) ~ERST_PTR_MASK);
-  1907		}
-  1908	
-  1909		/* Clear the event handler busy flag (RW1C); event ring is empty. */
-  1910		erdp_reg |= ERST_EHB;
-  1911		xhci_write_64(xhci, erdp_reg,
-  1912				&xhci->sec_ir_set[intr_num]->erst_dequeue);
-  1913	}
-  1914	
-  1915	int xhci_sec_event_ring_cleanup(struct usb_hcd *hcd, unsigned int intr_num)
-  1916	{
-  1917		int size;
-  1918		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-  1919		struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
-  1920	
-  1921		if (intr_num >= xhci->max_interrupters) {
-  1922			xhci_err(xhci, "invalid secondary interrupter num %d\n",
-  1923				intr_num);
-  1924			return -EINVAL;
-  1925		}
-  1926	
-  1927		size =
-  1928		sizeof(struct xhci_erst_entry)*(xhci->sec_erst[intr_num].num_entries);
-  1929		if (xhci->sec_erst[intr_num].entries) {
-  1930			xhci_handle_sec_intr_events(xhci, intr_num);
-  1931			dma_free_coherent(dev, size, xhci->sec_erst[intr_num].entries,
-  1932					xhci->sec_erst[intr_num].erst_dma_addr);
-  1933			xhci->sec_erst[intr_num].entries = NULL;
-  1934		}
-  1935		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed SEC ERST#%d",
-  1936			intr_num);
-  1937		if (xhci->sec_event_ring[intr_num])
-  1938			xhci_ring_free(xhci, xhci->sec_event_ring[intr_num]);
-  1939	
-  1940		xhci->sec_event_ring[intr_num] = NULL;
-  1941		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-  1942			"Freed sec event ring");
-  1943	
-  1944		return 0;
-  1945	}
-  1946	
-> 1947	void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
-  1948	{
-  1949		unsigned int i;
-  1950	
-  1951		/* sec event ring clean up */
-  1952		for (i = 1; i < xhci->max_interrupters; i++)
-  1953			xhci_sec_event_ring_cleanup(xhci_to_hcd(xhci), i);
-  1954	
-  1955		kfree(xhci->sec_ir_set);
-  1956		xhci->sec_ir_set = NULL;
-  1957		kfree(xhci->sec_erst);
-  1958		xhci->sec_erst = NULL;
-  1959		kfree(xhci->sec_event_ring);
-  1960		xhci->sec_event_ring = NULL;
-  1961	
-  1962		/* primary event ring clean up */
-  1963		xhci_free_erst(xhci, &xhci->erst);
-  1964		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed primary ERST");
-  1965		if (xhci->event_ring)
-  1966			xhci_ring_free(xhci, xhci->event_ring);
-  1967		xhci->event_ring = NULL;
-  1968		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed priamry event ring");
-  1969	}
-  1970	
+:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
