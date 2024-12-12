@@ -1,134 +1,84 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5CA20E32F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 09:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C9620E6EF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 09:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733996426; cv=none; b=TYeh0GmgrveiiBmzeX8Vz1ijEOQH9asuHLv6ntLuSiAaZe0wzLm6S6hS+DzJyoZo/ofod4azmb8GDT8PRf1JyfZNKr8Gjc4f6TBKkZqvPLBZGBxVioUAP/J2GnC4UBif3WZ8HvYwhCOT7N8vSOq6KBcoPwwOsAgYyT2usQzjrEA=
+	t=1733997178; cv=none; b=TYhANWy48GCfWqEhqkINIGQCTUNBV5RCGjcpQpG9KdTx477K5TlyhY4650iH24E9nuba7hof84CW19Q/hneL27KH1RsS0NnQ5UXWfjVFN1XvRISfurAkgkYniH8jF2/kUItpQYKKT+8ciwpFRVJm5k9EWTwXDdecEeaPE57gKnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733996426; c=relaxed/simple;
-	bh=3kiLqS4a1/6z0Lpovs5bIGDCbmoYe7j4L+HDdPQbnTY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=S2awrHC87oHpX4w/z39f7+3nEH+/z5SC+d9+KnWD74PehfEJqbmxxok//x3CPZ7cZjLJHy0ynSg70a1Jw/+1t00GJD8pWjAvKDkOcoW42W0y5VB7NiOmHngyoWS/rZHGVQcSdtkExo/iwKmd6lD4SM+Konva/XNG50yuXbgO8I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-148-GZbhliAwNcyb9MfIhgZ_9w-1; Thu, 12 Dec 2024 09:40:18 +0000
-X-MC-Unique: GZbhliAwNcyb9MfIhgZ_9w-1
-X-Mimecast-MFC-AGG-ID: GZbhliAwNcyb9MfIhgZ_9w
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 12 Dec
- 2024 09:39:22 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Thu, 12 Dec 2024 09:39:22 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'kernel test robot' <lkp@intel.com>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Andrew
- Morton" <akpm@linux-foundation.org>, Linux Memory Management List
-	<linux-mm@kvack.org>
-Subject: RE: [linux-next:master 1948/2656] block/blk-iocost.c:1101:11: error:
- call to __compiletime_assert_560 declared with 'error' attribute: clamp() low
- limit 1 greater than high limit active
-Thread-Topic: [linux-next:master 1948/2656] block/blk-iocost.c:1101:11: error:
- call to __compiletime_assert_560 declared with 'error' attribute: clamp() low
- limit 1 greater than high limit active
-Thread-Index: AQHbTAO/LBVwjhcfokKsJgYDzh99oLLiWwfQ
-Date: Thu, 12 Dec 2024 09:39:22 +0000
-Message-ID: <b7cc2610a9cf40a8a33a203f533ad9a5@AcuMS.aculab.com>
-References: <202412120322.3GfVe3vF-lkp@intel.com>
-In-Reply-To: <202412120322.3GfVe3vF-lkp@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1733997178; c=relaxed/simple;
+	bh=Z2m5/TwSIYTc/ivx0On8nWdm+GHqoAs8bzXWDjNa98E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IucLlgFFCrndiPMQ1kiQ8mdUGUvLcR2WU0zrcfJu02DnH5MsbZBlX9tRxcKyDsZLIeklJQFrTtYXQ5rpHdzX8gMbpNikA8fzZfun0+tnnchscC9Aetoqb2B+ZIfiNczshKFpxVaewOXwhKC7CLOq/RCSdoICnaFB9YZQ0s0Fbyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQ9QqcWz; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQ9QqcWz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733997175; x=1765533175;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Z2m5/TwSIYTc/ivx0On8nWdm+GHqoAs8bzXWDjNa98E=;
+  b=NQ9QqcWzh3F2IVYthSJnfbrAOWzsQl7ibkL2XzTtEBzs7ujWmzftGAVg
+   t5UsXdLriMOxXesQHsMoRIMIaRhAhdDPK2OLLGqFwcp86A4HDWdQVrD7Q
+   umx+JFzrMq0SmdXsmvbtJ4U0sV9zTBEDvFj3lHOezlJ1v03wID9tI/gEK
+   f+3HxWbZLpdU8TvURddIhucL0Aku712hbceS9ldwEegqBgEm/qZxe5Agt
+   4mA+xLoOZIaEL59yAIeifgcZ/pAd76Ua67CYKxvMccoAKGYEpZbzrXkVN
+   tAdDw65oD6y/qo5ONG3qJExviwCT+x0eX6pmj2Z03EfDsp8t5nLAm4M/c
+   w==;
+X-CSE-ConnectionGUID: WkRaMgMxRC6aYgqMcK7PBw==
+X-CSE-MsgGUID: wpFmr9k+TCy3oHVx0B6ung==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34133435"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="34133435"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 01:52:55 -0800
+X-CSE-ConnectionGUID: 2Tf/c2xfTceE0UCCTWTyuA==
+X-CSE-MsgGUID: 5tWBdDPqRR6M+atqSxQ+9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="96979225"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2024 01:52:53 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLfsI-0007gd-37;
+	Thu, 12 Dec 2024 09:52:50 +0000
+Date: Thu, 12 Dec 2024 17:52:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Karol Przybylski <karprzy7@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCHv2] drm: zynqmp_dp: Fix integer overflow in
+ zynqmp_dp_rate_get()
+Message-ID: <Z1qyVwAS7diUYFd0@3b9f04db549b>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rYFYLX_5R9_OjR7MFbY-MHdiRSY0AccJzoAIMFMh-SU_1733996417
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212095057.1015146-1-karprzy7@gmail.com>
 
-From: kernel test robot
-> Sent: 11 December 2024 19:35
->=20
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   91e71d606356e50f238d7a87aacdee4abc427f07
-> commit: 212fe932ee57ec4a0f41bdc42b58c64fe3062147 [1948/2656] minmax.h: si=
-mplify the variants of
-> clamp()
-> config: s390-defconfig (https://download.01.org/0day-ci/archive/20241212/=
-202412120322.3GfVe3vF-
-> lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project
-> 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-
-> ci/archive/20241212/202412120322.3GfVe3vF-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412120322.3GfVe3vF-lkp=
-@intel.com/
->=20
-...
-> b0853ab4a238c54 Tejun Heo   2020-09-01  1084  static void __propagate_wei=
-ghts(struct ioc_gq *iocg, u32
-> active, u32 inuse,
-> b0853ab4a238c54 Tejun Heo   2020-09-01  1085  =09=09=09=09bool save, stru=
-ct ioc_now *now)
-> 7caa47151ab2e64 Tejun Heo   2019-08-28  1086  {
-> 7caa47151ab2e64 Tejun Heo   2019-08-28  1087  =09struct ioc *ioc =3D iocg=
-->ioc;
-> 7caa47151ab2e64 Tejun Heo   2019-08-28  1088  =09int lvl;
-> 7caa47151ab2e64 Tejun Heo   2019-08-28  1089
-> 7caa47151ab2e64 Tejun Heo   2019-08-28  1090  =09lockdep_assert_held(&ioc=
-->lock);
-> 7caa47151ab2e64 Tejun Heo   2019-08-28  1091
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1092  =09/*
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1093  =09 * For an active leaf no=
-de, its inuse shouldn't be
-> zero or exceed
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1094  =09 * @active. An active in=
-ternal node's inuse is solely
-> determined by the
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1095  =09 * inuse to active ratio=
- of its children regardless of
-> @inuse.
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1096  =09 */
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1097  =09if (list_empty(&iocg->ac=
-tive_list) && iocg-
-> >child_active_sum) {
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1098  =09=09inuse =3D DIV64_U64_R=
-OUND_UP(active * iocg-
-> >child_inuse_sum,
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1099  =09=09=09=09=09   iocg->chi=
-ld_active_sum);
-> e9f4eee9a0023ba Tejun Heo   2021-05-11  1100  =09} else {
-> db84a72af6be422 Tejun Heo   2020-09-01 @1101  =09=09inuse =3D clamp_t(u32=
-, inuse, 1, active);
-...
+Hi,
 
-Duplicate - there is an inlined call that passes 'active =3D 0'.
-IIRC the clamp() is there to avoid a divide by zero later.
-The code is buggy and I think there is a fix pending.
+Thanks for your patch.
 
-=09David
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCHv2] drm: zynqmp_dp: Fix integer overflow in zynqmp_dp_rate_get()
+Link: https://lore.kernel.org/stable/20241212095057.1015146-1-karprzy7%40gmail.com
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
 
