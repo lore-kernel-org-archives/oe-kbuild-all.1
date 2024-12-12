@@ -1,151 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BDBC2E0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 01:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0974F13AA20
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 02:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733967108; cv=none; b=gveg5gWSzANmZSnzMeIwMSYdJX//yGyrGM0TFYOSau7PMYMq/AbgfQi9hI59V6G7LP84J6Gn6+IHxYfZMLCkxihspOhOcBp2PpK1Wl1JqGOd3iic1ahZjDg+B0wB+iLN/MYLhnMguMrRRoXeVnytYvhRiwWHAIm7ZRZ1t3Y/87Q=
+	t=1733970207; cv=none; b=DO3sORt338iQbdSErsiPg5wcaJduQGtNcxesLviS4ITf8gauEVNgNNsEYzsCPb5yD1c/x5WUgvXx/CG9JTWBBphEzun5wPfdMC1bccvQfG4Ic72o6qCrDnSPMNJPkCLhWGmScd6S248kOePXn0usb29pj2CZp9OeAXJ2nt6aGLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733967108; c=relaxed/simple;
-	bh=K0VafvKngiyoy+gIPt2y7Gcv36rDQPvBtIvPL9cZ0PM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rhapf/fR2/KWGvGE9TxxaXauLyp6iMZosmsqoB3IEWiJtNnNJb4+Dlww94k8wQsyFyfO9gI0iAifS4CRoPIhL7K/Z6K91Cm0BF7MgVn8vEq2P54OQA3ocXDOOoemz1h/ByO7oVHHSm5yXT2koDkjd5mNAjpRD1Z1svbH8PxM/vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hPcWNOFD; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733970207; c=relaxed/simple;
+	bh=pv7XFaPCkr86mLoprfmRja/s5C2ZHxNd0l9UsrPsVGw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z/Gu9/HoY9IKKmW9HdMk57B0CFguvCZZVs33Em+n2borAtNN7rJHUcCHP59vIyVZZktv2XnV4gTtOK1LIhy5sdZsN/Z0va2BwoSC50li6t2DcvThYDdiLQeR0lrQy1x40z1miN7PdIzb+Pd21GW8PIQos1BnAV+VDZG/QK4pseQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qQ6XQZku; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hPcWNOFD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733967105; x=1765503105;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K0VafvKngiyoy+gIPt2y7Gcv36rDQPvBtIvPL9cZ0PM=;
-  b=hPcWNOFDwuAhelGwOUkKgpTCc1X0/J1ria5RyQq0KE2+gZZzPZbMqhHe
-   pGIMNJXFLTgtjWvZ6yacejkHXY04AgXQqi0LkUB3NLU/pIapXziO30XTI
-   /zoR+NgNcWfpoqY53+d8Fmqmtvn4Vu/vmseqdbsaV5b/WRPBcFNREVaE6
-   UPcgjndJyBFoE6Q8NvHSyYAUc3aUK7Vu9m0sTSk8G3WrkbmWp0qDgK/E6
-   92bMMianSFDaa0xnxfiwEa2hHwb999RycvThDYAWJqLVdqPiSVaEx3jHI
-   5OFRzOWkY/202oVe+FbAjwVx4+X61MchpxMVLe6LX7TRSxUgH7MvezoMy
-   A==;
-X-CSE-ConnectionGUID: UwThok0aQ6Kk56GF+iuFwQ==
-X-CSE-MsgGUID: 3ozzb9yCS866SsPujMZJ7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34096052"
-X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34096052"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 17:31:44 -0800
-X-CSE-ConnectionGUID: EG1Z7OAyQ2CX6IOyJVs6zA==
-X-CSE-MsgGUID: 3hUeEj61R1+Y0MNCL+zJDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119279604"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Dec 2024 17:31:41 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLY3H-0007IG-2N;
-	Thu, 12 Dec 2024 01:31:39 +0000
-Date: Thu, 12 Dec 2024 09:31:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Bryan Whitehead <bryan.whitehead@microchip.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Marcin Wojtas <marcin.s.wojtas@gmail.com>, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, UNGLinuxDriver@microchip.com
-Subject: Re: [PATCH net-next 10/10] net: lan743x: convert to phylink managed
- EEE
-Message-ID: <202412120900.DYyJpYUw-lkp@intel.com>
-References: <E1tKeg8-006SNJ-4Q@rmk-PC.armlinux.org.uk>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qQ6XQZku"
+Message-ID: <4069a4f1-41cd-7911-0996-db29357acdbc@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1733970200;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GERvYWNxD6skZwQyuz6rGPA8mYQ6Q2SelCnBg87m34s=;
+	b=qQ6XQZkuYTaknVzyB5O3igvIQFQlaiUzlhaX5+/MA39EXMAKrA2gGmPlWmWbLKvd9uolrJ
+	0tkdp6YjFJORQcvZpb8C3k9xYAOHVz6i7kI+Ce6cNaPgc500C+ghu9D1H87JfTlDQr/16O
+	jlq6s9UKAj410m4cH+xnWh2t4bdL/Ns=
+Date: Thu, 12 Dec 2024 10:23:14 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1tKeg8-006SNJ-4Q@rmk-PC.armlinux.org.uk>
+Subject: Re: [PATCH v3] mm/alloc_tag: Fix panic when CONFIG_KASAN enabled and
+ CONFIG_KASAN_VMALLOC not enabled
+To: kernel test robot <lkp@intel.com>, surenb@google.com,
+ kent.overstreet@linux.dev, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Hao Ge <gehao@kylinos.cn>,
+ Ben Greear <greearb@candelatech.com>
+References: <20241211025755.56173-1-hao.ge@linux.dev>
+ <202412120143.l3g6vx8b-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <202412120143.l3g6vx8b-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Russell,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-mdio-add-definition-for-clock-stop-capable-bit/20241210-022608
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1tKeg8-006SNJ-4Q%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next 10/10] net: lan743x: convert to phylink managed EEE
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241212/202412120900.DYyJpYUw-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120900.DYyJpYUw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120900.DYyJpYUw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/microchip/lan743x_main.c: In function 'mac_disable_tx_lpi':
-   drivers/net/ethernet/microchip/lan743x_main.c:3078:32: error: 'adapter' undeclared (first use in this function)
-    3078 |         lan743x_mac_eee_enable(adapter, false);
-         |                                ^~~~~~~
-   drivers/net/ethernet/microchip/lan743x_main.c:3078:32: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/net/ethernet/microchip/lan743x_main.c: In function 'mac_enable_tx_lpi':
-   drivers/net/ethernet/microchip/lan743x_main.c:3089:27: error: 'adapter' undeclared (first use in this function)
-    3089 |         lan743x_csr_write(adapter, MAC_EEE_TX_LPI_REQ_DLY_CNT, timer);
-         |                           ^~~~~~~
-   drivers/net/ethernet/microchip/lan743x_main.c: At top level:
-   drivers/net/ethernet/microchip/lan743x_main.c:3097:31: error: 'lan743x_mac_disable_tx_lpi' undeclared here (not in a function); did you mean 'mac_disable_tx_lpi'?
-    3097 |         .mac_disable_tx_lpi = lan743x_mac_disable_tx_lpi,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                               mac_disable_tx_lpi
-   drivers/net/ethernet/microchip/lan743x_main.c:3098:30: error: 'lan743x_mac_enable_tx_lpi' undeclared here (not in a function); did you mean 'mac_enable_tx_lpi'?
-    3098 |         .mac_enable_tx_lpi = lan743x_mac_enable_tx_lpi,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                              mac_enable_tx_lpi
-   drivers/net/ethernet/microchip/lan743x_main.c: In function 'lan743x_phylink_create':
-   drivers/net/ethernet/microchip/lan743x_main.c:3113:33: error: 'struct phylink_config' has no member named 'lpi_timer_max'; did you mean 'lpi_timer_default'?
-    3113 |         adapter->phylink_config.lpi_timer_max = U32_MAX;
-         |                                 ^~~~~~~~~~~~~
-         |                                 lpi_timer_default
-   drivers/net/ethernet/microchip/lan743x_main.c: At top level:
->> drivers/net/ethernet/microchip/lan743x_main.c:3081:13: warning: 'mac_enable_tx_lpi' defined but not used [-Wunused-function]
-    3081 | static void mac_enable_tx_lpi(struct phylink_config *config, u32 timer,
-         |             ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/microchip/lan743x_main.c:3076:13: warning: 'mac_disable_tx_lpi' defined but not used [-Wunused-function]
-    3076 | static void mac_disable_tx_lpi(struct phylink_config *config)
-         |             ^~~~~~~~~~~~~~~~~~
+Hi
 
 
-vim +/mac_enable_tx_lpi +3081 drivers/net/ethernet/microchip/lan743x_main.c
+Thanks for you report.
 
-  3075	
-> 3076	static void mac_disable_tx_lpi(struct phylink_config *config)
-  3077	{
-  3078		lan743x_mac_eee_enable(adapter, false);
-  3079	}
-  3080	
-> 3081	static void mac_enable_tx_lpi(struct phylink_config *config, u32 timer,
-  3082				      bool tx_clk_stop)
-  3083	{
-  3084		/* Software should only change this field when Energy Efficient
-  3085		 * Ethernet Enable (EEEEN) is cleared. We ensure that by clearing
-  3086		 * EEEEN during probe, and phylink itself guarantees that
-  3087		 * mac_disable_tx_lpi() will have been previously called.
-  3088		 */
-  3089		lan743x_csr_write(adapter, MAC_EEE_TX_LPI_REQ_DLY_CNT, timer);
-  3090		lan743x_mac_eee_enable(adapter, true);
-  3091	}
-  3092	
+This version has been deprecated, and a new V4 version has been released.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+On 12/12/24 01:18, kernel test robot wrote:
+> Hi Hao,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on akpm-mm/mm-everything]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Ge/mm-alloc_tag-Fix-panic-when-CONFIG_KASAN-enabled-and-CONFIG_KASAN_VMALLOC-not-enabled/20241211-110206
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20241211025755.56173-1-hao.ge%40linux.dev
+> patch subject: [PATCH v3] mm/alloc_tag: Fix panic when CONFIG_KASAN enabled and CONFIG_KASAN_VMALLOC not enabled
+> config: i386-buildonly-randconfig-005-20241211 (https://download.01.org/0day-ci/archive/20241212/202412120143.l3g6vx8b-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120143.l3g6vx8b-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412120143.l3g6vx8b-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     lib/alloc_tag.c: In function 'vm_module_tags_populate':
+>>> lib/alloc_tag.c:409:40: error: 'KASAN_SHADOW_SCALE_SHIFT' undeclared (first use in this function)
+>       409 |                                  (2 << KASAN_SHADOW_SCALE_SHIFT) - 1) >> KASAN_SHADOW_SCALE_SHIFT;
+>           |                                        ^~~~~~~~~~~~~~~~~~~~~~~~
+>     lib/alloc_tag.c:409:40: note: each undeclared identifier is reported only once for each function it appears in
+>
+>
+> vim +/KASAN_SHADOW_SCALE_SHIFT +409 lib/alloc_tag.c
+>
+>     402	
+>     403	static int vm_module_tags_populate(void)
+>     404	{
+>     405		unsigned long phys_end = ALIGN_DOWN(module_tags.start_addr, PAGE_SIZE) +
+>     406					 (vm_module_tags->nr_pages << PAGE_SHIFT);
+>     407		unsigned long new_end = module_tags.start_addr + module_tags.size;
+>     408		unsigned long phys_idx = (vm_module_tags->nr_pages +
+>   > 409					 (2 << KASAN_SHADOW_SCALE_SHIFT) - 1) >> KASAN_SHADOW_SCALE_SHIFT;
+>     410		unsigned long new_idx = 0;
+>     411	
+>     412		if (phys_end < new_end) {
+>     413			struct page **next_page = vm_module_tags->pages + vm_module_tags->nr_pages;
+>     414			unsigned long more_pages;
+>     415			unsigned long nr;
+>     416	
+>     417			more_pages = ALIGN(new_end - phys_end, PAGE_SIZE) >> PAGE_SHIFT;
+>     418			nr = alloc_pages_bulk_array_node(GFP_KERNEL | __GFP_NOWARN,
+>     419							 NUMA_NO_NODE, more_pages, next_page);
+>     420			if (nr < more_pages ||
+>     421			    vmap_pages_range(phys_end, phys_end + (nr << PAGE_SHIFT), PAGE_KERNEL,
+>     422					     next_page, PAGE_SHIFT) < 0) {
+>     423				/* Clean up and error out */
+>     424				for (int i = 0; i < nr; i++)
+>     425					__free_page(next_page[i]);
+>     426				return -ENOMEM;
+>     427			}
+>     428	
+>     429			vm_module_tags->nr_pages += nr;
+>     430	
+>     431			new_idx = (vm_module_tags->nr_pages +
+>     432				  (2 << KASAN_SHADOW_SCALE_SHIFT) - 1) >> KASAN_SHADOW_SCALE_SHIFT;
+>     433	
+>     434			/*
+>     435			 * Kasan allocates 1 byte of shadow for every 8 bytes of data.
+>     436			 * When kasan_alloc_module_shadow allocates shadow memory,
+>     437			 * its unit of allocation is a page.
+>     438			 * Therefore, here we need to align to MODULE_ALIGN.
+>     439			 *
+>     440			 * For every KASAN_SHADOW_SCALE_SHIFT, a shadow page is allocated.
+>     441			 * So, we determine whether to allocate based on whether the
+>     442			 * number of pages falls within the scope of the same KASAN_SHADOW_SCALE_SHIFT.
+>     443			 */
+>     444			if (phys_idx != new_idx)
+>     445				kasan_alloc_module_shadow((void *)round_up(phys_end, MODULE_ALIGN),
+>     446							  (new_idx - phys_idx) * MODULE_ALIGN,
+>     447							  GFP_KERNEL);
+>     448		}
+>     449	
+>     450		/*
+>     451		 * Mark the pages as accessible, now that they are mapped.
+>     452		 * With hardware tag-based KASAN, marking is skipped for
+>     453		 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
+>     454		 */
+>     455		kasan_unpoison_vmalloc((void *)module_tags.start_addr,
+>     456					new_end - module_tags.start_addr,
+>     457					KASAN_VMALLOC_PROT_NORMAL);
+>     458	
+>     459		return 0;
+>     460	}
+>     461	
+>
