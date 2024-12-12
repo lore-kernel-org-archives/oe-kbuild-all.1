@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B68510F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 10:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF52D210F60;
+	Thu, 12 Dec 2024 10:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733999435; cv=none; b=bJTNd+7fZOc2RVbLGJMKTcNoiEGTDnLStpgTAgeSJ6Kt1ZRvIRnX8eAdO8UAFJHU1+Qwq+pffitKP0hqRiWFzs6tGKJuSQ2IW8ZV/pTbBCYruHoskHXOMLqrBJZmv/qQVbhg8Nu/4MdTDZXusvKe26dj9V/6xGeT6o6gOxIiWqI=
+	t=1734000104; cv=none; b=NLc40PyH2ctFhEOT03bWfMHgd9FWuFtXyat7Fhxi9KQLVT7CaaS4LbWwIk6cYKlGfOHm4GmIAo1EoQEmvMS8CAUTXjCLi+8EEDtU4dIh2Is0A7DfODKeNz0w4Zhew2vRDwaXf2NOu1b40Gmu43Kuynn4P9D8R59qO1gTK/Bunjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733999435; c=relaxed/simple;
-	bh=dABIS4z/cuf6nI6QXWWxqe4nv6Z1p+LVYiqCkGNArs4=;
+	s=arc-20240116; t=1734000104; c=relaxed/simple;
+	bh=R+8aAPQmrC85WO2HETox6+Dr09Tc4Ma7Cu4nQe7zbJ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=chraHvHbZjZ9QuPd/bELypF6JN/acMpIJjx5U+HdT3fk2ygdihhp7mnOJt4bryCjwXPXPQ5QkyqRnVUHOkRj79Z2dwSOsgbAqFKd25n6DA3BkDCk+196CNAB9tyCj6UyBdE7TZ10APysxK9KnX3zo/bwhb+qn+sgGQl6PF4ooi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aERCabw8; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=iD3dsHBWjIyfcTyPD3UToPMiooxAXjEEpuymJV2+syh5ZsKyLS1eLVT3QgPer2YE2Gl9AZGy5POGkSv0yoCiuBdE2tC00mcJDk+6VLuY1nHbvWByukbiEsmm7kT3KgCD97rgVOFysdZwy9gK/4y/cCz+9mQ4L2Vju208Ul5l7WU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+7XTlvd; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aERCabw8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+7XTlvd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733999433; x=1765535433;
+  t=1734000103; x=1765536103;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dABIS4z/cuf6nI6QXWWxqe4nv6Z1p+LVYiqCkGNArs4=;
-  b=aERCabw82Fw0wxZzkIFakDaKLha0EqxV7RJZZ9U50yJFub65ph37XXyD
-   INS8D8HKPPzie79TvXxWJYRE7QKXElSVk0mM+d9UjhnJOORNNdtR4xKpe
-   ENDMzgThfK3oXqPe8gYai1crbcGG0EnLm5YfyNcW4wPaF1OrZeiCOikS1
-   F9v8Humbxu9Q1HHfU5hpNuRO9zxdEC6pheRoGGqsBzGyaS/i82KrkwDHd
-   +6T2hCa6R2ljhptxl+Lfqe0qUrr8T6A0XHihC6pXkO5yNN+nbNnLd0riG
-   cC3ZdxMJxklTXzzmYEc01nT/dDbcb7Tao+Scw19SMLKqVvS3ABiFsL6bM
-   A==;
-X-CSE-ConnectionGUID: yESMS1oSRHKCJQ8d9uiDzw==
-X-CSE-MsgGUID: JN/YniGBS1S/tah5+Jst3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="56883066"
+  bh=R+8aAPQmrC85WO2HETox6+Dr09Tc4Ma7Cu4nQe7zbJ4=;
+  b=k+7XTlvdtpF6znIweIhe/n4vqEQJgYzAh4b/xhsj45rQl5/ycj5A4fYq
+   lcC+n2elPhV/iJ+aHCBNMJH97Ou4hWtoU+yV0as3kSas8YqMLrCy+Bfwm
+   cykRrt0jTRnCuC6wNIUEM+PsbayhEpSQHw0m9lpBzhrqM4acdTvSsfNKm
+   Yx+8+Ri7uc2eF6ALnXy9lyKbTtKtf5IdyF4E/mvmpUxV9+yDpKHG+sUuv
+   TaVqcaBjkAajb2rkVfeQapkThpQ/P/tfrfMIsH0zU9l7WsZ0O1utmnpvZ
+   6Vq1Hbd4cCmllANofUxo/nhrtLXmhlIO+uYSdmmBI2/QHs0zo3q3izvN+
+   Q==;
+X-CSE-ConnectionGUID: cWUJpvdCRPqDPgBURrnvSw==
+X-CSE-MsgGUID: nw+eb7kuRPy+JSJvUaZapw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="51939219"
 X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="56883066"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 02:30:32 -0800
-X-CSE-ConnectionGUID: WbtahjgiTmeRcpQBVrSOdQ==
-X-CSE-MsgGUID: kpfEHxYSQAKqs0wES6w40w==
+   d="scan'208";a="51939219"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 02:41:41 -0800
+X-CSE-ConnectionGUID: TarmyCT9SKqc/CRZeBYoqQ==
+X-CSE-MsgGUID: f1mrUYLBSDOtjgrHEUD3cg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96642076"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="101046868"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Dec 2024 02:30:31 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2024 02:41:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLgSi-0007jF-2P;
-	Thu, 12 Dec 2024 10:30:28 +0000
-Date: Thu, 12 Dec 2024 18:29:56 +0800
+	id 1tLgdV-0007jh-00;
+	Thu, 12 Dec 2024 10:41:37 +0000
+Date: Thu, 12 Dec 2024 18:41:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Christian Brauner <christianvanbrauner@gmail.com>,
 	Erin Shepherd <erin.shepherd@e43.eu>,
 	Amir Goldstein <amir73il@gmail.com>
-Subject: [brauner-vfs:vfs.all 113/133] fs/pidfs.c:587:27: error:
- 'EXPORT_OP_LOCAL_FILE_HANDLE' undeclared here (not in a function)
-Message-ID: <202412121815.IdzSrie2-lkp@intel.com>
+Subject: [brauner-github:vfs-6.14.pidfs 10/16] fs/pidfs.c:587:12: error: use
+ of undeclared identifier 'EXPORT_OP_LOCAL_FILE_HANDLE'
+Message-ID: <202412121817.98imfIQi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,23 +65,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-head:   c9b1291c42918a3c60b5ca6c48d69eb298817075
-commit: ccb189ccdd283cf522b5112f7e5eab2817f48546 [113/133] pidfs: implement file handle support
-config: sparc-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121815.IdzSrie2-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121815.IdzSrie2-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git vfs-6.14.pidfs
+head:   cb99a90ef7300b1d28d05f73ca9d8132179f2053
+commit: ccb189ccdd283cf522b5112f7e5eab2817f48546 [10/16] pidfs: implement file handle support
+config: s390-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121817.98imfIQi-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121817.98imfIQi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412121815.IdzSrie2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412121817.98imfIQi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/pidfs.c:587:27: error: 'EXPORT_OP_LOCAL_FILE_HANDLE' undeclared here (not in a function)
+>> fs/pidfs.c:587:12: error: use of undeclared identifier 'EXPORT_OP_LOCAL_FILE_HANDLE'
      587 |         .flags          = EXPORT_OP_LOCAL_FILE_HANDLE,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                           ^
+   1 error generated.
 
 
 vim +/EXPORT_OP_LOCAL_FILE_HANDLE +587 fs/pidfs.c
