@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C85173
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 00:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239A479FE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 00:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733962179; cv=none; b=UFnbMVJaJrk3BxKDiVk3ep1aOcy2+2GJCJfW0CHlg91ppUxM1z7b5pmMsg9XDVVf3MzhKZadiet7l3a/vBI61dbTTmDoQN8eQw0FQquTUfQy82bcBlVal2Qe0d1L+kIJH2g2Ee65iqO0CFgcm1CkVR82e/AFU9cJ+xxFkjC/Z/w=
+	t=1733962911; cv=none; b=lrEG14MelTx+sLRNX7V0RqPP5Lqm/MElgW2h2+G0l1365feMpshORpONY1EF95E8OTByDERMLhLvYujMp4OMn1jzJ3S49P8WXeglyglpp3PwgJYnmtteEiHNl8wTxqWz/uk/ey9GkzxWULhJx9qmi3bhP7O0+PIzWx92lzeoi2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733962179; c=relaxed/simple;
-	bh=GLoi1vIQJUyrAhgznEGUkF/KZ7Xqu2siO4ry8WCFdDo=;
+	s=arc-20240116; t=1733962911; c=relaxed/simple;
+	bh=FelxIjPBucq5C1+rmBwuJ/EZVT8Z9xNGA0BJtP20fjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nQabT+uuh+snpR06rkDMn8zCR83N2yTnsiu6piFUUq1h2GqQmbT1cwEZENykV9uQw+6VqloDmHUkIQ0zxZqa3nrJ5xN2FJL+F2GnGREKQFF7MkBzkUkvOnW4/bYgu7600IIY/HYguCpUo3Om+K1ooKdbY/kdZMtvE5U1+HnrvF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VqUNTk/o; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLAI08pAoaNUwomMVaQXkSUa0DctY77F3onsak7MU8cIOEomVd5WmHNVfybH49FSH8+iXE9xLJmiY5GXqhK5wd3S1X+ogx9VWBPyYss4wtQuLzUwo2TLkbvnITeDl5pPsye58FYZ24wSNmi+AslGOwJWxgNvib1sXF1Lsy5+oA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+zYpoSM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VqUNTk/o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+zYpoSM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733962177; x=1765498177;
+  t=1733962909; x=1765498909;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GLoi1vIQJUyrAhgznEGUkF/KZ7Xqu2siO4ry8WCFdDo=;
-  b=VqUNTk/oYIP+ObYOT8XXfqpH1NgYP4GfbiJiVIFzfOyrddS38u9XfQhF
-   jeWAAx7QuRqHlwxKgNFxuHaumLZKjYblLHwCwxN/XZSOvp4vaADToPi5E
-   7yfY/eAGCLszC1KLfVPzVDJi+XGjwy52e0et+w4RzUc+xrjPBjW0v/top
-   tKkcLERdQMnL2WD5DcIGPOFAStKePyf0jta8FBq8nlQgi0UmpLpxsZY6V
-   3vxOJOXaOhS2ulMl/dpbe1zWBa10oydD8/beEYy3hYqslOmweiPiI2pZ+
-   a4G8AXtGa92e7rFsGVTlE0LgKwBGBALv0sBLokZfZNS91uTwkkCCJ0ptc
-   A==;
-X-CSE-ConnectionGUID: Z8AI1N19Q2uDOM9S3GtP9A==
-X-CSE-MsgGUID: jE5F5iu0TsaqCyaFSW4Gfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34506442"
+  bh=FelxIjPBucq5C1+rmBwuJ/EZVT8Z9xNGA0BJtP20fjo=;
+  b=S+zYpoSM9zuwlzPpI9G4aKgPhbvYYlX3FojI9L6rAT6V3/u+ovS9Xdzo
+   I1si3glpscNFArW8oJsq3ovbs2ZVHnwacWDp4wuwMt+XbTMWFOsEmJZTj
+   BLtPkX9uaYZhY7QQk4ZDfcrLX6ee8XDpBBr7nXJtHjbzftB2xbepfS8CX
+   761MaQloCyNdkp8uMCKL+fGmceQGfD+UEuXZiA4EE1CuB+3Iu533ofaeN
+   KRncAvdQu809RTVlgcsEYPTdgUkWUFLY6rj3cU71ZyC+Yo6CP/UW82p+x
+   I5o2aSsjgQUXIlkmNg4hRFkjqMhKKbfF5JOv7bvYyw6ZcJEy2Uw7v6G4h
+   Q==;
+X-CSE-ConnectionGUID: YhKwc8PyTyyQxYgFyeLd4w==
+X-CSE-MsgGUID: 7oLosoknTjuKYmCrxf5zYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34607906"
 X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34506442"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 16:09:37 -0800
-X-CSE-ConnectionGUID: SUTqjpRfRNKitiiqhCLl/Q==
-X-CSE-MsgGUID: FFnLgN/bSySdXVvojj7pbw==
+   d="scan'208";a="34607906"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 16:21:48 -0800
+X-CSE-ConnectionGUID: Fq+U3FFlTpyMMauzBX2IXw==
+X-CSE-MsgGUID: qpJ7kEpITWKBlAt3+1FDFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="96091314"
+   d="scan'208";a="100856946"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Dec 2024 16:09:35 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 11 Dec 2024 16:21:47 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLWlo-0007Eb-2y;
-	Thu, 12 Dec 2024 00:09:32 +0000
-Date: Thu, 12 Dec 2024 08:09:25 +0800
+	id 1tLWxc-0007Fd-1H;
+	Thu, 12 Dec 2024 00:21:44 +0000
+Date: Thu, 12 Dec 2024 08:21:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 2/3] pinctrl: Add driver support for Amlogic SoCs
-Message-ID: <202412120746.uvo9F6FW-lkp@intel.com>
-References: <20241211-amlogic-pinctrl-v1-2-410727335119@amlogic.com>
+To: Junjie Fu <fujunjie1@qq.com>, linux-mm@kvack.org,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	willy@infradead.org, sj@kernel.org, Junjie Fu <fujunjie1@qq.com>
+Subject: Re: [PATCH RESEND] mempolicy.h: Remove unnecessary header file
+ inclusions with no test failure
+Message-ID: <202412120820.hwzVRrjd-lkp@intel.com>
+References: <tencent_C12D22B8989E0314FDE7073D6446186E3C09@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +65,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241211-amlogic-pinctrl-v1-2-410727335119@amlogic.com>
+In-Reply-To: <tencent_C12D22B8989E0314FDE7073D6446186E3C09@qq.com>
 
-Hi Xianwei,
+Hi Junjie,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 171aa289a6fe65faffeb92a1fda283c055435a62]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v6.13-rc2 next-20241211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-pinctrl-Add-support-for-Amlogic-SoCs/20241211-144931
-base:   171aa289a6fe65faffeb92a1fda283c055435a62
-patch link:    https://lore.kernel.org/r/20241211-amlogic-pinctrl-v1-2-410727335119%40amlogic.com
-patch subject: [PATCH RFC 2/3] pinctrl: Add driver support for Amlogic SoCs
-config: arm-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241212/202412120746.uvo9F6FW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120746.uvo9F6FW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Junjie-Fu/mempolicy-h-Remove-unnecessary-header-file-inclusions-with-no-test-failure/20241211-120550
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/tencent_C12D22B8989E0314FDE7073D6446186E3C09%40qq.com
+patch subject: [PATCH RESEND] mempolicy.h: Remove unnecessary header file inclusions with no test failure
+config: sparc64-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20241212/202412120820.hwzVRrjd-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120820.hwzVRrjd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120746.uvo9F6FW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120820.hwzVRrjd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-amlogic.c:42: warning: Enum value 'REG_PULLEN' not described in enum 'aml_reg_type'
->> drivers/pinctrl/pinctrl-amlogic.c:42: warning: Enum value 'REG_PULL' not described in enum 'aml_reg_type'
->> drivers/pinctrl/pinctrl-amlogic.c:42: warning: Enum value 'REG_DIR' not described in enum 'aml_reg_type'
->> drivers/pinctrl/pinctrl-amlogic.c:42: warning: Enum value 'REG_OUT' not described in enum 'aml_reg_type'
->> drivers/pinctrl/pinctrl-amlogic.c:42: warning: Enum value 'REG_IN' not described in enum 'aml_reg_type'
->> drivers/pinctrl/pinctrl-amlogic.c:42: warning: Enum value 'REG_DS' not described in enum 'aml_reg_type'
->> drivers/pinctrl/pinctrl-amlogic.c:42: warning: Enum value 'NUM_REG' not described in enum 'aml_reg_type'
+   mm/z3fold.c: In function 'free_z3fold_page':
+>> mm/z3fold.c:353:17: error: implicit declaration of function 'lock_page'; did you mean 'alloc_page'? [-Wimplicit-function-declaration]
+     353 |                 lock_page(page);
+         |                 ^~~~~~~~~
+         |                 alloc_page
+>> mm/z3fold.c:355:17: error: implicit declaration of function 'unlock_page'; did you mean 'alloc_page'? [-Wimplicit-function-declaration]
+     355 |                 unlock_page(page);
+         |                 ^~~~~~~~~~~
+         |                 alloc_page
+   In file included from arch/sparc/include/asm/bug.h:25,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/sparc/include/asm/current.h:15,
+                    from include/linux/sched.h:12,
+                    from mm/z3fold.c:27:
+   mm/z3fold.c: In function 'z3fold_alloc':
+>> mm/z3fold.c:1056:26: error: implicit declaration of function 'trylock_page'; did you mean 'try_get_page'? [-Wimplicit-function-declaration]
+    1056 |                 WARN_ON(!trylock_page(page));
+         |                          ^~~~~~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
 
 
-vim +42 drivers/pinctrl/pinctrl-amlogic.c
+vim +353 mm/z3fold.c
 
-    28	
-    29	#define gpio_chip_to_bank(chip) \
-    30			container_of(chip, struct aml_gpio_bank, gpio_chip)
-    31	/**
-    32	 * enum aml_reg_type - type of registers encoded in @aml_reg_desc
-    33	 */
-    34	enum aml_reg_type {
-    35		REG_PULLEN,
-    36		REG_PULL,
-    37		REG_DIR,
-    38		REG_OUT,
-    39		REG_IN,
-    40		REG_DS,
-    41		NUM_REG,
-  > 42	};
-    43	
+9a001fc19cccde Vitaly Wool 2016-05-20  348  
+9a001fc19cccde Vitaly Wool 2016-05-20  349  /* Resets the struct page fields and frees the page */
+1f862989b04ade Vitaly Wool 2019-05-13  350  static void free_z3fold_page(struct page *page, bool headless)
+9a001fc19cccde Vitaly Wool 2016-05-20  351  {
+1f862989b04ade Vitaly Wool 2019-05-13  352  	if (!headless) {
+1f862989b04ade Vitaly Wool 2019-05-13 @353  		lock_page(page);
+1f862989b04ade Vitaly Wool 2019-05-13  354  		__ClearPageMovable(page);
+1f862989b04ade Vitaly Wool 2019-05-13 @355  		unlock_page(page);
+1f862989b04ade Vitaly Wool 2019-05-13  356  	}
+5a27aa8220290b Vitaly Wool 2017-02-24  357  	__free_page(page);
+5a27aa8220290b Vitaly Wool 2017-02-24  358  }
+5a27aa8220290b Vitaly Wool 2017-02-24  359  
 
 -- 
 0-DAY CI Kernel Test Service
