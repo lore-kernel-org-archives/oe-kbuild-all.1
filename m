@@ -1,137 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FED51F2381
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 17:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A593A13C918
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 17:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734023290; cv=none; b=i4XSUTBtBkVWN3Hdek5tDVdtMI4IKax77rZaWdb4Yfp0WGYnqxcGq7f6InEcBJCw9HjM776E2HEvkVd1ehw2th9nwZhTc3bOp8vla4jUfx860aLl1nc9EIqptWon9w7QXhNrdcYPzof6HDFrU+MJEhSeH653PmClLkrVJkzX4Ao=
+	t=1734025573; cv=none; b=uLUPx5P/kLV+UeeMERUi65DfR3FX9+i43jZ8iLCMz+ayO/cfp91KlAREV+NjS/9LQUiDnZMXsPMn8iBMPyy1ByLWErZ7oRqHDTwlZDkr3geDHrS5KizMSecL/mt7cG6YB7HClDaJ0ViWXf7u37oyJDwuSgtFWPcGNQWQqkhfhrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734023290; c=relaxed/simple;
-	bh=Vzf8jw+35y+3Menm6hJfQu1o8L5AgqArycdxVvMkabU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fkWEnnGjs0/5wUHtXHKm87ANhC9Kb+PyDANB50zV3dTnJSp0sNvhDltfgOVHlbN56MIk9KP2xb9vSBNW/+nik0aqVGLu1bxZH9w9LUFNzpng/vS/JjqdxAkdlIrzZbxpPvW24VxwmSb3BOXi6RHeruRDkXuVupQH0308u0LvIqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZaQyAay; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1734025573; c=relaxed/simple;
+	bh=0k44xRDak3T7dq0MM3PWlfEOiJV+ACccfpwwp66sOVQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=LAyNbLbcBZPCzeDtE1Bw96Caz92XbPj4qrYqVCXXlQCr4N8+r2/nq2xi/Zys5f0ZTL6EJzydqKUd1Evdugj1SUHOESt7ZVfeGt1jWfmQWy4KPurKd7t5Wo1i/4o0NlCJ5KEa91Tf9pqzDBRVGkK9G9oSn1JYlon+yfAgJaSKF40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OfUQP5FX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VwUt/ypO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uUFAaM5H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ICx7c4xB; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZaQyAay"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734023288; x=1765559288;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vzf8jw+35y+3Menm6hJfQu1o8L5AgqArycdxVvMkabU=;
-  b=TZaQyAayoO3i7X5tLD0Pmnls5n4tgcatWTIgEhz7+KPtQzO/dh+LafZ4
-   ddCutDN/dyOb5YOdc09Xg8EWgLCqZL89NrCO6I4gLzmv+4kD2+9ig359a
-   Zi7REuIHRCBL73IVzcI6ntfDhpui50Q44U4SBbuCHM4N2wRbGlmJu35ee
-   SwR7R0h0Pgt7eoouC5KaD7nH8qdAzPEeG5qffV5D0IPwTGcycfsYzdJyH
-   D4CN2lJ3ToixXbHVEyDYFWU4jKN9cPGTo5FUoauBtp+EcOxtfQGFaHWa9
-   mHoa95D+7QWN1aDIBHtH4KL7nGasgLDgPoTw/yYCkS65hiDBQNohwftKC
-   A==;
-X-CSE-ConnectionGUID: Xb/vIegjTSWZBxnwizca8A==
-X-CSE-MsgGUID: ehqUuEZQRbisou/ajST0zQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="33782158"
-X-IronPort-AV: E=Sophos;i="6.12,229,1728975600"; 
-   d="scan'208";a="33782158"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 09:08:08 -0800
-X-CSE-ConnectionGUID: LQTq2gFfSGGaQEXiGmnyVg==
-X-CSE-MsgGUID: p1pz3+wcRKCytD7ncUXkVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100852632"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Dec 2024 09:08:06 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLmfT-000A3z-2d;
-	Thu, 12 Dec 2024 17:08:03 +0000
-Date: Fri, 13 Dec 2024 01:07:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 14028/24503] versioncheck:
- ./drivers/net/wireless/iwl7000/hdrs/config.h: 70: need linux/version.h
-Message-ID: <202412130038.meCS3G18-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OfUQP5FX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VwUt/ypO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uUFAaM5H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ICx7c4xB"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BFF22116E;
+	Thu, 12 Dec 2024 17:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734025569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9dDxZZoaRr2SMMGOXQzLLcMrHH32cNN145k3HwrhiwY=;
+	b=OfUQP5FXRAi4hXbktbHT/LVbBkAb+6wT8K+Fvo8GkWhLfw1Xv4mNE8wgzQ9w3Ir408QGuj
+	1fUYzK+ZWVTE0mOs0L1P+sXStQ25L8cpM5grvRRDZ5hC8+Aj2V+NmVQROPUjcQu7sS+M5Q
+	pqD9uVAi9Nr3s5DUzBNOowqcfx80xAM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734025569;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9dDxZZoaRr2SMMGOXQzLLcMrHH32cNN145k3HwrhiwY=;
+	b=VwUt/ypO/G/Jxv3VLR11n+4JrynAdbX527IUCUAwHGwpeWVCPdVGmnujJ90EXsgdHZylyc
+	Q4ZDjEUgM2NP4zDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uUFAaM5H;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ICx7c4xB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734025568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9dDxZZoaRr2SMMGOXQzLLcMrHH32cNN145k3HwrhiwY=;
+	b=uUFAaM5HC2PqpTK3WbHgRKkTQK6mAvUBgSxlyOFZTXF0raF4ZUMpoXPorp41SDP7BV//AV
+	dKsiiStceCVg0evaN1T7Fa+u5obMDksZBPzbQmpc/6Vym0msNlbE415CbsBWfGCvly2SJh
+	5CoCD32wDytD9gg188MEBLUKNKjIvJ4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734025568;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9dDxZZoaRr2SMMGOXQzLLcMrHH32cNN145k3HwrhiwY=;
+	b=ICx7c4xBM0gsl0kPxNViUxMMfXrsv24qDflbcYtLd8n0XI0a63t6BQ8dcJ23FdleQXdL2E
+	39SVQNKDvtGHPmAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99CFC13508;
+	Thu, 12 Dec 2024 17:46:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QSJfFV4hW2cFLAAAD6G6ig
+	(envelope-from <colyli@suse.de>); Thu, 12 Dec 2024 17:46:06 +0000
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
+Subject: Re: drivers/md/bcache/super.c:108:14: sparse: sparse: restricted
+ __le64 degrades to integer
+From: Coly Li <colyli@suse.de>
+In-Reply-To: <20241212062353.GB5586@lst.de>
+Date: Fri, 13 Dec 2024 01:45:53 +0800
+Cc: kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <351022FF-9B41-4C4F-A507-560EAB5A42B7@suse.de>
+References: <202412071044.tthTVBw4-lkp@intel.com>
+ <33E9C2B1-BF96-46DD-BE45-00811C986ABD@suse.de> <20241212062353.GB5586@lst.de>
+To: Christoph Hellwig <hch@lst.de>
+X-Mailer: Apple Mail (2.3826.200.121)
+X-Rspamd-Queue-Id: 6BFF22116E
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,lst.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	APPLE_MAILER_COMMON(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
+X-Spam-Flag: NO
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   1533e63b4dde60f99fb88b41f9016dfe87282aab
-commit: 90bd21b536dd67fe8cd25d1a905b81a288d8bbf3 [14028/24503] CHROMIUM: iwl7000: add driver
-reproduce: (https://download.01.org/0day-ci/archive/20241213/202412130038.meCS3G18-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412130038.meCS3G18-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.73.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/net/wireless/iwl7000/hdrs/config.h: 70: need linux/version.h
->> ./drivers/net/wireless/iwl7000/hdrs/kunit/visibility.h: 3 linux/version.h not needed.
->> ./drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h: 2148: need linux/version.h
->> ./drivers/net/wireless/iwl7000/hdrs/mac80211-exp.h: 169: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/cfg/22000.c: 433: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.c: 2466: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/iwl-tm-gnl.c: 1250: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/d3.c: 3450: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/link.c: 294: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mac80211.c: 6643: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mvm.h: 2806: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/ops.c: 2303: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/phy-ctxt.c: 392: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c: 2571: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/scan.c: 3401: need linux/version.h
->> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/vendor-cmd.c: 2423: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/backports.c: 468: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/cfg-utils.c: 209: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/cfg.c: 5392: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/chan.c: 2040: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/debugfs.c: 734: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/debugfs_netdev.c: 1080: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/debugfs_sta.c: 1370: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/driver-ops.h: 1675: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/ethtool.c: 261: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/ieee80211_i.h: 2692: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/iface.c: 2463: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/link.c: 493: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/main.c: 1661: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/mlme.c: 8301: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/rx.c: 5489: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/scan.c: 1463: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/sta_info.c: 3023: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/status.c: 1308: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/tdls.c: 2103: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/tx.c: 6312: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/util.c: 5229: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/vht.c: 795: need linux/version.h
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./fs/incfs/integrity.c: 8 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+> 2024=E5=B9=B412=E6=9C=8812=E6=97=A5 14:23=EF=BC=8CChristoph Hellwig =
+<hch@lst.de> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> On Wed, Dec 11, 2024 at 12:34:20AM +0800, Coly Li wrote:
+>>>  drivers/md/bcache/super.c:108:24: sparse:     expected unsigned int =
+nr_keys
+>>>  drivers/md/bcache/super.c:108:24: sparse:     got restricted __le16 =
+[usertype] keys
+>>>>> drivers/md/bcache/super.c:108:14: sparse: sparse: restricted =
+__le64 degrades to integer
+>>=20
+>> It complains about line 108 which is,
+>>> cafe563591446cf Kent Overstreet   2013-03-23  107   err =3D "Bad =
+checksum";
+>>> cafe563591446cf Kent Overstreet   2013-03-23 @108   if (s->csum !=3D =
+csum_set(s))
+>>> cafe563591446cf Kent Overstreet   2013-03-23  109   goto err;
+>>=20
+>> Here s->sum is __le64, csum_set() is uint64_t, these two types have =
+same length. I don=E2=80=99t see the direct connection between code and =
+warning.
+>=20
+> The are the same size, but not the same endianess.  In other words =
+this
+> is a hint that this code is most likely broken on big endian systems
+> due to the lack of a bytespace (which is a no-op on little endian
+> systems).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oh I see. Thank you for the information.
+
+Bcache doesn=E2=80=99t support moving cache device between machines with =
+different endians. The on-disk data always has identical endian type as =
+the in-memory data. The reason for __le64 was because it had to be a =
+type defined.
+Although there are some cpu_to_xxx used in code, indeed the btree keys =
+are used directly after reading in from disk, or written directly =
+without any cpu_to_xxx convert.
+
+So this warning can be ignored.
+
+
+Coly Li=
