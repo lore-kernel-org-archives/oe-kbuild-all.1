@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E399016DEA9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 05:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397295684
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 06:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733981198; cv=none; b=dLJBBsxZQT82/1+ob1TQiZ9XPbSS9M3Kcqs+qa6eeYkRxY4PnCh3NHZdwd4L9GxCivfdUPkjpUdbxXkGTB+oqSSy06peXkcNCtd4CODXn5k46l0bNKLrLR3l1JwyUWmGLZNciLNrYSdYeOAX8yjeEgAuoWGdXzSZ6oynGKNR/u4=
+	t=1733983660; cv=none; b=QU+oW65rOrvtlCqRbhjm46cLo8eDT7gWpirTAqlL/cs2juQyHCWBICVdP/qXdrZbopWpi3KAF0fa4ahLb7NFW6VFFCQ8mqlH8ZI0KNfbAigUd0VBn7fPYfLJh5J+r8ywznMnJl57BLlRYR2LOcYgRQoQa3mOra17/jhy1b22hcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733981198; c=relaxed/simple;
-	bh=GtnfYyvZPo5+2fTjNXocEgsBdXXTfLChTCDokFNpbz8=;
+	s=arc-20240116; t=1733983660; c=relaxed/simple;
+	bh=sJwKlvIRYSNSDy2WdcjvElrGR1Ca//GsWy54HwSQiDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kBRiTz1+GX/BhVWf64ZCtpEbyP5m8HF0QKWjLBlOVZSx9L8aXoM3T478LTEnobhFFb05F7t+oA+qv+0dw7ihyoQ+dOP5i6gU3d4Phw1J9FPCcmTO8wlrIGJZMUpOrncP265BLAT5vkOjGO9uNIC9bMziYSBrV+8Fk1mJNyo5qZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3CyIhWw; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=tHG7jyHl3aPyYJgdW9nTpBgtXb2r+GWugp8rYc+3C4xVU7Vaw/COVBz9GwZmejR0hnzvVy2rpw4xBNqgyfKJF8dc7Bw6nSCW/mYkBaaeAe4HEiG1rVsDkqsAr1VDFTU6R/l4vEJiHK7cBJeIpcK34ucW0WP/G5Sj4G+3VLe8QbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jZ6F2Mpw; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3CyIhWw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZ6F2Mpw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733981196; x=1765517196;
+  t=1733983658; x=1765519658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GtnfYyvZPo5+2fTjNXocEgsBdXXTfLChTCDokFNpbz8=;
-  b=U3CyIhWweWcH1FbAmppLhnu+zs77hmyDfw4oZUu9zCDYasDPGjGnn2qS
-   rOBVP1NkcgE6j8V7umEtq9d1HtgHitnDpPgByhm9Ov19S1vgWbpZsuo4f
-   AFrwtdRoFlAn3HUTF16egF/iblahA0V/uLtAAMlf3xrYaW6UuhkyRhXbH
-   GdS/l3Lkp5HpYjOzeF7DgVUIkq+LmcWWptrzWHxnK6G34541Y5rSqlaxV
-   TcOEsE3EgJw//EwnpLvXr4ZHZfdpZL7p/zTxew22ydD7CYbHBQehCaDyR
-   noccMtSckiZlqJSdfZkCDLf/DIk4OdN1YcfrY+LfAelB66M6PvBaEYQeg
+  bh=sJwKlvIRYSNSDy2WdcjvElrGR1Ca//GsWy54HwSQiDQ=;
+  b=jZ6F2MpwAM+KwNPxlha2eHI7ehBhiNVbHqEHXpyfjkbb59cu63nl43Ju
+   l0v96Onny2jNyyab/SzKoeXmHII+d/eJnFwmVPKKdcdOfT8d+GVmGGwx1
+   ybhwv+XtQMzpuFqu+W/am7UiKz6K4d8Fyg7ZGeS86oLdMODNvxJpoOLoD
+   qnxQIN3EnUaqaPaC6bzvgA3LUf9l6+BdfCWYJojVTAMqyjp5dP58b6ApH
+   qBxyLzjdRp9MhFdlgnpZ61UrHM9iv5JKjx1yDXbUCDJi8xdCoNgq/J65P
+   +BA6ZFahS+/bzP5aqK8jm7A0DydNa7HxzdpZ3SCQvEtN01W77I9bCDYNH
    w==;
-X-CSE-ConnectionGUID: /7zP+TN9Q2y1pk6qgpjoMw==
-X-CSE-MsgGUID: mwHnHe0rQ3StiDqEHxp3LQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34304098"
+X-CSE-ConnectionGUID: IgQ6DzBjSxCf5/crTmit/g==
+X-CSE-MsgGUID: CVHFhokxTbeIbqjdxN1Wwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="37227731"
 X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34304098"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 21:26:33 -0800
-X-CSE-ConnectionGUID: YvtkhyetTZixrVOA4U9NYA==
-X-CSE-MsgGUID: nAsKUzeeRQiYIdIk6q2uSg==
+   d="scan'208";a="37227731"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 22:07:38 -0800
+X-CSE-ConnectionGUID: utnZY/1ASFqMkKmYjaa2Ng==
+X-CSE-MsgGUID: XioM+QHTSpiBSSkphtslHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="126934857"
+   d="scan'208";a="96647221"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Dec 2024 21:26:31 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 11 Dec 2024 22:07:36 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLbiX-0007TL-13;
-	Thu, 12 Dec 2024 05:26:29 +0000
-Date: Thu, 12 Dec 2024 13:25:37 +0800
+	id 1tLcMI-0007UP-0Y;
+	Thu, 12 Dec 2024 06:07:34 +0000
+Date: Thu, 12 Dec 2024 14:07:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Shiju Jose <shiju.jose@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
 Subject: [djiang:cxl/features 15/15] drivers/cxl/core/features.c:171:5:
  error: conflicting types for 'cxl_set_feature'; have 'int(struct
  cxl_features *, const uuid_t,  u8,  void *, size_t,  u8)' {aka 'int(struct
- cxl_features *, const uuid_t,  unsigned char,  void *, unsigned int,
-  unsigned c...
-Message-ID: <202412121332.lUenNJDe-lkp@intel.com>
+ cxl_features *, const uuid_t,  unsigned char,  void *, long unsigned int,
+  unsig...
+Message-ID: <202412121309.ItaRyiIW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,14 +68,14 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/features
 head:   a67a7f4d25f148893d8c845b36ce97ec806f461f
 commit: a67a7f4d25f148893d8c845b36ce97ec806f461f [15/15] cxl/mbox: Add SET_FEATURE mailbox command
-config: csky-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121332.lUenNJDe-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121332.lUenNJDe-lkp@intel.com/reproduce)
+config: powerpc64-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121309.ItaRyiIW-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121309.ItaRyiIW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412121332.lUenNJDe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412121309.ItaRyiIW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
@@ -126,11 +126,12 @@ All errors (new ones prefixed by >>):
    In file included from include/linux/linkage.h:7,
                     from include/linux/printk.h:8,
                     from include/asm-generic/bug.h:22,
-                    from arch/csky/include/asm/bug.h:18,
+                    from arch/powerpc/include/asm/bug.h:116,
                     from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/csky/include/generated/asm/current.h:1,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:390,
+                    from arch/powerpc/include/asm/paca.h:16,
+                    from arch/powerpc/include/asm/current.h:13,
                     from include/linux/sched.h:12,
                     from include/linux/ratelimit.h:6,
                     from include/linux/dev_printk.h:16,
@@ -149,10 +150,10 @@ All errors (new ones prefixed by >>):
    include/cxl/features.h:110:1: note: previous declaration of 'cxl_get_supported_feature_entry' with type 'struct cxl_feat_entry *(struct cxl_features *, const int *)'
      110 | cxl_get_supported_feature_entry(struct cxl_features *features,
          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/features.c:115:8: error: conflicting types for 'cxl_get_feature'; have 'size_t(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'unsigned int(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, unsigned int)'}
+   drivers/cxl/core/features.c:115:8: error: conflicting types for 'cxl_get_feature'; have 'size_t(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'long unsigned int(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, long unsigned int)'}
      115 | size_t cxl_get_feature(struct cxl_features *features, const uuid_t feat_uuid,
          |        ^~~~~~~~~~~~~~~
-   include/cxl/features.h:112:8: note: previous declaration of 'cxl_get_feature' with type 'size_t(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'unsigned int(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, unsigned int)'}
+   include/cxl/features.h:112:8: note: previous declaration of 'cxl_get_feature' with type 'size_t(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'long unsigned int(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, long unsigned int)'}
      112 | size_t cxl_get_feature(struct cxl_features *features, const uuid_t feat_uuid,
          |        ^~~~~~~~~~~~~~~
    drivers/cxl/core/features.c: In function 'cxl_get_feature':
@@ -160,7 +161,7 @@ All errors (new ones prefixed by >>):
      139 |         pi.uuid = feat_uuid;
          |                   ^~~~~~~~~
    drivers/cxl/core/features.c: At top level:
-   drivers/cxl/core/features.c:163:22: error: conflicting types for 'cxl_get_feature'; have 'size_t(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'unsigned int(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, unsigned int)'}
+   drivers/cxl/core/features.c:163:22: error: conflicting types for 'cxl_get_feature'; have 'size_t(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'long unsigned int(struct cxl_features *, const uuid_t,  enum cxl_get_feat_selection,  void *, long unsigned int)'}
      163 | EXPORT_SYMBOL_NS_GPL(cxl_get_feature, CXL);
          |                      ^~~~~~~~~~~~~~~
    include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
@@ -169,13 +170,13 @@ All errors (new ones prefixed by >>):
    drivers/cxl/core/features.c:163:1: note: in expansion of macro 'EXPORT_SYMBOL_NS_GPL'
      163 | EXPORT_SYMBOL_NS_GPL(cxl_get_feature, CXL);
          | ^~~~~~~~~~~~~~~~~~~~
-   include/cxl/features.h:112:8: note: previous declaration of 'cxl_get_feature' with type 'size_t(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'unsigned int(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, unsigned int)'}
+   include/cxl/features.h:112:8: note: previous declaration of 'cxl_get_feature' with type 'size_t(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, size_t)' {aka 'long unsigned int(struct cxl_features *, const int,  enum cxl_get_feat_selection,  void *, long unsigned int)'}
      112 | size_t cxl_get_feature(struct cxl_features *features, const uuid_t feat_uuid,
          |        ^~~~~~~~~~~~~~~
->> drivers/cxl/core/features.c:171:5: error: conflicting types for 'cxl_set_feature'; have 'int(struct cxl_features *, const uuid_t,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const uuid_t,  unsigned char,  void *, unsigned int,  unsigned char)'}
+>> drivers/cxl/core/features.c:171:5: error: conflicting types for 'cxl_set_feature'; have 'int(struct cxl_features *, const uuid_t,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const uuid_t,  unsigned char,  void *, long unsigned int,  unsigned char)'}
      171 | int cxl_set_feature(struct cxl_features *features,
          |     ^~~~~~~~~~~~~~~
-   include/cxl/features.h:115:5: note: previous declaration of 'cxl_set_feature' with type 'int(struct cxl_features *, const int,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const int,  unsigned char,  void *, unsigned int,  unsigned char)'}
+   include/cxl/features.h:115:5: note: previous declaration of 'cxl_set_feature' with type 'int(struct cxl_features *, const int,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const int,  unsigned char,  void *, long unsigned int,  unsigned char)'}
      115 | int cxl_set_feature(struct cxl_features *features, const uuid_t feat_uuid,
          |     ^~~~~~~~~~~~~~~
    drivers/cxl/core/features.c: In function 'cxl_set_feature':
@@ -183,7 +184,7 @@ All errors (new ones prefixed by >>):
      198 |         pi->hdr.uuid = feat_uuid;
          |                        ^~~~~~~~~
    drivers/cxl/core/features.c: At top level:
-   drivers/cxl/core/features.c:246:22: error: conflicting types for 'cxl_set_feature'; have 'int(struct cxl_features *, const uuid_t,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const uuid_t,  unsigned char,  void *, unsigned int,  unsigned char)'}
+   drivers/cxl/core/features.c:246:22: error: conflicting types for 'cxl_set_feature'; have 'int(struct cxl_features *, const uuid_t,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const uuid_t,  unsigned char,  void *, long unsigned int,  unsigned char)'}
      246 | EXPORT_SYMBOL_NS_GPL(cxl_set_feature, CXL);
          |                      ^~~~~~~~~~~~~~~
    include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
@@ -192,7 +193,7 @@ All errors (new ones prefixed by >>):
    drivers/cxl/core/features.c:246:1: note: in expansion of macro 'EXPORT_SYMBOL_NS_GPL'
      246 | EXPORT_SYMBOL_NS_GPL(cxl_set_feature, CXL);
          | ^~~~~~~~~~~~~~~~~~~~
-   include/cxl/features.h:115:5: note: previous declaration of 'cxl_set_feature' with type 'int(struct cxl_features *, const int,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const int,  unsigned char,  void *, unsigned int,  unsigned char)'}
+   include/cxl/features.h:115:5: note: previous declaration of 'cxl_set_feature' with type 'int(struct cxl_features *, const int,  u8,  void *, size_t,  u8)' {aka 'int(struct cxl_features *, const int,  unsigned char,  void *, long unsigned int,  unsigned char)'}
      115 | int cxl_set_feature(struct cxl_features *features, const uuid_t feat_uuid,
          |     ^~~~~~~~~~~~~~~
 
