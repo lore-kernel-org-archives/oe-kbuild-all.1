@@ -1,69 +1,58 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59A320B1E4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 07:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585622010F2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 07:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733989473; cv=none; b=scJmHTzpUqGmBTq2xCHmMLk5aQ7kBPzFNUuBUnkgOvKdpMTEUCsTUx9V5OAMQC/8BXFsRmNtqbc8VfMVC2sZZta5MQAW2A3KJPIgmIIMWG1uLkOsLTziId5h/dbDorER/wl2Fs/m8lLweT/Js+uY9JYFkumGOSw07j4pZrsS8ZQ=
+	t=1733989982; cv=none; b=ZYxBobdiHeV49iKuxfVyyuGps9WUC3gW1TOm4AObxhlW/Pr697TckFh7rg5KeY8BtV7VmFX2shB5b4B6DxEPfIo+2KjviTnlk+KHR+zUl4awydfZgsBcs3gtxog7u4RZcHfBeQ0JvtA/rEJVFbVcR1baA1UrtlzQQWspBF3a2jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733989473; c=relaxed/simple;
-	bh=aa1sjAc36pQTBINH5+XkznFw1PVthGF/6LeesuAsfGA=;
+	s=arc-20240116; t=1733989982; c=relaxed/simple;
+	bh=FeN+kYGhSLU2OdeZAKeGBynGBn+5/wsVp9ZIQAxUo4E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XGENNvi2FGDwGugQlghp6ucOThH42MciP7Q/Fqdy470fktmaEeYfyh4ywrg4arFB6UscIyG6xwaehTuYT4VSIgnzAtT8E058qNATNYZNwcb/FKeBOUkh60m8UjhtBvpL4smHkDEUZRsInbJGV1Qeld27P7hLxg9JdVCgLu+FPmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oLcgzNN0; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition:In-Reply-To; b=kez3awsYh8UkSTXbAbrmz4B+gxeGTXllK9Hs4K4uoZiw8KE3ssNL3Pu1dtnn7ClSzUyA3wesWS0vgT/FSOJqWQY+eUQIBWKsrLO8NMVCEKOeUq69csEQU9Oa5/JM3bcslG55+XGDMqGJo4VM3ziudtNTTqXGaR7fu0T7jrPcxjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwACS3BW; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oLcgzNN0"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38633b5dbcfso210151f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Dec 2024 23:44:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733989469; x=1734594269; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rvox4XeB3afkXlBEWKa2zsXp6ZSE/fQTwV3mqwfswDA=;
-        b=oLcgzNN0FAs3LcKX4oI/bLE1i7qeJvMG4CSF7zpQGwIhE1CNkdGMh6qs96NQrVRTfF
-         8f//+6GcQ1OgK6nkXnD3Od1Gt1N9KiyOs11yJev6dUiVGelm3Qwqs3ax84xrRtoPpwWe
-         Lvu41XorE/fZmPRgDyhuPGo+V0m1pHs6jILwvNuuPeFXCQ3EpRkKz8ixRu5YFKCvpmf7
-         g06NfVNuTbonMdat+MtVdUUPZfEqDYmqKxzK0mGYV1Ck7AaX84BTqH7m06bMERYFhurL
-         xweqV5Uzsf/CHZVwYBepNfdWQJtQ8N9QxsA+u24t3BtOeAX4suEqQIbQ3vm+3eEkLaPz
-         reMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733989469; x=1734594269;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rvox4XeB3afkXlBEWKa2zsXp6ZSE/fQTwV3mqwfswDA=;
-        b=MQUBbHRoqIZiUR4BvUSMeps0b2UbJs+hm5OL3phdwE2XAynYOgz8EMvIs6Fk6zoYIE
-         xBuy4/JPDyn+ZCb4Q/qN9C6gLu+sDnHbYYLYxS7ds+bGItaAyrgpUAMW6g9OOTbnYFLU
-         V3pZaXToORzvS64HAqGEbdLgWvJrAAeSZ2doHOS/LkWDJ+rjpTmCYwYQ3/nPaTl/Di5C
-         yjrh7VpMyxax3YfKXIIxL+ioLRq56O/V/zRnbFDRTnzftWp+7pzUzQE59vjvCT25hoJ7
-         igUF+ma2LLJFGfI5yedgFzXOHAyAQVbIM/XMIED2UbyZROCXT9FHIrMpjC/r89yGQgHQ
-         ojMA==
-X-Forwarded-Encrypted: i=1; AJvYcCUaanXpfQUtvoJsB1ekjf3jlknzkVKHKPr33RPnVW0O74M2YwRgDWGhTXH+clN0XDNStHCIsaX+hHC3iGKM@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHbnwSSKWYr8a8lG9HeANFXe/mwvJ/t6EJPSoTvIVVIK/wDOSP
-	BF0mMpXg7Qh/mFSSEZPg5MtRG5UEuBuXvSjjbx6Ml635td9uEhOvtPRmDaBHgos=
-X-Gm-Gg: ASbGncs30NP4Ja9/zMCDW4RSKPJCzzYqv8k+FlWGBKGzn2VdNIiQfLnsvxHyk0kH48K
-	AnuAPGU4gRHwSjlF01V+nzyJ5eg89tlb22mIvBvbll9J2L2DorkYdyOxfkOvtdYXiFkx2punVL+
-	cOrsbNJQG1pAUPeOx7yLptMfrF7NJnhHoIUzqoZ4ZOwGjHLTlrDfxRcC5LKHXpj6HlUakzD4t+L
-	CeL/aexYj5kEwWqWMcYm5pLmYRhVzDhMdVyEM2Vd3/Jwx2NPeW4aKBhHD/QNQ==
-X-Google-Smtp-Source: AGHT+IG3fGL/3aSUn9Mp4roKW2nBfW9qWEnTBniFgc9EdBcwQ+q9RgrsOjP6Paz/BxGO0h7Xp+/5mA==
-X-Received: by 2002:a05:6000:18a7:b0:385:dc45:ea22 with SMTP id ffacd0b85a97d-3864cec708fmr5575889f8f.39.1733989469324;
-        Wed, 11 Dec 2024 23:44:29 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38782514c06sm3263022f8f.73.2024.12.11.23.44.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 23:44:28 -0800 (PST)
-Date: Thu, 12 Dec 2024 10:44:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: drivers/nvmem/zynqmp_nvmem.c:123 zynqmp_efuse_access() error:
- uninitialized symbol 'ret'.
-Message-ID: <c8c9dc57-2496-4917-898d-dce892f85f6f@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwACS3BW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733989980; x=1765525980;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=FeN+kYGhSLU2OdeZAKeGBynGBn+5/wsVp9ZIQAxUo4E=;
+  b=CwACS3BWtUUbFUex1IfBUCSgERt6nBbefr8XWUOaxbR1Ix1LoN6RcC4h
+   1qNZNZ7Bqn/zr/XvU3uFKtegiz+jV0hQ80U1YGBoH3GxnbxnIJgdamdyt
+   7VHMIZYapsYmW0/jNVgr8CdPOyPBf7hi6czEJBkBgkJlDc7MC/io/OWf2
+   IUWDgv4BUDMdNiF+LRovi7P1xcxgPtntVdq+ro1xN9oofLBLTp+W58RPI
+   FgOSdngPiFP5sM2KeoM2x0Qp89UAtSfEQHxmxYZBLuUTLVR/GKCrIjMQc
+   6nsF1I0Vk4tKj2mMfmQoC/lYjf8/ShefyPUnLdN/1c//NK7lWe8D8tJc+
+   g==;
+X-CSE-ConnectionGUID: Rv1T2d91S+a1mv8HN8rDnw==
+X-CSE-MsgGUID: OSfo8uvDSF2L3NXXGHOujw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="59794692"
+X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
+   d="scan'208";a="59794692"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:53:00 -0800
+X-CSE-ConnectionGUID: ficu/U+9S4+rvTxZ3cNz7A==
+X-CSE-MsgGUID: Nv7k/bueSayhIuv7P6FHaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
+   d="scan'208";a="95906844"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Dec 2024 23:52:58 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLe0F-0007bB-2W;
+	Thu, 12 Dec 2024 07:52:55 +0000
+Date: Thu, 12 Dec 2024 15:52:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Narayana Murty N <nnmlinux@linux.ibm.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] powerpc/pseries/eeh: Fix get PE state translation
+Message-ID: <Z1qWU9RAvhIma6b7@3b9f04db549b>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,116 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241212075044.10563-1-nnmlinux@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   231825b2e1ff6ba799c5eaf396d3ab2354e37c6b
-commit: 737c0c8d07b5f671c0a33cec95965fcb2d2ea893 nvmem: zynqmp_nvmem: Add support to access efuse
-config: arm64-randconfig-r072-20241210 (https://download.01.org/0day-ci/archive/20241212/202412121555.Fp663tyH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412121555.Fp663tyH-lkp@intel.com/
+Thanks for your patch.
 
-smatch warnings:
-drivers/nvmem/zynqmp_nvmem.c:123 zynqmp_efuse_access() error: uninitialized symbol 'ret'.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-vim +/ret +123 drivers/nvmem/zynqmp_nvmem.c
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   59  static int zynqmp_efuse_access(void *context, unsigned int offset,
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   60  			       void *val, size_t bytes, enum efuse_access flag,
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   61  			       unsigned int pufflag)
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   62  {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   63  	struct device *dev = context;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   64  	struct xilinx_efuse *efuse;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   65  	dma_addr_t dma_addr;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   66  	dma_addr_t dma_buf;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   67  	size_t words = bytes / WORD_INBYTES;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   68  	int ret;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   69  	int value;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   70  	char *data;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   71  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   72  	if (bytes % WORD_INBYTES != 0) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   73  		dev_err(dev, "Bytes requested should be word aligned\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   74  		return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   75  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   76  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   77  	if (pufflag == 0 && offset % WORD_INBYTES) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   78  		dev_err(dev, "Offset requested should be word aligned\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   79  		return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   80  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   81  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   82  	if (pufflag == 1 && flag == EFUSE_WRITE) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   83  		memcpy(&value, val, bytes);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   84  		if ((offset == EFUSE_PUF_START_OFFSET ||
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   85  		     offset == EFUSE_PUF_MID_OFFSET) &&
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   86  		    value & P_USER_0_64_UPPER_MASK) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   87  			dev_err(dev, "Only lower 4 bytes are allowed to be programmed in P_USER_0 & P_USER_64\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   88  			return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   89  		}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   90  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   91  		if (offset == EFUSE_PUF_END_OFFSET &&
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   92  		    (value & P_USER_127_LOWER_4_BIT_MASK)) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   93  			dev_err(dev, "Only MSB 28 bits are allowed to be programmed for P_USER_127\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   94  			return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   95  		}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   96  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   97  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   98  	efuse = dma_alloc_coherent(dev, sizeof(struct xilinx_efuse),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   99  				   &dma_addr, GFP_KERNEL);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  100  	if (!efuse)
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  101  		return -ENOMEM;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  102  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  103  	data = dma_alloc_coherent(dev, sizeof(bytes),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  104  				  &dma_buf, GFP_KERNEL);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  105  	if (!data) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  106  		ret = -ENOMEM;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  107  		goto efuse_data_fail;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  108  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  109  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  110  	if (flag == EFUSE_WRITE) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  111  		memcpy(data, val, bytes);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  112  		efuse->flag = EFUSE_WRITE;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  113  	} else {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  114  		efuse->flag = EFUSE_READ;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  115  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  116  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  117  	efuse->src = dma_buf;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  118  	efuse->size = words;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  119  	efuse->offset = offset;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  120  	efuse->pufuserfuse = pufflag;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  121  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  122  	zynqmp_pm_efuse_access(dma_addr, (u32 *)&ret);
-
-In this .config the zynqmp_pm_efuse_access() is stubbed out so ret isn't
-initialized.
-
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24 @123  	if (ret != 0) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  124  		if (ret == EFUSE_NOT_ENABLED) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  125  			dev_err(dev, "efuse access is not enabled\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  126  			ret = -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  127  		} else {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  128  			dev_err(dev, "Error in efuse read %x\n", ret);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  129  			ret = -EPERM;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  130  		}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  131  		goto efuse_access_err;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  132  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  133  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  134  	if (flag == EFUSE_READ)
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  135  		memcpy(val, data, bytes);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  136  efuse_access_err:
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  137  	dma_free_coherent(dev, sizeof(bytes),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  138  			  data, dma_buf);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  139  efuse_data_fail:
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  140  	dma_free_coherent(dev, sizeof(struct xilinx_efuse),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  141  			  efuse, dma_addr);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  142  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  143  	return ret;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  144  }
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] powerpc/pseries/eeh: Fix get PE state translation
+Link: https://lore.kernel.org/stable/20241212075044.10563-1-nnmlinux%40linux.ibm.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
 
