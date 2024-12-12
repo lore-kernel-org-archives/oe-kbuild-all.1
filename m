@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A794932C85;
-	Thu, 12 Dec 2024 01:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BDBC2E0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 01:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733966359; cv=none; b=GRUjHF2oJ6ZpRn8J+13/tbwNsrahNUvxkiSKF13fisqle2KcsLDPrapT3irxKHqlny+/1gL7EdVSMz3tHob0IeuhvhTJO0cWntOjb8voclC6lP63FCZdSFSseqMAEOAcwT01d6hy9O/k7mkNr+/SmdOov65ymyr+tATkhxX+pW8=
+	t=1733967108; cv=none; b=gveg5gWSzANmZSnzMeIwMSYdJX//yGyrGM0TFYOSau7PMYMq/AbgfQi9hI59V6G7LP84J6Gn6+IHxYfZMLCkxihspOhOcBp2PpK1Wl1JqGOd3iic1ahZjDg+B0wB+iLN/MYLhnMguMrRRoXeVnytYvhRiwWHAIm7ZRZ1t3Y/87Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733966359; c=relaxed/simple;
-	bh=SUvPk8jDBgmSsgdUZODT3DlXcip3GbyUYCxyAPF398w=;
+	s=arc-20240116; t=1733967108; c=relaxed/simple;
+	bh=K0VafvKngiyoy+gIPt2y7Gcv36rDQPvBtIvPL9cZ0PM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CEYUn1SFGGi5lcY0ZSqM/r4tw3srFIX6Ij/MLbLCIkUI+LQ2hiudYMqx0B9RVNDEyzskQYykSCQdInFj85dtoLRxAjZpfKOaGfrYlHz6D+MOCEEcA1yN7zX/NHJ7leG8pmiWfkxZBKBQPVKTNBtDHUaAOJCW107lOZB65uGvJkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqOfWzo4; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rhapf/fR2/KWGvGE9TxxaXauLyp6iMZosmsqoB3IEWiJtNnNJb4+Dlww94k8wQsyFyfO9gI0iAifS4CRoPIhL7K/Z6K91Cm0BF7MgVn8vEq2P54OQA3ocXDOOoemz1h/ByO7oVHHSm5yXT2koDkjd5mNAjpRD1Z1svbH8PxM/vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hPcWNOFD; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqOfWzo4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hPcWNOFD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733966358; x=1765502358;
+  t=1733967105; x=1765503105;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SUvPk8jDBgmSsgdUZODT3DlXcip3GbyUYCxyAPF398w=;
-  b=nqOfWzo4YDK4CfYymTwByH4qclcEYPZxpbPKuH64D4LbuvAZdoyCOKee
-   fQg29eojzldcGbjRHy8yx9FetsVD3L7tP7qxyq/Peog08VwC3P56L0AY0
-   HNrTabhbMVJjbxXxF5apFiI5LSXqQUoHaDqNlWHmpBz4mIdUE/9sgiGE1
-   gzQC1Brw3dbO9wWw/YISIjIzuzHmFcbpvFAUOQAPMPINPD9DjmFDHgCRY
-   3KMOXTzDqk6HIkpjrmJiyMp+KvLRR+MN4vv+5NrxqyqaafUQTSG/sRJ5p
-   FhperSeYHl6rpjycfek+w6AdxiYV8tanDSFoYx+XW6HTDvx9erNf8tmzM
-   g==;
-X-CSE-ConnectionGUID: svfsQYPcStSJQw00UMk+QQ==
-X-CSE-MsgGUID: xoKjmR1hQ1qc20UciUfVlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="33699090"
+  bh=K0VafvKngiyoy+gIPt2y7Gcv36rDQPvBtIvPL9cZ0PM=;
+  b=hPcWNOFDwuAhelGwOUkKgpTCc1X0/J1ria5RyQq0KE2+gZZzPZbMqhHe
+   pGIMNJXFLTgtjWvZ6yacejkHXY04AgXQqi0LkUB3NLU/pIapXziO30XTI
+   /zoR+NgNcWfpoqY53+d8Fmqmtvn4Vu/vmseqdbsaV5b/WRPBcFNREVaE6
+   UPcgjndJyBFoE6Q8NvHSyYAUc3aUK7Vu9m0sTSk8G3WrkbmWp0qDgK/E6
+   92bMMianSFDaa0xnxfiwEa2hHwb999RycvThDYAWJqLVdqPiSVaEx3jHI
+   5OFRzOWkY/202oVe+FbAjwVx4+X61MchpxMVLe6LX7TRSxUgH7MvezoMy
+   A==;
+X-CSE-ConnectionGUID: UwThok0aQ6Kk56GF+iuFwQ==
+X-CSE-MsgGUID: 3ozzb9yCS866SsPujMZJ7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34096052"
 X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="33699090"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 17:19:17 -0800
-X-CSE-ConnectionGUID: cy5apSg4RZiXMmeSfpBTHQ==
-X-CSE-MsgGUID: 9gWnfv01R7KwxltFpsjBkg==
+   d="scan'208";a="34096052"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 17:31:44 -0800
+X-CSE-ConnectionGUID: EG1Z7OAyQ2CX6IOyJVs6zA==
+X-CSE-MsgGUID: 3hUeEj61R1+Y0MNCL+zJDA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="96451175"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119279604"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Dec 2024 17:19:15 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 11 Dec 2024 17:31:41 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLXrF-0007Hh-2U;
-	Thu, 12 Dec 2024 01:19:13 +0000
-Date: Thu, 12 Dec 2024 09:18:17 +0800
+	id 1tLY3H-0007IG-2N;
+	Thu, 12 Dec 2024 01:31:39 +0000
+Date: Thu, 12 Dec 2024 09:31:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Roger L. Beckermeyer III" <beckerlee3@gmail.com>,
-	linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Roger L. Beckermeyer III" <beckerlee3@gmail.com>
-Subject: Re: [PATCH] btrfs: edit __btrfs_add_delayed_item() to use rb helper
-Message-ID: <202412120959.0utuK69J-lkp@intel.com>
-References: <9b85bdbc269d20886590f0a70de66c602d72aa9d.1733695544.git.beckerlee3@gmail.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Bryan Whitehead <bryan.whitehead@microchip.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Marcin Wojtas <marcin.s.wojtas@gmail.com>, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH net-next 10/10] net: lan743x: convert to phylink managed
+ EEE
+Message-ID: <202412120900.DYyJpYUw-lkp@intel.com>
+References: <E1tKeg8-006SNJ-4Q@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,69 +70,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9b85bdbc269d20886590f0a70de66c602d72aa9d.1733695544.git.beckerlee3@gmail.com>
+In-Reply-To: <E1tKeg8-006SNJ-4Q@rmk-PC.armlinux.org.uk>
 
-Hi Roger,
+Hi Russell,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v6.13-rc2 next-20241211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Roger-L-Beckermeyer-III/btrfs-edit-__btrfs_add_delayed_item-to-use-rb-helper/20241209-104443
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/9b85bdbc269d20886590f0a70de66c602d72aa9d.1733695544.git.beckerlee3%40gmail.com
-patch subject: [PATCH] btrfs: edit __btrfs_add_delayed_item() to use rb helper
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20241212/202412120959.0utuK69J-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120959.0utuK69J-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-mdio-add-definition-for-clock-stop-capable-bit/20241210-022608
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/E1tKeg8-006SNJ-4Q%40rmk-PC.armlinux.org.uk
+patch subject: [PATCH net-next 10/10] net: lan743x: convert to phylink managed EEE
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241212/202412120900.DYyJpYUw-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120900.DYyJpYUw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412120959.0utuK69J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120900.DYyJpYUw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/btrfs/delayed-inode.c:392:10: error: call to undeclared function 'rb_find_add_cached'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           exist = rb_find_add_cached(&ins->rb_node, root, btrfs_add_delayed_item_cmp);
-                   ^
-   fs/btrfs/delayed-inode.c:392:8: error: incompatible integer to pointer conversion assigning to 'struct rb_node *' from 'int' [-Wint-conversion]
-           exist = rb_find_add_cached(&ins->rb_node, root, btrfs_add_delayed_item_cmp);
-                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   drivers/net/ethernet/microchip/lan743x_main.c: In function 'mac_disable_tx_lpi':
+   drivers/net/ethernet/microchip/lan743x_main.c:3078:32: error: 'adapter' undeclared (first use in this function)
+    3078 |         lan743x_mac_eee_enable(adapter, false);
+         |                                ^~~~~~~
+   drivers/net/ethernet/microchip/lan743x_main.c:3078:32: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/ethernet/microchip/lan743x_main.c: In function 'mac_enable_tx_lpi':
+   drivers/net/ethernet/microchip/lan743x_main.c:3089:27: error: 'adapter' undeclared (first use in this function)
+    3089 |         lan743x_csr_write(adapter, MAC_EEE_TX_LPI_REQ_DLY_CNT, timer);
+         |                           ^~~~~~~
+   drivers/net/ethernet/microchip/lan743x_main.c: At top level:
+   drivers/net/ethernet/microchip/lan743x_main.c:3097:31: error: 'lan743x_mac_disable_tx_lpi' undeclared here (not in a function); did you mean 'mac_disable_tx_lpi'?
+    3097 |         .mac_disable_tx_lpi = lan743x_mac_disable_tx_lpi,
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                               mac_disable_tx_lpi
+   drivers/net/ethernet/microchip/lan743x_main.c:3098:30: error: 'lan743x_mac_enable_tx_lpi' undeclared here (not in a function); did you mean 'mac_enable_tx_lpi'?
+    3098 |         .mac_enable_tx_lpi = lan743x_mac_enable_tx_lpi,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                              mac_enable_tx_lpi
+   drivers/net/ethernet/microchip/lan743x_main.c: In function 'lan743x_phylink_create':
+   drivers/net/ethernet/microchip/lan743x_main.c:3113:33: error: 'struct phylink_config' has no member named 'lpi_timer_max'; did you mean 'lpi_timer_default'?
+    3113 |         adapter->phylink_config.lpi_timer_max = U32_MAX;
+         |                                 ^~~~~~~~~~~~~
+         |                                 lpi_timer_default
+   drivers/net/ethernet/microchip/lan743x_main.c: At top level:
+>> drivers/net/ethernet/microchip/lan743x_main.c:3081:13: warning: 'mac_enable_tx_lpi' defined but not used [-Wunused-function]
+    3081 | static void mac_enable_tx_lpi(struct phylink_config *config, u32 timer,
+         |             ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/microchip/lan743x_main.c:3076:13: warning: 'mac_disable_tx_lpi' defined but not used [-Wunused-function]
+    3076 | static void mac_disable_tx_lpi(struct phylink_config *config)
+         |             ^~~~~~~~~~~~~~~~~~
 
 
-vim +/rb_find_add_cached +392 fs/btrfs/delayed-inode.c
+vim +/mac_enable_tx_lpi +3081 drivers/net/ethernet/microchip/lan743x_main.c
 
-   380	
-   381	static int __btrfs_add_delayed_item(struct btrfs_delayed_node *delayed_node,
-   382					    struct btrfs_delayed_item *ins)
-   383	{
-   384		struct rb_root_cached *root;
-   385		struct rb_node *exist;
-   386	
-   387		if (ins->type == BTRFS_DELAYED_INSERTION_ITEM)
-   388			root = &delayed_node->ins_root;
-   389		else
-   390			root = &delayed_node->del_root;
-   391	
- > 392		exist = rb_find_add_cached(&ins->rb_node, root, btrfs_add_delayed_item_cmp);
-   393		if (exist != NULL)
-   394			return -EEXIST;
-   395	
-   396		if (ins->type == BTRFS_DELAYED_INSERTION_ITEM &&
-   397		    ins->index >= delayed_node->index_cnt)
-   398			delayed_node->index_cnt = ins->index + 1;
-   399	
-   400		delayed_node->count++;
-   401		atomic_inc(&delayed_node->root->fs_info->delayed_root->items);
-   402		return 0;
-   403	}
-   404	
+  3075	
+> 3076	static void mac_disable_tx_lpi(struct phylink_config *config)
+  3077	{
+  3078		lan743x_mac_eee_enable(adapter, false);
+  3079	}
+  3080	
+> 3081	static void mac_enable_tx_lpi(struct phylink_config *config, u32 timer,
+  3082				      bool tx_clk_stop)
+  3083	{
+  3084		/* Software should only change this field when Energy Efficient
+  3085		 * Ethernet Enable (EEEEN) is cleared. We ensure that by clearing
+  3086		 * EEEEN during probe, and phylink itself guarantees that
+  3087		 * mac_disable_tx_lpi() will have been previously called.
+  3088		 */
+  3089		lan743x_csr_write(adapter, MAC_EEE_TX_LPI_REQ_DLY_CNT, timer);
+  3090		lan743x_mac_eee_enable(adapter, true);
+  3091	}
+  3092	
 
 -- 
 0-DAY CI Kernel Test Service
