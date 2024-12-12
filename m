@@ -1,65 +1,74 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A121420A8;
-	Thu, 12 Dec 2024 04:53:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8841632D2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 04:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733979194; cv=none; b=buChp+4tN8NeI7RrWk/AqRc8WrA/Wp+vk8ayINF72uJd22mVunu3Bl/egZY5qQp3TTyN0Y8pbqzRSe5EWlJADRqJLe4VL/lpp8t4sEZ1M77yrRtopxzwQAx4wG0DLWhqvNTcQbbIzsFDNEkTJuAk04ASvN1W4xlqf9f7uTar+F4=
+	t=1733979195; cv=none; b=eZPLgaBfClq7XewOvg2M6JJL+vaRoiAEuwuhCy1K4zyw7fkAdzncIwsBXDGDGCeyafS7EBAsjn6BkZ26t1IU903nthcPad+RdwOkq5KpZMvK5fMXkkQvo+6bgohFr8kX/+EXMuqDP7zPH3xI7ab0Zy5T+WH9rXNxxWCJ/yJNEKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733979194; c=relaxed/simple;
-	bh=zjOKo7X1WIM6wbB1lJ8RKKq+iVqK9Xjvj89egCgASEk=;
+	s=arc-20240116; t=1733979195; c=relaxed/simple;
+	bh=OThb/28WRH4fPmSctOntMxlFyk4uNJM60KRc4sMrzqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qWx14YifeTReEOQkU2R1/gFbvADnMtNTxPdhYpOD7q2O/EoU4pdy+O2NIdsFIHuZcQWV2CT5c8AAhW4cz6JvKvBgSNCkdKhTHNh4lRumSDSxx6UiROR7OSuZRCqFeuhiPr1LPXID2KYK8/hGlIKsPr4cQbUe3m1MENm7WZT8tMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3KiGUwl; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=ad74NmbLpp6Zg2n+LiuDMMMe/w+aAaupuBDvJn4V+qxeXCg7avYi9NI/oVMNOBVQiWdmMYX8jyJkZR+HhAb2H8ZQM7dwxGfXx7qsDW/K690UvJz/0YQFaBIsZR1B8rrDzExDasRF/vnBlhOqC2hLya/PBWf+jZHE5lZlOJdBpzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VdbFOPDI; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3KiGUwl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VdbFOPDI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733979192; x=1765515192;
+  t=1733979193; x=1765515193;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zjOKo7X1WIM6wbB1lJ8RKKq+iVqK9Xjvj89egCgASEk=;
-  b=T3KiGUwljQ28JBsY80Vfg2btqMySP+idLAj3sd80YRgbcAsEX66gAZgE
-   idvAc4FccTTRP6tGIa8MzWwInD34Fp+RKgfaXKTZB01IDUDNiszuZQN73
-   JM1l5cdCnVJcQdnJTjZrCNbKIyZQB45hwDI775YChS5bXk4a4I8qOzLkU
-   yzdHJh9WYsbtbpNI9Gu1HXqCYgwKNq59zEumGcvl7V3nGNZoaEkmedAld
-   KcG7IzCKULFh5LQoPLq0653lLm1UnMz9Fl2twcvNN3xT4lWaLK8cPBNKa
-   P8poX7aJ+4dJHRamTAYtO+XdmK6NpKyYB4yBKk77aC+yUV3MHEHS1UhNS
-   Q==;
-X-CSE-ConnectionGUID: NdQBZCnhTj2X0t3ttNVabA==
-X-CSE-MsgGUID: Y+V2GNXCTHaqzV/al5quDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45765785"
+  bh=OThb/28WRH4fPmSctOntMxlFyk4uNJM60KRc4sMrzqg=;
+  b=VdbFOPDIG2GdRTaTHG5y5Gw1wt/IO/YYGuH7n3ER9LTYJGYpDF/5yK5r
+   Wx3MHHUa5ozDzjbU8ZlL9G4VPqKdnBvNfJfNzj7ksnf0WIqqOuhn780DS
+   ZrS9C8EQEoUCUlE6eqI2P4pdvb165+Aw3Uq+JgEQvwCr0vLG4ypArKZR1
+   F+dqZcyyxAI91HO83ome4gkaBz48Ni2U0XTsjcK53W58FD94NmCkLnfoS
+   vjYaThwXB3WrdDOYbNn2tDcnAj2KrruQ8GxfpEt+PYW2brFeeMXBmE6MM
+   qo6cigjpmfTp30vcubkSO637Kh5TxogfTQUzImVTMO115p0SsV+UfzrUb
+   g==;
+X-CSE-ConnectionGUID: 7ZLVJQ0aRG+lfxYy7FQ3yQ==
+X-CSE-MsgGUID: JRNmEZO9RKyBszmvvcAzbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45765798"
 X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45765785"
+   d="scan'208";a="45765798"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 20:53:11 -0800
-X-CSE-ConnectionGUID: +rugh9WjSH+JrBIWnRnsdA==
-X-CSE-MsgGUID: BF3cQvgFS2qxjoUB8kTOPw==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 20:53:12 -0800
+X-CSE-ConnectionGUID: 61UdLCRVSFCV9GxQXcQjQQ==
+X-CSE-MsgGUID: gsE7v/SySSK9YmCGTr+8Ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="95947179"
+   d="scan'208";a="95947178"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 11 Dec 2024 20:53:09 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLbCD-0007Rx-2e;
+	id 1tLbCD-0007Rz-2h;
 	Thu, 12 Dec 2024 04:53:05 +0000
-Date: Thu, 12 Dec 2024 12:53:04 +0800
+Date: Thu, 12 Dec 2024 12:52:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: ot907280 <ot_cathy.xu@mediatek.com>, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, sean.wang@kernel.org,
-	linus.walleij@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Guodong Liu <guodong.liu@mediatek.corp-partner.google.com>,
-	ot907280 <ot_cathy.xu@mediatek.com>
-Subject: Re: [PATCH] pinctrl: mediatek: Add support for MT8196
-Message-ID: <202412121226.WW9Airfh-lkp@intel.com>
-References: <20241211055454.17120-3-ot_cathy.xu@mediatek.com>
+To: Elizabeth Figura <zfigura@codeweavers.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, wine-devel@winehq.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Elizabeth Figura <zfigura@codeweavers.com>
+Subject: Re: [PATCH v6 28/28] ntsync: No longer depend on BROKEN.
+Message-ID: <202412121219.EQhUbN0S-lkp@intel.com>
+References: <20241209185904.507350-29-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,36 +77,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241211055454.17120-3-ot_cathy.xu@mediatek.com>
+In-Reply-To: <20241209185904.507350-29-zfigura@codeweavers.com>
 
-Hi ot907280,
+Hi Elizabeth,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next linus/master v6.13-rc2 next-20241211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on cdd30ebb1b9f36159d66f088b61aee264e649d7a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ot907280/pinctrl-mediatek-Add-support-for-MT8196/20241211-140107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20241211055454.17120-3-ot_cathy.xu%40mediatek.com
-patch subject: [PATCH] pinctrl: mediatek: Add support for MT8196
-config: arm64-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121226.WW9Airfh-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121226.WW9Airfh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Elizabeth-Figura/ntsync-Introduce-NTSYNC_IOC_WAIT_ANY/20241210-031155
+base:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
+patch link:    https://lore.kernel.org/r/20241209185904.507350-29-zfigura%40codeweavers.com
+patch subject: [PATCH v6 28/28] ntsync: No longer depend on BROKEN.
+config: i386-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121219.EQhUbN0S-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121219.EQhUbN0S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412121226.WW9Airfh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412121219.EQhUbN0S-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: mtk_paris_pinctrl_pm_ops
-   >>> referenced by pinctrl-mt8196.c
-   >>>               drivers/pinctrl/mediatek/pinctrl-mt8196.o:(mt8196_pinctrl_driver) in archive vmlinux.a
+   In file included from include/linux/spinlock.h:60,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from drivers/misc/ntsync.c:11:
+   In function 'check_copy_size',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:207:7,
+       inlined from 'setup_wait' at drivers/misc/ntsync.c:903:6:
+>> include/linux/thread_info.h:259:25: error: call to '__bad_copy_to' declared with attribute error: copy destination size is too small
+     259 |                         __bad_copy_to();
+         |                         ^~~~~~~~~~~~~~~
+
+
+vim +/__bad_copy_to +259 include/linux/thread_info.h
+
+b0377fedb652808 Al Viro   2017-06-29  248  
+9dd819a15162f8f Kees Cook 2019-09-25  249  static __always_inline __must_check bool
+b0377fedb652808 Al Viro   2017-06-29  250  check_copy_size(const void *addr, size_t bytes, bool is_source)
+b0377fedb652808 Al Viro   2017-06-29  251  {
+c80d92fbb67b2c8 Kees Cook 2021-06-17  252  	int sz = __builtin_object_size(addr, 0);
+b0377fedb652808 Al Viro   2017-06-29  253  	if (unlikely(sz >= 0 && sz < bytes)) {
+b0377fedb652808 Al Viro   2017-06-29  254  		if (!__builtin_constant_p(bytes))
+b0377fedb652808 Al Viro   2017-06-29  255  			copy_overflow(sz, bytes);
+b0377fedb652808 Al Viro   2017-06-29  256  		else if (is_source)
+b0377fedb652808 Al Viro   2017-06-29  257  			__bad_copy_from();
+b0377fedb652808 Al Viro   2017-06-29  258  		else
+b0377fedb652808 Al Viro   2017-06-29 @259  			__bad_copy_to();
+b0377fedb652808 Al Viro   2017-06-29  260  		return false;
+b0377fedb652808 Al Viro   2017-06-29  261  	}
+6d13de1489b6bf5 Kees Cook 2019-12-04  262  	if (WARN_ON_ONCE(bytes > INT_MAX))
+6d13de1489b6bf5 Kees Cook 2019-12-04  263  		return false;
+b0377fedb652808 Al Viro   2017-06-29  264  	check_object_size(addr, bytes, is_source);
+b0377fedb652808 Al Viro   2017-06-29  265  	return true;
+b0377fedb652808 Al Viro   2017-06-29  266  }
+b0377fedb652808 Al Viro   2017-06-29  267  
 
 -- 
 0-DAY CI Kernel Test Service
