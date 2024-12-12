@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463291F0E57
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 11:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C19121129D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 11:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734003623; cv=none; b=ryIDClR8Rx1qn7RlgE++BHYGMj1z/ZlnJOERpv5cheilrMCEyECyR2VWSUSNMgk9A+lxUi8Larbts077ZP23lwrqqFCchlizxT4f5tM+iQq7Hiz7biQb53APC5BhFmncxo8gQQH+/pPnxw26Q/ZUCtM1G+veJk/WVN8HhX/jyqw=
+	t=1734003630; cv=none; b=RSs81SjxfNpWy7h/Oaxv2aKEovtUK08Gn+aFk9tUmi72dvqGcl8bk3eFIla2oGC8B/nbdnZNDwyxcFs+Ril62OL/r+bIYT7EHC4DZl8JkTb26PMb4fAO2pTD+av9F5SSZr0lKOB3/N5e424pDK/0wmbncHGZAXjqsTZ0/agSc88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734003623; c=relaxed/simple;
-	bh=XjqHQs+p1Dkl0oH6oP8bEtZ61qp6kN7gcB/dy5n8kRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lkciQE5JkUdNHR0WLdiXwkW8swyDfVYxVlwJJIT18hHknYUYSp1/WO/+uh0f3vRH9HXvs5MkH8ypCJHLrxVU1+dNmHu/QT99wJLQK4DwsvP9+Cgt9em0qWNLs09kDmYEDeBAOJ9PEmH0NNtH3MY7X+LLUyvh2a/VB5/G4LPiJ4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGSqEEV3; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1734003630; c=relaxed/simple;
+	bh=81UhQFyoXEc2YYRuhb57elRZL6MCriFdu7RA9RJ39os=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E6cGLbQm12bl16HSHlG8OPRJFTI6yeGKMeRHyI0hJ6SNduz2vZmOVwBPFDnHuzTpM1LRSQ4qYoZw2IP6MxC72qLX1icyTdaKxoB9k3MRjiqkN0/UfYDKKHQjRy2UZ1Bh06HWA/POh5741AJSbcrvCQIpBfoi3PW8CuivFl/jJV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iA9FB662; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGSqEEV3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iA9FB662"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734003622; x=1765539622;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XjqHQs+p1Dkl0oH6oP8bEtZ61qp6kN7gcB/dy5n8kRg=;
-  b=bGSqEEV3YIGcO38BY12s6KdUpSy0pezRK8opOVqVTFFbRTs1c7sAOIYz
-   5CpgjMwyZQc0DcIIAUPryFZnoMFyGtl32N1+sO7guffxkm2h2x42+/l2Q
-   zFlVZVe91Fdh77x86L477G1uriZ35kBSBdoXSPpqQOFGWQSBOwsM2gpKH
-   41Gi/4IO1HwOu/0HfQ09ay0DGey2bJwzqJ1u0OMmZRbJuHsCaQCfYV8tx
-   MdP5mdtXLI8/665iQx1JWTZVnSGe2XjL+KY/J0p5simlIoxcvi+euAfHm
-   UsIZHhNuTlrH0LIYm3FpzSAKY8uidUj8G0rUqRWNOWxER8aDD9Lb3hHMo
+  t=1734003628; x=1765539628;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=81UhQFyoXEc2YYRuhb57elRZL6MCriFdu7RA9RJ39os=;
+  b=iA9FB662qT5jcTDmTs02A+5fxkePwEdE53ynoF9Uzixt7jAUdCla5igW
+   B9TdZZfMlpuiX34yTc3Hlo6uJZSecNsss/wKjJG+UHb18wA/7xc2ubGYs
+   EwBr+ze/d57R3xILH3saDebincjUpM8p744WnPY457ujIJARbzhOCdWjc
+   aOUvFXaXYJ3/6tjckV7w96tMxC+QbAna833/wKmE85Vda2wLhNe/a4ZGa
+   Z0uM4oDQLo+5GmivgXsFGsjRwTBezk9kTgYaHIIdQI2bewAk5lBnfPFmX
+   u8VFRaqqWyQzKfZ2em9D2jRfTapjhA04w8EMnDNooY5evZYc4490YYwCW
    Q==;
-X-CSE-ConnectionGUID: DN/rXIDSSvm6SFUled76Uw==
-X-CSE-MsgGUID: VAGCcbZYQjKDyNeqcXwFTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45800511"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45800511"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 03:40:21 -0800
-X-CSE-ConnectionGUID: mS2/xoOlSJ+TQEFWva6Mqg==
-X-CSE-MsgGUID: KAyqp5xNSkiqTuR60wCOUQ==
+X-CSE-ConnectionGUID: DctruxvXTWqj8lri3nol3w==
+X-CSE-MsgGUID: n6fbh/sZQB6tico+OUlSWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34288264"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="34288264"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 03:40:23 -0800
+X-CSE-ConnectionGUID: iGoS9x0oS/WNPVNrNcxVrA==
+X-CSE-MsgGUID: L0wW7Gh2SYG16yFS6zLwOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96046192"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="96285074"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Dec 2024 03:40:20 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2024 03:40:20 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLhYH-0007ml-1G;
+	id 1tLhYH-0007mj-1D;
 	Thu, 12 Dec 2024 11:40:17 +0000
-Date: Thu, 12 Dec 2024 19:36:33 +0800
+Date: Thu, 12 Dec 2024 19:39:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 11009/30000]
- kernel/sched/stubs.c:8:5: warning: no previous prototype for function
- 'sched_isolate_cpu'
-Message-ID: <202412121906.nSQrei7t-lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kkd@meta.com,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Manu Bretelle <chantra@meta.com>, Jiri Olsa <jolsa@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martin KaFai Lau <martin.lau@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>, kernel-team@fb.com
+Subject: Re: [PATCH bpf v1 3/4] bpf: Augment raw_tp arguments with
+ PTR_MAYBE_NULL
+Message-ID: <202412121921.xPnFS8u5-lkp@intel.com>
+References: <20241211020156.18966-4-memxor@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +70,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241211020156.18966-4-memxor@gmail.com>
 
-Hi Quentin,
+Hi Kumar,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   a8bf86a0e0fa05070897a210d706d5c4d83c26ac
-commit: eead51495c8760858c32d9ad0332ffc94397aa82 [11009/30000] ANDROID: GKI: sched: stub sched_isolate symbols
-config: x86_64-buildonly-randconfig-004-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121906.nSQrei7t-lkp@intel.com/config)
+[auto build test WARNING on 7d0d673627e20cfa3b21a829a896ce03b58a4f1c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/bpf-Revert-bpf-Mark-raw_tp-arguments-with-PTR_MAYBE_NULL/20241211-100358
+base:   7d0d673627e20cfa3b21a829a896ce03b58a4f1c
+patch link:    https://lore.kernel.org/r/20241211020156.18966-4-memxor%40gmail.com
+patch subject: [PATCH bpf v1 3/4] bpf: Augment raw_tp arguments with PTR_MAYBE_NULL
+config: i386-randconfig-062-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121921.xPnFS8u5-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121906.nSQrei7t-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121921.xPnFS8u5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412121906.nSQrei7t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412121921.xPnFS8u5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/btf.c:6451:29: sparse: sparse: symbol 'raw_tp_null_args' was not declared. Should it be static?
+   kernel/bpf/btf.c: note: in included file (through include/linux/bpf.h, include/linux/bpf_verifier.h):
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
 
->> kernel/sched/stubs.c:8:5: warning: no previous prototype for function 'sched_isolate_cpu' [-Wmissing-prototypes]
-       8 | int sched_isolate_cpu(int cpu)
-         |     ^
-   kernel/sched/stubs.c:8:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-       8 | int sched_isolate_cpu(int cpu)
-         | ^
-         | static 
->> kernel/sched/stubs.c:14:5: warning: no previous prototype for function 'sched_unisolate_cpu_unlocked' [-Wmissing-prototypes]
-      14 | int sched_unisolate_cpu_unlocked(int cpu)
-         |     ^
-   kernel/sched/stubs.c:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      14 | int sched_unisolate_cpu_unlocked(int cpu)
-         | ^
-         | static 
->> kernel/sched/stubs.c:20:5: warning: no previous prototype for function 'sched_unisolate_cpu' [-Wmissing-prototypes]
-      20 | int sched_unisolate_cpu(int cpu)
-         |     ^
-   kernel/sched/stubs.c:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      20 | int sched_unisolate_cpu(int cpu)
-         | ^
-         | static 
->> kernel/sched/stubs.c:26:5: warning: no previous prototype for function 'set_task_boost' [-Wmissing-prototypes]
-      26 | int set_task_boost(int boost, u64 period)
-         |     ^
-   kernel/sched/stubs.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      26 | int set_task_boost(int boost, u64 period)
-         | ^
-         | static 
-   4 warnings generated.
+vim +/raw_tp_null_args +6451 kernel/bpf/btf.c
 
-
-vim +/sched_isolate_cpu +8 kernel/sched/stubs.c
-
-     7	
-   > 8	int sched_isolate_cpu(int cpu)
-     9	{
-    10		return -EINVAL;
-    11	}
-    12	EXPORT_SYMBOL_GPL(sched_isolate_cpu);
-    13	
-  > 14	int sched_unisolate_cpu_unlocked(int cpu)
-    15	{
-    16		return -EINVAL;
-    17	}
-    18	EXPORT_SYMBOL_GPL(sched_unisolate_cpu_unlocked);
-    19	
-  > 20	int sched_unisolate_cpu(int cpu)
-    21	{
-    22		return -EINVAL;
-    23	}
-    24	EXPORT_SYMBOL_GPL(sched_unisolate_cpu);
-    25	
-  > 26	int set_task_boost(int boost, u64 period)
+  6450	
+> 6451	struct bpf_raw_tp_null_args raw_tp_null_args[] = {
+  6452		/* sched */
+  6453		RAW_TP_NULL_ARGS(sched_pi_setprio, NULL_ARG(2)),
+  6454		/* ... from sched_numa_pair_template event class */
+  6455		RAW_TP_NULL_ARGS(sched_stick_numa, NULL_ARG(3)),
+  6456		RAW_TP_NULL_ARGS(sched_swap_numa, NULL_ARG(3)),
+  6457		/* afs */
+  6458		RAW_TP_NULL_ARGS(afs_make_fs_call, NULL_ARG(2)),
+  6459		RAW_TP_NULL_ARGS(afs_make_fs_calli, NULL_ARG(2)),
+  6460		RAW_TP_NULL_ARGS(afs_make_fs_call1, NULL_ARG(2)),
+  6461		RAW_TP_NULL_ARGS(afs_make_fs_call2, NULL_ARG(2)),
+  6462		RAW_TP_NULL_ARGS(afs_protocol_error, NULL_ARG(1)),
+  6463		RAW_TP_NULL_ARGS(afs_flock_ev, NULL_ARG(2)),
+  6464		/* cachefiles */
+  6465		RAW_TP_NULL_ARGS(cachefiles_lookup, NULL_ARG(1)),
+  6466		RAW_TP_NULL_ARGS(cachefiles_unlink, NULL_ARG(1)),
+  6467		RAW_TP_NULL_ARGS(cachefiles_rename, NULL_ARG(1)),
+  6468		RAW_TP_NULL_ARGS(cachefiles_prep_read, NULL_ARG(1)),
+  6469		RAW_TP_NULL_ARGS(cachefiles_mark_active, NULL_ARG(1)),
+  6470		RAW_TP_NULL_ARGS(cachefiles_mark_failed, NULL_ARG(1)),
+  6471		RAW_TP_NULL_ARGS(cachefiles_mark_inactive, NULL_ARG(1)),
+  6472		RAW_TP_NULL_ARGS(cachefiles_vfs_error, NULL_ARG(1)),
+  6473		RAW_TP_NULL_ARGS(cachefiles_io_error, NULL_ARG(1)),
+  6474		RAW_TP_NULL_ARGS(cachefiles_ondemand_open, NULL_ARG(1)),
+  6475		RAW_TP_NULL_ARGS(cachefiles_ondemand_copen, NULL_ARG(1)),
+  6476		RAW_TP_NULL_ARGS(cachefiles_ondemand_close, NULL_ARG(1)),
+  6477		RAW_TP_NULL_ARGS(cachefiles_ondemand_read, NULL_ARG(1)),
+  6478		RAW_TP_NULL_ARGS(cachefiles_ondemand_cread, NULL_ARG(1)),
+  6479		RAW_TP_NULL_ARGS(cachefiles_ondemand_fd_write, NULL_ARG(1)),
+  6480		RAW_TP_NULL_ARGS(cachefiles_ondemand_fd_release, NULL_ARG(1)),
+  6481		/* ext4, from ext4__mballoc event class */
+  6482		RAW_TP_NULL_ARGS(ext4_mballoc_discard, NULL_ARG(2)),
+  6483		RAW_TP_NULL_ARGS(ext4_mballoc_free, NULL_ARG(2)),
+  6484		/* fib */
+  6485		RAW_TP_NULL_ARGS(fib_table_lookup, NULL_ARG(3)),
+  6486		/* filelock */
+  6487		/* ... from filelock_lock event class */
+  6488		RAW_TP_NULL_ARGS(posix_lock_inode, NULL_ARG(2)),
+  6489		RAW_TP_NULL_ARGS(fcntl_setlk, NULL_ARG(2)),
+  6490		RAW_TP_NULL_ARGS(locks_remove_posix, NULL_ARG(2)),
+  6491		RAW_TP_NULL_ARGS(flock_lock_inode, NULL_ARG(2)),
+  6492		/* ... from filelock_lease event class */
+  6493		RAW_TP_NULL_ARGS(break_lease_noblock, NULL_ARG(2)),
+  6494		RAW_TP_NULL_ARGS(break_lease_block, NULL_ARG(2)),
+  6495		RAW_TP_NULL_ARGS(break_lease_unblock, NULL_ARG(2)),
+  6496		RAW_TP_NULL_ARGS(generic_delete_lease, NULL_ARG(2)),
+  6497		RAW_TP_NULL_ARGS(time_out_leases, NULL_ARG(2)),
+  6498		/* host1x */
+  6499		RAW_TP_NULL_ARGS(host1x_cdma_push_gather, NULL_ARG(5)),
+  6500		/* huge_memory */
+  6501		RAW_TP_NULL_ARGS(mm_khugepaged_scan_pmd, NULL_ARG(2)),
+  6502		RAW_TP_NULL_ARGS(mm_collapse_huge_page_isolate, NULL_ARG(1)),
+  6503		RAW_TP_NULL_ARGS(mm_khugepaged_scan_file, NULL_ARG(2)),
+  6504		RAW_TP_NULL_ARGS(mm_khugepaged_collapse_file, NULL_ARG(2)),
+  6505		/* kmem */
+  6506		RAW_TP_NULL_ARGS(mm_page_alloc, NULL_ARG(1)),
+  6507		RAW_TP_NULL_ARGS(mm_page_pcpu_drain, NULL_ARG(1)),
+  6508		/* .. from mm_page event class */
+  6509		RAW_TP_NULL_ARGS(mm_page_alloc_zone_locked, NULL_ARG(1)),
+  6510		/* netfs */
+  6511		RAW_TP_NULL_ARGS(netfs_failure, NULL_ARG(2)),
+  6512		/* power */
+  6513		RAW_TP_NULL_ARGS(device_pm_callback_start, NULL_ARG(2)),
+  6514		/* qdisc */
+  6515		RAW_TP_NULL_ARGS(qdisc_dequeue, NULL_ARG(4)),
+  6516		/* rxrpc */
+  6517		RAW_TP_NULL_ARGS(rxrpc_recvdata, NULL_ARG(1)),
+  6518		RAW_TP_NULL_ARGS(rxrpc_resend, NULL_ARG(2)),
+  6519		/* sunrpc */
+  6520		RAW_TP_NULL_ARGS(xs_stream_read_data, NULL_ARG(1)),
+  6521		/* tcp */
+  6522		RAW_TP_NULL_ARGS(tcp_send_reset, NULL_ARG(1) | NULL_ARG(2)),
+  6523		/* tegra_apb_dma */
+  6524		RAW_TP_NULL_ARGS(tegra_dma_tx_status, NULL_ARG(3)),
+  6525		/* timer_migration */
+  6526		RAW_TP_NULL_ARGS(tmigr_update_events, NULL_ARG(1)),
+  6527		/* writeback, from writeback_folio_template event class */
+  6528		RAW_TP_NULL_ARGS(writeback_dirty_folio, NULL_ARG(2)),
+  6529		RAW_TP_NULL_ARGS(folio_wait_writeback, NULL_ARG(2)),
+  6530	};
+  6531	
 
 -- 
 0-DAY CI Kernel Test Service
