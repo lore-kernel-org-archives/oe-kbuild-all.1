@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E341922ED
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 21:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCE81FC8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 21:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734124506; cv=none; b=S8WR2pPkoosb4VCMylJ4ESCcyFo//4x6EoRLTmsfX7XpRNEtYBkUSAsvl3+9zHqp+8YV+AhZEzFvQuIVNg+2tPlXhlvTxvQRUg7VMXkuzC2gyM61QV/8tskyVxnnbnh4mnj11B3jDSwMe9avqIw5T3DtrU9sMp/XM04ZmiySaao=
+	t=1734126374; cv=none; b=nGwcVgLo/9+LheRPER4RwT1waCs87GK8fjttXx/j2KP8f8Bv2Kfqj3zAvJGLJjbXuI4GEM2Nk0KieMy/Af0R7T6j2FI3QlpdyMYUiD2aqm/7E9IqB2Y2fjbdDN9vv4UI4sDvrS0SpoKOLhvW+Le7ThUcUj1UIVEvLuv9+uIYHk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734124506; c=relaxed/simple;
-	bh=i/I3WpypbHaql9r4XIFq3Xili3XfK6hbJAIW+EanM+M=;
+	s=arc-20240116; t=1734126374; c=relaxed/simple;
+	bh=FnKXflJl/nqkuhKhtsdheyzucrI/gZsri3+4/0BWK2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SEKFKDCb9sKIM0qnHO+HIWTtAqUFpgyoSd1qBpuY/+pCrXK2vZqUfUWZnyIOh+JKIgBnOC1Gi7xQyJ8I1+ht4URKTd1FwDtS9RTiUk1XNb++aNWCwuc1CIU+be3gTVhoINtUK5Z85Xib8bplzrV4pxUQdZWnSIHeqtkRLsJYsQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aq3XUL5V; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Ga/JnIQnP5uIO3bWkgTodqPmPMYU4kYpPx8nQc14xbwvDhKQatYHWNIiUtdSh8/M9iijosrUrnsqfNa+jcRm6zc8C515jdJVRhdP5yGXBQ5cAIdhfRuxN+u3rzcYKf/Pr2I7DnTdrMWYaPlp1EldItedrbdVp7wY6f3qCBvtEvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S431ifjb; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aq3XUL5V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S431ifjb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734124504; x=1765660504;
+  t=1734126372; x=1765662372;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i/I3WpypbHaql9r4XIFq3Xili3XfK6hbJAIW+EanM+M=;
-  b=aq3XUL5VoYMDPJYVx9vowy1gXB7SXq2jwUD3W6jgp2K2eB7EziUoSZ0y
-   tIyspraTtfleQ0WrAKXDfLqXO2WRSjz783XpGGIamUaLYFSv4gsMLfzRp
-   7yGN0YYItlSvCXI6y4pghJv43BIO/nyTRz+bEJSMPkulJv2S/aEXT77Mb
-   65JYaha1nMgYdTpliUe7dORC888loMridJZGZ0hjd1dJClHKv6LhtU/5p
-   hFvFodxzgLylDzlan2lp2bZQSbE5sQbsGYHLWxe2gai15PuLG452wAzYC
-   9NTlvUF/K2jK+vJcc5W12mVry+KWTiysnBV959QhJe+ygpAYfOUZnZd3E
-   g==;
-X-CSE-ConnectionGUID: MWZhPCFCTnSDWu867/sQvg==
-X-CSE-MsgGUID: ma1Nmpj8RomPntxBP6c3oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="38367767"
+  bh=FnKXflJl/nqkuhKhtsdheyzucrI/gZsri3+4/0BWK2g=;
+  b=S431ifjbdUH2nLz/bOJzUXI0EM1bqqnAyVoVgwksiNHVIF2PO79SmBy9
+   mkare5bGPOcFo3C7tCScOCu4L3xdcwoK8Y+6AlSA/Q+VR9NU/+5Wf3cxY
+   oYP8mhIjGICHRh3YcUFtE348zWO2bIxg6IpUGq5rH3gkPK2KnTfjaAZbB
+   g3yu4JvxQGqREthdtIpIgduhruN287kgGr5dhgeWuEayp+xr3g9KQCh+z
+   sLGnX9LJ/d40Q8OeGbdRGUCGery53hyR+tWAbH9zNmS5h7F/cxx/wA4fJ
+   AAjsJhQhI2WwKvmSQFiMNjMS5GhC1R+qV+4KJ7zi+qEFd92R0IMTbQdDP
+   Q==;
+X-CSE-ConnectionGUID: f95ZrDSuR56hmBiBSjvy0g==
+X-CSE-MsgGUID: bbitU5OLTQWhwuaVkkGU3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="34321685"
 X-IronPort-AV: E=Sophos;i="6.12,232,1728975600"; 
-   d="scan'208";a="38367767"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 13:15:03 -0800
-X-CSE-ConnectionGUID: wcE6vKNJTqyXaaD6yhFqww==
-X-CSE-MsgGUID: skKwR9ZvRS6dFn/UBRG55A==
+   d="scan'208";a="34321685"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 13:46:12 -0800
+X-CSE-ConnectionGUID: jK2amPaaQISnsaJNbRDmTQ==
+X-CSE-MsgGUID: 0CDFN4bWQXOLSqghG9RETA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97073971"
+X-IronPort-AV: E=Sophos;i="6.12,232,1728975600"; 
+   d="scan'208";a="97059897"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2024 13:15:01 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 13 Dec 2024 13:46:10 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMCzy-000CR1-1H;
-	Fri, 13 Dec 2024 21:14:58 +0000
-Date: Sat, 14 Dec 2024 05:13:53 +0800
+	id 1tMDU6-000CT9-3B;
+	Fri, 13 Dec 2024 21:46:06 +0000
+Date: Sat, 14 Dec 2024 05:45:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guo Ren <guoren@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Leonardo Bras <leobras@redhat.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Andrea Parri <parri.andrea@gmail.com>
-Subject: kernel/fork.c:1895:9: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202412140502.R7mSLuL5-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 7221/7239]
+ kernel/sched/core.c:6922:25: error: implicit declaration of function
+ 'zap_balance_callbacks'; did you mean 'balance_callbacks'?
+Message-ID: <202412140531.GiMzG53d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,180 +63,208 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   243f750a2df0662bc45119f9dd5d7da031a17f36
-commit: cbe82e140bb76e1aa9f808cc841654a25b70d4e5 asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
-date:   5 weeks ago
-config: riscv-randconfig-r112-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140502.R7mSLuL5-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241214/202412140502.R7mSLuL5-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   c89a2687772eacf71bfcb875160ec3f71564d898
+commit: 7236283bb8acfbee811da21affcbc56674999b02 [7221/7239] FROMLIST: sched: Add an initial sketch of the find_proxy_task() function
+config: arm-randconfig-001-20241214 (https://download.01.org/0day-ci/archive/20241214/202412140531.GiMzG53d-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412140531.GiMzG53d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412140502.R7mSLuL5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412140531.GiMzG53d-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/fork.c:1790:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:1790:38: sparse:     expected struct refcount_struct [usertype] *r
-   kernel/fork.c:1790:38: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:1799:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1799:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1799:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:1800:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
-   kernel/fork.c:1800:9: sparse:     expected void const *
-   kernel/fork.c:1800:9: sparse:     got struct k_sigaction [noderef] __rcu *
-   kernel/fork.c:1800:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
-   kernel/fork.c:1800:9: sparse:     expected void const *
-   kernel/fork.c:1800:9: sparse:     got struct k_sigaction [noderef] __rcu *
-   kernel/fork.c:1800:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
-   kernel/fork.c:1800:9: sparse:     expected void const *
-   kernel/fork.c:1800:9: sparse:     got struct k_sigaction [noderef] __rcu *
-   kernel/fork.c:1801:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1801:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1801:33: sparse:     got struct spinlock [noderef] __rcu *
->> kernel/fork.c:1895:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/fork.c:1895:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/fork.c:1895:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/fork.c:2193:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2193:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2193:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2197:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2197:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2197:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2511:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *real_parent @@     got struct task_struct * @@
-   kernel/fork.c:2511:32: sparse:     expected struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:2511:32: sparse:     got struct task_struct *
-   kernel/fork.c:2520:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2520:27: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2520:27: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2569:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct list_head *head @@     got struct list_head [noderef] __rcu * @@
-   kernel/fork.c:2569:54: sparse:     expected struct list_head *head
-   kernel/fork.c:2569:54: sparse:     got struct list_head [noderef] __rcu *
-   kernel/fork.c:2589:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2589:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2589:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2611:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2611:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2611:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2639:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   kernel/fork.c:2639:28: sparse:     expected struct sighand_struct *sighand
-   kernel/fork.c:2639:28: sparse:     got struct sighand_struct [noderef] __rcu *sighand
-   kernel/fork.c:2670:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2670:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2670:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2672:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2672:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2672:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:3115:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *[assigned] parent @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/fork.c:3115:24: sparse:     expected struct task_struct *[assigned] parent
-   kernel/fork.c:3115:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:3203:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct const [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:3203:43: sparse:     expected struct refcount_struct const [usertype] *r
-   kernel/fork.c:3203:43: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:2243:22: sparse: sparse: dereference of noderef expression
-   kernel/fork.c: note: in included file (through include/linux/ftrace.h, include/linux/perf_event.h, include/linux/trace_events.h, ...):
-   include/linux/ptrace.h:210:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *parent @@
-   include/linux/ptrace.h:210:45: sparse:     expected struct task_struct *new_parent
-   include/linux/ptrace.h:210:45: sparse:     got struct task_struct [noderef] __rcu *parent
-   include/linux/ptrace.h:210:62: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct cred const *ptracer_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
-   include/linux/ptrace.h:210:62: sparse:     expected struct cred const *ptracer_cred
-   include/linux/ptrace.h:210:62: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
-   kernel/fork.c:2567:59: sparse: sparse: dereference of noderef expression
-   kernel/fork.c:2568:59: sparse: sparse: dereference of noderef expression
---
-   kernel/seccomp.c:579:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:579:27: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:579:27: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:583:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:583:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:583:29: sparse:     got struct spinlock [noderef] __rcu *
->> kernel/seccomp.c:895:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:895:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:895:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c:1396:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1396:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1396:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:1408:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1408:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1408:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:1980:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1980:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1980:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:1998:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1998:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1998:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:495:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:495:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:495:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c:602:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:602:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:602:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c:453:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:453:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:453:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c:439:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:439:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:439:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c:453:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:453:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:453:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c:439:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:439:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:439:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c:453:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/seccomp.c:453:9: sparse:     expected struct qspinlock [usertype] *lock
-   kernel/seccomp.c:453:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/seccomp.c: note: in included file (through include/linux/ptrace.h, include/linux/audit.h):
-   include/linux/sched/signal.h:753:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:753:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:753:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:753:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:753:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:753:37: sparse:     got struct spinlock [noderef] __rcu *
+All errors (new ones prefixed by >>):
 
-vim +1895 kernel/fork.c
+   kernel/sched/core.c: In function '__schedule':
+>> kernel/sched/core.c:6922:25: error: implicit declaration of function 'zap_balance_callbacks'; did you mean 'balance_callbacks'? [-Wimplicit-function-declaration]
+    6922 |                         zap_balance_callbacks(rq);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+         |                         balance_callbacks
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1885  
-dbd952127d11bb Kees Cook               2014-06-27  1886  static void copy_seccomp(struct task_struct *p)
-dbd952127d11bb Kees Cook               2014-06-27  1887  {
-dbd952127d11bb Kees Cook               2014-06-27  1888  #ifdef CONFIG_SECCOMP
-dbd952127d11bb Kees Cook               2014-06-27  1889  	/*
-dbd952127d11bb Kees Cook               2014-06-27  1890  	 * Must be called with sighand->lock held, which is common to
-dbd952127d11bb Kees Cook               2014-06-27  1891  	 * all threads in the group. Holding cred_guard_mutex is not
-dbd952127d11bb Kees Cook               2014-06-27  1892  	 * needed because this new task is not yet running and cannot
-dbd952127d11bb Kees Cook               2014-06-27  1893  	 * be racing exec.
-dbd952127d11bb Kees Cook               2014-06-27  1894  	 */
-69f6a34bdeea4f Guenter Roeck           2014-08-10 @1895  	assert_spin_locked(&current->sighand->siglock);
-dbd952127d11bb Kees Cook               2014-06-27  1896  
-dbd952127d11bb Kees Cook               2014-06-27  1897  	/* Ref-count the new filter user, and assign it. */
-dbd952127d11bb Kees Cook               2014-06-27  1898  	get_seccomp_filter(current);
-dbd952127d11bb Kees Cook               2014-06-27  1899  	p->seccomp = current->seccomp;
-dbd952127d11bb Kees Cook               2014-06-27  1900  
-dbd952127d11bb Kees Cook               2014-06-27  1901  	/*
-dbd952127d11bb Kees Cook               2014-06-27  1902  	 * Explicitly enable no_new_privs here in case it got set
-dbd952127d11bb Kees Cook               2014-06-27  1903  	 * between the task_struct being duplicated and holding the
-dbd952127d11bb Kees Cook               2014-06-27  1904  	 * sighand lock. The seccomp state and nnp must be in sync.
-dbd952127d11bb Kees Cook               2014-06-27  1905  	 */
-dbd952127d11bb Kees Cook               2014-06-27  1906  	if (task_no_new_privs(current))
-dbd952127d11bb Kees Cook               2014-06-27  1907  		task_set_no_new_privs(p);
-dbd952127d11bb Kees Cook               2014-06-27  1908  
-dbd952127d11bb Kees Cook               2014-06-27  1909  	/*
-dbd952127d11bb Kees Cook               2014-06-27  1910  	 * If the parent gained a seccomp mode after copying thread
-dbd952127d11bb Kees Cook               2014-06-27  1911  	 * flags and between before we held the sighand lock, we have
-dbd952127d11bb Kees Cook               2014-06-27  1912  	 * to manually enable the seccomp thread flag here.
-dbd952127d11bb Kees Cook               2014-06-27  1913  	 */
-dbd952127d11bb Kees Cook               2014-06-27  1914  	if (p->seccomp.mode != SECCOMP_MODE_DISABLED)
-23d67a54857a76 Gabriel Krisman Bertazi 2020-11-16  1915  		set_task_syscall_work(p, SECCOMP);
-dbd952127d11bb Kees Cook               2014-06-27  1916  #endif
-dbd952127d11bb Kees Cook               2014-06-27  1917  }
-dbd952127d11bb Kees Cook               2014-06-27  1918  
 
-:::::: The code at line 1895 was first introduced by commit
-:::::: 69f6a34bdeea4fec50bb90619bc9602973119572 seccomp: Replace BUG(!spin_is_locked()) with assert_spin_lock
+vim +6922 kernel/sched/core.c
 
-:::::: TO: Guenter Roeck <linux@roeck-us.net>
-:::::: CC: Kees Cook <keescook@chromium.org>
+  6801	
+  6802	/*
+  6803	 * __schedule() is the main scheduler function.
+  6804	 *
+  6805	 * The main means of driving the scheduler and thus entering this function are:
+  6806	 *
+  6807	 *   1. Explicit blocking: mutex, semaphore, waitqueue, etc.
+  6808	 *
+  6809	 *   2. TIF_NEED_RESCHED flag is checked on interrupt and userspace return
+  6810	 *      paths. For example, see arch/x86/entry_64.S.
+  6811	 *
+  6812	 *      To drive preemption between tasks, the scheduler sets the flag in timer
+  6813	 *      interrupt handler sched_tick().
+  6814	 *
+  6815	 *   3. Wakeups don't really cause entry into schedule(). They add a
+  6816	 *      task to the run-queue and that's it.
+  6817	 *
+  6818	 *      Now, if the new task added to the run-queue preempts the current
+  6819	 *      task, then the wakeup sets TIF_NEED_RESCHED and schedule() gets
+  6820	 *      called on the nearest possible occasion:
+  6821	 *
+  6822	 *       - If the kernel is preemptible (CONFIG_PREEMPTION=y):
+  6823	 *
+  6824	 *         - in syscall or exception context, at the next outmost
+  6825	 *           preempt_enable(). (this might be as soon as the wake_up()'s
+  6826	 *           spin_unlock()!)
+  6827	 *
+  6828	 *         - in IRQ context, return from interrupt-handler to
+  6829	 *           preemptible context
+  6830	 *
+  6831	 *       - If the kernel is not preemptible (CONFIG_PREEMPTION is not set)
+  6832	 *         then at the next:
+  6833	 *
+  6834	 *          - cond_resched() call
+  6835	 *          - explicit schedule() call
+  6836	 *          - return from syscall or exception to user-space
+  6837	 *          - return from interrupt-handler to user-space
+  6838	 *
+  6839	 * WARNING: must be called with preemption disabled!
+  6840	 */
+  6841	static void __sched notrace __schedule(int sched_mode)
+  6842	{
+  6843		struct task_struct *prev, *next;
+  6844		/*
+  6845		 * On PREEMPT_RT kernel, SM_RTLOCK_WAIT is noted
+  6846		 * as a preemption by schedule_debug() and RCU.
+  6847		 */
+  6848		bool preempt = sched_mode > SM_NONE;
+  6849		bool block = false;
+  6850		unsigned long *switch_count;
+  6851		unsigned long prev_state;
+  6852		struct rq_flags rf;
+  6853		struct rq *rq;
+  6854		int cpu;
+  6855	
+  6856		cpu = smp_processor_id();
+  6857		rq = cpu_rq(cpu);
+  6858		prev = rq->curr;
+  6859	
+  6860		schedule_debug(prev, preempt);
+  6861	
+  6862		if (sched_feat(HRTICK) || sched_feat(HRTICK_DL))
+  6863			hrtick_clear(rq);
+  6864	
+  6865		local_irq_disable();
+  6866		rcu_note_context_switch(preempt);
+  6867	
+  6868		/*
+  6869		 * Make sure that signal_pending_state()->signal_pending() below
+  6870		 * can't be reordered with __set_current_state(TASK_INTERRUPTIBLE)
+  6871		 * done by the caller to avoid the race with signal_wake_up():
+  6872		 *
+  6873		 * __set_current_state(@state)		signal_wake_up()
+  6874		 * schedule()				  set_tsk_thread_flag(p, TIF_SIGPENDING)
+  6875		 *					  wake_up_state(p, state)
+  6876		 *   LOCK rq->lock			    LOCK p->pi_state
+  6877		 *   smp_mb__after_spinlock()		    smp_mb__after_spinlock()
+  6878		 *     if (signal_pending_state())	    if (p->state & @state)
+  6879		 *
+  6880		 * Also, the membarrier system call requires a full memory barrier
+  6881		 * after coming from user-space, before storing to rq->curr; this
+  6882		 * barrier matches a full barrier in the proximity of the membarrier
+  6883		 * system call exit.
+  6884		 */
+  6885		rq_lock(rq, &rf);
+  6886		smp_mb__after_spinlock();
+  6887	
+  6888		/* Promote REQ to ACT */
+  6889		rq->clock_update_flags <<= 1;
+  6890		update_rq_clock(rq);
+  6891		rq->clock_update_flags = RQCF_UPDATED;
+  6892	
+  6893		switch_count = &prev->nivcsw;
+  6894	
+  6895		/* Task state changes only considers SM_PREEMPT as preemption */
+  6896		preempt = sched_mode == SM_PREEMPT;
+  6897	
+  6898		/*
+  6899		 * We must load prev->state once (task_struct::state is volatile), such
+  6900		 * that we form a control dependency vs deactivate_task() below.
+  6901		 */
+  6902		prev_state = READ_ONCE(prev->__state);
+  6903		if (sched_mode == SM_IDLE) {
+  6904			/* SCX must consult the BPF scheduler to tell if rq is empty */
+  6905			if (!rq->nr_running && !scx_enabled()) {
+  6906				next = prev;
+  6907				goto picked;
+  6908			}
+  6909		} else if (!preempt && prev_state) {
+  6910			block = try_to_block_task(rq, prev, prev_state,
+  6911						  !task_is_blocked(prev));
+  6912			switch_count = &prev->nvcsw;
+  6913		}
+  6914	
+  6915	pick_again:
+  6916		next = pick_next_task(rq, rq->donor, &rf);
+  6917		rq_set_donor(rq, next);
+  6918		if (unlikely(task_is_blocked(next))) {
+  6919			next = find_proxy_task(rq, next, &rf);
+  6920			if (!next) {
+  6921				/* zap the balance_callbacks before picking again */
+> 6922				zap_balance_callbacks(rq);
+  6923				goto pick_again;
+  6924			}
+  6925		}
+  6926	picked:
+  6927		clear_tsk_need_resched(prev);
+  6928		clear_preempt_need_resched();
+  6929	#ifdef CONFIG_SCHED_DEBUG
+  6930		rq->last_seen_need_resched_ns = 0;
+  6931	#endif
+  6932	
+  6933		trace_android_rvh_schedule(prev, next, rq);
+  6934		if (likely(prev != next)) {
+  6935			rq->nr_switches++;
+  6936			/*
+  6937			 * RCU users of rcu_dereference(rq->curr) may not see
+  6938			 * changes to task_struct made by pick_next_task().
+  6939			 */
+  6940			RCU_INIT_POINTER(rq->curr, next);
+  6941			/*
+  6942			 * The membarrier system call requires each architecture
+  6943			 * to have a full memory barrier after updating
+  6944			 * rq->curr, before returning to user-space.
+  6945			 *
+  6946			 * Here are the schemes providing that barrier on the
+  6947			 * various architectures:
+  6948			 * - mm ? switch_mm() : mmdrop() for x86, s390, sparc, PowerPC,
+  6949			 *   RISC-V.  switch_mm() relies on membarrier_arch_switch_mm()
+  6950			 *   on PowerPC and on RISC-V.
+  6951			 * - finish_lock_switch() for weakly-ordered
+  6952			 *   architectures where spin_unlock is a full barrier,
+  6953			 * - switch_to() for arm64 (weakly-ordered, spin_unlock
+  6954			 *   is a RELEASE barrier),
+  6955			 *
+  6956			 * The barrier matches a full barrier in the proximity of
+  6957			 * the membarrier system call entry.
+  6958			 *
+  6959			 * On RISC-V, this barrier pairing is also needed for the
+  6960			 * SYNC_CORE command when switching between processes, cf.
+  6961			 * the inline comments in membarrier_arch_switch_mm().
+  6962			 */
+  6963			++*switch_count;
+  6964	
+  6965			migrate_disable_switch(rq, prev);
+  6966			psi_account_irqtime(rq, prev, next);
+  6967			psi_sched_switch(prev, next, block);
+  6968	
+  6969			trace_sched_switch(preempt, prev, next, prev_state);
+  6970	
+  6971			/* Also unlocks the rq: */
+  6972			rq = context_switch(rq, prev, next, &rf);
+  6973		} else {
+  6974			rq_unpin_lock(rq, &rf);
+  6975			__balance_callbacks(rq);
+  6976			raw_spin_rq_unlock_irq(rq);
+  6977		}
+  6978	}
+  6979	
 
 -- 
 0-DAY CI Kernel Test Service
