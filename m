@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8942F24
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 15:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573CC1E47B0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 16:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734104854; cv=none; b=Ijul9vx5Sve7VGesk4HzajHioOJhB3euS6mYy7Dald1AgyHJMH9WfEdTJ3965hs9Oq8BYlPx/2Hqo9O490eIEJab069B95fvH+lVKR4bE/Kz1jX6je3e1y+D4wusFuUDZmyLwg2Bv0r3AKKc0xqtStYR7z9tn6sqJyLW9mkczQw=
+	t=1734106865; cv=none; b=PFeFlKruWEWezqnciLY8rjYvSX0RWFTn/ApFPaN+om8E5YoCBBov9J+ByKcRWANE4pPp6jt7Fo+NY7i9zuLFdc2TJ/aXhB7LNsDkPJA+Sm4NuPbt6ZdnPU+L8SxngHyssTC7qDGoQrr6p/3cI/9HNnlHOL1uL64pPcCROOz5Vnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734104854; c=relaxed/simple;
-	bh=dBHOkkQQ3izYxwbqx1+ObHRDcxImubfwHT2P95wk0wo=;
+	s=arc-20240116; t=1734106865; c=relaxed/simple;
+	bh=zJMFJqqgv6DbdbcMMuigEUjPy2DuFTp2STkqjgaXCqE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ui8kQIaqxA9CcAKbM7fyZvuxsSdUkE0U507pbWIaL+uQfnPe5Lxcc10HeF1M1RzfKevDRY1+Nlyi5AKKWZ5ucm/kIGoQ0aDhFTFvPySTyOij9dJoTmoWJ6LXVBZogDVibz9ggpxsoTsf8LbLxgwvOj5clSFO12jYb3ConUxvVt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjJpuSeg; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ZZwrExBLkM+SdOhRmBZsMCgQ9dilOyaq4hxwV05WHLTrayuIdWv/GiDgvz6BzRQlKdYGsipesRfYBlTIl1fHLShzWbsMR0qY4yA5jj7VfrezazLBfl6maRq8U4sIwur51ZHZcMB0dZKrk4nyxfW/NwU+q5Z9rCrW2gnIWMmm38k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZ6AvvxS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjJpuSeg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZ6AvvxS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734104852; x=1765640852;
+  t=1734106861; x=1765642861;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dBHOkkQQ3izYxwbqx1+ObHRDcxImubfwHT2P95wk0wo=;
-  b=SjJpuSegxYBBy53sVvuyWzU3V1SplkYiiEONdCYcsHl3qSwFQxAdwKXY
-   k359g5+eG7AecaO78+B8QRiQ+xbwk1fV29pt8RtUPT/etbn0XsGExzFj2
-   eKWoewiT3Z899aBKJRcyFQ2q/akew2B4GyB8uiqgtOvlFjLIYArCDp7JN
-   JYllTQp83/s1r/ltI6RxMw1b1O0kchJ5Tnt5An14TSolQwRoje5PRePRb
-   jbLs6MN7HDTPGOVjpSPCgYeh9TYKRdLnTJ3ufGfMGpTQkBap8VT7Abr1Y
-   iiZ57qxf2QkSZP7R/1Vs2bU8gRZFTXXPZpkHMmTOYVdTu+svmKrM00i5J
-   A==;
-X-CSE-ConnectionGUID: NZ+xoeT6QCCDxlTePQGmRA==
-X-CSE-MsgGUID: 4mKphf1CREycu5F2uHhsUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="22148382"
+  bh=zJMFJqqgv6DbdbcMMuigEUjPy2DuFTp2STkqjgaXCqE=;
+  b=OZ6AvvxScrz2pATwD8Epyt3YFodKnz5JQfWBxJYr60QpuJ95ATUeJsxn
+   DtH0/d5Hn5ZHdkteJA6bf7f3+9KCfqzdqhVVhjFqYp5PFPOxzcxkAF+Bz
+   0B+Bt0wCh1FxeaXf18jHlVCcwlENwRQzKkNffhm3Rm5YzQ61dNL435Y91
+   lNjVjfNQ+e4y5iMjhvqS8ebWgUwWiK3Pqgc74/LwtcmvwuWLFHAlGw83f
+   96ZZOsTgaNLu425XJuhwXIkmLsRGWSg6e1r4sawuiEqjFa6310dZxv8j7
+   0wIOgp84LD1PyncQm/X2XxK7fEWapf+NTiY5T666PTD1Kqt98BhfnSxFQ
+   w==;
+X-CSE-ConnectionGUID: Q/P4yVpaQBSjgbcSWJ+5ZQ==
+X-CSE-MsgGUID: a3lrlvBoSdW3TOX4Us8BsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="45256043"
 X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="22148382"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 07:47:31 -0800
-X-CSE-ConnectionGUID: wMm9fPoeQz21sBk8juRYbw==
-X-CSE-MsgGUID: BxpReNdGSkWm84bT+MGNxg==
+   d="scan'208";a="45256043"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 08:21:01 -0800
+X-CSE-ConnectionGUID: anxCZYHGQvqGjzhGYtpANg==
+X-CSE-MsgGUID: zf0+UV8NSpOtGRFCmdklAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="96468400"
+   d="scan'208";a="96461217"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2024 07:47:30 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Dec 2024 08:20:59 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tM7t2-000CB1-0Y;
-	Fri, 13 Dec 2024 15:47:28 +0000
-Date: Fri, 13 Dec 2024 23:46:45 +0800
+	id 1tM8PR-000CDl-1g;
+	Fri, 13 Dec 2024 16:20:57 +0000
+Date: Sat, 14 Dec 2024 00:20:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Maxim Levitsky <mlevitsk@redhat.com>
-Subject: arch/x86/kvm/smm.c:651 emulator_leave_smm() warn: inconsistent
- indenting
-Message-ID: <202412132356.dMOiC7ev-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: sound/sh/sh_dac_audio.c:166:53: error: passing argument 2 of
+ 'copy_from_iter' makes integer from pointer without a cast
+Message-ID: <202412140019.jat5Dofr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,51 +64,62 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f932fb9b40749d1c9a539d89bb3e288c077aafe5
-commit: 3f6821aa147b6e6fe07e8b35999724518b74a632 KVM: x86: Forcibly leave nested if RSM to L2 hits shutdown
-date:   3 months ago
-config: i386-randconfig-141-20241213 (https://download.01.org/0day-ci/archive/20241213/202412132356.dMOiC7ev-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 9b5f8ee43e48c25fbe1a10163ec04343d750acd0 ALSA: sh: Use standard helper for buffer accesses
+date:   2 weeks ago
+config: sh-randconfig-r111-20241212 (https://download.01.org/0day-ci/archive/20241214/202412140019.jat5Dofr-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241214/202412140019.jat5Dofr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412132356.dMOiC7ev-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412140019.jat5Dofr-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/kvm/smm.c:651 emulator_leave_smm() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/x86/kvm/smm.c:300 enter_smm() warn: inconsistent indenting
+   sound/sh/sh_dac_audio.c: In function 'snd_sh_dac_pcm_copy':
+>> sound/sh/sh_dac_audio.c:166:53: error: passing argument 2 of 'copy_from_iter' makes integer from pointer without a cast [-Wint-conversion]
+     166 |         if (copy_from_iter(chip->data_buffer + pos, src, count) != count)
+         |                                                     ^~~
+         |                                                     |
+         |                                                     struct iov_iter *
+   In file included from include/sound/pcm.h:19,
+                    from sound/sh/sh_dac_audio.c:18:
+   include/linux/uio.h:216:42: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'struct iov_iter *'
+     216 | size_t copy_from_iter(void *addr, size_t bytes, struct iov_iter *i)
+         |                                   ~~~~~~~^~~~~
+>> sound/sh/sh_dac_audio.c:166:58: error: passing argument 3 of 'copy_from_iter' makes pointer from integer without a cast [-Wint-conversion]
+     166 |         if (copy_from_iter(chip->data_buffer + pos, src, count) != count)
+         |                                                          ^~~~~
+         |                                                          |
+         |                                                          long unsigned int
+   include/linux/uio.h:216:66: note: expected 'struct iov_iter *' but argument is of type 'long unsigned int'
+     216 | size_t copy_from_iter(void *addr, size_t bytes, struct iov_iter *i)
+         |                                                 ~~~~~~~~~~~~~~~~~^
 
-vim +651 arch/x86/kvm/smm.c
 
-   625	
-   626		/*
-   627		 * FIXME: When resuming L2 (a.k.a. guest mode), the transition to guest
-   628		 * mode should happen _after_ loading state from SMRAM.  However, KVM
-   629		 * piggybacks the nested VM-Enter flows (which is wrong for many other
-   630		 * reasons), and so nSVM/nVMX would clobber state that is loaded from
-   631		 * SMRAM and from the VMCS/VMCB.
-   632		 */
-   633		if (kvm_x86_call(leave_smm)(vcpu, &smram))
-   634			return X86EMUL_UNHANDLEABLE;
-   635	
-   636	#ifdef CONFIG_X86_64
-   637		if (guest_cpuid_has(vcpu, X86_FEATURE_LM))
-   638			ret = rsm_load_state_64(ctxt, &smram.smram64);
-   639		else
-   640	#endif
-   641			ret = rsm_load_state_32(ctxt, &smram.smram32);
-   642	
-   643		/*
-   644		 * If RSM fails and triggers shutdown, architecturally the shutdown
-   645		 * occurs *before* the transition to guest mode.  But due to KVM's
-   646		 * flawed handling of RSM to L2 (see above), the vCPU may already be
-   647		 * in_guest_mode().  Force the vCPU out of guest mode before delivering
-   648		 * the shutdown, so that L1 enters shutdown instead of seeing a VM-Exit
-   649		 * that architecturally shouldn't be possible.
-   650		 */
- > 651		if (ret != X86EMUL_CONTINUE && is_guest_mode(vcpu))
+vim +/copy_from_iter +166 sound/sh/sh_dac_audio.c
+
+   158	
+   159	static int snd_sh_dac_pcm_copy(struct snd_pcm_substream *substream,
+   160				       int channel, unsigned long pos,
+   161				       struct iov_iter *src, unsigned long count)
+   162	{
+   163		/* channel is not used (interleaved data) */
+   164		struct snd_sh_dac *chip = snd_pcm_substream_chip(substream);
+   165	
+ > 166		if (copy_from_iter(chip->data_buffer + pos, src, count) != count)
+   167			return -EFAULT;
+   168		chip->buffer_end = chip->data_buffer + pos + count;
+   169	
+   170		if (chip->empty) {
+   171			chip->empty = 0;
+   172			dac_audio_start_timer(chip);
+   173		}
+   174	
+   175		return 0;
+   176	}
+   177	
 
 -- 
 0-DAY CI Kernel Test Service
