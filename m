@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD72E2E62B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 23:21:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F811B395E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 23:22:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734132100; cv=none; b=aR+8hiU6w47pZnV1H1gCEWVNiyWgdgDLm3Qj3KwIHG96E8ezcT9sPu5jed2Rivzo9HuZ+TFak8bYhey0TZF0XeVxb4KLvPcTJo65IRxz2Y4Q53v4vs0PW+nasPi3OjCfTGvHdFcw6eIdqo3c38bb4ifBd1j3wa5IUxZygLztTqU=
+	t=1734132159; cv=none; b=igW1Uve0TcDfxQ6Uf3EHa1yZo6JUr6jcn80mlmNgDTgiTeeuCScVQxo6AgLhTvj3MFeQuGh7IIFYtzw2tYao5Ye2mFHi3HxPGBUMpus7tu2uOQ2qcXGek4dIU48uEAm25ZYkjCr4Es8iFe7LZC0nx42VaFJN7+BQAN9Mo5Dp4YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734132100; c=relaxed/simple;
-	bh=LSN8FJHtjFWnOf1m8/Bz3TRGwmC04btvesDouq3g4TY=;
+	s=arc-20240116; t=1734132159; c=relaxed/simple;
+	bh=LOhB4O46OzJ5V9PAtMsqNJLD0hUmEC7TooMxhGCTPmg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QjkobAsw4r0KIJYreFPiuSBuCpaM9cbY0cNsCSbxzLYZhkSAKJdNerJI28DyJ7vUbONDvNUcrDgMk03Q5D7Htedh5cH0ShtJnbM0BjF9LNW3lHrqnBrb31qLDVCrh/tMU+LYeyjlKTwTBNGcVnnAV93NfRVb2a7O5ktLdVBSM7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxnCqmgg; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=lYJzxTk90er0Nrh29bCIl42lFqPFLeDWvogYiZ86bjuvMoWIxe9UlY1j4Q3f7W2q60iGsSbsATljHCXi4kbXkR0K47NkrPFp1CDuXjAdoMK83H0/r0gVsL7/zDoQtzsOqlXJzmqO33LaJjjMiByy661y3koJHNbUmQufwk0Q6FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ty0UkS7v; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxnCqmgg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ty0UkS7v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734132097; x=1765668097;
+  t=1734132158; x=1765668158;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LSN8FJHtjFWnOf1m8/Bz3TRGwmC04btvesDouq3g4TY=;
-  b=hxnCqmggG8LkSx9ujtTGkresS4pDTmYCsjqG+G3Xy0ELnsnbKeqVZyrE
-   QdlPGlk9y9i127ADkMWF9GV42ckNxGny3pahmVDz5htBvD36salYu6oHb
-   CdZGD2b3mW5E1bYOl3kElT+t4IUCCm/gDqbW9dzNlgCxSK93qx1GmURso
-   uGDt4oO151mvWVn++TFzVHUcE6Iom3pym3eTkKFCXBi2UXlw6jQXjv5eq
-   j86ztGBm2n4Vm58FRZT+PaRGHCNIgv1BOko0Dwp43PSGtWIoc8t/g2C/x
-   flnmJPE8LNSfy3tZSXlpuC4uDk2pvOegnXWdgdmv+vuMUG4UkO+ZL+0YM
+  bh=LOhB4O46OzJ5V9PAtMsqNJLD0hUmEC7TooMxhGCTPmg=;
+  b=Ty0UkS7vjeJsR1THLfOILsl5N8oF79iK9qiuh5zzptfOcNCUaKE6kEFI
+   vXcEv+zAz2toiZozPJulxUKe7PIRUYZwDxIBdAgt2PyC77huCNHUFXug3
+   kwFMWP/bU7GvXTZFmB31rPOsXHSXEuHbAKBa9WfWACiikfjKHiA6p9S3S
+   +tmdt1gtCaUGkolYf5XZseeNIoLXnidj5RVKSaifDhXcxj/4+4a5gUxcQ
+   pBvW0FOC5taeLXKnNzqD4dP1wtdGoLR4Q/X33LZldgPtXp4+WVWEcBu4C
+   snurnFGNBBqyNSHP7QCNCHvw3OQbZweJyljvE9jq4BDBdU6vC8uCeBPxW
    A==;
-X-CSE-ConnectionGUID: Bh896X1fR3qT8aL3PIXGXQ==
-X-CSE-MsgGUID: XWPgt0GrTeyQu2fyZMluQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="34470676"
+X-CSE-ConnectionGUID: 8faXfyA5TyOE1bTbIAKEzQ==
+X-CSE-MsgGUID: CCFidtqnRAOSqqw8H4eZdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="34470748"
 X-IronPort-AV: E=Sophos;i="6.12,232,1728975600"; 
-   d="scan'208";a="34470676"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 15:21:37 -0800
-X-CSE-ConnectionGUID: B/BBlzRxQyyHiYhM2MFt2w==
-X-CSE-MsgGUID: qqm09nsTTUuQRDNN9fp2sg==
+   d="scan'208";a="34470748"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 15:22:37 -0800
+X-CSE-ConnectionGUID: rMbLWaKlTwq07xSmqxcIbw==
+X-CSE-MsgGUID: TVUpWy8KR++S1nP9zSsMAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,232,1728975600"; 
-   d="scan'208";a="101673450"
+   d="scan'208";a="96569454"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Dec 2024 15:21:37 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2024 15:22:37 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMEyU-000CWf-0O;
-	Fri, 13 Dec 2024 23:21:34 +0000
-Date: Sat, 14 Dec 2024 07:21:21 +0800
+	id 1tMEzS-000CWp-0j;
+	Fri, 13 Dec 2024 23:22:34 +0000
+Date: Sat, 14 Dec 2024 07:21:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wang Wensheng <wangwensheng4@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2579/2579] mm/share_pool.c:4227:64: error:
- 'HUGETLB_ALLOC_BUDDY' undeclared
-Message-ID: <202412140704.cam9C57r-lkp@intel.com>
+Subject: [android-common:android16-6.12 7228/7241]
+ kernel/sched/core.c:4106:63: error: 'struct task_struct' has no member named
+ 'wake_cpu'; did you mean 'wake_q'?
+Message-ID: <202412140745.G1fnehI6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,181 +63,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Guo,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   6c3413fbf8c430b89f5d23f465e10e99ea145199
-commit: bec70574669710bd0962f1f6807363915fc94f16 [2579/2579] mm/sharepool: fix hugepage_rsvd count increase error
-config: arm64-randconfig-004-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140704.cam9C57r-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412140704.cam9C57r-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   39fc9c68b13a226d44263bb908cccf8783e34d6e
+commit: 6d7a9ac0d5ae138d1457c4c0efd7bc1572289a94 [7228/7241] ANDROID: sched: Add trace events for proxy execution
+config: arm-randconfig-001-20241214 (https://download.01.org/0day-ci/archive/20241214/202412140745.G1fnehI6-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412140745.G1fnehI6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412140704.cam9C57r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412140745.G1fnehI6-lkp@intel.com/
+
+Note: the android-common/android16-6.12 HEAD 39fc9c68b13a226d44263bb908cccf8783e34d6e builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
-   mm/share_pool.c:865:23: warning: no previous prototype for 'find_spg_node_by_spg' [-Wmissing-prototypes]
-     865 | struct sp_group_node *find_spg_node_by_spg(struct mm_struct *mm,
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:3085:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    3085 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:3085:21: error: invalid initializer
-   mm/share_pool.c: In function 'sp_unshare_kva':
-   mm/share_pool.c:3462:14: warning: variable 'is_hugepage' set but not used [-Wunused-but-set-variable]
-    3462 |         bool is_hugepage = true;
-         |              ^~~~~~~~~~~
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:3954:6: warning: no previous prototype for 'spa_overview_show' [-Wmissing-prototypes]
-    3954 | void spa_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4036:6: warning: no previous prototype for 'spg_overview_show' [-Wmissing-prototypes]
-    4036 | void spg_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sharepool_no_page':
->> mm/share_pool.c:4227:64: error: 'HUGETLB_ALLOC_BUDDY' undeclared (first use in this function)
-    4227 |                         page = hugetlb_alloc_hugepage(node_id, HUGETLB_ALLOC_BUDDY);
-         |                                                                ^~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4227:64: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:4233:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    4233 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
-   mm/share_pool.c:4246:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    4246 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
-   mm/share_pool.c:4268:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    4268 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
-   mm/share_pool.c:4270:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    4270 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:4132:12: warning: 'proc_usage_show' defined but not used [-Wunused-function]
-    4132 | static int proc_usage_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~
-   mm/share_pool.c:4110:12: warning: 'proc_group_usage_show' defined but not used [-Wunused-function]
-    4110 | static int proc_group_usage_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4061:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    4061 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+   kernel/sched/core.c: In function 'ttwu_runnable':
+>> kernel/sched/core.c:4106:63: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
+    4106 |                         trace_sched_pe_return_migration(p, p->wake_cpu);
+         |                                                               ^~~~~~~~
+         |                                                               wake_q
+   kernel/sched/core.c: In function '__schedule':
+   kernel/sched/core.c:7508:25: error: implicit declaration of function 'zap_balance_callbacks'; did you mean 'balance_callbacks'? [-Wimplicit-function-declaration]
+    7508 |                         zap_balance_callbacks(rq);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+         |                         balance_callbacks
 
 
-vim +/HUGETLB_ALLOC_BUDDY +4227 mm/share_pool.c
+vim +4106 kernel/sched/core.c
 
-  4193	
-  4194	vm_fault_t sharepool_no_page(struct mm_struct *mm,
-  4195				struct vm_area_struct *vma,
-  4196				struct address_space *mapping, pgoff_t idx,
-  4197				unsigned long address, pte_t *ptep, unsigned int flags)
-  4198	{
-  4199		struct hstate *h = hstate_vma(vma);
-  4200		vm_fault_t ret = VM_FAULT_SIGBUS;
-  4201		unsigned long size;
-  4202		struct page *page;
-  4203		pte_t new_pte;
-  4204		spinlock_t *ptl;
-  4205		unsigned long haddr = address & huge_page_mask(h);
-  4206		bool new_page = false;
-  4207		int err;
-  4208		int node_id;
-  4209		struct sp_area *spa;
-  4210	
-  4211		spa = vma->vm_private_data;
-  4212		if (!spa) {
-  4213			pr_err("share pool: vma is invalid, not from sp mmap\n");
-  4214			return ret;
-  4215		}
-  4216		node_id = spa->node_id;
-  4217	
-  4218	retry:
-  4219		page = find_lock_page(mapping, idx);
-  4220		if (!page) {
-  4221			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4222			if (idx >= size)
-  4223				goto out;
-  4224	
-  4225			page = alloc_huge_page(vma, haddr, 0);
-  4226			if (IS_ERR(page)) {
-> 4227				page = hugetlb_alloc_hugepage(node_id, HUGETLB_ALLOC_BUDDY);
-  4228				if (!page)
-  4229					page = ERR_PTR(-ENOMEM);
-  4230			}
-  4231			if (IS_ERR(page)) {
-  4232				ptl = huge_pte_lock(h, mm, ptep);
-  4233				if (!huge_pte_none(huge_ptep_get(ptep))) {
-  4234					ret = 0;
-  4235					spin_unlock(ptl);
-  4236					goto out;
-  4237				}
-  4238				spin_unlock(ptl);
-  4239				ret = vmf_error(PTR_ERR(page));
-  4240				goto out;
-  4241			}
-  4242			__SetPageUptodate(page);
-  4243			new_page = true;
-  4244	
-  4245			/* sharepool pages are all shared */
-  4246			err = huge_add_to_page_cache(page, mapping, idx);
-  4247			if (err) {
-  4248				put_page(page);
-  4249				if (err == -EEXIST)
-  4250					goto retry;
-  4251				goto out;
-  4252			}
-  4253		}
-  4254	
-  4255	
-  4256		ptl = huge_pte_lock(h, mm, ptep);
-  4257		size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4258		if (idx >= size)
-  4259			goto backout;
-  4260	
-  4261		ret = 0;
-  4262		if (!huge_pte_none(huge_ptep_get(ptep)))
-  4263			goto backout;
-  4264	
-  4265		page_dup_rmap(page, true);
-  4266		new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-  4267					&& (vma->vm_flags & VM_SHARED)));
-  4268		set_huge_pte_at(mm, haddr, ptep, new_pte);
-  4269	
-  4270		hugetlb_count_add(pages_per_huge_page(h), mm);
-  4271	
-  4272		spin_unlock(ptl);
-  4273	
-  4274		if (new_page) {
-  4275			SetPagePrivate(&page[1]);
-  4276		}
-  4277	
-  4278		unlock_page(page);
-  4279	out:
-  4280		return ret;
-  4281	
-  4282	backout:
-  4283		spin_unlock(ptl);
-  4284		unlock_page(page);
-  4285		put_page(page);
-  4286		goto out;
-  4287	}
-  4288	
+  4059	
+  4060	/*
+  4061	 * Consider @p being inside a wait loop:
+  4062	 *
+  4063	 *   for (;;) {
+  4064	 *      set_current_state(TASK_UNINTERRUPTIBLE);
+  4065	 *
+  4066	 *      if (CONDITION)
+  4067	 *         break;
+  4068	 *
+  4069	 *      schedule();
+  4070	 *   }
+  4071	 *   __set_current_state(TASK_RUNNING);
+  4072	 *
+  4073	 * between set_current_state() and schedule(). In this case @p is still
+  4074	 * runnable, so all that needs doing is change p->state back to TASK_RUNNING in
+  4075	 * an atomic manner.
+  4076	 *
+  4077	 * By taking task_rq(p)->lock we serialize against schedule(), if @p->on_rq
+  4078	 * then schedule() must still happen and p->state can be changed to
+  4079	 * TASK_RUNNING. Otherwise we lost the race, schedule() has happened, and we
+  4080	 * need to do a full wakeup with enqueue.
+  4081	 *
+  4082	 * Returns: %true when the wakeup is done,
+  4083	 *          %false otherwise.
+  4084	 */
+  4085	static int ttwu_runnable(struct task_struct *p, int wake_flags)
+  4086	{
+  4087		struct rq_flags rf;
+  4088		struct rq *rq;
+  4089		int ret = 0;
+  4090	
+  4091		rq = __task_rq_lock(p, &rf);
+  4092		if (task_on_rq_queued(p)) {
+  4093			update_rq_clock(rq);
+  4094			if (p->se.sched_delayed) {
+  4095				proxy_remove_from_sleeping_owner(p);
+  4096				enqueue_task(rq, p, ENQUEUE_NOCLOCK | ENQUEUE_DELAYED);
+  4097			}
+  4098			if (!task_on_cpu(rq, p)) {
+  4099				/*
+  4100				 * When on_rq && !on_cpu the task is preempted, see if
+  4101				 * it should preempt the task that is current now.
+  4102				 */
+  4103				wakeup_preempt(rq, p, wake_flags);
+  4104			}
+  4105			if (proxy_needs_return(rq, p)) {
+> 4106				trace_sched_pe_return_migration(p, p->wake_cpu);
+  4107				goto out;
+  4108			}
+  4109			ttwu_do_wakeup(p);
+  4110			ret = 1;
+  4111		}
+  4112	out:
+  4113		__task_rq_unlock(rq, &rf);
+  4114	
+  4115		return ret;
+  4116	}
+  4117	
 
 -- 
 0-DAY CI Kernel Test Service
