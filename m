@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEC71E105B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 15:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8942F24
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 15:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734103436; cv=none; b=JrPWgrdD6WZx8OTeRlyQjq70SOrq/Uy74ifCX/KKVwTYk7LmdnKKsTPKjqCMeYsNwf4s+zSK81nj/cL8rgPIM6mNI7oES0d25yj2v6PzkZDKl3e3MWgGMhuszoBK54A9UXSUzrVaibCQqHCJbo9ZsLrd4Jg/hVGZD7RqoAHC+PQ=
+	t=1734104854; cv=none; b=Ijul9vx5Sve7VGesk4HzajHioOJhB3euS6mYy7Dald1AgyHJMH9WfEdTJ3965hs9Oq8BYlPx/2Hqo9O490eIEJab069B95fvH+lVKR4bE/Kz1jX6je3e1y+D4wusFuUDZmyLwg2Bv0r3AKKc0xqtStYR7z9tn6sqJyLW9mkczQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734103436; c=relaxed/simple;
-	bh=FI2gWpna9pRPUAswTZmQ2lpNJsgQgheqc33Bm/pQx7Q=;
+	s=arc-20240116; t=1734104854; c=relaxed/simple;
+	bh=dBHOkkQQ3izYxwbqx1+ObHRDcxImubfwHT2P95wk0wo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=swb2XkS9QkrapQVnw5lk6kMqk4fMpgi0+mMQCFYjo/VJXna0KRvy0j17hf7PqQ0ZOhwdJtIz0/kUN39Bl0/+gCUrwslNtDau8GylugQorqV8nmBiKohM9Lka2lLnDC3iKErnpCGmnAOCUoReqoHNormTeBaaygckTXWs0tLdTd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+y3Q3r0; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=Ui8kQIaqxA9CcAKbM7fyZvuxsSdUkE0U507pbWIaL+uQfnPe5Lxcc10HeF1M1RzfKevDRY1+Nlyi5AKKWZ5ucm/kIGoQ0aDhFTFvPySTyOij9dJoTmoWJ6LXVBZogDVibz9ggpxsoTsf8LbLxgwvOj5clSFO12jYb3ConUxvVt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjJpuSeg; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+y3Q3r0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjJpuSeg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734103434; x=1765639434;
+  t=1734104852; x=1765640852;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FI2gWpna9pRPUAswTZmQ2lpNJsgQgheqc33Bm/pQx7Q=;
-  b=B+y3Q3r03MKpDUiGTvfSa6rt9a5vFn23bspDPPG/2i2tElkWGEXu3DPe
-   LfGQfs+dQBc2+DFro2TiSyxwfthMB1Qdjh3jlALRvuSbzyRb9NovWTsIT
-   NW9nkZmNTljfWy/8vFrEOl2EgfkQlCHuov3TQZLPhiqWe/8Z+KF12Wlqg
-   vMWBsQcOgadXtCxCJ5H2FDimi2UQzsACZuEW0jOUbCyXEOgpzvQFy8Qjw
-   OmeNHJji6qhVN0kFj79NmIibTeeqYKyiV0sbHlLojFxBj4M6/ccxa7oFe
-   1KfdTgn/1OSfA6seuG7NurfzSDwDnLrioqIuyjstN8C1EUKi7//3OC6P1
-   Q==;
-X-CSE-ConnectionGUID: N+FdxvAlQyeRjdEjspx5ng==
-X-CSE-MsgGUID: g4ubSC97RamfT/kNHK+4fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="38238306"
+  bh=dBHOkkQQ3izYxwbqx1+ObHRDcxImubfwHT2P95wk0wo=;
+  b=SjJpuSegxYBBy53sVvuyWzU3V1SplkYiiEONdCYcsHl3qSwFQxAdwKXY
+   k359g5+eG7AecaO78+B8QRiQ+xbwk1fV29pt8RtUPT/etbn0XsGExzFj2
+   eKWoewiT3Z899aBKJRcyFQ2q/akew2B4GyB8uiqgtOvlFjLIYArCDp7JN
+   JYllTQp83/s1r/ltI6RxMw1b1O0kchJ5Tnt5An14TSolQwRoje5PRePRb
+   jbLs6MN7HDTPGOVjpSPCgYeh9TYKRdLnTJ3ufGfMGpTQkBap8VT7Abr1Y
+   iiZ57qxf2QkSZP7R/1Vs2bU8gRZFTXXPZpkHMmTOYVdTu+svmKrM00i5J
+   A==;
+X-CSE-ConnectionGUID: NZ+xoeT6QCCDxlTePQGmRA==
+X-CSE-MsgGUID: 4mKphf1CREycu5F2uHhsUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="22148382"
 X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="38238306"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 07:23:54 -0800
-X-CSE-ConnectionGUID: cM0Ejg+fQfaFzkudskeGSA==
-X-CSE-MsgGUID: 2YerkoACSZ+m7Tc4qKIHHA==
+   d="scan'208";a="22148382"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 07:47:31 -0800
+X-CSE-ConnectionGUID: wMm9fPoeQz21sBk8juRYbw==
+X-CSE-MsgGUID: BxpReNdGSkWm84bT+MGNxg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97350157"
+X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
+   d="scan'208";a="96468400"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Dec 2024 07:23:53 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2024 07:47:30 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tM7WA-000C9x-1T;
-	Fri, 13 Dec 2024 15:23:50 +0000
-Date: Fri, 13 Dec 2024 23:23:12 +0800
+	id 1tM7t2-000CB1-0Y;
+	Fri, 13 Dec 2024 15:47:28 +0000
+Date: Fri, 13 Dec 2024 23:46:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xianglai Li <lixianglai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1636/1636]
- arch/loongarch/kernel/paravirt.c:83:12: warning: 'paravt_steal_clock'
- defined but not used
-Message-ID: <202412132355.qfya7e74-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Maxim Levitsky <mlevitsk@redhat.com>
+Subject: arch/x86/kvm/smm.c:651 emulator_leave_smm() warn: inconsistent
+ indenting
+Message-ID: <202412132356.dMOiC7ev-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,147 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d68dc6ee371ec5466be9b2d76bdca0b360940adc
-commit: 2ee1b090fed0f14944d85db83f5dbc33fbe812ec [1636/1636] LoongArch: KVM: Add PV steal time support in guest side
-config: loongarch-randconfig-002-20241213 (https://download.01.org/0day-ci/archive/20241213/202412132355.qfya7e74-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241213/202412132355.qfya7e74-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f932fb9b40749d1c9a539d89bb3e288c077aafe5
+commit: 3f6821aa147b6e6fe07e8b35999724518b74a632 KVM: x86: Forcibly leave nested if RSM to L2 hits shutdown
+date:   3 months ago
+config: i386-randconfig-141-20241213 (https://download.01.org/0day-ci/archive/20241213/202412132356.dMOiC7ev-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412132355.qfya7e74-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412132356.dMOiC7ev-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/kvm/smm.c:651 emulator_leave_smm() warn: inconsistent indenting
 
-         |         ^~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:81:1: note: in expansion of macro 'early_param'
-      81 | early_param("no-steal-acc", parse_no_stealacc);
-         | ^~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:111:12: error: redefinition of 'paravt_steal_clock'
-     111 | static u64 paravt_steal_clock(int cpu)
-         |            ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:83:12: note: previous definition of 'paravt_steal_clock' with type 'u64(int)' {aka 'long long unsigned int(int)'}
-      83 | static u64 paravt_steal_clock(int cpu)
-         |            ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c: In function 'pv_send_ipi_single':
-   arch/loongarch/kernel/paravirt.c:141:24: error: 'KVM_HCALL_FUNC_PV_IPI' undeclared (first use in this function); did you mean 'KVM_HCALL_FUNC_IPI'?
-     141 |         kvm_hypercall3(KVM_HCALL_FUNC_PV_IPI, 1, 0, min);
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-         |                        KVM_HCALL_FUNC_IPI
-   arch/loongarch/kernel/paravirt.c:141:24: note: each undeclared identifier is reported only once for each function it appears in
-   arch/loongarch/kernel/paravirt.c: In function 'pv_send_ipi_mask':
-   arch/loongarch/kernel/paravirt.c:175:40: error: 'KVM_HCALL_FUNC_PV_IPI' undeclared (first use in this function); did you mean 'KVM_HCALL_FUNC_IPI'?
-     175 |                         kvm_hypercall3(KVM_HCALL_FUNC_PV_IPI,
-         |                                        ^~~~~~~~~~~~~~~~~~~~~
-         |                                        KVM_HCALL_FUNC_IPI
-   arch/loongarch/kernel/paravirt.c: At top level:
-   arch/loongarch/kernel/paravirt.c:363:13: error: redefinition of 'pv_disable_steal_time'
-     363 | static void pv_disable_steal_time(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:224:13: note: previous definition of 'pv_disable_steal_time' with type 'void(void)'
-     224 | static void pv_disable_steal_time(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:393:13: error: redefinition of 'pv_cpu_reboot'
-     393 | static void pv_cpu_reboot(void *unused)
-         |             ^~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:289:13: note: previous definition of 'pv_cpu_reboot' with type 'void(void *)'
-     289 | static void pv_cpu_reboot(void *unused)
-         |             ^~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:398:12: error: redefinition of 'pv_reboot_notify'
-     398 | static int pv_reboot_notify(struct notifier_block *nb, unsigned long code, void *unused)
-         |            ^~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:294:12: note: previous definition of 'pv_reboot_notify' with type 'int(struct notifier_block *, long unsigned int,  void *)'
-     294 | static int pv_reboot_notify(struct notifier_block *nb, unsigned long code,
-         |            ^~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:404:30: error: redefinition of 'pv_reboot_nb'
-     404 | static struct notifier_block pv_reboot_nb = {
-         |                              ^~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:301:30: note: previous definition of 'pv_reboot_nb' with type 'struct notifier_block'
-     301 | static struct notifier_block pv_reboot_nb = {
-         |                              ^~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:408:12: error: redefinition of 'pv_time_init'
-     408 | int __init pv_time_init(void)
-         |            ^~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:305:12: note: previous definition of 'pv_time_init' with type 'int(void)'
-     305 | int __init pv_time_init(void)
-         |            ^~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:453:12: error: redefinition of 'pv_enable_steal_time'
-     453 | static int pv_enable_steal_time(void)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:339:12: note: previous definition of 'pv_enable_steal_time' with type 'int(void)'
-     339 | static int pv_enable_steal_time(void)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:477:13: error: redefinition of 'pv_disable_steal_time'
-     477 | static void pv_disable_steal_time(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:363:13: note: previous definition of 'pv_disable_steal_time' with type 'void(void)'
-     363 | static void pv_disable_steal_time(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:484:12: error: redefinition of 'pv_time_cpu_online'
-     484 | static int pv_time_cpu_online(unsigned int cpu)
-         |            ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:370:12: note: previous definition of 'pv_time_cpu_online' with type 'int(unsigned int)'
-     370 | static int pv_time_cpu_online(unsigned int cpu)
-         |            ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:495:12: error: redefinition of 'pv_time_cpu_down_prepare'
-     495 | static int pv_time_cpu_down_prepare(unsigned int cpu)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:381:12: note: previous definition of 'pv_time_cpu_down_prepare' with type 'int(unsigned int)'
-     381 | static int pv_time_cpu_down_prepare(unsigned int cpu)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:507:13: error: redefinition of 'pv_cpu_reboot'
-     507 | static void pv_cpu_reboot(void *unused)
-         |             ^~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:393:13: note: previous definition of 'pv_cpu_reboot' with type 'void(void *)'
-     393 | static void pv_cpu_reboot(void *unused)
-         |             ^~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:512:12: error: redefinition of 'pv_reboot_notify'
-     512 | static int pv_reboot_notify(struct notifier_block *nb, unsigned long code, void *unused)
-         |            ^~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:398:12: note: previous definition of 'pv_reboot_notify' with type 'int(struct notifier_block *, long unsigned int,  void *)'
-     398 | static int pv_reboot_notify(struct notifier_block *nb, unsigned long code, void *unused)
-         |            ^~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:518:30: error: redefinition of 'pv_reboot_nb'
-     518 | static struct notifier_block pv_reboot_nb = {
-         |                              ^~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:404:30: note: previous definition of 'pv_reboot_nb' with type 'struct notifier_block'
-     404 | static struct notifier_block pv_reboot_nb = {
-         |                              ^~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:522:12: error: redefinition of 'pv_time_init'
-     522 | int __init pv_time_init(void)
-         |            ^~~~~~~~~~~~
-   arch/loongarch/kernel/paravirt.c:305:12: note: previous definition of 'pv_time_init' with type 'int(void)'
-     305 | int __init pv_time_init(void)
-         |            ^~~~~~~~~~~~
->> arch/loongarch/kernel/paravirt.c:83:12: warning: 'paravt_steal_clock' defined but not used [-Wunused-function]
-      83 | static u64 paravt_steal_clock(int cpu)
-         |            ^~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+arch/x86/kvm/smm.c:300 enter_smm() warn: inconsistent indenting
 
+vim +651 arch/x86/kvm/smm.c
 
-vim +/paravt_steal_clock +83 arch/loongarch/kernel/paravirt.c
-
-    82	
-  > 83	static u64 paravt_steal_clock(int cpu)
-    84	{
-    85		int version;
-    86		u64 steal;
-    87		struct kvm_steal_time *src;
-    88	
-    89		src = &per_cpu(steal_time, cpu);
-    90		do {
-    91	
-    92			version = src->version;
-    93			virt_rmb(); /* Make sure that the version is read before the steal */
-    94			steal = src->steal;
-    95			virt_rmb(); /* Make sure that the steal is read before the next version */
-    96	
-    97		} while ((version & 1) || (version != src->version));
-    98	
-    99		return steal;
-   100	}
-   101	
+   625	
+   626		/*
+   627		 * FIXME: When resuming L2 (a.k.a. guest mode), the transition to guest
+   628		 * mode should happen _after_ loading state from SMRAM.  However, KVM
+   629		 * piggybacks the nested VM-Enter flows (which is wrong for many other
+   630		 * reasons), and so nSVM/nVMX would clobber state that is loaded from
+   631		 * SMRAM and from the VMCS/VMCB.
+   632		 */
+   633		if (kvm_x86_call(leave_smm)(vcpu, &smram))
+   634			return X86EMUL_UNHANDLEABLE;
+   635	
+   636	#ifdef CONFIG_X86_64
+   637		if (guest_cpuid_has(vcpu, X86_FEATURE_LM))
+   638			ret = rsm_load_state_64(ctxt, &smram.smram64);
+   639		else
+   640	#endif
+   641			ret = rsm_load_state_32(ctxt, &smram.smram32);
+   642	
+   643		/*
+   644		 * If RSM fails and triggers shutdown, architecturally the shutdown
+   645		 * occurs *before* the transition to guest mode.  But due to KVM's
+   646		 * flawed handling of RSM to L2 (see above), the vCPU may already be
+   647		 * in_guest_mode().  Force the vCPU out of guest mode before delivering
+   648		 * the shutdown, so that L1 enters shutdown instead of seeing a VM-Exit
+   649		 * that architecturally shouldn't be possible.
+   650		 */
+ > 651		if (ret != X86EMUL_CONTINUE && is_guest_mode(vcpu))
 
 -- 
 0-DAY CI Kernel Test Service
