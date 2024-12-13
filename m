@@ -1,68 +1,62 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E91318732A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 20:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E341922ED
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 21:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734120989; cv=none; b=iJ/fe9ltKd8S66qZtM7Z/CUhnkZb6p09DchiRV/pWblbC+M3Wjd/sE+MGkJlVhaQjejCBjkJJ1lerJ9gpp4tnX4ZFKfKz01YHXevOT1PW9B2dlHSxhONwWK181MzhvTDbjGjDB//+4EXF5x984II0A5E2+RzkfzvTvJnOkE/GKQ=
+	t=1734124506; cv=none; b=S8WR2pPkoosb4VCMylJ4ESCcyFo//4x6EoRLTmsfX7XpRNEtYBkUSAsvl3+9zHqp+8YV+AhZEzFvQuIVNg+2tPlXhlvTxvQRUg7VMXkuzC2gyM61QV/8tskyVxnnbnh4mnj11B3jDSwMe9avqIw5T3DtrU9sMp/XM04ZmiySaao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734120989; c=relaxed/simple;
-	bh=7HcSG7IRG/hmt9iIezKnLBt6vPa1+Hv2Vr9xs0g5wq8=;
+	s=arc-20240116; t=1734124506; c=relaxed/simple;
+	bh=i/I3WpypbHaql9r4XIFq3Xili3XfK6hbJAIW+EanM+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fdstuqaDN2Xexf7VjulZWuUjXAb+aBgxPoeirw5ea4QotDJFujFowWRobVZZgj0E7+lgdFpWIqwahWJchO6DacbmirodJXAAU5QHawkkrUXPKi10ny+Hkz4AWZaM76fLzGgQsO56+O16SuJEOcBN+eud42w+hYPJWmEAU0brlhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ufd5MI47; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=SEKFKDCb9sKIM0qnHO+HIWTtAqUFpgyoSd1qBpuY/+pCrXK2vZqUfUWZnyIOh+JKIgBnOC1Gi7xQyJ8I1+ht4URKTd1FwDtS9RTiUk1XNb++aNWCwuc1CIU+be3gTVhoINtUK5Z85Xib8bplzrV4pxUQdZWnSIHeqtkRLsJYsQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aq3XUL5V; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ufd5MI47"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso3405564a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 12:16:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734120984; x=1734725784; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F1v+nI0xs4+xFd2MMiO/vrZujn0PunOtcVXHvp82fyY=;
-        b=ufd5MI47tt5e1Ec5EcrRKSogzzdC+KJOqEnASJkLY9md/IoozCYqYoS+eQ9iVBbIng
-         18S4bg9Jafs+Fi1FR+B99cLciUJivJLWL8FytXLm02XyBdG5k5UxKQ54haOV0s1Y9VBi
-         7GvXOGxdx22srsB33h7Nmrgpm5gOykMS+rlYtvyYdj0SLfccpuRl9O+sAGTO3xWWRM58
-         YgymElOVyGfcSd0lQXqOzeLIXPPtIVKQydpDYE/kmvd2IyliRT7s/FY4Boo3g38Xb6/R
-         PEzr5fTXvvnF5a8jzqERJyP953l2M31325buN1WL3m0T3I6IBI0KbboDfqRkn/IY1TKX
-         2BfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734120984; x=1734725784;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F1v+nI0xs4+xFd2MMiO/vrZujn0PunOtcVXHvp82fyY=;
-        b=tZspeNTaLIMYTd1meIIF/e4rXFsFG8B1GAc0jp7HK4qfy+gH3bG6h7J4N2XGuZE/WS
-         nlXEQHEQxDa60VMqVt6Egx2REjZsjXlnfdUh4l2U+ylO5MKB1ohydF2B9YaLhELDokPC
-         4/CKtz4kyvCkv7h25VqrGNZWh2Duks3op3gbGPc7yjGCOo9Q1XEotyIwwDS2UD11GUfJ
-         0tGRRY4G87pHQ0fhOqeyoSCT4+tSwqC0mPxyo3S0aG2YrtIqP/aT6cVHLt8EkUeCvBTg
-         558V4jx80U8j65d8FWA3HWarikQkj+XyOFdRv3VyDwltIV6sN6CZ5a0EezxxK8O8bdmy
-         oZMA==
-X-Forwarded-Encrypted: i=1; AJvYcCUuXStQa1Rapvkd5y1/66bY0W5UFEdRvldoVmLEEXWIGhqRewE9f78kX7IZMHHYA2dQGGpc65NIJ+1f3YCW@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPq3gkIhvdrBTB3ZD3ccp50Qx+rnlh5ewTKCb+Vtjcq5OQBl3I
-	XBPas1cwbT645q0WGqetb3Ax5F3i26gK6RfeFeBuSCNZxSaI0fd+TPl0qhu+5YgZ0OI1O8lrRHS
-	Z
-X-Gm-Gg: ASbGnctt4LamQede2dx3AZt668w5DXPGk0IlUXpI2mmQzW8Kkv4G/+wu2tYvoYNd+XY
-	GshJ4rioou5yNw+I9XTUUKW1T4g/ECesrWMl0Ap72jY+5tTlskR/oxwg8Fv27jDVA7gffkVyo3c
-	/r7jQsZhRDl2m1JECHnRcgjrt3z6nS9osQ22indzvvQ1mGwT4wui3nzqhAzgjN2vC+oVRgw2Tb3
-	1t/NDTB/q9C5Bms37i1LvXGVNIgzzi9EMsc6W1+vV72g7063o/WjL6rgqSIMg==
-X-Google-Smtp-Source: AGHT+IGikmWeeR0Cp2D1SgPx/O1pfVPezhDc68pK1pGrq1IACEOQA5rmkni+RElEH1l1PWB+aAz0xQ==
-X-Received: by 2002:a17:906:c110:b0:aa6:7ec4:8bb3 with SMTP id a640c23a62f3a-aab77909c9amr409379266b.20.1734120984466;
-        Fri, 13 Dec 2024 12:16:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab963595f2sm10005966b.104.2024.12.13.12.16.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Dec 2024 12:16:24 -0800 (PST)
-Date: Fri, 13 Dec 2024 23:16:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [djiang:cxl/features 11/15] drivers/cxl/core/mbox.c:775
- cxl_walk_cel() error: we previously assumed 'cmd' could be null (see line
- 767)
-Message-ID: <af36af30-76ef-48b7-8a1f-e670ba3bf7aa@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aq3XUL5V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734124504; x=1765660504;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i/I3WpypbHaql9r4XIFq3Xili3XfK6hbJAIW+EanM+M=;
+  b=aq3XUL5VoYMDPJYVx9vowy1gXB7SXq2jwUD3W6jgp2K2eB7EziUoSZ0y
+   tIyspraTtfleQ0WrAKXDfLqXO2WRSjz783XpGGIamUaLYFSv4gsMLfzRp
+   7yGN0YYItlSvCXI6y4pghJv43BIO/nyTRz+bEJSMPkulJv2S/aEXT77Mb
+   65JYaha1nMgYdTpliUe7dORC888loMridJZGZ0hjd1dJClHKv6LhtU/5p
+   hFvFodxzgLylDzlan2lp2bZQSbE5sQbsGYHLWxe2gai15PuLG452wAzYC
+   9NTlvUF/K2jK+vJcc5W12mVry+KWTiysnBV959QhJe+ygpAYfOUZnZd3E
+   g==;
+X-CSE-ConnectionGUID: MWZhPCFCTnSDWu867/sQvg==
+X-CSE-MsgGUID: ma1Nmpj8RomPntxBP6c3oQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="38367767"
+X-IronPort-AV: E=Sophos;i="6.12,232,1728975600"; 
+   d="scan'208";a="38367767"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 13:15:03 -0800
+X-CSE-ConnectionGUID: wcE6vKNJTqyXaaD6yhFqww==
+X-CSE-MsgGUID: skKwR9ZvRS6dFn/UBRG55A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="97073971"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2024 13:15:01 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tMCzy-000CR1-1H;
+	Fri, 13 Dec 2024 21:14:58 +0000
+Date: Sat, 14 Dec 2024 05:13:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Leonardo Bras <leobras@redhat.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Andrea Parri <parri.andrea@gmail.com>
+Subject: kernel/fork.c:1895:9: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202412140502.R7mSLuL5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,73 +66,181 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/features
-head:   f0a6d114e94c15c348733978c4dad4ecdae16d16
-commit: 96d766b4e53edf0c9ef84fa447b7afe6fbeeb743 [11/15] cxl: Enumerate feature commands
-config: i386-randconfig-141-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140111.UkB1YSO2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   243f750a2df0662bc45119f9dd5d7da031a17f36
+commit: cbe82e140bb76e1aa9f808cc841654a25b70d4e5 asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
+date:   5 weeks ago
+config: riscv-randconfig-r112-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140502.R7mSLuL5-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241214/202412140502.R7mSLuL5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412140111.UkB1YSO2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412140502.R7mSLuL5-lkp@intel.com/
 
-smatch warnings:
-drivers/cxl/core/mbox.c:775 cxl_walk_cel() error: we previously assumed 'cmd' could be null (see line 767)
+sparse warnings: (new ones prefixed by >>)
+   kernel/fork.c:1790:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   kernel/fork.c:1790:38: sparse:     expected struct refcount_struct [usertype] *r
+   kernel/fork.c:1790:38: sparse:     got struct refcount_struct [noderef] __rcu *
+   kernel/fork.c:1799:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:1799:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:1799:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:1800:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/fork.c:1800:9: sparse:     expected void const *
+   kernel/fork.c:1800:9: sparse:     got struct k_sigaction [noderef] __rcu *
+   kernel/fork.c:1800:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/fork.c:1800:9: sparse:     expected void const *
+   kernel/fork.c:1800:9: sparse:     got struct k_sigaction [noderef] __rcu *
+   kernel/fork.c:1800:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/fork.c:1800:9: sparse:     expected void const *
+   kernel/fork.c:1800:9: sparse:     got struct k_sigaction [noderef] __rcu *
+   kernel/fork.c:1801:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:1801:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:1801:33: sparse:     got struct spinlock [noderef] __rcu *
+>> kernel/fork.c:1895:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/fork.c:1895:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/fork.c:1895:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/fork.c:2193:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2193:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2193:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2197:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2197:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2197:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2511:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *real_parent @@     got struct task_struct * @@
+   kernel/fork.c:2511:32: sparse:     expected struct task_struct [noderef] __rcu *real_parent
+   kernel/fork.c:2511:32: sparse:     got struct task_struct *
+   kernel/fork.c:2520:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2520:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2520:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2569:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct list_head *head @@     got struct list_head [noderef] __rcu * @@
+   kernel/fork.c:2569:54: sparse:     expected struct list_head *head
+   kernel/fork.c:2569:54: sparse:     got struct list_head [noderef] __rcu *
+   kernel/fork.c:2589:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2589:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2589:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2611:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2611:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2611:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2639:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   kernel/fork.c:2639:28: sparse:     expected struct sighand_struct *sighand
+   kernel/fork.c:2639:28: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   kernel/fork.c:2670:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2670:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2670:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2672:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2672:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2672:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:3115:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *[assigned] parent @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/fork.c:3115:24: sparse:     expected struct task_struct *[assigned] parent
+   kernel/fork.c:3115:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/fork.c:3203:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct const [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   kernel/fork.c:3203:43: sparse:     expected struct refcount_struct const [usertype] *r
+   kernel/fork.c:3203:43: sparse:     got struct refcount_struct [noderef] __rcu *
+   kernel/fork.c:2243:22: sparse: sparse: dereference of noderef expression
+   kernel/fork.c: note: in included file (through include/linux/ftrace.h, include/linux/perf_event.h, include/linux/trace_events.h, ...):
+   include/linux/ptrace.h:210:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *parent @@
+   include/linux/ptrace.h:210:45: sparse:     expected struct task_struct *new_parent
+   include/linux/ptrace.h:210:45: sparse:     got struct task_struct [noderef] __rcu *parent
+   include/linux/ptrace.h:210:62: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct cred const *ptracer_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
+   include/linux/ptrace.h:210:62: sparse:     expected struct cred const *ptracer_cred
+   include/linux/ptrace.h:210:62: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
+   kernel/fork.c:2567:59: sparse: sparse: dereference of noderef expression
+   kernel/fork.c:2568:59: sparse: sparse: dereference of noderef expression
+--
+   kernel/seccomp.c:579:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/seccomp.c:579:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/seccomp.c:579:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/seccomp.c:583:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/seccomp.c:583:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/seccomp.c:583:29: sparse:     got struct spinlock [noderef] __rcu *
+>> kernel/seccomp.c:895:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:895:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:895:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c:1396:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/seccomp.c:1396:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/seccomp.c:1396:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/seccomp.c:1408:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/seccomp.c:1408:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/seccomp.c:1408:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/seccomp.c:1980:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/seccomp.c:1980:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/seccomp.c:1980:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/seccomp.c:1998:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/seccomp.c:1998:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/seccomp.c:1998:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/seccomp.c:495:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:495:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:495:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c:602:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:602:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:602:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c:453:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:453:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:453:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c:439:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:439:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:439:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c:453:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:453:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:453:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c:439:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:439:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:439:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c:453:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock [usertype] *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/seccomp.c:453:9: sparse:     expected struct qspinlock [usertype] *lock
+   kernel/seccomp.c:453:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/seccomp.c: note: in included file (through include/linux/ptrace.h, include/linux/audit.h):
+   include/linux/sched/signal.h:753:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:753:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:753:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:753:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:753:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:753:37: sparse:     got struct spinlock [noderef] __rcu *
 
-vim +/cmd +775 drivers/cxl/core/mbox.c
+vim +1895 kernel/fork.c
 
-59f8d1510739e92 Dan Williams     2023-06-14  752  static void cxl_walk_cel(struct cxl_memdev_state *mds, size_t size, u8 *cel)
-4faf31b43468c58 Dan Williams     2021-09-08  753  {
-e624d105c460e56 Dave Jiang       2024-06-17  754  	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
-49be6dd807511db Dan Williams     2021-09-08  755  	struct cxl_cel_entry *cel_entry;
-4faf31b43468c58 Dan Williams     2021-09-08  756  	const int cel_entries = size / sizeof(*cel_entry);
-59f8d1510739e92 Dan Williams     2023-06-14  757  	struct device *dev = mds->cxlds.dev;
-4faf31b43468c58 Dan Williams     2021-09-08  758  	int i;
-4faf31b43468c58 Dan Williams     2021-09-08  759  
-49be6dd807511db Dan Williams     2021-09-08  760  	cel_entry = (struct cxl_cel_entry *) cel;
-4faf31b43468c58 Dan Williams     2021-09-08  761  
-4faf31b43468c58 Dan Williams     2021-09-08  762  	for (i = 0; i < cel_entries; i++) {
-4faf31b43468c58 Dan Williams     2021-09-08  763  		u16 opcode = le16_to_cpu(cel_entry[i].opcode);
-4faf31b43468c58 Dan Williams     2021-09-08  764  		struct cxl_mem_command *cmd = cxl_mem_find_command(opcode);
-d2f706058826b80 Ira Weiny        2023-09-03  765  		int enabled = 0;
-4faf31b43468c58 Dan Williams     2021-09-08  766  
-d2f706058826b80 Ira Weiny        2023-09-03 @767  		if (cmd) {
-                                                                    ^^^
-NULL check
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1885  
+dbd952127d11bb Kees Cook               2014-06-27  1886  static void copy_seccomp(struct task_struct *p)
+dbd952127d11bb Kees Cook               2014-06-27  1887  {
+dbd952127d11bb Kees Cook               2014-06-27  1888  #ifdef CONFIG_SECCOMP
+dbd952127d11bb Kees Cook               2014-06-27  1889  	/*
+dbd952127d11bb Kees Cook               2014-06-27  1890  	 * Must be called with sighand->lock held, which is common to
+dbd952127d11bb Kees Cook               2014-06-27  1891  	 * all threads in the group. Holding cred_guard_mutex is not
+dbd952127d11bb Kees Cook               2014-06-27  1892  	 * needed because this new task is not yet running and cannot
+dbd952127d11bb Kees Cook               2014-06-27  1893  	 * be racing exec.
+dbd952127d11bb Kees Cook               2014-06-27  1894  	 */
+69f6a34bdeea4f Guenter Roeck           2014-08-10 @1895  	assert_spin_locked(&current->sighand->siglock);
+dbd952127d11bb Kees Cook               2014-06-27  1896  
+dbd952127d11bb Kees Cook               2014-06-27  1897  	/* Ref-count the new filter user, and assign it. */
+dbd952127d11bb Kees Cook               2014-06-27  1898  	get_seccomp_filter(current);
+dbd952127d11bb Kees Cook               2014-06-27  1899  	p->seccomp = current->seccomp;
+dbd952127d11bb Kees Cook               2014-06-27  1900  
+dbd952127d11bb Kees Cook               2014-06-27  1901  	/*
+dbd952127d11bb Kees Cook               2014-06-27  1902  	 * Explicitly enable no_new_privs here in case it got set
+dbd952127d11bb Kees Cook               2014-06-27  1903  	 * between the task_struct being duplicated and holding the
+dbd952127d11bb Kees Cook               2014-06-27  1904  	 * sighand lock. The seccomp state and nnp must be in sync.
+dbd952127d11bb Kees Cook               2014-06-27  1905  	 */
+dbd952127d11bb Kees Cook               2014-06-27  1906  	if (task_no_new_privs(current))
+dbd952127d11bb Kees Cook               2014-06-27  1907  		task_set_no_new_privs(p);
+dbd952127d11bb Kees Cook               2014-06-27  1908  
+dbd952127d11bb Kees Cook               2014-06-27  1909  	/*
+dbd952127d11bb Kees Cook               2014-06-27  1910  	 * If the parent gained a seccomp mode after copying thread
+dbd952127d11bb Kees Cook               2014-06-27  1911  	 * flags and between before we held the sighand lock, we have
+dbd952127d11bb Kees Cook               2014-06-27  1912  	 * to manually enable the seccomp thread flag here.
+dbd952127d11bb Kees Cook               2014-06-27  1913  	 */
+dbd952127d11bb Kees Cook               2014-06-27  1914  	if (p->seccomp.mode != SECCOMP_MODE_DISABLED)
+23d67a54857a76 Gabriel Krisman Bertazi 2020-11-16  1915  		set_task_syscall_work(p, SECCOMP);
+dbd952127d11bb Kees Cook               2014-06-27  1916  #endif
+dbd952127d11bb Kees Cook               2014-06-27  1917  }
+dbd952127d11bb Kees Cook               2014-06-27  1918  
 
-e624d105c460e56 Dave Jiang       2024-06-17  768  			set_bit(cmd->info.id, cxl_mbox->enabled_cmds);
-d2f706058826b80 Ira Weiny        2023-09-03  769  			enabled++;
-96d766b4e53edf0 Dave Jiang       2024-12-11  770  		} else {
-96d766b4e53edf0 Dave Jiang       2024-12-11  771  			struct cxl_mem_command *fcmd =
-96d766b4e53edf0 Dave Jiang       2024-12-11  772  				cxl_find_feature_command(opcode);
-96d766b4e53edf0 Dave Jiang       2024-12-11  773  
-96d766b4e53edf0 Dave Jiang       2024-12-11  774  			if (fcmd) {
-96d766b4e53edf0 Dave Jiang       2024-12-11 @775  				set_bit(cmd->info.id, cxl_mbox->feature_cmds);
-                                                                                        ^^^^^
-was fcmd, intended here?
+:::::: The code at line 1895 was first introduced by commit
+:::::: 69f6a34bdeea4fec50bb90619bc9602973119572 seccomp: Replace BUG(!spin_is_locked()) with assert_spin_lock
 
-96d766b4e53edf0 Dave Jiang       2024-12-11  776  				enabled++;
-96d766b4e53edf0 Dave Jiang       2024-12-11  777  			}
-d2f706058826b80 Ira Weiny        2023-09-03  778  		}
-d0abf5787adc034 Alison Schofield 2023-04-18  779  
-d2f706058826b80 Ira Weiny        2023-09-03  780  		if (cxl_is_poison_command(opcode)) {
-59f8d1510739e92 Dan Williams     2023-06-14  781  			cxl_set_poison_cmd_enabled(&mds->poison, opcode);
-d2f706058826b80 Ira Weiny        2023-09-03  782  			enabled++;
-d2f706058826b80 Ira Weiny        2023-09-03  783  		}
-d0abf5787adc034 Alison Schofield 2023-04-18  784  
-d2f706058826b80 Ira Weiny        2023-09-03  785  		if (cxl_is_security_command(opcode)) {
-ad64f5952ce3ea5 Davidlohr Bueso  2023-07-25  786  			cxl_set_security_cmd_enabled(&mds->security, opcode);
-d2f706058826b80 Ira Weiny        2023-09-03  787  			enabled++;
-d2f706058826b80 Ira Weiny        2023-09-03  788  		}
-ad64f5952ce3ea5 Davidlohr Bueso  2023-07-25  789  
-d2f706058826b80 Ira Weiny        2023-09-03  790  		dev_dbg(dev, "Opcode 0x%04x %s\n", opcode,
-d2f706058826b80 Ira Weiny        2023-09-03  791  			enabled ? "enabled" : "unsupported by driver");
-4faf31b43468c58 Dan Williams     2021-09-08  792  	}
-4faf31b43468c58 Dan Williams     2021-09-08  793  }
+:::::: TO: Guenter Roeck <linux@roeck-us.net>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
