@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4598155398
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8921459EA
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 04:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734063082; cv=none; b=nlwQAdQunX/IlDBAOt//ksrB0Nt5rPKfuLEQXBv3zyeeFLL99wkq97fGO0s1+IVLWOKWqov5h5fy7IxEHU3xUQvrkFtAsWQzJeJDHyZrYFMg48hL3432ELHknADW400/Q1c3qpr2BZwF+Sdfqis3x82doeeg3l8ICWq125uwzqU=
+	t=1734063083; cv=none; b=FBKfWIiKDqZ8rIzKQGxgiknW9DCkVgprb9ewkKA3w3ajW0rvXor1k59EpTjrx5xS3WSUy6x/fBThxrau9jLA7buaspDY3wleCYZ9j8dl9We3eTRABPFEMuPbf3giKs9zRID2qZYgWVKQfPs69Luetu++up7GY03DF2SAjjk8hx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734063082; c=relaxed/simple;
-	bh=PsHxZcpJ8i4c3wXAk47znTWvj9u0J/eM31vv6W5gnL4=;
+	s=arc-20240116; t=1734063083; c=relaxed/simple;
+	bh=y1MkgrcrSgpAo0/kP/oJmzlEOnjuHyZi+o2Y9PInqiY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TgOJ+ltavAog6tqQ/013VqgJn1sEKMvACYH8gNDyFIE2ajWfq6cwoG2IA2k53XQ/epPLvb2OycNykPXxbofoAmI1bNkKogCIo13iIomtGs4CioYhOvKG5CeL1jRt3WUNDj4l4bNGJsWMsGhV0t8ZpLjcCtCKjrv7VokgbHB6qZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNm5/RU7; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=cZXhzeiOyiWn0CkCCNgS9NYaq8LFaTs1mE4K6Xlys6/wGsbzs508h+z57z8x0fOnXpZYKDJ5TaSO2eKnf97AygxxpO6RUgbo6YBSLfm+TgmFiT3yYv1bxhXTd1M8ZG5Dr0oAEHNV+S3fQqvVscL+Wdg8xhGtLLPqIjJcJB/WBXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEHMvnXk; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNm5/RU7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEHMvnXk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734063081; x=1765599081;
+  t=1734063080; x=1765599080;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PsHxZcpJ8i4c3wXAk47znTWvj9u0J/eM31vv6W5gnL4=;
-  b=SNm5/RU7r7K6/dLYWF8obEkJGRuEq3HkOJt3Hsp1ZACc4vz2JluyWz9v
-   bT3jzgQ+D6qrW7Bsxnpt7Os6p2FsyRWVcniIQQRehvfBBR/rWi3AqUnLx
-   Mtf3QkXY4OdhBRTaV1BT1rxFuzr4+gCtNkx8/i1bViBAHEniW30HdjMKS
-   Sigl1zhCgMzEJ7qs2AesHUdXpsDpDIqHyO8njFJu+yWi4El+07PRQBy1x
-   9uNYvXLruuHIurPJqN1Zc8+LTk/15+1SbH7B5Y0ZAQXA1LgzIzCJIML0F
-   Tm6OwX2RTI4KlaRWD412HSCLJKZCm3m4ip2/2ZQBjEYXyt1phUXZG4dZs
-   A==;
-X-CSE-ConnectionGUID: wig9eqE+SUuOYhzaz1PfXw==
-X-CSE-MsgGUID: 9hPs2myfTBash/UgPdYgMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="22096968"
+  bh=y1MkgrcrSgpAo0/kP/oJmzlEOnjuHyZi+o2Y9PInqiY=;
+  b=LEHMvnXkoTP6e/uoYp3U5xu0Ka6qJSZyqzAGj7RCozq6c//l+c2TpP5F
+   T1gbJ80zsf96J4ptMNilVIrPVNOl0JGlV/Q4+aQs2k2W++GvQhcf5eeug
+   v/jE4PfkOFrq8Y1VX5pmyj++3tnpC32+E3wC0Xz9VuUHGvJ0RyoSEHHES
+   XESX9O/+mOqC4vp03Q9uHKi8yeWXBftPQjJ52nISFoRHN0Att4sqAqVNr
+   fF4A7XeUDBFx25O2ZBwxBBH5krzzk5Bbq1OZfMSEyQIJExKnjCQWZYVp6
+   qZhGWMxI6k16BVfKw/dYom43oG7OaS2um+Nq9TAPqdq5/00yhH0D51I3s
+   w==;
+X-CSE-ConnectionGUID: l1ikG8+fTJ6dbxmUL1oJtg==
+X-CSE-MsgGUID: Y6ey8ok6RTO/pCwPtiUFJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34555433"
 X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
-   d="scan'208";a="22096968"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 20:11:20 -0800
-X-CSE-ConnectionGUID: Cfub5BACRt2UtVHhpt/jPA==
-X-CSE-MsgGUID: i6yQd+XXTB2oiy8yYJlpQA==
+   d="scan'208";a="34555433"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 20:11:20 -0800
+X-CSE-ConnectionGUID: B3vaKllrQjSA4muUsjYQGw==
+X-CSE-MsgGUID: UJ+QqvcFSkWy/QusgUZWww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133803203"
+X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
+   d="scan'208";a="101282992"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Dec 2024 20:11:18 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2024 20:11:19 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLx1I-000BgF-2G;
+	id 1tLx1I-000BgD-2D;
 	Fri, 13 Dec 2024 04:11:16 +0000
-Date: Fri, 13 Dec 2024 12:10:31 +0800
+Date: Fri, 13 Dec 2024 12:10:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2579/2579] mm/share_pool.c:4221:30: error:
- implicit declaration of function 'huge_pte_none'; did you mean
- 'huge_pte_lock'?
-Message-ID: <202412131234.abo5dw1q-lkp@intel.com>
+Subject: [android-common:chromeos-6.6-ea7682dbe6cf 161/520]
+ drivers/ufs/host/ufs-mediatek.c:930:40: error:
+ 'MTK_RPM_AUTOSUSPEND_DELAY_MS' undeclared
+Message-ID: <202412131232.Ts8raZXx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,187 +63,135 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Wang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   ff5378fff024fcb2552e6da22811cf933fe4a4c0
-commit: c533562a2802206135467a06384ba33cff42b18a [2579/2579] share_pool: Use sharepool_no_page to alloc hugepage
-config: arm64-randconfig-004-20241213 (https://download.01.org/0day-ci/archive/20241213/202412131234.abo5dw1q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241213/202412131234.abo5dw1q-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common chromeos-6.6-ea7682dbe6cf
+head:   ac7a77c24fbce62cf3a673f994358d50cb59808a
+commit: a67371b02fc00533e7b784e40c977eb89079ac14 [161/520] BACKPORT: scsi: ufs: mediatek: UFS mtk sip command reconstruct
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241213/202412131232.Ts8raZXx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241213/202412131232.Ts8raZXx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412131234.abo5dw1q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412131232.Ts8raZXx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/share_pool.c: In function 'mg_sp_group_id_by_pid':
-   mm/share_pool.c:858:29: warning: ordered comparison of pointer with integer zero [-Wextra]
-     858 |         if (!spg_ids || num <= 0)
-         |                             ^~
-   mm/share_pool.c: In function 'sp_compact_nodes':
-   mm/share_pool.c:1851:9: error: implicit declaration of function 'sysctl_compaction_handler' [-Werror=implicit-function-declaration]
-    1851 |         sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:3014:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    3014 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:3014:21: error: invalid initializer
-   mm/share_pool.c: In function 'sp_unshare_kva':
-   mm/share_pool.c:3394:14: warning: variable 'is_hugepage' set but not used [-Wunused-but-set-variable]
-    3394 |         bool is_hugepage = true;
-         |              ^~~~~~~~~~~
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:3691:6: warning: no previous prototype for 'sp_proc_stat_drop' [-Wmissing-prototypes]
-    3691 | void sp_proc_stat_drop(struct sp_proc_stat *stat)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c:3922:6: warning: no previous prototype for 'spa_overview_show' [-Wmissing-prototypes]
-    3922 | void spa_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4004:6: warning: no previous prototype for 'spg_overview_show' [-Wmissing-prototypes]
-    4004 | void spg_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sharepool_no_page':
->> mm/share_pool.c:4221:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    4221 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
->> mm/share_pool.c:4234:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    4234 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
->> mm/share_pool.c:4256:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    4256 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
->> mm/share_pool.c:4258:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    4258 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:4136:12: warning: 'proc_overview_show' defined but not used [-Wunused-function]
-    4136 | static int proc_overview_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4093:12: warning: 'proc_stat_show' defined but not used [-Wunused-function]
-    4093 | static int proc_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~
-   mm/share_pool.c:4029:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    4029 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/ufs/host/ufs-mediatek.c: In function 'ufs_mtk_init':
+>> drivers/ufs/host/ufs-mediatek.c:930:40: error: 'MTK_RPM_AUTOSUSPEND_DELAY_MS' undeclared (first use in this function)
+     930 |         shost->rpm_autosuspend_delay = MTK_RPM_AUTOSUSPEND_DELAY_MS;
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ufs/host/ufs-mediatek.c:930:40: note: each undeclared identifier is reported only once for each function it appears in
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM [=y] || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
    Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
 
 
-vim +4221 mm/share_pool.c
+vim +/MTK_RPM_AUTOSUSPEND_DELAY_MS +930 drivers/ufs/host/ufs-mediatek.c
 
-  4179	
-  4180	vm_fault_t sharepool_no_page(struct mm_struct *mm,
-  4181				struct vm_area_struct *vma,
-  4182				struct address_space *mapping, pgoff_t idx,
-  4183				unsigned long address, pte_t *ptep, unsigned int flags)
-  4184	{
-  4185		struct hstate *h = hstate_vma(vma);
-  4186		vm_fault_t ret = VM_FAULT_SIGBUS;
-  4187		unsigned long size;
-  4188		struct page *page;
-  4189		pte_t new_pte;
-  4190		spinlock_t *ptl;
-  4191		unsigned long haddr = address & huge_page_mask(h);
-  4192		bool new_page = false;
-  4193		int err;
-  4194		int node_id;
-  4195		struct sp_area *spa;
-  4196	
-  4197		spa = __find_sp_area(vma->vm_start);
-  4198		if (!spa) {
-  4199			pr_err("share pool: vma is invalid, not from sp mmap\n");
-  4200			return ret;
-  4201		}
-  4202		node_id = spa->node_id;
-  4203		__sp_area_drop(spa);
-  4204	
-  4205	retry:
-  4206		page = find_lock_page(mapping, idx);
-  4207		if (!page) {
-  4208			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4209			if (idx >= size)
-  4210				goto out;
-  4211	
-  4212			page = alloc_huge_page(vma, haddr, 0);
-  4213			if (IS_ERR(page)) {
-  4214				page = alloc_huge_page_nodemask(hstate_file(vma->vm_file),
-  4215							    node_id, NULL, GFP_KERNEL);
-  4216				if (!page)
-  4217					page = ERR_PTR(-ENOMEM);
-  4218			}
-  4219			if (IS_ERR(page)) {
-  4220				ptl = huge_pte_lock(h, mm, ptep);
-> 4221				if (!huge_pte_none(huge_ptep_get(ptep))) {
-  4222					ret = 0;
-  4223					spin_unlock(ptl);
-  4224					goto out;
-  4225				}
-  4226				spin_unlock(ptl);
-  4227				ret = vmf_error(PTR_ERR(page));
-  4228				goto out;
-  4229			}
-  4230			__SetPageUptodate(page);
-  4231			new_page = true;
-  4232	
-  4233			/* sharepool pages are all shared */
-> 4234			err = huge_add_to_page_cache(page, mapping, idx);
-  4235			if (err) {
-  4236				put_page(page);
-  4237				if (err == -EEXIST)
-  4238					goto retry;
-  4239				goto out;
-  4240			}
-  4241		}
-  4242	
-  4243	
-  4244		ptl = huge_pte_lock(h, mm, ptep);
-  4245		size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4246		if (idx >= size)
-  4247			goto backout;
-  4248	
-  4249		ret = 0;
-  4250		if (!huge_pte_none(huge_ptep_get(ptep)))
-  4251			goto backout;
-  4252	
-  4253		page_dup_rmap(page, true);
-  4254		new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-  4255					&& (vma->vm_flags & VM_SHARED)));
-> 4256		set_huge_pte_at(mm, haddr, ptep, new_pte);
-  4257	
-> 4258		hugetlb_count_add(pages_per_huge_page(h), mm);
-  4259	
-  4260		spin_unlock(ptl);
-  4261	
-  4262		if (new_page) {
-  4263			SetPagePrivate(&page[1]);
-  4264		}
-  4265	
-  4266		unlock_page(page);
-  4267	out:
-  4268		return ret;
-  4269	
-  4270	backout:
-  4271		spin_unlock(ptl);
-  4272		unlock_page(page);
-  4273		put_page(page);
-  4274		goto out;
-  4275	}
-  4276	
+e152a616c88653 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2023-07-01  868  
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  869  /**
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  870   * ufs_mtk_init - find other essential mmio bases
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  871   * @hba: host controller instance
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  872   *
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  873   * Binds PHY with controller and powers up PHY enabling clocks
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  874   * and regulators.
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  875   *
+3a17fefe0f1960 drivers/ufs/host/ufs-mediatek.c Bart Van Assche 2023-07-27  876   * Return: -EPROBE_DEFER if binding fails, returns negative error
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  877   * on phy power up failure and returns zero on success.
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  878   */
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  879  static int ufs_mtk_init(struct ufs_hba *hba)
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  880  {
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  881  	const struct of_device_id *id;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  882  	struct device *dev = hba->dev;
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  883  	struct ufs_mtk_host *host;
+f7bcb2b9e8e32c drivers/ufs/host/ufs-mediatek.c Peter Wang      2024-01-31  884  	struct Scsi_Host *shost = hba->host;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  885  	int err = 0;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  886  
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  887  	host = devm_kzalloc(dev, sizeof(*host), GFP_KERNEL);
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  888  	if (!host) {
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  889  		err = -ENOMEM;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  890  		dev_info(dev, "%s: no memory for mtk ufs host\n", __func__);
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  891  		goto out;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  892  	}
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  893  
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  894  	host->hba = hba;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  895  	ufshcd_set_variant(hba, host);
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  896  
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  897  	id = of_match_device(ufs_mtk_of_match, dev);
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  898  	if (!id) {
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  899  		err = -EINVAL;
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  900  		goto out;
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  901  	}
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  902  
+ac8c2459091cd0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-10-29  903  	/* Initialize host capability */
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  904  	ufs_mtk_init_host_caps(hba);
+590b0d2372fef0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-14  905  
+e152a616c88653 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2023-07-01  906  	ufs_mtk_init_mcq_irq(hba);
+e152a616c88653 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2023-07-01  907  
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  908  	err = ufs_mtk_bind_mphy(hba);
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  909  	if (err)
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  910  		goto out_variant_clear;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  911  
+e0f9f862623cd8 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-08  912  	ufs_mtk_init_reset(hba);
+e0f9f862623cd8 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-09-08  913  
+e6d6ba8014e520 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-09-16  914  	/* Enable runtime autosuspend */
+e6d6ba8014e520 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-09-16  915  	hba->caps |= UFSHCD_CAP_RPM_AUTOSUSPEND;
+e6d6ba8014e520 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-09-16  916  
+5d74e18edd7bdb drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-12-30  917  	/* Enable clock-gating */
+5d74e18edd7bdb drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-12-30  918  	hba->caps |= UFSHCD_CAP_CLK_GATING;
+5d74e18edd7bdb drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-12-30  919  
+46426552e74fd3 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-07-12  920  	/* Enable inline encryption */
+46426552e74fd3 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-07-12  921  	hba->caps |= UFSHCD_CAP_CRYPTO;
+46426552e74fd3 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-07-12  922  
+29060a629135a0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-05-08  923  	/* Enable WriteBooster */
+29060a629135a0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-05-08  924  	hba->caps |= UFSHCD_CAP_WB_EN;
+b7dbc686f60b28 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2022-08-03  925  
+b7dbc686f60b28 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2022-08-03  926  	/* Enable clk scaling*/
+b7dbc686f60b28 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2022-08-03  927  	hba->caps |= UFSHCD_CAP_CLK_SCALING;
+b7dbc686f60b28 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2022-08-03  928  
+f7bcb2b9e8e32c drivers/ufs/host/ufs-mediatek.c Peter Wang      2024-01-31  929  	/* Set runtime pm delay to replace default */
+f7bcb2b9e8e32c drivers/ufs/host/ufs-mediatek.c Peter Wang      2024-01-31 @930  	shost->rpm_autosuspend_delay = MTK_RPM_AUTOSUSPEND_DELAY_MS;
+f7bcb2b9e8e32c drivers/ufs/host/ufs-mediatek.c Peter Wang      2024-01-31  931  
+46ec9592ffd679 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-12-22  932  	hba->quirks |= UFSHCI_QUIRK_SKIP_MANUAL_WB_FLUSH_CTRL;
+95cd364ccc975e drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2023-06-12  933  	hba->quirks |= UFSHCD_QUIRK_MCQ_BROKEN_INTR;
+3c9b49be666679 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2023-06-12  934  	hba->quirks |= UFSHCD_QUIRK_MCQ_BROKEN_RTC;
+f48b285ae658b5 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-05-09  935  	hba->vps->wb_flush_threshold = UFS_WB_BUF_REMAIN_PERCENT(80);
+29060a629135a0 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-05-08  936  
+bf8fab86ab791c drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-10-29  937  	if (host->caps & UFS_MTK_CAP_DISABLE_AH8)
+bf8fab86ab791c drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-10-29  938  		hba->caps |= UFSHCD_CAP_HIBERN8_WITH_CLK_GATING;
+bf8fab86ab791c drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-10-29  939  
+b7dbc686f60b28 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2022-08-03  940  	ufs_mtk_init_clocks(hba);
+b7dbc686f60b28 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao      2022-08-03  941  
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  942  	/*
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  943  	 * ufshcd_vops_init() is invoked after
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  944  	 * ufshcd_setup_clock(true) in ufshcd_hba_init() thus
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  945  	 * phy clock setup is skipped.
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  946  	 *
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  947  	 * Enable phy clocks specifically here.
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  948  	 */
+cf137b3ea49a04 drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2020-10-29  949  	ufs_mtk_mphy_power_on(hba, true);
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  950  	ufs_mtk_setup_clocks(hba, true, POST_CHANGE);
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  951  
+aba3b0757b6cba drivers/scsi/ufs/ufs-mediatek.c Peter Wang      2021-09-06  952  	host->ip_ver = ufshcd_readl(hba, REG_UFS_MTK_IP_VER);
+aba3b0757b6cba drivers/scsi/ufs/ufs-mediatek.c Peter Wang      2021-09-06  953  
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  954  	goto out;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  955  
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  956  out_variant_clear:
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  957  	ufshcd_set_variant(hba, NULL);
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  958  out:
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  959  	return err;
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  960  }
+ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu     2019-03-16  961  
+
+:::::: The code at line 930 was first introduced by commit
+:::::: f7bcb2b9e8e32c3cdc4180aa482f942ccc0f6458 FROMLIST: ufs: host: mediatek: change default auto suspend timer
+
+:::::: TO: Peter Wang <peter.wang@mediatek.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
