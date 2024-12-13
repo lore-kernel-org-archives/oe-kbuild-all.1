@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495021547F5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Dec 2024 23:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70413523A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Dec 2024 00:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734047647; cv=none; b=b30EWnUNqu59mG0g5xYY/5qPdEvHTCPt7l0lqprDAU7b1mINd5/4FZEC5ITyhGg0XP01byrWKdt/9EHq4linqF1MUTAvg1bZAc+4MrWbG4vGBzmhwmQyD6kyNiI1WYaMDITIBiufOsGbjCzhlMAIESP2M1PkmPn7UVaOftV1zcg=
+	t=1734050202; cv=none; b=pUsAxvFuDjodRmsYxYB58s676L3f8Q8Xhvhw+A1mG3K93iUW0n4UyQjl67cDvNjOw9zj9hct/561ej1A9+sB7oGdKV+gVKMB+ubz59xN0Da9CXMbjXdO7VjMuFot0sGwQ3j2fbpj9PaGLCHz0203WBBXcSp8hiqKmoG4glFiJHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734047647; c=relaxed/simple;
-	bh=pP6gBYI6vCEpqGgcb+2FnQDVJ13I/YYIPLcaD7XhDmM=;
+	s=arc-20240116; t=1734050202; c=relaxed/simple;
+	bh=121FkGE2dGvY5MkJvSbHVVYA+SKBbF/1pQhfcY3pYvU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eIEnwH/ggdmx8iITIas5aWMtMW5R5wEiy9865IA0Oaeaxl3pexsHtyKB0EDJ7A3KTa1xHuVmVbRo/LGuVKOzXKjxG9zF49e6D9J86gnHLPMQcc+f6IIlICPUG9DxGGpiM7alPwRbNSjVQjpZjP1ghhSAGIQedcKLENkQ/A4JkZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1wQN5v4; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=dn4GDU95pXELNuwtjWFuIrw2SSI/9wDajTjTTxkXBki1CvpApdKypvGUHaffR21pyQGQIdsJ5f2HCrWPg9zIesgB4bfEvcerxX9eQeXJr0yk7S8yPIBsZoNwuHZEakMv5YyUaEucZim4+Jg6UeZfrKZkPfhvs8D3sOKMNwvfh18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPuOtHMe; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1wQN5v4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPuOtHMe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734047646; x=1765583646;
+  t=1734050200; x=1765586200;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pP6gBYI6vCEpqGgcb+2FnQDVJ13I/YYIPLcaD7XhDmM=;
-  b=P1wQN5v4GwUsurjaivnrmIbFhTy1ZF9BHoJbViwziDUar9hXOvdWFHlR
-   oldpmjK4T2vYjd/Kaa5mQotQKbCP92lRS9cXmXg1ppfSRHOg61A0eJAtY
-   /bPfmPoxbnNLPBaZ6sZc0d119Fmd8xnjaki2+IL+rgi6W71DReUKwtmzR
-   7R4R81YagnTndG1ZPFCpIK+x0A3b76IZFp4RhYX1cUC4jO415qDXcdJUd
-   N2BN5lrE7iq7hYandNJ9PtdAtjMWT8tl/TRFIJTb0wrMzIb3hHeDRq7lD
-   sGrETCCKkmJ6k7PQhBKqdZ+/lhiQtTNMyaTHqCgtD5StPgAXA4lAeaHJ+
-   g==;
-X-CSE-ConnectionGUID: RKmAvAY+S7OgLrqKB7g+GQ==
-X-CSE-MsgGUID: TufjPgHYTvair+seoQlkUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34407734"
+  bh=121FkGE2dGvY5MkJvSbHVVYA+SKBbF/1pQhfcY3pYvU=;
+  b=mPuOtHMe6wtW5y+lZWL9R+tYZkyGQRNRY6xWQ6/6JJ0fwJGnDijYfAla
+   at9z6CVyaQkR34ASJaKdout0nwCAQmzQqJOUfMTeO06f/LXINl6360QE5
+   x3CIVIA0xaFWTxBmDCtkrPJjLj+ZWKZObqZ9mZW4avP468rNE+4Nw4XoJ
+   j9sH4Vapz5PhOR1SsI2pkgyiZf/uJS0J2BlDy5yG0H+fAjCLOPpWeAxAu
+   e8sMv7zsM4EZ5FOl6mY8zPdNjXsi4s6lwFajuiejA6qi38SbfE5d1GBBn
+   stnKpRdBKGNxmHcXt16o0LHpunmbtEc+5dO4iLhbwfJnQDmDeR8H8R78D
+   A==;
+X-CSE-ConnectionGUID: TJ/u2oygSV6QRRUa56o29A==
+X-CSE-MsgGUID: z8HtH75ARmylVZsUmI2Q+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="59890657"
 X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
-   d="scan'208";a="34407734"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 15:54:05 -0800
-X-CSE-ConnectionGUID: MEDDlDLXSA66rWzN6IFJ1w==
-X-CSE-MsgGUID: /YH4kSwISaCrntI5Bh8m2Q==
+   d="scan'208";a="59890657"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 16:36:38 -0800
+X-CSE-ConnectionGUID: A6VXXuhdTA+Pi4gKm4fGHA==
+X-CSE-MsgGUID: 6IG2vmF0QvO0JdNeScxsNw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96226931"
+X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
+   d="scan'208";a="96269065"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Dec 2024 15:54:04 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 12 Dec 2024 16:35:23 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLt0L-000BUb-1m;
-	Thu, 12 Dec 2024 23:54:01 +0000
-Date: Fri, 13 Dec 2024 07:53:44 +0800
+	id 1tLteK-000BXz-39;
+	Fri, 13 Dec 2024 00:35:20 +0000
+Date: Fri, 13 Dec 2024 08:35:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 14346/24503] versioncheck:
- ./drivers/net/wireless/iwl7000/mac80211/parse.c: 934: need linux/version.h
-Message-ID: <202412130720.Qv8w4xma-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2579/2579] mm/share_pool.c:1215:12: warning:
+ 'spa_stat_show' defined but not used
+Message-ID: <202412130822.tSyyPsoM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,74 +62,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   1533e63b4dde60f99fb88b41f9016dfe87282aab
-commit: abf11131c93b512ab6a8618710f31dcd678338d5 [14346/24503] CHROMIUM: iwl7000: mac80211: move element parsing to a new file
-reproduce: (https://download.01.org/0day-ci/archive/20241213/202412130720.Qv8w4xma-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   ff5378fff024fcb2552e6da22811cf933fe4a4c0
+commit: d83dcc99d770b53e4839791fa2319c953fc6e42d [2579/2579] share_pool: Add proc interfaces to show sp info
+config: arm64-randconfig-004-20241213 (https://download.01.org/0day-ci/archive/20241213/202412130822.tSyyPsoM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241213/202412130822.tSyyPsoM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412130720.Qv8w4xma-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412130822.tSyyPsoM-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.73.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/config.h: 69: need linux/version.h
-   ./drivers/net/wireless/iwl7000/hdrs/kunit/visibility.h: 3 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/linux/acpi_amd_wbrf.h: 3 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/linux/math.h: 4 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h: 2321: need linux/version.h
-   ./drivers/net/wireless/iwl7000/hdrs/mac80211-exp.h: 177: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/cfg/22000.c: 433: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.c: 2535: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.h: 103: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-tm-gnl.c: 1244: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/d3.c: 3497: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/link.c: 304: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mac80211.c: 6595: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mvm.h: 2856: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/ops.c: 2330: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c: 2602: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/scan.c: 3408: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/vendor-cmd.c: 2418: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/backports.c: 557: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/cfg-utils.c: 255: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/cfg.c: 5439: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/debugfs.c: 735: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/driver-ops.h: 1719: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/ethtool.c: 284: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/ieee80211_i.h: 2725: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/iface.c: 2485: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/link.c: 502: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/main.c: 1854: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/mlme.c: 8757: need linux/version.h
->> ./drivers/net/wireless/iwl7000/mac80211/parse.c: 934: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/rx.c: 5551: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/scan.c: 1470: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/sta_info.c: 3037: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/status.c: 1302: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/tdls.c: 2097: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/tx.c: 6300: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/util.c: 4394: need linux/version.h
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./fs/incfs/integrity.c: 8 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   mm/share_pool.c:877:6: warning: no previous prototype for 'sp_proc_stat_drop' [-Wmissing-prototypes]
+     877 | void sp_proc_stat_drop(struct sp_proc_stat *stat)
+         |      ^~~~~~~~~~~~~~~~~
+   mm/share_pool.c:1108:6: warning: no previous prototype for 'spa_overview_show' [-Wmissing-prototypes]
+    1108 | void spa_overview_show(struct seq_file *seq)
+         |      ^~~~~~~~~~~~~~~~~
+   mm/share_pool.c:1190:6: warning: no previous prototype for 'spg_overview_show' [-Wmissing-prototypes]
+    1190 | void spg_overview_show(struct seq_file *seq)
+         |      ^~~~~~~~~~~~~~~~~
+   mm/share_pool.c:1322:12: warning: 'proc_overview_show' defined but not used [-Wunused-function]
+    1322 | static int proc_overview_show(struct seq_file *seq, void *offset)
+         |            ^~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:1279:12: warning: 'proc_stat_show' defined but not used [-Wunused-function]
+    1279 | static int proc_stat_show(struct seq_file *seq, void *offset)
+         |            ^~~~~~~~~~~~~~
+>> mm/share_pool.c:1215:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
+    1215 | static int spa_stat_show(struct seq_file *seq, void *offset)
+         |            ^~~~~~~~~~~~~
+   mm/share_pool.c:489:21: warning: 'spa_file' defined but not used [-Wunused-function]
+     489 | static struct file *spa_file(struct sp_area *spa)
+         |                     ^~~~~~~~
+   mm/share_pool.c:484:22: warning: 'spa_size' defined but not used [-Wunused-function]
+     484 | static unsigned long spa_size(struct sp_area *spa)
+         |                      ^~~~~~~~
+   mm/share_pool.c:408:13: warning: 'free_spg_stat' defined but not used [-Wunused-function]
+     408 | static void free_spg_stat(int spg_id)
+         |             ^~~~~~~~~~~~~
+   mm/share_pool.c:385:12: warning: 'sp_init_spg_stat' defined but not used [-Wunused-function]
+     385 | static int sp_init_spg_stat(struct sp_group *spg)
+         |            ^~~~~~~~~~~~~~~~
+   mm/share_pool.c:344:30: warning: 'sp_init_process_stat' defined but not used [-Wunused-function]
+     344 | static struct spg_proc_stat *sp_init_process_stat(struct task_struct *tsk,
+         |                              ^~~~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:266:13: warning: 'update_spg_proc_stat_k2u' defined but not used [-Wunused-function]
+     266 | static void update_spg_proc_stat_k2u(unsigned long size, bool inc,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:252:13: warning: 'update_spg_proc_stat_alloc' defined but not used [-Wunused-function]
+     252 | static void update_spg_proc_stat_alloc(unsigned long size, bool inc,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:222:13: warning: 'update_spg_stat_k2u' defined but not used [-Wunused-function]
+     222 | static void update_spg_stat_k2u(unsigned long size, bool inc,
+         |             ^~~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:200:13: warning: 'update_spg_stat_alloc' defined but not used [-Wunused-function]
+     200 | static void update_spg_stat_alloc(unsigned long size, bool inc,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/share_pool.c:27:
+   mm/share_pool.c:104:19: warning: 'sp_group_id_ida' defined but not used [-Wunused-variable]
+     104 | static DEFINE_IDA(sp_group_id_ida);
+         |                   ^~~~~~~~~~~~~~~
+   include/linux/idr.h:253:44: note: in definition of macro 'DEFINE_IDA'
+     253 | #define DEFINE_IDA(name)        struct ida name = IDA_INIT(name)
+         |                                            ^~~~
+   mm/share_pool.c:98:19: warning: 'sp_group_idr' defined but not used [-Wunused-variable]
+      98 | static DEFINE_IDR(sp_group_idr);
+         |                   ^~~~~~~~~~~~
+   include/linux/idr.h:56:44: note: in definition of macro 'DEFINE_IDR'
+      56 | #define DEFINE_IDR(name)        struct idr name = IDR_INIT(name)
+         |                                            ^~~~
+   mm/share_pool.c:81:18: warning: 'mdc_default_group_id' defined but not used [-Wunused-const-variable=]
+      81 | static const int mdc_default_group_id = 1;
+         |                  ^~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+
+
+vim +/spa_stat_show +1215 mm/share_pool.c
+
+  1214	
+> 1215	static int spa_stat_show(struct seq_file *seq, void *offset)
+  1216	{
+  1217		spg_overview_show(seq);
+  1218		spa_overview_show(seq);
+  1219		/* print the file header */
+  1220		seq_printf(seq, "%-10s %-16s %-16s %-10s %-7s %-5s %-8s %-8s\n",
+  1221			   "Group ID", "va_start", "va_end", "Size(KB)", "Type", "Huge", "PID", "Ref");
+  1222		rb_spa_stat_show(seq);
+  1223		return 0;
+  1224	}
+  1225	
 
 -- 
 0-DAY CI Kernel Test Service
