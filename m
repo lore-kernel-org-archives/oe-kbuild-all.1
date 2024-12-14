@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE69B1AB52F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 19:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECD118BC1D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 20:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734205753; cv=none; b=q9t6WwZF8HwPOM6QxE1oC+RJG69RMqQpnUyMP1d/DZC1pWZbDk3oBjG80Fgxsq5pbK95ILpdiRBD1WLiX0/quJG6PAMzt7hYO4smcE9XumBI2Bg9dLDVSXdfApQpdQAWFOl0rqIJO/vepIhbNlOFWaQjFuN+x0qVto5m9JITGrQ=
+	t=1734207030; cv=none; b=aPJNmcIvtmu8VO3DKrlvUJ/In/mR0FdKKbEvenya9Y1tGa5YgbnE+KCgrh4hyRXGxHFjUG6+wpX6bxeg6r66lUMJpyu9vIhSr2eIpV5xtNR/RGX7kCyOzaANu1EA0/Q7bWIU2eHX0wwin6U4Br7FEPWUQmMXhkUBqhALuP6pjOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734205753; c=relaxed/simple;
-	bh=DO54tKgS/xr7qXNmo3NSsmhnK0o9dObJ3wgF5YAdPbg=;
+	s=arc-20240116; t=1734207030; c=relaxed/simple;
+	bh=7wRh44lEbOsNAGpgKHXFd0LWwMlXYocpApIs0XtS/gc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sOkstV/GzGGXanHncghLJ4z0AGgXEj8XoRRScNAZhP5ceRtviacLhB+PSkBQliivSVP7n5nlWlzD0dSqKIAqJHwrQDGSYh9oURqTWLAKayLqIT+9Cs1/nRsnr3qnIzmsa8j+4ZCGtK4Ya4XaHIKljaLxHgj3mhj3yMbNFM1prro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3bz3r2S; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Y2npm6aGM+8b/7cSbgBtxTZzDLcXstTBQ99wdCmjM5bukyz7DBlGGr6iPkuQ4mWB2wGIT+GDlm8vTHhYQVtuHfEPXCun3YeP3mMIAUrRWW1uGR4cp+YtUqB72f0OLghx8vKu5SJOE+UsSBPoJI0kEWetHvA8LItY163yOu+BOXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=esCXl2if; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3bz3r2S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="esCXl2if"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734205751; x=1765741751;
+  t=1734207028; x=1765743028;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DO54tKgS/xr7qXNmo3NSsmhnK0o9dObJ3wgF5YAdPbg=;
-  b=Q3bz3r2S1a/fzqAsgfgQvszGnYplkYU3B9CtA8QGpJeIztNslP7Mq1Gh
-   DN3HtyqKiVdBkHSVjuytd6rWVkLoIZrcP1ZdWtLBo7NRJI6ndzngr5eQe
-   KS9ShXtkyTJv2hiawyTLW6Trkv1vrETGs0DMMzUbLLT5kwHxCjMF+7iLu
-   hmd3gPpuz1IQ4YUzRx7SdDzDfJPBhWVFRFSpVmctSl1ZhAbjZ/1kPrxKl
-   1Ti/xwzW7+LCdc//mGPRpMB9vsXVRc9KsCtQr704l0eY1/8LEHlhekKbS
-   RNPG/PI/AKdOuEg+zZVQwPRDZC2/g6/1JIPxgt/smDAIYeRdBMMwpiRNm
-   Q==;
-X-CSE-ConnectionGUID: J2FXPUpiQk+35+OSB8qgTQ==
-X-CSE-MsgGUID: drtCjKRVTJaK8DO+5C6BlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="33965420"
+  bh=7wRh44lEbOsNAGpgKHXFd0LWwMlXYocpApIs0XtS/gc=;
+  b=esCXl2if2z8ZuJ2WWmepyESgS0n8WnhUuK1x8tr63aXxQOeoEqQgHQ3J
+   HYX/g9PY1W66LIcduicec5hkAaZhW9HMjC8UoR0DiSVDwrRSVGWcDeKKB
+   LCRaoNczZnvHPbK/3ox2QYpta5PUNBGqqxUmpjr0UquvQsp5bbHv3GEND
+   42NqVpqEjAVLJw4gA3FJDBuF20VmuumP1LDGclsC8MNIoYd+L2MTxn/ix
+   iON45EnNhkhSOStCOVnAfJ6A1+7bD2tzxC4bf/5zfob/5UbuMXtsNbmSS
+   +/zaNmttfNi09D1IwErk7oqeESRDCJYgGthR4whdrEJlXBdpgkVlxdDQ3
+   A==;
+X-CSE-ConnectionGUID: 1t4mP2I7TCmjMqa50dvsHw==
+X-CSE-MsgGUID: s652xKiLQKmYSmkq0b6Jkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45241523"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="33965420"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 11:49:09 -0800
-X-CSE-ConnectionGUID: rE2u5D0iSOOP379ywjrt4w==
-X-CSE-MsgGUID: SO5p7X76TRKgosM49KGPVA==
+   d="scan'208";a="45241523"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 12:10:26 -0800
+X-CSE-ConnectionGUID: R4udeh9HSZGi9iLW60zB2w==
+X-CSE-MsgGUID: LE+MhUZSTKm4zFIufw6oXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="96582196"
+   d="scan'208";a="96705753"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Dec 2024 11:49:07 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 14 Dec 2024 12:10:25 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMY8P-000DBR-2D;
-	Sat, 14 Dec 2024 19:49:05 +0000
-Date: Sun, 15 Dec 2024 03:48:09 +0800
+	id 1tMYT0-000DC3-2r;
+	Sat, 14 Dec 2024 20:10:22 +0000
+Date: Sun, 15 Dec 2024 04:09:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 7344/7391]
- kernel/sched/core.c:7098:11: error: call to undeclared function
- 'is_cpu_allowed'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202412150358.ZcEXCTac-lkp@intel.com>
+Subject: [android-common:android16-6.12 7224/7241]
+ kernel/sched/core.c:7098:18: error: implicit declaration of function
+ 'is_cpu_allowed'; did you mean 'cpuset_cpus_allowed'?
+Message-ID: <202412150413.aqf70Wts-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,54 +63,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   979e6f6aa3c78b92ad965d072eddc53477a84fb6
-commit: e4239ea599c633d8a2bc0440ffd64f96a7bfac1c [7344/7391] ANDROID: sched: Handle blocked-waiter migration (and return migration)
-config: i386-randconfig-141-20241215 (https://download.01.org/0day-ci/archive/20241215/202412150358.ZcEXCTac-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150358.ZcEXCTac-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   39fc9c68b13a226d44263bb908cccf8783e34d6e
+commit: e4239ea599c633d8a2bc0440ffd64f96a7bfac1c [7224/7241] ANDROID: sched: Handle blocked-waiter migration (and return migration)
+config: x86_64-randconfig-161-20241215 (https://download.01.org/0day-ci/archive/20241215/202412150413.aqf70Wts-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150413.aqf70Wts-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412150358.ZcEXCTac-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412150413.aqf70Wts-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/core.c:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/sched/core.c:7098:11: error: call to undeclared function 'is_cpu_allowed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   In file included from arch/x86/include/asm/bug.h:99,
+                    from include/linux/bug.h:5,
+                    from include/linux/jump_label.h:280,
+                    from include/linux/static_key.h:1,
+                    from arch/x86/include/asm/nospec-branch.h:6,
+                    from arch/x86/include/asm/irqflags.h:9,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from kernel/sched/core.c:10:
+   kernel/sched/core.c: In function 'find_proxy_task':
+>> kernel/sched/core.c:7098:18: error: implicit declaration of function 'is_cpu_allowed'; did you mean 'cpuset_cpus_allowed'? [-Werror=implicit-function-declaration]
     7098 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
-         |                  ^
-   kernel/sched/core.c:7098:32: error: no member named 'wake_cpu' in 'struct task_struct'
-    7098 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
-         |                                    ~  ^
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
+         |                  ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
      123 |         int __ret_warn_on = !!(condition);                              \
          |                                ^~~~~~~~~
-   kernel/sched/core.c:7099:9: error: no member named 'wake_cpu' in 'struct task_struct'
+   kernel/sched/core.c:7098:39: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
+    7098 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
+         |                                       ^~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   kernel/sched/core.c:7099:16: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
     7099 |         if (p->wake_cpu == this_cpu) {
-         |             ~  ^
-   kernel/sched/core.c:7112:35: error: no member named 'wake_cpu' in 'struct task_struct'
+         |                ^~~~~~~~
+         |                wake_q
+   kernel/sched/core.c:7112:42: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
     7112 |         proxy_migrate_task(rq, rf, p, p->wake_cpu);
-         |                                       ~  ^
-   kernel/sched/core.c:7267:4: error: call to undeclared function 'zap_balance_callbacks'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                          ^~~~~~~~
+         |                                          wake_q
+   kernel/sched/core.c: In function '__schedule':
+   kernel/sched/core.c:7267:25: error: implicit declaration of function 'zap_balance_callbacks'; did you mean 'balance_callbacks'? [-Werror=implicit-function-declaration]
     7267 |                         zap_balance_callbacks(rq);
-         |                         ^
-   kernel/sched/core.c:7267:4: note: did you mean '__balance_callbacks'?
-   kernel/sched/core.c:5288:20: note: '__balance_callbacks' declared here
-    5288 | static inline void __balance_callbacks(struct rq *rq)
-         |                    ^
-   1 warning and 5 errors generated.
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+         |                         balance_callbacks
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MEDIA_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
 
 
-vim +/is_cpu_allowed +7098 kernel/sched/core.c
+vim +7098 kernel/sched/core.c
 
   6913	
   6914	/*
