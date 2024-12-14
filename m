@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F148E1CD2C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 13:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F9D18D62A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 13:09:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734181777; cv=none; b=X0h+XagJDkujaqscztIrXGeI+aGQvuaR+oLOpLimlJtgUKkgfqsCCv00TuCkyHcJpk5pGuA8Grub4v1IuHWylrgqLEXlQu/Qp6V3aYoxJRBaQAxHeGNSwp4p9rSXJL5E+QtqbYkjlSrWfMLb4O6tvOLtLksBnU1WWdT0mEE/Weo=
+	t=1734181779; cv=none; b=S7Pd4huwdbdXzMb9bxAUgCfIn86+l/DZ4V7sxMNZn2kirtsHoBAXjQTzj0zJqBPata+brRowYyHVQ4prQsoTnygQDdjLk7vA2Ysw2021QKtguvooUJII9zymVMzI7SkHVn11ExI8GAwp5H0EIJYkFQTFOArnDzI5fLgmfCrbaZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734181777; c=relaxed/simple;
-	bh=BFBC9bgLymTblvzTUIPN4DpLB8Y8d1DiCOYacHej91s=;
+	s=arc-20240116; t=1734181779; c=relaxed/simple;
+	bh=jEWknwSgCst38hAB3HH7zldhb+SwKim9x7vDnJTLSVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T72oIJc39dhY7jDX3x97CoAUVEdE0TXma3VeDbipPrZ7puOvqYn7WVNXCg1QzRdaJ8Dyh88Fq/paIXaIDvADFd4GRMpGKqP3PNT/y3zbNTqtUhOgYh+q77nOqeo8Y6kgNaa366e7ouyXp7+wxkcs33f85YdSYVdyEpqN9peHrFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ad89dfb7; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=JPIHl+EQEehGN6zrQvVoSB4bopFYwmmxvGLSIZ6SpQ2C7xt6aqEMhtSPzUvr+dPWK0sm0gYlR5+OWxnvitH3i80gWO/tPUurfCFWyVm47KrcLDvsLCGjsguYe+GjQr21qKSBwPYC+AWA/+YznQrXVGyoJ77/pG8kXHlxOY6JKjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqOHL2JW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ad89dfb7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqOHL2JW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734181775; x=1765717775;
+  t=1734181777; x=1765717777;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BFBC9bgLymTblvzTUIPN4DpLB8Y8d1DiCOYacHej91s=;
-  b=ad89dfb7Au5bjHPcI8K+BnDVkUW4B8N9XeeJMT3RfhPRzovsBNvTWomZ
-   Z+x72Gp66RvoANHDNfsXsRfkZJYIbcFR+ICeXBJM7xjJ3RHh2F22ChVr1
-   p6madmXdXAIRqj5ihM1sAc7lbdC97E/lZ8QtM/e22RRuNfkmE+QBuAO4O
-   3TKz/1A4iIGwmf1wX8n+37ZgstLgrHWIJ/FUo2e9mqeQKYHgB5QhKqe0e
-   DyDI20f2yc2gZzOIBxZrynOy5UaUasrUw+/kH8YkBtmC59+xw39kcirGH
-   VyTtBy+sloq/sPLa+bdP/9ZbURbb3hArVx0PZEZoBORlXlyW42Q0J+9KO
-   g==;
-X-CSE-ConnectionGUID: cJ5/lLI1SG+VBolK4TxRcw==
-X-CSE-MsgGUID: QbB29vZCT6SD4C77RIRFIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34771610"
+  bh=jEWknwSgCst38hAB3HH7zldhb+SwKim9x7vDnJTLSVM=;
+  b=AqOHL2JWkAsGPL2Am22rf0t0tlXyMGzXdQHlyoW/W2c/kOEPRNWrwzh2
+   vdz+SzUuoLzEFQqjFvoqjfLKp7uUeb1MRky5KwB4shIa4JUbUXJ9nIDEl
+   GCQz4lDmkKEkbHWrH7HV3hrnB3/FM/3sAdFjG4kMdQHLnxouXkz18UwHM
+   R+hkNBXqXT+42oucGLL0pPyDMwjmaPm+GBKkYGnzUXTpmFdb7Uzc0Uwxc
+   seyksEfb8iizGadW1UOmjo1Gu1N3lpNYESJRg7WSdpsIu0N6kQszVa3cT
+   OCBEaoICypTOUzObTRiRKYy8LaLEbYuG217pVKDztRo6AAzjMNpFK66Qu
+   Q==;
+X-CSE-ConnectionGUID: fikUoYJwRKmai52yZwZakQ==
+X-CSE-MsgGUID: XLnV79CDSVi1vYA03fBcHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34771611"
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="34771610"
+   d="scan'208";a="34771611"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 05:09:34 -0800
-X-CSE-ConnectionGUID: spC9rXqHTra5/VaWxkfXCw==
-X-CSE-MsgGUID: 0cpPGjVpSb2a9pXqt5YbcQ==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 05:09:35 -0800
+X-CSE-ConnectionGUID: uxnr5IthScSlwi04JR4EzA==
+X-CSE-MsgGUID: Y4OZ7rBcTNKBsd1zbv2hOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="97016320"
+   d="scan'208";a="97016318"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 14 Dec 2024 05:09:33 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMRtj-000Cwf-1m;
+	id 1tMRtj-000Cwi-1q;
 	Sat, 14 Dec 2024 13:09:31 +0000
-Date: Sat, 14 Dec 2024 21:08:41 +0800
+Date: Sat, 14 Dec 2024 21:09:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 38/40] drivers/hid/hid-himax.c:5345:35:
- warning: 'himax_spi_id' defined but not used
-Message-ID: <202412142013.0V3kFuCJ-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1613/1613]
+ drivers/video/fbdev/ls2k500sfb.c:143:27: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202412142141.pKNBHdWI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,34 +63,294 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   dccc901bd5fe4dba6ee0f15af2be9ed3bd78a8ff
-commit: 95761e94632784b706c0af113dfe08ab97f85e7e [38/40] CHROMIUM: HID: hid-himax: Add spi_device_id
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20241214/202412142013.0V3kFuCJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412142013.0V3kFuCJ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   d68dc6ee371ec5466be9b2d76bdca0b360940adc
+commit: 8248d42b7c5f4338a54f26d8efebec8614b43466 [1613/1613] fbdev: add ls2k500sfb driver for ls2k500 bmc.
+config: loongarch-randconfig-r111-20241210 (https://download.01.org/0day-ci/archive/20241214/202412142141.pKNBHdWI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241214/202412142141.pKNBHdWI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412142013.0V3kFuCJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412142141.pKNBHdWI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/video/fbdev/ls2k500sfb.c:143:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *static p @@     got void [noderef] __iomem * @@
+   drivers/video/fbdev/ls2k500sfb.c:143:27: sparse:     expected void *static p
+   drivers/video/fbdev/ls2k500sfb.c:143:27: sparse:     got void [noderef] __iomem *
+>> drivers/video/fbdev/ls2k500sfb.c:145:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *static p @@
+   drivers/video/fbdev/ls2k500sfb.c:145:30: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:145:30: sparse:     got void *static p
+>> drivers/video/fbdev/ls2k500sfb.c:199:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *static p @@
+   drivers/video/fbdev/ls2k500sfb.c:199:36: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:199:36: sparse:     got void *static p
+>> drivers/video/fbdev/ls2k500sfb.c:201:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:201:37: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:201:37: sparse:     got void *
+>> drivers/video/fbdev/ls2k500sfb.c:254:13: sparse: sparse: symbol 'ls2k500sfb_interrupt' was not declared. Should it be static?
+   drivers/video/fbdev/ls2k500sfb.c:320:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:320:22: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:320:22: sparse:     got void *
+>> drivers/video/fbdev/ls2k500sfb.c:320:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:320:49: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:320:49: sparse:     got void *
+   drivers/video/fbdev/ls2k500sfb.c:321:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:321:22: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:321:22: sparse:     got void *
+   drivers/video/fbdev/ls2k500sfb.c:321:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:321:53: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:321:53: sparse:     got void *
+   drivers/video/fbdev/ls2k500sfb.c:322:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:322:22: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:322:22: sparse:     got void *
+   drivers/video/fbdev/ls2k500sfb.c:322:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:322:53: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:322:53: sparse:     got void *
+   drivers/video/fbdev/ls2k500sfb.c:323:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:323:22: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:323:22: sparse:     got void *
+   drivers/video/fbdev/ls2k500sfb.c:323:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/video/fbdev/ls2k500sfb.c:323:51: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:323:51: sparse:     got void *
+>> drivers/video/fbdev/ls2k500sfb.c:456:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char *preg @@
+   drivers/video/fbdev/ls2k500sfb.c:456:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:456:28: sparse:     got char *preg
+>> drivers/video/fbdev/ls2k500sfb.c:457:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char *preg @@
+   drivers/video/fbdev/ls2k500sfb.c:457:32: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/video/fbdev/ls2k500sfb.c:457:32: sparse:     got char *preg
+>> drivers/video/fbdev/ls2k500sfb.c:569:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char *penv @@     got void [noderef] __iomem * @@
+   drivers/video/fbdev/ls2k500sfb.c:569:19: sparse:     expected char *penv
+   drivers/video/fbdev/ls2k500sfb.c:569:19: sparse:     got void [noderef] __iomem *
+>> drivers/video/fbdev/ls2k500sfb.c:570:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char *preg @@     got void [noderef] __iomem * @@
+   drivers/video/fbdev/ls2k500sfb.c:570:19: sparse:     expected char *preg
+   drivers/video/fbdev/ls2k500sfb.c:570:19: sparse:     got void [noderef] __iomem *
+   drivers/video/fbdev/ls2k500sfb.c:671:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char *penv @@     got void [noderef] __iomem * @@
+   drivers/video/fbdev/ls2k500sfb.c:671:14: sparse:     expected char *penv
+   drivers/video/fbdev/ls2k500sfb.c:671:14: sparse:     got void [noderef] __iomem *
+   drivers/video/fbdev/ls2k500sfb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> drivers/hid/hid-himax.c:5345:35: warning: 'himax_spi_id' defined but not used [-Wunused-const-variable=]
-    5345 | static const struct spi_device_id himax_spi_id[] = {
-         |                                   ^~~~~~~~~~~~
+vim +143 drivers/video/fbdev/ls2k500sfb.c
 
-
-vim +/himax_spi_id +5345 drivers/hid/hid-himax.c
-
-  5344	
-> 5345	static const struct spi_device_id himax_spi_id[] = {
-  5346		{ "hx83102j" },
-  5347		{ },
-  5348	};
-  5349	MODULE_DEVICE_TABLE(spi, himax_spi_id);
-  5350	
+   113	
+   114	static void ls2k500sfb_events_fn(struct work_struct *work)
+   115	{
+   116		struct ls2k500sfb_struct *priv = container_of(work, struct ls2k500sfb_struct, work);
+   117		struct pci_dev *pdev = priv->dev;
+   118		struct pci_dev *ppdev = pdev->bus->self;
+   119		uint32_t i, d, timeout, retry = 0;
+   120		static const uint32_t index[] = {
+   121			0x10, 0x14, 0x18, 0x1c, 0x20, 0x24, 0x30, 0x3c, 0x54, 0x58, 0x78, 0x7c, 0x80, 4
+   122		};
+   123	
+   124		static uint32_t data[sizeof(index) / 4];
+   125		static const uint32_t cindex[] = { 0x10, 0x3c, 4 };
+   126	
+   127		static uint32_t cdata[sizeof(cindex) / 4];
+   128		static uint32_t d80c, d71c, ctrl;
+   129		static void *p;
+   130	
+   131		if (!priv->running) {
+   132			for (i = 0; i < ARRAY_SIZE(index); i++)
+   133				pci_read_config_dword(ppdev, index[i], &data[i]);
+   134			for (i = 0; i < ARRAY_SIZE(cindex); i++)
+   135				pci_read_config_dword(pdev, cindex[i], &cdata[i]);
+   136			if (ppdev->vendor == 0x14) {
+   137				pci_read_config_dword(ppdev, 0x80c, &d80c);
+   138				d80c = (d80c & ~(3 << 17)) | (1 << 17);
+   139	
+   140				pci_read_config_dword(ppdev, 0x71c, &d71c);
+   141				d71c |= 1 << 26;
+   142	
+ > 143				p = pci_iomap(ppdev, 0, 0x100);
+   144			}
+ > 145			ctrl = readl(p);
+   146			return;
+   147		}
+   148		local_bh_disable();
+   149		pciebreak_smp_send_stop(100);
+   150		wmb(); /* flush all write before we disable pcie window */
+   151		pci_write_config_dword(ppdev, 0x18, 0);
+   152		pci_write_config_dword(ppdev, 0x1c, 0);
+   153		pci_write_config_dword(ppdev, 0x20, 0);
+   154		atomic_set(&waiting_for_pciebreak_ipi, 0);
+   155		wmb(); /* flush all write after change pcie window */
+   156		local_bh_enable();
+   157		if (ppdev->vendor == 0x14) {
+   158			timeout = 10000;
+   159			while (timeout) {
+   160				pci_read_config_dword(ppdev, 0x10, &d);
+   161				d &= ~0xf;
+   162				if (!d)
+   163					break;
+   164				mdelay(1);
+   165				timeout--;
+   166			};
+   167			if (!timeout)
+   168				pr_info("bar not clear 0\n");
+   169	
+   170			pci_read_config_dword(ppdev, 0x0, &d);
+   171			pr_info("pcie port deviceid=0x%x recover begin\n", d);
+   172	retrain:
+   173			while (1) {
+   174				pci_write_config_dword(ppdev, index[0], data[0]);
+   175				pci_read_config_dword(ppdev, index[0], &d);
+   176				d &= ~0xf;
+   177				if (d)
+   178					break;
+   179				mdelay(1);
+   180			}
+   181	
+   182			while (1) {
+   183				for (i = 0; i < ARRAY_SIZE(index); i++) {
+   184					if (index[i] != 0x18 && index[i] != 0x1c && index[i] != 0x20)
+   185						pci_write_config_dword(ppdev, index[i], data[i]);
+   186				}
+   187				pci_write_config_dword(ppdev, 0x80c, d80c);
+   188				pci_write_config_dword(ppdev, 0x71c, d71c);
+   189	
+   190				pci_read_config_dword(ppdev, 0x10, &d);
+   191				d &= ~0xf;
+   192				if (d)
+   193					break;
+   194				mdelay(1);
+   195			}
+   196	
+   197			timeout = 10000;
+   198	
+ > 199			writel(ctrl | 0x8, p);
+   200			while (1) {
+ > 201				d = readl(p + 0xc);
+   202				if ((d & 0x11) == 0x11) {
+   203					break;
+   204				} else if (!timeout) {
+   205					pr_info("pcie train failed status=0x%x\n", d);
+   206					goto out;
+   207				}
+   208				mdelay(1);
+   209				timeout--;
+   210			}
+   211	
+   212	
+   213			pr_info("pcie recovered done\n");
+   214	
+   215			if (!retry) {
+   216				/*wait u-boot ddr config */
+   217				set_current_state(TASK_UNINTERRUPTIBLE);
+   218				schedule_timeout(HZ*resetbootwait);
+   219				set_current_state(TASK_RUNNING);
+   220				pci_read_config_dword(ppdev, 0x10, &d);
+   221				d &= ~0xf;
+   222				if (!d) {
+   223					retry = 1;
+   224					goto retrain;
+   225				}
+   226			}
+   227		} else {
+   228			set_current_state(TASK_UNINTERRUPTIBLE);
+   229			schedule_timeout(HZ*resetbootwait);
+   230			set_current_state(TASK_RUNNING);
+   231		}
+   232		local_bh_disable();
+   233		pciebreak_smp_send_stop(10000);
+   234		wmb(); /* flush all write before we update pcie window */
+   235		for (i = 0; i < ARRAY_SIZE(index); i++)
+   236			pci_write_config_dword(ppdev, index[i], data[i]);
+   237	
+   238		for (i = 0; i < ARRAY_SIZE(cindex); i++)
+   239			pci_write_config_dword(pdev, cindex[i], cdata[i]);
+   240		atomic_set(&waiting_for_pciebreak_ipi, 0);
+   241		wmb(); /* flush all write after we update pcie window */
+   242		local_bh_enable();
+   243	
+   244	
+   245		pr_info("redraw console\n");
+   246	
+   247		saved_console = fg_console;
+   248		switch_console(fg_console > 0?fg_console - 1 : fg_console + 1);
+   249		queue_delayed_work(priv->wq, &priv->redraw_work, HZ);
+   250	out:
+   251		priv->running = 0;
+   252	}
+   253	
+ > 254	irqreturn_t ls2k500sfb_interrupt(int irq, void *arg)
+   255	{
+   256		struct ls2k500sfb_struct *priv = arg;
+   257		struct pci_dev *pdev = priv->dev;
+   258	
+   259		if (irq == pdev->irq)
+   260			pr_info("ls2k500sfb pcie interrupt\n");
+   261		else
+   262			pr_info("ls2k500sfb gpio interrupt\n");
+   263		if (system_state != SYSTEM_RUNNING)
+   264			return IRQ_HANDLED;
+   265	
+   266		if (!priv->running) {
+   267			if (!resetdelay || time_after(jiffies, priv->reset_time + resetdelay * HZ)) {
+   268				priv->running = 1;
+   269				queue_work(priv->wq, &priv->work);
+   270			}
+   271			priv->reset_time = jiffies;
+   272		}
+   273		return IRQ_HANDLED;
+   274	}
+   275	
+   276	#ifdef CONFIG_LOONGARCH
+   277	#define GPIO_OEN ((void *)IO_BASE+0x1fe00000+0x500)
+   278	#define GPIO_FUNCEN ((void *)IO_BASE+0x1fe00000+0x504)
+   279	#define GPIO_OUT ((void *)IO_BASE+0x1fe00000+0x508)
+   280	#define GPIO_IN ((void *)IO_BASE+0x1fe00000+0x50c)
+   281	#define GPIO_INTPOL ((void *)IO_BASE+0x1fe00000+0x510)
+   282	#define GPIO_INTEN ((void *)IO_BASE+0x1fe00000+0x514)
+   283	
+   284	static int gpiochip_match_name(struct gpio_chip *chip, void *data)
+   285	{
+   286		const char *name = data;
+   287	
+   288		return !strcmp(chip->label, name);
+   289	}
+   290	static int get_gpio_irq_from_acpi_table(int gpio)
+   291	{
+   292		struct gpio_chip *chip;
+   293		struct gpio_desc *desc;
+   294	
+   295		chip = gpiochip_find("LOON0007:00", gpiochip_match_name);
+   296		if (!chip)
+   297			return -ENOENT;
+   298		desc = gpiochip_request_own_desc(chip, gpio, "reboot", GPIO_LOOKUP_FLAGS_DEFAULT, GPIOD_IN);
+   299		if (!desc)
+   300			return -ENOENT;
+   301		return gpiod_to_irq(desc);
+   302	}
+   303	
+   304	static int get_gpio_irq_from_acpi_gsi(int gpio)
+   305	{
+   306		int gsi = 16 + (gpio & 7);
+   307	
+   308		return  acpi_register_gsi(NULL, gsi, ACPI_EDGE_SENSITIVE, ACPI_ACTIVE_LOW);
+   309	}
+   310	
+   311	static int register_gpio_reboot_handler(struct ls2k500sfb_struct *priv)
+   312	{
+   313		int irq = get_gpio_irq_from_acpi_table(GPIO);
+   314	
+   315		if (irq < 0) {
+   316			irq = get_gpio_irq_from_acpi_gsi(GPIO);
+   317			pr_notice("gsi gpio irq %d\n", irq);
+   318		} else
+   319			pr_notice("acpi gpio irq %d\n", irq);
+ > 320		writel(readl(GPIO_OEN) | (0x1 << GPIO), GPIO_OEN);
+   321		writel(readl(GPIO_FUNCEN) & ~(0x1 << GPIO), GPIO_FUNCEN);
+ > 322		writel(readl(GPIO_INTPOL) & ~(0x1 << GPIO), GPIO_INTPOL);
+ > 323		writel(readl(GPIO_INTEN) | (0x1 << GPIO), GPIO_INTEN);
+   324		if (request_irq(irq, ls2k500sfb_interrupt, IRQF_SHARED | IRQF_TRIGGER_FALLING,
+   325					"ls2k500sfb", priv))
+   326			pr_err("request_irq(%d) failed\n", irq);
+   327		return 0;
+   328	}
+   329	#endif
+   330	
 
 -- 
 0-DAY CI Kernel Test Service
