@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ADF18BC1D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 17:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A37194C78;
+	Sat, 14 Dec 2024 18:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734198623; cv=none; b=ojmsebZulvVcFvZTNJZ2PmPRQ6vxG+ZVr91F7tp6PYRrTZq49AKdyYuXELPDcDSav+ANlDlJzQtHxQ0DDNyPorBUnAHFziOaRFmZmQOhPJk/ZVqZxgGz4t0H4NpRV6t+IL7mGeEwhoFvFiPzThnX8JDY/zj6u+RN6zz8SWYdc8k=
+	t=1734199945; cv=none; b=o2gbQr1byfkC0VfUZ+iE4zYYVVLfTu8JmE/+TgFqzDLB4E6s4m3pFuyciKXD1mF8tm9Z4VGkHYKM76ABk+34Ir1NnOUMYaMM8BCHDtzWa3kwbjFsNysX2rbS4eoHTJMEpivN7V6qVkQHTlEO02UiB2Ml2ww7JntLXuvsUXcmZko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734198623; c=relaxed/simple;
-	bh=D4VO2jyfhbDsyOHKRiP8GcMIXhy2nGsmJqk3u8/tfRk=;
+	s=arc-20240116; t=1734199945; c=relaxed/simple;
+	bh=wvNSU08Uir7uL0JVcgzofbXSGpZbOQZ79FmdsPkwU5Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kKrrLgc41EySfRmRkPPpxnmf0iWwNyDnthJxOI/lQUxB6H5oW9mf9vTEQDLkrDoMf2xOEy9fydq1QOcJOQhDqDqZVvKtaTBE5yNK2ckaQQnz5j5ItuhL8eSRrIaSBIseMvsIjQoi5WL37+wjQ1idnBUOhIdbvFYFRwiIUaA+PrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SVoob+uJ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=IVqHajbgJz17nUimkELFPSe+7fM5YKxL2T2MDXfSZ4a4/Sp1C68NNgcXeim3PlECYzN7jT/p6YpGWuXwyOkpD2f32G20zUqj5ODRgt/AY0ZMqeJqyRtrwjiMLle8+A2coh+ZucUJLcAZj5gSk2hLXcagIw13sVQJBsu6ZkWp4Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hg1Tov7K; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SVoob+uJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hg1Tov7K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734198621; x=1765734621;
+  t=1734199944; x=1765735944;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D4VO2jyfhbDsyOHKRiP8GcMIXhy2nGsmJqk3u8/tfRk=;
-  b=SVoob+uJiPjTwQDVHAUUV+C9ylRBNe/QzGrchDhcIEkMvNEp/iGu4auG
-   fCxDVKV5otItevYV6RQEhc0SkyydbzgB64YwDbI2fzXTvswrYR4ZLspTF
-   MVtzIRmN3LfcGvI5UrZWO7mNn85rLJVFm0UER2HYz9axNkSxG+B8Pt7W3
-   8SxIkxU1T5nAd8heBvTzOjA6LWdljKROEoVbaE46tJAb+7sL49MAM9P4t
-   fUIJl0s27mJ8SHUXyujxGJphwR4WFP2vOmudGSrfohYnkuDhgsKdL4A2U
-   MJT3DR/cQ3jHvAJcCu6Kfx3VJxn8WKIMgS3m+qxoaIWkTD6wIk6y0COXF
-   w==;
-X-CSE-ConnectionGUID: QsyQtLV+QWqlHLRxejdtjQ==
-X-CSE-MsgGUID: rLae+zsqQyeWWX9LDqhdnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="22224089"
+  bh=wvNSU08Uir7uL0JVcgzofbXSGpZbOQZ79FmdsPkwU5Y=;
+  b=Hg1Tov7Kmvln2d0jdpPeK8vYXLCZVQemWXm8p2vjo4GRvg820AibHl0k
+   3uAIT6oiIGiByrGIsL+vtrhk/HXLgZ2ObNZokikwURf49nB9cuqzSjaSU
+   sHHzi4ayPvumKAgtrohs107uq5MK5YxWhbXplg/XAPZFNSU3E9lSo/lxF
+   FH56rKXDmXP0UJ2/37NtFrCV2oa3dijlL0hTHSsGrY1nd7538jfRpM14O
+   8wu8tPcaLgdu/enG6CGN5zjGDwZQ4ltHL0AVdQRCaocsxoQb0N/pCP05p
+   rUb/gxSCD9+eKAfqp9/ONDea7JBVtr0yMIY7hr2ssC/2kAw6Ens8rA1tM
+   g==;
+X-CSE-ConnectionGUID: bNLfRnDaSQKQ596ZJRl3/A==
+X-CSE-MsgGUID: XWlahMiTSyegzlbVJV3ERg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45324590"
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="22224089"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 09:50:21 -0800
-X-CSE-ConnectionGUID: AswjQISuSvew9Puz/T2wwg==
-X-CSE-MsgGUID: sRyhqB5tSeWYuB3jYVl0pw==
+   d="scan'208";a="45324590"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 10:12:23 -0800
+X-CSE-ConnectionGUID: n/7A5c9SSSuYNEvNmUxR7Q==
+X-CSE-MsgGUID: AJk3vUTAQq2A8O/mq/lezg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="97374762"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="96675033"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Dec 2024 09:50:20 -0800
+  by orviesa010.jf.intel.com with ESMTP; 14 Dec 2024 10:12:22 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMWHR-000D7b-1j;
-	Sat, 14 Dec 2024 17:50:17 +0000
-Date: Sun, 15 Dec 2024 01:49:22 +0800
+	id 1tMWcl-000D83-2R;
+	Sat, 14 Dec 2024 18:12:19 +0000
+Date: Sun, 15 Dec 2024 02:11:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hui Tang <tanghui20@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1613/1613] kernel/sched/fair.c:175:5: sparse:
- sparse: symbol 'sysctl_sched_util_low_pct' was not declared. Should it be
- static?
-Message-ID: <202412150117.ww1cPcQk-lkp@intel.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:ipsec-fixes 5/5]
+ drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec_fs.c:1758:10: error:
+ incompatible pointer types assigning to '__be32 *' (aka 'unsigned int *')
+ from '__be32 (*)[4]' (aka 'unsigned int (*)[4]')
+Message-ID: <202412150253.vejuRmav-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +64,164 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d68dc6ee371ec5466be9b2d76bdca0b360940adc
-commit: 2e1dfc02d115143587ccfee1815ad295763050f2 [1613/1613] sched: Adjust wakeup cpu range according CPU util dynamicly
-config: loongarch-randconfig-r111-20241210 (https://download.01.org/0day-ci/archive/20241215/202412150117.ww1cPcQk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241215/202412150117.ww1cPcQk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git ipsec-fixes
+head:   839c93393a929a87810d251d9994d1a5a069bc3f
+commit: 839c93393a929a87810d251d9994d1a5a069bc3f [5/5] net/mlx5: Rely on reqid and destination address in IPsec tunnel mode
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241215/202412150253.vejuRmav-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150253.vejuRmav-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412150117.ww1cPcQk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412150253.vejuRmav-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/fair.c:175:5: sparse: sparse: symbol 'sysctl_sched_util_low_pct' was not declared. Should it be static?
-   kernel/sched/fair.c:1256:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1256:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1256:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12740:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12740:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12740:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6633:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6633:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:6633:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:7964:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7964:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:7964:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8258:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8258:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8258:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8367:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8367:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8367:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8941:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8941:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8941:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9934:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:9934:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:9934:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:10571:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:10571:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:10571:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:12012:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12012:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12012:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11669:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11669:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11669:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12108:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12108:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12108:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   kernel/sched/fair.c:6555:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2145:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2309:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2309:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2309:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2145:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2145:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2145:25: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +/sysctl_sched_util_low_pct +175 kernel/sched/fair.c
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec_fs.c:4:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec_fs.c:1758:10: error: incompatible pointer types assigning to '__be32 *' (aka 'unsigned int *') from '__be32 (*)[4]' (aka 'unsigned int (*)[4]') [-Werror,-Wincompatible-pointer-types]
+    1758 |                         saddr = &attrs->saddr.a6;
+         |                               ^ ~~~~~~~~~~~~~~~~
+   4 warnings and 1 error generated.
 
-   168	
-   169	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
-   170	/*
-   171	 * Low utilization threshold for CPU
-   172	 *
-   173	 * (default: 85%), units: percentage of CPU utilization)
-   174	 */
- > 175	int sysctl_sched_util_low_pct = 85;
-   176	#endif
-   177	
+
+vim +1758 drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec_fs.c
+
+  1723	
+  1724	static int tx_add_rule(struct mlx5e_ipsec_sa_entry *sa_entry)
+  1725	{
+  1726		struct mlx5_accel_esp_xfrm_attrs *attrs = &sa_entry->attrs;
+  1727		struct mlx5_core_dev *mdev = mlx5e_ipsec_sa2dev(sa_entry);
+  1728		struct mlx5e_ipsec *ipsec = sa_entry->ipsec;
+  1729		struct mlx5_flow_destination dest[2];
+  1730		struct mlx5_flow_act flow_act = {};
+  1731		struct mlx5_flow_handle *rule;
+  1732		struct mlx5_flow_spec *spec;
+  1733		struct mlx5e_ipsec_tx *tx;
+  1734		struct mlx5_fc *counter;
+  1735		__be32 *saddr = NULL;
+  1736		int err;
+  1737	
+  1738		tx = tx_ft_get(mdev, ipsec, attrs->type);
+  1739		if (IS_ERR(tx))
+  1740			return PTR_ERR(tx);
+  1741	
+  1742		spec = kvzalloc(sizeof(*spec), GFP_KERNEL);
+  1743		if (!spec) {
+  1744			err = -ENOMEM;
+  1745			goto err_alloc;
+  1746		}
+  1747	
+  1748		switch (attrs->type) {
+  1749		case XFRM_DEV_OFFLOAD_PACKET:
+  1750			if (attrs->mode == XFRM_MODE_TUNNEL)
+  1751				/* We rely on reqid and destination address */
+  1752				break;
+  1753			fallthrough;
+  1754		case XFRM_DEV_OFFLOAD_CRYPTO:
+  1755			if (attrs->family == AF_INET)
+  1756				saddr = &attrs->saddr.a4;
+  1757			else
+> 1758				saddr = &attrs->saddr.a6;
+  1759			break;
+  1760		default:
+  1761			break;
+  1762		}
+  1763	
+  1764		if (attrs->family == AF_INET)
+  1765			setup_fte_addr4(spec, saddr, &attrs->daddr.a4);
+  1766		else
+  1767			setup_fte_addr6(spec, saddr, attrs->daddr.a6);
+  1768	
+  1769		setup_fte_no_frags(spec);
+  1770		setup_fte_upper_proto_match(spec, &attrs->upspec);
+  1771	
+  1772		switch (attrs->type) {
+  1773		case XFRM_DEV_OFFLOAD_CRYPTO:
+  1774			setup_fte_spi(spec, attrs->spi, false);
+  1775			setup_fte_esp(spec);
+  1776			setup_fte_reg_a(spec);
+  1777			break;
+  1778		case XFRM_DEV_OFFLOAD_PACKET:
+  1779			if (attrs->reqid)
+  1780				setup_fte_reg_c4(spec, attrs->reqid);
+  1781			err = setup_pkt_reformat(ipsec, attrs, &flow_act);
+  1782			if (err)
+  1783				goto err_pkt_reformat;
+  1784			break;
+  1785		default:
+  1786			break;
+  1787		}
+  1788	
+  1789		counter = mlx5_fc_create(mdev, true);
+  1790		if (IS_ERR(counter)) {
+  1791			err = PTR_ERR(counter);
+  1792			goto err_add_cnt;
+  1793		}
+  1794	
+  1795		flow_act.crypto.type = MLX5_FLOW_CONTEXT_ENCRYPT_DECRYPT_TYPE_IPSEC;
+  1796		flow_act.crypto.obj_id = sa_entry->ipsec_obj_id;
+  1797		flow_act.flags |= FLOW_ACT_NO_APPEND;
+  1798		flow_act.action |= MLX5_FLOW_CONTEXT_ACTION_CRYPTO_ENCRYPT |
+  1799				   MLX5_FLOW_CONTEXT_ACTION_COUNT;
+  1800		if (attrs->drop)
+  1801			flow_act.action |= MLX5_FLOW_CONTEXT_ACTION_DROP;
+  1802		else
+  1803			flow_act.action |= MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
+  1804	
+  1805		dest[0].ft = tx->ft.status;
+  1806		dest[0].type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
+  1807		dest[1].type = MLX5_FLOW_DESTINATION_TYPE_COUNTER;
+  1808		dest[1].counter_id = mlx5_fc_id(counter);
+  1809		rule = mlx5_add_flow_rules(tx->ft.sa, spec, &flow_act, dest, 2);
+  1810		if (IS_ERR(rule)) {
+  1811			err = PTR_ERR(rule);
+  1812			mlx5_core_err(mdev, "fail to add TX ipsec rule err=%d\n", err);
+  1813			goto err_add_flow;
+  1814		}
+  1815	
+  1816		kvfree(spec);
+  1817		sa_entry->ipsec_rule.rule = rule;
+  1818		sa_entry->ipsec_rule.fc = counter;
+  1819		sa_entry->ipsec_rule.pkt_reformat = flow_act.pkt_reformat;
+  1820		return 0;
+  1821	
+  1822	err_add_flow:
+  1823		mlx5_fc_destroy(mdev, counter);
+  1824	err_add_cnt:
+  1825		if (flow_act.pkt_reformat)
+  1826			mlx5_packet_reformat_dealloc(mdev, flow_act.pkt_reformat);
+  1827	err_pkt_reformat:
+  1828		kvfree(spec);
+  1829	err_alloc:
+  1830		tx_ft_put(ipsec, attrs->type);
+  1831		return err;
+  1832	}
+  1833	
 
 -- 
 0-DAY CI Kernel Test Service
