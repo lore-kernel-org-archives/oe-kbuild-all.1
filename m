@@ -1,246 +1,158 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E756ABA27
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 01:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDF1D51C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 01:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734139905; cv=none; b=A2mPs5XGY7qi2o1xrG7ZGzdyjQ+sPbmVQvBLmeKCecwUDoafEHB/5UMTqYamI7BLpTPV5GdJ+SDpTKRv6Rzmiqn3oNVFinkN0L6EhYzal3o/WBegBFKMiL1gGrG0cmX643Z+JsnXtXFjmrpOXVjHapAXQQvjghwNZTJrlkVYYK8=
+	t=1734139907; cv=none; b=J0b5jl5QjyNjXRzz80qtlm5ihP6Jh1CXgxAB1RjKQplPIWAbqjGxBqs7ltNp45fclyJNMg9Ak1xpdp/DSU3gT5cn8GFDLENAQySO7g5UsGV4u5aNA6h24/j/J84sAad4o9maBwTDWkGhuOIAdCbZWgbce0p6FmH0KgpcwcOfwVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734139905; c=relaxed/simple;
-	bh=bf+d0MYBZ44gzG0Dy/X8k6u14t8Gtlm90k4CiI9UYN0=;
+	s=arc-20240116; t=1734139907; c=relaxed/simple;
+	bh=Sl9HKxLLGSt+yCzpvHzjdVTcCeu4/W+BOEbJnwxMCrw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y4SoQRIOpjYscd1hv36zXD75pVUridkw/v8wQwoFN2Z7N1SoEAWf7VD7Zl7KcO1AU8sztw3olJwiHsd5yyqrwrLl3Y0may2wmkPGJhbtDypl6KevlHY8dMaabokzqPDfhRUvIz71Uoc0s6FU96pqerB6I8b3+cZWFsnc7K2BKp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CAocDSBA; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=FOu5LRzbCo8aZA2hzXHyDciGnYPm8N21wVN7nRnJ00i8Ur9Ea9C9jmEsQjeDKzwhgvSwjGqKvPNhP/njH9J/jayCmMPXMC6Z1Vggg42rDSowir62eEMzq2XLjaaT9HYshiqUsZbpDrtfeAOLSDIPCgkW0KgIq/JUfpOehs7VvrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K8rKUvUt; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CAocDSBA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K8rKUvUt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734139903; x=1765675903;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bf+d0MYBZ44gzG0Dy/X8k6u14t8Gtlm90k4CiI9UYN0=;
-  b=CAocDSBAOTClLyywEj5PXKwO4bMo3K15MlZQqZddGMKKuHrwwXxuskkG
-   34Hw+LyB24KWb/xoPkqBHGbxthPY5QWT0x36TY+W6VymszBsfkMplzqFH
-   QfVDLfOyhD5FihmUUJEjfTLd4fKs28PtmT2afDZr/kcVYH7zxor1x9ZZl
-   PmPzPN1uKFEQ+Qktxwix6TOWnbtRtnlmcHl0BT/kPGPXUzgM25lznkMUm
-   EaHnEX+O19gidbLLnTBN+HOufK4o5XTcIYyYLd+4/06OIUcGlowmSNl1P
-   KB8aaFNLoLhxaUmriovw3+Z2LYu1Se27tTPLe5xckgbWpp0uMxsfxKLWC
-   Q==;
-X-CSE-ConnectionGUID: HxFdziNIR2uRjLT645qpug==
-X-CSE-MsgGUID: 8N/+EnppQ/2PMFBlv+4zUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45089125"
+  t=1734139906; x=1765675906;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Sl9HKxLLGSt+yCzpvHzjdVTcCeu4/W+BOEbJnwxMCrw=;
+  b=K8rKUvUtyiq3RxGyywBepWUTIolb939NoZMrSTgE4Od/dsqcWNXsSmOs
+   SRFA2uWRbBoh1tg++V3UUfUfgtRWoM/il2HL3Hed+G50Y+QpEMrxQrl9x
+   5mYUVqh0srek5+k8W26jYp8glRZ4+MQsvTaaDGxm2DrXdVfpPOiSxsoej
+   zyAJKcqo2+twDYcX5m44sBys3Tr7kInYUjcyH23VFoKVGJeeNQw/i1e68
+   HeeffyOqgIUnjyPEjiVFIvSOnF3hzm8P7uwjq/H+VnnwrDOSB6RAplg73
+   0ukuAHi6gOZUp/Vgh2EWtOJZ81Mda0BHUE3JXri3DNxJQ1EOhJ3W6sUg/
+   A==;
+X-CSE-ConnectionGUID: xOKN2zb6SwKzkBbErNiiLA==
+X-CSE-MsgGUID: LTowb5FsR3SNE+kt0n3ksQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45089128"
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="45089125"
+   d="scan'208";a="45089128"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 17:31:43 -0800
-X-CSE-ConnectionGUID: rtTrEa5gT96xu/6GUyb1nw==
-X-CSE-MsgGUID: PG2hS2rpSjK2N0Mi/ROAdg==
+X-CSE-ConnectionGUID: PHyJELp7SjG3+lhxTb8EEg==
+X-CSE-MsgGUID: tWSnpy2ITBOrnpr6CCEQcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,232,1728975600"; 
-   d="scan'208";a="97098029"
+   d="scan'208";a="97098030"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 13 Dec 2024 17:31:41 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMH0M-000CcB-2I;
+	id 1tMH0M-000CcD-2S;
 	Sat, 14 Dec 2024 01:31:38 +0000
-Date: Sat, 14 Dec 2024 09:31:30 +0800
+Date: Sat, 14 Dec 2024 09:31:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wang Wensheng <wangwensheng4@huawei.com>
+To: kernel@openeuler.org, haodongdong <doubled@leap-io.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2579/2579] mm/share_pool.c:4215:63: error:
- 'HUGETLB_ALLOC_NORECLAIM' undeclared
-Message-ID: <202412140941.hd45mfxv-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1636/1636]
+ drivers/scsi/leapioraid/leapioraid_func.c:2040:75: warning: '%u' directive
+ output may be truncated writing between 1 and 3 bytes into a region of size
+ between 1 and 26
+Message-ID: <202412140904.HG96zLGT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Guo,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   6c3413fbf8c430b89f5d23f465e10e99ea145199
-commit: 107e2b7c4b1d007583efab423cc48429c87c6408 [2579/2579] mm/sharepool: Fix sharepool hugepage cgroup uncount error.
-config: arm64-randconfig-004-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140941.hd45mfxv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412140941.hd45mfxv-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   d68dc6ee371ec5466be9b2d76bdca0b360940adc
+commit: 15ac0de239497e0a3497a106b9c0cc8795f0144a [1636/1636] LeapIOraid： Fix the compilation warnings in LeapIOraid driver in loongarch64
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241214/202412140904.HG96zLGT-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412140904.HG96zLGT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412140941.hd45mfxv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412140904.HG96zLGT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/share_pool.c:864:23: warning: no previous prototype for 'find_spg_node_by_spg' [-Wmissing-prototypes]
-     864 | struct sp_group_node *find_spg_node_by_spg(struct mm_struct *mm,
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:3073:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    3073 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:3073:21: error: invalid initializer
-   mm/share_pool.c: In function 'sp_unshare_kva':
-   mm/share_pool.c:3450:14: warning: variable 'is_hugepage' set but not used [-Wunused-but-set-variable]
-    3450 |         bool is_hugepage = true;
-         |              ^~~~~~~~~~~
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:3942:6: warning: no previous prototype for 'spa_overview_show' [-Wmissing-prototypes]
-    3942 | void spa_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4024:6: warning: no previous prototype for 'spg_overview_show' [-Wmissing-prototypes]
-    4024 | void spg_overview_show(struct seq_file *seq)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c: In function 'sharepool_no_page':
-   mm/share_pool.c:4215:41: error: 'HUGETLB_ALLOC_BUDDY' undeclared (first use in this function)
-    4215 |                                         HUGETLB_ALLOC_BUDDY | HUGETLB_ALLOC_NORECLAIM);
-         |                                         ^~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4215:41: note: each undeclared identifier is reported only once for each function it appears in
->> mm/share_pool.c:4215:63: error: 'HUGETLB_ALLOC_NORECLAIM' undeclared (first use in this function)
-    4215 |                                         HUGETLB_ALLOC_BUDDY | HUGETLB_ALLOC_NORECLAIM);
-         |                                                               ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4221:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    4221 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
-   mm/share_pool.c:4234:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    4234 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
-   mm/share_pool.c:4256:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    4256 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
-   mm/share_pool.c:4258:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    4258 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:4119:12: warning: 'proc_usage_show' defined but not used [-Wunused-function]
-    4119 | static int proc_usage_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~
-   mm/share_pool.c:4097:12: warning: 'proc_group_usage_show' defined but not used [-Wunused-function]
-    4097 | static int proc_group_usage_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:4049:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    4049 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+   drivers/scsi/leapioraid/leapioraid_func.c: In function 'leapioraid_base_request_irq':
+>> drivers/scsi/leapioraid/leapioraid_func.c:2040:75: warning: '%u' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 26 [-Wformat-truncation=]
+    2040 |                 snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-msix%u",
+         |                                                                           ^~
+   drivers/scsi/leapioraid/leapioraid_func.c:2040:65: note: directive argument in the range [0, 254]
+    2040 |                 snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-msix%u",
+         |                                                                 ^~~~~~~~~~~~~
+   drivers/scsi/leapioraid/leapioraid_func.c:2040:17: note: 'snprintf' output between 8 and 35 bytes into a destination of size 32
+    2040 |                 snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-msix%u",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2041 |                          ioc->driver_name, ioc->id, index);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/leapioraid/leapioraid_func.c:2031:70: warning: '-mq-poll' directive output may be truncated writing 8 bytes into a region of size between 6 and 31 [-Wformat-truncation=]
+    2031 |                 snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-mq-poll%u",
+         |                                                                      ^~~~~~~~
+   drivers/scsi/leapioraid/leapioraid_func.c:2031:65: note: directive argument in the range [0, 255]
+    2031 |                 snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-mq-poll%u",
+         |                                                                 ^~~~~~~~~~~~~~~~
+   drivers/scsi/leapioraid/leapioraid_func.c:2031:17: note: 'snprintf' output between 11 and 38 bytes into a destination of size 32
+    2031 |                 snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-mq-poll%u",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2032 |                          ioc->driver_name, ioc->id, qid);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/HUGETLB_ALLOC_NORECLAIM +4215 mm/share_pool.c
+vim +2040 drivers/scsi/leapioraid/leapioraid_func.c
 
-  4180	
-  4181	vm_fault_t sharepool_no_page(struct mm_struct *mm,
-  4182				struct vm_area_struct *vma,
-  4183				struct address_space *mapping, pgoff_t idx,
-  4184				unsigned long address, pte_t *ptep, unsigned int flags)
-  4185	{
-  4186		struct hstate *h = hstate_vma(vma);
-  4187		vm_fault_t ret = VM_FAULT_SIGBUS;
-  4188		unsigned long size;
-  4189		struct page *page;
-  4190		pte_t new_pte;
-  4191		spinlock_t *ptl;
-  4192		unsigned long haddr = address & huge_page_mask(h);
-  4193		bool new_page = false;
-  4194		int err;
-  4195		int node_id;
-  4196		struct sp_area *spa;
-  4197	
-  4198		spa = vma->vm_private_data;
-  4199		if (!spa) {
-  4200			pr_err("share pool: vma is invalid, not from sp mmap\n");
-  4201			return ret;
-  4202		}
-  4203		node_id = spa->node_id;
-  4204	
-  4205	retry:
-  4206		page = find_lock_page(mapping, idx);
-  4207		if (!page) {
-  4208			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4209			if (idx >= size)
-  4210				goto out;
-  4211	
-  4212			page = alloc_huge_page(vma, haddr, 0);
-  4213			if (IS_ERR(page)) {
-  4214				page = hugetlb_alloc_hugepage(node_id,
-> 4215						HUGETLB_ALLOC_BUDDY | HUGETLB_ALLOC_NORECLAIM);
-  4216				if (!page)
-  4217					page = ERR_PTR(-ENOMEM);
-  4218			}
-  4219			if (IS_ERR(page)) {
-  4220				ptl = huge_pte_lock(h, mm, ptep);
-  4221				if (!huge_pte_none(huge_ptep_get(ptep))) {
-  4222					ret = 0;
-  4223					spin_unlock(ptl);
-  4224					goto out;
-  4225				}
-  4226				spin_unlock(ptl);
-  4227				ret = vmf_error(PTR_ERR(page));
-  4228				goto out;
-  4229			}
-  4230			__SetPageUptodate(page);
-  4231			new_page = true;
-  4232	
-  4233			/* sharepool pages are all shared */
-  4234			err = huge_add_to_page_cache(page, mapping, idx);
-  4235			if (err) {
-  4236				put_page(page);
-  4237				if (err == -EEXIST)
-  4238					goto retry;
-  4239				goto out;
-  4240			}
-  4241		}
-  4242	
-  4243	
-  4244		ptl = huge_pte_lock(h, mm, ptep);
-  4245		size = i_size_read(mapping->host) >> huge_page_shift(h);
-  4246		if (idx >= size)
-  4247			goto backout;
-  4248	
-  4249		ret = 0;
-  4250		if (!huge_pte_none(huge_ptep_get(ptep)))
-  4251			goto backout;
-  4252	
-  4253		page_dup_rmap(page, true);
-  4254		new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-  4255					&& (vma->vm_flags & VM_SHARED)));
-  4256		set_huge_pte_at(mm, haddr, ptep, new_pte);
-  4257	
-  4258		hugetlb_count_add(pages_per_huge_page(h), mm);
-  4259	
-  4260		spin_unlock(ptl);
-  4261	
-  4262		if (new_page) {
-  4263			SetPagePrivate(&page[1]);
-  4264		}
-  4265	
-  4266		unlock_page(page);
-  4267	out:
-  4268		return ret;
-  4269	
-  4270	backout:
-  4271		spin_unlock(ptl);
-  4272		unlock_page(page);
-  4273		put_page(page);
-  4274		goto out;
-  4275	}
-  4276	
+  2013	
+  2014	static int
+  2015	leapioraid_base_request_irq(struct LEAPIORAID_ADAPTER *ioc, u8 index)
+  2016	{
+  2017		struct leapioraid_adapter_reply_queue *reply_q;
+  2018		int r;
+  2019		u8 qid;
+  2020	
+  2021		reply_q = kzalloc(sizeof(struct leapioraid_adapter_reply_queue),
+  2022			GFP_KERNEL);
+  2023		if (!reply_q)
+  2024			return -ENOMEM;
+  2025	
+  2026		reply_q->ioc = ioc;
+  2027		reply_q->msix_index = index;
+  2028		atomic_set(&reply_q->busy, 0);
+  2029		if (index >= ioc->iopoll_q_start_index) {
+  2030			qid = index - ioc->iopoll_q_start_index;
+  2031			snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-mq-poll%u",
+  2032				 ioc->driver_name, ioc->id, qid);
+  2033			reply_q->is_blk_mq_poll_q = 1;
+  2034			ioc->blk_mq_poll_queues[qid].reply_q = reply_q;
+  2035			INIT_LIST_HEAD(&reply_q->list);
+  2036			list_add_tail(&reply_q->list, &ioc->reply_queue_list);
+  2037			return 0;
+  2038		}
+  2039		if (ioc->msix_enable)
+> 2040			snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%u-msix%u",
+  2041				 ioc->driver_name, ioc->id, index);
+  2042		else
+  2043			snprintf(reply_q->name, LEAPIORAID_NAME_LENGTH, "%s%d",
+  2044				 ioc->driver_name, ioc->id);
+  2045		r = request_irq(pci_irq_vector(ioc->pdev, index), leapioraid_base_interrupt,
+  2046				IRQF_SHARED, reply_q->name, reply_q);
+  2047		if (r) {
+  2048			pr_err("%s unable to allocate interrupt %d!\n", reply_q->name,
+  2049			       pci_irq_vector(ioc->pdev, index));
+  2050			kfree(reply_q);
+  2051			return -EBUSY;
+  2052		}
+  2053	
+  2054		INIT_LIST_HEAD(&reply_q->list);
+  2055		list_add_tail(&reply_q->list, &ioc->reply_queue_list);
+  2056		return 0;
+  2057	}
+  2058	
 
 -- 
 0-DAY CI Kernel Test Service
