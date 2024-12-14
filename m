@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F9D18D62A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 13:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D019DDCD;
+	Sat, 14 Dec 2024 14:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734181779; cv=none; b=S7Pd4huwdbdXzMb9bxAUgCfIn86+l/DZ4V7sxMNZn2kirtsHoBAXjQTzj0zJqBPata+brRowYyHVQ4prQsoTnygQDdjLk7vA2Ysw2021QKtguvooUJII9zymVMzI7SkHVn11ExI8GAwp5H0EIJYkFQTFOArnDzI5fLgmfCrbaZM=
+	t=1734186932; cv=none; b=hNNvoihoE4a1ImOBwjPLsenMWMdsceaPPsl1vfaAs+HGJxPIimaGz1UXGRIIGyfqQpHXyaFGJ2Y9d00ADRPgl8W92ppjQJmmodI5P1c6lLOMWe4WU0thGUWfBs8FVFNhsEsmLpmQnGdAtG/r4qo7zz0Gz3X5lPw0W113CC7Rqig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734181779; c=relaxed/simple;
-	bh=jEWknwSgCst38hAB3HH7zldhb+SwKim9x7vDnJTLSVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JPIHl+EQEehGN6zrQvVoSB4bopFYwmmxvGLSIZ6SpQ2C7xt6aqEMhtSPzUvr+dPWK0sm0gYlR5+OWxnvitH3i80gWO/tPUurfCFWyVm47KrcLDvsLCGjsguYe+GjQr21qKSBwPYC+AWA/+YznQrXVGyoJ77/pG8kXHlxOY6JKjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqOHL2JW; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1734186932; c=relaxed/simple;
+	bh=glLwDssS48XpxLAZvjeVW2DO3KavTVBC+g33gzwbSxs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q2mEFwFKjTrF/PaX/zVNhJd4N6CDTPSOIE0hbKOXwh9MIujfng93F1FsRL02P+4ExMybITGQldY7LflugkFEKETLpW25JXaJT42Cnuutg4/q7+zFiW/sSdLSmDDyClYGK0KZ19uln+MvBGq+BsKpbSUas/XrUbXe2AgcWjXuEYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoTTaKbc; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqOHL2JW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoTTaKbc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734181777; x=1765717777;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jEWknwSgCst38hAB3HH7zldhb+SwKim9x7vDnJTLSVM=;
-  b=AqOHL2JWkAsGPL2Am22rf0t0tlXyMGzXdQHlyoW/W2c/kOEPRNWrwzh2
-   vdz+SzUuoLzEFQqjFvoqjfLKp7uUeb1MRky5KwB4shIa4JUbUXJ9nIDEl
-   GCQz4lDmkKEkbHWrH7HV3hrnB3/FM/3sAdFjG4kMdQHLnxouXkz18UwHM
-   R+hkNBXqXT+42oucGLL0pPyDMwjmaPm+GBKkYGnzUXTpmFdb7Uzc0Uwxc
-   seyksEfb8iizGadW1UOmjo1Gu1N3lpNYESJRg7WSdpsIu0N6kQszVa3cT
-   OCBEaoICypTOUzObTRiRKYy8LaLEbYuG217pVKDztRo6AAzjMNpFK66Qu
-   Q==;
-X-CSE-ConnectionGUID: fikUoYJwRKmai52yZwZakQ==
-X-CSE-MsgGUID: XLnV79CDSVi1vYA03fBcHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34771611"
+  t=1734186929; x=1765722929;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=glLwDssS48XpxLAZvjeVW2DO3KavTVBC+g33gzwbSxs=;
+  b=YoTTaKbc/jZl2k6ib8x1p7Uh1bg+GmjMtBCCh9wM6jo2+EPQQpeeyCGW
+   QCpa+0+jVdXr740U32tcIapDGkv+PgdufZEVQDMahOxBdgRfQXBpetiDn
+   jlIIATeRvcGfRoxu29Wcp8R9A7/L+z2rKYTMbxCOaVukTMjNMS1ZoKD0X
+   BO3NmhmfX2VWwB0a093hhqUbmyo7g2BtKYN/XwJJaRFdIkmclBcECs8R/
+   iPDQ737eKb3NqdNdSTt61GTtbR/tdc7KYbGGtVfSdckewKFRAbUrX5wRr
+   Fn6zDz7UWeg7dm70A3BNgxGLTnma2XEyD2p3dzyMTPO4KX9X8A5QY8mk9
+   g==;
+X-CSE-ConnectionGUID: 42ahSumLRv2sJJWSBdZhwg==
+X-CSE-MsgGUID: HZRkq0yVSn6po2VbY/S62g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="33929184"
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="34771611"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 05:09:35 -0800
-X-CSE-ConnectionGUID: uxnr5IthScSlwi04JR4EzA==
-X-CSE-MsgGUID: Y4OZ7rBcTNKBsd1zbv2hOw==
+   d="scan'208";a="33929184"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 06:35:28 -0800
+X-CSE-ConnectionGUID: IwlLk9wSQLm3Ne2d618stQ==
+X-CSE-MsgGUID: O7BVAkOUQLSSuOStDpef4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="97016318"
+   d="scan'208";a="96861605"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Dec 2024 05:09:33 -0800
+  by orviesa006.jf.intel.com with ESMTP; 14 Dec 2024 06:35:25 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMRtj-000Cwi-1q;
-	Sat, 14 Dec 2024 13:09:31 +0000
-Date: Sat, 14 Dec 2024 21:09:17 +0800
+	id 1tMTEp-000Cyr-1b;
+	Sat, 14 Dec 2024 14:35:23 +0000
+Date: Sat, 14 Dec 2024 22:34:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1613/1613]
- drivers/video/fbdev/ls2k500sfb.c:143:27: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202412142141.pKNBHdWI-lkp@intel.com>
+To: Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, eric.dumazet@gmail.com,
+	Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next 2/4] inetpeer: remove create argument of
+ inet_getpeer()
+Message-ID: <202412142229.7lFHEOun-lkp@intel.com>
+References: <20241213130212.1783302-3-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,295 +69,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241213130212.1783302-3-edumazet@google.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d68dc6ee371ec5466be9b2d76bdca0b360940adc
-commit: 8248d42b7c5f4338a54f26d8efebec8614b43466 [1613/1613] fbdev: add ls2k500sfb driver for ls2k500 bmc.
-config: loongarch-randconfig-r111-20241210 (https://download.01.org/0day-ci/archive/20241214/202412142141.pKNBHdWI-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241214/202412142141.pKNBHdWI-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/inetpeer-remove-create-argument-of-inet_getpeer_v-46/20241213-210500
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241213130212.1783302-3-edumazet%40google.com
+patch subject: [PATCH net-next 2/4] inetpeer: remove create argument of inet_getpeer()
+config: i386-buildonly-randconfig-003-20241214 (https://download.01.org/0day-ci/archive/20241214/202412142229.7lFHEOun-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412142229.7lFHEOun-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412142141.pKNBHdWI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412142229.7lFHEOun-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/ls2k500sfb.c:143:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *static p @@     got void [noderef] __iomem * @@
-   drivers/video/fbdev/ls2k500sfb.c:143:27: sparse:     expected void *static p
-   drivers/video/fbdev/ls2k500sfb.c:143:27: sparse:     got void [noderef] __iomem *
->> drivers/video/fbdev/ls2k500sfb.c:145:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *static p @@
-   drivers/video/fbdev/ls2k500sfb.c:145:30: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:145:30: sparse:     got void *static p
->> drivers/video/fbdev/ls2k500sfb.c:199:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *static p @@
-   drivers/video/fbdev/ls2k500sfb.c:199:36: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:199:36: sparse:     got void *static p
->> drivers/video/fbdev/ls2k500sfb.c:201:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:201:37: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:201:37: sparse:     got void *
->> drivers/video/fbdev/ls2k500sfb.c:254:13: sparse: sparse: symbol 'ls2k500sfb_interrupt' was not declared. Should it be static?
-   drivers/video/fbdev/ls2k500sfb.c:320:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:320:22: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:320:22: sparse:     got void *
->> drivers/video/fbdev/ls2k500sfb.c:320:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:320:49: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:320:49: sparse:     got void *
-   drivers/video/fbdev/ls2k500sfb.c:321:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:321:22: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:321:22: sparse:     got void *
-   drivers/video/fbdev/ls2k500sfb.c:321:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:321:53: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:321:53: sparse:     got void *
-   drivers/video/fbdev/ls2k500sfb.c:322:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:322:22: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:322:22: sparse:     got void *
-   drivers/video/fbdev/ls2k500sfb.c:322:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:322:53: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:322:53: sparse:     got void *
-   drivers/video/fbdev/ls2k500sfb.c:323:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:323:22: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:323:22: sparse:     got void *
-   drivers/video/fbdev/ls2k500sfb.c:323:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/ls2k500sfb.c:323:51: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:323:51: sparse:     got void *
->> drivers/video/fbdev/ls2k500sfb.c:456:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char *preg @@
-   drivers/video/fbdev/ls2k500sfb.c:456:28: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:456:28: sparse:     got char *preg
->> drivers/video/fbdev/ls2k500sfb.c:457:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char *preg @@
-   drivers/video/fbdev/ls2k500sfb.c:457:32: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/ls2k500sfb.c:457:32: sparse:     got char *preg
->> drivers/video/fbdev/ls2k500sfb.c:569:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char *penv @@     got void [noderef] __iomem * @@
-   drivers/video/fbdev/ls2k500sfb.c:569:19: sparse:     expected char *penv
-   drivers/video/fbdev/ls2k500sfb.c:569:19: sparse:     got void [noderef] __iomem *
->> drivers/video/fbdev/ls2k500sfb.c:570:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char *preg @@     got void [noderef] __iomem * @@
-   drivers/video/fbdev/ls2k500sfb.c:570:19: sparse:     expected char *preg
-   drivers/video/fbdev/ls2k500sfb.c:570:19: sparse:     got void [noderef] __iomem *
-   drivers/video/fbdev/ls2k500sfb.c:671:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char *penv @@     got void [noderef] __iomem * @@
-   drivers/video/fbdev/ls2k500sfb.c:671:14: sparse:     expected char *penv
-   drivers/video/fbdev/ls2k500sfb.c:671:14: sparse:     got void [noderef] __iomem *
-   drivers/video/fbdev/ls2k500sfb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +143 drivers/video/fbdev/ls2k500sfb.c
+   In file included from net/ipv4/inetpeer.c:19:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> net/ipv4/inetpeer.c:177:6: warning: variable 'invalidated' set but not used [-Wunused-but-set-variable]
+     177 |         int invalidated;
+         |             ^
+   2 warnings generated.
 
-   113	
-   114	static void ls2k500sfb_events_fn(struct work_struct *work)
-   115	{
-   116		struct ls2k500sfb_struct *priv = container_of(work, struct ls2k500sfb_struct, work);
-   117		struct pci_dev *pdev = priv->dev;
-   118		struct pci_dev *ppdev = pdev->bus->self;
-   119		uint32_t i, d, timeout, retry = 0;
-   120		static const uint32_t index[] = {
-   121			0x10, 0x14, 0x18, 0x1c, 0x20, 0x24, 0x30, 0x3c, 0x54, 0x58, 0x78, 0x7c, 0x80, 4
-   122		};
-   123	
-   124		static uint32_t data[sizeof(index) / 4];
-   125		static const uint32_t cindex[] = { 0x10, 0x3c, 4 };
-   126	
-   127		static uint32_t cdata[sizeof(cindex) / 4];
-   128		static uint32_t d80c, d71c, ctrl;
-   129		static void *p;
-   130	
-   131		if (!priv->running) {
-   132			for (i = 0; i < ARRAY_SIZE(index); i++)
-   133				pci_read_config_dword(ppdev, index[i], &data[i]);
-   134			for (i = 0; i < ARRAY_SIZE(cindex); i++)
-   135				pci_read_config_dword(pdev, cindex[i], &cdata[i]);
-   136			if (ppdev->vendor == 0x14) {
-   137				pci_read_config_dword(ppdev, 0x80c, &d80c);
-   138				d80c = (d80c & ~(3 << 17)) | (1 << 17);
-   139	
-   140				pci_read_config_dword(ppdev, 0x71c, &d71c);
-   141				d71c |= 1 << 26;
-   142	
- > 143				p = pci_iomap(ppdev, 0, 0x100);
-   144			}
- > 145			ctrl = readl(p);
-   146			return;
-   147		}
-   148		local_bh_disable();
-   149		pciebreak_smp_send_stop(100);
-   150		wmb(); /* flush all write before we disable pcie window */
-   151		pci_write_config_dword(ppdev, 0x18, 0);
-   152		pci_write_config_dword(ppdev, 0x1c, 0);
-   153		pci_write_config_dword(ppdev, 0x20, 0);
-   154		atomic_set(&waiting_for_pciebreak_ipi, 0);
-   155		wmb(); /* flush all write after change pcie window */
-   156		local_bh_enable();
-   157		if (ppdev->vendor == 0x14) {
-   158			timeout = 10000;
-   159			while (timeout) {
-   160				pci_read_config_dword(ppdev, 0x10, &d);
-   161				d &= ~0xf;
-   162				if (!d)
-   163					break;
-   164				mdelay(1);
-   165				timeout--;
-   166			};
-   167			if (!timeout)
-   168				pr_info("bar not clear 0\n");
-   169	
-   170			pci_read_config_dword(ppdev, 0x0, &d);
-   171			pr_info("pcie port deviceid=0x%x recover begin\n", d);
-   172	retrain:
-   173			while (1) {
-   174				pci_write_config_dword(ppdev, index[0], data[0]);
-   175				pci_read_config_dword(ppdev, index[0], &d);
-   176				d &= ~0xf;
-   177				if (d)
-   178					break;
-   179				mdelay(1);
-   180			}
-   181	
-   182			while (1) {
-   183				for (i = 0; i < ARRAY_SIZE(index); i++) {
-   184					if (index[i] != 0x18 && index[i] != 0x1c && index[i] != 0x20)
-   185						pci_write_config_dword(ppdev, index[i], data[i]);
-   186				}
-   187				pci_write_config_dword(ppdev, 0x80c, d80c);
-   188				pci_write_config_dword(ppdev, 0x71c, d71c);
-   189	
-   190				pci_read_config_dword(ppdev, 0x10, &d);
-   191				d &= ~0xf;
-   192				if (d)
-   193					break;
-   194				mdelay(1);
-   195			}
-   196	
-   197			timeout = 10000;
-   198	
- > 199			writel(ctrl | 0x8, p);
-   200			while (1) {
- > 201				d = readl(p + 0xc);
-   202				if ((d & 0x11) == 0x11) {
-   203					break;
-   204				} else if (!timeout) {
-   205					pr_info("pcie train failed status=0x%x\n", d);
-   206					goto out;
-   207				}
-   208				mdelay(1);
-   209				timeout--;
-   210			}
-   211	
-   212	
-   213			pr_info("pcie recovered done\n");
-   214	
-   215			if (!retry) {
-   216				/*wait u-boot ddr config */
-   217				set_current_state(TASK_UNINTERRUPTIBLE);
-   218				schedule_timeout(HZ*resetbootwait);
-   219				set_current_state(TASK_RUNNING);
-   220				pci_read_config_dword(ppdev, 0x10, &d);
-   221				d &= ~0xf;
-   222				if (!d) {
-   223					retry = 1;
-   224					goto retrain;
-   225				}
-   226			}
-   227		} else {
-   228			set_current_state(TASK_UNINTERRUPTIBLE);
-   229			schedule_timeout(HZ*resetbootwait);
-   230			set_current_state(TASK_RUNNING);
-   231		}
-   232		local_bh_disable();
-   233		pciebreak_smp_send_stop(10000);
-   234		wmb(); /* flush all write before we update pcie window */
-   235		for (i = 0; i < ARRAY_SIZE(index); i++)
-   236			pci_write_config_dword(ppdev, index[i], data[i]);
-   237	
-   238		for (i = 0; i < ARRAY_SIZE(cindex); i++)
-   239			pci_write_config_dword(pdev, cindex[i], cdata[i]);
-   240		atomic_set(&waiting_for_pciebreak_ipi, 0);
-   241		wmb(); /* flush all write after we update pcie window */
-   242		local_bh_enable();
-   243	
-   244	
-   245		pr_info("redraw console\n");
-   246	
-   247		saved_console = fg_console;
-   248		switch_console(fg_console > 0?fg_console - 1 : fg_console + 1);
-   249		queue_delayed_work(priv->wq, &priv->redraw_work, HZ);
-   250	out:
-   251		priv->running = 0;
-   252	}
-   253	
- > 254	irqreturn_t ls2k500sfb_interrupt(int irq, void *arg)
-   255	{
-   256		struct ls2k500sfb_struct *priv = arg;
-   257		struct pci_dev *pdev = priv->dev;
-   258	
-   259		if (irq == pdev->irq)
-   260			pr_info("ls2k500sfb pcie interrupt\n");
-   261		else
-   262			pr_info("ls2k500sfb gpio interrupt\n");
-   263		if (system_state != SYSTEM_RUNNING)
-   264			return IRQ_HANDLED;
-   265	
-   266		if (!priv->running) {
-   267			if (!resetdelay || time_after(jiffies, priv->reset_time + resetdelay * HZ)) {
-   268				priv->running = 1;
-   269				queue_work(priv->wq, &priv->work);
-   270			}
-   271			priv->reset_time = jiffies;
-   272		}
-   273		return IRQ_HANDLED;
-   274	}
-   275	
-   276	#ifdef CONFIG_LOONGARCH
-   277	#define GPIO_OEN ((void *)IO_BASE+0x1fe00000+0x500)
-   278	#define GPIO_FUNCEN ((void *)IO_BASE+0x1fe00000+0x504)
-   279	#define GPIO_OUT ((void *)IO_BASE+0x1fe00000+0x508)
-   280	#define GPIO_IN ((void *)IO_BASE+0x1fe00000+0x50c)
-   281	#define GPIO_INTPOL ((void *)IO_BASE+0x1fe00000+0x510)
-   282	#define GPIO_INTEN ((void *)IO_BASE+0x1fe00000+0x514)
-   283	
-   284	static int gpiochip_match_name(struct gpio_chip *chip, void *data)
-   285	{
-   286		const char *name = data;
-   287	
-   288		return !strcmp(chip->label, name);
-   289	}
-   290	static int get_gpio_irq_from_acpi_table(int gpio)
-   291	{
-   292		struct gpio_chip *chip;
-   293		struct gpio_desc *desc;
-   294	
-   295		chip = gpiochip_find("LOON0007:00", gpiochip_match_name);
-   296		if (!chip)
-   297			return -ENOENT;
-   298		desc = gpiochip_request_own_desc(chip, gpio, "reboot", GPIO_LOOKUP_FLAGS_DEFAULT, GPIOD_IN);
-   299		if (!desc)
-   300			return -ENOENT;
-   301		return gpiod_to_irq(desc);
-   302	}
-   303	
-   304	static int get_gpio_irq_from_acpi_gsi(int gpio)
-   305	{
-   306		int gsi = 16 + (gpio & 7);
-   307	
-   308		return  acpi_register_gsi(NULL, gsi, ACPI_EDGE_SENSITIVE, ACPI_ACTIVE_LOW);
-   309	}
-   310	
-   311	static int register_gpio_reboot_handler(struct ls2k500sfb_struct *priv)
-   312	{
-   313		int irq = get_gpio_irq_from_acpi_table(GPIO);
-   314	
-   315		if (irq < 0) {
-   316			irq = get_gpio_irq_from_acpi_gsi(GPIO);
-   317			pr_notice("gsi gpio irq %d\n", irq);
-   318		} else
-   319			pr_notice("acpi gpio irq %d\n", irq);
- > 320		writel(readl(GPIO_OEN) | (0x1 << GPIO), GPIO_OEN);
-   321		writel(readl(GPIO_FUNCEN) & ~(0x1 << GPIO), GPIO_FUNCEN);
- > 322		writel(readl(GPIO_INTPOL) & ~(0x1 << GPIO), GPIO_INTPOL);
- > 323		writel(readl(GPIO_INTEN) | (0x1 << GPIO), GPIO_INTEN);
-   324		if (request_irq(irq, ls2k500sfb_interrupt, IRQF_SHARED | IRQF_TRIGGER_FALLING,
-   325					"ls2k500sfb", priv))
-   326			pr_err("request_irq(%d) failed\n", irq);
-   327		return 0;
-   328	}
-   329	#endif
-   330	
+
+vim +/invalidated +177 net/ipv4/inetpeer.c
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  170  
+c0efc887dcadbd David S. Miller  2012-06-09  171  struct inet_peer *inet_getpeer(struct inet_peer_base *base,
+4a6cb3d13bf1f8 Eric Dumazet     2024-12-13  172  			       const struct inetpeer_addr *daddr)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  173  {
+b145425f269a17 Eric Dumazet     2017-07-17  174  	struct inet_peer *p, *gc_stack[PEER_MAX_GC];
+b145425f269a17 Eric Dumazet     2017-07-17  175  	struct rb_node **pp, *parent;
+b145425f269a17 Eric Dumazet     2017-07-17  176  	unsigned int gc_cnt, seq;
+b145425f269a17 Eric Dumazet     2017-07-17 @177  	int invalidated;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  178  
+4b9d9be839fdb7 Eric Dumazet     2011-06-08  179  	/* Attempt a lockless lookup first.
+aa1039e73cc2cf Eric Dumazet     2010-06-15  180  	 * Because of a concurrent writer, we might not find an existing entry.
+aa1039e73cc2cf Eric Dumazet     2010-06-15  181  	 */
+7b46ac4e77f322 David S. Miller  2011-03-08  182  	rcu_read_lock();
+b145425f269a17 Eric Dumazet     2017-07-17  183  	seq = read_seqbegin(&base->lock);
+b145425f269a17 Eric Dumazet     2017-07-17  184  	p = lookup(daddr, base, seq, NULL, &gc_cnt, &parent, &pp);
+b145425f269a17 Eric Dumazet     2017-07-17  185  	invalidated = read_seqretry(&base->lock, seq);
+7b46ac4e77f322 David S. Miller  2011-03-08  186  	rcu_read_unlock();
+^1da177e4c3f41 Linus Torvalds   2005-04-16  187  
+4b9d9be839fdb7 Eric Dumazet     2011-06-08  188  	if (p)
+aa1039e73cc2cf Eric Dumazet     2010-06-15  189  		return p;
+aa1039e73cc2cf Eric Dumazet     2010-06-15  190  
+aa1039e73cc2cf Eric Dumazet     2010-06-15  191  	/* retry an exact lookup, taking the lock before.
+aa1039e73cc2cf Eric Dumazet     2010-06-15  192  	 * At least, nodes should be hot in our cache.
+aa1039e73cc2cf Eric Dumazet     2010-06-15  193  	 */
+b145425f269a17 Eric Dumazet     2017-07-17  194  	parent = NULL;
+65e8354ec13a45 Eric Dumazet     2011-03-04  195  	write_seqlock_bh(&base->lock);
+b145425f269a17 Eric Dumazet     2017-07-17  196  
+b145425f269a17 Eric Dumazet     2017-07-17  197  	gc_cnt = 0;
+b145425f269a17 Eric Dumazet     2017-07-17  198  	p = lookup(daddr, base, seq, gc_stack, &gc_cnt, &parent, &pp);
+4a6cb3d13bf1f8 Eric Dumazet     2024-12-13  199  	if (!p) {
+b145425f269a17 Eric Dumazet     2017-07-17  200  		p = kmem_cache_alloc(peer_cachep, GFP_ATOMIC);
+aa1039e73cc2cf Eric Dumazet     2010-06-15  201  		if (p) {
+b534ecf1cd26f0 David S. Miller  2010-11-30  202  			p->daddr = *daddr;
+b6a37e5e25414d Eric Dumazet     2018-04-09  203  			p->dtime = (__u32)jiffies;
+1cc9a98b59ba92 Reshetova, Elena 2017-06-30  204  			refcount_set(&p->refcnt, 2);
+aa1039e73cc2cf Eric Dumazet     2010-06-15  205  			atomic_set(&p->rid, 0);
+144001bddcb4db David S. Miller  2011-01-27  206  			p->metrics[RTAX_LOCK-1] = INETPEER_METRICS_NEW;
+92d8682926342d David S. Miller  2011-02-04  207  			p->rate_tokens = 0;
+c09551c6ff7fe1 Lorenzo Bianconi 2019-02-06  208  			p->n_redirects = 0;
+bc9259a8bae9e8 Nicolas Dichtel  2012-09-27  209  			/* 60*HZ is arbitrary, but chosen enough high so that the first
+bc9259a8bae9e8 Nicolas Dichtel  2012-09-27  210  			 * calculation of tokens is at its maximum.
+bc9259a8bae9e8 Nicolas Dichtel  2012-09-27  211  			 */
+bc9259a8bae9e8 Nicolas Dichtel  2012-09-27  212  			p->rate_last = jiffies - 60*HZ;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  213  
+b145425f269a17 Eric Dumazet     2017-07-17  214  			rb_link_node(&p->rb_node, parent, pp);
+b145425f269a17 Eric Dumazet     2017-07-17  215  			rb_insert_color(&p->rb_node, &base->rb_root);
+98158f5a853caf David S. Miller  2010-11-30  216  			base->total++;
+aa1039e73cc2cf Eric Dumazet     2010-06-15  217  		}
+b145425f269a17 Eric Dumazet     2017-07-17  218  	}
+b145425f269a17 Eric Dumazet     2017-07-17  219  	if (gc_cnt)
+b145425f269a17 Eric Dumazet     2017-07-17  220  		inet_peer_gc(base, gc_stack, gc_cnt);
+65e8354ec13a45 Eric Dumazet     2011-03-04  221  	write_sequnlock_bh(&base->lock);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  222  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  223  	return p;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  224  }
+b3419363808f24 David S. Miller  2010-11-30  225  EXPORT_SYMBOL_GPL(inet_getpeer);
+98158f5a853caf David S. Miller  2010-11-30  226  
 
 -- 
 0-DAY CI Kernel Test Service
