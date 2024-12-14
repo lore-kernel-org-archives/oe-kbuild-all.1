@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9B0137E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 21:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F851B21B7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 22:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734213271; cv=none; b=kBod4demSlfR8cGICWnHIg5Mcohso6okb71SzwA6kddCTtZljF65TASWVTcdBxjaOiVmz3BKTP8WsIHRshKNRFnQxxSm6l8U9xwt0tX9BtjPYEp8zfDTxyYNq0WVm1KNN+u394sDUrBwK0J//dMUw5QdgyK+AgfQ6YtlYF5H9Ww=
+	t=1734213931; cv=none; b=W0tk5yP/yL4UimWqREpesxCBhu2ieY9fYgRTpUmgGJ34oyuSuVBQjMDD1/+m9dTwY4ml6BsdzsDgyFIMShiQ3eHILFeSxP3vuX4qWKPfRlecpqzhw4pAar4R+EFztQN6cXNrmbJRopooQb3zP1I1afm08XLHzHpB84ObLRU9EYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734213271; c=relaxed/simple;
-	bh=4jgqbhbx5I3x3WzbiS29IeQNSh7vewVRpXyNrWNpCoU=;
+	s=arc-20240116; t=1734213931; c=relaxed/simple;
+	bh=sOxJ2S4X0okd4x9A30jCNTDMGGVN1Btj4g7/IVhU/N0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jxK8E2LOIYVaCK4S1f7ihWkinQ/5DUHyyzDpx/Vfsghg6pmaGfsfMuru9zEGaZwO7KjRvGd68E+VIlC+uylnLk2wHQVNEMaanJE4H3OMCH6dInhsNrv6Q497TP4GrgH/QpbfvokDZVwSr0Iutnu7o8Cq9GOhDxPoZQpQ8Gbm/pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bqz/npM0; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=IzROI0T85+3h2HE/P/m2w0d3dtJ7T3PfUzBS3lYSJFZH8+EyeMxzNe+Gz+iIowR642waF35BUyreDXMVtKHYLIS+BCNqYMS4kgKO/fPrE/a3FMLTqEYA860pf72GmXk0cDGRlImoAAeA055addpDaV02DbuFsdd9THIan8di6RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTtO5Uk9; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bqz/npM0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTtO5Uk9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734213269; x=1765749269;
+  t=1734213929; x=1765749929;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4jgqbhbx5I3x3WzbiS29IeQNSh7vewVRpXyNrWNpCoU=;
-  b=bqz/npM02Jy1/LQv8TTSyuQNUJVirB585Fs2pEIbnJFR45MfXZYp7jMX
-   kKrwbLqhvTjiWlz5Tu2vQ2j3wt+BzhhPQWbLurRokr6u3POSXMvP26e06
-   KTfmO3pHzBN93pFP4B2NXK3AAu/1n2oM/dPgsYWMotlJQS84UEyQMrwhD
-   UcKz/LJL01K9Bz1bEHx5XxBICbKe6tIcvxDkwrz3t3CAN38ufD2ds292X
-   dvLp5mZIwiv1idllo7o9+t4e3Mf158cGf88hsG6wgLOKkYb6GxS/02muU
-   e2Ig24+GJ+blR5GigQ9wTANb786C5Src4vYvh+gUWGudiqG2WcksxWtpg
-   g==;
-X-CSE-ConnectionGUID: vvyfDLl/R2+CG8JanNtV9w==
-X-CSE-MsgGUID: Lki38boAStCfynXtpAxpSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="60031746"
+  bh=sOxJ2S4X0okd4x9A30jCNTDMGGVN1Btj4g7/IVhU/N0=;
+  b=TTtO5Uk9A27JDmgqVwVFE6ib9alIbslpbEpi6YWLak5WMSnQetXDtEq3
+   1G2hrd8cfMaQuBmvBUzmcRBiqrQvvJaQ75XYSNDrfY3LkB2UDfWNGAXC+
+   Ht9RFYKU2UaHfSxfuhn5JAe5/m1VdSw13AYbFL1GdVwbnLKcPzcaFMzvd
+   sv42LbNDN6S318b8R571bC7PUcJpZ1wk5HdxODk1U80btL7Pdu/jcJ+Dp
+   tFcrR6g0rfRfULBEML/LrYaK+xeXD+kmte4DLZ/ZQxpJBqOmSf74lTMYj
+   mn5MxTmZH6C6Ib048Vfkqn2FeWQRp64Kl8Tb5nUzey4l/5YOazHGMcvaZ
+   A==;
+X-CSE-ConnectionGUID: 0Sazw19bQbq17XPPV4Yvmw==
+X-CSE-MsgGUID: EvsQAnI/QISPCwrWSFakQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45243728"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="60031746"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 13:54:28 -0800
-X-CSE-ConnectionGUID: TnB9Tji2SaqKg87Itz2G5w==
-X-CSE-MsgGUID: 4Ydfc+ZgQHKlhPyep9IaFA==
+   d="scan'208";a="45243728"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 14:05:28 -0800
+X-CSE-ConnectionGUID: tGCeydyrT2+xQWh77P15ig==
+X-CSE-MsgGUID: 0eWzanrgTei7loXJV1oeJQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101815967"
+X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
+   d="scan'208";a="96716806"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Dec 2024 13:54:27 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 14 Dec 2024 14:05:27 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMa5g-000DGE-1a;
-	Sat, 14 Dec 2024 21:54:24 +0000
-Date: Sun, 15 Dec 2024 05:54:03 +0800
+	id 1tMaGL-000DHA-1z;
+	Sat, 14 Dec 2024 22:05:25 +0000
+Date: Sun, 15 Dec 2024 06:04:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 7230/7241]
- kernel/sched/core.c:3976:21: warning: no previous prototype for
- 'find_exec_ctx'
-Message-ID: <202412150516.2qjKlw2Q-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1613/1613]
+ drivers/pci/controller/pci-loongson.c:183:22: sparse: sparse: incorrect type
+ in argument 2 (different address spaces)
+Message-ID: <202412150516.jwknHegy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,122 +63,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   39fc9c68b13a226d44263bb908cccf8783e34d6e
-commit: a70dd213296b2f2524c2b4440cb60d46f85ab2e4 [7230/7241] ANDROID: sched: Add find_exec_ctx helper
-config: x86_64-randconfig-161-20241215 (https://download.01.org/0day-ci/archive/20241215/202412150516.2qjKlw2Q-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150516.2qjKlw2Q-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   d68dc6ee371ec5466be9b2d76bdca0b360940adc
+commit: 668ae8b1a55a96a60303d36b81b112a709a324bb [1613/1613] PCI: LS7A2000: fix GPU card error
+config: loongarch-randconfig-r111-20241210 (https://download.01.org/0day-ci/archive/20241215/202412150516.jwknHegy-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241215/202412150516.jwknHegy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412150516.2qjKlw2Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412150516.jwknHegy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/pci-loongson.c:183:22: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void volatile * @@
+   drivers/pci/controller/pci-loongson.c:183:22: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pci/controller/pci-loongson.c:183:22: sparse:     got void volatile *
+   drivers/pci/controller/pci-loongson.c:184:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void volatile * @@
+   drivers/pci/controller/pci-loongson.c:184:29: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pci/controller/pci-loongson.c:184:29: sparse:     got void volatile *
+   drivers/pci/controller/pci-loongson.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> kernel/sched/core.c:3976:21: warning: no previous prototype for 'find_exec_ctx' [-Wmissing-prototypes]
-    3976 | struct task_struct *find_exec_ctx(struct rq *rq, struct task_struct *p)
-         |                     ^~~~~~~~~~~~~
-   kernel/sched/core.c: In function 'ttwu_runnable':
-   kernel/sched/core.c:4149:63: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
-    4149 |                         trace_sched_pe_return_migration(p, p->wake_cpu);
-         |                                                               ^~~~~~~~
-         |                                                               wake_q
-   In file included from arch/x86/include/asm/bug.h:99,
-                    from include/linux/bug.h:5,
-                    from include/linux/jump_label.h:280,
-                    from include/linux/static_key.h:1,
-                    from arch/x86/include/asm/nospec-branch.h:6,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:10:
-   kernel/sched/core.c: In function 'find_proxy_task':
-   kernel/sched/core.c:7376:18: error: implicit declaration of function 'is_cpu_allowed'; did you mean 'cpuset_cpus_allowed'? [-Werror=implicit-function-declaration]
-    7376 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
-         |                  ^~~~~~~~~~~~~~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   kernel/sched/core.c:7376:39: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
-    7376 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
-         |                                       ^~~~~~~~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   kernel/sched/core.c:7377:16: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
-    7377 |         if (p->wake_cpu == this_cpu) {
-         |                ^~~~~~~~
-         |                wake_q
-   kernel/sched/core.c:7390:47: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
-    7390 |         trace_sched_pe_return_migration(p, p->wake_cpu);
-         |                                               ^~~~~~~~
-         |                                               wake_q
-   kernel/sched/core.c:7391:42: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
-    7391 |         proxy_migrate_task(rq, rf, p, p->wake_cpu);
-         |                                          ^~~~~~~~
-         |                                          wake_q
-   kernel/sched/core.c: In function '__schedule':
-   kernel/sched/core.c:7551:25: error: implicit declaration of function 'zap_balance_callbacks'; did you mean 'balance_callbacks'? [-Werror=implicit-function-declaration]
-    7551 |                         zap_balance_callbacks(rq);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-         |                         balance_callbacks
-   cc1: some warnings being treated as errors
+vim +183 drivers/pci/controller/pci-loongson.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
-
-
-vim +/find_exec_ctx +3976 kernel/sched/core.c
-
-  3971	
-  3972	/*
-  3973	 * Returns the unblocked task at the end of the blocked chain starting with p
-  3974	 * if that chain is composed entirely of tasks enqueued on rq, or NULL otherwise.
-  3975	 */
-> 3976	struct task_struct *find_exec_ctx(struct rq *rq, struct task_struct *p)
-  3977	{
-  3978		struct task_struct *exec_ctx, *owner;
-  3979	
-  3980		if (!sched_proxy_exec())
-  3981			return p;
-  3982	
-  3983		lockdep_assert_rq_held(rq);
-  3984	
-  3985		for (exec_ctx = p; task_is_blocked(exec_ctx) && !task_on_cpu(rq, exec_ctx);
-  3986								exec_ctx = owner) {
-  3987			owner = __mutex_owner(exec_ctx->blocked_on);
-  3988			if (!owner || owner == exec_ctx)
-  3989				break;
-  3990	
-  3991			if (!task_queued_on_rq(rq, owner) || task_current_donor(rq, owner)) {
-  3992				exec_ctx = NULL;
-  3993				break;
-  3994			}
-  3995		}
-  3996		return exec_ctx;
-  3997	}
-  3998	#else /* !CONFIG_SCHED_PROXY_EXEC */
-  3999	static inline void proxy_remove_from_sleeping_owner(struct task_struct *p)
-  4000	{
-  4001	}
-  4002	
+   151	
+   152	static void loongson_display_quirk(struct pci_dev *dev)
+   153	{
+   154		u32 val;
+   155		u64 mask, size;
+   156		u64 max_size = 0;
+   157		int i, num;
+   158		struct pci_bus *bus = dev->bus;
+   159	
+   160		if (!dev->bus->number) {
+   161			if (!(dev->vendor == PCI_VENDOR_ID_LOONGSON && dev->device == 0x7a25))
+   162				return;
+   163		} else {
+   164			while (!pci_is_root_bus(bus->parent))
+   165				bus = bus->parent;
+   166	
+   167			/* ensure slot is 7a2000 */
+   168			if (bus->self->vendor != PCI_VENDOR_ID_LOONGSON || bus->self->device < 0x7a39)
+   169				return;
+   170		}
+   171		max_size = 0;
+   172		for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
+   173			if (dev->resource[i].flags & IORESOURCE_MEM) {
+   174				size = dev->resource[i].end - dev->resource[i].start;
+   175				if (size > max_size) {
+   176					max_size = size;
+   177					num = i;
+   178				}
+   179			}
+   180		}
+   181		mask = ~(dev->resource[num].end - dev->resource[num].start);
+   182		val = (dev->resource[num].start >> (24 - 16)) | ((mask >> 24) & 0xffff);
+ > 183		writel(val, (volatile void *)0x80000efdfb000174UL);
+   184		writel(0x80000000, (volatile void *)0x80000efdfb000170UL);
+   185	}
+   186	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_LOONGSON, 0x7a25, loongson_display_quirk);
+   187	DECLARE_PCI_FIXUP_CLASS_FINAL(PCI_ANY_ID, PCI_ANY_ID,
+   188					PCI_BASE_CLASS_DISPLAY, 16, loongson_display_quirk);
+   189	
 
 -- 
 0-DAY CI Kernel Test Service
