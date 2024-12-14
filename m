@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569F4137E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 03:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A733D96A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 03:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734146427; cv=none; b=WNzanA93/hyt+W8m7dS/iyAGd6XARzynT7s5RaRbSb0nTyXInGD1JIOZ9bv300hYy3vrmmVwbCRTdmkePrEPz3S0NujPik1ToJoPdMwMqPIrSgvWxutXBcnYjX9X7Sx7iEXVzwP+LiSvpzDl3uUi4Zt+VCdzw8lp+LG7JSx8AFY=
+	t=1734148311; cv=none; b=ek5wuC5jqSOGCHbcOnO3K2Fg/p/SUIDQ5ZoRX+RSXpUO1nUcdphPsqhiJD1PKOkwOu+RHiP9YNWZWrdnauRDS15I9AYSxGN4Vypfoj9xhwxJ50JY5y0w41O/RaQ4VwvOj0Lm+OV4VqmZnVQnlRQRlYNWBCNlwOLTxRF7SCEJTyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734146427; c=relaxed/simple;
-	bh=W+7PWEwn/wR56QbmvlyxcJqA44Z4GW3EXELyuU/rMY4=;
+	s=arc-20240116; t=1734148311; c=relaxed/simple;
+	bh=Cpe6bP2bKIHTbGI7wF+1M60Qnhcs63frzi7ZUZaetwg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UfcDX+GJqzOsaHcABl9EALpLLqzVw/gyBl6mQZ4HSCtneNc2PIKmbsXUygOCtZox0OduAyU35zVpdFOtRLkH1zmDY5BtvkQG8u9O0SlkXJZ2UOJkbSP4gG1DyrxLD0wzR74FpjJsUyo5GMArdePn0tMLh+pbLZGugHhBm1sGtg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWiPfWq9; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=UHHei4TJ3W/s9Ijyybut0Bm1mytVt8sn0qtP6q1dU9/b4byzbau2er7yXPLgb4lUJRZIxyqutIBZvy5ks0saSjKaE3tth5gzuHvTRXIwTgopZIMjag3J4YSRmhvK/hoCcvIuug+pq14TqAhPPoF3Fi5VsyhGcUnFZDt+1GMTeLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NA+fsPAY; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWiPfWq9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NA+fsPAY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734146425; x=1765682425;
+  t=1734148309; x=1765684309;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W+7PWEwn/wR56QbmvlyxcJqA44Z4GW3EXELyuU/rMY4=;
-  b=YWiPfWq9JstGeKz/iQtw5XkUiiqOJy723IGCs08jE8fd9TqKyqrUhwPi
-   VMeelXlhl/6TbuFVofVlXFv1AbpZ3DXHSnUqyiiMYvuHMBcgmFiDeauJu
-   uFO/0jqpfzW3j2DLA1hU192A4Q9fJbP6B9rQI79e+mNY+0gOQXp5kqTve
-   akufqBVf2tBhp781M+QkvK/5tULo0zjEzNBiOwdUepc791PDlKZrNo4kM
-   w3AKuyg0yz2h4a1ptmxl9zk9niicpmNtv9uZn/P9oVh0Vd4Z0KbV00quA
-   /k2kjeaGb9o1l5QcVhfHayPRO7ZNKnQJUTp/TD6A2/p08I2IOds+ZPKgZ
-   A==;
-X-CSE-ConnectionGUID: NV8FhLiKRw+CIKul3XEmag==
-X-CSE-MsgGUID: AG/W5nyuRkaOU0rxEneAzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="34753519"
+  bh=Cpe6bP2bKIHTbGI7wF+1M60Qnhcs63frzi7ZUZaetwg=;
+  b=NA+fsPAY8OUec4OZ5cFe2oipkvedEjc1itECtxlrcUCxFyGixsD64IzI
+   EvESZPzkTBd45sn11V6NZjB/+yd88wYfN6qykJr/L4PQcaWdtZ/YRJgRA
+   Vcda2CIIgQFAdj5GR4F6oSXOB/xb2dSjUr/2FQYcgWcZtYnDDmzgvmitp
+   q8yy35oYf3N/AH8oKl9/MYO95ZE87FiO7i7UfbP6hNjJt/kAg7QbN/XEG
+   +3hyR4Odz6vnWygoNxWQUsE93CUAzOa3I609dFr9Xmm681KQm0Kf/G8xI
+   pl1oDjUWq+R0gvsvHizTsLtUv0P5brjYzDpLZ3IWC5xINby6XYGUzgw91
+   w==;
+X-CSE-ConnectionGUID: sGJ7SeU6QeyH5WH0DnoBxw==
+X-CSE-MsgGUID: KdhbK6CiQouX8lcXqLO8Lw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="33915170"
 X-IronPort-AV: E=Sophos;i="6.12,233,1728975600"; 
-   d="scan'208";a="34753519"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 19:20:24 -0800
-X-CSE-ConnectionGUID: ULCtfOhnQbGfzqBM9SDseQ==
-X-CSE-MsgGUID: 0zdo9zNuTL2oTBnfOHfhQQ==
+   d="scan'208";a="33915170"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 19:51:47 -0800
+X-CSE-ConnectionGUID: +Mv+SMHdTYejm9noonFNpw==
+X-CSE-MsgGUID: 7pjyyqSPQAigzmkfc/q+qg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,233,1728975600"; 
-   d="scan'208";a="101724736"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="96566065"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Dec 2024 19:20:24 -0800
+  by orviesa010.jf.intel.com with ESMTP; 13 Dec 2024 19:51:47 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMIhZ-000Cfn-1N;
-	Sat, 14 Dec 2024 03:20:21 +0000
-Date: Sat, 14 Dec 2024 11:19:46 +0800
+	id 1tMJBw-000Cgp-1M;
+	Sat, 14 Dec 2024 03:51:44 +0000
+Date: Sat, 14 Dec 2024 11:51:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yipeng Zou <zouyipeng@huawei.com>
+To: Dave Jiang <dave.jiang@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2579/2579] kernel/sched/core.c:8146:29: error:
- 'root_task_group' undeclared; did you mean 'task_group'?
-Message-ID: <202412141149.8BSY27XL-lkp@intel.com>
+Subject: [djiang:cxl/fwctl 22/28] ./usr/include/cxl/features.h:18:9: error:
+ unknown type name 'uuid_t'
+Message-ID: <202412141118.YqxXuU25-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +62,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   6c3413fbf8c430b89f5d23f465e10e99ea145199
-commit: 00d37128abe2687fac974c5d21aa67fac6518c7c [2579/2579] sched: Introduce smart grid scheduling strategy for cfs
-config: arm64-randconfig-004-20241213 (https://download.01.org/0day-ci/archive/20241214/202412141149.8BSY27XL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412141149.8BSY27XL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
+head:   c3c1ca00092765212f4eb49d2aaffb2003beb33b
+commit: 1418c57d624b65ffaf45d420545ca853a99f7a6a [22/28] cxl: Move cxl feature command structs to user header
+config: i386-buildonly-randconfig-001-20241214 (https://download.01.org/0day-ci/archive/20241214/202412141118.YqxXuU25-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412141118.YqxXuU25-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412141149.8BSY27XL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412141118.YqxXuU25-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/core.c:2746:6: warning: no previous prototype for 'sched_set_stop_task' [-Wmissing-prototypes]
-    2746 | void sched_set_stop_task(int cpu, struct task_struct *stop)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c: In function 'sched_cpu_activate':
-   kernel/sched/core.c:8012:9: error: implicit declaration of function 'tg_update_affinity_domains'; did you mean 'irq_update_affinity_desc'? [-Werror=implicit-function-declaration]
-    8012 |         tg_update_affinity_domains(cpu, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         irq_update_affinity_desc
-   kernel/sched/core.c: In function 'sched_init_smp':
-   kernel/sched/core.c:8146:9: error: implicit declaration of function 'init_auto_affinity'; did you mean 'irq_set_affinity'? [-Werror=implicit-function-declaration]
-    8146 |         init_auto_affinity(&root_task_group);
-         |         ^~~~~~~~~~~~~~~~~~
-         |         irq_set_affinity
->> kernel/sched/core.c:8146:29: error: 'root_task_group' undeclared (first use in this function); did you mean 'task_group'?
-    8146 |         init_auto_affinity(&root_task_group);
-         |                             ^~~~~~~~~~~~~~~
-         |                             task_group
-   kernel/sched/core.c:8146:29: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
-
-
-vim +8146 kernel/sched/core.c
-
-  8121	
-  8122	void __init sched_init_smp(void)
-  8123	{
-  8124		sched_init_numa();
-  8125		set_sched_cluster();
-  8126	
-  8127		/*
-  8128		 * There's no userspace yet to cause hotplug operations; hence all the
-  8129		 * CPU masks are stable and all blatant races in the below code cannot
-  8130		 * happen.
-  8131		 */
-  8132		mutex_lock(&sched_domains_mutex);
-  8133		sched_init_domains(cpu_active_mask);
-  8134		mutex_unlock(&sched_domains_mutex);
-  8135	
-  8136		/* Move init over to a non-isolated CPU */
-  8137		if (set_cpus_allowed_ptr(current, housekeeping_cpumask(HK_FLAG_DOMAIN)) < 0)
-  8138			BUG();
-  8139		sched_init_granularity();
-  8140	
-  8141		init_sched_rt_class();
-  8142		init_sched_dl_class();
-  8143	
-  8144		sched_smp_initialized = true;
-  8145	
-> 8146		init_auto_affinity(&root_task_group);
-  8147	}
-  8148	
+   In file included from <command-line>:
+   ./usr/include/cxl/features.h:12:9: error: unknown type name '__le32'
+      12 |         __le32 count;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:13:9: error: unknown type name '__le16'
+      13 |         __le16 start_idx;
+         |         ^~~~~~
+>> ./usr/include/cxl/features.h:14:9: error: unknown type name 'u8'
+      14 |         u8 reserved[2];
+         |         ^~
+>> ./usr/include/cxl/features.h:18:9: error: unknown type name 'uuid_t'
+      18 |         uuid_t uuid;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:19:9: error: unknown type name '__le16'
+      19 |         __le16 id;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:20:9: error: unknown type name '__le16'
+      20 |         __le16 get_feat_size;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:21:9: error: unknown type name '__le16'
+      21 |         __le16 set_feat_size;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:22:9: error: unknown type name '__le32'
+      22 |         __le32 flags;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:23:9: error: unknown type name 'u8'
+      23 |         u8 get_feat_ver;
+         |         ^~
+   ./usr/include/cxl/features.h:24:9: error: unknown type name 'u8'
+      24 |         u8 set_feat_ver;
+         |         ^~
+   ./usr/include/cxl/features.h:25:9: error: unknown type name '__le16'
+      25 |         __le16 effects;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:26:9: error: unknown type name 'u8'
+      26 |         u8 reserved[18];
+         |         ^~
+   ./usr/include/cxl/features.h:30:9: error: unknown type name '__le16'
+      30 |         __le16 num_entries;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:31:9: error: unknown type name '__le16'
+      31 |         __le16 supported_feats;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:32:9: error: unknown type name 'u8'
+      32 |         u8 reserved[4];
+         |         ^~
+   ./usr/include/cxl/features.h:33:38: error: expected ':', ',', ';', '}' or '__attribute__' before '__counted_by_le'
+      33 |         struct cxl_feat_entry ents[] __counted_by_le(num_entries);
+         |                                      ^~~~~~~~~~~~~~~
+   ./usr/include/cxl/features.h:52:9: error: unknown type name 'uuid_t'
+      52 |         uuid_t uuid;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:53:9: error: unknown type name '__le16'
+      53 |         __le16 offset;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:54:9: error: unknown type name '__le16'
+      54 |         __le16 count;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:55:9: error: unknown type name 'u8'
+      55 |         u8 selection;
+         |         ^~
+   ./usr/include/cxl/features.h:80:9: error: unknown type name 'uuid_t'
+      80 |         uuid_t uuid;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:81:9: error: unknown type name '__le32'
+      81 |         __le32 flags;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:82:9: error: unknown type name '__le16'
+      82 |         __le16 offset;
+         |         ^~~~~~
+   ./usr/include/cxl/features.h:83:9: error: unknown type name 'u8'
+      83 |         u8 version;
+         |         ^~
+   ./usr/include/cxl/features.h:84:9: error: unknown type name 'u8'
+      84 |         u8 rsvd[9];
+         |         ^~
 
 -- 
 0-DAY CI Kernel Test Service
