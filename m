@@ -1,67 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9840A18DF93
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 23:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31A317BD6;
+	Sat, 14 Dec 2024 23:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734218980; cv=none; b=jEiIeHwlPaNqDyNASLWmRfQKVa/T/ZzvmqYCNEnotu2e2aCwrZDGOirlp2qQ7hBGKp8/O+EMxQFUPP6D6li2uCuUw+spIvpApzQIwC+kgLQnm3buoHcb6tkjUd1y2ORlN68KhtFuQTxLJObRTeptz76gn7jsAj1BjWySTIVcEA4=
+	t=1734220240; cv=none; b=jSEajz5QHh/9EUd7iJlYH2PjSJVk8cAxPw18ztWtU4cN39ioUyPN3h9skiaoRLJVVhlLayTt/jT5AfG5j/p6PCfiOjR/qnKEgr/9nRL1tNr2XD6CD48/RXwg2IB50EO3iqg/8PUVldI/sj4vxpo7RdC76ED3HvFtkqIkGUVwlYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734218980; c=relaxed/simple;
-	bh=1+CFgeAd+oR6Q7/0GgOQkB/ji2r8yb3vByK9aFbF0Js=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SUYOiadi8WikBCsjiUuUP98+otKiIn1suCjDM/0lQzMDsOAVk4djonWxkSMLGgmQ8FALag0AhH2MmTj7kP73oQhsfeYieET7m4Hpr4cVrs4rvJLYTyKKpBbSSkXMpQ3aZTRGKquJxvjrP1K6grXdS/RdPhi+s/P6tC3ayeP93Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LnziYlNj; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1734220240; c=relaxed/simple;
+	bh=vII1euYZw+KTe0VGAi29QTWdnWnqz5U02OFIF/M/43U=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kfA01bqzaZ53yQnfD/b3g3mY9kDKuvfQlOFxYzvAzIVhOTXXoGUQoPaD2nHaqRYBSq89L4TkbIMe3kBtrteuKlzPVuALKNrKWmPEjXq4Sz7mAn3iNd05Kgu99aJ4HUYCR4JL3Ipf5zWtA9hzx6EB8u++4/ayx73gkyoTPniXrtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQosTETr; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnziYlNj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQosTETr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734218979; x=1765754979;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1+CFgeAd+oR6Q7/0GgOQkB/ji2r8yb3vByK9aFbF0Js=;
-  b=LnziYlNjYFeVMcXnTiu3Z4kMBcOqt9ee0vkgxKP6v6aRIUQruTXz5km+
-   ln7Y9rxwu8iuaHkg53iYNWtRHqlEnpfg3K3dJ2UNd0kVsJcTb7aK1RQA7
-   tnpP9Dbg/J6soAT1bW0PNAZmdhoi3ven5pu+le6eOjwt/tJsnEuCBiSO+
-   HDR/b0qJb/olshq/aiksKBTSqtAgCTCS7GKA9YlxzJMSbhkLaKCTuoVcB
-   /es0D/gPE7JdUQArAs+mGfe3fLiUr454L2KIUjLdM6oBKUFAnCr2Tz7Ul
-   w/dbwdeGauFrwcNdGjuLedz8EsPvwlGaqI/2mwRAoj4U0/O6LMqjBbpYy
-   A==;
-X-CSE-ConnectionGUID: ZXYWr5aoRy2Ih/9jm3wdxg==
-X-CSE-MsgGUID: HPYMsZXnTlefoGtco3gaZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="52061453"
+  t=1734220238; x=1765756238;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=vII1euYZw+KTe0VGAi29QTWdnWnqz5U02OFIF/M/43U=;
+  b=jQosTETrqaPop4pwZuEasxV8CpxOCBCuneuAiRy4n5q3Emm+NEXFS23w
+   xyIZdC//AwwmKm7e9HBqPxRG0uOhheMLdMG/UNR+D6CmhCwRXby8fXFVI
+   UzLsoxxaY6/MimifZk5o2yNEAFomV83DZDQnEXce7IIHJZxXwZt7rpWDV
+   i9OAFqiFWHTHctwrt9RN7PKJU0GeSrST9AXrhXESEErowUpjr/z8skM5o
+   bA+7t7yvqXxzEEuN0mZHsn/5wnXsTLy6BH2wmbA2MiobB3LjwDRGojD3z
+   auCMZn9snRN03NTCdivAi36V03AlqOrxrRThxy1w7ZQfqa2qLMOCYcq8t
+   g==;
+X-CSE-ConnectionGUID: A2E+SaSgQBin4pIOGvaYfA==
+X-CSE-MsgGUID: wVpKtynhQ4qa7/tHVFr/Kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="38327517"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="52061453"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 15:29:38 -0800
-X-CSE-ConnectionGUID: SrouF0NVSG6mlDyZXA8t3A==
-X-CSE-MsgGUID: Z2iN8U93RbKsgav5GjOCCA==
+   d="scan'208";a="38327517"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 15:50:38 -0800
+X-CSE-ConnectionGUID: rrUWvhoQQQKNp2QkWfiKSw==
+X-CSE-MsgGUID: XpHUpAsdT2aS4FXoCC1DXA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="97092677"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="96711397"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Dec 2024 15:29:35 -0800
+  by orviesa010.jf.intel.com with ESMTP; 14 Dec 2024 15:50:37 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMbZk-000DJi-0q;
-	Sat, 14 Dec 2024 23:29:32 +0000
-Date: Sun, 15 Dec 2024 07:28:44 +0800
+	id 1tMbu6-000DK6-0t;
+	Sat, 14 Dec 2024 23:50:34 +0000
+Date: Sun, 15 Dec 2024 07:50:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/2] drm/nouveau: incorporate I2C TV encoder drivers
-Message-ID: <202412150729.LAunB5YO-lkp@intel.com>
-References: <20241214-nouveau-encoder-slave-v1-1-beda767472e3@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: vmlinux.o: warning: objtool: .text.amd_set_spi_freq: unexpected end
+ of section
+Message-ID: <202412150725.0tOrzlKf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,40 +60,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241214-nouveau-encoder-slave-v1-1-beda767472e3@linaro.org>
 
-Hi Dmitry,
+CC: linux-kernel@vger.kernel.org
+TO: Raju Rangoju <Raju.Rangoju@amd.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Krishnamoorthi M <krishnamoorthi.m@amd.com>
+CC: Akshata MukundShetty <akshata.mukundshetty@amd.com>
 
-kernel test robot noticed the following build errors:
+Hi Raju,
 
-[auto build test ERROR on 4176cf5c5651c33769de83bb61b0287f4ec7719f]
+FYI, the error/warning still remains.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-nouveau-incorporate-I2C-TV-encoder-drivers/20241214-233637
-base:   4176cf5c5651c33769de83bb61b0287f4ec7719f
-patch link:    https://lore.kernel.org/r/20241214-nouveau-encoder-slave-v1-1-beda767472e3%40linaro.org
-patch subject: [PATCH 1/2] drm/nouveau: incorporate I2C TV encoder drivers
-reproduce: (https://download.01.org/0day-ci/archive/20241215/202412150729.LAunB5YO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a0e3919a2df29b373b19a8fbd6e4c4c38fc10d87
+commit: 6defadbe6cbc3a87dc39c119a6748d19bfba0544 spi: spi_amd: Add support for SPI MEM framework
+date:   9 months ago
+config: x86_64-randconfig-071-20241214 (https://download.01.org/0day-ci/archive/20241215/202412150725.0tOrzlKf-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150725.0tOrzlKf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412150729.LAunB5YO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412150725.0tOrzlKf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/dispnv04/Kbuild:14: drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild: No such file or directory
->> make[6]: *** No rule to make target 'drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild'.
-   drivers/gpu/drm/nouveau/dispnv04/Kbuild:14: Failed to remake makefile 'drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild'.
-   make[5]: *** [scripts/Makefile.clean:61: drivers/gpu/drm/nouveau] Error 2
-   make[5]: Target '__clean' not remade because of errors.
-   make[4]: *** [scripts/Makefile.clean:61: drivers/gpu/drm] Error 2
-   make[4]: Target '__clean' not remade because of errors.
-
-
-vim +14 drivers/gpu/drm/nouveau/dispnv04/Kbuild
-
-    13	
-  > 14	include $(src)/dispnv04/i2c/Kbuild
+   vmlinux.o: warning: objtool: .text.jffs2_erase_pending_blocks: unexpected end of section
+>> vmlinux.o: warning: objtool: .text.amd_set_spi_freq: unexpected end of section
 
 -- 
 0-DAY CI Kernel Test Service
