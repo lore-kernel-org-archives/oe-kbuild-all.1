@@ -1,162 +1,126 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0D719992C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 20:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ADA1AF0A7;
+	Sat, 14 Dec 2024 20:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734209544; cv=none; b=buz0rrpxkSpGZZuO3z4/WVAYKvtzLmoNuXgTggEGfyNJikYcpkaYqtXWGJCANG+iydXg3HhJEi4fhM7gEWh6It6Aq2Fg5eumPoTVm99x/7hS4kf3aj1dm7RLH4Zh9+r31bkf0E5tjb0o/lvGTSE3ldF3MGMZcp0lxgZKI85XuyQ=
+	t=1734209547; cv=none; b=fjs4JD5X1AckPSzqyRgUvw1lUlVrBC0bspwp0fdHIbgsW7clqwqKEpe5Vl+rLIfxNdyxhNJzTAUxW7WjaJ6nZ7hSSrAfutjn4PuBL2KoTW8HHs7QlMFzE7ssdEBJ9SoPefe/nPXvaSyHIqymvLTYUflNKuJZ1hTy5NwXCvhXHOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734209544; c=relaxed/simple;
-	bh=SLM1B1zUo1slvaU7lsOVoufbc6Xa5Z8zHuFIpHHaGdQ=;
+	s=arc-20240116; t=1734209547; c=relaxed/simple;
+	bh=CH459Dbo7IabDlztuH5WsZpkbk7zCMya58lFkFQPsac=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mNlMOUrZM31QA/y8juERPGU/pGn0ojE2hxMpsemp1zcV2VC0KnDB1FDa58hhxtd7TbxzaK63jjbLXLHulyTTZV/cGU7HwM+3JK0Gu/Cd6tWJ4zKyRb/RtUfGTHCHkcB3Kmjttby1mlcHV1Zl1EbBulqUFoZybutMtjyvtmu8+30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRhdVJHr; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=k0ZeAuo3FG3axdE2sKaXp9eJqVmeDmZSlay4Xg+CMjeuLBLGxlgYH+8+rh5JDi3KEhNoTLvixnGhZoFAfdxBw2KT/jvXzRNGxZ0hK6v6htrEGKToUi2BEv6GpDSjHrAVoUJRoNBVjYGcNjX3briX1AOU8dmHAV4XcWEHi1AYEAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Esa7YwSl; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRhdVJHr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Esa7YwSl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734209542; x=1765745542;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SLM1B1zUo1slvaU7lsOVoufbc6Xa5Z8zHuFIpHHaGdQ=;
-  b=FRhdVJHreYTUm30EC+5ybW4BuHmIQ8QLVckf40RkhOyeGqEIURUINaIL
-   MQMdeWipApS4FwvweHgzphbpAzGj4w/rvusXGhdXS9VN4EhjKybBFJlm5
-   sHcJ3RumRiWv/Q45NhbqMkd9mwpccFz7badpVchTOoebMPB+qmkUXBlqV
-   CVvXjeeEblLwWejkRd8IGahtAhdsP6twfXbDH8fkTNV/60x4TPbTlLjIj
-   zM4NkJKeLqBVPunwv77gussniWxWlREfROVYFQVm2L2SUMHr4tEUNkO0L
-   /OV5ybcTZ5Ckga/Ozf0wd5H1FzObmiLu4l4A8tuC/31eCsmgu4aQQ2GWi
-   A==;
-X-CSE-ConnectionGUID: azikgS7VQ/2EaDivH8ZUgg==
-X-CSE-MsgGUID: +Kr7Q/o2T82dy0s0ndpsaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34542565"
+  t=1734209545; x=1765745545;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CH459Dbo7IabDlztuH5WsZpkbk7zCMya58lFkFQPsac=;
+  b=Esa7YwSlc77q3Zv/8/WiaTVxbvXiiQruWQSDOn2SZR5eFgNavkGrIGt1
+   sHgBmoZ0RcNnmXcv+FTx016+54Cl8u7CY2tihuGV3vxpGkM49n0m76Msj
+   u6AaLgA9Y0G87dPdGu1UdhbCN0EtArhqVVXb040ztdSSAuyVeCsYmHng5
+   tWE+G8zm+22m3nPJBksERPEI5ISrn7EA6spiK27FiIt7VhSsmmFnFX3OT
+   9k2tSCFussr5t01O73+27hdTR8l3PPYtk5jAqft1ANRmEZgerL5Es1Jbv
+   YkOZOz0X7ztb2tYRA8W1MmlJWLpXVc9SXCUPWECgeeDJCzbdcmC7gkpxM
+   w==;
+X-CSE-ConnectionGUID: cyjcACfYR/2kF7q2iLJ9MA==
+X-CSE-MsgGUID: BWMvMRY9TdeFXei0E/lIPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34542569"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="34542565"
+   d="scan'208";a="34542569"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 12:52:21 -0800
-X-CSE-ConnectionGUID: AioRVNxbR1G4Y7jRf2qQvQ==
-X-CSE-MsgGUID: Cf4h8iOGQSOrdAiasRdjXg==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 12:52:22 -0800
+X-CSE-ConnectionGUID: oynWFVaQQfirRdj3eF13UA==
+X-CSE-MsgGUID: NsUoNj42SrGRuFYG6SgciQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="97399859"
+   d="scan'208";a="97399861"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 14 Dec 2024 12:52:20 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMZ7a-000DDX-0M;
+	id 1tMZ7a-000DDd-0h;
 	Sat, 14 Dec 2024 20:52:18 +0000
-Date: Sun, 15 Dec 2024 04:52:14 +0800
+Date: Sun, 15 Dec 2024 04:52:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 7350/7391]
- kernel/sched/core.c:3976:21: warning: no previous prototype for function
- 'find_exec_ctx'
-Message-ID: <202412150416.OxZkbF4L-lkp@intel.com>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Nam Cao <namcao@linutronix.de>
+Subject: [thomas-weissschuh:vdso/store 51/51]
+ arch/arm64/include/asm/vdso/compat_gettimeofday.h:165:46: warning: value
+ size does not match register size specified by the constraint and modifier
+Message-ID: <202412150418.DTevfJM2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   979e6f6aa3c78b92ad965d072eddc53477a84fb6
-commit: a70dd213296b2f2524c2b4440cb60d46f85ab2e4 [7350/7391] ANDROID: sched: Add find_exec_ctx helper
-config: i386-randconfig-141-20241215 (https://download.01.org/0day-ci/archive/20241215/202412150416.OxZkbF4L-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150416.OxZkbF4L-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git vdso/store
+head:   bebedce7b4b3dd55df052f7c6c6160aad13d8f39
+commit: bebedce7b4b3dd55df052f7c6c6160aad13d8f39 [51/51] vdso: Rework struct vdso_time_data and introduce struct vdso_clock
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241215/202412150418.DTevfJM2-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150418.DTevfJM2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412150416.OxZkbF4L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412150418.DTevfJM2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/core.c:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/sched/core.c:3976:21: warning: no previous prototype for function 'find_exec_ctx' [-Wmissing-prototypes]
-    3976 | struct task_struct *find_exec_ctx(struct rq *rq, struct task_struct *p)
-         |                     ^
-   kernel/sched/core.c:3976:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3976 | struct task_struct *find_exec_ctx(struct rq *rq, struct task_struct *p)
-         | ^
-         | static 
-   kernel/sched/core.c:4149:42: error: no member named 'wake_cpu' in 'struct task_struct'
-    4149 |                         trace_sched_pe_return_migration(p, p->wake_cpu);
-         |                                                            ~  ^
-   kernel/sched/core.c:7376:11: error: call to undeclared function 'is_cpu_allowed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    7376 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
-         |                  ^
-   kernel/sched/core.c:7376:32: error: no member named 'wake_cpu' in 'struct task_struct'
-    7376 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
-         |                                    ~  ^
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   kernel/sched/core.c:7377:9: error: no member named 'wake_cpu' in 'struct task_struct'
-    7377 |         if (p->wake_cpu == this_cpu) {
-         |             ~  ^
-   kernel/sched/core.c:7390:40: error: no member named 'wake_cpu' in 'struct task_struct'
-    7390 |         trace_sched_pe_return_migration(p, p->wake_cpu);
-         |                                            ~  ^
-   kernel/sched/core.c:7391:35: error: no member named 'wake_cpu' in 'struct task_struct'
-    7391 |         proxy_migrate_task(rq, rf, p, p->wake_cpu);
-         |                                       ~  ^
-   kernel/sched/core.c:7551:4: error: call to undeclared function 'zap_balance_callbacks'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    7551 |                         zap_balance_callbacks(rq);
-         |                         ^
-   kernel/sched/core.c:7551:4: note: did you mean '__balance_callbacks'?
-   kernel/sched/core.c:5518:20: note: '__balance_callbacks' declared here
-    5518 | static inline void __balance_callbacks(struct rq *rq)
-         |                    ^
-   2 warnings and 7 errors generated.
+   In file included from <built-in>:3:
+   In file included from lib/vdso/gettimeofday.c:5:
+   In file included from include/vdso/datapage.h:220:
+>> arch/arm64/include/asm/vdso/compat_gettimeofday.h:165:46: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
+     165 |         asm volatile("mov %0, %1" : "=r"(ret) : "r"(vdso_u_timens_data));
+         |                                                     ^
+   1 warning generated.
+--
+   In file included from <built-in>:3:
+   In file included from lib/vdso/gettimeofday.c:5:
+   In file included from include/vdso/datapage.h:220:
+>> arch/arm64/include/asm/vdso/compat_gettimeofday.h:165:46: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
+     165 |         asm volatile("mov %0, %1" : "=r"(ret) : "r"(vdso_u_timens_data));
+         |                                                     ^
+   1 warning generated.
 
 
-vim +/find_exec_ctx +3976 kernel/sched/core.c
+vim +165 arch/arm64/include/asm/vdso/compat_gettimeofday.h
 
-  3971	
-  3972	/*
-  3973	 * Returns the unblocked task at the end of the blocked chain starting with p
-  3974	 * if that chain is composed entirely of tasks enqueued on rq, or NULL otherwise.
-  3975	 */
-> 3976	struct task_struct *find_exec_ctx(struct rq *rq, struct task_struct *p)
-  3977	{
-  3978		struct task_struct *exec_ctx, *owner;
-  3979	
-  3980		if (!sched_proxy_exec())
-  3981			return p;
-  3982	
-  3983		lockdep_assert_rq_held(rq);
-  3984	
-  3985		for (exec_ctx = p; task_is_blocked(exec_ctx) && !task_on_cpu(rq, exec_ctx);
-  3986								exec_ctx = owner) {
-  3987			owner = __mutex_owner(exec_ctx->blocked_on);
-  3988			if (!owner || owner == exec_ctx)
-  3989				break;
-  3990	
-  3991			if (!task_queued_on_rq(rq, owner) || task_current_donor(rq, owner)) {
-  3992				exec_ctx = NULL;
-  3993				break;
-  3994			}
-  3995		}
-  3996		return exec_ctx;
-  3997	}
-  3998	#else /* !CONFIG_SCHED_PROXY_EXEC */
-  3999	static inline void proxy_remove_from_sleeping_owner(struct task_struct *p)
-  4000	{
-  4001	}
-  4002	
+a7f71a2c8903f85 Vincenzo Frascino 2019-06-21  157  
+3503d56cc7233ce Andrei Vagin      2020-06-24  158  #ifdef CONFIG_TIME_NS
+808094fcbf4196b Christophe Leroy  2021-03-31  159  static __always_inline
+9cc578dc2437109 Nam Cao           2024-09-25  160  const struct vdso_time_data *__aarch64_get_vdso_u_timens_data(void)
+3503d56cc7233ce Andrei Vagin      2020-06-24  161  {
+9cc578dc2437109 Nam Cao           2024-09-25  162  	const struct vdso_time_data *ret;
+3503d56cc7233ce Andrei Vagin      2020-06-24  163  
+667440cd4ada160 Thomas Weiﬂschuh  2024-09-11  164  	/* See __aarch64_get_vdso_u_time_data(). */
+667440cd4ada160 Thomas Weiﬂschuh  2024-09-11 @165  	asm volatile("mov %0, %1" : "=r"(ret) : "r"(vdso_u_timens_data));
+3503d56cc7233ce Andrei Vagin      2020-06-24  166  
+3503d56cc7233ce Andrei Vagin      2020-06-24  167  	return ret;
+3503d56cc7233ce Andrei Vagin      2020-06-24  168  }
+667440cd4ada160 Thomas Weiﬂschuh  2024-09-11  169  #define __aarch64_get_vdso_u_timens_data __arch_get_vdso_u_timens_data
+3503d56cc7233ce Andrei Vagin      2020-06-24  170  #endif
+3503d56cc7233ce Andrei Vagin      2020-06-24  171  
+
+:::::: The code at line 165 was first introduced by commit
+:::::: 667440cd4ada1608be2118918c0f3b907eb7e7f6 arm64: vdso: Switch to generic storage implementation
+
+:::::: TO: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+:::::: CC: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
