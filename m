@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E93918C002
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 11:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F148E1CD2C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Dec 2024 13:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734177347; cv=none; b=LROL15JYEVyGfU6WLim19jGYu0ajNal804PNWXycjTYju2jZr/ySEb99mgpmMO8rQk6hYk1ZPb773RL6DCXKABLllihMeNkkKut8Vu5x5db614uZLLp2SVnhojNa7U6zVfwKiblcYKxTI2SiCmGR8W3hBRzjAlmitkF+6aCht38=
+	t=1734181777; cv=none; b=X0h+XagJDkujaqscztIrXGeI+aGQvuaR+oLOpLimlJtgUKkgfqsCCv00TuCkyHcJpk5pGuA8Grub4v1IuHWylrgqLEXlQu/Qp6V3aYoxJRBaQAxHeGNSwp4p9rSXJL5E+QtqbYkjlSrWfMLb4O6tvOLtLksBnU1WWdT0mEE/Weo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734177347; c=relaxed/simple;
-	bh=sh5ggzlwN6srYMX5ICXa3ED2LcKqi2tnrqTeUnFkRpw=;
+	s=arc-20240116; t=1734181777; c=relaxed/simple;
+	bh=BFBC9bgLymTblvzTUIPN4DpLB8Y8d1DiCOYacHej91s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fC0QTf8FpOAl6O7Ha8mzy7Ch72sdJmqEA+FgZAfJu0k3a/xEmoOdye+FBAHc9Z5g9Ad0sqj3/Y+6JM1cHhwLcRJf4kDIsJIosoBFXs08fnRUTW9lpXXZkKa/oWdHPxTRukx7tk0osZ1/pVAf1/Odt863XA0nviMP9MRvEP0OTyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P85szFsr; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=T72oIJc39dhY7jDX3x97CoAUVEdE0TXma3VeDbipPrZ7puOvqYn7WVNXCg1QzRdaJ8Dyh88Fq/paIXaIDvADFd4GRMpGKqP3PNT/y3zbNTqtUhOgYh+q77nOqeo8Y6kgNaa366e7ouyXp7+wxkcs33f85YdSYVdyEpqN9peHrFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ad89dfb7; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P85szFsr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ad89dfb7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734177346; x=1765713346;
+  t=1734181775; x=1765717775;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sh5ggzlwN6srYMX5ICXa3ED2LcKqi2tnrqTeUnFkRpw=;
-  b=P85szFsrUYOf8Ez64kib435NCRjNclgVXHfKecPebv2IDSaNzv2ZZ2Rb
-   exJJl3pS5i6EbkUFTUgJJ0U0/0ByG2FCiujrianKRJMZt8tWMzrqEiIF/
-   uL9SU5TYXBxCeY7USfxWNA7EybXmG9nJ6z+rHFDeTxep8L+wl69r3ui/r
-   pi0l8yE6ecyH/BZV56dtnUyylCA7fyzJR/oH/LD0RmcyuCk0VurYmYUxB
-   6OxMMchJTwKZQeAUZZioY9KSljGOD4wCqiF6GRmPXq1eQIftJiFU85GTc
-   ZCwL0SPd+xjAOCVt2XUfmBbAVqEFInRjbJ71AQLo5iMZ95wzIEU/R7zmC
-   Q==;
-X-CSE-ConnectionGUID: WLFykiUwSgi87fdWm38Z2A==
-X-CSE-MsgGUID: EoZq6r8URUKUKwqM7BTpJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="38308557"
+  bh=BFBC9bgLymTblvzTUIPN4DpLB8Y8d1DiCOYacHej91s=;
+  b=ad89dfb7Au5bjHPcI8K+BnDVkUW4B8N9XeeJMT3RfhPRzovsBNvTWomZ
+   Z+x72Gp66RvoANHDNfsXsRfkZJYIbcFR+ICeXBJM7xjJ3RHh2F22ChVr1
+   p6madmXdXAIRqj5ihM1sAc7lbdC97E/lZ8QtM/e22RRuNfkmE+QBuAO4O
+   3TKz/1A4iIGwmf1wX8n+37ZgstLgrHWIJ/FUo2e9mqeQKYHgB5QhKqe0e
+   DyDI20f2yc2gZzOIBxZrynOy5UaUasrUw+/kH8YkBtmC59+xw39kcirGH
+   VyTtBy+sloq/sPLa+bdP/9ZbURbb3hArVx0PZEZoBORlXlyW42Q0J+9KO
+   g==;
+X-CSE-ConnectionGUID: cJ5/lLI1SG+VBolK4TxRcw==
+X-CSE-MsgGUID: QbB29vZCT6SD4C77RIRFIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34771610"
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="38308557"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 03:55:46 -0800
-X-CSE-ConnectionGUID: Avws1216SYSRwne22lcaow==
-X-CSE-MsgGUID: ZigdQtO6Rhm5zMfZehMvVA==
+   d="scan'208";a="34771610"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 05:09:34 -0800
+X-CSE-ConnectionGUID: spC9rXqHTra5/VaWxkfXCw==
+X-CSE-MsgGUID: 0cpPGjVpSb2a9pXqt5YbcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100925434"
+X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
+   d="scan'208";a="97016320"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Dec 2024 03:55:44 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 14 Dec 2024 05:09:33 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMQkH-000CtP-1a;
-	Sat, 14 Dec 2024 11:55:41 +0000
-Date: Sat, 14 Dec 2024 19:55:17 +0800
+	id 1tMRtj-000Cwf-1m;
+	Sat, 14 Dec 2024 13:09:31 +0000
+Date: Sat, 14 Dec 2024 21:08:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-misc:asoc-6.14 4/25] ERROR: modpost: "__get_user_bad"
- [sound/core/snd-compress.ko] undefined!
-Message-ID: <202412141955.FBjr5T5q-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 38/40] drivers/hid/hid-himax.c:5345:35:
+ warning: 'himax_spi_id' defined but not used
+Message-ID: <202412142013.0V3kFuCJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +62,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git asoc-6.14
-head:   5ce3beed07b8145aff61f2cb41f1868f6221271f
-commit: 24a01710f6271ec32b629d714e6a64a69665128b [4/25] ASoC: fsl_asrc_m2m: Add memory to memory function
-config: arm-randconfig-001-20241214 (https://download.01.org/0day-ci/archive/20241214/202412141955.FBjr5T5q-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   dccc901bd5fe4dba6ee0f15af2be9ed3bd78a8ff
+commit: 95761e94632784b706c0af113dfe08ab97f85e7e [38/40] CHROMIUM: HID: hid-himax: Add spi_device_id
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20241214/202412142013.0V3kFuCJ-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412141955.FBjr5T5q-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412142013.0V3kFuCJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412141955.FBjr5T5q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412142013.0V3kFuCJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__get_user_bad" [sound/core/snd-compress.ko] undefined!
-WARNING: modpost: module snd-compress uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
-WARNING: modpost: module snd-compress uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
-WARNING: modpost: module snd-compress uses symbol dma_buf_fd from namespace DMA_BUF, but does not import it.
+>> drivers/hid/hid-himax.c:5345:35: warning: 'himax_spi_id' defined but not used [-Wunused-const-variable=]
+    5345 | static const struct spi_device_id himax_spi_id[] = {
+         |                                   ^~~~~~~~~~~~
+
+
+vim +/himax_spi_id +5345 drivers/hid/hid-himax.c
+
+  5344	
+> 5345	static const struct spi_device_id himax_spi_id[] = {
+  5346		{ "hx83102j" },
+  5347		{ },
+  5348	};
+  5349	MODULE_DEVICE_TABLE(spi, himax_spi_id);
+  5350	
 
 -- 
 0-DAY CI Kernel Test Service
