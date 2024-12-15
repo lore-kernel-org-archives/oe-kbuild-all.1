@@ -1,94 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F8018DF62
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 14:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428DD18039
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 14:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734272874; cv=fail; b=I2NGM+j1g0Ui/ojacFqkeMHvBxKBdid+/jpY5b7fhlTR1njN9mGCpgz5up/AoPL2lTL7OlofFn+3p4Zobq5XvPTxuDKL24B7rO6QgwwJzsBmQptwSLIFr4+zhfHs8GdY1kTVQCT0EJsiu+4f1F0Rvg0mgV1QCT2xMeSRPgBE/ss=
+	t=1734273989; cv=fail; b=bEXnyw7fdHur912Y8IbqLMhs77JJqr4X/EHJ9RYVjnFDbd4naizQKOk5r95wepxwI3iSLrDhebLslkjk/XfTsVcBOqu0oU+MMBd2pWy0ESixSsc8JAklixtpma17cLAfqt9RNLGx5NUdSNdR4wd2vZ2UEWDo68+mRP8BMEKqBBM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734272874; c=relaxed/simple;
-	bh=xDCq6YvNwQYepDqAEZjKP8aWWxhed+ZZbDCBDH67Hk0=;
+	s=arc-20240116; t=1734273989; c=relaxed/simple;
+	bh=Yv7DqgULsXphpQzxB04hmoE5lICjNulMcT6tyiCnQUw=;
 	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=HRksEfBesNxhZdbyU8ZbosVOJgWjhWgf4NsiP5v3Suw3V7bsUWjos8g/1MaFUoNSW6gj9So5fSLrOCj+ucHTFUDwal6iNgt/R2NuEkpmd6FyXKv3KOc6PNtGzbPtW21i4vtx3MOck+0D746SbsPCmtkcCb+oJ3GzjzvpPyzV91M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fm+T3NOD; arc=fail smtp.client-ip=192.198.163.8
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PKN8gx8LSQaStOIESaML0z51g9HNwwWCTDMweLWIQVMFcd+fA2DUNrTRDo5a0NQcTt2V21Cg+aQzCMopezSkhQK5W52vX6fxQQzUVXYC5npqrtiNQvd3HcRvlGVJKSsMH5ZlLroGRQc9RRjqRSZtXXzFDRD8puJUtWJh3cXXpLk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9cIoDXY; arc=fail smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fm+T3NOD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9cIoDXY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734272873; x=1765808873;
+  t=1734273986; x=1765809986;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=xDCq6YvNwQYepDqAEZjKP8aWWxhed+ZZbDCBDH67Hk0=;
-  b=fm+T3NOD7heBjD5uyWIGwYy9Xir8zScvy82c95CgEegdP5sVS1uojWAD
-   gyClvGfAvLN9v/Owb4ZRyJ2KcCMNOsZvKgIpGKil0baaXVjf9zqqRh7Y2
-   NhF3dv9miUUMjZtK80ldof25YWj90YI2IWLOeyTt7IpOaBZBCm8qFVByx
-   YY/AOvSEvHL8QReHpIwM1Fisl89fuHgBRYumWhh+qDWnx6QAKAKOWK3uD
-   k5L4GV3z8fIw0PXZRquU5IiSjxxThiVZP4AZwS20j/oo5Rb0X4bJpyusC
-   bmygPV0K1qiQSeHhA7orB9CoOzilPA+6uJvNCOzaOJp52KVgvwPHjW2kL
-   g==;
-X-CSE-ConnectionGUID: aQawnliPTCygVy0lnsqhkQ==
-X-CSE-MsgGUID: j4rt53tuQgitVt3YzA/KNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="52185292"
+  bh=Yv7DqgULsXphpQzxB04hmoE5lICjNulMcT6tyiCnQUw=;
+  b=I9cIoDXYiVfjR/igduolKf7Wik7Qim9irj4Su0DLsuFqX8ip4q5QhFkz
+   /QdJgbAGujuM98tsaOHunmZIubOHMxVZh6jfWbYdMXDfd/U2Eahi8Gsds
+   Jb+ZH2jiyOwQEgrBr/a40qmTCHxrE4gkXMbaZQ/T4MdNN4iJ3VaaxBNnr
+   jZRqqbaH43YCa+lU1hz6QJgFzuW4rQ+b0MmMDR7hefQ1x3YhyN1yqkvkR
+   YNGwicc0nU31yzy2NT2yu3npB/9HI7VyvQfL4C6pJhtCEudhNlqTgaOPD
+   VH81K51KZ1lWSIbzxDIznpiZLSKvNOSEtMg+ttBWHZo+zdHxYNEn5kKbK
+   w==;
+X-CSE-ConnectionGUID: 7jz+4G8HSBeoFHbVl5mW+g==
+X-CSE-MsgGUID: EVF358DoTvWGXNXm+d/ChQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34806516"
 X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="52185292"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 06:27:51 -0800
-X-CSE-ConnectionGUID: HZ2KOyvSQCaRasy1k3EwOQ==
-X-CSE-MsgGUID: Yun6ShTST7iCNhlJXAuFSA==
+   d="scan'208";a="34806516"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 06:46:26 -0800
+X-CSE-ConnectionGUID: n2ibMXBiSbK0SiXfaXuYrQ==
+X-CSE-MsgGUID: m1kW5wB8SLKN1dqCbbuUug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="97204341"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Dec 2024 06:27:50 -0800
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="97771986"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Dec 2024 06:46:25 -0800
 Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Sun, 15 Dec 2024 06:27:50 -0800
+ 15.1.2507.44; Sun, 15 Dec 2024 06:46:25 -0800
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Sun, 15 Dec 2024 06:27:50 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.44) by
+ 15.1.2507.44 via Frontend Transport; Sun, 15 Dec 2024 06:46:25 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
  edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Sun, 15 Dec 2024 06:27:49 -0800
+ 15.1.2507.44; Sun, 15 Dec 2024 06:46:25 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MrbJNSaWc2H1Fd26Uh4sjQR2JVCFjub1OAMHuiAmqb64Mh6kpYiWZ5ulR0BcIkNCs+3fjkxRzaHJfVzGv7w1+RgBaPkR+G4Y2Hpr8Hs/C9PAxA9gQ2Pru5p2QHU7pvRW8FKs5/YSJy+Wj4VVADPI3X3DkKSOpAB0pVCN7Aq5ySdPkom6HW4XyQu/P7ZK1yhfFDETLppCZb2kHgfbxFTCCxPvmRugg4E1c+N22nHrwcOyTgVO5V3F2MilU0NGkBxVyMluSBN8qitNTyw/nrGEBshceSlfIKl0NBeqolb2UP93isLFnZXJr3BLmZX2vdAjGMS/4IC38lZ0a+pOiWYQmg==
+ b=VSFZdFOI3SiDduiP1rcjYqjZJYs3pkCbZjWQMj3TT8mTYZDFzRvfal3eG9+VD07q62qhJD4m7CmAe6fFqOdXmLR3b4AOHZ2tv2HlxqMfJbJdMpZkcKPf91tYLptGW/IBmz+HBXG3cG1fT/krnMeyE1rckyvllfOZaRXO3F+OeUQ2IBAPja/cS7kjyQ6uDN0p6F8tj28GHEWtb608MtS+oZTHbrymcT83ROk3Cn73JqTdSSyqlggWhkMGZeOM2C5CWeG4StVCk6i4tnEGYTk+khqD69CKq/LWipT+IBbX6zGtYyS3aUIFLBcqprD+HP4Evg+NI/F7+22CLL1t1OPtvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cLnKAU4IAavFb7xl6L8eDPd0CDZAGGYEYJrxiEAaasc=;
- b=ydGGT9hhcXtO/qPd7K7OoONBqYuAVC6mvNnfS4aR/CyITlBn5ZnCb3PQtc953uRT3xcS5g4F0P39zBIlUhHVkoXONcjCetQ/TUoqOpjZuV5atocIQ312FKr4esGE9Zm7O7XtC9L7QdvqnhEitXoc52ge1YWHdXJ5SNjfnEcNafLFX2Ph66+j44I1y22CFVPANK5NcgKCdgLejz7DOrcg4mtAoX4lq8qkTLSlyBkEAskv8n2sipv+uB0dI5YI5k9jPQ3Sp/Ho/R0da3IKYHaYDi4mdi5t1oZfUTduuKsdcgO0Dg5aCOpJjPVPiYhuN/zqqBdeHs1s7Y/z+q84ScOZNw==
+ bh=+OPHDO4gyBXV+1Mg2r8BeA7eZj08m1pP+QAiN78OzGI=;
+ b=G4y/i8Aylqokuo+gOZL/66c72nKU91UmNXMpMBY/MmKnvIsD5QqYcjnoASjC1lXzaHCU1JxwfRU3P20b2jjI1BueS1l12+lllZiRQrAQnVyl8Rf36/bxtToh64j9iE+L9XPjd1nrKaPoP5ovDkc+c6V72QVMCN/nQDsTjY7qBN0FSJR3/BPpdO5Guvq3gYVyTz28/7JoMxGapfMXYO/iNtCV1R4ylNKAm11pU6vq4iBPWI5foPk3NBifBbox5OeZS39v9sqi/GEG22uO5OW866lRPodYBEuSBjBKN2JMFuMe+4ngas1DC8000MD6RAD5/s6VVm2HuGlfgV908o1YFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by SN7PR11MB7640.namprd11.prod.outlook.com (2603:10b6:806:341::19) with
+ by MW5PR11MB5858.namprd11.prod.outlook.com (2603:10b6:303:193::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.20; Sun, 15 Dec
- 2024 14:27:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.18; Sun, 15 Dec
+ 2024 14:45:43 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8251.015; Sun, 15 Dec 2024
- 14:27:30 +0000
-Date: Sun, 15 Dec 2024 22:27:22 +0800
+ 14:45:42 +0000
+Date: Sun, 15 Dec 2024 22:45:33 +0800
 From: Philip Li <philip.li@intel.com>
 To: kernel test robot <lkp@intel.com>
-CC: Kees Cook <keescook@chromium.org>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: arch/x86/lib/usercopy_64.c:29: warning: Function parameter or
- struct member 'addr' not described in 'clean_cache_range'
-Message-ID: <Z17nSh5XhsL3DBBz@rli9-mobl>
-References: <202412151701.yujios7D-lkp@intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: lib/hweight.c:14: warning: expecting prototype for hweightN().
+ Prototype was for __sw_hweight32() instead
+Message-ID: <Z17rjUQxBjP+5Usb@rli9-mobl>
+References: <202412151922.P70dxEDk-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <202412151701.yujios7D-lkp@intel.com>
-X-ClientProxiedBy: SG2PR04CA0169.apcprd04.prod.outlook.com (2603:1096:4::31)
+In-Reply-To: <202412151922.P70dxEDk-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0152.apcprd04.prod.outlook.com (2603:1096:4::14)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -97,159 +98,136 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SN7PR11MB7640:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f44d6d4-b32a-4b02-11e8-08dd1d149b40
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|MW5PR11MB5858:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3580abd6-e399-4d62-6c23-08dd1d172662
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?nLi1e0Xa1HbgGJ35gBL5gxBFyz4s5F7WZ5FbVM561cCQRK2pBflSNtZ9Z/XZ?=
- =?us-ascii?Q?FhXZXvtIKCaDcI1s/9GvL3/n5FQyL74jrGjrujIaxni+/wa17QaqEhJuSF0J?=
- =?us-ascii?Q?ugyuw2C2FwkPT7jt/MaD1YcmvFYJ/TIqgtrEPp13t4FrOOyETMnGj7S3oot7?=
- =?us-ascii?Q?byK9cBwHOao+687ftQuXDpCBDDt3urIDM6kBeDR+oE75QNObsZUBtmd3AczL?=
- =?us-ascii?Q?9yQxY03/U37VCf1f2rVrA4DYb33aTJsF17cvTRBuGbliFrjDKpTBB5dMBdHj?=
- =?us-ascii?Q?It7gQxWYaG407C7rynPxi98FzUoFNMZaWs2gmz4bs7foWqAAkiGnWhTX8Glo?=
- =?us-ascii?Q?IhTOpYH5IqveK/GFTBArwnKO2BmQo5oJjyr8AHIpW2Hb3Lab7LirswEqwTgm?=
- =?us-ascii?Q?wntyZFFpv1KqTX51rGbNcRH3Ivls3gD5jz0/4bhKTVt1aE02Ib9gz++qbhjo?=
- =?us-ascii?Q?cGsYSCciPBFqg5d7p+WObevSh5PtbYtw9hcqIPRxIQfsDgHLnUq3uWGLL3Qg?=
- =?us-ascii?Q?VdWZ6Wo08hjFVo5G6VKl0X0FoHBmeiOw9Mzchug4an6y+5l966KB58QZSiEf?=
- =?us-ascii?Q?mGY3TNr/RGMkBqZCOsU3LFVxWM+h6j2X0WgSNLLKXRNWefLLlZCufGaJXbOV?=
- =?us-ascii?Q?xYO+hbYSI8re/SvfQnk/lgeAnG3bVoWjK4Smk5jrP4IuKok07+DFSq/3qFdq?=
- =?us-ascii?Q?YK2N4wgwBL4gk9WrlgEfPoT00rmgpotWEXi7j09EHmk70x1ZN/7vhfQqURSF?=
- =?us-ascii?Q?tqOlkIhg22RmsjFyZI+prqzNGCTVENYf4fcZpg2gBTpr1ToEbtamA09TWAzY?=
- =?us-ascii?Q?bmAb/8slqE9QeJ73gdJMFy1Ja6XnFAid6AP0nn/Dp7/qlssk9qbjnIcCEqR1?=
- =?us-ascii?Q?6TviP6mZ7tE2+BVdXCrMbG2ZfmMbuJHBNH7zQJh0LUuFNcuWkSf6l3rfAt/X?=
- =?us-ascii?Q?rrFPZyObFXJqk0gtDaxE24nQwJAAbNqFINhNwkfCjUKn4zdZleq0yomNB6Wb?=
- =?us-ascii?Q?Y7OYa2z1ffkdsH3HAKh3D1RkLm0Ntj8gWSuHMbgMfrSjGD8BoB0mti2pfCHM?=
- =?us-ascii?Q?8i9K+o+7ThUtQvP/0mnsSdP0A/a8OX6DUWl8bNvHlKx85toUjiCEa8ar87p7?=
- =?us-ascii?Q?u+LHGpJCsKcQTwwHIL6je0uJuGpH5y8oIFyllCRgzY2t5SGy2yw3DjfzKU3v?=
- =?us-ascii?Q?25nd1DzTHHZqfyb4rrLzGkR+iwTkyksBIbtDEB++J1kHf3gnG2qX6hR8ND+Q?=
- =?us-ascii?Q?AD2N9YrUj5YxxJH7uIDKgwODzgFxB9tqGjs6daENEJOIk5btKCsQgVW/nEm2?=
- =?us-ascii?Q?Kv4gFWdgJ9q9ohJW68Tf5v67M1fIrKgOv0drwWwm+/zpXQ=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xpJfiJFZ30kjiSxxOYt5ezUpGEL9dSS8USTQByxxPt+8m+61KKSqY1zf2nCM?=
+ =?us-ascii?Q?NI4GPe08KlwQXKvv2Ff1P2nvwbrJniJpMDWCmycUPhddMpN1j8tryPGLFBgm?=
+ =?us-ascii?Q?7R+mv3jcYJKzfDfv4SaDDhU32bZ5ABcaXRKYtmI261sbuenMUTIH4bnunwGR?=
+ =?us-ascii?Q?eWXd1cFe3Qu6hA+/E1mw8HIriyWrU4Xugtx1rqQBqvtG6tUi5eJ6UiJvoAB1?=
+ =?us-ascii?Q?UgQfR//sGnewWs5dS6NBCmj6odDfu3MT4IviOS2XnSoOG8ZDAzKfEv2yu5RK?=
+ =?us-ascii?Q?Xuu6sgabm8Mj1NVjLde+8qyZ1lK1UIPJ71VuL09++zMDgQq1BSR6uxe+ceSm?=
+ =?us-ascii?Q?izKXIQdf3q/j/usRw+vNRQawct0RRFMYkRYNyBv153qbVxc5+Sp20NQiPqRV?=
+ =?us-ascii?Q?wmSO1qV9rdfr9a+H3Rel2lNRduU4UrssqK3hMriTfa6cVMIg5xD5IiSGhZ5M?=
+ =?us-ascii?Q?NMCzkM/HMIN7TDEYs26JVm7CX7GcMyhRB33uuOuxyg2t4A4sm9I/iDSkiRGe?=
+ =?us-ascii?Q?x28nEhESTk66ZrWEyhFEP/DOK52iA2ahcVPzaGw8unxgTLlCPLHSTe/Rj72a?=
+ =?us-ascii?Q?tnPR9z+JQLtcluZJAf01kQkQeQG1oIQ6QSRFekSs1FNKgkTTQKP2JLild2Mq?=
+ =?us-ascii?Q?+qRStYx2bEG/Dr3sO0my/LZhQw5AlzRg69DOITJ2A39SbaVK4GR/uqmeg24R?=
+ =?us-ascii?Q?cmK6VQnz70Rr4MjFfDkZlsGmYs1UzgA76fekVyJyaPa3HOVrqpPNmDiuB6e1?=
+ =?us-ascii?Q?Dz89rvWKNePhBVQpHnIo+cbbujKghoY1dyS/gHSrQD3sCy5/m4p4CNDMdSXS?=
+ =?us-ascii?Q?dMo636YzW2dSlIJaksSAJWMCSnYXk7CKxOxJVx/pohuYRIpW2ILIRmaGrcjm?=
+ =?us-ascii?Q?7ZP8Hx9H5ojnbnCNHgiYkrFLr16ufaSL64XO34RKxfBc0QZDRGkIZjnEvMM7?=
+ =?us-ascii?Q?G6aw1FgoIr8K/VhwFLNY3yLo4cmpGIAXQCUusqf/efMKYSkNahPS6Z/tN1OJ?=
+ =?us-ascii?Q?0141NkdqW4MRCs38EfW3V8s0N6S+lMZNLczEkBGW4v+3x4FkjFSyiUfKNnjs?=
+ =?us-ascii?Q?S9JI5QHsQ6+RhgZLlRVWQbUWPLMhjEiGhYwIzt4n8XUJa9gTsvUG5xsk6Shd?=
+ =?us-ascii?Q?ytqlyMXZ7wKYXtwdMN5Xi1H6uwnIVaqK4s6usIzkgqCVmN6E7y1iGivvy+Mz?=
+ =?us-ascii?Q?SodHHp4oB4sdlTJBh2R1dkPEW05SkhNmjUx590IrsMJH96JODUJ+QE+ea5Sv?=
+ =?us-ascii?Q?5zr+RGRFHT6ZCuHQYPrxWX3Tiha9cHxjAED37Y0jaa4eg+NeD6/j4PQZv4L5?=
+ =?us-ascii?Q?cqGg9ANl7ZwN2vjdK/1BoGOwkN1NcEQQjGhMD3C1YJ3vWg=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?n8RvjSCZMkklPbehxxHk08qqNhyqb9loMIjM1FS8Vmw2duaFDbfexwilrkJS?=
- =?us-ascii?Q?XcWzW02iwvIAb81W3pHvAshn9uiU9NdVtHRYML/tfbPIhnYXPFKOGowldc/J?=
- =?us-ascii?Q?AKlQF3ywb/2fEqMFQ18CUg1NrNN69e64WIxYmW8x7coBFRYfSSdWwUfitKbC?=
- =?us-ascii?Q?FtgOVTSQULfvEDBgV9jUNLRLTK9vH/SWj9cPCMhM959XxYMt/maBFhrVr0t0?=
- =?us-ascii?Q?GalhtOy+RLOEq0d6RGNIXwC2cAJyAyYUuLIgdRaDM9a8Hrevapvef5P1C9eL?=
- =?us-ascii?Q?vbltK8MBp05ViWFPWjmwyAONG3yKIyEXEUsr7M8QeTXy9egOL4Xqc3xM8IqS?=
- =?us-ascii?Q?/zf3oksiWO2dZDNuadouYlwCZUfkjOH8hwtIeifrJ/9n7HVBjzMOulmxNVIn?=
- =?us-ascii?Q?bwj3a1UkQlnyeQckczb7F7r9lYD1omQa7dk85yyVqpQFdkisriiVHSur87dj?=
- =?us-ascii?Q?Wtr+d3QI6eg6VX8FhlIARIvBrKZ4Z/VtAanGTdWLTAGsiIuO9/aWBFpR9x2R?=
- =?us-ascii?Q?hAJLHbkoifzICyAvl2uZNcy1wqpr/Fa0lhbIQ6ArVwN6pKz1/HmS4kkOayg6?=
- =?us-ascii?Q?2uhinuhNOh24GqpTX0MrYhx7tybhHjILsOIjXQeC4UMs3AF6ZuUeLRUroZmQ?=
- =?us-ascii?Q?SMQV2M9A3biEGluMy7slXlbkNPCqLemlRBL1eiwoD1weO+CLfmR/0DZvB9AZ?=
- =?us-ascii?Q?rHIoeNgIGTgBrQqQCf/iJLd4wf4pl3mYnG8+ih+ciuZeD4Lw7vMjjSNa4AqT?=
- =?us-ascii?Q?l+f++9/ikisFtPHfP8bTZfLgItX6i/g838v4++txfhpDdaNJZzT0YYCO3yi9?=
- =?us-ascii?Q?fTc8EWM3O4b84XXqkwy2wHDjV8jZFiyIixC6FC9GNLY5beYpvT59nbxkpYHm?=
- =?us-ascii?Q?LGaPRTLixLjn28Bt/0ZQWz9g044OQ52u1KTr8FIkelcysQ3u5pLbqsvthXnA?=
- =?us-ascii?Q?pH/Fx9+AS7WiofaYjotNa+5T9lgMx3FYB+w5vC6rJ/GRctiWZiV4F1QN6C0L?=
- =?us-ascii?Q?BRObZ4iZVO6QX6sIQm9ntvwCzwO3PqxgxW3P2oUud93t8U4XUM0IOeLt1VeJ?=
- =?us-ascii?Q?2VV85WWHpbG9OOBLF26zrXd/k1ws1M7t0VoRGO+/0uhe69CZE+NTHvjqHV1n?=
- =?us-ascii?Q?ghKX4pdf4vaya6OES0RGj/Hw9XKjqynLMSR8BClYqWz+kzGgEb/gxh3+O+ej?=
- =?us-ascii?Q?BRin0Aklzdri6/FX4lglqMLnrdGPDu56HTxoS+7dHAl6DBKPUn32ydERspyq?=
- =?us-ascii?Q?NMlUbta11MRWKWD4PCW/LEQyrfv75sJqvKRAxXK3wGe5R+qWShP9XJ4Jq7Gt?=
- =?us-ascii?Q?vnnQO1+X+lr4TteQM/RN+X+/1FCnKLKN9EeMNJp4572f6e3yNUv39Ko0eF2S?=
- =?us-ascii?Q?NQ7nOajYLpHy0ySd2BaA+67NUUUzy/zzZu7Fp9RpJE9e3P5QBCA621sbYxRl?=
- =?us-ascii?Q?qNLbRfM/UwJ9JuxXRuznYKU+yXE86jwul7FiHUlXXWtAWr0PJLNq/L6ZqQMj?=
- =?us-ascii?Q?upbcnEr+7c4G1fJXBN5s0T2R5EvbIyMITntvFFzfZqz3sbOthOeLLZPgDwqZ?=
- =?us-ascii?Q?2Nul89Bc2HaofaAS5QJRew4gi6oD1Gt+N8+PREJu?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f44d6d4-b32a-4b02-11e8-08dd1d149b40
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mEf22k2ATJH6AnIKXAfPRYDmagQ/onq7oDzOFZg5UlUYDXfYk87yZ0825m94?=
+ =?us-ascii?Q?C+fUH6Rqc+UzNjghN869BXWoDAQoa55GaOWeWvTEZoPTBso8a6DxXdCqkhde?=
+ =?us-ascii?Q?c7ogeAM+SXZjXW+nxXmA4fh7lSns1RKVVtWuOUIzzewu2gEOnLhpKg4Vi2wH?=
+ =?us-ascii?Q?b7JPlG/JrynO0rIuFhpspfNIWPHOJ8QtmWiKsHVoimhnMJB/fLtX/rsnUvDU?=
+ =?us-ascii?Q?Mj3wn3isyP/rXfKymu7EcWD4OpmbMqBishkW/Zo9WEcQKs5iYTqv+ceeNuF6?=
+ =?us-ascii?Q?hsdoKrdUg2B3KDlaGW3ExR+KDgmj5fZcehbiZbPqQowUjXwkCLaXVaR6AQZT?=
+ =?us-ascii?Q?WpyF1/6vFejfls10+1mTSf7/DNru/9KqwR96m7NFb8i33qdHhcQkS9L3n9LC?=
+ =?us-ascii?Q?Gzu9Hu67hEFxcc6I0mf7tk1+MzcxeumMwWNqhKsbQhhqhrsQUPsNu+fwUrcB?=
+ =?us-ascii?Q?OT01xrT5b/Oma+IvHvXW/9rfEpMS14apwBsHJaUhz9FdskLmCkX537g1rVfL?=
+ =?us-ascii?Q?MyvMBYT3YLomucPxisXzZeebkyXXOzctIJiwcP5185geSj5EMYGPRSqmH5vG?=
+ =?us-ascii?Q?cTbpALbcBxkVHHb1nXrkONiFuyZ/FrZI0RCQPQO0MYICpQLtVnQjKlUXaa6m?=
+ =?us-ascii?Q?lo1ZgHAdsJNRPLbZlyAjuRGCaZDMKzjt0MJyKHfzmKitTD0KygdxV/RQ4dGB?=
+ =?us-ascii?Q?1f9H4UawTVpsA6ljuFcr1NTqkx3hFd8ZFRrA5Vi2MyXzkUx3TdO8m3J9mZuy?=
+ =?us-ascii?Q?KI4qvAHxKKeI5yo/DVP3ZSloTCKubRuta6vYv+d6aHuNmboZTEx0gVpTuTZ9?=
+ =?us-ascii?Q?6lHaMtzUPa1f9mZ8mCV1qQn2kE2m3paI1UKvVqIcbL9WHerlEgaHVDGxk2dK?=
+ =?us-ascii?Q?IN7jTrm4F4j5e27fzRfJqZKnggZZ3OQlA97AAvpXAdZm3N9BlU0Ht8BqXvHD?=
+ =?us-ascii?Q?Dt8Vo4D9Gk+7evb7mYJSZzU3i6iCLleQIoPpQ3hPj5KFNUxMrDwzj5YJdfnQ?=
+ =?us-ascii?Q?vRWL2h0tpC7qXfGFeo9YTShf7FefAFHBcI7p27Ny7QVlibjsMrD97Su1tyFL?=
+ =?us-ascii?Q?rx3F+hkCpmbBiH1Ild33gCPVZ2qvbiE99fZux7czPd6fZqCf3riR/Jh6G0c0?=
+ =?us-ascii?Q?VNQJ/T79M9Wnoa2FLSgrPMrwvKGG8NCytsz1MftjBju4ug+oEY7Fz1grwpWr?=
+ =?us-ascii?Q?D3buGaE82kKpuMypPauxIuzAjqMCV4YnUE6sWYGYpxHbjL8F+Z1uKuf5mQuo?=
+ =?us-ascii?Q?+95b3eNZQs4qEdet9QghlJCt1tC9jQu4QvzdVyX2iHbb0vjGa6xbnlTbNNZk?=
+ =?us-ascii?Q?tdDsShzx2cKq/03ejdkQUaaAsAjTmjn03Lq6gVTVNCOsqYb6kchvkANjAdvN?=
+ =?us-ascii?Q?RtjYrQXKuenvN7+KtZSZvlzXimY6OmwWWAMfeVZCvIgCVAuGtTKuDysvvFkS?=
+ =?us-ascii?Q?sTzYAo7mt6LamMyAcdyx8dh0qlVaKoKzniHLmyCS8oiNwUJ8XNhXWdWnWtrV?=
+ =?us-ascii?Q?kvvz1rRecZUoZbxGqpuEZu2jN3F04K1quRyy+LpIJAjbDxgCAFQyvD2IPgUS?=
+ =?us-ascii?Q?bANl6q2d0xekd50EOkBgx9i4i8PD/kqqDrT4L5Di?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3580abd6-e399-4d62-6c23-08dd1d172662
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2024 14:27:29.9751
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2024 14:45:42.5037
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NC/ep239s3q9XtGU4shmZiaeulXXtQOta/TqD6S+tnWw+pi1acvo1EA5a63gUlLtUNmWDpmd/MZPDxhmN2Faug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7640
+X-MS-Exchange-CrossTenant-UserPrincipalName: h4A94Iaf/pK/b68hjL0bvHjgj7qJfyW9iCL6bUzUArH7wAFuLqEe4Qq6XbLnRgmnMmFqYvIL+Tn2UjO2kDH2fw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5858
 X-OriginatorOrg: intel.com
 
-On Sun, Dec 15, 2024 at 05:38:45PM +0800, kernel test robot wrote:
+On Sun, Dec 15, 2024 at 07:34:16PM +0800, kernel test robot wrote:
+> Hi Mauro,
+> 
+> FYI, the error/warning still remains.
+> 
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 > head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
-> commit: 0c3ebff535956d2718594dc90aa9cc87521ec9fd scripts: kernel-doc: Clarify missing struct member description
-> date:   1 year ago
-> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241215/202412151701.yujios7D-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412151701.yujios7D-lkp@intel.com/reproduce)
+> commit: 52042e2db45290f6a512d525518488b7bf143531 scripts: kernel-doc: validate kernel-doc markup with the actual names
+> date:   3 years, 11 months ago
+> config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241215/202412151922.P70dxEDk-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412151922.P70dxEDk-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412151701.yujios7D-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412151922.P70dxEDk-lkp@intel.com/
 > 
 > All warnings (new ones prefixed by >>):
 
-Sorry, kindly ignore this, the commit is not the actual cause of
+Sorry, kindly ignore this report, the commit is not the actual cause of
 the issue.
 
 > 
-> >> arch/x86/lib/usercopy_64.c:29: warning: Function parameter or struct member 'addr' not described in 'clean_cache_range'
->    arch/x86/lib/usercopy_64.c:29: warning: Excess function parameter 'vaddr' description in 'clean_cache_range'
-> --
-> >> kernel/reboot.c:226: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
-> >> kernel/reboot.c:952: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_poweroff'
-> --
-> >> arch/x86/mm/pgtable.c:650: warning: Function parameter or struct member 'reserve' not described in 'reserve_top_address'
-> >> arch/x86/mm/pgtable.c:699: warning: Function parameter or struct member 'p4d' not described in 'p4d_set_huge'
-> >> arch/x86/mm/pgtable.c:699: warning: Function parameter or struct member 'addr' not described in 'p4d_set_huge'
-> >> arch/x86/mm/pgtable.c:699: warning: Function parameter or struct member 'prot' not described in 'p4d_set_huge'
-> >> arch/x86/mm/pgtable.c:709: warning: Function parameter or struct member 'p4d' not described in 'p4d_clear_huge'
-> >> arch/x86/mm/pgtable.c:726: warning: Function parameter or struct member 'pud' not described in 'pud_set_huge'
-> >> arch/x86/mm/pgtable.c:726: warning: Function parameter or struct member 'addr' not described in 'pud_set_huge'
-> >> arch/x86/mm/pgtable.c:726: warning: Function parameter or struct member 'prot' not described in 'pud_set_huge'
-> >> arch/x86/mm/pgtable.c:752: warning: Function parameter or struct member 'pmd' not described in 'pmd_set_huge'
-> >> arch/x86/mm/pgtable.c:752: warning: Function parameter or struct member 'addr' not described in 'pmd_set_huge'
-> >> arch/x86/mm/pgtable.c:752: warning: Function parameter or struct member 'prot' not described in 'pmd_set_huge'
-> >> arch/x86/mm/pgtable.c:779: warning: Function parameter or struct member 'pud' not described in 'pud_clear_huge'
-> >> arch/x86/mm/pgtable.c:794: warning: Function parameter or struct member 'pmd' not described in 'pmd_clear_huge'
-> --
-> >> arch/x86/kernel/apic/apic.c:2170: warning: Function parameter or struct member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ'
->    arch/x86/kernel/apic/apic.c:2170: warning: expecting prototype for spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ() instead
-> --
-> >> arch/x86/mm/pat/memtype.c:710: warning: Function parameter or struct member 'pfn' not described in 'pat_pfn_immune_to_uc_mtrr'
-> --
-> >> kernel/time/tick-broadcast.c:1026: warning: Function parameter or struct member 'bc' not described in 'tick_broadcast_setup_oneshot'
-> >> kernel/time/tick-broadcast.c:1026: warning: Function parameter or struct member 'from_periodic' not described in 'tick_broadcast_setup_oneshot'
+>    lib/hweight.c:14: warning: Function parameter or member 'w' not described in '__sw_hweight32'
+> >> lib/hweight.c:14: warning: expecting prototype for hweightN(). Prototype was for __sw_hweight32() instead
 > 
 > 
-> vim +29 arch/x86/lib/usercopy_64.c
+> vim +14 lib/hweight.c
 > 
-> ^1da177e4c3f415 arch/x86_64/lib/usercopy.c Linus Torvalds 2005-04-16  13  
-> ^1da177e4c3f415 arch/x86_64/lib/usercopy.c Linus Torvalds 2005-04-16  14  /*
-> ^1da177e4c3f415 arch/x86_64/lib/usercopy.c Linus Torvalds 2005-04-16  15   * Zero Userspace
-> ^1da177e4c3f415 arch/x86_64/lib/usercopy.c Linus Torvalds 2005-04-16  16   */
-> ^1da177e4c3f415 arch/x86_64/lib/usercopy.c Linus Torvalds 2005-04-16  17  
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  18  #ifdef CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  19  /**
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  20   * clean_cache_range - write back a cache range with CLWB
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  21   * @vaddr:	virtual start address
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  22   * @size:	number of bytes to write back
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  23   *
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  24   * Write back a cache range using the CLWB (cache line write back)
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  25   * instruction. Note that @size is internally rounded up to be cache
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  26   * line size aligned.
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  27   */
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  28  static void clean_cache_range(void *addr, size_t size)
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29 @29  {
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  30  	u16 x86_clflush_size = boot_cpu_data.x86_clflush_size;
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  31  	unsigned long clflush_mask = x86_clflush_size - 1;
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  32  	void *vend = addr + size;
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  33  	void *p;
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  34  
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  35  	for (p = (void *)((unsigned long)addr & ~clflush_mask);
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  36  	     p < vend; p += x86_clflush_size)
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  37  		clwb(p);
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  38  }
-> 0aed55af88345b5 arch/x86/lib/usercopy_64.c Dan Williams   2017-05-29  39  
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26   5  
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26   6  /**
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26   7   * hweightN - returns the hamming weight of a N-bit word
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26   8   * @x: the word to weigh
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26   9   *
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26  10   * The Hamming Weight of a number is the total number of bits set in it.
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26  11   */
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26  12  
+> d61931d89be5063 Borislav Petkov 2010-03-05  13  unsigned int __sw_hweight32(unsigned int w)
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26 @14  {
+> 72d931046030beb Linus Torvalds  2014-09-13  15  #ifdef CONFIG_ARCH_HAS_FAST_MULTIPLIER
+> 39d997b514e12d5 Akinobu Mita    2009-12-21  16  	w -= (w >> 1) & 0x55555555;
+> 39d997b514e12d5 Akinobu Mita    2009-12-21  17  	w =  (w & 0x33333333) + ((w >> 2) & 0x33333333);
+> 39d997b514e12d5 Akinobu Mita    2009-12-21  18  	w =  (w + (w >> 4)) & 0x0f0f0f0f;
+> 39d997b514e12d5 Akinobu Mita    2009-12-21  19  	return (w * 0x01010101) >> 24;
+> 39d997b514e12d5 Akinobu Mita    2009-12-21  20  #else
+> f9b4192923fa6e3 Akinobu Mita    2006-03-26  21  	unsigned int res = w - ((w >> 1) & 0x55555555);
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26  22  	res = (res & 0x33333333) + ((res >> 2) & 0x33333333);
+> f9b4192923fa6e3 Akinobu Mita    2006-03-26  23  	res = (res + (res >> 4)) & 0x0F0F0F0F;
+> f9b4192923fa6e3 Akinobu Mita    2006-03-26  24  	res = res + (res >> 8);
+> f9b4192923fa6e3 Akinobu Mita    2006-03-26  25  	return (res + (res >> 16)) & 0x000000FF;
+> 39d997b514e12d5 Akinobu Mita    2009-12-21  26  #endif
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26  27  }
+> d61931d89be5063 Borislav Petkov 2010-03-05  28  EXPORT_SYMBOL(__sw_hweight32);
+> 3b9ed1a5d2d121f Akinobu Mita    2006-03-26  29  
 > 
-> :::::: The code at line 29 was first introduced by commit
-> :::::: 0aed55af88345b5d673240f90e671d79662fb01e x86, uaccess: introduce copy_from_iter_flushcache for pmem / cache-bypass operations
+> :::::: The code at line 14 was first introduced by commit
+> :::::: 3b9ed1a5d2d121f32d2cb4f2b05f1fc57c99c946 [PATCH] bitops: generic hweight{64,32,16,8}()
 > 
-> :::::: TO: Dan Williams <dan.j.williams@intel.com>
-> :::::: CC: Dan Williams <dan.j.williams@intel.com>
+> :::::: TO: Akinobu Mita <mita@miraclelinux.com>
+> :::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 > 
 > -- 
 > 0-DAY CI Kernel Test Service
