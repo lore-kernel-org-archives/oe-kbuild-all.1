@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC5726281
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 09:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0A0186A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 11:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734256227; cv=none; b=fiis1P5BPrTKTKAkROfyo8EKwR8c3wjQpZKbdc4cvKGiDFUtuZuSBn6Ji0HO1rGKjQyIOuw3KJ5ELfKQp/rjxEDfzUKLgxCBPuP4YwDeh1SC1FvDWg+6HGlI849jUTnNKqvoNIrN2H7+wSzHfvb9ZECAcAyIFHmX6svVhgNWBDM=
+	t=1734262476; cv=none; b=hUc+FE0CHP5feTZ/kNbT6pOkbKAiE9rekL2vfuaGdnUeDiJTQzUzrNIt/S+0Ei3PmGUZwZdlV/bCgSWytFKqHAFaU68hOTEMnYRxZpFWtGJJNx6WdFaJaOFaVN4BvqRtWS28Tgn+J2ye0UWFWFqDeFyUSeqcsdHy9Nsu7x7kJ/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734256227; c=relaxed/simple;
-	bh=70g8zuAs558OH42mJak+ktp6QQ3zt2NJU0cBUVgnWqU=;
+	s=arc-20240116; t=1734262476; c=relaxed/simple;
+	bh=QlZ7dlbPppbHfRwXJMn8PVLcYyVkTt0U8E+MbByJ44A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a9DNz5CN9PCW7z2JAt8mb4zrs+obFNzew1BRpahm/9lJy9yLwO7OZSlFm2Fccix/+igqdyCxruSldi878j5nOIK1P+PELhec1whFiDvJ5EzFDQFQaaWCJIey8pid9Afkh+LQtIzenkAmIaJV0UgHHoo57k0USDhqu7JEgIaq8mU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXRetpwy; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Hlyu76Od10aH2WgH38TlpJhKdcUWK3dcdQMW7DxkPVNJTfPE3GxaaJRfKG+Z7r5pItWneCdAKdhIaNGrkNOWce2nEp+GpmCSPIJ/aOY1uMNru/E441lAw/DNW2poKfxWXztHFrX0GLdVQ/nzswzV738949LPvyaP513ZiWTP7eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gydJdPFI; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXRetpwy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gydJdPFI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734256226; x=1765792226;
+  t=1734262474; x=1765798474;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=70g8zuAs558OH42mJak+ktp6QQ3zt2NJU0cBUVgnWqU=;
-  b=HXRetpwyW71Q+t/VOkVRYRKoycl8UF2UKnbvVAuBVK++mtwJlmpVWS1j
-   VPq6vuQ8pJDA1sHQb+UdjlzEHnyAxHQIr4qyW8oHgS3kOWujdjdc1kDxR
-   MXGiRVnSDp7JTW+MkhI8UxNLDv/PmzjAQ/Go1Hng5zz+saXVPuLMpIEl4
-   jr307mdH1zrpZEiki/pzhG6/+5ukIj7hd3HgFKFuIr68ZTGhLmSXCEYNu
-   +sqMYdCeqXv+uRkNWcZuIiqGphaVUXhjPpLaP166MILL8ZFklEbZt2+hu
-   qRpPVH30EWxyC5/FWI2O0a6UXUqU3v0XQu3t7ndZhNYtzO9kfDku5vriE
-   g==;
-X-CSE-ConnectionGUID: wmP3HL9fT4619OpENdzTrQ==
-X-CSE-MsgGUID: VyEC9WvRQFa7/+49wXDaSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="38433774"
+  bh=QlZ7dlbPppbHfRwXJMn8PVLcYyVkTt0U8E+MbByJ44A=;
+  b=gydJdPFIlFvKOHLHmb4k8D8i5jKgaVWnzRto+ZvZZkyIsaWO0m40MC1L
+   l1af0NFuDWiKiGEagQMT9+j84LcRZUaIH1MvqFyB6khwBtuFneX1qx1wt
+   hz0l4ymC/pCFBhs7B5Z4VCVJYv5dqDm4TP5xg37RMJVW1fq0+19NkaFXY
+   Q/8pITMoVlMIi4mPfVoNJLJMtstCovBdB8ybNLb7uW8SmZrVxwv1LHxEw
+   3lnrc6aE2pKsnLaftHMlCM9aCSP+h8aDjEdxWn2+nbV4harSijU+mVKw0
+   OKPFw+wBbONv/X+JAoMNkaD29NwHpVWpnzK32IC0a2rTT6ehLhgbMK5y0
+   A==;
+X-CSE-ConnectionGUID: /V18D18/R0+fNsi9H4dGnw==
+X-CSE-MsgGUID: LVz0+2zARh6Uc8TTtzb61g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45265066"
 X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="38433774"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 01:50:26 -0800
-X-CSE-ConnectionGUID: Y766BUnMQLa3TdmuyCBEqw==
-X-CSE-MsgGUID: 3dSaJQx+RpW43b5grkDA8g==
+   d="scan'208";a="45265066"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 03:34:33 -0800
+X-CSE-ConnectionGUID: hyL9W2oIQtKJGQGsMaYmYw==
+X-CSE-MsgGUID: kwK7BQKEQ3qTRPkEmGDbdA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="127752666"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101524644"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Dec 2024 01:50:24 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 15 Dec 2024 03:34:31 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMlGX-000DXu-2G;
-	Sun, 15 Dec 2024 09:50:21 +0000
-Date: Sun, 15 Dec 2024 17:49:20 +0800
+	id 1tMmtJ-000DaU-17;
+	Sun, 15 Dec 2024 11:34:29 +0000
+Date: Sun, 15 Dec 2024 19:34:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 7219/7241]
- kernel/sched/fair.c:1187:49: sparse: sparse: incorrect type in initializer
- (different address spaces)
-Message-ID: <202412151742.XCxZehZn-lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: lib/hweight.c:14: warning: expecting prototype for hweightN().
+ Prototype was for __sw_hweight32() instead
+Message-ID: <202412151922.P70dxEDk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,124 +63,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   39fc9c68b13a226d44263bb908cccf8783e34d6e
-commit: 5a784e4a810809f3935441bae8f06d24e74b4ed7 [7219/7241] FROMLIST: sched: Fix runtime accounting w/ split exec & sched contexts
-config: i386-randconfig-061-20241215 (https://download.01.org/0day-ci/archive/20241215/202412151742.XCxZehZn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412151742.XCxZehZn-lkp@intel.com/reproduce)
+Hi Mauro,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
+commit: 52042e2db45290f6a512d525518488b7bf143531 scripts: kernel-doc: validate kernel-doc markup with the actual names
+date:   3 years, 11 months ago
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241215/202412151922.P70dxEDk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412151922.P70dxEDk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412151742.XCxZehZn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412151922.P70dxEDk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/fair.c:1187:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *running @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:1187:49: sparse:     expected struct task_struct *running
-   kernel/sched/fair.c:1187:49: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:1256:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:1256:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:1256:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:1314:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1314:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1314:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12956:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12956:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12956:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6181:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:6181:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:6181:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:6911:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:6911:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:6911:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:7120:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7120:58: sparse:     expected struct task_struct *p
-   kernel/sched/fair.c:7120:58: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8516:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8516:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:8516:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8729:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8729:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8729:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8874:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:8874:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:8874:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:8910:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8910:37: sparse:     expected struct task_struct *tsk
-   kernel/sched/fair.c:8910:37: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9129:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:9129:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:9129:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:10122:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:10122:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:10122:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:10744:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:10744:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:10744:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:12175:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12175:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12175:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11824:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11824:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11824:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12289:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12289:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12289:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2506:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2506:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2506:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +1187 kernel/sched/fair.c
+   lib/hweight.c:14: warning: Function parameter or member 'w' not described in '__sw_hweight32'
+>> lib/hweight.c:14: warning: expecting prototype for hweightN(). Prototype was for __sw_hweight32() instead
 
-  1175	
-  1176	static s64 update_curr_se(struct rq *rq, struct sched_entity *se)
-  1177	{
-  1178		u64 now = rq_clock_task(rq);
-  1179		s64 delta_exec;
-  1180	
-  1181		delta_exec = now - se->exec_start;
-  1182		if (unlikely(delta_exec <= 0))
-  1183			return delta_exec;
-  1184	
-  1185		se->exec_start = now;
-  1186		if (entity_is_task(se)) {
-> 1187			struct task_struct *running = rq->curr;
-  1188			/*
-  1189			 * If se is a task, we account the time against the running
-  1190			 * task, as w/ proxy-exec they may not be the same.
-  1191			 */
-  1192			running->se.exec_start = now;
-  1193			running->se.sum_exec_runtime += delta_exec;
-  1194		} else {
-  1195			/* If not task, account the time against se */
-  1196			se->sum_exec_runtime += delta_exec;
-  1197		}
-  1198	
-  1199		if (schedstat_enabled()) {
-  1200			struct sched_statistics *stats;
-  1201	
-  1202			stats = __schedstats_from_se(se);
-  1203			__schedstat_set(stats->exec_max,
-  1204					max(delta_exec, stats->exec_max));
-  1205		}
-  1206	
-  1207		return delta_exec;
-  1208	}
-  1209	
+
+vim +14 lib/hweight.c
+
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26   5  
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26   6  /**
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26   7   * hweightN - returns the hamming weight of a N-bit word
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26   8   * @x: the word to weigh
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26   9   *
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26  10   * The Hamming Weight of a number is the total number of bits set in it.
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26  11   */
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26  12  
+d61931d89be5063 Borislav Petkov 2010-03-05  13  unsigned int __sw_hweight32(unsigned int w)
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26 @14  {
+72d931046030beb Linus Torvalds  2014-09-13  15  #ifdef CONFIG_ARCH_HAS_FAST_MULTIPLIER
+39d997b514e12d5 Akinobu Mita    2009-12-21  16  	w -= (w >> 1) & 0x55555555;
+39d997b514e12d5 Akinobu Mita    2009-12-21  17  	w =  (w & 0x33333333) + ((w >> 2) & 0x33333333);
+39d997b514e12d5 Akinobu Mita    2009-12-21  18  	w =  (w + (w >> 4)) & 0x0f0f0f0f;
+39d997b514e12d5 Akinobu Mita    2009-12-21  19  	return (w * 0x01010101) >> 24;
+39d997b514e12d5 Akinobu Mita    2009-12-21  20  #else
+f9b4192923fa6e3 Akinobu Mita    2006-03-26  21  	unsigned int res = w - ((w >> 1) & 0x55555555);
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26  22  	res = (res & 0x33333333) + ((res >> 2) & 0x33333333);
+f9b4192923fa6e3 Akinobu Mita    2006-03-26  23  	res = (res + (res >> 4)) & 0x0F0F0F0F;
+f9b4192923fa6e3 Akinobu Mita    2006-03-26  24  	res = res + (res >> 8);
+f9b4192923fa6e3 Akinobu Mita    2006-03-26  25  	return (res + (res >> 16)) & 0x000000FF;
+39d997b514e12d5 Akinobu Mita    2009-12-21  26  #endif
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26  27  }
+d61931d89be5063 Borislav Petkov 2010-03-05  28  EXPORT_SYMBOL(__sw_hweight32);
+3b9ed1a5d2d121f Akinobu Mita    2006-03-26  29  
+
+:::::: The code at line 14 was first introduced by commit
+:::::: 3b9ed1a5d2d121f32d2cb4f2b05f1fc57c99c946 [PATCH] bitops: generic hweight{64,32,16,8}()
+
+:::::: TO: Akinobu Mita <mita@miraclelinux.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
