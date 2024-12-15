@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77510187325
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 12:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC52C1714CF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 13:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734267523; cv=none; b=DLD4E4xtSE49JSKM1b4RS0/vEw2ErupFMO3oxKW5ucm+xsF74XKHz7uDnmTNXMxCO6hz/AXX7Nj3zJVYO1v7d4CwtAXFjw+cdGQVUK5xhaSaqGRLFYTHqO67TXqut/aumDwZKqYe5m23idCFWjojZ+PHRQqsJHOnDlrYysDxVao=
+	t=1734268128; cv=none; b=hpacCnWFrBP/Ic951dap2R9bKPdoO9UW4LkJMeBSclIztYR13Mu2l4Ppg/W0kXorrBgfP5RGmS+5fVL4DZYritWkzZJu9RdJe5v609qTFK92PNduEkG4PJ13KCjT6v46iDPDTPfMxpYTagthEF+hGcOl8K+LXiyPNBJs5webRHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734267523; c=relaxed/simple;
-	bh=3QZlqGTTnldowiyG5mUgxJY2mrHvR8JiPxhMeE8Z4tA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aqz9bQdSqz4APE6PFTplVa7RlGtafU+nb0mNnmGnmH5Y6UsH6n6lsIrcfSf/1ZrNlKepFrdzrAeP8otvK8SaYzhJ7HpEhYV63W1qckngKSCB9zTM60Ino566IFSeAqt+Q0SPyVMREN3iXrhc2NMWQ6WpcitVcW6LrY3syZ0efpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpAgK0hx; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1734268128; c=relaxed/simple;
+	bh=fAo4P4rpHKuqyo0NonSsYZLQIJm0RKrQIz332EcYaHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yir3HGtEmQFEuhyEoql4eJ5WMygvJqHBLgeBPh3nBHOEUFyV3WLbjdxdeJjJcQJfs3FWo1qnfe3z5i539341QLkpAR6QEno2u0WIOCl72tbmNf7+v+7+3G4ZxTfKys08EzUMR9px1kvpB9CFhSxMwA7IJcw6nWIeY5FV5o0S6Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHmVQI4q; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpAgK0hx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHmVQI4q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734267520; x=1765803520;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3QZlqGTTnldowiyG5mUgxJY2mrHvR8JiPxhMeE8Z4tA=;
-  b=jpAgK0hxZI4lWc9L0+HFNQp0GYOBJLMhb3k2cFJZSgzFXFMMzI0CN7Lg
-   kzyMWJ78Xf855x/ihAkZJgv0QqDk3soOsFQW4/qPlUIwbAGJVuZlJdGgF
-   05hCyz3fKiWsrLgmWSxxiWuhaZI2nbeWEcn4sb+4qMt27yndlQVmPEmbA
-   UMFEk+4fKUZnkZ393hclV32mR0pa5FQ7aJwJHkXrN+ImNVu2ATwjaTxN5
-   CHbcDWTTND6EpIw5AQRBb5TFPVLDc0i2IHZderVe4QXgksNK8qvJwkPie
-   fxLDf3BLeiOPsPkH2vLg5iNYQka0fxWXWWh3y3SSotBqvoNLpY5dW109E
-   A==;
-X-CSE-ConnectionGUID: 1ivzx9TJS/GqskIpDTt6gQ==
-X-CSE-MsgGUID: 8UISaT1sRraGBZCOkgNwBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45354614"
+  t=1734268127; x=1765804127;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fAo4P4rpHKuqyo0NonSsYZLQIJm0RKrQIz332EcYaHw=;
+  b=PHmVQI4qzozA5BxYj+OLVvrMXhS3rtgqLXS+yT6QXuxZCgR7fctUcJ5K
+   AY+VinlP4MDsdjEguL6vj8aPVdNBRTC8awvjkJFeGMZ1WOXJGwCKQx8v2
+   dVFAl1BcORnheJbjRgES4KBn1R6QhfxHfRyA8E1a6CPNMwuchHHP5uHuS
+   Lg4TzfFAZP0FipFe8aRQkqK8Oa0OVMdOQCnSCS2pnsjaEPRpzKhXjKo0W
+   nU4DcPoLdu9+xBmqmPNPZmpatDVswHwYGtw9YNuTua2xPTvHc10wgqrxM
+   DarpBDeU7K/lfl6ta+bFTv2auqfb1w742JYDNjbcd2Ol8Vgx5v2mTNzMK
+   Q==;
+X-CSE-ConnectionGUID: ZvHo/TraTby5kMudWCV3JQ==
+X-CSE-MsgGUID: L/er9FJnRwa7OFmdPJTe9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="22248630"
 X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="45354614"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 04:58:39 -0800
-X-CSE-ConnectionGUID: xHBH1Qc3TNqnB7J/iHgaqw==
-X-CSE-MsgGUID: 70ij6usqQpmSTPrvRXdCLg==
+   d="scan'208";a="22248630"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 05:08:45 -0800
+X-CSE-ConnectionGUID: cG0dHzWlTxKJp3nb+wgDsA==
+X-CSE-MsgGUID: F1CLcAReTDScfSbi4nYyZw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="102049160"
+X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
+   d="scan'208";a="97512305"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Dec 2024 04:58:39 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 15 Dec 2024 05:08:40 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMoCh-000Dcs-30;
-	Sun, 15 Dec 2024 12:58:35 +0000
-Date: Sun, 15 Dec 2024 20:57:39 +0800
+	id 1tMoMO-000Dcw-1j;
+	Sun, 15 Dec 2024 13:08:36 +0000
+Date: Sun, 15 Dec 2024 21:08:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: kernel/reboot.c:226: warning: Function parameter or struct member
- 'cmd' not described in 'do_kernel_restart'
-Message-ID: <202412152053.KeJr8B5f-lkp@intel.com>
+To: Yafang Shao <laoar.shao@gmail.com>, mingo@redhat.com,
+	peterz@infradead.org, mkoutny@suse.com, hannes@cmpxchg.org
+Cc: oe-kbuild-all@lists.linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com, surenb@google.com,
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+	Yafang Shao <laoar.shao@gmail.com>
+Subject: Re: [PATCH v7 3/4] sched, psi: Don't account irq time if
+ sched_clock_irqtime is disabled
+Message-ID: <202412152009.HZ862kna-lkp@intel.com>
+References: <20241215032315.43698-4-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +69,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241215032315.43698-4-laoar.shao@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
-commit: 0c3ebff535956d2718594dc90aa9cc87521ec9fd scripts: kernel-doc: Clarify missing struct member description
-date:   1 year ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241215/202412152053.KeJr8B5f-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412152053.KeJr8B5f-lkp@intel.com/reproduce)
+Hi Yafang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on peterz-queue/sched/core linus/master v6.13-rc2 next-20241213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/sched-Define-sched_clock_irqtime-as-static-key/20241215-112638
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20241215032315.43698-4-laoar.shao%40gmail.com
+patch subject: [PATCH v7 3/4] sched, psi: Don't account irq time if sched_clock_irqtime is disabled
+config: arc-randconfig-001-20241215 (https://download.01.org/0day-ci/archive/20241215/202412152009.HZ862kna-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412152009.HZ862kna-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412152053.KeJr8B5f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412152009.HZ862kna-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/reboot.c:226: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
->> kernel/reboot.c:952: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_poweroff'
---
->> lib/hweight.c:14: warning: Function parameter or struct member 'w' not described in '__sw_hweight32'
-   lib/hweight.c:14: warning: expecting prototype for hweightN(). Prototype was for __sw_hweight32() instead
+   In file included from kernel/sched/build_utility.c:96:
+   kernel/sched/psi.c: In function 'psi_show':
+>> kernel/sched/psi.c:1243:42: error: 'PSI_IRQ' undeclared (first use in this function); did you mean 'PSI_IO'?
+    1243 |         if (!irqtime_enabled() && res == PSI_IRQ)
+         |                                          ^~~~~~~
+         |                                          PSI_IO
+   kernel/sched/psi.c:1243:42: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +226 kernel/reboot.c
+vim +1243 kernel/sched/psi.c
 
-b63adb979583ef Guenter Roeck 2014-09-26  213  
-b63adb979583ef Guenter Roeck 2014-09-26  214  /**
-b63adb979583ef Guenter Roeck 2014-09-26  215   *	do_kernel_restart - Execute kernel restart handler call chain
-b63adb979583ef Guenter Roeck 2014-09-26  216   *
-b63adb979583ef Guenter Roeck 2014-09-26  217   *	Calls functions registered with register_restart_handler.
-b63adb979583ef Guenter Roeck 2014-09-26  218   *
-b63adb979583ef Guenter Roeck 2014-09-26  219   *	Expected to be called from machine_restart as last step of the restart
-b63adb979583ef Guenter Roeck 2014-09-26  220   *	sequence.
-b63adb979583ef Guenter Roeck 2014-09-26  221   *
-b63adb979583ef Guenter Roeck 2014-09-26  222   *	Restarts the system immediately if a restart handler function has been
-b63adb979583ef Guenter Roeck 2014-09-26  223   *	registered. Otherwise does nothing.
-b63adb979583ef Guenter Roeck 2014-09-26  224   */
-b63adb979583ef Guenter Roeck 2014-09-26  225  void do_kernel_restart(char *cmd)
-b63adb979583ef Guenter Roeck 2014-09-26 @226  {
-b63adb979583ef Guenter Roeck 2014-09-26  227  	atomic_notifier_call_chain(&restart_handler_list, reboot_mode, cmd);
-b63adb979583ef Guenter Roeck 2014-09-26  228  }
-b63adb979583ef Guenter Roeck 2014-09-26  229  
-
-:::::: The code at line 226 was first introduced by commit
-:::::: b63adb979583ef185718d774d8162387db5589c0 kernel: add support for kernel restart handler call chain
-
-:::::: TO: Guenter Roeck <linux@roeck-us.net>
-:::::: CC: Guenter Roeck <linux@roeck-us.net>
+  1233	
+  1234	int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
+  1235	{
+  1236		bool only_full = false;
+  1237		int full;
+  1238		u64 now;
+  1239	
+  1240		if (static_branch_likely(&psi_disabled))
+  1241			return -EOPNOTSUPP;
+  1242	
+> 1243		if (!irqtime_enabled() && res == PSI_IRQ)
+  1244			return -EOPNOTSUPP;
+  1245	
+  1246		/* Update averages before reporting them */
+  1247		mutex_lock(&group->avgs_lock);
+  1248		now = sched_clock();
+  1249		collect_percpu_times(group, PSI_AVGS, NULL);
+  1250		if (now >= group->avg_next_update)
+  1251			group->avg_next_update = update_averages(group, now);
+  1252		mutex_unlock(&group->avgs_lock);
+  1253	
 
 -- 
 0-DAY CI Kernel Test Service
