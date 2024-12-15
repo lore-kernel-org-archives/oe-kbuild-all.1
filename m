@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31A317BD6;
-	Sat, 14 Dec 2024 23:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043D6193
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 00:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734220240; cv=none; b=jSEajz5QHh/9EUd7iJlYH2PjSJVk8cAxPw18ztWtU4cN39ioUyPN3h9skiaoRLJVVhlLayTt/jT5AfG5j/p6PCfiOjR/qnKEgr/9nRL1tNr2XD6CD48/RXwg2IB50EO3iqg/8PUVldI/sj4vxpo7RdC76ED3HvFtkqIkGUVwlYo=
+	t=1734220960; cv=none; b=O1wqLQObTSwPgV0l8yrX0FNPdBpG/AB/TiMJC9PZX9BkrizNWWFrDX1pVM6rLkpsEVFix8MaNrwWK+coHUk3v93OQcCXyo1QYsvxSxIJzwfQXem2+BTTZsyNmch9B8ef4HYNjZ0oxDvodSD+iDBgYY2NY9DH8OvYFa6ZJCFnNA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734220240; c=relaxed/simple;
-	bh=vII1euYZw+KTe0VGAi29QTWdnWnqz5U02OFIF/M/43U=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kfA01bqzaZ53yQnfD/b3g3mY9kDKuvfQlOFxYzvAzIVhOTXXoGUQoPaD2nHaqRYBSq89L4TkbIMe3kBtrteuKlzPVuALKNrKWmPEjXq4Sz7mAn3iNd05Kgu99aJ4HUYCR4JL3Ipf5zWtA9hzx6EB8u++4/ayx73gkyoTPniXrtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQosTETr; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1734220960; c=relaxed/simple;
+	bh=WzhR7FiUxDtJDs/1OLHBiCSISb46DtVRPDZYbJBEf6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hHfCWL0qBT4WlRnH6LrqAkabfe8Og4CcXPi3t116m6uvX2n/rT9G3Z57V/rFifxLZNRSzNQzeaFrxAb/W0i71rdft1lDSh5308Amyd+jlG+E8a0KpgG7PGy+beiBDVDQbPNM4n6HRUm/zL3rcGiz5BAIk2tLoWPUqVF7Amu1B+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTJfofpy; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQosTETr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTJfofpy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734220238; x=1765756238;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=vII1euYZw+KTe0VGAi29QTWdnWnqz5U02OFIF/M/43U=;
-  b=jQosTETrqaPop4pwZuEasxV8CpxOCBCuneuAiRy4n5q3Emm+NEXFS23w
-   xyIZdC//AwwmKm7e9HBqPxRG0uOhheMLdMG/UNR+D6CmhCwRXby8fXFVI
-   UzLsoxxaY6/MimifZk5o2yNEAFomV83DZDQnEXce7IIHJZxXwZt7rpWDV
-   i9OAFqiFWHTHctwrt9RN7PKJU0GeSrST9AXrhXESEErowUpjr/z8skM5o
-   bA+7t7yvqXxzEEuN0mZHsn/5wnXsTLy6BH2wmbA2MiobB3LjwDRGojD3z
-   auCMZn9snRN03NTCdivAi36V03AlqOrxrRThxy1w7ZQfqa2qLMOCYcq8t
-   g==;
-X-CSE-ConnectionGUID: A2E+SaSgQBin4pIOGvaYfA==
-X-CSE-MsgGUID: wVpKtynhQ4qa7/tHVFr/Kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="38327517"
+  t=1734220959; x=1765756959;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WzhR7FiUxDtJDs/1OLHBiCSISb46DtVRPDZYbJBEf6E=;
+  b=cTJfofpyRvYAzuWGHQ5E8Y/5I8iT5+2vyCGRjmo5WZABY/9MZ2cWTD0M
+   ZP5/mwyhgbcL5BE/AA598kk03zSjc8SksR/D09qMf82n1cLfe2p/K7MO6
+   Euqr45CzHAlB5U6oBUd/V1nWFD1F/4eu40MljB9ZX5xHGEqexZjZi9WFj
+   nRnu5l3mPoG/w8f4YS4sz4PaI3nMqEE3fWiQYL5G5q74IWWJrP2dM2Af0
+   fXWD+awLc8S0YBmUxquMeJ8skayyJeG/lIrh8ommNE6Wn3eb7N2VY5OA9
+   uLg19th7/TJ4rD6E3BxWDa+KoNSi+VHMbXthCOx1eud0AMhA/x3qjihef
+   w==;
+X-CSE-ConnectionGUID: WDFSwaVXTROCkLP+OXVoHQ==
+X-CSE-MsgGUID: dSjy5F00QIaekHtQDAJKiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45332390"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="38327517"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 15:50:38 -0800
-X-CSE-ConnectionGUID: rrUWvhoQQQKNp2QkWfiKSw==
-X-CSE-MsgGUID: XpHUpAsdT2aS4FXoCC1DXA==
+   d="scan'208";a="45332390"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 16:02:38 -0800
+X-CSE-ConnectionGUID: ZUZ93t/xTDanaihcS7LsSw==
+X-CSE-MsgGUID: +jmQ6o9NRKaWPx3EZ1PG9g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96711397"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="101952474"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Dec 2024 15:50:37 -0800
+  by orviesa003.jf.intel.com with ESMTP; 14 Dec 2024 16:02:38 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMbu6-000DK6-0t;
-	Sat, 14 Dec 2024 23:50:34 +0000
-Date: Sun, 15 Dec 2024 07:50:12 +0800
+	id 1tMc5j-000DKY-0k;
+	Sun, 15 Dec 2024 00:02:35 +0000
+Date: Sun, 15 Dec 2024 08:01:36 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: .text.amd_set_spi_freq: unexpected end
- of section
-Message-ID: <202412150725.0tOrzlKf-lkp@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl/fwctl 23/28] drivers/cxl/features.c:60:24: sparse:
+ sparse: Using plain integer as NULL pointer
+Message-ID: <202412150758.GrkTezZ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,33 +62,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Raju Rangoju <Raju.Rangoju@amd.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Krishnamoorthi M <krishnamoorthi.m@amd.com>
-CC: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-
-Hi Raju,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a0e3919a2df29b373b19a8fbd6e4c4c38fc10d87
-commit: 6defadbe6cbc3a87dc39c119a6748d19bfba0544 spi: spi_amd: Add support for SPI MEM framework
-date:   9 months ago
-config: x86_64-randconfig-071-20241214 (https://download.01.org/0day-ci/archive/20241215/202412150725.0tOrzlKf-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150725.0tOrzlKf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
+head:   c3c1ca00092765212f4eb49d2aaffb2003beb33b
+commit: 7f7c30b7dbd79802299899bb011fe4e37a30c12c [23/28] cxl: Add support for fwctl RPC command to enable CXL feature commands
+config: x86_64-randconfig-123-20241214 (https://download.01.org/0day-ci/archive/20241215/202412150758.GrkTezZ7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150758.GrkTezZ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412150725.0tOrzlKf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412150758.GrkTezZ7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cxl/features.c:60:24: sparse: sparse: Using plain integer as NULL pointer
+   drivers/cxl/features.c:64:24: sparse: sparse: Using plain integer as NULL pointer
 
-   vmlinux.o: warning: objtool: .text.jffs2_erase_pending_blocks: unexpected end of section
->> vmlinux.o: warning: objtool: .text.amd_set_spi_freq: unexpected end of section
+vim +60 drivers/cxl/features.c
+
+    51	
+    52	static struct cxl_feat_entry *
+    53	get_support_feature_info(struct cxl_features_state *cfs,
+    54				 const struct fwctl_rpc_cxl *rpc_in)
+    55	{
+    56		struct cxl_feat_entry *feat;
+    57		uuid_t uuid;
+    58	
+    59		if (rpc_in->op_size < sizeof(uuid))
+  > 60			return false;
+    61	
+    62		if (copy_from_user(&uuid, u64_to_user_ptr(rpc_in->in_payload),
+    63				   sizeof(uuid)))
+    64			return false;
+    65	
+    66		for (int i = 0; i < cfs->num_features; i++) {
+    67			feat = &cfs->entries[i];
+    68			if (uuid_equal(&uuid, &feat->uuid))
+    69				return feat;
+    70		}
+    71	
+    72		return ERR_PTR(-ENOENT);
+    73	}
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
