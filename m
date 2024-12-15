@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BBDF9D6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 19:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703BE1494A6;
+	Sun, 15 Dec 2024 21:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734290055; cv=none; b=FjJDGpQ/JXd6qjWc4AsEPgStjdX3DzaUryRstNYOwQzedPP4qcIcnNIJPKDW+npXFXoONYQ2vbrMbkI8pRoOGDGXP3CVkTb5Eh68E4IgtCgaja5cgMsKvwug5pmX71JVNH1ex7BSfv7OlmuI1wmna9vrZcQc+fh9gz7F5c3Cdfo=
+	t=1734298648; cv=none; b=WclKM2aJRGuaSC3TTqA/qvyqU9hXOuMeiHAVrQw3x/z3o4spsLKEKvwD53A/MFyTSDQZHabw4m9+QoVLICj/69hT70xdiMGrBZ2sB5CAb6N4+ge7OYUP1Tcoe9wE3OsYs5AYcUsZqm3jQ0/GJUwWsAFDf7mVaCp1XxCE5zKCVuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734290055; c=relaxed/simple;
-	bh=NXE1mxhgaCjCdC9bEQEgBg1bPtZ1oC5Divtqb9au7f0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P7m8F5lbJC7rKSEPwQBrt2wXHFtBf316oGDOm+onGL01bIRB8732sBMLB7739wRRVGKLBDdL1NmWTVs3jCNgqAiIvCq2LNr/dbvLrsFK6pWYfpNsZWZvSG2vmqSqJ5LU024zMXd7ER2JqQh9bq6bxOdnhTuHRE0mpT9R6abB+Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UgAGGX9h; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1734298648; c=relaxed/simple;
+	bh=YOiwtzBeRStAm5MVEesSPTnSKXxiVBin33yPvy82/YU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o21FyJByTlZa3aaE7hId21RL3GVJIHMuUrNxlPqNf+tHiN4tTkJfFqlnl2/FvlTNrAJhei7sGM40rT5GjDZCu956w/7eM/5RRWUKTBTsj6dOa3m3ZZ/XmTEagoz9kFvfp+sH7KLTwQ1aC5LqjZ0/QIAi5F5GMfkIEqtJsfkTKa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOduRoFZ; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UgAGGX9h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOduRoFZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734290054; x=1765826054;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NXE1mxhgaCjCdC9bEQEgBg1bPtZ1oC5Divtqb9au7f0=;
-  b=UgAGGX9hgywD2u8QVpYHMuE7mF67f7bp4goSPLBFjKMrHxjYZCf0kiug
-   EE2BCJUj141sBG6bI1xSf5tujJ9cqHV95TMSo9UYK6qchIbhlcfFD1FeJ
-   3lU+dC+HyuJhFjvoQQvV9ThX+0qNxZ0X7ra/rbsgXSfrYE1nSBk6q9Z22
-   Xefoh+7fiKm9OQg2ppBVoc27zD7RsbTqMDJ/H7S5+Nsx6Kmn9OCHSG5T3
-   esqylQoJ1vsFA3nmStbAe18OhElCmI21dMrp1dbz8Mag8g/3082pWXz3A
-   3V+7d8uesh/Vev+2vfs6C4cm3MDKeA89ddXtQ8gJszNkiu+6cPiErd4Zb
-   A==;
-X-CSE-ConnectionGUID: /58I/jDMTuetzyQ9rNhfDw==
-X-CSE-MsgGUID: UozYtsavQ1iT+8YTS5/g1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34904158"
+  t=1734298645; x=1765834645;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YOiwtzBeRStAm5MVEesSPTnSKXxiVBin33yPvy82/YU=;
+  b=QOduRoFZ2tZGJmNeFyjBXPJcug+GAzihOJf73S8vkN3hlLiNobxsR1rv
+   tue1lX19c7aBmjE/16d41nSjoqlA8r+KJeLLCEjbXafy+/HG6YRFcwrAp
+   VgGnXII15OusWrW9Ty4xbPiwD/+ZaKp6bceIQY6PYReVAPGKNeBntXgQR
+   TIgDOBBpUKFktPkIwPTqdxjyrbBSkbL+Jc4dvH8e0Ftn2dc8Mixm6qjzJ
+   grohxJb9yiWhCtcuL4A3IQt2+2BNC/TczZqbE83gjWhb+FqVWCZH4FSaV
+   ULwYW3uvaZUatNS9GewRdYDDhPKhmEPs92xKAFny6Erhzv4bXaQIu8sz/
+   w==;
+X-CSE-ConnectionGUID: 5ul9i5SuSR+8g2QF7TlgsA==
+X-CSE-MsgGUID: gSuIqL+VT4uNspbu9IBOgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34822846"
 X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
-   d="scan'208";a="34904158"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 11:14:13 -0800
-X-CSE-ConnectionGUID: 8m3SW0UJS9e8+Azjwf/M0w==
-X-CSE-MsgGUID: o/Kyx51yTgms6LPpPi9UvQ==
+   d="scan'208";a="34822846"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 13:37:25 -0800
+X-CSE-ConnectionGUID: zNW0scBtRgKNpdogQU0JVg==
+X-CSE-MsgGUID: 6e/T0iilQKeKho9RGZdJRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101985300"
+   d="scan'208";a="128010549"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Dec 2024 11:14:12 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 15 Dec 2024 13:37:23 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMu48-000Dos-2k;
-	Sun, 15 Dec 2024 19:14:08 +0000
-Date: Mon, 16 Dec 2024 03:14:00 +0800
+	id 1tMwIi-000DsE-1M;
+	Sun, 15 Dec 2024 21:37:20 +0000
+Date: Mon, 16 Dec 2024 05:36:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:wip 18/20] include/linux/kern_levels.h:5:25: warning: format
- '%lu' expects argument of type 'long unsigned int', but argument 7 has type
- 'unsigned int'
-Message-ID: <202412160331.dKLmjSKE-lkp@intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH] mm: vmstat.h: Annotate operations between enums
+Message-ID: <202412160507.MwWr4a9B-lkp@intel.com>
+References: <20241202-fix-vmstat-v1-1-c995585b7df5@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +68,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241202-fix-vmstat-v1-1-c995585b7df5@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git wip
-head:   14a0b37677c60e56234bfdca48f2893895e751f3
-commit: 03605b8f85a900083d1f7f2d3d19fcd16cbcdd96 [18/20] f2fs: fix to do sanity check correctly on i_inline_xattr_size
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20241216/202412160331.dKLmjSKE-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241216/202412160331.dKLmjSKE-lkp@intel.com/reproduce)
+Hi Ricardo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Ribalda/mm-vmstat-h-Annotate-operations-between-enums/20241203-020840
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/20241202-fix-vmstat-v1-1-c995585b7df5%40chromium.org
+patch subject: [PATCH] mm: vmstat.h: Annotate operations between enums
+config: x86_64-randconfig-004-20241216 (https://download.01.org/0day-ci/archive/20241216/202412160507.MwWr4a9B-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241216/202412160507.MwWr4a9B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412160331.dKLmjSKE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412160507.MwWr4a9B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:7,
-                    from include/asm-generic/bug.h:22,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/f2fs/inode.c:8:
-   fs/f2fs/inode.c: In function 'sanity_check_inode':
->> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   fs/f2fs/f2fs.h:1855:33: note: in expansion of macro 'KERN_WARNING'
-    1855 |         f2fs_printk(sbi, false, KERN_WARNING fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~
-   fs/f2fs/inode.c:317:17: note: in expansion of macro 'f2fs_warn'
-     317 |                 f2fs_warn(sbi, "%s: inode (ino=%lx) has corrupted i_inline_xattr_size: %d, min: %lu, max: %lu",
-         |                 ^~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7021:13: error: stack frame size (3096) exceeds limit (3072) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
+    7021 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out_params)
+         |             ^
+   1 error generated.
+--
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6712:12: error: stack frame size (4088) exceeds limit (3072) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
+    6712 | dml_bool_t dml_core_mode_support(struct display_mode_lib_st *mode_lib)
+         |            ^
+   1 error generated.
 
 
-vim +5 include/linux/kern_levels.h
+vim +/dml_core_mode_support +7021 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
 
-314ba3520e513a7 Joe Perches 2012-07-30  4  
-04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+2563391e57b5a9 Chaitanya Dhere  2024-07-02  7020  
+70839da6360500 Aurabindo Pillai 2024-04-19 @7021  static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out_params)
+70839da6360500 Aurabindo Pillai 2024-04-19  7022  {
+70839da6360500 Aurabindo Pillai 2024-04-19  7023  	struct dml2_core_internal_display_mode_lib *mode_lib = in_out_params->mode_lib;
+70839da6360500 Aurabindo Pillai 2024-04-19  7024  	const struct dml2_display_cfg *display_cfg = in_out_params->in_display_cfg;
+70839da6360500 Aurabindo Pillai 2024-04-19  7025  	const struct dml2_mcg_min_clock_table *min_clk_table = in_out_params->min_clk_table;
+70839da6360500 Aurabindo Pillai 2024-04-19  7026  
 
 -- 
 0-DAY CI Kernel Test Service
