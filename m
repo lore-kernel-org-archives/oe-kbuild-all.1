@@ -1,86 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372412FB6;
-	Sun, 15 Dec 2024 13:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C24F174EE4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 13:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734269444; cv=none; b=liuvcU3jEFhrMFqL7Kut63H1SpDxH7MsWF7Iy0vESgK5gBmqwbsjeuLCh6OSqKfMAgROsCtYldzLzvYOy6gLpk3XnwXrRF5Rzm7o29E/J6MfYzelWAWfnCfkq+5IxK60zqlxaemg+B69W3TB3f1N1z5aXbAF4KkxecYAaWSehuk=
+	t=1734269951; cv=none; b=KS80mEtikoQXT5io+1Oy6hcJ49ke6n9gqSZZmdSmgoYeHlxOkBV2cAwO+U0nPA2StSuyQy1oOZYpJBytoRLqsYgfzTkbMQXqJRnkb2PR2AovK8vEq1M3vLCM9MHX4Xi1WYghN7zbp2WG8fXCu0sIsleE2o9cmtToOkDDfF8Mi88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734269444; c=relaxed/simple;
-	bh=6cxYTr7imZ3Ti5WL+RygQOLamRFVZHcBTlOdk4tEH20=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a5ZDbgKreyxqc08/b3NeBcyB6LasX0DBHstEkVLPK0MjXsR571a+dkC8hkXRWMjHBeV9Ym719RMMKgsMu9XSDySg3ICY4oPF/bTU09MdstlrkkSd2HNs4pvfjQZeJ1AuUgF3LT4XGnTiwEJvjML2sm12KQUbe6s0GXk1K1sGivQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HslJI1Yv; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1734269951; c=relaxed/simple;
+	bh=XrmQpKYSflNuoXEKhdYJgDyQhZ51vc8r81OH3xptc9A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a+H+AN0AWr8evf1upK8lZbQ2ft1SBCPTbyl+ZDo4+qrwhOJ4UTUEjZSDKd/4Oyxw3ZRZZbSKdYrl7fIRDzjEgRs1IGJ1URzX5t8Axcaji4QOtzX17fr1BEI3G3rSBQql1V+1BndkRhoR9hcYfM0jtZSqYaOF5J84mlq5KiS14uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jblgIKUH; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HslJI1Yv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734269442; x=1765805442;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=6cxYTr7imZ3Ti5WL+RygQOLamRFVZHcBTlOdk4tEH20=;
-  b=HslJI1YvEDgE+gkGegxzjNY/p2JthBKuundTYJcpMz42GyJPd2sD4TqB
-   E+Esbvrt8EFmSfDVAdh6GxEQ+sTNd+o5oddqT/jFHllYgFH1eZPGXTavH
-   HOH0Cv441xeKnO8BMSQgVDG2okx/bxyIrkw1TgFc+PKnvO80Hox1AMK7R
-   J9gcSlSRXxVLWCWmFXB22e6dWSH3t8WXZBPA6tQBLKUXcmwTPkqJVfWH9
-   qqKSGaf16qyYlfLCcZ2ctq+WCrTZmHU3Q359CKXgJxfEvUqzKjERtDovU
-   jwgJneVMe6UBPWOSqirZeMIBxxKIX6snb1PNhiMMD+XXh9qV3ORt/E7h+
-   Q==;
-X-CSE-ConnectionGUID: iakEak+eQXCsDH2P30g83A==
-X-CSE-MsgGUID: 1ZtWkeqiT6SAh715vbjJNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45268868"
-X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="45268868"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 05:30:41 -0800
-X-CSE-ConnectionGUID: mHeCiOgNQGyQgaEevaZLvw==
-X-CSE-MsgGUID: aBOcylA/Th+j49L9zz95Jg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="96869889"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 Dec 2024 05:30:41 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tMohi-000Dda-0z;
-	Sun, 15 Dec 2024 13:30:38 +0000
-Date: Sun, 15 Dec 2024 21:29:36 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 10/232] fs/bcachefs/bcachefs.o: warning:
- objtool: bch2_check_alloc_hole_bucket_gens+0x507: unreachable instruction
-Message-ID: <202412152159.246eypZR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jblgIKUH"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6d8adbda583so41759106d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 05:39:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734269949; x=1734874749; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k8uqDP/lnio0NPV20RWWSTO61S0pA+rXkOSNzbD4q0Y=;
+        b=jblgIKUHGxExxBCByyCumZXtec5iCZ73rQL1gRn4W77hpeJbrh1adpWGNFGenik/BM
+         aWq7fAsYKcWsGXc9XNT23noUWGeru7zO0M+zRVxW8uiGQvYgcBMrzXGJrYcWzQHko3+x
+         K3rXiMJRikibqpjxcP82ryTnA6cVE7u1gUulQ/oBZxSDefc5HdK+YTuCe9Nxwrfmb4WJ
+         4acwtxd1oqndtFQa701TvikjxuZDeywamkE9o3xbXQVxOTaIOZ+lu0e03FH84zOEE7Ev
+         HV+QqEwMJDzqD/bnabTK80dskvIWLTtHhsjnPWK0RMbAPu07LGVfTRolsm7tuTu0MvWG
+         nDeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734269949; x=1734874749;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k8uqDP/lnio0NPV20RWWSTO61S0pA+rXkOSNzbD4q0Y=;
+        b=GsE/7n7EEthjdBoxMXARUrO6JwP7jdONWjmL9yb7UZOsI/04VQf+YpSXXcrvNjfS9U
+         BsF8iYAciWsp/G+l2UEMG03JAJUHxS3SbPqbun34mAaJ0CvkQ8kPvuUDVCq6qCVFeROu
+         K6Q0bYnZMMQPbh44KBBnERQ4IUGeNc87ksFinXSksRJf9+B78k+LRSnOz2/fvWnRzW+Q
+         wOB1CO7Wrl4pMiv2K+eOdFbRmeB7b8Am50hebFOVz1hbxrMArM5NMsHR9wDcObGu2ZmY
+         iRyziKot+pyvlfAzhRbA8ON/WXohmCXJfKz1fzpMgPrd431LMpO3OUpu2pQFlXTl3sCM
+         vRvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9W70toLgqe/E7T3SkOhYkbS64j4rNT9SA7UYmQUPTT5nYnI6KsvWeKhK6vPfOD56mqaIeVtPcY/tPGZgq@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRjGKEWKcF1fFN8/KbjiR74VP/8d7GtUueA+Uk+7wjAajovKFN
+	nhXAEryPoaROlPDx5In1Nl3t7n4NDCpaERHGNtcgFNyLEiL/OfVEeX37ijikvNaMyckI3MbrzT1
+	ANLUDNCrlxabfs4MmpsDaU96HYsE=
+X-Gm-Gg: ASbGnct7l87hl4glDHEjhUw2LMkDOllwtwFzrzXsZyiUfkafyk1jwPowrU+w+ZFsTPZ
+	Maq8XOcRS7/KTCOo3ypyfQtUQbEQUQ1RgGKSx9tM=
+X-Google-Smtp-Source: AGHT+IH1cQTQtahFCfhq2nr+zIjpQm6ClX1Md5Mqi72xfTObwsSxE3+Yv+PNKdT0/pqlixXzv/rqQdqXsGpRjycbFEo=
+X-Received: by 2002:a05:6214:2523:b0:6d8:b097:fad3 with SMTP id
+ 6a1803df08f44-6dc968726bcmr170066866d6.35.1734269948990; Sun, 15 Dec 2024
+ 05:39:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241215032315.43698-4-laoar.shao@gmail.com> <202412152009.HZ862kna-lkp@intel.com>
+In-Reply-To: <202412152009.HZ862kna-lkp@intel.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Sun, 15 Dec 2024 21:38:33 +0800
+Message-ID: <CALOAHbCpO-zeH1u5mQs9FvAP-V9JHf9G8LiQdbapDxoMMKzUhg@mail.gmail.com>
+Subject: Re: [PATCH v7 3/4] sched, psi: Don't account irq time if
+ sched_clock_irqtime is disabled
+To: kernel test robot <lkp@intel.com>
+Cc: mingo@redhat.com, peterz@infradead.org, mkoutny@suse.com, 
+	hannes@cmpxchg.org, oe-kbuild-all@lists.linux.dev, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, surenb@google.com, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CC: Kent Overstreet <kent.overstreet@linux.dev>
-TO: Alan Huang <mmpgouride@gmail.com>
-CC: Kent Overstreet <kent.overstreet@linux.dev>
+On Sun, Dec 15, 2024 at 9:08=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Yafang,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on tip/sched/core]
+> [also build test ERROR on peterz-queue/sched/core linus/master v6.13-rc2 =
+next-20241213]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/sched-=
+Define-sched_clock_irqtime-as-static-key/20241215-112638
+> base:   tip/sched/core
+> patch link:    https://lore.kernel.org/r/20241215032315.43698-4-laoar.sha=
+o%40gmail.com
+> patch subject: [PATCH v7 3/4] sched, psi: Don't account irq time if sched=
+_clock_irqtime is disabled
+> config: arc-randconfig-001-20241215 (https://download.01.org/0day-ci/arch=
+ive/20241215/202412152009.HZ862kna-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241215/202412152009.HZ862kna-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412152009.HZ862kna-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from kernel/sched/build_utility.c:96:
+>    kernel/sched/psi.c: In function 'psi_show':
+> >> kernel/sched/psi.c:1243:42: error: 'PSI_IRQ' undeclared (first use in =
+this function); did you mean 'PSI_IO'?
+>     1243 |         if (!irqtime_enabled() && res =3D=3D PSI_IRQ)
+>          |                                          ^~~~~~~
+>          |                                          PSI_IO
+>    kernel/sched/psi.c:1243:42: note: each undeclared identifier is report=
+ed only once for each function it appears in
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   ea71d92584522ac4a7b66ee9945556118b928ab9
-commit: 6952c5b0d70b70638a070f50668a614235a11175 [10/232] bcachefs: Delete dead code
-config: x86_64-randconfig-008-20241215 (https://download.01.org/0day-ci/archive/20241215/202412152159.246eypZR-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412152159.246eypZR-lkp@intel.com/reproduce)
+Thanks for the report.
+will update it as follows,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412152159.246eypZR-lkp@intel.com/
+#ifdef CONFIG_IRQ_TIME_ACCOUNTING
+        if (!irqtime_enabled() && res =3D=3D PSI_IRQ)
+                return -EOPNOTSUPP;
+#endif
 
-All warnings (new ones prefixed by >>):
-
->> fs/bcachefs/bcachefs.o: warning: objtool: bch2_check_alloc_hole_bucket_gens+0x507: unreachable instruction
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Regards
+Yafang
