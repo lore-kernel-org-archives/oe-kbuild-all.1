@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E0B26AD0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 18:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D26F9D6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 18:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734285727; cv=none; b=OSPQsr3oJT6F/akFXrvz3rz6uIBc0zl/sdcyJLPIzJkYqTVh38W9YM5HOOLDxomJ36yBUmMgTqNMMJqN6ySHdUERl4u8IKf+e+qycwEi8dSHm4FYz7Tq5iVnvz8TxooEUougXHeLqdxk1xdNgDmJWaw3GHB9zfW8udxZ1sat7Ws=
+	t=1734287591; cv=none; b=GfXVniXYKtMNoDaorcetrXyvfJZZgbAoU0ww69d2LXG0g1oLCj9WATGB5zFaQuXm4Jw6jQrJUPKg9aY5XDduFCLQ7Q3PB45BzSUS1VG+Q5yz1KT5U1nge/ZuuOqoeAM0DIZXtpkG5yFlCOWwtvoXJByEf4OUh+bILZzdADKzEMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734285727; c=relaxed/simple;
-	bh=f8pWc9DYrXWXxfmdCaU6UISuBwPrlcbIpEsDQQOZKYw=;
+	s=arc-20240116; t=1734287591; c=relaxed/simple;
+	bh=1Hhy0/7UNLtorFJ9rRGiZm6kK2W5J/5XCMh5yUBA1Yk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MwIMDDM3HlEhKawM0f9q4k6C7o5jVabInbEh49XIVQQPpbVcWwmqqPFbUn5rtvuW4tF98t0pxrbpBnZwaY6ld14r1hQ8QdEW2u/7tD0Zxlt5RKgkDIFLmn2N1Vs05s5BIQ0HGrj0F+Y2aF17jdGyERGcU3GD4sq12yBbLoPJx/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LmwrjKS7; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=PWARKiKpTLJAMWXLH0K48Ys6qvSex1Xk4JrcmZjDJDh74FioCzbjNnobM6SCY1PHTWMPSIK4s+TR4nc7ujhPkbR94YCiUTs+OsG4Yct+fOt+aFCoEEhf/5+w4iPe7oZxFNU7sUs4c9xj9F1o8LmcvdZoFO9dnzBqsDqM/kGrWtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vg8kuNPY; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LmwrjKS7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vg8kuNPY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734285725; x=1765821725;
+  t=1734287589; x=1765823589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f8pWc9DYrXWXxfmdCaU6UISuBwPrlcbIpEsDQQOZKYw=;
-  b=LmwrjKS7PcT2ki5nn23LAP+YZRDUlY8dV6McH7Ih+Gm3s8R1sToO8/V9
-   9rf86hkpBtjXo4q5Id0C+2O2z0u2moz80dn9uKpKc7m1EQrJ5mtuQP5qi
-   lmJqHkN4pGgrSL8AQIon5D7b4IZ59DfSQUJseRTpZ3PPH0UX5dspLdgmQ
-   NWHMBBXWCHxBhb+1hQEHEVT/859/DagTeF90nlSysnmxA2fOnXPIJZTkv
-   OwM7lOk6DFZzbeqDP+6P2ZcmB/aaYEwnB2GDszvcJj+11KOhRATKxnW7i
-   A2LRtVh8tlW10w9pacpKyV8gb6xWR4bfuPfiTw+R1ZI8AYQZ5I8p63Ijk
-   g==;
-X-CSE-ConnectionGUID: LOwAa3e8TFqBODAzTpv7FA==
-X-CSE-MsgGUID: wN0wstmfRAC+qMClnGUXGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="45365360"
-X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="45365360"
+  bh=1Hhy0/7UNLtorFJ9rRGiZm6kK2W5J/5XCMh5yUBA1Yk=;
+  b=Vg8kuNPYxRkzxVTqSxYHCBSc2aHjgQlcXg1LlnyIp2Qb+eDY43Tgh/FA
+   4S3RetG4/VU1/QslsDegNf6XzsGrE0YlFl5GYE+bTu2VfXM7rm9orlLsb
+   bAWcxt77zT/DrXuk9MBGZWS6n1LE0OlqM0BI/pkLC+973suCbILlrKE37
+   WWnIEckqn7AKqcbjSgpeBen69uXTvc27kwnSIWYEifzTvhiK2vJoANzQl
+   wx/s8GDZvSCjIitYC2iUt/ieEHMWztumgmQzAsQyFPSUf2Auvhe7MDaIP
+   PU7n5mW2BLQKZ1AEdszT2XzLeMtLhdIwshUMIGk3E0lXmT6ofQuCjLF0F
+   w==;
+X-CSE-ConnectionGUID: 2n30MqiHRRGvM/OIiYuNvw==
+X-CSE-MsgGUID: 6UH6WQbYRfyA3yK4wByc4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="52194849"
+X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
+   d="scan'208";a="52194849"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 10:02:05 -0800
-X-CSE-ConnectionGUID: lyTzXulZSIGgG22S4+iwLA==
-X-CSE-MsgGUID: 6mMvbRW/QMuKUARDMYx1Rg==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 10:33:08 -0800
+X-CSE-ConnectionGUID: DYDVhTQOT/iwtrnxU/kSjg==
+X-CSE-MsgGUID: MUUzkugbS1KRwXR4jOKEyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97426614"
+   d="scan'208";a="97430076"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Dec 2024 10:02:04 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Dec 2024 10:33:07 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMswL-000DmM-2s;
-	Sun, 15 Dec 2024 18:02:01 +0000
-Date: Mon, 16 Dec 2024 02:01:21 +0800
+	id 1tMtQO-000Dn3-11;
+	Sun, 15 Dec 2024 18:33:04 +0000
+Date: Mon, 16 Dec 2024 02:32:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 12/16] kismet: WARNING: unmet
- direct dependencies detected for ACPI_THERMAL_LIB when selected by
- GKI_HIDDEN_THERMAL_CONFIGS
-Message-ID: <202412160122.R6nskNMx-lkp@intel.com>
+To: Jan Kara <jack@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: make[2]: *** No rule to make target 'install'.
+Message-ID: <202412160224.YwRnvCXq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +62,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   979e6f6aa3c78b92ad965d072eddc53477a84fb6
-commit: 440d11cd96f3f7bad78bdb2e10122b02a626478e [12/16] ANDROID: GKI: x86: Add hidden thermal configs
-config: x86_64-kismet-CONFIG_ACPI_THERMAL_LIB-CONFIG_GKI_HIDDEN_THERMAL_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20241216/202412160122.R6nskNMx-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241216/202412160122.R6nskNMx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
+commit: e719b4d156749f02eafed31a3c515f2aa9dcc72a block: Provide bdev_open_* functions
+date:   1 year, 2 months ago
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20241216/202412160224.YwRnvCXq-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241216/202412160224.YwRnvCXq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412160122.R6nskNMx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412160224.YwRnvCXq-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB when selected by GKI_HIDDEN_THERMAL_CONFIGS
-   WARNING: unmet direct dependencies detected for USB_PHY
-     Depends on [n]: USB_SUPPORT [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_USB_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for INTEL_TCC
-     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_THERMAL_CONFIGS [=y] && X86 [=y]
-   
-   WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB
-     Depends on [n]: ACPI [=y] && THERMAL [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_THERMAL_CONFIGS [=y] && X86 [=y] && ACPI [=y]
+All errors (new ones prefixed by >>):
+
+>> make[2]: *** No rule to make target 'install'.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'install' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'install' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
