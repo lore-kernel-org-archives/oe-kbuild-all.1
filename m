@@ -1,143 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773EF1487D5;
-	Sun, 15 Dec 2024 13:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734270711; cv=none; b=cxND3HB04k5v0TWmoRN4ZZRoFLPvuBdrpUuFHz1f5QyhyxO1YwVjSieBlivE19miKkMtnTGpdtENlarLQaKxeGEil3DSpYaU7YBQXRcxL6IDBndUiashB2mwOl7W4HQHePMbGHwjcXhmx4NEItMmcNhxvf31TuKIxYjhej/Oe44=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734270711; c=relaxed/simple;
-	bh=2LWjmtPJFDOKIXDan6DkpQm4ooohv4Sn4+uq85iaUG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rQuOZ9eEEdkcfzGvVU86ZaRRyjY9hYklvQWcCog7tCCFTZJH3F2IWGEVbkl6D7mWMlEfgbT+A6CuLIlXhcKDC1syrZWe70nFrVS0jUFdsmRscSf9UTi9y5FnbV6+gpYPC3lSgT8uEw/sdriyUT+yXdyE4yFsYtto9CfMK/wWUHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8KY3Eo5; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF94123DE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Dec 2024 14:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734272872; cv=fail; b=Odasii0yzhp5fSsYAaTRQ8s7aqAJ5e+4f4NvfEWoAu/o1nFv98gTYcph7x2rxi328dTUBoFyrfW0IkCwU0vwRCcUM+jA8Y/mVzifsaIr2Sh8tuuYC/nLXiv6Yyef4BwJpc3x4PupR7bCIdj4x5sU2KG+7zAh8RssshdOIhRBSwc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734272872; c=relaxed/simple;
+	bh=+SGs9iRfv5uFnpdcww3huWi1tdBM+PPhH1bdNffRPbo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=l4SxhQgWuslLXKhMtkLGWDG8k1/rAvfjEIC280Zd7fVHTg1u43pytakiUa0esyJT4UjHE3wA0SEef/Cky8gXqPRdkYU7Y+GML8vtII2Yw2SpTKQUmfwJ7DV6ywTLP6MDDBOVvdTcYJV7lkv89m1Nhk/wt6Og+1Jlh7JXIkE4TWU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLnGvMmM; arc=fail smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8KY3Eo5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLnGvMmM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734270709; x=1765806709;
+  t=1734272871; x=1765808871;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2LWjmtPJFDOKIXDan6DkpQm4ooohv4Sn4+uq85iaUG4=;
-  b=g8KY3Eo5+NLSVGCZERuV5xTW+y4FlsutEfvEtwnbSxDfvbkckgJTjMSa
-   /LDj8tnY9ph/uThalRMDVYQKuC/bBDdE+BKlz1Fk/DnhMHYHCafWA/DUt
-   OqIMaJy1IhSlUZS3Go7HePkj85yuazZ1ZkhBHu2t5X5mYAItQuk7Nxkdt
-   8PC9deJX8gf/TcR7tBnkolkisT2+tMx89K9fjIydFpj4F3z/dTnADHgv7
-   6vXNzZrfPsVBGVN0F0lFwXS4rCYN2zET5P9PXR2qcZPOc3B2KxfeD5ocU
-   bdoEHeXjIoL6VjbE5j+E7r+kG1wJv7DwKC+fsOee/cuHw+HYDGz8E5c2y
-   Q==;
-X-CSE-ConnectionGUID: 34429VV9QBmQcIcaS75DfQ==
-X-CSE-MsgGUID: XwMoHuNcSH2fB8iiKs9LtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="46061197"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="46061197"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 05:51:49 -0800
-X-CSE-ConnectionGUID: mVxlGRFjR76uOYep9V2vew==
-X-CSE-MsgGUID: C2uK/3F0TXCdvEqBaL9gcg==
+   in-reply-to:mime-version;
+  bh=+SGs9iRfv5uFnpdcww3huWi1tdBM+PPhH1bdNffRPbo=;
+  b=LLnGvMmMShEea7rz5bsn9CFBJpTHWb1+Vp5ettXW5Y9kiViCNURtPJ3Q
+   BeJzunS/WzvH9MzPjj9kCxW+0e4377BYqtTTA3WLEegO589sp6vRtoxiU
+   uCxTpY3nMVydmRgXpsyPFpeGV88mDzUlee9WBYjjlqDxuG1DiccR4X49Q
+   xTBwsLU/aeBYXMtf+51lFw0Xg/J8+w7c8XMxODFh7b4ugRs45cUKgqEKh
+   7T+tMaanbiwe+yMhy8vK5Zo53Jidv1Rp5JSmh7HGsCEkq32i/kfU65/Gw
+   l5+f1E3ZacVHoCXNz9WYGFvT3JyiOPqIn+lVo34Yh0XisMggBs77Oqplk
+   A==;
+X-CSE-ConnectionGUID: 6KtOxqBaTOOFywfjCrFHXQ==
+X-CSE-MsgGUID: td7ZtDCSTMi6XbYW5CqqWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="52185288"
+X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
+   d="scan'208";a="52185288"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 06:27:50 -0800
+X-CSE-ConnectionGUID: OjSB6xVVRPa015kd/tb4cA==
+X-CSE-MsgGUID: LFao+8+MSVaGd0BaQm4KFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="101991422"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Dec 2024 05:51:42 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tMp23-000Ddy-2A;
-	Sun, 15 Dec 2024 13:51:39 +0000
-Date: Sun, 15 Dec 2024 21:50:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, mingo@redhat.com,
-	peterz@infradead.org, mkoutny@suse.com, hannes@cmpxchg.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, surenb@google.com,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH v7 3/4] sched, psi: Don't account irq time if
- sched_clock_irqtime is disabled
-Message-ID: <202412152115.zQ6k9tVk-lkp@intel.com>
-References: <20241215032315.43698-4-laoar.shao@gmail.com>
+   d="scan'208";a="97204338"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Dec 2024 06:27:50 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Sun, 15 Dec 2024 06:27:49 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Sun, 15 Dec 2024 06:27:49 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Sun, 15 Dec 2024 06:27:49 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o+03Z5ZbMJZJcajdOVGPolWpGFkErVivj1DjoTW6MGy+YRFljxiZK6YOgYsq6L0u+MqLWSF/Qj8R10AVPZ0ASAxVKn4PFsoTs/Y1Wn9MJlfAZDykhXTuLACOcadf4syH5Bt3isjAthGkwsx2ad7cnvhzN/SsTautm/vfpUV2ZSBOukvM8OP8xTfEnWLupzz0qyHcxpVu3Wx1HVBJ6yHSycrQ5nEm8/23f71g7iXkHS/0CqhY6jPNymIeYIvoDXQv2wtlNuEme4PPTVHrWoCHw9yHnwFyUHjJjKmkyS4nAt45QzSV7NXZRPDC5DZcBrF8cyIw/I8ey3rCeNo7PGQWbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Rd6ZscZgkkoFRAlQBnb/kNgGYro1VsUPS/C5ksXq3tU=;
+ b=CBTHxEIWM5QrlDNvPzmzyOygWqhLU7Uqom4BG404R5ISaTG3mUzEoI9WgWMi/vph/7FpCMhirnlJ3hDvUnEEvR7c9kp2hwMzJBayFisbcKflbDmwfbyU+KEf4Hipwj7zsvpd6/+I7AQgPoZldBR/q0KAmD7nnzT6LBQrVz+dyFo7V3FXrwkPznCjDlHoE8CmJ2c47pIG9tW54b0EU5h8pZCxI8/yJURuU9KMQqaXgwP0N+pnmtf3BDyTLt2QPJUbzwihkNlgYF3wfO7DLFZIBv65BEKUphzXY2VzpYi53KCichiNZcR9Kv9icgrO2L/WKhxdHhCVKDvy/6B5oBNqSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by SN7PR11MB7640.namprd11.prod.outlook.com (2603:10b6:806:341::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.20; Sun, 15 Dec
+ 2024 14:27:07 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8251.015; Sun, 15 Dec 2024
+ 14:27:06 +0000
+Date: Sun, 15 Dec 2024 22:26:58 +0800
+From: Philip Li <philip.li@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Kees Cook <keescook@chromium.org>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: kernel/reboot.c:226: warning: Function parameter or struct
+ member 'cmd' not described in 'do_kernel_restart'
+Message-ID: <Z17nMtLdGdp6w+nP@rli9-mobl>
+References: <202412152053.KeJr8B5f-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202412152053.KeJr8B5f-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241215032315.43698-4-laoar.shao@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SN7PR11MB7640:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9a8b59b-a6ea-40d5-11b4-08dd1d148d0e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?8BcSw535x9otrs9i5skXROnGy5FmSHvpVQbujD2REd7qyHtEPmNJyTxI1wbE?=
+ =?us-ascii?Q?kV1Z00gsF9Sgin4q2YsM1dy6OdZtMx+OdwyjaoSrFNjDEUhwhFROIuG0AAuv?=
+ =?us-ascii?Q?k5b7490KGgeVk5W0H8mFtsqTrsMXjG7oQA9OYZEIB6cbS5nXoG9BQcYkF1zy?=
+ =?us-ascii?Q?jLTRKdQbepF/u2SJFiII2CHKlpak3MVe6wzsnuIYl2mhHJG54+IbVuocJKUq?=
+ =?us-ascii?Q?PuV0lxAsghI+J7p19RvRQ7Mtgp5Q/h17jokj1Rp/uthi12S0xXnPWcHpOqiu?=
+ =?us-ascii?Q?ZsuI5d2YpL4K7SRrWg4YKJBhB06iZeQVPYsUaF66UVr75aMPcSUhc9Ph/Rkk?=
+ =?us-ascii?Q?+IXNpSzGw2XTp0kmPXnu/lPtYR116v9sf0vYNqzcLnNTH0ESq47k5E90KyA3?=
+ =?us-ascii?Q?EqCpKDoaRWeuAHceJuCJAvrgkp0fL3+5k3zh1aPNqvdbx16GR4T+FDAjOCQ+?=
+ =?us-ascii?Q?PISyzOG8OhCAZGRXoI5ODnthuGoyrMWbwUVIPQJCqPvb7GOG+tT1SOoi6LLM?=
+ =?us-ascii?Q?f4nZtw01pcLtWH2oIBt3gLmUrDFptr9QeUxv62vlrVvdPGIdy++oNty407s9?=
+ =?us-ascii?Q?n46zXMEzVvaYJvSnK9Uvfp4Id8Of6se1KzjE5GM3LjhsxvAiZxwJ/Gqho4ky?=
+ =?us-ascii?Q?nLevPRFWmRFD9rx1zyXWt8jc/fD/GmQVWG24T9kuHcZX8djrZVNs7DEYXG3p?=
+ =?us-ascii?Q?nktkiMli4IAX5nv92VihyEiJZzfjpm3Q+8Qbvigc0QdtUJj12deh5jbz4xWn?=
+ =?us-ascii?Q?yhb2qkEvmVcPe9VpoamlHvOfgMBCUl0ZltQKoKGnGIWFmMKvkOx5AfNg1HNE?=
+ =?us-ascii?Q?X2nu2Kk6tFVdFpUKdMVvzEk+JVlOzt82YYkwBqud9M/1IApgJY8lrdp941OR?=
+ =?us-ascii?Q?jmW+af3ADifZBhVfv4HVvxCgf88mpVMAA2ztYDp0jEzlOZQ37hMwkaNhzZ/S?=
+ =?us-ascii?Q?AkeiLXWpFj2TrrdnELx8xPO/kiau/F9oFuvmkTbd7Ant9EBBrwUkILv64OKS?=
+ =?us-ascii?Q?rnyZbNjcruMNfayAmtXxtdXhq58ZfSxgYaoUh3svSRqe7+5NTd4Ntv8ed+Eq?=
+ =?us-ascii?Q?jeIP0vLtrBF4LzMyqr0FKNRU7VzOwh2cIESYF8+YGKAfqsTQwkuIXF2AeIQz?=
+ =?us-ascii?Q?GhTvopnPfXr8hB2oL69kkYuEPAPMde1sZUCWwJWrA3dCz/PVgcFJ6mRzYEcU?=
+ =?us-ascii?Q?QMmMTxNB43HUZl4iPNryY50ME2IBqPCxNh0u3zg4Zx72s0XTUvN7mz2lvYJ/?=
+ =?us-ascii?Q?eBYrWrh9Vjuly7lPEhjUFMEOmL1VQb1JF55lBSfpLjs/k5SVwAWHncGFZO1l?=
+ =?us-ascii?Q?C0ZaZ9YYzhVzFhlOLXHDoGaETxyvat+alIihLFWJ8i8k1Q=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uQl8Okit/V+igLf+UlBD2NfynbZSFTapOr5eV/lKOrv0PCtArX9CQiVJsppx?=
+ =?us-ascii?Q?fwMRSe3X96W17d+Ap5eej53GJRVeQiu0WJxMwbAJcLkULxig/twUQZQ6AAOs?=
+ =?us-ascii?Q?5SrRkVueoOr/1dUmVEngu89LEkMB/rffTShhO1ttVPMfyRd3UZsoFH7SRYav?=
+ =?us-ascii?Q?fiNGLyuuNLbO72GU2Qrte7XtMaVEj0sKchgdvapHWvEh/Gkuetb+7V6XCrzO?=
+ =?us-ascii?Q?BDKVlEFXRO4ncm9uFJ+Eo/pu8oD7AkXJkulYzNZZS2r+59fri/0dVG2AigA2?=
+ =?us-ascii?Q?HuBCtEJHBScyG1/Xjar8NLqNYkVHA39fBIFKVqmRWG6UqTfMVaBWjFij+c9j?=
+ =?us-ascii?Q?C9E/A2FODuigtzW1St2PT/e0QJIbmXp5nA8jrQ9rQXx4Z8rsxUix2EKd8+Vb?=
+ =?us-ascii?Q?ifdi8Uk9ZGwhP9nvRwQ9PxjAtz47tMn/PEzLH9sq1VQTKi83cpVCJYrEk9x/?=
+ =?us-ascii?Q?DCIVQwE5TGz4foGPzpRxvHGa1YJPceEaf4npzFf54zkgbgKBFYvgyflf2EH5?=
+ =?us-ascii?Q?zUdO/aQfiLEuMAWBwDUcaMEP1VunAPpBMt9rBALiELylkwV4z30tfrgU6kHR?=
+ =?us-ascii?Q?vfDVXUHFWuCshVlKYmhk2IVYV6U4sEaVnxKfJwZop3ztdv1o7YDHKfG49Dxo?=
+ =?us-ascii?Q?KvUbTKhSr05f57Ba7P36y8rgqIYTFMp8S8TiMo/pq5THCSTOEer4KFEVKPD7?=
+ =?us-ascii?Q?x4o15mQ67wEiyDOcxczi8ZMQytTA1p6do+JR/mfLGVIMA5nAGjCEuL/u8S7S?=
+ =?us-ascii?Q?eZV+tTEj3xNaJ8TZR7yauRm35shfGK8ZBdwsLHMR5c8Bu9V/VF6sPrNY8qKv?=
+ =?us-ascii?Q?mku59cVh/QQ6JuGmytIyLSFS4onuHE1ryfKVkvoRHD9/YcIUSwFPEVgm2gXm?=
+ =?us-ascii?Q?LcqOKUT4CmlYHDyJyMQYWigp2xUCHh7/foSnrubWB1Y3jct77JW+jHlbXG7z?=
+ =?us-ascii?Q?Il9HfAO9VWQx7JS5zOHSnBL55+elNlT/gjvVlb0+lW9+8AFhxgmgqfvkbcRa?=
+ =?us-ascii?Q?FCyYczDNMrWnvCg2nZi0TbJkknkPNqraCxeSt30K0MeNyITeJmgYy7tXgSQh?=
+ =?us-ascii?Q?+E5kqQKTWlvz35O48qzj5iLgDr7Wq4uHGr/TEIZLUzlsFPUxaPxdDw74jfzv?=
+ =?us-ascii?Q?gBGItjtg2S048k5Y5DP8Qvbj3qcnVtiQ7XJGcAZWDOXYl0q4sTOrgAUTH8Ao?=
+ =?us-ascii?Q?oVeKmSMO4BsJCnbrPI1T8Whv/TK3EJDljk9lLea95ZrfFUq8q5nycJsa0R3D?=
+ =?us-ascii?Q?NKxqfC9+58lk/sqhE2FkKkTCAtTSBiAWbCj/8tKYG+9hCYIPg36DXruAWbHH?=
+ =?us-ascii?Q?f1saX+mTBlzQbKwFQvvZ+y78jJw2i7aI4+uUxz/GgIdfeudoquB7TWPY2IJf?=
+ =?us-ascii?Q?iJIy/6l530cStFcZTIx/eq4jW3s3vITFqbMdpUzBMX+uQrhfhsjlCZgm7E6K?=
+ =?us-ascii?Q?14F8ljZvwjcu29l1u2L4gxyaZPY1pUGykJbNtgjwBoQur2o3FdPjaHrZGaS9?=
+ =?us-ascii?Q?pfDbofpisKHJyWNy0LJKy9J8cD54PV/KnwJAuipyBo1sck6oWm93Iinmid/V?=
+ =?us-ascii?Q?z/pMVG2uwQ9HjkEspkvQB+DjjUxG/wXDhGa+mrMk?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9a8b59b-a6ea-40d5-11b4-08dd1d148d0e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2024 14:27:06.2707
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d+w1FqoLTGGl6ulBOAAKKSMlQVEvePQj1xmvVK4eeLiajbNFl3JQKvRJCmaOu/QhrEUGe+nav9if/laH8YQF8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7640
+X-OriginatorOrg: intel.com
 
-Hi Yafang,
+On Sun, Dec 15, 2024 at 08:57:39PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
+> commit: 0c3ebff535956d2718594dc90aa9cc87521ec9fd scripts: kernel-doc: Clarify missing struct member description
+> date:   1 year ago
+> config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241215/202412152053.KeJr8B5f-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412152053.KeJr8B5f-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412152053.KeJr8B5f-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
 
-kernel test robot noticed the following build errors:
+Sorry, kindly ignore this, the commit is not the actual cause of
+the issue.
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on peterz-queue/sched/core linus/master v6.13-rc2 next-20241213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/sched-Define-sched_clock_irqtime-as-static-key/20241215-112638
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20241215032315.43698-4-laoar.shao%40gmail.com
-patch subject: [PATCH v7 3/4] sched, psi: Don't account irq time if sched_clock_irqtime is disabled
-config: arm-randconfig-001-20241215 (https://download.01.org/0day-ci/archive/20241215/202412152115.zQ6k9tVk-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412152115.zQ6k9tVk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412152115.zQ6k9tVk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/sched/build_utility.c:15:
-   In file included from include/linux/sched/isolation.h:5:
-   In file included from include/linux/cpuset.h:17:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from kernel/sched/build_utility.c:96:
->> kernel/sched/psi.c:1243:35: error: use of undeclared identifier 'PSI_IRQ'; did you mean 'PSI_IO'?
-    1243 |         if (!irqtime_enabled() && res == PSI_IRQ)
-         |                                          ^~~~~~~
-         |                                          PSI_IO
-   include/linux/psi_types.h:42:2: note: 'PSI_IO' declared here
-      42 |         PSI_IO,
-         |         ^
-   1 warning and 1 error generated.
-
-
-vim +1243 kernel/sched/psi.c
-
-  1233	
-  1234	int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
-  1235	{
-  1236		bool only_full = false;
-  1237		int full;
-  1238		u64 now;
-  1239	
-  1240		if (static_branch_likely(&psi_disabled))
-  1241			return -EOPNOTSUPP;
-  1242	
-> 1243		if (!irqtime_enabled() && res == PSI_IRQ)
-  1244			return -EOPNOTSUPP;
-  1245	
-  1246		/* Update averages before reporting them */
-  1247		mutex_lock(&group->avgs_lock);
-  1248		now = sched_clock();
-  1249		collect_percpu_times(group, PSI_AVGS, NULL);
-  1250		if (now >= group->avg_next_update)
-  1251			group->avg_next_update = update_averages(group, now);
-  1252		mutex_unlock(&group->avgs_lock);
-  1253	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> >> kernel/reboot.c:226: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
+> >> kernel/reboot.c:952: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_poweroff'
+> --
+> >> lib/hweight.c:14: warning: Function parameter or struct member 'w' not described in '__sw_hweight32'
+>    lib/hweight.c:14: warning: expecting prototype for hweightN(). Prototype was for __sw_hweight32() instead
+> 
+> 
+> vim +226 kernel/reboot.c
+> 
+> b63adb979583ef Guenter Roeck 2014-09-26  213  
+> b63adb979583ef Guenter Roeck 2014-09-26  214  /**
+> b63adb979583ef Guenter Roeck 2014-09-26  215   *	do_kernel_restart - Execute kernel restart handler call chain
+> b63adb979583ef Guenter Roeck 2014-09-26  216   *
+> b63adb979583ef Guenter Roeck 2014-09-26  217   *	Calls functions registered with register_restart_handler.
+> b63adb979583ef Guenter Roeck 2014-09-26  218   *
+> b63adb979583ef Guenter Roeck 2014-09-26  219   *	Expected to be called from machine_restart as last step of the restart
+> b63adb979583ef Guenter Roeck 2014-09-26  220   *	sequence.
+> b63adb979583ef Guenter Roeck 2014-09-26  221   *
+> b63adb979583ef Guenter Roeck 2014-09-26  222   *	Restarts the system immediately if a restart handler function has been
+> b63adb979583ef Guenter Roeck 2014-09-26  223   *	registered. Otherwise does nothing.
+> b63adb979583ef Guenter Roeck 2014-09-26  224   */
+> b63adb979583ef Guenter Roeck 2014-09-26  225  void do_kernel_restart(char *cmd)
+> b63adb979583ef Guenter Roeck 2014-09-26 @226  {
+> b63adb979583ef Guenter Roeck 2014-09-26  227  	atomic_notifier_call_chain(&restart_handler_list, reboot_mode, cmd);
+> b63adb979583ef Guenter Roeck 2014-09-26  228  }
+> b63adb979583ef Guenter Roeck 2014-09-26  229  
+> 
+> :::::: The code at line 226 was first introduced by commit
+> :::::: b63adb979583ef185718d774d8162387db5589c0 kernel: add support for kernel restart handler call chain
+> 
+> :::::: TO: Guenter Roeck <linux@roeck-us.net>
+> :::::: CC: Guenter Roeck <linux@roeck-us.net>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
