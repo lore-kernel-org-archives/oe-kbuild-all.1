@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53FF204F6B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 12:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922D720011E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 13:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734353406; cv=none; b=G/NF1QU6T8O9+E0TvptsWRMsvIBQyftf8p3fkteZtiYyGALHRtzOlD+ohjsGEHi6s2wisEYN83QuTjrMvCKqmgqioxxXmVzUYsDJKciuO9cNwsqM6t2bAt1XSxSB5+DV5dazjMKaGqGZsy5qCBFuxL1ifOCCFpvAUi3r3fZIbtI=
+	t=1734355390; cv=none; b=cHoKzq8tMIGj5mg0MxC0gHwNuWZI4BcwSG1QJhEUSodIlMbRtH5HjXtQ7UUhxino9hTvfp+9r3o7HdTewK3VhIbRlDxHVRoHCIBY5x3zKHCnBKHXiZ+e855Rn8oSqqAhm9IVvXJtjIYqMM+Imocwzzjp0d9+QFpwZ024/b05R7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734353406; c=relaxed/simple;
-	bh=ClxpZzbJW5S3a4xXpx9c49RH23i6sKeBvGipYmQpME4=;
+	s=arc-20240116; t=1734355390; c=relaxed/simple;
+	bh=caO2yxlEDOXiSwxTabt06JZ9k/x6k6xExy/BLfHNcIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=XqaOABa3UtpQClA0DzWe0MauN63byZ0ODaYNjAk33IlXPhBzu+FToiyZeLb1dFv8f/qwNn3+ibk4aW7bCozbQGJQMPCx3qtP9WrDSNnXYIE8/Hyh6IyFKNIVoTWDoZ8x4EltB1SUaSRmcoOeqAvH0AY12MUf0+7khrCUCh83WJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NFlhtQN1; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ajigxFrkH6Uu+AXG7zxXEUFLCm1ozh6o2q1EGyUS3dwjvWTf+yba3MHnlwh17+8jJJagHOwyjs91C1z9Wmngby5Xw7zis10cWjseRTXia8O5mAaCLLqjXL8pnJRopRdel/CwNzu6RZ9WfTQLYgDGIxYjLp9AHRe7b2JYfgzTX4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMgk56+E; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NFlhtQN1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMgk56+E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734353405; x=1765889405;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=ClxpZzbJW5S3a4xXpx9c49RH23i6sKeBvGipYmQpME4=;
-  b=NFlhtQN1NcOJYiX474YOJrk1hQtK2QAZoAt08hxfI/LGt02QemoFxVtq
-   QrZmYcXwsiKDH4WtW0nYNflgTRO6RVF1owmpiSiYFNgRfsWCkTK0UKHkr
-   f3SpqCbtEyeA99s2duXFhTe524vuuPqGtaHiNxgU1txHb7O1MQFB7pXxQ
-   FRSwvT9EKL5Ofi9R9Eg/SObFVl9lFKHXIUXxL+bTfquozwU0c/QI87wAC
-   CZWwzsUbKI1XamWYqs9bO4Pv+lkt12Po9mm+P+CV+wLpbxWSNGLy/0CSv
-   TPnDMQ4dSqvN3OLxxHMdi5Ze1UoHgejeQq23+8IjYavI/iZlG3/jowv4H
-   A==;
-X-CSE-ConnectionGUID: SehlWpymSdCEEFOzNTo0sA==
-X-CSE-MsgGUID: SbUo/6MNS/apmBcATo1VTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45738151"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="45738151"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 04:50:05 -0800
-X-CSE-ConnectionGUID: fivJMMkDS8WfQSIZpLgv2w==
-X-CSE-MsgGUID: ga/5VrNaQASr9cTwjW4alg==
+  t=1734355389; x=1765891389;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=caO2yxlEDOXiSwxTabt06JZ9k/x6k6xExy/BLfHNcIo=;
+  b=cMgk56+EAirSQO1z7pPl21FGoViiWySdgN49x7hfMNySgOko2VSb2Z7t
+   GSLzuIZjg+7rS/eyZhmb7XvnEeLEOWHa8gjSDTUtkXy98MF0K9x1CLI+Z
+   h/o5rAYUfFvz+JoTTTjiTn5rqNe4JUSZ5cJB2WNgdz6gb9Q+hzEk2y1Je
+   +j1X+0GGB1eAo2rl3N6kRhvbkPR3xLt1XxUJvTgR6DBl5wyuDT+PrWaO4
+   gtGZDf7JH03OgWV6Jq/kfgVfWYbaXWachqrImG7uIGTSphgnlhXWu6lr0
+   CGdHvpJqoIHZ/MW6giUUvCeB4XIYQ7PoZCyXKec+mJ8FXM88heNM9bqbl
+   Q==;
+X-CSE-ConnectionGUID: UaL82q3+SWOgtqCDzdg3Wg==
+X-CSE-MsgGUID: dTKgxyk9SN2Oy1pLvnTyyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="22322868"
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
+   d="scan'208";a="22322868"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 05:23:08 -0800
+X-CSE-ConnectionGUID: KAjBCAM3S1aPeVugXbL7rQ==
+X-CSE-MsgGUID: 1VmuFwH8TViZ9bHK0nztDQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101337666"
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
+   d="scan'208";a="97104307"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Dec 2024 04:50:03 -0800
+  by orviesa009.jf.intel.com with ESMTP; 16 Dec 2024 05:23:07 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNAXx-000EDM-0D;
-	Mon, 16 Dec 2024 12:50:01 +0000
-Date: Mon, 16 Dec 2024 20:49:10 +0800
+	id 1tNB3w-000EEE-2M;
+	Mon, 16 Dec 2024 13:23:04 +0000
+Date: Mon, 16 Dec 2024 21:22:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhanxin Qi <zhanxin@nfschina.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 v1] drm/nouveau: Fix memory leak in
- nvbios_iccsense_parse
-Message-ID: <Z2Ahxmy8VwvlPsON@39f568f0a533>
+To: Bharat Bhushan <bbhushan2@marvell.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 2010/4379]
+ drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:22:48: error:
+ 'struct otx2_nic' has no member named 'pfc_en'
+Message-ID: <202412162138.rUtLhkni-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241216124652.244776-1-zhanxin@nfschina.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e25c8d66f6786300b680866c0e0139981273feba
+commit: a7ef63dbd5886c396aa1130d5ce42634ab1db91e [2010/4379] octeontx2-af: Disable backpressure between CPT and NIX
+config: arm64-randconfig-r071-20241216 (https://download.01.org/0day-ci/archive/20241216/202412162138.rUtLhkni-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241216/202412162138.rUtLhkni-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412162138.rUtLhkni-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+Note: the linux-next/master HEAD e25c8d66f6786300b680866c0e0139981273feba builds fine.
+      It may have been fixed somewhere.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+All error/warnings (new ones prefixed by >>):
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v1 v1] drm/nouveau: Fix memory leak in nvbios_iccsense_parse
-Link: https://lore.kernel.org/stable/20241216124652.244776-1-zhanxin%40nfschina.com
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: In function 'otx2_is_pfc_enabled':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:22:48: error: 'struct otx2_nic' has no member named 'pfc_en'
+      22 |         return IS_ENABLED(CONFIG_DCB) && !!pfvf->pfc_en;
+         |                                                ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: In function 'otx2_nix_config_bp':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:1732:33: error: 'IEEE_8021QAZ_MAX_TCS' undeclared (first use in this function)
+    1732 |                 req->chan_cnt = IEEE_8021QAZ_MAX_TCS;
+         |                                 ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:1732:33: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: In function 'otx2_nix_cpt_config_bp':
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:1757:33: error: 'IEEE_8021QAZ_MAX_TCS' undeclared (first use in this function)
+    1757 |                 req->chan_cnt = IEEE_8021QAZ_MAX_TCS;
+         |                                 ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: In function 'otx2_is_pfc_enabled':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:23:1: warning: control reaches end of non-void function [-Wreturn-type]
+      23 | }
+         | ^
+
+
+vim +22 drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
+
+    19	
+    20	static bool otx2_is_pfc_enabled(struct otx2_nic *pfvf)
+    21	{
+  > 22		return IS_ENABLED(CONFIG_DCB) && !!pfvf->pfc_en;
+  > 23	}
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
