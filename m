@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F9D206F35
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 19:29:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F00713D29A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 20:21:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734377369; cv=none; b=n5H7Sw/Ps+aivB6InPQgua8Ii5KfXDPrzTXoYnPBIkQExuQWdk3Q/TQnsHkfTzcel+CMNCrlCTx6GhhU+/QN0LeFt5QEe9UtLLnPsVppyXIvZB/H40NjpG6Kv1m8MH/nKY+pM1u2fCP8m+hoo9NOnRkSBFmYF9Iedly/hfTKbBk=
+	t=1734380496; cv=none; b=bfwJmg8wxAKlaBzUqIzZ2tuYpUVdzXGX+zFm4VZ+aq7EGP1Bw3w0YgbEnsS3AUA2HthXr2IfQNOTKS1/rPzOUPZlKcg1UFytfrlKMf4tbw1Nuf2N+blZDG4WIS1aPaWTpL5IBPRxwVaPrUzk6cRaBgVspwYy7ZG+uHYGkCD8s1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734377369; c=relaxed/simple;
-	bh=oyP3hvWnAho5Co9ZUROTE01XUA1UuTdEUYh6TJwi6gQ=;
+	s=arc-20240116; t=1734380496; c=relaxed/simple;
+	bh=AmEuW6LFuxJ73uUBWMKT38BsL2oFMfBWnFdEqZcLU18=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qz/hFXUi8/8ol4I9LBW67FuYFcX8OAaxotfVETAjCl06XJu9V58Sz6DX4a/I0zdgWRxOBv5UlxrDA1b9qU2wcYW6I84aqjQ230rpunflqMJkrX77t8rNdkP9FdzNaNugnZUSoEX1C+8Os/jF+0c6SIttkHz/Woft4+bNgIiP1/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VaC/RmGF; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=kwb0yJ0d4gSnEhJtCIBu9aTbcIrmUCugkIk2iah+xr85zJuU4uRGoLqjkpptonj8GDjvzY4BcdOLUed8IguivCPJGS8MxUzySzFPAFjmoK0M3DD3J99aWb1/B06q3MOze1XFpWUh6rd98RMn47MZXJNF5EO0jAwWVH2bvK2AAi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDpmuJx8; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VaC/RmGF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDpmuJx8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734377367; x=1765913367;
+  t=1734380493; x=1765916493;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oyP3hvWnAho5Co9ZUROTE01XUA1UuTdEUYh6TJwi6gQ=;
-  b=VaC/RmGFuKrFgIZxq9K4zqNkSaGsLDKhmdCr0XfJ+fGlG5MEwurpmDOP
-   xQB3kvnXHw1y7DPQ+7Z9GtJmK93AydQ5gYKBsotK1b2yg6LxNiwniImZ3
-   EzUtL5yZax1axS1wHxfnHAbBZ1Ah5JT62iuBMCOlbqN/tk68CHHW5nDSi
-   IKALrZipxkHbfE0/InTkezHfQl5qIkBAMcRX8I8AsQjWHTERscWtMZixg
-   gjaAFZT8js6L5xASr4U0bqUqiddrSKo+Ngx6gkWU+Qzi5makDV4edE8ar
-   e1WVh61RFnPZiUNggHkrQzGX6JZK6ZoznFQI3XXFNYq0Z/lFHqFjCccR5
+  bh=AmEuW6LFuxJ73uUBWMKT38BsL2oFMfBWnFdEqZcLU18=;
+  b=oDpmuJx8pShFGLhft5KgWUgyI78Uu4GQZxWgWWIpwfT3hUVE2yALYBJ1
+   z6IsshSKVEBst+6rUw4GDPa+CHErNJoky5zqp0oZtYMzdN+ZezO+3UjaH
+   aOXQz+8CfcfdUsaYHWidsTT9VRjLqwUcQosKcy3RdfJMufb39Nj/Gfhll
+   7VtO2DwPStTLqZfIfYNsNqyCThaKZvlljlRjOsAOQcwffXRLqNKET9jQp
+   iiPLT2AqWelh6pbyB/dRXNVfmEdx1+fjJwEGJUemwe5CoMyMqKHl4KKsx
+   uTeTfFZUDr3A1Vg/8ydFyb80VXrAFAJfe/v1vfMI+IpetfX+nKJuRoSEL
    Q==;
-X-CSE-ConnectionGUID: 3PHnlpQkQxW6d2QQTyIBgg==
-X-CSE-MsgGUID: pdrFjWcFSvmyoWmwhipeEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34936010"
+X-CSE-ConnectionGUID: oGabKxWQRC6JLKRXMe7iWA==
+X-CSE-MsgGUID: CmZwuVA9SmqNC2JVps0bsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34940805"
 X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; 
-   d="scan'208";a="34936010"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 11:29:26 -0800
-X-CSE-ConnectionGUID: 4YINNrtaS8+WTvRaoR+mzg==
-X-CSE-MsgGUID: RQcY1qF3ReKvgU1RIxR1Kw==
+   d="scan'208";a="34940805"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 12:21:31 -0800
+X-CSE-ConnectionGUID: 4UA5/ZnrSjm/0BnSTEL4wQ==
+X-CSE-MsgGUID: Q2u1QdPOTvan+Dgnzfo1Vw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; 
-   d="scan'208";a="102155942"
+   d="scan'208";a="97876747"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Dec 2024 11:29:25 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 16 Dec 2024 12:21:30 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNGmR-000ER4-0E;
-	Mon, 16 Dec 2024 19:29:23 +0000
-Date: Tue, 17 Dec 2024 03:29:05 +0800
+	id 1tNHaq-000ESO-1E;
+	Mon, 16 Dec 2024 20:21:28 +0000
+Date: Tue, 17 Dec 2024 04:20:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 152/176]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202412170307.aM3zRfIi-lkp@intel.com>
+To: Fabio Estevam <festevam@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [linux-next:master 3411/4379]
+ arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: panel-lvds: compatible:0:
+ 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05',
+ 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha',
+ 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenso...
+Message-ID: <202412170435.LI159ez1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,102 +66,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1247cc74691a7711715450d3a10311d25b925114
-commit: d12ce074f07af731469654848640ecf4b424ec81 [152/176] Reapply "CHROMIUM: arm64: dts: mt8186: Add corsola-squirtle board"
-config: arm64-randconfig-053-20241214 (https://download.01.org/0day-ci/archive/20241217/202412170307.aM3zRfIi-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e25c8d66f6786300b680866c0e0139981273feba
+commit: 1c64605fd976cd2c7e4f30d826818a8c27924c32 [3411/4379] dt-bindings: display: panel-lvds: Add compatible for AUO G084SN05 V9
+config: arm64-randconfig-051-20241216 (https://download.01.org/0day-ci/archive/20241217/202412170435.LI159ez1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412170307.aM3zRfIi-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412170435.LI159ez1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412170307.aM3zRfIi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412170435.LI159ez1-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,squirtle', 'mediatek,mt8186'] is too short
-   	'google,squirtle' is not one of ['mediatek,mt2701-evb']
-   	'google,squirtle' is not one of ['mediatek,mt2712-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6580-evbp1']
-   	'google,squirtle' is not one of ['prestigio,pmt5008-3g']
-   	'google,squirtle' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,squirtle' is not one of ['mediatek,mt6592-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6755-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6765-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6779-evb']
+>> arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
 --
-   	'google,hayato-sku2' was expected
-   	'google,spherion-rev2' was expected
-   	'google,spherion' was expected
-   	'mediatek,mt8192' was expected
-   	'google,tomato' was expected
-   	'google,tomato-rev3' was expected
-   	'mediatek,mt8195' was expected
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: failed to match any schema with compatible: ['google,squirtle', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible:0: 'mediatek,mt6315-regulator' was expected
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator'] is too long
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spmi@10015000/pmic@6: failed to match any schema with compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: touchscreen@16: reg:0:0: 16 was expected
-   	from schema $id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: trackpad@68: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/i2c@11016000/codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts-legacy']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: jpeg-encoder@17030000: iommus: [[125, 233], [125, 234], [125, 235], [125, 236]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: thermal-zones: 'adsp', 'cam', 'cpu_big0', 'cpu_big1', 'cpu_zone0', 'cpu_zone1', 'cpu_zone2', 'mfg', 'nna', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: panel: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: panel: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: panel: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dahlia.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dahlia.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dev.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dev.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-mallow.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-mallow.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-yavia.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-yavia.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dahlia.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dahlia.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dev.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dev.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-mallow.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-mallow.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-yavia.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-yavia.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: lvds: panel-timing:vsync-active: 3 is not one of [0, 1]
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: lvds: Unevaluated properties are not allowed ('backlight', 'compatible', 'height-mm', 'panel-timing', 'port', 'power-supply', 'width-mm' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1682.12-1692.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1710.12-1720.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1738.12-1748.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1766.12-1776.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: lvds: panel-timing:vsync-active: 3 is not one of [0, 1]
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: lvds: Unevaluated properties are not allowed ('backlight', 'compatible', 'height-mm', 'panel-timing', 'port', 'power-supply', 'width-mm' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: lvds: panel-timing:vsync-active: 3 is not one of [0, 1]
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: lvds: compatible: ['panel-lvds'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: lvds: Unevaluated properties are not allowed ('backlight', 'compatible', 'height-mm', 'panel-timing', 'port', 'power-supply', 'width-mm' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
