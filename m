@@ -1,93 +1,165 @@
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A565F9DA;
-	Mon, 16 Dec 2024 14:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5972C17993
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 14:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734358036; cv=none; b=cIMFY6PMU7zeLQjxGJzs2v6qvWMFdIGuhfFXDfFi0UKAgrewDCKVUUv0GDDs+sTrnHMNKJkMN3BeOXr84uRXCjZTncvHqp8SZ9NeOmbPRhSeMsJ0DqmL18A12NpXpy/h/oE/Br1xGiRBjVGUZDnDeQ6ibedprYUWfsKGFOYv1Vs=
+	t=1734358514; cv=none; b=XrfEhlJkrnlmBBPV44F69aTpb+am9rqMwbbqrDotb86qALC+hGT9oLFVhZ9xT8600Fj7BaBE8srjY2fONWhXdn26O6/yEwcjYmPsuuk9/J0k9HYN0um6o8ooryQR4cIcDKbgQyK7E7NdhFfytZidpJbN4LLQgBQpJiQh56TWBx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734358036; c=relaxed/simple;
-	bh=sIxqEiFmEYrpgSwxi1Bzxd/FniKoAgSBJy7igxpN6gs=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=UBrqnaCZaZd8VUcrvJ0ysnlebM0h689AoUooq2yWmW7Nr5jdlrB34WeqGoWr9hPQFt809wn+XEpWl/qraz7Ol0GNLT24VwZ+p0dZTCwW18jPk/VfF3g3l+mYBbynwcYL9/MFJJSr3tgVH1N1E9rn3LQ331RvadlfY2e2YIMXbjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=q5XFQIzS; arc=none smtp.client-ip=83.149.199.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+	s=arc-20240116; t=1734358514; c=relaxed/simple;
+	bh=S6QxhDwNiCu8hRDWNm7ZiE8iJwE3oEnF0j0Z/+koH3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JPXZ9MvxSMzRNEaN6AjIy0VhmQG/kvDyOUDSJ59+0hZfI1iu6S8llw74LyxOLuy4iLqtE49wzZFT2fCG+LKdMpu53Ho173yIVZVOLknA/2g84zVUgv6q/cwjeOp5SCHsLKlb6g2bciiMJ0fuX1oBQZyicMjGdTwiiHBtIlaumBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QaXOcz3i; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="q5XFQIzS"
-Received: from rainloop.ispras.ru (unknown [83.149.199.84])
-	by mail.ispras.ru (Postfix) with ESMTPSA id D49F44076735;
-	Mon, 16 Dec 2024 14:07:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru D49F44076735
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1734358023;
-	bh=sIxqEiFmEYrpgSwxi1Bzxd/FniKoAgSBJy7igxpN6gs=;
-	h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
-	b=q5XFQIzSRKUl8W+q16i50PxBo/6YR/y1h5hHzEulk3VW9UfOT1mDWgSXL3fZQGdhX
-	 ujq32HCkFvhYYxdsiv3DwZ4Tk+0J7IUVw6b1mgKTD1w4zZzfhAu/gXqbgDYBww8P2i
-	 x5cKEnDYTtR80NiSIP8xpMwI9G2YI0Gi3fnN4+jU=
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QaXOcz3i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734358512; x=1765894512;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S6QxhDwNiCu8hRDWNm7ZiE8iJwE3oEnF0j0Z/+koH3M=;
+  b=QaXOcz3iClu/jyW7/KvW7JJT+E+6fa2uoCDrbjatom4WI0/WyH51MO8c
+   pkrVGWbbjRzaVnHtzaO7+aSvZ0ndQgrx6RFp4qa4MkS3gAVJLs965puEK
+   TiKd1h/EhH6eb2Du8+a19G2Wc4z21j9IjTNYzUBRUmtZYKlD366/slrWU
+   glYPckVG/4sETyWag5i7NVTi6yd198cXoUQF0P0vddb5Kh0/5EC3Gvh6p
+   bvVoBGsh5ef1P2urie7Kmr1Evw5jkOibO4D/DCd81QZq/PaYmNV9Geeji
+   bB2hQGds0AGW4cTslRodrRPOKD/LbHjat87foGhJvUWwvixiZf2hZym5q
+   w==;
+X-CSE-ConnectionGUID: U9Ey2Zx4SOSKzfE38jrw/Q==
+X-CSE-MsgGUID: B26oJMNjRF6MsPk0JLJREg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="22330422"
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
+   d="scan'208";a="22330422"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 06:15:12 -0800
+X-CSE-ConnectionGUID: crVo/ZU+QyeR9dm7G0JoRQ==
+X-CSE-MsgGUID: OgQrCSt7QxuOQsT6XFhhuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
+   d="scan'208";a="96977971"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 16 Dec 2024 06:15:10 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNBsK-000EFY-21;
+	Mon, 16 Dec 2024 14:15:08 +0000
+Date: Mon, 16 Dec 2024 22:14:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 2/2]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202412162255.WAkeZWgw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 16 Dec 2024 14:07:03 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: RainLoop/1.14.0
-From: mordan@ispras.ru
-Message-ID: <0a4227dd3582ddd4da13d152ab20854e@ispras.ru>
-Subject: Re: [PATCH] usb: phy-tahvo: fix call balance for tu->ick handling
- routines
-To: "Dan Carpenter" <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- "=?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?=" <u.kleine-koenig@baylibre.com>,
- "Aaro Koskinen" <aaro.koskinen@iki.fi>, "Felipe Balbi"
- <felipe.balbi@linux.intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Fedor Pchelkin" <pchelkin@ispras.ru>,
- "Alexey Khoroshilov" <khoroshilov@ispras.ru>, "Vadim Mutilin"
- <mutilin@ispras.ru>, stable@vger.kernel.org
-In-Reply-To: <f60184a1-fe12-4a7f-bbbb-e6191f673df4@stanley.mountain>
-References: <f60184a1-fe12-4a7f-bbbb-e6191f673df4@stanley.mountain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you very much for reporting this issue. I will fix it in patch v2.=
-=0AThanks, Vitalii=0A=0A=0ADecember 16, 2024 2:53 AM, "Dan Carpenter" <da=
-n.carpenter@linaro.org> wrote:=0A=0A> Hi Vitalii,=0A> =0A> kernel test ro=
-bot noticed the following build warnings:=0A> =0A> https://git-scm.com/do=
-cs/git-format-patch#_base_tree_information]=0A> =0A> url:=0A> https://git=
-hub.com/intel-lab-lkp/linux/commits/Vitalii-Mordan/usb-phy-tahvo-fix-call=
--balance-for-tu-=0A> ck-handling-routines/20241209-232934=0A> base: https=
-://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing=0A>=
- patch link: https://lore.kernel.org/r/20241209152604.1918882-1-mordan@is=
-pras.ru=0A> patch subject: [PATCH] usb: phy-tahvo: fix call balance for t=
-u->ick handling routines=0A> config: alpha-randconfig-r072-20241215=0A> (=
-https://download.01.org/0day-ci/archive/20241215/202412150530.f03D8q1a-lk=
-p@intel.com/config)=0A> compiler: alpha-linux-gcc (GCC) 14.2.0=0A> =0A> I=
-f you fix the issue in a separate patch/commit (i.e. not just a new versi=
-on of=0A> the same patch/commit), kindly add following tags=0A> | Reporte=
-d-by: kernel test robot <lkp@intel.com>=0A> | Reported-by: Dan Carpenter =
-<dan.carpenter@linaro.org>=0A> | Closes: https://lore.kernel.org/r/202412=
-150530.f03D8q1a-lkp@intel.com=0A> =0A> smatch warnings:=0A> drivers/usb/p=
-hy/phy-tahvo.c:347 tahvo_usb_probe() warn: passing zero to 'PTR_ERR'=0A> =
-=0A> vim +/PTR_ERR +347 drivers/usb/phy/phy-tahvo.c=0A> =0A> 9ba96ae5074c=
-9f Aaro Koskinen 2013-12-06 341=0A> 9ba96ae5074c9f Aaro Koskinen 2013-12-=
-06 342 mutex_init(&tu->serialize);=0A> 9ba96ae5074c9f Aaro Koskinen 2013-=
-12-06 343=0A> 125b175df62ecc Vitalii Mordan 2024-12-09 344 tu->ick =3D de=
-vm_clk_get_enabled(&pdev->dev,=0A> "usb_l4_ick");=0A> 125b175df62ecc Vita=
-lii Mordan 2024-12-09 345 if (!IS_ERR(tu->ick)) {=0A> ^=0A> This typo bre=
-aks the driver.=0A> =0A> 125b175df62ecc Vitalii Mordan 2024-12-09 346 dev=
-_err(&pdev->dev, "failed to get and enable=0A> clock\n");=0A> 125b175df62=
-ecc Vitalii Mordan 2024-12-09 @347 return PTR_ERR(tu->ick);=0A> 125b175df=
-62ecc Vitalii Mordan 2024-12-09 348 }=0A> 9ba96ae5074c9f Aaro Koskinen 20=
-13-12-06 349=0A> 9ba96ae5074c9f Aaro Koskinen 2013-12-06 350 /*=0A> 9ba96=
-ae5074c9f Aaro Koskinen 2013-12-06 351 * Set initial state, so that we ge=
-nerate kevents only=0A> on state changes.=0A> 9ba96ae5074c9f Aaro Koskine=
-n 2013-12-06 352 */=0A> 9ba96ae5074c9f Aaro Koskinen 2013-12-06 353 tu->v=
-bus_state =3D retu_read(rdev, TAHVO_REG_IDSR) &=0A> TAHVO_STAT_VBUS;=0A> =
-9ba96ae5074c9f Aaro Koskinen 2013-12-06 354=0A> 860d2686fda7e4 Chanwoo Ch=
-oi 2015-07-01 355 tu->extcon =3D devm_extcon_dev_allocate(&pdev->dev,=0A>=
- tahvo_cable);=0A> =0A> --=0A> 0-DAY CI Kernel Test Service=0A> https://g=
-ithub.com/intel/lkp-tests/wiki
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   4b90329103b336277465217d780081e7bded5165
+commit: 48a0621305e7453ba61f126955b090a1ebee4072 [2/2] CHROMIUM: arm64: dts: mt8186: Add unprovisioned Starmie SKUs
+config: arm64-randconfig-051-20241216 (https://download.01.org/0day-ci/archive/20241216/202412162255.WAkeZWgw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241216/202412162255.WAkeZWgw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412162255.WAkeZWgw-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186'] is too long
+   	['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186'] is too short
+   	'google,starmie-sku2147483640' is not one of ['mediatek,mt2701-evb']
+   	'google,starmie-sku2147483640' is not one of ['mediatek,mt2712-evb']
+   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6580-evbp1']
+   	'google,starmie-sku2147483640' is not one of ['prestigio,pmt5008-3g']
+   	'google,starmie-sku2147483640' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
+   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6592-evb']
+   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6755-evb']
+   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6765-evb']
+--
+   	'google,hana' was expected
+   	'google,chinchou-sku2147483647' was expected
+   	'google,chinchou-sku4' was expected
+   	'google,elm-rev3' was expected
+   	'google,chinchou-sku5' was expected
+   	'google,elm' was expected
+   	'google,chinchou-sku6' was expected
+   	'google,chinchou-sku7' was expected
+   	'google,chinchou-sku17' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['google,starmie-sku2147483642', 'google,starmie-sku1', 'google,starmie-sku4', 'google,starmie', 'mediatek,mt8186'] is too long
+   	['google,starmie-sku2147483642', 'google,starmie-sku1', 'google,starmie-sku4', 'google,starmie', 'mediatek,mt8186'] is too short
+   	'google,starmie-sku2147483642' is not one of ['mediatek,mt2701-evb']
+   	'google,starmie-sku2147483642' is not one of ['mediatek,mt2712-evb']
+   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6580-evbp1']
+   	'google,starmie-sku2147483642' is not one of ['prestigio,pmt5008-3g']
+   	'google,starmie-sku2147483642' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
+   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6592-evb']
+   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6755-evb']
+   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6765-evb']
+--
+   	'google,chinchou-sku3' was expected
+   	'google,steelix-rev1-sku196608' was expected
+   	'google,tentacruel-sku262144' was expected
+   	'google,tentacruel-sku262148' was expected
+   	'google,spherion-rev0' was expected
+   	'google,elm-rev4' was expected
+   	'google,hana' was expected
+   	'google,chinchou-sku2147483647' was expected
+   	'google,chinchou-sku4' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483642', 'google,starmie-sku1', 'google,starmie-sku4', 'google,starmie', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
