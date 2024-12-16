@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5972C17993
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 14:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8EE202C2A;
+	Mon, 16 Dec 2024 14:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734358514; cv=none; b=XrfEhlJkrnlmBBPV44F69aTpb+am9rqMwbbqrDotb86qALC+hGT9oLFVhZ9xT8600Fj7BaBE8srjY2fONWhXdn26O6/yEwcjYmPsuuk9/J0k9HYN0um6o8ooryQR4cIcDKbgQyK7E7NdhFfytZidpJbN4LLQgBQpJiQh56TWBx8=
+	t=1734359177; cv=none; b=mU+wOdq9gjxmpsLpzg+w5sQxrnuzBsgVgVhHh9/eRgmdVwys/GPBF27roregOB/9Yalx7pK3l5r9tW+CfJwRL6wunMiscDGg1H/baYR1Td1A83HLUBhxYXB4qrmszMEvq04ONEBUkTbKCjyCSpAA0YjCN7ameHxIN9uwO7DBvj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734358514; c=relaxed/simple;
-	bh=S6QxhDwNiCu8hRDWNm7ZiE8iJwE3oEnF0j0Z/+koH3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JPXZ9MvxSMzRNEaN6AjIy0VhmQG/kvDyOUDSJ59+0hZfI1iu6S8llw74LyxOLuy4iLqtE49wzZFT2fCG+LKdMpu53Ho173yIVZVOLknA/2g84zVUgv6q/cwjeOp5SCHsLKlb6g2bciiMJ0fuX1oBQZyicMjGdTwiiHBtIlaumBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QaXOcz3i; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1734359177; c=relaxed/simple;
+	bh=sft5cwTzWGq8odCj7y1SQ/Itv2Uve4WrTFgtzG27/Mo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iiVxlqiOlm/Is4mmQH1DnoNolYheyJ9lhgWdjyzHRw3xIzJfQTLOprtDsDb7AK2emKhzdrrnEsucMI4RFiXfDsFZYOP3dzumTZ/UJDs20J7N7H0ajr4z3PqIOc16tWtGZhS/q3pmsNZyRiH2V1QH6nFEJomK0Jso1Q3HawbUvZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iSAwtSyS; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QaXOcz3i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSAwtSyS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734358512; x=1765894512;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S6QxhDwNiCu8hRDWNm7ZiE8iJwE3oEnF0j0Z/+koH3M=;
-  b=QaXOcz3iClu/jyW7/KvW7JJT+E+6fa2uoCDrbjatom4WI0/WyH51MO8c
-   pkrVGWbbjRzaVnHtzaO7+aSvZ0ndQgrx6RFp4qa4MkS3gAVJLs965puEK
-   TiKd1h/EhH6eb2Du8+a19G2Wc4z21j9IjTNYzUBRUmtZYKlD366/slrWU
-   glYPckVG/4sETyWag5i7NVTi6yd198cXoUQF0P0vddb5Kh0/5EC3Gvh6p
-   bvVoBGsh5ef1P2urie7Kmr1Evw5jkOibO4D/DCd81QZq/PaYmNV9Geeji
-   bB2hQGds0AGW4cTslRodrRPOKD/LbHjat87foGhJvUWwvixiZf2hZym5q
-   w==;
-X-CSE-ConnectionGUID: U9Ey2Zx4SOSKzfE38jrw/Q==
-X-CSE-MsgGUID: B26oJMNjRF6MsPk0JLJREg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="22330422"
+  t=1734359175; x=1765895175;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sft5cwTzWGq8odCj7y1SQ/Itv2Uve4WrTFgtzG27/Mo=;
+  b=iSAwtSyStkZ5qMGQdSeYRU+zBGrprooQOlc3v9QRQ8KnORHlui72+INZ
+   PC6mqrrMvWYjXhC0r1W5KnVTySi3zkkG+yCY53bnjv06Tq+mOPmEqF3cV
+   DRc0Ldjpa3/ljILVkBoSmm8uNa4H0sjNCYVqO6KM+8/JocgIaKdBg3XLc
+   k8bMY3v7kZfxhnuUPf6WadW2+e+yrBAvluq31ljUnEnir9n5xhTnxcm9J
+   Yz/qX1kRnVzS+K+D3NuWhmmUEHTxYpq/R9aIo6TDE6UjIEqvpaamFgDtu
+   0kmUEh3YObfjNDqg3zkXxh7s0IoyUIFEzHjR44uNCIl1TrrdFScuIZdJN
+   A==;
+X-CSE-ConnectionGUID: xYP2iUxHT7aa0sMIchlx2A==
+X-CSE-MsgGUID: 6yfxv2s2SwK2wci8gg5W2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34065634"
 X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
-   d="scan'208";a="22330422"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 06:15:12 -0800
-X-CSE-ConnectionGUID: crVo/ZU+QyeR9dm7G0JoRQ==
-X-CSE-MsgGUID: OgQrCSt7QxuOQsT6XFhhuQ==
+   d="scan'208";a="34065634"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 06:26:15 -0800
+X-CSE-ConnectionGUID: PczZ55tGQOGUxSLC+ptRyg==
+X-CSE-MsgGUID: w7yX0mioQbaU69s0w4Jr0A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
-   d="scan'208";a="96977971"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101355767"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Dec 2024 06:15:10 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 16 Dec 2024 06:26:12 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNBsK-000EFY-21;
-	Mon, 16 Dec 2024 14:15:08 +0000
-Date: Mon, 16 Dec 2024 22:14:52 +0800
+	id 1tNC2z-000EFc-1H;
+	Mon, 16 Dec 2024 14:26:09 +0000
+Date: Mon, 16 Dec 2024 22:25:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 2/2]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202412162255.WAkeZWgw-lkp@intel.com>
+To: Michael Chan <michael.chan@broadcom.com>, davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, andrew+netdev@lunn.ch, pavan.chebbi@broadcom.com,
+	andrew.gospodarek@broadcom.com,
+	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
+Subject: Re: [PATCH net-next 2/6] bnxt_en: Do not allow ethtool -m on an
+ untrusted VF
+Message-ID: <202412162242.yQ3MVnZ5-lkp@intel.com>
+References: <20241215205943.2341612-3-michael.chan@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +67,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241215205943.2341612-3-michael.chan@broadcom.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   4b90329103b336277465217d780081e7bded5165
-commit: 48a0621305e7453ba61f126955b090a1ebee4072 [2/2] CHROMIUM: arm64: dts: mt8186: Add unprovisioned Starmie SKUs
-config: arm64-randconfig-051-20241216 (https://download.01.org/0day-ci/archive/20241216/202412162255.WAkeZWgw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241216/202412162255.WAkeZWgw-lkp@intel.com/reproduce)
+Hi Michael,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Chan/bnxt_en-Use-FW-defined-resource-limits-for-RoCE/20241216-050303
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241215205943.2341612-3-michael.chan%40broadcom.com
+patch subject: [PATCH net-next 2/6] bnxt_en: Do not allow ethtool -m on an untrusted VF
+config: riscv-randconfig-002-20241216 (https://download.01.org/0day-ci/archive/20241216/202412162242.yQ3MVnZ5-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241216/202412162242.yQ3MVnZ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412162255.WAkeZWgw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412162242.yQ3MVnZ5-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186'] is too long
-   	['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186'] is too short
-   	'google,starmie-sku2147483640' is not one of ['mediatek,mt2701-evb']
-   	'google,starmie-sku2147483640' is not one of ['mediatek,mt2712-evb']
-   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6580-evbp1']
-   	'google,starmie-sku2147483640' is not one of ['prestigio,pmt5008-3g']
-   	'google,starmie-sku2147483640' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6592-evb']
-   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6755-evb']
-   	'google,starmie-sku2147483640' is not one of ['mediatek,mt6765-evb']
---
-   	'google,hana' was expected
-   	'google,chinchou-sku2147483647' was expected
-   	'google,chinchou-sku4' was expected
-   	'google,elm-rev3' was expected
-   	'google,chinchou-sku5' was expected
-   	'google,elm' was expected
-   	'google,chinchou-sku6' was expected
-   	'google,chinchou-sku7' was expected
-   	'google,chinchou-sku17' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483640', 'google,starmie-sku2147483635', 'google,starmie-sku2147483638', 'google,starmie-sku2147483641', 'google,starmie-sku0', 'google,starmie-sku2', 'google,starmie-sku3', 'google,starmie', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,starmie-sku2147483642', 'google,starmie-sku1', 'google,starmie-sku4', 'google,starmie', 'mediatek,mt8186'] is too long
-   	['google,starmie-sku2147483642', 'google,starmie-sku1', 'google,starmie-sku4', 'google,starmie', 'mediatek,mt8186'] is too short
-   	'google,starmie-sku2147483642' is not one of ['mediatek,mt2701-evb']
-   	'google,starmie-sku2147483642' is not one of ['mediatek,mt2712-evb']
-   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6580-evbp1']
-   	'google,starmie-sku2147483642' is not one of ['prestigio,pmt5008-3g']
-   	'google,starmie-sku2147483642' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6592-evb']
-   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6755-evb']
-   	'google,starmie-sku2147483642' is not one of ['mediatek,mt6765-evb']
---
-   	'google,chinchou-sku3' was expected
-   	'google,steelix-rev1-sku196608' was expected
-   	'google,tentacruel-sku262144' was expected
-   	'google,tentacruel-sku262148' was expected
-   	'google,spherion-rev0' was expected
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,chinchou-sku2147483647' was expected
-   	'google,chinchou-sku4' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /: failed to match any schema with compatible: ['google,starmie-sku2147483642', 'google,starmie-sku1', 'google,starmie-sku4', 'google,starmie', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/broadcom/bnxt/bnxt.c:8287:7: warning: variable 'flags' is uninitialized when used here [-Wuninitialized]
+                   if (flags & FUNC_QCFG_RESP_FLAGS_TRUSTED_VF)
+                       ^~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:8269:11: note: initialize the variable 'flags' to silence this warning
+           u16 flags;
+                    ^
+                     = 0
+   1 warning generated.
+
+
+vim +/flags +8287 drivers/net/ethernet/broadcom/bnxt/bnxt.c
+
+  8264	
+  8265	static int bnxt_hwrm_func_qcfg(struct bnxt *bp)
+  8266	{
+  8267		struct hwrm_func_qcfg_output *resp;
+  8268		struct hwrm_func_qcfg_input *req;
+  8269		u16 flags;
+  8270		int rc;
+  8271	
+  8272		rc = hwrm_req_init(bp, req, HWRM_FUNC_QCFG);
+  8273		if (rc)
+  8274			return rc;
+  8275	
+  8276		req->fid = cpu_to_le16(0xffff);
+  8277		resp = hwrm_req_hold(bp, req);
+  8278		rc = hwrm_req_send(bp, req);
+  8279		if (rc)
+  8280			goto func_qcfg_exit;
+  8281	
+  8282	#ifdef CONFIG_BNXT_SRIOV
+  8283		if (BNXT_VF(bp)) {
+  8284			struct bnxt_vf_info *vf = &bp->vf;
+  8285	
+  8286			vf->vlan = le16_to_cpu(resp->vlan) & VLAN_VID_MASK;
+> 8287			if (flags & FUNC_QCFG_RESP_FLAGS_TRUSTED_VF)
+  8288				vf->flags |= BNXT_VF_TRUST;
+  8289			else
+  8290				vf->flags &= ~BNXT_VF_TRUST;
+  8291		} else {
+  8292			bp->pf.registered_vfs = le16_to_cpu(resp->registered_vfs);
+  8293		}
+  8294	#endif
+  8295		flags = le16_to_cpu(resp->flags);
+  8296		if (flags & (FUNC_QCFG_RESP_FLAGS_FW_DCBX_AGENT_ENABLED |
+  8297			     FUNC_QCFG_RESP_FLAGS_FW_LLDP_AGENT_ENABLED)) {
+  8298			bp->fw_cap |= BNXT_FW_CAP_LLDP_AGENT;
+  8299			if (flags & FUNC_QCFG_RESP_FLAGS_FW_DCBX_AGENT_ENABLED)
+  8300				bp->fw_cap |= BNXT_FW_CAP_DCBX_AGENT;
+  8301		}
+  8302		if (BNXT_PF(bp) && (flags & FUNC_QCFG_RESP_FLAGS_MULTI_HOST))
+  8303			bp->flags |= BNXT_FLAG_MULTI_HOST;
+  8304	
+  8305		if (flags & FUNC_QCFG_RESP_FLAGS_RING_MONITOR_ENABLED)
+  8306			bp->fw_cap |= BNXT_FW_CAP_RING_MONITOR;
+  8307	
+  8308		if (flags & FUNC_QCFG_RESP_FLAGS_ENABLE_RDMA_SRIOV)
+  8309			bp->fw_cap |= BNXT_FW_CAP_ENABLE_RDMA_SRIOV;
+  8310	
+  8311		switch (resp->port_partition_type) {
+  8312		case FUNC_QCFG_RESP_PORT_PARTITION_TYPE_NPAR1_0:
+  8313		case FUNC_QCFG_RESP_PORT_PARTITION_TYPE_NPAR1_5:
+  8314		case FUNC_QCFG_RESP_PORT_PARTITION_TYPE_NPAR2_0:
+  8315			bp->port_partition_type = resp->port_partition_type;
+  8316			break;
+  8317		}
+  8318		if (bp->hwrm_spec_code < 0x10707 ||
+  8319		    resp->evb_mode == FUNC_QCFG_RESP_EVB_MODE_VEB)
+  8320			bp->br_mode = BRIDGE_MODE_VEB;
+  8321		else if (resp->evb_mode == FUNC_QCFG_RESP_EVB_MODE_VEPA)
+  8322			bp->br_mode = BRIDGE_MODE_VEPA;
+  8323		else
+  8324			bp->br_mode = BRIDGE_MODE_UNDEF;
+  8325	
+  8326		bp->max_mtu = le16_to_cpu(resp->max_mtu_configured);
+  8327		if (!bp->max_mtu)
+  8328			bp->max_mtu = BNXT_MAX_MTU;
+  8329	
+  8330		if (bp->db_size)
+  8331			goto func_qcfg_exit;
+  8332	
+  8333		bp->db_offset = le16_to_cpu(resp->legacy_l2_db_size_kb) * 1024;
+  8334		if (BNXT_CHIP_P5(bp)) {
+  8335			if (BNXT_PF(bp))
+  8336				bp->db_offset = DB_PF_OFFSET_P5;
+  8337			else
+  8338				bp->db_offset = DB_VF_OFFSET_P5;
+  8339		}
+  8340		bp->db_size = PAGE_ALIGN(le16_to_cpu(resp->l2_doorbell_bar_size_kb) *
+  8341					 1024);
+  8342		if (!bp->db_size || bp->db_size > pci_resource_len(bp->pdev, 2) ||
+  8343		    bp->db_size <= bp->db_offset)
+  8344			bp->db_size = pci_resource_len(bp->pdev, 2);
+  8345	
+  8346	func_qcfg_exit:
+  8347		hwrm_req_drop(bp, req);
+  8348		return rc;
+  8349	}
+  8350	
 
 -- 
 0-DAY CI Kernel Test Service
