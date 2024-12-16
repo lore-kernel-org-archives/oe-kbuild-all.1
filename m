@@ -1,58 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E9E1D47D9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 21:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3051D47D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 21:05:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734383148; cv=none; b=A6WxoXr6w9JuKHvbNtyAEqn/nVtDrt8Krsi0XlBTcVnpz7vNbJnz+LBqf+h9KyjHlZR+P8wQ3vrXeuIZdYP4DMZQUET8+qNHtosj2Ih6CJknXMStGBqeAT7lnbnjUGRDQGjvckBi9u/sQ56QCxEvsJhm4iXZQ8gsIsY/44XNxXU=
+	t=1734383151; cv=none; b=HBMSHyRRSQFaoNu+XWyRuyM3n04xf0D0CrcOVVj1BVGlFThodVuWZ0mPp5SF5a1S9A+0VLhQqLhR/CD0bTIybQy+m/G9CxFezrP85dGoZgQ31QF+UX8OpNecsB4E4UKXOK15QLcpJH4VGDh1hJMwAi9FNWnNHFRd41hFm4XAKt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734383148; c=relaxed/simple;
-	bh=M2rBb9Tunl+scqIPLFH/HTu2diROMRbDZL7PB05uMDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ekWIi2e8EJR9nEaJLhuLdO8HvE30zO8AVuZA2ANnceVNoftzMT6YCRrX8vpUIloT3EtHUKsO1ZhyQHdjxxCzvbgCxwzAWusgQt7K4Ql2CQ1aoYgSOlOgGYVbQlDEgu/ArFqP7cPE4cZ5iNZ3ZV2v2yRBOEWjKnfXZbf+SSMKDkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnRH9GIw; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1734383151; c=relaxed/simple;
+	bh=5ruA/fM3L78iMPD6pDUO2Hh+Hw86GR3xyBSYIE59vrc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oa90Z49H4EwpM6aqoBuCPocXTzEIV9O3J4jfOgeZY4yWDtsEQvDufV4nbvoBu3dJh61hXVC/bI7BIUSBOJVDEOkeKICr72wp9FcB5HzhVJHW2We6Txhbj3c4v7bYIeOjt1I7g+EQvsp32Jf94s1OPHDe/wUMRrLz5C2z+BVIChg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZyaRZnnf; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnRH9GIw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZyaRZnnf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734383147; x=1765919147;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M2rBb9Tunl+scqIPLFH/HTu2diROMRbDZL7PB05uMDo=;
-  b=BnRH9GIwe8rzB16lsqaw1rYGlUSUHOKNDr+cYfLyxwgdvbYLZNigH2tH
-   Zffo10ZTJPm53asfQBxaoofBXGNqpufzsBswGbdDcXHhfCWGRefDiTcBE
-   ta1cQqjycMW0sZQ6be1I3gRygVrskr5nlDzZ0p+0oVrKu8/wZbTAAC3ua
-   EP8bd9IwmOgnx4UgruD78m+bQLxLlgbELvCq56ECau9qf1KI/Q3FCV8/3
-   3zw03rVFan4JMARB0o5Y36ImtBIXqrQ86xpNwyppSJMqjrL/xZVtaXQ/u
-   cETOrwfgBv/CfD8QcaNp8YiF05G8w6aiETyJUVFPGpVbbJtRXfLpOiHv5
+  t=1734383149; x=1765919149;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5ruA/fM3L78iMPD6pDUO2Hh+Hw86GR3xyBSYIE59vrc=;
+  b=ZyaRZnnfE2RumI0g3FT2LJp6BVO2T9JdMJZS3ghFMo0Y8hAIPqlvMnwx
+   kXAfiwIJHM6CVZukxrU+XLU5jKKqBukdylcMLu2dEFP9/bUA8ANmt/eZ5
+   KwB111uVmkYTq0BTHmlEqlZfBoHPS6j2eN80itBpRxKETpPbUt9sGO7KH
+   fmfl81vS+SF5lLqCh77S1N/d/sqzZAWoX5rwYi9prvjzhto0IqJ6XYS5T
+   voal95MQtYw0+14iCW2ndK227KK8URSekgRXGuU6TbXo8MosLhdcHhE6m
+   7HUtNtVXO8/AOHXbndEwUdWbEnHtWZvF842M2t05AcESMjdo0RRgcCGTR
    w==;
-X-CSE-ConnectionGUID: Gct4iqQyQq2uk0jZLbh9VQ==
-X-CSE-MsgGUID: WOEVflz+QTC70fRWS9KY5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="46198972"
+X-CSE-ConnectionGUID: /OtVOfcWSi+S/sDDB+OVaA==
+X-CSE-MsgGUID: Nee0dDBrQbKX/cRsWq27Wg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="46198977"
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="46198972"
+   d="scan'208";a="46198977"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 13:05:46 -0800
-X-CSE-ConnectionGUID: VQgvv92bR3yw75NCmDmieg==
-X-CSE-MsgGUID: 1f8aR00oRC+XUrGbohWg2w==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 13:05:48 -0800
+X-CSE-ConnectionGUID: n+dVGZE8SHSBjPQs7IPDvA==
+X-CSE-MsgGUID: DhWqMBeJROCKcJmBl25rQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; 
-   d="scan'208";a="102346359"
+   d="scan'208";a="102346360"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 16 Dec 2024 13:05:45 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNIHe-000ETV-2P;
+	id 1tNIHe-000ETS-2L;
 	Mon, 16 Dec 2024 21:05:42 +0000
-Date: Tue, 17 Dec 2024 05:05:21 +0800
+Date: Tue, 17 Dec 2024 05:05:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ye Bin <yebin10@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1320/1320] fs/f2fs/recovery.o: warning:
- objtool: missing symbol for section .init.text
-Message-ID: <202412170555.tG86Dqq4-lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
+Message-ID: <202412170432.ZuybGalF-lkp@intel.com>
+References: <20241210093408.105867-17-dlemoal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,32 +71,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241210093408.105867-17-dlemoal@kernel.org>
 
-Hi Chao,
+Hi Damien,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   098a595b2caf96f57cda68f082b4dc0019d7814d
-commit: 21d0fe9fd291eec496a4c174924ea645ed5d7b9e [1320/1320] f2fs: fix to avoid racing on fsync_entry_slab by multi filesystem instances
-config: x86_64-buildonly-randconfig-006 (https://download.01.org/0day-ci/archive/20241217/202412170555.tG86Dqq4-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412170555.tG86Dqq4-lkp@intel.com/reproduce)
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.13-rc3 next-20241216]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/nvmet-Add-vendor_id-and-subsys_vendor_id-subsystem-attributes/20241210-174321
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20241210093408.105867-17-dlemoal%40kernel.org
+patch subject: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
+config: i386-randconfig-003-20241217 (https://download.01.org/0day-ci/archive/20241217/202412170432.ZuybGalF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412170432.ZuybGalF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412170555.tG86Dqq4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412170432.ZuybGalF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/f2fs/recovery.c:12:
-   In file included from include/linux/f2fs_fs.h:14:
-   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
-     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
->> fs/f2fs/recovery.o: warning: objtool: missing symbol for section .init.text
+   drivers/nvme/target/pci-ep.c: In function 'nvmet_pciep_iod_name':
+   drivers/nvme/target/pci-ep.c:658:16: error: implicit declaration of function 'nvme_opcode_str'; did you mean 'nvme_opcode_name'? [-Werror=implicit-function-declaration]
+     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+         |                ^~~~~~~~~~~~~~~
+         |                nvme_opcode_name
+>> drivers/nvme/target/pci-ep.c:658:16: warning: returning 'int' from a function with return type 'const char *' makes pointer from integer without a cast [-Wint-conversion]
+     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bits.h:7,
+                    from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from arch/x86/include/asm/div64.h:8,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:12,
+                    from drivers/nvme/target/pci-ep.c:10:
+   drivers/nvme/target/pci-ep.c: In function 'nvmet_pciep_enable_ctrl':
+   include/uapi/linux/bits.h:9:19: warning: right shift count is negative [-Wshift-count-negative]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1842:26: note: in expansion of macro 'GENMASK'
+    1842 |         pci_addr = acq & GENMASK(63, 12);
+         |                          ^~~~~~~
+   include/uapi/linux/bits.h:9:19: warning: right shift count is negative [-Wshift-count-negative]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1852:26: note: in expansion of macro 'GENMASK'
+    1852 |         pci_addr = asq & GENMASK(63, 12);
+         |                          ^~~~~~~
+   drivers/nvme/target/pci-ep.c: In function 'nvmet_pciep_init_bar':
+>> include/uapi/linux/bits.h:8:31: warning: left shift count >= width of type [-Wshift-count-overflow]
+       8 |         (((~_UL(0)) - (_UL(1) << (l)) + 1) & \
+         |                               ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1949:23: note: in expansion of macro 'GENMASK'
+    1949 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~
+   include/uapi/linux/bits.h:9:19: warning: right shift count is negative [-Wshift-count-negative]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1949:23: note: in expansion of macro 'GENMASK'
+    1949 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +658 drivers/nvme/target/pci-ep.c
+
+   655	
+   656	static inline const char *nvmet_pciep_iod_name(struct nvmet_pciep_iod *iod)
+   657	{
+ > 658		return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+   659	}
+   660	
 
 -- 
 0-DAY CI Kernel Test Service
