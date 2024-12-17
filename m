@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC9013D891
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 18:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF1415E5D4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 19:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734461355; cv=none; b=MDcwj+oRAE9V7750N+v37AoymiaVkBUBQuWWZpKujgdCQ+zBCuwz02sP+FTO0vEiJKARVjZZ/i8GQZIJBzjmeIMgk9sGCFvx5NWj1YNDX0zPKXrPdKv2H/6r9/XGHC6JDl2S7GVz7LBSuTN1lO+D5p1+XsGU+xSWR4ljDpJh+lQ=
+	t=1734463937; cv=none; b=FaIi7OqFfFF+3qDn7J8HDg2sczG2OTgG1KwintoGfKK2sKAO5TfSyKWUluGXPsnOtHcIa+z9YIsxA22R34YEtHV/xowoNesRG5wzFyNuqHEg0MvYFcxyyxoS8CRpym1xIjYu0146qCaktPRBtxIhgjZuIqcH6pxnYtkcmEJrWps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734461355; c=relaxed/simple;
-	bh=fEk4NxewXXRxoa3kK9GRwmRF7zJM5vOctP/2ONAbGmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eVMm9WSLAEHc65Esn20XJcc+GdPF6TAcQFMOyyawYSGh2tvW6e0ny9VZNJqSIJxvWKH4C5N3jojf8ZZl3hqPXGe02pmSRnACgQUXH7Sp5Rp0gVCk+FosWrQE8GIADnoBBbR0qg67lLlU+qBgQCB6H9OXZ4cOHtbjDG2Q0d0omaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1q+nr1x; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1734463937; c=relaxed/simple;
+	bh=7EMrEjVOPdOx3ziGOvLnu0OdVV4pF6dahFPST0ZdZCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pVQL4RQLYpuofX8WpFTdAAzelIncRxIq/kcq4GB/UL+ChLo4L+Xj0EntZofkpYAu7+jUggRWwK0rgljtGu9x7kvuoQ/rgP7Maa2i0HybDXPKkJZYeW7GXyuAozk8BkP9I8rxjze20QDRW0nDQdoTblT/NbODikZ0ois1kH1HDto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgCmskMt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1q+nr1x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgCmskMt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734461353; x=1765997353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fEk4NxewXXRxoa3kK9GRwmRF7zJM5vOctP/2ONAbGmQ=;
-  b=b1q+nr1xyw5JMwTuWnMqZmAA+Q4qBXjv1UIiCNiwZuzcFbpI5gDVvTOF
-   g2khAYtYdQqxtKJLVlCJghCR1wEumcgl7zFuz+6lqDj7JP4Ffur+5h+lh
-   cKSoOfyLd1OR6M3Zw/3X7AMYz44pcytOYH0p8g8iRmVpT2nzv/V+hHioT
-   ytsBDzEt2bFPySM7f71eRvc4oXdzNNptM+48TJCj8+RDao3a/iKJRvcx8
-   JhQcFhLvDOaxsbKZcs6ONus14Zl+M/MaTrztLd5EFZ4HVHByF7jsSywIj
-   LNqJvWgiP7jad9T/ea6bToB7p+bjmeSwEdeVY3GH1dWttr+kHUaVXe70C
-   w==;
-X-CSE-ConnectionGUID: 2/aNnLZPTYu8JHXYBRqdGg==
-X-CSE-MsgGUID: Q6EOsi83TMyNzrZQhEXoOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45387762"
+  t=1734463935; x=1765999935;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7EMrEjVOPdOx3ziGOvLnu0OdVV4pF6dahFPST0ZdZCQ=;
+  b=IgCmskMteliHnmVSlBbxNimsNsNY4QQlhKFdcZbvMYVc5vHhPsH6pZdJ
+   cO1+fEab1eQc0+v5BZaUeQLc5UY/TjGLZGTTyuDBLqpSKB+Xsm+YYEF9s
+   vaujV+nnhfneB6/8+46m3/H9FtASTvYpIG1LIevK3dYpn3O+uWLcdE0aE
+   EBWdxpBl78vuy94r4VmTPqqAaZS/hMBJOJZUqxOxn8tkGfGukFAa1iYIY
+   CksyJQS2FDvkbg5BRXfVgzGAYrADKYCgD6qycmAeyT+OnCWcl+8kdbXx/
+   1+Z9ABZzSVB+Y16AttEonkjcBszzqYteiYN92oHkUI3JGkQZihtY109iT
+   Q==;
+X-CSE-ConnectionGUID: ggM67N72RXq5GFjmak3XEA==
+X-CSE-MsgGUID: 3q63QGyrRHyI3lyKrTw3dQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="46317486"
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="45387762"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 10:49:11 -0800
-X-CSE-ConnectionGUID: EWPZ0RBnQSSmHBz3nJd97g==
-X-CSE-MsgGUID: 5Wh1zmZ9T0StAgl5FNoxpw==
+   d="scan'208";a="46317486"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 11:32:14 -0800
+X-CSE-ConnectionGUID: 7r5dWyXgQdGn1LQ8MNvBSw==
+X-CSE-MsgGUID: mDL4A7GdTUOWAQDUEof3dQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102213813"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
+   d="scan'208";a="98206097"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Dec 2024 10:49:10 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 17 Dec 2024 11:32:13 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNcd1-000Fjm-3A;
-	Tue, 17 Dec 2024 18:49:07 +0000
-Date: Wed, 18 Dec 2024 02:49:05 +0800
+	id 1tNdIg-000FkM-2c;
+	Tue, 17 Dec 2024 19:32:10 +0000
+Date: Wed, 18 Dec 2024 03:31:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriel Krisman Bertazi <krisman@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Subject: [axboe-block:for-6.14/io_uring 40/43] io_uring/rw.c:215:26: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202412180253.YML3qN4d-lkp@intel.com>
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 18/28] selftests: ntsync: Add some tests for wakeup
+ signaling with WINESYNC_IOC_WAIT_ANY.
+Message-ID: <202412180334.zbe09AGk-lkp@intel.com>
+References: <20241209185904.507350-19-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,35 +63,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241209185904.507350-19-zfigura@codeweavers.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.14/io_uring
-head:   7b7bf14f00521ce9adcc7df4df66bc6d4f31a054
-commit: 8cf0c459993ee2911f4f01fba21b1987b102c887 [40/43] io_uring/rw: Allocate async data through helper
-config: mips-randconfig-r131-20241217 (https://download.01.org/0day-ci/archive/20241218/202412180253.YML3qN4d-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20241218/202412180253.YML3qN4d-lkp@intel.com/reproduce)
+Hi Elizabeth,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on cdd30ebb1b9f36159d66f088b61aee264e649d7a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elizabeth-Figura/ntsync-Introduce-NTSYNC_IOC_WAIT_ANY/20241210-031155
+base:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
+patch link:    https://lore.kernel.org/r/20241209185904.507350-19-zfigura%40codeweavers.com
+patch subject: [PATCH v6 18/28] selftests: ntsync: Add some tests for wakeup signaling with WINESYNC_IOC_WAIT_ANY.
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412180334.zbe09AGk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412180253.YML3qN4d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412180334.zbe09AGk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> io_uring/rw.c:215:26: sparse: sparse: Using plain integer as NULL pointer
-   io_uring/rw.c: note: in included file (through include/linux/thread_info.h, include/asm-generic/preempt.h, arch/mips/include/generated/asm/preempt.h, ...):
-   arch/mips/include/asm/thread_info.h:69:16: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +215 io_uring/rw.c
-
-   210	
-   211	static void io_rw_async_data_init(void *obj)
-   212	{
-   213		struct io_async_rw *rw = (struct io_async_rw *)obj;
-   214	
- > 215		rw->free_iovec = 0;
-   216		rw->bytes_done = 0;
-   217	}
-   218	
+>> ntsync.c:659:24: warning: passing '__u32 *' (aka 'unsigned int *') to parameter of type 'const int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+     659 |         ret = wait_any(fd, 1, &mutex_args.mutex, 123, &index);
+         |                               ^~~~~~~~~~~~~~~~~
+   ntsync.c:95:53: note: passing argument to parameter 'objs' here
+      95 | static int wait_any(int fd, __u32 count, const int *objs, __u32 owner, __u32 *index)
+         |                                                     ^
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
