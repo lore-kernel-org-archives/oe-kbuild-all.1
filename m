@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA0241C94
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 05:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71968153BF8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 05:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734411821; cv=none; b=g/WizE32sh4b9X3x/TLUofr19gfSKbvrk1WNSUPwX292J8ktz1Kpc3fnxJaRU21OJ+KYI1WVYisGiTAxoCh+XunWjJrBM6qRcXaUP1FwJq87XpTxUSC7CbH8jW+lNrrF814zwRJrWTYP8xmvb/ML9F4xtaayH7ZuVUxxEiK5R7E=
+	t=1734413624; cv=none; b=AfKnIRoEhqyKY9qMerbjipeCQX3PJrzC0LDqw9FNt/WtA0WldpfPki0rlOmLvPce5ZxN7thsraH5RV1yp33HsWdqzhwpHKyPHCFhK9dSJqq+YSdHk3zVulQG+K8GZLpT7s2vDoK76Lcl1Ko+sDc6NUHTlJy8FtpTr6yKnLOQ2c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734411821; c=relaxed/simple;
-	bh=d31n8lpD8wwu08zisCASmDvUZJxi7gL1qD7GiOQmm+s=;
+	s=arc-20240116; t=1734413624; c=relaxed/simple;
+	bh=+AWI7FaG4qbX5QvSYqjUEh2IcC0EDl7pyuA7QI8TW40=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YMPlRE3Ips/5/80MQhrI/VqhOIVAUOdGHQXlYhDDPnlu9veEV8XyUWUud3v8KMF4iWCs17zUQXu2uZLgAFSwobH3Ctw0z5Ud76j9mSE5IUNeXwElIdINnlGLqckFDZleAyGwiTuuCJBrZvAr0wBFWecTDRPeWEZ9HfET8ybsSWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1HN/MSe; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=DkjHDm/8MLzdwUyo5Z0VVFYUQEbeHFZWTVV8yRrtdn6q4k43SPRoxZAnicAVMiffK9xYXHUdTzTOpvfAYD56TAnxLE1xxK+R9Tyggi3DrrOM2onUUSw/MMVHCBvB3Szej+0PwcnjSRwELmtc4tLhz7WqWaXJ7MTho6hyLj1s3NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRCA0/ET; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1HN/MSe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRCA0/ET"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734411820; x=1765947820;
+  t=1734413622; x=1765949622;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d31n8lpD8wwu08zisCASmDvUZJxi7gL1qD7GiOQmm+s=;
-  b=F1HN/MSeHu0Ion/OwPZ98HpUMmiFF+DijiRDOZxzQfkOXYB2x3JWTZdW
-   ulBxDMhWNo1oXkPV+EU+Ofj0FwToU54EPKL8QpZqKvryLs3PHovkZQlAq
-   lYhgVVpB5aPxg/WXCPmmnX7gJJmi/NUdoq2C17tjmpdC4GJcz2XcoZyqK
-   /s2PUa0tr68ewJsXv1wUFrGdoQc+EQiefrZiskV8HyMn1pmPw7f1fxpe+
-   Xyi4SxqnJXv8cesZZ3dlJko2oCBjwAMdSgAogum+rNjVgXC+0pTpI4Dvh
-   ClBIwkVjbXCtzzKquarMfDQzFhuOGS2NWnuraIs+UdjjeO0p0uE3gvele
-   g==;
-X-CSE-ConnectionGUID: m3mRo4XFTxCw5OQxQVMvZw==
-X-CSE-MsgGUID: GqIAiZjMSRuStlYst5BHCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="22412054"
+  bh=+AWI7FaG4qbX5QvSYqjUEh2IcC0EDl7pyuA7QI8TW40=;
+  b=gRCA0/ETJAzkEXlv+alQyZMkXhkV9hhyj/vplXDxaGknm1bbqr7QlalV
+   IvjAOONgpoOWOiuUEwsXlQLe1tfk/ZkPQ/jLNSNx8d6bZbXIQlSy6RZ6r
+   sW269g1xm4jxVjTQk9qUJaE0CApXEYrz3GxRASbOPu6wzlfFJ7MdnDMV1
+   DkL5TKPfF7UxDfvj0khI3l7ANVheW/47cSvruCenA18EFrAszRZG53UmG
+   YfHK+cZjGhxNvfLhSGMh+aWBt9oObKCujcQGbpZnWkV9/DZaNs73jW5z6
+   mrCl3ztbGEUL1CO8kL6gPB/sxXk4jiPXsCccWhoS6Uew6RvugnpKEsstU
+   A==;
+X-CSE-ConnectionGUID: FspbyCs0T+SctP9lOhQwyg==
+X-CSE-MsgGUID: k1IU79x3Ri2nABz0UJLS0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="45518812"
 X-IronPort-AV: E=Sophos;i="6.12,240,1728975600"; 
-   d="scan'208";a="22412054"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 21:03:37 -0800
-X-CSE-ConnectionGUID: jPIASKzVRJaKe00K1Ciybw==
-X-CSE-MsgGUID: ML70RT5BRT263yYolZBWwA==
+   d="scan'208";a="45518812"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 21:33:40 -0800
+X-CSE-ConnectionGUID: 2zP5uYJMSyaPLVPaOiY37w==
+X-CSE-MsgGUID: 0TJTHG9cSoKj1I9aXs2PoQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,240,1728975600"; 
-   d="scan'208";a="102273184"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="134762001"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Dec 2024 21:03:36 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Dec 2024 21:33:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNPk6-000Ej2-0l;
-	Tue, 17 Dec 2024 05:03:34 +0000
-Date: Tue, 17 Dec 2024 13:02:37 +0800
+	id 1tNQDA-000Eju-1n;
+	Tue, 17 Dec 2024 05:33:36 +0000
+Date: Tue, 17 Dec 2024 13:33:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: kernel/reboot.c:226: warning: Function parameter or struct member
- 'cmd' not described in 'do_kernel_restart'
-Message-ID: <202412171248.ro76Gqt1-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1328/1328]
+ drivers/clocksource/arm_arch_timer.c:554:44: error:
+ 'hisi_161010101_read_cntvct_el0' undeclared
+Message-ID: <202412171325.Cz4KRdST-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +63,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f44d154d6e3d633d4c49a5d6aed8a0e4684ae25e
-commit: 92ef432f027cffe0ff91ff2cbe9258d89ca53968 kbuild: support W=c and W=e shorthands for Kconfig
-date:   1 year ago
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20241217/202412171248.ro76Gqt1-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412171248.ro76Gqt1-lkp@intel.com/reproduce)
+Hi Yang,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   400eaf3b33d125cc5fae6b621d5a6ff6be0b8892
+commit: e63b4759933f6a5c5ce6cdc1d11c7bf2201d0612 [1328/1328] arm64: arch_timer: only do cntvct workaround on VDSO path on D05
+config: arm64-randconfig-004-20241217 (https://download.01.org/0day-ci/archive/20241217/202412171325.Cz4KRdST-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412171325.Cz4KRdST-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412171248.ro76Gqt1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412171325.Cz4KRdST-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/reboot.c:226: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
->> kernel/reboot.c:952: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_poweroff'
---
-   lib/vsprintf.c: In function 'va_format':
->> lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
---
->> lib/hweight.c:14: warning: Function parameter or struct member 'w' not described in '__sw_hweight32'
->> lib/hweight.c:14: warning: expecting prototype for hweightN(). Prototype was for __sw_hweight32() instead
---
-   drivers/clk/clkdev.c: In function 'vclkdev_alloc':
->> drivers/clk/clkdev.c:173:17: warning: function 'vclkdev_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     173 |                 vscnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
-         |                 ^~~~~~~~~~
+   drivers/clocksource/arm_arch_timer.c: In function 'arch_timer_enable_workaround':
+>> drivers/clocksource/arm_arch_timer.c:554:44: error: 'hisi_161010101_read_cntvct_el0' undeclared (first use in this function)
+     554 |                 if (wa->read_cntvct_el0 == hisi_161010101_read_cntvct_el0) {
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clocksource/arm_arch_timer.c:554:44: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +226 kernel/reboot.c
+vim +/hisi_161010101_read_cntvct_el0 +554 drivers/clocksource/arm_arch_timer.c
 
-b63adb979583ef Guenter Roeck 2014-09-26  213  
-b63adb979583ef Guenter Roeck 2014-09-26  214  /**
-b63adb979583ef Guenter Roeck 2014-09-26  215   *	do_kernel_restart - Execute kernel restart handler call chain
-b63adb979583ef Guenter Roeck 2014-09-26  216   *
-b63adb979583ef Guenter Roeck 2014-09-26  217   *	Calls functions registered with register_restart_handler.
-b63adb979583ef Guenter Roeck 2014-09-26  218   *
-b63adb979583ef Guenter Roeck 2014-09-26  219   *	Expected to be called from machine_restart as last step of the restart
-b63adb979583ef Guenter Roeck 2014-09-26  220   *	sequence.
-b63adb979583ef Guenter Roeck 2014-09-26  221   *
-b63adb979583ef Guenter Roeck 2014-09-26  222   *	Restarts the system immediately if a restart handler function has been
-b63adb979583ef Guenter Roeck 2014-09-26  223   *	registered. Otherwise does nothing.
-b63adb979583ef Guenter Roeck 2014-09-26  224   */
-b63adb979583ef Guenter Roeck 2014-09-26  225  void do_kernel_restart(char *cmd)
-b63adb979583ef Guenter Roeck 2014-09-26 @226  {
-b63adb979583ef Guenter Roeck 2014-09-26  227  	atomic_notifier_call_chain(&restart_handler_list, reboot_mode, cmd);
-b63adb979583ef Guenter Roeck 2014-09-26  228  }
-b63adb979583ef Guenter Roeck 2014-09-26  229  
-
-:::::: The code at line 226 was first introduced by commit
-:::::: b63adb979583ef185718d774d8162387db5589c0 kernel: add support for kernel restart handler call chain
-
-:::::: TO: Guenter Roeck <linux@roeck-us.net>
-:::::: CC: Guenter Roeck <linux@roeck-us.net>
+   527	
+   528	static
+   529	void arch_timer_enable_workaround(const struct arch_timer_erratum_workaround *wa,
+   530					  bool local)
+   531	{
+   532		int i;
+   533	
+   534		if (local) {
+   535			__this_cpu_write(timer_unstable_counter_workaround, wa);
+   536		} else {
+   537			for_each_possible_cpu(i)
+   538				per_cpu(timer_unstable_counter_workaround, i) = wa;
+   539		}
+   540	
+   541		/*
+   542		 * Use the locked version, as we're called from the CPU
+   543		 * hotplug framework. Otherwise, we end-up in deadlock-land.
+   544		 */
+   545		static_branch_enable_cpuslocked(&arch_timer_read_ool_enabled);
+   546	
+   547		/*
+   548		 * Don't use the vdso fastpath if errata require using the
+   549		 * out-of-line counter accessor. We may change our mind pretty
+   550		 * late in the game (with a per-CPU erratum, for example), so
+   551		 * change both the default value and the vdso itself.
+   552		 */
+   553		if (wa->read_cntvct_el0) {
+ > 554			if (wa->read_cntvct_el0 == hisi_161010101_read_cntvct_el0) {
+   555				clocksource_counter.archdata.vdso_direct = true;
+   556				vdso_default = true;
+   557				vdso_fix = true;
+   558			} else {
+   559				clocksource_counter.archdata.vdso_direct = false;
+   560				vdso_default = false;
+   561			}
+   562		}
+   563	}
+   564	
 
 -- 
 0-DAY CI Kernel Test Service
