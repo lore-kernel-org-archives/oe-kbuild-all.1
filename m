@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C991FCCE9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 15:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046411F63C6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 16:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734451186; cv=none; b=Gkr6xwlfxBjyiBBBhDczr42fE/3Y6pvQZtDXmwvUvqpYu41MgiFRWMuTrd6o602mi5pElrGA4VO4qF9cum7imsEzfvRhxMLNZh1o3Y9DLzhe92j/I5d90S6FcjMPRjZ0ndWGnFesS8OvC4MbqKW4JEcuZcHMnErjZM6OGy7xIQQ=
+	t=1734452454; cv=none; b=QmB148i0wOqk+d8jevn/nDa/EB4KlsN3ebCMCoLLOq+d1D4jej8sGCgZz7iLoNQ+JCy5KBg3IaXoLJtHCzwSRmheLcuXzIvxc2uSYCykzoCcrgm3m/jnFaLKhEPGBNRdHV5ILd7h9KWRUdGRsLJ3Dj1oSIS50vk7qCzib236eGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734451186; c=relaxed/simple;
-	bh=otz3wqO4ZqeRuN49z+dSK9rbYk/S/n+t50fadtFFwVE=;
+	s=arc-20240116; t=1734452454; c=relaxed/simple;
+	bh=B5OcCeaLuD3v0QNPSClbu0PEkSCgGGhyrw7aazZKz+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hOUvjc3GCqj58lGSZd7zHz00QUZ0It/pEehbjpr8BChIUby1poYbAazZ6yQtKSwkZRQ5UQwxyyrX74UbmkMIb36Y0GBVwlyHg2NjXBD+x6bmtQCZOsIZ7m4ILko4TkVDlohogg+hHYsDQuptF48vfcahJ6Zf/f5USgzwTVDujx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/C6f13g; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Wcq/Ei15FzEuOwfCMt0moPCeDe0rGjXxudBOJ3FWRg5Wd7gPylppYMm0I7lVFc/R95aKfuRgigXjmSKErARPk8L79AsKZNKJgKpZ3LyiL2XlKHkLHZuO7hdOdleO3/VA/wU9tl7XqJm+kpDu0R60LWNPV7igDGiLO3zQVvrQfSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5AR9RjX; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/C6f13g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5AR9RjX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734451185; x=1765987185;
+  t=1734452452; x=1765988452;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=otz3wqO4ZqeRuN49z+dSK9rbYk/S/n+t50fadtFFwVE=;
-  b=R/C6f13glJHGjI7VL5hrP6uTS0a4QHzClWtzQqRhoEk9FcinnqAC6NCY
-   p3o4NaILiaSwNk40GG25vYhBqKL5I1ZYY+WdMRiPux1ye8PS54Xo+tvbj
-   7heSYivfRPvFElGRzJIOrH4XKlpLUTApiVJ753uMBNnnYCl6e6fFBfdQw
-   Y1SriqiOkrf8wUslkITmGkI7QN4+CeK2GbGlfli7klrQojT3ZuUfj9JJu
-   umEl1BkPyXfmJiRZ09qvLTgI7rYXj2CV1i/Yl/Om0z03Kxfl7FTI2iKT1
-   6QbhW+JNumXNmKocYZcwAWv7U6w7Wk7CmZgOyEo4uzxiGEUjwKljYNYsd
-   w==;
-X-CSE-ConnectionGUID: PAnKd379Rv6/RSSniHHUmQ==
-X-CSE-MsgGUID: ZTIyCZOUQXafSNuIjN8NSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34206825"
+  bh=B5OcCeaLuD3v0QNPSClbu0PEkSCgGGhyrw7aazZKz+8=;
+  b=k5AR9RjX5FKqyc1F4gH27qmKdi9HhSO+DoNxKZIhcHLJE0SoK6Zu67Fq
+   0cOPKMqdLc9bhZT4Hg9MH4hsCJqVjT0+h7B3f8nKzI0lljrgypzg7Esvy
+   2pPonFM2Y7bdXbsGxQYyuz+WBecxzXcudI3w6o/8b8A1zWx5hYGumwrIZ
+   zaW4tW2D0DUsbzs2F4KfHOeNM4/QrgYhzKnFX8uR/5u/gNhqtluNIZnDu
+   3q1oxwE/g+42fhm75SjKhpxTI/5tSwdGoqy7ygC5zOfncaArNCYgPeSEt
+   KDpWSatJrqutXBclCAXW9+iXhbhkIVgLa0K1yW+PpJRLtP+/oyKhdk0cL
+   A==;
+X-CSE-ConnectionGUID: TXjxQ5zbS3Kwunl8PRYX3g==
+X-CSE-MsgGUID: PPXNjgWlQyOc11z3un5tlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="52296524"
 X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
-   d="scan'208";a="34206825"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 07:59:44 -0800
-X-CSE-ConnectionGUID: 1HxRtq1nTyWf+P8oWltWvg==
-X-CSE-MsgGUID: EcqngbfgRkKQ9ALnatB4iA==
+   d="scan'208";a="52296524"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 08:20:52 -0800
+X-CSE-ConnectionGUID: ONWC+riPSXq2jN9QNYDQHA==
+X-CSE-MsgGUID: TadtHWIfSoSlR2YZ+fj8hA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134915556"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
+   d="scan'208";a="128391383"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Dec 2024 07:59:43 -0800
+  by orviesa002.jf.intel.com with ESMTP; 17 Dec 2024 08:20:50 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNZz2-000F6q-1y;
-	Tue, 17 Dec 2024 15:59:40 +0000
-Date: Tue, 17 Dec 2024 23:59:06 +0800
+	id 1tNaJU-000F8q-0S;
+	Tue, 17 Dec 2024 16:20:48 +0000
+Date: Wed, 18 Dec 2024 00:20:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yangdepei <yangdepei@hygon.cn>
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1640/1640] drivers/crypto/ccp/hygon/hct.c:362
- hct_dev_cmd_queue_init() warn: always true condition '(dev_ctx->q_count >=
- 0) => (0-u32max >= 0)'
-Message-ID: <202412172322.TKo92WwH-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1613/1613]
+ drivers/char/ipmi/ipmi_si_ls2k500.c:92:5: sparse: sparse: symbol
+ 'ipmi_si_sim_setup' was not declared. Should it be static?
+Message-ID: <202412180056.213DG4nb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,93 +65,92 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   46064348cc445799cf9e8fd030323a0426fbb5e4
-commit: c74ae2c5da57becf3f41c596d79b3dd30fa1baa6 [1640/1640] hct: add mediated ccp driver support for hygon crypto technology.
-config: x86_64-randconfig-161-20241217 (https://download.01.org/0day-ci/archive/20241217/202412172322.TKo92WwH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 4fbeaa84ef36adce930088074f8c088e5dd780c0 [1613/1613] ipmi: add ls2k500 bmc ipmi support.
+config: loongarch-randconfig-r111-20241210 (https://download.01.org/0day-ci/archive/20241218/202412180056.213DG4nb-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241218/202412180056.213DG4nb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412172322.TKo92WwH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412180056.213DG4nb-lkp@intel.com/
 
-smatch warnings:
-drivers/crypto/ccp/hygon/hct.c:362 hct_dev_cmd_queue_init() warn: always true condition '(dev_ctx->q_count >= 0) => (0-u32max >= 0)'
-drivers/crypto/ccp/hygon/hct.c:668 hct_write() warn: potential spectre issue 'dev_ctx->cmd_q' [r]
-drivers/crypto/ccp/hygon/hct.c:672 hct_write() warn: potential spectre issue 'mdev_state->trigger' [r]
-drivers/crypto/ccp/hygon/hct.c:1384 is_dma_share() warn: always true condition '(dma_iova >= 0) => (0-u64max >= 0)'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/ipmi/ipmi_si_ls2k500.c:92:5: sparse: sparse: symbol 'ipmi_si_sim_setup' was not declared. Should it be static?
+>> drivers/char/ipmi/ipmi_si_ls2k500.c:116:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[addressable] [assigned] addr_source_data @@     got void [noderef] __iomem * @@
+   drivers/char/ipmi/ipmi_si_ls2k500.c:116:29: sparse:     expected void *[addressable] [assigned] addr_source_data
+   drivers/char/ipmi/ipmi_si_ls2k500.c:116:29: sparse:     got void [noderef] __iomem *
+>> drivers/char/ipmi/ipmi_si_ls2k500.c:148:24: sparse: sparse: symbol 'ipmi_ls2k500_platform_driver' was not declared. Should it be static?
+   drivers/char/ipmi/ipmi_si_ls2k500.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +362 drivers/crypto/ccp/hygon/hct.c
+vim +/ipmi_si_sim_setup +92 drivers/char/ipmi/ipmi_si_ls2k500.c
 
-   295	
-   296	static int hct_dev_cmd_queue_init(struct pci_dev *pdev, struct hct_dev_ctx *dev_ctx, int idx)
-   297	{
-   298		struct hct_cmd_queue *cmd_q;
-   299		unsigned long addr, len;
-   300		unsigned int retval, qmr;
-   301		int i, ret;
-   302	
-   303		if (!pdev || !dev_ctx)
-   304			return -EINVAL;
-   305	
-   306		memset(dev_ctx, 0, sizeof(*dev_ctx));
-   307	
-   308		ret = pci_enable_device(pdev);
-   309		if (ret)
-   310			return -EINVAL;
-   311	
-   312		addr = pci_resource_start(pdev, PCI_RESOURCE_BAR2);
-   313		len = pci_resource_len(pdev, PCI_RESOURCE_BAR2);
-   314		dev_ctx->io_regs = ioremap(addr, len);
-   315		if (!dev_ctx->io_regs)
-   316			return -ENOMEM;
-   317	
-   318		pci_set_master(pdev);
-   319		retval = pci_alloc_irq_vectors(pdev, 1, MCCP_MSIX_ENTRY_SIZE, PCI_IRQ_MSIX);
-   320		if (retval != MCCP_NTB_VECTOR_NUM && retval != MCCP_PSP_VECTOR_NUM)
-   321			return -ENOMEM;
-   322	
-   323		snprintf(dev_ctx->devname, MCCP_STRING_LEN, "hct-ccp-%d", idx);
-   324		dev_ctx->irq = pci_irq_vector(pdev, retval - 1);
-   325		/* To request_irq, the fourth parameter dev_name must be global
-   326		 * variable or static variable.
-   327		 */
-   328		ret = request_irq(dev_ctx->irq, hct_cmd_queue_intr_handler, 0, dev_ctx->devname, dev_ctx);
-   329		if (ret) {
-   330			pci_free_irq_vectors(pdev);
-   331			dev_ctx->irq = 0;
-   332			return ret;
-   333		}
-   334	
-   335		tasklet_init(&dev_ctx->irq_tasklet, hct_cmd_queue_intr_task, (unsigned long)dev_ctx);
-   336	
-   337		qmr = ioread32(dev_ctx->io_regs + Q_MASK_REG);
-   338		if (qmr == 0) {
-   339			iowrite32(0x1f, dev_ctx->io_regs + Q_MASK_REG);
-   340			qmr = ioread32(dev_ctx->io_regs + Q_MASK_REG);
-   341		}
-   342		for (i = 0; i < MCCP_DEV_QUEUE_MAX; i++) {
-   343			if (!(qmr & (1 << i)))
-   344				continue;
-   345	
-   346			cmd_q = &dev_ctx->cmd_q[dev_ctx->q_count++];
-   347	
-   348			mutex_init(&cmd_q->q_lock);
-   349			ret = kfifo_alloc(&cmd_q->ectx_fifo, MCCP_INSTANCE_MAX, GFP_KERNEL);
-   350			if (ret)
-   351				return -ENOMEM;
-   352	
-   353			cmd_q->reg_control = dev_ctx->io_regs + MCMD_Q_STATUS_INCR * (i + 1);
-   354			cmd_q->reg_tail_lo = cmd_q->reg_control + MCMD_Q_TAIL_LO_BASE;
-   355			cmd_q->reg_head_lo = cmd_q->reg_control + MCMD_Q_HEAD_LO_BASE;
-   356			cmd_q->reg_int_enable = cmd_q->reg_control + MCMD_Q_INT_ENABLE_BASE;
-   357			cmd_q->reg_interrupt_status = cmd_q->reg_control + MCMD_Q_INTERRUPT_STATUS_BASE;
-   358			cmd_q->reg_status = cmd_q->reg_control + MCMD_Q_STATUS_BASE;
-   359			cmd_q->reg_int_status = cmd_q->reg_control + MCMD_Q_INT_STATUS_BASE;
-   360		}
-   361	
- > 362		return (dev_ctx->q_count >= 0) ? 0 : -1;
-   363	}
-   364	
+    91	
+  > 92	int ipmi_si_sim_setup(struct si_sm_io *io)
+    93	{
+    94		io->inputb = intf_sim_inb;
+    95		io->outputb = intf_sim_outb;
+    96		io->io_cleanup = ipmi_ls2k500_cleanup;
+    97		return 0;
+    98	}
+    99	
+   100	#define platform_resource_start(dev, bar)   ((dev)->resource[(bar)].start)
+   101	#define platform_resource_end(dev, bar)     ((dev)->resource[(bar)].end)
+   102	static int of_ipmi_ls2k500_probe(struct platform_device *pdev)
+   103	{
+   104		int rv;
+   105		struct si_sm_io io;
+   106		void **kcs_data;
+   107	
+   108		memset(&io, 0, sizeof(io));
+   109		io.addr_source = SI_PLATFORM;
+   110		dev_info(&pdev->dev, "probing via ls2k500 platform");
+   111		io.si_type = SI_KCS;
+   112	
+   113		io.addr_space = IPMI_MEM_ADDR_SPACE;
+   114		io.io_setup = ipmi_si_sim_setup;
+   115		io.addr_data = pdev->resource[0].start;
+ > 116		io.addr_source_data = ioremap(pdev->resource[0].start,
+   117						pdev->resource[0].end -
+   118						pdev->resource[0].start + 1);
+   119		kcs_data = dev_get_platdata(&pdev->dev);
+   120		event_jiffies = kcs_data[0];
+   121		mscycles = kcs_data[1];
+   122		io.dev = &pdev->dev;
+   123		io.regspacing = 4;
+   124		io.regsize = DEFAULT_REGSIZE;
+   125		io.regshift = 0;
+   126		io.irq = 0;
+   127		if (io.irq)
+   128			io.irq_setup = ipmi_std_irq_setup;
+   129	
+   130		dev_info(&pdev->dev, "%pR regsize %d spacing %d irq %d\n",
+   131			&pdev->resource[0], io.regsize, io.regspacing, io.irq);
+   132	
+   133		rv = ipmi_si_add_smi(&io);
+   134		if (rv)
+   135			ipmi_si_remove_by_dev(&pdev->dev);
+   136	
+   137		return rv;
+   138	}
+   139	
+   140	static int ipmi_ls2k500_remove(struct platform_device *pdev)
+   141	{
+   142		ipmi_si_remove_by_dev(&pdev->dev);
+   143	
+   144		return 0;
+   145	}
+   146	
+   147	#define LS2K500_SI_DEVICE_NAME "ipmi_ls2k500_si"
+ > 148	struct platform_driver ipmi_ls2k500_platform_driver = {
+   149		.driver = {
+   150			.name = LS2K500_SI_DEVICE_NAME,
+   151		},
+   152		.probe		= of_ipmi_ls2k500_probe,
+   153		.remove		= ipmi_ls2k500_remove,
+   154	};
+   155	
 
 -- 
 0-DAY CI Kernel Test Service
