@@ -1,67 +1,58 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943C02BAF7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 07:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9961E529
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 07:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734419554; cv=none; b=SUU2CGUgOY1Mdijc3Hxx5EIJ3VvwKmDUtm4Cwn0uLLDGaM09gNinnttkSrIkSHpskbYdEQeYG+Vtr5duVQkqXNt+0qRD70JNrhc8i8VNWClHPhc1Ce+8NLGn1bOwTXfn2jVgH9P7Y45W/uVvoLWXmDKdKlxwbPv4KILLAMyvywc=
+	t=1734420222; cv=none; b=PYB5pRZOoy84lGadgY+UryCvozxy20L3njk1F1xOsgbieZ12/CSHiHImsGuJvXjauCK3HyAsmeRbo+h1kxDjCe5PxOzi7pJs5rPh1S7MlI/KKEn7qSDvLuX3AH3oFOKfqgIqkhkxSc24h26veDgTjp4yKis8VcaheyZnkhCBNtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734419554; c=relaxed/simple;
-	bh=TURptmBM/FLUdfELDDkcC2+g4ASAyoJePGU2shoQNTU=;
+	s=arc-20240116; t=1734420222; c=relaxed/simple;
+	bh=eMJb6ZeVrDa8v3yuSxRZ2UoJZIpuhjSapJrKPH43bhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pGcqa9Y6knAq9SXjL7i9lys3yZvNVHQGjU+It1uE6xPbiY/ifAc1F6s4en65T6ed9y9xNoC1GD0G0dqauab9uifwzc0+1Mw0AouhWRfDYW+7O1Ql6yvygCXEEpxt/cbO6CHsPQ4D3d0ux8fzt5K/I568jfwfUoJEujxdN/4iG/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lxaUnGoX; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Dnw+pEcl+B8N8HAy9N6u4lEXpNsIBUgBVlvoM6eEpmRTJwmU9jCXukvk3co47h+rKT5GJcsK+HTY+VsDDGp5eqUlTBbnoCCFFNzDJlVS6fdM2vm4Q5bIV33iMn9WmhYd7rjA1rXn2iQaV38m1D7yLSNqG5I/SGiEH6X2r8QOlWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dtISEHlH; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lxaUnGoX"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aa6c0dbce1fso688628166b.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Dec 2024 23:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734419551; x=1735024351; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r+TO7XReO9X11psi/58J8hAaiwLnwK22VeNHe3swrts=;
-        b=lxaUnGoXs5e0rlYeUh1OA92etuaRL+5nR/ysA0YtJarScgWMm7Gz7cJ7odPrB84Ou8
-         ntQ6OJ7OHVVfhEiaicnSPylXRSGUTNYuHbRFyoEG7pJGmhaKfXnrdn5SDL+maS/2Vsdf
-         Y/YA1f/kH69MIPlgtBQMpkRBRmChzwxPouBC5JvjbkcUGErl8BlVczZ1OKeXvjJSDZC+
-         zK8RCg3Yf1vC2aDH07XwcOIVgezzkwlgTuE2mkN6RoarC6qEJbESFne/nTZx5OMDCrmM
-         N5wQMy+fmrz7vBKmb5tI4TbTDjPJR14jTLkNYUijLC1oXLEPVJRa/oP4i4vjx3TgG+OB
-         qtDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734419551; x=1735024351;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+TO7XReO9X11psi/58J8hAaiwLnwK22VeNHe3swrts=;
-        b=o3X2LZUEYJH3qCijwXqCc++9upt+mFTu7fFD/8theFuNdh+KvhmNuSJX2+0yFEhDdO
-         TUJiW0QkNKAxrEpH7GCd1PWTRqth3pA0cZDiobjJIyCLVplnIBXSX5/56EMLvn0yFW2i
-         QrUqRlaA5CxJvmx4SaYho0FSDR+UJFMtepk6cRKUsVpBi2bGwN4p44EubGfisKa8FlmE
-         FJui7Ez5X6vv7jewiJUVyKo1SYzoRgCkpxtQ/8y+niavsuXsQuMGgNUGBNXnByEJbjNE
-         XLM73dXHT7yuNNiufI5XsfbJPUjopIALMTFn0h3RuWi9hLfihE6phmWZrWXmmiy57Vq/
-         b5fg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRNGfjaRepu8Qy1KTAxvbB4jh54NwH0+RPSHOuDwm/SxF2mVYogcQw8sWskrSKWRKHVfmnE+Hn4b1PpkjL@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAfhgpXaoKKjFLH0+WqW5bTnPFRpTyJVkmdzKxo+xVPwBe4VgX
-	C4CGhRsVqH5CGyKLqqLpeIQND2EuoBlppw9XnC39cg0THTVlbTMsydYR/zaPhTE=
-X-Gm-Gg: ASbGncuevcECXjd6ceWrWCjxXgdeuF583a9I7jYYcwXf6E7pbHrwPeWCUdkl/kAnP4G
-	/uygniMO7EETTknp0XqeT4yqupVv9OBZ7pBj00F+R4pGegifP0V76+k1mDW6d51PpLpdiEMbw9Y
-	uv7CjKtd38hwZk9/KWPQHjomxx12MJv2oq5+U2Y4uvA58ahyOu7w/ZlnWOCr786sSDhJ4p5xKsw
-	L7ZjAo2baYMKTdMEI2k6omkuayEa06bIsEjtySHTBNbMqZu6TLQXaQQPdx+nw==
-X-Google-Smtp-Source: AGHT+IHITdtg4ygRJIIQ6mzSoawvvsx80UGxVtQ/xkblfqWiNj2dMDYJGh5iMWKH/SRkoa/IgEqejg==
-X-Received: by 2002:a05:6402:1e89:b0:5d0:81f5:a398 with SMTP id 4fb4d7f45d1cf-5d63c30109emr29586113a12.1.1734419550795;
-        Mon, 16 Dec 2024 23:12:30 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab9606b540sm409806066b.80.2024.12.16.23.12.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 23:12:30 -0800 (PST)
-Date: Tue, 17 Dec 2024 10:12:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	"Jia, Yingbao" <yingbao.jia@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2583/2583] drivers/platform/x86/intel_vsec.c:194
- intel_vsec_add_dev() warn: possible memory leak of 'intel_vsec_dev'
-Message-ID: <68e421cb-fcce-4b0d-8768-260b0b528925@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dtISEHlH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734420221; x=1765956221;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eMJb6ZeVrDa8v3yuSxRZ2UoJZIpuhjSapJrKPH43bhY=;
+  b=dtISEHlHbzOXSeQS+xexQtXiAPfrIHH1pAcpkQv9xBfORZDg696BxBaL
+   QtXz76Fvqsp+nO+w+jF5f0DBctQCvNxfHoxjZhwW960ER1Yqg3Xn4T6SP
+   vwHbYUIf3Ol+elpB5/e0qDfj/ccT+tE6ShxTCaLm02BKX7lqHog41vPgm
+   V4CX8RJHXkaGdjJSbB8d+K8AWaakKMJf3yWvJOLrqtWVB5/Ol2trxjxjT
+   9/RWEWkUj57KjWhAw1Fr7UdexfnMoqsw/LB4sUSFLKOz33KfPT9weW0eL
+   sb2uT71h4P1ChUk3YBhTbLKVDdEFkyuk23FKjVjTqPCL5LaqgBK3W7V6A
+   g==;
+X-CSE-ConnectionGUID: WLsr1QcFQWOREN+SbWRcYQ==
+X-CSE-MsgGUID: LFr5Zc0jQHSc7bkPdOFf5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="57310972"
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="57310972"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 23:23:39 -0800
+X-CSE-ConnectionGUID: UzVwRnLSSMm2UT1dFsKg9Q==
+X-CSE-MsgGUID: hsahHwpsQGOSg5BsxGx8wQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="97688536"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 16 Dec 2024 23:23:37 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNRvb-000Emu-1H;
+	Tue, 17 Dec 2024 07:23:35 +0000
+Date: Tue, 17 Dec 2024 15:23:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Petr Machata <petrm@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ido Schimmel <idosch@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 53/60] net/bridge/br.c:58:25: error:
+ implicit declaration of function 'br_vlan_vlan_upper_event'
+Message-ID: <202412171507.3dIYJOXr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,95 +62,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   dd14d8eb16732508135cd386c09cc747615571f7
-commit: 045360f5c497cbbb84804a5026eeb1eb26bccab1 [2583/2583] platform/x86/intel/vsec: Add intel_vsec_register
-config: x86_64-randconfig-161-20241216 (https://download.01.org/0day-ci/archive/20241217/202412170934.0YmShlea-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   eed0968cc93b75eeb363ea89d1834928a77e6fdc
+commit: dae14d4697667bf658c29a01c0aac9c8f305e478 [53/60] net: bridge: Handle changes in VLAN_FLAG_BRIDGE_BINDING
+config: arm-randconfig-004-20241217 (https://download.01.org/0day-ci/archive/20241217/202412171507.3dIYJOXr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412171507.3dIYJOXr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412170934.0YmShlea-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412171507.3dIYJOXr-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/intel_vsec.c:194 intel_vsec_add_dev() warn: possible memory leak of 'intel_vsec_dev'
+All errors (new ones prefixed by >>):
 
-vim +/intel_vsec_dev +194 drivers/platform/x86/intel_vsec.c
+   net/bridge/br.c: In function 'br_device_event':
+>> net/bridge/br.c:58:25: error: implicit declaration of function 'br_vlan_vlan_upper_event' [-Wimplicit-function-declaration]
+      58 |                         br_vlan_vlan_upper_event(real_dev, dev, event);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
 
-4e17cb1a523bb79 David E. Box        2021-12-07  141  static int intel_vsec_add_dev(struct pci_dev *pdev, struct intel_vsec_header *header,
-5f30bf18c574ead David E. Box        2022-06-29  142  			      struct intel_vsec_platform_info *info)
-4e17cb1a523bb79 David E. Box        2021-12-07  143  {
-4e17cb1a523bb79 David E. Box        2021-12-07  144  	struct intel_vsec_device *intel_vsec_dev;
-4e17cb1a523bb79 David E. Box        2021-12-07  145  	struct resource *res, *tmp;
-045360f5c497cbb Gayatri Kammela     2023-11-29  146  	struct device *parent;
-5f30bf18c574ead David E. Box        2022-06-29  147  	unsigned long quirks = info->quirks;
-4e17cb1a523bb79 David E. Box        2021-12-07  148  	int i;
-4e17cb1a523bb79 David E. Box        2021-12-07  149  
-045360f5c497cbb Gayatri Kammela     2023-11-29  150  	if (info->parent)
-045360f5c497cbb Gayatri Kammela     2023-11-29  151  		parent = info->parent;
-045360f5c497cbb Gayatri Kammela     2023-11-29  152  	else
-045360f5c497cbb Gayatri Kammela     2023-11-29  153  		parent = &pdev->dev;
-045360f5c497cbb Gayatri Kammela     2023-11-29  154  
-ab1a3aedda0fd8b David E. Box        2023-03-16  155  	if (!intel_vsec_supported(header->id, info->caps))
-4e17cb1a523bb79 David E. Box        2021-12-07  156  		return -EINVAL;
-4e17cb1a523bb79 David E. Box        2021-12-07  157  
-4e17cb1a523bb79 David E. Box        2021-12-07  158  	if (!header->num_entries) {
-4e17cb1a523bb79 David E. Box        2021-12-07  159  		dev_dbg(&pdev->dev, "Invalid 0 entry count for header id %d\n", header->id);
-4e17cb1a523bb79 David E. Box        2021-12-07  160  		return -EINVAL;
-4e17cb1a523bb79 David E. Box        2021-12-07  161  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  162  
-4e17cb1a523bb79 David E. Box        2021-12-07  163  	if (!header->entry_size) {
-4e17cb1a523bb79 David E. Box        2021-12-07  164  		dev_dbg(&pdev->dev, "Invalid 0 entry size for header id %d\n", header->id);
-4e17cb1a523bb79 David E. Box        2021-12-07  165  		return -EINVAL;
-4e17cb1a523bb79 David E. Box        2021-12-07  166  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  167  
-4e17cb1a523bb79 David E. Box        2021-12-07  168  	intel_vsec_dev = kzalloc(sizeof(*intel_vsec_dev), GFP_KERNEL);
-4e17cb1a523bb79 David E. Box        2021-12-07  169  	if (!intel_vsec_dev)
-4e17cb1a523bb79 David E. Box        2021-12-07  170  		return -ENOMEM;
-4e17cb1a523bb79 David E. Box        2021-12-07  171  
-4e17cb1a523bb79 David E. Box        2021-12-07  172  	res = kcalloc(header->num_entries, sizeof(*res), GFP_KERNEL);
-4e17cb1a523bb79 David E. Box        2021-12-07  173  	if (!res) {
-4e17cb1a523bb79 David E. Box        2021-12-07  174  		kfree(intel_vsec_dev);
-4e17cb1a523bb79 David E. Box        2021-12-07  175  		return -ENOMEM;
-4e17cb1a523bb79 David E. Box        2021-12-07  176  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  177  
-4e17cb1a523bb79 David E. Box        2021-12-07  178  	if (quirks & VSEC_QUIRK_TABLE_SHIFT)
-4e17cb1a523bb79 David E. Box        2021-12-07  179  		header->offset >>= TABLE_OFFSET_SHIFT;
-4e17cb1a523bb79 David E. Box        2021-12-07  180  
-4e17cb1a523bb79 David E. Box        2021-12-07  181  	/*
-4e17cb1a523bb79 David E. Box        2021-12-07  182  	 * The DVSEC/VSEC contains the starting offset and count for a block of
-4e17cb1a523bb79 David E. Box        2021-12-07  183  	 * discovery tables. Create a resource array of these tables to the
-4e17cb1a523bb79 David E. Box        2021-12-07  184  	 * auxiliary device driver.
-4e17cb1a523bb79 David E. Box        2021-12-07  185  	 */
-4e17cb1a523bb79 David E. Box        2021-12-07  186  	for (i = 0, tmp = res; i < header->num_entries; i++, tmp++) {
-4e17cb1a523bb79 David E. Box        2021-12-07  187  		tmp->start = pdev->resource[header->tbir].start +
-4e17cb1a523bb79 David E. Box        2021-12-07  188  			     header->offset + i * (header->entry_size * sizeof(u32));
-4e17cb1a523bb79 David E. Box        2021-12-07  189  		tmp->end = tmp->start + (header->entry_size * sizeof(u32)) - 1;
-4e17cb1a523bb79 David E. Box        2021-12-07  190  		tmp->flags = IORESOURCE_MEM;
-045360f5c497cbb Gayatri Kammela     2023-11-29  191  
-045360f5c497cbb Gayatri Kammela     2023-11-29  192  		/* Check resource is not in use */
-045360f5c497cbb Gayatri Kammela     2023-11-29  193  		if (!request_mem_region(tmp->start, resource_size(tmp), ""))
-045360f5c497cbb Gayatri Kammela     2023-11-29 @194  			return -EBUSY;
 
-Needs some clean up.
+vim +/br_vlan_vlan_upper_event +58 net/bridge/br.c
 
-045360f5c497cbb Gayatri Kammela     2023-11-29  195  
-045360f5c497cbb Gayatri Kammela     2023-11-29  196  		release_mem_region(tmp->start, resource_size(tmp));
-4e17cb1a523bb79 David E. Box        2021-12-07  197  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  198  
-4e17cb1a523bb79 David E. Box        2021-12-07  199  	intel_vsec_dev->pcidev = pdev;
-4e17cb1a523bb79 David E. Box        2021-12-07  200  	intel_vsec_dev->resource = res;
-4e17cb1a523bb79 David E. Box        2021-12-07  201  	intel_vsec_dev->num_resources = header->num_entries;
-f46f38183f3a2db David E. Box        2023-11-29  202  	intel_vsec_dev->quirks = info->quirks;
-4e17cb1a523bb79 David E. Box        2021-12-07  203  	intel_vsec_dev->ida = &intel_vsec_ida;
-4e17cb1a523bb79 David E. Box        2021-12-07  204  
-045360f5c497cbb Gayatri Kammela     2023-11-29  205  	return intel_vsec_add_aux(pdev, parent, intel_vsec_dev,
-fbced3ac8b6a0cc Srinivas Pandruvada 2023-02-01  206  				  intel_vsec_name(header->id));
-4e17cb1a523bb79 David E. Box        2021-12-07  207  }
+    21	
+    22	/*
+    23	 * Handle changes in state of network devices enslaved to a bridge.
+    24	 *
+    25	 * Note: don't care about up/down if bridge itself is down, because
+    26	 *     port state is checked when bridge is brought up.
+    27	 */
+    28	static int br_device_event(struct notifier_block *unused, unsigned long event, void *ptr)
+    29	{
+    30		struct netlink_ext_ack *extack = netdev_notifier_info_to_extack(ptr);
+    31		struct netdev_notifier_pre_changeaddr_info *prechaddr_info;
+    32		struct net_device *dev = netdev_notifier_info_to_dev(ptr);
+    33		struct net_bridge_port *p;
+    34		struct net_bridge *br;
+    35		bool notified = false;
+    36		bool changed_addr;
+    37		int err;
+    38	
+    39		if (netif_is_bridge_master(dev)) {
+    40			err = br_vlan_bridge_event(dev, event, ptr);
+    41			if (err)
+    42				return notifier_from_errno(err);
+    43	
+    44			if (event == NETDEV_REGISTER) {
+    45				/* register of bridge completed, add sysfs entries */
+    46				err = br_sysfs_addbr(dev);
+    47				if (err)
+    48					return notifier_from_errno(err);
+    49	
+    50				return NOTIFY_DONE;
+    51			}
+    52		}
+    53	
+    54		if (is_vlan_dev(dev)) {
+    55			struct net_device *real_dev = vlan_dev_real_dev(dev);
+    56	
+    57			if (netif_is_bridge_master(real_dev))
+  > 58				br_vlan_vlan_upper_event(real_dev, dev, event);
+    59		}
+    60	
+    61		/* not a port of a bridge */
+    62		p = br_port_get_rtnl(dev);
+    63		if (!p)
+    64			return NOTIFY_DONE;
+    65	
+    66		br = p->br;
+    67	
+    68		switch (event) {
+    69		case NETDEV_CHANGEMTU:
+    70			br_mtu_auto_adjust(br);
+    71			break;
+    72	
+    73		case NETDEV_PRE_CHANGEADDR:
+    74			if (br->dev->addr_assign_type == NET_ADDR_SET)
+    75				break;
+    76			prechaddr_info = ptr;
+    77			err = dev_pre_changeaddr_notify(br->dev,
+    78							prechaddr_info->dev_addr,
+    79							extack);
+    80			if (err)
+    81				return notifier_from_errno(err);
+    82			break;
+    83	
+    84		case NETDEV_CHANGEADDR:
+    85			spin_lock_bh(&br->lock);
+    86			br_fdb_changeaddr(p, dev->dev_addr);
+    87			changed_addr = br_stp_recalculate_bridge_id(br);
+    88			spin_unlock_bh(&br->lock);
+    89	
+    90			if (changed_addr)
+    91				call_netdevice_notifiers(NETDEV_CHANGEADDR, br->dev);
+    92	
+    93			break;
+    94	
+    95		case NETDEV_CHANGE:
+    96			br_port_carrier_check(p, &notified);
+    97			break;
+    98	
+    99		case NETDEV_FEAT_CHANGE:
+   100			netdev_update_features(br->dev);
+   101			break;
+   102	
+   103		case NETDEV_DOWN:
+   104			spin_lock_bh(&br->lock);
+   105			if (br->dev->flags & IFF_UP) {
+   106				br_stp_disable_port(p);
+   107				notified = true;
+   108			}
+   109			spin_unlock_bh(&br->lock);
+   110			break;
+   111	
+   112		case NETDEV_UP:
+   113			if (netif_running(br->dev) && netif_oper_up(dev)) {
+   114				spin_lock_bh(&br->lock);
+   115				br_stp_enable_port(p);
+   116				notified = true;
+   117				spin_unlock_bh(&br->lock);
+   118			}
+   119			break;
+   120	
+   121		case NETDEV_UNREGISTER:
+   122			br_del_if(br, dev);
+   123			break;
+   124	
+   125		case NETDEV_CHANGENAME:
+   126			err = br_sysfs_renameif(p);
+   127			if (err)
+   128				return notifier_from_errno(err);
+   129			break;
+   130	
+   131		case NETDEV_PRE_TYPE_CHANGE:
+   132			/* Forbid underlying device to change its type. */
+   133			return NOTIFY_BAD;
+   134	
+   135		case NETDEV_RESEND_IGMP:
+   136			/* Propagate to master device */
+   137			call_netdevice_notifiers(event, br->dev);
+   138			break;
+   139		}
+   140	
+   141		if (event != NETDEV_UNREGISTER)
+   142			br_vlan_port_event(p, event);
+   143	
+   144		/* Events that may cause spanning tree to refresh */
+   145		if (!notified && (event == NETDEV_CHANGEADDR || event == NETDEV_UP ||
+   146				  event == NETDEV_CHANGE || event == NETDEV_DOWN))
+   147			br_ifinfo_notify(RTM_NEWLINK, NULL, p);
+   148	
+   149		return NOTIFY_DONE;
+   150	}
+   151	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
