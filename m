@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C659613D25E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 04:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08FB13777E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 04:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734409777; cv=none; b=qrThoqhl7m39jZVDJ5M4q4kDRAwPhLHQ7MH/Sz4akCiRKkIUaCnMlIoiDJn1Xl68diUJDOCijgR2+5pm9AUkKTq1Z4TO+e05O76Ibfkazh4zB5I0VJMwNwrJYPa/UmFbbxXGhB+z85ayXWC60clYSUIdouTrzqRtdE7ncPQojuU=
+	t=1734411100; cv=none; b=NXBOFmVbjdN28twDMoY3oeSe7XyPv6j67sGK/pXT03RPf5g+paZ81Vm18nFnuCypZiHuJVHko7kDIp8rj4n0ZCCPQ5kTHJFV1kF3fKaYurZksGyE5onFP/Q2rAM6DijZxTTQVCeNHyZFDQKeQdkKpOfuxZ7zMeLLy7TB0rWku0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734409777; c=relaxed/simple;
-	bh=mzY1qN/iXKCF68+x4GSWeQIt8GkGZerZCuuXImnGAkU=;
+	s=arc-20240116; t=1734411100; c=relaxed/simple;
+	bh=Su8CLPopiskPhrvaiMiBzONLRAfc4TQBbdC4vzs3mZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YfomHGZcHOYx1WDECfDj6DRR+n3Q8A6tfCaSfMGIMvvzZLflwB79i24Q5j5/srQln6Tw5jpScMYghY6LQPIQMs7Ct6XROK9FRa2lZyaO1pZkNjIhRP3W9hRtCMqcDhc1Qlde6MrO92RVPWcTF2MJRokUqGXkGagpzVoeaPHGOak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlSfkGoX; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=S5CKEPI1rQj7aSn6NHFxVtc6A/FCPkLe4i0mXhaynpCrVBpR1M0CRa3FxLTJxU3xdw7eKI91JhJJxLmDhf3pPnGRr62qW9FPbvVd58VJpNdz12St/n+37Xv938skrYe3/F6TNmy6qgNmG+POTTguldKr6Rc5EfUEKYt7LtJSwoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azAqCnl+; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlSfkGoX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azAqCnl+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734409776; x=1765945776;
+  t=1734411097; x=1765947097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mzY1qN/iXKCF68+x4GSWeQIt8GkGZerZCuuXImnGAkU=;
-  b=nlSfkGoXzXwLU7a1VsQvh5NPYQ2W2GWNkTigvun78c5UdOvxDSQ9lUNX
-   e+E+QX0QlSBvC8rJX89V6CvyeIUo95xrSufbSYoU9mhjr7+DDnPAbVB21
-   y20y1KV85+lrQ40lQ/DrmlAXkE3pXc5pUMtP92bxmFOoY9IYYLMwXAkI9
-   fbqFbnG8epfejrCZBaYytPr09VGMph4EqErdGiaN+0ry+Q4cCIBzUJpZj
-   kjLH9AZ0QL6wIa08PzIOu0a1XGHxakM5AjeYMJQNYBR4W1bj4M8Aw1Mrw
-   foFlZhVEBdQQYn3006wyOALy3Je8ZWnk4I8Ys+tBD5U7uFYUX5EFUrhVB
-   g==;
-X-CSE-ConnectionGUID: pte+08LoRhSrUWWFYK770w==
-X-CSE-MsgGUID: NhiuW4B5SCy8vfHTr+p4Dw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="45430645"
+  bh=Su8CLPopiskPhrvaiMiBzONLRAfc4TQBbdC4vzs3mZU=;
+  b=azAqCnl+qJw8KoPu7QdCzLXKR2udmIZpcWHnskrv875dl4FbYP9hhzJE
+   mWBzhBGtzOX0xGtMkEHDzaH30iQABU7I4ZfOF0x+kIrK+JGd69pgkL8XW
+   v7zcMOgnY5c9pdUxZR5kQyqXB+GKqp5MxyOCiFfx5bwATK68DHTU5IK15
+   hfSSU/TlrtE+mpRgsNzBUDuTLDemTXySqp8kzz+P239KsN/e9JB0OOW0W
+   y+0tlCpkoAf/h/WpMFSHxrD9vrweiQe7z9kLoRGnRSNOVUdxmhAtFyA7b
+   CwjKgoDIM4/uIuQmFdcC9tE/ZsabPHVnZt8bV/FoUzynaYK85HHGyIHs+
+   A==;
+X-CSE-ConnectionGUID: OxU0yI/0QHGPuPTYD28sLA==
+X-CSE-MsgGUID: 0XeN05UhTj6HqaaCy9RN0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="52343666"
 X-IronPort-AV: E=Sophos;i="6.12,240,1728975600"; 
-   d="scan'208";a="45430645"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 20:29:35 -0800
-X-CSE-ConnectionGUID: jxJHQIDxSbKXE1eOuv29ig==
-X-CSE-MsgGUID: obSYN4PcQtmB+6bhKiZi0w==
+   d="scan'208";a="52343666"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 20:51:37 -0800
+X-CSE-ConnectionGUID: D8bwC8YPTy2VBYzZI4Lw5A==
+X-CSE-MsgGUID: VqRaax2MT6uU9ctHxROeqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,240,1728975600"; 
-   d="scan'208";a="97661905"
+   d="scan'208";a="128232005"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Dec 2024 20:29:34 -0800
+  by orviesa002.jf.intel.com with ESMTP; 16 Dec 2024 20:51:36 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNPD9-000EiK-3C;
-	Tue, 17 Dec 2024 04:29:31 +0000
-Date: Tue, 17 Dec 2024 12:28:58 +0800
+	id 1tNPYT-000Eii-1P;
+	Tue, 17 Dec 2024 04:51:33 +0000
+Date: Tue, 17 Dec 2024 12:50:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Weili Qian <qianweili@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1640/1640] kismet: WARNING: unmet direct
- dependencies detected for CRYPTO_DRBG_CTR when selected by
- CRYPTO_DEV_HISI_TRNG
-Message-ID: <202412171218.lNxqN817-lkp@intel.com>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: sound/soc/renesas/dma-sh7760.c:62:3: sparse: sparse: symbol
+ 'cam_pcm_data' was not declared. Should it be static?
+Message-ID: <202412171210.7a4vH3Ew-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +63,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   6a6a6975db65b9cd2f1ac3466f652ea1c8ee2d61
-commit: e623afb45e58ded6b45cc4f0ac6c19b3736c96f9 [1640/1640] crypto: hisilicon/trng - support to obtain random numbers from soft algorithm
-config: arm64-kismet-CONFIG_CRYPTO_DRBG_CTR-CONFIG_CRYPTO_DEV_HISI_TRNG-0-0 (https://download.01.org/0day-ci/archive/20241217/202412171218.lNxqN817-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241217/202412171218.lNxqN817-lkp@intel.com/reproduce)
+Hi Lad,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f44d154d6e3d633d4c49a5d6aed8a0e4684ae25e
+commit: c087a94bea49acf34d651f7308506fe462a937b3 ASoC: Rename "sh" to "renesas"
+date:   7 weeks ago
+config: sh-randconfig-r113-20241217 (https://download.01.org/0day-ci/archive/20241217/202412171210.7a4vH3Ew-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241217/202412171210.7a4vH3Ew-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412171218.lNxqN817-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412171210.7a4vH3Ew-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_DRBG_CTR when selected by CRYPTO_DEV_HISI_TRNG
-   WARNING: unmet direct dependencies detected for CRYPTO_DRBG_CTR
-     Depends on [n]: CRYPTO [=y] && CRYPTO_DRBG_MENU [=n]
-     Selected by [y]:
-     - CRYPTO_DEV_HISI_TRNG [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && ARM64 [=y] && ACPI [=y]
-   
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-     Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-     Selected by [y]:
-     - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
-   
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-     Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-     Selected by [y]:
-     - ARM64 [=y]
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/renesas/dma-sh7760.c:62:3: sparse: sparse: symbol 'cam_pcm_data' was not declared. Should it be static?
+
+vim +/cam_pcm_data +62 sound/soc/renesas/dma-sh7760.c
+
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  48  
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  49  
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  50  struct camelot_pcm {
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  51  	unsigned long mmio;  /* DMABRG audio channel control reg MMIO */
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  52  	unsigned int txid;    /* ID of first DMABRG IRQ for this unit */
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  53  
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  54  	struct snd_pcm_substream *tx_ss;
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  55  	unsigned long tx_period_size;
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  56  	unsigned int  tx_period;
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  57  
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  58  	struct snd_pcm_substream *rx_ss;
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  59  	unsigned long rx_period_size;
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  60  	unsigned int  rx_period;
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  61  
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14 @62  } cam_pcm_data[2] = {
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  63  	{
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  64  		.mmio	=	0xFE3C0040,
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  65  		.txid	=	DMABRGIRQ_A0TXF,
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  66  	},
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  67  	{
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  68  		.mmio	=	0xFE3C0060,
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  69  		.txid	=	DMABRGIRQ_A1TXF,
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  70  	},
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  71  };
+aef3b06ac69783 sound/soc/sh/dma-sh7760.c Manuel Lauss 2007-05-14  72  
+
+:::::: The code at line 62 was first introduced by commit
+:::::: aef3b06ac69783d6a6d1e4357c62bab46dd16141 [ALSA] SH7760 ASoC support
+
+:::::: TO: Manuel Lauss <mano@roarinelk.homelinux.net>
+:::::: CC: Jaroslav Kysela <perex@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
