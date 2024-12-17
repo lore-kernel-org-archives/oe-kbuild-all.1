@@ -1,234 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A05537F8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 07:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734421380; cv=fail; b=EdfmFkHlN12L3zwCWkUuffc9w8iDB+35XUbykBhDvmRY4WWF+i1xm02JQNOa9VsMlwcPQ4wTqFV9NuQHkg1FyEuiWEEkMtUVFx/MTqCxoZZHHPbYIZfPyfwk9y+LjVbgP7U4Toz4l83SHXv3hq3bGXBaoIFnwPR13LQ3VQDdjK0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734421380; c=relaxed/simple;
-	bh=Ce5GM3qZ3Opz2oWcYYMqYxGtJva76/XryIGgW1geV2E=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Q6BzPf1ys/hDVbZYPZ5zcZMtq8IjO2hTN6GZY+Yzest+heQfSA2HiNmeP+x5UXglujwUmXMkBkjjTmUiBrxK5YfQSk34yWJd7o4grfpjaeBjLsdn21uTt4vobBBdAEmwvxJlPJxo+dMMjHLMzWqqyMmZarcLyxonHZOVS5uMCvY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFlNSoSw; arc=fail smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D1F288A2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 08:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734422718; cv=none; b=SEBxrsDf3s2rJuiBsV7Kjn8QSfCOq4Aua3OuWpgUMAHFheLAmk+/7gpMwo68lJoTedz/rBbUtVRvGaYaoZf0tP1K6OT+qgcJcO7BXAxSjmb6oYhPJ+njuwxIXD7oK4JvSJXz5HgsTbtJPYSrLyow1QCcw+AGGJQ+f1nIO4hRCz8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734422718; c=relaxed/simple;
+	bh=NPF1EKFkhV7RKMkMOAC7tUMm6zk0Qv/ggz8PnoI9wik=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PDES+FRZdPWuM93aB2yP1+Vv9GrLmX6zqq1MbGNnmNZkV33zMaiD34/nc+4d/SHE7x+WzXieQzTtOxIlCKQEyeETvRKyvecbdipd0sCChpDlI3htO1X8ZExpvim/HQmWRtns68Cqm/nOQwpFKaX/GkD6hcY+ULLZ78IAcD9L5zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IT4CEp+w; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFlNSoSw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IT4CEp+w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734421379; x=1765957379;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=Ce5GM3qZ3Opz2oWcYYMqYxGtJva76/XryIGgW1geV2E=;
-  b=cFlNSoSwSl2kNUXLyNLzuwC3QCqLXFPe8wjg1ram/RIh+caVtXTJzvET
-   CbwtV8Af3dIXa8r5kh4++UFgobXOsQMPZ2jehR6z9i2YQJjuXWqL3gCAY
-   VQ4YJF5CI45mynUR77SMpzWG9W+dM12jwb+TuCxwkmEnQZegcRYfIT+KY
-   vPttp4yLfgWjIU1t7A395gI1ubf6ALlTvh9ICQGmIT/hIWj/XGrLacgsC
-   jZE663Ec1xIN7FHIzXvEKBPwpLtzuF08swlfWTJohgfvI+PjbK7+xdDDq
-   R24l3z/FK14xbRkwPhz3a8QiMn2yBsUKyttCXWtSa+hzYGGMEo7Vz6KQt
-   A==;
-X-CSE-ConnectionGUID: EeiT9aVMS9W7iQAqSDTJaQ==
-X-CSE-MsgGUID: AlA58Jw8SaiXiOX+LCj+qA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34870469"
+  t=1734422717; x=1765958717;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NPF1EKFkhV7RKMkMOAC7tUMm6zk0Qv/ggz8PnoI9wik=;
+  b=IT4CEp+wdJX1gChU8pXDypZqH+4mDdjqaTtQwSzKmz6J2GE0+U/WHkSv
+   /tq2lfRaKfjJmEXaCqr2kXQaCIG68hCs36JccVW+PnL5pA2TRMCZdW9zl
+   ta5TJX8AI0E4E9oWCWP/HeVqkKo9IbiSz3UG6IVget84B4u32O8JLi6oV
+   Ytj+C6dNf2hFVdB4eJTwXZc1svoQR9zq+jG5wEMsROzBsLMMZAEpMT9ci
+   6vzQcQtyCvUUurBZdQUnYZbOvpxxE0OtR7/EIhdykTG1iZfJ6LgrWJ4rv
+   nWxpBzE6dYfu4aOIYFOK3gGvEzVxJCdxKoCzYN9wS3tt3M626jcTf5L01
+   w==;
+X-CSE-ConnectionGUID: /nTzineTRpur4tcbnBOpzw==
+X-CSE-MsgGUID: EOFvLdgaTOK8SN/GYi7M7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="22426514"
 X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="34870469"
+   d="scan'208";a="22426514"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 23:42:59 -0800
-X-CSE-ConnectionGUID: aGiaBwVwRde6GM+mId5DHA==
-X-CSE-MsgGUID: lV3n7TV4QOe0LCJGHwH+nA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 00:05:16 -0800
+X-CSE-ConnectionGUID: cUwHcuYdTzmAC2IJnjWzEg==
+X-CSE-MsgGUID: F1k9c0EYQqSnUQWQcfvknQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="97334991"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Dec 2024 23:42:59 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 16 Dec 2024 23:42:58 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 16 Dec 2024 23:42:58 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.175)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 16 Dec 2024 23:42:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eElH/9JXocRabrny89LEgBM87bKVTiRi5r+fuUwktAZUDimP5gql5VSUmy1g4MAJ/G64B196iiyznCrVGp2Bny6lUUm+SyHk8BVzLDxL7fCl/QYH4DWBEjU7R4Eg8ma98f2Z7hArOsQJSN15bl3RTY+7EdFPzKxgmEvrw/PL5LLaiEJIjfTe31Dkf81IT/KKR6J60Lgt0MsUOSg6bTpuPNUBAK/R66NRY+huA2U9TRa9XhCIKEVUEWfhdSBYgFsaSF9cZ1ZNGvXBrewuIfngI/LMR1UuXMewyWHGEC68RL7/mOKsqM27l4YW3i2TDtjRJxni7MArGu9ft4Fc+RYrIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TmyCDdre4t1jkgTqayvenRnUe15H3cfzfe5pZtntAWE=;
- b=mtzXNMMXUVLbZseI3Sl5xOxjN2xUWPyByEkO/R62Vk4yXANy4CafsXhorKOszRoiGba4mYQY8ooa/XpkZykixiajWngubuSevbwVG748diLFY/xfh+Jxsd8GthWHTjXu8DCuCYWMYqWpjzHbzjFD5ttrnBqCFsYZM7GeY+opWOSJ6oKCVzRS/xEf16xsD6DHLZmtIikHYfkM6vDVfDC09KYCjXgkHwSQ6bwtBxgtCxBXJ11y0eZCJ4Z3AneMkG3X8dreKBD9549IJVDGmm6ST3PgpU3UzJYZXPHQDywX31fcRtlWUCPTLWy5usKDPPNetXCWooq+Rfv71T1Pelmgmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by CH3PR11MB8545.namprd11.prod.outlook.com (2603:10b6:610:1bc::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.22; Tue, 17 Dec
- 2024 07:42:54 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8251.015; Tue, 17 Dec 2024
- 07:42:54 +0000
-Date: Tue, 17 Dec 2024 15:42:45 +0800
-From: Philip Li <philip.li@intel.com>
-To: kernel test robot <lkp@intel.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Nathan Chancellor <nathan@kernel.org>
-Subject: Re: kernel/reboot.c:226: warning: Function parameter or struct
- member 'cmd' not described in 'do_kernel_restart'
-Message-ID: <Z2Erda0/c62UwolB@rli9-mobl>
-References: <202412171248.ro76Gqt1-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202412171248.ro76Gqt1-lkp@intel.com>
-X-ClientProxiedBy: SG2PR04CA0151.apcprd04.prod.outlook.com (2603:1096:4::13)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+   d="scan'208";a="97342604"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 17 Dec 2024 00:05:15 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNSZt-000Eop-0R;
+	Tue, 17 Dec 2024 08:05:13 +0000
+Date: Tue, 17 Dec 2024 16:04:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:block-remove-BLK_MQ_F_SHOULD_MERGE 1/1]
+ block/blk-mq-debugfs.c:184:2: error: use of undeclared identifier
+ 'BLK_MQ_F_SHOULD_MERGE'
+Message-ID: <202412171630.xL04h1Pd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|CH3PR11MB8545:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba56f81c-c22d-4380-19d9-08dd1e6e6a7c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?k9EhUOVrmF7Lk1Zv8Yl6IPiawyJle37qt5zRIM7+pgC+cLJQfmhXUCi46c9g?=
- =?us-ascii?Q?Lx59Sn6c0ENp1hBwSfgESdP8TrVe/tDJ/hovjnhCw2YgL5eu2sEG0N6TUoCm?=
- =?us-ascii?Q?UJuXTDeTi5oIKtPLQgQ/ZVs9idaxRGZsdJ+jrZeWsfvB0Po3w/6WZEYcdUTG?=
- =?us-ascii?Q?w8HHI8XjBqROSrJ2oXnoES1t1bJ74u0mN98S/qujoPlGMBra3v/Wkfa8l7Cy?=
- =?us-ascii?Q?q01E/tz5vpqG8vHyMz7U3q7XXVcuGpFjquBPiHycNWZUQUliJs+oMLChPPwa?=
- =?us-ascii?Q?YmPMEOvK1Y3/KwjyTk5W9opAFO87spMczJ2op+oggyOUMDNfQr8x74NdEkaI?=
- =?us-ascii?Q?r9IlccGNo4ByWhFCMukra0JnK9KrozjKOiA2N+LGPOSfMw9WDuux14FzFBoJ?=
- =?us-ascii?Q?IQKjlGoFZda06MrRfRcjixx3TBMqHod8eM1muErZLf+vJWEFQCM3oqg4Z6hF?=
- =?us-ascii?Q?MPjchBpKR2FBk766hqgwgV1mXYMNNh6nPa5yqwrDseptMKMfAq9vJKPcoXmh?=
- =?us-ascii?Q?viNhUuKt0OleEv67tMlSKg7e4IkLFC5a94uokeff3dwoKHEg0Xk0CZ1LqobR?=
- =?us-ascii?Q?rpOC7G4ny1j0DoYjDtJDescQR2Z4iYf0NGLNjnQlQxiN7AYA2WNFzbBuwQKk?=
- =?us-ascii?Q?YAjZ7RABJ8vkfAulrwye3ek+VFwXYToT//EMgRBp23Qhn9yf/PeZmbLS/v+5?=
- =?us-ascii?Q?Erz+mWgrcGzFozecTy4tLpZJlB/F+ukK7LtLsYg6rnGctzDv9eDkzK5VyREg?=
- =?us-ascii?Q?H7fHwjd3yUlEA9TRN24WEsSsjNlkaLdBUocwrFwyCOmg0hiCg7w3ylWAA1IM?=
- =?us-ascii?Q?5mI4jlw6Wok5Wmq4IhBGqTz6tsbdpotNqG7iFC6AmLDuWnpoPtneCosEaDsJ?=
- =?us-ascii?Q?wtvS4rtdHdaMj8jk6j+D3h8ehiHXjsFECJPhyegVaXz3gaU01dQf8H/AE2yT?=
- =?us-ascii?Q?xMjrDI+gYUh/ckyk7CjWfDkLquXzpP39grp7Si9a0CnEMqClunwaTeLvlr2S?=
- =?us-ascii?Q?TyInhOmc4iT1gEl5V2xvZT4lstBU9m9etsHBeRfsxM7msGEHpHNiCUpXXo4D?=
- =?us-ascii?Q?HjP1jAf8Y5MjrqVMvfTJ6iERkjctKW42QiHbY5w644o8pKTUhrvqMauNv/gH?=
- =?us-ascii?Q?9jw6bQiTYqFyPv+a3ep0RnFwo5uT8FRwYqWb63Ws67/lpgxy8L+comVmnO2p?=
- =?us-ascii?Q?1HShrmI5ucpOB5UHNTDCsfv5zZ7dbH6zdXDCrXRnbUIX+9fikMktD5pHluc1?=
- =?us-ascii?Q?0tC6gMeZKkt4I5nWn9SN3EiJSVQyRjN8O4DITKKJPwb/lT1kmKghve8eYLI6?=
- =?us-ascii?Q?Ss9Hg/W9nyHA7v7UMX/3prV5QUDN0frQWGE9oqgSH+ZA+g=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/pBv49eoQbgTWThoFLsmlJ+iec3y/tcyrm+u5ycT2BH0bqhQ5msWTGsfI7OG?=
- =?us-ascii?Q?oQVIm6foxl0vSQTGZwKAR9aVXreSuBVNZPGfQ2KDrK3x8Du3gUNJ6fuLnBmj?=
- =?us-ascii?Q?Dzlxj1DCmGUycp3T0aSE0XSJPXRvbPb+6yTtS3vREow7iqlUWCGvl+GNK/Pz?=
- =?us-ascii?Q?k5b3wkBSSPry0bjMAHDhmfIRPBykXH04HMQFP9qivuLSe8W/OIlstPSgFgdm?=
- =?us-ascii?Q?4kvNPFDnT7TIiqRgsgTx+tHZIYrtAV+QaizUXznQ8xBU6mP3QTPOLCxsj9Xg?=
- =?us-ascii?Q?JICJ/RvB8qNu3zrVKrz+0YJ2nMLT49Du6mIfFjy9vWoM5lD6npRpGUnt8wLV?=
- =?us-ascii?Q?Tnvw7ux9khQC2wtfFAkuM5xV2WXZ3YDCAmL4uZlthNxoVyd4g0wOdV8xrzst?=
- =?us-ascii?Q?LQYFpBJAA+OcR2cJi9N+3cO6c3JPwXzmYc65eHoy7JdRFhmmTDs+5aT9HK6L?=
- =?us-ascii?Q?EffGPokSDd+5vsClbKPCXxISA1IFa9Homo3/946JzMFKHph3sw7ABNE0dviI?=
- =?us-ascii?Q?qed9gFYRsjtvZSA9U9RcPD4Qd2B81TL7tqWhEdkFtTVgn/YKfM6X5PiTmrbs?=
- =?us-ascii?Q?lQJmbBPcxvESTOUpXVjIu3JVC5joqNRmzUPV4XuTKF710QeJfBenpIQfiHBF?=
- =?us-ascii?Q?GON/RjBuLGvmaS0/DD0lXi5R8tz4b7fQSFxhXgGxmavygIpOiYJyOUJ7PYKA?=
- =?us-ascii?Q?GNGtkeox0TwqZfppBxyrxnlrZT+y47c7FTwxSGHN4pOI/TjAZ5BMTitPK9+5?=
- =?us-ascii?Q?81ZJzOKh0sHy0yPMg6gB75ITTV4o6SJpQFpXlZgOFjDbZ1Im8IGRY7U0FJPF?=
- =?us-ascii?Q?LuKbUJpxRTZlS/jmhLRqyd8E92NBum7ElhPcdWZybDaSln/OM3pd3ET2CAbI?=
- =?us-ascii?Q?m57EPDfKLUjODAtbpyPnMR7p51WlW6lGnX2Ax2T7TR86wTiKo21qVB7BSyst?=
- =?us-ascii?Q?iHVgCcCJutDH2RktRZ24yonWdHkZVeMgWNOuaf0If6rocCLDsTKbcRFFPVR5?=
- =?us-ascii?Q?kj7Bs6F77TjFgnXgGRHq/P7B+Zx5MYV3KCQSnG6ZkfvOzyba0N8jlvQbYcEE?=
- =?us-ascii?Q?7jMdFIGj4EZnf8eZB87XyoXahfV9hgZaUwiMrLjUHY9tH1SAZE1jMpkbmDuc?=
- =?us-ascii?Q?5N5e3xyMFQU+dp6UtOsn76+qr9NFUZpqfc/3VGCT06Umia4kwjw55pj0tGqa?=
- =?us-ascii?Q?FRKit/xi1c7VR/ktadMvQ1WdtnWdXmtOVoN3PplYnFRaMb9iACtGkA3g8nlu?=
- =?us-ascii?Q?XqNfuTUlcWaxiG5aiQ7TD8rIwqQBwoXg1HvAZq255XVvKd8rgXO6MuaNZXEH?=
- =?us-ascii?Q?3jx24Lq8l2p1p0EnwSRWjfcl3eTPDnOmhlFRVl6D2KPxJqJkCVIk7gQO60Sx?=
- =?us-ascii?Q?kU3RZLK0pLr6tXoRTniuSVcv/dZx+WZyyy9IL1wdNXPev1o37HU7aMWzBKCF?=
- =?us-ascii?Q?qHSVtuVsonsqnkA/jTUkDHVmQUVRb0zHT5PZUi2RY2kZU849sK96Rrt/lIUf?=
- =?us-ascii?Q?SpVOEFBZDu42YyKtVrZWD2upidTc17X1/srM2WdXYP3LVE5f2l2sS6NIUSK9?=
- =?us-ascii?Q?C+aU6kotMKtO0YbSxbmVjM4hXVGlddJ7m+CRmvWP?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba56f81c-c22d-4380-19d9-08dd1e6e6a7c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 07:42:54.2347
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Cml8uOdwhPqZpbV2xysnguUuuU3t0g0pNsxIDaiQCQGAK0a8oKslzfv/h9KlMRZESl9mAikNw8Sv6rk/4GBtJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8545
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Dec 17, 2024 at 01:02:37PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   f44d154d6e3d633d4c49a5d6aed8a0e4684ae25e
-> commit: 92ef432f027cffe0ff91ff2cbe9258d89ca53968 kbuild: support W=c and W=e shorthands for Kconfig
-> date:   1 year ago
-> config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20241217/202412171248.ro76Gqt1-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412171248.ro76Gqt1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202412171248.ro76Gqt1-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
+tree:   git://git.infradead.org/users/hch/misc.git block-remove-BLK_MQ_F_SHOULD_MERGE
+head:   f7a2f23f70f1770dbfda0a60b2484a7390819eef
+commit: f7a2f23f70f1770dbfda0a60b2484a7390819eef [1/1] block: remove BLK_MQ_F_SHOULD_MERGE
+config: arm-randconfig-001-20241217 (https://download.01.org/0day-ci/archive/20241217/202412171630.xL04h1Pd-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412171630.xL04h1Pd-lkp@intel.com/reproduce)
 
-Sorry, kindly ignore this report that the commit is not the right one for the issue.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412171630.xL04h1Pd-lkp@intel.com/
 
-> 
-> >> kernel/reboot.c:226: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
-> >> kernel/reboot.c:952: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_poweroff'
-> --
->    lib/vsprintf.c: In function 'va_format':
-> >> lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
->     1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
->          |         ^~~
-> --
-> >> lib/hweight.c:14: warning: Function parameter or struct member 'w' not described in '__sw_hweight32'
-> >> lib/hweight.c:14: warning: expecting prototype for hweightN(). Prototype was for __sw_hweight32() instead
-> --
->    drivers/clk/clkdev.c: In function 'vclkdev_alloc':
-> >> drivers/clk/clkdev.c:173:17: warning: function 'vclkdev_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
->      173 |                 vscnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
->          |                 ^~~~~~~~~~
-> 
-> 
-> vim +226 kernel/reboot.c
-> 
-> b63adb979583ef Guenter Roeck 2014-09-26  213  
-> b63adb979583ef Guenter Roeck 2014-09-26  214  /**
-> b63adb979583ef Guenter Roeck 2014-09-26  215   *	do_kernel_restart - Execute kernel restart handler call chain
-> b63adb979583ef Guenter Roeck 2014-09-26  216   *
-> b63adb979583ef Guenter Roeck 2014-09-26  217   *	Calls functions registered with register_restart_handler.
-> b63adb979583ef Guenter Roeck 2014-09-26  218   *
-> b63adb979583ef Guenter Roeck 2014-09-26  219   *	Expected to be called from machine_restart as last step of the restart
-> b63adb979583ef Guenter Roeck 2014-09-26  220   *	sequence.
-> b63adb979583ef Guenter Roeck 2014-09-26  221   *
-> b63adb979583ef Guenter Roeck 2014-09-26  222   *	Restarts the system immediately if a restart handler function has been
-> b63adb979583ef Guenter Roeck 2014-09-26  223   *	registered. Otherwise does nothing.
-> b63adb979583ef Guenter Roeck 2014-09-26  224   */
-> b63adb979583ef Guenter Roeck 2014-09-26  225  void do_kernel_restart(char *cmd)
-> b63adb979583ef Guenter Roeck 2014-09-26 @226  {
-> b63adb979583ef Guenter Roeck 2014-09-26  227  	atomic_notifier_call_chain(&restart_handler_list, reboot_mode, cmd);
-> b63adb979583ef Guenter Roeck 2014-09-26  228  }
-> b63adb979583ef Guenter Roeck 2014-09-26  229  
-> 
-> :::::: The code at line 226 was first introduced by commit
-> :::::: b63adb979583ef185718d774d8162387db5589c0 kernel: add support for kernel restart handler call chain
-> 
-> :::::: TO: Guenter Roeck <linux@roeck-us.net>
-> :::::: CC: Guenter Roeck <linux@roeck-us.net>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+All errors (new ones prefixed by >>):
+
+>> block/blk-mq-debugfs.c:184:2: error: use of undeclared identifier 'BLK_MQ_F_SHOULD_MERGE'
+           HCTX_FLAG_NAME(SHOULD_MERGE),
+           ^
+   block/blk-mq-debugfs.c:182:37: note: expanded from macro 'HCTX_FLAG_NAME'
+   #define HCTX_FLAG_NAME(name) [ilog2(BLK_MQ_F_##name)] = #name
+                                       ^
+   <scratch space>:2:1: note: expanded from here
+   BLK_MQ_F_SHOULD_MERGE
+   ^
+>> block/blk-mq-debugfs.c:184:2: error: use of undeclared identifier 'BLK_MQ_F_SHOULD_MERGE'
+   block/blk-mq-debugfs.c:182:37: note: expanded from macro 'HCTX_FLAG_NAME'
+   #define HCTX_FLAG_NAME(name) [ilog2(BLK_MQ_F_##name)] = #name
+                                       ^
+   <scratch space>:2:1: note: expanded from here
+   BLK_MQ_F_SHOULD_MERGE
+   ^
+>> block/blk-mq-debugfs.c:184:2: error: use of undeclared identifier 'BLK_MQ_F_SHOULD_MERGE'
+   block/blk-mq-debugfs.c:182:37: note: expanded from macro 'HCTX_FLAG_NAME'
+   #define HCTX_FLAG_NAME(name) [ilog2(BLK_MQ_F_##name)] = #name
+                                       ^
+   <scratch space>:2:1: note: expanded from here
+   BLK_MQ_F_SHOULD_MERGE
+   ^
+>> block/blk-mq-debugfs.c:184:2: error: use of undeclared identifier 'BLK_MQ_F_SHOULD_MERGE'
+   block/blk-mq-debugfs.c:182:37: note: expanded from macro 'HCTX_FLAG_NAME'
+   #define HCTX_FLAG_NAME(name) [ilog2(BLK_MQ_F_##name)] = #name
+                                       ^
+   <scratch space>:2:1: note: expanded from here
+   BLK_MQ_F_SHOULD_MERGE
+   ^
+>> block/blk-mq-debugfs.c:184:2: error: use of undeclared identifier 'BLK_MQ_F_SHOULD_MERGE'
+   block/blk-mq-debugfs.c:182:37: note: expanded from macro 'HCTX_FLAG_NAME'
+   #define HCTX_FLAG_NAME(name) [ilog2(BLK_MQ_F_##name)] = #name
+                                       ^
+   <scratch space>:2:1: note: expanded from here
+   BLK_MQ_F_SHOULD_MERGE
+   ^
+>> block/blk-mq-debugfs.c:184:2: error: use of undeclared identifier 'BLK_MQ_F_SHOULD_MERGE'
+   block/blk-mq-debugfs.c:182:37: note: expanded from macro 'HCTX_FLAG_NAME'
+   #define HCTX_FLAG_NAME(name) [ilog2(BLK_MQ_F_##name)] = #name
+                                       ^
+   <scratch space>:2:1: note: expanded from here
+   BLK_MQ_F_SHOULD_MERGE
+   ^
+>> block/blk-mq-debugfs.c:199:15: error: invalid application of 'sizeof' to an incomplete type 'const char *const[]'
+           BUILD_BUG_ON(ARRAY_SIZE(hctx_flag_name) !=
+           ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+   #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+                                  ^
+   include/linux/build_bug.h:50:19: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   block/blk-mq-debugfs.c:212:26: error: invalid application of 'sizeof' to an incomplete type 'const char *const[]'
+                          hctx_flag_name, ARRAY_SIZE(hctx_flag_name));
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+   #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+                                  ^~~~~
+   8 errors generated.
+
+
+vim +/BLK_MQ_F_SHOULD_MERGE +184 block/blk-mq-debugfs.c
+
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  181  
+1a435111f8eb30b Omar Sandoval   2017-05-04  182  #define HCTX_FLAG_NAME(name) [ilog2(BLK_MQ_F_##name)] = #name
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  183  static const char *const hctx_flag_name[] = {
+1a435111f8eb30b Omar Sandoval   2017-05-04 @184  	HCTX_FLAG_NAME(SHOULD_MERGE),
+51db1c37ee16615 Ming Lei        2020-08-19  185  	HCTX_FLAG_NAME(TAG_QUEUE_SHARED),
+bf0beec0607db3c Ming Lei        2020-05-29  186  	HCTX_FLAG_NAME(STACKING),
+02f938e9fed1681 John Garry      2021-01-08  187  	HCTX_FLAG_NAME(TAG_HCTX_SHARED),
+1c83c5375e2f1bc John Garry      2024-07-19  188  	HCTX_FLAG_NAME(BLOCKING),
+1c83c5375e2f1bc John Garry      2024-07-19  189  	HCTX_FLAG_NAME(NO_SCHED),
+1c83c5375e2f1bc John Garry      2024-07-19  190  	HCTX_FLAG_NAME(NO_SCHED_BY_DEFAULT),
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  191  };
+1a435111f8eb30b Omar Sandoval   2017-05-04  192  #undef HCTX_FLAG_NAME
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  193  
+f57de23ac9019ea Omar Sandoval   2017-05-04  194  static int hctx_flags_show(void *data, struct seq_file *m)
+9abb2ad21e8b9b7 Omar Sandoval   2017-01-25  195  {
+f57de23ac9019ea Omar Sandoval   2017-05-04  196  	struct blk_mq_hw_ctx *hctx = data;
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  197  	const int alloc_policy = BLK_MQ_FLAG_TO_ALLOC_POLICY(hctx->flags);
+9abb2ad21e8b9b7 Omar Sandoval   2017-01-25  198  
+226f0f6afc3e5c8 John Garry      2024-07-19 @199  	BUILD_BUG_ON(ARRAY_SIZE(hctx_flag_name) !=
+226f0f6afc3e5c8 John Garry      2024-07-19  200  			BLK_MQ_F_ALLOC_POLICY_START_BIT);
+26d3bdb57ec3fa5 John Garry      2024-07-19  201  	BUILD_BUG_ON(ARRAY_SIZE(alloc_policy_name) != BLK_TAG_ALLOC_MAX);
+226f0f6afc3e5c8 John Garry      2024-07-19  202  
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  203  	seq_puts(m, "alloc_policy=");
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  204  	if (alloc_policy < ARRAY_SIZE(alloc_policy_name) &&
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  205  	    alloc_policy_name[alloc_policy])
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  206  		seq_puts(m, alloc_policy_name[alloc_policy]);
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  207  	else
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  208  		seq_printf(m, "%d", alloc_policy);
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  209  	seq_puts(m, " ");
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  210  	blk_flags_show(m,
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  211  		       hctx->flags ^ BLK_ALLOC_POLICY_TO_MQ_FLAG(alloc_policy),
+f5c0b0910ac4c1b Bart Van Assche 2017-03-30  212  		       hctx_flag_name, ARRAY_SIZE(hctx_flag_name));
+fd07dc81850e8bf Bart Van Assche 2017-04-26  213  	seq_puts(m, "\n");
+9abb2ad21e8b9b7 Omar Sandoval   2017-01-25  214  	return 0;
+9abb2ad21e8b9b7 Omar Sandoval   2017-01-25  215  }
+9abb2ad21e8b9b7 Omar Sandoval   2017-01-25  216  
+
+:::::: The code at line 184 was first introduced by commit
+:::::: 1a435111f8eb30b370e3891caebb1d1ca61f41ec blk-mq-debugfs: clean up flag definitions
+
+:::::: TO: Omar Sandoval <osandov@fb.com>
+:::::: CC: Jens Axboe <axboe@fb.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
