@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848711EF088
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Dec 2024 11:52:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B66F1F427C;
+	Tue, 17 Dec 2024 13:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734436382; cv=none; b=K92gUmPG2zTiAA+R6s0aQSxs98/X18wdc212xuTwTjh90QYC0ppp0xmMiBtD50ppXRr+6qkTGAELl06jG5idrkicT9eMOzzuDwn7rFnkgK6UAXlOfXNL2bLmsMIagS0q6e2SrGBE6uydafwPf2i1bQI78NAymO+3P41znkuyvMg=
+	t=1734443560; cv=none; b=JF3EkDVfJZ61z6j6lS3V9/ZbS1lXBRUTxqsE2sFDkh2DYvjzFyxDlPw5G8EWFYJhwV9jMZgQcPw+5FFBv1qkYhjATam9MJFaPiQ19XrqcuMMsmNsS2+1MOgXnWQrL5lKuDAw/qBp+TwxWH4aPFkZBKikisTpUPeZxy45A0EP+Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734436382; c=relaxed/simple;
-	bh=OHc4Tj1USHWI/M5UeEKPTBOa6AV9jjttGviWtXq10lg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dB+K6w2OktY1FS71/e3Eh27M8rlrFQdrwdmfVG4zhe7Iz9Lmi4TGWF0FGwdoeMjWSPq977P6q58kNV3FAqNeK9MJXyvAY95fmEcSvpNB94v0HzNpTy5sWP5n4J6CqvEQxM4K92fW0BgmgJV+Upqpheibrr+ovCFpZ5xCVVGtZdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Svx3RD1u; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1734443560; c=relaxed/simple;
+	bh=iDKQV47zmzx74nlwspmBa9AYGr/9i2C6H42QjLX9CSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JrEYrlyIJc5gUo63qzRS/qpfbb+VszKTsRj7+3XkhrPM7OTZi3GJQfoGzSCap35plFFPJ/z7jZX6shjLpAw9ikqE+Rd0/C/4aqxAKjbUDvZSk4FCARrsMG/37PbxDRiJVqkjf/DjxqbHbr6vXDxxka/KsX45+eH4V6wSGA9uQ64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VybzDDxs; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Svx3RD1u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VybzDDxs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734436379; x=1765972379;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OHc4Tj1USHWI/M5UeEKPTBOa6AV9jjttGviWtXq10lg=;
-  b=Svx3RD1u2su/tUCnDfRc9bKoXp3/j0l59vpp4iPsxyDrjogpRNfzyeHQ
-   2oKoVE26VHN+P+H98aKIycWx0KOs6cz2tvpPdHSGwD65q5lw5JWtxSu5e
-   46VY4evv+SvVphScQJU30ol2l4RAa6vM1QmMEReO+amjA3d6zcw/RbVtG
-   uaAc6dBgG5+9Nbb8TQYDk96STzVnKBngFKGkF6PhR+dA3n1S1FngCSRbV
-   LeooT7973FrBsTYBf4JWmHMmAkXHjBNw9zCOCpLeZRt+/+eelU7ssvo6s
-   7FDGiprgoRR89qNd8RMLo8KYr8bStF8DfJHJEDzoCxs6cdmwwFASCHQlq
-   g==;
-X-CSE-ConnectionGUID: wnag9XpqRQ2ONLSFkO4qqQ==
-X-CSE-MsgGUID: /sIc5nJrQEevRRSqb3lJfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="52265429"
-X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="52265429"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 03:52:59 -0800
-X-CSE-ConnectionGUID: uXRD0rEVRfiqHK2yUDd/eA==
-X-CSE-MsgGUID: 9DL7WOtxS9KifxCN031MQg==
+  t=1734443558; x=1765979558;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iDKQV47zmzx74nlwspmBa9AYGr/9i2C6H42QjLX9CSg=;
+  b=VybzDDxsAMCNrFTspNtAjS/rAEphG9W5xmq3u3Q2puGBPW864+2IwEwC
+   X4iR9p44GLdvIiqsG7nMY0bNPU7JzNOS/FLBCg2fhrsrfa13AnI6ee/Fm
+   xSt3MpZqQUhfMfaIlKdQ+hf7JxHxzuRpB6nFPGWIKbgawNu9pktcD787s
+   k48acLVC5uu3IoXe21NjfsZTbTUGiVU8mlY8waZKkI53m0AIeUB47qUJV
+   T+wzTUYL16bfr2HzYyQEGIHBY/x3bmh8hdH/ur/3LCPneaIkug1JBK4Og
+   kkPpw7zxXHLrlPSBNiPrlExtJwAqM2LIAEzelVkMdTnM1t9W3tNxjxp5N
+   Q==;
+X-CSE-ConnectionGUID: qfLxlE6tTtOLDe2KvzRu3A==
+X-CSE-MsgGUID: bgQE3F5vT7Cq0bHZqwfQpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34192845"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
+   d="scan'208";a="34192845"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 05:52:37 -0800
+X-CSE-ConnectionGUID: QH2LhTZlRReBr69ZfGqISw==
+X-CSE-MsgGUID: 3NEAUlCeSNODMinUP6BVnQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="97743307"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="102634291"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Dec 2024 03:52:58 -0800
+  by orviesa003.jf.intel.com with ESMTP; 17 Dec 2024 05:52:32 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNW8F-000Eyv-2P;
-	Tue, 17 Dec 2024 11:52:55 +0000
-Date: Tue, 17 Dec 2024 19:52:05 +0800
+	id 1tNXzx-000F2K-19;
+	Tue, 17 Dec 2024 13:52:29 +0000
+Date: Tue, 17 Dec 2024 21:51:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Serge Semin <fancer.lancer@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: drivers/tty/mips_ejtag_fdc.c:685: warning: Excess function parameter
- 'opaque' description in 'mips_ejtag_fdc_tty_timer'
-Message-ID: <202412172203.6IUAS30l-lkp@intel.com>
+To: Atharva Tiwari <evepolonium@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	evepolonium@gmail.com, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Peter Hilber <peter.hilber@opensynergy.com>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Feng Tang <feng.tang@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86 tsc: avoid system instability in hibernation
+Message-ID: <202412172141.6wHjHpsF-lkp@intel.com>
+References: <20241210133930.1195-1-evepolonium@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +78,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241210133930.1195-1-evepolonium@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f44d154d6e3d633d4c49a5d6aed8a0e4684ae25e
-commit: 188942f05ce45f80c06f7242ad7478bd204c3387 tty: mips_ejtag_fdc: Fix passing incompatible pointer type warning
-date:   10 months ago
-config: mips-randconfig-r071-20241215 (https://download.01.org/0day-ci/archive/20241217/202412172203.6IUAS30l-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412172203.6IUAS30l-lkp@intel.com/reproduce)
+Hi Atharva,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/master]
+[also build test ERROR on tip/sched/core linus/master tip/auto-latest tip/x86/core v6.13-rc3 next-20241217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Atharva-Tiwari/x86-tsc-avoid-system-instability-in-hibernation/20241210-214059
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20241210133930.1195-1-evepolonium%40gmail.com
+patch subject: [PATCH] x86 tsc: avoid system instability in hibernation
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241217/202412172141.6wHjHpsF-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412172141.6wHjHpsF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412172203.6IUAS30l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412172141.6wHjHpsF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tty/mips_ejtag_fdc.c:685: warning: Function parameter or struct member 't' not described in 'mips_ejtag_fdc_tty_timer'
->> drivers/tty/mips_ejtag_fdc.c:685: warning: Excess function parameter 'opaque' description in 'mips_ejtag_fdc_tty_timer'
+   In file included from arch/x86/kernel/tsc.c:18:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/tsc.c:1621:2: error: expected ';' after top level declarator
+    1621 | }
+         |  ^
+         |  ;
+   4 warnings and 1 error generated.
 
 
-vim +685 drivers/tty/mips_ejtag_fdc.c
+vim +1621 arch/x86/kernel/tsc.c
 
-4cebec609aea6d James Hogan     2015-01-29  673  
-4cebec609aea6d James Hogan     2015-01-29  674  /**
-4cebec609aea6d James Hogan     2015-01-29  675   * mips_ejtag_fdc_tty_timer() - Poll FDC for incoming data.
-4cebec609aea6d James Hogan     2015-01-29  676   * @opaque:	Pointer to driver private data.
-4cebec609aea6d James Hogan     2015-01-29  677   *
-4cebec609aea6d James Hogan     2015-01-29  678   * This is the timer handler for when interrupts are disabled and polling the
-4cebec609aea6d James Hogan     2015-01-29  679   * FDC state is required.
-4cebec609aea6d James Hogan     2015-01-29  680   *
-4cebec609aea6d James Hogan     2015-01-29  681   * It simply triggers the common FDC handler code and arranges for further
-4cebec609aea6d James Hogan     2015-01-29  682   * polling.
-4cebec609aea6d James Hogan     2015-01-29  683   */
-75d1760f4cd1b2 Kees Cook       2017-10-16  684  static void mips_ejtag_fdc_tty_timer(struct timer_list *t)
-4cebec609aea6d James Hogan     2015-01-29 @685  {
-75d1760f4cd1b2 Kees Cook       2017-10-16  686  	struct mips_ejtag_fdc_tty *priv = from_timer(priv, t, poll_timer);
-4cebec609aea6d James Hogan     2015-01-29  687  
-4cebec609aea6d James Hogan     2015-01-29  688  	mips_ejtag_fdc_handle(priv);
-4cebec609aea6d James Hogan     2015-01-29  689  	if (!priv->removing)
-853f90d49bbabc Thomas Gleixner 2016-07-04  690  		mod_timer(&priv->poll_timer, jiffies + FDC_TTY_POLL);
-4cebec609aea6d James Hogan     2015-01-29  691  }
-4cebec609aea6d James Hogan     2015-01-29  692  
-
-:::::: The code at line 685 was first introduced by commit
-:::::: 4cebec609aea6dff23e67a42b6516d852fa87d07 TTY: Add MIPS EJTAG Fast Debug Channel TTY driver
-
-:::::: TO: James Hogan <james.hogan@imgtec.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+  1618	
+  1619	static struct notifier_block tsc_pm_notifier_block = {
+  1620		.notifier_call = tsc_pm_notifier,
+> 1621	}
+  1622	
 
 -- 
 0-DAY CI Kernel Test Service
