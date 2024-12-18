@@ -1,66 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9B91448F2;
-	Wed, 18 Dec 2024 20:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F5B1991AA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 21:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734553650; cv=none; b=iPVGEuwQ5tToXJkKFfIhMpib/qErtvx39ZE2LmHZ9aFKPCieiMyiyHxU89FPhh/OPlWy2PKbgwRpcWZbhfqJ8G9y5qCTeDWTQSj6z39wnNgdqwydwRM4g9ppCBSQRW6/oElO5Zf5Jdp+WrUIWzuB34F+VzBwx0z67NxyrpJ8HbU=
+	t=1734556772; cv=none; b=e8gCIWy2l9APPNNwdDvxOrOLb5fewiXLiFkyCQjZYjQisl4zoD+JQRb5XvtwrgAQFD5Dlllrb4DEcvBwL7KOov1lkyMwhIYEmGG2APhpivVt1pF3vP+AONYb3wEoPKmpUaOku6TYNkVCvCtDyrA1ZPq0K3qh0n/VX2W5s9HHflw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734553650; c=relaxed/simple;
-	bh=seDFSGPkM0L4X+D2x5te//8MHP/bA4Pl6AT03WkU9ZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cJ+TCOa4IKkrCa1FGWShwI4QNyxGCSnFOsh4Ex3G/Ehj3bd3+kqGFBLYGaY4ajBRBoy6FdDvQEqP4jMHQDGhIw/WW82pRhpV4muJVBSdDqPEffrB2kXEYTFBdmpfJMN2ZqMGXOI9EhC5lhZ3+DmdzsgPEeGHWpBJL/AD/rwClzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AxrXHLEO; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1734556772; c=relaxed/simple;
+	bh=ExiQFn0r8puZpxEGJkDQc8ABYwRiPfJ6IruE/mQ2jNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ioIEJe8SXQL38OQzBgokqSKD/nBX9LuYsHNSQy3NiNsOwQQecWcgfQxWpsKOa7eqRnXZhkX4iqm3m7ZPmGcUDCh15qcaavml7xhBCOAgjUUzjBmyJZYtbNPHhrP3ZRCiW0kcXs7e7IeTxF9uuhuPHJd2PLFMBF3Ow9VfjuJwGQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIop/PKq; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AxrXHLEO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIop/PKq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734553648; x=1766089648;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=seDFSGPkM0L4X+D2x5te//8MHP/bA4Pl6AT03WkU9ZM=;
-  b=AxrXHLEO8AgizBWlezLBpttNY6D6xrRoJKf9oOBfbIgPJL4lstrdX4b/
-   tBxEHYSTGJ67SnHXs5CHfk9x/0vD+t3KjtAQUKxyKuH+sYogJDGd9mRmz
-   hyQoDXxthRLz2KboPpc0IG6Yhuf2CzbTuz1/vfyxCVYT4AAoo0Qidx5Hb
-   VoRqzwzfY5WkTfDl6iYt4s0j7SWf2jvl11BHZhdX0WKXqMBPuFxkC4hi+
-   jV/pcWjiCVc1vArOK17C8N61+z0ljs5/1hlSeUOwVo8iIzoH+bLJ71hkD
-   3ThJ6hG8EcMBlO0aeEiXYxx9ClDowxtjkkmSEVQ5SaZ5YUC79gVONU3m2
-   w==;
-X-CSE-ConnectionGUID: 75R5u0yeTMGsFODmBtVrqg==
-X-CSE-MsgGUID: IrqvAPZXSc2VQyhLMH2y1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="34770569"
+  t=1734556770; x=1766092770;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ExiQFn0r8puZpxEGJkDQc8ABYwRiPfJ6IruE/mQ2jNM=;
+  b=UIop/PKqFtFpWIEm1kDI+neurs1TPIWdgZ/euamhFGh411lqDdimd+8I
+   aivupej4qzwhqfljZjHZ7nIeUyKwVGwqeiZYcgx1/aF7lxZxfAlbdkU14
+   WTwBNedc8m3NND2xEgMX4QhtG7pdqTanOWYIKgvz/1vP8QAa5cfBFFcQ+
+   VLLwb0sy3D2i++DiX0n2sOSPopCXLGs3SvufEzRTnjF6FNjhJS8ubKdGv
+   NpqojXHSEIrzfvqMnSyZSzqT1rWgWINkhdOE7SIfTYAzyABSOPgbK0hrd
+   3Jsot7Sk8jrwwbDCIO4JMUc9iem9G4RMzVWsz3SjpUB8rSt2JpmWwNaAS
+   Q==;
+X-CSE-ConnectionGUID: D7rJka7eRWyB6qCf9aYiLw==
+X-CSE-MsgGUID: x/t2PjraRaug3hdW9UASeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="34775411"
 X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; 
-   d="scan'208";a="34770569"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 12:27:28 -0800
-X-CSE-ConnectionGUID: s5ZeKC7aQVeanR0AyDa2Tg==
-X-CSE-MsgGUID: TbDhLILxRZaf9ieNIMCZGw==
+   d="scan'208";a="34775411"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 13:19:30 -0800
+X-CSE-ConnectionGUID: VEgO2w5RSZCzqQHmCdquiQ==
+X-CSE-MsgGUID: 0ZlYUyhfTJmy3BM8Wceqbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; 
-   d="scan'208";a="98371568"
+   d="scan'208";a="98040357"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Dec 2024 12:27:24 -0800
+  by orviesa006.jf.intel.com with ESMTP; 18 Dec 2024 13:19:28 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tO0dd-000GcE-2z;
-	Wed, 18 Dec 2024 20:27:21 +0000
-Date: Thu, 19 Dec 2024 04:27:17 +0800
+	id 1tO1S1-000Gdr-2Q;
+	Wed, 18 Dec 2024 21:19:25 +0000
+Date: Thu, 19 Dec 2024 05:18:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	intel-wired-lan@lists.osuosl.org, andrew+netdev@lunn.ch,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	davem@davemloft.net, michael.chan@broadcom.com, tariqt@nvidia.com,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	jdamato@fastly.com, shayd@nvidia.com, akpm@linux-foundation.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH net-next v2 4/8] net: napi: add CPU
- affinity to napi->config
-Message-ID: <202412190454.nwvp3hU2-lkp@intel.com>
-References: <20241218165843.744647-5-ahmed.zaki@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: kernel/bpf/token.c:50:6-27: WARNING: atomic_dec_and_test variation
+ before object free at line 54.
+Message-ID: <202412190521.9R1HKuug-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,118 +62,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241218165843.744647-5-ahmed.zaki@intel.com>
 
-Hi Ahmed,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Zaki/net-napi-add-irq_flags-to-napi-struct/20241219-010125
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241218165843.744647-5-ahmed.zaki%40intel.com
-patch subject: [Intel-wired-lan] [PATCH net-next v2 4/8] net: napi: add CPU affinity to napi->config
-config: riscv-randconfig-001-20241219 (https://download.01.org/0day-ci/archive/20241219/202412190454.nwvp3hU2-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241219/202412190454.nwvp3hU2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c061cf420ded391e32f99cd483e1e0107f213b12
+commit: 35f96de04127d332a5c5e8a155d31f452f88c76d bpf: Introduce BPF token object
+date:   11 months ago
+config: hexagon-randconfig-r051-20241218 (https://download.01.org/0day-ci/archive/20241219/202412190521.9R1HKuug-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412190454.nwvp3hU2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412190521.9R1HKuug-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> kernel/bpf/token.c:50:6-27: WARNING: atomic_dec_and_test variation before object free at line 54.
 
->> net/core/dev.c:6755:7: warning: variable 'glue_created' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-                   if (rc) {
-                       ^~
-   net/core/dev.c:6766:7: note: uninitialized use occurs here
-           if (!glue_created && flags & NAPIF_IRQ_AFFINITY) {
-                ^~~~~~~~~~~~
-   net/core/dev.c:6755:3: note: remove the 'if' if its condition is always false
-                   if (rc) {
-                   ^~~~~~~~~
->> net/core/dev.c:6752:6: warning: variable 'glue_created' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (napi->dev->rx_cpu_rmap && flags & NAPIF_IRQ_ARFS_RMAP) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/dev.c:6766:7: note: uninitialized use occurs here
-           if (!glue_created && flags & NAPIF_IRQ_AFFINITY) {
-                ^~~~~~~~~~~~
-   net/core/dev.c:6752:2: note: remove the 'if' if its condition is always true
-           if (napi->dev->rx_cpu_rmap && flags & NAPIF_IRQ_ARFS_RMAP) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/core/dev.c:6752:6: warning: variable 'glue_created' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-           if (napi->dev->rx_cpu_rmap && flags & NAPIF_IRQ_ARFS_RMAP) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/core/dev.c:6766:7: note: uninitialized use occurs here
-           if (!glue_created && flags & NAPIF_IRQ_AFFINITY) {
-                ^~~~~~~~~~~~
-   net/core/dev.c:6752:6: note: remove the '&&' if its condition is always true
-           if (napi->dev->rx_cpu_rmap && flags & NAPIF_IRQ_ARFS_RMAP) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/dev.c:6745:19: note: initialize the variable 'glue_created' to silence this warning
-           bool glue_created;
-                            ^
-                             = 0
-   net/core/dev.c:4176:1: warning: unused function 'sch_handle_ingress' [-Wunused-function]
-   sch_handle_ingress(struct sk_buff *skb, struct packet_type **pt_prev, int *ret,
-   ^
-   net/core/dev.c:4183:1: warning: unused function 'sch_handle_egress' [-Wunused-function]
-   sch_handle_egress(struct sk_buff *skb, int *ret, struct net_device *dev)
-   ^
-   net/core/dev.c:5440:19: warning: unused function 'nf_ingress' [-Wunused-function]
-   static inline int nf_ingress(struct sk_buff *skb, struct packet_type **pt_prev,
-                     ^
-   6 warnings generated.
+vim +50 kernel/bpf/token.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
-   Selected by [m]:
-   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
-
-
-vim +6755 net/core/dev.c
-
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6741  
-001dc6db21f4bfe Ahmed Zaki 2024-12-18  6742  void netif_napi_set_irq(struct napi_struct *napi, int irq, unsigned long flags)
-001dc6db21f4bfe Ahmed Zaki 2024-12-18  6743  {
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6744  	struct irq_glue *glue = NULL;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6745  	bool glue_created;
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6746  	int  rc;
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6747  
-001dc6db21f4bfe Ahmed Zaki 2024-12-18  6748  	napi->irq = irq;
-001dc6db21f4bfe Ahmed Zaki 2024-12-18  6749  	napi->irq_flags = flags;
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6750  
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6751  #ifdef CONFIG_RFS_ACCEL
-a274d2669a73ef7 Ahmed Zaki 2024-12-18 @6752  	if (napi->dev->rx_cpu_rmap && flags & NAPIF_IRQ_ARFS_RMAP) {
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6753  		rc = irq_cpu_rmap_add(napi->dev->rx_cpu_rmap, irq, napi,
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6754  				      netif_irq_cpu_rmap_notify);
-a274d2669a73ef7 Ahmed Zaki 2024-12-18 @6755  		if (rc) {
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6756  			netdev_warn(napi->dev, "Unable to update ARFS map (%d).\n",
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6757  				    rc);
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6758  			free_irq_cpu_rmap(napi->dev->rx_cpu_rmap);
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6759  			napi->dev->rx_cpu_rmap = NULL;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6760  		} else {
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6761  			glue_created = true;
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6762  		}
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6763  	}
-a274d2669a73ef7 Ahmed Zaki 2024-12-18  6764  #endif
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6765  
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6766  	if (!glue_created && flags & NAPIF_IRQ_AFFINITY) {
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6767  		glue = kzalloc(sizeof(*glue), GFP_KERNEL);
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6768  		if (!glue)
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6769  			return;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6770  		glue->notify.notify = netif_irq_cpu_rmap_notify;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6771  		glue->notify.release = netif_napi_affinity_release;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6772  		glue->data = napi;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6773  		glue->rmap = NULL;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6774  		napi->irq_flags |= NAPIF_IRQ_NORMAP;
-8e5191fb19bffce Ahmed Zaki 2024-12-18  6775  	}
-001dc6db21f4bfe Ahmed Zaki 2024-12-18  6776  }
-001dc6db21f4bfe Ahmed Zaki 2024-12-18  6777  EXPORT_SYMBOL(netif_napi_set_irq);
-001dc6db21f4bfe Ahmed Zaki 2024-12-18  6778  
+    44	
+    45	void bpf_token_put(struct bpf_token *token)
+    46	{
+    47		if (!token)
+    48			return;
+    49	
+  > 50		if (!atomic64_dec_and_test(&token->refcnt))
+    51			return;
+    52	
+    53		INIT_WORK(&token->work, bpf_token_put_deferred);
+  > 54		schedule_work(&token->work);
+    55	}
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
