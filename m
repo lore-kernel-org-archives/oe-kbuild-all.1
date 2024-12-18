@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1158C219ED
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 01:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014151F931
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 02:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734486459; cv=none; b=nJOSea+5uk+Gnvh4HHNvYs+8xqJD8kP1FAAT/CrqvtOU7FInoneK5LOC+S8nHXjzBxNHAj1diJKeQp6y9hPIiDtzEZOJqydTTxVMnuJ6MXhDWN7yEYVDDq8671izKrea8JteSpaEIgNd3aau0Iws6tUosTsSgP8zXNNosrVUkdo=
+	t=1734488383; cv=none; b=YxaqGX8GwQMUw5BrG2ziiDCtDV9yCwM+wYJxVtWoiXR3DYYnz+PD6+wJHUJ7q8q4+LIVo0NDnVnza4nRiDAbA71qGg5RUqhSw9AeRFsvPAVq3AmcEWT+i7Gl7Mga/rjFb+MHYoqLMoeh7hSQES/H613mVrfPJ07YErI/MZMrjAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734486459; c=relaxed/simple;
-	bh=e4oRQANJ4mCbCDgcIARtPm5UvCtAJ10/oWJvsKEGkC0=;
+	s=arc-20240116; t=1734488383; c=relaxed/simple;
+	bh=/8vi+XRHW5AKZRSZd5D0XjRgoBmBR/iV5XjJdPpo2f0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AJl9NRqE+8NOD/t8HdgSvRjoCz/AshoQsA03qG2AvwvsY9Zqpk+HH4icD/Lea4DyNt2OAYct+q78Q7MAAjkj2wxf6VXOs4ox4bw3SUmltFBLRXgesTETu6JSQP/eUjxwwn0alehfgScTVhARVYuETgUj7IfIEONQbYf/MFU15kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNb1C7rI; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=nrWK9wKnc+CbzM0qAQ/GbuDnaDpRo8fLljFSpYcurvxeEAwWYzMbVpoAEhvvZNkyQAk2TrYiMNOk2ud1l80VzGZesBVRGCVam5ASCckdXa/1nps4pVAmF+nUwAxy5HG617sLusHAaI5ObQc6fP2g07k2oLms1bnq6mBSwz3iwsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3+EM2FO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNb1C7rI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3+EM2FO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734486458; x=1766022458;
+  t=1734488381; x=1766024381;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e4oRQANJ4mCbCDgcIARtPm5UvCtAJ10/oWJvsKEGkC0=;
-  b=CNb1C7rILxoiPpmYQU+fix0pQ7pqDTIgYZ0xx9cSt/C8hpL2Acfl2QsM
-   YR28c+zHpp0YbFfyx7nP440id/CEeCio5Q8bBQxSAZ15DZl4hQYn3OqMU
-   UzdPaifNL6wy670aCNhZEPIcP0ncNYd0jQuCXc6PgddGG6BuP8Jc+vnXI
-   mw2RIVkE/YVhJQoaJurR5M+t8+YnepcpV3UZs1Ys3QtGAFTXfZl3WRjaz
-   GQAE/kuCVOVnA0hy8us3KkdwnP6qRpIhmQw61OfZFi6dg7xRpqGAw+w7y
-   Ds18E+8bJJu9oxzVNOLcQt7mnTN5RFNIAuEiPj+mt+6f/8rWdHujyl+x9
-   w==;
-X-CSE-ConnectionGUID: ZoY/3lPLS+ytZ2Tkb6LWWw==
-X-CSE-MsgGUID: 4s1NFwOlTgGRzxtks8valA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="35161930"
+  bh=/8vi+XRHW5AKZRSZd5D0XjRgoBmBR/iV5XjJdPpo2f0=;
+  b=g3+EM2FO/7ISqx6mLo+BfVD5Z9Dt7JcDPURP0NjhJAFnqiIDKrExuX+y
+   NSpFsJXbTZ1LeYbkR7Z5ev5+lGsRmcRJUbEVRhRoOXyULSvGI2l34fKOx
+   T9h21+y+3kzgKXb7A2rZomrNGZBvccIIX+La9eLRDp4K4H4BB5ifQZYt3
+   a4WIJkXYLC1niVvRyuIl5CtlOkQPTw/tQQQwYrLEwJNR8NmgvbY7EFgi+
+   mzfzjsRH4hkr67KYTSoUBpDlXLWbd38eCRB6y2GTTO6mhlIVUXY30OBSJ
+   UlHsH3rkXbCTUwJti+EP1PpVkSTljTqF/v2amXPli6JjaByMUovvWQfUi
+   Q==;
+X-CSE-ConnectionGUID: pmiSg5jwSyiyUpqQzYrcKQ==
+X-CSE-MsgGUID: 4bgnNJimQDa8VYYtB05Vfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="22535799"
 X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="35161930"
+   d="scan'208";a="22535799"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 17:47:37 -0800
-X-CSE-ConnectionGUID: v1xvMQG4S7Si0Vd8F13FCw==
-X-CSE-MsgGUID: pUV894kQT3K7wbqvTiMXqA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 18:19:40 -0800
+X-CSE-ConnectionGUID: QWSqsrxiRLWHE/0yd5nR9A==
+X-CSE-MsgGUID: 9dPa3ylCRCuJ1OYX+cqdWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="97610679"
+   d="scan'208";a="97617906"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Dec 2024 17:47:36 -0800
+  by orviesa009.jf.intel.com with ESMTP; 17 Dec 2024 18:19:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNj9x-000FyU-2q;
-	Wed, 18 Dec 2024 01:47:33 +0000
-Date: Wed, 18 Dec 2024 09:47:10 +0800
+	id 1tNjey-000FzK-3A;
+	Wed, 18 Dec 2024 02:19:36 +0000
+Date: Wed, 18 Dec 2024 10:19:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 10597/30000]
- qcom-rpmh-regulator.c:undefined reference to `rpmh_write'
-Message-ID: <202412180930.PwoWgRzy-lkp@intel.com>
+Subject: [android-common:android15-6.6 1/2] mm/vmscan.c:2623:15: warning: no
+ previous prototype for 'shrink_inactive_list'
+Message-ID: <202412181004.uWJTSbZ3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,112 +62,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   3348bc389f2b07ddaf6aa60f9f8e319b93ba4e3c
-commit: a4d654c504ca4b3182b9ea2afa9ec0a23e304ec4 [10597/30000] FROMLIST: soc: qcom: rpmh: Allow RPMH driver to be loaded as a module
-config: i386-buildonly-randconfig-001-20241218 (https://download.01.org/0day-ci/archive/20241218/202412180930.PwoWgRzy-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   0132ffefc49d2deaa2f5faaa230f3ab90d91c08e
+commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [1/2] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
+config: x86_64-buildonly-randconfig-004-20241218 (https://download.01.org/0day-ci/archive/20241218/202412181004.uWJTSbZ3-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412180930.PwoWgRzy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412181004.uWJTSbZ3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412180930.PwoWgRzy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412181004.uWJTSbZ3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/putuser.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/putuser.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: drivers/regulator/qcom-rpmh-regulator.o: in function `rpmh_regulator_vrm_set_mode_bypass':
->> qcom-rpmh-regulator.c:(.text+0x2f6): undefined reference to `rpmh_write'
-   ld: drivers/regulator/qcom-rpmh-regulator.o: in function `_rpmh_regulator_vrm_set_voltage_sel':
-   qcom-rpmh-regulator.c:(.text+0x498): undefined reference to `rpmh_write'
->> ld: qcom-rpmh-regulator.c:(.text+0x4ca): undefined reference to `rpmh_write_async'
-   ld: drivers/regulator/qcom-rpmh-regulator.o: in function `rpmh_regulator_set_enable_state':
-   qcom-rpmh-regulator.c:(.text+0x5aa): undefined reference to `rpmh_write'
-   ld: qcom-rpmh-regulator.c:(.text+0x5f0): undefined reference to `rpmh_write_async'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_cleanup':
-   hvc_console.c:(.text+0x39f): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_set_winsz':
-   hvc_console.c:(.text+0x41a): undefined reference to `tty_port_tty_get'
-   ld: hvc_console.c:(.text+0x44b): undefined reference to `tty_do_resize'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_hangup':
-   hvc_console.c:(.text+0x543): undefined reference to `tty_port_tty_set'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_open':
-   hvc_console.c:(.text+0x5de): undefined reference to `tty_port_tty_set'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_close':
-   hvc_console.c:(.text+0x6af): undefined reference to `tty_hung_up_p'
-   ld: hvc_console.c:(.text+0x70c): undefined reference to `tty_port_tty_set'
-   ld: hvc_console.c:(.text+0x760): undefined reference to `tty_wait_until_sent'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_remove':
-   hvc_console.c:(.text+0x79d): undefined reference to `tty_port_tty_get'
-   ld: hvc_console.c:(.text+0x7e0): undefined reference to `tty_port_put'
-   ld: hvc_console.c:(.text+0x7eb): undefined reference to `tty_vhangup'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
-   hvc_console.c:(.text+0x839): undefined reference to `__tty_alloc_driver'
-   ld: hvc_console.c:(.text+0x878): undefined reference to `tty_std_termios'
-   ld: hvc_console.c:(.text+0x897): undefined reference to `tty_set_operations'
-   ld: hvc_console.c:(.text+0x8da): undefined reference to `tty_register_driver'
-   ld: hvc_console.c:(.text+0x93f): undefined reference to `tty_port_init'
-   ld: drivers/tty/hvc/hvc_console.o: in function `__hvc_poll':
-   hvc_console.c:(.text+0xb4d): undefined reference to `tty_port_tty_get'
-   ld: hvc_console.c:(.text+0xb98): undefined reference to `tty_buffer_request_room'
-   ld: hvc_console.c:(.text+0xbe1): undefined reference to `__tty_insert_flip_char'
-   ld: hvc_console.c:(.text+0xd44): undefined reference to `tty_port_tty_get'
-   ld: hvc_console.c:(.text+0xd96): undefined reference to `tty_wakeup'
-   ld: hvc_console.c:(.text+0xdd4): undefined reference to `tty_flip_buffer_push'
-   ld: hvc_console.c:(.text+0xdeb): undefined reference to `tty_hangup'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_install':
-   hvc_console.c:(.text+0x1251): undefined reference to `tty_port_install'
-   ld: hvc_console.c:(.text+0x1273): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_instantiate':
-   hvc_console.c:(.text+0x1339): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc.cold':
-   hvc_console.c:(.text.unlikely+0x54): undefined reference to `put_tty_driver'
-   ld: hvc_console.c:(.text.unlikely+0x86): undefined reference to `put_tty_driver'
-   ld: drivers/media/common/videobuf2/videobuf2-core.o: in function `vb2_core_streamon':
-   videobuf2-core.c:(.text+0x32f3): undefined reference to `v4l_vb2q_enable_media_source'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_remove':
-   pda_power.c:(.text+0x2ab): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe':
-   pda_power.c:(.text+0x73b): undefined reference to `usb_get_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe.cold':
-   pda_power.c:(.text.unlikely+0x9a): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/sc2731_charger.o: in function `sc2731_charger_probe':
-   sc2731_charger.c:(.text+0x71a): undefined reference to `devm_usb_get_phy_by_phandle'
-   ld: sc2731_charger.c:(.text+0x768): undefined reference to `usb_phy_get_charger_current'
+   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
+>> mm/vmscan.c:2623:15: warning: no previous prototype for 'shrink_inactive_list' [-Wmissing-prototypes]
+    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+         |               ^~~~~~~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+
+vim +/shrink_inactive_list +2623 mm/vmscan.c
+
+  2618	
+  2619	/*
+  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
+  2621	 * of reclaimed pages
+  2622	 */
+> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+  2624			struct lruvec *lruvec, struct scan_control *sc,
+  2625			enum lru_list lru)
+  2626	{
+  2627		LIST_HEAD(folio_list);
+  2628		unsigned long nr_scanned;
+  2629		unsigned int nr_reclaimed = 0;
+  2630		unsigned long nr_taken;
+  2631		struct reclaim_stat stat;
+  2632		bool file = is_file_lru(lru);
+  2633		enum vm_event_item item;
+  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+  2635		bool stalled = false;
+  2636	
+  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
+  2638			if (stalled)
+  2639				return 0;
+  2640	
+  2641			/* wait a bit for the reclaimer. */
+  2642			stalled = true;
+  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
+  2644	
+  2645			/* We are about to die and free our memory. Return now. */
+  2646			if (fatal_signal_pending(current))
+  2647				return SWAP_CLUSTER_MAX;
+  2648		}
+  2649	
+  2650		lru_add_drain();
+  2651	
+  2652		spin_lock_irq(&lruvec->lru_lock);
+  2653	
+  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
+  2655					     &nr_scanned, sc, lru);
+  2656	
+  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
+  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
+  2659		if (!cgroup_reclaim(sc))
+  2660			__count_vm_events(item, nr_scanned);
+  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
+  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
+  2663	
+  2664		spin_unlock_irq(&lruvec->lru_lock);
+  2665	
+  2666		if (nr_taken == 0)
+  2667			return 0;
+  2668	
+  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
+  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
+  2671	
+  2672		spin_lock_irq(&lruvec->lru_lock);
+  2673		move_folios_to_lru(lruvec, &folio_list);
+  2674	
+  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
+  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
+  2677		if (!cgroup_reclaim(sc))
+  2678			__count_vm_events(item, nr_reclaimed);
+  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
+  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
+  2681		spin_unlock_irq(&lruvec->lru_lock);
+  2682	
+  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
+  2684		mem_cgroup_uncharge_list(&folio_list);
+  2685		free_unref_page_list(&folio_list);
+  2686	
+  2687		/*
+  2688		 * If dirty folios are scanned that are not queued for IO, it
+  2689		 * implies that flushers are not doing their job. This can
+  2690		 * happen when memory pressure pushes dirty folios to the end of
+  2691		 * the LRU before the dirty limits are breached and the dirty
+  2692		 * data has expired. It can also happen when the proportion of
+  2693		 * dirty folios grows not through writes but through memory
+  2694		 * pressure reclaiming all the clean cache. And in some cases,
+  2695		 * the flushers simply cannot keep up with the allocation
+  2696		 * rate. Nudge the flusher threads in case they are asleep.
+  2697		 */
+  2698		if (stat.nr_unqueued_dirty == nr_taken) {
+  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
+  2700			/*
+  2701			 * For cgroupv1 dirty throttling is achieved by waking up
+  2702			 * the kernel flusher here and later waiting on folios
+  2703			 * which are in writeback to finish (see shrink_folio_list()).
+  2704			 *
+  2705			 * Flusher may not be able to issue writeback quickly
+  2706			 * enough for cgroupv1 writeback throttling to work
+  2707			 * on a large system.
+  2708			 */
+  2709			if (!writeback_throttling_sane(sc))
+  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
+  2711		}
+  2712	
+  2713		sc->nr.dirty += stat.nr_dirty;
+  2714		sc->nr.congested += stat.nr_congested;
+  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
+  2716		sc->nr.writeback += stat.nr_writeback;
+  2717		sc->nr.immediate += stat.nr_immediate;
+  2718		sc->nr.taken += nr_taken;
+  2719		if (file)
+  2720			sc->nr.file_taken += nr_taken;
+  2721	
+  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
+  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
+  2724		return nr_reclaimed;
+  2725	}
+  2726	EXPORT_SYMBOL(shrink_inactive_list);
+  2727	
 
 -- 
 0-DAY CI Kernel Test Service
