@@ -1,69 +1,58 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C814028EA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 08:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4979C189BB6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 08:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734508927; cv=none; b=SLbXfEymAYbC9JWqIlf9xwSftTlV68VT/N+lApPKfipoDNyVxarEuNk9jrv3ujjdlVwIVgwoJK/YOvOiv2R2SnFNLlEMxpNkuSR7lLgAAiufIEEPD4eBTo/hVj4GK/u1FhiGIZ7lYiv4797Rn8egG56HgH/TtrIwZ+ITKqOvKYM=
+	t=1734510147; cv=none; b=H8EwATFIby7733wCEBTxJjfZQ5WZc+9iJ8eWjeHyAr9JkcFjMR5tnSeXiaTu+lU7RUEhB/XFut6+sAeRRXDY/YtEfpJyzEvMsMKsTLzVa39q8geIhQFVVV5VQvvA2P6sNeSl6ZRaevLhnqIDDYPcK3Jpoj7343XFUyNL3ph3wjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734508927; c=relaxed/simple;
-	bh=UMuxXBmpsmHCO/vhUXdMl2WDhPOEyrJBHIe1MSZHQVQ=;
+	s=arc-20240116; t=1734510147; c=relaxed/simple;
+	bh=5fW6GxZ+p7bHD1hND5bdIZTYw4HZim1ZuliBKXGuueQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Onia6HC6LXG57lcwoS39WJvTR/J7H30BW4PFuGqHcTQUaKC3YwvSw1L3qamQCyPBoyihvu12K6Iy4H2JwDKhxNsk/nLhjJ2JBYlE8HyD6NrXvilzm4tNAZ+QPQzjN6QwD9KE0PbAjpmJ9l0WjPvlrxXoZiLhGqVgLr63nkmIeDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XzHmTN7V; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=b2DG64JtMMMNtTwbVH2Y7l1ZhumNXr0EIlhZTLcnRLV+NwGRQybAXYHWsTtf3BHhpEGWD16w4c9Qo+duQ0McNURKimQjac0/dGNwWIFLuNHFAXQ/LOv2ltKGMmW5udFU3bfjr37NA0x/VAyKdlqO3WiOZ/Z2ZUW9yRaMdXkStzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j9hnw9fC; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XzHmTN7V"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa684b6d9c7so1016004766b.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 00:02:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734508924; x=1735113724; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KlEFEHh3YGobOCHNpL8Xt4rpq8d3KttiitiL/5xBwUY=;
-        b=XzHmTN7VHpHKA8sPMP92yqukMjkjtRk9Mla/i8zRxd20gpbk2Qy5IVfrHDcnscdsWa
-         FIZ36s7iY+e45iyRh8mzdJ4PBcQvMiyxGFeArFb2XQKk4l0KksiK+wx/tIz7Uw6qy45q
-         lG6czn9VNw2iihvZUA9wvdx+M9g3ZpYVU1WYH0TAWuxeub5WRGNbFaOto+cXCB0yA8nN
-         bUM/DYn0SJUwxIyOCAyK73iohoJdJ+kKKtD3ZE5hwcltF+UiU0zQqwFR26Ms24ZLXe42
-         +00ImrXofTpcCQzo9/Xi+k1+XRoErMy/EvsoA2SycDrbdSzYOFbNSNVkyyS25D66pfwi
-         4x/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734508924; x=1735113724;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KlEFEHh3YGobOCHNpL8Xt4rpq8d3KttiitiL/5xBwUY=;
-        b=o3IkLGCrszyiR9GsD3ThHxrgyMsQyZYyHr5fjaYONtlJpMt+OYyVaDePxnPvNAxWN4
-         Sl4QzhlmMnP1aForyudg0MkWoQctJaPzWeuz5FCgS3NLhgmq+LdoUfv6m0YKMRBcQpEP
-         pvIld8Z3frOGcSW4ws0KQL+xkv89hG+3QZynOKc/7wr2O06nDRqjypWI/MNvHgnfaucm
-         ncnWtUEVondfWCge2F3f2Ex17ZfaETtbatsvu77wnvSJTClkYWzefkggra+Zs9GVjmkx
-         tAAa8D7r/h7M+2OqNXnX+fDdQM0K0bPIqiQfTYHiZ6KkmzymIRy3T3fse4feGPS6sVhm
-         vtEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVL5JNhP0QqIKKytXV/TFMNWfvc+M9fFUfeHdTv2siFSsP1o4JVczIKmWI1zakWXgsqF6R8gqwCf23z9BxV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1sBg3KTu2jWFO0TdcPpYW/nIVYLGTAo9ctH9+M6eG7WeRMLP/
-	Q04s2dorOFO5WXHfSlS6un8WqTVedswgLemmTnqqllPaZC0Pq1zFYT1yE0EshoS60PqRQ6jT4P2
-	Y
-X-Gm-Gg: ASbGncuh9j0eAGwuFVpIPr72noRLNRS7eS1839EIZbPysNIf6/cpjQNe/sLhzRzR38v
-	FywXuqwNYzEfr7/Azic0BHH58kTQXOCY9jg98C8i/g9BZqmmE6LwdlyP7pS4n6NnNiAPpGYBl2t
-	LE+18cpDT7KjxyJ8XzotbSmjrrkRc5Hea5YV12VyvxHL/lGmgaX7pAoMTOSsbe5U1LRJb1uon7k
-	+ULIACB5ZpFuURxMAgfh2tf6c3JjSSmZBoPRRrRJDsruxLW+j/E4HefDCu0xQ==
-X-Google-Smtp-Source: AGHT+IGgllR7abPnG5mVYBFTJjRB4aIBzW/PpB078TBiUQ+5WwP9gxkjuuruJnm0noAZzca8eFWcGQ==
-X-Received: by 2002:a17:907:2d26:b0:aa6:834b:d138 with SMTP id a640c23a62f3a-aabf476eb86mr131377466b.19.1734508924075;
-        Wed, 18 Dec 2024 00:02:04 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab96087424sm523896166b.83.2024.12.18.00.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 00:02:03 -0800 (PST)
-Date: Wed, 18 Dec 2024 11:02:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	LeoLiu-oc <leoliu-oc@zhaoxin.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1640/1640] drivers/ata/ahci_zhaoxin_sgpio.c:36
- ahci_wait_em_reset() warn: variable dereferenced before check
- 'sgpio_zhaoxin' (see line 33)
-Message-ID: <ba9f75b1-9d49-45f8-83b3-e75f45524689@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j9hnw9fC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734510144; x=1766046144;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5fW6GxZ+p7bHD1hND5bdIZTYw4HZim1ZuliBKXGuueQ=;
+  b=j9hnw9fCVK5I+cLsLtwj4QUujiLTT1wW4D/QgBDU8L0HVahBj71rVaAN
+   LDwxZq1DJZlqpbiNwqnSyGVMEHISHTYfMwGKaE5/UKeWWWoEyA0/2UYL/
+   AXmQ9WSCDbDKmItE1YeodUMuZwAMCAZrCIrRhtp/XA7FcM8XFyr0oiMUP
+   JEHy5BqEX9CLLj4gq9znpP5B5JOXXzgVvFRa84OQgVRWaiJ8KyCGG6mWM
+   kNovnlZTov8AcYF6olYJ3j1bI5swaVFvCwFl1+kiCWXf73V0n4kNBoaZX
+   7cA1jR+jRbuCrVDZdtezKsVGAubE5Je6Yfkmw2vrAE4rF0hlMzIekXeGm
+   A==;
+X-CSE-ConnectionGUID: 3JsogHenToCWC04PRQ9joQ==
+X-CSE-MsgGUID: AKAYINsVQgu8EUQ0U+t/bA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="35191291"
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
+   d="scan'208";a="35191291"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:22:23 -0800
+X-CSE-ConnectionGUID: LZSivNeITYm/qwlFaMjDUg==
+X-CSE-MsgGUID: 1jMiBiKgTQq0Bk6T/qA2Zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="98256217"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 18 Dec 2024 00:22:22 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNpJz-000GCG-27;
+	Wed, 18 Dec 2024 08:22:19 +0000
+Date: Wed, 18 Dec 2024 16:21:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, chengjunjia <chengjunjiathu@outlook.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1613/1613] include/linux/if_caqm.h:391:23:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <202412181628.dTVd4p1C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,53 +64,156 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   46064348cc445799cf9e8fd030323a0426fbb5e4
-commit: fb43492008c11fe89e510dd63383a2d37ea3cf8e [1640/1640] ata: ahci: Add support for AHCI SGPIO Enclosure Management
-config: x86_64-randconfig-161-20241217 (https://download.01.org/0day-ci/archive/20241218/202412180610.tvT1b9wN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 946747d4a52c34156031e41f9cb5cfb292747dcf [1613/1613] net: tcp: Add CAQM4TCP in the openeuler 6.6 kernel
+config: loongarch-randconfig-r111-20241210 (https://download.01.org/0day-ci/archive/20241218/202412181628.dTVd4p1C-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241218/202412181628.dTVd4p1C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412180610.tvT1b9wN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412181628.dTVd4p1C-lkp@intel.com/
 
-smatch warnings:
-drivers/ata/ahci_zhaoxin_sgpio.c:36 ahci_wait_em_reset() warn: variable dereferenced before check 'sgpio_zhaoxin' (see line 33)
-drivers/ata/ahci_zhaoxin_sgpio.c:335 ahci_transmit_sgpio_indicator_gp() warn: inconsistent returns '&sgpio_zhaoxin->wr_lock'.
+sparse warnings: (new ones prefixed by >>)
+   net/core/gro.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:244:46: sparse: sparse: self-comparison always evaluates to false
+   net/core/gro.c: note: in included file (through include/linux/ip.h, include/net/gro.h):
+   include/linux/skbuff.h:2721:28: sparse: sparse: self-comparison always evaluates to false
+   net/core/gro.c: note: in included file:
+>> include/linux/if_caqm.h:391:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] caqm_hdr_info @@     got restricted __be16 [usertype] h_caqm_info @@
+   include/linux/if_caqm.h:391:23: sparse:     expected unsigned short [usertype] caqm_hdr_info
+   include/linux/if_caqm.h:391:23: sparse:     got restricted __be16 [usertype] h_caqm_info
+--
+   net/ethernet/eth.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:244:46: sparse: sparse: self-comparison always evaluates to false
+   net/ethernet/eth.c: note: in included file (through include/net/net_namespace.h, include/linux/inet.h):
+   include/linux/skbuff.h:2721:28: sparse: sparse: self-comparison always evaluates to false
+   net/ethernet/eth.c: note: in included file:
+>> include/linux/if_caqm.h:470:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   include/linux/if_caqm.h:470:25: sparse:     expected unsigned short [usertype]
+   include/linux/if_caqm.h:470:25: sparse:     got restricted __be16 [usertype]
 
-vim +/sgpio_zhaoxin +36 drivers/ata/ahci_zhaoxin_sgpio.c
+vim +391 include/linux/if_caqm.h
 
-fb43492008c11f leoliu-oc 2024-06-18  31  int ahci_wait_em_reset(struct sgpio_zhaoxin *sgpio_zhaoxin, u32 retry)
-fb43492008c11f leoliu-oc 2024-06-18  32  {
-fb43492008c11f leoliu-oc 2024-06-18 @33  	void __iomem *mmio = sgpio_zhaoxin->mmio;
-                                                                     ^^^^^^^^^^^^^^^
-Dereferenced
-
-fb43492008c11f leoliu-oc 2024-06-18  34  	u32 em_ctl;
-fb43492008c11f leoliu-oc 2024-06-18  35  
-fb43492008c11f leoliu-oc 2024-06-18 @36  	if (!sgpio_zhaoxin || retry == 0) {
-                                                     ^^^^^^^^^^^^^
-Checked too late
-
-fb43492008c11f leoliu-oc 2024-06-18  37  		pr_err("In ahci wait em reset, invalid param\n");
-fb43492008c11f leoliu-oc 2024-06-18  38  		return -EINVAL;
-fb43492008c11f leoliu-oc 2024-06-18  39  	}
-fb43492008c11f leoliu-oc 2024-06-18  40  
-fb43492008c11f leoliu-oc 2024-06-18  41  	while (retry--) { /*EM_CTL needs reset at least 64ms*/
-fb43492008c11f leoliu-oc 2024-06-18  42  		em_ctl = readl(mmio + HOST_EM_CTL);
-fb43492008c11f leoliu-oc 2024-06-18  43  		if (em_ctl & EM_CTL_RST)
-fb43492008c11f leoliu-oc 2024-06-18  44  			usleep_range(10000, 20000); /*EM_CTL still in reset, usleep 10ms*/
-fb43492008c11f leoliu-oc 2024-06-18  45  		else
-fb43492008c11f leoliu-oc 2024-06-18  46  			break;
-fb43492008c11f leoliu-oc 2024-06-18  47  
-fb43492008c11f leoliu-oc 2024-06-18  48  		if (!retry)
-fb43492008c11f leoliu-oc 2024-06-18  49  			pr_err("Wait for EM_CTL reset, time out\n");
-fb43492008c11f leoliu-oc 2024-06-18  50  	}
-fb43492008c11f leoliu-oc 2024-06-18  51  
-fb43492008c11f leoliu-oc 2024-06-18  52  	return 0;
-fb43492008c11f leoliu-oc 2024-06-18  53  }
+   359	
+   360	static inline void skb_gro_caqm_untag(struct sk_buff *skb)
+   361	{
+   362	#ifdef CONFIG_ETH_CAQM
+   363		struct caqm_hdr *chdr;
+   364		struct vlan_hdr *vlanhdr;
+   365		u16 caqm_hdr_info;
+   366		__be16 proto = skb->protocol;
+   367		u8 skip_time = 0;
+   368		int mac_len, meta_len;
+   369		void *meta;
+   370		struct caqm_hdr tmp_caqm_data;
+   371	
+   372		if (!static_branch_unlikely(&sysctl_caqm_enable) || skb_shared(skb))
+   373			return;
+   374	
+   375		/* We may access the two bytes after caqm_hdr in caqm_set_encap_proto(). */
+   376		if (unlikely(!pskb_may_pull(skb, VLAN_HLEN * 2 + CAQM_HLEN + sizeof(unsigned short))))
+   377			return;
+   378	
+   379		vlanhdr = (struct vlan_hdr *)(skb->data - VLAN_HLEN);
+   380		// Skip at most 2 vlan hdr
+   381		while (skip_time < 2 && eth_type_vlan(proto)) {
+   382			vlanhdr++; // chdr move a VLAN len
+   383			skip_time += 1;
+   384			proto = vlanhdr->h_vlan_encapsulated_proto;
+   385		}
+   386		// Look for vlan header, 2 times
+   387		if (!eth_type_caqm(proto) || skb_cow(skb, skb_headroom(skb)) < 0)
+   388			return;
+   389	
+   390		chdr = (struct caqm_hdr *)(((void *)vlanhdr) + VLAN_HLEN);
+ > 391		caqm_hdr_info = chdr->h_caqm_info;
+   392		__caqm_put_tag(skb, caqm_hdr_info);
+   393	
+   394		if ((unsigned char *) chdr != skb->data) {
+   395			// adjust the caqm header before vlan header
+   396			// 1. Set the vlanhdr->proto as the next
+   397			vlanhdr->h_vlan_encapsulated_proto = chdr->h_caqm_encapsulated_proto;
+   398			// 2. Exchange caqm and vlan hdr
+   399			tmp_caqm_data = *chdr;
+   400			memmove(skb->data + CAQM_HLEN, skb->data, skip_time * VLAN_HLEN);
+   401			*(struct caqm_hdr *)(skb->data) = tmp_caqm_data;
+   402		} else
+   403			caqm_set_encap_proto(skb, chdr);
+   404	
+   405		skb_pull_rcsum(skb, CAQM_HLEN);
+   406	
+   407		mac_len = skb->data - skb_mac_header(skb);
+   408		if (likely(mac_len > CAQM_HLEN + ETH_TLEN)) {
+   409			memmove(skb_mac_header(skb) + CAQM_HLEN, skb_mac_header(skb),
+   410				mac_len - CAQM_HLEN - ETH_TLEN);
+   411		}
+   412	
+   413		meta_len = skb_metadata_len(skb);
+   414		if (meta_len) {
+   415			meta = skb_metadata_end(skb) - meta_len;
+   416			memmove(meta + CAQM_HLEN, meta, meta_len);
+   417		}
+   418	
+   419		skb->mac_header += CAQM_HLEN;
+   420	
+   421		skb_reset_network_header(skb);
+   422		if (!skb_transport_header_was_set(skb))
+   423			skb_reset_transport_header(skb);
+   424		skb_reset_mac_len(skb);
+   425	
+   426	#endif
+   427	}
+   428	
+   429	#ifdef CONFIG_ETH_CAQM
+   430	static inline __be16 caqm_get_protocol_and_depth(struct sk_buff *skb,
+   431							 __be16 type, int *depth)
+   432	{
+   433		type = vlan_get_protocol_and_depth(skb, type, depth);
+   434		if (static_branch_unlikely(&sysctl_caqm_enable) && eth_type_caqm(type))
+   435			return caqm_get_protocol_and_depth_after_vlan(skb, type, depth);
+   436		else
+   437			return type;
+   438	}
+   439	#endif
+   440	
+   441	static inline void caqm_update_hint_in_gro(struct sk_buff *skb, struct sk_buff *p)
+   442	{
+   443	#ifdef CONFIG_ETH_CAQM
+   444		struct skb_caqm_info *cinfo_p = get_skb_caqm_info(p);
+   445		struct skb_caqm_info *cinfo_skb = get_skb_caqm_info(skb);
+   446	
+   447		if (static_branch_unlikely(&sysctl_caqm_enable) && cinfo_p->recv_en && cinfo_skb->recv_en) {
+   448			cinfo_p->recv_hint += cinfo_skb->recv_hint;
+   449			cinfo_skb->recv_en = 0;
+   450		}
+   451	#endif
+   452	}
+   453	
+   454	static inline int caqm_add_eth_header(struct sk_buff *skb, unsigned short *type,
+   455				       struct net_device *dev)
+   456	{
+   457	#ifdef CONFIG_ETH_CAQM
+   458		struct skb_caqm_info *cinfo = get_skb_caqm_info(skb);
+   459	
+   460		if (static_branch_unlikely(&sysctl_caqm_enable) &&
+   461		    (sysctl_caqm_filter_nics & (1UL << dev->ifindex)) == 0)
+   462			cinfo->send_en = 0;
+   463		if (static_branch_unlikely(&sysctl_caqm_enable) && cinfo->send_en) {
+   464			cinfo->send_en = 0;
+   465			if (unlikely(skb_headroom(skb) <  ETH_HLEN + CAQM_HLEN))
+   466				return -ETH_HLEN;
+   467			u16 *chdr = skb_push(skb, CAQM_HLEN);
+   468	
+   469			chdr[0] = (cinfo->send_hdr);
+ > 470			chdr[1] = htons(*type);
+   471			*type = (unsigned short)sysctl_caqm_tpid;
+   472		}
+   473	#endif
+   474		return 0;
+   475	}
+   476	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
