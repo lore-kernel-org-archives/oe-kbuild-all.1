@@ -1,57 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1921B425A;
-	Wed, 18 Dec 2024 15:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0961E9B09
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 15:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734537544; cv=none; b=RxNuQV1Ucm3Et46MPnitwRmpR/NUN6jd/S6wra8515bhmRRhhCc24dxqM1Ik1/2HSEeyaNiUkR2JqjHGpS87S0vnoSabLpLpfFlkTX2Gsikmkh68aDj31vcri5H1fDBW3WIAcBfOp5Ykhk+3pFV01j6jKe1WPvR12r3R5WNCoRI=
+	t=1734537546; cv=none; b=t/NqSigOrOH0juj2iFaf/kliE6+dFe8cmSnRIWVwpuPNE+f9s28xg4C545OzlFIQ/rk5qVWMAM0wM0eeGDWmRswBGMlstIKJn+kA4H/IJMuNEMDjX1/y8KzPDdgK1btnhYuJNpUHc9Kw2ZumALvzm7BGoZK2i2eIhiGESq2X2Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734537544; c=relaxed/simple;
-	bh=uRWBdD+wkQYmU2Quh2zMdZNMKN3h/zCSd5yD8w865cc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RkS3Q8P4ictOCrIfj3mmo02bxwM0aYVdzp3/FtsLDHnnbGT+4u9h663DB23lRlvCG2MvfPRL0+eiFkldODiJkogF5EJDrGzJs+KeYbnxDmA6YxsBB2ju1jJpLrrO0Ikrb2AQ5St2i3qQiyjnbrQENHqjCQwRAJ56UNW/cI/XHLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MeUk/OpG; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1734537546; c=relaxed/simple;
+	bh=lQ2pBIDXkcpmADWQH+UCwmI3ossBxR0vfJqtcZw6Y34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ktzY40md1a43e+7dDTDjrbkL91DopW2crluxH5EuohCCeOhEG3NeS+6/1dYUmkXQsKuDNRoNqLTe3oDa3N4/2pRxmdn0nz/rnm+UHF6b6HCupucLZdUant55PGg/Ft0C9zUx6wjIeKzmVgZ3dB0VPymeZjNGeKn8E47DhaPb2sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7xXtYrU; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MeUk/OpG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7xXtYrU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734537543; x=1766073543;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=uRWBdD+wkQYmU2Quh2zMdZNMKN3h/zCSd5yD8w865cc=;
-  b=MeUk/OpGfyy1UIoqIhzawj8oCLkt3N88pIqkEuf45HNqT45l/B7rWKCU
-   3QKOu6sxNvNGVwEpc1kcKXfREXb7EVYbu8o9ddCs0K1BTC+upLEvwoV+B
-   WafO2wlNyintNKtrL/NNicEHYa/9iVIA/aOgnQc8QQos0PAYUTM1/P1dy
-   wJcZD86XzT2nBUnwpvVe53x62eo+BXQ7Bz8gJd++C9EeQfZ+qU3zhGG8b
-   /H+S0KgDHjr/63V+pJVl+pHnJyqjmjtT0kyL54nxzIjsdlmDmcNuHGMaJ
-   retm9+b17n1HHYyLV3TY2X2Zktczc+zdvlwgkvSwMMKpQw80FvBLWO0pM
-   A==;
-X-CSE-ConnectionGUID: 2tqyGMyGT5GIhFR+dtfmdg==
-X-CSE-MsgGUID: XZOp6DHBRFSPYl5CN7wGZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="52546294"
+  t=1734537545; x=1766073545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lQ2pBIDXkcpmADWQH+UCwmI3ossBxR0vfJqtcZw6Y34=;
+  b=K7xXtYrUbcdQJFvvrOXQCfqXoYGQgLAZAeoBUneBsiguaFRKf98pKCfV
+   UvLk3KryqAplD5G81PBxeY2swQ/igxiArLIn09YqE7Qu/fhFlp+wt35Dy
+   DpYnLrCVv1MD/IAwR9AY1ekEQRhUg2P/paMOpIfa7raC6S1P/IdCgqTHR
+   hrvtzABC+NJUzZUKxs6BlmkW7uIh4yQEySh9JetxCgK2QfxeMe+i+vcPa
+   6lls0ITpGf4OSpQui1srme6wmCEa9r1pzinvLummBYsMvqJfe3e994w6j
+   Io8j8xkZ6DDEWfl2XSjajlYAuL+mbQweK0Ap5ogQIm5TbJpqVnG9KPMIk
+   w==;
+X-CSE-ConnectionGUID: U3ZYwy3ST1mAvBob8Kpc3A==
+X-CSE-MsgGUID: rXCLbdj0SwW6LCOC/JJpYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45618295"
 X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; 
-   d="scan'208";a="52546294"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 07:59:02 -0800
-X-CSE-ConnectionGUID: +2eo1zsrRJiXkTSW7vmJFA==
-X-CSE-MsgGUID: 3toIyd1fQbuZrNwU5ldoBA==
+   d="scan'208";a="45618295"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 07:59:04 -0800
+X-CSE-ConnectionGUID: EsdysSHfTT6W2KXxS9uGxw==
+X-CSE-MsgGUID: DShfojl1TnaaHgl4U/6j/A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102044509"
+X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; 
+   d="scan'208";a="102752984"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Dec 2024 07:59:01 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 18 Dec 2024 07:59:01 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNwRv-000GSC-14;
+	id 1tNwRv-000GSA-12;
 	Wed, 18 Dec 2024 15:58:59 +0000
-Date: Wed, 18 Dec 2024 23:58:23 +0800
+Date: Wed, 18 Dec 2024 23:58:18 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: SiS_GetCRT2Ptr+0x1b3: stack state
- mismatch: cfa1=4+8 cfa2=5+16
-Message-ID: <202412182351.4U3ABVW5-lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <202412182358.9wma1UUE-lkp@intel.com>
+References: <20241217132921.169640-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,29 +68,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241217132921.169640-4-biju.das.jz@bp.renesas.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Hi Biju,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aef25be35d23ec768eed08bfcf7ca3cf9685bc28
-commit: fcc22ac5baf06dd17193de44b60dbceea6461983 cleanup: Adjust scoped_guard() macros to avoid potential warning
-date:   8 weeks ago
-config: x86_64-randconfig-006-20241218 (https://download.01.org/0day-ci/archive/20241218/202412182351.4U3ABVW5-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412182351.4U3ABVW5-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 483082d78a092a3c1f343a76a2edb196069b4092]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-pwm-Add-RZ-G2L-GPT-binding/20241217-213809
+base:   483082d78a092a3c1f343a76a2edb196069b4092
+patch link:    https://lore.kernel.org/r/20241217132921.169640-4-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241218/202412182358.9wma1UUE-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412182358.9wma1UUE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412182351.4U3ABVW5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412182358.9wma1UUE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: ___bpf_prog_run+0x54: sibling call from callable instruction with modified stack frame
->> vmlinux.o: warning: objtool: SiS_GetCRT2Ptr+0x1b3: stack state mismatch: cfa1=4+8 cfa2=5+16
+   drivers/pwm/pwm-rzg2l-gpt.c: In function 'rzg2l_gpt_probe':
+>> drivers/pwm/pwm-rzg2l-gpt.c:374:13: warning: unused variable 'i' [-Wunused-variable]
+     374 |         u32 i;
+         |             ^
+
+
+vim +/i +374 drivers/pwm/pwm-rzg2l-gpt.c
+
+   364	
+   365	static int rzg2l_gpt_probe(struct platform_device *pdev)
+   366	{
+   367		struct rzg2l_gpt_chip *rzg2l_gpt;
+   368		struct device *dev = &pdev->dev;
+   369		struct reset_control *rstc;
+   370		struct pwm_chip *chip;
+   371		unsigned long rate;
+   372		struct clk *clk;
+   373		int ret;
+ > 374		u32 i;
+   375	
+   376		chip = devm_pwmchip_alloc(dev, RZG2L_MAX_PWM_CHANNELS, sizeof(*rzg2l_gpt));
+   377		if (IS_ERR(chip))
+   378			return PTR_ERR(chip);
+   379		rzg2l_gpt = to_rzg2l_gpt_chip(chip);
+   380	
+   381		rzg2l_gpt->mmio = devm_platform_ioremap_resource(pdev, 0);
+   382		if (IS_ERR(rzg2l_gpt->mmio))
+   383			return PTR_ERR(rzg2l_gpt->mmio);
+   384	
+   385		rstc = devm_reset_control_get_exclusive_deasserted(dev, NULL);
+   386		if (IS_ERR(rstc))
+   387			return dev_err_probe(dev, PTR_ERR(rstc), "Cannot deassert reset control\n");
+   388	
+   389		clk = devm_clk_get_enabled(dev, NULL);
+   390		if (IS_ERR(clk))
+   391			return dev_err_probe(dev, PTR_ERR(clk), "Cannot get clock\n");
+   392	
+   393		ret = devm_clk_rate_exclusive_get(dev, clk);
+   394		if (ret)
+   395			return ret;
+   396	
+   397		rate = clk_get_rate(clk);
+   398		if (!rate)
+   399			return dev_err_probe(dev, -EINVAL, "The gpt clk rate is 0");
+   400	
+   401		/*
+   402		 * Refuse clk rates > 1 GHz to prevent overflow later for computing
+   403		 * period and duty cycle.
+   404		 */
+   405		if (rate > NSEC_PER_SEC)
+   406			return dev_err_probe(dev, -EINVAL, "The gpt clk rate is > 1GHz");
+   407	
+   408		/*
+   409		 * Rate is in MHz and is always integer for peripheral clk
+   410		 * 2^32 * 2^10 (prescalar) * 10^6 (rate_khz) < 2^64
+   411		 * So make sure rate is multiple of 1000.
+   412		 */
+   413		rzg2l_gpt->rate_khz = rate / KILO;
+   414		if (rzg2l_gpt->rate_khz * KILO != rate)
+   415			return dev_err_probe(dev, -EINVAL, "Rate is not multiple of 1000");
+   416	
+   417		mutex_init(&rzg2l_gpt->lock);
+   418	
+   419		chip->ops = &rzg2l_gpt_ops;
+   420		ret = devm_pwmchip_add(dev, chip);
+   421		if (ret)
+   422			return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
+   423	
+   424		return 0;
+   425	}
+   426	
 
 -- 
 0-DAY CI Kernel Test Service
