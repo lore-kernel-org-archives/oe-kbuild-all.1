@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D1A4C91
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 02:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A32487A5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 03:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734490311; cv=none; b=mQ1p57QD9XtRpdcHQezhs3YtkR9TCiMNHbQ4ImRZUJSi6ozvpWmEdtPFCgAGQi2m9Y/eQIsgpri591qSknTxN/7xofGrpJtyR9jH/3zGXXu/6Vao+4S+zlZXc9gFmMaSmtFxhoVbEHmcwSbUkvggXyQ/mSzXm0hD3aPDgJja9h0=
+	t=1734492234; cv=none; b=M2900c0t+Iml6sFVmtDMJRKgUOxd0qiBL+Gd6/W5gJ9IlAVC8M5KkFrrv7DjFRS0zakMteHJz6CcaAlyNZlUVVagiBOXbcCzEUardDUfXy8GZ1w0ApSPazHiTmZrarcMHkwvhkPS/uiCTNq1QZplXAsrmw9rT4wEUJqmpxlP2Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734490311; c=relaxed/simple;
-	bh=9MNQ4Wy5UL68C4+BsakSsJzWsrrifL7QXcRyG2MPVI8=;
+	s=arc-20240116; t=1734492234; c=relaxed/simple;
+	bh=igc0wCCmqMgXnLGBLvd86Vg+OPbEPG7kT/rnF162m4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ln3Y+a+T+6SO5UD42yXETRKK2W0DI6QedayF8N0yx0r5CJ8WbCfcMUPTmvOqecTHjto53bZ18O6YQXkktJelRfpFSIaP3RNQXcg4vUj8sKIkBhgLO2ASPOcWf2f1C3IUHc9afPHmBmNiKhAMwTmGIiUR4uOZNAPQggyX/0FpQcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvC2LnoV; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=i8NuroYUpM3gmlV1SsxIi15V1vIQvoDQtyCBDj9QQK3RKz9YtSMStSOWOuXBlpncFMuHGr6Wxrb5M3I6H7qMZNoPk5WLEiyERkMitC9aa3qLUQ5JTsR4bYBDjW8pjlxMpMISdujiQpFXB/srSHYKj5wCHjJihaSe9RdCOdSNXXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EOSwFN8T; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvC2LnoV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EOSwFN8T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734490309; x=1766026309;
+  t=1734492232; x=1766028232;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9MNQ4Wy5UL68C4+BsakSsJzWsrrifL7QXcRyG2MPVI8=;
-  b=jvC2LnoVcA+WVV5z6izPz68oA3RCltkDhOxHQ3maNpiXrKRUGbwn15Mb
-   i/3Rp/JbzGo+o5ukxzHmVMARH0G9LN8pcvTQ37RFZbiESNFdIgNw/Cy3a
-   rHUTJxw2rTkqxLWhwt+zt+2eBtXXDPAcq77pwUG17qp1hFLbeuTqhmegf
-   CW7t4364tVY6fxkratSJBIVwWWzlEGmiXtbg9/0gl00BWBcO1k2n5lPX5
-   cUIKCupsUHwILrUHykXq8icTP5T3X8GmZghOWPHaoDgW8YJUNerTNEslF
-   bS1DAqFewcMq6x4ozeYkpssyS2CT6UP0H2o05Rkm1jq7qLS2Z43xfudxO
+  bh=igc0wCCmqMgXnLGBLvd86Vg+OPbEPG7kT/rnF162m4Y=;
+  b=EOSwFN8Tyu6yg0QMoV4eQVBuLlxAHA48Z32lIzPZwRtz2uTROlIQI7PY
+   bgHxtkMCPyzdz2u+h4UxhfbU73oIjgwiwyUqfdR/iO/HsFNYiRd5A+5UZ
+   TC8H3tBMjNi+op8p526Y4vfhDt2eIGAGTSB745n17VUTrRB3xsARxyEeM
+   DczKdclQER7eje36Ovf9FdXUHPrW/DSnAKgvvSO77ppX4KSirZaJVyx0r
+   9isskj0QNAYgWl1ZJRkB5Z8/LWsvOC0PzG1NiH4nJO4vyzSNm9QQLhYFv
+   6lUkRW1UYs9u5T+hTm9g8hU9mpfFelV9Ax0Wn0D1TmxTryklGWXnzWUPO
    w==;
-X-CSE-ConnectionGUID: QUIb3/6KSbqt4sSEp7SgBg==
-X-CSE-MsgGUID: Xgf7CRIxQ0OcEXyY6GPB7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="46360214"
+X-CSE-ConnectionGUID: faNVtq4ESrKg4GziJ/mNBg==
+X-CSE-MsgGUID: Ss1t4ZQMS1eorL5oPp0b9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45955937"
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="46360214"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 18:51:49 -0800
-X-CSE-ConnectionGUID: uARcpJX4TEara09BaYP4Qw==
-X-CSE-MsgGUID: xazhnWpPQS+NwGzFmrixAA==
+   d="scan'208";a="45955937"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 19:23:51 -0800
+X-CSE-ConnectionGUID: DOf3qlIMSvSpp1lmn88lbQ==
+X-CSE-MsgGUID: wC4NGexmTXS25OOY8Kkdvg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="102721103"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102726235"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 Dec 2024 18:51:47 -0800
+  by orviesa005.jf.intel.com with ESMTP; 17 Dec 2024 19:23:49 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNkA5-000G0Y-16;
-	Wed, 18 Dec 2024 02:51:45 +0000
-Date: Wed, 18 Dec 2024 10:51:09 +0800
+	id 1tNkf5-000G0s-1P;
+	Wed, 18 Dec 2024 03:23:47 +0000
+Date: Wed, 18 Dec 2024 11:23:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Wen Zhiwei <wenzhiwei@kylinos.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/2] mm/vmscan.c:2623:15: warning: no
- previous prototype for function 'shrink_inactive_list'
-Message-ID: <202412181040.Uhc5kvuu-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1613/1613]
+ drivers/clk/imx/clk-composite-7ulp.c:85:24: sparse: sparse: Using plain
+ integer as NULL pointer
+Message-ID: <202412181102.2njg5nzI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,182 +63,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   0132ffefc49d2deaa2f5faaa230f3ab90d91c08e
-commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [1/2] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
-config: arm-randconfig-001-20241218 (https://download.01.org/0day-ci/archive/20241218/202412181040.Uhc5kvuu-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412181040.Uhc5kvuu-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   46064348cc445799cf9e8fd030323a0426fbb5e4
+commit: c9198a0f5708ba5f1247256dd8af19cb1be30c55 [1613/1613] clk: imx: composite-7ulp: Check the PCC present bit
+config: loongarch-randconfig-r111-20241210 (https://download.01.org/0day-ci/archive/20241218/202412181102.2njg5nzI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241218/202412181102.2njg5nzI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412181040.Uhc5kvuu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412181102.2njg5nzI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/imx/clk-composite-7ulp.c:85:24: sparse: sparse: Using plain integer as NULL pointer
+   drivers/clk/imx/clk-composite-7ulp.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:244:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from mm/vmscan.c:15:
-   In file included from include/linux/mm.h:2238:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/vmscan.c:30:
-   include/linux/mm_inline.h:49:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:51:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      51 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:678:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     678 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
-         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:1043:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^
-   mm/vmscan.c:1043:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         | ^
-         | static 
-   mm/vmscan.c:2442:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2442 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
->> mm/vmscan.c:2623:15: warning: no previous prototype for function 'shrink_inactive_list' [-Wmissing-prototypes]
-    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         |               ^
-   mm/vmscan.c:2623:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         | ^
-         | static 
-   mm/vmscan.c:2971:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2971 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
-         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
-   mm/vmscan.c:2972:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2972 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
-         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
-   mm/vmscan.c:7018:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    7018 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   10 warnings generated.
+vim +85 drivers/clk/imx/clk-composite-7ulp.c
 
-
-vim +/shrink_inactive_list +2623 mm/vmscan.c
-
-  2618	
-  2619	/*
-  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
-  2621	 * of reclaimed pages
-  2622	 */
-> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-  2624			struct lruvec *lruvec, struct scan_control *sc,
-  2625			enum lru_list lru)
-  2626	{
-  2627		LIST_HEAD(folio_list);
-  2628		unsigned long nr_scanned;
-  2629		unsigned int nr_reclaimed = 0;
-  2630		unsigned long nr_taken;
-  2631		struct reclaim_stat stat;
-  2632		bool file = is_file_lru(lru);
-  2633		enum vm_event_item item;
-  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-  2635		bool stalled = false;
-  2636	
-  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
-  2638			if (stalled)
-  2639				return 0;
-  2640	
-  2641			/* wait a bit for the reclaimer. */
-  2642			stalled = true;
-  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
-  2644	
-  2645			/* We are about to die and free our memory. Return now. */
-  2646			if (fatal_signal_pending(current))
-  2647				return SWAP_CLUSTER_MAX;
-  2648		}
-  2649	
-  2650		lru_add_drain();
-  2651	
-  2652		spin_lock_irq(&lruvec->lru_lock);
-  2653	
-  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
-  2655					     &nr_scanned, sc, lru);
-  2656	
-  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
-  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
-  2659		if (!cgroup_reclaim(sc))
-  2660			__count_vm_events(item, nr_scanned);
-  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
-  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
-  2663	
-  2664		spin_unlock_irq(&lruvec->lru_lock);
-  2665	
-  2666		if (nr_taken == 0)
-  2667			return 0;
-  2668	
-  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
-  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
-  2671	
-  2672		spin_lock_irq(&lruvec->lru_lock);
-  2673		move_folios_to_lru(lruvec, &folio_list);
-  2674	
-  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
-  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
-  2677		if (!cgroup_reclaim(sc))
-  2678			__count_vm_events(item, nr_reclaimed);
-  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
-  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
-  2681		spin_unlock_irq(&lruvec->lru_lock);
-  2682	
-  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
-  2684		mem_cgroup_uncharge_list(&folio_list);
-  2685		free_unref_page_list(&folio_list);
-  2686	
-  2687		/*
-  2688		 * If dirty folios are scanned that are not queued for IO, it
-  2689		 * implies that flushers are not doing their job. This can
-  2690		 * happen when memory pressure pushes dirty folios to the end of
-  2691		 * the LRU before the dirty limits are breached and the dirty
-  2692		 * data has expired. It can also happen when the proportion of
-  2693		 * dirty folios grows not through writes but through memory
-  2694		 * pressure reclaiming all the clean cache. And in some cases,
-  2695		 * the flushers simply cannot keep up with the allocation
-  2696		 * rate. Nudge the flusher threads in case they are asleep.
-  2697		 */
-  2698		if (stat.nr_unqueued_dirty == nr_taken) {
-  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
-  2700			/*
-  2701			 * For cgroupv1 dirty throttling is achieved by waking up
-  2702			 * the kernel flusher here and later waiting on folios
-  2703			 * which are in writeback to finish (see shrink_folio_list()).
-  2704			 *
-  2705			 * Flusher may not be able to issue writeback quickly
-  2706			 * enough for cgroupv1 writeback throttling to work
-  2707			 * on a large system.
-  2708			 */
-  2709			if (!writeback_throttling_sane(sc))
-  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
-  2711		}
-  2712	
-  2713		sc->nr.dirty += stat.nr_dirty;
-  2714		sc->nr.congested += stat.nr_congested;
-  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
-  2716		sc->nr.writeback += stat.nr_writeback;
-  2717		sc->nr.immediate += stat.nr_immediate;
-  2718		sc->nr.taken += nr_taken;
-  2719		if (file)
-  2720			sc->nr.file_taken += nr_taken;
-  2721	
-  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
-  2724		return nr_reclaimed;
-  2725	}
-  2726	EXPORT_SYMBOL(shrink_inactive_list);
-  2727	
+    68	
+    69	static struct clk_hw *imx_ulp_clk_hw_composite(const char *name,
+    70					     const char * const *parent_names,
+    71					     int num_parents, bool mux_present,
+    72					     bool rate_present, bool gate_present,
+    73					     void __iomem *reg, bool has_swrst)
+    74	{
+    75		struct clk_hw *mux_hw = NULL, *fd_hw = NULL, *gate_hw = NULL;
+    76		struct clk_fractional_divider *fd = NULL;
+    77		struct clk_gate *gate = NULL;
+    78		struct clk_mux *mux = NULL;
+    79		struct clk_hw *hw;
+    80		u32 val;
+    81	
+    82		val = readl(reg);
+    83		if (!(val & PCG_PR_MASK)) {
+    84			pr_info("PCC PR is 0 for clk:%s, bypass\n", name);
+  > 85			return 0;
+    86		}
+    87	
+    88		if (mux_present) {
+    89			mux = kzalloc(sizeof(*mux), GFP_KERNEL);
+    90			if (!mux)
+    91				return ERR_PTR(-ENOMEM);
+    92			mux_hw = &mux->hw;
+    93			mux->reg = reg;
+    94			mux->shift = PCG_PCS_SHIFT;
+    95			mux->mask = PCG_PCS_MASK;
+    96			if (has_swrst)
+    97				mux->lock = &imx_ccm_lock;
+    98		}
+    99	
+   100		if (rate_present) {
+   101			fd = kzalloc(sizeof(*fd), GFP_KERNEL);
+   102			if (!fd) {
+   103				kfree(mux);
+   104				return ERR_PTR(-ENOMEM);
+   105			}
+   106			fd_hw = &fd->hw;
+   107			fd->reg = reg;
+   108			fd->mshift = PCG_FRAC_SHIFT;
+   109			fd->mwidth = PCG_FRAC_WIDTH;
+   110			fd->nshift = PCG_PCD_SHIFT;
+   111			fd->nwidth = PCG_PCD_WIDTH;
+   112			fd->flags = CLK_FRAC_DIVIDER_ZERO_BASED;
+   113			if (has_swrst)
+   114				fd->lock = &imx_ccm_lock;
+   115		}
+   116	
+   117		if (gate_present) {
+   118			gate = kzalloc(sizeof(*gate), GFP_KERNEL);
+   119			if (!gate) {
+   120				kfree(mux);
+   121				kfree(fd);
+   122				return ERR_PTR(-ENOMEM);
+   123			}
+   124			gate_hw = &gate->hw;
+   125			gate->reg = reg;
+   126			gate->bit_idx = PCG_CGC_SHIFT;
+   127			if (has_swrst)
+   128				gate->lock = &imx_ccm_lock;
+   129			/*
+   130			 * make sure clock is gated during clock tree initialization,
+   131			 * the HW ONLY allow clock parent/rate changed with clock gated,
+   132			 * during clock tree initialization, clocks could be enabled
+   133			 * by bootloader, so the HW status will mismatch with clock tree
+   134			 * prepare count, then clock core driver will allow parent/rate
+   135			 * change since the prepare count is zero, but HW actually
+   136			 * prevent the parent/rate change due to the clock is enabled.
+   137			 */
+   138			val = readl_relaxed(reg);
+   139			val &= ~(1 << PCG_CGC_SHIFT);
+   140			writel_relaxed(val, reg);
+   141		}
+   142	
+   143		hw = clk_hw_register_composite(NULL, name, parent_names, num_parents,
+   144					       mux_hw, &clk_mux_ops, fd_hw,
+   145					       &clk_fractional_divider_ops, gate_hw,
+   146					       has_swrst ? &pcc_gate_ops : &clk_gate_ops, CLK_SET_RATE_GATE |
+   147					       CLK_SET_PARENT_GATE | CLK_SET_RATE_NO_REPARENT);
+   148		if (IS_ERR(hw)) {
+   149			kfree(mux);
+   150			kfree(fd);
+   151			kfree(gate);
+   152		}
+   153	
+   154		return hw;
+   155	}
+   156	
 
 -- 
 0-DAY CI Kernel Test Service
