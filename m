@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC0B16F0D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 06:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7049815574E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 07:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734504979; cv=none; b=KBQETptWnxtHD7xK+t68M+do6433k8TdRG0MD3e+cUoDi1aj/nixdPg7yHleFKNB/Ft7SeZ9+oNMVERWokafOIPJOJAAgwTqOM9YtgNvpceOxcFbMqaNl37RXmcoFMiuGgO0jbVuiHdC49dUyNWSsIv+l37UlLZuvyCtCoZLWeg=
+	t=1734505641; cv=none; b=Z0ROQF8ogPIU/xf8T7JcnEQr9P21d39YFJ41ckDMNu0QVtFdmVO3uk66Y0amSV5ED5aDy0j2i+8EOUBEOuHJS0Xd0RmWRIcg7cAY2k7K1K8I8SIcP6xHnET9ZO+zwwEnjf8KISAFa/IeaFdceyN3S5sUUkzw/TtImwdqe3Y0IxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734504979; c=relaxed/simple;
-	bh=8vkF4d2uhpSYZf3ofeZ53bgbAMoceO87LnFriCQq318=;
+	s=arc-20240116; t=1734505641; c=relaxed/simple;
+	bh=KONQnE3TSC4Nj3uu9En0ilRUAlijL6Xo18zgP74ooq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h887fu0yzLzN3eN+5c8AtGCTl7MP+IyBnaYde8ZYuyLBjF5ncyqW2veEqSxXPN4SeaoTAQa2YQUt39rBgYUa37mbTGMHc95vMzmq1/ge0fjLFYQ89iNuJNIvBVO9FkyiPUQ82puuaacFs1R+XvZEhQ+PcohetPPFqd6FNtFvpPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/euBuJ6; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=sIjGmRNQm8352on4Uc9GlHg+JEc3vhrMwBVJR709xXUnbCAyepDjBY4M8XPxInT2aZRM4fdzK7G8BQeCFsMVBO3JRRwJU0vImbTGFDTjfyn8OQIX6qcr7nH3Hr7QCEMowVKnX7uVBIGATnpTu3EARZDzCs5bpZRXaMpSDeL7JT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRk3KFgG; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/euBuJ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRk3KFgG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734504977; x=1766040977;
+  t=1734505640; x=1766041640;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8vkF4d2uhpSYZf3ofeZ53bgbAMoceO87LnFriCQq318=;
-  b=K/euBuJ6TUinJfUQvdenAXUh3c0ecucy2C6B89rhc8TSboFTK3O8gEgt
-   JtF1NT5QoebSoSD7fpYPEBnrlmo+ps2Ik0YcqXD3C2REA/sJOSzLEl9wF
-   Go/kmxKR2OkiCQXaHA4Y1yWir2gc9iLRkToCmvtBFcrHBCSh9fawoK+TP
-   vy0vK3INRkUF4wOhIIthTgNOAeuHa7EmLpuOcdCLcCbnKfgrnf2RiTxXA
-   rHKFYJK2W0u4XNcyk1NX8c8OYLS0uJSLWsPYbs8YchC7PKNnY0TJHSCcY
-   E1qvZR/j/UeIZHBz7bxZoZnfXr/zgkCYq1MpzGudR80djSDvZGQeQ8vOK
+  bh=KONQnE3TSC4Nj3uu9En0ilRUAlijL6Xo18zgP74ooq0=;
+  b=gRk3KFgGPy0N5+jtKVqXrTD+tyBCNmCeENRAcJ8JTrsL6cudTvb2TBab
+   6M+vPm5XSyf/dygceRYUzq8ru1xaxnLLWNFVAILoy55GoP4i/tf6kQ6D4
+   4FpQbhI3nI1BNquRSCXegfY3tEe9t1FS9CyoO8qFectx9qlKwGPHgbX86
+   8VAwtnDkfuR7iMDsnjza4cUnd995/UuWbrtjqkqet17N52Fu2brwnxlxf
+   16bE7WKVNFzUYekCg9XOKwKfgnK8UjbDQeVU2qo1My/68XY6IluUzpZ79
+   idEMmpM+yUngIG3+/gTIePgtFkB/NNQJkyVpQ58n3wBZefWRZaFI3PTb3
    g==;
-X-CSE-ConnectionGUID: TZEqOGyWS7y8p/EfUqAaMQ==
-X-CSE-MsgGUID: 4zju2QadSO2TdKtKTWNrnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="52486332"
+X-CSE-ConnectionGUID: UIEPI1twSL+B0qmixb9OUQ==
+X-CSE-MsgGUID: NddweGKSQ7aj2NhIrd1pmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="35183460"
 X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="52486332"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 22:56:16 -0800
-X-CSE-ConnectionGUID: qlG3oddwRmGJadiql6bk2g==
-X-CSE-MsgGUID: U92A+9iSQz2UzkFHJSatjA==
+   d="scan'208";a="35183460"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 23:07:18 -0800
+X-CSE-ConnectionGUID: C2WbjF1pRV6F+eEpcV+ERg==
+X-CSE-MsgGUID: lm3oUupFSY68nS5JYqA5xA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="97627269"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="135101531"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Dec 2024 22:56:14 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Dec 2024 23:07:16 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNnye-000GAA-1Z;
-	Wed, 18 Dec 2024 06:56:12 +0000
-Date: Wed, 18 Dec 2024 14:55:50 +0800
+	id 1tNo9K-000GAk-0H;
+	Wed, 18 Dec 2024 07:07:14 +0000
+Date: Wed, 18 Dec 2024 15:06:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_defconfig_v1 37/59] drivers/acpi/riscv/rimt.c:506:
- warning: Function parameter or struct member 'ops' not described in
- 'rimt_iommu_configure_id'
-Message-ID: <202412181450.L9IbGU1X-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:vdso/store 7/51]
+ arch/riscv/kernel/vdso/hwprobe.c:19:44: error: implicit declaration of
+ function '__arch_get_vdso_u_arch_data'
+Message-ID: <202412181538.TGmLPgWh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +63,290 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_defconfig_v1
-head:   4fd509619498a267ba245e95fefba09eef65a97e
-commit: 8e11faf4c7b05ad34749c2ae0c9db7ade99790f7 [37/59] IOMMU: RISC-V: ACPI: Register IOMMU
-config: riscv-randconfig-002-20241218 (https://download.01.org/0day-ci/archive/20241218/202412181450.L9IbGU1X-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412181450.L9IbGU1X-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git vdso/store
+head:   5eff74c3b09e18763969160fcfa8bf80f513f49f
+commit: 050a00b58981a2d66cff6076a4545d94cfc91743 [7/51] riscv: vdso: Switch to generic storage implementation
+config: riscv-randconfig-001-20241213 (https://download.01.org/0day-ci/archive/20241218/202412181538.TGmLPgWh-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412181538.TGmLPgWh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412181450.L9IbGU1X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412181538.TGmLPgWh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/acpi/riscv/rimt.c:506: warning: Function parameter or struct member 'ops' not described in 'rimt_iommu_configure_id'
+>> arch/riscv/kernel/vdso/hwprobe.c:11:33: warning: 'struct riscv_hwprobe' declared inside parameter list will not be visible outside of this definition or declaration
+      11 | extern int riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                                 ^~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:15:41: warning: 'struct riscv_hwprobe' declared inside parameter list will not be visible outside of this definition or declaration
+      15 | static int riscv_vdso_get_values(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                                         ^~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c: In function 'riscv_vdso_get_values':
+>> arch/riscv/kernel/vdso/hwprobe.c:19:44: error: implicit declaration of function '__arch_get_vdso_u_arch_data' [-Wimplicit-function-declaration]
+      19 |         const struct vdso_arch_data *avd = __arch_get_vdso_u_arch_data();
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kernel/vdso/hwprobe.c:19:44: error: initialization of 'const struct vdso_arch_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>> arch/riscv/kernel/vdso/hwprobe.c:22:43: error: invalid use of undefined type 'struct riscv_hwprobe'
+      22 |         struct riscv_hwprobe *end = pairs + pair_count;
+         |                                           ^
+   arch/riscv/kernel/vdso/hwprobe.c:30:47: error: invalid use of undefined type 'const struct vdso_arch_data'
+      30 |         if ((flags != 0) || (!all_cpus && !avd->homogeneous_cpus))
+         |                                               ^~
+>> arch/riscv/kernel/vdso/hwprobe.c:31:38: error: passing argument 1 of 'riscv_hwprobe' from incompatible pointer type [-Wincompatible-pointer-types]
+      31 |                 return riscv_hwprobe(pairs, pair_count, cpusetsize, cpus, flags);
+         |                                      ^~~~~
+         |                                      |
+         |                                      struct riscv_hwprobe *
+   arch/riscv/kernel/vdso/hwprobe.c:11:48: note: expected 'struct riscv_hwprobe *' but argument is of type 'struct riscv_hwprobe *'
+      11 | extern int riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> arch/riscv/kernel/vdso/hwprobe.c:35:21: error: implicit declaration of function 'riscv_hwprobe_key_is_valid' [-Wimplicit-function-declaration]
+      35 |                 if (riscv_hwprobe_key_is_valid(p->key)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:35:49: error: invalid use of undefined type 'struct riscv_hwprobe'
+      35 |                 if (riscv_hwprobe_key_is_valid(p->key)) {
+         |                                                 ^~
+   arch/riscv/kernel/vdso/hwprobe.c:36:26: error: invalid use of undefined type 'struct riscv_hwprobe'
+      36 |                         p->value = avd->all_cpu_hwprobe_values[p->key];
+         |                          ^~
+   arch/riscv/kernel/vdso/hwprobe.c:36:39: error: invalid use of undefined type 'const struct vdso_arch_data'
+      36 |                         p->value = avd->all_cpu_hwprobe_values[p->key];
+         |                                       ^~
+   arch/riscv/kernel/vdso/hwprobe.c:36:65: error: invalid use of undefined type 'struct riscv_hwprobe'
+      36 |                         p->value = avd->all_cpu_hwprobe_values[p->key];
+         |                                                                 ^~
+   arch/riscv/kernel/vdso/hwprobe.c:39:26: error: invalid use of undefined type 'struct riscv_hwprobe'
+      39 |                         p->key = -1;
+         |                          ^~
+   arch/riscv/kernel/vdso/hwprobe.c:40:26: error: invalid use of undefined type 'struct riscv_hwprobe'
+      40 |                         p->value = 0;
+         |                          ^~
+>> arch/riscv/kernel/vdso/hwprobe.c:43:18: error: increment of pointer to an incomplete type 'struct riscv_hwprobe'
+      43 |                 p++;
+         |                  ^~
+   arch/riscv/kernel/vdso/hwprobe.c: At top level:
+   arch/riscv/kernel/vdso/hwprobe.c:49:39: warning: 'struct riscv_hwprobe' declared inside parameter list will not be visible outside of this definition or declaration
+      49 | static int riscv_vdso_get_cpus(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                                       ^~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c: In function 'riscv_vdso_get_cpus':
+   arch/riscv/kernel/vdso/hwprobe.c:53:44: error: initialization of 'const struct vdso_arch_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      53 |         const struct vdso_arch_data *avd = __arch_get_vdso_u_arch_data();
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:55:43: error: invalid use of undefined type 'struct riscv_hwprobe'
+      55 |         struct riscv_hwprobe *end = pairs + pair_count;
+         |                                           ^
+>> arch/riscv/kernel/vdso/hwprobe.c:71:36: error: 'RISCV_HWPROBE_WHICH_CPUS' undeclared (first use in this function)
+      71 |         if (empty_cpus || flags != RISCV_HWPROBE_WHICH_CPUS || !avd->homogeneous_cpus)
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:71:36: note: each undeclared identifier is reported only once for each function it appears in
+   arch/riscv/kernel/vdso/hwprobe.c:71:68: error: invalid use of undefined type 'const struct vdso_arch_data'
+      71 |         if (empty_cpus || flags != RISCV_HWPROBE_WHICH_CPUS || !avd->homogeneous_cpus)
+         |                                                                    ^~
+   arch/riscv/kernel/vdso/hwprobe.c:72:38: error: passing argument 1 of 'riscv_hwprobe' from incompatible pointer type [-Wincompatible-pointer-types]
+      72 |                 return riscv_hwprobe(pairs, pair_count, cpusetsize, cpus, flags);
+         |                                      ^~~~~
+         |                                      |
+         |                                      struct riscv_hwprobe *
+   arch/riscv/kernel/vdso/hwprobe.c:11:48: note: expected 'struct riscv_hwprobe *' but argument is of type 'struct riscv_hwprobe *'
+      11 | extern int riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:75:49: error: invalid use of undefined type 'struct riscv_hwprobe'
+      75 |                 if (riscv_hwprobe_key_is_valid(p->key)) {
+         |                                                 ^~
+>> arch/riscv/kernel/vdso/hwprobe.c:76:32: error: variable 't' has initializer but incomplete type
+      76 |                         struct riscv_hwprobe t = {
+         |                                ^~~~~~~~~~~~~
+>> arch/riscv/kernel/vdso/hwprobe.c:77:34: error: 'struct riscv_hwprobe' has no member named 'key'
+      77 |                                 .key = p->key,
+         |                                  ^~~
+   arch/riscv/kernel/vdso/hwprobe.c:77:41: error: invalid use of undefined type 'struct riscv_hwprobe'
+      77 |                                 .key = p->key,
+         |                                         ^~
+>> arch/riscv/kernel/vdso/hwprobe.c:77:40: warning: excess elements in struct initializer
+      77 |                                 .key = p->key,
+         |                                        ^
+   arch/riscv/kernel/vdso/hwprobe.c:77:40: note: (near initialization for 't')
+>> arch/riscv/kernel/vdso/hwprobe.c:78:34: error: 'struct riscv_hwprobe' has no member named 'value'
+      78 |                                 .value = avd->all_cpu_hwprobe_values[p->key],
+         |                                  ^~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:78:45: error: invalid use of undefined type 'const struct vdso_arch_data'
+      78 |                                 .value = avd->all_cpu_hwprobe_values[p->key],
+         |                                             ^~
+   arch/riscv/kernel/vdso/hwprobe.c:78:71: error: invalid use of undefined type 'struct riscv_hwprobe'
+      78 |                                 .value = avd->all_cpu_hwprobe_values[p->key],
+         |                                                                       ^~
+   arch/riscv/kernel/vdso/hwprobe.c:78:42: warning: excess elements in struct initializer
+      78 |                                 .value = avd->all_cpu_hwprobe_values[p->key],
+         |                                          ^~~
+   arch/riscv/kernel/vdso/hwprobe.c:78:42: note: (near initialization for 't')
+>> arch/riscv/kernel/vdso/hwprobe.c:76:46: error: storage size of 't' isn't known
+      76 |                         struct riscv_hwprobe t = {
+         |                                              ^
+>> arch/riscv/kernel/vdso/hwprobe.c:81:30: error: implicit declaration of function 'riscv_hwprobe_pair_cmp' [-Wimplicit-function-declaration]
+      81 |                         if (!riscv_hwprobe_pair_cmp(&t, p))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kernel/vdso/hwprobe.c:76:46: warning: unused variable 't' [-Wunused-variable]
+      76 |                         struct riscv_hwprobe t = {
+         |                                              ^
+   arch/riscv/kernel/vdso/hwprobe.c:85:26: error: invalid use of undefined type 'struct riscv_hwprobe'
+      85 |                         p->key = -1;
+         |                          ^~
+   arch/riscv/kernel/vdso/hwprobe.c:86:26: error: invalid use of undefined type 'struct riscv_hwprobe'
+      86 |                         p->value = 0;
+         |                          ^~
+   arch/riscv/kernel/vdso/hwprobe.c:88:18: error: increment of pointer to an incomplete type 'struct riscv_hwprobe'
+      88 |                 p++;
+         |                  ^~
+   arch/riscv/kernel/vdso/hwprobe.c: At top level:
+   arch/riscv/kernel/vdso/hwprobe.c:100:33: warning: 'struct riscv_hwprobe' declared inside parameter list will not be visible outside of this definition or declaration
+     100 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                                 ^~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:104:33: warning: 'struct riscv_hwprobe' declared inside parameter list will not be visible outside of this definition or declaration
+     104 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                                 ^~~~~~~~~~~~~
+>> arch/riscv/kernel/vdso/hwprobe.c:104:5: error: conflicting types for '__vdso_riscv_hwprobe'; have 'int(struct riscv_hwprobe *, size_t,  size_t,  long unsigned int *, unsigned int)' {aka 'int(struct riscv_hwprobe *, unsigned int,  unsigned int,  long unsigned int *, unsigned int)'}
+     104 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c:100:5: note: previous declaration of '__vdso_riscv_hwprobe' with type 'int(struct riscv_hwprobe *, size_t,  size_t,  long unsigned int *, unsigned int)' {aka 'int(struct riscv_hwprobe *, unsigned int,  unsigned int,  long unsigned int *, unsigned int)'}
+     100 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kernel/vdso/hwprobe.c: In function '__vdso_riscv_hwprobe':
+   arch/riscv/kernel/vdso/hwprobe.c:108:21: error: 'RISCV_HWPROBE_WHICH_CPUS' undeclared (first use in this function)
+     108 |         if (flags & RISCV_HWPROBE_WHICH_CPUS)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kernel/vdso/hwprobe.c:109:44: error: passing argument 1 of 'riscv_vdso_get_cpus' from incompatible pointer type [-Wincompatible-pointer-types]
+     109 |                 return riscv_vdso_get_cpus(pairs, pair_count, cpusetsize,
+         |                                            ^~~~~
+         |                                            |
+         |                                            struct riscv_hwprobe *
+   arch/riscv/kernel/vdso/hwprobe.c:49:54: note: expected 'struct riscv_hwprobe *' but argument is of type 'struct riscv_hwprobe *'
+      49 | static int riscv_vdso_get_cpus(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> arch/riscv/kernel/vdso/hwprobe.c:112:38: error: passing argument 1 of 'riscv_vdso_get_values' from incompatible pointer type [-Wincompatible-pointer-types]
+     112 |         return riscv_vdso_get_values(pairs, pair_count, cpusetsize,
+         |                                      ^~~~~
+         |                                      |
+         |                                      struct riscv_hwprobe *
+   arch/riscv/kernel/vdso/hwprobe.c:15:56: note: expected 'struct riscv_hwprobe *' but argument is of type 'struct riscv_hwprobe *'
+      15 | static int riscv_vdso_get_values(struct riscv_hwprobe *pairs, size_t pair_count,
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   make[3]: *** [scripts/Makefile.build:194: arch/riscv/kernel/vdso/hwprobe.o] Error 1 shuffle=621611230
+   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[2]: *** [arch/riscv/Makefile:183: vdso_prepare] Error 2 shuffle=621611230
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=621611230
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=621611230
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +506 drivers/acpi/riscv/rimt.c
+vim +/__arch_get_vdso_u_arch_data +19 arch/riscv/kernel/vdso/hwprobe.c
 
-92e54add84ea713 Sunil V L 2024-08-16  496  
-92e54add84ea713 Sunil V L 2024-08-16  497  /**
-92e54add84ea713 Sunil V L 2024-08-16  498   * rimt_iommu_configure_id - Set-up IOMMU configuration for a device.
-92e54add84ea713 Sunil V L 2024-08-16  499   *
-92e54add84ea713 Sunil V L 2024-08-16  500   * @dev: device to configure
-92e54add84ea713 Sunil V L 2024-08-16  501   * @id_in: optional input id const value pointer
-92e54add84ea713 Sunil V L 2024-08-16  502   *
-92e54add84ea713 Sunil V L 2024-08-16  503   * Returns: 0 on success, <0 on failure
-92e54add84ea713 Sunil V L 2024-08-16  504   */
-92e54add84ea713 Sunil V L 2024-08-16  505  int rimt_iommu_configure_id(struct device *dev, const u32 *id_in, const struct iommu_ops *ops)
-92e54add84ea713 Sunil V L 2024-08-16 @506  {
-92e54add84ea713 Sunil V L 2024-08-16  507  	struct acpi_rimt_node *node;
-92e54add84ea713 Sunil V L 2024-08-16  508  	int err = -ENODEV;
-92e54add84ea713 Sunil V L 2024-08-16  509  
-92e54add84ea713 Sunil V L 2024-08-16  510  	if (dev_is_pci(dev)) {
-92e54add84ea713 Sunil V L 2024-08-16  511  		struct iommu_fwspec *fwspec;
-92e54add84ea713 Sunil V L 2024-08-16  512  		struct pci_bus *bus = to_pci_dev(dev)->bus;
-92e54add84ea713 Sunil V L 2024-08-16  513  		struct rimt_pci_alias_info info = { .dev = dev };
-92e54add84ea713 Sunil V L 2024-08-16  514  
-92e54add84ea713 Sunil V L 2024-08-16  515  		node = rimt_scan_node(ACPI_RIMT_NODE_PCI_ROOT_COMPLEX,
-92e54add84ea713 Sunil V L 2024-08-16  516  				      rimt_match_node_callback, &bus->dev);
-92e54add84ea713 Sunil V L 2024-08-16  517  		if (!node)
-92e54add84ea713 Sunil V L 2024-08-16  518  			return -ENODEV;
-92e54add84ea713 Sunil V L 2024-08-16  519  
-92e54add84ea713 Sunil V L 2024-08-16  520  		info.node = node;
-92e54add84ea713 Sunil V L 2024-08-16  521  		info.ops = ops;
-92e54add84ea713 Sunil V L 2024-08-16  522  		err = pci_for_each_dma_alias(to_pci_dev(dev),
-92e54add84ea713 Sunil V L 2024-08-16  523  					     rimt_pci_iommu_init, &info);
-92e54add84ea713 Sunil V L 2024-08-16  524  
-92e54add84ea713 Sunil V L 2024-08-16  525  		fwspec = dev_iommu_fwspec_get(dev);
-92e54add84ea713 Sunil V L 2024-08-16  526  	} else {
-92e54add84ea713 Sunil V L 2024-08-16  527  		node = rimt_scan_node(ACPI_RIMT_NODE_PLAT_DEVICE,
-92e54add84ea713 Sunil V L 2024-08-16  528  				      rimt_match_node_callback, dev);
-92e54add84ea713 Sunil V L 2024-08-16  529  		if (!node)
-92e54add84ea713 Sunil V L 2024-08-16  530  			return -ENODEV;
-92e54add84ea713 Sunil V L 2024-08-16  531  
-92e54add84ea713 Sunil V L 2024-08-16  532  		err = id_in ? rimt_nc_iommu_map_id(dev, node, id_in) :
-92e54add84ea713 Sunil V L 2024-08-16  533  			      rimt_nc_iommu_map(dev, node);
-92e54add84ea713 Sunil V L 2024-08-16  534  	}
-92e54add84ea713 Sunil V L 2024-08-16  535  
-92e54add84ea713 Sunil V L 2024-08-16  536  	return err;
-92e54add84ea713 Sunil V L 2024-08-16  537  }
-92e54add84ea713 Sunil V L 2024-08-16  538  
-
-:::::: The code at line 506 was first introduced by commit
-:::::: 92e54add84ea71310bc3c9e2afa25b7721b18c54 RISC-V: IOMMU: Add ACPI support using RIMT
-
-:::::: TO: Sunil V L <sunilvl@ventanamicro.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+    10	
+  > 11	extern int riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+    12				 size_t cpusetsize, unsigned long *cpus,
+    13				 unsigned int flags);
+    14	
+    15	static int riscv_vdso_get_values(struct riscv_hwprobe *pairs, size_t pair_count,
+    16					 size_t cpusetsize, unsigned long *cpus,
+    17					 unsigned int flags)
+    18	{
+  > 19		const struct vdso_arch_data *avd = __arch_get_vdso_u_arch_data();
+    20		bool all_cpus = !cpusetsize && !cpus;
+    21		struct riscv_hwprobe *p = pairs;
+  > 22		struct riscv_hwprobe *end = pairs + pair_count;
+    23	
+    24		/*
+    25		 * Defer to the syscall for exotic requests. The vdso has answers
+    26		 * stashed away only for the "all cpus" case. If all CPUs are
+    27		 * homogeneous, then this function can handle requests for arbitrary
+    28		 * masks.
+    29		 */
+    30		if ((flags != 0) || (!all_cpus && !avd->homogeneous_cpus))
+  > 31			return riscv_hwprobe(pairs, pair_count, cpusetsize, cpus, flags);
+    32	
+    33		/* This is something we can handle, fill out the pairs. */
+    34		while (p < end) {
+  > 35			if (riscv_hwprobe_key_is_valid(p->key)) {
+    36				p->value = avd->all_cpu_hwprobe_values[p->key];
+    37	
+    38			} else {
+    39				p->key = -1;
+    40				p->value = 0;
+    41			}
+    42	
+  > 43			p++;
+    44		}
+    45	
+    46		return 0;
+    47	}
+    48	
+    49	static int riscv_vdso_get_cpus(struct riscv_hwprobe *pairs, size_t pair_count,
+    50				       size_t cpusetsize, unsigned long *cpus,
+    51				       unsigned int flags)
+    52	{
+    53		const struct vdso_arch_data *avd = __arch_get_vdso_u_arch_data();
+    54		struct riscv_hwprobe *p = pairs;
+    55		struct riscv_hwprobe *end = pairs + pair_count;
+    56		unsigned char *c = (unsigned char *)cpus;
+    57		bool empty_cpus = true;
+    58		bool clear_all = false;
+    59		int i;
+    60	
+    61		if (!cpusetsize || !cpus)
+    62			return -EINVAL;
+    63	
+    64		for (i = 0; i < cpusetsize; i++) {
+    65			if (c[i]) {
+    66				empty_cpus = false;
+    67				break;
+    68			}
+    69		}
+    70	
+  > 71		if (empty_cpus || flags != RISCV_HWPROBE_WHICH_CPUS || !avd->homogeneous_cpus)
+    72			return riscv_hwprobe(pairs, pair_count, cpusetsize, cpus, flags);
+    73	
+    74		while (p < end) {
+    75			if (riscv_hwprobe_key_is_valid(p->key)) {
+  > 76				struct riscv_hwprobe t = {
+  > 77					.key = p->key,
+  > 78					.value = avd->all_cpu_hwprobe_values[p->key],
+    79				};
+    80	
+  > 81				if (!riscv_hwprobe_pair_cmp(&t, p))
+    82					clear_all = true;
+    83			} else {
+    84				clear_all = true;
+    85				p->key = -1;
+    86				p->value = 0;
+    87			}
+    88			p++;
+    89		}
+    90	
+    91		if (clear_all) {
+    92			for (i = 0; i < cpusetsize; i++)
+    93				c[i] = 0;
+    94		}
+    95	
+    96		return 0;
+    97	}
+    98	
+    99	/* Add a prototype to avoid -Wmissing-prototypes warning. */
+   100	int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+   101				 size_t cpusetsize, unsigned long *cpus,
+   102				 unsigned int flags);
+   103	
+ > 104	int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
+   105				 size_t cpusetsize, unsigned long *cpus,
+   106				 unsigned int flags)
+   107	{
+   108		if (flags & RISCV_HWPROBE_WHICH_CPUS)
+ > 109			return riscv_vdso_get_cpus(pairs, pair_count, cpusetsize,
+   110						   cpus, flags);
+   111	
+ > 112		return riscv_vdso_get_values(pairs, pair_count, cpusetsize,
 
 -- 
 0-DAY CI Kernel Test Service
