@@ -1,103 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23C31990C8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 12:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CE41ACEBB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 12:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734525081; cv=none; b=UgAgNB6lkfjESspGnga8043UOIapbmyZaAnhSleEBGg+xg8z79WNDuEeiFMOApWQpimlYSPn1p+2Qvdx/9WGcNMV6AJCtYONxhWAzpAS/2VB4t215pT+Lu9nRRCo5zxQgunMXDiYRHaaVNaJxT0ErRADdGd2LVyxkQ1sAmGfhFw=
+	t=1734525529; cv=none; b=gZ7JI8eMIii8zkfmWMem5rqlSzPZoH1hmlDGt+1er9It8yMpEXk+UTH+Wv0vgAbJQg1fXkF1hyJA1/It6H2O1pIKUeg/IBV6wv52Sey7aAGXwtB41DqoUObhGuw8Fv9AfzALVrztEDbQ7LIbdT2ooWu07ueFCcsrAja5j0bvfYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734525081; c=relaxed/simple;
-	bh=IjRLodiTtALwaq7uDCO/sjeo7xc/gv8mPz61vDFVz4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rbbGUJu6TU13aWCGS4e+OVjsuEMMXqgklV8XWNGrQASRntV58ABCAW5NjDn1WVwWKpqCVKiLmgtvKeIch0RRZ6dznMiCSklbTbnrGGihfIcFuQ8A69yoJT0ETrgmuNb2t36CDz1jEB3iecI3UlwR3l5woQqs5zcYpIwqgHDoDJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AR67Eh1m; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1734525529; c=relaxed/simple;
+	bh=L/Ng4rLiJeFJivBsxi9Q5RInaVaOVyMlPJHXjd+wEFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TrAT0IMIo7M+ulMiF4KbWOQoOqJQzkBGTihFh1e84nUgFRgE6MaC6PMXFR9O8J8KGZ656WiAhlHmS6U3uzpIGraC8kWOi0533by8161hH+iPwNeJxou3i/lIC3MfP++JOV99/9nh7zqbzJR2SA8USNReUGpX0r1YIJF9eFbzhs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZGr8V1e; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AR67Eh1m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZGr8V1e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734525078; x=1766061078;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IjRLodiTtALwaq7uDCO/sjeo7xc/gv8mPz61vDFVz4M=;
-  b=AR67Eh1mkoahw4TPrAnr8An4U0w6d6agKooXorlGL9w9eLesT3ymOfoz
-   5XbAkMiZKt32wc57tuiXQOsSn4pI04qk8Yx4qJSVK4Lijcr7Q0D0d41UJ
-   usip/mmPiOYPKErmriM6P7W8OX94Khmy6DCOJp25si2tqiIzFxMA4zGsV
-   iew5QYhDB6p8DFCnZgLEioApNCWMUP7o9t5XqY9JpUpUBRGoMSXRS54nS
-   /G6jidyT+kRJXnQFwO2IH8LA6Ejz5B/Ics8VZoWOtoItpZK00bQhQcIad
-   9QhOTxv2kryOE1K78+sXi+kC7lUOMWtnahl43JiPYF2KyV8CctPoxLSGw
-   g==;
-X-CSE-ConnectionGUID: w8rrUU9+RQ2n7bkEoC3rrQ==
-X-CSE-MsgGUID: yDkmCvpyQPm98Ondclfjvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="52517105"
+  t=1734525526; x=1766061526;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L/Ng4rLiJeFJivBsxi9Q5RInaVaOVyMlPJHXjd+wEFM=;
+  b=fZGr8V1ehKlqR8ADOOtWAvWWml21SFzxjKkrbd2KjZ9qAOMDWROreeWn
+   TAgCvoVLDEPv7NspYYLe2eLjwOclMTaIc5p1wWXtyrXkaVp7pzlr4ANcf
+   /xRJhe6L7nY/B73v/w8dhiJLWyW2L/TD2F/K/U0E06hW1K6C6B7T92uDe
+   PNjCdx6N8ptSc8pPCkYVLjLFGZuKdkXoxeUu3hYTU4yzNhLe41RApZ5Qt
+   Pl/TH90IwQvbZZ7LVaB+Fm2/BiTuJaqn7Ou9ddVvMHdVjTTMKmUk7eG0Q
+   FUdT/BvaSQe3BFHTcbEJVaftRUHZ3wyoCNdchSxQX1iXWqX7hmNT26nGU
+   w==;
+X-CSE-ConnectionGUID: wp7m0t6cT1Gza7PTZS49UA==
+X-CSE-MsgGUID: yDMRmj0WR16RhtNjwIsXzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="60384454"
 X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="52517105"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 04:31:17 -0800
-X-CSE-ConnectionGUID: If53LohJRHaRWHeM6bRd9g==
-X-CSE-MsgGUID: U+8oqX+cTdaATWK4/o9B0w==
+   d="scan'208";a="60384454"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 04:38:46 -0800
+X-CSE-ConnectionGUID: XC8GUvJdTf62HLaR5+E04A==
+X-CSE-MsgGUID: wn8yHZY4QZa6JCTEWYlTGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="102839795"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa004.jf.intel.com with ESMTP; 18 Dec 2024 04:31:16 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 0011B329; Wed, 18 Dec 2024 14:31:14 +0200 (EET)
-Date: Wed, 18 Dec 2024 14:31:14 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: drivers/thunderbolt/debugfs.c:532:5-33: opportunity for
- str_yes_no(supports_software ( margining )) (fwd)
-Message-ID: <20241218123114.GG3713119@black.fi.intel.com>
-References: <alpine.DEB.2.22.394.2412170944390.3436@hadrien>
+   d="scan'208";a="102695555"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Dec 2024 04:38:45 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNtK7-000GL0-0N;
+	Wed, 18 Dec 2024 12:38:43 +0000
+Date: Wed, 18 Dec 2024 20:37:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kevin Brodsky <kevin.brodsky@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
+Subject: [arm-integrator:p4d_pgd_cdtor 7/10]
+ arch/s390/include/asm/pgalloc.h:67:43: error: 'table' undeclared; did you
+ mean 'sg_table'?
+Message-ID: <202412182009.sPgCkNSL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2412170944390.3436@hadrien>
 
-Hi Julia,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git p4d_pgd_cdtor
+head:   5453d8f69ac04a3a31ea973f98de9e0c58248a42
+commit: cc7446a95acd752405250c553362cd032f591822 [7/10] mm: Introduce ctor/dtor at P4D level
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241218/202412182009.sPgCkNSL-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412182009.sPgCkNSL-lkp@intel.com/reproduce)
 
-On Tue, Dec 17, 2024 at 09:45:01AM +0100, Julia Lawall wrote:
-> 
-> 
-> ---------- Forwarded message ----------
-> Date: Tue, 17 Dec 2024 16:26:31 +0800
-> From: kernel test robot <lkp@intel.com>
-> To: oe-kbuild@lists.linux.dev
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> Subject: drivers/thunderbolt/debugfs.c:532:5-33: opportunity for
->     str_yes_no(supports_software ( margining ))
-> 
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> CC: linux-kernel@vger.kernel.org
-> TO: Mika Westerberg <mika.westerberg@linux.intel.com>
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   f44d154d6e3d633d4c49a5d6aed8a0e4684ae25e
-> commit: ec6f888ed08aeceaebfdd7d344ae0cd91a1b9a1b thunderbolt: Split out margining from USB4 port
-> date:   6 months ago
-> :::::: branch date: 14 hours ago
-> :::::: commit date: 6 months ago
-> config: loongarch-randconfig-r061-20241217 (https://download.01.org/0day-ci/archive/20241217/202412171648.LGwq0U3d-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> | Closes: https://lore.kernel.org/r/202412171648.LGwq0U3d-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
->    drivers/thunderbolt/debugfs.c:544:4-25: opportunity for str_yes_no(both_lanes ( margining ))
-> >> drivers/thunderbolt/debugfs.c:532:5-33: opportunity for str_yes_no(supports_software ( margining ))
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412182009.sPgCkNSL-lkp@intel.com/
 
-Definitely makes sense. Would you want to make a patch for it?
+All errors (new ones prefixed by >>):
+
+   In file included from arch/s390/include/asm/mmu_context.h:11,
+                    from arch/s390/include/asm/elf.h:181,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/pci.h:37,
+                    from arch/s390/include/asm/hw_irq.h:6,
+                    from include/linux/irq.h:591,
+                    from include/linux/msi.h:24,
+                    from include/linux/kvm_host.h:19,
+                    from arch/s390/kernel/asm-offsets.c:11:
+   arch/s390/include/asm/pgalloc.h: In function 'p4d_free':
+>> arch/s390/include/asm/pgalloc.h:67:43: error: 'table' undeclared (first use in this function); did you mean 'sg_table'?
+      67 |         pagetable_p4d_dtor(virt_to_ptdesc(table));
+         |                                           ^~~~~
+         |                                           sg_table
+   arch/s390/include/asm/pgalloc.h:67:43: note: each undeclared identifier is reported only once for each function it appears in
+   make[3]: *** [scripts/Makefile.build:102: arch/s390/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1203: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +67 arch/s390/include/asm/pgalloc.h
+
+    62	
+    63	static inline void p4d_free(struct mm_struct *mm, p4d_t *p4d)
+    64	{
+    65		if (mm_p4d_folded(mm))
+    66			return;
+  > 67		pagetable_p4d_dtor(virt_to_ptdesc(table));
+    68		crst_table_free(mm, (unsigned long *) p4d);
+    69	}
+    70	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
