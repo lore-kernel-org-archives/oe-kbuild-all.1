@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014151F931
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 02:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D1A4C91
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 02:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734488383; cv=none; b=YxaqGX8GwQMUw5BrG2ziiDCtDV9yCwM+wYJxVtWoiXR3DYYnz+PD6+wJHUJ7q8q4+LIVo0NDnVnza4nRiDAbA71qGg5RUqhSw9AeRFsvPAVq3AmcEWT+i7Gl7Mga/rjFb+MHYoqLMoeh7hSQES/H613mVrfPJ07YErI/MZMrjAw=
+	t=1734490311; cv=none; b=mQ1p57QD9XtRpdcHQezhs3YtkR9TCiMNHbQ4ImRZUJSi6ozvpWmEdtPFCgAGQi2m9Y/eQIsgpri591qSknTxN/7xofGrpJtyR9jH/3zGXXu/6Vao+4S+zlZXc9gFmMaSmtFxhoVbEHmcwSbUkvggXyQ/mSzXm0hD3aPDgJja9h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734488383; c=relaxed/simple;
-	bh=/8vi+XRHW5AKZRSZd5D0XjRgoBmBR/iV5XjJdPpo2f0=;
+	s=arc-20240116; t=1734490311; c=relaxed/simple;
+	bh=9MNQ4Wy5UL68C4+BsakSsJzWsrrifL7QXcRyG2MPVI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nrWK9wKnc+CbzM0qAQ/GbuDnaDpRo8fLljFSpYcurvxeEAwWYzMbVpoAEhvvZNkyQAk2TrYiMNOk2ud1l80VzGZesBVRGCVam5ASCckdXa/1nps4pVAmF+nUwAxy5HG617sLusHAaI5ObQc6fP2g07k2oLms1bnq6mBSwz3iwsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3+EM2FO; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ln3Y+a+T+6SO5UD42yXETRKK2W0DI6QedayF8N0yx0r5CJ8WbCfcMUPTmvOqecTHjto53bZ18O6YQXkktJelRfpFSIaP3RNQXcg4vUj8sKIkBhgLO2ASPOcWf2f1C3IUHc9afPHmBmNiKhAMwTmGIiUR4uOZNAPQggyX/0FpQcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvC2LnoV; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3+EM2FO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvC2LnoV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734488381; x=1766024381;
+  t=1734490309; x=1766026309;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/8vi+XRHW5AKZRSZd5D0XjRgoBmBR/iV5XjJdPpo2f0=;
-  b=g3+EM2FO/7ISqx6mLo+BfVD5Z9Dt7JcDPURP0NjhJAFnqiIDKrExuX+y
-   NSpFsJXbTZ1LeYbkR7Z5ev5+lGsRmcRJUbEVRhRoOXyULSvGI2l34fKOx
-   T9h21+y+3kzgKXb7A2rZomrNGZBvccIIX+La9eLRDp4K4H4BB5ifQZYt3
-   a4WIJkXYLC1niVvRyuIl5CtlOkQPTw/tQQQwYrLEwJNR8NmgvbY7EFgi+
-   mzfzjsRH4hkr67KYTSoUBpDlXLWbd38eCRB6y2GTTO6mhlIVUXY30OBSJ
-   UlHsH3rkXbCTUwJti+EP1PpVkSTljTqF/v2amXPli6JjaByMUovvWQfUi
-   Q==;
-X-CSE-ConnectionGUID: pmiSg5jwSyiyUpqQzYrcKQ==
-X-CSE-MsgGUID: 4bgnNJimQDa8VYYtB05Vfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="22535799"
-X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="22535799"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 18:19:40 -0800
-X-CSE-ConnectionGUID: QWSqsrxiRLWHE/0yd5nR9A==
-X-CSE-MsgGUID: 9dPa3ylCRCuJ1OYX+cqdWA==
+  bh=9MNQ4Wy5UL68C4+BsakSsJzWsrrifL7QXcRyG2MPVI8=;
+  b=jvC2LnoVcA+WVV5z6izPz68oA3RCltkDhOxHQ3maNpiXrKRUGbwn15Mb
+   i/3Rp/JbzGo+o5ukxzHmVMARH0G9LN8pcvTQ37RFZbiESNFdIgNw/Cy3a
+   rHUTJxw2rTkqxLWhwt+zt+2eBtXXDPAcq77pwUG17qp1hFLbeuTqhmegf
+   CW7t4364tVY6fxkratSJBIVwWWzlEGmiXtbg9/0gl00BWBcO1k2n5lPX5
+   cUIKCupsUHwILrUHykXq8icTP5T3X8GmZghOWPHaoDgW8YJUNerTNEslF
+   bS1DAqFewcMq6x4ozeYkpssyS2CT6UP0H2o05Rkm1jq7qLS2Z43xfudxO
+   w==;
+X-CSE-ConnectionGUID: QUIb3/6KSbqt4sSEp7SgBg==
+X-CSE-MsgGUID: Xgf7CRIxQ0OcEXyY6GPB7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="46360214"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="46360214"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 18:51:49 -0800
+X-CSE-ConnectionGUID: uARcpJX4TEara09BaYP4Qw==
+X-CSE-MsgGUID: xazhnWpPQS+NwGzFmrixAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="97617906"
+   d="scan'208";a="102721103"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Dec 2024 18:19:39 -0800
+  by orviesa004.jf.intel.com with ESMTP; 17 Dec 2024 18:51:47 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNjey-000FzK-3A;
-	Wed, 18 Dec 2024 02:19:36 +0000
-Date: Wed, 18 Dec 2024 10:19:19 +0800
+	id 1tNkA5-000G0Y-16;
+	Wed, 18 Dec 2024 02:51:45 +0000
+Date: Wed, 18 Dec 2024 10:51:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android15-6.6 1/2] mm/vmscan.c:2623:15: warning: no
- previous prototype for 'shrink_inactive_list'
-Message-ID: <202412181004.uWJTSbZ3-lkp@intel.com>
+ previous prototype for function 'shrink_inactive_list'
+Message-ID: <202412181040.Uhc5kvuu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,23 +65,65 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common android15-6.6
 head:   0132ffefc49d2deaa2f5faaa230f3ab90d91c08e
 commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [1/2] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
-config: x86_64-buildonly-randconfig-004-20241218 (https://download.01.org/0day-ci/archive/20241218/202412181004.uWJTSbZ3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412181004.uWJTSbZ3-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20241218 (https://download.01.org/0day-ci/archive/20241218/202412181040.Uhc5kvuu-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412181040.Uhc5kvuu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412181004.uWJTSbZ3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412181040.Uhc5kvuu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+   In file included from mm/vmscan.c:15:
+   In file included from include/linux/mm.h:2238:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:30:
+   include/linux/mm_inline.h:49:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:51:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      51 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:678:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     678 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
+         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:1043:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
     1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
->> mm/vmscan.c:2623:15: warning: no previous prototype for 'shrink_inactive_list' [-Wmissing-prototypes]
+         |               ^
+   mm/vmscan.c:1043:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         | ^
+         | static 
+   mm/vmscan.c:2442:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2442 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+>> mm/vmscan.c:2623:15: warning: no previous prototype for function 'shrink_inactive_list' [-Wmissing-prototypes]
     2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         |               ^~~~~~~~~~~~~~~~~~~~
+         |               ^
+   mm/vmscan.c:2623:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+         | ^
+         | static 
+   mm/vmscan.c:2971:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2971 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
+         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
+   mm/vmscan.c:2972:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2972 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
+         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
+   mm/vmscan.c:7018:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    7018 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   10 warnings generated.
 
 
 vim +/shrink_inactive_list +2623 mm/vmscan.c
