@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C890223E74
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 12:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1494C226164
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 13:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734611832; cv=none; b=gd6SJhvtDgWrvA9sHx0w5EhB5wOhwQHGNb5XRYJwvWhVgFRI6Jc/8YbZ6Jb/HRF9xtgPf4wJ8pi9Um+hyR0sYCZbXXL8R3Gm7tZVx2chJsT+eDmEq4VVlifPAuwdmM+41uLp7BiFVEq7Ia7C0CjV0eV9wLXhBHzORbBdwmjgg3A=
+	t=1734614895; cv=none; b=hxNwYdO5qmrtAYNFv9/R8QpodjgBhNqUS8JZhvufs9rljKUNINavVIRtB5N4DwCyFtPoDnVtKdOyVaduLxrDJ0VINZ3EHF77HSO6YdPyb+7zc/20+FCDIyGXULAQ8V6+n++Ac+3gZWfoErOqRk6gWQq25ids9xsvmmFu2gXMJZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734611832; c=relaxed/simple;
-	bh=CeWEo6MYbEtx1WO0EP/TssOhD9/W9wBif5P96FRc6lk=;
+	s=arc-20240116; t=1734614895; c=relaxed/simple;
+	bh=chkT6FHZMN+UxmECpYWrJ/Hptf+3JZss1kcOTCUq+yc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jrmfAmqWlW+fYZPybsiDYUkrFrcRrivig+uS3WQvLzE4RdB8JKY9oHQfrUqZ5b9GaTHDMEALMlEG3nsTw95xCK6GImuAtQ0Xqu4msCF7wo1PKZY/bT72py12ycH4EROsxLWE3c45Kdl38DY9Gdbq2vgRaHw7Wr6Qgy1VHVKrBKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZvUL4hzj; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=otxPsAH3Ss7liqSTNxgsp4fzI5X9/XGh3GkhD6Ik9IC7T7vwt74cyjk4zdSxO6PEE3cweG2JFWscEzuZr/Bm1tUiXeUwKfuMapeR2TqX122kayWH4iyMejbT8DnCQ1OxRXEnQDZW9H0TDGVEi/sO+/eXGdeXZA6TFe3GTitKTEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNZQY/S0; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZvUL4hzj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNZQY/S0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734611830; x=1766147830;
+  t=1734614894; x=1766150894;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CeWEo6MYbEtx1WO0EP/TssOhD9/W9wBif5P96FRc6lk=;
-  b=ZvUL4hzjh2YOy86Z3tSI8fjwWjz5kzadZ1GaFAWT6qln05UkA43Gwq5t
-   IygH8I4nuyJFcOdc+1ElXNcfpQLnj90x23pgoPPC/0YyCvAJVG+P9djkD
-   svdoHPhnmYEiTwHb9IFTw/MZGzk8IRTQQjW7Xg0QBRq9dRJM5Nb5+yMOf
-   5tPOsG6mapcX8QEk3j+AcHwFH+QoRjfSQpct109sjsnqQIqBrwOKUsO6+
-   u/sScaVNMs9sGEmP4r0Vkz76+AJskn0j2HQxBiLz5Xigv3sgRj8p1ohK7
-   hN6dNAyNWtin8wFU7VNCIuKgB8lA1gitgkmfyGCY6st5rPTXuWaYOxkLP
-   g==;
-X-CSE-ConnectionGUID: LdbYPBDuR7y4Lfw94V8p6A==
-X-CSE-MsgGUID: eM+MQh4NRwON9hIZfUFTtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="35334581"
+  bh=chkT6FHZMN+UxmECpYWrJ/Hptf+3JZss1kcOTCUq+yc=;
+  b=KNZQY/S0Om6ks+NGP6f0u3UEL2ZQnUT1DpRUMYjErr4VuYEEbOb9z1ve
+   Klwxsucbc+bvkCbahODHl2p+IV589u2Hs1P8eAllv5/tHSxRw8d3iRFgV
+   I925/JBKAEq+xQHaO9twlW9k2cEbOQXs0317aboevtCL4L+LNDAtw8If6
+   gKf785hxLcjlIUD0cjji8d5jXbHE77URH7f9CiPT0H5wY8z3r4l5dwUqh
+   UELKZSbvA81yabQIuP2PCoZmGaipNnOZWBbOpZL9/gjBYgTijBBUJkbd+
+   NUYpVbHiUIeRaTDTPeZg4teeWJ0G21vZi+q+ME8uGjqgILG2y/XZG+rzs
+   A==;
+X-CSE-ConnectionGUID: lcIgi3hqRVSDgX/jjE1oig==
+X-CSE-MsgGUID: XlV61cnfQ+C941PKoAJkIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="38902189"
 X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
-   d="scan'208";a="35334581"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 04:37:10 -0800
-X-CSE-ConnectionGUID: wNNc0XicROekRE3F1T+w2g==
-X-CSE-MsgGUID: EAwR4hOeRsqgA/bc2DhStg==
+   d="scan'208";a="38902189"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 05:28:13 -0800
+X-CSE-ConnectionGUID: 3DaEQdPDQjyPAEgGjXmLfw==
+X-CSE-MsgGUID: lEL39qgVQLS5cLVkQ4uy9A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
-   d="scan'208";a="97975258"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="121461385"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Dec 2024 04:37:08 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 19 Dec 2024 05:28:12 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOFm6-0000Et-2A;
-	Thu, 19 Dec 2024 12:37:06 +0000
-Date: Thu, 19 Dec 2024 20:36:29 +0800
+	id 1tOGZW-0000GC-0Y;
+	Thu, 19 Dec 2024 13:28:10 +0000
+Date: Thu, 19 Dec 2024 21:28:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Atish Patra <atishp@rivosinc.com>
-Subject: arch/riscv/kvm/vcpu_timer.c:75:9: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202412192017.t0ZPK7sM-lkp@intel.com>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1336/1336]
+ drivers/staging/gmjstcm/tcm_tis_spi.c:817:36: warning:
+ 'tcm_tis_spi_acpi_match' defined but not used
+Message-ID: <202412192143.ddGXn3L0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,127 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eabcdba3ad4098460a376538df2ae36500223c1e
-commit: e28e6b69767b3aea73eda0fd3e7b4e1c15a7ebec RISC-V: KVM: Use nacl_csr_xyz() for accessing H-extension CSRs
-date:   7 weeks ago
-config: riscv-randconfig-r113-20241219 (https://download.01.org/0day-ci/archive/20241219/202412192017.t0ZPK7sM-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241219/202412192017.t0ZPK7sM-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   dda59452adcd5503512e4d25631db28a50f38fd0
+commit: 5ebbfc8c29eb5eb6dfdab853bdb2a622e0533d7e [1336/1336] staging: TCM: add GMJS(Nationz Tech) TCM driver.
+config: arm64-randconfig-003-20241219 (https://download.01.org/0day-ci/archive/20241219/202412192143.ddGXn3L0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241219/202412192143.ddGXn3L0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412192017.t0ZPK7sM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412192143.ddGXn3L0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kvm/vcpu_timer.c:75:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu_timer.c:75:9: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_timer.c:75:9: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu_timer.c:76:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu_timer.c:76:9: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_timer.c:76:9: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu_timer.c:292:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu_timer.c:292:9: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_timer.c:292:9: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu_timer.c:293:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu_timer.c:293:9: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_timer.c:293:9: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu_timer.c:309:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu_timer.c:309:9: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_timer.c:309:9: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu_timer.c:310:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu_timer.c:310:9: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_timer.c:310:9: sparse:     got restricted __le32 [usertype]
->> arch/riscv/kvm/vcpu_timer.c:330:26: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu_timer.c:331:32: sparse: sparse: cast to restricted __le32
+All error/warnings (new ones prefixed by >>):
+
+   drivers/staging/gmjstcm/tcm_tis_spi.c:109:5: warning: no previous prototype for 'tcm_tis_spi_transfer' [-Wmissing-prototypes]
+     109 | int tcm_tis_spi_transfer(struct device *dev, u32 addr, u16 len,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'recv_data':
+   drivers/staging/gmjstcm/tcm_tis_spi.c:423:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     423 |         int ret;
+         |             ^~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: At top level:
+>> drivers/staging/gmjstcm/tcm_tis_spi.c:817:36: warning: 'tcm_tis_spi_acpi_match' defined but not used [-Wunused-const-variable=]
+     817 | static const struct acpi_device_id tcm_tis_spi_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'cleanup_tis':
+   drivers/staging/gmjstcm/tcm_tis_spi.c:249:17: warning: 'inten' may be used uninitialized [-Wmaybe-uninitialized]
+     249 |                 tcm_tis_writel(chip->dev, TCM_INT_ENABLE(chip->vendor.locality),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     250 |                                 ~TCM_GLOBAL_INT_ENABLE & inten);
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c:237:13: note: 'inten' was declared here
+     237 |         u32 inten;
+         |             ^~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'tcm_tis_init':
+   drivers/staging/gmjstcm/tcm_tis_spi.c:264:21: warning: 'vendor' may be used uninitialized [-Wmaybe-uninitialized]
+     264 |         if ((vendor & 0xffff) != 0x19f5 && (vendor & 0xffff) != 0x1B4E)
+         |             ~~~~~~~~^~~~~~~~~
+   drivers/staging/gmjstcm/tcm_tis_spi.c:260:13: note: 'vendor' was declared here
+     260 |         u32 vendor, intfcaps;
+         |             ^~~~~~
 --
->> arch/riscv/kvm/mmu.c:735:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/mmu.c:735:9: sparse:     expected unsigned long
-   arch/riscv/kvm/mmu.c:735:9: sparse:     got restricted __le32 [usertype]
---
-   arch/riscv/kvm/vcpu.c:27:49: sparse: sparse: array of flexible structures
-   arch/riscv/kvm/vcpu.c: note: in included file:
-   include/linux/kvm_host.h:2033:56: sparse: sparse: array of flexible structures
->> arch/riscv/kvm/vcpu.c:371:21: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:374:16: sparse: sparse: cast to restricted __le32
->> arch/riscv/kvm/vcpu.c:577:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:577:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:577:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:578:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:578:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:578:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:579:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:579:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:579:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:580:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:580:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:580:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:581:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:581:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:581:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:582:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:582:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:582:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:583:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:583:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:583:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:584:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:584:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:584:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:585:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:585:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:585:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:586:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:586:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:586:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:587:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:587:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:587:17: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:589:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:589:25: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:589:25: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:591:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:591:25: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:591:25: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:593:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:593:33: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:593:33: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:654:33: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:655:29: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:656:31: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:657:34: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:658:30: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:659:32: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:660:31: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:661:29: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:662:30: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:728:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:728:9: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:728:9: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:775:26: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:775:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le32 [usertype] @@
-   arch/riscv/kvm/vcpu.c:775:26: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu.c:775:26: sparse:     got restricted __le32 [usertype]
-   arch/riscv/kvm/vcpu.c:912:30: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c:913:31: sparse: sparse: cast to restricted __le32
-   arch/riscv/kvm/vcpu.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:320:9: sparse: sparse: context imbalance in 'kvm_riscv_check_vcpu_requests' - unexpected unlock
+   aarch64-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   aarch64-linux-ld: fs/ext4/super.o: in function `ext4_handle_error':
+   super.c:(.text+0x1472c): undefined reference to `__alloc_skb'
+>> super.c:(.text+0x1472c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__alloc_skb'
+>> aarch64-linux-ld: super.c:(.text+0x14794): undefined reference to `__nlmsg_put'
+>> super.c:(.text+0x14794): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__nlmsg_put'
+>> aarch64-linux-ld: super.c:(.text+0x14878): undefined reference to `netlink_broadcast'
+>> super.c:(.text+0x14878): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `netlink_broadcast'
+>> aarch64-linux-ld: super.c:(.text+0x149cc): undefined reference to `kfree_skb'
+>> super.c:(.text+0x149cc): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `kfree_skb'
+   aarch64-linux-ld: fs/ext4/super.o: in function `ext4_init_fs':
+   super.c:(.init.text+0x52e4): undefined reference to `init_net'
+>> super.c:(.init.text+0x52e4): relocation truncated to fit: R_AARCH64_ADR_PREL_PG_HI21 against undefined symbol `init_net'
+>> aarch64-linux-ld: super.c:(.init.text+0x52ec): undefined reference to `init_net'
+>> aarch64-linux-ld: super.c:(.init.text+0x52f4): undefined reference to `__netlink_kernel_create'
+>> super.c:(.init.text+0x52f4): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__netlink_kernel_create'
+   aarch64-linux-ld: fs/ext4/super.o: in function `ext4_exit_fs':
+   super.c:(.exit.text+0x7c): undefined reference to `netlink_kernel_release'
+>> super.c:(.exit.text+0x7c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `netlink_kernel_release'
 
-vim +75 arch/riscv/kvm/vcpu_timer.c
 
-    71	
-    72	static int kvm_riscv_vcpu_update_vstimecmp(struct kvm_vcpu *vcpu, u64 ncycles)
-    73	{
-    74	#if defined(CONFIG_32BIT)
-  > 75		ncsr_write(CSR_VSTIMECMP, ncycles & 0xFFFFFFFF);
-    76		ncsr_write(CSR_VSTIMECMPH, ncycles >> 32);
-    77	#else
-    78		ncsr_write(CSR_VSTIMECMP, ncycles);
-    79	#endif
-    80		return 0;
-    81	}
-    82	
+vim +/tcm_tis_spi_acpi_match +817 drivers/staging/gmjstcm/tcm_tis_spi.c
+
+   816	
+ > 817	static const struct acpi_device_id tcm_tis_spi_acpi_match[] = {
+   818		{"TCMS0001", 0},
+   819		{"SMO0768", 0},
+   820		{"ZIC0601", 0},
+   821		{}
+   822	};
+   823	MODULE_DEVICE_TABLE(acpi, tcm_tis_spi_acpi_match);
+   824	
 
 -- 
 0-DAY CI Kernel Test Service
