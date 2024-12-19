@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84132217719
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 05:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615F67082A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 07:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734587738; cv=none; b=SVwHVaLTVvDV54nYx3/jJRQSHYZQJaj2loAwGuirin/g6rk1FXR1C6pIKa4kbxK0NckplzipNfos8bGsu+ByqnNaEbYTDM+YvmnWGFh9LsJ3eEOcZsP0MnsClmwgwVUvrPabWUjzAghABN8UEd9hU7N+0NDsb42BM/fibd+T23Q=
+	t=1734593264; cv=none; b=s2QJgpm2/+4p3wBFC06OaJ+cyDsgpSEN4cP467CrfQG38VhY+9/2jmh2K4AhbkHPUgzxVeonFqa/s7e0+eCdZl+8a90Wen9q4Vme9g82NLu4EcKlJt0MAUl0xU+3/ZaH3oYP925d2TyTvu+nBbo4ag8ZJfXwnXanzOU4rhEoJBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734587738; c=relaxed/simple;
-	bh=FXtzseKz/oEaUNrHZeU0GJBTRRMdMqSCrY61kkP2LXA=;
+	s=arc-20240116; t=1734593264; c=relaxed/simple;
+	bh=2LWnwZvRE1R1ygw/EAnSUKPCLv88NyPQ6CwgkJZtVsQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JkRoVPKMX3k3WJ2hhqntlErnDIUXXdEeDtKyhgF59BMjYDtIGdzmrPj28ByEYkq+7eflQNMwy61q2szACw5UFq+aP0LLmi1+66tzLBXvPw9zotBWcMGkizvTScJingxah8epFaQ4mj8p7YgGP9jUnDr/xh5MnqqTLfNiEUvYqrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYNIxsEy; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=FhnEmDGL7Mqv5PBXXsYIGqMhuqpVs/ubYQrNbHzLV3LziCUTkk9xQ2yy5Slsmlteml9lEY0zVx59LkO7sCbPdQYEBgYq2WgR34JgdV3W3Q/tx35sWF3ECYtc9NlXfy9yDRQqiIoBuUNflTZKIANN/KkZSTOhsBaxBQgGsnNirXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfKaF9dT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYNIxsEy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfKaF9dT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734587736; x=1766123736;
+  t=1734593262; x=1766129262;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FXtzseKz/oEaUNrHZeU0GJBTRRMdMqSCrY61kkP2LXA=;
-  b=PYNIxsEyJ6xjne6RZWM+FDC/NkHONG5MAmayxqKYtahXnBrlt72Xzs7E
-   ItFVhnYcEV0Z+LMU2I+LYm6EqDRz2HO8Oh6sE8z9eLbRhalF2rH1ODU4l
-   9FaSow7QEyxGfzhiSSYfd8Y1qZhupQj+DVH5FBbsc5znvHZAT31HxNnM3
-   MBIeemTnYA46K96EHspRauXhYkqMJFdvRpswhbI4FWArOclK0cA39P7YJ
-   P0EZsZxS9vHZLDYvFYhOM5CnEi3WSQPBdIEoa6HAjw6jyXYyg5pbDZ7B8
-   VWTFp/vBSKpkCCpkpKM8oo8PoEAAWnsh7zfSz3BLMIkU+5O6Edeg+N7VF
-   Q==;
-X-CSE-ConnectionGUID: eOIruvPdTdS4nj3LXkXY/w==
-X-CSE-MsgGUID: u5PFi2uETrKB1lsoLqzVBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="60468484"
-X-IronPort-AV: E=Sophos;i="6.12,246,1728975600"; 
-   d="scan'208";a="60468484"
+  bh=2LWnwZvRE1R1ygw/EAnSUKPCLv88NyPQ6CwgkJZtVsQ=;
+  b=XfKaF9dT0oSlHnH2t6gQxQdhxSOyW4B8HZmJB6Kimuzge/U7cOPJk/Xu
+   +KuNAyJf7eV81wiVxsNgEIL55DRDUtZc21FVHdK5W3z69Q4xt8jkc8hGP
+   M7DwmHtPcI+PMSNkihKaHPLCuIgEgAkvWIGAqehJeamFb7vzgx3+kQOPL
+   24Bm117XeRoKLJNmxpCp5fHE+NtNHAgT6QBLVChVNtf2o8yxj+7mOU6ef
+   vQub/7cIU8you38SwDc/YK1dhwWWt3LNYDD5+8SsniQ+/GoAhwEDaeKR7
+   VBf7RqtNenGzB/zj/ZNIivUkxl5R5F5+6cZ26dD3JmgGQBMxS4Kv3W9zT
+   g==;
+X-CSE-ConnectionGUID: t6PkqBXJRSOdVoK7c/Kkhg==
+X-CSE-MsgGUID: i9ZHaIQfQiKqNXIGdUkzUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="34992405"
+X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
+   d="scan'208";a="34992405"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 21:55:36 -0800
-X-CSE-ConnectionGUID: DV1Bjg1qSlqSc28bi6q75g==
-X-CSE-MsgGUID: tukKylGWSvqPf/ueCDII5w==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 23:27:41 -0800
+X-CSE-ConnectionGUID: Jtb1A+rZRbuIKNFIsehEhQ==
+X-CSE-MsgGUID: uYiw48EOTHWNPHP8unf5vg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,246,1728975600"; 
-   d="scan'208";a="98631045"
+X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
+   d="scan'208";a="98644460"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Dec 2024 21:55:34 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 18 Dec 2024 23:27:40 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tO9VT-000047-1R;
-	Thu, 19 Dec 2024 05:55:31 +0000
-Date: Thu, 19 Dec 2024 13:55:01 +0800
+	id 1tOAwc-00005e-0y;
+	Thu, 19 Dec 2024 07:27:38 +0000
+Date: Thu, 19 Dec 2024 15:26:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [rafael-pm:bleeding-edge 37/51] thermal_netlink.c:undefined
- reference to `sk_skb_reason_drop'
-Message-ID: <202412191310.7OD0ztSD-lkp@intel.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@rivosinc.com>
+Subject: arch/riscv/kvm/vcpu_sbi_sta.c:58:20: sparse: sparse: cast to
+ restricted __le32
+Message-ID: <202412191512.SmrR3jZB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,58 +63,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   e2bbcfa0b21a5bb2cf1e5fff2f1336515fb228a9
-commit: 4596cbea0ed2ef4f563a92775c9f612700ece145 [37/51] thermal: intel: Remove explicit user_space governor selection
-config: i386-buildonly-randconfig-001-20241219 (https://download.01.org/0day-ci/archive/20241219/202412191310.7OD0ztSD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241219/202412191310.7OD0ztSD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eabcdba3ad4098460a376538df2ae36500223c1e
+commit: e9f12b5fff8ad0eefd0340273767d329ef65fd69 RISC-V: KVM: Implement SBI STA extension
+date:   12 months ago
+config: riscv-randconfig-r113-20241219 (https://download.01.org/0day-ci/archive/20241219/202412191512.SmrR3jZB-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241219/202412191512.SmrR3jZB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412191310.7OD0ztSD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412191512.SmrR3jZB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/riscv/kvm/vcpu_sbi_sta.c:55:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const [noderef] __user *__p @@     got unsigned int [usertype] *[assigned] sequence_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:55:13: sparse:     expected unsigned int const [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:55:13: sparse:     got unsigned int [usertype] *[assigned] sequence_ptr
+>> arch/riscv/kvm/vcpu_sbi_sta.c:58:20: sparse: sparse: cast to restricted __le32
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] __user *__p @@     got unsigned int [usertype] *[assigned] sequence_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     expected unsigned int [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     got unsigned int [usertype] *[assigned] sequence_ptr
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int __val @@     got restricted __le32 [usertype] @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     expected unsigned int __val
+   arch/riscv/kvm/vcpu_sbi_sta.c:61:13: sparse:     got restricted __le32 [usertype]
+   arch/riscv/kvm/vcpu_sbi_sta.c:64:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long const [noderef] __user *__p @@     got unsigned long long [usertype] *[assigned] steal_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:64:14: sparse:     expected unsigned long long const [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:64:14: sparse:     got unsigned long long [usertype] *[assigned] steal_ptr
+>> arch/riscv/kvm/vcpu_sbi_sta.c:65:25: sparse: sparse: cast to restricted __le64
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [noderef] __user *__p @@     got unsigned long long [usertype] *[assigned] steal_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     expected unsigned long long [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     got unsigned long long [usertype] *[assigned] steal_ptr
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long long __val @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     expected unsigned long long __val
+   arch/riscv/kvm/vcpu_sbi_sta.c:68:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] __user *__p @@     got unsigned int [usertype] *[assigned] sequence_ptr @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     expected unsigned int [noderef] __user *__p
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     got unsigned int [usertype] *[assigned] sequence_ptr
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int __val @@     got restricted __le32 [usertype] @@
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     expected unsigned int __val
+   arch/riscv/kvm/vcpu_sbi_sta.c:72:9: sparse:     got restricted __le32 [usertype]
 
-   ld: drivers/thermal/thermal_netlink.o: in function `nla_put_u32':
-   thermal_netlink.c:(.text+0x13): undefined reference to `nla_put'
-   ld: drivers/thermal/thermal_netlink.o: in function `nla_nest_start_noflag':
-   thermal_netlink.c:(.text+0x279): undefined reference to `nla_put'
-   ld: drivers/thermal/thermal_netlink.o: in function `nla_put_string':
-   thermal_netlink.c:(.text+0x2b1): undefined reference to `nla_put'
-   ld: drivers/thermal/thermal_netlink.o: in function `nlmsg_trim':
-   thermal_netlink.c:(.text+0x53e): undefined reference to `skb_trim'
-   ld: drivers/thermal/thermal_netlink.o: in function `thermal_genl_cmd_dumpit':
-   thermal_netlink.c:(.text+0x6f6): undefined reference to `genlmsg_put'
-   ld: drivers/thermal/thermal_netlink.o: in function `thermal_group_has_listeners':
-   thermal_netlink.c:(.text+0x785): undefined reference to `init_net'
-   ld: thermal_netlink.c:(.text+0x78c): undefined reference to `netlink_has_listeners'
-   ld: drivers/thermal/thermal_netlink.o: in function `alloc_skb.constprop.0':
-   thermal_netlink.c:(.text+0x7c6): undefined reference to `__alloc_skb'
-   ld: drivers/thermal/thermal_netlink.o: in function `kfree_skb':
->> thermal_netlink.c:(.text+0x7dd): undefined reference to `sk_skb_reason_drop'
-   ld: drivers/thermal/thermal_netlink.o: in function `genlmsg_multicast.constprop.0.isra.0':
-   thermal_netlink.c:(.text+0x830): undefined reference to `init_net'
-   ld: thermal_netlink.c:(.text+0x842): undefined reference to `netlink_broadcast_filtered'
-   ld: drivers/thermal/thermal_netlink.o: in function `thermal_genl_send_event':
-   thermal_netlink.c:(.text+0x8ba): undefined reference to `genlmsg_put'
-   ld: drivers/thermal/thermal_netlink.o: in function `thermal_genl_cmd_doit':
-   thermal_netlink.c:(.text+0xe01): undefined reference to `genlmsg_put'
-   ld: thermal_netlink.c:(.text+0xe44): undefined reference to `init_net'
-   ld: thermal_netlink.c:(.text+0xe49): undefined reference to `netlink_unicast'
-   ld: drivers/thermal/thermal_netlink.o: in function `thermal_genl_sampling_temp':
-   thermal_netlink.c:(.text+0xeb4): undefined reference to `genlmsg_put'
-   ld: drivers/thermal/thermal_netlink.o: in function `thermal_netlink_init':
-   thermal_netlink.c:(.init.text+0xe): undefined reference to `genl_register_family'
-   ld: drivers/thermal/thermal_netlink.o: in function `thermal_netlink_exit':
-   thermal_netlink.c:(.init.text+0x22): undefined reference to `genl_unregister_family'
+vim +58 arch/riscv/kvm/vcpu_sbi_sta.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for THERMAL_NETLINK
-   Depends on [n]: THERMAL [=y] && NET [=n]
-   Selected by [m]:
-   - X86_PKG_TEMP_THERMAL [=m] && THERMAL [=y] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86_THERMAL_VECTOR [=y]
+    24	
+    25	void kvm_riscv_vcpu_record_steal_time(struct kvm_vcpu *vcpu)
+    26	{
+    27		gpa_t shmem = vcpu->arch.sta.shmem;
+    28		u64 last_steal = vcpu->arch.sta.last_steal;
+    29		u32 *sequence_ptr, sequence;
+    30		u64 *steal_ptr, steal;
+    31		unsigned long hva;
+    32		gfn_t gfn;
+    33	
+    34		if (shmem == INVALID_GPA)
+    35			return;
+    36	
+    37		/*
+    38		 * shmem is 64-byte aligned (see the enforcement in
+    39		 * kvm_sbi_sta_steal_time_set_shmem()) and the size of sbi_sta_struct
+    40		 * is 64 bytes, so we know all its offsets are in the same page.
+    41		 */
+    42		gfn = shmem >> PAGE_SHIFT;
+    43		hva = kvm_vcpu_gfn_to_hva(vcpu, gfn);
+    44	
+    45		if (WARN_ON(kvm_is_error_hva(hva))) {
+    46			vcpu->arch.sta.shmem = INVALID_GPA;
+    47			return;
+    48		}
+    49	
+    50		sequence_ptr = (u32 *)(hva + offset_in_page(shmem) +
+    51				       offsetof(struct sbi_sta_struct, sequence));
+    52		steal_ptr = (u64 *)(hva + offset_in_page(shmem) +
+    53				    offsetof(struct sbi_sta_struct, steal));
+    54	
+  > 55		if (WARN_ON(get_user(sequence, sequence_ptr)))
+    56			return;
+    57	
+  > 58		sequence = le32_to_cpu(sequence);
+    59		sequence += 1;
+    60	
+  > 61		if (WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr)))
+    62			return;
+    63	
+    64		if (!WARN_ON(get_user(steal, steal_ptr))) {
+  > 65			steal = le64_to_cpu(steal);
+    66			vcpu->arch.sta.last_steal = READ_ONCE(current->sched_info.run_delay);
+    67			steal += vcpu->arch.sta.last_steal - last_steal;
+    68			WARN_ON(put_user(cpu_to_le64(steal), steal_ptr));
+    69		}
+    70	
+    71		sequence += 1;
+    72		WARN_ON(put_user(cpu_to_le32(sequence), sequence_ptr));
+    73	
+    74		kvm_vcpu_mark_page_dirty(vcpu, gfn);
+    75	}
+    76	
 
 -- 
 0-DAY CI Kernel Test Service
