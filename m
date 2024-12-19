@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088211953A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 17:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB2819C54A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 18:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734629258; cv=none; b=FnWzFSFxsBI5prABswSP2rXiCHbNWJqPHCVPYfku5guoOOolPNhowNd++Ec15Uy5H4Wg84ar+cIxN+M+u2xMsDtESXqyTUbUrhIRPXigaXsW+IUWqV0RkyPG/S5m8m2osxYOIQ7rHyfXPhQsJoSWROVYA6G5NS7zZ60LitR+YGo=
+	t=1734634244; cv=none; b=iy3HMYaRWNDRTMDzgsNlamdQHQbdYVwFqq2ETp35ejM8hbI0CCgStoUPi91FIX0dDG/HpSwFQDJVvfrynVRKAVoDXccUIIrjI0LLJBT1rFm9u0tSu+lQr4EzbsYSVcPlRMfXz0q0PL2RA86n9A3lP3p71evI7qn5/ayMUeveWWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734629258; c=relaxed/simple;
-	bh=zBjWyxM3PpTxfkNzJLzjDl/6jueU+K43tKrxdFMMs3U=;
+	s=arc-20240116; t=1734634244; c=relaxed/simple;
+	bh=4I31HWlidqWgdH+ck/BTx1grBmMgFGdOgayeGSynJ4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TszViA2Lby8G4WhOOmnVcZ+h9HNB4u1T7IPRdX6PRMCgdFZag7+fBcJG5YaxLDbp67I1Z0hRTKWvEwqlp349nWActJ1Wdez5younqMjmRnioImN7AkSnnPX7XG6tcM6rgX56Z3webPh0v2AQkgwZdhBkC2nKeElnvp/G6j+yXxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OE5W8QeH; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=b6dw8Ivq9UpY5JE6r88XaDUZSr5+BbuM/HSGAHvB4J47VpadJmWv4O6NNAUaLHnTaHHrtv+wcfXGwj/IIuMey4ieA6fMcu+c6NFFQlPFxOMSZUd8bCCJWZI+U5MJHmI/20J/qVe1RM44UkHbuv56kODEv7IUv8CHfgN4YkTUnIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0eoG1na; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OE5W8QeH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0eoG1na"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734629256; x=1766165256;
+  t=1734634243; x=1766170243;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zBjWyxM3PpTxfkNzJLzjDl/6jueU+K43tKrxdFMMs3U=;
-  b=OE5W8QeHStPb4+/lGujqBws1324qXUT5nkzZ+MmlYO51Z18HC5guk2Qm
-   sOH224UgLnYCQBl8TJoYFXJTt5VUYO25JvPzAoqryLcnSViyEOrUOQyt1
-   RN5F/8xD/LpQbAlbXbgXpjdG7xrfbciQ5HtYvEGxn38kDHnq7jlMPfDor
-   +LTmQ1DFweMtqDnXX3+vny9qB5Nkq73cLihqQHj4UVE44NcXD+PvCrbf1
-   01BEXe4nIJqSZWd9gfSgIOvfQgPYU95RNWbAwI4/t3TQoED9WWMti2kR8
-   6oISz2OOjXxNeva6XncSe1FN1k7x/gEEsfgCRNefafQ90mue0+oSC05bU
-   A==;
-X-CSE-ConnectionGUID: Qx6/X7yKTe+jpYrNZT+bog==
-X-CSE-MsgGUID: 8xAMGj+hQPS4F3oxGwNrTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="38937621"
+  bh=4I31HWlidqWgdH+ck/BTx1grBmMgFGdOgayeGSynJ4s=;
+  b=b0eoG1naZA2IBhrxR3kKuverkG96r1GErEu2aixd3EVU1j74VnnYXOS1
+   14gXOn+un44jo8Yv3L0MeSaxVuSoS85/gLp7zJvIqR5vFkDCnB38YRpgA
+   VHjBagNPAVjqKWgvY4VBi21IYSJopCijeqlQhTNOo2S67lvcpdzASpo+n
+   Q8fiGPzPo+rV1INc32NezcXn807bAMpvSdjnXw2KzBgTBXnWRuY+On/f8
+   90lnpYdIy/gWhT9E/V7267Zp9b2Th6B3GXSNI+k/34y3TJX7uYLgl4zHk
+   4rc+C/UI3FEPMkpeAvy1e9613UCum3Kdh6+D9SW8+K0rsm80TLuPJYULN
+   g==;
+X-CSE-ConnectionGUID: BEgEJ9bMTjClTdLGBFsFtQ==
+X-CSE-MsgGUID: gQp0wZPBRly2P1BZbLExFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="52692984"
 X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="38937621"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 09:27:35 -0800
-X-CSE-ConnectionGUID: S85Ox6RWT+e7e17QNh5hTg==
-X-CSE-MsgGUID: 0w6k/Yc/S7WW+s4Hoo4how==
+   d="scan'208";a="52692984"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 10:50:42 -0800
+X-CSE-ConnectionGUID: IxX+2GVYTKSHPqkyqwhBLA==
+X-CSE-MsgGUID: EBp68YWNT8a5aXLXVKwowg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="98152786"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="135612540"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 19 Dec 2024 09:27:35 -0800
+  by orviesa001.jf.intel.com with ESMTP; 19 Dec 2024 10:50:41 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOKJ9-0000OP-33;
-	Thu, 19 Dec 2024 17:27:31 +0000
-Date: Fri, 20 Dec 2024 01:27:24 +0800
+	id 1tOLba-0000Rn-32;
+	Thu, 19 Dec 2024 18:50:38 +0000
+Date: Fri, 20 Dec 2024 02:49:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 421/540]
- arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: pinctrl@3500000:
- Unevaluated properties are not allowed ('cam_sensor_front_active',
- 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active',
- 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_s...
-Message-ID: <202412200105.OEWvy8v3-lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org
+Subject: [jic23-iio:testing 93/93] htmldocs: Warning:
+ /sys/bus/iio/devices/iio:deviceX/in_currentY_raw is defined 2 times:
+  ./Documentation/ABI/testing/sysfs-bus-iio:170
+  ./Documentation/ABI/testing/sysfs-bus-iio:1700
+Message-ID: <202412200256.OB5Hmw5Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,107 +66,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   76e007709ba23b69273c6c8ed1a893c1ec7b7df7
-commit: 0be9df50c4f22ee1297964e758b58a7d76379c63 [421/540] CHROMIUM: arm64: boot: dts: qcom: Bring in camera dtsi bits
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241220/202412200105.OEWvy8v3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412200105.OEWvy8v3-lkp@intel.com/reproduce)
+Hi David,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   09459967e775f758f42e09b2540c993061089327
+commit: 09459967e775f758f42e09b2540c993061089327 [93/93] iio: ABI: use Y consistently as channel number
+reproduce: (https://download.01.org/0day-ci/archive/20241220/202412200256.OB5Hmw5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412200105.OEWvy8v3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412200256.OB5Hmw5Q-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: soc@0: qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: soc@0: cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: soc@0: qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('chromium-enable-overlays' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc7180-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: soc@0: qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: soc@0: qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: soc@0: cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('chromium-enable-overlays' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc7180-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r1-lte.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: soc@0: qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: soc@0: qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: soc@0: cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: soc@0: qcom,ipe0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('chromium-enable-overlays' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc7180-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: soc@0: qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: soc@0: qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: soc@0: qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('chromium-enable-overlays' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc7180-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz-r3-lte.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+>> Warning: /sys/bus/iio/devices/iio:deviceX/in_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:170  ./Documentation/ABI/testing/sysfs-bus-iio:1700
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
