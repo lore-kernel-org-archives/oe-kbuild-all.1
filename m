@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1494C226164
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 13:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37D31F2C4C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 13:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734614895; cv=none; b=hxNwYdO5qmrtAYNFv9/R8QpodjgBhNqUS8JZhvufs9rljKUNINavVIRtB5N4DwCyFtPoDnVtKdOyVaduLxrDJ0VINZ3EHF77HSO6YdPyb+7zc/20+FCDIyGXULAQ8V6+n++Ac+3gZWfoErOqRk6gWQq25ids9xsvmmFu2gXMJZQ=
+	t=1734616065; cv=none; b=m/BymJi0bv1T07jkEHueY3I/6AOS4LY6/amunblIwxxwYhUX1DtFXq8kCnvhStwcur6xF94XkvJV9IRb+vWzNLeQdsVKrQqPn1UJPz3pxLhuFK7T0CjTx1SiosJqPJZf99HnK5p480R8RB6DKDlLOCSwy55S4alQvR9eZDIjpjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734614895; c=relaxed/simple;
-	bh=chkT6FHZMN+UxmECpYWrJ/Hptf+3JZss1kcOTCUq+yc=;
+	s=arc-20240116; t=1734616065; c=relaxed/simple;
+	bh=acK0hHjKw3F+aYkk1dcDWtZ+xaVjOCwBXMe1ZtgZRAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=otxPsAH3Ss7liqSTNxgsp4fzI5X9/XGh3GkhD6Ik9IC7T7vwt74cyjk4zdSxO6PEE3cweG2JFWscEzuZr/Bm1tUiXeUwKfuMapeR2TqX122kayWH4iyMejbT8DnCQ1OxRXEnQDZW9H0TDGVEi/sO+/eXGdeXZA6TFe3GTitKTEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNZQY/S0; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=qzMvUsGZ3ICgEOehnjqN2T1EMIoLKRp9e9PzrhyFV7sLNg0t0QCcHl5Lj/wN65OPE+YhTQ91v5TfJD7CqejX+M6fJ+qtD7yM03+WUyj4+34XXb0MG7v8sSmJ6Zawb4oOuP8eIBWITg4GNhLo75TkVHxt4zaOn2szoux8qrIuRhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KAeRiJxQ; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNZQY/S0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734614894; x=1766150894;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=chkT6FHZMN+UxmECpYWrJ/Hptf+3JZss1kcOTCUq+yc=;
-  b=KNZQY/S0Om6ks+NGP6f0u3UEL2ZQnUT1DpRUMYjErr4VuYEEbOb9z1ve
-   Klwxsucbc+bvkCbahODHl2p+IV589u2Hs1P8eAllv5/tHSxRw8d3iRFgV
-   I925/JBKAEq+xQHaO9twlW9k2cEbOQXs0317aboevtCL4L+LNDAtw8If6
-   gKf785hxLcjlIUD0cjji8d5jXbHE77URH7f9CiPT0H5wY8z3r4l5dwUqh
-   UELKZSbvA81yabQIuP2PCoZmGaipNnOZWBbOpZL9/gjBYgTijBBUJkbd+
-   NUYpVbHiUIeRaTDTPeZg4teeWJ0G21vZi+q+ME8uGjqgILG2y/XZG+rzs
-   A==;
-X-CSE-ConnectionGUID: lcIgi3hqRVSDgX/jjE1oig==
-X-CSE-MsgGUID: XlV61cnfQ+C941PKoAJkIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="38902189"
-X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
-   d="scan'208";a="38902189"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 05:28:13 -0800
-X-CSE-ConnectionGUID: 3DaEQdPDQjyPAEgGjXmLfw==
-X-CSE-MsgGUID: lEL39qgVQLS5cLVkQ4uy9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121461385"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Dec 2024 05:28:12 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tOGZW-0000GC-0Y;
-	Thu, 19 Dec 2024 13:28:10 +0000
-Date: Thu, 19 Dec 2024 21:28:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1336/1336]
- drivers/staging/gmjstcm/tcm_tis_spi.c:817:36: warning:
- 'tcm_tis_spi_acpi_match' defined but not used
-Message-ID: <202412192143.ddGXn3L0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KAeRiJxQ"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso1211588a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Dec 2024 05:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734616062; x=1735220862; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=atWjUMEd1NNeNbg7ZVaVBFb5YQIp4j939hl5v/bh6OY=;
+        b=KAeRiJxQBiJAma1NSrm9vMUp/ga85oBlluUTnHNNApeKt1Vk13GBv3XodQamNAiVrc
+         3n8R+3ufMrzIND48Cto6q59jXTIHuqhPnYMxo6CQumsPBwJihy5+xcOiVlwhNROXf6i9
+         oBIWKkMYVnuSdFbClvK5MrclHnenPvGbqWA5eQhFmCxgThsR/KBr2r7xES5BnLZgosl4
+         Rfd+IwdWn5oaKzm4ps2m09MSMIOyCndSkQwWWGE7/uQ40sNdwMJPHmeZ276VLIWAs3Mf
+         4IvFqGFd0hiZGeBmDvyRMWVDrSwbDiW4UdEjry0SKFPXVo8GQU9n21Df5L3tlMggce0m
+         CaWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734616062; x=1735220862;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=atWjUMEd1NNeNbg7ZVaVBFb5YQIp4j939hl5v/bh6OY=;
+        b=h5IGQzUBdcIYAkpz4pH1guAbcKmvltHLUQU7BGG2VILRmOR4HziT5oGfdWQWzFtTgq
+         914eBq70hAfTIG+TPIoao3yJvBnaYqCo1UCsnoZxfziUPVFmrL2g4Pg+8z7EyK5uqY4W
+         fUBJOR0r8/k7/pWNbyjliDDnTVTz0Hd0j6fb3G5p0bpGk51/1W8pWfE8G4hEKgeAaYII
+         C2OS64/6YQw8JQ85JUw/mrYRu2toCfi19+3TinPGSbaP68AHZePJK1k/L1T0u2eRWPqr
+         gqrrQBTrut/F8Z4u1tMqU68Gx2y6mvnuHZ4HV4rSVUTPjUTCRwaFZL3V5bqHr7T0th2j
+         NNDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXGuk1L2T2UXznKvsl1pgDCybhK1yOIyI2tjEsi55LVeomaCzDq7VK/xhQ5GTENrAf05dPzu5z8Dzw8wu85@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUkn52jQmFVA2mIP6gCcpYkcjMt0wGUkkolYsxjIYTWe+CudhD
+	tLVZA3sIUrCbf/g0Oe7M20m8N0iVVsnSLWWxfZh+yqfvmA1ru0uS9J6qhANklzY=
+X-Gm-Gg: ASbGnctPagnv9uLSiv0siyBMJejO/4O4y8GYEbCI9pLDEXNY+TphJPOIMRr99hJpxio
+	ufRyZxRCXcxdxS9p4VWj8nreJ3HCOUatbNaTU8p+MBAuwWVt/KsrhJeTuSUkZdXq4soUEmfOyjQ
+	tJ8pfEnlXEHF/81hqdPbzBiVKR2GIG/WmbmIKGEhr45XfaWgh1Gxnwn8SXVEMb5RwtCy1Jk54w8
+	1X2qBPJ2MYbM3OwUCWPXknymo5eeXYteO0afSstQJsjqdaL3P7eykc9n43JvQ==
+X-Google-Smtp-Source: AGHT+IGsAFEMmOn8yfDvN6T2urlg0GTVfsukfftnbE1YSf5u37EqmGlhKJLLx7eviYZw/rCCQ2q3xA==
+X-Received: by 2002:a05:6402:2807:b0:5d3:e766:6140 with SMTP id 4fb4d7f45d1cf-5d7ee3f5590mr6788805a12.24.1734616062067;
+        Thu, 19 Dec 2024 05:47:42 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80676f397sm705444a12.22.2024.12.19.05.47.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 05:47:41 -0800 (PST)
+Date: Thu, 19 Dec 2024 16:47:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Homura Akemi <a1134123566@gmail.com>
+Subject: Re: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
+Message-ID: <d9f6af01-7a20-45aa-b6f1-380711aaec92@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +73,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen@synopsys.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   dda59452adcd5503512e4d25631db28a50f38fd0
-commit: 5ebbfc8c29eb5eb6dfdab853bdb2a622e0533d7e [1336/1336] staging: TCM: add GMJS(Nationz Tech) TCM driver.
-config: arm64-randconfig-003-20241219 (https://download.01.org/0day-ci/archive/20241219/202412192143.ddGXn3L0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241219/202412192143.ddGXn3L0-lkp@intel.com/reproduce)
+Hi Thinh,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thinh-Nguyen/usb-gadget-f_tcm-Don-t-free-command-immediately/20241211-092317
+base:   d8d936c51388442f769a81e512b505dcf87c6a51
+patch link:    https://lore.kernel.org/r/6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen%40synopsys.com
+patch subject: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
+config: nios2-randconfig-r071-20241219 (https://download.01.org/0day-ci/archive/20241219/202412192132.XB16SilM-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412192143.ddGXn3L0-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412192132.XB16SilM-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/usb/gadget/function/f_tcm.c:1308 usbg_cmd_work() error: we previously assumed 'active_cmd' could be null (see line 1265)
 
-   drivers/staging/gmjstcm/tcm_tis_spi.c:109:5: warning: no previous prototype for 'tcm_tis_spi_transfer' [-Wmissing-prototypes]
-     109 | int tcm_tis_spi_transfer(struct device *dev, u32 addr, u16 len,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'recv_data':
-   drivers/staging/gmjstcm/tcm_tis_spi.c:423:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     423 |         int ret;
-         |             ^~~
-   drivers/staging/gmjstcm/tcm_tis_spi.c: At top level:
->> drivers/staging/gmjstcm/tcm_tis_spi.c:817:36: warning: 'tcm_tis_spi_acpi_match' defined but not used [-Wunused-const-variable=]
-     817 | static const struct acpi_device_id tcm_tis_spi_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'cleanup_tis':
-   drivers/staging/gmjstcm/tcm_tis_spi.c:249:17: warning: 'inten' may be used uninitialized [-Wmaybe-uninitialized]
-     249 |                 tcm_tis_writel(chip->dev, TCM_INT_ENABLE(chip->vendor.locality),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     250 |                                 ~TCM_GLOBAL_INT_ENABLE & inten);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gmjstcm/tcm_tis_spi.c:237:13: note: 'inten' was declared here
-     237 |         u32 inten;
-         |             ^~~~~
-   drivers/staging/gmjstcm/tcm_tis_spi.c: In function 'tcm_tis_init':
-   drivers/staging/gmjstcm/tcm_tis_spi.c:264:21: warning: 'vendor' may be used uninitialized [-Wmaybe-uninitialized]
-     264 |         if ((vendor & 0xffff) != 0x19f5 && (vendor & 0xffff) != 0x1B4E)
-         |             ~~~~~~~~^~~~~~~~~
-   drivers/staging/gmjstcm/tcm_tis_spi.c:260:13: note: 'vendor' was declared here
-     260 |         u32 vendor, intfcaps;
-         |             ^~~~~~
---
-   aarch64-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   aarch64-linux-ld: fs/ext4/super.o: in function `ext4_handle_error':
-   super.c:(.text+0x1472c): undefined reference to `__alloc_skb'
->> super.c:(.text+0x1472c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__alloc_skb'
->> aarch64-linux-ld: super.c:(.text+0x14794): undefined reference to `__nlmsg_put'
->> super.c:(.text+0x14794): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__nlmsg_put'
->> aarch64-linux-ld: super.c:(.text+0x14878): undefined reference to `netlink_broadcast'
->> super.c:(.text+0x14878): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `netlink_broadcast'
->> aarch64-linux-ld: super.c:(.text+0x149cc): undefined reference to `kfree_skb'
->> super.c:(.text+0x149cc): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `kfree_skb'
-   aarch64-linux-ld: fs/ext4/super.o: in function `ext4_init_fs':
-   super.c:(.init.text+0x52e4): undefined reference to `init_net'
->> super.c:(.init.text+0x52e4): relocation truncated to fit: R_AARCH64_ADR_PREL_PG_HI21 against undefined symbol `init_net'
->> aarch64-linux-ld: super.c:(.init.text+0x52ec): undefined reference to `init_net'
->> aarch64-linux-ld: super.c:(.init.text+0x52f4): undefined reference to `__netlink_kernel_create'
->> super.c:(.init.text+0x52f4): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__netlink_kernel_create'
-   aarch64-linux-ld: fs/ext4/super.o: in function `ext4_exit_fs':
-   super.c:(.exit.text+0x7c): undefined reference to `netlink_kernel_release'
->> super.c:(.exit.text+0x7c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `netlink_kernel_release'
+vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
 
+287b3d115e5351 Thinh Nguyen          2024-12-11  1227  static void usbg_cmd_work(struct work_struct *work)
+287b3d115e5351 Thinh Nguyen          2024-12-11  1228  {
+287b3d115e5351 Thinh Nguyen          2024-12-11  1229  	struct usbg_cmd *cmd = container_of(work, struct usbg_cmd, work);
+287b3d115e5351 Thinh Nguyen          2024-12-11  1230  
+287b3d115e5351 Thinh Nguyen          2024-12-11  1231  	/*
+287b3d115e5351 Thinh Nguyen          2024-12-11  1232  	 * Failure is detected by f_tcm here. Skip submitting the command to the
+287b3d115e5351 Thinh Nguyen          2024-12-11  1233  	 * target core if we already know the failing response and send the usb
+287b3d115e5351 Thinh Nguyen          2024-12-11  1234  	 * response to the host directly.
+287b3d115e5351 Thinh Nguyen          2024-12-11  1235  	 */
+287b3d115e5351 Thinh Nguyen          2024-12-11  1236  	if (cmd->tmr_rsp != RC_RESPONSE_UNKNOWN)
+287b3d115e5351 Thinh Nguyen          2024-12-11  1237  		goto skip;
+287b3d115e5351 Thinh Nguyen          2024-12-11  1238  
+287b3d115e5351 Thinh Nguyen          2024-12-11  1239  	if (cmd->tmr_func)
+287b3d115e5351 Thinh Nguyen          2024-12-11  1240  		usbg_submit_tmr(cmd);
+287b3d115e5351 Thinh Nguyen          2024-12-11  1241  	else
+287b3d115e5351 Thinh Nguyen          2024-12-11  1242  		usbg_submit_cmd(cmd);
+287b3d115e5351 Thinh Nguyen          2024-12-11  1243  
+287b3d115e5351 Thinh Nguyen          2024-12-11  1244  	return;
+287b3d115e5351 Thinh Nguyen          2024-12-11  1245  
+287b3d115e5351 Thinh Nguyen          2024-12-11  1246  skip:
+7735c10c74d903 Thinh Nguyen          2024-12-11  1247  	if (cmd->tmr_rsp == RC_OVERLAPPED_TAG) {
+7735c10c74d903 Thinh Nguyen          2024-12-11  1248  		struct f_uas *fu = cmd->fu;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1249  		struct se_session *se_sess;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1250  		struct uas_stream *stream = NULL;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1251  		struct hlist_node *tmp;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1252  		struct usbg_cmd *active_cmd = NULL;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1253  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1254  		se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1255  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1256  		hash_for_each_possible_safe(fu->stream_hash, stream, tmp, node, cmd->tag) {
+7735c10c74d903 Thinh Nguyen          2024-12-11  1257  			int i = stream - &fu->stream[0];
+7735c10c74d903 Thinh Nguyen          2024-12-11  1258  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1259  			active_cmd = &((struct usbg_cmd *)se_sess->sess_cmd_map)[i];
+7735c10c74d903 Thinh Nguyen          2024-12-11  1260  			if (active_cmd->tag == cmd->tag)
+7735c10c74d903 Thinh Nguyen          2024-12-11  1261  				break;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1262  		}
+7735c10c74d903 Thinh Nguyen          2024-12-11  1263  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1264  		/* Sanity check */
+7735c10c74d903 Thinh Nguyen          2024-12-11 @1265  		if (!stream || (active_cmd && active_cmd->tag != cmd->tag)) {
 
-vim +/tcm_tis_spi_acpi_match +817 drivers/staging/gmjstcm/tcm_tis_spi.c
+Testing for !stream is sufficient.  Another option would be to write this
+as:
+	if (!stream || !active_cmd || active_cmd->tag != cmd->tag)) {
 
-   816	
- > 817	static const struct acpi_device_id tcm_tis_spi_acpi_match[] = {
-   818		{"TCMS0001", 0},
-   819		{"SMO0768", 0},
-   820		{"ZIC0601", 0},
-   821		{}
-   822	};
-   823	MODULE_DEVICE_TABLE(acpi, tcm_tis_spi_acpi_match);
-   824	
+7735c10c74d903 Thinh Nguyen          2024-12-11  1266  			usbg_submit_command(cmd->fu, cmd->req);
+7735c10c74d903 Thinh Nguyen          2024-12-11  1267  			return;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1268  		}
+7735c10c74d903 Thinh Nguyen          2024-12-11  1269  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1270  		reinit_completion(&stream->cmd_completion);
+7735c10c74d903 Thinh Nguyen          2024-12-11  1271  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1272  		/*
+7735c10c74d903 Thinh Nguyen          2024-12-11  1273  		 * A UASP command consists of the command, data, and status
+7735c10c74d903 Thinh Nguyen          2024-12-11  1274  		 * stages, each operating sequentially from different endpoints.
+7735c10c74d903 Thinh Nguyen          2024-12-11  1275  		 *
+7735c10c74d903 Thinh Nguyen          2024-12-11  1276  		 * Each USB endpoint operates independently, and depending on
+7735c10c74d903 Thinh Nguyen          2024-12-11  1277  		 * hardware implementation, a completion callback for a transfer
+7735c10c74d903 Thinh Nguyen          2024-12-11  1278  		 * from one endpoint may not reflect the order of completion on
+7735c10c74d903 Thinh Nguyen          2024-12-11  1279  		 * the wire. This is particularly true for devices with
+7735c10c74d903 Thinh Nguyen          2024-12-11  1280  		 * endpoints that have independent interrupts and event buffers.
+7735c10c74d903 Thinh Nguyen          2024-12-11  1281  		 *
+7735c10c74d903 Thinh Nguyen          2024-12-11  1282  		 * The driver must still detect misbehaving hosts and respond
+7735c10c74d903 Thinh Nguyen          2024-12-11  1283  		 * with an overlap status. To reduce false overlap failures,
+7735c10c74d903 Thinh Nguyen          2024-12-11  1284  		 * allow the active and matching stream ID a brief 1ms to
+7735c10c74d903 Thinh Nguyen          2024-12-11  1285  		 * complete before responding with an overlap command failure.
+7735c10c74d903 Thinh Nguyen          2024-12-11  1286  		 * Overlap failure should be rare.
+7735c10c74d903 Thinh Nguyen          2024-12-11  1287  		 */
+7735c10c74d903 Thinh Nguyen          2024-12-11  1288  		wait_for_completion_timeout(&stream->cmd_completion, msecs_to_jiffies(1));
+7735c10c74d903 Thinh Nguyen          2024-12-11  1289  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1290  		/* If the previous stream is completed, retry the command. */
+7735c10c74d903 Thinh Nguyen          2024-12-11  1291  		if (!hash_hashed(&stream->node)) {
+7735c10c74d903 Thinh Nguyen          2024-12-11  1292  			usbg_submit_command(cmd->fu, cmd->req);
+7735c10c74d903 Thinh Nguyen          2024-12-11  1293  			return;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1294  		}
+7735c10c74d903 Thinh Nguyen          2024-12-11  1295  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1296  		/*
+7735c10c74d903 Thinh Nguyen          2024-12-11  1297  		 * The command isn't submitted to the target core, so we're safe
+7735c10c74d903 Thinh Nguyen          2024-12-11  1298  		 * to remove the bitmap index from the session tag pool.
+7735c10c74d903 Thinh Nguyen          2024-12-11  1299  		 */
+7735c10c74d903 Thinh Nguyen          2024-12-11  1300  		sbitmap_queue_clear(&se_sess->sess_tag_pool,
+7735c10c74d903 Thinh Nguyen          2024-12-11  1301  				    cmd->se_cmd.map_tag,
+7735c10c74d903 Thinh Nguyen          2024-12-11  1302  				    cmd->se_cmd.map_cpu);
+7735c10c74d903 Thinh Nguyen          2024-12-11  1303  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1304  		/*
+7735c10c74d903 Thinh Nguyen          2024-12-11  1305  		 * Overlap command tag detected. Cancel any pending transfer of
+7735c10c74d903 Thinh Nguyen          2024-12-11  1306  		 * the command submitted to target core.
+7735c10c74d903 Thinh Nguyen          2024-12-11  1307  		 */
+7735c10c74d903 Thinh Nguyen          2024-12-11 @1308  		active_cmd->tmr_rsp = RC_OVERLAPPED_TAG;
+
+The inconsistent NULL check triggers a warning here.
+
+7735c10c74d903 Thinh Nguyen          2024-12-11  1309  		usbg_aborted_task(&active_cmd->se_cmd);
+7735c10c74d903 Thinh Nguyen          2024-12-11  1310  
+7735c10c74d903 Thinh Nguyen          2024-12-11  1311  		/* Send the response after the transfer is aborted. */
+7735c10c74d903 Thinh Nguyen          2024-12-11  1312  		return;
+7735c10c74d903 Thinh Nguyen          2024-12-11  1313  	}
+7735c10c74d903 Thinh Nguyen          2024-12-11  1314  
+287b3d115e5351 Thinh Nguyen          2024-12-11  1315  	uasp_send_tm_response(cmd);
+287b3d115e5351 Thinh Nguyen          2024-12-11  1316  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
