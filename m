@@ -1,77 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F45F157E99;
-	Fri, 20 Dec 2024 06:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618D01A08C1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 08:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734677817; cv=none; b=XuWLx9GxFFWJWoknkbE9hsSlw6tfHtx7ZfLedtev4frOW7PK4J6rpUg+CGJk/CpJ1hOV2BySGRInbP6BlKrFi4WZB1C2iZtRSZoYTANJrHXN3liaJepUZUHlwgCeSMw7oudzK7gAy4pmlqQpv6bie29qaYdjbW33sK17RBKs/As=
+	t=1734682861; cv=none; b=QIXSGhnUXhaZFfe4YvBdy/eQojbJH9e8KAKhUYLhBCBiNrexE76vI4TkHO6oqRYeBNfJo9omxGoo/l+PierwW1CYvycE/m0Hd2rxl9zxLHrfiVjViDZd0s1B0VYQP6gAdpHz3B6uoBxbHtX4iu271iEceyjSqVM9m4FliEZe+Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734677817; c=relaxed/simple;
-	bh=/CIwRAQpU+FEb+4P5INMAwLfobrrnCIKq8277eG46Es=;
+	s=arc-20240116; t=1734682861; c=relaxed/simple;
+	bh=7QB9U52qCfo8wJbE0m45A2xve0YqZ1ZALCoixFcC4Qc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RGLtv4w/BF+aJFjanEjxQClWaB1xAEHgOXEKkNpmS7SZe0VTNI3TJp4fa5ogNDizgRtMVsUE8DRu1s/QHbaIBxzdnFNLV2LzbcbjQKJ9BjxqkFW3iQ9dePrlAImDgaJGG/QoUME0RVcudRIzzXtnRhrvhMqjrBuoVIPjPTdC+YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+D2HkXR; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=T+xgaMqIwEJkmb/8oOGdIDM/tgdLxwdB6pMy/ydAUvGEwKcI9SYHtBxyifCSXjuThOsbqcP+41hw0i+fWHNuoNoOcNJEdAv5O7b0lP6cFtxL4m/dbV9IdMvLfe/j38lA7YT9647p03hF7Pi4lfkyfMrYfsBH27WuJZtd8uxsWNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cz6jQMsE; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+D2HkXR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cz6jQMsE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734677816; x=1766213816;
+  t=1734682859; x=1766218859;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/CIwRAQpU+FEb+4P5INMAwLfobrrnCIKq8277eG46Es=;
-  b=K+D2HkXRK8wDcve7122qvnbDfXTy4GbnapyvbkSms6rkzBejEYK7GbFs
-   kVxeLneuv09Dyd1GQvMQAfQqC3QGRdFyCjR4uWsxzF1/0yNtKQASlOOs+
-   Ssn1aF995pyVAZBlDMsstHFhtDpVrzwLrgOmr7ZScDutH5cLEJkxzfiJH
-   gfwbze8x2H6K9+03PFmyiXU+Z2yFz9kwPWo54ft76Hyttc05YG7AMK8wO
-   kFc8zC2yC/+dahlplRqEWoy+nG6dt2DlEowRvHkOUsB6PssFPY6nhI0jV
-   i4dH0GNfBhgFbT0ivgeYj3/Bw90lVt1hP3lQ4wDkeEpw4S3fkHrSUjJIE
-   g==;
-X-CSE-ConnectionGUID: mmMmm9pWRRWhNvoIBnOTrw==
-X-CSE-MsgGUID: UIn/qqGbR2GW+1mMQ79zPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="45908536"
+  bh=7QB9U52qCfo8wJbE0m45A2xve0YqZ1ZALCoixFcC4Qc=;
+  b=Cz6jQMsEYJFtPiAaBDpfyXjz8JARGZVceArSIeJwb8A6UIhg0rOMX/5V
+   c7attwnpdDSroWO/hEJm+l13nkzjgOiyi2BVIsoXzpopdNStPgn8PzjHr
+   mGFSVxtXm/4kzAQ28gK201A2RWj8wdO7qAMERGYulAhRIvPj64DXE7Law
+   H55mYOpissTlbWzjca/8Gpir62/jZXD8TIF6LDTA9GkA5phz2MsMrrVSp
+   JNjQAGXsyttHMjLwFqGseP3FcBnGJlyHjeYKUdxQGgD7zcfIAcLo6PnHK
+   4Ilix2btMarxRxJSMvLQnOsH5aoBS90r3WIXi8Z6yqNaC8No+eV4crlOG
+   Q==;
+X-CSE-ConnectionGUID: 9uAnHGlVQdOsyLARA+MPXQ==
+X-CSE-MsgGUID: G4vFu1IySnOrFzqQ3rKHsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="46234370"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="45908536"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:56:55 -0800
-X-CSE-ConnectionGUID: pUZ2YiQFQOylVbzLCIoZzQ==
-X-CSE-MsgGUID: GkSREMQWS6qG9O0E6BlgbQ==
+   d="scan'208";a="46234370"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 00:20:59 -0800
+X-CSE-ConnectionGUID: +wZfxHiFRr6zpjrADKw71Q==
+X-CSE-MsgGUID: 3b9UCKNXRIK6GzqzmeFTSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="98264060"
+   d="scan'208";a="98516727"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Dec 2024 22:56:49 -0800
+  by orviesa006.jf.intel.com with ESMTP; 20 Dec 2024 00:20:57 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOWwJ-0000vf-22;
-	Fri, 20 Dec 2024 06:56:47 +0000
-Date: Fri, 20 Dec 2024 14:56:00 +0800
+	id 1tOYFi-0000y3-1H;
+	Fri, 20 Dec 2024 08:20:54 +0000
+Date: Fri, 20 Dec 2024 16:20:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Fabio Estevam <festevam@denx.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Re: [PATCH 04/11] reboot: rename now misleading hw_protection symbols
-Message-ID: <202412201443.inJcQtcl-lkp@intel.com>
-References: <20241219-hw_protection-reboot-v1-4-263a0c1df802@pengutronix.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] kbuild: Drop architecture argument from headers_check.pl
+Message-ID: <202412201643.PR8VVmEL-lkp@intel.com>
+References: <168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,80 +69,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219-hw_protection-reboot-v1-4-263a0c1df802@pengutronix.de>
+In-Reply-To: <168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert+renesas@glider.be>
 
-Hi Ahmad,
+Hi Geert,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+[auto build test ERROR on masahiroy-kbuild/for-next]
+[also build test ERROR on linus/master v6.13-rc3]
+[cannot apply to next-20241219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
-base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-4-263a0c1df802%40pengutronix.de
-patch subject: [PATCH 04/11] reboot: rename now misleading hw_protection symbols
-config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201443.inJcQtcl-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/kbuild-Drop-architecture-argument-from-headers_check-pl/20241210-165347
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+patch link:    https://lore.kernel.org/r/168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert%2Brenesas%40glider.be
+patch subject: [PATCH] kbuild: Drop architecture argument from headers_check.pl
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201443.inJcQtcl-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201643.PR8VVmEL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201443.inJcQtcl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201643.PR8VVmEL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
-   kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
-   kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
->> kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_trigger'
->> kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_trigger'
+   make[1]: Circular tools/testing/selftests/alsa/global-timer <- tools/testing/selftests/alsa/global-timer dependency dropped.
+   Makefile:60: warning: overriding recipe for target 'emit_tests'
+   ../lib.mk:182: warning: ignoring old recipe for target 'emit_tests'
+   make[1]: *** No targets.  Stop.
+>> Makefile:47: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
+   make[1]: *** No targets.  Stop.
+   make[1]: *** No targets.  Stop.
 
 
-vim +1023 kernel/reboot.c
+vim +47 Makefile
 
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1003  /**
-c37fda1c195d45 Ahmad Fatoum    2024-12-19  1004   * __hw_protection_trigger - Trigger an emergency system shutdown or reboot
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1005   *
-79fa723ba84c2b Fabio Estevam   2023-11-29  1006   * @reason:		Reason of emergency shutdown or reboot to be printed.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1007   * @ms_until_forced:	Time to wait for orderly shutdown or reboot before
-79fa723ba84c2b Fabio Estevam   2023-11-29  1008   *			triggering it. Negative value disables the forced
-79fa723ba84c2b Fabio Estevam   2023-11-29  1009   *			shutdown or reboot.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1010   * @shutdown:		If true, indicates that a shutdown will happen
-79fa723ba84c2b Fabio Estevam   2023-11-29  1011   *			after the critical tempeature is reached.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1012   *			If false, indicates that a reboot will happen
-79fa723ba84c2b Fabio Estevam   2023-11-29  1013   *			after the critical tempeature is reached.
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1014   *
-79fa723ba84c2b Fabio Estevam   2023-11-29  1015   * Initiate an emergency system shutdown or reboot in order to protect
-79fa723ba84c2b Fabio Estevam   2023-11-29  1016   * hardware from further damage. Usage examples include a thermal protection.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1017   * NOTE: The request is ignored if protection shutdown or reboot is already
-79fa723ba84c2b Fabio Estevam   2023-11-29  1018   * pending even if the previous request has given a large timeout for forced
-79fa723ba84c2b Fabio Estevam   2023-11-29  1019   * shutdown/reboot.
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1020   */
-c37fda1c195d45 Ahmad Fatoum    2024-12-19  1021  void __hw_protection_trigger(const char *reason, int ms_until_forced,
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1022  			     enum hw_protection_action action)
-dfa19b11385d4c Matti Vaittinen 2021-06-03 @1023  {
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1024  	static atomic_t allow_proceed = ATOMIC_INIT(1);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1025  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1026  	pr_emerg("HARDWARE PROTECTION shutdown (%s)\n", reason);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1027  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1028  	/* Shutdown should be initiated only once. */
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1029  	if (!atomic_dec_and_test(&allow_proceed))
-07a22b61946f0b Petr Mladek     2022-06-23  1030  		return;
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1031  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1032  	/*
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1033  	 * Queue a backup emergency shutdown in the event of
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1034  	 * orderly_poweroff failure
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1035  	 */
-595ab92650cc28 Ahmad Fatoum    2024-12-19  1036  	hw_failure_emergency_schedule(action, ms_until_forced);
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1037  	if (action == HWPROT_ACT_REBOOT)
-79fa723ba84c2b Fabio Estevam   2023-11-29  1038  		orderly_reboot();
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1039  	else
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1040  		orderly_poweroff(true);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1041  }
-c37fda1c195d45 Ahmad Fatoum    2024-12-19  1042  EXPORT_SYMBOL_GPL(__hw_protection_trigger);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1043  
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  46  
+3812b8c5c5d527 Masahiro Yamada 2019-02-22 @47  # Do not use make's built-in rules and variables
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  48  # (this increases performance and avoids hard-to-debug behaviour)
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  49  MAKEFLAGS += -rR
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  50  
 
 -- 
 0-DAY CI Kernel Test Service
