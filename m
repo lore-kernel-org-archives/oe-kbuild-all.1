@@ -1,59 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BE92594B2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 05:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D557156F3F;
+	Fri, 20 Dec 2024 06:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734672585; cv=none; b=QmJvVtNr2RCE/AuBXKHrUtHfn+2oa3C/hBk9B6/SumfmxsUjpWfq1EFnvAaaq1SMDSg1dO3DTift+lUDgEoDibN9tJzAztj4KbMNwQxif5khtdkpOZGPp9ogqczhR4kTNOVoh1GUV7ZS4/S/Je6wUY/IZjSokf8ymVfPx81i1ug=
+	t=1734675175; cv=none; b=BLOJqOCWXbGQ77znNlGHEqp0UDQ/M4mEKZgJ7qA/IGnO3tZdW4nVxjrKwbts6lYyRcNvJLQq9wNXLfwoqHj9h4/dBLL8VbIjRp3kBJby4dGQjPmjIaDApf1SxBOBKLw4jfD+Nv1RPZaVU4Vy5v9hcVJLYCvIQZQ3kvYsB806utc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734672585; c=relaxed/simple;
-	bh=jxDiixZY5RK5tzU6xXk79Qdc2IsIMzYhYj4KAOYaFvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t/UAFPa7sx2YRPaB9h+4l525w81R7dpRsObgA3/gv1EqVKNm8w2kUfwTR+9rIv4BuFnwnKHd2WSrkj91/Or/eQho9kOLaF9TfBjXjLbKYGVig01YnZdvj6/QPAnVEjGxAYWNKIKs9PCahpUL6XTtSBeOcX5fketowHaddpaXfrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDMyplY7; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1734675175; c=relaxed/simple;
+	bh=ZzuWvue3/Dyz3OEX4IuEIJmdALTB1lMDUAcKhYLsTpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yfj0/uQHxLw1Wcfz8lsgiRM7u6EaZmdktSO8u5L/oCJODJGyQYdJ5o7vF0PnzRIUixul7XgvcXhvvRrw2POde9BGdGJiCSLxWqel9LErLsUqp/1rkUjR9U5unjGjzS04gpwPWhSuvjx8d64A4HUamBsq1PbLzLV6ImIc/GnUFtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdF2XYTM; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDMyplY7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdF2XYTM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734672583; x=1766208583;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jxDiixZY5RK5tzU6xXk79Qdc2IsIMzYhYj4KAOYaFvk=;
-  b=mDMyplY7e3+86vH1dwThovcZ3FmB1lmuoa6vW6eZKe/DDoJLeq+lh0mt
-   ajVFE2G80DPFV8xKfDTaLxolT0bjorCx+KiHfcC2pXy9QBNu6MMEaRNV7
-   KtHDeXjjU1WE8IMi3sGH8ZiEDnueIW7JsvpKje86Zgkvla0uSW36swBlC
-   UTlL5mG8OxKZBqMUG4UJr9LpuHT0zKsdozjOyl4/62DbR6B9wQ8paLRsD
-   EkNbUGE76ihQJ2J4Xem0YPbrJFXRW7MvmvT9rE+cJX1ypMMeJuAh4yC4G
-   MGPNFYcBefSC8eN4LREM8/j+f4XSIoS7qweUbXJPK1FAqmJomD8opfZL1
-   g==;
-X-CSE-ConnectionGUID: AOMuslRpQYawYLsu2Em6eA==
-X-CSE-MsgGUID: JxIDv99MSkuFGT/JccNDsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="45900941"
+  t=1734675173; x=1766211173;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZzuWvue3/Dyz3OEX4IuEIJmdALTB1lMDUAcKhYLsTpI=;
+  b=kdF2XYTMvIxUET2SN8KNoqLjMFPP8A2qi+x6I8FBlVGRMJ49E/V83xba
+   g0b64k85iHP1n+e2VR7WPRlEkM1BLCldYBw5o35a2tSHDlS3YyF6i0RUM
+   ByDJyvqWFcFTwOUlD08z/ww9ii/ZvvR/10YXpO7PE7TdlYUNzU16ftqO+
+   1Nuoie0k28qLQs4WmTU0XhrmYuFRNbq/ArqBtMhjO6V9y7Zs/1JaOg2t2
+   SvQi8oxnh08o/vKZysoQf32anC0YePHzhN0jkksRGVVYi80nKDByTSCaA
+   Y0yrdAyW9ovUKQg/jMIJ32VL7Lw1KZbmwi6eaEqqVTHI43aSAqyb3KMS2
+   w==;
+X-CSE-ConnectionGUID: VYRmzniXSGe8EJAU3XrfSQ==
+X-CSE-MsgGUID: +rsen83ORgi0oPKEvuvK9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="52624773"
 X-IronPort-AV: E=Sophos;i="6.12,249,1728975600"; 
-   d="scan'208";a="45900941"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 21:29:43 -0800
-X-CSE-ConnectionGUID: 5F70WHegRse6jj4ofdq5gg==
-X-CSE-MsgGUID: iSM54nrgSBux3ktqIv0bgg==
+   d="scan'208";a="52624773"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:12:52 -0800
+X-CSE-ConnectionGUID: sOKRon2lQOKdRxhfnSyVsg==
+X-CSE-MsgGUID: MHx5yihkQumsZQA5kCOVYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,249,1728975600"; 
-   d="scan'208";a="98617815"
+   d="scan'208";a="103405111"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 19 Dec 2024 21:29:42 -0800
+  by orviesa004.jf.intel.com with ESMTP; 19 Dec 2024 22:12:46 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOVZz-0000s7-2o;
-	Fri, 20 Dec 2024 05:29:39 +0000
-Date: Fri, 20 Dec 2024 13:29:34 +0800
+	id 1tOWFf-0000tP-2O;
+	Fri, 20 Dec 2024 06:12:43 +0000
+Date: Fri, 20 Dec 2024 14:12:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:cpuidle/polling-v2 3/6]
- drivers/acpi/processor_idle.c:26:10: fatal error: asm/cpuidle.h: No such
- file or directory
-Message-ID: <202412201333.QcEqU4ZQ-lkp@intel.com>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Fabio Estevam <festevam@denx.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: Re: [PATCH 02/11] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
+Message-ID: <202412201310.JWkUQ9qf-lkp@intel.com>
+References: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,43 +81,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git cpuidle/polling-v2
-head:   392f31dc16a3051efbbb05d969e477dfb87975c4
-commit: 71e6b3692a4500cd108e952a27a99197abfac156 [3/6] x86/cpuidle: Move buggy mwait implementations away from CPUIDLE_FLAG_MWAIT
-config: loongarch-randconfig-001-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201333.QcEqU4ZQ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201333.QcEqU4ZQ-lkp@intel.com/reproduce)
+Hi Ahmad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
+base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-2-263a0c1df802%40pengutronix.de
+patch subject: [PATCH 02/11] reboot: reboot, not shutdown, on hw_protection_reboot timeout
+config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201333.QcEqU4ZQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201310.JWkUQ9qf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/acpi/processor_idle.c:26:10: fatal error: asm/cpuidle.h: No such file or directory
-      26 | #include <asm/cpuidle.h>
-         |          ^~~~~~~~~~~~~~~
-   compilation terminated.
+   kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
+>> kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
+>> kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
+   kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_shutdown'
+   kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_shutdown'
 
 
-vim +26 drivers/acpi/processor_idle.c
+vim +995 kernel/reboot.c
 
-    14	
-    15	#include <linux/module.h>
-    16	#include <linux/acpi.h>
-    17	#include <linux/dmi.h>
-    18	#include <linux/sched.h>       /* need_resched() */
-    19	#include <linux/tick.h>
-    20	#include <linux/cpuidle.h>
-    21	#include <linux/cpu.h>
-    22	#include <linux/minmax.h>
-    23	#include <linux/perf_event.h>
-    24	#include <acpi/processor.h>
-    25	#include <linux/context_tracking.h>
-  > 26	#include <asm/cpuidle.h>
-    27	
+dfa19b11385d4c Matti Vaittinen 2021-06-03   983  
+dfa19b11385d4c Matti Vaittinen 2021-06-03   984  static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
+dfa19b11385d4c Matti Vaittinen 2021-06-03   985  			    hw_failure_emergency_poweroff_func);
+dfa19b11385d4c Matti Vaittinen 2021-06-03   986  
+dfa19b11385d4c Matti Vaittinen 2021-06-03   987  /**
+595ab92650cc28 Ahmad Fatoum    2024-12-19   988   * hw_failure_emergency_schedule - Schedule an emergency system shutdown or reboot
+dfa19b11385d4c Matti Vaittinen 2021-06-03   989   *
+dfa19b11385d4c Matti Vaittinen 2021-06-03   990   * This may be called from any critical situation to trigger a system shutdown
+dfa19b11385d4c Matti Vaittinen 2021-06-03   991   * after a given period of time. If time is negative this is not scheduled.
+dfa19b11385d4c Matti Vaittinen 2021-06-03   992   */
+595ab92650cc28 Ahmad Fatoum    2024-12-19   993  static void hw_failure_emergency_schedule(enum hw_protection_action action,
+595ab92650cc28 Ahmad Fatoum    2024-12-19   994  					  int poweroff_delay_ms)
+dfa19b11385d4c Matti Vaittinen 2021-06-03  @995  {
+dfa19b11385d4c Matti Vaittinen 2021-06-03   996  	if (poweroff_delay_ms <= 0)
+dfa19b11385d4c Matti Vaittinen 2021-06-03   997  		return;
+595ab92650cc28 Ahmad Fatoum    2024-12-19   998  	hw_failure_emergency_action = action;
+dfa19b11385d4c Matti Vaittinen 2021-06-03   999  	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1000  			      msecs_to_jiffies(poweroff_delay_ms));
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1001  }
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
 
 -- 
 0-DAY CI Kernel Test Service
