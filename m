@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BDD2AE96
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 11:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D471C5F27
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 11:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734693737; cv=none; b=o+63DaYadyZOerlF0pNNpbCT8n2wECGRKMBMLuHudHivP1oiBsp4Uf4gq9Xf4hHY569C3opyyWqHOtoOch180MxS/qzJSu3G7NUSjqQsTS7ZH1m1tJk6dv7gCVrPFhqrwia8/rC0HKP16G6iSfL8MyEfQzg/zJss9Q/C7OWUGhs=
+	t=1734694338; cv=none; b=rKcH4cqv2XZ53EOGUmqwB9bIPui3gduLUujKDHynm0RLFz6nG6WFTNdVl/d861PZ49vN5QVvLYRai0t2cqkJobFg61QC5+XACT84WITmAKuAJmoImXVPKmyvqd8GCxiXQif+T/4sjtysBoMq9HVV2dFuTKaHRHcI62bmdf0gwxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734693737; c=relaxed/simple;
-	bh=1NBexAG9EL6hvfyHwoOJHYa9WKCiVJvjGW0BTfwtN5I=;
+	s=arc-20240116; t=1734694338; c=relaxed/simple;
+	bh=h8rcratDHL3CvyN47F5e5qA7msi5dq/SRbFvgAOsqiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WD1yYbsHKDitwp1nc2r2KkdddcUKKAoHAH5qyNtKApFqhjAoazvaivhAHMZYejWYjorEb7KzBoYESZ0jRfTZjJW+chInSdFRSMH3UID+tjGiFHCeJ8IpqXJ+UPCps3Y7JaAE4KKM9vNgVgSTiL5lqpgvR3KWLZyashHSadVwoSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LihXVzb+; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=hpzKBRcJXI89RnoI/QG4Q0GSR1+y2JZRrgP2UEx/mtDOtPXNUpvQCJbtp9r7iFop1/czPR6jS7vHA3xslSFLIUwK3qqbQBEUjOmg8Y8r9ApadM0kO3nYZ/MPTlu5BW5ruIIIAjwyJyYNozZnCkXjhXsIM+PlCine8ZyGnlsXgiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jeZwiXUT; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LihXVzb+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jeZwiXUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734693734; x=1766229734;
+  t=1734694335; x=1766230335;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1NBexAG9EL6hvfyHwoOJHYa9WKCiVJvjGW0BTfwtN5I=;
-  b=LihXVzb+7OMkeuj5Z986CCiEkt1ME3NZCLInu5TXYliKliN5SflWP36p
-   byUCojU2caT+348E6F3oVxMQR5klA9CzXpBX4L9TRjG4KS+K2NLUz7dqj
-   0OGcu5Bum9e33vChNpDv79LxTa4XBwA+EwIFlyQCp8W7JeO9+YzSFTwaH
-   pSP2qZzPWfsY20up800KHXg4gozPZqa1/fdwc4wEp8/A8wvKumypejzpy
-   YEtBLZK01ZeqKBxCb/pPX2JikJn1KR1Dx8WcAYKxkFTdAgjX0B/kJEx1M
-   nmkabh/TbELwtp17f9C3TO4Tjdvd5JGbDwBwjo8DR9IBb2ypD9hI8UOAe
-   g==;
-X-CSE-ConnectionGUID: DAGRen/VTba1mVNG+NCW6g==
-X-CSE-MsgGUID: dQ9mXgTNR86K4/PXzBmfww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="35457302"
+  bh=h8rcratDHL3CvyN47F5e5qA7msi5dq/SRbFvgAOsqiI=;
+  b=jeZwiXUTUIEMiH8GRrtjOoUH+QQ9riZOtIKnWQpSon0sql6Deki423Hh
+   e4S03Uk/XGzVupEdk7HywLOJe+rMLsvnOK9rcbUPK7FcEgwp1GldTcmkH
+   YGN/eHbm5n+FdP6quKzlJU+qmmsOeWhcp/SJwJHxy7TztbojWJdR2nK68
+   tp5KX25CC6BmOvu8s89pEInS7tfhgxRxIuaX8FLvHtmFMClQuSAROWGyg
+   XsxhhjHkMXy0gZVyKnqYyv5hXUxeb/hbc767C9PFjc/HCNsDODW7gfLgT
+   5RdcYIBwtea28J/SuXkHLULL/JlfoD1bihz2jb3ieJFb9S14rDHqFXPmz
+   A==;
+X-CSE-ConnectionGUID: QxUuxHuwSfqv+5dSq1zlFQ==
+X-CSE-MsgGUID: IdUcs4hpSFCle+XpO9Dolg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="35407859"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="35457302"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 03:22:13 -0800
-X-CSE-ConnectionGUID: FqWop9nZTde12GqmMJq5/g==
-X-CSE-MsgGUID: s1CgmN3fTAK5akjXCRsRZw==
+   d="scan'208";a="35407859"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 03:32:14 -0800
+X-CSE-ConnectionGUID: MmdqX+ejQKiPDkPo5kYa8g==
+X-CSE-MsgGUID: QiSMCwyAS16/w9WzAyuVPQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="103566831"
+X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
+   d="scan'208";a="98397693"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Dec 2024 03:22:12 -0800
+  by orviesa009.jf.intel.com with ESMTP; 20 Dec 2024 03:32:14 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOb58-00015b-0a;
-	Fri, 20 Dec 2024 11:22:10 +0000
-Date: Fri, 20 Dec 2024 19:21:18 +0800
+	id 1tObEp-00016B-1J;
+	Fri, 20 Dec 2024 11:32:11 +0000
+Date: Fri, 20 Dec 2024 19:31:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1341/1341] mm/share_pool.c:3736:12:
- warning: 'proc_overview_show' defined but not used
-Message-ID: <202412201919.863TCPHL-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.12 436/540]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb:
+ it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios',
+ 'interrupts', 'no-laneswap', 'port' were unexpected)
+Message-ID: <202412201921.92uVUuKC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +64,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   02951ceaa6d546dfa0f741f52f6d47e0fb0ac7b4
-commit: 1cfc25ccec44c17c19c892bd31d00d8f6fb23f9b [1341/1341] share_pool: Add proc node to show process overview info
-config: arm64-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201919.863TCPHL-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   76e007709ba23b69273c6c8ed1a893c1ec7b7df7
+commit: 4e2088a2e8742fb8b8bbaa38d96339afeccd8d6b [436/540] CHROMIUM: arm64: dts: mt8183: Add Kukui-Jacuzzi-Makomo board
+config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241220/202412201921.92uVUuKC-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201919.863TCPHL-lkp@intel.com/reproduce)
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201921.92uVUuKC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201919.863TCPHL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201921.92uVUuKC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   mm/share_pool.c: In function 'sp_group_id_by_pid':
-   mm/share_pool.c:840:29: warning: ordered comparison of pointer with integer zero [-Wextra]
-     840 |         if (!spg_ids || num <= 0)
-         |                             ^~
-   mm/share_pool.c: In function 'sp_compact_nodes':
-   mm/share_pool.c:1689:9: error: implicit declaration of function 'sysctl_compaction_handler'; did you mean 'sysctl_memcg_qos_handler'? [-Werror=implicit-function-declaration]
-    1689 |         sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         sysctl_memcg_qos_handler
-   mm/share_pool.c: At top level:
->> mm/share_pool.c:3736:12: warning: 'proc_overview_show' defined but not used [-Wunused-function]
-    3736 | static int proc_overview_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:3693:12: warning: 'proc_stat_show' defined but not used [-Wunused-function]
-    3693 | static int proc_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~
-   mm/share_pool.c:3635:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    3635 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/proc_overview_show +3736 mm/share_pool.c
-
-  3735	
-> 3736	static int proc_overview_show(struct seq_file *seq, void *offset)
-  3737	{
-  3738		seq_printf(seq, "%-8s %-16s %-9s %-9s %-9s %-10s %-10s %-8s\n",
-  3739			   "PID", "COMM", "SP_ALLOC", "SP_K2U", "SP_RES", "Non-SP_RES",
-  3740			   "Non-SP_Shm", "VIRT");
-  3741	
-  3742		down_read(&sp_proc_stat_sem);
-  3743		idr_for_each(&sp_proc_stat_idr, idr_proc_overview_cb, seq);
-  3744		up_read(&sp_proc_stat_sem);
-  3745		return 0;
-  3746	}
-  3747	
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dsi@14014000: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+--
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'da7219_pins', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dsi@14014000: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
 
 -- 
 0-DAY CI Kernel Test Service
