@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F071211A3D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 12:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2936215711;
+	Fri, 20 Dec 2024 13:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734699564; cv=none; b=DVoWDLaDFka6Fka6Rc6jq33trL7CLIpROlLMbQBuaFpcwRsOj7hCnGW2hyWk88K3tzdxL1kyfDJe7edhL9roVicgvmltQ52OxSuj85kyKf53FUI8J8gx7t96vNKNANl7a6/igtFez6n8FzzBffEqj51qWyQoJH8MX9/3iGnTaC0=
+	t=1734700236; cv=none; b=iwA73IxkBfFPlZtIDKfMPebq3L48P9NrnwntCNc5iRPOVQi3+nbAYhPJp2uKB+fzQRkHzzoqB74OC2vnERy3uAETNOZ+EOdKsOHfI+rk8uQwIW7A5lnxSJWYAxF8qv5MbIvdmz/R9ZjML/1EOvy1slxFXsu1mvNCFQwNe3ypcTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734699564; c=relaxed/simple;
-	bh=2R0Trm2wrFDQe7r6/9QefdWEgR6w7u5fMk2EeK2vH14=;
+	s=arc-20240116; t=1734700236; c=relaxed/simple;
+	bh=9tfqMRRr/14ylRJVnXmikiBT0Y1tNBBBRg53lA/Cil8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d9IRZUkJLmf+nnC/fhHT/co+PZS3eO0ElywnvvOH5xTbB3cFurE1K26bZEKBQXJpKF9yoWoTEs2OZylHSXXHsh87Gn4tC43NhlqjfhkMFHQJ362Eg+EF8pWNkD0aGCBkXntL4DGBKWEY/FqTjDo99yol2J9BRhvaSXXKJcOjLz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h3rP0E36; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=CuiLMOgDIV0q0dRdMdnfol5yX765H3MSdvyoRDk7UbuO//btXMKQdkxu3kbNtESD7tR/Y+55D98KSQqgaSvZBhYak4lfM0txgfrG9kqDlUXVrIqL0rLz1HpVLLUZBCVWY+/SnC5nEnPcCzovjka6wTs8kRO5HIag2wmAhNANZEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZJkR9Fff; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h3rP0E36"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJkR9Fff"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734699562; x=1766235562;
+  t=1734700235; x=1766236235;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2R0Trm2wrFDQe7r6/9QefdWEgR6w7u5fMk2EeK2vH14=;
-  b=h3rP0E36I4HCuxBxW20ZKiF1HxUL16hQAL0B6yxpGqCmRvZs2OcrZqr3
-   g6TB7axI49zwJZhqtNtyrPY1Kx6PETy8NUG7o4Jveyd0nvfILNgy2uzQK
-   jVMgpj+wzDzV9KpeScV87cXmpI0qo5GSH6f3tMMUXTNHbOEnWzMAdMP3y
-   QfYU6LTffxlL+t5011M0TK+5gwU0IZTd5aYRbzoplBfoNqnXwbK4vCOmm
-   jy3FPIadWU0RiXhNut+3RLXLnxBBhHKaN99k4C9bnHvKsfoTPwlAWN7jm
-   AW5TFJZavP7ORHDP2RycKrAvpUhZt7Klm5FI0KYYUVLxfNhcRri2l7tk6
-   g==;
-X-CSE-ConnectionGUID: kGERLWF1Rdi1isE1lvJf0w==
-X-CSE-MsgGUID: /loQ+5w2T5ydfZVObTeRJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="60628629"
+  bh=9tfqMRRr/14ylRJVnXmikiBT0Y1tNBBBRg53lA/Cil8=;
+  b=ZJkR9FffwiBl4Brd4mthFEZpHkrhKhNNUF3yE3gXvxKe0hz8rkekdMvk
+   u6UGOiCkd/gsnQV/KDhlG7crylcfJ/6eYXeSEJz0ZAUAdlpqONwEk519u
+   xA0zTG+x8X6fYbCmHNH0AVQOyWztMrRCmA1fxAPnCLiTvjElh+Yp+tpVQ
+   4or4vpCn08vN84yjVEhLdHr1xjHUx7189TNiBa9GbDvjEZNNqKksJjgTM
+   nHiVqsPGNnsOm7uM5iDtcadczVSoCgWMBHRyzjYASAiRFEYfCnm/5hZgL
+   flftUUwPrrQUbqj8gpk8JXfs6eJqsIhc0fMlAhhmupdVfyrEUqypBlxge
+   w==;
+X-CSE-ConnectionGUID: CABysMa/Qnm8QQYx3yIjJQ==
+X-CSE-MsgGUID: xoKhLJuYQ2iK1UK9HBa0EA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35369752"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="60628629"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 04:59:21 -0800
-X-CSE-ConnectionGUID: XLNaVbJmQo2lE2PK1qXQcg==
-X-CSE-MsgGUID: HYvWmUPjQPqsmnTq8ZplbA==
+   d="scan'208";a="35369752"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:10:25 -0800
+X-CSE-ConnectionGUID: y9kGpgOPQxmRNQedtW43YA==
+X-CSE-MsgGUID: FHrmnFK/QWGpPAhyOVdzTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="98702662"
+   d="scan'208";a="98292457"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2024 04:59:20 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2024 05:10:23 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOcb8-00019n-2k;
-	Fri, 20 Dec 2024 12:59:18 +0000
-Date: Fri, 20 Dec 2024 20:58:40 +0800
+	id 1tOclo-0001AJ-2o;
+	Fri, 20 Dec 2024 13:10:20 +0000
+Date: Fri, 20 Dec 2024 21:09:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:wip-aes-xts-flags 19/19]
- arch/x86/crypto/aesni-intel_glue.c:730:13: warning: 'aesni_xts_decrypt'
- defined but not used
-Message-ID: <202412202035.Ru9HtNqY-lkp@intel.com>
+To: Daniel Lee <chullee@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: [jaegeuk-f2fs:dev-test 15/15] fs/f2fs/dir.c:339:1: warning: unused
+ label 'start_find_entry'
+Message-ID: <202412202144.aEypgoBo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,60 +64,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-aes-xts-flags
-head:   2b32612abff2e4adb803aa6e5fdedaf76d0be424
-commit: 2b32612abff2e4adb803aa6e5fdedaf76d0be424 [19/19] crypto: x86/aes-xts - switch from function pointers to flags
-config: x86_64-buildonly-randconfig-004-20241220 (https://download.01.org/0day-ci/archive/20241220/202412202035.Ru9HtNqY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202035.Ru9HtNqY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+head:   3f1a145b84bcf0fae986212590bfeeaf165d22d6
+commit: 3f1a145b84bcf0fae986212590bfeeaf165d22d6 [15/15] f2fs: Introduce linear search for dentries
+config: riscv-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241220/202412202144.aEypgoBo-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202144.aEypgoBo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412202035.Ru9HtNqY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412202144.aEypgoBo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/crypto/aesni-intel_glue.c:730:13: warning: 'aesni_xts_decrypt' defined but not used [-Wunused-function]
-     730 | static void aesni_xts_decrypt(const struct crypto_aes_ctx *key,
-         |             ^~~~~~~~~~~~~~~~~
->> arch/x86/crypto/aesni-intel_glue.c:723:13: warning: 'aesni_xts_encrypt' defined but not used [-Wunused-function]
-     723 | static void aesni_xts_encrypt(const struct crypto_aes_ctx *key,
-         |             ^~~~~~~~~~~~~~~~~
->> arch/x86/crypto/aesni-intel_glue.c:717:13: warning: 'aesni_xts_encrypt_iv' defined but not used [-Wunused-function]
-     717 | static void aesni_xts_encrypt_iv(const struct crypto_aes_ctx *tweak_key,
-         |             ^~~~~~~~~~~~~~~~~~~~
+   In file included from fs/f2fs/dir.c:10:
+   In file included from include/linux/f2fs_fs.h:11:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/f2fs/dir.c:339:1: warning: unused label 'start_find_entry' [-Wunused-label]
+     339 | start_find_entry:
+         | ^~~~~~~~~~~~~~~~~
+   5 warnings generated.
 
 
-vim +/aesni_xts_decrypt +730 arch/x86/crypto/aesni-intel_glue.c
+vim +/start_find_entry +339 fs/f2fs/dir.c
 
-751fb2528c12ef Eric Biggers   2024-04-07  716  
-751fb2528c12ef Eric Biggers   2024-04-07 @717  static void aesni_xts_encrypt_iv(const struct crypto_aes_ctx *tweak_key,
-751fb2528c12ef Eric Biggers   2024-04-07  718  				 u8 iv[AES_BLOCK_SIZE])
-751fb2528c12ef Eric Biggers   2024-04-07  719  {
-751fb2528c12ef Eric Biggers   2024-04-07  720  	aesni_enc(tweak_key, iv, iv);
-751fb2528c12ef Eric Biggers   2024-04-07  721  }
-751fb2528c12ef Eric Biggers   2024-04-07  722  
-751fb2528c12ef Eric Biggers   2024-04-07 @723  static void aesni_xts_encrypt(const struct crypto_aes_ctx *key,
-54d618cc9f8696 Eric Biggers   2024-12-12  724  			      const u8 *src, u8 *dst, int len,
-751fb2528c12ef Eric Biggers   2024-04-07  725  			      u8 tweak[AES_BLOCK_SIZE])
-751fb2528c12ef Eric Biggers   2024-04-07  726  {
-751fb2528c12ef Eric Biggers   2024-04-07  727  	aesni_xts_enc(key, dst, src, len, tweak);
-751fb2528c12ef Eric Biggers   2024-04-07  728  }
-751fb2528c12ef Eric Biggers   2024-04-07  729  
-751fb2528c12ef Eric Biggers   2024-04-07 @730  static void aesni_xts_decrypt(const struct crypto_aes_ctx *key,
-54d618cc9f8696 Eric Biggers   2024-12-12  731  			      const u8 *src, u8 *dst, int len,
-751fb2528c12ef Eric Biggers   2024-04-07  732  			      u8 tweak[AES_BLOCK_SIZE])
-751fb2528c12ef Eric Biggers   2024-04-07  733  {
-751fb2528c12ef Eric Biggers   2024-04-07  734  	aesni_xts_dec(key, dst, src, len, tweak);
-2481104fe98d5b Ard Biesheuvel 2020-12-31  735  }
-2481104fe98d5b Ard Biesheuvel 2020-12-31  736  
-
-:::::: The code at line 730 was first introduced by commit
-:::::: 751fb2528c12ef64d1e863efb196cdc968b384f6 crypto: x86/aes-xts - make non-AVX implementation use new glue code
-
-:::::: TO: Eric Biggers <ebiggers@google.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+   326	
+   327	struct f2fs_dir_entry *__f2fs_find_entry(struct inode *dir,
+   328						 const struct f2fs_filename *fname,
+   329						 struct page **res_page)
+   330	{
+   331		unsigned long npages = dir_blocks(dir);
+   332		struct f2fs_dir_entry *de = NULL;
+   333		unsigned int max_depth;
+   334		unsigned int level;
+   335		bool use_hash = true;
+   336	
+   337		*res_page = NULL;
+   338	
+ > 339	start_find_entry:
+   340		if (f2fs_has_inline_dentry(dir)) {
+   341			de = f2fs_find_in_inline_dir(dir, fname, res_page, use_hash);
+   342			goto out;
+   343		}
+   344	
+   345		if (npages == 0)
+   346			goto out;
+   347	
+   348		max_depth = F2FS_I(dir)->i_current_depth;
+   349		if (unlikely(max_depth > MAX_DIR_HASH_DEPTH)) {
+   350			f2fs_warn(F2FS_I_SB(dir), "Corrupted max_depth of %lu: %u",
+   351				  dir->i_ino, max_depth);
+   352			max_depth = MAX_DIR_HASH_DEPTH;
+   353			f2fs_i_depth_write(dir, max_depth);
+   354		}
+   355	
+   356		for (level = 0; level < max_depth; level++) {
+   357			de = find_in_level(dir, level, fname, res_page, use_hash);
+   358			if (de || IS_ERR(*res_page))
+   359				break;
+   360		}
+   361	
+   362	out:
+   363	#if IS_ENABLED(CONFIG_UNICODE)
+   364		if (IS_CASEFOLDED(dir) && !de && use_hash) {
+   365			use_hash = false;
+   366			goto start_find_entry;
+   367		}
+   368	#endif
+   369		/* This is to increase the speed of f2fs_create */
+   370		if (!de)
+   371			F2FS_I(dir)->task = current;
+   372		return de;
+   373	}
+   374	
 
 -- 
 0-DAY CI Kernel Test Service
