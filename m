@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73FB21A45E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 18:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2E121D01B;
+	Fri, 20 Dec 2024 18:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734717964; cv=none; b=lDiBDZUFudghOB7ixsK0ShV/zOF2S+bEhD4rvuQ2R15MFJ3JMFPiGuJRKr0W9DsD/UVGh8h3hvqTrqaCokXQWMmnbOw2QYyFRmZy7AWwhqnOs8WWhQ32C8JOmCm1v/CaT3WF9DHMnTwryoQwe5bT45Qd//jHgDIQfYBjRF2kdJg=
+	t=1734719224; cv=none; b=Iy1YXosaY1BsyzzIvMDi7o3h/1AE+XZ6Ov9nWCoUN2BwGVrivj4upFnDrR9UuValHv3Jl/0RU4UdFZnoPHX7Gp3DSKgXsboiajYVnB8BV7LAiIRQX8aEUZgoZu29fy8EavbVJ2xVbPdbHj9+rAM6eydHD8H3XPqgfFfK7pz0Ubw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734717964; c=relaxed/simple;
-	bh=LocUNaxUCdhxaptlNVpZuIPhx/xWiQoNZRYg8O3Afh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U0CLhdKt0jysBu3MYOk0FNuRiURTWpTxB/H7Jvql0u9UeJjnNIc+bTMbfb841ABlUB1kmLItGZC69L1iHrlR3E8arhFBi3uXhJdPNLXRooYnN4/3bpIRZ9Pex266MFvkxEzoRZ9Tx3IewNV7zHXLDDPwpZoVSGQIdF8XQAw8dfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxqIaoBF; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1734719224; c=relaxed/simple;
+	bh=lVeG2+LVxzEoZ+Rnc836huFlQp02+Oj9SvSRKpveDbo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rca6LB7MoN9XMmCmY7jokHjpyTvVnarlzRL6JuREC5dOqkUHrOLd4/+TLJpF+DAC89grjBI9/i+LSVZ5AZc/FegdaRtsad12j22q+1ZDBkfPqxecBrtosAJa3v96pak9JyibGLLGNACwJc9M124P26l7oSOzj0IPLdzH61n5Wyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TE2sNz4d; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxqIaoBF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TE2sNz4d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734717963; x=1766253963;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LocUNaxUCdhxaptlNVpZuIPhx/xWiQoNZRYg8O3Afh8=;
-  b=kxqIaoBF5p0SoN617o05vojDjf0QVwcCWPiY4ECrHpfzVkoVg+FnA2Co
-   n5ePayEUM4I6XV6ldodFjt3U0/8mFBOQY/tD1nl9xqWnjnhNZxs67z+YP
-   mb3c7cHPY1zMY/ahulH8jr1/EcnzB/8uHpv3/hbm4Tuqcm0WK4QvoVZOp
-   CLFEpYfKrLrh2a/DJbpq3txheeT4/f10gk4LQuR+nAR3SyehvHCNrtdJQ
-   EBKSUrCwMdzTUXRKoH4eI8rTaCcWh+dS0csTklIbTYMRwLmvZHwTKe4j9
-   pf9S6veW8RTIa7meHtBzWD1WKDC2jSUpqClPrHFrh4HVrgkr67DDtOC+6
-   w==;
-X-CSE-ConnectionGUID: 7TxYSq9gTR69Zyj824Cryw==
-X-CSE-MsgGUID: bOUEVOuUQAiTG6e/FjUlXw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="46282298"
+  t=1734719222; x=1766255222;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lVeG2+LVxzEoZ+Rnc836huFlQp02+Oj9SvSRKpveDbo=;
+  b=TE2sNz4d8fsH7yf7xfr6MZ/YBbi8/DMQFbhYQx3YKhOFunLubhIYfd9q
+   jUhuzZH4VIU8ZE6aMosYRk2oqlF2aXpnWNgV5hFaZzRqG9FEZ/ajM929P
+   7OMEmI26tTwESOi17pzhYmt0wwy9hAzwNh9/M74vNGsHEhgxni4cHJzbb
+   6eY3ypHgHpObWHJZsaDgN8S45s/EAdmEzQ4h5V686YNIBQ/cO+UAlhE0f
+   /mdhzjOG4IIrboZHemXJTdOLwkTkkKxU1DaZFageLLDSBYNgiC4cuygsG
+   4EfdYhz+swT2W+0fxMP5771L0dkOrRlp6wbMwnPmc2DJwj8kFVW5+aglV
+   A==;
+X-CSE-ConnectionGUID: lbZ0T/ZASDuFdBeYrz7NQQ==
+X-CSE-MsgGUID: QJsry+LEQKqYT17P3OWsBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45882397"
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="46282298"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 10:05:59 -0800
-X-CSE-ConnectionGUID: z2aDPhBHRQ2Y8T3AV5YZfA==
-X-CSE-MsgGUID: FJTIqSlASeKDcEFr5WT1Gg==
+   d="scan'208";a="45882397"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 10:27:02 -0800
+X-CSE-ConnectionGUID: K4pW+d6OTAmFjJn+m7+PFQ==
+X-CSE-MsgGUID: lM36vNWZR1qKyNPD2rstbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="99098853"
+   d="scan'208";a="98354381"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2024 10:05:57 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2024 10:26:59 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOhNr-0001WI-1F;
-	Fri, 20 Dec 2024 18:05:55 +0000
-Date: Sat, 21 Dec 2024 02:05:30 +0800
+	id 1tOhiC-0001Wd-3B;
+	Fri, 20 Dec 2024 18:26:56 +0000
+Date: Sat, 21 Dec 2024 02:26:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
-Subject: [paulmckrcu:dev 25/30] kernel/time/hrtimer.c:1229:42: error:
- 'migration_base' undeclared; did you mean 'is_migration_base'?
-Message-ID: <202412210218.00cDkmMB-lkp@intel.com>
+To: mtk22730 <Cloud.Zhang@mediatek.com>, Mark Brown <broonie@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	Cloud Zhang <cloud.zhang@mediatek.com>
+Subject: Re: [PATCH] [v1] spi: spi-mtk-nor: Modify the clock architecture of
+ nor controller
+Message-ID: <202412210247.Brq06CHb-lkp@intel.com>
+References: <20241212092206.14071-1-Cloud.Zhang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,104 +70,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241212092206.14071-1-Cloud.Zhang@mediatek.com>
 
-tree:   https://github.com/paulmckrcu/linux dev
-head:   54c05449fb97c1414c85c6e2e58a7d0c53827acd
-commit: fe2e53971593e84616d31630458d80398e18fbcf [25/30] EXP hrtimers: Force migrate away hrtimers queued after CPUHP_AP_HRTIMERS_DYING
-config: i386-buildonly-randconfig-001-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210218.00cDkmMB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210218.00cDkmMB-lkp@intel.com/reproduce)
+Hi mtk22730,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on linus/master v6.13-rc3 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mtk22730/spi-spi-mtk-nor-Modify-the-clock-architecture-of-nor-controller/20241212-172704
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20241212092206.14071-1-Cloud.Zhang%40mediatek.com
+patch subject: [PATCH] [v1] spi: spi-mtk-nor: Modify the clock architecture of nor controller
+config: um-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210247.Brq06CHb-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210247.Brq06CHb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210218.00cDkmMB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210247.Brq06CHb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/time/hrtimer.c:124:35: warning: initialized field overwritten [-Woverride-init]
-     124 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:124:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:125:35: warning: initialized field overwritten [-Woverride-init]
-     125 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:125:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:126:35: warning: initialized field overwritten [-Woverride-init]
-     126 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:126:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:127:35: warning: initialized field overwritten [-Woverride-init]
-     127 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:127:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:324,
-                    from include/linux/dev_printk.h:14,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/time/hrtimer.c:25:
-   kernel/time/hrtimer.c: In function 'enqueue_hrtimer_offline':
->> kernel/time/hrtimer.c:1229:42: error: 'migration_base' undeclared (first use in this function); did you mean 'is_migration_base'?
-    1229 |                 WRITE_ONCE(timer->base, &migration_base);
-         |                                          ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                        ^~~
-   kernel/time/hrtimer.c:1229:17: note: in expansion of macro 'WRITE_ONCE'
-    1229 |                 WRITE_ONCE(timer->base, &migration_base);
-         |                 ^~~~~~~~~~
-   kernel/time/hrtimer.c:1229:42: note: each undeclared identifier is reported only once for each function it appears in
-    1229 |                 WRITE_ONCE(timer->base, &migration_base);
-         |                                          ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                        ^~~
-   kernel/time/hrtimer.c:1229:17: note: in expansion of macro 'WRITE_ONCE'
-    1229 |                 WRITE_ONCE(timer->base, &migration_base);
-         |                 ^~~~~~~~~~
+   In file included from drivers/spi/spi-mtk-nor.c:10:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/spi/spi-mtk-nor.c:10:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     549 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/spi/spi-mtk-nor.c:10:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/spi/spi-mtk-nor.c:10:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     601 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     724 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     737 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     750 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     764 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     778 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     792 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/spi/spi-mtk-nor.c:746:19: warning: result of comparison of constant -22 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
+     746 |         if (!cnt || (cnt == -EINVAL)) {
+         |                      ~~~ ^  ~~~~~~~
+   14 warnings generated.
 
 
-vim +1229 kernel/time/hrtimer.c
+vim +746 drivers/spi/spi-mtk-nor.c
 
-  1206	
-  1207	/*
-  1208	 * If the current CPU is offline and timers have been already
-  1209	 * migrated away, make sure not to enqueue locally and perform
-  1210	 * a remote retrigger as a last resort.
-  1211	 */
-  1212	static void enqueue_hrtimer_offline(struct hrtimer *timer,
-  1213					    struct hrtimer_clock_base *base,
-  1214					    const enum hrtimer_mode mode)
-  1215	{
-  1216		struct hrtimer_cpu_base *new_cpu_base, *old_cpu_base, *this_cpu_base;
-  1217		struct hrtimer_clock_base *new_base;
-  1218		int cpu;
-  1219	
-  1220		old_cpu_base = base->cpu_base;
-  1221		this_cpu_base = this_cpu_ptr(&hrtimer_bases);
-  1222	
-  1223		if (old_cpu_base == this_cpu_base || !old_cpu_base->online) {
-  1224			WARN_ON_ONCE(hrtimer_callback_running(timer));
-  1225			cpu = cpumask_any_and(cpu_online_mask,
-  1226					      housekeeping_cpumask(HK_TYPE_TIMER));
-  1227			new_cpu_base = &per_cpu(hrtimer_bases, cpu);
-  1228			new_base = &new_cpu_base->clock_base[base->index];
-> 1229			WRITE_ONCE(timer->base, &migration_base);
-  1230			raw_spin_unlock(&old_cpu_base->lock);
-  1231			raw_spin_lock(&new_cpu_base->lock);
-  1232			WRITE_ONCE(timer->base, new_base);
-  1233		} else {
-  1234			new_base = base;
-  1235			new_cpu_base = new_base->cpu_base;
-  1236			cpu = new_cpu_base->cpu;
-  1237		}
-  1238	
-  1239		if (enqueue_hrtimer(timer, new_base, mode))
-  1240			smp_call_function_single_async(cpu, &new_cpu_base->csd);
-  1241	}
-  1242	
+   737	
+   738	static int mtk_nor_parse_clk(struct device *dev, struct mtk_nor *sp)
+   739	{
+   740		struct device_node *np = dev->of_node;
+   741		int ret;
+   742		const char *name;
+   743		u8 cnt, i;
+   744	
+   745		cnt = of_property_count_strings(np, "clock-names");
+ > 746		if (!cnt || (cnt == -EINVAL)) {
+   747			dev_err(dev, "Unable to find clocks\n");
+   748			ret = -EINVAL;
+   749			goto out;
+   750		} else if (cnt < 0) {
+   751			dev_err(dev, "Count clock strings failed, err %d\n", cnt);
+   752			ret = cnt;
+   753			goto out;
+   754		} else if (cnt > MAX_CLOCK_CNT) {
+   755			ret = -EINVAL;
+   756			goto out;
+   757		}
+   758	
+   759		sp->clock_cnt = cnt;
+   760	
+   761		for (i = 0; i < cnt; i++) {
+   762			ret = of_property_read_string_index(np, "clock-names", i,
+   763					       &name);
+   764			if (ret) {
+   765				dev_err(dev, "failed to get clock string\n");
+   766				return ret;
+   767			}
+   768	
+   769			sp->clocks[i].name = name;
+   770			sp->clocks[i].clki = devm_clk_get(dev, sp->clocks[i].name);
+   771			if (IS_ERR(sp->clocks[i].clki)) {
+   772				dev_err(dev, "get clock %s fail\n", sp->clocks[i].name);
+   773				return PTR_ERR(sp->clocks[i].clki);
+   774			}
+   775		}
+   776	
+   777	out:
+   778		return ret;
+   779	}
+   780	
 
 -- 
 0-DAY CI Kernel Test Service
