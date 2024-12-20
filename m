@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618D01A08C1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 08:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D421A7AE3;
+	Fri, 20 Dec 2024 08:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734682861; cv=none; b=QIXSGhnUXhaZFfe4YvBdy/eQojbJH9e8KAKhUYLhBCBiNrexE76vI4TkHO6oqRYeBNfJo9omxGoo/l+PierwW1CYvycE/m0Hd2rxl9zxLHrfiVjViDZd0s1B0VYQP6gAdpHz3B6uoBxbHtX4iu271iEceyjSqVM9m4FliEZe+Nw=
+	t=1734684182; cv=none; b=aQOYaOAi1FXkVbOAp1e8W6RouUmvsfa52LNqH7Erc82xPXagvSibGchOSAgXOVcVCNbfjC6mLXVzIt7N680ZP+1bBt6VUxM3bMeZ/egfpud58okPdeYww0nynY8LQClZ2aSRbBL8BF0Gro26M5G9BGtry+n57psbNN0UpmE4l70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734682861; c=relaxed/simple;
-	bh=7QB9U52qCfo8wJbE0m45A2xve0YqZ1ZALCoixFcC4Qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T+xgaMqIwEJkmb/8oOGdIDM/tgdLxwdB6pMy/ydAUvGEwKcI9SYHtBxyifCSXjuThOsbqcP+41hw0i+fWHNuoNoOcNJEdAv5O7b0lP6cFtxL4m/dbV9IdMvLfe/j38lA7YT9647p03hF7Pi4lfkyfMrYfsBH27WuJZtd8uxsWNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cz6jQMsE; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1734684182; c=relaxed/simple;
+	bh=VCv78L4mZGTH84kiPzt2lwX1HtDS+Zy6CMiElRoIiDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iqDLpAwzLE5y53c/qCB1OOEYlbCuP/azgrXKPtZjTk8HTRaauRMDYyQ2aNcUbLp9GkgqXPCdM7awLWza2jAdjJxK0Gji6qQADoXOazmOQ1Qqrt71+zglJUrPaxDLEQtwuPzS9cI4k8b16JcNIYHrldsOZcei7Gnpkh1susF2UaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAoposeR; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cz6jQMsE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAoposeR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734682859; x=1766218859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7QB9U52qCfo8wJbE0m45A2xve0YqZ1ZALCoixFcC4Qc=;
-  b=Cz6jQMsEYJFtPiAaBDpfyXjz8JARGZVceArSIeJwb8A6UIhg0rOMX/5V
-   c7attwnpdDSroWO/hEJm+l13nkzjgOiyi2BVIsoXzpopdNStPgn8PzjHr
-   mGFSVxtXm/4kzAQ28gK201A2RWj8wdO7qAMERGYulAhRIvPj64DXE7Law
-   H55mYOpissTlbWzjca/8Gpir62/jZXD8TIF6LDTA9GkA5phz2MsMrrVSp
-   JNjQAGXsyttHMjLwFqGseP3FcBnGJlyHjeYKUdxQGgD7zcfIAcLo6PnHK
-   4Ilix2btMarxRxJSMvLQnOsH5aoBS90r3WIXi8Z6yqNaC8No+eV4crlOG
-   Q==;
-X-CSE-ConnectionGUID: 9uAnHGlVQdOsyLARA+MPXQ==
-X-CSE-MsgGUID: G4vFu1IySnOrFzqQ3rKHsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="46234370"
+  t=1734684181; x=1766220181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VCv78L4mZGTH84kiPzt2lwX1HtDS+Zy6CMiElRoIiDM=;
+  b=nAoposeRYqFbLQh2aAUAuxFFy3VtJ9SqLkWbrRyTRz0bfmaofYe4pjC8
+   tXpViVPN11d1Zy4iwDcs2cU0WpXARGWJrOn430jSACH7dkiu+28zawl4C
+   agm2nU3SN5FD2Erm9ybV8F6ztL7NdPKfyCWIqg3L0mzWUzcIqp6ebeRJ3
+   eHszyqGZLcdzhvA/V1HxhYgKWxjovdjtzoheXc+A1xWm+dtDXdpKJUG0n
+   uL/WnzzgVMNPoLtgWAKO6UqUyaHMdfj+n9iiApQtuuwYNzXTAecxR650z
+   Q4McQphinEFXEUrutbx4yxfyhr5zj2fL2fSoOXIFjwLbEauXYLOcfTaVY
+   w==;
+X-CSE-ConnectionGUID: QebMlayWQ1+E/tvXoiC25Q==
+X-CSE-MsgGUID: Z8VB7mxPTe62aUnJv5KG4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="35375623"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="46234370"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 00:20:59 -0800
-X-CSE-ConnectionGUID: +wZfxHiFRr6zpjrADKw71Q==
-X-CSE-MsgGUID: 3b9UCKNXRIK6GzqzmeFTSg==
+   d="scan'208";a="35375623"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 00:43:00 -0800
+X-CSE-ConnectionGUID: TTHtGL4xQiWUCWXCGYcK9w==
+X-CSE-MsgGUID: 0ZB+aNecRfGsK80DtUtZNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="98516727"
+   d="scan'208";a="98282689"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Dec 2024 00:20:57 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 20 Dec 2024 00:42:58 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOYFi-0000y3-1H;
-	Fri, 20 Dec 2024 08:20:54 +0000
-Date: Fri, 20 Dec 2024 16:20:33 +0800
+	id 1tOYb2-0000zL-1F;
+	Fri, 20 Dec 2024 08:42:56 +0000
+Date: Fri, 20 Dec 2024 16:42:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] kbuild: Drop architecture argument from headers_check.pl
-Message-ID: <202412201643.PR8VVmEL-lkp@intel.com>
-References: <168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert+renesas@glider.be>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ __apply_fineibt+0x849 (section: .text.__apply_fineibt) -> poison_endbr
+ (section: .init.text)
+Message-ID: <202412201614.F1kJs3gM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,49 +64,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert+renesas@glider.be>
 
-Hi Geert,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on linus/master v6.13-rc3]
-[cannot apply to next-20241219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/kbuild-Drop-architecture-argument-from-headers_check-pl/20241210-165347
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert%2Brenesas%40glider.be
-patch subject: [PATCH] kbuild: Drop architecture argument from headers_check.pl
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201643.PR8VVmEL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8faabc041a001140564f718dabe37753e88b37fa
+commit: 04505bbbbb15da950ea0239e328a76a3ad2376e0 x86/fineibt: Poison ENDBR at +0
+date:   1 year, 5 months ago
+config: x86_64-buildonly-randconfig-003-20241219 (https://download.01.org/0day-ci/archive/20241220/202412201614.F1kJs3gM-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201614.F1kJs3gM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201643.PR8VVmEL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201614.F1kJs3gM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   make[1]: Circular tools/testing/selftests/alsa/global-timer <- tools/testing/selftests/alsa/global-timer dependency dropped.
-   Makefile:60: warning: overriding recipe for target 'emit_tests'
-   ../lib.mk:182: warning: ignoring old recipe for target 'emit_tests'
-   make[1]: *** No targets.  Stop.
->> Makefile:47: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
-   make[1]: *** No targets.  Stop.
-   make[1]: *** No targets.  Stop.
-
-
-vim +47 Makefile
-
-3812b8c5c5d527 Masahiro Yamada 2019-02-22  46  
-3812b8c5c5d527 Masahiro Yamada 2019-02-22 @47  # Do not use make's built-in rules and variables
-3812b8c5c5d527 Masahiro Yamada 2019-02-22  48  # (this increases performance and avoids hard-to-debug behaviour)
-3812b8c5c5d527 Masahiro Yamada 2019-02-22  49  MAKEFLAGS += -rR
-3812b8c5c5d527 Masahiro Yamada 2019-02-22  50  
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x200 (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x383 (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x4fc (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x5d2 (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x623 (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x6f0 (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x749 (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x813 (section: .text.__apply_fineibt) -> text_poke_early (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x849 (section: .text.__apply_fineibt) -> poison_endbr (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
