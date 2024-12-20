@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D32D1C3039
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 10:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D498D259499;
+	Fri, 20 Dec 2024 10:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734689834; cv=none; b=VOlvJGILJRpRL2yHsdYgKfQkoq3Whia8Xrh4AOSw0FCXoFTebhzJTlsWsCWz+9GOV9RpRVlumJyclUx/ERckRm6m7GU1PYWU9zg85W4Y/h6BrYZbqh34dGB/LN09XTQtezuU4dgihZIohkZttfzw+LffWz0R8lEky2ugN2DZv/g=
+	t=1734689891; cv=none; b=jGSbUpZhxP0yByDfoZh/7N5MJfm3qAj4hLroMg9OQUEpjSCMYX71Mnfx2GWjpjuweyPCbjr7ExvrwtuNBwOSZXKck5IODyaoXy7fKPvmnLfmV4OsgLrpsCBRqsH++Vd+wPAb8VICrKMoWj/F4sN6zRp0u6FC7ZwWmjkVF+XYOsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734689834; c=relaxed/simple;
-	bh=J4+DE+ytXna4c/lGuTqvaPFNwdWpZeeaGNTmlEpZr1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=saMaHz6biycLyRHc5JQ9qaNSHweRQ7s4gwPL8weaJ8ISzNLiewEbxaUd6XXzsBeCfi+fBHS+Mv+mgazuPbfRtuGjbb1pJVIXvVcowLbHoq5Z+WPNjy8OgiBhbw5jVOwmbiy56WGJY33ohfkRDslADT1EBa8mYfEv6IJV6WbDlpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CFQWcV3i; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1734689891; c=relaxed/simple;
+	bh=7hpB+GYR0gvpYDZnjP0453dc4dqzBBTZet1ls1VwAYA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V/0juKIAdP2pppv5BxyiH2sSTGK5GtG9vqgCFmbTdHP/LnSrlR/lr0q0t+qWVL23g6Djj+IfQSPkSQHlE9m1TzgXqRVyIp+Wgp6/GAWYXOkqcle6hZwUJRtpGU/gwpGM0bb9ieF3Nz1UxPA+q/uC0DjUAxyAkC7w1kfATeOoeow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GnnR9JvW; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFQWcV3i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GnnR9JvW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734689833; x=1766225833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J4+DE+ytXna4c/lGuTqvaPFNwdWpZeeaGNTmlEpZr1c=;
-  b=CFQWcV3iBuE6aiJlL9foijxlztWHwB2hG1t8TRVOi6R+CrHKNUJdVIFQ
-   GpyjFMIO5RWE+Dzb4ciLg9xBcd3DvK7NX9n+BVWQ0ePlGjX/6S6+LX4NI
-   x7EBgWrULmqu81sHwnFmyIPXKMv6EoUGqA1t48VpDeDHlb3He46qwjQL9
-   S1JbQX0LPVt7jtogZ5NVJzi4QskLf01kg+rl3tm/0rrqj6UZItr/qNlnm
-   oazVGMGD02M1UrB+nuJqUoFkksRMw5TPrW/Udvrm01WLcsJiEutQ9YOJz
-   weDjWs09hg8rrEm4uhD2KmSzBrjHk4zPf3e9sKJdaER9swCNLteQMkBsR
-   A==;
-X-CSE-ConnectionGUID: gSIysHqPTROKa2x+Gi2jNw==
-X-CSE-MsgGUID: RLnX9IlJRRaraVsqECDYcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="46244139"
+  t=1734689889; x=1766225889;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7hpB+GYR0gvpYDZnjP0453dc4dqzBBTZet1ls1VwAYA=;
+  b=GnnR9JvWaFKV/261SCO/BiRlD6WrPHG8Yk+briig7zZT8xRuAkmdg1/a
+   x5lJVF6Toa5qNKXg3FyR5MsXLKYKuuXWBrJHdyyh3z3MOmReRP7LN6Z36
+   niErSCC24CyCVWXBwKr8wMxp1gHg54MgAiQkFjFO25Y81JU898N7YloJB
+   Ya79VKnERo1J3p18V5jkaWv4XBXjSyEv3vmUjD2kXEGbRm6H7sln7Oyim
+   6FoLBucbwX6VIkUfzh3x8txbhWVvElR0ScCVAFxh3ntFn+e18eDvOQvGN
+   iSX0IxD7I2HuRSIklejQ8ZrJbjoKR2TY5w0V+tCCRp06SaRAwPkWgKIzA
+   w==;
+X-CSE-ConnectionGUID: LznGk76/TCOxBtnXTH3sLQ==
+X-CSE-MsgGUID: Ac2kIVGmS1uqlK/TM1M3ZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="46616455"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="46244139"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 02:17:12 -0800
-X-CSE-ConnectionGUID: qvtwB8niQJKNCwAW228hNQ==
-X-CSE-MsgGUID: 3JhIfnHXRTS7jy2ZLzABnQ==
+   d="scan'208";a="46616455"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 02:18:09 -0800
+X-CSE-ConnectionGUID: MsZqWA+PQ9WnIXvFkS44kg==
+X-CSE-MsgGUID: iV8arkHQSfGjqVxwbVXP+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="129294318"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="99296728"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Dec 2024 02:17:06 -0800
+  by orviesa008.jf.intel.com with ESMTP; 20 Dec 2024 02:18:07 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOa48-00012x-1C;
-	Fri, 20 Dec 2024 10:17:04 +0000
-Date: Fri, 20 Dec 2024 18:17:01 +0800
+	id 1tOa56-000137-1R;
+	Fri, 20 Dec 2024 10:18:04 +0000
+Date: Fri, 20 Dec 2024 18:17:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	perex@perex.cz, tiwai@suse.com, ivprusov@salutedevices.com,
-	neil.armstrong@linaro.org, jack.yu@realtek.com,
-	rf@opensource.cirrus.com, zhoubinbin@loongson.cn,
-	quic_pkumpatl@quicinc.com, herve.codina@bootlin.com,
-	masahiroy@kernel.org, nuno.sa@analog.com, yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, yijiangtao@awinic.com
-Subject: Re: [PATCH V2 2/2] ASoC: codecs: Add aw88083 amplifier driver
-Message-ID: <202412201745.fBpf3Ui5-lkp@intel.com>
-References: <20241219123047.33330-3-wangweidong.a@awinic.com>
+To: yangge <yangge1116@126.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 253/254] include/linux/hugetlb.h:1063:5:
+ warning: no previous prototype for function 'replace_free_hugepage_folios'
+Message-ID: <202412201800.vhgfNG83-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,130 +63,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219123047.33330-3-wangweidong.a@awinic.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on eabcdba3ad4098460a376538df2ae36500223c1e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-dt-bindings-Add-schema-for-awinic-aw88083/20241219-203933
-base:   eabcdba3ad4098460a376538df2ae36500223c1e
-patch link:    https://lore.kernel.org/r/20241219123047.33330-3-wangweidong.a%40awinic.com
-patch subject: [PATCH V2 2/2] ASoC: codecs: Add aw88083 amplifier driver
-config: arc-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201745.fBpf3Ui5-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201745.fBpf3Ui5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   5555a83c82d66729e4abaf16ae28d6bd81f9a64a
+commit: fba5261e0039dcf4de077fd12ea9ae2501d92b88 [253/254] mm: replace free hugepage folios after migration
+config: i386-buildonly-randconfig-004-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201800.vhgfNG83-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201800.vhgfNG83-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201745.fBpf3Ui5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201800.vhgfNG83-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from sound/soc/codecs/aw88081.c:11:
-   sound/soc/codecs/aw88081.c: In function 'aw8808x_reg_value_check':
->> sound/soc/codecs/aw88081.c:407:25: error: passing argument 1 of '_dev_err' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     407 |                 dev_err(aw_dev, "unsupported this device\n");
-         |                         ^~~~~~
-         |                         |
-         |                         struct aw_device *
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/codecs/aw88081.c:407:17: note: in expansion of macro 'dev_err'
-     407 |                 dev_err(aw_dev, "unsupported this device\n");
-         |                 ^~~~~~~
-   include/linux/dev_printk.h:50:36: note: expected 'const struct device *' but argument is of type 'struct aw_device *'
-      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
-         |               ~~~~~~~~~~~~~~~~~~~~~^~~
-   sound/soc/codecs/aw88081.c: In function 'aw88081_dev_reg_update':
->> sound/soc/codecs/aw88081.c:442:66: error: passing argument 3 of 'aw8808x_reg_value_check' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     442 |                 ret = aw8808x_reg_value_check(aw88081, reg_addr, &reg_val);
-         |                                                                  ^~~~~~~~
-         |                                                                  |
-         |                                                                  u16 * {aka short unsigned int *}
-   sound/soc/codecs/aw88081.c:394:78: note: expected 'unsigned int *' but argument is of type 'u16 *' {aka 'short unsigned int *'}
-     394 |                                         unsigned int reg_addr, unsigned int *reg_val)
-         |                                                                ~~~~~~~~~~~~~~^~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from mm/mincore.c:19:
+>> include/linux/hugetlb.h:1063:5: warning: no previous prototype for function 'replace_free_hugepage_folios' [-Wmissing-prototypes]
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         |     ^
+   include/linux/hugetlb.h:1063:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         | ^
+         | static 
+   1 warning generated.
+--
+   In file included from mm/pagewalk.c:5:
+>> include/linux/hugetlb.h:1063:5: warning: no previous prototype for function 'replace_free_hugepage_folios' [-Wmissing-prototypes]
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         |     ^
+   include/linux/hugetlb.h:1063:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         | ^
+         | static 
+   In file included from mm/pagewalk.c:12:
+   In file included from mm/internal.h:13:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   3 warnings generated.
+--
+   In file included from mm/vmalloc.c:41:
+>> include/linux/hugetlb.h:1063:5: warning: no previous prototype for function 'replace_free_hugepage_folios' [-Wmissing-prototypes]
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         |     ^
+   include/linux/hugetlb.h:1063:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         | ^
+         | static 
+   In file included from mm/vmalloc.c:50:
+   In file included from mm/internal.h:13:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmalloc.c:1938:20: warning: unused function 'setup_vmalloc_vm' [-Wunused-function]
+    1938 | static inline void setup_vmalloc_vm(struct vm_struct *vm,
+         |                    ^~~~~~~~~~~~~~~~
+   4 warnings generated.
+--
+   In file included from mm/mremap.c:12:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/mremap.c:13:
+>> include/linux/hugetlb.h:1063:5: warning: no previous prototype for function 'replace_free_hugepage_folios' [-Wmissing-prototypes]
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         |     ^
+   include/linux/hugetlb.h:1063:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         | ^
+         | static 
+   3 warnings generated.
+--
+   In file included from mm/page_alloc.c:44:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page_alloc.c:46:
+   In file included from include/linux/migrate.h:8:
+>> include/linux/hugetlb.h:1063:5: warning: no previous prototype for function 'replace_free_hugepage_folios' [-Wmissing-prototypes]
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         |     ^
+   include/linux/hugetlb.h:1063:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         | ^
+         | static 
+   mm/page_alloc.c:2933:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2933 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:3050:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3050 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:4692:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    4692 |         __count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   6 warnings generated.
+--
+   In file included from mm/vmscan.c:30:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:42:
+   In file included from include/linux/migrate.h:8:
+>> include/linux/hugetlb.h:1063:5: warning: no previous prototype for function 'replace_free_hugepage_folios' [-Wmissing-prototypes]
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         |     ^
+   include/linux/hugetlb.h:1063:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+         | ^
+         | static 
+   mm/vmscan.c:409:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     409 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
+         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:1773:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    1773 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/vmscan.c:2279:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2279 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
+         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
+   mm/vmscan.c:2280:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2280 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
+         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
+   mm/vmscan.c:6239:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    6239 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   8 warnings generated.
 
 
-vim +/_dev_err +407 sound/soc/codecs/aw88081.c
+vim +/replace_free_hugepage_folios +1063 include/linux/hugetlb.h
 
-   392	
-   393	static int aw8808x_reg_value_check(struct aw88081 *aw88081,
-   394						unsigned int reg_addr, unsigned int *reg_val)
-   395	{
-   396		struct aw_device *aw_dev = aw88081->aw_pa;
-   397		int ret;
-   398	
-   399		switch (aw88081->devtype) {
-   400		case AW88081:
-   401			ret = aw88081_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-   402			break;
-   403		case AW88083:
-   404			ret = aw88083_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-   405			break;
-   406		default:
- > 407			dev_err(aw_dev, "unsupported this device\n");
-   408			ret = -EINVAL;
-   409			break;
-   410		}
-   411	
-   412		return ret;
-   413	}
-   414	
-   415	static int aw88081_dev_reg_update(struct aw88081 *aw88081,
-   416						unsigned char *data, unsigned int len)
-   417	{
-   418		struct aw_device *aw_dev = aw88081->aw_pa;
-   419		struct aw_volume_desc *vol_desc = &aw_dev->volume_desc;
-   420		int data_len, i, ret;
-   421		int16_t *reg_data;
-   422		u16 reg_val;
-   423		u8 reg_addr;
-   424	
-   425		if (!len || !data) {
-   426			dev_err(aw_dev->dev, "reg data is null or len is 0");
-   427			return -EINVAL;
-   428		}
-   429	
-   430		reg_data = (int16_t *)data;
-   431		data_len = len >> 1;
-   432	
-   433		if (data_len & 0x1) {
-   434			dev_err(aw_dev->dev, "data len:%d unsupported",	data_len);
-   435			return -EINVAL;
-   436		}
-   437	
-   438		for (i = 0; i < data_len; i += 2) {
-   439			reg_addr = reg_data[i];
-   440			reg_val = reg_data[i + 1];
-   441	
- > 442			ret = aw8808x_reg_value_check(aw88081, reg_addr, &reg_val);
-   443			if (ret)
-   444				return ret;
-   445	
-   446			ret = regmap_write(aw_dev->regmap, reg_addr, reg_val);
-   447			if (ret)
-   448				return ret;
-   449		}
-   450	
-   451		if (aw_dev->prof_cur != aw_dev->prof_index)
-   452			vol_desc->ctl_volume = 0;
-   453	
-   454		/* keep min volume */
-   455		aw88081_dev_set_volume(aw_dev, vol_desc->mute_volume);
-   456	
-   457		return 0;
-   458	}
-   459	
+  1062	
+> 1063	int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
+  1064	{
+  1065		return 0;
+  1066	}
+  1067	
 
 -- 
 0-DAY CI Kernel Test Service
