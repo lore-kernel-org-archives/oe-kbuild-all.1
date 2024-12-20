@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBCA2C190;
-	Fri, 20 Dec 2024 15:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8719829405
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 16:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734710089; cv=none; b=pKzlaQ1be8JEWkwsAGMWm7etPoqmoeYmEL0P3NRDa0XULm8s9zh8Q5Wc2w7T96AuSJIUGvsLyOV3/gQvBKc08XgyvT7hX6PjI2Oyab0QtV90iTy8p/eT7jPmWU/b55C2zRUty27Ms947Jmq5ekzD6UST45IQv5Qa2Lj0KKvhtaE=
+	t=1734711408; cv=none; b=Q9iIjknVPTF9jrmp/APdogucTt5GfHClAGLYKtLQS4cK0MfMwRFAhhGrMgcUl2vkTSEqYATqh5QaaP3iap/rddyqTP5utRRB+CF3Ai8a3ha3ogb8D3aVsaBstlrFNbBgidBTkOUxHpRjWZEI+wWRmgcaoKXR63iSo8wmzlnqvYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734710089; c=relaxed/simple;
-	bh=nBCegtq0A5NfOXgKUOhNhCAdUczJYCehEj8+f1RmnXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IUglM5KmFApbCxmtme8/iDegPe3ipwUYLyRQSJApr3E1Q0McG3Tq4LJx72ykfkafMATHa+MqAjzlLaa8B12lyafxK8s1kP4D9YK0jmDRQYXfGGtDOKFmh/FPzLBucBI5jDnHILvjfnbSj98H+guiGW2EOoS36TDiwCoEMi+M7l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MMV73hYt; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1734711408; c=relaxed/simple;
+	bh=wxw5U3zGonc1vJAniD/txU2/mHLb24vjhfpZ0V0Wz8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IpsSn+KtKX9d41aiChdx39KlUjHCZQ4fQD/pq/8Rl1jOYKdIahbfNlzGwusT2W6giFhhp3I361saaLUiQRG2O+jO3sduvbJHtak1CaRtlWaDd1e4Np/epecAOG/QmB4viD1FkyiS51B764XCuGM8OG5Uq9oNrIWygS3zAY5jzB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCHRMliO; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MMV73hYt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCHRMliO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734710087; x=1766246087;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nBCegtq0A5NfOXgKUOhNhCAdUczJYCehEj8+f1RmnXY=;
-  b=MMV73hYtvK4oR6hzBzJRKlICAak7zzmIhaGaR4ktnmAZ7ZOU5BuwwKg6
-   zapF0JFVkabwoppUCaqbzuoJTiWZtFQbRVf8xH2jnYy8PbJV/FJG4+UO7
-   8aW/ZjfmGmJqe9oKv2cXgULgxAeSm0npGTVlQKEUtSquJqbwgqHz5VQQI
-   Nl+N1JR7j8cOEKo7q63JCuavwekZ8o1FiIL3ZVmRLFsJzbfMM6hL1CLUE
-   LTh+YyaTnhJLGx1xTPlLECT9wOkXTxbbO1fL4G6eWbU2iyXLSQVIb0JxJ
-   upirvbJfcpcOWVfBjLG/dYGmXoYjogyUE4byo/aNowu2syiUtaD1q8xgC
-   w==;
-X-CSE-ConnectionGUID: ON2wjnb0TOq2G4Zx6ho/Jw==
-X-CSE-MsgGUID: jqX8iVMLQqKkXqHt8MCBHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="46269702"
+  t=1734711406; x=1766247406;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wxw5U3zGonc1vJAniD/txU2/mHLb24vjhfpZ0V0Wz8o=;
+  b=oCHRMliOEt+0hP6H6njYkgNgXrFABKsHOThKDSQa/jGmlXRbpOwqlS5D
+   ykWenGX5trKsCgnFlLVsdxwk8ttMkLY5hfYcjfurM2NpJPzgLjzePVU8u
+   /osJoRigu3DoB+wLOQDhcFpEfkbevwjdvv/kzygqUAO2XD/wGU45tEmUW
+   5XSdNxGZDmCqb+DlbRHD5Ak7eo0wwOQWoEGPUIp51AmErhhoSNaElg5wN
+   MzliUam3VYbjJUKoynMQiMLrxvaLsBSyuQQhihsI8HTCYyJC2daOLBKil
+   CAHgSu2v+vcOtINYuxbJY7oeKv9ZJEMp/+MUszXRSQO+saFepMcqSBlCN
+   A==;
+X-CSE-ConnectionGUID: M2zzAFJIQ8W4AH3AiHMD8A==
+X-CSE-MsgGUID: 7FQCNS0ZSwupX1GEgeRXeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35409598"
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="46269702"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 07:54:46 -0800
-X-CSE-ConnectionGUID: 5jkc7+XRS2S1jemaFJJbBw==
-X-CSE-MsgGUID: kb9btt2NQViRmPqhqw+FLg==
+   d="scan'208";a="35409598"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 08:16:46 -0800
+X-CSE-ConnectionGUID: VGyCfKrsQUiCL6+gVhJn9Q==
+X-CSE-MsgGUID: QttUgxgtRU+ieJR4visyfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="98603535"
+   d="scan'208";a="98368753"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Dec 2024 07:54:42 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 20 Dec 2024 08:16:44 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOfKp-0001MN-2E;
-	Fri, 20 Dec 2024 15:54:39 +0000
-Date: Fri, 20 Dec 2024 23:54:33 +0800
+	id 1tOfgA-0001Np-1b;
+	Fri, 20 Dec 2024 16:16:42 +0000
+Date: Sat, 21 Dec 2024 00:15:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [PATCH 5/8] gpio: max7360: Add MAX7360 gpio support
-Message-ID: <202412202337.8jOygMaK-lkp@intel.com>
-References: <20241219-mdb-max7360-support-v1-5-8e8317584121@bootlin.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: drivers/rapidio/rio_cm.c:682:21: warning: variable 'rc' set but not
+ used
+Message-ID: <202412210026.UQO5UzML-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,145 +62,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219-mdb-max7360-support-v1-5-8e8317584121@bootlin.com>
 
-Hi Mathieu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-Add-MAX7360-MFD-device/20241220-002541
-base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-patch link:    https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-5-8e8317584121%40bootlin.com
-patch subject: [PATCH 5/8] gpio: max7360: Add MAX7360 gpio support
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241220/202412202337.8jOygMaK-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202337.8jOygMaK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8faabc041a001140564f718dabe37753e88b37fa
+commit: 1753d50c9fdc39338d90ed246fc99f9a0efc35c3 rapidio: consolidate RAPIDIO config entry in drivers/rapidio
+date:   6 years ago
+config: parisc-randconfig-002-20241218 (https://download.01.org/0day-ci/archive/20241221/202412210026.UQO5UzML-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210026.UQO5UzML-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412202337.8jOygMaK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210026.UQO5UzML-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpio/gpio-max7360.c:57:41: warning: variable 'val' is uninitialized when used here [-Wuninitialized]
-      57 |                         "failed to set value %d on gpio-%d", val, pin);
-         |                                                              ^~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/gpio/gpio-max7360.c:42:18: note: initialize the variable 'val' to silence this warning
-      42 |         unsigned int val;
-         |                         ^
-         |                          = 0
->> drivers/gpio/gpio-max7360.c:370:32: warning: cast to smaller integer type 'int' from 'const void *' [-Wvoid-pointer-to-int-cast]
-     370 |         max7360_gpio->gpio_function = (int)device_get_match_data(&pdev->dev);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+   In file included from include/linux/memremap.h:7,
+                    from include/linux/mm.h:27,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/dma-mapping.h:11,
+                    from drivers/rapidio/rio_cm.c:21:
+   include/asm-generic/pgtable.h: In function 'pte_clear_not_present_full':
+   arch/parisc/include/asm/pgtable.h:60:23: warning: variable 'old_pte' set but not used [-Wunused-but-set-variable]
+      60 |                 pte_t old_pte;                                  \
+         |                       ^~~~~~~
+   arch/parisc/include/asm/pgtable.h:289:34: note: in expansion of macro 'set_pte_at'
+     289 | #define pte_clear(mm, addr, xp)  set_pte_at(mm, addr, xp, __pte(0))
+         |                                  ^~~~~~~~~~
+   include/asm-generic/pgtable.h:201:9: note: in expansion of macro 'pte_clear'
+     201 |         pte_clear(mm, address, ptep);
+         |         ^~~~~~~~~
+   include/asm-generic/pgtable.h: In function '__ptep_modify_prot_commit':
+   arch/parisc/include/asm/pgtable.h:60:23: warning: variable 'old_pte' set but not used [-Wunused-but-set-variable]
+      60 |                 pte_t old_pte;                                  \
+         |                       ^~~~~~~
+   include/asm-generic/pgtable.h:591:9: note: in expansion of macro 'set_pte_at'
+     591 |         set_pte_at(mm, addr, ptep, pte);
+         |         ^~~~~~~~~~
+   drivers/rapidio/rio_cm.c: In function 'rio_txcq_handler':
+>> drivers/rapidio/rio_cm.c:682:21: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+     682 |                 int rc;
+         |                     ^~
 
 
-vim +370 drivers/gpio/gpio-max7360.c
+vim +/rc +682 drivers/rapidio/rio_cm.c
 
-   333	
-   334	static int max7360_gpio_probe(struct platform_device *pdev)
-   335	{
-   336		struct max7360_gpio *max7360_gpio;
-   337		unsigned int ngpios;
-   338		unsigned int outconf;
-   339		struct gpio_irq_chip *girq;
-   340		unsigned long flags;
-   341		int irq;
-   342		int ret;
-   343	
-   344		if (!pdev->dev.parent) {
-   345			dev_err(&pdev->dev, "no parent device\n");
-   346			return -ENODEV;
-   347		}
-   348	
-   349		max7360_gpio = devm_kzalloc(&pdev->dev, sizeof(struct max7360_gpio),
-   350					    GFP_KERNEL);
-   351		if (!max7360_gpio)
-   352			return -ENOMEM;
-   353	
-   354		if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios)) {
-   355			dev_err(&pdev->dev, "Missing ngpios OF property\n");
-   356			return -ENODEV;
-   357		}
-   358	
-   359		max7360_gpio->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-   360		if (!max7360_gpio->regmap) {
-   361			dev_err(&pdev->dev, "could not get parent regmap\n");
-   362			return -ENODEV;
-   363		}
-   364	
-   365		max7360_gpio->dev = &pdev->dev;
-   366		max7360_gpio->chip = max7360_gpio_chip;
-   367		max7360_gpio->chip.ngpio = ngpios;
-   368		max7360_gpio->chip.parent = &pdev->dev;
-   369		max7360_gpio->chip.base = -1;
- > 370		max7360_gpio->gpio_function = (int)device_get_match_data(&pdev->dev);
-   371	
-   372		dev_dbg(&pdev->dev, "gpio count: %d\n", max7360_gpio->chip.ngpio);
-   373	
-   374		if (max7360_gpio->gpio_function == MAX7360_GPIO_PORT) {
-   375			/* Port GPIOs: set output mode configuration (constant-current
-   376			 * or not).
-   377			 * This property is optional.
-   378			 */
-   379			outconf = 0;
-   380			ret = of_property_read_u32(pdev->dev.of_node,
-   381						   "constant-current-disable", &outconf);
-   382			if (ret && (ret != -EINVAL)) {
-   383				dev_err(&pdev->dev,
-   384					"Failed to read constant-current-disable OF property\n");
-   385				return -ENODEV;
-   386			}
-   387	
-   388		    regmap_write(max7360_gpio->regmap, MAX7360_REG_GPIOOUTM, outconf);
-   389		}
-   390	
-   391		if (max7360_gpio->gpio_function == MAX7360_GPIO_PORT &&
-   392		    of_property_read_bool(pdev->dev.of_node, "interrupt-controller")) {
-   393			/* Port GPIOs: declare IRQ chip, if configuration was provided.
-   394			 */
-   395			irq = platform_get_irq(pdev, 0);
-   396			if (irq < 0)
-   397				return dev_err_probe(&pdev->dev, irq,
-   398						     "Failed to get IRQ");
-   399	
-   400			flags = IRQF_TRIGGER_LOW | IRQF_ONESHOT | IRQF_SHARED;
-   401			ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-   402							max7360_gpio_irq, flags,
-   403							"max7360-gpio", max7360_gpio);
-   404			if (ret)
-   405				return dev_err_probe(&pdev->dev, ret,
-   406						     "Failed to register interrupt: %d\n",
-   407						     ret);
-   408	
-   409			girq = &max7360_gpio->chip.irq;
-   410			gpio_irq_chip_set_chip(girq, &max7360_gpio_irqchip);
-   411			girq->parent_handler = NULL;
-   412			girq->num_parents = 0;
-   413			girq->parents = NULL;
-   414			girq->threaded = true;
-   415			girq->default_type = IRQ_TYPE_NONE;
-   416			girq->handler = handle_simple_irq;
-   417		}
-   418	
-   419		ret = devm_gpiochip_add_data(&pdev->dev, &max7360_gpio->chip, max7360_gpio);
-   420		if (ret) {
-   421			dev_err(&pdev->dev, "unable to add gpiochip: %d\n", ret);
-   422			return ret;
-   423		}
-   424	
-   425		return 0;
-   426	}
-   427	
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  634  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  635  /*
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  636   * rio_txcq_handler - TX completion handler
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  637   * @cm: cm_dev object
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  638   * @slot: TX queue slot
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  639   *
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  640   * TX completion handler also ensures that pending request packets are placed
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  641   * into transmit queue as soon as a free slot becomes available. This is done
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  642   * to give higher priority to request packets during high intensity data flow.
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  643   */
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  644  static void rio_txcq_handler(struct cm_dev *cm, int slot)
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  645  {
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  646  	int ack_slot;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  647  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  648  	/* ATTN: Add TX completion notification if/when direct buffer
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  649  	 * transfer is implemented. At this moment only correct tracking
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  650  	 * of tx_count is important.
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  651  	 */
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  652  	riocm_debug(TX_EVENT, "for mport_%d slot %d tx_cnt %d",
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  653  		    cm->mport->id, slot, cm->tx_cnt);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  654  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  655  	spin_lock(&cm->tx_lock);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  656  	ack_slot = cm->tx_ack_slot;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  657  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  658  	if (ack_slot == slot)
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  659  		riocm_debug(TX_EVENT, "slot == ack_slot");
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  660  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  661  	while (cm->tx_cnt && ((ack_slot != slot) ||
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  662  	       (cm->tx_cnt == RIOCM_TX_RING_SIZE))) {
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  663  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  664  		cm->tx_buf[ack_slot] = NULL;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  665  		++ack_slot;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  666  		ack_slot &= (RIOCM_TX_RING_SIZE - 1);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  667  		cm->tx_cnt--;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  668  	}
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  669  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  670  	if (cm->tx_cnt < 0 || cm->tx_cnt > RIOCM_TX_RING_SIZE)
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  671  		riocm_error("tx_cnt %d out of sync", cm->tx_cnt);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  672  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  673  	WARN_ON((cm->tx_cnt < 0) || (cm->tx_cnt > RIOCM_TX_RING_SIZE));
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  674  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  675  	cm->tx_ack_slot = ack_slot;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  676  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  677  	/*
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  678  	 * If there are pending requests, insert them into transmit queue
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  679  	 */
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  680  	if (!list_empty(&cm->tx_reqs) && (cm->tx_cnt < RIOCM_TX_RING_SIZE)) {
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  681  		struct tx_req *req, *_req;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02 @682  		int rc;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  683  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  684  		list_for_each_entry_safe(req, _req, &cm->tx_reqs, node) {
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  685  			list_del(&req->node);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  686  			cm->tx_buf[cm->tx_slot] = req->buffer;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  687  			rc = rio_add_outb_message(cm->mport, req->rdev, cmbox,
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  688  						  req->buffer, req->len);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  689  			kfree(req->buffer);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  690  			kfree(req);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  691  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  692  			++cm->tx_cnt;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  693  			++cm->tx_slot;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  694  			cm->tx_slot &= (RIOCM_TX_RING_SIZE - 1);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  695  			if (cm->tx_cnt == RIOCM_TX_RING_SIZE)
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  696  				break;
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  697  		}
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  698  	}
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  699  
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  700  	spin_unlock(&cm->tx_lock);
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  701  }
+b6e8d4aa111030 Alexandre Bounine 2016-08-02  702  
+
+:::::: The code at line 682 was first introduced by commit
+:::::: b6e8d4aa1110306378af0f3472a6b85a1f039a16 rapidio: add RapidIO channelized messaging driver
+
+:::::: TO: Alexandre Bounine <alexandre.bounine@idt.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
