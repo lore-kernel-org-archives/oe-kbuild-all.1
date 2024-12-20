@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4680208AD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 18:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B803221CA05
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 18:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734721147; cv=none; b=DQhSTi7Hyw+yr8lSoQuM1MdrPO7TnBj1TDc4y1/REJT4PgdnTqi2P4L7IgQLyWYDI9Ubjwm9dDOQ2Gv+UZgH4zrh6XoiridLnHEn03HRAfl0NMCkLXrd96V/tcG5d2ZlaX/f/yy3hC+B9fj54C22qBG94HQCEcnfcHqcO1HckZA=
+	t=1734721147; cv=none; b=EcEJvcMBsfr0gD5jaKPOUqJ2p/LA76U8bArIORdQiJmvqSSWvZPSvPQxOucNBudxX8gfOdbARuYzLE3TPkzcUJE+z02XIMkss1dwutFdF9mCadyV4NBd0QRt70C/rZ62npSIYWVHKF+KKpYDYNw/hPRvF5FDX+lLgIuTk47ekw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734721147; c=relaxed/simple;
-	bh=MOSgje4V44o3Jqqq9pYY/nRP0J7/IrLeZ5N2N5dsYW8=;
+	bh=MgaFBKhZQurXQzCCmc2ExknFpgIVxNESWxkcbOLKzM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=irCL8f6zQ5HntwO9PXPMPWPCXp0ow1nkjAAGXWEIFWkNIhdUHKpDz0YQhtL87wqSeKa1pNslVVR5st1+1btpMdV/uJPKOoP/cxJoSxzcyCLH8m5w0vfAjlC9UaIyAk04jVcKp/OlmtmD3o5+pp0i2Z1QP5e3n72XMRFQMlNeszY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hBYsSGCQ; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=FfYdaIa1kw49w1Ik5pm4WAr0P6SWUf5neDQXNFQNqeTPRkP8LUL0zGa0/rhs9RcMO48NRjSx7v07P1rzDehpHZwR8zgnreJT1WRROe6TyOfvld/BOCzyyYTqzUFxU9d4FIOgYzbOppoOLjbsVPWMB7Ias1+zHuLdcCFihba5sYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kex1NwAo; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hBYsSGCQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kex1NwAo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734721145; x=1766257145;
+  t=1734721146; x=1766257146;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MOSgje4V44o3Jqqq9pYY/nRP0J7/IrLeZ5N2N5dsYW8=;
-  b=hBYsSGCQLSBbZJywwNlxvKsFsuIaXK957afb8OuUWFGGFI9EG0C5UGfh
-   //THUQyDkxt6VBRpqbsq+xp9HQ6cJhhiMPPyonpv4U93sKZ+zhjIXry6Q
-   3kd/nr4jVU3s59Ny4Fftyz6Jlm4SWB28iq1HX2nqhTNM32sPhVbTAEzjE
-   ArXEEU+JKDi2xhtHO/3P6BxZxqiLX6WaYpFCmZamojW6DXEE+nk1mootJ
-   /YsZ7/W+VsjkWN/2Auc0HiQ095yHZaYuM/RtD9tN3q5CiLVWtMhxHWF6F
-   Ymte/R7YXE859m5tm2q+OyW1A5XII5/mtIU98FogEkZpbWuWdwuBRdWG1
-   w==;
-X-CSE-ConnectionGUID: usED3qFTSCClONFQsfQC7Q==
-X-CSE-MsgGUID: TVVh2ckjSgKVad+CR95nIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="34598296"
+  bh=MgaFBKhZQurXQzCCmc2ExknFpgIVxNESWxkcbOLKzM4=;
+  b=Kex1NwAoLkMyaEXpjyrr/BeBAHr/ff20K13jTYKHWAEV1k7XXwTWJ8ct
+   KxkwCryFz7P3Rsf8pZgQEbLxeaI7gasxQigbOoQjy4WOva7qR/ASFPdg4
+   KWnuORqSzbvcnkxPqCtnZKYRj1AeqODsUreSDF9JxxCLIGzX5CMLh+1h+
+   F09fiooSzFhUJcCCjfmVl9S8QfP2xBGxUVNmQPbEqlKuMVmYS+9cyFrDy
+   EaQUrNK857pHkN7e5JA623FKnJ3cK3u4cM7SePfEFzE0Rnyhu56vAPw5t
+   EGY9k7TeVWYRJATfgPorstkqZ72bw2YSjhgt6P3YCNzjfiXKkb2ivyx3a
+   Q==;
+X-CSE-ConnectionGUID: djzZZVSMTFa6CO/ILGZ8KA==
+X-CSE-MsgGUID: lpZUp6lSQ7CqShBDWHvJUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35496167"
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="34598296"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 10:59:04 -0800
-X-CSE-ConnectionGUID: h+2A/NWDSkOuiqxepxYSRA==
-X-CSE-MsgGUID: oSFG8guJSCS75zM5+BNYzg==
+   d="scan'208";a="35496167"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 10:59:05 -0800
+X-CSE-ConnectionGUID: VQfVO/V5SoC2veYgMZV6qA==
+X-CSE-MsgGUID: GnzouIS0RVmMFckoqE5ASw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="99110430"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="99065256"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2024 10:59:03 -0800
+  by orviesa007.jf.intel.com with ESMTP; 20 Dec 2024 10:59:03 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOiDF-0001ab-0o;
+	id 1tOiDF-0001ad-0v;
 	Fri, 20 Dec 2024 18:59:01 +0000
-Date: Sat, 21 Dec 2024 02:58:39 +0800
+Date: Sat, 21 Dec 2024 02:58:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 152/176]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202412210230.Ygq98uCF-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1341/1341]
+ include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used
+ uninitialized
+Message-ID: <202412210226.N1hHrIDJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,102 +63,175 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   5d830bebe328f1912d92e79a36d41b812b8050b8
-commit: d12ce074f07af731469654848640ecf4b424ec81 [152/176] Reapply "CHROMIUM: arm64: dts: mt8186: Add corsola-squirtle board"
-config: arm64-randconfig-053-20241214 (https://download.01.org/0day-ci/archive/20241221/202412210230.Ygq98uCF-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210230.Ygq98uCF-lkp@intel.com/reproduce)
+Hi Ding,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   02951ceaa6d546dfa0f741f52f6d47e0fb0ac7b4
+commit: 9469d1759c2905dcef49df7e6240ad5c32b66296 [1341/1341] ascend: share_pool: enable svm to use share pool memory
+config: arm64-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210226.N1hHrIDJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210226.N1hHrIDJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210230.Ygq98uCF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210226.N1hHrIDJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,squirtle', 'mediatek,mt8186'] is too short
-   	'google,squirtle' is not one of ['mediatek,mt2701-evb']
-   	'google,squirtle' is not one of ['mediatek,mt2712-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6580-evbp1']
-   	'google,squirtle' is not one of ['prestigio,pmt5008-3g']
-   	'google,squirtle' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,squirtle' is not one of ['mediatek,mt6592-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6755-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6765-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6779-evb']
---
-   	'google,hayato-sku2' was expected
-   	'google,spherion-rev2' was expected
-   	'google,spherion' was expected
-   	'mediatek,mt8192' was expected
-   	'google,tomato' was expected
-   	'google,tomato-rev3' was expected
-   	'mediatek,mt8195' was expected
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: failed to match any schema with compatible: ['google,squirtle', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible:0: 'mediatek,mt6315-regulator' was expected
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator'] is too long
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spmi@10015000/pmic@6: failed to match any schema with compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: touchscreen@16: reg:0:0: 16 was expected
-   	from schema $id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: trackpad@68: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/i2c@11016000/codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts-legacy']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: jpeg-encoder@17030000: iommus: [[125, 233], [125, 234], [125, 235], [125, 236]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: thermal-zones: 'adsp', 'cam', 'cpu_big0', 'cpu_big1', 'cpu_zone0', 'cpu_zone1', 'cpu_zone2', 'mfg', 'nna', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+
+All warnings (new ones prefixed by >>):
+
+   drivers/char/svm.c:249:21: warning: no previous prototype for 'svm_find_mem_reg_node' [-Wmissing-prototypes]
+     249 | struct device_node *svm_find_mem_reg_node(struct device *dev, const char *compat)
+         |                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:419:6: warning: no previous prototype for 'sysrq_sched_debug_show_export' [-Wmissing-prototypes]
+     419 | void sysrq_sched_debug_show_export(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:1429:5: warning: no previous prototype for 'svm_get_pasid' [-Wmissing-prototypes]
+    1429 | int svm_get_pasid(pid_t vpid, int dev_id __maybe_unused)
+         |     ^~~~~~~~~~~~~
+   drivers/char/svm.c:1502:5: warning: no previous prototype for '__svm_get_mpam' [-Wmissing-prototypes]
+    1502 | int __svm_get_mpam(struct svm_mpam *mpam)
+         |     ^~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:34,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from arch/arm64/include/asm/memory.h:27,
+                    from arch/arm64/include/asm/esr.h:21,
+                    from drivers/char/svm.c:10:
+   In function '__cmpxchg_case_mb_4',
+       inlined from '__cmpxchg_mb' at arch/arm64/include/asm/cmpxchg.h:143:1,
+       inlined from 'svm_proc_load_flag' at drivers/char/svm.c:1967:12:
+   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds=]
+     492 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
+     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
+         | ^~~~~~~~~~~~~~
+   drivers/char/svm.c: In function 'svm_proc_load_flag':
+   drivers/char/svm.c:1958:25: note: object 'l2buf_load_flag' of size 4
+    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
+         |                         ^~~~~~~~~~~~~~~
+   In function '__cmpxchg_case_mb_4',
+       inlined from '__cmpxchg_mb' at arch/arm64/include/asm/cmpxchg.h:143:1,
+       inlined from 'svm_proc_load_flag' at drivers/char/svm.c:1967:12:
+   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds=]
+     492 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
+     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
+         | ^~~~~~~~~~~~~~
+   drivers/char/svm.c: In function 'svm_proc_load_flag':
+   drivers/char/svm.c:1958:25: note: object 'l2buf_load_flag' of size 4
+    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
+         |                         ^~~~~~~~~~~~~~~
+   In file included from drivers/char/svm.c:29:
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'svm_sp_alloc_mem' at drivers/char/svm.c:2144:8:
+>> include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compiler.h:251,
+                    from arch/arm64/include/asm/memory.h:24:
+   include/linux/kasan-checks.h: In function 'svm_sp_alloc_mem':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:2135:24: note: 'spallocinfo' declared here
+    2135 |         struct spalloc spallocinfo;
+         |                        ^~~~~~~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'svm_get_phy_memory_info' at drivers/char/svm.c:1805:6:
+   include/linux/uaccess.h:112:17: warning: 'para' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'svm_get_phy_memory_info':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:1800:33: note: 'para' declared here
+    1800 |         struct phymeminfo_ioctl para;
+         |                                 ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'svm_remap_proc' at drivers/char/svm.c:1863:8:
+   include/linux/uaccess.h:112:17: warning: 'pmem' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'svm_remap_proc':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:1849:29: note: 'pmem' declared here
+    1849 |         struct svm_proc_mem pmem;
+         |                             ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'svm_ioctl' at drivers/char/svm.c:2217:9:
+   include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'svm_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:2209:33: note: 'params' declared here
+    2209 |         struct svm_bind_process params;
+         |                                 ^~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'svm_sp_free_mem' at drivers/char/svm.c:2179:8,
+       inlined from 'svm_ioctl' at drivers/char/svm.c:2280:9:
+>> include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'svm_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:2172:24: note: 'spallocinfo' declared here
+    2172 |         struct spalloc spallocinfo;
+         |                        ^~~~~~~~~~~
+
+
+vim +/spallocinfo +112 include/linux/uaccess.h
+
+d597580d373774 Al Viro        2017-03-20  104  
+d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
+d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  108  {
+d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
+9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
+4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
+9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
+d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  114  	}
+d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
+d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
+d597580d373774 Al Viro        2017-03-20  117  	return res;
+d597580d373774 Al Viro        2017-03-20  118  }
+d597580d373774 Al Viro        2017-03-20  119  #else
+d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  122  #endif
+d597580d373774 Al Viro        2017-03-20  123  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
