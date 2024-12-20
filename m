@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40BF1B0F38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986461A2C11
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 22:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734733886; cv=none; b=D83+WSV5fu8Bj1FUCnffBknyVmiTGyYNg/zT/wNFcTtdHGQt10THkP0ZiEJcLpfXJSMmckyyoxiLVCvxT+iZy+pP6GBPNMk66NdJeeGN6VbCsqMErpRSxrlfIjUr0AJbcQZFx5VO0CiaLNByZTDqWQSy8dyr7Cx4UgEI19ongMg=
+	t=1734733887; cv=none; b=Wm2MzC6HRmaOeeoNLnbYM7jtoV+rrp4McnZ9bDmuZFyoqhsJk24jFk44if9U3bjjdnX7GEbgoGdNXWZUrMvfg1wJ8WeRdZyhGM6IlY/R+JOjsp/t5sW8BzJz1TN4jh10WNXMz+47E+J0CffycQ8Z/kr/v7RJvDzHL8QgwI9aflI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734733886; c=relaxed/simple;
-	bh=Kk5kOg7BvUYs+lM/fxWMdCzmTa8+xKxpWjHjhp2eZgQ=;
+	s=arc-20240116; t=1734733887; c=relaxed/simple;
+	bh=CM1Vp+OTBDyYK/d7vTTyyGYqcbLEptVHZgDf5GCHm8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SBhc8w8KquNXYmn25TDV804ZZu/297A6aU0I5AW7waZ0hPO8jyJR0XTO0vjDYLFhaTOeTFFJApUBKJ3WMX56jesgTB/IsyTdOsZAIc9rrFcfwUJJWCkzhJWupcUOl5ecKIgvXS/KgSZGpEdMmOakWuEElRpp/HheUkeyBbzylOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NygTge6e; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=jCnZ/J++W0UuQr6i/80AmB8ks2jon8us/0Rt1YST5VLP/h590ZBc/A8atKcDMmVzkacJMQokXfFHC11qExSLNxDHyLL54IYeYEOOxPyUQN4fhUHYvcU9VxuEJkQFbk+AeB1JpXiRr3sC/8dbQBIrr1Tn3jXB0ymRbffw1avHXm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWZGdc5M; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NygTge6e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWZGdc5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734733885; x=1766269885;
+  t=1734733884; x=1766269884;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kk5kOg7BvUYs+lM/fxWMdCzmTa8+xKxpWjHjhp2eZgQ=;
-  b=NygTge6ebfHBYub3bIVH1NFGztBqthvxhEvQOm7asTXnuj8WzXbf5knP
-   dEI7ahuBN1URARXyEoxjglx3RGQ6lDmaksYVUvKuLEHgyIVseWL/m2v3X
-   efmwF/R/fENuXXkHTf3vjzw/eND5uABeHFQqCMR77JrGseNH/50Fwlf5Z
-   A7ObFi7Jq7rsmMcNrVXTSmR9WQGeArGocbid1QUDtbw1w770f23sYFS89
-   ddqlZrA7jle5DSwRdC4ozrdzzXb0kN8gbau2XWIHXpId9wJb/EhlJamlb
-   3rue50KP9LdRpMuf6JAm+rPbI/croot2c/mPIYFkOpikt1sVeEouCThhW
-   g==;
-X-CSE-ConnectionGUID: 06etYbExQTawaLARdKkUdw==
-X-CSE-MsgGUID: DCQFrWo+ROuERH7wy9UZtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="34612249"
+  bh=CM1Vp+OTBDyYK/d7vTTyyGYqcbLEptVHZgDf5GCHm8c=;
+  b=UWZGdc5MmM2U9KH1pNPED0kUEfvZNfPWIqr90HDTN534PCaUpZuGzwGG
+   KhlG5BfB/m+QKDohiIaoFP00byKHkZuTVEjgHLqPF0tspPrS/g1CprkOy
+   fkczHChUdt2ExrOnkAV1dD8FIoCTIz3/sxRYTdY5AyC7TIi1oqfQjVqsJ
+   5IKFUTeqzjxmBRj8X0niqD/9iS7r2ylnFMTBz8WeERiozNgMO3MLc7npL
+   c4fKggJfEVUZh62HWmhzVfz3ZmBy2m/wJboBL1YVAq8d3HnZKs08aLhIT
+   DhzmPD0nMYoXp0yG+e+0VvfK5v44ovnjfJyi7pkkgGktI+ve8Xjx5Fzwo
+   w==;
+X-CSE-ConnectionGUID: wSjnsYHIRki7SttnJxlspQ==
+X-CSE-MsgGUID: wx2uvP4nR32iWgqrVYvuPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="57765469"
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="34612249"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 14:31:24 -0800
-X-CSE-ConnectionGUID: 051b4bUWQ3aqZMRbQnh+Kw==
-X-CSE-MsgGUID: j6qMQHZPQtWKCW22GGXxZg==
+   d="scan'208";a="57765469"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 14:31:24 -0800
+X-CSE-ConnectionGUID: DgViKtGvTKOe3p3m07jZAw==
+X-CSE-MsgGUID: 6ISyLf1/ThKqwB4d6Yom2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="99142386"
+   d="scan'208";a="129444492"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2024 14:31:23 -0800
+  by orviesa002.jf.intel.com with ESMTP; 20 Dec 2024 14:31:23 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOlWi-0001iP-2n;
+	id 1tOlWi-0001iN-2k;
 	Fri, 20 Dec 2024 22:31:20 +0000
-Date: Sat, 21 Dec 2024 06:30:33 +0800
+Date: Sat, 21 Dec 2024 06:30:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:59: warning:
- '%u' directive output may be truncated writing between 1 and 10 bytes into a
- region of size 6
-Message-ID: <202412210625.Wl5iFYw5-lkp@intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 2791/5236]
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pmic: '#address-cells',
+ '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202412210650.A9DwYpCQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,160 +64,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Simon,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e9b8ffafd20ad21357a789cc58ffaa162b3ad074
-commit: 5874e0c9f25661c2faefe4809907166defae3d7f net: atlantic: Avoid warning about potential string truncation
-date:   4 months ago
-config: x86_64-randconfig-074-20241221 (https://download.01.org/0day-ci/archive/20241221/202412210625.Wl5iFYw5-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210625.Wl5iFYw5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+commit: beb06b727194f68b0a4b5183e50c88265ce185af [2791/5236] arm64: dts: mediatek: mt8173-elm: Fix MT6397 PMIC sub-node names
+config: arm64-randconfig-051-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210650.A9DwYpCQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210650.A9DwYpCQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210625.Wl5iFYw5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210650.A9DwYpCQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c: In function 'aq_ethtool_get_strings':
->> drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:59: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
-     278 |                                 snprintf(tc_string, 8, "TC%u ", tc);
-         |                                                           ^~
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:56: note: directive argument in the range [0, 4294967294]
-     278 |                                 snprintf(tc_string, 8, "TC%u ", tc);
-         |                                                        ^~~~~~~
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:278:33: note: 'snprintf' output between 5 and 14 bytes into a destination of size 8
-     278 |                                 snprintf(tc_string, 8, "TC%u ", tc);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +278 drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c
-
-   261	
-   262		cfg = aq_nic_get_cfg(nic);
-   263	
-   264		switch (stringset) {
-   265		case ETH_SS_STATS: {
-   266			const int rx_stat_cnt = ARRAY_SIZE(aq_ethtool_queue_rx_stat_names);
-   267			const int tx_stat_cnt = ARRAY_SIZE(aq_ethtool_queue_tx_stat_names);
-   268			char tc_string[8];
-   269			unsigned int tc;
-   270	
-   271			memset(tc_string, 0, sizeof(tc_string));
-   272			memcpy(p, aq_ethtool_stat_names,
-   273			       sizeof(aq_ethtool_stat_names));
-   274			p = p + sizeof(aq_ethtool_stat_names);
-   275	
-   276			for (tc = 0; tc < cfg->tcs; tc++) {
-   277				if (cfg->is_qos)
- > 278					snprintf(tc_string, 8, "TC%u ", tc);
-   279	
-   280				for (i = 0; i < cfg->vecs; i++) {
-   281					for (si = 0; si < rx_stat_cnt; si++) {
-   282						ethtool_sprintf(&p,
-   283						     aq_ethtool_queue_rx_stat_names[si],
-   284						     tc_string,
-   285						     AQ_NIC_CFG_TCVEC2RING(cfg, tc, i));
-   286					}
-   287					for (si = 0; si < tx_stat_cnt; si++) {
-   288						ethtool_sprintf(&p,
-   289						     aq_ethtool_queue_tx_stat_names[si],
-   290						     tc_string,
-   291						     AQ_NIC_CFG_TCVEC2RING(cfg, tc, i));
-   292					}
-   293				}
-   294			}
-   295	#if IS_REACHABLE(CONFIG_PTP_1588_CLOCK)
-   296			if (nic->aq_ptp) {
-   297				const int rx_ring_cnt = aq_ptp_get_ring_cnt(nic, ATL_RING_RX);
-   298				const int tx_ring_cnt = aq_ptp_get_ring_cnt(nic, ATL_RING_TX);
-   299				unsigned int ptp_ring_idx =
-   300					aq_ptp_ring_idx(nic->aq_nic_cfg.tc_mode);
-   301	
-   302				snprintf(tc_string, 8, "PTP ");
-   303	
-   304				for (i = 0; i < max(rx_ring_cnt, tx_ring_cnt); i++) {
-   305					for (si = 0; si < rx_stat_cnt; si++) {
-   306						ethtool_sprintf(&p,
-   307							 aq_ethtool_queue_rx_stat_names[si],
-   308							 tc_string,
-   309							 i ? PTP_HWST_RING_IDX : ptp_ring_idx);
-   310					}
-   311					if (i >= tx_ring_cnt)
-   312						continue;
-   313					for (si = 0; si < tx_stat_cnt; si++) {
-   314						ethtool_sprintf(&p,
-   315							 aq_ethtool_queue_tx_stat_names[si],
-   316							 tc_string,
-   317							 i ? PTP_HWST_RING_IDX : ptp_ring_idx);
-   318					}
-   319				}
-   320			}
-   321	#endif
-   322	#if IS_ENABLED(CONFIG_MACSEC)
-   323			if (!nic->macsec_cfg)
-   324				break;
-   325	
-   326			memcpy(p, aq_macsec_stat_names, sizeof(aq_macsec_stat_names));
-   327			p = p + sizeof(aq_macsec_stat_names);
-   328			for (i = 0; i < AQ_MACSEC_MAX_SC; i++) {
-   329				struct aq_macsec_txsc *aq_txsc;
-   330	
-   331				if (!(test_bit(i, &nic->macsec_cfg->txsc_idx_busy)))
-   332					continue;
-   333	
-   334				for (si = 0;
-   335					si < ARRAY_SIZE(aq_macsec_txsc_stat_names);
-   336					si++) {
-   337					ethtool_sprintf(&p,
-   338						 aq_macsec_txsc_stat_names[si], i);
-   339				}
-   340				aq_txsc = &nic->macsec_cfg->aq_txsc[i];
-   341				for (sa = 0; sa < MACSEC_NUM_AN; sa++) {
-   342					if (!(test_bit(sa, &aq_txsc->tx_sa_idx_busy)))
-   343						continue;
-   344					for (si = 0;
-   345					     si < ARRAY_SIZE(aq_macsec_txsa_stat_names);
-   346					     si++) {
-   347						ethtool_sprintf(&p,
-   348							 aq_macsec_txsa_stat_names[si],
-   349							 i, sa);
-   350					}
-   351				}
-   352			}
-   353			for (i = 0; i < AQ_MACSEC_MAX_SC; i++) {
-   354				struct aq_macsec_rxsc *aq_rxsc;
-   355	
-   356				if (!(test_bit(i, &nic->macsec_cfg->rxsc_idx_busy)))
-   357					continue;
-   358	
-   359				aq_rxsc = &nic->macsec_cfg->aq_rxsc[i];
-   360				for (sa = 0; sa < MACSEC_NUM_AN; sa++) {
-   361					if (!(test_bit(sa, &aq_rxsc->rx_sa_idx_busy)))
-   362						continue;
-   363					for (si = 0;
-   364					     si < ARRAY_SIZE(aq_macsec_rxsa_stat_names);
-   365					     si++) {
-   366						ethtool_sprintf(&p,
-   367							 aq_macsec_rxsa_stat_names[si],
-   368							 i, sa);
-   369					}
-   370				}
-   371			}
-   372	#endif
-   373			break;
-   374		}
-   375		case ETH_SS_PRIV_FLAGS:
-   376			memcpy(p, aq_ethtool_priv_flag_names,
-   377			       sizeof(aq_ethtool_priv_flag_names));
-   378			break;
-   379		}
-   380	}
-   381	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1114.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   marvell,wakeup-pin: size (2) error for type uint32
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: power-controller@10001000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: power-controller@10003000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pmic: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: thermal@1100b000: Unevaluated properties are not allowed ('bank0-supply', 'bank1-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8173-afe-pcm']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: btmrvl@2: marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1114.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   marvell,wakeup-pin: size (2) error for type uint32
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: power-controller@10001000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: power-controller@10003000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: pmic: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: thermal@1100b000: Unevaluated properties are not allowed ('bank0-supply', 'bank1-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11010000/touchscreen@34: failed to match any schema with compatible: ['melfas,mip4_ts']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8173-afe-pcm']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: btmrvl@2: marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+--
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1114.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   marvell,wakeup-pin: size (2) error for type uint32
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: power-controller@10001000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: power-controller@10003000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: pmic: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: thermal@1100b000: Unevaluated properties are not allowed ('bank0-supply', 'bank1-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11010000/touchscreen@34: failed to match any schema with compatible: ['melfas,mip4_ts']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8173-afe-pcm']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: btmrvl@2: marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
 
 -- 
 0-DAY CI Kernel Test Service
