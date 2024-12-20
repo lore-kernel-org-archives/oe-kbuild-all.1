@@ -1,60 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270A37DA7F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 06:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F45F157E99;
+	Fri, 20 Dec 2024 06:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734677753; cv=none; b=ohujRYB3dWpV0MvcrpT/EaBxVEGJJU27KfQCMIn1Mckofev3cOq8IdDqsZdr481sb+hhCFzAedV4jeQL1Z584MKFP8nzyVNr56arQmX9gfX8Y3Vq+TU+JQKirTgDnJziofZQLb0f0dc08AWNpTz4wLcwrmEqEzyVONEG7hNbwIY=
+	t=1734677817; cv=none; b=XuWLx9GxFFWJWoknkbE9hsSlw6tfHtx7ZfLedtev4frOW7PK4J6rpUg+CGJk/CpJ1hOV2BySGRInbP6BlKrFi4WZB1C2iZtRSZoYTANJrHXN3liaJepUZUHlwgCeSMw7oudzK7gAy4pmlqQpv6bie29qaYdjbW33sK17RBKs/As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734677753; c=relaxed/simple;
-	bh=27hXyppFtIJmZd7G7jFqit2Mrqd8NTGobgk9GDgDa/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bbcRWe5NeOooyDKhgMR+o1VJQXa780CoV5rUGEd+U4wt75Sx3jX8Xm7I2Hcqf2ZhUMCE0ifBjAkpmAInccdmloV+rYjizDxupq33DyuzJ1j28F5Y7kAxBElEeYoMCOULdHBv6PJ+VYuLUCJIlCzrs0ssCmCsTm8qRXzZLzvEO/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTpmuzco; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1734677817; c=relaxed/simple;
+	bh=/CIwRAQpU+FEb+4P5INMAwLfobrrnCIKq8277eG46Es=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RGLtv4w/BF+aJFjanEjxQClWaB1xAEHgOXEKkNpmS7SZe0VTNI3TJp4fa5ogNDizgRtMVsUE8DRu1s/QHbaIBxzdnFNLV2LzbcbjQKJ9BjxqkFW3iQ9dePrlAImDgaJGG/QoUME0RVcudRIzzXtnRhrvhMqjrBuoVIPjPTdC+YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+D2HkXR; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTpmuzco"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+D2HkXR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734677751; x=1766213751;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=27hXyppFtIJmZd7G7jFqit2Mrqd8NTGobgk9GDgDa/g=;
-  b=aTpmuzcogP+QdXOfHtHn+BbyfQ8YNbYLFTM68650L10M/nBvgQf3uaaC
-   JKCFet7U15CcpVBXEpPpxztuEG4LWdh9jmG5jB0ruyLBc5vUko0EYywz6
-   ECZbHRXR8Ev7lBHBUltX8c/C3PoSnvBx2kTI7qvSaA639bT3TdBq35qHb
-   L/dTyQaITy85jEoRMbx7Po3HB0kTGpVWbS85PoctDP3OJH3IZzSYW9knU
-   55cl5puhwYY8vPKKSzdiX15E85XKnXw9vPINYUkUxJuz8Pgxwz5+lZvB1
-   5D9oCMHVbRYQfr4PsP+bvFLyXw0vd6JWBayydJ8/UX7SkE7+sn1ZHp5Nq
-   Q==;
-X-CSE-ConnectionGUID: ypbNpW+7R/6XjHh6Vrkb6w==
-X-CSE-MsgGUID: pbFQjVHMQb2x+nwm8azUjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="35250965"
+  t=1734677816; x=1766213816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/CIwRAQpU+FEb+4P5INMAwLfobrrnCIKq8277eG46Es=;
+  b=K+D2HkXRK8wDcve7122qvnbDfXTy4GbnapyvbkSms6rkzBejEYK7GbFs
+   kVxeLneuv09Dyd1GQvMQAfQqC3QGRdFyCjR4uWsxzF1/0yNtKQASlOOs+
+   Ssn1aF995pyVAZBlDMsstHFhtDpVrzwLrgOmr7ZScDutH5cLEJkxzfiJH
+   gfwbze8x2H6K9+03PFmyiXU+Z2yFz9kwPWo54ft76Hyttc05YG7AMK8wO
+   kFc8zC2yC/+dahlplRqEWoy+nG6dt2DlEowRvHkOUsB6PssFPY6nhI0jV
+   i4dH0GNfBhgFbT0ivgeYj3/Bw90lVt1hP3lQ4wDkeEpw4S3fkHrSUjJIE
+   g==;
+X-CSE-ConnectionGUID: mmMmm9pWRRWhNvoIBnOTrw==
+X-CSE-MsgGUID: UIn/qqGbR2GW+1mMQ79zPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="45908536"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="35250965"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:55:50 -0800
-X-CSE-ConnectionGUID: BISRCfhhRcCjO0k2ur+Tiw==
-X-CSE-MsgGUID: X1lD6wX+SeGvHPa9qxPrGg==
+   d="scan'208";a="45908536"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:56:55 -0800
+X-CSE-ConnectionGUID: pUZ2YiQFQOylVbzLCIoZzQ==
+X-CSE-MsgGUID: GkSREMQWS6qG9O0E6BlgbQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="98903023"
+X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
+   d="scan'208";a="98264060"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Dec 2024 22:55:49 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 19 Dec 2024 22:56:49 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOWvL-0000vT-1U;
-	Fri, 20 Dec 2024 06:55:47 +0000
-Date: Fri, 20 Dec 2024 14:55:12 +0800
+	id 1tOWwJ-0000vf-22;
+	Fri, 20 Dec 2024 06:56:47 +0000
+Date: Fri, 20 Dec 2024 14:56:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 435/540]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c:
- Unevaluated properties are not allowed ('hpd-gpios', 'interrupts',
- 'no-laneswap', 'port' were unexpected)
-Message-ID: <202412201452.Cp9HwZcs-lkp@intel.com>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Fabio Estevam <festevam@denx.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: Re: [PATCH 04/11] reboot: rename now misleading hw_protection symbols
+Message-ID: <202412201443.inJcQtcl-lkp@intel.com>
+References: <20241219-hw_protection-reboot-v1-4-263a0c1df802@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +80,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241219-hw_protection-reboot-v1-4-263a0c1df802@pengutronix.de>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   76e007709ba23b69273c6c8ed1a893c1ec7b7df7
-commit: a5f8fb56761362c50e56e27932041138cff8d5d2 [435/540] CHROMIUM: arm64: dts: mt8183: Add kakadu rev1
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241220/202412201452.Cp9HwZcs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201452.Cp9HwZcs-lkp@intel.com/reproduce)
+Hi Ahmad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
+base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-4-263a0c1df802%40pengutronix.de
+patch subject: [PATCH 04/11] reboot: rename now misleading hw_protection symbols
+config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201443.inJcQtcl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201443.inJcQtcl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201452.Cp9HwZcs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201443.inJcQtcl-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+All warnings (new ones prefixed by >>):
+
+   kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
+   kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
+   kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
+>> kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_trigger'
+>> kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_trigger'
+
+
+vim +1023 kernel/reboot.c
+
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1003  /**
+c37fda1c195d45 Ahmad Fatoum    2024-12-19  1004   * __hw_protection_trigger - Trigger an emergency system shutdown or reboot
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1005   *
+79fa723ba84c2b Fabio Estevam   2023-11-29  1006   * @reason:		Reason of emergency shutdown or reboot to be printed.
+79fa723ba84c2b Fabio Estevam   2023-11-29  1007   * @ms_until_forced:	Time to wait for orderly shutdown or reboot before
+79fa723ba84c2b Fabio Estevam   2023-11-29  1008   *			triggering it. Negative value disables the forced
+79fa723ba84c2b Fabio Estevam   2023-11-29  1009   *			shutdown or reboot.
+79fa723ba84c2b Fabio Estevam   2023-11-29  1010   * @shutdown:		If true, indicates that a shutdown will happen
+79fa723ba84c2b Fabio Estevam   2023-11-29  1011   *			after the critical tempeature is reached.
+79fa723ba84c2b Fabio Estevam   2023-11-29  1012   *			If false, indicates that a reboot will happen
+79fa723ba84c2b Fabio Estevam   2023-11-29  1013   *			after the critical tempeature is reached.
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1014   *
+79fa723ba84c2b Fabio Estevam   2023-11-29  1015   * Initiate an emergency system shutdown or reboot in order to protect
+79fa723ba84c2b Fabio Estevam   2023-11-29  1016   * hardware from further damage. Usage examples include a thermal protection.
+79fa723ba84c2b Fabio Estevam   2023-11-29  1017   * NOTE: The request is ignored if protection shutdown or reboot is already
+79fa723ba84c2b Fabio Estevam   2023-11-29  1018   * pending even if the previous request has given a large timeout for forced
+79fa723ba84c2b Fabio Estevam   2023-11-29  1019   * shutdown/reboot.
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1020   */
+c37fda1c195d45 Ahmad Fatoum    2024-12-19  1021  void __hw_protection_trigger(const char *reason, int ms_until_forced,
+d3e5893beaf551 Ahmad Fatoum    2024-12-19  1022  			     enum hw_protection_action action)
+dfa19b11385d4c Matti Vaittinen 2021-06-03 @1023  {
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1024  	static atomic_t allow_proceed = ATOMIC_INIT(1);
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1025  
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1026  	pr_emerg("HARDWARE PROTECTION shutdown (%s)\n", reason);
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1027  
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1028  	/* Shutdown should be initiated only once. */
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1029  	if (!atomic_dec_and_test(&allow_proceed))
+07a22b61946f0b Petr Mladek     2022-06-23  1030  		return;
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1031  
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1032  	/*
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1033  	 * Queue a backup emergency shutdown in the event of
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1034  	 * orderly_poweroff failure
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1035  	 */
+595ab92650cc28 Ahmad Fatoum    2024-12-19  1036  	hw_failure_emergency_schedule(action, ms_until_forced);
+d3e5893beaf551 Ahmad Fatoum    2024-12-19  1037  	if (action == HWPROT_ACT_REBOOT)
+79fa723ba84c2b Fabio Estevam   2023-11-29  1038  		orderly_reboot();
+d3e5893beaf551 Ahmad Fatoum    2024-12-19  1039  	else
+d3e5893beaf551 Ahmad Fatoum    2024-12-19  1040  		orderly_poweroff(true);
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1041  }
+c37fda1c195d45 Ahmad Fatoum    2024-12-19  1042  EXPORT_SYMBOL_GPL(__hw_protection_trigger);
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1043  
 
 -- 
 0-DAY CI Kernel Test Service
