@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCAD216386;
-	Fri, 20 Dec 2024 13:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDCE2156FD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 13:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734702215; cv=none; b=d1y0CHmtNOzNSKsCK3HhxRX/jm+yHRZ0FyREfyXE/rQj92SxJSJKdgmlmfGk4UQwyOqWE0+8Jd/P6GQW9c99G8JYsjD25Jgo+WErzc1opV23fFFHskLalgaBHpQQXru6mafEJ0m2hcmEKTfai/OjHPqkIZt4tkcxDb3wBAzVwww=
+	t=1734702875; cv=none; b=a1dQ5KBnb7lOLlx2WzfzfkDVspMTpTRumJ+lhvgxynRgjQNy7KJqtql7j18a2628MsKfwBk2VBR5YEY/fypeSYaSpE298FnEfKG94iZHLDrGxcVOaqb36tlGdLCaTFbmPtjug9hLQOk5WqD+kNv/GMvQ2QYrhpOIXPRvE9+ncT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734702215; c=relaxed/simple;
-	bh=uWGySZ2E4aRpnNq3hO6xAnpvheb5K/9j8N4u7HpP5i0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RcqxwXY6CNmyfXED0wyIt4V0nEvN63879XVer4yDRHTW4ZlNlzheqKjHq1jpU5PF2CJ9t6hj1DLeBYx2rmilCun3AqLSHbeUPJK9GpEUYMoh0fl3qEhY+1ZAPFlLEKCWHYP7EC4Gb+ubG9RvYS6ivFEozgI1KhUg+ryvDEY2bW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caoyk6gt; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1734702875; c=relaxed/simple;
+	bh=i8Igj770C0astvzP4b7KDeeYKJmQGOHUBrq0CjJ4F1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mz8HRpMDeO5SGdrjP1985KqN1DQ2+hrBBhWMThyNSeg3e79GNSe7VwF+eZCjW/PAMkO73dMdqHgBr8MIfs5b6hiBjL0X1ZDClYWiBmR7VqNPEA9/wmXzPnXyCekoE9iGK42EcpX6DcBI1jOdGxXC/qT9sEr7wo0o0lKP6m4E2Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/EefhZ0; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caoyk6gt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/EefhZ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734702212; x=1766238212;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uWGySZ2E4aRpnNq3hO6xAnpvheb5K/9j8N4u7HpP5i0=;
-  b=caoyk6gt175X/RtIlYmB++kkCwRRjICuG4rBG0DY+ZiqJwc9vFfCvrds
-   gxR59iec8pfmfSYesD99Y/8RsN9rp1zKHmIVUzGxlPQz3tS6zueL2Uzcu
-   pP4nFqK+qTSnDeDMgCIxAzVCnzyNaleYfYmE/49RoYUzum+isd/idtZpP
-   3A8aD8Qt6op7wTdm03Ma7pB0fepAAwLquxrw544REf1lgFybVe96lKqas
-   AVxS20RP0i3Nq5ICdRNBJOo68Asp7l5N8Tg1Nm3vua4GPOSooF/aIt3ru
-   c5ign6eddN8yQuE67Y+Vqt12KZTjuFyPEJvtvH2WMRGYHwZ/X/En5fonU
+  t=1734702874; x=1766238874;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i8Igj770C0astvzP4b7KDeeYKJmQGOHUBrq0CjJ4F1c=;
+  b=A/EefhZ0Umqmnnugd+IWtLZkhWQEW/GyxU6YMr3c4f7RJ+Z/j0vMoXc5
+   ZG0Pdy48SONzKCjP6tqcny3jM7w58UOmYGdTZA0t1vaHX4k1dfqazuQwO
+   kNekR1r4L7ClZnC9UGlWPaZBZDMUu1kO166YeK98Bf6H6OJxp96tqLb4v
+   AZYFkGLF3ObXs35+yePTskXRzPXj2bINsBbrlaEUtepY4Yajx77iIXnaQ
+   3iLdjeC5HKfRLfT3zpyWJyl5eEyCzOXWmq9lCYBUnifUikY8C7NbS0lFK
+   AeSuogLK8X6XNIFgwcXRntFrgEd6N5PvFooBTrfH0184ZRiOdaJOl888u
    w==;
-X-CSE-ConnectionGUID: fyhVEvnNTre9DBKHx/L8Hw==
-X-CSE-MsgGUID: oXdboa17TFOMiVYd9GYK4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35466060"
+X-CSE-ConnectionGUID: ffBf167+SrOp1VwgKHKVxA==
+X-CSE-MsgGUID: BGa8dj9ESsWs5b3Vv8spMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35133879"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="35466060"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:43:31 -0800
-X-CSE-ConnectionGUID: pabVtBuFQwq6GY9WwcCsYg==
-X-CSE-MsgGUID: avlCIJwSQg+STeVO+/6JoQ==
+   d="scan'208";a="35133879"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:54:29 -0800
+X-CSE-ConnectionGUID: tAoZJDr9Qn+LZ/VJdmoOJg==
+X-CSE-MsgGUID: 1466quViRMS3u6yJhVy2Lg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="103591853"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="103507840"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Dec 2024 05:43:26 -0800
+  by orviesa005.jf.intel.com with ESMTP; 20 Dec 2024 05:54:27 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOdHn-0001C3-1Y;
-	Fri, 20 Dec 2024 13:43:23 +0000
-Date: Fri, 20 Dec 2024 21:42:49 +0800
+	id 1tOdSS-0001CP-0z;
+	Fri, 20 Dec 2024 13:54:24 +0000
+Date: Fri, 20 Dec 2024 21:54:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	perex@perex.cz, tiwai@suse.com, ivprusov@salutedevices.com,
-	neil.armstrong@linaro.org, jack.yu@realtek.com,
-	rf@opensource.cirrus.com, zhoubinbin@loongson.cn,
-	quic_pkumpatl@quicinc.com, herve.codina@bootlin.com,
-	masahiroy@kernel.org, nuno.sa@analog.com, yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	yijiangtao@awinic.com
-Subject: Re: [PATCH V2 2/2] ASoC: codecs: Add aw88083 amplifier driver
-Message-ID: <202412202139.OayEq3D3-lkp@intel.com>
-References: <20241219123047.33330-3-wangweidong.a@awinic.com>
+To: Eddie James <eajames@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: drivers/hwmon/pmbus/ibm-cffps.c:184:60: warning: '%04X' directive
+ output may be truncated writing between 4 and 8 bytes into a region of size
+ 5
+Message-ID: <202412202139.tZ2VJL2f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,130 +63,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219123047.33330-3-wangweidong.a@awinic.com>
 
-Hi,
+Hi Eddie,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on eabcdba3ad4098460a376538df2ae36500223c1e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-dt-bindings-Add-schema-for-awinic-aw88083/20241219-203933
-base:   eabcdba3ad4098460a376538df2ae36500223c1e
-patch link:    https://lore.kernel.org/r/20241219123047.33330-3-wangweidong.a%40awinic.com
-patch subject: [PATCH V2 2/2] ASoC: codecs: Add aw88083 amplifier driver
-config: i386-randconfig-014-20241220 (https://download.01.org/0day-ci/archive/20241220/202412202139.OayEq3D3-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202139.OayEq3D3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8faabc041a001140564f718dabe37753e88b37fa
+commit: 2f8a855efe8a6faf962c53af406e5ea4791b3877 pmbus: (ibm-cffps) Add support for version 2 of the PSU
+date:   5 years ago
+config: x86_64-randconfig-077-20241209 (https://download.01.org/0day-ci/archive/20241220/202412202139.tZ2VJL2f-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202139.tZ2VJL2f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412202139.OayEq3D3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412202139.tZ2VJL2f-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from sound/soc/codecs/aw88081.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> sound/soc/codecs/aw88081.c:407:11: error: incompatible pointer types passing 'struct aw_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
-     407 |                 dev_err(aw_dev, "unsupported this device\n");
-         |                         ^~~~~~
-   include/linux/dev_printk.h:154:44: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                   ^~~
-   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   include/linux/dev_printk.h:50:36: note: passing argument to parameter 'dev' here
-      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
-         |                                    ^
->> sound/soc/codecs/aw88081.c:442:52: error: incompatible pointer types passing 'u16 *' (aka 'unsigned short *') to parameter of type 'unsigned int *' [-Werror,-Wincompatible-pointer-types]
-     442 |                 ret = aw8808x_reg_value_check(aw88081, reg_addr, &reg_val);
-         |                                                                  ^~~~~~~~
-   sound/soc/codecs/aw88081.c:394:43: note: passing argument to parameter 'reg_val' here
-     394 |                                         unsigned int reg_addr, unsigned int *reg_val)
-         |                                                                              ^
-   1 warning and 2 errors generated.
+   drivers/hwmon/pmbus/ibm-cffps.c: In function 'ibm_cffps_debugfs_op':
+   drivers/hwmon/pmbus/ibm-cffps.c:171:60: warning: '%02X' directive output may be truncated writing between 2 and 8 bytes into a region of size 3 [-Wformat-truncation=]
+     171 |                                 snprintf(&data[i * 2], 3, "%02X", rc);
+         |                                                            ^~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:171:59: note: directive argument in the range [0, 2147483647]
+     171 |                                 snprintf(&data[i * 2], 3, "%02X", rc);
+         |                                                           ^~~~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:171:33: note: 'snprintf' output between 3 and 9 bytes into a destination of size 3
+     171 |                                 snprintf(&data[i * 2], 3, "%02X", rc);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwmon/pmbus/ibm-cffps.c:184:60: warning: '%04X' directive output may be truncated writing between 4 and 8 bytes into a region of size 5 [-Wformat-truncation=]
+     184 |                                 snprintf(&data[i * 4], 5, "%04X", rc);
+         |                                                            ^~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:184:59: note: directive argument in the range [0, 2147483647]
+     184 |                                 snprintf(&data[i * 4], 5, "%04X", rc);
+         |                                                           ^~~~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:184:33: note: 'snprintf' output between 5 and 9 bytes into a destination of size 5
+     184 |                                 snprintf(&data[i * 4], 5, "%04X", rc);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +407 sound/soc/codecs/aw88081.c
+vim +184 drivers/hwmon/pmbus/ibm-cffps.c
 
-   392	
-   393	static int aw8808x_reg_value_check(struct aw88081 *aw88081,
-   394						unsigned int reg_addr, unsigned int *reg_val)
-   395	{
-   396		struct aw_device *aw_dev = aw88081->aw_pa;
-   397		int ret;
-   398	
-   399		switch (aw88081->devtype) {
-   400		case AW88081:
-   401			ret = aw88081_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-   402			break;
-   403		case AW88083:
-   404			ret = aw88083_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-   405			break;
-   406		default:
- > 407			dev_err(aw_dev, "unsupported this device\n");
-   408			ret = -EINVAL;
-   409			break;
-   410		}
-   411	
-   412		return ret;
-   413	}
-   414	
-   415	static int aw88081_dev_reg_update(struct aw88081 *aw88081,
-   416						unsigned char *data, unsigned int len)
-   417	{
-   418		struct aw_device *aw_dev = aw88081->aw_pa;
-   419		struct aw_volume_desc *vol_desc = &aw_dev->volume_desc;
-   420		int data_len, i, ret;
-   421		int16_t *reg_data;
-   422		u16 reg_val;
-   423		u8 reg_addr;
-   424	
-   425		if (!len || !data) {
-   426			dev_err(aw_dev->dev, "reg data is null or len is 0");
-   427			return -EINVAL;
-   428		}
-   429	
-   430		reg_data = (int16_t *)data;
-   431		data_len = len >> 1;
-   432	
-   433		if (data_len & 0x1) {
-   434			dev_err(aw_dev->dev, "data len:%d unsupported",	data_len);
-   435			return -EINVAL;
-   436		}
-   437	
-   438		for (i = 0; i < data_len; i += 2) {
-   439			reg_addr = reg_data[i];
-   440			reg_val = reg_data[i + 1];
-   441	
- > 442			ret = aw8808x_reg_value_check(aw88081, reg_addr, &reg_val);
-   443			if (ret)
-   444				return ret;
-   445	
-   446			ret = regmap_write(aw_dev->regmap, reg_addr, reg_val);
-   447			if (ret)
-   448				return ret;
-   449		}
-   450	
-   451		if (aw_dev->prof_cur != aw_dev->prof_index)
-   452			vol_desc->ctl_volume = 0;
-   453	
-   454		/* keep min volume */
-   455		aw88081_dev_set_volume(aw_dev, vol_desc->mute_volume);
-   456	
-   457		return 0;
-   458	}
-   459	
+   129	
+   130	static ssize_t ibm_cffps_debugfs_op(struct file *file, char __user *buf,
+   131					    size_t count, loff_t *ppos)
+   132	{
+   133		u8 cmd;
+   134		int i, rc;
+   135		int *idxp = file->private_data;
+   136		int idx = *idxp;
+   137		struct ibm_cffps *psu = to_psu(idxp, idx);
+   138		char data[I2C_SMBUS_BLOCK_MAX] = { 0 };
+   139	
+   140		pmbus_set_page(psu->client, 0);
+   141	
+   142		switch (idx) {
+   143		case CFFPS_DEBUGFS_INPUT_HISTORY:
+   144			return ibm_cffps_read_input_history(psu, buf, count, ppos);
+   145		case CFFPS_DEBUGFS_FRU:
+   146			cmd = CFFPS_FRU_CMD;
+   147			break;
+   148		case CFFPS_DEBUGFS_PN:
+   149			cmd = CFFPS_PN_CMD;
+   150			break;
+   151		case CFFPS_DEBUGFS_SN:
+   152			cmd = CFFPS_SN_CMD;
+   153			break;
+   154		case CFFPS_DEBUGFS_CCIN:
+   155			rc = i2c_smbus_read_word_swapped(psu->client, CFFPS_CCIN_CMD);
+   156			if (rc < 0)
+   157				return rc;
+   158	
+   159			rc = snprintf(data, 5, "%04X", rc);
+   160			goto done;
+   161		case CFFPS_DEBUGFS_FW:
+   162			switch (psu->version) {
+   163			case cffps1:
+   164				for (i = 0; i < CFFPS1_FW_NUM_BYTES; ++i) {
+   165					rc = i2c_smbus_read_byte_data(psu->client,
+   166								      CFFPS_FW_CMD +
+   167									i);
+   168					if (rc < 0)
+   169						return rc;
+   170	
+   171					snprintf(&data[i * 2], 3, "%02X", rc);
+   172				}
+   173	
+   174				rc = i * 2;
+   175				break;
+   176			case cffps2:
+   177				for (i = 0; i < CFFPS2_FW_NUM_WORDS; ++i) {
+   178					rc = i2c_smbus_read_word_data(psu->client,
+   179								      CFFPS_FW_CMD +
+   180									i);
+   181					if (rc < 0)
+   182						return rc;
+   183	
+ > 184					snprintf(&data[i * 4], 5, "%04X", rc);
+   185				}
+   186	
+   187				rc = i * 4;
+   188				break;
+   189			default:
+   190				return -EOPNOTSUPP;
+   191			}
+   192			goto done;
+   193		default:
+   194			return -EINVAL;
+   195		}
+   196	
+   197		rc = i2c_smbus_read_block_data(psu->client, cmd, data);
+   198		if (rc < 0)
+   199			return rc;
+   200	
+   201	done:
+   202		data[rc] = '\n';
+   203		rc += 2;
+   204	
+   205		return simple_read_from_buffer(buf, count, ppos, data, rc);
+   206	}
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
