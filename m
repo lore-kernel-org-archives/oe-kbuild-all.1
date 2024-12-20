@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B803221CA05
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 18:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744852206A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 18:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734721147; cv=none; b=EcEJvcMBsfr0gD5jaKPOUqJ2p/LA76U8bArIORdQiJmvqSSWvZPSvPQxOucNBudxX8gfOdbARuYzLE3TPkzcUJE+z02XIMkss1dwutFdF9mCadyV4NBd0QRt70C/rZ62npSIYWVHKF+KKpYDYNw/hPRvF5FDX+lLgIuTk47ekw4=
+	t=1734721152; cv=none; b=u25BCPskBvKzTwgJRKSRgoeZkeIIziF6ziwJC35Z1hUCBj0AqF7Qql+Yom5mop3uMv1hYtCGigG5F73BjGecjLMF8tVeZc0mfC0jSA3J669Ha6wAquuEBWlUJ/GaqB1WxcKkSntoFah7nsN9rhsYSikIH492GgJ3SpfZNPS7U7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734721147; c=relaxed/simple;
-	bh=MgaFBKhZQurXQzCCmc2ExknFpgIVxNESWxkcbOLKzM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FfYdaIa1kw49w1Ik5pm4WAr0P6SWUf5neDQXNFQNqeTPRkP8LUL0zGa0/rhs9RcMO48NRjSx7v07P1rzDehpHZwR8zgnreJT1WRROe6TyOfvld/BOCzyyYTqzUFxU9d4FIOgYzbOppoOLjbsVPWMB7Ias1+zHuLdcCFihba5sYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kex1NwAo; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1734721152; c=relaxed/simple;
+	bh=STeUxUhBa15XpzjqHXj7grCaqugfSBd2WtpSvp8CpCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dJ+Qo0YVVBezZeoZAilG1akMZ/AT9QCS8USEzt4ewjKxrrj9kI69lChToiWPdKwjN/kGFTUqYsmdu3GMv7/uhRRFOZ+K2xI5jQwSHipm3XyGiLHhRtfC2GxhpKj7ehPvJ+aM9yIX6HH2RSTWU2b4ZU69nmivZjOQdCVQSR+p27s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aptdh9ED; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kex1NwAo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aptdh9ED"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734721146; x=1766257146;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MgaFBKhZQurXQzCCmc2ExknFpgIVxNESWxkcbOLKzM4=;
-  b=Kex1NwAoLkMyaEXpjyrr/BeBAHr/ff20K13jTYKHWAEV1k7XXwTWJ8ct
-   KxkwCryFz7P3Rsf8pZgQEbLxeaI7gasxQigbOoQjy4WOva7qR/ASFPdg4
-   KWnuORqSzbvcnkxPqCtnZKYRj1AeqODsUreSDF9JxxCLIGzX5CMLh+1h+
-   F09fiooSzFhUJcCCjfmVl9S8QfP2xBGxUVNmQPbEqlKuMVmYS+9cyFrDy
-   EaQUrNK857pHkN7e5JA623FKnJ3cK3u4cM7SePfEFzE0Rnyhu56vAPw5t
-   EGY9k7TeVWYRJATfgPorstkqZ72bw2YSjhgt6P3YCNzjfiXKkb2ivyx3a
+  t=1734721150; x=1766257150;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=STeUxUhBa15XpzjqHXj7grCaqugfSBd2WtpSvp8CpCQ=;
+  b=aptdh9ED86NsSjB4I7Yjgd7eRLdrB1SUynm3bqpo9tPREsm6xIFGgA9m
+   8o0sizsiTUbf22heWsN1iAz6k5bYvUzLKNZC1H1HpR3JD10VObUnagwf6
+   K0YuCZ86AJmsvCxqpAdfjx+n3X5Qg6sz31msmYRY8Y0kM1efeGPymKTe9
+   GcGvfZgWHYXl+IU+myRAbAAADr3dpGZy8xgYAOpUi2d3z2CZcj8TAORYM
+   PKEMUQ621+Dqu1YleWxp9kgoEBmygsGm3rLt/CZ0ZoMTgFUEU1WN6FGb2
+   qGqtmoYKBw7yNuMkfYyNuXwRRHDB6Eg9I8MJVG/ZXTHLyeBS8NTrpYhcS
    Q==;
-X-CSE-ConnectionGUID: djzZZVSMTFa6CO/ILGZ8KA==
-X-CSE-MsgGUID: lpZUp6lSQ7CqShBDWHvJUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35496167"
+X-CSE-ConnectionGUID: 925FS9hOQHK3p0GUxMUZxA==
+X-CSE-MsgGUID: 5WyMhHVuRwyKVzb5Up+yUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="34598300"
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="35496167"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 10:59:05 -0800
-X-CSE-ConnectionGUID: VQfVO/V5SoC2veYgMZV6qA==
-X-CSE-MsgGUID: GnzouIS0RVmMFckoqE5ASw==
+   d="scan'208";a="34598300"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 10:59:07 -0800
+X-CSE-ConnectionGUID: gnoJoCBASKqYI3VJPFmTtQ==
+X-CSE-MsgGUID: 2EZ86WctQ+uAiZGIqJCN0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="99065256"
+X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
+   d="scan'208";a="99110429"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 20 Dec 2024 10:59:03 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2024 10:59:03 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOiDF-0001ad-0v;
+	id 1tOiDF-0001aZ-0g;
 	Fri, 20 Dec 2024 18:59:01 +0000
-Date: Sat, 21 Dec 2024 02:58:42 +0800
+Date: Sat, 21 Dec 2024 02:58:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1341/1341]
- include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used
- uninitialized
-Message-ID: <202412210226.N1hHrIDJ-lkp@intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	John Cox <john.cox@raspberrypi.com>,
+	Dom Cobley <dom@raspberrypi.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 5/7] media: platform: Add Raspberry Pi HEVC decoder driver
+Message-ID: <202412210220.jZ2hzj8t-lkp@intel.com>
+References: <20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,176 +77,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e@raspberrypi.com>
 
-Hi Ding,
+Hi Dave,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   02951ceaa6d546dfa0f741f52f6d47e0fb0ac7b4
-commit: 9469d1759c2905dcef49df7e6240ad5c32b66296 [1341/1341] ascend: share_pool: enable svm to use share pool memory
-config: arm64-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210226.N1hHrIDJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210226.N1hHrIDJ-lkp@intel.com/reproduce)
+[auto build test WARNING on e90c9612ac3969cb8206029a26bcd2b6f5d4a942]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Stevenson/RFC-media-Add-media_request_-pin-unpin-API/20241221-002633
+base:   e90c9612ac3969cb8206029a26bcd2b6f5d4a942
+patch link:    https://lore.kernel.org/r/20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e%40raspberrypi.com
+patch subject: [PATCH 5/7] media: platform: Add Raspberry Pi HEVC decoder driver
+reproduce: (https://download.01.org/0day-ci/archive/20241221/202412210220.jZ2hzj8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210226.N1hHrIDJ-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210220.jZ2hzj8t-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/char/svm.c:249:21: warning: no previous prototype for 'svm_find_mem_reg_node' [-Wmissing-prototypes]
-     249 | struct device_node *svm_find_mem_reg_node(struct device *dev, const char *compat)
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:419:6: warning: no previous prototype for 'sysrq_sched_debug_show_export' [-Wmissing-prototypes]
-     419 | void sysrq_sched_debug_show_export(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:1429:5: warning: no previous prototype for 'svm_get_pasid' [-Wmissing-prototypes]
-    1429 | int svm_get_pasid(pid_t vpid, int dev_id __maybe_unused)
-         |     ^~~~~~~~~~~~~
-   drivers/char/svm.c:1502:5: warning: no previous prototype for '__svm_get_mpam' [-Wmissing-prototypes]
-    1502 | int __svm_get_mpam(struct svm_mpam *mpam)
-         |     ^~~~~~~~~~~~~~
-   In file included from arch/arm64/include/asm/atomic.h:34,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/arm64/include/asm/bitops.h:37,
-                    from include/linux/bitops.h:19,
-                    from include/linux/kernel.h:11,
-                    from include/asm-generic/bug.h:18,
-                    from arch/arm64/include/asm/bug.h:37,
-                    from arch/arm64/include/asm/memory.h:27,
-                    from arch/arm64/include/asm/esr.h:21,
-                    from drivers/char/svm.c:10:
-   In function '__cmpxchg_case_mb_4',
-       inlined from '__cmpxchg_mb' at arch/arm64/include/asm/cmpxchg.h:143:1,
-       inlined from 'svm_proc_load_flag' at drivers/char/svm.c:1967:12:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
-     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
-         | ^~~~~~~~~~~~~~
-   drivers/char/svm.c: In function 'svm_proc_load_flag':
-   drivers/char/svm.c:1958:25: note: object 'l2buf_load_flag' of size 4
-    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
-         |                         ^~~~~~~~~~~~~~~
-   In function '__cmpxchg_case_mb_4',
-       inlined from '__cmpxchg_mb' at arch/arm64/include/asm/cmpxchg.h:143:1,
-       inlined from 'svm_proc_load_flag' at drivers/char/svm.c:1967:12:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
-     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
-         | ^~~~~~~~~~~~~~
-   drivers/char/svm.c: In function 'svm_proc_load_flag':
-   drivers/char/svm.c:1958:25: note: object 'l2buf_load_flag' of size 4
-    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
-         |                         ^~~~~~~~~~~~~~~
-   In file included from drivers/char/svm.c:29:
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_sp_alloc_mem' at drivers/char/svm.c:2144:8:
->> include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler.h:251,
-                    from arch/arm64/include/asm/memory.h:24:
-   include/linux/kasan-checks.h: In function 'svm_sp_alloc_mem':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:2135:24: note: 'spallocinfo' declared here
-    2135 |         struct spalloc spallocinfo;
-         |                        ^~~~~~~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_get_phy_memory_info' at drivers/char/svm.c:1805:6:
-   include/linux/uaccess.h:112:17: warning: 'para' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_get_phy_memory_info':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:1800:33: note: 'para' declared here
-    1800 |         struct phymeminfo_ioctl para;
-         |                                 ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_remap_proc' at drivers/char/svm.c:1863:8:
-   include/linux/uaccess.h:112:17: warning: 'pmem' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_remap_proc':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:1849:29: note: 'pmem' declared here
-    1849 |         struct svm_proc_mem pmem;
-         |                             ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_ioctl' at drivers/char/svm.c:2217:9:
-   include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:2209:33: note: 'params' declared here
-    2209 |         struct svm_bind_process params;
-         |                                 ^~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_sp_free_mem' at drivers/char/svm.c:2179:8,
-       inlined from 'svm_ioctl' at drivers/char/svm.c:2280:9:
->> include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:2172:24: note: 'spallocinfo' declared here
-    2172 |         struct spalloc spallocinfo;
-         |                        ^~~~~~~~~~~
-
-
-vim +/spallocinfo +112 include/linux/uaccess.h
-
-d597580d373774 Al Viro        2017-03-20  104  
-d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  108  {
-d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
-9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
-9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
-d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  114  	}
-d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
-d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro        2017-03-20  117  	return res;
-d597580d373774 Al Viro        2017-03-20  118  }
-d597580d373774 Al Viro        2017-03-20  119  #else
-d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  122  #endif
-d597580d373774 Al Viro        2017-03-20  123  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/raspberrypi,rpi_hevc_dec.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
