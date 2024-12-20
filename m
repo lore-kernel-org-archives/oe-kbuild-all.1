@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ECB1BB6A0;
-	Fri, 20 Dec 2024 12:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F071211A3D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 12:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734698905; cv=none; b=DnOqV5IaZOnllEOeVNld/ZpQ8e2R66A8oECLKS3ptZn3E8dec9nCSGr+kMyNJiXxVrAv++I1+Rr8NL8NK7rJPskl0fcWUxmsskUvlQOU51F0X2goJhEcnBL/lBtJ20oK3vtgIb/6aKN56HxFoCgSro7aWdUfB2BIIwHXM7iS3NY=
+	t=1734699564; cv=none; b=DVoWDLaDFka6Fka6Rc6jq33trL7CLIpROlLMbQBuaFpcwRsOj7hCnGW2hyWk88K3tzdxL1kyfDJe7edhL9roVicgvmltQ52OxSuj85kyKf53FUI8J8gx7t96vNKNANl7a6/igtFez6n8FzzBffEqj51qWyQoJH8MX9/3iGnTaC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734698905; c=relaxed/simple;
-	bh=FDdJ2lBFifNTt/lTvkM/SY/UtKg5l+gUiTFgEfwyL2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HGP5no5phq7lurD7sE1lmIRzNihmVArKg99Vx4+ExB/ZurlvVH/frvogAbS6InQPPf65HB+wr2TY7iqhDuqLiqNXUgnCqxhM646udwn7Lw5pypYUeJDG32O8R0+aU8BpU81SyXwDlS9UfbSlPfDcWg2A3z44aAFj0hkDuIb3Pxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d7c7rwfR; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1734699564; c=relaxed/simple;
+	bh=2R0Trm2wrFDQe7r6/9QefdWEgR6w7u5fMk2EeK2vH14=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=d9IRZUkJLmf+nnC/fhHT/co+PZS3eO0ElywnvvOH5xTbB3cFurE1K26bZEKBQXJpKF9yoWoTEs2OZylHSXXHsh87Gn4tC43NhlqjfhkMFHQJ362Eg+EF8pWNkD0aGCBkXntL4DGBKWEY/FqTjDo99yol2J9BRhvaSXXKJcOjLz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h3rP0E36; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d7c7rwfR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h3rP0E36"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734698904; x=1766234904;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FDdJ2lBFifNTt/lTvkM/SY/UtKg5l+gUiTFgEfwyL2c=;
-  b=d7c7rwfRlY244ugosD28BiHk7Nw9W+cFfB8QgyEW4035akmmRedfIuse
-   qnAcvd/V27kyBUE6EdV+3QFmI4bJKKsab8foHZQ5G2J2kvIkqaDiSalhm
-   TFelzKKWcdHWX97M7hTfvWW6GQ7uYd8i/TRpjcGL8asfWV9PeB5vuFhyF
-   FHDUYTy4uJgbSbEp8lUiSwDLcxywGMv3/b/j378koMm8uxncVuVy4EBUd
-   uVigDo4sZdTPmOpYnA96h+a7q9IAFtWj8yETdQn7+wH1rDGzxhz1SI/yr
-   p8pEeJ0Z73QhX8d0r7S0PSy8QZl6M49cbxPS8oyOKj46YcxlH6d0fG/Wk
-   Q==;
-X-CSE-ConnectionGUID: sNjKRNp0SH2ccCsZ2c8pLw==
-X-CSE-MsgGUID: exvLjS1ERO2dDnV8kgkQuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35129415"
+  t=1734699562; x=1766235562;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2R0Trm2wrFDQe7r6/9QefdWEgR6w7u5fMk2EeK2vH14=;
+  b=h3rP0E36I4HCuxBxW20ZKiF1HxUL16hQAL0B6yxpGqCmRvZs2OcrZqr3
+   g6TB7axI49zwJZhqtNtyrPY1Kx6PETy8NUG7o4Jveyd0nvfILNgy2uzQK
+   jVMgpj+wzDzV9KpeScV87cXmpI0qo5GSH6f3tMMUXTNHbOEnWzMAdMP3y
+   QfYU6LTffxlL+t5011M0TK+5gwU0IZTd5aYRbzoplBfoNqnXwbK4vCOmm
+   jy3FPIadWU0RiXhNut+3RLXLnxBBhHKaN99k4C9bnHvKsfoTPwlAWN7jm
+   AW5TFJZavP7ORHDP2RycKrAvpUhZt7Klm5FI0KYYUVLxfNhcRri2l7tk6
+   g==;
+X-CSE-ConnectionGUID: kGERLWF1Rdi1isE1lvJf0w==
+X-CSE-MsgGUID: /loQ+5w2T5ydfZVObTeRJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="60628629"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="35129415"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 04:48:24 -0800
-X-CSE-ConnectionGUID: x+DoA/PTQHKmMiqDUDD6Zg==
-X-CSE-MsgGUID: WG3pATEDTtCBOQrj2PA1yg==
+   d="scan'208";a="60628629"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 04:59:21 -0800
+X-CSE-ConnectionGUID: XLNaVbJmQo2lE2PK1qXQcg==
+X-CSE-MsgGUID: HYvWmUPjQPqsmnTq8ZplbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="98326547"
+   d="scan'208";a="98702662"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Dec 2024 04:48:19 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2024 04:59:20 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOcQT-00019D-2y;
-	Fri, 20 Dec 2024 12:48:17 +0000
-Date: Fri, 20 Dec 2024 20:47:32 +0800
+	id 1tOcb8-00019n-2k;
+	Fri, 20 Dec 2024 12:59:18 +0000
+Date: Fri, 20 Dec 2024 20:58:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
-	kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/8] net: ethtool: plumb PHY stats to PHY
- drivers
-Message-ID: <202412202052.YznBmblv-lkp@intel.com>
-References: <20241219132534.725051-3-o.rempel@pengutronix.de>
+To: Eric Biggers <ebiggers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:wip-aes-xts-flags 19/19]
+ arch/x86/crypto/aesni-intel_glue.c:730:13: warning: 'aesni_xts_decrypt'
+ defined but not used
+Message-ID: <202412202035.Ru9HtNqY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,36 +62,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219132534.725051-3-o.rempel@pengutronix.de>
 
-Hi Oleksij,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/ethtool-linkstate-migrate-linkstate-functions-to-support-multi-PHY-setups/20241219-213024
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241219132534.725051-3-o.rempel%40pengutronix.de
-patch subject: [PATCH net-next v2 2/8] net: ethtool: plumb PHY stats to PHY drivers
-config: arm-randconfig-004-20241220 (https://download.01.org/0day-ci/archive/20241220/202412202052.YznBmblv-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202052.YznBmblv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-aes-xts-flags
+head:   2b32612abff2e4adb803aa6e5fdedaf76d0be424
+commit: 2b32612abff2e4adb803aa6e5fdedaf76d0be424 [19/19] crypto: x86/aes-xts - switch from function pointers to flags
+config: x86_64-buildonly-randconfig-004-20241220 (https://download.01.org/0day-ci/archive/20241220/202412202035.Ru9HtNqY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202035.Ru9HtNqY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412202052.YznBmblv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412202035.Ru9HtNqY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: phy_ethtool_get_phy_stats
-   >>> referenced by stats.c
-   >>>               net/ethtool/stats.o:(stats_prepare_data) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: phy_ethtool_get_link_ext_stats
-   >>> referenced by linkstate.c
-   >>>               net/ethtool/linkstate.o:(linkstate_prepare_data) in archive vmlinux.a
+>> arch/x86/crypto/aesni-intel_glue.c:730:13: warning: 'aesni_xts_decrypt' defined but not used [-Wunused-function]
+     730 | static void aesni_xts_decrypt(const struct crypto_aes_ctx *key,
+         |             ^~~~~~~~~~~~~~~~~
+>> arch/x86/crypto/aesni-intel_glue.c:723:13: warning: 'aesni_xts_encrypt' defined but not used [-Wunused-function]
+     723 | static void aesni_xts_encrypt(const struct crypto_aes_ctx *key,
+         |             ^~~~~~~~~~~~~~~~~
+>> arch/x86/crypto/aesni-intel_glue.c:717:13: warning: 'aesni_xts_encrypt_iv' defined but not used [-Wunused-function]
+     717 | static void aesni_xts_encrypt_iv(const struct crypto_aes_ctx *tweak_key,
+         |             ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/aesni_xts_decrypt +730 arch/x86/crypto/aesni-intel_glue.c
+
+751fb2528c12ef Eric Biggers   2024-04-07  716  
+751fb2528c12ef Eric Biggers   2024-04-07 @717  static void aesni_xts_encrypt_iv(const struct crypto_aes_ctx *tweak_key,
+751fb2528c12ef Eric Biggers   2024-04-07  718  				 u8 iv[AES_BLOCK_SIZE])
+751fb2528c12ef Eric Biggers   2024-04-07  719  {
+751fb2528c12ef Eric Biggers   2024-04-07  720  	aesni_enc(tweak_key, iv, iv);
+751fb2528c12ef Eric Biggers   2024-04-07  721  }
+751fb2528c12ef Eric Biggers   2024-04-07  722  
+751fb2528c12ef Eric Biggers   2024-04-07 @723  static void aesni_xts_encrypt(const struct crypto_aes_ctx *key,
+54d618cc9f8696 Eric Biggers   2024-12-12  724  			      const u8 *src, u8 *dst, int len,
+751fb2528c12ef Eric Biggers   2024-04-07  725  			      u8 tweak[AES_BLOCK_SIZE])
+751fb2528c12ef Eric Biggers   2024-04-07  726  {
+751fb2528c12ef Eric Biggers   2024-04-07  727  	aesni_xts_enc(key, dst, src, len, tweak);
+751fb2528c12ef Eric Biggers   2024-04-07  728  }
+751fb2528c12ef Eric Biggers   2024-04-07  729  
+751fb2528c12ef Eric Biggers   2024-04-07 @730  static void aesni_xts_decrypt(const struct crypto_aes_ctx *key,
+54d618cc9f8696 Eric Biggers   2024-12-12  731  			      const u8 *src, u8 *dst, int len,
+751fb2528c12ef Eric Biggers   2024-04-07  732  			      u8 tweak[AES_BLOCK_SIZE])
+751fb2528c12ef Eric Biggers   2024-04-07  733  {
+751fb2528c12ef Eric Biggers   2024-04-07  734  	aesni_xts_dec(key, dst, src, len, tweak);
+2481104fe98d5b Ard Biesheuvel 2020-12-31  735  }
+2481104fe98d5b Ard Biesheuvel 2020-12-31  736  
+
+:::::: The code at line 730 was first introduced by commit
+:::::: 751fb2528c12ef64d1e863efb196cdc968b384f6 crypto: x86/aes-xts - make non-AVX implementation use new glue code
+
+:::::: TO: Eric Biggers <ebiggers@google.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
