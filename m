@@ -1,78 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D557156F3F;
-	Fri, 20 Dec 2024 06:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D561113B5AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 06:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734675175; cv=none; b=BLOJqOCWXbGQ77znNlGHEqp0UDQ/M4mEKZgJ7qA/IGnO3tZdW4nVxjrKwbts6lYyRcNvJLQq9wNXLfwoqHj9h4/dBLL8VbIjRp3kBJby4dGQjPmjIaDApf1SxBOBKLw4jfD+Nv1RPZaVU4Vy5v9hcVJLYCvIQZQ3kvYsB806utc=
+	t=1734676431; cv=none; b=OzWiQPe40KiFGKj0rQ8jFxGJKqGq+DPE0uneFoZuE+LxQag71rA595eEgB60lyoJQ1fa2wc7nfhrxliW0lWXfX8LJTDyN2bzgg5EOCiFlj5TPbqm/Lct34gJSruP0qOez83Qx5r85aRJ2yQWrN4DMKlbnLJEKsjoBl6nMyeVLyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734675175; c=relaxed/simple;
-	bh=ZzuWvue3/Dyz3OEX4IuEIJmdALTB1lMDUAcKhYLsTpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yfj0/uQHxLw1Wcfz8lsgiRM7u6EaZmdktSO8u5L/oCJODJGyQYdJ5o7vF0PnzRIUixul7XgvcXhvvRrw2POde9BGdGJiCSLxWqel9LErLsUqp/1rkUjR9U5unjGjzS04gpwPWhSuvjx8d64A4HUamBsq1PbLzLV6ImIc/GnUFtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdF2XYTM; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1734676431; c=relaxed/simple;
+	bh=qU1gtqrUvX7LRDGJOuvbbbgr1NiSocf/C+0FqRFvUxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MuOpOgLj9ReVxno2Wl3GtigkiCg5ZaywzzdLVeT8mN+b/iEs7mCWeT75L2TpjpvRs2gDhZb/4K5TWfSuqr1rWUrpuO2wrhVLqNbUS5g/EDPiuXzNTGchZXr6DWqAw7PuVfCZIVvonSzazlONZDSR1F2bl/McWzyzlWARujy/cBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZKd1HLX; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdF2XYTM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZKd1HLX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734675173; x=1766211173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZzuWvue3/Dyz3OEX4IuEIJmdALTB1lMDUAcKhYLsTpI=;
-  b=kdF2XYTMvIxUET2SN8KNoqLjMFPP8A2qi+x6I8FBlVGRMJ49E/V83xba
-   g0b64k85iHP1n+e2VR7WPRlEkM1BLCldYBw5o35a2tSHDlS3YyF6i0RUM
-   ByDJyvqWFcFTwOUlD08z/ww9ii/ZvvR/10YXpO7PE7TdlYUNzU16ftqO+
-   1Nuoie0k28qLQs4WmTU0XhrmYuFRNbq/ArqBtMhjO6V9y7Zs/1JaOg2t2
-   SvQi8oxnh08o/vKZysoQf32anC0YePHzhN0jkksRGVVYi80nKDByTSCaA
-   Y0yrdAyW9ovUKQg/jMIJ32VL7Lw1KZbmwi6eaEqqVTHI43aSAqyb3KMS2
+  t=1734676430; x=1766212430;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qU1gtqrUvX7LRDGJOuvbbbgr1NiSocf/C+0FqRFvUxQ=;
+  b=YZKd1HLXkcAyu+FOAOa3UtCM46goXmr+0bqgRaY9ole36F2kpyFZUrPr
+   FZrRh8HIV0uq2JGB5bS2tViDnq5zM7ZGZNOgmLNdHiT3qHykjGY8Tk2In
+   Ip64gDQrwaJI42GbAmt3CEJAUFs9D++PTQH2zJgcjKnfSl/D1wauw4rBp
+   0qAKsnwaZNX0tqpWvNLmYXwWvL4T2fzzpK8Mi4tZzG22OYkFD1l9VxBYw
+   WGg1GAl98stPi8TtylJOkYOflrF7WZTxezIueH/2WtI/3gCzByt7PtONS
+   IkSyKlAw9vakc1ZkFHuvO7g/cKqMAJTYAxdpO7AyWsW5CoOy8t2PjFsZI
    w==;
-X-CSE-ConnectionGUID: VYRmzniXSGe8EJAU3XrfSQ==
-X-CSE-MsgGUID: +rsen83ORgi0oPKEvuvK9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="52624773"
+X-CSE-ConnectionGUID: mYhVwGBoSeKlx7rbqnzaXA==
+X-CSE-MsgGUID: 09L/LzC/TNCWTuwVNPIGOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="39001791"
 X-IronPort-AV: E=Sophos;i="6.12,249,1728975600"; 
-   d="scan'208";a="52624773"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:12:52 -0800
-X-CSE-ConnectionGUID: sOKRon2lQOKdRxhfnSyVsg==
-X-CSE-MsgGUID: MHx5yihkQumsZQA5kCOVYw==
+   d="scan'208";a="39001791"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:33:49 -0800
+X-CSE-ConnectionGUID: rn0vf91IQa2fln43kgCU8g==
+X-CSE-MsgGUID: MUOMdAiyS92km9MVwDfdNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,249,1728975600"; 
-   d="scan'208";a="103405111"
+   d="scan'208";a="98259403"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Dec 2024 22:12:46 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 19 Dec 2024 22:33:48 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOWFf-0000tP-2O;
-	Fri, 20 Dec 2024 06:12:43 +0000
-Date: Fri, 20 Dec 2024 14:12:13 +0800
+	id 1tOWa1-0000ul-2N;
+	Fri, 20 Dec 2024 06:33:45 +0000
+Date: Fri, 20 Dec 2024 14:33:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Fabio Estevam <festevam@denx.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Re: [PATCH 02/11] reboot: reboot, not shutdown, on
- hw_protection_reboot timeout
-Message-ID: <202412201310.JWkUQ9qf-lkp@intel.com>
-References: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
+To: Austin Zheng <Austin.Zheng@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Dillon Varone <dillon.varone@amd.com>,
+	Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Subject: [linux-next:master 4214/5236]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c:183:58:
+ warning: arithmetic between enumeration type 'enum dentist_divider_range'
+ and floating-point type 'double'
+Message-ID: <202412201434.Bq1kzteG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,58 +65,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
 
-Hi Ahmad,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
-base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-2-263a0c1df802%40pengutronix.de
-patch subject: [PATCH 02/11] reboot: reboot, not shutdown, on hw_protection_reboot timeout
-config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8503810115fbff903f626adc0788daa048302bc0
+commit: be4e3509314af751f08677f428f93c306aaa2f8e [4214/5236] drm/amd/display: DML21 Reintegration For Various Fixes
+config: x86_64-randconfig-161-20241219 (https://download.01.org/0day-ci/archive/20241220/202412201434.Bq1kzteG-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201434.Bq1kzteG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201310.JWkUQ9qf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201434.Bq1kzteG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
->> kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
->> kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
-   kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_shutdown'
-   kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_shutdown'
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c:5:
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.h:8:
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/inc/dml2_internal_shared_types.h:8:
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/inc/dml2_external_lib_deps.h:8:
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/os_types.h:31:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c:183:58: warning: arithmetic between enumeration type 'enum dentist_divider_range' and floating-point type 'double' [-Wenum-float-conversion]
+     183 |         divider = (unsigned int)(DFS_DIVIDER_RANGE_SCALE_FACTOR * (vco_freq_khz / clock_khz));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +995 kernel/reboot.c
+vim +183 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c
 
-dfa19b11385d4c Matti Vaittinen 2021-06-03   983  
-dfa19b11385d4c Matti Vaittinen 2021-06-03   984  static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
-dfa19b11385d4c Matti Vaittinen 2021-06-03   985  			    hw_failure_emergency_poweroff_func);
-dfa19b11385d4c Matti Vaittinen 2021-06-03   986  
-dfa19b11385d4c Matti Vaittinen 2021-06-03   987  /**
-595ab92650cc28 Ahmad Fatoum    2024-12-19   988   * hw_failure_emergency_schedule - Schedule an emergency system shutdown or reboot
-dfa19b11385d4c Matti Vaittinen 2021-06-03   989   *
-dfa19b11385d4c Matti Vaittinen 2021-06-03   990   * This may be called from any critical situation to trigger a system shutdown
-dfa19b11385d4c Matti Vaittinen 2021-06-03   991   * after a given period of time. If time is negative this is not scheduled.
-dfa19b11385d4c Matti Vaittinen 2021-06-03   992   */
-595ab92650cc28 Ahmad Fatoum    2024-12-19   993  static void hw_failure_emergency_schedule(enum hw_protection_action action,
-595ab92650cc28 Ahmad Fatoum    2024-12-19   994  					  int poweroff_delay_ms)
-dfa19b11385d4c Matti Vaittinen 2021-06-03  @995  {
-dfa19b11385d4c Matti Vaittinen 2021-06-03   996  	if (poweroff_delay_ms <= 0)
-dfa19b11385d4c Matti Vaittinen 2021-06-03   997  		return;
-595ab92650cc28 Ahmad Fatoum    2024-12-19   998  	hw_failure_emergency_action = action;
-dfa19b11385d4c Matti Vaittinen 2021-06-03   999  	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1000  			      msecs_to_jiffies(poweroff_delay_ms));
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1001  }
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
+   153	
+   154	static bool add_margin_and_round_to_dfs_grainularity(double clock_khz, double margin, unsigned long vco_freq_khz, unsigned long *rounded_khz, uint32_t *divider_id)
+   155	{
+   156		enum dentist_divider_range {
+   157			DFS_DIVIDER_RANGE_1_START = 8, /* 2.00 */
+   158			DFS_DIVIDER_RANGE_1_STEP = 1, /* 0.25 */
+   159			DFS_DIVIDER_RANGE_2_START = 64, /* 16.00 */
+   160			DFS_DIVIDER_RANGE_2_STEP = 2, /* 0.50 */
+   161			DFS_DIVIDER_RANGE_3_START = 128, /* 32.00 */
+   162			DFS_DIVIDER_RANGE_3_STEP = 4, /* 1.00 */
+   163			DFS_DIVIDER_RANGE_4_START = 248, /* 62.00 */
+   164			DFS_DIVIDER_RANGE_4_STEP = 264, /* 66.00 */
+   165			DFS_DIVIDER_RANGE_SCALE_FACTOR = 4
+   166		};
+   167	
+   168		enum DFS_base_divider_id {
+   169			DFS_BASE_DID_1 = 0x08,
+   170			DFS_BASE_DID_2 = 0x40,
+   171			DFS_BASE_DID_3 = 0x60,
+   172			DFS_BASE_DID_4 = 0x7e,
+   173			DFS_MAX_DID = 0x7f
+   174		};
+   175	
+   176		unsigned int divider;
+   177	
+   178		if (clock_khz < 1 || vco_freq_khz < 1 || clock_khz > vco_freq_khz)
+   179			return false;
+   180	
+   181		clock_khz *= 1.0 + margin;
+   182	
+ > 183		divider = (unsigned int)(DFS_DIVIDER_RANGE_SCALE_FACTOR * (vco_freq_khz / clock_khz));
+   184	
+   185		/* we want to floor here to get higher clock than required rather than lower */
+   186		if (divider < DFS_DIVIDER_RANGE_2_START) {
+   187			if (divider < DFS_DIVIDER_RANGE_1_START)
+   188				*divider_id = DFS_BASE_DID_1;
+   189			else
+   190				*divider_id = DFS_BASE_DID_1 + ((divider - DFS_DIVIDER_RANGE_1_START) / DFS_DIVIDER_RANGE_1_STEP);
+   191		} else if (divider < DFS_DIVIDER_RANGE_3_START) {
+   192			*divider_id = DFS_BASE_DID_2 + ((divider - DFS_DIVIDER_RANGE_2_START) / DFS_DIVIDER_RANGE_2_STEP);
+   193		} else if (divider < DFS_DIVIDER_RANGE_4_START) {
+   194			*divider_id = DFS_BASE_DID_3 + ((divider - DFS_DIVIDER_RANGE_3_START) / DFS_DIVIDER_RANGE_3_STEP);
+   195		} else {
+   196			*divider_id = DFS_BASE_DID_4 + ((divider - DFS_DIVIDER_RANGE_4_START) / DFS_DIVIDER_RANGE_4_STEP);
+   197			if (*divider_id > DFS_MAX_DID)
+   198				*divider_id = DFS_MAX_DID;
+   199		}
+   200	
+   201		*rounded_khz = vco_freq_khz * DFS_DIVIDER_RANGE_SCALE_FACTOR / divider;
+   202	
+   203		return true;
+   204	}
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
