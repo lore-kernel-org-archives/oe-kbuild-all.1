@@ -1,72 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7912821A425
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 16:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48223219A90
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 16:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734712794; cv=none; b=LFA5lDQxQj7Wx+1sItjiLLWSWtGFgQT5v+lKdF4iQA9cvhVMKuE7V1X6edHZ4z7TaSENRjqXdrJhCgxdeZh+EuoQDaxR7HHDfFPENHYc08G+XXQ73L1mL0eN2gnMuowlK/YW6uZWgsu8tv3rQ+rw9KqZA7HY1RxDdZgsAhADzCo=
+	t=1734712794; cv=none; b=ceyYEfz/SPpei548WVlXhsusN7pzbbMvPYQYIryOedm9nOPY5dLRU5wKD+5Gu0XwVbIkhuPUNvsJcF3VEWvEvErx6IOwRopLxSUytk1CTOs5TNJLla/s9fe5xTBLzYe5YLDBHjTXbv2+YL03L1R16AQkgPDiYE9Z6pwW21qUT+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734712794; c=relaxed/simple;
-	bh=kmsROndDbyH8jm99K4jfljVJ484U72MZR37Sb/BMsQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ocQy7uGPXhk5MJixvyGDfBjSvnyc/pJmHD8X/aYa5J1CIezRc8K5mjF5Ac78nNp4gGYPtStcph4U5U+wxF4dDgTZ40HNtTcnTK64aTxpqn7GFoVfymgJau/1QCmfB8VzcV0coxv7i1lUzzIZSX/PqZUZJQykoQ0iD5MOTLuhMBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfHZnXZk; arc=none smtp.client-ip=198.175.65.17
+	bh=H/3ibKHHEJXOaZRA7sOuV9hjjHScG3i3j3wCBr8Phgo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bo0I0mdGLn0Rc8v7stnPK5DP5Hwo9qZojI6x1Z4GSGRuDSB8udxbQKRly3WWfjgNYZ375tHcvJbkpzL1Fc0p5uoXoJC9dbUdQmPV4nVmXmz7Gse7+aVnQtxio9NM7ppvT8o7fyoj0mTA7GC+zXVvDxqZ6dmzGrFdurVjc8mKSx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1u8C0BU; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfHZnXZk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1u8C0BU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1734712791; x=1766248791;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kmsROndDbyH8jm99K4jfljVJ484U72MZR37Sb/BMsQY=;
-  b=XfHZnXZku+vBujX4uc9Xs88EAEKEv7Be1zNWGTpufepOX46goFK2fbDE
-   092fqVLXSy3EEYnYcDcn6PR+ISJAoTLIkF/lEr39F9gFom4kR/wWoBJe+
-   Kt1xFCezUX41wMvB5AcyZ2+GoLb76S3RNrpMUdXrHZ1LEcnfRZrQDZJx2
-   4K9GMICIS2+bXjX0jNX+SdRfwRel68mQQxCvOqVW6XUauK9TH96HYuynN
-   AJe44RinbDM31b+ips8SPKkIKoNyCqCb57QG5A3fP70Td4E6tFquNv97M
-   UZXfA9hOWRN/F3UTxwaHx+r44T0Nf/E97JKnSpgZBfkY5d1VaYqHWEm6t
-   A==;
-X-CSE-ConnectionGUID: IoCfdnFhSZOLLA21OF9V0A==
-X-CSE-MsgGUID: ZLAkMZkZRyGkR7COvFqg9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35295813"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H/3ibKHHEJXOaZRA7sOuV9hjjHScG3i3j3wCBr8Phgo=;
+  b=i1u8C0BUonph5wWfTTH/sHW3e58sau4PHx7QDaoPgQBYKpIJD1oYupQU
+   DED5aS/Ds707TQsVETLqhSJOWnbr+kkhMcOBWvW9S21P1Q9c1ZYym1V4r
+   xBoTU4CLF6muoqvqQmbDCyH7tustBthZU7GJlUWGEoa/KF+Q2eJ9pOQZs
+   NqrDdMh1O8UWvjtfN7nizUs6+6mpBx61Aey1Rpn+gWdqBPEjh2v7KtogC
+   CKOcTYEBZx7LKIqWXy+MrpYJGvVUC5e9/F+e1a49PHHZt7MDPclvjlMsZ
+   e9/9moYqm6QRegfYrcWUI5kCdAWDnyoTfAE2nhQB4/sMAzlSVX1dfUw3p
+   Q==;
+X-CSE-ConnectionGUID: 6yI8z2HGTlONAJJGA+O78A==
+X-CSE-MsgGUID: 8e8Z80FIThmoyOJQVkZ1CA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39202386"
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="35295813"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 08:39:51 -0800
-X-CSE-ConnectionGUID: jCunitGgQ7CFeHp3hEWc9Q==
-X-CSE-MsgGUID: W/NJ3R13Q3atZN3br0ax1g==
+   d="scan'208";a="39202386"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 08:39:50 -0800
+X-CSE-ConnectionGUID: W0UR7szBTJ2TQBUhZnyhWQ==
+X-CSE-MsgGUID: cO193ZZvS7mWYJw6yXAaJA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="98386684"
+X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
+   d="scan'208";a="98454378"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Dec 2024 08:39:48 -0800
+  by orviesa009.jf.intel.com with ESMTP; 20 Dec 2024 08:39:49 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOg2T-0001QB-2p;
-	Fri, 20 Dec 2024 16:39:45 +0000
-Date: Sat, 21 Dec 2024 00:39:08 +0800
+	id 1tOg2U-0001QK-1h;
+	Fri, 20 Dec 2024 16:39:46 +0000
+Date: Sat, 21 Dec 2024 00:39:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [PATCH 5/8] gpio: max7360: Add MAX7360 gpio support
-Message-ID: <202412210008.Saks0Eu4-lkp@intel.com>
-References: <20241219-mdb-max7360-support-v1-5-8e8317584121@bootlin.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1341/1341]
+ include/linux/uaccess.h:112:17: warning: 'bind' may be used uninitialized
+Message-ID: <202412210041.OxTX5o7L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,132 +61,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219-mdb-max7360-support-v1-5-8e8317584121@bootlin.com>
 
-Hi Mathieu,
+Hi Jean-Philippe,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-Add-MAX7360-MFD-device/20241220-002541
-base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-patch link:    https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-5-8e8317584121%40bootlin.com
-patch subject: [PATCH 5/8] gpio: max7360: Add MAX7360 gpio support
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241221/202412210008.Saks0Eu4-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210008.Saks0Eu4-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   02951ceaa6d546dfa0f741f52f6d47e0fb0ac7b4
+commit: 2dd8345826607c5d2d6528de872118da554015b6 [1341/1341] vfio: Add support for Shared Virtual Addressing
+config: arm64-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210041.OxTX5o7L-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210041.OxTX5o7L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210008.Saks0Eu4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210041.OxTX5o7L-lkp@intel.com/
+
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpio/gpio-max7360.c: In function 'max7360_gpio_probe':
->> drivers/gpio/gpio-max7360.c:370:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     370 |         max7360_gpio->gpio_function = (int)device_get_match_data(&pdev->dev);
-         |                                       ^
+   In file included from include/linux/compat.h:19,
+                    from drivers/vfio/vfio_iommu_type1.c:27:
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_bind_process' at drivers/vfio/vfio_iommu_type1.c:1933:6:
+   include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compiler.h:251,
+                    from include/asm-generic/div64.h:25,
+                    from ./arch/arm64/include/generated/asm/div64.h:1,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/compat_time.h:6,
+                    from include/linux/compat.h:10:
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_bind_process':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:1920:46: note: 'params' declared here
+    1920 |         struct vfio_iommu_type1_bind_process params;
+         |                                              ^~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_unbind_process' at drivers/vfio/vfio_iommu_type1.c:2021:6:
+   include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_unbind_process':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2014:46: note: 'params' declared here
+    2014 |         struct vfio_iommu_type1_bind_process params;
+         |                                              ^~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl.part.0' at drivers/vfio/vfio_iommu_type1.c:2084:7:
+   include/linux/uaccess.h:112:17: warning: 'info' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl.part.0':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2080:46: note: 'info' declared here
+    2080 |                 struct vfio_iommu_type1_info info;
+         |                                              ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl.part.0' at drivers/vfio/vfio_iommu_type1.c:2104:7:
+   include/linux/uaccess.h:112:17: warning: 'map' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl.part.0':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2098:49: note: 'map' declared here
+    2098 |                 struct vfio_iommu_type1_dma_map map;
+         |                                                 ^~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl.part.0' at drivers/vfio/vfio_iommu_type1.c:2118:7:
+   include/linux/uaccess.h:112:17: warning: 'unmap' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl.part.0':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2113:51: note: 'unmap' declared here
+    2113 |                 struct vfio_iommu_type1_dma_unmap unmap;
+         |                                                   ^~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl.part.0' at drivers/vfio/vfio_iommu_type1.c:2136:7:
+>> include/linux/uaccess.h:112:17: warning: 'bind' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl.part.0':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2132:46: note: 'bind' declared here
+    2132 |                 struct vfio_iommu_type1_bind bind;
+         |                                              ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'vfio_iommu_type1_ioctl.part.0' at drivers/vfio/vfio_iommu_type1.c:2155:7:
+>> include/linux/uaccess.h:112:17: warning: 'bind' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'vfio_iommu_type1_ioctl.part.0':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:2151:46: note: 'bind' declared here
+    2151 |                 struct vfio_iommu_type1_bind bind;
+         |                                              ^~~~
 
 
-vim +370 drivers/gpio/gpio-max7360.c
+vim +/bind +112 include/linux/uaccess.h
 
-   333	
-   334	static int max7360_gpio_probe(struct platform_device *pdev)
-   335	{
-   336		struct max7360_gpio *max7360_gpio;
-   337		unsigned int ngpios;
-   338		unsigned int outconf;
-   339		struct gpio_irq_chip *girq;
-   340		unsigned long flags;
-   341		int irq;
-   342		int ret;
-   343	
-   344		if (!pdev->dev.parent) {
-   345			dev_err(&pdev->dev, "no parent device\n");
-   346			return -ENODEV;
-   347		}
-   348	
-   349		max7360_gpio = devm_kzalloc(&pdev->dev, sizeof(struct max7360_gpio),
-   350					    GFP_KERNEL);
-   351		if (!max7360_gpio)
-   352			return -ENOMEM;
-   353	
-   354		if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios)) {
-   355			dev_err(&pdev->dev, "Missing ngpios OF property\n");
-   356			return -ENODEV;
-   357		}
-   358	
-   359		max7360_gpio->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-   360		if (!max7360_gpio->regmap) {
-   361			dev_err(&pdev->dev, "could not get parent regmap\n");
-   362			return -ENODEV;
-   363		}
-   364	
-   365		max7360_gpio->dev = &pdev->dev;
-   366		max7360_gpio->chip = max7360_gpio_chip;
-   367		max7360_gpio->chip.ngpio = ngpios;
-   368		max7360_gpio->chip.parent = &pdev->dev;
-   369		max7360_gpio->chip.base = -1;
- > 370		max7360_gpio->gpio_function = (int)device_get_match_data(&pdev->dev);
-   371	
-   372		dev_dbg(&pdev->dev, "gpio count: %d\n", max7360_gpio->chip.ngpio);
-   373	
-   374		if (max7360_gpio->gpio_function == MAX7360_GPIO_PORT) {
-   375			/* Port GPIOs: set output mode configuration (constant-current
-   376			 * or not).
-   377			 * This property is optional.
-   378			 */
-   379			outconf = 0;
-   380			ret = of_property_read_u32(pdev->dev.of_node,
-   381						   "constant-current-disable", &outconf);
-   382			if (ret && (ret != -EINVAL)) {
-   383				dev_err(&pdev->dev,
-   384					"Failed to read constant-current-disable OF property\n");
-   385				return -ENODEV;
-   386			}
-   387	
-   388		    regmap_write(max7360_gpio->regmap, MAX7360_REG_GPIOOUTM, outconf);
-   389		}
-   390	
-   391		if (max7360_gpio->gpio_function == MAX7360_GPIO_PORT &&
-   392		    of_property_read_bool(pdev->dev.of_node, "interrupt-controller")) {
-   393			/* Port GPIOs: declare IRQ chip, if configuration was provided.
-   394			 */
-   395			irq = platform_get_irq(pdev, 0);
-   396			if (irq < 0)
-   397				return dev_err_probe(&pdev->dev, irq,
-   398						     "Failed to get IRQ");
-   399	
-   400			flags = IRQF_TRIGGER_LOW | IRQF_ONESHOT | IRQF_SHARED;
-   401			ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-   402							max7360_gpio_irq, flags,
-   403							"max7360-gpio", max7360_gpio);
-   404			if (ret)
-   405				return dev_err_probe(&pdev->dev, ret,
-   406						     "Failed to register interrupt: %d\n",
-   407						     ret);
-   408	
-   409			girq = &max7360_gpio->chip.irq;
-   410			gpio_irq_chip_set_chip(girq, &max7360_gpio_irqchip);
-   411			girq->parent_handler = NULL;
-   412			girq->num_parents = 0;
-   413			girq->parents = NULL;
-   414			girq->threaded = true;
-   415			girq->default_type = IRQ_TYPE_NONE;
-   416			girq->handler = handle_simple_irq;
-   417		}
-   418	
-   419		ret = devm_gpiochip_add_data(&pdev->dev, &max7360_gpio->chip, max7360_gpio);
-   420		if (ret) {
-   421			dev_err(&pdev->dev, "unable to add gpiochip: %d\n", ret);
-   422			return ret;
-   423		}
-   424	
-   425		return 0;
-   426	}
-   427	
+d597580d373774 Al Viro        2017-03-20  104  
+d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
+d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  108  {
+d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
+9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
+4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
+9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
+d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  114  	}
+d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
+d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
+d597580d373774 Al Viro        2017-03-20  117  	return res;
+d597580d373774 Al Viro        2017-03-20  118  }
+d597580d373774 Al Viro        2017-03-20  119  #else
+d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  122  #endif
+d597580d373774 Al Viro        2017-03-20  123  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
