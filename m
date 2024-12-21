@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8487733FE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 01:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A2133CFC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 01:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734745363; cv=none; b=hMSQyrYtcYHHIn15Q+p+idc/xmT8sD9tmPNayfk6t0/yYYbM9mdVZUpt4t4euFIXjDdnh2nINJbaKJCa8hBk7+8wo4+vkwInU1NEVvj4CbaDNdF1MYp3lgESLYzX7xdt2Z+BzaSh/PVPOY5NupVzQdXbcrdT+CT5tMxpWkABv5M=
+	t=1734745424; cv=none; b=s17H0V8jOzJOoBLjpATpAImXPrS//t8M1nIcwFFdtCUJ3nfW6DVjKIKAaVo6J8TpiPF1xR0TZPp1f8mQOKGEiPFYzdl/ILCXii0VjlIQidB7V+E0v8We+MAxwPkbdizWw2yV416n+yEkByln4N4X2ERddGOlpn/LKb2V3bFC9HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734745363; c=relaxed/simple;
-	bh=rOF62tvgNxJt0RZQUuuhIIwdbooOIcozMkBWHvrKnYE=;
+	s=arc-20240116; t=1734745424; c=relaxed/simple;
+	bh=l9OB3WeZBCa7EjzzMv8qGnQJVG59xF8v5bFcZYOKStU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KcFp+362PUWRFdIHf7LioTkJIWNl7sMvtfwzUcrdMVwWMKHJuVlycCCMpbG1y2w2J4UphBMLGyYBZJfO65AWyt/tohQtLBeERCeP5f1bx3mt9wkMvno6D7ePRWbrXkOH+Mnw3jvXoL9mZpzcRe/HogaG/Fr5Gmq4hO51Z8rEN2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHtqmXHq; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=DDY9s9q4+kzUTuzNgpzpSQ4IWOmbHzp3RsqZuBwL3ZGrdLdjfXf+OuYRdEmH3alGimIJVoEMrYDTJnrqgyd7qsPmI8qimoAMaTrTvysXi1nvhgTlitCG/pMOc8SbXA4xr8wabfcC8mU48e58tIFwTP0MeWlHNxFS9LK46PmkttI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iTkMLZIs; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHtqmXHq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iTkMLZIs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734745361; x=1766281361;
+  t=1734745423; x=1766281423;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rOF62tvgNxJt0RZQUuuhIIwdbooOIcozMkBWHvrKnYE=;
-  b=mHtqmXHqkV7Ial9kD6j6YaHRl2HZ51nApwzYHuz/nAT/gAp/SWO1BhNR
-   nJusKsK0ovV1sISluySKyicSiw8YJN0mn30SGI5LYrtu4CTe27kbS9RLZ
-   d+pVnT6j+qpit4Gau1y7TeeP+SVCEPyNY5F7BEPCYpJ2zaTGmffe7IAG/
-   YHXMBe3DjbKrmtt3fq0gG7YI2wp4qcQrWWe2FfZuutj0v7iNEAs7Y9qVB
-   B1mSnk+bsEORNxkVEcJtEvZnnVDrag42em1Bmuiui2Rv7Yyzx3M7DbPWg
-   rd37ifvNsaCWsYngI12Rq9CFTZxoeCZP3jBxAxjMOIXTUilGd7CZ4PRxD
-   g==;
-X-CSE-ConnectionGUID: CwWpZXcoRAiEVY6u6hWQVw==
-X-CSE-MsgGUID: X7neQqYWTIOzVxMdN9Y84Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45795454"
+  bh=l9OB3WeZBCa7EjzzMv8qGnQJVG59xF8v5bFcZYOKStU=;
+  b=iTkMLZIsFfzAmV3ug8ymdu3tJtnzSL3aWCNHAozM7PFEn3DR0BcSFLRF
+   bIKbCdKfPatQjwOeO1AaYb6i4AVTzXLqSTeF8KBsU5ZG83MGsadNfKvyq
+   RUQ+DjwIAebikZy0x34MHXFYefdnAomgzwNH/CZH/qeURiFAjqUWGZ1ry
+   chwM+INbrXRimBEPaWPKwdZlfldOg/ba0S1iroQLHVthvvtzG+Z/z55NL
+   UNNdnYoFw1Prz8AyyDzuumew575TmnnXi+IhUnVDRIm53/eGraZuDQ9qI
+   //51PTH2klyQV504lbBamfRvgl/wigGuCEtt0ody8ZtKCfYe5OICHlNAo
+   A==;
+X-CSE-ConnectionGUID: IOj3KgPXQFS3e4wQYzaLzw==
+X-CSE-MsgGUID: KBZwWcZPQVybUEj17+SXhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="38984751"
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="45795454"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 17:42:41 -0800
-X-CSE-ConnectionGUID: NScS1WL1RGmYJBr6wZfphQ==
-X-CSE-MsgGUID: GzUnLhp6R++7Yk0/NZEBhA==
+   d="scan'208";a="38984751"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 17:43:42 -0800
+X-CSE-ConnectionGUID: j88nWNy4ReCZE3bOsc1sBA==
+X-CSE-MsgGUID: K+zc8JYvTzyh+eKzHL8GIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="129472011"
+   d="scan'208";a="103524778"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Dec 2024 17:42:39 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2024 17:43:39 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOoVo-0001qV-2w;
-	Sat, 21 Dec 2024 01:42:36 +0000
-Date: Sat, 21 Dec 2024 09:42:25 +0800
+	id 1tOoWn-0001qd-0D;
+	Sat, 21 Dec 2024 01:43:37 +0000
+Date: Sat, 21 Dec 2024 09:42:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>, intel-xe@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, uma.shankar@intel.com,
-	arun.r.murthy@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
-Message-ID: <202412210956.FV7RWpOY-lkp@intel.com>
-References: <20241213060317.2674290-3-suraj.kandpal@intel.com>
+To: Crystal Guo <crystal.guo@mediatek.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH 1/2] memory/mediatek: Add an interface to get current DDR
+ data rate
+Message-ID: <202412210955.FvO0Pee3-lkp@intel.com>
+References: <20241212090029.13692-2-crystal.guo@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,84 +70,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241213060317.2674290-3-suraj.kandpal@intel.com>
+In-Reply-To: <20241212090029.13692-2-crystal.guo@mediatek.com>
 
-Hi Suraj,
+Hi Crystal,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.13-rc3 next-20241220]
+[auto build test ERROR on krzk-mem-ctrl/for-next]
+[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.13-rc3 next-20241220]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-dp-Add-the-DPCD-register-required-for-Extended-wake-timeout/20241213-140525
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241213060317.2674290-3-suraj.kandpal%40intel.com
-patch subject: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
-config: x86_64-randconfig-r121-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210956.FV7RWpOY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210956.FV7RWpOY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Crystal-Guo/memory-mediatek-Add-an-interface-to-get-current-DDR-data-rate/20241212-170306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+patch link:    https://lore.kernel.org/r/20241212090029.13692-2-crystal.guo%40mediatek.com
+patch subject: [PATCH 1/2] memory/mediatek: Add an interface to get current DDR data rate
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241221/202412210955.FvO0Pee3-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210955.FvO0Pee3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210956.FV7RWpOY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210955.FvO0Pee3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_dp_link_training.c:146:26: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/i915/display/intel_dp_link_training.c:148:26: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +146 drivers/gpu/drm/i915/display/intel_dp_link_training.c
+>> drivers/memory/mediatek/mtk-dramc.c:300:19: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Wincompatible-pointer-types]
+     300 |         .remove = dramc_remove,
+         |                   ^~~~~~~~~~~~
+   drivers/memory/mediatek/mtk-dramc.c:300:19: note: (near initialization for 'dramc_drv.<anonymous>.remove')
 
-   136	
-   137	void intel_dp_lttpr_wake_timeout_setup(struct intel_dp *intel_dp)
-   138	{
-   139		struct intel_display *display = to_intel_display(intel_dp);
-   140		u8 val = 1;
-   141		int ret;
-   142	
-   143		if (intel_dp_lttpr_transparent_mode_enabled(intel_dp)) {
-   144			static const u8 timeout_mapping[] = {
-   145				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_1_MS] = 1,
- > 146				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS] = 20,
-   147				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_40_MS] = 40,
-   148				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS] = 20,
-   149				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_80_MS] = 80,
-   150				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_100_MS] = 100,
-   151			};
-   152	
-   153			ret = drm_dp_dpcd_readb(&intel_dp->aux,
-   154						DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_REQUEST, &val);
-   155			if (ret != 1) {
-   156				drm_dbg_kms(display->drm,
-   157					    "Failed to read Extended sleep wake timeout request\n");
-   158				return;
-   159			}
-   160	
-   161			val = (val < sizeof(timeout_mapping) && timeout_mapping[val]) ?
-   162				timeout_mapping[val] : 1;
-   163	
-   164			drm_dp_dpcd_writeb(&intel_dp->aux, DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_GRANT,
-   165					   DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_GRANTED);
-   166		} else {
-   167			ret = drm_dp_dpcd_readb(&intel_dp->aux,
-   168						DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT, &val);
-   169			if (ret != 1) {
-   170				drm_dbg_kms(display->drm,
-   171					    "Failed to read Extended sleep wake timeout request\n");
-   172				return;
-   173			}
-   174	
-   175			val = (val & DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) ?
-   176				(val & DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) * 10 : 1;
-   177	
-   178			drm_dp_dpcd_writeb(&intel_dp->aux, DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT,
-   179					   DP_EXTENDED_WAKE_TIMEOUT_GRANT);
-   180		}
-   181	}
-   182	
+
+vim +300 drivers/memory/mediatek/mtk-dramc.c
+
+   297	
+   298	static struct platform_driver dramc_drv = {
+   299		.probe = dramc_probe,
+ > 300		.remove = dramc_remove,
+   301		.driver = {
+   302			.name = "dramc_drv",
+   303			.owner = THIS_MODULE,
+   304			.of_match_table = dramc_of_ids,
+   305		},
+   306	};
+   307	
 
 -- 
 0-DAY CI Kernel Test Service
