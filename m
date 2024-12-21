@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8912AF0B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 02:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DD918A921
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 03:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734749869; cv=none; b=Wmlx3arlhyr4pSBZcJRY2BxyOx/5ygH3d4gfbF5cGinip712J44PeTQU0+9B06q5rVeL9mhfOR/mp3e05Xegw/LWkoumLJUSJAns9DNfvfg9XhaGfZvmBRh+gzA5kYXIHki6iivex5wW/n0vg2CRWu+O/Zwp+2AiIQCqXfO7baU=
+	t=1734751131; cv=none; b=t7jHC7O+8owtn9VvSDebPfO+XaCQSi/2Ns4iyZJZ38IQiZZ52pBGmR7ZYhKsbO03jsYNBBsFZqtj1x4BTexWCdqoCPoLc1DTcgwcosWkylTUIUh7H8wGO4mfNDaYf3Km0It2x0n2Q8fvtKoOXMly1WIBAMTkPlJ7QwsPAzj+Afw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734749869; c=relaxed/simple;
-	bh=sVuRCphj9ji4Mz/c7Q+NoUZhyD7mAsqS1oaWLMnx3g4=;
+	s=arc-20240116; t=1734751131; c=relaxed/simple;
+	bh=dQlmtlCw6dmCw3H/qS9XzD/Pl1f6p4/9+H703EhbQRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d8te9R/El0eVkRN0ROdLXSRBK9HPjfehlFSPpL3S3CXeEqcB/eaDxnFpH+NBiN4t4fn1qoIJcIXLEtcsIbVnU6BdR1WN+DgLS+kzuhYt2siQfGs03v2TllZ3Hoj/uOI+W9NLT8Do8/CEdzskoHqdQ85wXbtp/5RhnFegisbo4kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XRA3NEb7; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=T/JFxJSFadJ1lMG2w6s5o73S6LGL6d7rfJgQoyVgkToNy4Oa07H6t+C75QkbhWxjGA+GtHOJ4sEXVP7QvAKLyh7q1T6eg4HahE6HWbTAH+o9n8jHX5TJuHDgMLZhuQRGP4sv66nfvJKDQvcBxbp2bs4FPwuekghKhRY08DgkTAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9QCLOL4; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XRA3NEb7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9QCLOL4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734749867; x=1766285867;
+  t=1734751129; x=1766287129;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sVuRCphj9ji4Mz/c7Q+NoUZhyD7mAsqS1oaWLMnx3g4=;
-  b=XRA3NEb7LmqgmJtc80y620RIp2b6dj5n7cybN5CFAehroVq6NfKdix01
-   23ZTpvJYwswWBcbmNw0igef6uSK9Kkw4opKFVQ48g77fXuuccmOf16opp
-   J6wDLHukUZyiu9wiNyg3ztPoK5jSjbRm1qhDFHlAQK0HXtuf/7tH43pyT
-   e15frqWtWBhlyUXc2nZ++cWSv1Gk1eJ+mkuUoB49bNjSSBOMc3AWrHZmB
-   N5sS6+ckbQciXj1cX35/wCxX+J664yU4BXXyRYGZ0SKFAqLgdY/nQCuAq
-   tSJA6Fak8GFyS7mnD6Df3lY+NaFpLZ1oC+FB6Yzc51bU4XAx22k6q+kBs
-   w==;
-X-CSE-ConnectionGUID: pY175EbeQIGiMu/L2HvLTA==
-X-CSE-MsgGUID: iCIGffASRl+2z6IVZJQ26A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39239324"
+  bh=dQlmtlCw6dmCw3H/qS9XzD/Pl1f6p4/9+H703EhbQRw=;
+  b=k9QCLOL4ckRj/KFPJSmGnnYaHqI+Lk4pgw0FCqF93QI0RLd96ZS89VnQ
+   q/Hgsgq8dbFbUDeyQFfnNlabiOH7eaNYM1r9taur+wEAzG3V82YHAXh2+
+   c7Oy2qcE/xMSFmG2qIptk6jbDYW9t+KGiFv1t3wXDJI2MRvCTToFHd6zo
+   s1Q36k31QTxnXVqeeI9896WD19kB2o0Wz4umaFXQf8Z1AJSUE59WfLUEw
+   FrTY4dCpjh9GrQ/W6G3DxZFBUaIfMwVyS8cHHTFZFYX3ejHFwVTAdfJip
+   6SyydD0Hp7Hhnyt6D2hVTjXYZolRNfylymH5/K3pnFZ1FvSV3MIbwS8pD
+   Q==;
+X-CSE-ConnectionGUID: KjfDRz4iQfeyBtXpshDozA==
+X-CSE-MsgGUID: X641SD9cRZCccb4D4ceCJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="46312354"
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="39239324"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 18:57:46 -0800
-X-CSE-ConnectionGUID: 8uVtnfrSSUq0uVoHqLriPw==
-X-CSE-MsgGUID: GySgM2UBTi6me1n4/4PGKg==
+   d="scan'208";a="46312354"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 19:18:48 -0800
+X-CSE-ConnectionGUID: ssprSigXQVGriygTjc+QJQ==
+X-CSE-MsgGUID: MMtBDH/HQyaUb6skeEedyw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103668516"
+X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
+   d="scan'208";a="98449275"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 20 Dec 2024 18:57:45 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2024 19:18:46 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOpgU-0001sU-1j;
-	Sat, 21 Dec 2024 02:57:42 +0000
-Date: Sat, 21 Dec 2024 10:57:34 +0800
+	id 1tOq0q-0001tH-1k;
+	Sat, 21 Dec 2024 03:18:44 +0000
+Date: Sat, 21 Dec 2024 11:18:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Zhang <yu.c.zhang@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2588/2588] arch/x86/kvm/x86.c:1076:6: sparse:
- sparse: symbol 'kvm_post_set_cr4' was not declared. Should it be static?
-Message-ID: <202412211034.4bD5Ydra-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.12 446/540]
+ arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb:
+ /soc/gpu@13000000/power_model@0: failed to match any schema with compatible:
+ ['arm,mali-simple-power-model']
+Message-ID: <202412211106.QrGywUdA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +64,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yu,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   e804413fbbd504bc7b5b84dc7b86307f2b127a83
-commit: 8a7e6f51a756aa6e88ebd5da8a5f3b6744cd07b5 [2588/2588] KVM: x86: Introduce kvm_post_set_cr4 to post handle the CR4 emulation
-config: x86_64-randconfig-121-20241218 (https://download.01.org/0day-ci/archive/20241221/202412211034.4bD5Ydra-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211034.4bD5Ydra-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   76e007709ba23b69273c6c8ed1a893c1ec7b7df7
+commit: e04f14bb4607c986e2d2919e776673bdbbbbff62 [446/540] CHROMIUM: arm64: dts: mediatek: mt8183: Add Mali power models
+config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241221/202412211106.QrGywUdA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211106.QrGywUdA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412211034.4bD5Ydra-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412211106.QrGywUdA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/x86.c:893:6: sparse: sparse: symbol 'kvm_post_set_cr0' was not declared. Should it be static?
->> arch/x86/kvm/x86.c:1076:6: sparse: sparse: symbol 'kvm_post_set_cr4' was not declared. Should it be static?
-   arch/x86/kvm/x86.c:3051:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user * @@     got unsigned char [usertype] * @@
-   arch/x86/kvm/x86.c:3051:38: sparse:     expected void const [noderef] __user *
-   arch/x86/kvm/x86.c:3051:38: sparse:     got unsigned char [usertype] *
-   arch/x86/kvm/x86.c:8615:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/x86.c:8615:15: sparse:    struct kvm_apic_map [noderef] __rcu *
-   arch/x86/kvm/x86.c:8615:15: sparse:    struct kvm_apic_map *
-   arch/x86/kvm/x86.c:11015:32: sparse: sparse: Using plain integer as NULL pointer
-   arch/x86/kvm/x86.c:11068:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/x86.c:11068:16: sparse:    struct kvm_apic_map [noderef] __rcu *
-   arch/x86/kvm/x86.c:11068:16: sparse:    struct kvm_apic_map *
-   arch/x86/kvm/x86.c:11069:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/x86.c:11069:15: sparse:    struct kvm_pmu_event_filter [noderef] __rcu *
-   arch/x86/kvm/x86.c:11069:15: sparse:    struct kvm_pmu_event_filter *
-   arch/x86/kvm/x86.c:4141:42: sparse: sparse: self-comparison always evaluates to false
-   arch/x86/kvm/x86.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:182:9: sparse: sparse: context imbalance in 'vcpu_enter_guest' - unexpected unlock
-
-vim +/kvm_post_set_cr4 +1076 arch/x86/kvm/x86.c
-
-  1075	
-> 1076	void kvm_post_set_cr4(struct kvm_vcpu *vcpu, unsigned long old_cr4, unsigned long cr4)
-  1077	{
-  1078		unsigned long mmu_role_bits = X86_CR4_PGE | X86_CR4_PSE | X86_CR4_PAE |
-  1079					      X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_PKE;
-  1080	
-  1081		if (((cr4 ^ old_cr4) & mmu_role_bits) ||
-  1082		    (!(cr4 & X86_CR4_PCIDE) && (old_cr4 & X86_CR4_PCIDE)))
-  1083			kvm_mmu_reset_context(vcpu);
-  1084	}
-  1085	
+dtcheck warnings: (new ones prefixed by >>)
+   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
+   	'jedec,spi-nor' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: gpu@13000000: 'power_model@0', 'power_model@1' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
+--
+   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
+   	'jedec,spi-nor' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: gpu@13000000: 'power_model@0', 'power_model@1' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
