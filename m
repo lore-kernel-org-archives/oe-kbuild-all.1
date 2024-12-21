@@ -1,62 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90161F0E3D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 09:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A141F0E48
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 09:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734772763; cv=none; b=DdSdaaii3urv44dCIoYGCoLT6+z1i+gA2G/9sC9JY9IHS+4BIpLhGzGGWs+AHsrOoU0Jt6Aoo0Q2mdRc4l/9bQjnKFZKIQIcB4BhutwqikcAIHNXe5re+uMdyIC8na5R9WraeJ6EJiSp2Pt9Hg9mJXwOuduodz2HyRFeAO4FxwE=
+	t=1734774088; cv=none; b=MJa/AZJILnj+/iDRzuW367ySzdmwYVUQE8k1f//tqAmlIejbtXMrg3u/WUzmenh5UwueUVp+LfhuziH2Y6rFyPslznVRpsxVLVQSqu/fwo3ChE9FcWzdUwMVyvpeNLuZ8TU33i1lb5hf+Tq35aERaTtACXb3dRmZuQ8IlTr+Kd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734772763; c=relaxed/simple;
-	bh=K/gGzoIkY2j0sBPvvxT1OamLtEYly3fG3k78EOkLbxg=;
+	s=arc-20240116; t=1734774088; c=relaxed/simple;
+	bh=9eM/1Gwvqw9NFasQx8+TbXTknoD5E3yJoT0gay2E3b4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eas+fwoLfBmAjGYu87ocoPORHlyGuu5Ocr5k3XNWe0utroHDmj6w6rPoMovWBvpjSfXgrCFS8x4xRWcH66yfm+lQ9pCjrtiohdBFM45bgo+wzKvLb/rgZUdlOwPK7NPFdy4q8qR+B6b3v264Mi7w8k1AsYUc9kuabklxawoo4tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJWPHz5Z; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=E1bgd6jrrR+zwJ3Nj22Oda2U4KHauCkpB3NqTgWM7XdRCiOEYVLFB1Zcx+yGC6g8ZlSPNgQZDM0JQUoNgT+Yo0vBughLwH01w3qHADOgJWB5Zt1GNShkgW0lXprlzb4RKWIF65QOGFYzRdmLSOD/XLUoBGdeYkuTWz1OrcnpJD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lm/kN2bs; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJWPHz5Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lm/kN2bs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734772762; x=1766308762;
+  t=1734774085; x=1766310085;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K/gGzoIkY2j0sBPvvxT1OamLtEYly3fG3k78EOkLbxg=;
-  b=WJWPHz5ZeKk2PMqkZVDq7jsOugTGOo71X6Ql1PQlgkyubFN8Um/HTzzd
-   httrX3fxqWJsMRdn/8/gSo1dch1FZSZXuU4x0jcpOgUuwM9oAE+RtcMVh
-   CrcrVxbQCsxT5C/IutdgK2Gw4CEtG2A4dyQvC4Vq9VGdo+dCDUASktXPl
-   16DcC6tz/Om14+/NemaYVc+U+hKHR4ZsGnLKg7pKhgAojYYLEkDwiCury
-   l0T7AXt/q6DzmyuY6VgQQ7ZVoiogAJx8ssjayr88D96PycoD9BEQtROy1
-   XweRxUZ6DzUTWkC6177Kh3AaKYyW+HaNasTJ7DLxnWiWRFVuW5lZkORBj
-   g==;
-X-CSE-ConnectionGUID: mES9F1Z4Snuioe011yp9lg==
-X-CSE-MsgGUID: RYWAw0gQSda22CYnl+QO4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="38997319"
+  bh=9eM/1Gwvqw9NFasQx8+TbXTknoD5E3yJoT0gay2E3b4=;
+  b=lm/kN2bsJqwF0qz6c8b/xL5kIQxVD0DTqNeP0w2Z8Bi124iSkPszaIgm
+   pkpDjnlV3napqP7k+WFKeEq+anLxG6YBva+Y7EqdOzM7UYGVrjjjq5rLP
+   gaE7q32XIY9i6x6VmpKFHwPde0ngJgTOTFU7QJU6rx2qDo07vXpHymCJg
+   98vfSfdqcqgbNaiA1/Hkg3OAT/mfeOcAl9v2n0Sn1zEo++ziBzUCL5N/i
+   ltNc9Qnv1g1sOebeNMVvMh2dg7vzUdZkPMWkvDdcQ9yEEhRnz0qYm4Ffx
+   O1klC1aGlQxV2eAzuwCoZNWshcxGs9Y8mUG7uuiWmE+TucVakCF+n8Ffd
+   Q==;
+X-CSE-ConnectionGUID: 4SLCY/QaRMy6ssXvArleIg==
+X-CSE-MsgGUID: YvlDS9rKQoCMvb1G1VU2UQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="34591740"
 X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="38997319"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 01:19:19 -0800
-X-CSE-ConnectionGUID: 7jwalMGLSc2vUaJ4bxcTfg==
-X-CSE-MsgGUID: A/b7KilcRHeyeaDNEV5z2Q==
+   d="scan'208";a="34591740"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 01:41:25 -0800
+X-CSE-ConnectionGUID: IQY7nnjrRhChZ3O5MRg0Kw==
+X-CSE-MsgGUID: U9hk4K7xQCueEJK+xwO6Iw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="99588308"
+X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
+   d="scan'208";a="98798584"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Dec 2024 01:19:18 -0800
+  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2024 01:41:19 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOvdj-00026w-0n;
-	Sat, 21 Dec 2024 09:19:15 +0000
-Date: Sat, 21 Dec 2024 17:19:04 +0800
+	id 1tOvz3-00027L-12;
+	Sat, 21 Dec 2024 09:41:17 +0000
+Date: Sat, 21 Dec 2024 17:40:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bence =?iso-8859-1?B?Q3Pza+Fz?= <csokas.bence@prolan.hu>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Bence =?iso-8859-1?B?Q3Pza+Fz?= <csokas.bence@prolan.hu>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH next] dma: Add devm_dma_request_chan()
-Message-ID: <202412211953.UwS2Qw11-lkp@intel.com>
-References: <20241220131350.544009-1-csokas.bence@prolan.hu>
+To: Jens Wiklander <jens.wiklander@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Sumit Garg <sumit.garg@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com,
+	Jens Wiklander <jens.wiklander@linaro.org>
+Subject: Re: [PATCH v4 5/6] optee: FF-A: dynamic restricted memory allocation
+Message-ID: <202412211952.LOCC8Lbo-lkp@intel.com>
+References: <20241217100809.3962439-6-jens.wiklander@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,81 +79,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241220131350.544009-1-csokas.bence@prolan.hu>
+In-Reply-To: <20241217100809.3962439-6-jens.wiklander@linaro.org>
 
-Hi Bence,
+Hi Jens,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20241220]
+[auto build test ERROR on fac04efc5c793dccbd07e2d59af9f90b7fc0dca4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bence-Cs-k-s/dma-Add-devm_dma_request_chan/20241220-211523
-base:   next-20241220
-patch link:    https://lore.kernel.org/r/20241220131350.544009-1-csokas.bence%40prolan.hu
-patch subject: [PATCH next] dma: Add devm_dma_request_chan()
-config: x86_64-buildonly-randconfig-002-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211953.UwS2Qw11-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211953.UwS2Qw11-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jens-Wiklander/tee-add-restricted-memory-allocation/20241217-181101
+base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+patch link:    https://lore.kernel.org/r/20241217100809.3962439-6-jens.wiklander%40linaro.org
+patch subject: [PATCH v4 5/6] optee: FF-A: dynamic restricted memory allocation
+config: arm64-randconfig-r112-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211952.LOCC8Lbo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241221/202412211952.LOCC8Lbo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412211953.UwS2Qw11-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412211952.LOCC8Lbo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/dma/dmaengine.c:944:18: warning: no previous prototype for 'devm_dma_request_chan' [-Wmissing-prototypes]
-     944 | struct dma_chan *devm_dma_request_chan(struct device *dev, const char *name)
-         |                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/dma/dmaengine.c: In function 'devm_dma_request_chan':
->> drivers/dma/dmaengine.c:953:32: warning: passing argument 1 of 'PTR_ERR' makes pointer from integer without a cast [-Wint-conversion]
-     953 |                 return PTR_ERR(ret);
-         |                                ^~~
-         |                                |
-         |                                int
-   In file included from arch/x86/include/asm/processor.h:36,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/dma/dmaengine.c:34:
-   include/linux/err.h:52:61: note: expected 'const void *' but argument is of type 'int'
-      52 | static inline long __must_check PTR_ERR(__force const void *ptr)
-         |                                                 ~~~~~~~~~~~~^~~
->> drivers/dma/dmaengine.c:953:24: warning: returning 'long int' from a function with return type 'struct dma_chan *' makes pointer from integer without a cast [-Wint-conversion]
-     953 |                 return PTR_ERR(ret);
-         |                        ^~~~~~~~~~~~
+>> drivers/tee/optee/rstmem.c:311:67: error: expected ';', ',' or ')' before '__unused'
+     311 | static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee __unused,
+         |                                                                   ^~~~~~~~
+   drivers/tee/optee/rstmem.c: In function 'optee_rstmem_alloc':
+>> drivers/tee/optee/rstmem.c:332:24: error: implicit declaration of function 'alloc_rstmem_pool' [-Wimplicit-function-declaration]
+     332 |                 pool = alloc_rstmem_pool(optee, use_case);
+         |                        ^~~~~~~~~~~~~~~~~
+>> drivers/tee/optee/rstmem.c:332:22: error: assignment to 'struct tee_shm_pool *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     332 |                 pool = alloc_rstmem_pool(optee, use_case);
+         |                      ^
 
 
-vim +/devm_dma_request_chan +944 drivers/dma/dmaengine.c
+vim +311 drivers/tee/optee/rstmem.c
 
-   933	
-   934	/**
-   935	 * devm_dma_request_chan - try to allocate an exclusive slave channel
-   936	 * @dev:	pointer to client device structure
-   937	 * @name:	slave channel name
-   938	 *
-   939	 * Returns pointer to appropriate DMA channel on success or an error pointer.
-   940	 *
-   941	 * The operation is managed and will be undone on driver detach.
-   942	 */
-   943	
- > 944	struct dma_chan *devm_dma_request_chan(struct device *dev, const char *name)
-   945	{
-   946		struct dma_chan *chan = dma_request_chan(dev, name);
-   947		int ret = 0;
-   948	
-   949		if (!IS_ERR(chan))
-   950			ret = devm_add_action_or_reset(dev, dmaenginem_release_channel, chan);
-   951	
-   952		if (ret)
- > 953			return PTR_ERR(ret);
-   954	
-   955		return chan;
-   956	}
-   957	EXPORT_SYMBOL_GPL(devm_dma_request_chan);
-   958	
+   268	
+   269	static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee, u32 use_case)
+   270	{
+   271		struct optee_rstmem_cma_pool *rp;
+   272		size_t min_size;
+   273		int rc;
+   274	
+   275		rp = kzalloc(sizeof(*rp), GFP_KERNEL);
+   276		if (!rp)
+   277			return ERR_PTR(-ENOMEM);
+   278		rp->rstmem.use_case = use_case;
+   279	
+   280		rc = get_rstmem_config(optee, use_case, &min_size, &rp->align, NULL,
+   281				       &rp->end_point_count);
+   282		if (rc) {
+   283			if (rc != -ENOSPC)
+   284				goto err;
+   285			rp->end_points = kcalloc(rp->end_point_count,
+   286						 sizeof(*rp->end_points), GFP_KERNEL);
+   287			if (!rp->end_points) {
+   288				rc = -ENOMEM;
+   289				goto err;
+   290			}
+   291			rc = get_rstmem_config(optee, use_case, &min_size, &rp->align,
+   292					       rp->end_points, &rp->end_point_count);
+   293			if (rc)
+   294				goto err_kfree_eps;
+   295		}
+   296	
+   297		rp->pool.ops = &rstmem_pool_ops_cma;
+   298		rp->optee = optee;
+   299		rp->page_count = min_size / PAGE_SIZE;
+   300		mutex_init(&rp->mutex);
+   301	
+   302		return &rp->pool;
+   303	
+   304	err_kfree_eps:
+   305		kfree(rp->end_points);
+   306	err:
+   307		kfree(rp);
+   308		return ERR_PTR(rc);
+   309	}
+   310	#else /*CONFIG_CMA*/
+ > 311	static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee __unused,
+   312						      u32 use_case __unused)
+   313	{
+   314		return ERR_PTR(-EINVAL);
+   315	}
+   316	#endif /*CONFIG_CMA*/
+   317	
+   318	int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
+   319			       u32 flags, u32 use_case, size_t size)
+   320	{
+   321		struct optee *optee = tee_get_drvdata(ctx->teedev);
+   322		struct tee_shm_pool *pool;
+   323		int rc;
+   324	
+   325		if (!optee->rstmem_pools)
+   326			return -EINVAL;
+   327		if (flags)
+   328			return -EINVAL;
+   329	
+   330		pool = xa_load(&optee->rstmem_pools->xa, use_case);
+   331		if (!pool) {
+ > 332			pool = alloc_rstmem_pool(optee, use_case);
+   333			if (IS_ERR(pool))
+   334				return PTR_ERR(pool);
+   335			rc = xa_insert(&optee->rstmem_pools->xa, use_case, pool,
+   336				       GFP_KERNEL);
+   337			if (rc) {
+   338				pool->ops->destroy_pool(pool);
+   339				return rc;
+   340			}
+   341		}
+   342	
+   343		return pool->ops->alloc(pool, shm, size, 0);
+   344	}
+   345	
 
 -- 
 0-DAY CI Kernel Test Service
