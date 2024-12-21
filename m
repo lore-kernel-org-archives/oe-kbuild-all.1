@@ -1,71 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DE1145B14;
-	Sat, 21 Dec 2024 22:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A251DE3A7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 22:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734818698; cv=none; b=ccCABZ91B2LBse7IDZeeKX0p7Zjv0Ww+9DNazUdhxHacTaWGCEaoov3CstpjJqAbvSCye5CKRCeeUC8urSM3T64LBtxaZb4t9TFHxDkAw/mLwqZnCdbS/9Oz6GWulec0ik1e2t4mYnyXbCXqUUh2BENcQ/rf79FjdBlJXWevmYM=
+	t=1734821878; cv=none; b=rqVNSgEO5XNh5QR9RrOOFIekQ3Z1rfNol/pSHidkUduA5dPymKO6DFtKeXTfHkjd1xvmPiCTMH7Dw1GTf9yWaMN8+WP8sZdwBwODIL/j8m0GDMsfsjLJRCAwx34p/MIQ48bZ9wTPNMxQNTwcEmg8QK9JeiAcW81Qw06btRjuhaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734818698; c=relaxed/simple;
-	bh=CICD31YuC2DWCxXe+MIAugbnVXPhDDnOk4ss85e+Uw4=;
+	s=arc-20240116; t=1734821878; c=relaxed/simple;
+	bh=nsobIdYYKnBKr5gNA7nnnirRHkdS/46BhbK2G8cNw3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lu5Y03c6nkMFvV6LtPnBEIq9BttDhKHT+n5TPbu25WfJvxJQeWBTyQSarRL8yN3iJU2S3/oFcp6IDUGqYxGbozy7RatYX696dqU5yUcuPm/LhUC7rxaq/ZKhZKZsc3XCnIlPdexFiN3i2M+N3MZOXuQB28vIdaJWnZ4NcW60CEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K5SBW6uD; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=s/40UTC3lSU6sT0uXGYSVJPvSwIu/T25uPXRAYmnEi15u8n9N52hiS0gaWzEx3ZPkDZlOBjkrmhOFEluBFjrO7yWOVnb6dtTNA8BLiJmL/aUARz2nwWcWKg8VQzQ7OKUA5uq+VDMVwdpky1yZmZ2gTMb+UL0rd05BG2JcARazuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqiKxUB8; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K5SBW6uD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqiKxUB8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734818697; x=1766354697;
+  t=1734821876; x=1766357876;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CICD31YuC2DWCxXe+MIAugbnVXPhDDnOk4ss85e+Uw4=;
-  b=K5SBW6uDmpg3DOmoFCsJ+XX/kNOm+f/nBlL9WzwuN1nr/a+wN4tpeKm3
-   GuXsuGKJYG6GsC7GIOXm2H+N0Rbw/PydZID0wmtU8awRlBUknRIvq3N5k
-   yFdlivHp/nAmW0JVWriewfcOOcapOhqgrkfxNi6hLW9AnA5ThNS24xKwD
-   3lOMp33TzuWLSEhLhhhcdStAmCIAQeEfPHUqCiqEP7/hQWDo3w+ZV2lNI
-   3S1Tj3QuwJ076fIsJIQCjn/XIUPOHJx+cgrBDQy6HzkRqiEPqDmxM5HGK
-   ve7aO6gYpCBKLMD2fd2RcY1Oykq5Ae6ONvkALElIyAb9ttS1+akBbMqKt
+  bh=nsobIdYYKnBKr5gNA7nnnirRHkdS/46BhbK2G8cNw3w=;
+  b=WqiKxUB8xIVOSSKTwvvMgFplTPQmL21sWG6OWRvo+c1LAi4jnZer7CQO
+   4fLpnzaSOJCVP6Q6JtGknKW2JjWMvta1AYixrTCQohs5Dwr9l34fDl1uV
+   LlaWcqM9mUp4+wWK2iyPrY3y/5peSTr97gocV7TetS+LQWPikxWf8a+IA
+   DuBrJ2Z7ZRg5xQFBktr/o83CCdIpAwt/ubiT2vhqMzDhGMrpNHMQSP0b/
+   rHpYPMM8wsLfqt3Xa6zNyPwlcE2arCxUH0OeyD08vXaHYsqoTVnTINIrg
+   YQC2hz6uWNq73wG/HLycFNAFi4osi6MP2yFUSyTIWxvGOoGFud5kfE5yB
    g==;
-X-CSE-ConnectionGUID: Q4v6dBaQR86S+z+d6M2nFQ==
-X-CSE-MsgGUID: ueWPDwOmQiuMOkDsWFjECw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="39273844"
+X-CSE-ConnectionGUID: h8CMB9z3Tg66no8xk7E6XQ==
+X-CSE-MsgGUID: xePjwSo6R6Sx5291VNzCkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="35217363"
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="39273844"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 14:04:56 -0800
-X-CSE-ConnectionGUID: ppUNR0XlQAKKVX8QBaEjjQ==
-X-CSE-MsgGUID: G5TmL7ZYQGSNcFw1Bt+xAg==
+   d="scan'208";a="35217363"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 14:57:56 -0800
+X-CSE-ConnectionGUID: 7Q2MCnAjTuKTAQM+6Hx+3Q==
+X-CSE-MsgGUID: FjVqoHYZRTOwi3r4W+PB+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="129669275"
+   d="scan'208";a="98910103"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Dec 2024 14:04:51 -0800
+  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2024 14:57:54 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tP7aZ-0002X5-2N;
-	Sat, 21 Dec 2024 22:04:47 +0000
-Date: Sun, 22 Dec 2024 06:04:41 +0800
+	id 1tP8Pv-0002YJ-2T;
+	Sat, 21 Dec 2024 22:57:51 +0000
+Date: Sun, 22 Dec 2024 06:56:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ziyue Zhang <quic_ziyuzhan@quicinc.com>, vkoul@kernel.org,
-	kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, dmitry.baryshkov@linaro.org,
-	neil.armstrong@linaro.org, abel.vesa@linaro.org,
-	manivannan.sadhasivam@linaro.org, lpieralisi@kernel.org,
-	kw@linux.com, bhelgaas@google.com, andersson@kernel.org,
-	konradybcio@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-pci@vger.kernel.org, quic_qianyu@quicinc.com,
-	quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
-	Ziyue Zhang <quic_ziyuzhan@quicinc.com>
-Subject: Re: [PATCH v3 2/8] phy: qcom-qmp-pcie: add dual lane PHY support for
- QCS8300
-Message-ID: <202412220527.dEQSSoG8-lkp@intel.com>
-References: <20241220055239.2744024-3-quic_ziyuzhan@quicinc.com>
+To: Roopni Devanathan <quic_rdevanat@quicinc.com>,
+	ath12k@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Sowmiya Sree Elavalagan <quic_ssreeela@quicinc.com>,
+	Ramya Gnanasekar <quic_rgnanase@quicinc.com>,
+	Roopni Devanathan <quic_rdevanat@quicinc.com>
+Subject: Re: [PATCH 1/2] wifi: ath12k: Add Support to Parse TPC Event from
+ Firmware
+Message-ID: <202412220617.gNBV4iPi-lkp@intel.com>
+References: <20241220203638.2082002-2-quic_rdevanat@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,72 +67,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241220055239.2744024-3-quic_ziyuzhan@quicinc.com>
+In-Reply-To: <20241220203638.2082002-2-quic_rdevanat@quicinc.com>
 
-Hi Ziyue,
+Hi Roopni,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 4176cf5c5651c33769de83bb61b0287f4ec7719f]
+[auto build test ERROR on 09fa3b6974a1245ddd0751747609431494ba5b4f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ziyue-Zhang/dt-bindings-phy-qcom-sc8280xp-qmp-pcie-phy-Document-the-QCS8300-QMP-PCIe-PHY-Gen4-x2/20241220-135722
-base:   4176cf5c5651c33769de83bb61b0287f4ec7719f
-patch link:    https://lore.kernel.org/r/20241220055239.2744024-3-quic_ziyuzhan%40quicinc.com
-patch subject: [PATCH v3 2/8] phy: qcom-qmp-pcie: add dual lane PHY support for QCS8300
-config: arm64-randconfig-002-20241221 (https://download.01.org/0day-ci/archive/20241222/202412220527.dEQSSoG8-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220527.dEQSSoG8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Roopni-Devanathan/wifi-ath12k-Add-Support-to-Parse-TPC-Event-from-Firmware/20241221-043752
+base:   09fa3b6974a1245ddd0751747609431494ba5b4f
+patch link:    https://lore.kernel.org/r/20241220203638.2082002-2-quic_rdevanat%40quicinc.com
+patch subject: [PATCH 1/2] wifi: ath12k: Add Support to Parse TPC Event from Firmware
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241222/202412220617.gNBV4iPi-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220617.gNBV4iPi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412220527.dEQSSoG8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412220617.gNBV4iPi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:3419:12: error: use of undeclared identifier 'pciephy_v5_20_regs_layout'
-           .regs                   = pciephy_v5_20_regs_layout,
-                                     ^
-   1 error generated.
+   drivers/net/wireless/ath/ath12k/wmi.c: In function 'ath12k_wmi_free_tpc_stats_mem':
+>> drivers/net/wireless/ath/ath12k/wmi.c:7668:50: error: 'struct ath12k' has no member named 'debug'
+    7668 |         struct wmi_tpc_stats_info *tpc_stats = ar->debug.tpc_stats;
+         |                                                  ^~
+   drivers/net/wireless/ath/ath12k/wmi.c:7678:19: error: 'struct ath12k' has no member named 'debug'
+    7678 |                 ar->debug.tpc_stats = NULL;
+         |                   ^~
+   drivers/net/wireless/ath/ath12k/wmi.c: In function 'ath12k_process_tpc_stats':
+   drivers/net/wireless/ath/ath12k/wmi.c:7722:16: error: 'struct ath12k' has no member named 'debug'
+    7722 |         if (!ar->debug.tpc_request) {
+         |                ^~
+   drivers/net/wireless/ath/ath12k/wmi.c:7726:23: error: 'struct ath12k' has no member named 'debug'
+    7726 |                 if (ar->debug.tpc_stats) {
+         |                       ^~
+   drivers/net/wireless/ath/ath12k/wmi.c:7735:23: error: 'struct ath12k' has no member named 'debug'
+    7735 |                 if (ar->debug.tpc_stats) {
+         |                       ^~
+   drivers/net/wireless/ath/ath12k/wmi.c:7740:19: error: 'struct ath12k' has no member named 'debug'
+    7740 |                 ar->debug.tpc_stats =
+         |                   ^~
+   drivers/net/wireless/ath/ath12k/wmi.c:7743:24: error: 'struct ath12k' has no member named 'debug'
+    7743 |                 if (!ar->debug.tpc_stats) {
+         |                        ^~
+   drivers/net/wireless/ath/ath12k/wmi.c:7750:23: error: 'struct ath12k' has no member named 'debug'
+    7750 |         tpc_stats = ar->debug.tpc_stats;
+         |                       ^~
+   drivers/net/wireless/ath/ath12k/wmi.c:7776:29: error: 'struct ath12k' has no member named 'debug'
+    7776 |                 complete(&ar->debug.tpc_complete);
+         |                             ^~
 
 
-vim +/pciephy_v5_20_regs_layout +3419 drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
+vim +7668 drivers/net/wireless/ath/ath12k/wmi.c
 
-  3390	
-  3391	static const struct qmp_phy_cfg qcs8300_qmp_gen4x2_pciephy_cfg = {
-  3392		.lanes			= 2,
-  3393		.offsets		= &qmp_pcie_offsets_v5_20,
-  3394	
-  3395		.tbls = {
-  3396			.serdes		= sa8775p_qmp_gen4x2_pcie_serdes_alt_tbl,
-  3397			.serdes_num		= ARRAY_SIZE(sa8775p_qmp_gen4x2_pcie_serdes_alt_tbl),
-  3398			.tx		= sa8775p_qmp_gen4_pcie_tx_tbl,
-  3399			.tx_num		= ARRAY_SIZE(sa8775p_qmp_gen4_pcie_tx_tbl),
-  3400			.rx		= qcs8300_qmp_gen4x2_pcie_rx_alt_tbl,
-  3401			.rx_num		= ARRAY_SIZE(qcs8300_qmp_gen4x2_pcie_rx_alt_tbl),
-  3402			.pcs		= sa8775p_qmp_gen4x2_pcie_pcs_alt_tbl,
-  3403			.pcs_num		= ARRAY_SIZE(sa8775p_qmp_gen4x2_pcie_pcs_alt_tbl),
-  3404			.pcs_misc		= sa8775p_qmp_gen4_pcie_pcs_misc_tbl,
-  3405			.pcs_misc_num	= ARRAY_SIZE(sa8775p_qmp_gen4_pcie_pcs_misc_tbl),
-  3406		},
-  3407	
-  3408		.tbls_rc = &(const struct qmp_phy_cfg_tbls) {
-  3409			.serdes		= sa8775p_qmp_gen4x2_pcie_rc_serdes_alt_tbl,
-  3410			.serdes_num	= ARRAY_SIZE(sa8775p_qmp_gen4x2_pcie_rc_serdes_alt_tbl),
-  3411			.pcs_misc	= sa8775p_qmp_gen4_pcie_rc_pcs_misc_tbl,
-  3412			.pcs_misc_num	= ARRAY_SIZE(sa8775p_qmp_gen4_pcie_rc_pcs_misc_tbl),
-  3413		},
-  3414	
-  3415		.reset_list		= sdm845_pciephy_reset_l,
-  3416		.num_resets		= ARRAY_SIZE(sdm845_pciephy_reset_l),
-  3417		.vreg_list		= qmp_phy_vreg_l,
-  3418		.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
-> 3419		.regs			= pciephy_v5_20_regs_layout,
-  3420	
-  3421		.pwrdn_ctrl		= SW_PWRDN | REFCLK_DRV_DSBL,
-  3422		.phy_status		= PHYSTATUS_4_20,
-  3423	};
-  3424	
+  7665	
+  7666	void ath12k_wmi_free_tpc_stats_mem(struct ath12k *ar)
+  7667	{
+> 7668		struct wmi_tpc_stats_info *tpc_stats = ar->debug.tpc_stats;
+  7669	
+  7670		lockdep_assert_held(&ar->data_lock);
+  7671		ath12k_dbg(ar->ab, ATH12K_DBG_WMI, "tpc stats mem free\n");
+  7672		if (tpc_stats) {
+  7673			kfree(tpc_stats->max_reg_allowed_power.reg_pwr_array);
+  7674			kfree(tpc_stats->rates_array1.rate_array);
+  7675			kfree(tpc_stats->rates_array2.rate_array);
+  7676			kfree(tpc_stats->ctl_array.ctl_pwr_table);
+  7677			kfree(tpc_stats);
+  7678			ar->debug.tpc_stats = NULL;
+  7679		}
+  7680	}
+  7681	
 
 -- 
 0-DAY CI Kernel Test Service
