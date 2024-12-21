@@ -1,676 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BD91F37DA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 14:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E238633FE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 14:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734792110; cv=none; b=MTAWGSLvO7xMFbg8EkzOXSjohobuARCTn5xfbmSgobMHjAQemmJTyhf//ef4jLUhGpVMwZb/wpgj+b9zkvLIT/tNiNDsp+VaSOPJPHtCuAnrOEIfQPAXS9uqy5XqEXM2VSt7eFt0R//4OJJpFYYZ9cBL4yup0gBB7y/oQCy530A=
+	t=1734792771; cv=none; b=lnsTv8Ax7Gez85PpgmfK+p8q1i9Ml7/g2OeQLw/yYK2L8ecM5T9wkfAIKqef4po0dWCp+mOk1rNX6ri9Bt95j4Oux1KAIA4RKJdd48wGp+vORfqlFSbh+w/Qv8jNn6vr/+7dHGLhXAR/0xJzbYOwFjWeFpFwqUDrpu4g17tBB1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734792110; c=relaxed/simple;
-	bh=FRVnQH2OEnMSbyzlNnKwaqGErz44SO1xdX0vGqwGBUE=;
+	s=arc-20240116; t=1734792771; c=relaxed/simple;
+	bh=sczLQXD7MFWXKNIebYDCA2+qSjRLAWA3F9wMCoFUiJg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PM/RJaXKdvJ54WifuTySorew5QpFe5FV2P626oF+dVgQG6MZdXBhqgTaT9pDnfd5WCR1YJSVBOL4ANNDlvri9O4GUjKnwM6kE52vaJ82/O/OZyLilTNLXkA6IfbkoS9TQ/E99ArjPfKLdiYHw5s8GBOfxJBi+CvD/2Rb7YUZIcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3CLLiN2; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=DEo/szXvSjb+ikNqK1q+RMvLjCDKq3a9LNLY+khyl/BgChkrNBbpTdcxjcD56KAVgf/o2S1igCuppj8fFarMkBmq8VwchEPeILM8kxHui0F+wcSV0Db4LN4BCMlzzbi9eEFAIhnW8xPjXPlMkejyuqrG1530JYwWKAyIFXc6PCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cv/deLsM; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3CLLiN2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cv/deLsM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734792106; x=1766328106;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FRVnQH2OEnMSbyzlNnKwaqGErz44SO1xdX0vGqwGBUE=;
-  b=J3CLLiN2KV4p/GxuNh3aLjoPocLgPD2PvHo9eLK9Il36Og8QcXLaRNe9
-   XbnwAsz5S2jVYodkvAa/7GQFShpEGALEfTAAcIxvm+CZC//OchginWS1p
-   kxSzWN/CrVL8LPfiTgn/7UDsfmZzECJXwGc6M3bqfOBv5ROAVY3dxshjd
-   OZQcn0a/6t9pqxKnrVyXJbCNnCvY0QA4oSyoy4s3SGOVYWucl/X8ZiTVc
-   aAtlSXg2YcYXZu6YUwacqFC8CFy9UB0HbdBRyQQQSOsYx/6knD+doQJVL
-   ttfmWaeXZr2ZGapLa0jJLXdF6w7mvma7ZBdD77kj4BLSkviPpFJsgy+Po
-   Q==;
-X-CSE-ConnectionGUID: 3N1d/FG3R7+Ae7qizWHSuQ==
-X-CSE-MsgGUID: AVn9OsWWQ4inEL5TO8JGZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="35033526"
+  t=1734792770; x=1766328770;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sczLQXD7MFWXKNIebYDCA2+qSjRLAWA3F9wMCoFUiJg=;
+  b=cv/deLsMcGQjZXKb7HjS1mwOymoxSvsl3RZsDvSZ4SVZIKDHSLAFDEcj
+   LzOTLFIqQvUo4vgV5fTU2rV4AxZJfWiyvGo0iWyDUL+vRF6MYNJYPfO9n
+   CP/wpEu/uSZJkjjMq7ZEL6suRtc2xztHnQF6SL/NZap1vyt7UY07CjXxn
+   +mAfXS43MON0KcJoOkuUrUXT2BanyxQPHCnCOaIHy7h/6Ma4/uArEnb3d
+   RgRnB7I013gFIIdxo/MwuYSjudFG/b5i0g/kUSNkiAgNFQLWuaNu4O7ci
+   0SsuOoykCBj9V4N9CjN6q7YKCcfQacj+FBdUnxk7BIFsg4hy2exlLDy5w
+   g==;
+X-CSE-ConnectionGUID: 8SxjgicxRUWV8BHCpOkvpA==
+X-CSE-MsgGUID: MgEwiX5wRn2KfSs0i9LgLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="60705967"
 X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="35033526"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 06:41:45 -0800
-X-CSE-ConnectionGUID: 1MglouLgRjKWod9ehUSYgA==
-X-CSE-MsgGUID: wLYR/QvIQG6YvJnzrp2JOw==
+   d="scan'208";a="60705967"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 06:52:49 -0800
+X-CSE-ConnectionGUID: F/sDgTCVRDSqDXENMQpHFA==
+X-CSE-MsgGUID: gHYDgNdHS6mAolJn2RQqag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="99306237"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="122072741"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Dec 2024 06:41:44 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 21 Dec 2024 06:52:48 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tP0fl-0002Dt-2U;
-	Sat, 21 Dec 2024 14:41:41 +0000
-Date: Sat, 21 Dec 2024 22:41:15 +0800
+	id 1tP0qT-0002Er-2u;
+	Sat, 21 Dec 2024 14:52:45 +0000
+Date: Sat, 21 Dec 2024 22:51:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 433/540]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: it6505dptx@5c:
- Unevaluated properties are not allowed ('hpd-gpios', 'interrupts',
- 'no-laneswap', 'port' were unexpected)
-Message-ID: <202412212256.fea9jhwf-lkp@intel.com>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Pavel <pavel@ucw.cz>
+Subject: drivers/leds/leds-lm3692x.c:119: warning: Function parameter or
+ struct member 'boost_ctrl' not described in 'lm3692x_led'
+Message-ID: <202412212228.jUObiZwY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   76e007709ba23b69273c6c8ed1a893c1ec7b7df7
-commit: 55500342cfdb02f5550481df77c2d3a541b73e93 [433/540] CHROMIUM: arm64: dts: add it6505 node and dpi node
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241221/202412212256.fea9jhwf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412212256.fea9jhwf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   499551201b5f4fd3c0618a3e95e3d0d15ea18f31
+commit: cffd61a5c7755546154539dcd7f36590e91e002f leds: lm3692x: Allow to configure over voltage protection
+date:   5 years ago
+config: s390-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241221/202412212228.jUObiZwY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412212228.jUObiZwY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412212256.fea9jhwf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412212228.jUObiZwY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: touchscreen@10: 'reset-gpios' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: touchscreen@10: 'reset-gpios' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: touchscreen@10: 'reset-gpios' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: touchscreen@10: 'reset-gpios' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'da7219_pins', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'da7219_pins', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico6.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'da7219_pins', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: sensor_main: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: sensor_sub: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: i2c@11009000: Unevaluated properties are not allowed ('camera_main_af', 'sensor_main' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/i2c@11009000/sensor_main: failed to match any schema with compatible: ['galaxycore,gc5035']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: sensor_sub: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: i2c@11009000: Unevaluated properties are not allowed ('camera_main_af', 'sensor_main' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/i2c@11009000/sensor_main: failed to match any schema with compatible: ['galaxycore,gc5035']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: sensor_main: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+All warnings (new ones prefixed by >>):
+
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'lock' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'client' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'led_dev' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'regmap' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'enable_gpio' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'regulator' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'led_enable' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'model_id' not described in 'lm3692x_led'
+>> drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'boost_ctrl' not described in 'lm3692x_led'
+
+
+vim +119 drivers/leds/leds-lm3692x.c
+
+9699cb6bbef273 Dan Murphy    2017-12-12   96  
+9699cb6bbef273 Dan Murphy    2017-12-12   97  /**
+9699cb6bbef273 Dan Murphy    2017-12-12   98   * struct lm3692x_led -
+9699cb6bbef273 Dan Murphy    2017-12-12   99   * @lock - Lock for reading/writing the device
+9699cb6bbef273 Dan Murphy    2017-12-12  100   * @client - Pointer to the I2C client
+9699cb6bbef273 Dan Murphy    2017-12-12  101   * @led_dev - LED class device pointer
+9699cb6bbef273 Dan Murphy    2017-12-12  102   * @regmap - Devices register map
+9699cb6bbef273 Dan Murphy    2017-12-12  103   * @enable_gpio - VDDIO/EN gpio to enable communication interface
+9699cb6bbef273 Dan Murphy    2017-12-12  104   * @regulator - LED supply regulator pointer
+07abd4325e7013 Dan Murphy    2018-07-02  105   * @led_enable - LED sync to be enabled
+07abd4325e7013 Dan Murphy    2018-07-02  106   * @model_id - Current device model ID enumerated
+9699cb6bbef273 Dan Murphy    2017-12-12  107   */
+9699cb6bbef273 Dan Murphy    2017-12-12  108  struct lm3692x_led {
+9699cb6bbef273 Dan Murphy    2017-12-12  109  	struct mutex lock;
+9699cb6bbef273 Dan Murphy    2017-12-12  110  	struct i2c_client *client;
+9699cb6bbef273 Dan Murphy    2017-12-12  111  	struct led_classdev led_dev;
+9699cb6bbef273 Dan Murphy    2017-12-12  112  	struct regmap *regmap;
+9699cb6bbef273 Dan Murphy    2017-12-12  113  	struct gpio_desc *enable_gpio;
+9699cb6bbef273 Dan Murphy    2017-12-12  114  	struct regulator *regulator;
+07abd4325e7013 Dan Murphy    2018-07-02  115  	int led_enable;
+07abd4325e7013 Dan Murphy    2018-07-02  116  	int model_id;
+cffd61a5c77555 Guido Günther 2020-01-04  117  
+cffd61a5c77555 Guido Günther 2020-01-04  118  	u8 boost_ctrl;
+9699cb6bbef273 Dan Murphy    2017-12-12 @119  };
+9699cb6bbef273 Dan Murphy    2017-12-12  120  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: 9699cb6bbef273d7be25441bfc20a2db9ee0f509 leds: lm3692x: Introduce LM3692x dual string driver
+
+:::::: TO: Dan Murphy <dmurphy@ti.com>
+:::::: CC: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
