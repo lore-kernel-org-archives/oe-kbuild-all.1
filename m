@@ -1,145 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7733640BF5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 02:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6569B40BF5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 02:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734748610; cv=none; b=JSn7GGuQMPx/vBl6wA7H+HtiJBVEMkqofPCLCDjqTd1lv8P43YyMB5Pb0QfYpcMzFYIHZuxl4m832ma3xrE/1nCSzpyWeRnU1bfa0tNXtowjt/BZBfkz1FYBm5hq5jNlb2sIzbLDfqzBJ1JmvOE3+bxkQSY9g2CMq1dgt8Az7qo=
+	t=1734748895; cv=none; b=J20oQetDKUxHjqccc51ESxsxhp2tGDVN5TS2mjArOF+dp2WrnKVfiaCWRGt6RVCSFabX+EPVHFGuUS0nTAMPYcCQAJPsySlabGeGIJw7DXeeDxFOnk2ipSjf9agxfEAl3vb5koqewOxXZcvAAN+qm9jhvP5W/yAwMyCKB6ZW6Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734748610; c=relaxed/simple;
-	bh=WdZM0GfGSN2UUn+BEAxxdyQZqk0ypzsGVOoLzQK4Avk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lN4rLg1Tvuve4e+Ds4pjjbyVNj0/DLIKiJohsDWlHVv136vADLRRaxEiFFx85vWRi3jZeauUXV2nOgitQ/GPEVrvz6dh/elbUDzyvxm3Nq+zK12815+578yTeJcPLIPlZR8k6lFLgo3Jauh/NTIR2HFNxT+2qhnfr3SigRJ+k4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUVvpAjS; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1734748895; c=relaxed/simple;
+	bh=eJEIke8x7tcLIznTNUcJyJr04tGRUnRCnc6gbQdTkX0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S3Neth+EvIzEcbG4oqI4t9Yi4bzukH0Gd3FAPRD3ZnVrI+g7rhYt9BSGHSlhoAxuYA7owTutwonwIIvLO72BtYUPe2IRAE92h6NUkPiIwbGHK4Wr6v4mz/l5zeN96+6U1JifBIijCGprfw77Rpxk7auv74fKY4wKQXMdsaOOTuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYK08WQD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUVvpAjS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734748608; x=1766284608;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WdZM0GfGSN2UUn+BEAxxdyQZqk0ypzsGVOoLzQK4Avk=;
-  b=TUVvpAjSkWxbPN4JqA8Fzdnqt+vY1WSTpdOgyKXO45siufCNCpdNsQc2
-   e+Xo7ovCcoqcRBeromEXuTYw+09DjgjoaQWilLFl10qAkcfJiGJnsQ5lN
-   cALx1U6mdOxCtROSL1eYCEAQINKi39pQ0AAs/iOpcJ/BfRr2ThWCKUlNz
-   w0w5TWkd1nM6CuWSHv+Re4wk5leeiWUg1+wWFmmEcZpRwVD+noECEbnky
-   6+Hl6S8sMWPI9dN8LZ4y5KCAfLMu2yIi6FrTRgZsrKPqeyeUaEJos4Q/Y
-   qgrQqSJJLJbdsCbGfXcVrH2Xx1uuM12/2w1WRr1EqAUDWEWPRCZyy/OS+
-   w==;
-X-CSE-ConnectionGUID: yWRDsHvMQIGeGCu1Eufyww==
-X-CSE-MsgGUID: Fs7HGKJzRn2zCO52Ci3wLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="34622120"
-X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="34622120"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 18:36:47 -0800
-X-CSE-ConnectionGUID: YdLfPWEpS3OkH9vLPiVpMg==
-X-CSE-MsgGUID: MMYOyeO9S5WViMDJD0AkHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="99514935"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 Dec 2024 18:36:44 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tOpM9-0001rt-0N;
-	Sat, 21 Dec 2024 02:36:41 +0000
-Date: Sat, 21 Dec 2024 10:35:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>, akpm@linux-foundation.org,
-	mhocko@suse.com, hannes@cmpxchg.org, yosryahmed@google.com,
-	yuzhao@google.com, david@redhat.com, willy@infradead.org,
-	ryan.roberts@arm.com, baohua@kernel.org, 21cnbao@gmail.com,
-	wangkefeng.wang@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, chenridong@huawei.com,
-	wangweiyang2@huawei.com, xieym_ict@hotmail.com
-Subject: Re: [PATCH -next v5] mm: vmscan: retry folios written back while
- isolated for traditional LRU
-Message-ID: <202412211023.UIBZqNFK-lkp@intel.com>
-References: <20241220010931.3603111-1-chenridong@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYK08WQD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA84C4CEDC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 02:41:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734748895;
+	bh=eJEIke8x7tcLIznTNUcJyJr04tGRUnRCnc6gbQdTkX0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=IYK08WQD+Euc1LvH6hlmuw6wqJ5xJ7McoVu3fsdlmTCbg9/2fOHKmcMqRQkl/8rT0
+	 10v6XqwRgDltIDoxNTHFC38A8uKTIyPQkuCw5k1Sp156RX/+vR+CuHg1vNgNflZkj/
+	 S2KVRTRLGcGt6XAHqNtYknTFhAde3qixeuZpmepqQSNRXhO/d9wsaw6rpINhuy8cch
+	 4mDtVLI4NAGhEqp/4mnHMAdSz/8hjHt/qRz+4R3l7asM9I1zSHhYrs0bVsGh8XLg02
+	 k2ItI/CgHjoNrkxRHZs+09W8jm9A8+pCFsOfGp+zar9e67NMp557c8i5tUGu4e1Prn
+	 p0L1gMHgZH3AQ==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53e3a227b82so2251244e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Dec 2024 18:41:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXhUFZCPuy4uYnFsbOA3fLuHFMDweLnuc7uzxGdiTZIQX0yL2g+gnvQ8ymZKS4zV7pfnyylG5ep/EttRkQ0@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw12k/6gw3Jnprh347Fp5YYkAou7aWGxF5qSyVOuMhQW2AWIdP4
+	dCn59tGLQkYysT7+/EtOUq1osNxdunPHGL7h7QV+zJlwaG3PzRIVvZ2GqTVgNGHx2gX1qrhBB+Q
+	za3efFBv7D6o4pTmpNaRCDRf3LHU=
+X-Google-Smtp-Source: AGHT+IE8oYgRMV3X/NrI7fg8Am5vdxW4IOHHdeUyJDDns+/VEQFJXubRtRa6FFalQ74umSePUqLaf9ohWNH3nL8FUXE=
+X-Received: by 2002:a05:6512:39cc:b0:53e:94f9:8c86 with SMTP id
+ 2adb3069b0e04-5422956026dmr1803343e87.35.1734748893631; Fri, 20 Dec 2024
+ 18:41:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241220010931.3603111-1-chenridong@huaweicloud.com>
+References: <168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert+renesas@glider.be>
+ <202412201643.PR8VVmEL-lkp@intel.com>
+In-Reply-To: <202412201643.PR8VVmEL-lkp@intel.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 21 Dec 2024 11:40:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATMMoiKR2CTA2C86CgampnDye-9Q+dN6ft4Nt3wOBZjTw@mail.gmail.com>
+Message-ID: <CAK7LNATMMoiKR2CTA2C86CgampnDye-9Q+dN6ft4Nt3wOBZjTw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Drop architecture argument from headers_check.pl
+To: kernel test robot <lkp@intel.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Andrew Morton <akpm@linux-foundation.org>, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Chen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/mm-vmscan-retry-folios-written-back-while-isolated-for-traditional-LRU/20241220-092147
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241220010931.3603111-1-chenridong%40huaweicloud.com
-patch subject: [PATCH -next v5] mm: vmscan: retry folios written back while isolated for traditional LRU
-config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241221/202412211023.UIBZqNFK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211023.UIBZqNFK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412211023.UIBZqNFK-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/migrate.h:8,
-                    from mm/vmscan.c:42:
-   include/linux/hugetlb.h:1063:5: warning: no previous prototype for 'replace_free_hugepage_folios' [-Wmissing-prototypes]
-    1063 | int replace_free_hugepage_folios(unsigned long start_pfn, unsigned long end_pfn)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c: In function 'find_folios_written_back':
->> mm/vmscan.c:313:43: error: implicit declaration of function 'lru_gen_distance'; did you mean 'node_distance'? [-Werror=implicit-function-declaration]
-     313 |                 if (lru_gen_enabled() && !lru_gen_distance(folio, false))
-         |                                           ^~~~~~~~~~~~~~~~
-         |                                           node_distance
-   cc1: some warnings being treated as errors
+On Fri, Dec 20, 2024 at 5:21=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Geert,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on masahiroy-kbuild/for-next]
+> [also build test ERROR on linus/master v6.13-rc3]
+> [cannot apply to next-20241219]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
 
 
-vim +313 mm/vmscan.c
+This patch was applied to the wrong base.
 
-   285	
-   286	/**
-   287	 * find_folios_written_back - Find and move the written back folios to a new list.
-   288	 * @list: filios list
-   289	 * @clean: the written back folios list
-   290	 * @is_retried: whether the list has already been retried.
-   291	 */
-   292	static inline void find_folios_written_back(struct list_head *list,
-   293			struct list_head *clean, bool is_retried)
-   294	{
-   295		struct folio *folio;
-   296		struct folio *next;
-   297	
-   298		list_for_each_entry_safe_reverse(folio, next, list, lru) {
-   299			if (!folio_evictable(folio)) {
-   300				list_del(&folio->lru);
-   301				folio_putback_lru(folio);
-   302				continue;
-   303			}
-   304	
-   305			/* retry folios that may have missed folio_rotate_reclaimable() */
-   306			if (!is_retried && !folio_test_active(folio) && !folio_mapped(folio) &&
-   307			    !folio_test_dirty(folio) && !folio_test_writeback(folio)) {
-   308				list_move(&folio->lru, clean);
-   309				continue;
-   310			}
-   311	
-   312			/* don't add rejected folios to the oldest generation */
- > 313			if (lru_gen_enabled() && !lru_gen_distance(folio, false))
-   314				set_mask_bits(&folio->flags, LRU_REFS_FLAGS, BIT(PG_active));
-   315		}
-   316	
+e818f927cd01 (HEAD,
+origin/Geert-Uytterhoeven/kbuild-Drop-architecture-argument-from-headers_ch=
+eck-pl/20241210-165347)
+kbuild: Drop architecture argument from headers_check.pl
+f2dc1ed2104b kbuild: deb-pkg: add debarch for ARCH=3Dum
+b493dc6aab8a kbuild: deb-pkg: allow hooks also in /usr/share/kernel
+e9bd8e4b7712 kbuild: deb-pkg: do not include empty hook directories
+fac04efc5c79 Linux 6.13-rc2
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
