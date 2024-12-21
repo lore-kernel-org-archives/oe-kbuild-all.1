@@ -1,74 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A2814F136;
-	Sat, 21 Dec 2024 18:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD105BAF0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 18:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734806799; cv=none; b=SKzp/1j3/fqZ0S7JZ0ylWSmzL7AFUT58BDjyyQim1txfjdjJ1lBOd1dsZ5/jKL7jKzFCAsXvKOk4YlNrqV3+N5DrNmAKvN4QSwZor/y3Ay1lslMLOt9t+qcIMlA0/WqXrOUQMatKfJGKeJWMXGEAQ27KPCfpKQ6Th7PzorVN2Xs=
+	t=1734807396; cv=none; b=kAK9ByJg4vl3bYy8Ot8Woi+gr1fJaFamM1wtegUsWHEzT5Uiv8Jl9ue18oEiOZp/B6upT8XJWUQ6T3tlpyxTyVkW7rRg1Bpz7Bxva12nVdqFQ73LZyJMFa4RQBpOx2kacWaX7ALYSIs24NIMENmI8w/ajTkWhQaJ/UrI0/jWYmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734806799; c=relaxed/simple;
-	bh=zJuK4EGPag3rRSoZW/226OQJu7iD2ASDZu2A91lYscY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HlMIejO0E1uL4AYXZepkPh3+So4Zp1hhG0OtOQwNiGDikXbXqx2SnYYWoRf3sa8ZaLQ09Wb3fmxXcMAjqoUr6ij6cm7vfgbm4VQDXrTxQroIixoWrQI+bh1I7UedCoWQ0+1ZcoDuA2Ez9JnH2zExnorbS0eE214CMwqIj6yuGpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeUG5jdg; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1734807396; c=relaxed/simple;
+	bh=DJLdvodacm9b+Fo3CyPvsqIQPjzmm85kZYrZ0igO6JM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cfrtaqLan67VTUSbCXjuQ3VIo8cV30t77Vq9q8FTvHUfJiiBpf3o0tINT5S9squEEoQ++7KcBVW7cDxd0FaRKB7kNEjyepjUDY2UacUH0F0mgqvL2PgwSI3LPX0s+vt3XjsBw3Zzd6TSB9BxZBVUPYyyZ02qfyBN4ckMWiZeFCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhXBiSUT; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeUG5jdg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhXBiSUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734806798; x=1766342798;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zJuK4EGPag3rRSoZW/226OQJu7iD2ASDZu2A91lYscY=;
-  b=ZeUG5jdgoJxHRl6oBffeXi7D4syi08NIBpK6bIsSf1T0gEtC7deNYtYr
-   MB3KpCSzrbjoZIVfnMywU5uLs8qCbRR6DP2uyX//4JDXHskOBkD94CF7K
-   adt027Jp8wmei+IZyDcbrfODFaRN6SAdKWfARgdnXtF6RpoqOkH0YMdRp
-   fc0vWDR8oYOckwpxP8tCZjoC6aZ5jOedCOfwWUsyyK61JN95mkqlzC4HH
-   GBgY4ZoJEc3+/sgZuK8pH+wHOt9p8AlrsZq/Jrgy5hNQ9AhJ8Zwk+B9sK
-   B+sPH/YUWCnk1dA+1DfHW6QqXwsiR+EUy6bVPjqtyMopPkMb9qki+4xPe
-   Q==;
-X-CSE-ConnectionGUID: Ca/jPqUAQBaZJRh41zAfyw==
-X-CSE-MsgGUID: 2V3EfWT8RpidkVgrvF3dmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="22918773"
+  t=1734807395; x=1766343395;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DJLdvodacm9b+Fo3CyPvsqIQPjzmm85kZYrZ0igO6JM=;
+  b=mhXBiSUThOmXq24gAhpiRJ/2UN1v44Dj/Mw0RBC83e7YUq575dIELCdp
+   Qx64x0ILzEuc/dKy+VyVTmeLZVsoUZtjYOF2Xwac9oi/l0QEui+HI8XTb
+   0Lphx9bDXYdmnTgI+X9nnLk1cjH4gnjGV6degP4oQ/moq/WC1r2ROJMvZ
+   KgXXLNfbz/PJ5vQEj8WLHFVotH+JD6wo/Gm5VgXomKFKApBB1M3cxw8Na
+   psIjuZnG3VDsm+5tlOCccOABO9uFgW04/kW/iF4+obyZaZsq4yAJXA0du
+   6YKBaOuubbmV1sndeGB7GWp7IxIxnnNKpu/O0NBWQifKC8UeZ7rNgAJ2g
+   A==;
+X-CSE-ConnectionGUID: tDYf1RtBTzSAcLqDx9qimw==
+X-CSE-MsgGUID: tT5b0UApSDW8a+4eRjkrDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="34606280"
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="22918773"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 10:46:37 -0800
-X-CSE-ConnectionGUID: jNutlilzQvadKrwMSzmgOw==
-X-CSE-MsgGUID: A6DngFlURoewyjIgoGJkAA==
+   d="scan'208";a="34606280"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 10:56:34 -0800
+X-CSE-ConnectionGUID: 5cYufa/EQJS0tx8guLM/hA==
+X-CSE-MsgGUID: boXUKj2FRUS9rk5pZNgDOw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="103886653"
+X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
+   d="scan'208";a="99031610"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 Dec 2024 10:46:32 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Dec 2024 10:56:33 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tP4Uf-0002PD-2q;
-	Sat, 21 Dec 2024 18:46:29 +0000
-Date: Sun, 22 Dec 2024 02:45:57 +0800
+	id 1tP4eN-0002Pq-1T;
+	Sat, 21 Dec 2024 18:56:31 +0000
+Date: Sun, 22 Dec 2024 02:56:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	John Cox <john.cox@raspberrypi.com>,
-	Dom Cobley <dom@raspberrypi.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 5/7] media: platform: Add Raspberry Pi HEVC decoder driver
-Message-ID: <202412220205.Gf2N9CUb-lkp@intel.com>
-References: <20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e@raspberrypi.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [paulmckrcu:dev 29/32] kernel/rcu/srcutree.c:779:46: error: 'idx'
+ undeclared; did you mean 'ida'?
+Message-ID: <202412220224.7NlsDpAF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,131 +61,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e@raspberrypi.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on e90c9612ac3969cb8206029a26bcd2b6f5d4a942]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Stevenson/RFC-media-Add-media_request_-pin-unpin-API/20241221-002633
-base:   e90c9612ac3969cb8206029a26bcd2b6f5d4a942
-patch link:    https://lore.kernel.org/r/20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e%40raspberrypi.com
-patch subject: [PATCH 5/7] media: platform: Add Raspberry Pi HEVC decoder driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241222/202412220205.Gf2N9CUb-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220205.Gf2N9CUb-lkp@intel.com/reproduce)
+tree:   https://github.com/paulmckrcu/linux dev
+head:   61a0b92b3a3cfef69e3848806e51d1b99a9e9406
+commit: 2d83ec26a0f96c719fdc81b54f75d7b924dcd6bf [29/32] srcu: Make SRCU readers use ->srcu_ctrs for counter selection
+config: sparc-randconfig-002-20241221 (https://download.01.org/0day-ci/archive/20241222/202412220224.7NlsDpAF-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220224.7NlsDpAF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412220205.Gf2N9CUb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412220224.7NlsDpAF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/raspberrypi/hevc_dec/hevc_d.c:14:
-   In file included from include/linux/platform_device.h:13:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/raspberrypi/hevc_dec/hevc_d.c:24:10: fatal error: 'hevc_d_h265.h' file not found
-      24 | #include "hevc_d_h265.h"
-         |          ^~~~~~~~~~~~~~~
-   4 warnings and 1 error generated.
---
-   In file included from drivers/media/platform/raspberrypi/hevc_dec/hevc_d_video.c:14:
-   In file included from include/media/videobuf2-dma-contig.h:16:
-   In file included from include/media/videobuf2-v4l2.h:16:
-   In file included from include/media/videobuf2-core.h:18:
-   In file included from include/linux/dma-buf.h:19:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/raspberrypi/hevc_dec/hevc_d_video.c:21:10: fatal error: 'hevc_d_h265.h' file not found
-      21 | #include "hevc_d_h265.h"
-         |          ^~~~~~~~~~~~~~~
-   4 warnings and 1 error generated.
---
-   In file included from drivers/media/platform/raspberrypi/hevc_dec/hevc_d_h265.c:17:
-   In file included from include/media/videobuf2-dma-contig.h:16:
-   In file included from include/media/videobuf2-v4l2.h:16:
-   In file included from include/media/videobuf2-core.h:18:
-   In file included from include/linux/dma-buf.h:19:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/raspberrypi/hevc_dec/hevc_d_h265.c:20:10: fatal error: 'hevc_d_h265.h' file not found
-      20 | #include "hevc_d_h265.h"
-         |          ^~~~~~~~~~~~~~~
-   4 warnings and 1 error generated.
+   kernel/rcu/srcutree.c: In function '__srcu_read_lock_nmisafe':
+>> kernel/rcu/srcutree.c:779:46: error: 'idx' undeclared (first use in this function); did you mean 'ida'?
+     779 |         atomic_long_inc(&ssp->sda->srcu_ctrs[idx].srcu_locks.counter);
+         |                                              ^~~
+         |                                              ida
+   kernel/rcu/srcutree.c:779:46: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/rcu/srcutree.c:777:27: warning: unused variable 'sdp' [-Wunused-variable]
+     777 |         struct srcu_data *sdp = raw_cpu_ptr(ssp->sda);
+         |                           ^~~
+   kernel/rcu/srcutree.c: In function '__srcu_read_unlock_nmisafe':
+   kernel/rcu/srcutree.c:795:25: error: passing argument 1 of 'atomic_long_inc' from incompatible pointer type [-Wincompatible-pointer-types]
+     795 |         atomic_long_inc(&sdp->srcu_ctrs[idx].srcu_unlocks.counter);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         |
+         |                         s64 * {aka long long int *}
+   In file included from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/sparc/include/asm/bitops_64.h:52,
+                    from arch/sparc/include/asm/bitops.h:5,
+                    from include/linux/bitops.h:68,
+                    from include/linux/thread_info.h:27,
+                    from arch/sparc/include/asm/current.h:15,
+                    from include/linux/mutex.h:14,
+                    from kernel/rcu/srcutree.c:19:
+   include/linux/atomic/atomic-instrumented.h:3589:32: note: expected 'atomic_long_t *' {aka 'atomic64_t *'} but argument is of type 's64 *' {aka 'long long int *'}
+    3589 | atomic_long_inc(atomic_long_t *v)
+         |                 ~~~~~~~~~~~~~~~^
 
 
-vim +24 drivers/media/platform/raspberrypi/hevc_dec/hevc_d.c
+vim +779 kernel/rcu/srcutree.c
 
-    22	
-    23	#include "hevc_d.h"
-  > 24	#include "hevc_d_h265.h"
-    25	#include "hevc_d_video.h"
-    26	#include "hevc_d_hw.h"
-    27	
+   768	
+   769	/*
+   770	 * Counts the new reader in the appropriate per-CPU element of the
+   771	 * srcu_struct, but in an NMI-safe manner using RMW atomics.
+   772	 * Returns an index that must be passed to the matching srcu_read_unlock().
+   773	 */
+   774	int __srcu_read_lock_nmisafe(struct srcu_struct *ssp)
+   775	{
+   776		struct srcu_ctr *scp = READ_ONCE(ssp->srcu_ctrp);
+   777		struct srcu_data *sdp = raw_cpu_ptr(ssp->sda);
+   778	
+ > 779		atomic_long_inc(&ssp->sda->srcu_ctrs[idx].srcu_locks.counter);
+   780		smp_mb__after_atomic(); /* B */  /* Avoid leaking the critical section. */
+   781		return scp - &ssp->sda->srcu_ctrs[0];
+   782	}
+   783	EXPORT_SYMBOL_GPL(__srcu_read_lock_nmisafe);
+   784	
 
 -- 
 0-DAY CI Kernel Test Service
