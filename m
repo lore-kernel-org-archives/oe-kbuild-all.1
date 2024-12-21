@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B15817C68
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 01:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8487733FE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 01:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734744162; cv=none; b=uQFg4lvrT+WoUZZpJJkfVSSU1cZqz5x1qqGWF8lxYKt/gPjqmwBeTyTxz/+6/xXfPrDESKH3vv4BhlBZruKK0aqo1cnfEnegnBaiBm5mWz3KDiOUxiimVqHH4jJ1DtPLj1sjPKU3hh2VX+hPNLkYNxf1IFQw6IPoPdc1JG3zeEk=
+	t=1734745363; cv=none; b=hMSQyrYtcYHHIn15Q+p+idc/xmT8sD9tmPNayfk6t0/yYYbM9mdVZUpt4t4euFIXjDdnh2nINJbaKJCa8hBk7+8wo4+vkwInU1NEVvj4CbaDNdF1MYp3lgESLYzX7xdt2Z+BzaSh/PVPOY5NupVzQdXbcrdT+CT5tMxpWkABv5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734744162; c=relaxed/simple;
-	bh=aYSu/W5+rCWWnlEFml2d6alccneCmIlAQhXYuTWTK0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wf84Zi7uVtrcd8vURoKKuyXiepzjZKlH/O7vM68mujCcJ4TbMirT4b5pkjA7cdJNUGYen/BGp5YL4iqTfab2AlxbismHv0WEV9jzjC+l3jKmxHSc7mIzR+qy15yLl/Acj2rR7Zp1pC5y1mFQvTrcZJR3gb9RQrz1nT6Mh0azX74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bJcfpmj7; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1734745363; c=relaxed/simple;
+	bh=rOF62tvgNxJt0RZQUuuhIIwdbooOIcozMkBWHvrKnYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KcFp+362PUWRFdIHf7LioTkJIWNl7sMvtfwzUcrdMVwWMKHJuVlycCCMpbG1y2w2J4UphBMLGyYBZJfO65AWyt/tohQtLBeERCeP5f1bx3mt9wkMvno6D7ePRWbrXkOH+Mnw3jvXoL9mZpzcRe/HogaG/Fr5Gmq4hO51Z8rEN2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHtqmXHq; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bJcfpmj7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHtqmXHq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734744160; x=1766280160;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aYSu/W5+rCWWnlEFml2d6alccneCmIlAQhXYuTWTK0g=;
-  b=bJcfpmj7Dvvpss6jF632BmuztW+IdSlgRDAt6SCH7YqTd34W0iWK3bev
-   wWoUvIiA0bQWOTzhRBYugPiy6KCXcKzJuXrgczhYpw9idUdMFKVYhWL/u
-   OpHmYeYrQLBnkIdC2efDk7ti7QOJdfWllsKwFrNIWJQqZr7j4a6G7zyaD
-   WPeFg53RQyUbkIrXWEPkl/zdNPSqCt8OD7E96utIrIL1OERmL90VW5l1P
-   Fzye7s5jtW0pu9s2w3Jxk8S2m15g+IrgYzx/A5N9b3GHz8gOuETBa5Dh7
-   LHNbjj1bUtMaB4GKiIb9gjQ1gmLjgsbEjnMYR5t442XPn55SgMv/E9Bw/
-   A==;
-X-CSE-ConnectionGUID: Fud2FIQURx6X2BsxcEkk7w==
-X-CSE-MsgGUID: oTVLB/jeRf+V2bpLPtPfgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="46307866"
+  t=1734745361; x=1766281361;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rOF62tvgNxJt0RZQUuuhIIwdbooOIcozMkBWHvrKnYE=;
+  b=mHtqmXHqkV7Ial9kD6j6YaHRl2HZ51nApwzYHuz/nAT/gAp/SWO1BhNR
+   nJusKsK0ovV1sISluySKyicSiw8YJN0mn30SGI5LYrtu4CTe27kbS9RLZ
+   d+pVnT6j+qpit4Gau1y7TeeP+SVCEPyNY5F7BEPCYpJ2zaTGmffe7IAG/
+   YHXMBe3DjbKrmtt3fq0gG7YI2wp4qcQrWWe2FfZuutj0v7iNEAs7Y9qVB
+   B1mSnk+bsEORNxkVEcJtEvZnnVDrag42em1Bmuiui2Rv7Yyzx3M7DbPWg
+   rd37ifvNsaCWsYngI12Rq9CFTZxoeCZP3jBxAxjMOIXTUilGd7CZ4PRxD
+   g==;
+X-CSE-ConnectionGUID: CwWpZXcoRAiEVY6u6hWQVw==
+X-CSE-MsgGUID: X7neQqYWTIOzVxMdN9Y84Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45795454"
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="46307866"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 17:22:38 -0800
-X-CSE-ConnectionGUID: DMfajBtAQBK5Kdi8+dZpGw==
-X-CSE-MsgGUID: GtG+/SwwT9OEc+1EKjQgDQ==
+   d="scan'208";a="45795454"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 17:42:41 -0800
+X-CSE-ConnectionGUID: NScS1WL1RGmYJBr6wZfphQ==
+X-CSE-MsgGUID: GzUnLhp6R++7Yk0/NZEBhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="103522218"
+   d="scan'208";a="129472011"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2024 17:22:36 -0800
+  by orviesa002.jf.intel.com with ESMTP; 20 Dec 2024 17:42:39 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOoCQ-0001pc-1x;
-	Sat, 21 Dec 2024 01:22:34 +0000
-Date: Sat, 21 Dec 2024 09:21:49 +0800
+	id 1tOoVo-0001qV-2w;
+	Sat, 21 Dec 2024 01:42:36 +0000
+Date: Sat, 21 Dec 2024 09:42:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: drivers/leds/led-core.c:461:78: warning: 'snprintf' output may be
- truncated before the last format character
-Message-ID: <202412210924.TRBZsDii-lkp@intel.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>, intel-xe@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, uma.shankar@intel.com,
+	arun.r.murthy@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
+Message-ID: <202412210956.FV7RWpOY-lkp@intel.com>
+References: <20241213060317.2674290-3-suraj.kandpal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,76 +64,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241213060317.2674290-3-suraj.kandpal@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   499551201b5f4fd3c0618a3e95e3d0d15ea18f31
-commit: bb4e9af0348dfeafd66c7e7f82e8a0983fe5390c leds: core: Add support for composing LED class device names
-date:   5 years ago
-config: x86_64-randconfig-077-20241209 (https://download.01.org/0day-ci/archive/20241221/202412210924.TRBZsDii-lkp@intel.com/config)
+Hi Suraj,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.13-rc3 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-dp-Add-the-DPCD-register-required-for-Extended-wake-timeout/20241213-140525
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241213060317.2674290-3-suraj.kandpal%40intel.com
+patch subject: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
+config: x86_64-randconfig-r121-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210956.FV7RWpOY-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210924.TRBZsDii-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210956.FV7RWpOY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210924.TRBZsDii-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210956.FV7RWpOY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_dp_link_training.c:146:26: sparse: sparse: Initializer entry defined twice
+   drivers/gpu/drm/i915/display/intel_dp_link_training.c:148:26: sparse:   also defined here
 
-   drivers/leds/led-core.c: In function 'led_compose_name':
->> drivers/leds/led-core.c:461:78: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-     461 |                         snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
-         |                                                                              ^
-   drivers/leds/led-core.c:461:25: note: 'snprintf' output 2 or more bytes (assuming 65) into a destination of size 64
-     461 |                         snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     462 |                                  devicename, tmp_buf);
-         |                                  ~~~~~~~~~~~~~~~~~~~~
+vim +146 drivers/gpu/drm/i915/display/intel_dp_link_training.c
 
-
-vim +/snprintf +461 drivers/leds/led-core.c
-
-   421	
-   422	int led_compose_name(struct device *dev, struct led_init_data *init_data,
-   423			     char *led_classdev_name)
-   424	{
-   425		struct led_properties props = {};
-   426		struct fwnode_handle *fwnode = init_data->fwnode;
-   427		const char *devicename = init_data->devicename;
-   428	
-   429		if (!led_classdev_name)
-   430			return -EINVAL;
-   431	
-   432		led_parse_fwnode_props(dev, fwnode, &props);
-   433	
-   434		if (props.label) {
-   435			/*
-   436			 * If init_data.devicename is NULL, then it indicates that
-   437			 * DT label should be used as-is for LED class device name.
-   438			 * Otherwise the label is prepended with devicename to compose
-   439			 * the final LED class device name.
-   440			 */
-   441			if (!devicename) {
-   442				strscpy(led_classdev_name, props.label,
-   443					LED_MAX_NAME_SIZE);
-   444			} else {
-   445				snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
-   446					 devicename, props.label);
-   447			}
-   448		} else if (props.function || props.color_present) {
-   449			char tmp_buf[LED_MAX_NAME_SIZE];
-   450	
-   451			if (props.func_enum_present) {
-   452				snprintf(tmp_buf, LED_MAX_NAME_SIZE, "%s:%s-%d",
-   453					 props.color_present ? led_colors[props.color] : "",
-   454					 props.function ?: "", props.func_enum);
-   455			} else {
-   456				snprintf(tmp_buf, LED_MAX_NAME_SIZE, "%s:%s",
-   457					 props.color_present ? led_colors[props.color] : "",
-   458					 props.function ?: "");
-   459			}
-   460			if (init_data->devname_mandatory) {
- > 461				snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
+   136	
+   137	void intel_dp_lttpr_wake_timeout_setup(struct intel_dp *intel_dp)
+   138	{
+   139		struct intel_display *display = to_intel_display(intel_dp);
+   140		u8 val = 1;
+   141		int ret;
+   142	
+   143		if (intel_dp_lttpr_transparent_mode_enabled(intel_dp)) {
+   144			static const u8 timeout_mapping[] = {
+   145				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_1_MS] = 1,
+ > 146				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS] = 20,
+   147				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_40_MS] = 40,
+   148				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS] = 20,
+   149				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_80_MS] = 80,
+   150				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_100_MS] = 100,
+   151			};
+   152	
+   153			ret = drm_dp_dpcd_readb(&intel_dp->aux,
+   154						DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_REQUEST, &val);
+   155			if (ret != 1) {
+   156				drm_dbg_kms(display->drm,
+   157					    "Failed to read Extended sleep wake timeout request\n");
+   158				return;
+   159			}
+   160	
+   161			val = (val < sizeof(timeout_mapping) && timeout_mapping[val]) ?
+   162				timeout_mapping[val] : 1;
+   163	
+   164			drm_dp_dpcd_writeb(&intel_dp->aux, DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_GRANT,
+   165					   DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_GRANTED);
+   166		} else {
+   167			ret = drm_dp_dpcd_readb(&intel_dp->aux,
+   168						DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT, &val);
+   169			if (ret != 1) {
+   170				drm_dbg_kms(display->drm,
+   171					    "Failed to read Extended sleep wake timeout request\n");
+   172				return;
+   173			}
+   174	
+   175			val = (val & DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) ?
+   176				(val & DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) * 10 : 1;
+   177	
+   178			drm_dp_dpcd_writeb(&intel_dp->aux, DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT,
+   179					   DP_EXTENDED_WAKE_TIMEOUT_GRANT);
+   180		}
+   181	}
+   182	
 
 -- 
 0-DAY CI Kernel Test Service
