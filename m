@@ -1,57 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D58625949B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 10:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895083201;
+	Sat, 21 Dec 2024 11:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734778408; cv=none; b=tiR/Z2KLOjV63qRDF13ddtPTCHaPC/lAdCmVE7zXQCRPehFC4Hx/SacINHt462ptOpDgLLtq09hAayoFIr+Htn7ndCbtxq7Zj2GvJjYfW5ImFP/pZhz4k70CwbZmnZryenkcjKjzhNS6jjE2tDx3C9O30SDAd1KhvVVnNYL+eeA=
+	t=1734779072; cv=none; b=hxOpSg3+/CKa9MS3rGFRmRZhZZ07TuashhNtExt/7GJX8pJU80mOhIyM3M1ADMSuR20n2EvKfRWhprjCO5Y/PyTmtDTCEL96UMI/PmtRrh/MYqdqmKCQd6D4qb2wqs9zw2z80ZZ7fxeICXw4NtKI6rL69yjkjbHSvGVntgqc0p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734778408; c=relaxed/simple;
-	bh=O6AV6mwHNpkgRMO5khqUg+uHk8XldS/T3AUFEy6dRiY=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HEEBf261welCZDoI42eG5sn99gWZ5CWyhEK9rWFLOnOHZbHZYoNCgh5koPwQVJ3X6bw2Su7l9lmJNAZuxR04277fdgH2l/B7dWDmsnAl776uB20xz+en0wkz17NdPU7E1f6lgnhUvTTAmabMLI+FlpU47sO8WNEyO40Y6frQPl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJv6AlLT; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1734779072; c=relaxed/simple;
+	bh=ES8Y72tN7tCHNq2hsEeiaznpfJMqN6LAm9ib+DuisM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FJ7HYM1y/8T9lPhsx32W0sueHUqNXcQn9UfvpbIwFi/ZpJFwYG8Yye75zdGrwgYA/ePf/OWCTxHaSvLCVR1XLPRN/5c43vB8kKBRtlRBDO71q+kYwExtWku5FpwruC4w8s6QcCSvU1qgOaKYjZkPd1lNPcEl0Bztv29CYd1UVpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LmAVfz5e; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJv6AlLT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LmAVfz5e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734778407; x=1766314407;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=O6AV6mwHNpkgRMO5khqUg+uHk8XldS/T3AUFEy6dRiY=;
-  b=QJv6AlLTjP3NnvEjIhzhoKmpeVa2Rus8NCBjtPGKnP1wS1IRNTwTbfpC
-   p8cCnKV3L0xgPE0mMi89lY6lD8DOc4DntBJYE9q3/wWUXja60AOu7kfoF
-   viF/4MQ08Jev0tAIFWlpT9gq4LWrIbZQhnNsyLDR/LwYHgIuJKJUAuGhz
-   QeEnQ13yQ96XujDTSachwrZSAkofvnq5eF4HNElU+CJkNri9YTqnpX9d8
-   QXSjYewwH7zlAoOxs0wUTw5Mpm0qOFkiG0iHby7kk/D8Vj7zPHO/6fwgw
-   My1U8xhgCaibAcA0WmG4IGkI0mUZkdg+50GIPFA/xr+3XmgZqA6QTq6mj
+  t=1734779070; x=1766315070;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ES8Y72tN7tCHNq2hsEeiaznpfJMqN6LAm9ib+DuisM4=;
+  b=LmAVfz5ebS24+5eUmdW/2PU+S/hkeXA9VY5TuS7UIEXqduf8fOTBXXcd
+   +4cPjpsUAD+zqGpXs14K6f3aG9PupEcKbXMY0HBfTsLoeLMttxIYaE5T7
+   ZCYUPthYmSYmIKe/EaFeqlGn0sVmi5jJcFxzwPJsDIOwUiKrBp1/1ae3K
+   cdeDQ3F0sU/aMvJG9AawyCL0GY3ZW2wNtZOZOy8J+Lc+NDnWkZP7Ubo0L
+   bYp6v8xmKcW8ObOQ7GGcJrXsGb67XnUrdYzZaVDNWhsh8Dwj3yyWEmaAD
+   Ug5Bs1EW/Ne4I9jkWYvk5JvCEeztoVQOvmEUOGo4Wz7MIRC2sV2fMXvkm
    A==;
-X-CSE-ConnectionGUID: O/WhxI19SSOZ7paJ9X1TAA==
-X-CSE-MsgGUID: vF3Ll1B1SQ6IzbgC0/csLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="57787568"
+X-CSE-ConnectionGUID: rsQh4d+BR3iC08Hj684oZg==
+X-CSE-MsgGUID: GmzvtpC9T2i7A7YsIMFFuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39253552"
 X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="57787568"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 02:53:26 -0800
-X-CSE-ConnectionGUID: podRoSntSUqeWELGoUG9Tw==
-X-CSE-MsgGUID: 0fPPl80/Qbq/PqZy0+j/kw==
+   d="scan'208";a="39253552"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 03:04:29 -0800
+X-CSE-ConnectionGUID: uFj1EdARQcqphn1GerJJrA==
+X-CSE-MsgGUID: Lnl/soBsT22O45oTf0M77A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102851450"
+X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
+   d="scan'208";a="99145758"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Dec 2024 02:53:25 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2024 03:04:26 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOx6o-00028p-2f;
-	Sat, 21 Dec 2024 10:53:22 +0000
-Date: Sat, 21 Dec 2024 18:52:28 +0800
+	id 1tOxHT-000295-2w;
+	Sat, 21 Dec 2024 11:04:23 +0000
+Date: Sat, 21 Dec 2024 19:03:27 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Qiao, Wei" <wei.qiao@intel.com>
-Subject: [intel-lts:6.6/linux 6/9] drivers/bus/mhi/host/pci_generic.c:321:38:
- warning: 'mhi_qcom_sdx55_info' defined but not used
-Message-ID: <202412211804.KTNkgTiK-lkp@intel.com>
+To: Crystal Guo <crystal.guo@mediatek.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH 1/2] memory/mediatek: Add an interface to get current DDR
+ data rate
+Message-ID: <202412211805.ulwSEmZa-lkp@intel.com>
+References: <20241212090029.13692-2-crystal.guo@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,46 +71,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241212090029.13692-2-crystal.guo@mediatek.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/linux
-head:   a4ec5f44dc60164d4e5f12f91b65052ab30accc5
-commit: 81d55423faad1b99bef446b88d57bfae3589108b [6/9] drivers: bus: mhi: add FN980 v2 support
-config: arm-randconfig-001-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211804.KTNkgTiK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211804.KTNkgTiK-lkp@intel.com/reproduce)
+Hi Crystal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on krzk-mem-ctrl/for-next]
+[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.13-rc3 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Crystal-Guo/memory-mediatek-Add-an-interface-to-get-current-DDR-data-rate/20241212-170306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+patch link:    https://lore.kernel.org/r/20241212090029.13692-2-crystal.guo%40mediatek.com
+patch subject: [PATCH 1/2] memory/mediatek: Add an interface to get current DDR data rate
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241221/202412211805.ulwSEmZa-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211805.ulwSEmZa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412211804.KTNkgTiK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412211805.ulwSEmZa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/bus/mhi/host/pci_generic.c:321:38: warning: 'mhi_qcom_sdx55_info' defined but not used [-Wunused-const-variable=]
-     321 | static const struct mhi_pci_dev_info mhi_qcom_sdx55_info = {
-         |                                      ^~~~~~~~~~~~~~~~~~~
+>> drivers/memory/mediatek/mtk-dramc.c:300:12: error: incompatible function pointer types initializing 'void (*)(struct platform_device *)' with an expression of type 'int (struct platform_device *)' [-Wincompatible-function-pointer-types]
+     300 |         .remove = dramc_remove,
+         |                   ^~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/mhi_qcom_sdx55_info +321 drivers/bus/mhi/host/pci_generic.c
+vim +300 drivers/memory/mediatek/mtk-dramc.c
 
-49d38ebb6faad9 drivers/bus/mhi/pci_generic.c Bhaumik Bhatt  2021-04-02  320  
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21 @321  static const struct mhi_pci_dev_info mhi_qcom_sdx55_info = {
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21  322  	.name = "qcom-sdx55m",
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21  323  	.fw = "qcom/sdx55m/sbl1.mbn",
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21  324  	.edl = "qcom/sdx55m/edl.mbn",
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21  325  	.config = &modem_qcom_v1_mhiv_config,
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21  326  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-5c2c85315948c4 drivers/bus/mhi/pci_generic.c Richard Laing  2021-07-15  327  	.dma_data_width = 32,
-d2e11fd2b7fcd1 drivers/bus/mhi/pci_generic.c Jakub Kicinski 2021-07-31  328  	.mru_default = 32768,
-56f6f4c4eb2a71 drivers/bus/mhi/pci_generic.c Bhaumik Bhatt  2021-07-16  329  	.sideband_wake = false,
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21  330  };
-855a70c12021bd drivers/bus/mhi/pci_generic.c Loic Poulain   2020-10-21  331  
-
-:::::: The code at line 321 was first introduced by commit
-:::::: 855a70c12021bdc5df60512f1d3f6d492dc715be bus: mhi: Add MHI PCI support for WWAN modems
-
-:::::: TO: Loic Poulain <loic.poulain@linaro.org>
-:::::: CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+   297	
+   298	static struct platform_driver dramc_drv = {
+   299		.probe = dramc_probe,
+ > 300		.remove = dramc_remove,
+   301		.driver = {
+   302			.name = "dramc_drv",
+   303			.owner = THIS_MODULE,
+   304			.of_match_table = dramc_of_ids,
+   305		},
+   306	};
+   307	
 
 -- 
 0-DAY CI Kernel Test Service
