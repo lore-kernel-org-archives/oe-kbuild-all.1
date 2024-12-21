@@ -1,144 +1,238 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFB0191F88
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 06:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D871EC4EA;
+	Sat, 21 Dec 2024 07:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734761648; cv=none; b=Jn5j9W6ZyJ9dP7SQdSVZuNNbH2G4OprVsMO7QzEjgM5Am+ACY4Qil0GJiWCnbztw46F5G1jLfT9a6SkDk+hzCOvYgxmIAcLeWtP51wHo9YkDYEuimNIBFTbCCUh/ne/hxdB5Xx/dRleEh0qMdNnA+ynzX596JAf7q6H+LqHaVSg=
+	t=1734765313; cv=none; b=AGti0iTo6PCSLUaJ7p0RMG8fvatJsr49qm8N8qj4tNzeMl8c/6X+9q6mccn1rwEL+HemfI7orFprB85OWdF1fE+wZGvX+F81YVujDSG9+/5YKuC5uUBRJ8BrqEFyhVdpHcSLn2UaxeMRhabfa044yDBdyx/nw9aj4f53VF2gryY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734761648; c=relaxed/simple;
-	bh=JjY37SxMSkdhtyrhtTKrP4oq+y277V+a81pZHzt3KNs=;
+	s=arc-20240116; t=1734765313; c=relaxed/simple;
+	bh=J9XOjaJZ0aScwP4fGDWUisH7KPt6JXev3EBqtel/y0k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MgRlhJoz3DGuFrD9AByYfW5IV+VyEdKY/mmCgC2Jdtv9+moJo6gsUlCT9DIek5nRLKRp8z4s8t715Hqs4gPn7yoqFWyf3GeNBSsHQKNCSjPKhiukBwqgkyqOfwowlrI2MF//i8CIOp0Py590JU3S0GGgnY/5tm+AQhqXSI1jojE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPi5FJIw; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=c7/ADkHHmVNWHI32XUn535puU9LPoXVJ2EHFD/EDEwzb3tVPpWaNIQoyAtLGv0QkWpMqrH3RX1UpPTeOwEXdZFldEjXdwxp17fwuT26BH0WJhJc4g6eyKz1hTo4mmN1l1i05Gr3fOzRB1+zg2mnNrlye7ydf2ExWiOyMnTgNq4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZeOOjIC; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPi5FJIw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZeOOjIC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734761646; x=1766297646;
+  t=1734765311; x=1766301311;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JjY37SxMSkdhtyrhtTKrP4oq+y277V+a81pZHzt3KNs=;
-  b=mPi5FJIwJb/FTD/dxzxaqEmkfb0yEZwDDzEwNaxrVkL/mpHUdoqWrXXY
-   QEt4TjgNNO25ORpo0R+OdsyZD7vIFJhXDISgu7nG+gVP/xJOfINQZZT5T
-   lEd54tPCNBfUQ+3jGjY+1HBMUo4RzgjrR3wn39UJ0XgIvn5DlirVF1B2S
-   tNlTYmLOo5fbs7uS8fJJxFqNeYy7XBOczWv8VlfxKbL7b0IK2lq7JVDMP
-   6H5QgsMO55guzgNmmNQgIoK4BA3NBPvA70VWvYuOImZLzQfYEOFHtOqVn
-   /qJEcFXGJgkmBCYDNQ1dFBkAW2TsCp0OIc8ZaCTktrKhB7nT7Wedkx+pa
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=J9XOjaJZ0aScwP4fGDWUisH7KPt6JXev3EBqtel/y0k=;
+  b=FZeOOjICW/MyPDrAfl0eSEOTa69VlUljRhUgvFd28wHlHNJnwWmBnt+2
+   0wF74PmDkqwunbG25ODEJ+qsn5F2ieLs9YmoNNc6e8DoSoVf+ou1kRTdx
+   wukG2HHrVE+j0YuuJRul1CHC/E96ln6jqicUhwJ8aEBYtzVL0+7okwWqo
+   j12jpBQnWqQPksU7QOVl8LJnppZvIvNQnJCLmVy6mm3VXWDR72USTy8NS
+   Mof8Z5Y1k2gaA3vZPFHZNd7M4hE1KbGAHQq7Wnq1UBPXkLh8ph2/4Ne4V
+   NR8Ym7VtFn70AZRti3m1pqZ6xUJ05apdSHWC8l2IGd78mMGHglondAh/I
    A==;
-X-CSE-ConnectionGUID: CtatK9XmToeaCUd3e1jK4w==
-X-CSE-MsgGUID: WjaAjHMyQ7+yPoYAgurWbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35202141"
+X-CSE-ConnectionGUID: zuvHXOr/TfWT22gbwaK2zA==
+X-CSE-MsgGUID: sOw5ZRFBSJSY8vRMdnN7OA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="38149895"
 X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="35202141"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 22:14:05 -0800
-X-CSE-ConnectionGUID: GBtUTgiERLmNzgFa33UeTQ==
-X-CSE-MsgGUID: FFtxWLWrTGaxb2gCb7B1vw==
+   d="scan'208";a="38149895"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 23:15:10 -0800
+X-CSE-ConnectionGUID: pnIsJ2oZSfiarL43H6ip0Q==
+X-CSE-MsgGUID: tGMp39igR12ZMPY5B0PS3A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="129529030"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102825672"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Dec 2024 22:13:59 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2024 23:15:07 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOskP-0001xb-1y;
-	Sat, 21 Dec 2024 06:13:57 +0000
-Date: Sat, 21 Dec 2024 14:13:27 +0800
+	id 1tOthY-00023H-1x;
+	Sat, 21 Dec 2024 07:15:04 +0000
+Date: Sat, 21 Dec 2024 15:14:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ziyue Zhang <quic_ziyuzhan@quicinc.com>, vkoul@kernel.org,
-	kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, dmitry.baryshkov@linaro.org,
-	neil.armstrong@linaro.org, abel.vesa@linaro.org,
-	manivannan.sadhasivam@linaro.org, lpieralisi@kernel.org,
-	kw@linux.com, bhelgaas@google.com, andersson@kernel.org,
-	konradybcio@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
-	quic_qianyu@quicinc.com, quic_krichai@quicinc.com,
-	quic_vbadigan@quicinc.com, Ziyue Zhang <quic_ziyuzhan@quicinc.com>
-Subject: Re: [PATCH v3 2/8] phy: qcom-qmp-pcie: add dual lane PHY support for
- QCS8300
-Message-ID: <202412211301.bQO6vXpo-lkp@intel.com>
-References: <20241220055239.2744024-3-quic_ziyuzhan@quicinc.com>
+To: Esteban Blanc <eblanc@baylibre.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Esteban Blanc <eblanc@baylibre.com>
+Subject: Re: [PATCH v2 2/6] iio: adc: ad4030: add driver for ad4030-24
+Message-ID: <202412211547.tPF7ZugU-lkp@intel.com>
+References: <20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241220055239.2744024-3-quic_ziyuzhan@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5@baylibre.com>
 
-Hi Ziyue,
+Hi Esteban,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 4176cf5c5651c33769de83bb61b0287f4ec7719f]
+[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ziyue-Zhang/dt-bindings-phy-qcom-sc8280xp-qmp-pcie-phy-Document-the-QCS8300-QMP-PCIe-PHY-Gen4-x2/20241220-135722
-base:   4176cf5c5651c33769de83bb61b0287f4ec7719f
-patch link:    https://lore.kernel.org/r/20241220055239.2744024-3-quic_ziyuzhan%40quicinc.com
-patch subject: [PATCH v3 2/8] phy: qcom-qmp-pcie: add dual lane PHY support for QCS8300
-config: arm64-randconfig-004-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211301.bQO6vXpo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211301.bQO6vXpo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20241220-001408
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5%40baylibre.com
+patch subject: [PATCH v2 2/6] iio: adc: ad4030: add driver for ad4030-24
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241221/202412211547.tPF7ZugU-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211547.tPF7ZugU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412211301.bQO6vXpo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412211547.tPF7ZugU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:3419:35: error: 'pciephy_v5_20_regs_layout' undeclared here (not in a function); did you mean 'pciephy_v5_regs_layout'?
-    3419 |         .regs                   = pciephy_v5_20_regs_layout,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   pciephy_v5_regs_layout
+   In file included from drivers/iio/adc/ad4030.c:22:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/iio/adc/ad4030.c:346:9: error: call to undeclared function 'get_unaligned_be16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     346 |         gain = get_unaligned_be16(st->rx_data.raw);
+         |                ^
+   drivers/iio/adc/ad4030.c:371:24: error: call to undeclared function 'get_unaligned_be16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     371 |                 *val = sign_extend32(get_unaligned_be16(st->rx_data.raw), 15);
+         |                                      ^
+>> drivers/iio/adc/ad4030.c:375:24: error: call to undeclared function 'get_unaligned_be24'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     375 |                 *val = sign_extend32(get_unaligned_be24(st->rx_data.raw), 23);
+         |                                      ^
+>> drivers/iio/adc/ad4030.c:399:2: error: call to undeclared function 'put_unaligned_be16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     399 |         put_unaligned_be16(DIV_ROUND_CLOSEST_ULL(gain * 0x8000, MICRO),
+         |         ^
+   drivers/iio/adc/ad4030.c:420:3: error: call to undeclared function 'put_unaligned_be16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     420 |                 put_unaligned_be16(offset, st->tx_data);
+         |                 ^
+>> drivers/iio/adc/ad4030.c:424:3: error: call to undeclared function 'put_unaligned_be24'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     424 |                 put_unaligned_be24(offset, st->tx_data);
+         |                 ^
+   1 warning and 6 errors generated.
 
 
-vim +3419 drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
+vim +/get_unaligned_be16 +346 drivers/iio/adc/ad4030.c
 
-  3390	
-  3391	static const struct qmp_phy_cfg qcs8300_qmp_gen4x2_pciephy_cfg = {
-  3392		.lanes			= 2,
-  3393		.offsets		= &qmp_pcie_offsets_v5_20,
-  3394	
-  3395		.tbls = {
-  3396			.serdes		= sa8775p_qmp_gen4x2_pcie_serdes_alt_tbl,
-  3397			.serdes_num		= ARRAY_SIZE(sa8775p_qmp_gen4x2_pcie_serdes_alt_tbl),
-  3398			.tx		= sa8775p_qmp_gen4_pcie_tx_tbl,
-  3399			.tx_num		= ARRAY_SIZE(sa8775p_qmp_gen4_pcie_tx_tbl),
-  3400			.rx		= qcs8300_qmp_gen4x2_pcie_rx_alt_tbl,
-  3401			.rx_num		= ARRAY_SIZE(qcs8300_qmp_gen4x2_pcie_rx_alt_tbl),
-  3402			.pcs		= sa8775p_qmp_gen4x2_pcie_pcs_alt_tbl,
-  3403			.pcs_num		= ARRAY_SIZE(sa8775p_qmp_gen4x2_pcie_pcs_alt_tbl),
-  3404			.pcs_misc		= sa8775p_qmp_gen4_pcie_pcs_misc_tbl,
-  3405			.pcs_misc_num	= ARRAY_SIZE(sa8775p_qmp_gen4_pcie_pcs_misc_tbl),
-  3406		},
-  3407	
-  3408		.tbls_rc = &(const struct qmp_phy_cfg_tbls) {
-  3409			.serdes		= sa8775p_qmp_gen4x2_pcie_rc_serdes_alt_tbl,
-  3410			.serdes_num	= ARRAY_SIZE(sa8775p_qmp_gen4x2_pcie_rc_serdes_alt_tbl),
-  3411			.pcs_misc	= sa8775p_qmp_gen4_pcie_rc_pcs_misc_tbl,
-  3412			.pcs_misc_num	= ARRAY_SIZE(sa8775p_qmp_gen4_pcie_rc_pcs_misc_tbl),
-  3413		},
-  3414	
-  3415		.reset_list		= sdm845_pciephy_reset_l,
-  3416		.num_resets		= ARRAY_SIZE(sdm845_pciephy_reset_l),
-  3417		.vreg_list		= qmp_phy_vreg_l,
-  3418		.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
-> 3419		.regs			= pciephy_v5_20_regs_layout,
-  3420	
-  3421		.pwrdn_ctrl		= SW_PWRDN | REFCLK_DRV_DSBL,
-  3422		.phy_status		= PHYSTATUS_4_20,
-  3423	};
-  3424	
+   331	
+   332	static int ad4030_get_chan_calibscale(struct iio_dev *indio_dev,
+   333					      struct iio_chan_spec const *chan,
+   334					      int *val,
+   335					      int *val2)
+   336	{
+   337		struct ad4030_state *st = iio_priv(indio_dev);
+   338		u16 gain;
+   339		int ret;
+   340	
+   341		ret = regmap_bulk_read(st->regmap, AD4030_REG_GAIN_CHAN(chan->address),
+   342				       st->rx_data.raw, AD4030_REG_GAIN_BYTES_NB);
+   343		if (ret)
+   344			return ret;
+   345	
+ > 346		gain = get_unaligned_be16(st->rx_data.raw);
+   347	
+   348		/* From datasheet: multiplied output = input × gain word/0x8000 */
+   349		*val = gain / 0x8000;
+   350		*val2 = mul_u64_u32_div(gain % 0x8000, NANO, 0x8000);
+   351	
+   352		return IIO_VAL_INT_PLUS_NANO;
+   353	}
+   354	
+   355	/* Returns the offset where 1 LSB = (VREF/2^precision_bits - 1)/gain */
+   356	static int ad4030_get_chan_calibbias(struct iio_dev *indio_dev,
+   357					     struct iio_chan_spec const *chan,
+   358					     int *val)
+   359	{
+   360		struct ad4030_state *st = iio_priv(indio_dev);
+   361		int ret;
+   362	
+   363		ret = regmap_bulk_read(st->regmap,
+   364				       AD4030_REG_OFFSET_CHAN(chan->address),
+   365				       st->rx_data.raw, AD4030_REG_OFFSET_BYTES_NB);
+   366		if (ret)
+   367			return ret;
+   368	
+   369		switch (st->chip->precision_bits) {
+   370		case 16:
+   371			*val = sign_extend32(get_unaligned_be16(st->rx_data.raw), 15);
+   372			return IIO_VAL_INT;
+   373	
+   374		case 24:
+ > 375			*val = sign_extend32(get_unaligned_be24(st->rx_data.raw), 23);
+   376			return IIO_VAL_INT;
+   377	
+   378		default:
+   379			return -EINVAL;
+   380		}
+   381	}
+   382	
+   383	static int ad4030_set_chan_calibscale(struct iio_dev *indio_dev,
+   384					      struct iio_chan_spec const *chan,
+   385					      int gain_int,
+   386					      int gain_frac)
+   387	{
+   388		struct ad4030_state *st = iio_priv(indio_dev);
+   389		u64 gain;
+   390	
+   391		if (gain_int < 0 || gain_frac < 0)
+   392			return -EINVAL;
+   393	
+   394		gain = mul_u32_u32(gain_int, MICRO) + gain_frac;
+   395	
+   396		if (gain > AD4030_REG_GAIN_MAX_GAIN)
+   397			return -EINVAL;
+   398	
+ > 399		put_unaligned_be16(DIV_ROUND_CLOSEST_ULL(gain * 0x8000, MICRO),
+   400				   st->tx_data);
+   401	
+   402		return regmap_bulk_write(st->regmap,
+   403					 AD4030_REG_GAIN_CHAN(chan->address),
+   404					 st->tx_data, AD4030_REG_GAIN_BYTES_NB);
+   405	}
+   406	
+   407	static int ad4030_set_chan_calibbias(struct iio_dev *indio_dev,
+   408					     struct iio_chan_spec const *chan,
+   409					     int offset)
+   410	{
+   411		struct ad4030_state *st = iio_priv(indio_dev);
+   412	
+   413		if (offset < st->offset_avail[0] || offset > st->offset_avail[2])
+   414			return -EINVAL;
+   415	
+   416		st->tx_data[2] = 0;
+   417	
+   418		switch (st->chip->precision_bits) {
+   419		case 16:
+   420			put_unaligned_be16(offset, st->tx_data);
+   421			break;
+   422	
+   423		case 24:
+ > 424			put_unaligned_be24(offset, st->tx_data);
+   425			break;
+   426	
+   427		default:
+   428			return -EINVAL;
+   429		}
+   430	
+   431		return regmap_bulk_write(st->regmap,
+   432					 AD4030_REG_OFFSET_CHAN(chan->address),
+   433					 st->tx_data, AD4030_REG_OFFSET_BYTES_NB);
+   434	}
+   435	
 
 -- 
 0-DAY CI Kernel Test Service
