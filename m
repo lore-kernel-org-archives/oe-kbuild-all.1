@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895083201;
-	Sat, 21 Dec 2024 11:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277CB25949E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 12:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734779072; cv=none; b=hxOpSg3+/CKa9MS3rGFRmRZhZZ07TuashhNtExt/7GJX8pJU80mOhIyM3M1ADMSuR20n2EvKfRWhprjCO5Y/PyTmtDTCEL96UMI/PmtRrh/MYqdqmKCQd6D4qb2wqs9zw2z80ZZ7fxeICXw4NtKI6rL69yjkjbHSvGVntgqc0p4=
+	t=1734782734; cv=none; b=PWZtr462qp4jW6MPCgYrX60ZEW7vKqqavHyaknbs18PAoFbU3ulb8lFAYu5FTaXaa/srxkuHvhjObU/VLNk4ac1ZzFegINETPwaEYRQt9NKD0oyn0f5yRoCu4ALGP37/rT+gEGy1HRHYMwdluzAqK3dTvsLM1oT4YdGXh2AH46g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734779072; c=relaxed/simple;
-	bh=ES8Y72tN7tCHNq2hsEeiaznpfJMqN6LAm9ib+DuisM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FJ7HYM1y/8T9lPhsx32W0sueHUqNXcQn9UfvpbIwFi/ZpJFwYG8Yye75zdGrwgYA/ePf/OWCTxHaSvLCVR1XLPRN/5c43vB8kKBRtlRBDO71q+kYwExtWku5FpwruC4w8s6QcCSvU1qgOaKYjZkPd1lNPcEl0Bztv29CYd1UVpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LmAVfz5e; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1734782734; c=relaxed/simple;
+	bh=RSJwX5fGV9g2uVvAFlt5OpOhJenpyMJe7A1WZMy3l9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oQJiE1BWzYjXkMU1fJmKcFqwDPojW7NP0R5cBBZdnycBQvx2q3/47iGYXukkPJG/ZyoFvTZbfPk6NOmje+QpWv8oRyqyrnRVGZ6HQyOU9WJOP5a3f3H5rjkGwF3E4V36sfkyMLha0jnV9V0T1QCb/NCIHnyEM3I8ow1GcgO7pEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBYqBuH/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LmAVfz5e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBYqBuH/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734779070; x=1766315070;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ES8Y72tN7tCHNq2hsEeiaznpfJMqN6LAm9ib+DuisM4=;
-  b=LmAVfz5ebS24+5eUmdW/2PU+S/hkeXA9VY5TuS7UIEXqduf8fOTBXXcd
-   +4cPjpsUAD+zqGpXs14K6f3aG9PupEcKbXMY0HBfTsLoeLMttxIYaE5T7
-   ZCYUPthYmSYmIKe/EaFeqlGn0sVmi5jJcFxzwPJsDIOwUiKrBp1/1ae3K
-   cdeDQ3F0sU/aMvJG9AawyCL0GY3ZW2wNtZOZOy8J+Lc+NDnWkZP7Ubo0L
-   bYp6v8xmKcW8ObOQ7GGcJrXsGb67XnUrdYzZaVDNWhsh8Dwj3yyWEmaAD
-   Ug5Bs1EW/Ne4I9jkWYvk5JvCEeztoVQOvmEUOGo4Wz7MIRC2sV2fMXvkm
-   A==;
-X-CSE-ConnectionGUID: rsQh4d+BR3iC08Hj684oZg==
-X-CSE-MsgGUID: GmzvtpC9T2i7A7YsIMFFuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39253552"
+  t=1734782732; x=1766318732;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RSJwX5fGV9g2uVvAFlt5OpOhJenpyMJe7A1WZMy3l9c=;
+  b=RBYqBuH/tR8zJUsGZxab2FOT307SMtgaX59h8wXvxWL0n+u2JycH2ywt
+   QZU7tSNyfgiw456DZTWyKjomzBVNwOGrtkLcv2Y0ESS+plfZ33DCKMIT/
+   JCHgD4EQbtMZoP+u6zm9FuDPnuPeBZaC+qC+VAn8RZFAklciSKXhHtJwz
+   omjI3tbn1unmpjS23Y8oxpQAizY4FfQ8JDc2Zj4l/W3YltdUWl4ppwxNX
+   paSCGsjiiJoEklD1LrYpo8KyK9Cxz4KwT8VFtzuck74Y1x+KiyyUAPCWM
+   hQV5DOWwUyrCmX8T7tG4TTu/ueOXvNRN/5wv0Lz0e694dQjbLtvZQVWsC
+   w==;
+X-CSE-ConnectionGUID: l19zUMbtT3C30DdaBJxITQ==
+X-CSE-MsgGUID: zVMMk1s/Qkm2W+B0Il8ajw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="22907834"
 X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="39253552"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 03:04:29 -0800
-X-CSE-ConnectionGUID: uFj1EdARQcqphn1GerJJrA==
-X-CSE-MsgGUID: Lnl/soBsT22O45oTf0M77A==
+   d="scan'208";a="22907834"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 04:05:31 -0800
+X-CSE-ConnectionGUID: sU5MEtqPQN2//JlTIIe0lg==
+X-CSE-MsgGUID: WTiOEuOOTTyCaYXosL4upg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="99145758"
+   d="scan'208";a="103736415"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2024 03:04:26 -0800
+  by orviesa004.jf.intel.com with ESMTP; 21 Dec 2024 04:05:30 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOxHT-000295-2w;
-	Sat, 21 Dec 2024 11:04:23 +0000
-Date: Sat, 21 Dec 2024 19:03:27 +0800
+	id 1tOyEZ-00029v-2h;
+	Sat, 21 Dec 2024 12:05:27 +0000
+Date: Sat, 21 Dec 2024 20:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Crystal Guo <crystal.guo@mediatek.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH 1/2] memory/mediatek: Add an interface to get current DDR
- data rate
-Message-ID: <202412211805.ulwSEmZa-lkp@intel.com>
-References: <20241212090029.13692-2-crystal.guo@mediatek.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.13-rc 67/79] drivers/spi/spi-mt65xx.c:348:26:
+ warning: unused variable 'chip_config'
+Message-ID: <202412211938.kj4LWDOw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,52 +61,356 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241212090029.13692-2-crystal.guo@mediatek.com>
 
-Hi Crystal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on krzk-mem-ctrl/for-next]
-[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.13-rc3 next-20241220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Crystal-Guo/memory-mediatek-Add-an-interface-to-get-current-DDR-data-rate/20241212-170306
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
-patch link:    https://lore.kernel.org/r/20241212090029.13692-2-crystal.guo%40mediatek.com
-patch subject: [PATCH 1/2] memory/mediatek: Add an interface to get current DDR data rate
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241221/202412211805.ulwSEmZa-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211805.ulwSEmZa-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-rc
+head:   14191a14a6d71eca113dfb48a38d5fd0b815787e
+commit: dedfd0a2d3fefeaff31584601ed3515fa0b17742 [67/79] drivers: spi-mt65xx: Move chip_config to driver's private data
+config: arm64-randconfig-001-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211938.kj4LWDOw-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211938.kj4LWDOw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412211805.ulwSEmZa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412211938.kj4LWDOw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/memory/mediatek/mtk-dramc.c:300:12: error: incompatible function pointer types initializing 'void (*)(struct platform_device *)' with an expression of type 'int (struct platform_device *)' [-Wincompatible-function-pointer-types]
-     300 |         .remove = dramc_remove,
-         |                   ^~~~~~~~~~~~
-   1 error generated.
+>> drivers/spi/spi-mt65xx.c:348:26: warning: unused variable 'chip_config' [-Wunused-variable]
+     348 |         struct mtk_chip_config *chip_config = spi->controller_data;
+         |                                 ^~~~~~~~~~~
+   1 warning generated.
+--
+>> drivers/spi/spi-mt65xx.c:176: warning: Function parameter or struct member 'sample_sel' not described in 'mtk_spi'
+>> drivers/spi/spi-mt65xx.c:176: warning: Function parameter or struct member 'get_tick_dly' not described in 'mtk_spi'
 
 
-vim +300 drivers/memory/mediatek/mtk-dramc.c
+vim +/chip_config +348 drivers/spi/spi-mt65xx.c
 
-   297	
-   298	static struct platform_driver dramc_drv = {
-   299		.probe = dramc_probe,
- > 300		.remove = dramc_remove,
-   301		.driver = {
-   302			.name = "dramc_drv",
-   303			.owner = THIS_MODULE,
-   304			.of_match_table = dramc_of_ids,
-   305		},
-   306	};
-   307	
+a568231f463225 Leilk Liu                           2015-08-07  130  
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  131  /**
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  132   * struct mtk_spi - SPI driver instance
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  133   * @base:		Start address of the SPI controller registers
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  134   * @state:		SPI controller state
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  135   * @pad_num:		Number of pad_sel entries
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  136   * @pad_sel:		Groups of pins to select
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  137   * @parent_clk:		Parent of sel_clk
+cae1578847e60a Yang Yingliang                      2023-08-23  138   * @sel_clk:		SPI host mux clock
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  139   * @spi_clk:		Peripheral clock
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  140   * @spi_hclk:		AHB bus clock
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  141   * @cur_transfer:	Currently processed SPI transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  142   * @xfer_len:		Number of bytes to transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  143   * @num_xfered:		Number of transferred bytes
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  144   * @tx_sgl:		TX transfer scatterlist
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  145   * @rx_sgl:		RX transfer scatterlist
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  146   * @tx_sgl_len:		Size of TX DMA transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  147   * @rx_sgl_len:		Size of RX DMA transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  148   * @dev_comp:		Device data structure
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  149   * @spi_clk_hz:		Current SPI clock in Hz
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  150   * @spimem_done:	SPI-MEM operation completion
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  151   * @use_spimem:		Enables SPI-MEM
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  152   * @dev:		Device pointer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  153   * @tx_dma:		DMA start for SPI-MEM TX
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  154   * @rx_dma:		DMA start for SPI-MEM RX
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno          2022-04-07  155   */
+a568231f463225 Leilk Liu                           2015-08-07  156  struct mtk_spi {
+a568231f463225 Leilk Liu                           2015-08-07  157  	void __iomem *base;
+a568231f463225 Leilk Liu                           2015-08-07  158  	u32 state;
+37457607ecaffe Leilk Liu                           2015-10-26  159  	int pad_num;
+37457607ecaffe Leilk Liu                           2015-10-26  160  	u32 *pad_sel;
+a740f4e684c020 Leilk Liu                           2022-03-21  161  	struct clk *parent_clk, *sel_clk, *spi_clk, *spi_hclk;
+a568231f463225 Leilk Liu                           2015-08-07  162  	struct spi_transfer *cur_transfer;
+a568231f463225 Leilk Liu                           2015-08-07  163  	u32 xfer_len;
+00bca73bfca4fb Peter Shih                          2018-09-10  164  	u32 num_xfered;
+a568231f463225 Leilk Liu                           2015-08-07  165  	struct scatterlist *tx_sgl, *rx_sgl;
+a568231f463225 Leilk Liu                           2015-08-07  166  	u32 tx_sgl_len, rx_sgl_len;
+a568231f463225 Leilk Liu                           2015-08-07  167  	const struct mtk_spi_compatible *dev_comp;
+162a31effc4182 Mason Zhang                         2021-06-29  168  	u32 spi_clk_hz;
+9f763fd20da7d8 Leilk Liu                           2022-03-21  169  	struct completion spimem_done;
+9f763fd20da7d8 Leilk Liu                           2022-03-21  170  	bool use_spimem;
+9f763fd20da7d8 Leilk Liu                           2022-03-21  171  	struct device *dev;
+9f763fd20da7d8 Leilk Liu                           2022-03-21  172  	dma_addr_t tx_dma;
+9f763fd20da7d8 Leilk Liu                           2022-03-21  173  	dma_addr_t rx_dma;
+dedfd0a2d3fefe SkyLake.Huang                       2022-06-23  174  	u32 sample_sel;
+dedfd0a2d3fefe SkyLake.Huang                       2022-06-23  175  	u32 get_tick_dly;
+a568231f463225 Leilk Liu                           2015-08-07 @176  };
+a568231f463225 Leilk Liu                           2015-08-07  177  
+4eaf6f730355ce Leilk Liu                           2015-12-31  178  static const struct mtk_spi_compatible mtk_common_compat;
+fc4f226fece3d0 Leilk Liu                           2017-06-12  179  
+b6b1f2d9cf796c leilk.liu@mediatek.com              2017-06-20  180  static const struct mtk_spi_compatible mt2712_compat = {
+b6b1f2d9cf796c leilk.liu@mediatek.com              2017-06-20  181  	.must_tx = true,
+b6b1f2d9cf796c leilk.liu@mediatek.com              2017-06-20  182  };
+b6b1f2d9cf796c leilk.liu@mediatek.com              2017-06-20  183  
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  184  static const struct mtk_spi_compatible mtk_ipm_compat = {
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  185  	.enhance_timing = true,
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  186  	.dma_ext = true,
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  187  	.ipm_design = true,
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  188  };
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  189  
+2c231e0ab63851 luhua.xu                            2019-09-11  190  static const struct mtk_spi_compatible mt6765_compat = {
+2c231e0ab63851 luhua.xu                            2019-09-11  191  	.need_pad_sel = true,
+2c231e0ab63851 luhua.xu                            2019-09-11  192  	.must_tx = true,
+2c231e0ab63851 luhua.xu                            2019-09-11  193  	.enhance_timing = true,
+fdeae8f5a2e5eb luhua.xu                            2019-09-11  194  	.dma_ext = true,
+2c231e0ab63851 luhua.xu                            2019-09-11  195  };
+2c231e0ab63851 luhua.xu                            2019-09-11  196  
+fc4f226fece3d0 Leilk Liu                           2017-06-12  197  static const struct mtk_spi_compatible mt7622_compat = {
+fc4f226fece3d0 Leilk Liu                           2017-06-12  198  	.must_tx = true,
+fc4f226fece3d0 Leilk Liu                           2017-06-12  199  	.enhance_timing = true,
+fc4f226fece3d0 Leilk Liu                           2017-06-12  200  };
+fc4f226fece3d0 Leilk Liu                           2017-06-12  201  
+a568231f463225 Leilk Liu                           2015-08-07  202  static const struct mtk_spi_compatible mt8173_compat = {
+af57937e862370 Leilk Liu                           2015-08-20  203  	.need_pad_sel = true,
+af57937e862370 Leilk Liu                           2015-08-20  204  	.must_tx = true,
+a568231f463225 Leilk Liu                           2015-08-07  205  };
+a568231f463225 Leilk Liu                           2015-08-07  206  
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  207  static const struct mtk_spi_compatible mt8183_compat = {
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  208  	.need_pad_sel = true,
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  209  	.must_tx = true,
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  210  	.enhance_timing = true,
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  211  };
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  212  
+162a31effc4182 Mason Zhang                         2021-06-29  213  static const struct mtk_spi_compatible mt6893_compat = {
+162a31effc4182 Mason Zhang                         2021-06-29  214  	.need_pad_sel = true,
+162a31effc4182 Mason Zhang                         2021-06-29  215  	.must_tx = true,
+162a31effc4182 Mason Zhang                         2021-06-29  216  	.enhance_timing = true,
+162a31effc4182 Mason Zhang                         2021-06-29  217  	.dma_ext = true,
+162a31effc4182 Mason Zhang                         2021-06-29  218  	.no_need_unprepare = true,
+162a31effc4182 Mason Zhang                         2021-06-29  219  };
+162a31effc4182 Mason Zhang                         2021-06-29  220  
+a568231f463225 Leilk Liu                           2015-08-07  221  static const struct of_device_id mtk_spi_of_match[] = {
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  222  	{ .compatible = "mediatek,spi-ipm",
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  223  		.data = (void *)&mtk_ipm_compat,
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  224  	},
+15bcdefdc71a79 Leilk Liu                           2015-12-31  225  	{ .compatible = "mediatek,mt2701-spi",
+15bcdefdc71a79 Leilk Liu                           2015-12-31  226  		.data = (void *)&mtk_common_compat,
+15bcdefdc71a79 Leilk Liu                           2015-12-31  227  	},
+b6b1f2d9cf796c leilk.liu@mediatek.com              2017-06-20  228  	{ .compatible = "mediatek,mt2712-spi",
+b6b1f2d9cf796c leilk.liu@mediatek.com              2017-06-20  229  		.data = (void *)&mt2712_compat,
+b6b1f2d9cf796c leilk.liu@mediatek.com              2017-06-20  230  	},
+4eaf6f730355ce Leilk Liu                           2015-12-31  231  	{ .compatible = "mediatek,mt6589-spi",
+4eaf6f730355ce Leilk Liu                           2015-12-31  232  		.data = (void *)&mtk_common_compat,
+4eaf6f730355ce Leilk Liu                           2015-12-31  233  	},
+2c231e0ab63851 luhua.xu                            2019-09-11  234  	{ .compatible = "mediatek,mt6765-spi",
+2c231e0ab63851 luhua.xu                            2019-09-11  235  		.data = (void *)&mt6765_compat,
+2c231e0ab63851 luhua.xu                            2019-09-11  236  	},
+fc4f226fece3d0 Leilk Liu                           2017-06-12  237  	{ .compatible = "mediatek,mt7622-spi",
+fc4f226fece3d0 Leilk Liu                           2017-06-12  238  		.data = (void *)&mt7622_compat,
+fc4f226fece3d0 Leilk Liu                           2017-06-12  239  	},
+942779c6f1f899 Leilk Liu                           2018-11-20  240  	{ .compatible = "mediatek,mt7629-spi",
+942779c6f1f899 Leilk Liu                           2018-11-20  241  		.data = (void *)&mt7622_compat,
+942779c6f1f899 Leilk Liu                           2018-11-20  242  	},
+4eaf6f730355ce Leilk Liu                           2015-12-31  243  	{ .compatible = "mediatek,mt8135-spi",
+4eaf6f730355ce Leilk Liu                           2015-12-31  244  		.data = (void *)&mtk_common_compat,
+4eaf6f730355ce Leilk Liu                           2015-12-31  245  	},
+4eaf6f730355ce Leilk Liu                           2015-12-31  246  	{ .compatible = "mediatek,mt8173-spi",
+4eaf6f730355ce Leilk Liu                           2015-12-31  247  		.data = (void *)&mt8173_compat,
+4eaf6f730355ce Leilk Liu                           2015-12-31  248  	},
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  249  	{ .compatible = "mediatek,mt8183-spi",
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  250  		.data = (void *)&mt8183_compat,
+b654aa6f2bbb00 Leilk Liu                           2018-11-01  251  	},
+8cf125c403f4e0 leilk.liu                           2020-07-21  252  	{ .compatible = "mediatek,mt8192-spi",
+8cf125c403f4e0 leilk.liu                           2020-07-21  253  		.data = (void *)&mt6765_compat,
+8cf125c403f4e0 leilk.liu                           2020-07-21  254  	},
+162a31effc4182 Mason Zhang                         2021-06-29  255  	{ .compatible = "mediatek,mt6893-spi",
+162a31effc4182 Mason Zhang                         2021-06-29  256  		.data = (void *)&mt6893_compat,
+162a31effc4182 Mason Zhang                         2021-06-29  257  	},
+a568231f463225 Leilk Liu                           2015-08-07  258  	{}
+a568231f463225 Leilk Liu                           2015-08-07  259  };
+a568231f463225 Leilk Liu                           2015-08-07  260  MODULE_DEVICE_TABLE(of, mtk_spi_of_match);
+a568231f463225 Leilk Liu                           2015-08-07  261  
+a568231f463225 Leilk Liu                           2015-08-07  262  static void mtk_spi_reset(struct mtk_spi *mdata)
+a568231f463225 Leilk Liu                           2015-08-07  263  {
+a568231f463225 Leilk Liu                           2015-08-07  264  	u32 reg_val;
+a568231f463225 Leilk Liu                           2015-08-07  265  
+a568231f463225 Leilk Liu                           2015-08-07  266  	/* set the software reset bit in SPI_CMD_REG. */
+a568231f463225 Leilk Liu                           2015-08-07  267  	reg_val = readl(mdata->base + SPI_CMD_REG);
+a568231f463225 Leilk Liu                           2015-08-07  268  	reg_val |= SPI_CMD_RST;
+a568231f463225 Leilk Liu                           2015-08-07  269  	writel(reg_val, mdata->base + SPI_CMD_REG);
+a568231f463225 Leilk Liu                           2015-08-07  270  
+a568231f463225 Leilk Liu                           2015-08-07  271  	reg_val = readl(mdata->base + SPI_CMD_REG);
+a568231f463225 Leilk Liu                           2015-08-07  272  	reg_val &= ~SPI_CMD_RST;
+a568231f463225 Leilk Liu                           2015-08-07  273  	writel(reg_val, mdata->base + SPI_CMD_REG);
+a568231f463225 Leilk Liu                           2015-08-07  274  }
+a568231f463225 Leilk Liu                           2015-08-07  275  
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  276  static int mtk_spi_set_hw_cs_timing(struct spi_device *spi)
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  277  {
+cae1578847e60a Yang Yingliang                      2023-08-23  278  	struct mtk_spi *mdata = spi_controller_get_devdata(spi->controller);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  279  	struct spi_delay *cs_setup = &spi->cs_setup;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  280  	struct spi_delay *cs_hold = &spi->cs_hold;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  281  	struct spi_delay *cs_inactive = &spi->cs_inactive;
+5c842e51ac6313 Mason Zhang                         2021-08-09  282  	u32 setup, hold, inactive;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  283  	u32 reg_val;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  284  	int delay;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  285  
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  286  	delay = spi_delay_to_ns(cs_setup, NULL);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  287  	if (delay < 0)
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  288  		return delay;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  289  	setup = (delay * DIV_ROUND_UP(mdata->spi_clk_hz, 1000000)) / 1000;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  290  
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  291  	delay = spi_delay_to_ns(cs_hold, NULL);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  292  	if (delay < 0)
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  293  		return delay;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  294  	hold = (delay * DIV_ROUND_UP(mdata->spi_clk_hz, 1000000)) / 1000;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  295  
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  296  	delay = spi_delay_to_ns(cs_inactive, NULL);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  297  	if (delay < 0)
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  298  		return delay;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  299  	inactive = (delay * DIV_ROUND_UP(mdata->spi_clk_hz, 1000000)) / 1000;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  300  
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  301  	if (hold || setup) {
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  302  		reg_val = readl(mdata->base + SPI_CFG0_REG);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  303  		if (mdata->dev_comp->enhance_timing) {
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  304  			if (hold) {
+5c842e51ac6313 Mason Zhang                         2021-08-09  305  				hold = min_t(u32, hold, 0x10000);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  306  				reg_val &= ~(0xffff << SPI_ADJUST_CFG0_CS_HOLD_OFFSET);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  307  				reg_val |= (((hold - 1) & 0xffff)
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  308  					<< SPI_ADJUST_CFG0_CS_HOLD_OFFSET);
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  309  			}
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  310  			if (setup) {
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  311  				setup = min_t(u32, setup, 0x10000);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  312  				reg_val &= ~(0xffff << SPI_ADJUST_CFG0_CS_SETUP_OFFSET);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  313  				reg_val |= (((setup - 1) & 0xffff)
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  314  					<< SPI_ADJUST_CFG0_CS_SETUP_OFFSET);
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  315  			}
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  316  		} else {
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  317  			if (hold) {
+5c842e51ac6313 Mason Zhang                         2021-08-09  318  				hold = min_t(u32, hold, 0x100);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  319  				reg_val &= ~(0xff << SPI_CFG0_CS_HOLD_OFFSET);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  320  				reg_val |= (((hold - 1) & 0xff) << SPI_CFG0_CS_HOLD_OFFSET);
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  321  			}
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  322  			if (setup) {
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  323  				setup = min_t(u32, setup, 0x100);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  324  				reg_val &= ~(0xff << SPI_CFG0_CS_SETUP_OFFSET);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  325  				reg_val |= (((setup - 1) & 0xff)
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  326  					<< SPI_CFG0_CS_SETUP_OFFSET);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  327  			}
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  328  		}
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  329  		writel(reg_val, mdata->base + SPI_CFG0_REG);
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  330  	}
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  331  
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  332  	if (inactive) {
+5c842e51ac6313 Mason Zhang                         2021-08-09  333  		inactive = min_t(u32, inactive, 0x100);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  334  		reg_val = readl(mdata->base + SPI_CFG1_REG);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  335  		reg_val &= ~SPI_CFG1_CS_IDLE_MASK;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  336  		reg_val |= (((inactive - 1) & 0xff) << SPI_CFG1_CS_IDLE_OFFSET);
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  337  		writel(reg_val, mdata->base + SPI_CFG1_REG);
+3672bb820f3292 Dafna Hirschfeld                    2021-10-01  338  	}
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  339  
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  340  	return 0;
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  341  }
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  342  
+cae1578847e60a Yang Yingliang                      2023-08-23  343  static int mtk_spi_hw_init(struct spi_controller *host,
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  344  			   struct spi_device *spi)
+a568231f463225 Leilk Liu                           2015-08-07  345  {
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  346  	u16 cpha, cpol;
+a568231f463225 Leilk Liu                           2015-08-07  347  	u32 reg_val;
+58a984c79a68d5 Leilk Liu                           2015-10-26 @348  	struct mtk_chip_config *chip_config = spi->controller_data;
+cae1578847e60a Yang Yingliang                      2023-08-23  349  	struct mtk_spi *mdata = spi_controller_get_devdata(host);
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  350  
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  351  	cpha = spi->mode & SPI_CPHA ? 1 : 0;
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  352  	cpol = spi->mode & SPI_CPOL ? 1 : 0;
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  353  
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  354  	reg_val = readl(mdata->base + SPI_CMD_REG);
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  355  	if (mdata->dev_comp->ipm_design) {
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  356  		/* SPI transfer without idle time until packet length done */
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  357  		reg_val |= SPI_CMD_IPM_NONIDLE_MODE;
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  358  		if (spi->mode & SPI_LOOP)
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  359  			reg_val |= SPI_CMD_IPM_SPIM_LOOP;
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  360  		else
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  361  			reg_val &= ~SPI_CMD_IPM_SPIM_LOOP;
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  362  	}
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  363  
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  364  	if (cpha)
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  365  		reg_val |= SPI_CMD_CPHA;
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  366  	else
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  367  		reg_val &= ~SPI_CMD_CPHA;
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  368  	if (cpol)
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  369  		reg_val |= SPI_CMD_CPOL;
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  370  	else
+79b5d3f24dcec5 Leilk Liu                           2015-10-26  371  		reg_val &= ~SPI_CMD_CPOL;
+a568231f463225 Leilk Liu                           2015-08-07  372  
+a568231f463225 Leilk Liu                           2015-08-07  373  	/* set the mlsbx and mlsbtx */
+3e582c6e911ffe Leilk Liu                           2019-06-05  374  	if (spi->mode & SPI_LSB_FIRST) {
+a71d6ea6d3ec3e Leilk Liu                           2015-08-20  375  		reg_val &= ~SPI_CMD_TXMSBF;
+a71d6ea6d3ec3e Leilk Liu                           2015-08-20  376  		reg_val &= ~SPI_CMD_RXMSBF;
+3e582c6e911ffe Leilk Liu                           2019-06-05  377  	} else {
+3e582c6e911ffe Leilk Liu                           2019-06-05  378  		reg_val |= SPI_CMD_TXMSBF;
+3e582c6e911ffe Leilk Liu                           2019-06-05  379  		reg_val |= SPI_CMD_RXMSBF;
+3e582c6e911ffe Leilk Liu                           2019-06-05  380  	}
+a568231f463225 Leilk Liu                           2015-08-07  381  
+a568231f463225 Leilk Liu                           2015-08-07  382  	/* set the tx/rx endian */
+44f636da4e71e0 Leilk Liu                           2015-08-20  383  #ifdef __LITTLE_ENDIAN
+44f636da4e71e0 Leilk Liu                           2015-08-20  384  	reg_val &= ~SPI_CMD_TX_ENDIAN;
+44f636da4e71e0 Leilk Liu                           2015-08-20  385  	reg_val &= ~SPI_CMD_RX_ENDIAN;
+44f636da4e71e0 Leilk Liu                           2015-08-20  386  #else
+44f636da4e71e0 Leilk Liu                           2015-08-20  387  	reg_val |= SPI_CMD_TX_ENDIAN;
+44f636da4e71e0 Leilk Liu                           2015-08-20  388  	reg_val |= SPI_CMD_RX_ENDIAN;
+44f636da4e71e0 Leilk Liu                           2015-08-20  389  #endif
+a568231f463225 Leilk Liu                           2015-08-07  390  
+058fe49da3b6ab Leilk Liu                           2017-06-12  391  	if (mdata->dev_comp->enhance_timing) {
+ae7c2d342a10db Luhua Xu                            2019-11-18  392  		/* set CS polarity */
+ae7c2d342a10db Luhua Xu                            2019-11-18  393  		if (spi->mode & SPI_CS_HIGH)
+058fe49da3b6ab Leilk Liu                           2017-06-12  394  			reg_val |= SPI_CMD_CS_POL;
+058fe49da3b6ab Leilk Liu                           2017-06-12  395  		else
+058fe49da3b6ab Leilk Liu                           2017-06-12  396  			reg_val &= ~SPI_CMD_CS_POL;
+ae7c2d342a10db Luhua Xu                            2019-11-18  397  
+dedfd0a2d3fefe SkyLake.Huang                       2022-06-23  398  		if (mdata->sample_sel)
+058fe49da3b6ab Leilk Liu                           2017-06-12  399  			reg_val |= SPI_CMD_SAMPLE_SEL;
+058fe49da3b6ab Leilk Liu                           2017-06-12  400  		else
+058fe49da3b6ab Leilk Liu                           2017-06-12  401  			reg_val &= ~SPI_CMD_SAMPLE_SEL;
+058fe49da3b6ab Leilk Liu                           2017-06-12  402  	}
+058fe49da3b6ab Leilk Liu                           2017-06-12  403  
+a568231f463225 Leilk Liu                           2015-08-07  404  	/* set finish and pause interrupt always enable */
+152933244a1a32 Leilk Liu                           2015-08-27  405  	reg_val |= SPI_CMD_FINISH_IE | SPI_CMD_PAUSE_IE;
+a568231f463225 Leilk Liu                           2015-08-07  406  
+a568231f463225 Leilk Liu                           2015-08-07  407  	/* disable dma mode */
+a568231f463225 Leilk Liu                           2015-08-07  408  	reg_val &= ~(SPI_CMD_TX_DMA | SPI_CMD_RX_DMA);
+a568231f463225 Leilk Liu                           2015-08-07  409  
+a568231f463225 Leilk Liu                           2015-08-07  410  	/* disable deassert mode */
+a568231f463225 Leilk Liu                           2015-08-07  411  	reg_val &= ~SPI_CMD_DEASSERT;
+a568231f463225 Leilk Liu                           2015-08-07  412  
+a568231f463225 Leilk Liu                           2015-08-07  413  	writel(reg_val, mdata->base + SPI_CMD_REG);
+a568231f463225 Leilk Liu                           2015-08-07  414  
+a568231f463225 Leilk Liu                           2015-08-07  415  	/* pad select */
+a568231f463225 Leilk Liu                           2015-08-07  416  	if (mdata->dev_comp->need_pad_sel)
+9e264f3f85a56c Amit Kumar Mahapatra via Alsa-devel 2023-03-10  417  		writel(mdata->pad_sel[spi_get_chipselect(spi, 0)],
+37457607ecaffe Leilk Liu                           2015-10-26  418  		       mdata->base + SPI_PAD_SEL_REG);
+a568231f463225 Leilk Liu                           2015-08-07  419  
+f84d866ab43fcc Mason Zhang                         2021-07-13  420  	/* tick delay */
+03b1be379dcee2 Leilk Liu                           2022-03-15  421  	if (mdata->dev_comp->enhance_timing) {
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  422  		if (mdata->dev_comp->ipm_design) {
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  423  			reg_val = readl(mdata->base + SPI_CMD_REG);
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  424  			reg_val &= ~SPI_CMD_IPM_GET_TICKDLY_MASK;
+dedfd0a2d3fefe SkyLake.Huang                       2022-06-23  425  			reg_val |= ((mdata->get_tick_dly & 0x7)
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  426  				    << SPI_CMD_IPM_GET_TICKDLY_OFFSET);
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  427  			writel(reg_val, mdata->base + SPI_CMD_REG);
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  428  		} else {
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  429  			reg_val = readl(mdata->base + SPI_CFG1_REG);
+f84d866ab43fcc Mason Zhang                         2021-07-13  430  			reg_val &= ~SPI_CFG1_GET_TICK_DLY_MASK;
+dedfd0a2d3fefe SkyLake.Huang                       2022-06-23  431  			reg_val |= ((mdata->get_tick_dly & 0x7)
+f84d866ab43fcc Mason Zhang                         2021-07-13  432  				    << SPI_CFG1_GET_TICK_DLY_OFFSET);
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  433  			writel(reg_val, mdata->base + SPI_CFG1_REG);
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  434  		}
+03b1be379dcee2 Leilk Liu                           2022-03-15  435  	} else {
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  436  		reg_val = readl(mdata->base + SPI_CFG1_REG);
+03b1be379dcee2 Leilk Liu                           2022-03-15  437  		reg_val &= ~SPI_CFG1_GET_TICK_DLY_MASK_V1;
+dedfd0a2d3fefe SkyLake.Huang                       2022-06-23  438  		reg_val |= ((mdata->get_tick_dly & 0x3)
+03b1be379dcee2 Leilk Liu                           2022-03-15  439  			    << SPI_CFG1_GET_TICK_DLY_OFFSET_V1);
+f84d866ab43fcc Mason Zhang                         2021-07-13  440  		writel(reg_val, mdata->base + SPI_CFG1_REG);
+7e963fb2a33ce4 Leilk Liu                           2022-03-15  441  	}
+f84d866ab43fcc Mason Zhang                         2021-07-13  442  
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  443  	/* set hw cs timing */
+04e6bb0d6bb127 Mason Zhang                         2021-08-04  444  	mtk_spi_set_hw_cs_timing(spi);
+a568231f463225 Leilk Liu                           2015-08-07  445  	return 0;
+a568231f463225 Leilk Liu                           2015-08-07  446  }
+a568231f463225 Leilk Liu                           2015-08-07  447  
+
+:::::: The code at line 348 was first introduced by commit
+:::::: 58a984c79a68d508ccfccf4b82c0eaf7f487c399 spi: mediatek: handle controller_data in mtk_spi_setup
+
+:::::: TO: Leilk Liu <leilk.liu@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
