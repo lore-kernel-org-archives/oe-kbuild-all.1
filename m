@@ -1,132 +1,207 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB176143895
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 18:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A2814F136;
+	Sat, 21 Dec 2024 18:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734806796; cv=none; b=bzbMyEfQwTdu2/7yQewQjBbAEgTb2hxPc3GnvKNFuGCxu/SsFZs0EXotsNkz5gzup9lwATT+xs0cGXll0XJeVSenyfdZLn4h5BCZA7lGO8ZAWzBp37x/lAG0Kvr4+XYmd7ddQ6g/OUebWJRW6H6q8Mw9RXfQ8AhXWaMx7TAflzM=
+	t=1734806799; cv=none; b=SKzp/1j3/fqZ0S7JZ0ylWSmzL7AFUT58BDjyyQim1txfjdjJ1lBOd1dsZ5/jKL7jKzFCAsXvKOk4YlNrqV3+N5DrNmAKvN4QSwZor/y3Ay1lslMLOt9t+qcIMlA0/WqXrOUQMatKfJGKeJWMXGEAQ27KPCfpKQ6Th7PzorVN2Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734806796; c=relaxed/simple;
-	bh=F7THzvlX8AaFakuNH26sYQitfB4UmKso0LYUWyltPi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AFFeNqUeAQ9aqUFlA2/0kvE7UiobwtU1LOQksuv7U8XxTQIK9wlSpGrO0PfS3TlpDtG0KKloAQRO/Qxa2fkagxbuzjDvdj3VSmeFEOF8PuYPTmz9LPr5Vw1CWpfVZeyWPj1/xVh5FVGmm1umj6EQADNLnHDKgNBnTJ0TfJGItLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHeG28LT; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1734806799; c=relaxed/simple;
+	bh=zJuK4EGPag3rRSoZW/226OQJu7iD2ASDZu2A91lYscY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HlMIejO0E1uL4AYXZepkPh3+So4Zp1hhG0OtOQwNiGDikXbXqx2SnYYWoRf3sa8ZaLQ09Wb3fmxXcMAjqoUr6ij6cm7vfgbm4VQDXrTxQroIixoWrQI+bh1I7UedCoWQ0+1ZcoDuA2Ez9JnH2zExnorbS0eE214CMwqIj6yuGpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeUG5jdg; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHeG28LT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeUG5jdg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734806795; x=1766342795;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=F7THzvlX8AaFakuNH26sYQitfB4UmKso0LYUWyltPi8=;
-  b=GHeG28LTZsiZhtjSh3ZDhVem7J39nFyQFUj5sIm6GITXv1zYxqw5ykFf
-   27VyLJWS2q80KwqabcPUWoMBaH6vZNDimT6OyVrLiqfLlaNiMSySVwYNb
-   8MpuFhb4EiXnudM2jq9GP63hyCbyNdJxkHMtO3o6C0mpSRqsj87iIAcFa
-   PbuBvmDb88404bjdeEtE1ThFmTAWFujDCg5d2UhOPL10PLzABm+Fthf69
-   5C9Vs+nbIdE1eLuOL9unFC4kjRvgK1sNds8Jw/DKTT7+nJG6EInj2fUO8
-   G5OVm0ErYgCL0TlWZDonZzEjL67oPPkWSTcxJ/cFFxvO01+IxfgNHy75U
+  t=1734806798; x=1766342798;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zJuK4EGPag3rRSoZW/226OQJu7iD2ASDZu2A91lYscY=;
+  b=ZeUG5jdgoJxHRl6oBffeXi7D4syi08NIBpK6bIsSf1T0gEtC7deNYtYr
+   MB3KpCSzrbjoZIVfnMywU5uLs8qCbRR6DP2uyX//4JDXHskOBkD94CF7K
+   adt027Jp8wmei+IZyDcbrfODFaRN6SAdKWfARgdnXtF6RpoqOkH0YMdRp
+   fc0vWDR8oYOckwpxP8tCZjoC6aZ5jOedCOfwWUsyyK61JN95mkqlzC4HH
+   GBgY4ZoJEc3+/sgZuK8pH+wHOt9p8AlrsZq/Jrgy5hNQ9AhJ8Zwk+B9sK
+   B+sPH/YUWCnk1dA+1DfHW6QqXwsiR+EUy6bVPjqtyMopPkMb9qki+4xPe
    Q==;
-X-CSE-ConnectionGUID: gJ1jLyu4STyLRxjpvKRG3g==
-X-CSE-MsgGUID: 04ZOozhTQUKy7VNpGtpaog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="22918770"
+X-CSE-ConnectionGUID: Ca/jPqUAQBaZJRh41zAfyw==
+X-CSE-MsgGUID: 2V3EfWT8RpidkVgrvF3dmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="22918773"
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="22918770"
+   d="scan'208";a="22918773"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 10:46:34 -0800
-X-CSE-ConnectionGUID: G1opYLruQrys/e6Xc6bY+w==
-X-CSE-MsgGUID: kE5uXSSqSpOxACYCl4dXEQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 10:46:37 -0800
+X-CSE-ConnectionGUID: jNutlilzQvadKrwMSzmgOw==
+X-CSE-MsgGUID: A6DngFlURoewyjIgoGJkAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="103886652"
+   d="scan'208";a="103886653"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 21 Dec 2024 10:46:32 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tP4Ug-0002PO-02;
-	Sat, 21 Dec 2024 18:46:30 +0000
-Date: Sun, 22 Dec 2024 02:45:56 +0800
+	id 1tP4Uf-0002PD-2q;
+	Sat, 21 Dec 2024 18:46:29 +0000
+Date: Sun, 22 Dec 2024 02:45:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Pavel <pavel@ucw.cz>
-Subject: drivers/leds/leds-lm3692x.c:121: warning: Function parameter or
- struct member 'brightness_ctrl' not described in 'lm3692x_led'
-Message-ID: <202412220226.Dfmc2u0x-lkp@intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	John Cox <john.cox@raspberrypi.com>,
+	Dom Cobley <dom@raspberrypi.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 5/7] media: platform: Add Raspberry Pi HEVC decoder driver
+Message-ID: <202412220205.Gf2N9CUb-lkp@intel.com>
+References: <20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e@raspberrypi.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   499551201b5f4fd3c0618a3e95e3d0d15ea18f31
-commit: 260718b3a35d23fe89d27cc7b5e8bd30f4bba1aa leds: lm3692x: Disable chip on brightness 0
-date:   5 years ago
-config: s390-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241222/202412220226.Dfmc2u0x-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220226.Dfmc2u0x-lkp@intel.com/reproduce)
+Hi Dave,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on e90c9612ac3969cb8206029a26bcd2b6f5d4a942]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Stevenson/RFC-media-Add-media_request_-pin-unpin-API/20241221-002633
+base:   e90c9612ac3969cb8206029a26bcd2b6f5d4a942
+patch link:    https://lore.kernel.org/r/20241220-media-rpi-hevc-dec-v1-5-0ebcc04ed42e%40raspberrypi.com
+patch subject: [PATCH 5/7] media: platform: Add Raspberry Pi HEVC decoder driver
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241222/202412220205.Gf2N9CUb-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220205.Gf2N9CUb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412220226.Dfmc2u0x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412220205.Gf2N9CUb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'lock' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'client' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'led_dev' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'regmap' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'enable_gpio' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'regulator' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'led_enable' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'model_id' not described in 'lm3692x_led'
-   drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'boost_ctrl' not described in 'lm3692x_led'
->> drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'brightness_ctrl' not described in 'lm3692x_led'
->> drivers/leds/leds-lm3692x.c:121: warning: Function parameter or struct member 'enabled' not described in 'lm3692x_led'
+   In file included from drivers/media/platform/raspberrypi/hevc_dec/hevc_d.c:14:
+   In file included from include/linux/platform_device.h:13:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/raspberrypi/hevc_dec/hevc_d.c:24:10: fatal error: 'hevc_d_h265.h' file not found
+      24 | #include "hevc_d_h265.h"
+         |          ^~~~~~~~~~~~~~~
+   4 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/raspberrypi/hevc_dec/hevc_d_video.c:14:
+   In file included from include/media/videobuf2-dma-contig.h:16:
+   In file included from include/media/videobuf2-v4l2.h:16:
+   In file included from include/media/videobuf2-core.h:18:
+   In file included from include/linux/dma-buf.h:19:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/raspberrypi/hevc_dec/hevc_d_video.c:21:10: fatal error: 'hevc_d_h265.h' file not found
+      21 | #include "hevc_d_h265.h"
+         |          ^~~~~~~~~~~~~~~
+   4 warnings and 1 error generated.
+--
+   In file included from drivers/media/platform/raspberrypi/hevc_dec/hevc_d_h265.c:17:
+   In file included from include/media/videobuf2-dma-contig.h:16:
+   In file included from include/media/videobuf2-v4l2.h:16:
+   In file included from include/media/videobuf2-core.h:18:
+   In file included from include/linux/dma-buf.h:19:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/raspberrypi/hevc_dec/hevc_d_h265.c:20:10: fatal error: 'hevc_d_h265.h' file not found
+      20 | #include "hevc_d_h265.h"
+         |          ^~~~~~~~~~~~~~~
+   4 warnings and 1 error generated.
 
 
-vim +121 drivers/leds/leds-lm3692x.c
+vim +24 drivers/media/platform/raspberrypi/hevc_dec/hevc_d.c
 
-9699cb6bbef273 Dan Murphy    2017-12-12   97  
-9699cb6bbef273 Dan Murphy    2017-12-12   98  /**
-9699cb6bbef273 Dan Murphy    2017-12-12   99   * struct lm3692x_led -
-9699cb6bbef273 Dan Murphy    2017-12-12  100   * @lock - Lock for reading/writing the device
-9699cb6bbef273 Dan Murphy    2017-12-12  101   * @client - Pointer to the I2C client
-9699cb6bbef273 Dan Murphy    2017-12-12  102   * @led_dev - LED class device pointer
-9699cb6bbef273 Dan Murphy    2017-12-12  103   * @regmap - Devices register map
-9699cb6bbef273 Dan Murphy    2017-12-12  104   * @enable_gpio - VDDIO/EN gpio to enable communication interface
-9699cb6bbef273 Dan Murphy    2017-12-12  105   * @regulator - LED supply regulator pointer
-07abd4325e7013 Dan Murphy    2018-07-02  106   * @led_enable - LED sync to be enabled
-07abd4325e7013 Dan Murphy    2018-07-02  107   * @model_id - Current device model ID enumerated
-9699cb6bbef273 Dan Murphy    2017-12-12  108   */
-9699cb6bbef273 Dan Murphy    2017-12-12  109  struct lm3692x_led {
-9699cb6bbef273 Dan Murphy    2017-12-12  110  	struct mutex lock;
-9699cb6bbef273 Dan Murphy    2017-12-12  111  	struct i2c_client *client;
-9699cb6bbef273 Dan Murphy    2017-12-12  112  	struct led_classdev led_dev;
-9699cb6bbef273 Dan Murphy    2017-12-12  113  	struct regmap *regmap;
-9699cb6bbef273 Dan Murphy    2017-12-12  114  	struct gpio_desc *enable_gpio;
-9699cb6bbef273 Dan Murphy    2017-12-12  115  	struct regulator *regulator;
-07abd4325e7013 Dan Murphy    2018-07-02  116  	int led_enable;
-07abd4325e7013 Dan Murphy    2018-07-02  117  	int model_id;
-cffd61a5c77555 Guido Günther 2020-01-04  118  
-260718b3a35d23 Guido Günther 2020-01-06  119  	u8 boost_ctrl, brightness_ctrl;
-260718b3a35d23 Guido Günther 2020-01-06  120  	bool enabled;
-9699cb6bbef273 Dan Murphy    2017-12-12 @121  };
-9699cb6bbef273 Dan Murphy    2017-12-12  122  
-
-:::::: The code at line 121 was first introduced by commit
-:::::: 9699cb6bbef273d7be25441bfc20a2db9ee0f509 leds: lm3692x: Introduce LM3692x dual string driver
-
-:::::: TO: Dan Murphy <dmurphy@ti.com>
-:::::: CC: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+    22	
+    23	#include "hevc_d.h"
+  > 24	#include "hevc_d_h265.h"
+    25	#include "hevc_d_video.h"
+    26	#include "hevc_d_hw.h"
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
