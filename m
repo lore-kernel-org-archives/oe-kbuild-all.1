@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E9A2E40E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 05:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0D21DE2D7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 05:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734757320; cv=none; b=qSlP+xPN7vKQbXdAKQ6L9ZcQsLr4PEVrxNeJgI+Fy4xGb7Uqo0HT08mP14TaXldaJ0qOaMzfFcBX6r2bDgwuYwuzQxar3ohuqwr+RZnU43ryb02336XU7VzAuNJPb7X5Gv8sUqApH9eX/x1aEYk8wmZDhh2YQuSGhy2u8QtIJiw=
+	t=1734757321; cv=none; b=PjKYz7yhiVBw11fSgItY2ocGsx9eH/22z8NEw21mw1cF1NxJu9/0npPdCxM4yg7kQ9hhfAhDyyfOJRTleFwPGCrbTyQMACOS4kuEbunWfO67oQGDrTaFPJ570ZlCW0fD8PucqgNVCmAKu21h95KNhtfEIUMGZ6UXGz1vIzjregw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734757320; c=relaxed/simple;
-	bh=IyvQj0rMjVBcfmvT6sFZp8xmqSyb7Sg9Y5qRkpgxDow=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZWEJfZCTcM6nH6ziBPLUcGxxZxLJ13LlYvPF6WE0FXfCrPHBa9fMqJ4WAgaa7XvldybGFL/2fMcebK4rEqS0BG2KkXD+AD5ivLTIiOG5KnJ3kSIs7EHH1hBSr9d26nU8vunRoFLhozvxjoNkHHcl55NZHu3ZF0slFT8WICPTwIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEfqpoy4; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1734757321; c=relaxed/simple;
+	bh=+e5G9Vhxklyeb7e8RpX8psgBXg1VFuf0Q5qX8n6rWbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ld91ZjJI1k7MAJ0Kl8kD4tYvmK8Za3BI2UxGXVpx2Txzu0UrvBSSTBYgl4cl8M5hari8r9t5XZSWhsNpRwG5qfHvl0dnzapHZXI+2h66I3SkBjhqh74W4HeDEmIdY9HNctV+Thg9P+nHjF0YTPlZbdjaLNvvDj7F4d3tDW6AYmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BAA6S0NA; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEfqpoy4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BAA6S0NA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734757317; x=1766293317;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IyvQj0rMjVBcfmvT6sFZp8xmqSyb7Sg9Y5qRkpgxDow=;
-  b=nEfqpoy43jmcEasYQx8PQG0d1g2xvVWpaUMhrEVLp6YeUuH5sqHEoMM4
-   +/PLEWAgjx0wuy5U/ne/NUaW2d7W5Eq0OX49uf/mNISUvLqftUrN4Svsb
-   dHgDbr0tjIJ4irrfDzO+KPDNYNnorJFNxCLTaZMc+I0CHZce/WcRB65/r
-   1oRwXsYPeTT1ACVDO1wSZnpPRcoYJtY8iAfR8LE3a3Cr1GehhTGnCpQWe
-   oqbHvDbUl1IfQzKwPk5jj/JG8LPt1vrt6o8p8b2nuqH8P3VXXPJbyhSMU
-   vSj5KbQa/sSoPu5KvZaMQ1xdF5Dt587u2odAh5qT0UpUya0+iwY0rT3EM
+  t=1734757319; x=1766293319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+e5G9Vhxklyeb7e8RpX8psgBXg1VFuf0Q5qX8n6rWbk=;
+  b=BAA6S0NA+7HZIAUokqnPNeDDj3WrhdZoJpyDc0jBFtRVY6pwlrd9o/du
+   Bq/xU86dhepboPT4tYV/5bfOwjwPsADEvEr59dtiR/uDQUOX2jSRn5J4f
+   yr7sPzTF4KdsGGVuCFIkRrB762V4zYePnQQTy0KqZupt0wiOVm+qa5oSU
+   z5NRDD5uA5pjp8rqtk1GM79mp9CC8eUkq01ud50FSzT9XCMUyt4MUhc8y
+   stdkbOy/GwtqMrN3cIleAn67+CZeph7iyBE8ZQNA6Y6652aiTBWXivZW6
+   hkjAPrn4pUM+cahmi9ze5tHckQ3Wu+2wWIRDJ43CAu7P/n5dFNG3sfd26
    Q==;
-X-CSE-ConnectionGUID: qqUSocSORDy9mLluRKJEQQ==
-X-CSE-MsgGUID: csBeAcDmSDqQuQXfUaNxtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39087359"
+X-CSE-ConnectionGUID: bwopRGbsSN2iahAsHEpbbw==
+X-CSE-MsgGUID: 4i8kcQmHR5mSRN2IByOxCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39087367"
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="39087359"
+   d="scan'208";a="39087367"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 21:01:55 -0800
-X-CSE-ConnectionGUID: oBZMWswzTfSOphJz6AJVaA==
-X-CSE-MsgGUID: rpEQxMX2QjOkX3hMa9WBAg==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 21:01:56 -0800
+X-CSE-ConnectionGUID: rn3jpK3MT5uZbVAWSQ1jNA==
+X-CSE-MsgGUID: bcG8Dh6fRES5x+i2gqaBbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="98907632"
+   d="scan'208";a="98907630"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2024 21:01:54 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOrce-0001w3-0R;
+	id 1tOrce-0001vz-0I;
 	Sat, 21 Dec 2024 05:01:52 +0000
-Date: Sat, 21 Dec 2024 13:01:25 +0800
+Date: Sat, 21 Dec 2024 13:01:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:uaccess-hardening-2 6/7] fs/readdir.c:81:9: error:
- implicit declaration of function 'unsafe_copy_to_user'; did you mean
- 'kmsan_copy_to_user'?
-Message-ID: <202412211228.8GnR4PWz-lkp@intel.com>
+To: Kent Libetario <Kent.Libetario@analog.com>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 2/2] drivers: hwmon: add driver for max42500
+Message-ID: <202412211209.zqypWgoc-lkp@intel.com>
+References: <20241220012003.9568-3-Kent.Libetario@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,223 +66,277 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241220012003.9568-3-Kent.Libetario@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git uaccess-hardening-2
-head:   3bdf7366340d6baa8c06d0f8f0093868c0c675d2
-commit: 43815105e17e4070555526222913036e603b7a7c [6/7] x86/uaccess: Speed up unsafe_copy_to_user()
-config: i386-buildonly-randconfig-002-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211228.8GnR4PWz-lkp@intel.com/config)
+Hi Kent,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on de076198d1e4934c5fc17aa52d5f1884f469ce1a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kent-Libetario/dt-bindings-hwmon-add-adi-max42500-yaml/20241220-092728
+base:   de076198d1e4934c5fc17aa52d5f1884f469ce1a
+patch link:    https://lore.kernel.org/r/20241220012003.9568-3-Kent.Libetario%40analog.com
+patch subject: [PATCH 2/2] drivers: hwmon: add driver for max42500
+config: x86_64-randconfig-r072-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211209.zqypWgoc-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211228.8GnR4PWz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412211209.zqypWgoc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412211228.8GnR4PWz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412211209.zqypWgoc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/readdir.c: In function 'fillonedir':
->> fs/readdir.c:81:9: error: implicit declaration of function 'unsafe_copy_to_user'; did you mean 'kmsan_copy_to_user'? [-Werror=implicit-function-declaration]
-      81 |         unsafe_copy_to_user(dst, src, len, label);              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/readdir.c:208:9: note: in expansion of macro 'unsafe_copy_dirent_name'
-     208 |         unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
->> fs/readdir.c:208:63: error: 'efault_end' undeclared (first use in this function)
-     208 |         unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-         |                                                               ^~~~~~~~~~
-   fs/readdir.c:81:44: note: in definition of macro 'unsafe_copy_dirent_name'
-      81 |         unsafe_copy_to_user(dst, src, len, label);              \
-         |                                            ^~~~~
-   fs/readdir.c:208:63: note: each undeclared identifier is reported only once for each function it appears in
-     208 |         unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-         |                                                               ^~~~~~~~~~
-   fs/readdir.c:81:44: note: in definition of macro 'unsafe_copy_dirent_name'
-      81 |         unsafe_copy_to_user(dst, src, len, label);              \
-         |                                            ^~~~~
-   fs/readdir.c: In function 'filldir':
-   fs/readdir.c:294:63: error: 'efault_end' undeclared (first use in this function)
-     294 |         unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-         |                                                               ^~~~~~~~~~
-   fs/readdir.c:81:44: note: in definition of macro 'unsafe_copy_dirent_name'
-      81 |         unsafe_copy_to_user(dst, src, len, label);              \
-         |                                            ^~~~~
-   fs/readdir.c: In function 'filldir64':
-   fs/readdir.c:374:63: error: 'efault_end' undeclared (first use in this function)
-     374 |         unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-         |                                                               ^~~~~~~~~~
-   fs/readdir.c:81:44: note: in definition of macro 'unsafe_copy_dirent_name'
-      81 |         unsafe_copy_to_user(dst, src, len, label);              \
-         |                                            ^~~~~
-   cc1: some warnings being treated as errors
---
-   net/core/scm.c: In function 'put_cmsg':
->> net/core/scm.c:258:17: error: implicit declaration of function 'unsafe_copy_to_user'; did you mean 'kmsan_copy_to_user'? [-Werror=implicit-function-declaration]
-     258 |                 unsafe_copy_to_user(CMSG_USER_DATA(cm), data,
-         |                 ^~~~~~~~~~~~~~~~~~~
-         |                 kmsan_copy_to_user
->> net/core/scm.c:259:58: error: 'efault_end' undeclared (first use in this function)
-     259 |                                     cmlen - sizeof(*cm), efault_end);
-         |                                                          ^~~~~~~~~~
-   net/core/scm.c:259:58: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+>> drivers/hwmon/max42500.c:206: warning: Cannot understand  * @brief Read a raw value from a register.
+    on line 206 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:251: warning: Cannot understand  * @brief Write a raw value to a register.
+    on line 251 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:278: warning: Cannot understand  * @brief Update a register's value based on a mask.
+    on line 278 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:298: warning: Cannot understand  * @brief Set nominal voltage for VM1 to VM5.
+    on line 298 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:331: warning: Cannot understand  * @brief Get the status of the voltage monitor input.
+    on line 331 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:390: warning: Cannot understand  * @brief Set the overvoltage threshold of VM1 to VM5.
+    on line 390 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:418: warning: Cannot understand  * @brief Set the overvoltage threshold of VM6 and VM7.
+    on line 418 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:446: warning: Cannot understand  * @brief Set the undervoltage threshold of VM1 to VM5.
+    on line 446 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:473: warning: Cannot understand  * @brief Set the undervoltage threshold of VM6 and VM7.
+    on line 473 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:501: warning: Cannot understand  * @brief Get the FPS clock divider value.
+    on line 501 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:520: warning: Cannot understand  * @brief Get power-up timestamp for a specified voltage monitor input.
+    on line 520 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:551: warning: Cannot understand  * @brief Get power-down timestamp for a specified voltage monitor input.
+    on line 551 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:582: warning: Cannot understand  * @brief Enable/Disable watchdog
+    on line 582 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:604: warning: Cannot understand  * @brief 8-bit watchdog key computation.
+    on line 604 - I thought it was a doc line
+>> drivers/hwmon/max42500.c:630: warning: Cannot understand  * @brief Update the watchdog key based on the mode and current value.
+    on line 630 - I thought it was a doc line
 
 
-vim +81 fs/readdir.c
+vim +206 drivers/hwmon/max42500.c
 
-3e327154967078 Linus Torvalds      2023-08-05   71  
-9f79b78ef74436 Linus Torvalds      2016-05-21   72  /*
-992f03ff8661bb Thorsten Blum       2024-06-02   73   * Note the "unsafe_put_user()" semantics: we goto a
-9f79b78ef74436 Linus Torvalds      2016-05-21   74   * label for errors.
-9f79b78ef74436 Linus Torvalds      2016-05-21   75   */
-9f79b78ef74436 Linus Torvalds      2016-05-21   76  #define unsafe_copy_dirent_name(_dst, _src, _len, label) do {	\
-9f79b78ef74436 Linus Torvalds      2016-05-21   77  	char __user *dst = (_dst);				\
-9f79b78ef74436 Linus Torvalds      2016-05-21   78  	const char *src = (_src);				\
-9f79b78ef74436 Linus Torvalds      2016-05-21   79  	size_t len = (_len);					\
-c512c69187197f Linus Torvalds      2019-10-07   80  	unsafe_put_user(0, dst+len, label);			\
-c512c69187197f Linus Torvalds      2019-10-07  @81  	unsafe_copy_to_user(dst, src, len, label);		\
-9f79b78ef74436 Linus Torvalds      2016-05-21   82  } while (0)
-9f79b78ef74436 Linus Torvalds      2016-05-21   83  
-9f79b78ef74436 Linus Torvalds      2016-05-21   84  
-5c0ba4e0762e6d Al Viro             2013-05-15   85  int iterate_dir(struct file *file, struct dir_context *ctx)
-^1da177e4c3f41 Linus Torvalds      2005-04-16   86  {
-496ad9aa8ef448 Al Viro             2013-01-23   87  	struct inode *inode = file_inode(file);
-^1da177e4c3f41 Linus Torvalds      2005-04-16   88  	int res = -ENOTDIR;
-3e327154967078 Linus Torvalds      2023-08-05   89  
-3e327154967078 Linus Torvalds      2023-08-05   90  	if (!file->f_op->iterate_shared)
-^1da177e4c3f41 Linus Torvalds      2005-04-16   91  		goto out;
-^1da177e4c3f41 Linus Torvalds      2005-04-16   92  
-^1da177e4c3f41 Linus Torvalds      2005-04-16   93  	res = security_file_permission(file, MAY_READ);
-^1da177e4c3f41 Linus Torvalds      2005-04-16   94  	if (res)
-^1da177e4c3f41 Linus Torvalds      2005-04-16   95  		goto out;
-^1da177e4c3f41 Linus Torvalds      2005-04-16   96  
-d9e5d31084b024 Amir Goldstein      2023-12-12   97  	res = fsnotify_file_perm(file, MAY_READ);
-d9e5d31084b024 Amir Goldstein      2023-12-12   98  	if (res)
-d9e5d31084b024 Amir Goldstein      2023-12-12   99  		goto out;
-d9e5d31084b024 Amir Goldstein      2023-12-12  100  
-0dc208b5d5feed Kirill Tkhai        2017-09-29  101  	res = down_read_killable(&inode->i_rwsem);
-002354112f1e3c Al Viro             2016-05-26  102  	if (res)
-002354112f1e3c Al Viro             2016-05-26  103  		goto out;
-da78451190bdaa Liam R. Howlett     2007-12-06  104  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  105  	res = -ENOENT;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  106  	if (!IS_DEADDIR(inode)) {
-bb6f619b3a49f9 Al Viro             2013-05-15  107  		ctx->pos = file->f_pos;
-6192269444ebfb Al Viro             2016-04-20  108  		res = file->f_op->iterate_shared(file, ctx);
-bb6f619b3a49f9 Al Viro             2013-05-15  109  		file->f_pos = ctx->pos;
-d4c7cf6cffb1bc Heinrich Schuchardt 2014-06-04  110  		fsnotify_access(file);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  111  		file_accessed(file);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  112  	}
-6192269444ebfb Al Viro             2016-04-20  113  	inode_unlock_shared(inode);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  114  out:
-^1da177e4c3f41 Linus Torvalds      2005-04-16  115  	return res;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  116  }
-5c0ba4e0762e6d Al Viro             2013-05-15  117  EXPORT_SYMBOL(iterate_dir);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  118  
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  119  /*
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  120   * POSIX says that a dirent name cannot contain NULL or a '/'.
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  121   *
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  122   * It's not 100% clear what we should really do in this case.
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  123   * The filesystem is clearly corrupted, but returning a hard
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  124   * error means that you now don't see any of the other names
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  125   * either, so that isn't a perfect alternative.
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  126   *
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  127   * And if you return an error, what error do you use? Several
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  128   * filesystems seem to have decided on EUCLEAN being the error
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  129   * code for EFSCORRUPTED, and that may be the error to use. Or
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  130   * just EIO, which is perhaps more obvious to users.
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  131   *
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  132   * In order to see the other file names in the directory, the
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  133   * caller might want to make this a "soft" error: skip the
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  134   * entry, and return the error at the end instead.
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  135   *
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  136   * Note that this should likely do a "memchr(name, 0, len)"
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  137   * check too, since that would be filesystem corruption as
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  138   * well. However, that case can't actually confuse user space,
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  139   * which has to do a strlen() on the name anyway to find the
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  140   * filename length, and the above "soft error" worry means
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  141   * that it's probably better left alone until we have that
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  142   * issue clarified.
-2c6b7bcd747201 Linus Torvalds      2020-01-23  143   *
-2c6b7bcd747201 Linus Torvalds      2020-01-23  144   * Note the PATH_MAX check - it's arbitrary but the real
-2c6b7bcd747201 Linus Torvalds      2020-01-23  145   * kernel limit on a possible path component, not NAME_MAX,
-2c6b7bcd747201 Linus Torvalds      2020-01-23  146   * which is the technical standard limit.
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  147   */
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  148  static int verify_dirent_name(const char *name, int len)
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  149  {
-2c6b7bcd747201 Linus Torvalds      2020-01-23  150  	if (len <= 0 || len >= PATH_MAX)
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  151  		return -EIO;
-b9959c7a347d6a Linus Torvalds      2019-10-18  152  	if (memchr(name, '/', len))
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  153  		return -EIO;
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  154  	return 0;
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  155  }
-8a23eb804ca4f2 Linus Torvalds      2019-10-05  156  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  157  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  158   * Traditional linux readdir() handling..
-^1da177e4c3f41 Linus Torvalds      2005-04-16  159   *
-^1da177e4c3f41 Linus Torvalds      2005-04-16  160   * "count=1" is a special case, meaning that the buffer is one
-^1da177e4c3f41 Linus Torvalds      2005-04-16  161   * dirent-structure in size and that the code can't handle more
-^1da177e4c3f41 Linus Torvalds      2005-04-16  162   * anyway. Thus the special "fillonedir()" function for that
-^1da177e4c3f41 Linus Torvalds      2005-04-16  163   * case (the low-level handlers don't need to care about this).
-^1da177e4c3f41 Linus Torvalds      2005-04-16  164   */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  165  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  166  #ifdef __ARCH_WANT_OLD_READDIR
-^1da177e4c3f41 Linus Torvalds      2005-04-16  167  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  168  struct old_linux_dirent {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  169  	unsigned long	d_ino;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  170  	unsigned long	d_offset;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  171  	unsigned short	d_namlen;
-2507135e4ff231 Gustavo A. R. Silva 2023-06-20  172  	char		d_name[];
-^1da177e4c3f41 Linus Torvalds      2005-04-16  173  };
-^1da177e4c3f41 Linus Torvalds      2005-04-16  174  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  175  struct readdir_callback {
-5c0ba4e0762e6d Al Viro             2013-05-15  176  	struct dir_context ctx;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  177  	struct old_linux_dirent __user * dirent;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  178  	int result;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  179  };
-^1da177e4c3f41 Linus Torvalds      2005-04-16  180  
-25885a35a72007 Al Viro             2022-08-16  181  static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
-ac7576f4b1da8c Miklos Szeredi      2014-10-30  182  		      loff_t offset, u64 ino, unsigned int d_type)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  183  {
-ac7576f4b1da8c Miklos Szeredi      2014-10-30  184  	struct readdir_callback *buf =
-ac7576f4b1da8c Miklos Szeredi      2014-10-30  185  		container_of(ctx, struct readdir_callback, ctx);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  186  	struct old_linux_dirent __user * dirent;
-afefdbb28a0a2a David Howells       2006-10-03  187  	unsigned long d_ino;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  188  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  189  	if (buf->result)
-25885a35a72007 Al Viro             2022-08-16  190  		return false;
-0c93ac69407d63 Linus Torvalds      2021-04-17  191  	buf->result = verify_dirent_name(name, namlen);
-25885a35a72007 Al Viro             2022-08-16  192  	if (buf->result)
-25885a35a72007 Al Viro             2022-08-16  193  		return false;
-afefdbb28a0a2a David Howells       2006-10-03  194  	d_ino = ino;
-8f3f655da72885 Al Viro             2008-08-12  195  	if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
-8f3f655da72885 Al Viro             2008-08-12  196  		buf->result = -EOVERFLOW;
-25885a35a72007 Al Viro             2022-08-16  197  		return false;
-8f3f655da72885 Al Viro             2008-08-12  198  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  199  	buf->result++;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  200  	dirent = buf->dirent;
-391b7461d4a14e Al Viro             2020-02-18  201  	if (!user_write_access_begin(dirent,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  202  			(unsigned long)(dirent->d_name + namlen + 1) -
-^1da177e4c3f41 Linus Torvalds      2005-04-16  203  				(unsigned long)dirent))
-^1da177e4c3f41 Linus Torvalds      2005-04-16  204  		goto efault;
-391b7461d4a14e Al Viro             2020-02-18  205  	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
-391b7461d4a14e Al Viro             2020-02-18  206  	unsafe_put_user(offset, &dirent->d_offset, efault_end);
-391b7461d4a14e Al Viro             2020-02-18  207  	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
-391b7461d4a14e Al Viro             2020-02-18 @208  	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-391b7461d4a14e Al Viro             2020-02-18  209  	user_write_access_end();
-25885a35a72007 Al Viro             2022-08-16  210  	return true;
-391b7461d4a14e Al Viro             2020-02-18  211  efault_end:
-391b7461d4a14e Al Viro             2020-02-18  212  	user_write_access_end();
-^1da177e4c3f41 Linus Torvalds      2005-04-16  213  efault:
-^1da177e4c3f41 Linus Torvalds      2005-04-16  214  	buf->result = -EFAULT;
-25885a35a72007 Al Viro             2022-08-16  215  	return false;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  216  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  217  
-
-:::::: The code at line 81 was first introduced by commit
-:::::: c512c69187197fe08026cb5bbe7b9709f4f89b73 uaccess: implement a proper unsafe_copy_to_user() and switch filldir over to it
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   203	
+   204	/************************ Functions Definitions **************************/
+   205	/**
+ > 206	 * @brief Read a raw value from a register.
+   207	 * @return 0 in case of success, error code otherwise.
+   208	 */
+   209	static int max42500_reg_read(struct max42500_state *st,
+   210									u8 reg_addr, u8 *reg_data)
+   211	{
+   212		int ret;
+   213		u8 i2c_data[MAX42500_I2C_RD_FRAME_SIZE] = {0};
+   214		u8 bytes_num;
+   215		u8 pece_value;
+   216	
+   217		/* PEC is computed over entire I2C frame from first START condition */
+   218		i2c_data[0] = (st->client->addr << 1);
+   219		i2c_data[1] = reg_addr;
+   220		i2c_data[2] = (st->client->addr << 1) | 0x1;
+   221	
+   222		/* I2C write target address */
+   223		bytes_num = 1;
+   224	
+   225		ret = regmap_bulk_write(st->regmap, reg_addr, &i2c_data[1], bytes_num);
+   226		if (ret)
+   227			return ret;
+   228	
+   229		/* Change byte count if PECE is enabled (1-byte data. 1-byte PEC) */
+   230		bytes_num = (st->config->pece) ? 2 : bytes_num;
+   231	
+   232		ret = regmap_bulk_read(st->regmap, reg_addr, &i2c_data[3], bytes_num);
+   233		if (ret)
+   234			return ret;
+   235	
+   236		if (st->config->pece) {
+   237			/* Compute CRC over entire I2C frame */
+   238			pece_value = crc8(max42500_crc8, i2c_data,
+   239								(MAX42500_I2C_RD_FRAME_SIZE - 1), 0);
+   240	
+   241			if (i2c_data[4] != pece_value)
+   242				return -EIO;
+   243		}
+   244	
+   245		*reg_data = i2c_data[3];
+   246	
+   247		return 0;
+   248	}
+   249	
+   250	/**
+ > 251	 * @brief Write a raw value to a register.
+   252	 * @return 0 in case of success, negative error code otherwise.
+   253	 */
+   254	static int max42500_reg_write(struct max42500_state *st,
+   255									u8 reg_addr, u8 data)
+   256	{
+   257		u8 i2c_data[MAX42500_I2C_WR_FRAME_SIZE] = {0};
+   258		u8 bytes_num;
+   259		u8 pece_value;
+   260	
+   261		bytes_num = (st->config->pece) ? (MAX42500_I2C_WR_FRAME_SIZE - 1) : 2;
+   262		i2c_data[0] = (st->client->addr << 1);
+   263		i2c_data[1] = reg_addr;
+   264		i2c_data[2] = (u8)(data & 0xFF);
+   265	
+   266		pece_value = 0;
+   267		if (st->config->pece)
+   268			pece_value = crc8(max42500_crc8, i2c_data, bytes_num, 0);
+   269	
+   270		i2c_data[0] = i2c_data[1];
+   271		i2c_data[1] = i2c_data[2];
+   272		i2c_data[2] = pece_value;
+   273	
+   274		return regmap_bulk_write(st->regmap, reg_addr, i2c_data, bytes_num);
+   275	}
+   276	
+   277	/**
+ > 278	 * @brief Update a register's value based on a mask.
+   279	 * @return 0 in case of success, negative error code otherwise.
+   280	 */
+   281	static int max42500_reg_update(struct max42500_state *st,
+   282									u8 reg_addr, u8 mask, u8 data)
+   283	{
+   284		int ret;
+   285		u8 reg_data;
+   286	
+   287		ret = max42500_reg_read(st, reg_addr, &reg_data);
+   288		if (ret)
+   289			return ret;
+   290	
+   291		reg_data &= ~mask;
+   292		reg_data |= mask & data;
+   293	
+   294		return max42500_reg_write(st, reg_addr, reg_data);
+   295	}
+   296	
+   297	/**
+ > 298	 * @brief Set nominal voltage for VM1 to VM5.
+   299	 * @return 0 in case of success, negative error code otherwise.
+   300	 */
+   301	static int max42500_set_nominal_voltage(struct max42500_state *st,
+   302		enum max42500_vm_input vm_in, u8 voltage)
+   303	{
+   304		u8 reg_addr;
+   305	
+   306		switch (vm_in) {
+   307		case MAX42500_VM1:
+   308		case MAX42500_VM2:
+   309		case MAX42500_VM3:
+   310		case MAX42500_VM4:
+   311			if (voltage < MAX42500_MIN_VNOM ||
+   312				voltage > MAX42500_VNOM_MAX_VM1_VM4)
+   313				return -EINVAL;
+   314			reg_addr = MAX42500_REG_VIN1 + vm_in;
+   315			break;
+   316		case MAX42500_VM5:
+   317			if (voltage < MAX42500_MIN_VNOM ||
+   318				voltage > MAX42500_VNOM_MAX_VM5)
+   319				return -EINVAL;
+   320			reg_addr = MAX42500_REG_VIN5;
+   321			break;
+   322		default:
+   323			return -EINVAL;
+   324		}
+   325	
+   326		st->nominal_volt[vm_in] = voltage;
+   327		return max42500_reg_write(st, reg_addr, voltage);
+   328	}
+   329	
+   330	/**
+ > 331	 * @brief Get the status of the voltage monitor input.
+   332	 * @return 0 in case of success, negative error code otherwise.
+   333	 */
+   334	static int max42500_get_comp_status(struct max42500_state *st,
+   335										u8 vm_in, u8 *status)
+   336	{
+   337		int ret;
+   338		u8 reg_addr;
+   339		u8 vm_in_status;
+   340	
+   341		switch (vm_in % MAX42500_COMP_STAT_MAX) {
+   342		case MAX42500_COMP_STAT_OFF:
+   343			reg_addr = MAX42500_REG_STATOFF;
+   344			break;
+   345		case MAX42500_COMP_STAT_UV:
+   346			reg_addr = MAX42500_REG_STATUV;
+   347			break;
+   348		case MAX42500_COMP_STAT_OV:
+   349			reg_addr = MAX42500_REG_STATOV;
+   350			break;
+   351		default:
+   352			return -EINVAL;
+   353		}
+   354	
+   355		ret = max42500_reg_read(st, reg_addr, &vm_in_status);
+   356		if (ret)
+   357			return ret;
+   358	
+   359		switch (vm_in % MAX42500_VM_MAX) {
+   360		case MAX42500_VM1:
+   361			*status = (u8)FIELD_GET(BIT(MAX42500_VM1), vm_in_status);
+   362			break;
+   363		case MAX42500_VM2:
+   364			*status = (u8)FIELD_GET(BIT(MAX42500_VM2), vm_in_status);
+   365			break;
+   366		case MAX42500_VM3:
+   367			*status = (u8)FIELD_GET(BIT(MAX42500_VM3), vm_in_status);
+   368			break;
+   369		case MAX42500_VM4:
+   370			*status = (u8)FIELD_GET(BIT(MAX42500_VM4), vm_in_status);
+   371			break;
+   372		case MAX42500_VM5:
+   373			*status = (u8)FIELD_GET(BIT(MAX42500_VM5), vm_in_status);
+   374			break;
+   375		case MAX42500_VM6:
+   376			*status = (u8)FIELD_GET(BIT(MAX42500_VM6), vm_in_status);
+   377			break;
+   378		case MAX42500_VM7:
+   379			*status = (u8)FIELD_GET(BIT(MAX42500_VM7), vm_in_status);
+   380			break;
+   381		default:
+   382			return -EINVAL;
+   383		}
+   384		st->comp_status[vm_in] = *status;
+   385	
+   386		return 0;
+   387	}
+   388	
+   389	/**
+ > 390	 * @brief Set the overvoltage threshold of VM1 to VM5.
+   391	 * @return 0 in case of success, negative error code otherwise.
+   392	 */
+   393	static int max42500_set_ov_thresh1(struct max42500_state *st,
+   394		enum max42500_vm_input vm_in, u8 thresh)
+   395	{
+   396		if (thresh < MAX42500_MIN_THRESH_VM1_VM5 ||
+   397			thresh > MAX42500_MAX_THRESH_VM1_VM5)
+   398			return -EINVAL;
+   399	
+   400		switch (vm_in) {
+   401		case MAX42500_VM1:
+   402		case MAX42500_VM2:
+   403		case MAX42500_VM3:
+   404		case MAX42500_VM4:
+   405		case MAX42500_VM5:
+   406			st->ov_thresh1[vm_in] = thresh;
+   407			return max42500_reg_update(st,
+   408									MAX42500_REG_OVUV1 + vm_in,
+   409									GENMASK(7, 4),
+   410									FIELD_PREP(GENMASK(7, 4),
+   411									thresh));
+   412		default:
+   413			return -EINVAL;
+   414		}
+   415	}
+   416	
 
 -- 
 0-DAY CI Kernel Test Service
