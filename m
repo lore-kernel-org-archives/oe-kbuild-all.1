@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6074A08
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Dec 2024 21:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F26E4A08;
+	Sat, 21 Dec 2024 21:34:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734816891; cv=none; b=Cc8fZ6ACYBm9ngeMyA5/bfOVt/kV62lT1Q/858qg2hqXKv+CUsbmZ9o/7DZvR88HIos1yUU/wPLZEd+M7UYiFwBrodkVtN++ZrRCK+WU0ZYNCLeymcW2BA0kwhWuFsmVzXdtNRds2V/5UafqycY9dHIT9bykHj4qAHuF1tSSZRc=
+	t=1734816893; cv=none; b=ZZtatqX+siTRPAXeQweNhGOliZ8kMpc7sOGZtRlL1t2jolPefhu/qcR4FtnM+mo1ViyvfzWWswabEpB9Go9k0zKwxElNfZ9wvjXnCdwDlt1UzFrOtGspPMnKjbL8Yx7Q+tq9blJ+nXmFWv7OFQ+7weco7aVuChvXasjkhPTt9nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734816891; c=relaxed/simple;
-	bh=0cg5fEqOaMVzX5kYnj7mwEE2ywfy9F5ZY/9auuRXi2Q=;
+	s=arc-20240116; t=1734816893; c=relaxed/simple;
+	bh=YxlzdWfwmYTI3t9YBoLzFLq3mQe0fR3+KQEdm56scS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vr5HM5KCCIBrVO87sEcQ6eNdbeLY28uJ0Vkagdv8Ws79+KQH0wHsFOWGN9DR9Z1ULT8+LQBx+P4nveaLb/8D1HoDy9ou8ISIt3ft0ByNl41wJ5tz0MzxPq/OHUK2SlkFZ2E07Xp2VUV0TCiEsEjklGeFYwjyc13VhNY5MHIfplU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+csxTHO; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Jm5l3C/woFl5EDbNKEE9oJleSYQ5mcA2xnhUR9lYOb37B+IhQ3PS/AiXcQUWA/ey579WbPEoI3dyQVeW7CHY01wzpoUTuS/NL3PBiD+jLQDaaiC27CXjcNltedKN1KeORJ+Q95civlHXARxFHolYZhr1lYXF+W/THYsA0mhoacA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJieigve; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+csxTHO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJieigve"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734816889; x=1766352889;
+  t=1734816892; x=1766352892;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0cg5fEqOaMVzX5kYnj7mwEE2ywfy9F5ZY/9auuRXi2Q=;
-  b=h+csxTHOSUaxZ/QT29mV7M6XUjmd7AEsQG6qJ5opftPnaoEqRcSGXMwU
-   +HWA+yR0zmYVkyvxbe4y7+CoouhCKl+zbmkRR9ISD92go+WTxQzr9BEej
-   51mfiOMmtTWCqhmItZSdrdLkYqKt9GKjkrqoLZ4Zsar7VVaMFRfYYzksI
-   xW4a0A9f/TevNYgNqJm23xJR75Y1mBILkS4ciwcaq1JgpNBoZZMOEwuEl
-   9WsyhxaGf/P5K/3M/qJxNe8/cejWhyh3gLu3K4ZXw30Ul2U7xc0b0l2lW
-   2wvbS6/SILlPWVEUT0fRQGd6r9nvFpdl+i13kFoHGrLbk6ZTC0VzocLBE
-   w==;
-X-CSE-ConnectionGUID: TDDcnYKQSVG3FMrgXv0NDg==
-X-CSE-MsgGUID: Y2zt10RySJSb5TvyBjBD2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="52860569"
+  bh=YxlzdWfwmYTI3t9YBoLzFLq3mQe0fR3+KQEdm56scS0=;
+  b=aJieigvehPSkdObEDD0FfF2VtpfwGV0+3CVqDMzoFxtrgD66rr8iPWBZ
+   nuxSbn6p5gjGDu6FdXmBOGUB4t3az/n0dog2uIXflBxr5eErAivXBUenU
+   4UMZc2QhKR+S9pgPxgqiBRCsatBE2gn6i5FDThTaqfE3Tmku5Ais0q6D4
+   H86EMfC9bYeuY8hKRLPQkj1lMvB7qFcWNGWTQJLeE/KPmB1xA/e37IDVX
+   0IHiOvqGGFo+4qE6HfWvulGFPmnyfAeScb8RwTSHte28RmwYtgqQQV9fx
+   5/wW47APW3d72qhsRLFWVQZ5GgCUImVP52hdsuDTXXaX/yGgYCTDbRuyW
+   A==;
+X-CSE-ConnectionGUID: KFQFQrXaTOeqIMTMjZb8vA==
+X-CSE-MsgGUID: QQMirYgCSSGlC0qFcIwEpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="52860574"
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="52860569"
+   d="scan'208";a="52860574"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 13:34:48 -0800
-X-CSE-ConnectionGUID: P8UDo1SVQv6J5ndBLgl6Zg==
-X-CSE-MsgGUID: asOWs2NER/iz0+WVhyxXWg==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 13:34:49 -0800
+X-CSE-ConnectionGUID: OndXaOARTmiurUYJjpNEkg==
+X-CSE-MsgGUID: pPyrD21lSSeNEWPkXBCT+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102945245"
+   d="scan'208";a="102945246"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 21 Dec 2024 13:34:47 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tP77V-0002VN-0Q;
+	id 1tP77V-0002VP-0T;
 	Sat, 21 Dec 2024 21:34:45 +0000
-Date: Sun, 22 Dec 2024 05:33:49 +0800
+Date: Sun, 22 Dec 2024 05:33:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 436/540]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb:
- it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios',
- 'interrupts', 'no-laneswap', 'port' were unexpected)
-Message-ID: <202412220512.ef67Jq36-lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Subject: [rust:staging/dev 18/23] warning: trait `Sealed` is never used
+Message-ID: <202412220513.9Lps4Oe9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,71 +62,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   76e007709ba23b69273c6c8ed1a893c1ec7b7df7
-commit: 4e2088a2e8742fb8b8bbaa38d96339afeccd8d6b [436/540] CHROMIUM: arm64: dts: mt8183: Add Kukui-Jacuzzi-Makomo board
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241222/202412220512.ef67Jq36-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220512.ef67Jq36-lkp@intel.com/reproduce)
+tree:   https://github.com/Rust-for-Linux/linux staging/dev
+head:   9c5819498a69da0c66d6142e486f462a1d43b3a8
+commit: 60a98cb043f1c5416825caaa19cbc5bb568773e4 [18/23] rust: Add a Sealed trait
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20241222/202412220513.9Lps4Oe9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412220513.9Lps4Oe9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412220512.ef67Jq36-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412220513.9Lps4Oe9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+All warnings (new ones prefixed by >>):
+
+>> warning: trait `Sealed` is never used
+   --> rust/kernel/lib.rs:98:15
+   |
+   98 |     pub trait Sealed {}
+   |               ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
 --
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'da7219_pins', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   505 |                            item];
+   |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   512 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   525 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 19.1.3
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   505 |                            item];
+   |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   512 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   525 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   4 warnings generated.
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+>> warning: trait `Sealed` is never used
+   --> rust/kernel/lib.rs:98:15
+   |
+   98 |     pub trait Sealed {}
+   |               ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
 
 -- 
 0-DAY CI Kernel Test Service
