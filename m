@@ -1,249 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A05185B4C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Dec 2024 11:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDC3187872
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Dec 2024 11:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734865735; cv=none; b=DvX5CMX3lumR1GuR2afMfdVwRrdQ6zVyN3kjrS2snR4WHz5a76Tk01gqaqO5gbLW2t/9gDxliOiFfoYNNhc3H5hlWP40JI8SKHZjdFsT9EGHCqr2wmjA2bOP2AwxNmdGX0ZRHD94zDrkANTtCHNXygawwkCThHQJi0a7VxzTXYE=
+	t=1734866456; cv=none; b=CoGftD2aSj0rZJfdd8uSYJmjDyclXTHXaSBCk/D93CKZI3GwHPLarbl7igvK18988uk0SatCoI85ugYbhuZsbm9FruHO4EMKohu2Ndw0zD1lfohPKGa1EkaYzehwBWJOSeydl1HWNRLwx+eHwMR9maoMcYYyBHZveLV1EpTcrF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734865735; c=relaxed/simple;
-	bh=n8048NRyn7PBLZ23hELMaaElC9AGDKGK/evqdpOUWBM=;
+	s=arc-20240116; t=1734866456; c=relaxed/simple;
+	bh=8nrheYwVHCgj0whvqPkXGbIIurmqL6VdRPWHvWCmztI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tc7obqJqQrdq1Tw2ZtGBjOXziF0tE/QbDIEVDbtxABS/sX02a4NtArt3HGpNIxnfpePzoYSDja+6EEyygzGr+y/GA5ZR+qy+JKJ6vkTsuCA1jjKwreba3yu7lwLmDlqQ55sOMCfn0opfqRgJvNbZI2OdDEQV8oBUvG1ISyZLmuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQNQnXaq; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=qOeOxXKV+IH8boIU8ECCP4n6vHG7StDWOBMRErG0r02/3+Ek6snI52i1GLBHpwmM/y2AWnb7EwjNKyGKnMuYbMFgE/E7imRhHZsdiPeqUVhF2dLs5j/W/wQX3eQTlo9BKuLZoOgx+dO4/g9VPr9C0c8WL/6p9o/QFDqEj516ecY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5yJhDvf; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQNQnXaq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5yJhDvf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734865733; x=1766401733;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n8048NRyn7PBLZ23hELMaaElC9AGDKGK/evqdpOUWBM=;
-  b=BQNQnXaqSAIzcdJVsmGcFMkUTyooiX7OXLtzjoobM7kSpObQuwXYnR+p
-   5IUfI9Krm9D61MfYPiGhGnF4UT3NT/95G6550fmyKqEZe5Rs4ulS5rcu3
-   GjZ54h8MeoT4gKwLt5EkJqRHa6uXG+PPsEXlcIOxEm8TIZPBnMwmjph3C
-   DO8ovT+tMJ/uD98F7dzoYBWSMuI858uLVr66WkBLULPADdsnFmbeq9wPV
-   /gWiqfElBtsFKOQWVeLxcYgklq1+QTJTvLen1A/AkNJ5dqTboSLQlAqCd
-   I72tU+tDmqMyCxFziRNEoFWxmUxtyixRc/KhnuQFgBge6d7axalWNPBxX
+  t=1734866455; x=1766402455;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8nrheYwVHCgj0whvqPkXGbIIurmqL6VdRPWHvWCmztI=;
+  b=k5yJhDvfloKWqdRM+Uw/jGLUh6U58WCs+qOzEDMLF1euBvaU8h1BnKwV
+   IM7f0DlWreiN1mCQyK79DxZLvDy1RSL5UndsgCbz0yjbhnCoRcDNmo/bd
+   Y7NFLuQCtZRoVsM1H6KTV4jYYKStjh2+8eyoEV6NXS/t0TNtaLaXTBBo9
+   408dBNbsB2fMsHMhqzXpTn97XQNFoI4V6bABGXBeSdtS1P/AiyrX1WLHC
+   1tcOTJjL7c8m7oWCSdytuj9/TIFywm74Ol4pLfWPmxiY0YOeOy3CdSyn3
+   QhN+RulcfI69um0XQsuihSxYwDwtPnyVfmLvCLl+wI8OONB//q1v2Mk4n
    g==;
-X-CSE-ConnectionGUID: WvdsHznHRCqpbFvH3cRVmA==
-X-CSE-MsgGUID: 5lh1VXxmTleH1AXOI0BG8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="46773188"
+X-CSE-ConnectionGUID: nnFhoA9wTi242Hqv2gggDA==
+X-CSE-MsgGUID: JMFDIeCASP2DNB9gfuRbeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="57823680"
 X-IronPort-AV: E=Sophos;i="6.12,255,1728975600"; 
-   d="scan'208";a="46773188"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 03:08:53 -0800
-X-CSE-ConnectionGUID: yOlhpQe8RRqkLbU+Ajv9Ug==
-X-CSE-MsgGUID: A23OSwsLT3SvwoIvvBs6ig==
+   d="scan'208";a="57823680"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 03:20:55 -0800
+X-CSE-ConnectionGUID: rNmtFSH+Q1iMsMfcsPZP9w==
+X-CSE-MsgGUID: +EfWsPJ+QsWHezdZr9fLYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103570788"
+   d="scan'208";a="122228768"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Dec 2024 03:08:51 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2024 03:20:52 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPJpJ-0002sR-27;
-	Sun, 22 Dec 2024 11:08:49 +0000
-Date: Sun, 22 Dec 2024 19:08:32 +0800
+	id 1tPK0w-0002tA-1x;
+	Sun, 22 Dec 2024 11:20:50 +0000
+Date: Sun, 22 Dec 2024 19:19:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kooran Paul, Princy" <princy.kooran.paul@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>,
-	Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: [intel-lts:6.12/linux 827/1030]
- drivers/gpu/drm/i915/gt/iov/selftests/selftest_live_iov_relay.c:351:12:
- warning: stack frame size (2104) exceeds limit (2048) in
- 'pf_full_loopback_to_vf'
-Message-ID: <202412221917.l2B2l0EI-lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luben Tuikov <luben.tuikov@amd.com>
+Subject: drivers/gpu/drm/scheduler/sched_main.c:266: warning: Function
+ parameter or struct member 'result' not described in 'drm_sched_job_done'
+Message-ID: <202412221935.0THpOhd5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.12/linux
-head:   b4412bb81319acf5aa9334b91c917b1899ffd570
-commit: d1d592bf75f7753518169d36bcc2dd9d196e27e3 [827/1030] drm/i915: SR-IOV Enabling and Support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241222/202412221917.l2B2l0EI-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412221917.l2B2l0EI-lkp@intel.com/reproduce)
+Hi Christian,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   48f506ad0b683d3e7e794efa60c5785c4fdc86fa
+commit: 539f9ee4b52a8bec95ff064e22dd2fb1e258e818 drm/scheduler: properly forward fence errors
+date:   1 year, 8 months ago
+config: nios2-randconfig-001-20241220 (https://download.01.org/0day-ci/archive/20241222/202412221935.0THpOhd5-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412221935.0THpOhd5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412221917.l2B2l0EI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412221935.0THpOhd5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/gt/iov/intel_iov_relay.c:12:
-   In file included from drivers/gpu/drm/i915/gt/intel_gt.h:9:
-   In file included from drivers/gpu/drm/i915/gt/intel_engine_types.h:21:
-   In file included from drivers/gpu/drm/i915/i915_pmu.h:11:
-   In file included from include/linux/perf_event.h:18:
-   In file included from include/uapi/linux/bpf_perf_event.h:11:
-   In file included from ./arch/x86/include/generated/uapi/asm/bpf_perf_event.h:1:
-   In file included from include/uapi/asm-generic/bpf_perf_event.h:4:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/gt/iov/intel_iov_relay.c:723:
->> drivers/gpu/drm/i915/gt/iov/selftests/selftest_live_iov_relay.c:351:12: warning: stack frame size (2104) exceeds limit (2048) in 'pf_full_loopback_to_vf' [-Wframe-larger-than]
-     351 | static int pf_full_loopback_to_vf(void *arg)
-         |            ^
->> drivers/gpu/drm/i915/gt/iov/selftests/selftest_live_iov_relay.c:441:12: warning: stack frame size (2088) exceeds limit (2048) in 'relay_request_to_pf' [-Wframe-larger-than]
-     441 | static int relay_request_to_pf(struct intel_iov *iov)
-         |            ^
-   6 warnings generated.
+>> drivers/gpu/drm/scheduler/sched_main.c:266: warning: Function parameter or struct member 'result' not described in 'drm_sched_job_done'
 
 
-vim +/pf_full_loopback_to_vf +351 drivers/gpu/drm/i915/gt/iov/selftests/selftest_live_iov_relay.c
+vim +266 drivers/gpu/drm/scheduler/sched_main.c
 
-   350	
- > 351	static int pf_full_loopback_to_vf(void *arg)
-   352	{
-   353		struct intel_iov *iov = arg;
-   354		u32 msg[PF2GUC_RELAY_TO_VF_REQUEST_MSG_NUM_RELAY_DATA] = {
-   355			MSG_IOV_SELFTEST_RELAY(SELFTEST_RELAY_OPCODE_NOP),
-   356			FIELD_PREP(GUC_HXG_REQUEST_MSG_n_DATAn, SELFTEST_RELAY_DATA),
-   357			/* ... */
-   358		};
-   359		u32 buf[PF2GUC_RELAY_TO_VF_REQUEST_MSG_NUM_RELAY_DATA];
-   360		unsigned int n;
-   361		int ret = 0;
-   362	
-   363		iov->relay.selftest.enable_loopback = 1;
-   364	
-   365		for (n = GUC_HXG_MSG_MIN_LEN; n <= ARRAY_SIZE(msg); n++) {
-   366	
-   367			ret = intel_iov_relay_send_to_vf(&iov->relay, PFID, msg, n,
-   368							 buf, ARRAY_SIZE(buf));
-   369	
-   370			if (ret < 0) {
-   371				IOV_SELFTEST_ERROR(iov, "failed to send msg len=%u, %d\n", n, ret);
-   372				break;
-   373			}
-   374	
-   375			if (ret != GUC_HXG_MSG_MIN_LEN) {
-   376				IOV_SELFTEST_ERROR(iov, "unexpected nop reply len=%u, %d\n", n, ret);
-   377				ret = -ENODATA;
-   378				break;
-   379			}
-   380	
-   381			ret = 0;
-   382		}
-   383	
-   384		iov->relay.selftest.enable_loopback = 0;
-   385	
-   386		return ret;
-   387	}
-   388	
-   389	static int pf_loopback_one_way_to_pf(void *arg)
-   390	{
-   391		struct intel_iov *iov = arg;
-   392		u32 msg[VF2GUC_RELAY_TO_PF_REQUEST_MSG_NUM_RELAY_DATA] = {
-   393			MSG_IOV_SELFTEST_RELAY_EVENT(SELFTEST_RELAY_OPCODE_NOP),
-   394			FIELD_PREP(GUC_HXG_REQUEST_MSG_n_DATAn, SELFTEST_RELAY_DATA),
-   395			/* ... */
-   396		};
-   397		struct payload_params params;
-   398		unsigned int n;
-   399		int ret = 0;
-   400	
-   401		iov->relay.selftest.disable_strict = 1;
-   402	
-   403		for (n = GUC_HXG_MSG_MIN_LEN; n <= ARRAY_SIZE(msg); n++) {
-   404	
-   405			params.vfid = PFID;
-   406			params.relayid = SELFTEST_RELAY_ID + n;
-   407			params.data = msg;
-   408			params.len = n;
-   409	
-   410			WRITE_ONCE(iov->relay.selftest.data, &params);
-   411			WRITE_ONCE(iov->relay.selftest.guc2pf, guc2pf_payload_checker);
-   412	
-   413			/* can't use intel_iov_relay_send_to_pf() as we need our relayid */
-   414			ret = relay_send(&iov->relay, 0, params.relayid, msg, n);
-   415	
-   416			if (ret) {
-   417				IOV_SELFTEST_ERROR(iov, "len=%u, %d\n", n, ret);
-   418				break;
-   419			}
-   420	
-   421			ret = wait_for(IS_ERR_OR_NULL(READ_ONCE(iov->relay.selftest.guc2pf)), 200);
-   422			if (ret) {
-   423				IOV_SELFTEST_ERROR(iov, "message not received len=%u, %d\n", n, ret);
-   424				break;
-   425			}
-   426	
-   427			ret = PTR_ERR_OR_ZERO(iov->relay.selftest.guc2pf);
-   428			if (ret) {
-   429				IOV_SELFTEST_ERROR(iov, "corrupted message len=%u, %d\n", n, ret);
-   430				break;
-   431			}
-   432		}
-   433	
-   434		iov->relay.selftest.disable_strict = 0;
-   435		WRITE_ONCE(iov->relay.selftest.guc2pf, NULL);
-   436		WRITE_ONCE(iov->relay.selftest.data, NULL);
-   437	
-   438		return ret;
-   439	}
-   440	
- > 441	static int relay_request_to_pf(struct intel_iov *iov)
-   442	{
-   443		u32 msg[VF2GUC_RELAY_TO_PF_REQUEST_MSG_NUM_RELAY_DATA] = {
-   444			MSG_IOV_SELFTEST_RELAY(SELFTEST_RELAY_OPCODE_NOP),
-   445			FIELD_PREP(GUC_HXG_REQUEST_MSG_n_DATAn, SELFTEST_RELAY_DATA),
-   446			/* ... */
-   447		};
-   448		u32 buf[PF2GUC_RELAY_TO_VF_REQUEST_MSG_NUM_RELAY_DATA];
-   449		unsigned int n;
-   450		int ret = 0;
-   451	
-   452		for (n = GUC_HXG_MSG_MIN_LEN; n <= ARRAY_SIZE(msg); n++) {
-   453	
-   454			ret = intel_iov_relay_send_to_pf(&iov->relay, msg, n,
-   455							 buf, ARRAY_SIZE(buf));
-   456	
-   457			if (ret < 0) {
-   458				IOV_SELFTEST_ERROR(iov, "failed to send len=%u, %d\n", n, ret);
-   459				break;
-   460			}
-   461	
-   462			if (ret != GUC_HXG_MSG_MIN_LEN) {
-   463				IOV_SELFTEST_ERROR(iov, "unexpected nop reply len=%u, %d\n", n, ret);
-   464				ret = -ENODATA;
-   465				break;
-   466			}
-   467	
-   468			ret = 0;
-   469		}
-   470	
-   471		return ret;
-   472	}
-   473	
+08fb97de03aa22 Andrey Grodzovsky 2022-09-30  258  
+71173e787cab9d Luben Tuikov      2020-12-03  259  /**
+71173e787cab9d Luben Tuikov      2020-12-03  260   * drm_sched_job_done - complete a job
+71173e787cab9d Luben Tuikov      2020-12-03  261   * @s_job: pointer to the job which is done
+71173e787cab9d Luben Tuikov      2020-12-03  262   *
+71173e787cab9d Luben Tuikov      2020-12-03  263   * Finish the job's fence and wake up the worker thread.
+71173e787cab9d Luben Tuikov      2020-12-03  264   */
+539f9ee4b52a8b Christian König   2023-04-17  265  static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
+71173e787cab9d Luben Tuikov      2020-12-03 @266  {
+71173e787cab9d Luben Tuikov      2020-12-03  267  	struct drm_sched_fence *s_fence = s_job->s_fence;
+71173e787cab9d Luben Tuikov      2020-12-03  268  	struct drm_gpu_scheduler *sched = s_fence->sched;
+71173e787cab9d Luben Tuikov      2020-12-03  269  
+71173e787cab9d Luben Tuikov      2020-12-03  270  	atomic_dec(&sched->hw_rq_count);
+f2f12eb9c32bc7 Christian König   2021-02-02  271  	atomic_dec(sched->score);
+71173e787cab9d Luben Tuikov      2020-12-03  272  
+71173e787cab9d Luben Tuikov      2020-12-03  273  	trace_drm_sched_process_job(s_fence);
+71173e787cab9d Luben Tuikov      2020-12-03  274  
+71173e787cab9d Luben Tuikov      2020-12-03  275  	dma_fence_get(&s_fence->finished);
+539f9ee4b52a8b Christian König   2023-04-17  276  	drm_sched_fence_finished(s_fence, result);
+71173e787cab9d Luben Tuikov      2020-12-03  277  	dma_fence_put(&s_fence->finished);
+71173e787cab9d Luben Tuikov      2020-12-03  278  	wake_up_interruptible(&sched->wake_up_worker);
+71173e787cab9d Luben Tuikov      2020-12-03  279  }
+71173e787cab9d Luben Tuikov      2020-12-03  280  
+
+:::::: The code at line 266 was first introduced by commit
+:::::: 71173e787cab9db4ca1fa6229477cb3d254bc285 drm/scheduler: Essentialize the job done callback
+
+:::::: TO: Luben Tuikov <luben.tuikov@amd.com>
+:::::: CC: Christian König <christian.koenig@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
