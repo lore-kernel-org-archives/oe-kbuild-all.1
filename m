@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5001DFF8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Dec 2024 23:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBC11891A9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Dec 2024 23:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734911231; cv=none; b=WrlPNICMw0TfSv9yaNcWEmK4XwSBPtQM88wUBYqrR2o6IZhx7PsiNgXWjlaJqjTO2bjcj9shRfqyNO2WeRbYDmvJbZIILelIz0ZfNwwjKGmxmcrW2Y4XWaRceIgTBB9yfn0pLsR3E7KwstUpkZlucJJKpherLLlRhe5QcTjK2uQ=
+	t=1734911897; cv=none; b=Yw97BMjqaLSkFkPYnpyyVQkBlTrcUZXGy7jhtPO39PDxbPCCJXJjBEgpAyX9aWh+wHgXvnTSiSGRs7pYHdF1jvxaEQH2FARiimgb24O3YBn2fT93Gzsv2SVEeWo/YzUCSUwnRHD3NUTe/COyfKhceyvgMjQ+S9CHeaEec1igJsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734911231; c=relaxed/simple;
-	bh=hFlXGqEwFwBc/SZtSjQvO+ySmK+JGs8tqmfZVPMTKow=;
+	s=arc-20240116; t=1734911897; c=relaxed/simple;
+	bh=eCfo1cdBujYfR54EIcEjotOh3gqswvM1sPSm6BCirYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F1AlbRhuIQrnzfeEkx//QFvapVAMnuIgzNlTaIfoR83raNbB5xeqnyiaPbGDLn1lLlB42/sNGNoO7JyHa4PRTjIlDr/7MPpxnfHp1MKq5IOqXOl9tnMo7GR2aDoflvOgwX8S9amgbRkUDfwBzt0iVFTpIMv7FGeTzMyoKmHw6FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OqJcEFMu; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=tHEBWL4AI6YWn2Zvut/d3RYDmPCeLDfFXCJyuP6YLYLpzFbE/+FcwkW7PJ7r0WAKKZGy9qpRcc66zax5YxudMf39JldVo6lLfz4o/RK/L6yGI6THAD4tA5yCTUjmwhlJ8voWR+X3NpuQj711ZssfzGO6A/3F/v7lUV3N31vNeFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+V4YHpG; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OqJcEFMu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+V4YHpG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734911229; x=1766447229;
+  t=1734911896; x=1766447896;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hFlXGqEwFwBc/SZtSjQvO+ySmK+JGs8tqmfZVPMTKow=;
-  b=OqJcEFMuOUKmsAvoSXBdPvDxJgbJny8xg34Naj1F3CynV7WRJmClnHtI
-   2UBaxcPsLT1Zn5c3t0jdiaA3IxbfoXvnX0xxD4cbSZ4W0DCmkxeTCsUEM
-   8XdzHlNaLyhsHQVm7u/kYkbwD7FJwu5sS512g7zZOjPSrhjbdm/GZbtpC
-   No3Tw+q41c5TOQHPlZyhNKz5UGAkTDC/QcJjnEDJc26s5+GAjJBbxU6jG
-   coyCXvDv6fGeXjFdiMv7uUtn5sRCyja1SmEaumL0OMsgrst2rFS3kCWTY
-   cU5O7CHWFy6PZ5NBhStI7DO9mk9eYarVm9A6qDX9MV1txNzNlBsaVVqYT
-   A==;
-X-CSE-ConnectionGUID: XA9A/yLpQGy6ecajwRBgdA==
-X-CSE-MsgGUID: tDZHwc/RQF6iAk/KIPfb7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="35258923"
+  bh=eCfo1cdBujYfR54EIcEjotOh3gqswvM1sPSm6BCirYg=;
+  b=Z+V4YHpG1ZLwYiKWdlgSKnG+jz39c0qfXpxC0wDIRvpAMN7NRo11NyE5
+   /m0f39YmrqHAWuB569fhbGgBAREHMiWgynXovfZFQyqGkgMaTS5uN2jYa
+   ECIgStv46NYx0wSQP+qkH2yR96FmPe3uPq7zB8swrVScbNTWo+IcTzgsY
+   13Qx9NDJ5bti1ZkXCl8k/ULK4WJJySlNpNv34wB/ccIt9gvlnnlRFS94Q
+   t2qKxhrJTFtPWJXtLc5O9UlwQ5w7MXlvnIMHO/94DJQMqnJ6766de2DJe
+   toNu9t7+sPibLEbWxCqSThFsFhLcZmWucY7/QF9iRJ9lHSW2OdMvNm+JU
+   Q==;
+X-CSE-ConnectionGUID: kzHWww5DT6y/mWL+5zx3sg==
+X-CSE-MsgGUID: egNBGMfVTfioOjOxMCTttA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="45979551"
 X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="35258923"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 15:47:09 -0800
-X-CSE-ConnectionGUID: B/3pPc05QMqOUaz1i//CWg==
-X-CSE-MsgGUID: L6s511F0SOqsKi6qKRCFAg==
+   d="scan'208";a="45979551"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 15:58:10 -0800
+X-CSE-ConnectionGUID: WBZ7vuHeTqO0B6GLg8UVDQ==
+X-CSE-MsgGUID: 3395XK/0T7Oq6gTqbJFO8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="129895195"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="130015976"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2024 15:47:08 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 22 Dec 2024 15:58:08 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPVf7-0003HL-0f;
-	Sun, 22 Dec 2024 23:47:05 +0000
-Date: Mon, 23 Dec 2024 07:47:00 +0800
+	id 1tPVpm-0003Hj-1j;
+	Sun, 22 Dec 2024 23:58:06 +0000
+Date: Mon, 23 Dec 2024 07:57:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 18819/19518]
- arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@40f04200:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202412230746.i5IZgdww-lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>
+Subject: drivers/dma/xilinx/xdma.c:76: warning: Function parameter or struct
+ member 'last_interrupt' not described in 'xdma_chan'
+Message-ID: <202412230745.NH8G1nhv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +63,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   cbdedad12232506c3f28f566960694f41d95acd3
-commit: 4981b8a2d9fafa0d8060c83ffb19cd55c6798046 [18819/19518] arm64: dts: ti: k3-j7200: use ti,j7200-padconf compatible
-config: arm64-randconfig-053-20241214 (https://download.01.org/0day-ci/archive/20241223/202412230746.i5IZgdww-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412230746.i5IZgdww-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bcde95ce32b666478d6737219caa4f8005a8f201
+commit: 6a40fb8245965b481b4dcce011cd63f20bf91ee0 dmaengine: xilinx: xdma: Fix synchronization issue
+date:   9 months ago
+config: nios2-randconfig-001-20241220 (https://download.01.org/0day-ci/archive/20241223/202412230745.NH8G1nhv-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412230745.NH8G1nhv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412230746.i5IZgdww-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412230745.NH8G1nhv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/ti/k3-j7200-main.dtsi:35.39-40.5: Warning (unit_address_vs_reg): /bus@100000/scm-conf@100000/mux-controller@4080: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/ti/k3-j7200-main.dtsi:49.39-53.5: Warning (unit_address_vs_reg): /bus@100000/scm-conf@100000/mux-controller@4000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@40f04200: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/bus@28380000/pinctrl@40f04200: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@40f04280: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/bus@28380000/pinctrl@40f04280: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@4301c000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/bus@28380000/pinctrl@4301c000: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@4301c038: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/bus@28380000/pinctrl@4301c038: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@4301c068: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/bus@28380000/pinctrl@4301c068: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@4301c174: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/bus@28380000/pinctrl@4301c174: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
-   arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: syscon@47000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: hbmc-mux: $nodename:0: 'hbmc-mux' does not match '^mux-controller(@.*|-[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@104200: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/pinctrl@104200: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
-   arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@104280: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
-   arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/pinctrl@104280: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@11c000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/pinctrl@11c000: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: pinctrl@11c11c: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,j7200-padconf', 'pinctrl-single'] is too long
-   	'ti,j7200-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	'ti,j7200-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j7200-common-proc-board.dtb: /bus@100000/pinctrl@11c11c: failed to match any schema with compatible: ['ti,j7200-padconf', 'pinctrl-single']
+All warnings (new ones prefixed by >>):
+
+>> drivers/dma/xilinx/xdma.c:76: warning: Function parameter or struct member 'last_interrupt' not described in 'xdma_chan'
+>> drivers/dma/xilinx/xdma.c:76: warning: Function parameter or struct member 'stop_requested' not described in 'xdma_chan'
+
+
+vim +76 drivers/dma/xilinx/xdma.c
+
+17ce252266c7f0 Lizhi Hou     2023-01-19  53  
+17ce252266c7f0 Lizhi Hou     2023-01-19  54  /**
+17ce252266c7f0 Lizhi Hou     2023-01-19  55   * struct xdma_chan - Driver specific DMA channel structure
+17ce252266c7f0 Lizhi Hou     2023-01-19  56   * @vchan: Virtual channel
+17ce252266c7f0 Lizhi Hou     2023-01-19  57   * @xdev_hdl: Pointer to DMA device structure
+17ce252266c7f0 Lizhi Hou     2023-01-19  58   * @base: Offset of channel registers
+17ce252266c7f0 Lizhi Hou     2023-01-19  59   * @desc_pool: Descriptor pool
+17ce252266c7f0 Lizhi Hou     2023-01-19  60   * @busy: Busy flag of the channel
+17ce252266c7f0 Lizhi Hou     2023-01-19  61   * @dir: Transferring direction of the channel
+17ce252266c7f0 Lizhi Hou     2023-01-19  62   * @cfg: Transferring config of the channel
+17ce252266c7f0 Lizhi Hou     2023-01-19  63   * @irq: IRQ assigned to the channel
+17ce252266c7f0 Lizhi Hou     2023-01-19  64   */
+17ce252266c7f0 Lizhi Hou     2023-01-19  65  struct xdma_chan {
+17ce252266c7f0 Lizhi Hou     2023-01-19  66  	struct virt_dma_chan		vchan;
+17ce252266c7f0 Lizhi Hou     2023-01-19  67  	void				*xdev_hdl;
+17ce252266c7f0 Lizhi Hou     2023-01-19  68  	u32				base;
+17ce252266c7f0 Lizhi Hou     2023-01-19  69  	struct dma_pool			*desc_pool;
+17ce252266c7f0 Lizhi Hou     2023-01-19  70  	bool				busy;
+17ce252266c7f0 Lizhi Hou     2023-01-19  71  	enum dma_transfer_direction	dir;
+17ce252266c7f0 Lizhi Hou     2023-01-19  72  	struct dma_slave_config		cfg;
+17ce252266c7f0 Lizhi Hou     2023-01-19  73  	u32				irq;
+6a40fb8245965b Louis Chauvet 2024-03-27  74  	struct completion		last_interrupt;
+6a40fb8245965b Louis Chauvet 2024-03-27  75  	bool				stop_requested;
+17ce252266c7f0 Lizhi Hou     2023-01-19 @76  };
+17ce252266c7f0 Lizhi Hou     2023-01-19  77  
+
+:::::: The code at line 76 was first introduced by commit
+:::::: 17ce252266c7f016ece026492c45838f852ddc79 dmaengine: xilinx: xdma: Add xilinx xdma driver
+
+:::::: TO: Lizhi Hou <lizhi.hou@amd.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
