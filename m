@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880EF646
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Dec 2024 07:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9FE18732E;
+	Sun, 22 Dec 2024 07:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734851858; cv=none; b=rHnRPDF7CHb/q4IfFBVSHvDAoINwiSvv9L4E+tMqAGJEW/qKBoyuWYtOsurxRYAuS14qrd4v2AMudE2Cm3I779qoMDbNe3xFu0T1uZE7/GySxkGwGtYsuRBy7vpVqFAuDwNYTsdTUAFJqEveEIebqid7isSUhY0tTPMzQxP6tt0=
+	t=1734853124; cv=none; b=rEB8TrecQhSHkilU0YS89g0NiAxfEX3UKT8Utp9SSHtHs0BNb6IM+J99rRINPgO/J6IP059DGCNJN7NHLCqKyOXj4yEeIRv7Zatd1m9W+ZJA9yPjSQRqD08ZS1kcWy9AwZ+07cac2muyF+71Z8GHSvXND20DvVWBn6FrEluK3yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734851858; c=relaxed/simple;
-	bh=0EBbSAm0ag8bxpIDPNquhMCQy6tNCidwuknbh/tnhIY=;
+	s=arc-20240116; t=1734853124; c=relaxed/simple;
+	bh=9CSqFjdfcmPs0IAnHrFIW9rFa4v7bjtQzC8EB9Q7e6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L+zprSGnyTU1ii12hbMsOi5RXQ4Zr1bjI0/ItRrSdex/wPKqIu8KvSG5ZgAfh+7FZ8lh51euvv/qRaBaEYYWnYUTJmlTfKpk6/YM4cnv2AJnn0svbtaWKd76kNvUufzhup13xoXhoo3R7XLmmcJ03lkEkEYPB97H8hLYg/tOB98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iUi1Iz7J; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=j9/4YZ85qAS401o0jmHjsa56/+lCZsvzgrKpMK07LIhA5+uRr+JPxqa3KohcbLVMTcDSVrLkb1gN/jMRK2iOLReQ5HV77+PvkJCsuf/tEym4Ej9gfS4Tnwr4sVxfLgFLir9CQVuRXpV2B/2OnT1NCIGFkxF4M6wF3DHTqXdTHP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1kwFiew; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iUi1Iz7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1kwFiew"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734851856; x=1766387856;
+  t=1734853122; x=1766389122;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0EBbSAm0ag8bxpIDPNquhMCQy6tNCidwuknbh/tnhIY=;
-  b=iUi1Iz7Jwhq2qvWYybTbgE+2/FbgXLoHrAWjLHKtmBYayGIZ5J0KBLPc
-   u47tmBTXfvQzdlcKxrWdIHd+BpOFLW4E+TZeMnXIqlJJxzZ+w1N+yGWuN
-   esYOgSQ0CPjo6odDC/R12wYvsxSd4EztW3XfXbtbRoOB8Gw2G7ljy3w+J
-   Xzy69bD/beXFx2uZKL5KFVUrE54VEyO5s+BrR4CYHjObLHodAREM2nE2i
-   vfCBiNx/gt1v1beAR+bIGjyGk0D1YpRclvJtMzHOk9tw1/LFd8ogBseta
-   8Jw3mpsTs0Ag4OQyJ3ueGSvMxcWkh/j4d6ldwVgBRCSzcDlqFuRAzjrID
+  bh=9CSqFjdfcmPs0IAnHrFIW9rFa4v7bjtQzC8EB9Q7e6U=;
+  b=Q1kwFiewObwSKtt3DXcNTS01zmHGWxxcK0qau+aNQui0sAfCpAR5wMj0
+   dZYLAnDh78Iv6gYszUqwAhC4lP5upOSfNhs/oLpYARhcXFDQKvZe1jZ/A
+   2qAemz+EG89TanUOiYz47FoZBEqBguvedZekNEVQU0e2fpy4mSrmROGT3
+   LyBgUZRgf+wFXaxB8TN1ohzjgCn7cZWqnyq+qWxZMshEcp0D8uXeBu7zc
+   IPOM1uaQ3EFiD/iUtSWvv01t3fhoQchMjFtG4WqPmRwm4PTCo4uQ4Nn6h
+   A2vyjKL20a1vgqivE0+CV7WmCy7m5H0GNjbRznJwaM1EGc4HWjXoyA0ey
    Q==;
-X-CSE-ConnectionGUID: p9NF8rqrTn+nZtafe7219A==
-X-CSE-MsgGUID: LOvbDFntRz+34LnJhp/hyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="38188624"
+X-CSE-ConnectionGUID: qDeYN6FLS2Ovl4vO2kXMGA==
+X-CSE-MsgGUID: KwN5xgwoQEK3Pgtb9jieLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="22940008"
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="38188624"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 23:17:35 -0800
-X-CSE-ConnectionGUID: QOPeNgMzScW6ldNUNfQsQg==
-X-CSE-MsgGUID: lAddO/piS565MryaKPq6JQ==
+   d="scan'208";a="22940008"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 23:38:37 -0800
+X-CSE-ConnectionGUID: JwXWb0X/RFeRGVrV1wHscQ==
+X-CSE-MsgGUID: wSDg2s2dRjqy7vluNL1uqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="99304113"
+   d="scan'208";a="99135805"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2024 23:17:34 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Dec 2024 23:38:36 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPGDU-0002mV-2V;
-	Sun, 22 Dec 2024 07:17:32 +0000
-Date: Sun, 22 Dec 2024 15:16:57 +0800
+	id 1tPGXq-0002n3-1N;
+	Sun, 22 Dec 2024 07:38:34 +0000
+Date: Sun, 22 Dec 2024 15:38:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_defconfig_v1 36/59] drivers/acpi/riscv/rimt.c:418:12:
- warning: 'rimt_pci_iommu_init' defined but not used
-Message-ID: <202412221512.lK9cbd2B-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:sframe 11/26] kernel/unwind/user.c:48:6: warning: variable
+ 'ret' set but not used
+Message-ID: <202412221511.KU6vXDRc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,102 +62,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_defconfig_v1
-head:   4fd509619498a267ba245e95fefba09eef65a97e
-commit: 92e54add84ea71310bc3c9e2afa25b7721b18c54 [36/59] RISC-V: IOMMU: Add ACPI support using RIMT
-config: riscv-randconfig-r063-20241222 (https://download.01.org/0day-ci/archive/20241222/202412221512.lK9cbd2B-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412221512.lK9cbd2B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
+head:   3c5688da4922c1ff09b4973c69e7324950c7ef60
+commit: 617841b73481f6f7435128fade47251a90e39d15 [11/26] unwind/x86: Enable user space compat mode frame pointers for x86
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241222/202412221511.KU6vXDRc-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241222/202412221511.KU6vXDRc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412221512.lK9cbd2B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412221511.KU6vXDRc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/acpi/riscv/rimt.c:435:5: error: conflicting types for 'rimt_iommu_register'; have 'int(struct device *)'
-     435 | int rimt_iommu_register(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/acpi/riscv/rimt.c:9:
-   include/linux/acpi_rimt.h:10:5: note: previous declaration of 'rimt_iommu_register' with type 'int(struct device *, const struct iommu_ops *)'
-      10 | int rimt_iommu_register(struct device *dev, const struct iommu_ops *ops);
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/acpi/riscv/rimt.c:418:12: warning: 'rimt_pci_iommu_init' defined but not used [-Wunused-function]
-     418 | static int rimt_pci_iommu_init(struct pci_dev *pdev, u16 alias, void *data)
-         |            ^~~~~~~~~~~~~~~~~~~
->> drivers/acpi/riscv/rimt.c:399:31: warning: 'rimt_node_map_platform_id' defined but not used [-Wunused-function]
-     399 | static struct acpi_rimt_node *rimt_node_map_platform_id(struct acpi_rimt_node *node, u32 *id_out,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/unwind/user.c:11:
+   In file included from arch/x86/include/asm/unwind_user.h:7:
+   In file included from arch/x86/include/asm/perf_event.h:545:
+   In file included from arch/x86/include/asm/stacktrace.h:11:
+   In file included from include/linux/ptrace.h:10:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/unwind/user.c:48:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      48 |         int ret;
+         |             ^
+>> kernel/unwind/user.c:67:23: warning: variable '__ret' is uninitialized when used here [-Wuninitialized]
+      67 |         if (frame->fp_off && UNWIND_GET_USER_LONG(fp, cfa + frame->fp_off, state))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/unwind/user.c:40:2: note: expanded from macro 'UNWIND_GET_USER_LONG'
+      40 |         __ret;                                                          \
+         |         ^~~~~
+   kernel/unwind/user.c:67:23: note: variable '__ret' is declared here
+   kernel/unwind/user.c:35:2: note: expanded from macro 'UNWIND_GET_USER_LONG'
+      35 |         int __ret;                                                      \
+         |         ^
+   kernel/unwind/user.c:64:6: warning: variable '__ret' is uninitialized when used here [-Wuninitialized]
+      64 |         if (UNWIND_GET_USER_LONG(ra, cfa + frame->ra_off, state))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/unwind/user.c:40:2: note: expanded from macro 'UNWIND_GET_USER_LONG'
+      40 |         __ret;                                                          \
+         |         ^~~~~
+   kernel/unwind/user.c:64:6: note: variable '__ret' is declared here
+   kernel/unwind/user.c:35:2: note: expanded from macro 'UNWIND_GET_USER_LONG'
+      35 |         int __ret;                                                      \
+         |         ^
+   4 warnings generated.
 
 
-vim +/rimt_pci_iommu_init +418 drivers/acpi/riscv/rimt.c
+vim +/ret +48 kernel/unwind/user.c
 
-   398	
- > 399	static struct acpi_rimt_node *rimt_node_map_platform_id(struct acpi_rimt_node *node, u32 *id_out,
-   400								u8 type_mask, int index)
-   401	{
-   402		struct acpi_rimt_node *parent;
-   403		u32 id;
-   404	
-   405		parent = rimt_node_get_id(node, &id, index);
-   406		if (!parent)
-   407			return NULL;
-   408	
-   409		if (!(RIMT_TYPE_MASK(parent->type) & type_mask))
-   410			parent = rimt_node_map_id(parent, id, id_out, type_mask);
-   411		else
-   412			if (id_out)
-   413				*id_out = id;
-   414	
-   415		return parent;
-   416	}
-   417	
- > 418	static int rimt_pci_iommu_init(struct pci_dev *pdev, u16 alias, void *data)
-   419	{
-   420		struct rimt_pci_alias_info *info = data;
-   421		struct acpi_rimt_node *parent;
-   422		u32 streamid;
-   423	
-   424		parent = rimt_node_map_id(info->node, alias, &streamid, RIMT_IOMMU_TYPE);
-   425		return rimt_iommu_xlate(info->dev, parent, streamid);
-   426	}
-   427	
-   428	/*
-   429	 * RISC-V supports IOMMU as a PCI device or a platform device.
-   430	 * When it is a platform device, there should be a namespace device as
-   431	 * well along with RIMT. To create the link between RIMT information and
-   432	 * the platform device, the IOMMU driver should register itself with the
-   433	 * RIMT module. This is true for PCI based IOMMU as well.
-   434	 */
- > 435	int rimt_iommu_register(struct device *dev)
-   436	{
-   437		struct fwnode_handle *rimt_fwnode;
-   438		struct acpi_rimt_node *node;
-   439	
-   440		node = rimt_scan_node(ACPI_RIMT_NODE_IOMMU, rimt_match_node_callback, dev);
-   441		if (!node) {
-   442			pr_err("Could not find IOMMU node in RIMT\n");
-   443			return -ENODEV;
-   444		}
-   445	
-   446		if (dev_is_pci(dev)) {
-   447			rimt_fwnode = acpi_alloc_fwnode_static();
-   448			if (!rimt_fwnode)
-   449				return -ENOMEM;
-   450	
-   451			rimt_fwnode->dev = dev;
-   452			if (!dev->fwnode)
-   453				dev->fwnode = rimt_fwnode;
-   454	
-   455			rimt_set_fwnode(node, rimt_fwnode);
-   456		} else {
-   457			rimt_set_fwnode(node, dev->fwnode);
-   458		}
-   459	
-   460		return 0;
-   461	}
-   462	
+74615b99696506 Josh Poimboeuf 2024-12-21  42  
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  43  int unwind_user_next(struct unwind_user_state *state)
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  44  {
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  45  	struct unwind_user_frame _frame;
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  46  	struct unwind_user_frame *frame = &_frame;
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  47  	unsigned long cfa = 0, fp, ra = 0;
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21 @48  	int ret;
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  49  
+6def01593a2222 Josh Poimboeuf 2024-12-21  50  	if (state->done)
+6def01593a2222 Josh Poimboeuf 2024-12-21  51  		return -EINVAL;
+6def01593a2222 Josh Poimboeuf 2024-12-21  52  
+74615b99696506 Josh Poimboeuf 2024-12-21  53  	if (compat_state(state))
+74615b99696506 Josh Poimboeuf 2024-12-21  54  		frame = &compat_fp_frame;
+74615b99696506 Josh Poimboeuf 2024-12-21  55  	else if (fp_state(state))
+6def01593a2222 Josh Poimboeuf 2024-12-21  56  		frame = &fp_frame;
+6def01593a2222 Josh Poimboeuf 2024-12-21  57  	else
+6def01593a2222 Josh Poimboeuf 2024-12-21  58  		goto the_end;
+6def01593a2222 Josh Poimboeuf 2024-12-21  59  
+6def01593a2222 Josh Poimboeuf 2024-12-21  60  	cfa = (frame->use_fp ? state->fp : state->sp) + frame->cfa_off;
+6def01593a2222 Josh Poimboeuf 2024-12-21  61  	if (cfa <= state->sp)
+6def01593a2222 Josh Poimboeuf 2024-12-21  62  		goto the_end;
+6def01593a2222 Josh Poimboeuf 2024-12-21  63  
+74615b99696506 Josh Poimboeuf 2024-12-21  64  	if (UNWIND_GET_USER_LONG(ra, cfa + frame->ra_off, state))
+6def01593a2222 Josh Poimboeuf 2024-12-21  65  		goto the_end;
+6def01593a2222 Josh Poimboeuf 2024-12-21  66  
+74615b99696506 Josh Poimboeuf 2024-12-21 @67  	if (frame->fp_off && UNWIND_GET_USER_LONG(fp, cfa + frame->fp_off, state))
+6def01593a2222 Josh Poimboeuf 2024-12-21  68  		goto the_end;
+6def01593a2222 Josh Poimboeuf 2024-12-21  69  
+6def01593a2222 Josh Poimboeuf 2024-12-21  70  	state->ip = ra;
+6def01593a2222 Josh Poimboeuf 2024-12-21  71  	state->sp = cfa;
+6def01593a2222 Josh Poimboeuf 2024-12-21  72  	if (frame->fp_off)
+6def01593a2222 Josh Poimboeuf 2024-12-21  73  		state->fp = fp;
+6def01593a2222 Josh Poimboeuf 2024-12-21  74  
+74615b99696506 Josh Poimboeuf 2024-12-21  75  	arch_unwind_user_next(state);
+74615b99696506 Josh Poimboeuf 2024-12-21  76  
+6def01593a2222 Josh Poimboeuf 2024-12-21  77  	return 0;
+6def01593a2222 Josh Poimboeuf 2024-12-21  78  
+6def01593a2222 Josh Poimboeuf 2024-12-21  79  the_end:
+6def01593a2222 Josh Poimboeuf 2024-12-21  80  	state->done = true;
+6def01593a2222 Josh Poimboeuf 2024-12-21  81  	return -EINVAL;
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  82  }
+8be9b2c9faa1f9 Josh Poimboeuf 2024-12-21  83  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: 8be9b2c9faa1f9ec62006e968ec6f6b1f666ce1d unwind: Add user space unwinding API
+
+:::::: TO: Josh Poimboeuf <jpoimboe@kernel.org>
+:::::: CC: Josh Poimboeuf <jpoimboe@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
