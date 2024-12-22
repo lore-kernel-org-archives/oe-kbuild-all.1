@@ -1,60 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B57D13A86C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Dec 2024 23:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24BC176AB5;
+	Sun, 22 Dec 2024 23:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734908706; cv=none; b=MkQ1dNMnN4pRZ9K02A6MnkbD1oLnEtnWry+Tk/qCM3NYZLgscB737pZIPlRz0l0os1LFYLRji+Wjc9Ccyvzz3PYGeziNs7499K5WG2/mysFe53azO0SVnuv/EU0COxlanzkV7DBEbAEUzPNsgeJC1yFE5+uN5bHxJvHA3tgCl6M=
+	t=1734909369; cv=none; b=JT4r8cYglSRqnimYNxX8vUE6QtMR1N3Viyta4Rlf7j03Qy6tFs5b+Yr+ilyCX5yZoX7exo/mdnvyNCbjMLcxOIB2IVILUAlVNxqrcye1od0+qdgqSjbDwaF2DTVZLApSc0p94UDc2vP9OqpXKRupPsmlcIaNGfWZJ8/x9D7OS0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734908706; c=relaxed/simple;
-	bh=nhb9Boct6sgIUOJjciq6KpJgW+vrgpBIEEeIQEMS4Go=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qg4XA4fhcFGk0sLKkfdQ1BjWeeY7YEKFwipI0zo1SNT5WH9F8tZo0Wjn+g8LQLiBtd0Zd+q1ptNKeVTZXfEMBnuKD0FC0U+UWFxIc9RIMWlcGNQbe8CMov6tfIpuIDfbmdPCP0/rQ45IDJVSUq0iCxykBQe4T9ob2NuSfeXx+zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EaneoGuf; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1734909369; c=relaxed/simple;
+	bh=iSnGKsZHwcn7zuFy/5xK/GmjqWyQ/Y3nO+zDuzOf0kQ=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ngkI0mAFi5B7j5IxEmKybWLzEYZgWzOT2jdJFjP/ZHWnORRLJXTbBxnhHDcbcMEjkTzF0hOnBNMvTlQDvysMZ4RZ1h8jz4+6k4wIZJp0DvYRi+63YSF/w9AlIA0+Q5dn+Sq4Cpr7nzc6KLAoKns2/ABJdlFhm6Rl2b+t4Q8nxkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hks8dnFW; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EaneoGuf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hks8dnFW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734908705; x=1766444705;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nhb9Boct6sgIUOJjciq6KpJgW+vrgpBIEEeIQEMS4Go=;
-  b=EaneoGufNc2gosF8C1VUTDvfir3QtUGH08T49iF2QVBVXox73Bb1LY+p
-   NyaN54FNNDSzDWsrX7mpkpgl/SFRdYTVIkm18Gn9Iy0g51rSjDdF/YMOu
-   iYndP08XfPxhZB2jgE60dzyAx9x3k1fEVqv3cvwVXxk1tu9D8r129xX+S
-   V4DQAT890XSbI1Ka2ymwrTwURXDOUsYvddLO9q+DarWaavAfWSKdcfWv/
-   gNBmZJyqUKN1G9KPCrqT6I4LeNOG4eVD2AyUfEgo0UVD8J54NZQDsueUb
-   4cYVwcUhLMP9lBOne8rk5cmh+I8RbaTFIJhSdPItzr6CEgep2tV4oDvSc
-   A==;
-X-CSE-ConnectionGUID: d+uqCdesSKOn1ZJyw0gmjg==
-X-CSE-MsgGUID: K0ZUevzdQ5irdD5tLdNumA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="35517298"
+  t=1734909366; x=1766445366;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=iSnGKsZHwcn7zuFy/5xK/GmjqWyQ/Y3nO+zDuzOf0kQ=;
+  b=hks8dnFWrM560oXPAnbxQRkHaUaU03d87leh+7qHY6CXej2vd/c1CkVA
+   XDeN2abyyQNJF+JWx84chMp3wNsl7OwS8ZBRMimBIgNfT4PX9KxcCYSRi
+   U+rvQQrKuQxjz9g7sdJ9QxiDnJquAeRSba/OCXIcjfc/EF6mkqcekG4Hc
+   b41gbmy30IdGCDrjFpOKe2I6n9yDhT4q9WPaxu31uhKix3Ds9/XEoPocS
+   /3iUq3o8R92Lolxm9l2nCr0D34JeW0Pagy8p6IEK+TSuErCyuGxW0JeQp
+   fxBtO2c6AlLJAT6ff7PLCYo7zwAJL9mVdNpA5sgHe5KDUuwTO1L0ZCQ5t
+   g==;
+X-CSE-ConnectionGUID: RHT5JhrRQl24vAw0z/5cVA==
+X-CSE-MsgGUID: atGR38vMTwiQNWCNXPaCOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="39059043"
 X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="35517298"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 15:05:04 -0800
-X-CSE-ConnectionGUID: BzNOztgxTwqVwcbBSgRATA==
-X-CSE-MsgGUID: +VYD5H4MSdq+GWGnm66HDA==
+   d="scan'208";a="39059043"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 15:16:05 -0800
+X-CSE-ConnectionGUID: fzkJRPTSSz6LZSj4Y2+ulA==
+X-CSE-MsgGUID: DyNzgRXXRlSm4iyMb7s7FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="103910327"
+   d="scan'208";a="104022890"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Dec 2024 15:05:02 -0800
+  by orviesa004.jf.intel.com with ESMTP; 22 Dec 2024 15:16:04 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPV0O-0003Fn-1G;
-	Sun, 22 Dec 2024 23:05:00 +0000
-Date: Mon, 23 Dec 2024 07:04:46 +0800
+	id 1tPVB3-0003GB-1C;
+	Sun, 22 Dec 2024 23:16:01 +0000
+Date: Mon, 23 Dec 2024 07:15:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 450/540]
- arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb:
- lvts@1100b000: reg: [[0, 285257728, 0, 4096], [0, 287801344, 0, 4096]] is
- too long
-Message-ID: <202412230718.fVGmmCvX-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: Re: [PATCH 2/2] drivers: hwmon: add driver for max42500
+Message-ID: <202412230626.JsC2Jzh5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,105 +60,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   76e007709ba23b69273c6c8ed1a893c1ec7b7df7
-commit: 8b79d9289343efd85194c36b2b684c3063d8dca6 [450/540] CHROMIUM: arm64: dts: mt8192: add thermal zone node
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241223/202412230718.fVGmmCvX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412230718.fVGmmCvX-lkp@intel.com/reproduce)
+In-Reply-To: <20241220012003.9568-3-Kent.Libetario@analog.com>
+References: <20241220012003.9568-3-Kent.Libetario@analog.com>
+TO: Kent Libetario <Kent.Libetario@analog.com>
+TO: linux-hwmon@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: Jean Delvare <jdelvare@suse.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+
+Hi Kent,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on de076198d1e4934c5fc17aa52d5f1884f469ce1a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kent-Libetario/dt-bindings-hwmon-add-adi-max42500-yaml/20241220-092728
+base:   de076198d1e4934c5fc17aa52d5f1884f469ce1a
+patch link:    https://lore.kernel.org/r/20241220012003.9568-3-Kent.Libetario%40analog.com
+patch subject: [PATCH 2/2] drivers: hwmon: add driver for max42500
+config: x86_64-randconfig-003-20241223 (https://download.01.org/0day-ci/archive/20241223/202412230626.JsC2Jzh5-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412230626.JsC2Jzh5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412230718.fVGmmCvX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412230626.JsC2Jzh5-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1459.18-1465.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1467.18-1470.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1990.34-1994.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:430.27-503.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@11d00000/bridge@58: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:801.36-810.5: Warning (unique_unit_address_if_enabled): /soc/thermal-sensor@1100b000: duplicate unit-address (also used in node /soc/lvts@1100b000)
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:447.9-459.5: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:470.11-481.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:489.11-500.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: lvts@1100b000: reg: [[0, 285257728, 0, 4096], [0, 287801344, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: lvts@1100b000: interrupts: [[0, 169, 4, 0], [0, 170, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: lvts@1100b000: #thermal-sensor-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: lvts@1100b000: 'nvmem-cell-names', 'nvmem-cells', 'resets' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: typec: connector@0:ports: 'port@0' is a required property
---
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: dpi@14016000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: dpi@14016000: Additional properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: thermal-zones: 'apu', 'camsys', 'cci1', 'cci2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'gpu1', 'gpu2', 'infra', 'md1', 'md2', 'md3', 'mlda', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1459.18-1465.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1467.18-1470.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1990.34-1994.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:430.27-503.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@11d00000/bridge@58: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:801.36-810.5: Warning (unique_unit_address_if_enabled): /soc/thermal-sensor@1100b000: duplicate unit-address (also used in node /soc/lvts@1100b000)
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:447.9-459.5: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:470.11-481.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:489.11-500.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: lvts@1100b000: reg: [[0, 285257728, 0, 4096], [0, 287801344, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: lvts@1100b000: interrupts: [[0, 169, 4, 0], [0, 170, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: lvts@1100b000: #thermal-sensor-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: lvts@1100b000: 'nvmem-cell-names', 'nvmem-cells', 'resets' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek-thermal-lvts.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: typec: connector@0:ports: 'port@0' is a required property
---
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: dpi@14016000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: dpi@14016000: Additional properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: thermal-zones: 'apu', 'camsys', 'cci1', 'cci2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'gpu1', 'gpu2', 'infra', 'md1', 'md2', 'md3', 'mlda', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/hwmon/max42500.c:18:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/max42500.c:201:33: warning: arithmetic between different enumeration types ('enum max42500_vm_input' and 'enum max42500_comp_stat') [-Wenum-enum-conversion]
+     201 |         u8 comp_status[MAX42500_VM_MAX * MAX42500_COMP_STAT_MAX];
+         |                        ~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +201 drivers/hwmon/max42500.c
+
+   189	
+   190	struct max42500_state {
+   191		struct i2c_client *client;
+   192		struct regmap *regmap;
+   193		struct max42500_config *config;
+   194		long pwrup_stamp[MAX42500_VM_MAX];
+   195		long pwrdn_stamp[MAX42500_VM_MAX];
+   196		u8 ov_thresh1[MAX42500_VM_MAX - 2];
+   197		u8 ov_thresh2[MAX42500_VM_MAX - 5];
+   198		u8 uv_thresh1[MAX42500_VM_MAX - 2];
+   199		u8 uv_thresh2[MAX42500_VM_MAX - 5];
+   200		u8 nominal_volt[MAX42500_VM_MAX - 2];
+ > 201		u8 comp_status[MAX42500_VM_MAX * MAX42500_COMP_STAT_MAX];
+   202	};
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
