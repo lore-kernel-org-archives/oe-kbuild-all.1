@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9712746C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Dec 2024 21:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DD218F2FD;
+	Sun, 22 Dec 2024 22:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734901234; cv=none; b=sXgpuEfDmN2wIl8Bp6fsiJhjmWn3DvtI0vMHN+axUgiwBv8Nx5fzoZKiBmM860JD1sWhB6/139gO45SpAsJmoBExRdWBilAdAP73t8D3FCM2V20QSsRW9kizvIHIDRqonrKVOGquVap0Z5vxpfiRPBpUtpPqBqNPUHT7u6QQ9H8=
+	t=1734905624; cv=none; b=p1XLofUaeUY5M2aDoCYnCmRmZYmy4eE+vDMM5dRvTgdMsn8KdyFncoomZO6rrS/07R/20eiEkoAZC50Wc24VDEpyGw04XoNrtC6Vbg4N3/1wGIvPaxM3AJocjKAByoWxs9bP84qfDOGbYZOKxLLIVPh+fvVigzbHN/SM5Qq/ubI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734901234; c=relaxed/simple;
-	bh=lCI/VEBSEEMeX13KgLA4Fux+YQr87SWEwiY5pmfS6nU=;
+	s=arc-20240116; t=1734905624; c=relaxed/simple;
+	bh=dIyInAyBn5VgqyGLXSrE9uvHnGelyxEAItFMCSxM63k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=knH/opZw1EyGUcBUmjFJTHbpC17jypoYpiBlZqgD4esz3iJ/HX2CkZ95gwQ1+Y8SzkBIopvoHloKp+vBEBIK2AxCJHeUVefO7U0Jmp9qTfNG0PI0D5DDK6aly4CHafcHhNBJJWpgY8rscZUPBmazR1jt0vBYfJCeA7bqpHoBhBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwsaAfE5; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=ae5G4nGmltccZ4g05abiKTfybt/V3q0wtsR2kAdWSjjh9TywVBrFGzXCfLvuh5wI8W0oOAmstHIsbdQLIvQQ6MCy3d7S8XdggcLBRdNnYJqnIIf/5a+nkVjCUFGntbXyvcGDeN5ybpSZbFCjS7j7OERcwNFeFoUD89jGLNkeCb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TnP2xxMD; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwsaAfE5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TnP2xxMD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734901232; x=1766437232;
+  t=1734905622; x=1766441622;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lCI/VEBSEEMeX13KgLA4Fux+YQr87SWEwiY5pmfS6nU=;
-  b=gwsaAfE5iI3KEm/4Duv+sRD8ksCQ0HfT90XC27QgShUKB86Eia/btDUQ
-   Szl5wJpieYIlPAuXc54+tkDk+t8CNHhcbhJTMprCG7pfj+36oggHN1pnO
-   cDApbFnaZVARpbQHCu2JCLVO69awnk1PFbJatjwAWDc0aEMPO1JkDgWYl
-   1qWSsR+VVP3pFtox65+5C+p2dGeFqIU/0LZIZJEURduR34XZQm8Q5a7zB
-   NW8aFkM/lKDq04oHdITPSjOYkUyKF9ngcRtbEWeEM4E5kqXADpTaVoACc
-   gBShxlEdS8VvBceJLcgAyPkWqWCSeZheznDzYj+SZC2LKsODlaQclv8uy
-   A==;
-X-CSE-ConnectionGUID: IcCO7GfASKi1cuGFByws/g==
-X-CSE-MsgGUID: kVwR7zIwRcukwj1j/JIeOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="46790957"
+  bh=dIyInAyBn5VgqyGLXSrE9uvHnGelyxEAItFMCSxM63k=;
+  b=TnP2xxMD4Z2+0bCZGgFXZNJcUUOqfyI4hhoYR4DqYKIi0L51WGviU3fq
+   VtOD4QbA60n+Vl8KDFt3MH+jOdU7wOPR7bHZeJIVhJIVljDESjl5WCysF
+   pcObOELSBi5+rkbeyKzsphGw+4l+lqlS+OyeSXGKRzCfS65AQx+S4MWQ2
+   nx5fQOk0ZXdXxP6EfLVGYmUwGIFdljiCzElnfnaRPVf6v0NhQKe4wtjik
+   7hNE2G7D9MnzwFxIiI9OhSh1d/6bu7wMsFYam26ZZmjhz2uj9lUO+V6O8
+   oK0fLOuIc/m0xeOB4bDlxba8Dc3/zRx4O562vSx+2iv0flsHSszQKeE7m
+   g==;
+X-CSE-ConnectionGUID: CLfo0bDhSbOZ5gVnALh1PA==
+X-CSE-MsgGUID: zl5BlunkSzWnzYJsMiS1Wg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="34692265"
 X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="46790957"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 13:00:32 -0800
-X-CSE-ConnectionGUID: GEnTCL2PQkaNFSTrfj/pPg==
-X-CSE-MsgGUID: Up+Z61LWRIG2mDEevSRDcA==
+   d="scan'208";a="34692265"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 14:13:42 -0800
+X-CSE-ConnectionGUID: gIO4qLbQSRq+TYr9cNINnA==
+X-CSE-MsgGUID: S3KAUC9bRLqVSDA2XAekOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103130252"
+   d="scan'208";a="98890863"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Dec 2024 13:00:30 -0800
+  by orviesa010.jf.intel.com with ESMTP; 22 Dec 2024 14:13:39 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPT3s-0003BL-1G;
-	Sun, 22 Dec 2024 21:00:28 +0000
-Date: Mon, 23 Dec 2024 05:00:08 +0800
+	id 1tPUCf-0003Cp-1N;
+	Sun, 22 Dec 2024 22:13:37 +0000
+Date: Mon, 23 Dec 2024 06:12:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:zoned 125/144] fs/xfs/xfs_zone_alloc.c:669:62: sparse:
- sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202412230407.FNn45tup-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>
+Subject: drivers/firmware/broadcom/tee_bnxt_fw.c:62: warning: Function
+ parameter or struct member 'fw_shm_pool' not described in
+ 'tee_bnxt_fw_private'
+Message-ID: <202412230640.Xkdah4yq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +67,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git zoned
-head:   e438c133cc544cff3b44f8c3fde87a8ab5f8a3de
-commit: aeba972d7108ff837bdc8786fd19f786f9dbd3ba [125/144] xfs: add the zoned space allocator
-config: x86_64-randconfig-r132-20241223 (https://download.01.org/0day-ci/archive/20241223/202412230407.FNn45tup-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412230407.FNn45tup-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bcde95ce32b666478d6737219caa4f8005a8f201
+commit: 951cd3a0866d29cb9c01ebc1d9c17590e598226e firmware: include drivers/firmware/Kconfig unconditionally
+date:   3 years, 3 months ago
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241223/202412230640.Xkdah4yq-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412230640.Xkdah4yq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412230407.FNn45tup-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412230640.Xkdah4yq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_zone_alloc.c:669:62: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted blk_status_t [usertype] status @@     got long @@
-   fs/xfs/xfs_zone_alloc.c:669:62: sparse:     expected restricted blk_status_t [usertype] status
-   fs/xfs/xfs_zone_alloc.c:669:62: sparse:     got long
->> fs/xfs/xfs_zone_alloc.c:669:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_status_t [usertype] bi_status @@     got int @@
-   fs/xfs/xfs_zone_alloc.c:669:33: sparse:     expected restricted blk_status_t [usertype] bi_status
-   fs/xfs/xfs_zone_alloc.c:669:33: sparse:     got int
+All warnings (new ones prefixed by >>):
 
-vim +669 fs/xfs/xfs_zone_alloc.c
+>> drivers/firmware/broadcom/tee_bnxt_fw.c:62: warning: Function parameter or struct member 'fw_shm_pool' not described in 'tee_bnxt_fw_private'
+--
+>> drivers/firmware/broadcom/bcm47xx_nvram.c:41: warning: Function parameter or struct member 'nvram' not described in 'bcm47xx_nvram_is_valid'
+>> drivers/firmware/broadcom/bcm47xx_nvram.c:49: warning: Function parameter or struct member 'nvram_start' not described in 'bcm47xx_nvram_copy'
+>> drivers/firmware/broadcom/bcm47xx_nvram.c:49: warning: Function parameter or struct member 'res_size' not described in 'bcm47xx_nvram_copy'
+>> drivers/firmware/broadcom/bcm47xx_nvram.c:73: warning: Function parameter or struct member 'flash_start' not described in 'bcm47xx_nvram_find_and_copy'
+>> drivers/firmware/broadcom/bcm47xx_nvram.c:73: warning: Function parameter or struct member 'res_size' not described in 'bcm47xx_nvram_find_and_copy'
 
-   621	
-   622	void
-   623	xfs_zone_alloc_and_submit(
-   624		struct iomap_ioend	*ioend,
-   625		struct xfs_open_zone	**oz)
-   626	{
-   627		unsigned int		alloc_len;
-   628		struct iomap_ioend	*split;
-   629		bool			is_seq;
-   630	
-   631		if (xfs_is_shutdown(XFS_I(ioend->io_inode)->i_mount))
-   632			goto out_error;
-   633	
-   634		/*
-   635		 * If we don't have a cached zone in this write context, see if the
-   636		 * last extent before the one we are writing points of an active zone.
-   637		 * If so, just continue writing to it.
-   638		 */
-   639		if (!*oz && ioend->io_offset)
-   640			*oz = xfs_last_used_zone(ioend);
-   641		if (!*oz) {
-   642	select_zone:
-   643			*oz = xfs_select_zone(ioend);
-   644			if (!*oz)
-   645				goto out_error;
-   646		}
-   647	
-   648		alloc_len = xfs_zone_alloc_blocks(ioend, *oz, &is_seq);
-   649		if (!alloc_len) {
-   650			xfs_open_zone_put(*oz);
-   651			goto select_zone;
-   652		}
-   653	
-   654		while ((split = iomap_split_ioend(ioend, alloc_len, is_seq))) {
-   655			if (IS_ERR(split))
-   656				goto out_split_error;
-   657			alloc_len -= split->io_bio.bi_iter.bi_size;
-   658			xfs_submit_zoned_bio(split, is_seq);
-   659			if (!alloc_len) {
-   660				xfs_open_zone_put(*oz);
-   661				goto select_zone;
-   662			}
-   663		}
-   664	
-   665		xfs_submit_zoned_bio(ioend, is_seq);
-   666		return;
-   667	
-   668	out_split_error:
- > 669		ioend->io_bio.bi_status = blk_status_to_errno(PTR_ERR(split));
-   670	out_error:
-   671		bio_io_error(&ioend->io_bio);
-   672	}
-   673	
+
+vim +62 drivers/firmware/broadcom/tee_bnxt_fw.c
+
+246880958ac939 Vikas Gupta 2019-10-31  50  
+246880958ac939 Vikas Gupta 2019-10-31  51  /**
+246880958ac939 Vikas Gupta 2019-10-31  52   * struct tee_bnxt_fw_private - OP-TEE bnxt private data
+246880958ac939 Vikas Gupta 2019-10-31  53   * @dev:		OP-TEE based bnxt device.
+246880958ac939 Vikas Gupta 2019-10-31  54   * @ctx:		OP-TEE context handler.
+246880958ac939 Vikas Gupta 2019-10-31  55   * @session_id:		TA session identifier.
+246880958ac939 Vikas Gupta 2019-10-31  56   */
+246880958ac939 Vikas Gupta 2019-10-31  57  struct tee_bnxt_fw_private {
+246880958ac939 Vikas Gupta 2019-10-31  58  	struct device *dev;
+246880958ac939 Vikas Gupta 2019-10-31  59  	struct tee_context *ctx;
+246880958ac939 Vikas Gupta 2019-10-31  60  	u32 session_id;
+246880958ac939 Vikas Gupta 2019-10-31  61  	struct tee_shm *fw_shm_pool;
+246880958ac939 Vikas Gupta 2019-10-31 @62  };
+246880958ac939 Vikas Gupta 2019-10-31  63  
+
+:::::: The code at line 62 was first introduced by commit
+:::::: 246880958ac93989c97c73ae1e60b78b4c4c88c5 firmware: broadcom: add OP-TEE based BNXT f/w manager
+
+:::::: TO: Vikas Gupta <vikas.gupta@broadcom.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
