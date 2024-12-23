@@ -1,82 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002D31BD9C6;
-	Mon, 23 Dec 2024 16:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CB31B0F27
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 16:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734971660; cv=none; b=g5Z3SaZuu7Iqwc2/ACB1RM3ERjJlZPjRG3e+T3FynyGonLCLGPX5orEAdX7GYpK8+/3sXh6eylPAvs7i1k4F9qnw/aODrYogpDTc3rKvNaAI77HH3rJZYfBOU9F2vC+Jkl5a/kRkjeEsp5h3JaiewOXiP0onTsd8/DPFijGgaw8=
+	t=1734972970; cv=none; b=qH0yhoOYHh3VZlIFB3xxeZgs/Y2cyBcbsAhSvzhm4HEE/9IjtcuFChAi8xQ9rZyoqaKNx51OnI/s+7RFsqtczDx7T5iqFOuBRgyMWcjhezRx2SLAFdYqdDLdMeQfnoNPq3DuUBdXQ/0Vs5iYphw3eCC3WhglF/FdMxTuVSrf5Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734971660; c=relaxed/simple;
-	bh=lLHUtomYo0uJ2lWl63orMc7OIV1mem3W2iJoTi1vV48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cyh/MBaTjRNXYS5ulvVXug1loe/eJwsTDnqaq1uam/7nyNg/z4Tibj89ZQs/DFyMUqx+B6IJotELccjs1SItCtnZfbNOZLaSNabXNU5Z9oyovaPDmjE0zL7bxCVVoA4lGorn00Yio2V8IQfsY9L+RKcoA4ICzNTwHTOPX+rOAIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQRm/EnY; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1734972970; c=relaxed/simple;
+	bh=z6+yF0fw6jvRFr4JTxerhB9C/QK2WIApd9vbzuXeSGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NFKvzh18GH5yTGRKYP0+m4O8XF6UVwIeqFzPNXRqyIFUn1tKwJRZT48X80JfSuxorWlSrfM2AiuOqdU5MTt7ooJ2bLLvFk31GpltguYNnKd2d05mkHj1vkTiiKB7kexaj5LsUEW6dTQyJhni206+jvDg/TMD/tq5htLN/mdlOBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/ovblQ/; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQRm/EnY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/ovblQ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734971659; x=1766507659;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lLHUtomYo0uJ2lWl63orMc7OIV1mem3W2iJoTi1vV48=;
-  b=GQRm/EnYlfQX/NvQVIKFPlSVLH8HHGZzlBmANDd2Q4TBxz80N4WVtH9f
-   HG1U74Nqag/sl9v3d7B6ILItpfz/qUM1+L9vRijj6U3jn7tno9JkGtGT8
-   UuqYPEzwH7EGbEGP+M4L1Hgi0R0Zrj3qkBoZZGXQ/kbKP4pHw28ElkFtH
-   OpxEGW7cIk6CdxgRacmlNfcUv3YcdB431KVgtCu+9eh1WptyWz7JfsA4f
-   S01atlEi3ahposIWLXFD+l5CTUwnHMucgoybP53SO7LEGsAqhuvYvX144
-   MPTGLIm5S+yE+2haiS0pt7U4ILrUXkoPiRG8hFk6qLYRPBJx55ubA5kDk
-   w==;
-X-CSE-ConnectionGUID: 8vwZi5kMRVKoO2qoX3HIUw==
-X-CSE-MsgGUID: Yfn7V9Q0Rr2vWpwYRWyWYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="39380470"
+  t=1734972968; x=1766508968;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z6+yF0fw6jvRFr4JTxerhB9C/QK2WIApd9vbzuXeSGE=;
+  b=Y/ovblQ/14u538TKZkNwKOGiFqczdcgxmXi56Qkby9L3KIbqw5RX8E6J
+   0P8h4DGeGaky1Sx4Cyk3p7lXnBxrLCBscILXyT/VDbfjqDgJQxcWwlcs1
+   rBGIiH52eUZYGC6+uC1/9pmaWEjiKYQzsNfVOTSrEhsXbM7hPThdciY2G
+   imRf2uCLtiKY4YWpc0bBVfjP8c5KKhvyCbxcTY42KVC+CcZcARLNyWtSy
+   gayk7px8mI5BRSiKaAR2P9vS5Aszaiae0NwJuJOgMbF8JS+6eEhypTEk7
+   r+nJppBh6WXHtmvwhg07Sv8UX9tajqBb7610p6Qxh9lgBcyH297R0bpKP
+   Q==;
+X-CSE-ConnectionGUID: 9ugfV9GtTT2436cfXtX9UQ==
+X-CSE-MsgGUID: KER2p+bSTkiZG6f4CfTaHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="34715903"
 X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
-   d="scan'208";a="39380470"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 08:34:07 -0800
-X-CSE-ConnectionGUID: XdRGSdj9Rbq4Wx7Zhu/XFA==
-X-CSE-MsgGUID: qBvnqr35TMuOJNi26sfluA==
+   d="scan'208";a="34715903"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 08:56:07 -0800
+X-CSE-ConnectionGUID: sLi+TnIjQt+tXaTpb/LUhw==
+X-CSE-MsgGUID: thXISVnORQuESsXMILwnLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104239275"
+   d="scan'208";a="100098446"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Dec 2024 08:34:01 -0800
+  by orviesa008.jf.intel.com with ESMTP; 23 Dec 2024 08:56:06 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPlNW-0000TX-31;
-	Mon, 23 Dec 2024 16:33:58 +0000
-Date: Tue, 24 Dec 2024 00:33:25 +0800
+	id 1tPliu-0000UV-0X;
+	Mon, 23 Dec 2024 16:56:04 +0000
+Date: Tue, 24 Dec 2024 00:55:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charlie Jenkins <charlie@rivosinc.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Nelson Chu <nelson@rivosinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: Re: [PATCH 1/2] kbuild: Check version of objdump
-Message-ID: <202412240044.wVXW8Eg1-lkp@intel.com>
-References: <20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b@rivosinc.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.12 4/4]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c:
+ Unevaluated properties are not allowed ('hpd-gpios', 'interrupts',
+ 'no-laneswap', 'port' were unexpected)
+Message-ID: <202412240059.7TYOSPlM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,65 +63,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b@rivosinc.com>
 
-Hi Charlie,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on fac04efc5c793dccbd07e2d59af9f90b7fc0dca4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/kbuild-Check-version-of-objdump/20241217-071632
-base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-patch link:    https://lore.kernel.org/r/20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b%40rivosinc.com
-patch subject: [PATCH 1/2] kbuild: Check version of objdump
-config: x86_64-randconfig-003-20241223 (attached as .config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240044.wVXW8Eg1-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   8decd833dcf6e8e368c99562c3437b9113fcffad
+commit: a5f8fb56761362c50e56e27932041138cff8d5d2 [4/4] CHROMIUM: arm64: dts: mt8183: Add kakadu rev1
+config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241224/202412240059.7TYOSPlM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240059.7TYOSPlM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412240044.wVXW8Eg1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412240059.7TYOSPlM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ***
-   *** objdump is too old.
-   ***   Your llvm-objdump version:    
-   ***   Minimum llvm-objdump version: 13.0.1
-   ***
->> scripts/Kconfig.include:63: Sorry, this objdump is not supported.
-   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1 shuffle=1831414175
-   make[2]: *** [Makefile:733: oldconfig] Error 2 shuffle=1831414175
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
-   make: Target 'oldconfig' not remade because of errors.
---
-   ***
-   *** objdump is too old.
-   ***   Your llvm-objdump version:    
-   ***   Minimum llvm-objdump version: 13.0.1
-   ***
->> scripts/Kconfig.include:63: Sorry, this objdump is not supported.
-   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1 shuffle=1831414175
-   make[2]: *** [Makefile:733: olddefconfig] Error 2 shuffle=1831414175
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
-   make: Target 'olddefconfig' not remade because of errors.
-
-
-vim +63 scripts/Kconfig.include
-
-    60	
-    61	# Get the objdump name, version, and error out if it is not supported.
-    62	objdump-info := $(shell,$(srctree)/scripts/objdump-version.sh $(OBJDUMP))
-  > 63	$(error-if,$(success,test -z "$(objdump-info)"),Sorry$(comma) this objdump is not supported.)
-    64	objdump-name := $(shell,set -- $(objdump-info) && echo $1)
-    65	objdump-version := $(shell,set -- $(objdump-info) && echo $2)
-    66	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
 
 -- 
 0-DAY CI Kernel Test Service
