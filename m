@@ -1,59 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30E01B21B5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 16:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002D31BD9C6;
+	Mon, 23 Dec 2024 16:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734970315; cv=none; b=oAEjPVh7y1Xnm4nJR7wb8/WFK5E225g+nrRB8tCwbMk2lF5FUWXgYSQptJfHYZPCgSWML/Mg/0tBTg+5+zUEoIbz5cyZQ6o503YQ3YnO0m4AHj1rEc75yRwUmMYApPftrtd3vAF+dKgB6bFj8YRxtqn12lMYTdJ9AA5DeD9whzQ=
+	t=1734971660; cv=none; b=g5Z3SaZuu7Iqwc2/ACB1RM3ERjJlZPjRG3e+T3FynyGonLCLGPX5orEAdX7GYpK8+/3sXh6eylPAvs7i1k4F9qnw/aODrYogpDTc3rKvNaAI77HH3rJZYfBOU9F2vC+Jkl5a/kRkjeEsp5h3JaiewOXiP0onTsd8/DPFijGgaw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734970315; c=relaxed/simple;
-	bh=cAH8/0mMu2DzjLCTqbEBgMimwE/JgZv2gWG0NtOZHxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WkdLriHzo4CI/52XN82Iy+DPEpKMBP6egLxo5g1tGpo6gwXvK1TUIqIPB8UzyoZOQLedZ8nYZJP/CYKqynolKN0gfLmv3SwxMxmDIHE1rIAOqoqj+0shS9x7UENzamJpxJb4UyM1wxaaBmFYvHuRcBh5uIjJzkQThfQffgPCebQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSZJ9Ct/; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1734971660; c=relaxed/simple;
+	bh=lLHUtomYo0uJ2lWl63orMc7OIV1mem3W2iJoTi1vV48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cyh/MBaTjRNXYS5ulvVXug1loe/eJwsTDnqaq1uam/7nyNg/z4Tibj89ZQs/DFyMUqx+B6IJotELccjs1SItCtnZfbNOZLaSNabXNU5Z9oyovaPDmjE0zL7bxCVVoA4lGorn00Yio2V8IQfsY9L+RKcoA4ICzNTwHTOPX+rOAIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQRm/EnY; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSZJ9Ct/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQRm/EnY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734970314; x=1766506314;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cAH8/0mMu2DzjLCTqbEBgMimwE/JgZv2gWG0NtOZHxw=;
-  b=GSZJ9Ct/XgsXQr//fLh2lUVsaaqtIezVOvTWx4FuO0bEoL3Yz79dHqay
-   yX3fPCfm5OYSD1cNA5VGY3OtHD5Y8nyw5FteVyx7XDDk1ewrQj+KttIfc
-   5Kr41b/owG6cihPJl5YGmnnE53TbOqe//jmayHDAMskwAqDWupd29iEJH
-   Yh7kpjOdZvda5EUWfKVRJ3etPvu+PqJP/jfUNFmr9Cv3rtb7H6OBigSyD
-   EmsuKjRqqoOGuXJMlX8y2cW6jj9QLyACVNqNhht3Zdqhi2iRZMzU4gz87
-   +Q3vl2/DAJ6DQr6c0WG0FlXcuvv6QxJ/iWjidz6R11zmto8aGyV95s+Rv
-   g==;
-X-CSE-ConnectionGUID: frqyhN81QOuv2UDjdKq0gQ==
-X-CSE-MsgGUID: 2b8klK5CTESKsIq9EU1E3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="46129020"
+  t=1734971659; x=1766507659;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lLHUtomYo0uJ2lWl63orMc7OIV1mem3W2iJoTi1vV48=;
+  b=GQRm/EnYlfQX/NvQVIKFPlSVLH8HHGZzlBmANDd2Q4TBxz80N4WVtH9f
+   HG1U74Nqag/sl9v3d7B6ILItpfz/qUM1+L9vRijj6U3jn7tno9JkGtGT8
+   UuqYPEzwH7EGbEGP+M4L1Hgi0R0Zrj3qkBoZZGXQ/kbKP4pHw28ElkFtH
+   OpxEGW7cIk6CdxgRacmlNfcUv3YcdB431KVgtCu+9eh1WptyWz7JfsA4f
+   S01atlEi3ahposIWLXFD+l5CTUwnHMucgoybP53SO7LEGsAqhuvYvX144
+   MPTGLIm5S+yE+2haiS0pt7U4ILrUXkoPiRG8hFk6qLYRPBJx55ubA5kDk
+   w==;
+X-CSE-ConnectionGUID: 8vwZi5kMRVKoO2qoX3HIUw==
+X-CSE-MsgGUID: Yfn7V9Q0Rr2vWpwYRWyWYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="39380470"
 X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
-   d="scan'208";a="46129020"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 08:11:53 -0800
-X-CSE-ConnectionGUID: BauvpBfTR+ahV4kjbv5oAw==
-X-CSE-MsgGUID: zIWTCVU2RVy/t5aBfIosaA==
+   d="scan'208";a="39380470"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 08:34:07 -0800
+X-CSE-ConnectionGUID: XdRGSdj9Rbq4Wx7Zhu/XFA==
+X-CSE-MsgGUID: qBvnqr35TMuOJNi26sfluA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
-   d="scan'208";a="99104651"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104239275"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Dec 2024 08:11:52 -0800
+  by orviesa005.jf.intel.com with ESMTP; 23 Dec 2024 08:34:01 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPl25-0000G5-2W;
-	Mon, 23 Dec 2024 16:11:49 +0000
-Date: Tue, 24 Dec 2024 00:11:43 +0800
+	id 1tPlNW-0000TX-31;
+	Mon, 23 Dec 2024 16:33:58 +0000
+Date: Tue, 24 Dec 2024 00:33:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 0/19] drivers/hid/hid-multitouch.c:1904:3:
- error: call to undeclared function 'hid_haptic_resume'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202412240025.EgIBCSFQ-lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Nelson Chu <nelson@rivosinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-perf-users@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH 1/2] kbuild: Check version of objdump
+Message-ID: <202412240044.wVXW8Eg1-lkp@intel.com>
+References: <20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,100 +85,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b@rivosinc.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   8decd833dcf6e8e368c99562c3437b9113fcffad
-commit: d70999e0ccd4410cd8730ddf49b0a3bd2fdaaa15 [0/19] BACKPORT: FROMLIST: HID: multitouch: add haptic multitouch support
-config: i386-buildonly-randconfig-005-20241223 (https://download.01.org/0day-ci/archive/20241224/202412240025.EgIBCSFQ-lkp@intel.com/config)
+Hi Charlie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on fac04efc5c793dccbd07e2d59af9f90b7fc0dca4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/kbuild-Check-version-of-objdump/20241217-071632
+base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+patch link:    https://lore.kernel.org/r/20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b%40rivosinc.com
+patch subject: [PATCH 1/2] kbuild: Check version of objdump
+config: x86_64-randconfig-003-20241223 (attached as .config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240025.EgIBCSFQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240044.wVXW8Eg1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412240025.EgIBCSFQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412240044.wVXW8Eg1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/hid/hid-multitouch.c:35:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2214:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hid/hid-multitouch.c:1904:3: error: call to undeclared function 'hid_haptic_resume'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1904 |                 hid_haptic_resume(hdev, haptic);
-         |                 ^
-   drivers/hid/hid-multitouch.c:1918:3: error: call to undeclared function 'hid_haptic_resume'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1918 |                 hid_haptic_resume(hdev, haptic);
-         |                 ^
->> drivers/hid/hid-multitouch.c:1937:3: error: call to undeclared function 'hid_haptic_suspend'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1937 |                 hid_haptic_suspend(hdev, haptic);
-         |                 ^
-   drivers/hid/hid-multitouch.c:1937:3: note: did you mean 'hid_driver_suspend'?
-   include/linux/hid.h:1023:19: note: 'hid_driver_suspend' declared here
-    1023 | static inline int hid_driver_suspend(struct hid_device *hdev, pm_message_t state) { return 0; }
-         |                   ^
-   1 warning and 3 errors generated.
+   ***
+   *** objdump is too old.
+   ***   Your llvm-objdump version:    
+   ***   Minimum llvm-objdump version: 13.0.1
+   ***
+>> scripts/Kconfig.include:63: Sorry, this objdump is not supported.
+   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1 shuffle=1831414175
+   make[2]: *** [Makefile:733: oldconfig] Error 2 shuffle=1831414175
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
+   make: Target 'oldconfig' not remade because of errors.
+--
+   ***
+   *** objdump is too old.
+   ***   Your llvm-objdump version:    
+   ***   Minimum llvm-objdump version: 13.0.1
+   ***
+>> scripts/Kconfig.include:63: Sorry, this objdump is not supported.
+   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1 shuffle=1831414175
+   make[2]: *** [Makefile:733: olddefconfig] Error 2 shuffle=1831414175
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1831414175
+   make: Target 'olddefconfig' not remade because of errors.
 
 
-vim +/hid_haptic_resume +1904 drivers/hid/hid-multitouch.c
+vim +63 scripts/Kconfig.include
 
-  1890	
-  1891	static int mt_suspend(struct hid_device *hdev, pm_message_t state)
-  1892	{
-  1893		struct mt_device *td = hid_get_drvdata(hdev);
-  1894		struct hid_haptic_device *haptic = td->haptic;
-  1895	
-  1896		/* High latency is desirable for power savings during S3/S0ix */
-  1897		if ((td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP) ||
-  1898		    !hid_hw_may_wakeup(hdev))
-  1899			mt_set_modes(hdev, HID_LATENCY_HIGH, false, false);
-  1900		else
-  1901			mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
-  1902	
-  1903		if (td->is_haptic_touchpad)
-> 1904			hid_haptic_resume(hdev, haptic);
-  1905	
-  1906		return 0;
-  1907	}
-  1908	
-  1909	static int mt_reset_resume(struct hid_device *hdev)
-  1910	{
-  1911		struct mt_device *td = hid_get_drvdata(hdev);
-  1912		struct hid_haptic_device *haptic = td->haptic;
-  1913	
-  1914		mt_release_contacts(hdev);
-  1915		mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-  1916	
-  1917		if (td->is_haptic_touchpad)
-  1918			hid_haptic_resume(hdev, haptic);
-  1919	
-  1920		return 0;
-  1921	}
-  1922	
-  1923	static int mt_resume(struct hid_device *hdev)
-  1924	{
-  1925		struct mt_device *td = hid_get_drvdata(hdev);
-  1926		struct hid_haptic_device *haptic = td->haptic;
-  1927	
-  1928		/* Some Elan legacy devices require SET_IDLE to be set on resume.
-  1929		 * It should be safe to send it to other devices too.
-  1930		 * Tested on 3M, Stantum, Cypress, Zytronic, eGalax, and Elan panels. */
-  1931	
-  1932		hid_hw_idle(hdev, 0, 0, HID_REQ_SET_IDLE);
-  1933	
-  1934		mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-  1935	
-  1936		if (td->is_haptic_touchpad)
-> 1937			hid_haptic_suspend(hdev, haptic);
-  1938	
-  1939		return 0;
-  1940	}
-  1941	
+    60	
+    61	# Get the objdump name, version, and error out if it is not supported.
+    62	objdump-info := $(shell,$(srctree)/scripts/objdump-version.sh $(OBJDUMP))
+  > 63	$(error-if,$(success,test -z "$(objdump-info)"),Sorry$(comma) this objdump is not supported.)
+    64	objdump-name := $(shell,set -- $(objdump-info) && echo $1)
+    65	objdump-version := $(shell,set -- $(objdump-info) && echo $2)
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
