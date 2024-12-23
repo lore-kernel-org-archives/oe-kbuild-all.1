@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D65E19D074
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 13:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92022199FA4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 13:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734959032; cv=none; b=kfni20PqmqShZ6iQPgNw4uQxV3wsi9Ra+IrKkN4yjiIyBvhXOFbeYtyWuae5XCf5dD3HtYgh0DtGa6PV9XxQUZV2Bpi1EocoSC4lNrEBBiXmgn8kLc0GDls4f7dUbM4b/xAUbjflvTeVAY9gv4XqkQK/ZCnx3ITdrDAPF6I2LiM=
+	t=1734962235; cv=none; b=JA9ThyA6E9vTVfVu/I308Cb1a8VYHZyrx3cXJtm5IZ3NoCFQYJ/kzWV9AjjcStGwJ5DSJLeqAF4uEnsQWzCVfu0d28KiRwyVg1luNeWMeoaMKcyId9TWeKrdHoKYK82RN0oC3MrbbY2s6DwtfZ0SkGgTKaVJsqQZvZbmo01jGu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734959032; c=relaxed/simple;
-	bh=7ofghjsmGN1rPOxM6a8mV/o+3l+2/+69oKAXNuluaDQ=;
+	s=arc-20240116; t=1734962235; c=relaxed/simple;
+	bh=Igz8YYmz3h+yfD37If1IP7PyLU60cClhdjb/or+wRRs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YetJqgL4ql3goSAcw3gY3F7gMUCUH1NMoAETsbt3CA78bogFv+H4r9ugOVkoGFbT9k8epQzNMCoagMB600YPJ9lhCglRBIt5eVcysvBdrSgeKuOJcG00pNjq8KpahK8qQxNw1DpjcEl7krSSumkp8Hbt7NmidhnRnU277xtPpDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0MWwMXt; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=CPoIWKzZ1Rz6IEgXonSgsNbGqI2ofgWqh3G4yDVm2RInyMr8wtctthYoiqB4hUT7M1wSf6Xi4ao0bbWFnkf0WQuDF5eTPgsPyoNLkeCsI1hDkxiaD2RcwGhPNwgdz0dkF0Ag5Nz8eSqRt3oSmrfMDLtzWSoGrffGapBCXCYPVi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9aQnxtE; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0MWwMXt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9aQnxtE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734959030; x=1766495030;
+  t=1734962233; x=1766498233;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7ofghjsmGN1rPOxM6a8mV/o+3l+2/+69oKAXNuluaDQ=;
-  b=h0MWwMXtegaFdczxuTh0eyKVZYwn/hbdQJIomWqeaXk6ARofKgSAABHy
-   0ZsKj8dq+eVdgAeBWTZVIa9Pp3rQ2ushxBGTFlLyWTZ6Ft8ukpn4LS4jX
-   iMNTKFCgOqIutTtA56dXUJ5LbTyJ2EWfX/sGzWyRuGVz/IotrMVSNRg7p
-   0w39ILMAeHXxXMEne1Tum4xonOBhIBxUT9Rh4zE+qmmnbigz2WDWYw2xj
-   tZ5ZYYE8ZynzzqvQs5p0RitXE92zeD4vpq8AKX5UA3QhPJaoYnqBhF4KK
-   nfTqicsJFBypoBMGTWkTJ5UBO0H0OV3cLqboWgUoABd8GV4jQuVAzdFRG
-   A==;
-X-CSE-ConnectionGUID: W5TMkOjqQFiK19QnWpAAxg==
-X-CSE-MsgGUID: ylb0e1kWTl2aqiIdNwDCzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="35451238"
+  bh=Igz8YYmz3h+yfD37If1IP7PyLU60cClhdjb/or+wRRs=;
+  b=U9aQnxtEX39PpKTyv1o/F4/xuScFGLoncISnLnBZHpRc6ZBwULmKrBqj
+   TaGATd724KpjueZsExVNLFAYlK/cP+o0GoqA8JW3G5nk/gI+VA65pVFCq
+   3WKTWK2md2y5Cc44GeOqRna8yA2TbIS8pMs9CMJiv9fF0NWSaA/hE1lnn
+   d+RQ2gtu2cCj61kB+tnAvr9PUHq1E5N0xp+2VhlvQtq+guA8+07xHaGiZ
+   8K7kdDXgv2rIlkipv9c2A0mDIGjQavHx1O5L4WkYInq9CUI7PCt4E1xxB
+   x/tUjW41J6pziDnpCDSJJDz97lS0eMn0dTMu9qbYk4t/DdLRnignzi6hJ
+   w==;
+X-CSE-ConnectionGUID: 4CdOxgemT4i7OXL491khBg==
+X-CSE-MsgGUID: VYC6WjyzQzipWVBHfBHp2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="34737405"
 X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
-   d="scan'208";a="35451238"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 05:03:49 -0800
-X-CSE-ConnectionGUID: qf520nabTS2xJoifRnOf5w==
-X-CSE-MsgGUID: LMWRrNFAR5CwBx1HiPB24A==
+   d="scan'208";a="34737405"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 05:57:13 -0800
+X-CSE-ConnectionGUID: xxyf5MhDR8K4b5LrBwD9Fw==
+X-CSE-MsgGUID: f18S/RWORwiGLntBLASRZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
-   d="scan'208";a="99033688"
+   d="scan'208";a="104195083"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Dec 2024 05:03:47 -0800
+  by orviesa004.jf.intel.com with ESMTP; 23 Dec 2024 05:57:11 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPi65-0003bY-0Y;
-	Mon, 23 Dec 2024 13:03:45 +0000
-Date: Mon, 23 Dec 2024 21:02:58 +0800
+	id 1tPivl-0003f9-01;
+	Mon, 23 Dec 2024 13:57:09 +0000
+Date: Mon, 23 Dec 2024 21:56:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.dcache 6/6] fs/libfs.c:1819:17: warning: comparison
- of distinct pointer types lacks a cast
-Message-ID: <202412232059.54ry0khI-lkp@intel.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Marco Elver <elver@google.com>
+Subject: drivers/misc/sgi-gru/grukdump.c:60:17: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202412232152.PiRThU4w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +65,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.dcache
-head:   08141fdc186755910b5bffc21a4325e2b673629f
-commit: 7cd7d43774879a6d7fc35662fb788ed8210dd09a [6/6] generic_ci_d_compare(): use shortname_storage
-config: csky-randconfig-002-20241223 (https://download.01.org/0day-ci/archive/20241223/202412232059.54ry0khI-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412232059.54ry0khI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4bbf9020becbfd8fc2c3da790855b7042fad455b
+commit: 2e577732e8d28b9183df701fb90cb7943aa4ed16 kasan, fortify: properly rename memintrinsics
+date:   7 months ago
+config: x86_64-randconfig-r111-20241223 (https://download.01.org/0day-ci/archive/20241223/202412232152.PiRThU4w-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241223/202412232152.PiRThU4w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412232059.54ry0khI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412232152.PiRThU4w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __user *[addressable] ubuf @@
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse:     expected void const *
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse:     got void [noderef] __user *[addressable] ubuf
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __user *[addressable] ubuf @@
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse:     expected void const *
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse:     got void [noderef] __user *[addressable] ubuf
+>> drivers/misc/sgi-gru/grukdump.c:60:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __user *[addressable] ubuf @@
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse:     expected void *
+   drivers/misc/sgi-gru/grukdump.c:60:17: sparse:     got void [noderef] __user *[addressable] ubuf
+   drivers/misc/sgi-gru/grukdump.c:129:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct gru_context_configuration_handle *ubufcch @@     got void [noderef] __user *[assigned] ubuf @@
+   drivers/misc/sgi-gru/grukdump.c:129:17: sparse:     expected struct gru_context_configuration_handle *ubufcch
+   drivers/misc/sgi-gru/grukdump.c:129:17: sparse:     got void [noderef] __user *[assigned] ubuf
+   drivers/misc/sgi-gru/grukdump.c:192:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *ubuf @@     got void *[addressable] [assigned] buf @@
+   drivers/misc/sgi-gru/grukdump.c:192:14: sparse:     expected void [noderef] __user *ubuf
+   drivers/misc/sgi-gru/grukdump.c:192:14: sparse:     got void *[addressable] [assigned] buf
+   drivers/misc/sgi-gru/grukdump.c:193:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *ubufend @@     got void * @@
+   drivers/misc/sgi-gru/grukdump.c:193:17: sparse:     expected void [noderef] __user *ubufend
+   drivers/misc/sgi-gru/grukdump.c:193:17: sparse:     got void *
 
-   fs/libfs.c: In function 'generic_ci_d_compare':
->> fs/libfs.c:1819:17: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-    1819 |         if (str == dentry->d_shortname.string) {
-         |                 ^~
+vim +60 drivers/misc/sgi-gru/grukdump.c
 
+9cc9b056ea51608 Jack Steiner 2009-06-17  34  
+9cc9b056ea51608 Jack Steiner 2009-06-17  35  static int gru_dump_context_data(void *grubase,
+9cc9b056ea51608 Jack Steiner 2009-06-17  36  			struct gru_context_configuration_handle *cch,
+b8229bedd1f3979 Jack Steiner 2009-12-15  37  			void __user *ubuf, int ctxnum, int dsrcnt,
+b8229bedd1f3979 Jack Steiner 2009-12-15  38  			int flush_cbrs)
+9cc9b056ea51608 Jack Steiner 2009-06-17  39  {
+9cc9b056ea51608 Jack Steiner 2009-06-17  40  	void *cb, *cbe, *tfh, *gseg;
+9cc9b056ea51608 Jack Steiner 2009-06-17  41  	int i, scr;
+9cc9b056ea51608 Jack Steiner 2009-06-17  42  
+9cc9b056ea51608 Jack Steiner 2009-06-17  43  	gseg = grubase + ctxnum * GRU_GSEG_STRIDE;
+9cc9b056ea51608 Jack Steiner 2009-06-17  44  	cb = gseg + GRU_CB_BASE;
+9cc9b056ea51608 Jack Steiner 2009-06-17  45  	cbe = grubase + GRU_CBE_BASE;
+9cc9b056ea51608 Jack Steiner 2009-06-17  46  	tfh = grubase + GRU_TFH_BASE;
+9cc9b056ea51608 Jack Steiner 2009-06-17  47  
+9cc9b056ea51608 Jack Steiner 2009-06-17  48  	for_each_cbr_in_allocation_map(i, &cch->cbr_allocation_map, scr) {
+b8229bedd1f3979 Jack Steiner 2009-12-15  49  		if (flush_cbrs)
+b8229bedd1f3979 Jack Steiner 2009-12-15  50  			gru_flush_cache(cb);
+9cc9b056ea51608 Jack Steiner 2009-06-17  51  		if (gru_user_copy_handle(&ubuf, cb))
+9cc9b056ea51608 Jack Steiner 2009-06-17  52  			goto fail;
+9cc9b056ea51608 Jack Steiner 2009-06-17  53  		if (gru_user_copy_handle(&ubuf, tfh + i * GRU_HANDLE_STRIDE))
+9cc9b056ea51608 Jack Steiner 2009-06-17  54  			goto fail;
+9cc9b056ea51608 Jack Steiner 2009-06-17  55  		if (gru_user_copy_handle(&ubuf, cbe + i * GRU_HANDLE_STRIDE))
+9cc9b056ea51608 Jack Steiner 2009-06-17  56  			goto fail;
+9cc9b056ea51608 Jack Steiner 2009-06-17  57  		cb += GRU_HANDLE_STRIDE;
+9cc9b056ea51608 Jack Steiner 2009-06-17  58  	}
+9cc9b056ea51608 Jack Steiner 2009-06-17  59  	if (dsrcnt)
+9cc9b056ea51608 Jack Steiner 2009-06-17 @60  		memcpy(ubuf, gseg + GRU_DS_BASE, dsrcnt * GRU_HANDLE_STRIDE);
+9cc9b056ea51608 Jack Steiner 2009-06-17  61  	return 0;
+9cc9b056ea51608 Jack Steiner 2009-06-17  62  
+9cc9b056ea51608 Jack Steiner 2009-06-17  63  fail:
+9cc9b056ea51608 Jack Steiner 2009-06-17  64  	return -EFAULT;
+9cc9b056ea51608 Jack Steiner 2009-06-17  65  }
+9cc9b056ea51608 Jack Steiner 2009-06-17  66  
 
-vim +1819 fs/libfs.c
+:::::: The code at line 60 was first introduced by commit
+:::::: 9cc9b056ea51608788609d7e26c7db55ef81bb2e gru: dump chiplet state
 
-  1776	
-  1777	#if IS_ENABLED(CONFIG_UNICODE)
-  1778	/**
-  1779	 * generic_ci_d_compare - generic d_compare implementation for casefolding filesystems
-  1780	 * @dentry:	dentry whose name we are checking against
-  1781	 * @len:	len of name of dentry
-  1782	 * @str:	str pointer to name of dentry
-  1783	 * @name:	Name to compare against
-  1784	 *
-  1785	 * Return: 0 if names match, 1 if mismatch, or -ERRNO
-  1786	 */
-  1787	int generic_ci_d_compare(const struct dentry *dentry, unsigned int len,
-  1788				 const char *str, const struct qstr *name)
-  1789	{
-  1790		const struct dentry *parent;
-  1791		const struct inode *dir;
-  1792		union shortname_store strbuf;
-  1793		struct qstr qstr;
-  1794	
-  1795		/*
-  1796		 * Attempt a case-sensitive match first. It is cheaper and
-  1797		 * should cover most lookups, including all the sane
-  1798		 * applications that expect a case-sensitive filesystem.
-  1799		 *
-  1800		 * This comparison is safe under RCU because the caller
-  1801		 * guarantees the consistency between str and len. See
-  1802		 * __d_lookup_rcu_op_compare() for details.
-  1803		 */
-  1804		if (len == name->len && !memcmp(str, name->name, len))
-  1805			return 0;
-  1806	
-  1807		parent = READ_ONCE(dentry->d_parent);
-  1808		dir = READ_ONCE(parent->d_inode);
-  1809		if (!dir || !IS_CASEFOLDED(dir))
-  1810			return 1;
-  1811	
-  1812		/*
-  1813		 * If the dentry name is stored in-line, then it may be concurrently
-  1814		 * modified by a rename.  If this happens, the VFS will eventually retry
-  1815		 * the lookup, so it doesn't matter what ->d_compare() returns.
-  1816		 * However, it's unsafe to call utf8_strncasecmp() with an unstable
-  1817		 * string.  Therefore, we have to copy the name into a temporary buffer.
-  1818		 */
-> 1819		if (str == dentry->d_shortname.string) {
-  1820			strbuf = dentry->d_shortname;
-  1821			strbuf.string[len] = 0;
-  1822			str = strbuf.string;
-  1823			/* prevent compiler from optimizing out the temporary buffer */
-  1824			barrier();
-  1825		}
-  1826		qstr.len = len;
-  1827		qstr.name = str;
-  1828	
-  1829		return utf8_strncasecmp(dentry->d_sb->s_encoding, name, &qstr);
-  1830	}
-  1831	EXPORT_SYMBOL(generic_ci_d_compare);
-  1832	
+:::::: TO: Jack Steiner <steiner@sgi.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
