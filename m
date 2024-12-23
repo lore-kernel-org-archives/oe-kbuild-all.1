@@ -1,58 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0BE18E35D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 22:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A70C13FEE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 23:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734992479; cv=none; b=SlN10KyDfadDRMAM0YJytuaez6JbNaCUXZ2yg6B1Z01K6VFaIV32ZknDZ9/7BfaH5k639G1ToxgepjYzCxisF6DDlCFoNWe1ZA6+lUuAXR7TQNnFSU/Mp4TE8m6kiDVG71yVJ1DYMTdEBmtrgllXmNSR3pKcz8RVgp6BK4t+3lw=
+	t=1734996163; cv=none; b=jveEOv7lH48LmYw/Rf5i9qaW6IEGsnruyH6wZW8AZM7+WJyBysRhMjdTuyqUeQCGTowbUia9eYp/gPSWdS/NwlQESYkLACDVcAT/RjKil3G6AI1rKrgsIBd8otKa9Oi70bEN+APoH4QqaYboOq4nwCZW/PKQqqyo8pkyM7eLol4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734992479; c=relaxed/simple;
-	bh=WBHhibfIhxUlE0XqYeA7z4Yp/QJh7CnTQ1BLZhSbd2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s3A+pKjCtapjnDBp26haPnewXGbWImzkRPre8QeEfJOLGpdsY5CuPWVyaTj5PQOHfumV3OdpxQc4XVSGgNHeTqMfh10tbzhxAs+U0UxWrjvT7wf9Zp+4kThM0oDGm6FKrirl0zmzscpFWEJnciaUodDvnueK8XDFZyOieaDF0xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HObrDvZ8; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1734996163; c=relaxed/simple;
+	bh=MUf3O2CuGvHUkRiStqT9EpSnNnkeEfGYf3wmtOYBB0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kTsARpifH38ADLb9+CC/77TJ/PvNQedaZ8s2lMwZLtNMpi3EFODRV3BiokCtsS5hYroB3cVhA8ilS2UAnfqWB0M/hzl0fsGe+ZblOtw4CKoNnXgkpsolyjEs01Px4lkkesSkLf8I5LmN0MI6k78zzW3XwbnOaa4QZ79POET8DH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtWosel2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HObrDvZ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtWosel2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734992477; x=1766528477;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WBHhibfIhxUlE0XqYeA7z4Yp/QJh7CnTQ1BLZhSbd2g=;
-  b=HObrDvZ8UHau/pjVWzEblHWDYMwxTz68bmMzkvf9SrYHdvRJjyt02qjQ
-   NXwf0eYuLKvtCgLWzq6UXR9/YUsjJQHo6mnP4WiW/hSMJ0oNdg+fGH9M6
-   Sj6vCiAPO5fmXkhURw2krTooFZxnKyC2IhBbmbBfKev7ReY5bUstZj2kH
-   jnvJz77oqT8VWAPiD81uKigMPnel68buvlrtAGBBH5EFIHc1T7LyOQTDk
-   wQVBTp7cymQ487vbGZlmMENbd0aebZaNHC+thbnOxHdPWQir8vLRp1CMA
-   1ApMKyBxoexVcZdpe/ItoLuWUVBytK0iIoTi1vRPRcvaRQGjbDjG1SwgP
-   w==;
-X-CSE-ConnectionGUID: rf7SZAOQSS+8y9QpLn/4zg==
-X-CSE-MsgGUID: wzDz1Dc1Rb6BNqvGpAOYyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="35601052"
+  t=1734996163; x=1766532163;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MUf3O2CuGvHUkRiStqT9EpSnNnkeEfGYf3wmtOYBB0c=;
+  b=QtWosel2ksVafXlIzWR7LHphpfguGtkRwt/uXWGYvIsTrDbHS0nPSadW
+   mf2xGWc+0siIiXAD0eHd0LiZJ/sg3Gki71L07tqgZPv96L9XmN8pKX752
+   gMtKymfBviKhtgYHSYRP7sc8tJZ3tKYDQ2SCdeDY/fMx61mVBc1lJmFX/
+   qmJGmIkfeVu8q+XDiVSfENiMx0xDCksDu9vF+4LvQjV398Dg/UO2xSbod
+   xwFsl5DI1mFLj8dfljoYXZnkQJRtLTp+7DM2KmQbKVEJfSEy3RGyRgTGu
+   12WvknnBfJ6IuzvdFEAFK9q5npBoOSzGC87Fe7DX0udHLypBN6dX9utJP
+   A==;
+X-CSE-ConnectionGUID: fKfxir0rSt271gBvG1klzA==
+X-CSE-MsgGUID: 6oOodnjHS8aiSb2lOhRduQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="57928570"
 X-IronPort-AV: E=Sophos;i="6.12,258,1728975600"; 
-   d="scan'208";a="35601052"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 14:21:15 -0800
-X-CSE-ConnectionGUID: ZwrKRZJsS7m2GMjKLq+Meg==
-X-CSE-MsgGUID: PoCOOkocR5mp7c0GWAs+Aw==
+   d="scan'208";a="57928570"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 15:22:42 -0800
+X-CSE-ConnectionGUID: m69gGBCQRbyPUwO0x4NKdQ==
+X-CSE-MsgGUID: Iw/N6R7ZRja/Rrs1OsjxjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="99174292"
+   d="scan'208";a="122594367"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 23 Dec 2024 14:21:14 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 23 Dec 2024 15:22:36 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPqnX-0000ec-2d;
-	Mon, 23 Dec 2024 22:21:11 +0000
-Date: Tue, 24 Dec 2024 06:20:21 +0800
+	id 1tPrkw-0000gd-0H;
+	Mon, 23 Dec 2024 23:22:34 +0000
+Date: Tue, 24 Dec 2024 07:22:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe 24/32] kernel/fork.c:982:9: error: implicit
- declaration of function 'unwind_task_free'
-Message-ID: <202412240616.7v7msXkm-lkp@intel.com>
+To: Lei Wei <quic_leiwei@quicinc.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, quic_kkumarcs@quicinc.com,
+	quic_suruchia@quicinc.com, quic_pavir@quicinc.com,
+	quic_linchen@quicinc.com, quic_luoj@quicinc.com,
+	quic_leiwei@quicinc.com, srinivas.kandagatla@linaro.org,
+	bartosz.golaszewski@linaro.org, vsmuthu@qti.qualcomm.com,
+	john@phrozen.org
+Subject: Re: [PATCH net-next v3 2/5] net: pcs: Add PCS driver for Qualcomm
+ IPQ9574 SoC
+Message-ID: <202412240600.yT4YVoQ8-lkp@intel.com>
+References: <20241216-ipq_pcs_6-13_rc1-v3-2-3abefda0fc48@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,65 +78,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241216-ipq_pcs_6-13_rc1-v3-2-3abefda0fc48@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
-head:   19d5505fa5d16718cbcfbb98eac598d414b1a2f4
-commit: 8dfca20aad716091c6710cba8cdf736fb95ebcbb [24/32] unwind: Add deferred user space unwinding API
-config: i386-buildonly-randconfig-002-20241224 (https://download.01.org/0day-ci/archive/20241224/202412240616.7v7msXkm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240616.7v7msXkm-lkp@intel.com/reproduce)
+Hi Lei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lei-Wei/dt-bindings-net-pcs-Add-Ethernet-PCS-for-Qualcomm-IPQ9574-SoC/20241216-214452
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/20241216-ipq_pcs_6-13_rc1-v3-2-3abefda0fc48%40quicinc.com
+patch subject: [PATCH net-next v3 2/5] net: pcs: Add PCS driver for Qualcomm IPQ9574 SoC
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241224/202412240600.yT4YVoQ8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240600.yT4YVoQ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412240616.7v7msXkm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412240600.yT4YVoQ8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   kernel/fork.c: In function '__put_task_struct':
->> kernel/fork.c:982:9: error: implicit declaration of function 'unwind_task_free' [-Werror=implicit-function-declaration]
-     982 |         unwind_task_free(tsk);
-         |         ^~~~~~~~~~~~~~~~
-   kernel/fork.c: In function 'copy_process':
->> kernel/fork.c:2376:9: error: implicit declaration of function 'unwind_task_init'; did you mean 'kcov_task_init'? [-Werror=implicit-function-declaration]
-    2376 |         unwind_task_init(p);
-         |         ^~~~~~~~~~~~~~~~
-         |         kcov_task_init
-   cc1: some warnings being treated as errors
---
-   In file included from arch/x86/include/asm/idtentry.h:11,
-                    from arch/x86/kernel/irq_work.c:12:
-   include/linux/entry-common.h: In function 'enter_from_user_mode':
->> include/linux/entry-common.h:116:9: error: implicit declaration of function 'unwind_enter_from_user_mode'; did you mean 'arch_enter_from_user_mode'? [-Werror=implicit-function-declaration]
-     116 |         unwind_enter_from_user_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         arch_enter_from_user_mode
-   cc1: some warnings being treated as errors
-
-
-vim +/unwind_task_free +982 kernel/fork.c
-
-   975	
-   976	void __put_task_struct(struct task_struct *tsk)
-   977	{
-   978		WARN_ON(!tsk->exit_state);
-   979		WARN_ON(refcount_read(&tsk->usage));
-   980		WARN_ON(tsk == current);
-   981	
- > 982		unwind_task_free(tsk);
-   983		sched_ext_free(tsk);
-   984		io_uring_free(tsk);
-   985		cgroup_free(tsk);
-   986		task_numa_free(tsk, true);
-   987		security_task_free(tsk);
-   988		exit_creds(tsk);
-   989		delayacct_tsk_free(tsk);
-   990		put_signal_struct(tsk->signal);
-   991		sched_core_free(tsk);
-   992		free_task(tsk);
-   993	}
-   994	EXPORT_SYMBOL_GPL(__put_task_struct);
-   995	
+ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+>> ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/net/pcs/pcs-qcom-ipq9574.ko] undefined!
+>> ERROR: modpost: "devm_clk_hw_register" [drivers/net/pcs/pcs-qcom-ipq9574.ko] undefined!
+ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
