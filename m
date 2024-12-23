@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A51C1420A8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 22:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0BE18E35D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 22:21:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734992477; cv=none; b=YAAPMuG0kKeByJxTB/9T2mHrqkK/zOk7FZUZyH3nV+rDwxDMsCT7QByocnMStXA3acPsiiWaexi/ndBOntoEn+TQ4B7IYKbQoXAjEGOBjnj5ZQznF9ZZGJwnS4cyqS15d9g5oFCe2VbuL0LCIQ2FMoJT+4G1Y33PmcL+7HTAKKQ=
+	t=1734992479; cv=none; b=SlN10KyDfadDRMAM0YJytuaez6JbNaCUXZ2yg6B1Z01K6VFaIV32ZknDZ9/7BfaH5k639G1ToxgepjYzCxisF6DDlCFoNWe1ZA6+lUuAXR7TQNnFSU/Mp4TE8m6kiDVG71yVJ1DYMTdEBmtrgllXmNSR3pKcz8RVgp6BK4t+3lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734992477; c=relaxed/simple;
-	bh=nsAkAhqzarC6U1ZZHOKJFeHILyVc05PZ1B0BHkrXTvA=;
+	s=arc-20240116; t=1734992479; c=relaxed/simple;
+	bh=WBHhibfIhxUlE0XqYeA7z4Yp/QJh7CnTQ1BLZhSbd2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Anicho2zsc18ywkyXVhJgSgSz8ZoKJZyXldptOtWRJO5HtX5SBPQo+MOv9oyO5YKNqjPWbh/NH4nO46Qz+K/DGLbGqkHUDX76O41ByZClU8e81d3GAPTXtYrcZFlldSw4UqXMmBDeVDkoLdlrtNAubtx2UZEe3L5YLm6xhnbakg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMmDWOsy; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=s3A+pKjCtapjnDBp26haPnewXGbWImzkRPre8QeEfJOLGpdsY5CuPWVyaTj5PQOHfumV3OdpxQc4XVSGgNHeTqMfh10tbzhxAs+U0UxWrjvT7wf9Zp+4kThM0oDGm6FKrirl0zmzscpFWEJnciaUodDvnueK8XDFZyOieaDF0xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HObrDvZ8; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMmDWOsy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HObrDvZ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734992475; x=1766528475;
+  t=1734992477; x=1766528477;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nsAkAhqzarC6U1ZZHOKJFeHILyVc05PZ1B0BHkrXTvA=;
-  b=JMmDWOsyIMINrE4BO5AbULXzT8o2xHHsI3tCjjadrSo5qH3ST462ZUaH
-   t1Mv4niovKJS0FJqVRbTjoVft1i47ieyzC4Fx96CW3uj7bCicmBMw9rca
-   GY+2ufRbXx1YZQMSk3k16pRJzvph0VMYgtqXLH8r2TWSvqk0z6A90bEc6
-   Am+kOQPuEt6HZOjKywCAxY6lUMfFsPvaRylIl454TsXEMrUz8ZizLLmaC
-   GLFCnwZi3qTyoEg9i0N5F2G0GFPNzW6WtcLrRMaTWaba5Hi23jwDnPxZq
-   +/o0fpI/TglZvd0jcj5ykUabP+OG3p3ju0aIzcfxPLyJObmFA+QGYSvje
-   A==;
-X-CSE-ConnectionGUID: p7ofKz+wTqSeo0D4pQFauQ==
-X-CSE-MsgGUID: bga/FFHoQsq5GjjowO93pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="35601051"
+  bh=WBHhibfIhxUlE0XqYeA7z4Yp/QJh7CnTQ1BLZhSbd2g=;
+  b=HObrDvZ8UHau/pjVWzEblHWDYMwxTz68bmMzkvf9SrYHdvRJjyt02qjQ
+   NXwf0eYuLKvtCgLWzq6UXR9/YUsjJQHo6mnP4WiW/hSMJ0oNdg+fGH9M6
+   Sj6vCiAPO5fmXkhURw2krTooFZxnKyC2IhBbmbBfKev7ReY5bUstZj2kH
+   jnvJz77oqT8VWAPiD81uKigMPnel68buvlrtAGBBH5EFIHc1T7LyOQTDk
+   wQVBTp7cymQ487vbGZlmMENbd0aebZaNHC+thbnOxHdPWQir8vLRp1CMA
+   1ApMKyBxoexVcZdpe/ItoLuWUVBytK0iIoTi1vRPRcvaRQGjbDjG1SwgP
+   w==;
+X-CSE-ConnectionGUID: rf7SZAOQSS+8y9QpLn/4zg==
+X-CSE-MsgGUID: wzDz1Dc1Rb6BNqvGpAOYyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="35601052"
 X-IronPort-AV: E=Sophos;i="6.12,258,1728975600"; 
-   d="scan'208";a="35601051"
+   d="scan'208";a="35601052"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 14:21:15 -0800
-X-CSE-ConnectionGUID: IOWqmUKgQ5OIQPNXMivrIQ==
-X-CSE-MsgGUID: ybIbxBh7TiyszUIXEkkQfQ==
+X-CSE-ConnectionGUID: ZwrKRZJsS7m2GMjKLq+Meg==
+X-CSE-MsgGUID: PoCOOkocR5mp7c0GWAs+Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="99174290"
+   d="scan'208";a="99174292"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 23 Dec 2024 14:21:14 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPqnX-0000eZ-2R;
+	id 1tPqnX-0000ec-2d;
 	Mon, 23 Dec 2024 22:21:11 +0000
-Date: Tue, 24 Dec 2024 06:20:29 +0800
+Date: Tue, 24 Dec 2024 06:20:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 19/19] drivers/gpu/drm/drm_auth.c:241:49:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202412240609.SjN0goOR-lkp@intel.com>
+Subject: [jpoimboe:sframe 24/32] kernel/fork.c:982:9: error: implicit
+ declaration of function 'unwind_task_free'
+Message-ID: <202412240616.7v7msXkm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,89 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   8decd833dcf6e8e368c99562c3437b9113fcffad
-commit: f507c4c70b9fc2100b92cc4168f4adfdb8360d7b [19/19] CHROMIUM: drm: Add drm_master_relax debugfs file (non-root set/drop master ioctls)
-config: arm-randconfig-r113-20241223 (https://download.01.org/0day-ci/archive/20241224/202412240609.SjN0goOR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241224/202412240609.SjN0goOR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
+head:   19d5505fa5d16718cbcfbb98eac598d414b1a2f4
+commit: 8dfca20aad716091c6710cba8cdf736fb95ebcbb [24/32] unwind: Add deferred user space unwinding API
+config: i386-buildonly-randconfig-002-20241224 (https://download.01.org/0day-ci/archive/20241224/202412240616.7v7msXkm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240616.7v7msXkm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412240609.SjN0goOR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412240616.7v7msXkm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_auth.c:241:49: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/drm_auth.c:241:49: sparse:    struct pid [noderef] __rcu *
-   drivers/gpu/drm/drm_auth.c:241:49: sparse:    struct pid *
-   drivers/gpu/drm/drm_auth.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +241 drivers/gpu/drm/drm_auth.c
+   kernel/fork.c: In function '__put_task_struct':
+>> kernel/fork.c:982:9: error: implicit declaration of function 'unwind_task_free' [-Werror=implicit-function-declaration]
+     982 |         unwind_task_free(tsk);
+         |         ^~~~~~~~~~~~~~~~
+   kernel/fork.c: In function 'copy_process':
+>> kernel/fork.c:2376:9: error: implicit declaration of function 'unwind_task_init'; did you mean 'kcov_task_init'? [-Werror=implicit-function-declaration]
+    2376 |         unwind_task_init(p);
+         |         ^~~~~~~~~~~~~~~~
+         |         kcov_task_init
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/x86/include/asm/idtentry.h:11,
+                    from arch/x86/kernel/irq_work.c:12:
+   include/linux/entry-common.h: In function 'enter_from_user_mode':
+>> include/linux/entry-common.h:116:9: error: implicit declaration of function 'unwind_enter_from_user_mode'; did you mean 'arch_enter_from_user_mode'? [-Werror=implicit-function-declaration]
+     116 |         unwind_enter_from_user_mode();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         arch_enter_from_user_mode
+   cc1: some warnings being treated as errors
 
-   189	
-   190	/*
-   191	 * In the olden days the SET/DROP_MASTER ioctls used to return EACCES when
-   192	 * CAP_SYS_ADMIN was not set. This was used to prevent rogue applications
-   193	 * from becoming master and/or failing to release it.
-   194	 *
-   195	 * At the same time, the first client (for a given VT) is _always_ master.
-   196	 * Thus in order for the ioctls to succeed, one had to _explicitly_ run the
-   197	 * application as root or flip the setuid bit.
-   198	 *
-   199	 * If the CAP_SYS_ADMIN was missing, no other client could become master...
-   200	 * EVER :-( Leading to a) the graphics session dying badly or b) a completely
-   201	 * locked session.
-   202	 *
-   203	 *
-   204	 * As some point systemd-logind was introduced to orchestrate and delegate
-   205	 * master as applicable. It does so by opening the fd and passing it to users
-   206	 * while in itself logind a) does the set/drop master per users' request and
-   207	 * b)  * implicitly drops master on VT switch.
-   208	 *
-   209	 * Even though logind looks like the future, there are a few issues:
-   210	 *  - some platforms don't have equivalent (Android, CrOS, some BSDs) so
-   211	 * root is required _solely_ for SET/DROP MASTER.
-   212	 *  - applications may not be updated to use it,
-   213	 *  - any client which fails to drop master* can DoS the application using
-   214	 * logind, to a varying degree.
-   215	 *
-   216	 * * Either due missing CAP_SYS_ADMIN or simply not calling DROP_MASTER.
-   217	 *
-   218	 *
-   219	 * Here we implement the next best thing:
-   220	 *  - ensure the logind style of fd passing works unchanged, and
-   221	 *  - allow a client to drop/set master, iff it is/was master at a given point
-   222	 * in time.
-   223	 *
-   224	 * Note: DROP_MASTER cannot be free for all, as an arbitrator user could:
-   225	 *  - DoS/crash the arbitrator - details would be implementation specific
-   226	 *  - open the node, become master implicitly and cause issues
-   227	 *
-   228	 * As a result this fixes the following when using root-less build w/o logind
-   229	 * - startx
-   230	 * - weston
-   231	 * - various compositors based on wlroots
-   232	 */
-   233	static int
-   234	drm_master_check_perm(struct drm_device *dev, struct drm_file *file_priv)
-   235	{
-   236		/*
-   237		 * Despite the above explanation and reasoning, we still have to check
-   238		 * drm_master_relax. With frecon, the was_master flag is true, but the
-   239		 * file pid and the task pid pointers (and the actual PIDs) don't match.
-   240		 */
- > 241		if ((drm_master_relax || file_priv->pid == task_pid(current)) && file_priv->was_master)
-   242			return 0;
-   243	
-   244		if (!capable(CAP_SYS_ADMIN))
-   245			return -EACCES;
-   246	
-   247		return 0;
-   248	}
-   249	
+
+vim +/unwind_task_free +982 kernel/fork.c
+
+   975	
+   976	void __put_task_struct(struct task_struct *tsk)
+   977	{
+   978		WARN_ON(!tsk->exit_state);
+   979		WARN_ON(refcount_read(&tsk->usage));
+   980		WARN_ON(tsk == current);
+   981	
+ > 982		unwind_task_free(tsk);
+   983		sched_ext_free(tsk);
+   984		io_uring_free(tsk);
+   985		cgroup_free(tsk);
+   986		task_numa_free(tsk, true);
+   987		security_task_free(tsk);
+   988		exit_creds(tsk);
+   989		delayacct_tsk_free(tsk);
+   990		put_signal_struct(tsk->signal);
+   991		sched_core_free(tsk);
+   992		free_task(tsk);
+   993	}
+   994	EXPORT_SYMBOL_GPL(__put_task_struct);
+   995	
 
 -- 
 0-DAY CI Kernel Test Service
