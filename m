@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CB31B0F27
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 16:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB8613FEE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Dec 2024 17:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734972970; cv=none; b=qH0yhoOYHh3VZlIFB3xxeZgs/Y2cyBcbsAhSvzhm4HEE/9IjtcuFChAi8xQ9rZyoqaKNx51OnI/s+7RFsqtczDx7T5iqFOuBRgyMWcjhezRx2SLAFdYqdDLdMeQfnoNPq3DuUBdXQ/0Vs5iYphw3eCC3WhglF/FdMxTuVSrf5Qo=
+	t=1734973690; cv=none; b=G+944pXoITymsHIP0rgj7iqapqUXWpSr5JaWq5mTCXwNnQGZIBZ8mCtO2dIPpuKeDQXfbrbSP0ZgPXPjockl03kE+VBriO9Iw6YH+UNs7KI432WC5ZQZDZ7NsEFZeHGhLAXvAoMmcztMwX6ndVJpFsmnmyLOfVcp8vlBrRPhWYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734972970; c=relaxed/simple;
-	bh=z6+yF0fw6jvRFr4JTxerhB9C/QK2WIApd9vbzuXeSGE=;
+	s=arc-20240116; t=1734973690; c=relaxed/simple;
+	bh=xkJeZcNmt0A7ZbvirYr/9bTNDMiO6H4VflqiNuU1hjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NFKvzh18GH5yTGRKYP0+m4O8XF6UVwIeqFzPNXRqyIFUn1tKwJRZT48X80JfSuxorWlSrfM2AiuOqdU5MTt7ooJ2bLLvFk31GpltguYNnKd2d05mkHj1vkTiiKB7kexaj5LsUEW6dTQyJhni206+jvDg/TMD/tq5htLN/mdlOBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/ovblQ/; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=anKUTq8qh2WmPTKwBS6ehZ6h1NJ7gxx6RnWcsul47RppU4PUOMXwgBXTfiPUX7N4aFXFBy1o0Z10qHL+JpYOSa0yYXJRGpUJPtxmlX7R0HoEqbn5OIkrCJi5IELVVUIACsi5VfUoy8pNGtFjNQWMY8QzCmE6u6aqenzMMU5/6Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDGQufwH; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/ovblQ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDGQufwH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734972968; x=1766508968;
+  t=1734973689; x=1766509689;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z6+yF0fw6jvRFr4JTxerhB9C/QK2WIApd9vbzuXeSGE=;
-  b=Y/ovblQ/14u538TKZkNwKOGiFqczdcgxmXi56Qkby9L3KIbqw5RX8E6J
-   0P8h4DGeGaky1Sx4Cyk3p7lXnBxrLCBscILXyT/VDbfjqDgJQxcWwlcs1
-   rBGIiH52eUZYGC6+uC1/9pmaWEjiKYQzsNfVOTSrEhsXbM7hPThdciY2G
-   imRf2uCLtiKY4YWpc0bBVfjP8c5KKhvyCbxcTY42KVC+CcZcARLNyWtSy
-   gayk7px8mI5BRSiKaAR2P9vS5Aszaiae0NwJuJOgMbF8JS+6eEhypTEk7
-   r+nJppBh6WXHtmvwhg07Sv8UX9tajqBb7610p6Qxh9lgBcyH297R0bpKP
-   Q==;
-X-CSE-ConnectionGUID: 9ugfV9GtTT2436cfXtX9UQ==
-X-CSE-MsgGUID: KER2p+bSTkiZG6f4CfTaHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="34715903"
+  bh=xkJeZcNmt0A7ZbvirYr/9bTNDMiO6H4VflqiNuU1hjo=;
+  b=FDGQufwHCQCUhpOX5nhShYl/N/wN4r234nilb60pZgu6fCg0rSLfHQlY
+   j8klsjxjP0YTVM/savLy2b8Aa6XwIDywHuByj/6vREMyrs+UOBvxyT1v+
+   3E0d13VYXpigcblRE+fgnQcATjj4XnKSeAsa5wXDm5U+L1GHflWk+rHKy
+   Plbz7aXrlIT+nCmufg2ZQ74/Wne9akTO18QpPhJ+2HAwqSMQuZ1AAnKsN
+   tUXZytNddSmLNOyG3nDRx+zo8G0iOCCzVewEQBt+18MWmkDp1SldUTVoo
+   6/EjHWhE3MiZ4qhEpC30f8gnsjUhS6S4B/njRgHC2d6WKeZvLeaz9T3/b
+   w==;
+X-CSE-ConnectionGUID: slGRcq7HS3KokB1QjapT2w==
+X-CSE-MsgGUID: fIF4PkhBSViyUcwdDbqemg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="46862729"
 X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
-   d="scan'208";a="34715903"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 08:56:07 -0800
-X-CSE-ConnectionGUID: sLi+TnIjQt+tXaTpb/LUhw==
-X-CSE-MsgGUID: thXISVnORQuESsXMILwnLQ==
+   d="scan'208";a="46862729"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 09:08:08 -0800
+X-CSE-ConnectionGUID: Q6n6HccVSDCWBNRbjRqqsQ==
+X-CSE-MsgGUID: nU0MMr0GR3O+qRoZLn8REg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100098446"
+   d="scan'208";a="104243898"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 23 Dec 2024 08:56:06 -0800
+  by orviesa005.jf.intel.com with ESMTP; 23 Dec 2024 09:08:07 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPliu-0000UV-0X;
-	Mon, 23 Dec 2024 16:56:04 +0000
-Date: Tue, 24 Dec 2024 00:55:07 +0800
+	id 1tPluW-0000Uc-31;
+	Mon, 23 Dec 2024 17:08:04 +0000
+Date: Tue, 24 Dec 2024 01:07:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c:
- Unevaluated properties are not allowed ('hpd-gpios', 'interrupts',
- 'no-laneswap', 'port' were unexpected)
-Message-ID: <202412240059.7TYOSPlM-lkp@intel.com>
+To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
+	Chao Yu <chao@kernel.org>
+Subject: [chao:wip 21/21] fs/f2fs/segment.c:5541:13: error: implicit
+ declaration of function 'unlike'; did you mean 'inline'?
+Message-ID: <202412240002.wq201y66-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,45 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   8decd833dcf6e8e368c99562c3437b9113fcffad
-commit: a5f8fb56761362c50e56e27932041138cff8d5d2 [4/4] CHROMIUM: arm64: dts: mt8183: Add kakadu rev1
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241224/202412240059.7TYOSPlM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240059.7TYOSPlM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git wip
+head:   7d46ca6d49d369b6ebaf3d52c23fdf69c7d4cb77
+commit: 7d46ca6d49d369b6ebaf3d52c23fdf69c7d4cb77 [21/21] f2fs: fix to avoid return invalid mtime from f2fs_get_section_mtime()
+config: s390-randconfig-002-20241223 (https://download.01.org/0day-ci/archive/20241224/202412240002.wq201y66-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240002.wq201y66-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412240059.7TYOSPlM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412240002.wq201y66-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+All errors (new ones prefixed by >>):
+
+   fs/f2fs/segment.c: In function 'f2fs_get_section_mtime':
+>> fs/f2fs/segment.c:5541:13: error: implicit declaration of function 'unlike'; did you mean 'inline'? [-Wimplicit-function-declaration]
+    5541 |         if (unlike(mtime == INVALID_MTIME))
+         |             ^~~~~~
+         |             inline
+
+
+vim +5541 fs/f2fs/segment.c
+
+  5510	
+  5511	unsigned long long f2fs_get_section_mtime(struct f2fs_sb_info *sbi,
+  5512		unsigned int segno)
+  5513	{
+  5514		unsigned int usable_segs_per_sec = f2fs_usable_segs_in_sec(sbi);
+  5515		unsigned int secno = 0, start = 0;
+  5516		unsigned int total_valid_blocks = 0;
+  5517		unsigned long long mtime = 0;
+  5518		unsigned int i = 0;
+  5519	
+  5520		secno = GET_SEC_FROM_SEG(sbi, segno);
+  5521		start = GET_SEG_FROM_SEC(sbi, secno);
+  5522	
+  5523		if (!__is_large_section(sbi)) {
+  5524			mtime = get_seg_entry(sbi, start + i)->mtime;
+  5525			goto out;
+  5526		}
+  5527	
+  5528		for (i = 0; i < usable_segs_per_sec; i++) {
+  5529			/* for large section, only check the mtime of valid segments */
+  5530			struct seg_entry *se = get_seg_entry(sbi, start+i);
+  5531	
+  5532			mtime += se->mtime * se->valid_blocks;
+  5533			total_valid_blocks += se->valid_blocks;
+  5534		}
+  5535	
+  5536		if (total_valid_blocks == 0)
+  5537			return INVALID_MTIME;
+  5538	
+  5539		mtime = div_u64(mtime, total_valid_blocks);
+  5540	out:
+> 5541		if (unlike(mtime == INVALID_MTIME))
+  5542			mtime -= 1;
+  5543		return mtime;
+  5544	}
+  5545	
 
 -- 
 0-DAY CI Kernel Test Service
