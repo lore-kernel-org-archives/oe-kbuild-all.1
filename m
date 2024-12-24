@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474F9EC2;
-	Tue, 24 Dec 2024 02:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7497462
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 03:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735005701; cv=none; b=Q36WNLXIz18Y1DNxPMEuoc8tEer/PfT3YuNJiVWQgFMqCS0fFZXmRK5BqxMp5zyC25bRDTM1fDYYgelKjJ56G6JoxmjGhgeNra9Qqv8DVGTiAk2jel+AUd3XHlGQx16+HjD/j9s771IQWTOqFl+x+1BG/mYDkm52GRYv4EoWiAo=
+	t=1735010604; cv=none; b=Xriao3CRvni8nLtc7Pba5K1T5efNnM/SE1UITEbjDyoFe/ideus/OSqz97p/xv1H52giRAtUZpghQlD+lQYJsvBVp2meGMQD490ipyqo3V86SnIuQR6AA5juTvV2XUhN/FpheIoHFgKnv0xPciEEvprGCMZMwfJGB5nHG1/gdnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735005701; c=relaxed/simple;
-	bh=bppVJI1S5FCdgUGe/0cv3T2Tpfj+ZuH9gWt2elHkJFM=;
+	s=arc-20240116; t=1735010604; c=relaxed/simple;
+	bh=6nKl9Hlo5gjfcV9HkxdXHRIZSSmK1Vzx6Y9vqTPYbFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lhNs14B0N7w/MQm6+jD/8ugYGTkvKMLPHUZxfe/00+S/haJvFlI/rcS1DdTDFMcpoj6kkKn7lFRjmx1y8RThqj95Xf6la3kbG3s3zZ/kIRd8gssw/pnnGhQr8WwvrQzHamt+6i8yoZAEkGCc95/c3LmrHV8Vuvd43rIlMd6Z01E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DC/tkZTf; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=J/SXY3IQ3whcID0ir1YqZC5gOII8r9/cqQJ2H00/+Oa/D2DYgkfRCpXu/Y8BfwlHS/0GzYTv7X7N1MyVC3aGrR7AOR8iK7cUYi/pJbsEAdpTwSeiriPnDeUxnSgcxqsyZNC8ty2FIW3GOpQczsp2/oyf/dFX2ctV78GQm+ta0ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqDAnSrV; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DC/tkZTf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqDAnSrV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735005699; x=1766541699;
+  t=1735010602; x=1766546602;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bppVJI1S5FCdgUGe/0cv3T2Tpfj+ZuH9gWt2elHkJFM=;
-  b=DC/tkZTfs1qWKOyu9SgQL6N4ru8tRexlsUyPVmYVBMwISQE6l27YqYxY
-   yHvHqZ77kgI8rUAfHsv+M1ycYemy5b1AqVIKOcANE/4DYUMh9nWs/7Ts/
-   MLLKLN3GUqqI8YQHicJJOGCQhwNvAalghbNnYiqhSLa9shVtNFGZovIHt
-   Q0Jicn6quJyCQWQx/T2b+pnoqR8BVb4nqOvXP4e5yS7MPNo+2KmkDOCBE
-   SuKIgmwjWke3SaTOrnW5YgMF2yyfHDZD9K6SRLU61yUVvExNHvkezCFNC
-   OHaVqvelrLauoRXUTd6xXpU2PCpWa6qKHK904WW8rBJbXCdOEwiUYvcdR
-   g==;
-X-CSE-ConnectionGUID: M7zGBh6wREK/i1qX8DM59w==
-X-CSE-MsgGUID: LMN4hc3vT7mUf7m5bVy2TQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="38318056"
-X-IronPort-AV: E=Sophos;i="6.12,258,1728975600"; 
-   d="scan'208";a="38318056"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 18:01:39 -0800
-X-CSE-ConnectionGUID: YAD/n3aFSkW+vDmdYDUGww==
-X-CSE-MsgGUID: 7rAHWUtFSyyU6UiNCrAGPA==
+  bh=6nKl9Hlo5gjfcV9HkxdXHRIZSSmK1Vzx6Y9vqTPYbFw=;
+  b=jqDAnSrViep1C1hkbU6vGsZDesw/zyYQex8vKKiE+ZafEWLzk5QI0Gye
+   kxJNU+G/CLMO5Qdq0D1Ups6APjeAg1BJ22ffmfPM2ScZ6A/Qkw1lL7C0i
+   m9Snqi7ykHd48qL5JLe2fMiGERY7sJW/2elbt9wUfbCFuyhWVhk1Nns6U
+   pvfvZsUM2y/SlDChh3XSWvQKQyJ1Z8ttuiN7jR41nD9KflnEwcLaKNS5r
+   xPwa2REsbBtFnWStk3BBpsrToy7Z7TgWJrHw5sVp7reUB/DqDoPARvgmP
+   Z8NI3XHjFOkY16E6Ox7R5kIzMsZEE0/1tuXMhzrKbP0RM6RUaOD7KylUq
+   A==;
+X-CSE-ConnectionGUID: M0fQA1fQQTqV/XR3iDCVCA==
+X-CSE-MsgGUID: WleiLa/nTE+nMUrOz/0XvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="60861815"
+X-IronPort-AV: E=Sophos;i="6.12,259,1728975600"; 
+   d="scan'208";a="60861815"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 19:23:22 -0800
+X-CSE-ConnectionGUID: 2Wr2KS48TmyCszA1Nyh0ZQ==
+X-CSE-MsgGUID: 9R9aAfg/Ta+4MTpARXsnHg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104353174"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="104447161"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Dec 2024 18:01:37 -0800
+  by orviesa003.jf.intel.com with ESMTP; 23 Dec 2024 19:23:19 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPuEp-0000kp-0u;
-	Tue, 24 Dec 2024 02:01:35 +0000
-Date: Tue, 24 Dec 2024 10:00:53 +0800
+	id 1tPvVt-0000mw-15;
+	Tue, 24 Dec 2024 03:23:17 +0000
+Date: Tue, 24 Dec 2024 11:22:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe 28/32] kernel/events/core.c:6944:3: error: call to
- undeclared function 'unwind_user_deferred'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202412240919.szVHGt00-lkp@intel.com>
+To: Pavan Holla <pholla@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [usb:usb-testing 9/58] drivers/usb/typec/ucsi/cros_ec_ucsi.c:187:54:
+ warning: passing argument 2 of 'cros_ucsi_async_control' makes integer from
+ pointer without a cast
+Message-ID: <202412241137.ld79A9Iq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +68,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
-head:   b610703fefd5a3a992e07a383e2e6f6cbf9a41c8
-commit: ea5b03d9c57dc5e8656b844f96a4ca3b4ab73317 [28/32] perf: Add deferred user callchains
-config: x86_64-buildonly-randconfig-001-20241224 (https://download.01.org/0day-ci/archive/20241224/202412240919.szVHGt00-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412240919.szVHGt00-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   b1d7c2a8a364695a5dca2bb18ebcf2c10ad61172
+commit: 475db78842851d9efd7888154a80af697946de1e [9/58] usb: typec: ucsi: Implement ChromeOS UCSI driver
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20241224/202412241137.ld79A9Iq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412241137.ld79A9Iq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412240919.szVHGt00-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412241137.ld79A9Iq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/events/core.c:12:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/events/core.c:6944:3: error: call to undeclared function 'unwind_user_deferred'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6944 |                 unwind_user_deferred(&perf_unwind_callback_cb, NULL, event);
-         |                 ^
->> kernel/events/core.c:14218:2: error: call to undeclared function 'unwind_user_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    14218 |         unwind_user_register(&perf_unwind_callback_cb, perf_event_callchain_deferred);
-          |         ^
-   1 warning and 2 errors generated.
+   drivers/usb/typec/ucsi/cros_ec_ucsi.c: In function 'cros_ucsi_write_timeout':
+>> drivers/usb/typec/ucsi/cros_ec_ucsi.c:187:54: warning: passing argument 2 of 'cros_ucsi_async_control' makes integer from pointer without a cast [-Wint-conversion]
+     187 |                 cros_ucsi_async_control(udata->ucsi, &cmd);
+         |                                                      ^~~~
+         |                                                      |
+         |                                                      u64 * {aka long long unsigned int *}
+   drivers/usb/typec/ucsi/cros_ec_ucsi.c:90:59: note: expected 'u64' {aka 'long long unsigned int'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
+      90 | static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
+         |                                                       ~~~~^~~
 
 
-vim +/unwind_user_deferred +6944 kernel/events/core.c
+vim +/cros_ucsi_async_control +187 drivers/usb/typec/ucsi/cros_ec_ucsi.c
 
-  6938	
-  6939	static void perf_pending_unwind_irq(struct irq_work *entry)
-  6940	{
-  6941		struct perf_event *event = container_of(entry, struct perf_event, pending_unwind_irq);
-  6942	
-  6943		if (event->pending_unwind) {
-> 6944			unwind_user_deferred(&perf_unwind_callback_cb, NULL, event);
-  6945			event->pending_unwind = 0;
-  6946		}
-  6947	}
-  6948	
+   154	
+   155	static void cros_ucsi_write_timeout(struct work_struct *work)
+   156	{
+   157		struct cros_ucsi_data *udata =
+   158			container_of(work, struct cros_ucsi_data, write_tmo.work);
+   159		u32 cci;
+   160		u64 cmd;
+   161	
+   162		if (cros_ucsi_read(udata->ucsi, UCSI_CCI, &cci, sizeof(cci))) {
+   163			dev_err(udata->dev,
+   164				"Reading CCI failed; no write timeout recovery possible.");
+   165			return;
+   166		}
+   167	
+   168		if (cci & UCSI_CCI_BUSY) {
+   169			udata->tmo_counter++;
+   170	
+   171			if (udata->tmo_counter <= WRITE_TMO_CTR_MAX)
+   172				schedule_delayed_work(&udata->write_tmo,
+   173						      msecs_to_jiffies(WRITE_TMO_MS));
+   174			else
+   175				dev_err(udata->dev,
+   176					"PPM unresponsive - too many write timeouts.");
+   177	
+   178			return;
+   179		}
+   180	
+   181		/* No longer busy means we can reset our timeout counter. */
+   182		udata->tmo_counter = 0;
+   183	
+   184		/* Need to ack previous command which may have timed out. */
+   185		if (cci & UCSI_CCI_COMMAND_COMPLETE) {
+   186			cmd = UCSI_ACK_CC_CI | UCSI_ACK_COMMAND_COMPLETE;
+ > 187			cros_ucsi_async_control(udata->ucsi, &cmd);
+   188	
+   189			/* Check again after a few seconds that the system has
+   190			 * recovered to make sure our async write above was successful.
+   191			 */
+   192			schedule_delayed_work(&udata->write_tmo,
+   193					      msecs_to_jiffies(WRITE_TMO_MS));
+   194			return;
+   195		}
+   196	
+   197		/* We recovered from a previous timeout. Treat this as a recovery from
+   198		 * suspend and call resume.
+   199		 */
+   200		ucsi_resume(udata->ucsi);
+   201	}
+   202	
 
 -- 
 0-DAY CI Kernel Test Service
