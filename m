@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5331D79B3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 15:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEDA1BD9DC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 16:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735055982; cv=none; b=Kt6y4U5wIdcQCxyGyF663EVGz+iUBdOm7Gdn8v9HwFMhJGENTlLaSjJvyHqxSthsRsRh02vILUDOT3QxfryzyUy+7AZbDlM/kFtdhAQIojDT/LSrk1LsxLK6ZMVNdZKU5pA/JDnKXih293G/LvGg6xvSy5CKpZPTwB20LEoiNPs=
+	t=1735057247; cv=none; b=h7rpXwYlXXkizUJJIc4izBn7pD4H495wzjBVHYvKNg4nR79HlTPJO0Z2QEsyhF8KOunGSSE3VRhxF0vpwWJNQkNWws0/j8aVXEeh6i1BykHtyriMCq7+UYfEpiu5jXCpn3cv6X4ZypscAGcY3ToknHaZoKFRdguvY8eSev4ZDJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735055982; c=relaxed/simple;
-	bh=V4GzuFJKiOsV+B/eOIAjpPkQATJgwNLDzOCOOkOO6oI=;
+	s=arc-20240116; t=1735057247; c=relaxed/simple;
+	bh=SZ2QOok/hdpjvopPNVEOo7Z+4SqZg3ofd3waydElmSQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I7zf7aF4j4iM8TnHNi8Z1CBirArkSW6du2kO1hjKBHgsFfGrrH1046FTflAwpBIS5r16a1PXxbRhWfJ2WyG3Rlbe4VN4L3+2to4JlySR18/6hk7F+VVRN7HmJiohaq3bKMKaUL7invQEpM/jA5uudpi8m3H+sVY0YI11FRi8Poc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWMf7FQw; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ViOcHx15cRtMB4gKJOxaZa+BoScxHBzjYjqWRiNttAbMTwjAIAOAorntwrpYc0RApNjgVkeKOVKSCJ3YxsG7qk449gU0QakYs6Su9iJaryV8kkvS7Ef1jqVXFCL2egsgEo2FKteHkhbiNcmawvQWE0QI3jGl9BUiJKaQdv9zcCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CB5m87YQ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWMf7FQw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CB5m87YQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735055980; x=1766591980;
+  t=1735057245; x=1766593245;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V4GzuFJKiOsV+B/eOIAjpPkQATJgwNLDzOCOOkOO6oI=;
-  b=eWMf7FQwptitOEbD4ZmEgTNTfjSuCkV8XLlPkzDU2KHfv1m7tPaXbl3P
-   vHxE2Y3mGE0Ah3Q/TyzX9l52EEt7e1pQGmpf4gFi4wU7JbLxnrQtlfrbM
-   ieek5t1mwjmfH64i/vk8g7drIKq/Mp2lRakEJwesWf2/pvNrQbxa3Gr8O
-   YTtdVRUL3LE/syIxNcEuGr8Ph9e5WLk6gpGsNfzNBQBb8MiHfiKOs6FWW
-   EyN3QEwSGUDoLZ/qE+C2t2VJhM4torOF5epRlnjGKlOK4/qQIi0AqYefE
-   8i4k0Qnqdyb3ZbXCgk/QIY+FS4Xaabn1IFdaE8eFGtYEjrisinghE/4Jf
-   g==;
-X-CSE-ConnectionGUID: 5lobQaOHRgGjnDGxJ02quQ==
-X-CSE-MsgGUID: 128jQxcQTyKGhBUa8c8eoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="60909957"
+  bh=SZ2QOok/hdpjvopPNVEOo7Z+4SqZg3ofd3waydElmSQ=;
+  b=CB5m87YQLqRdDcMiTTkseAIFvJ7Qd9ko5BuLP52+5IsRwhbri13YLetE
+   zm7q3i/UNBQoGPGOnGnmVCj1yIzr5o1OFnihYIkfMb3KmZOFCtmzkqMbw
+   yHbavBSPstyMlavhuiFAgBJCCeWYkISRgJhwoUmUVLQaDxMzvBtC1xEEA
+   0kLkQekdBYGvgSbbaxOL9qUyNKohtsv8KremzkIJxy/1g1RwfqZX3gW/z
+   JmkbKDpX70CFn6OANQNEz+wF8qRC7IVpV45zoWXQx+nIjPeC5SuhUygqF
+   i6esax1bzGPNPfCOCF3Ov2X527TAqxVTddmYgHKWOTraTI/A6ysH8Cm4X
+   Q==;
+X-CSE-ConnectionGUID: N9k10hkJQh2j3qZIShf+Jg==
+X-CSE-MsgGUID: ypmwhHZHScOVx+G36mwqBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="52931943"
 X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; 
-   d="scan'208";a="60909957"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 07:59:39 -0800
-X-CSE-ConnectionGUID: Fe0VVXmpSEuHyKOXyPBDxw==
-X-CSE-MsgGUID: 0MMN62t7R9+XRbggGhlozg==
+   d="scan'208";a="52931943"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 08:20:44 -0800
+X-CSE-ConnectionGUID: 0pPFAfbgTQOjccDQ3QF7Sw==
+X-CSE-MsgGUID: C1febazXS7aogI8UyPsGhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="99387851"
+   d="scan'208";a="104139460"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Dec 2024 07:59:38 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 24 Dec 2024 08:20:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQ7Jo-0001H1-1Z;
-	Tue, 24 Dec 2024 15:59:36 +0000
-Date: Tue, 24 Dec 2024 23:59:31 +0800
+	id 1tQ7eC-0001I3-1R;
+	Tue, 24 Dec 2024 16:20:40 +0000
+Date: Wed, 25 Dec 2024 00:20:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Qi Xi <xiqi2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb:
- gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match
- any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202412242329.DdS2Nrj0-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1345/1345]
+ drivers/acpi/pmic/tps68470_pmic.c:380:10: error: implicit declaration of
+ function 'dev_err_probe'
+Message-ID: <202412250010.Z1qbx7TD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,53 +63,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   811e48e07be5a00b2472cecba280dd56c8c200ef
-commit: a1999d13a3f2f800ec8cc5346bc06ec3f8a5690c [4/4] CHROMIUM: arm64: dts: mediatek: mt8192-asurada: Add supply-names to GPU node
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241224/202412242329.DdS2Nrj0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412242329.DdS2Nrj0-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   33267d4a7f512d371a3ea853568832174be4caba
+commit: 24564bb891ae98786176f703d1addc5588dafe61 [1345/1345] ACPI: PMIC: Remove unneeded check in tps68470_pmic_opregion_probe()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241225/202412250010.Z1qbx7TD-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250010.Z1qbx7TD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412242329.DdS2Nrj0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412250010.Z1qbx7TD-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
---
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
+All errors (new ones prefixed by >>):
+
+>> drivers/acpi/pmic/tps68470_pmic.c:380:10: error: implicit declaration of function 'dev_err_probe' [-Werror,-Wimplicit-function-declaration]
+     380 |                 return dev_err_probe(dev, -EINVAL, "regmap is missing\n");
+         |                        ^
+   drivers/acpi/pmic/tps68470_pmic.c:380:10: note: did you mean 'device_reprobe'?
+   include/linux/device.h:1336:25: note: 'device_reprobe' declared here
+    1336 | extern int __must_check device_reprobe(struct device *dev);
+         |                         ^
+   1 error generated.
+
+
+vim +/dev_err_probe +380 drivers/acpi/pmic/tps68470_pmic.c
+
+   370	
+   371	static int tps68470_pmic_opregion_probe(struct platform_device *pdev)
+   372	{
+   373		struct regmap *tps68470_regmap = dev_get_drvdata(pdev->dev.parent);
+   374		acpi_handle handle = ACPI_HANDLE(pdev->dev.parent);
+   375		struct device *dev = &pdev->dev;
+   376		struct tps68470_pmic_opregion *opregion;
+   377		acpi_status status;
+   378	
+   379		if (!tps68470_regmap)
+ > 380			return dev_err_probe(dev, -EINVAL, "regmap is missing\n");
+   381	
+   382		if (!handle) {
+   383			dev_warn(dev, "acpi handle is NULL\n");
+   384			return -ENODEV;
+   385		}
+   386	
+   387		opregion = devm_kzalloc(dev, sizeof(*opregion), GFP_KERNEL);
+   388		if (!opregion)
+   389			return -ENOMEM;
+   390	
+   391		mutex_init(&opregion->lock);
+   392		opregion->regmap = tps68470_regmap;
+   393	
+   394		status = acpi_install_address_space_handler(handle,
+   395							    TI_PMIC_POWER_OPREGION_ID,
+   396							    tps68470_pmic_pwr_handler,
+   397							    NULL, opregion);
+   398		if (ACPI_FAILURE(status))
+   399			goto out_mutex_destroy;
+   400	
+   401		status = acpi_install_address_space_handler(handle,
+   402							    TI_PMIC_VR_VAL_OPREGION_ID,
+   403							    tps68470_pmic_vrval_handler,
+   404							    NULL, opregion);
+   405		if (ACPI_FAILURE(status))
+   406			goto out_remove_power_handler;
+   407	
+   408		status = acpi_install_address_space_handler(handle,
+   409							    TI_PMIC_CLOCK_OPREGION_ID,
+   410							    tps68470_pmic_clk_handler,
+   411							    NULL, opregion);
+   412		if (ACPI_FAILURE(status))
+   413			goto out_remove_vr_val_handler;
+   414	
+   415		status = acpi_install_address_space_handler(handle,
+   416							    TI_PMIC_CLKFREQ_OPREGION_ID,
+   417							    tps68470_pmic_cfreq_handler,
+   418							    NULL, opregion);
+   419		if (ACPI_FAILURE(status))
+   420			goto out_remove_clk_handler;
+   421	
+   422		return 0;
+   423	
+   424	out_remove_clk_handler:
+   425		acpi_remove_address_space_handler(handle, TI_PMIC_CLOCK_OPREGION_ID,
+   426						  tps68470_pmic_clk_handler);
+   427	out_remove_vr_val_handler:
+   428		acpi_remove_address_space_handler(handle, TI_PMIC_VR_VAL_OPREGION_ID,
+   429						  tps68470_pmic_vrval_handler);
+   430	out_remove_power_handler:
+   431		acpi_remove_address_space_handler(handle, TI_PMIC_POWER_OPREGION_ID,
+   432						  tps68470_pmic_pwr_handler);
+   433	out_mutex_destroy:
+   434		mutex_destroy(&opregion->lock);
+   435		return -ENODEV;
+   436	}
+   437	
 
 -- 
 0-DAY CI Kernel Test Service
