@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5502C1494A8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 18:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E2F1494A8;
+	Tue, 24 Dec 2024 19:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735066139; cv=none; b=EZV58svS0wzMGOIWoHXxSU9ZwbgIAv44QGLI2u6giE9WxPIAXhs5DQ808R0CuTntnQXRbJgYgfr8xkczC+YIpdUdzp5834+gYn9IFLukeGlhd7iCPTQUyvQH+be6Ek0i9Lq0XIGOKy2HYZLy6Mo3p3Yt3674HjeK1McYmj95I/w=
+	t=1735067401; cv=none; b=iC7q+NyTloEhn/CmyPEwL9u2lkMiM/vL28FFXJl8hztBnryR0MQHOUJOT54X3YXPnMt4DpjDutGGKsIXU9fzS8Mrtok977BmOQTG5Gn73f55qFOcF+9O+BzmCX2tyLAT2C5mF8zrtY9joxMlEn0KOcWv1gFDGlVQ21+5A55baTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735066139; c=relaxed/simple;
-	bh=9qhX3ljYw+jEShGuQbrvmSlPTh8sGo0TTUXoQCR65ss=;
+	s=arc-20240116; t=1735067401; c=relaxed/simple;
+	bh=AZcdE9lY6ga7B0GyG5PQUCtpcsXcr1iuDxMRuq3NIVk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bYar+xo85/zt3Q1BvGYotE9WSRcPsO4tV1rlrAiz2akkd1vzWGZLOiQ9gPNimTvSDuZGqBZrIAIWoHw8dCHtwYHl+qRUuaYntLj7SF9BkXjIU/lyR5jexiSe0HwOfQqVQJe7ozmTMaAqKvG678mVtNYJqq/epFPArhCcg/WpuHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTa5peiK; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=gz6KLxY513BUiPgDzy0QrACPMyxi/QCY5J72jgM+ln+1pfM+Kq0MSAUWYXWPdcEplymCQ/wmjRRbTOjiaJAYBUVuhW1M8umVykFHtd73iL5l16NXsTbfMniJ7ovvpn9LCHe+LUq04wrxiq9OHByljvVB6/I2tWRsgsrVln12LFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=net0ssNb; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTa5peiK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="net0ssNb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735066137; x=1766602137;
+  t=1735067399; x=1766603399;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9qhX3ljYw+jEShGuQbrvmSlPTh8sGo0TTUXoQCR65ss=;
-  b=aTa5peiKNQwThK1fiq+FivI5OoRvLjqnz8xkq3TCdgzEaJE3pFgw+Pk7
-   hQOV8sCcUoyTsqbBpNQp8uVeBBvWQpl24/BfevijAWU+5z+vHVUVx4CFa
-   9JmW8D/Kf75Wb7nMB20FsE1tpDPD0UHGq9zvHcvVox1JrkguiBqIBq2Su
-   WoqIfBmGrn+eL47OVEwbPiLAztxqIhQ5g16yhUv+M5HI54TUTPouUdcTL
-   V2KmhnlCDbdgOtAcAKxFFNGP7pNOqjejxj96Q1OQnQfdIVhjnI0h5l5BG
-   P4cr7f0IN6IqDPnAiIwLgE95HNYaHmKG0R9zRNPYxxTvxYiJ48oGCFLck
+  bh=AZcdE9lY6ga7B0GyG5PQUCtpcsXcr1iuDxMRuq3NIVk=;
+  b=net0ssNboJSCTBAvjiZIEinfRvlJmaZSBnkAobGCVW79BLDw81kr6LeP
+   gZTPr4P+OMwcV5TOZx140AoNEbeESUHgZthHMrUTvVynpG8rkCuTqaWqr
+   WjnAvyEuEVjmZL18Fe8GtNcfpsGmmZX0Wb/vfGumue9Y/EQN+kt6eAavB
+   q3H2Ue8HRX7beNx6pgxfwRFGuSSYz438s+tWbZQ6onPA8N9tPl74lTM8F
+   nYjRH8fzn5IFcUbRDoBs6OOn4Xrisx+vRKwj5jrNEmCHkD6zz8idQT7A9
+   PZpKVKoOF/Du5Ly2hEGFbt0QibUgoTS7w6520hszjPEF1nAv8oJIO9tNC
    A==;
-X-CSE-ConnectionGUID: 7A3/cSF2RgKJHvGHW8fNyQ==
-X-CSE-MsgGUID: Na3GGvW5S96eVXU1aNkLLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35754849"
+X-CSE-ConnectionGUID: XOb80erKSYyogpYk+J9eAg==
+X-CSE-MsgGUID: w2cU3KdxR8OpcOGKaoZtxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="60921179"
 X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="35754849"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 10:48:56 -0800
-X-CSE-ConnectionGUID: EjBJN9cXQ0SyBLor5hPq+g==
-X-CSE-MsgGUID: kZRjMu7jSw2aZmF7SIfDRQ==
+   d="scan'208";a="60921179"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 11:09:58 -0800
+X-CSE-ConnectionGUID: 5rVwUp9ER/u//BskqirXQg==
+X-CSE-MsgGUID: oHysVZ5GSyGwJ6+cvTPcUA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="99767806"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="130535330"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Dec 2024 10:48:53 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 24 Dec 2024 11:09:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQ9xa-0001NH-2f;
-	Tue, 24 Dec 2024 18:48:50 +0000
-Date: Wed, 25 Dec 2024 02:48:32 +0800
+	id 1tQAHw-0001Nj-0s;
+	Tue, 24 Dec 2024 19:09:52 +0000
+Date: Wed, 25 Dec 2024 03:08:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Chris Li <chrisl@kernel.org>, Barry Song <v-songbaohua@oppo.com>,
@@ -62,7 +62,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Kalesh Singh <kaleshsingh@google.com>, linux-kernel@vger.kernel.org,
 	Kairui Song <kasong@tencent.com>
 Subject: Re: [PATCH v2 05/13] mm, swap: clean up device availability check
-Message-ID: <202412250203.RvEcTtUz-lkp@intel.com>
+Message-ID: <202412250259.S5ew5ZrN-lkp@intel.com>
 References: <20241224143811.33462-6-ryncsn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,21 +84,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swap-minor
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20241224143811.33462-6-ryncsn%40gmail.com
 patch subject: [PATCH v2 05/13] mm, swap: clean up device availability check
-config: arm64-randconfig-001-20241224 (https://download.01.org/0day-ci/archive/20241225/202412250203.RvEcTtUz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250203.RvEcTtUz-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-001-20241224 (https://download.01.org/0day-ci/archive/20241225/202412250259.S5ew5ZrN-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250259.S5ew5ZrN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412250203.RvEcTtUz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412250259.S5ew5ZrN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/f2fs/data.c: In function 'check_swap_activate':
->> fs/f2fs/data.c:4046:12: error: 'struct swap_info_struct' has no member named 'highest_bit'
+>> fs/f2fs/data.c:4046:7: error: no member named 'highest_bit' in 'struct swap_info_struct'
     4046 |         sis->highest_bit = cur_lblock - 1;
-         |            ^~
+         |         ~~~  ^
+   1 error generated.
 
 
 vim +4046 fs/f2fs/data.c
