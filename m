@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1388016D9C2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 20:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D85D8BFF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 22:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735073115; cv=none; b=uC0oo4UvunTInxsf2XG7BXCq+sYeW+nAswt/wuXe+NqecAYijdtodbo4bYVy5VY3x/kJ4aaT/DWji8oVtNORawTLo8/ywtv4EjPGul3MT285z1sjwd+mPE6nPT/nZokR6iniHn613MWJ4eLoDCZh9fibo+W7KIv5ND6mOgLcAIE=
+	t=1735078822; cv=none; b=lcGxwc5B1mM+NlHJ9ClO+eo8rZhVbi1VmEKisxQHKsFBhAST/81jmGWFiVaLZmm+AtJciOD2nN/ifccI6iz6S0fkEgd7XTa79wzwcNpqgQkiJkv8GHbhIoIZNqztBuXhPJKY5UGShCfL73NBFYrzFWyNc1/1yG0d6cFqABRvA0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735073115; c=relaxed/simple;
-	bh=UFgVDJfgzYV1XJ45Z945dvSUoBZD3tv4rbeH3Ll9cLo=;
+	s=arc-20240116; t=1735078822; c=relaxed/simple;
+	bh=UuN2DF6bPMBMl5012ntZ9y43KDdx8sUe+ijQVuznNR0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XvWBBZR1CbVeaGe49BuahuIrzAIqa9yVScTMvhuRPv7I6vLQTwG0Ect4VUN70IrvxrJCNubFki2epNxF9kaGZEUtY9H4+MHgGRmsmgvW9qAWZqoIaYacj9WBX9j3A1GHUVRYC0wZB9W8BN0DecCO52ul2eF7W+jgtZUF5YCc0ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HaYNIPro; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=haDIKt+b+riEPVrn7tk7LvZziEHEcHPXYT00GIzDvWv9GtUgLflhDOmWaInF1C5pIxFrrLfmpYwhV5qNaGi5I1DApjVl0TdBuJywz4nKFiP3WGM5GNcxXJusoaP45JccaqFWEVIqFCqUwnVgx6IiJcpxIh72hkCcwylYPFc4TUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IFugUr+G; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HaYNIPro"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IFugUr+G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735073113; x=1766609113;
+  t=1735078821; x=1766614821;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UFgVDJfgzYV1XJ45Z945dvSUoBZD3tv4rbeH3Ll9cLo=;
-  b=HaYNIProKe8hFU4i5ztQuq6zS6Unyt58X3m61yXMEft3wzphAFKBKHuH
-   9JozYaKRyJHAIJT462QjeTRInCN6gg7mDTipC2ecBJpsXsRmeUWOGadcN
-   TLnif7wo5ZODIAd1AUAdmKlyJT+NYC/ABK9ld4BJSp6PlzkRsZ3jpgWK3
-   GIydOkQiw1hWimILxCY8fTlWSGP1iPQQyHSUrTXlGWmBDCKnOCPtJfRmH
-   zxS5rv4k8wmQT3wtrG2/LV+F7TKye+oT5pGdJzLsWlqS4fhk7sXwPUZj+
-   z6LZzYGTbdMw72yqva3RHPK6E+RCv6CGQ3fTD+7GcbwpbMwUfOVKyQTm3
-   g==;
-X-CSE-ConnectionGUID: rfckuyXMR4mGZR9BDNa1oA==
-X-CSE-MsgGUID: pxxGuo7pTbmhAv8t4jOSSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="53070829"
+  bh=UuN2DF6bPMBMl5012ntZ9y43KDdx8sUe+ijQVuznNR0=;
+  b=IFugUr+GSBeaN8YAOioINqqiQ5+X/twqC1IUcLuJHTL/VivX0kOQYdLZ
+   ZDR3HgU9LUUZJF+lWIm5VhW5Voe3tl7py5KgufYD2/9WlcbPWyGJse8uN
+   RfqyjyiiBwEVCw8wQ4ceSi1XABBDl4bDkvId4Cvf5wmbTFRN0gaO/YpVg
+   gU/O4TbxXktMaHP96Qkl32QP0HVgRQi/Rjmw1B/WQyyEAcps3msGDsZPy
+   96Ad8ETlOzs5A/qYCq1YtUbVTeSwYScxqdr6gpUMasGW/g0gMzZnIrr46
+   yMSzLhp71A71t7r5AnYUAMIIk7VQVBL51srn9dynvTDSvAkp1ruNmibc3
+   Q==;
+X-CSE-ConnectionGUID: Tz9vABmORDCbNm41OnLS0Q==
+X-CSE-MsgGUID: aa9mB4TlQoWHqErx/jIyzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35255247"
 X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="53070829"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 12:45:12 -0800
-X-CSE-ConnectionGUID: DR2JDLWlTc6/SNSF/Q3jDQ==
-X-CSE-MsgGUID: +SBGrvMBTYq58Ds5WZ6g3g==
+   d="scan'208";a="35255247"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 14:20:20 -0800
+X-CSE-ConnectionGUID: SVUjUXE4QSOWH2Eo6UfuvQ==
+X-CSE-MsgGUID: inzbWenRTr+so364zw08Ow==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="104530192"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="136895855"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Dec 2024 12:45:10 -0800
+  by orviesa001.jf.intel.com with ESMTP; 24 Dec 2024 14:20:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQBm7-0001RU-3B;
-	Tue, 24 Dec 2024 20:45:07 +0000
-Date: Wed, 25 Dec 2024 04:44:44 +0800
+	id 1tQDGC-0001V9-0v;
+	Tue, 24 Dec 2024 22:20:16 +0000
+Date: Wed, 25 Dec 2024 06:19:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1345/1345]
- drivers/hid/i2c-hid/.tmp_i2c-hid-core.o: warning: objtool: missing symbol
- for section .init.text
-Message-ID: <202412250406.LdESsxQc-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 1/1]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202412250654.fb2G6Ueq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +63,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   33267d4a7f512d371a3ea853568832174be4caba
-commit: 211070f39ed4ec7390dca8351c9fee934b8179e7 [1345/1345] HID: i2c-hid: override HID descriptors for certain devices
-config: x86_64-buildonly-randconfig-002-20241224 (https://download.01.org/0day-ci/archive/20241225/202412250406.LdESsxQc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250406.LdESsxQc-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   bfccc4c02e9504d06c416da7e28db91acfdf722a
+commit: d12ce074f07af731469654848640ecf4b424ec81 [1/1] Reapply "CHROMIUM: arm64: dts: mt8186: Add corsola-squirtle board"
+config: arm64-randconfig-053-20241214 (https://download.01.org/0day-ci/archive/20241225/202412250654.fb2G6Ueq-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250654.fb2G6Ueq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412250406.LdESsxQc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412250654.fb2G6Ueq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/hid/i2c-hid/i2c-hid-core.c:21:
-   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'i2c_hid_driver_exit': 'cold' [-Wmissing-attributes]
-     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   include/linux/device.h:1637:1: note: in expansion of macro 'module_exit'
-    1637 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/i2c.h:870:9: note: in expansion of macro 'module_driver'
-     870 |         module_driver(__i2c_driver, i2c_add_driver, \
-         |         ^~~~~~~~~~~~~
-   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
-    1344 | module_i2c_driver(i2c_hid_driver);
-         | ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/i2c.h:30,
-                    from drivers/hid/i2c-hid/i2c-hid-core.c:22:
-   drivers/hid/i2c-hid/i2c-hid-core.c:1344:19: note: 'cleanup_module' target declared here
-    1344 | module_i2c_driver(i2c_hid_driver);
-         |                   ^~~~~~~~~~~~~~
-   include/linux/device.h:1633:20: note: in definition of macro 'module_driver'
-    1633 | static void __exit __driver##_exit(void) \
-         |                    ^~~~~~~~
-   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
-    1344 | module_i2c_driver(i2c_hid_driver);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'i2c_hid_driver_init': 'cold' [-Wmissing-attributes]
-     134 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   include/linux/device.h:1632:1: note: in expansion of macro 'module_init'
-    1632 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/i2c.h:870:9: note: in expansion of macro 'module_driver'
-     870 |         module_driver(__i2c_driver, i2c_add_driver, \
-         |         ^~~~~~~~~~~~~
-   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
-    1344 | module_i2c_driver(i2c_hid_driver);
-         | ^~~~~~~~~~~~~~~~~
-   drivers/hid/i2c-hid/i2c-hid-core.c:1344:19: note: 'init_module' target declared here
-    1344 | module_i2c_driver(i2c_hid_driver);
-         |                   ^~~~~~~~~~~~~~
-   include/linux/device.h:1628:19: note: in definition of macro 'module_driver'
-    1628 | static int __init __driver##_init(void) \
-         |                   ^~~~~~~~
-   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
-    1344 | module_i2c_driver(i2c_hid_driver);
-         | ^~~~~~~~~~~~~~~~~
-   drivers/hid/i2c-hid/i2c-hid-core.c:327: warning: Function parameter or member 'data_len' not described in 'i2c_hid_set_or_send_report'
-   drivers/hid/i2c-hid/i2c-hid-core.c:327: warning: Excess function parameter 'len' description in 'i2c_hid_set_or_send_report'
-   drivers/hid/i2c-hid/.tmp_i2c-hid-core.o: warning: objtool: i2c_hid_parse()+0x302: sibling call from callable instruction with modified stack frame
-   drivers/hid/i2c-hid/.tmp_i2c-hid-core.o: warning: objtool: i2c_hid_probe()+0x20: sibling call from callable instruction with modified stack frame
->> drivers/hid/i2c-hid/.tmp_i2c-hid-core.o: warning: objtool: missing symbol for section .init.text
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['google,squirtle', 'mediatek,mt8186'] is too short
+   	'google,squirtle' is not one of ['mediatek,mt2701-evb']
+   	'google,squirtle' is not one of ['mediatek,mt2712-evb']
+   	'google,squirtle' is not one of ['mediatek,mt6580-evbp1']
+   	'google,squirtle' is not one of ['prestigio,pmt5008-3g']
+   	'google,squirtle' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
+   	'google,squirtle' is not one of ['mediatek,mt6592-evb']
+   	'google,squirtle' is not one of ['mediatek,mt6755-evb']
+   	'google,squirtle' is not one of ['mediatek,mt6765-evb']
+   	'google,squirtle' is not one of ['mediatek,mt6779-evb']
+--
+   	'google,hayato-sku2' was expected
+   	'google,spherion-rev2' was expected
+   	'google,spherion' was expected
+   	'mediatek,mt8192' was expected
+   	'google,tomato' was expected
+   	'google,tomato-rev3' was expected
+   	'mediatek,mt8195' was expected
+   	'mediatek,mt8365' was expected
+   	'mediatek,mt8516' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: failed to match any schema with compatible: ['google,squirtle', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible:0: 'mediatek,mt6315-regulator' was expected
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator'] is too long
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spmi@10015000/pmic@6: failed to match any schema with compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: touchscreen@16: reg:0:0: 16 was expected
+   	from schema $id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: trackpad@68: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/i2c@11016000/codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts-legacy']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@0: ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@1: ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: jpeg-encoder@17030000: iommus: [[125, 233], [125, 234], [125, 235], [125, 236]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: thermal-zones: 'adsp', 'cam', 'cpu_big0', 'cpu_big1', 'cpu_zone0', 'cpu_zone1', 'cpu_zone2', 'mfg', 'nna', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
