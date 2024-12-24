@@ -1,61 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D05F442C;
-	Tue, 24 Dec 2024 19:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF59C1465B4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 20:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735069869; cv=none; b=fVExGGTjgS4fQguhEK9aqyF/iff07qF4XuAoLL20tokCeBYnj816pZZVZt6FlcKokBXLbfdRVucZN7wIJAbMZRWTN9mMfMICaSgCPWnBijFNe4VIdRo8jLvy5M4GDyKvH0HD5PtBhAdojBLr0IWh/csUW8WdCaM/Oov1GStFEu0=
+	t=1735071191; cv=none; b=qXGwSBmKI0FVuRrFzaU9BtH5UuZVK81trU/b3AfMKCAdD9xuxSd6s6nZ/jZlCTLbgiAJpZYHRt3vVMOmZzACOd5lqXxlh9P+6hEz/P7rj/EGZCAtTCYa0JxmBkEnWd/Ke+DEhLnDpfkM8graG9Np7ScZztnEX8X/0gfMKxU4ies=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735069869; c=relaxed/simple;
-	bh=mrgS68bZ6DseRndN40d7oDtMIPRQRFLhnxyzZ+33blI=;
+	s=arc-20240116; t=1735071191; c=relaxed/simple;
+	bh=u8XYUadebGZt2lVN4wfzhhDsB7m1B7KyhWi+XkMfcTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vc6LMWNeVR9cVkoBxRpJ9mwUNxOXx7TGE3B+S43d3PJ5Y2klvQJA1Ks1TiYv2LW8ARkqXhmxZY+GYTGYkzUfftJDKAMFaXA4htwIG1P4rcbHnH+Sb9lf8uisceXdqEOMfJ0enazrUVMjfD/NazALaHb/jptqGl2wFDWW/6X0blk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PanSxcSn; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ueURdKG3FArNZZOwJTMQzlfMxONZT1XUu9IV6++pKXR7r153OOPDNk3e8uPx1KdR9+oGjUqcrhE+3+O+aX8s366q5xFhySKtNakFZYL+xvI2T9yJApjcGaIki1BpU+Yvt2QTw0dfK8YUYSFcv9nG6HKGjVbUphHzTbkMoeR1nX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HiR4F2So; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PanSxcSn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HiR4F2So"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735069867; x=1766605867;
+  t=1735071189; x=1766607189;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mrgS68bZ6DseRndN40d7oDtMIPRQRFLhnxyzZ+33blI=;
-  b=PanSxcSnWzaZtQv10WtogUVNLiSAS1d4accqHsOFNotuqFfqOIcz2F6Q
-   jYKjdIA4y6uKdzRA4eU6V/J8WJdHk0lh7BKdhxaKAcWpzG6tOfsCm2hbV
-   wE2A+KwkoiM2/z5kwxL4cMe0VgNc9JGuZQ25mTOsvZpdJK1UZwUgBon0l
-   bE/EoNdaiJSaf+zgNYX4TMhdSdZLvRmNnvXLIDCQui1lrMayawvslQ7X4
-   I0NDqQcdfcciV/WzUkgyQILujpenZlNwvjy4W/mfXEV2u8/8gC1ZvK1zx
-   nFmqUVZZMRB7XhDqs7vkkoexlw0ABlrB2CwbvEM7453tn928wjg4LaYMX
-   g==;
-X-CSE-ConnectionGUID: mUtZYCNdQNm8DVNfigPlfA==
-X-CSE-MsgGUID: 0uYtHv3zQzieEYPKWRJXcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="60922671"
+  bh=u8XYUadebGZt2lVN4wfzhhDsB7m1B7KyhWi+XkMfcTw=;
+  b=HiR4F2SoQph6JogMdVubV9InAmZ3KYQlC0kVOBB6+JwwCn52zfM60JkY
+   pI3RLqiD6syIbRXJ3gYYtGEnhK1MLxK/WBtDTXANrK04ZVtbX0Z5VzqNu
+   X8ZJYGMFVkW787lGa/0FcwEglgKNpnnfzQsxDJpBB0AvUasogJ8GqmlEg
+   sY6Vk79Ac4xyGifN/663yPRFh716diZ/M4u/QPQbwpYsnVrv65fX8r2A7
+   l9ookvPdJudb0uOjeeU8c4CDPbGDZa8dylUcbm2T8tjBz883rsd3CaWwX
+   AaXW5DQliWJqTFjGnYnOwrMlHJOv++K2jC3ucL8HDrSA68YL9+syuK+6d
+   A==;
+X-CSE-ConnectionGUID: ClxpIArCSn6ak1Y9EQCu9A==
+X-CSE-MsgGUID: PLEC9SnYSaSyOVCfJbQOBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="60923691"
 X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="60922671"
+   d="scan'208";a="60923691"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 11:51:06 -0800
-X-CSE-ConnectionGUID: Cap4vluNSdehk3lfyXfOHA==
-X-CSE-MsgGUID: wpUigovaTr+Jz4LZQIQw2Q==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 12:13:08 -0800
+X-CSE-ConnectionGUID: +ttabicZSMG+5iGz/adupQ==
+X-CSE-MsgGUID: Z8ItCzaxRL2p2xP7YaaXYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="130406591"
+   d="scan'208";a="130409378"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 24 Dec 2024 11:51:05 -0800
+  by orviesa002.jf.intel.com with ESMTP; 24 Dec 2024 12:13:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQAvm-0001PP-2Z;
-	Tue, 24 Dec 2024 19:51:02 +0000
-Date: Wed, 25 Dec 2024 03:50:24 +0800
+	id 1tQBH6-0001QJ-2X;
+	Tue, 24 Dec 2024 20:13:04 +0000
+Date: Wed, 25 Dec 2024 04:12:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuyu Li <liyuyu6@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Leon Romanovsky <leon@kernel.org>,
-	Junxian Huang <huangjunxian6@hisilicon.com>
-Subject: [rdma-rdma:wip/leon-for-next 25/34]
- drivers/infiniband/hw/bnxt_re/main.c:2172:1: warning: unused label
- 're_dev_unreg'
-Message-ID: <202412250356.e2dZ2kjW-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 2/2] kernel/sys_ni.c:50:1: sparse:
+ sparse: symbol '__arm64_compat_sys_io_pgetevents_time64' was not declared.
+ Should it be static?
+Message-ID: <202412250428.VBb8nMJm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,82 +63,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/leon-for-next
-head:   1a4f56e8c029d463e9b8461ea3256ae16c88ddf6
-commit: 6c409d08650c2a6dc6776d8b78a706996dcf4a78 [25/34] RDMA/bnxt_re: Remove deliver net device event
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241225/202412250356.e2dZ2kjW-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250356.e2dZ2kjW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   4c2d86d81fa6053d5c6537b6e602270903156869
+commit: e1b88ac1fe65a5e9f7ecbf7ca72bd48f317fa2fb [2/2] syscalls: fix compat_sys_io_pgetevents_time64 usage
+config: arm64-randconfig-r132-20241224 (https://download.01.org/0day-ci/archive/20241225/202412250428.VBb8nMJm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241225/202412250428.VBb8nMJm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412250356.e2dZ2kjW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412250428.VBb8nMJm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sys_ni.c:39:1: sparse: sparse: symbol '__arm64_sys_io_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:40:1: sparse: sparse: symbol '__arm64_compat_sys_io_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:41:1: sparse: sparse: symbol '__arm64_sys_io_destroy' was not declared. Should it be static?
+   kernel/sys_ni.c:42:1: sparse: sparse: symbol '__arm64_sys_io_submit' was not declared. Should it be static?
+   kernel/sys_ni.c:43:1: sparse: sparse: symbol '__arm64_compat_sys_io_submit' was not declared. Should it be static?
+   kernel/sys_ni.c:44:1: sparse: sparse: symbol '__arm64_sys_io_cancel' was not declared. Should it be static?
+   kernel/sys_ni.c:45:1: sparse: sparse: symbol '__arm64_sys_io_getevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:46:1: sparse: sparse: symbol '__arm64_sys_io_getevents' was not declared. Should it be static?
+   kernel/sys_ni.c:47:1: sparse: sparse: symbol '__arm64_sys_io_pgetevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:48:1: sparse: sparse: symbol '__arm64_sys_io_pgetevents' was not declared. Should it be static?
+   kernel/sys_ni.c:49:1: sparse: sparse: symbol '__arm64_compat_sys_io_pgetevents' was not declared. Should it be static?
+>> kernel/sys_ni.c:50:1: sparse: sparse: symbol '__arm64_compat_sys_io_pgetevents_time64' was not declared. Should it be static?
+   kernel/sys_ni.c:51:1: sparse: sparse: symbol '__arm64_sys_io_uring_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:52:1: sparse: sparse: symbol '__arm64_sys_io_uring_enter' was not declared. Should it be static?
+   kernel/sys_ni.c:53:1: sparse: sparse: symbol '__arm64_sys_io_uring_register' was not declared. Should it be static?
+   kernel/sys_ni.c:60:1: sparse: sparse: symbol '__arm64_sys_lookup_dcookie' was not declared. Should it be static?
+   kernel/sys_ni.c:61:1: sparse: sparse: symbol '__arm64_compat_sys_lookup_dcookie' was not declared. Should it be static?
+   kernel/sys_ni.c:64:1: sparse: sparse: symbol '__arm64_sys_eventfd2' was not declared. Should it be static?
+   kernel/sys_ni.c:67:1: sparse: sparse: symbol '__arm64_sys_epoll_create1' was not declared. Should it be static?
+   kernel/sys_ni.c:68:1: sparse: sparse: symbol '__arm64_sys_epoll_ctl' was not declared. Should it be static?
+   kernel/sys_ni.c:69:1: sparse: sparse: symbol '__arm64_sys_epoll_pwait' was not declared. Should it be static?
+   kernel/sys_ni.c:70:1: sparse: sparse: symbol '__arm64_compat_sys_epoll_pwait' was not declared. Should it be static?
+   kernel/sys_ni.c:71:1: sparse: sparse: symbol '__arm64_sys_epoll_pwait2' was not declared. Should it be static?
+   kernel/sys_ni.c:72:1: sparse: sparse: symbol '__arm64_compat_sys_epoll_pwait2' was not declared. Should it be static?
+   kernel/sys_ni.c:77:1: sparse: sparse: symbol '__arm64_sys_inotify_init1' was not declared. Should it be static?
+   kernel/sys_ni.c:78:1: sparse: sparse: symbol '__arm64_sys_inotify_add_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:79:1: sparse: sparse: symbol '__arm64_sys_inotify_rm_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:84:1: sparse: sparse: symbol '__arm64_sys_ioprio_set' was not declared. Should it be static?
+   kernel/sys_ni.c:85:1: sparse: sparse: symbol '__arm64_sys_ioprio_get' was not declared. Should it be static?
+   kernel/sys_ni.c:88:1: sparse: sparse: symbol '__arm64_sys_flock' was not declared. Should it be static?
+   kernel/sys_ni.c:101:1: sparse: sparse: symbol '__arm64_sys_quotactl' was not declared. Should it be static?
+   kernel/sys_ni.c:102:1: sparse: sparse: symbol '__arm64_sys_quotactl_fd' was not declared. Should it be static?
+   kernel/sys_ni.c:113:1: sparse: sparse: symbol '__arm64_sys_signalfd4' was not declared. Should it be static?
+   kernel/sys_ni.c:114:1: sparse: sparse: symbol '__arm64_compat_sys_signalfd4' was not declared. Should it be static?
+   kernel/sys_ni.c:123:1: sparse: sparse: symbol '__arm64_sys_timerfd_create' was not declared. Should it be static?
+   kernel/sys_ni.c:124:1: sparse: sparse: symbol '__arm64_sys_timerfd_settime' was not declared. Should it be static?
+   kernel/sys_ni.c:125:1: sparse: sparse: symbol '__arm64_sys_timerfd_settime32' was not declared. Should it be static?
+   kernel/sys_ni.c:126:1: sparse: sparse: symbol '__arm64_sys_timerfd_gettime' was not declared. Should it be static?
+   kernel/sys_ni.c:127:1: sparse: sparse: symbol '__arm64_sys_timerfd_gettime32' was not declared. Should it be static?
+   kernel/sys_ni.c:132:1: sparse: sparse: symbol '__arm64_sys_acct' was not declared. Should it be static?
+   kernel/sys_ni.c:135:1: sparse: sparse: symbol '__arm64_sys_capget' was not declared. Should it be static?
+   kernel/sys_ni.c:136:1: sparse: sparse: symbol '__arm64_sys_capset' was not declared. Should it be static?
+   kernel/sys_ni.c:144:1: sparse: sparse: symbol '__arm64_sys_clone3' was not declared. Should it be static?
+   kernel/sys_ni.c:147:1: sparse: sparse: symbol '__arm64_sys_futex' was not declared. Should it be static?
+   kernel/sys_ni.c:148:1: sparse: sparse: symbol '__arm64_sys_futex_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:149:1: sparse: sparse: symbol '__arm64_sys_set_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:150:1: sparse: sparse: symbol '__arm64_compat_sys_set_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:151:1: sparse: sparse: symbol '__arm64_sys_get_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:152:1: sparse: sparse: symbol '__arm64_compat_sys_get_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:153:1: sparse: sparse: symbol '__arm64_sys_futex_waitv' was not declared. Should it be static?
+   kernel/sys_ni.c:160:1: sparse: sparse: symbol '__arm64_sys_kexec_load' was not declared. Should it be static?
+   kernel/sys_ni.c:161:1: sparse: sparse: symbol '__arm64_compat_sys_kexec_load' was not declared. Should it be static?
+   kernel/sys_ni.c:164:1: sparse: sparse: symbol '__arm64_sys_init_module' was not declared. Should it be static?
+   kernel/sys_ni.c:165:1: sparse: sparse: symbol '__arm64_sys_delete_module' was not declared. Should it be static?
+   kernel/sys_ni.c:170:1: sparse: sparse: symbol '__arm64_sys_syslog' was not declared. Should it be static?
+   kernel/sys_ni.c:177:1: sparse: sparse: symbol '__arm64_sys_setregid' was not declared. Should it be static?
+   kernel/sys_ni.c:178:1: sparse: sparse: symbol '__arm64_sys_setgid' was not declared. Should it be static?
+   kernel/sys_ni.c:179:1: sparse: sparse: symbol '__arm64_sys_setreuid' was not declared. Should it be static?
+   kernel/sys_ni.c:180:1: sparse: sparse: symbol '__arm64_sys_setuid' was not declared. Should it be static?
+   kernel/sys_ni.c:181:1: sparse: sparse: symbol '__arm64_sys_setresuid' was not declared. Should it be static?
+   kernel/sys_ni.c:182:1: sparse: sparse: symbol '__arm64_sys_getresuid' was not declared. Should it be static?
+   kernel/sys_ni.c:183:1: sparse: sparse: symbol '__arm64_sys_setresgid' was not declared. Should it be static?
+   kernel/sys_ni.c:184:1: sparse: sparse: symbol '__arm64_sys_getresgid' was not declared. Should it be static?
+   kernel/sys_ni.c:185:1: sparse: sparse: symbol '__arm64_sys_setfsuid' was not declared. Should it be static?
+   kernel/sys_ni.c:186:1: sparse: sparse: symbol '__arm64_sys_setfsgid' was not declared. Should it be static?
+   kernel/sys_ni.c:187:1: sparse: sparse: symbol '__arm64_sys_setgroups' was not declared. Should it be static?
+   kernel/sys_ni.c:188:1: sparse: sparse: symbol '__arm64_sys_getgroups' was not declared. Should it be static?
+   kernel/sys_ni.c:195:1: sparse: sparse: symbol '__arm64_sys_mq_open' was not declared. Should it be static?
+   kernel/sys_ni.c:196:1: sparse: sparse: symbol '__arm64_compat_sys_mq_open' was not declared. Should it be static?
+   kernel/sys_ni.c:197:1: sparse: sparse: symbol '__arm64_sys_mq_unlink' was not declared. Should it be static?
+   kernel/sys_ni.c:198:1: sparse: sparse: symbol '__arm64_sys_mq_timedsend' was not declared. Should it be static?
+   kernel/sys_ni.c:199:1: sparse: sparse: symbol '__arm64_sys_mq_timedsend_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:200:1: sparse: sparse: symbol '__arm64_sys_mq_timedreceive' was not declared. Should it be static?
+   kernel/sys_ni.c:201:1: sparse: sparse: symbol '__arm64_sys_mq_timedreceive_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:202:1: sparse: sparse: symbol '__arm64_sys_mq_notify' was not declared. Should it be static?
+   kernel/sys_ni.c:203:1: sparse: sparse: symbol '__arm64_compat_sys_mq_notify' was not declared. Should it be static?
+   kernel/sys_ni.c:204:1: sparse: sparse: symbol '__arm64_sys_mq_getsetattr' was not declared. Should it be static?
+   kernel/sys_ni.c:205:1: sparse: sparse: symbol '__arm64_compat_sys_mq_getsetattr' was not declared. Should it be static?
+   kernel/sys_ni.c:208:1: sparse: sparse: symbol '__arm64_sys_msgget' was not declared. Should it be static?
+   kernel/sys_ni.c:209:1: sparse: sparse: symbol '__arm64_sys_old_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:210:1: sparse: sparse: symbol '__arm64_sys_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:211:1: sparse: sparse: symbol '__arm64_compat_sys_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:212:1: sparse: sparse: symbol '__arm64_compat_sys_old_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:213:1: sparse: sparse: symbol '__arm64_sys_msgrcv' was not declared. Should it be static?
+   kernel/sys_ni.c:214:1: sparse: sparse: symbol '__arm64_compat_sys_msgrcv' was not declared. Should it be static?
+   kernel/sys_ni.c:215:1: sparse: sparse: symbol '__arm64_sys_msgsnd' was not declared. Should it be static?
+   kernel/sys_ni.c:216:1: sparse: sparse: symbol '__arm64_compat_sys_msgsnd' was not declared. Should it be static?
+   kernel/sys_ni.c:219:1: sparse: sparse: symbol '__arm64_sys_semget' was not declared. Should it be static?
+   kernel/sys_ni.c:220:1: sparse: sparse: symbol '__arm64_sys_old_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:221:1: sparse: sparse: symbol '__arm64_sys_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:222:1: sparse: sparse: symbol '__arm64_compat_sys_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:223:1: sparse: sparse: symbol '__arm64_compat_sys_old_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:224:1: sparse: sparse: symbol '__arm64_sys_semtimedop' was not declared. Should it be static?
+   kernel/sys_ni.c:225:1: sparse: sparse: symbol '__arm64_sys_semtimedop_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:226:1: sparse: sparse: symbol '__arm64_sys_semop' was not declared. Should it be static?
+   kernel/sys_ni.c:229:1: sparse: sparse: symbol '__arm64_sys_shmget' was not declared. Should it be static?
+   kernel/sys_ni.c:230:1: sparse: sparse: symbol '__arm64_sys_old_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:231:1: sparse: sparse: symbol '__arm64_sys_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:232:1: sparse: sparse: symbol '__arm64_compat_sys_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:233:1: sparse: sparse: symbol '__arm64_compat_sys_old_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:234:1: sparse: sparse: symbol '__arm64_sys_shmat' was not declared. Should it be static?
+   kernel/sys_ni.c:235:1: sparse: sparse: symbol '__arm64_compat_sys_shmat' was not declared. Should it be static?
+   kernel/sys_ni.c:236:1: sparse: sparse: symbol '__arm64_sys_shmdt' was not declared. Should it be static?
+   kernel/sys_ni.c:239:1: sparse: sparse: symbol '__arm64_sys_socket' was not declared. Should it be static?
+   kernel/sys_ni.c:240:1: sparse: sparse: symbol '__arm64_sys_socketpair' was not declared. Should it be static?
+   kernel/sys_ni.c:241:1: sparse: sparse: symbol '__arm64_sys_bind' was not declared. Should it be static?
+   kernel/sys_ni.c:242:1: sparse: sparse: symbol '__arm64_sys_listen' was not declared. Should it be static?
+   kernel/sys_ni.c:243:1: sparse: sparse: symbol '__arm64_sys_accept' was not declared. Should it be static?
+   kernel/sys_ni.c:244:1: sparse: sparse: symbol '__arm64_sys_connect' was not declared. Should it be static?
+   kernel/sys_ni.c:245:1: sparse: sparse: symbol '__arm64_sys_getsockname' was not declared. Should it be static?
+   kernel/sys_ni.c:246:1: sparse: sparse: symbol '__arm64_sys_getpeername' was not declared. Should it be static?
+   kernel/sys_ni.c:247:1: sparse: sparse: symbol '__arm64_sys_setsockopt' was not declared. Should it be static?
 
->> drivers/infiniband/hw/bnxt_re/main.c:2172:1: warning: unused label 're_dev_unreg' [-Wunused-label]
-    2172 | re_dev_unreg:
-         | ^~~~~~~~~~~~~
-   1 warning generated.
+vim +/__arm64_compat_sys_io_pgetevents_time64 +50 kernel/sys_ni.c
 
-
-vim +/re_dev_unreg +2172 drivers/infiniband/hw/bnxt_re/main.c
-
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2135  
-cc5b9b48d44756 Selvin Xavier      2024-09-10  2136  static int bnxt_re_add_device(struct auxiliary_device *adev, u8 op_type)
-1ac5a404797523 Selvin Xavier      2017-02-10  2137  {
-6d758147c7b80a Ajit Khaparde      2022-10-14  2138  	struct bnxt_aux_priv *aux_priv =
-6d758147c7b80a Ajit Khaparde      2022-10-14  2139  		container_of(adev, struct bnxt_aux_priv, aux_dev);
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2140  	struct bnxt_re_en_dev_info *en_info;
-1ac5a404797523 Selvin Xavier      2017-02-10  2141  	struct bnxt_en_dev *en_dev;
-6d758147c7b80a Ajit Khaparde      2022-10-14  2142  	struct bnxt_re_dev *rdev;
-14611b9b984125 Kalesh AP          2023-08-03  2143  	int rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  2144  
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2145  	en_info = auxiliary_get_drvdata(adev);
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2146  	en_dev = en_info->en_dev;
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2147  
-1ac5a404797523 Selvin Xavier      2017-02-10  2148  
-0ba9294da081ba Kalesh AP          2024-10-08  2149  	rdev = bnxt_re_dev_add(adev, en_dev);
-6d758147c7b80a Ajit Khaparde      2022-10-14  2150  	if (!rdev || !rdev_to_dev(rdev)) {
-1ac5a404797523 Selvin Xavier      2017-02-10  2151  		rc = -ENOMEM;
-1ac5a404797523 Selvin Xavier      2017-02-10  2152  		goto exit;
-1ac5a404797523 Selvin Xavier      2017-02-10  2153  	}
-66832705c4d01e Selvin Xavier      2020-02-26  2154  
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2155  	bnxt_re_update_en_info_rdev(rdev, en_info, adev);
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2156  
-cc5b9b48d44756 Selvin Xavier      2024-09-10  2157  	rc = bnxt_re_dev_init(rdev, op_type);
-6d758147c7b80a Ajit Khaparde      2022-10-14  2158  	if (rc)
-6d758147c7b80a Ajit Khaparde      2022-10-14  2159  		goto re_dev_dealloc;
-1ac5a404797523 Selvin Xavier      2017-02-10  2160  
-c2b777a9592395 Selvin Xavier      2020-02-26  2161  	rc = bnxt_re_ib_init(rdev);
-497158aa5f520d Selvin Xavier      2018-02-26  2162  	if (rc) {
-6d758147c7b80a Ajit Khaparde      2022-10-14  2163  		pr_err("Failed to register with IB: %s",
-6d758147c7b80a Ajit Khaparde      2022-10-14  2164  			aux_priv->aux_dev.name);
-6d758147c7b80a Ajit Khaparde      2022-10-14  2165  		goto re_dev_uninit;
-3cae58047c1343 Jason Gunthorpe    2020-03-13  2166  	}
-3cae58047c1343 Jason Gunthorpe    2020-03-13  2167  
-94a9dc6ac8f7e6 Selvin Xavier      2024-09-10  2168  	bnxt_re_setup_cc(rdev, true);
-94a9dc6ac8f7e6 Selvin Xavier      2024-09-10  2169  
-6d758147c7b80a Ajit Khaparde      2022-10-14  2170  	return 0;
-3cae58047c1343 Jason Gunthorpe    2020-03-13  2171  
-a5e099e0c464ac Kalesh AP          2024-10-08 @2172  re_dev_unreg:
-a5e099e0c464ac Kalesh AP          2024-10-08  2173  	ib_unregister_device(&rdev->ibdev);
-6d758147c7b80a Ajit Khaparde      2022-10-14  2174  re_dev_uninit:
-dee3da3422d5e8 Chandramohan Akula 2024-09-10  2175  	bnxt_re_update_en_info_rdev(NULL, en_info, adev);
-cc5b9b48d44756 Selvin Xavier      2024-09-10  2176  	bnxt_re_dev_uninit(rdev, BNXT_RE_COMPLETE_REMOVE);
-6d758147c7b80a Ajit Khaparde      2022-10-14  2177  re_dev_dealloc:
-6d758147c7b80a Ajit Khaparde      2022-10-14  2178  	ib_dealloc_device(&rdev->ibdev);
-a6c66d6a08b88c Selvin Xavier      2018-11-21  2179  exit:
-6d758147c7b80a Ajit Khaparde      2022-10-14  2180  	return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  2181  }
-1ac5a404797523 Selvin Xavier      2017-02-10  2182  
-
-:::::: The code at line 2172 was first introduced by commit
-:::::: a5e099e0c464ac3d077339f481981e0d859b8545 RDMA/bnxt_re: Fix an error path in bnxt_re_add_device
-
-:::::: TO: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+    32	
+    33	/*
+    34	 * This list is kept in the same order as include/uapi/asm-generic/unistd.h.
+    35	 * Architecture specific entries go below, followed by deprecated or obsolete
+    36	 * system calls.
+    37	 */
+    38	
+    39	COND_SYSCALL(io_setup);
+    40	COND_SYSCALL_COMPAT(io_setup);
+    41	COND_SYSCALL(io_destroy);
+    42	COND_SYSCALL(io_submit);
+    43	COND_SYSCALL_COMPAT(io_submit);
+    44	COND_SYSCALL(io_cancel);
+    45	COND_SYSCALL(io_getevents_time32);
+    46	COND_SYSCALL(io_getevents);
+    47	COND_SYSCALL(io_pgetevents_time32);
+    48	COND_SYSCALL(io_pgetevents);
+    49	COND_SYSCALL_COMPAT(io_pgetevents);
+  > 50	COND_SYSCALL_COMPAT(io_pgetevents_time64);
+    51	COND_SYSCALL(io_uring_setup);
+    52	COND_SYSCALL(io_uring_enter);
+    53	COND_SYSCALL(io_uring_register);
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
