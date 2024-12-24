@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6E51AF0D5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 11:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5880B186E2E;
+	Tue, 24 Dec 2024 11:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735039069; cv=none; b=QHC2jm9dZPP0ObKw6QJS4bqYLd8EAnFsKqtqgYG/uM95/gUjqNidvmf2sbiAtnmW0z26SxRcIAGu1Kb0fLmVeqj1AgDx+FXFD4AAUWyBnjXl1T9wRK4WgH2t+XDupelJ8YJKumnW7ngB43juWEajGeVUlLhpfs53FeIuoacDReE=
+	t=1735040279; cv=none; b=bs/hAfLb5QfqABEoVczjwMvdZfhp2jr7JRkElF3cgEGwjAi6CrqYxiPgTWuatMwk6cAkKdFn65T2zjmUDUM10sORvUkTCvIhmEE8+Yiub8EosMJSdlM20naOTLNiQlyTJZekzpVn4QN+q+7B35X3WTw5fEwnl9bIkCewizTKKn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735039069; c=relaxed/simple;
-	bh=msuPqg8/cBIIf6QkTVjrmVN8/U7rspEdBGTJQ4lxrFw=;
+	s=arc-20240116; t=1735040279; c=relaxed/simple;
+	bh=68/cEVqw2SOMT3xE43jcP4BOXX7t1nwfHrakGr97uwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n9PDKkhbPnMYZj5DdZczKNxm00xGde+pLG2VSqvihEKWs0CaSz6zd6+GigbruqF9w51zdg4W821TDJD7Yc+WcdvYsEbvU1iadGRBhBTIKUhgd+YYPia1x6pWzz0+JZ1HQ0chGcqcTnrC0jVKLVwdlQ6j64wdf7Obqzfm2Pex1Sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LyII+C7f; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=POSEbCUVA+ScrsjZecybFOY9e1+uC0g/UJNVQdwACcrL+114rNOCySEA7gRwdOWdzRdUWRBlnHnlAzPWJ0fum3m/3EvRbEKcBuD+3BZIyNSUACHCW1fKOKXMWesN3Rcg9CR3z9T//TOIG1lj8xyGoL5tnLUf48CxF3tmvDZ3XUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGzEUQoM; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyII+C7f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGzEUQoM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735039069; x=1766575069;
+  t=1735040278; x=1766576278;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=msuPqg8/cBIIf6QkTVjrmVN8/U7rspEdBGTJQ4lxrFw=;
-  b=LyII+C7f076LIYIzM8DpT+6UWkzQkk6tAXMzcvKmXpWQa7fwhxxNqkXV
-   07xJx+TcZWIuDZh/0u05p1Q3ffjG64CW0Q4cFaXmtP12bPKuavcWlkpph
-   mXDX1Ev2OqjBWi2bf1ThJyX4IM0z+Tso+Byg4ra/GkO706E4+kASAmf5j
-   AaVXlyg3Vc+19WZvPJEZRLwgcy9f4R0oV0VUWlSlJa/pr4k+sHVKpiDgz
-   wmJzJQcxMFIRplb+aReE3IOD+SUv54mQnt0N7wJrLi0gO85OB5pJG7W75
-   LM/qeLIif+UFnlYdIMLTnCz6dTqFLe2w+PyD30CkKRnnk0mE7drj8KEkx
-   A==;
-X-CSE-ConnectionGUID: rCjVVQbfTdWPfS2eCsn79A==
-X-CSE-MsgGUID: JEDvi3AaQlePw7HnwhTZdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="57971989"
+  bh=68/cEVqw2SOMT3xE43jcP4BOXX7t1nwfHrakGr97uwM=;
+  b=bGzEUQoMSK4H7+bX67FWAzzHedJBmxxfi865RW4IZ1JwLErgZvYsLuWk
+   8AOjQHqwRACXzPS/sLGHYXXBCm0NEJbOK4uu87u4RZALoUHcDGqDWimiX
+   RZBn8IhCcE8TM2oe+qrn6QeG3oix2EjMRt7/SkKB/MlD/2zVBZKiCSG56
+   7fFw3l3tEZ/Woo3P3JD0VhOw8OrucdkDs/Rs288moAXMGRiEVYcBY43jW
+   34OD0/iXEWvoxzBHSFzBnrD5ZrlV7PYQGS0Eowg9q2dKiSJ4Uvp/lcubx
+   CMLwBsadb3nXta2I8HzQR9I/2QEtQAO09q3/hSULIl4ZhTrYxUd6yxVcs
+   g==;
+X-CSE-ConnectionGUID: 0D7TJ93eQZus8JY2+lJAYQ==
+X-CSE-MsgGUID: V9QSSi7QRq+RIJ1HHsnQvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="46515399"
 X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; 
-   d="scan'208";a="57971989"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 03:17:48 -0800
-X-CSE-ConnectionGUID: lx0yfF0CQ2imJeE/asU5xw==
-X-CSE-MsgGUID: rEAoVJWPT+qpRITqvShPVw==
+   d="scan'208";a="46515399"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 03:37:50 -0800
+X-CSE-ConnectionGUID: ZOx2Ts7ESp6Kv6p1VIqUfg==
+X-CSE-MsgGUID: xNmQ59L0Rh2ZJNkZKfG5aw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; 
-   d="scan'208";a="99989016"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="99339281"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Dec 2024 03:17:46 -0800
+  by orviesa010.jf.intel.com with ESMTP; 24 Dec 2024 03:37:48 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQ2v2-00013A-0A;
-	Tue, 24 Dec 2024 11:17:44 +0000
-Date: Tue, 24 Dec 2024 19:16:35 +0800
+	id 1tQ3EP-00013y-2G;
+	Tue, 24 Dec 2024 11:37:45 +0000
+Date: Tue, 24 Dec 2024 19:37:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Brian Norris <briannorris@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>
 Subject: [driver-core:driver-core-testing 29/29]
- include/kunit/platform_device.h:15:57: warning: 'struct completion' declared
- inside parameter list will not be visible outside of this definition or
- declaration
-Message-ID: <202412241958.dbAImJsA-lkp@intel.com>
+ include/kunit/platform_device.h:15:15: warning: declaration of 'struct
+ completion' will not be visible outside of this function
+Message-ID: <202412241917.orLfjA92-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,21 +69,22 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git driver-core-testing
 head:   86a5f32ed8813d5534d3d6c77aad29184a9f99b6
 commit: 86a5f32ed8813d5534d3d6c77aad29184a9f99b6 [29/29] drivers: base: test: Add ...find_device_by...(... NULL) tests
-config: arc-randconfig-002-20241224 (https://download.01.org/0day-ci/archive/20241224/202412241958.dbAImJsA-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412241958.dbAImJsA-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20241224 (https://download.01.org/0day-ci/archive/20241224/202412241917.orLfjA92-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412241917.orLfjA92-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412241958.dbAImJsA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412241917.orLfjA92-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
    In file included from drivers/base/test/platform-device-test.c:3:
->> include/kunit/platform_device.h:15:57: warning: 'struct completion' declared inside parameter list will not be visible outside of this definition or declaration
+>> include/kunit/platform_device.h:15:15: warning: declaration of 'struct completion' will not be visible outside of this function [-Wvisibility]
       15 |                                                  struct completion *x);
-         |                                                         ^~~~~~~~~~
+         |                                                         ^
+   1 warning generated.
 
 
 vim +15 include/kunit/platform_device.h
