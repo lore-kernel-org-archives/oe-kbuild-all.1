@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D85D8BFF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 22:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58058212D60;
+	Tue, 24 Dec 2024 23:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735078822; cv=none; b=lcGxwc5B1mM+NlHJ9ClO+eo8rZhVbi1VmEKisxQHKsFBhAST/81jmGWFiVaLZmm+AtJciOD2nN/ifccI6iz6S0fkEgd7XTa79wzwcNpqgQkiJkv8GHbhIoIZNqztBuXhPJKY5UGShCfL73NBFYrzFWyNc1/1yG0d6cFqABRvA0Q=
+	t=1735083271; cv=none; b=cBFqIlOk8k9nCbew+NWNRKqOhJhS0+r709mZpT3owGona/kCpfwCRTE/qXJvbVBH4xYRx70vCwzuEIrYMjtDLykS/LvEYF4uMq8JE/MmuHGrumeJ/Sk3ThfZS/tk4eP5FbKNNwNnsZQAIk8KJotanKmiJJowm8Ma3HD/vzJC5x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735078822; c=relaxed/simple;
-	bh=UuN2DF6bPMBMl5012ntZ9y43KDdx8sUe+ijQVuznNR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=haDIKt+b+riEPVrn7tk7LvZziEHEcHPXYT00GIzDvWv9GtUgLflhDOmWaInF1C5pIxFrrLfmpYwhV5qNaGi5I1DApjVl0TdBuJywz4nKFiP3WGM5GNcxXJusoaP45JccaqFWEVIqFCqUwnVgx6IiJcpxIh72hkCcwylYPFc4TUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IFugUr+G; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1735083271; c=relaxed/simple;
+	bh=YcX2ncLPxYqtSquQR7sTFscPhSUP9EFkasX0QohzZyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q3WN2hXrtv5HP1/1oOT4V/Bgx52O2ay+kXpV/AeF5YSaPxxt/vP1NkY9Cb4Pzb3HE1XcTB3bsqzM0jJxfQKtkCSs6UiLHaAu8WeKNTmQsRABTRk6ST0pstBCZiZevGrdI3bhGDdLgyocIuttbO90MHjqERobNEiStXvgwa+h4XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+uhUv8W; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IFugUr+G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+uhUv8W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735078821; x=1766614821;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UuN2DF6bPMBMl5012ntZ9y43KDdx8sUe+ijQVuznNR0=;
-  b=IFugUr+GSBeaN8YAOioINqqiQ5+X/twqC1IUcLuJHTL/VivX0kOQYdLZ
-   ZDR3HgU9LUUZJF+lWIm5VhW5Voe3tl7py5KgufYD2/9WlcbPWyGJse8uN
-   RfqyjyiiBwEVCw8wQ4ceSi1XABBDl4bDkvId4Cvf5wmbTFRN0gaO/YpVg
-   gU/O4TbxXktMaHP96Qkl32QP0HVgRQi/Rjmw1B/WQyyEAcps3msGDsZPy
-   96Ad8ETlOzs5A/qYCq1YtUbVTeSwYScxqdr6gpUMasGW/g0gMzZnIrr46
-   yMSzLhp71A71t7r5AnYUAMIIk7VQVBL51srn9dynvTDSvAkp1ruNmibc3
-   Q==;
-X-CSE-ConnectionGUID: Tz9vABmORDCbNm41OnLS0Q==
-X-CSE-MsgGUID: aa9mB4TlQoWHqErx/jIyzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35255247"
+  t=1735083269; x=1766619269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YcX2ncLPxYqtSquQR7sTFscPhSUP9EFkasX0QohzZyw=;
+  b=Z+uhUv8WfdBFd6gBlV3Azd1vEuV1AZ5FuM0GOaFWMXRIF5c7QWIdefYw
+   y+LGf5wMjkHwLeW8ylMhJHdHgk1PSV2+DDT7HxD4f+60S+xCkaqMR7R26
+   QBSIgwMAXF2MAZZPHt60DM/DXbbBlOpnVxScyqYfpEgBCZCcgTds1n8Ok
+   OGIAmmj+DRhuWErTYMj5EVQ9m/KVGAexkXFZ5gUGH3okk4ftQSXBy9o26
+   s9WcLjTucVxeSuAwfRGGPYYNlksn7ZKlsvO96UTpOxn+jyK1E3UBjrz83
+   EZOyTTCd1O9Lp81LqEDe72NfanPJbuG/i7TVfD5Mqpl8aUgyepnz6U/nI
+   w==;
+X-CSE-ConnectionGUID: zV9BWHSgQ3awpWqPFaXDyA==
+X-CSE-MsgGUID: IRH6NMPvR4KhVfGirSphxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35666609"
 X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="35255247"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 14:20:20 -0800
-X-CSE-ConnectionGUID: SVUjUXE4QSOWH2Eo6UfuvQ==
-X-CSE-MsgGUID: inzbWenRTr+so364zw08Ow==
+   d="scan'208";a="35666609"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 15:34:29 -0800
+X-CSE-ConnectionGUID: qGB9eT7LRHaBVTor91LYvQ==
+X-CSE-MsgGUID: 7+Y8jl4KTa+zdQR9fHs2tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="136895855"
+   d="scan'208";a="100057210"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Dec 2024 14:20:18 -0800
+  by orviesa007.jf.intel.com with ESMTP; 24 Dec 2024 15:34:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQDGC-0001V9-0v;
-	Tue, 24 Dec 2024 22:20:16 +0000
-Date: Wed, 25 Dec 2024 06:19:46 +0800
+	id 1tQEPu-0001X1-2j;
+	Tue, 24 Dec 2024 23:34:22 +0000
+Date: Wed, 25 Dec 2024 07:34:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 1/1]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202412250654.fb2G6Ueq-lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v7 17/18] nvmet: New NVMe PCI endpoint function target
+ driver
+Message-ID: <202412250700.WqUH4KaL-lkp@intel.com>
+References: <20241220095108.601914-18-dlemoal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +72,250 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241220095108.601914-18-dlemoal@kernel.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   bfccc4c02e9504d06c416da7e28db91acfdf722a
-commit: d12ce074f07af731469654848640ecf4b424ec81 [1/1] Reapply "CHROMIUM: arm64: dts: mt8186: Add corsola-squirtle board"
-config: arm64-randconfig-053-20241214 (https://download.01.org/0day-ci/archive/20241225/202412250654.fb2G6Ueq-lkp@intel.com/config)
+Hi Damien,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/nvme-Move-opcode-string-helper-functions-declarations/20241220-175304
+base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+patch link:    https://lore.kernel.org/r/20241220095108.601914-18-dlemoal%40kernel.org
+patch subject: [PATCH v7 17/18] nvmet: New NVMe PCI endpoint function target driver
+config: i386-randconfig-011-20241225 (https://download.01.org/0day-ci/archive/20241225/202412250700.WqUH4KaL-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250654.fb2G6Ueq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250700.WqUH4KaL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412250654.fb2G6Ueq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412250700.WqUH4KaL-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2203.30-2207.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2209.23-2213.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2215.35-2219.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2195.32-2312.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,squirtle', 'mediatek,mt8186'] is too short
-   	'google,squirtle' is not one of ['mediatek,mt2701-evb']
-   	'google,squirtle' is not one of ['mediatek,mt2712-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6580-evbp1']
-   	'google,squirtle' is not one of ['prestigio,pmt5008-3g']
-   	'google,squirtle' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,squirtle' is not one of ['mediatek,mt6592-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6755-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6765-evb']
-   	'google,squirtle' is not one of ['mediatek,mt6779-evb']
---
-   	'google,hayato-sku2' was expected
-   	'google,spherion-rev2' was expected
-   	'google,spherion' was expected
-   	'mediatek,mt8192' was expected
-   	'google,tomato' was expected
-   	'google,tomato-rev3' was expected
-   	'mediatek,mt8195' was expected
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /: failed to match any schema with compatible: ['google,squirtle', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible:0: 'mediatek,mt6315-regulator' was expected
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: pmic@6: compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator'] is too long
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spmi@10015000/pmic@6: failed to match any schema with compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: touchscreen@16: reg:0:0: 16 was expected
-   	from schema $id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: trackpad@68: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/i2c@11016000/codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts-legacy']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: jpeg-encoder@17030000: iommus: [[125, 233], [125, 234], [125, 235], [125, 236]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: thermal-zones: 'adsp', 'cam', 'cpu_big0', 'cpu_big1', 'cpu_zone0', 'cpu_zone1', 'cpu_zone2', 'mfg', 'nna', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/nvme/target/pci-epf.c:12:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/nvme/target/pci-epf.c:1854:19: warning: shift count is negative [-Wshift-count-negative]
+    1854 |         pci_addr = acq & GENMASK(63, 12);
+         |                          ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:9:19: note: expanded from macro '__GENMASK'
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/target/pci-epf.c:1864:19: warning: shift count is negative [-Wshift-count-negative]
+    1864 |         pci_addr = asq & GENMASK(63, 12);
+         |                          ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:9:19: note: expanded from macro '__GENMASK'
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/nvme/target/pci-epf.c:1961:16: warning: shift count >= width of type [-Wshift-count-overflow]
+    1961 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:8:31: note: expanded from macro '__GENMASK'
+       8 |         (((~_UL(0)) - (_UL(1) << (l)) + 1) & \
+         |                               ^  ~~~
+   drivers/nvme/target/pci-epf.c:1961:16: warning: shift count is negative [-Wshift-count-negative]
+    1961 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:9:19: note: expanded from macro '__GENMASK'
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/target/pci-epf.c:753:19: warning: unused function 'nvmet_pci_epf_prp_addr' [-Wunused-function]
+     753 | static inline u64 nvmet_pci_epf_prp_addr(struct nvmet_pci_epf_ctrl *ctrl,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+   6 warnings generated.
+
+
+vim +1854 drivers/nvme/target/pci-epf.c
+
+  1817	
+  1818	static int nvmet_pci_epf_enable_ctrl(struct nvmet_pci_epf_ctrl *ctrl)
+  1819	{
+  1820		u64 pci_addr, asq, acq;
+  1821		u32 aqa;
+  1822		u16 status, qsize;
+  1823	
+  1824		if (ctrl->enabled)
+  1825			return 0;
+  1826	
+  1827		dev_info(ctrl->dev, "Enabling controller\n");
+  1828	
+  1829		ctrl->mps_shift = nvmet_cc_mps(ctrl->cc) + 12;
+  1830		ctrl->mps = 1UL << ctrl->mps_shift;
+  1831		ctrl->mps_mask = ctrl->mps - 1;
+  1832	
+  1833		ctrl->io_sqes = 1UL << nvmet_cc_iosqes(ctrl->cc);
+  1834		ctrl->io_cqes = 1UL << nvmet_cc_iocqes(ctrl->cc);
+  1835	
+  1836		if (ctrl->io_sqes < sizeof(struct nvme_command)) {
+  1837			dev_err(ctrl->dev, "Unsupported IO SQES %zu (need %zu)\n",
+  1838				ctrl->io_sqes, sizeof(struct nvme_command));
+  1839			return -EINVAL;
+  1840		}
+  1841	
+  1842		if (ctrl->io_cqes < sizeof(struct nvme_completion)) {
+  1843			dev_err(ctrl->dev, "Unsupported IO CQES %zu (need %zu)\n",
+  1844				ctrl->io_sqes, sizeof(struct nvme_completion));
+  1845			return -EINVAL;
+  1846		}
+  1847	
+  1848		/* Create the admin queue. */
+  1849		aqa = nvmet_pci_epf_bar_read32(ctrl, NVME_REG_AQA);
+  1850		asq = nvmet_pci_epf_bar_read64(ctrl, NVME_REG_ASQ);
+  1851		acq = nvmet_pci_epf_bar_read64(ctrl, NVME_REG_ACQ);
+  1852	
+  1853		qsize = (aqa & 0x0fff0000) >> 16;
+> 1854		pci_addr = acq & GENMASK(63, 12);
+  1855		status = nvmet_pci_epf_create_cq(ctrl->tctrl, 0,
+  1856					NVME_CQ_IRQ_ENABLED | NVME_QUEUE_PHYS_CONTIG,
+  1857					qsize, pci_addr, 0);
+  1858		if (status != NVME_SC_SUCCESS) {
+  1859			dev_err(ctrl->dev, "Failed to create admin completion queue\n");
+  1860			return -EINVAL;
+  1861		}
+  1862	
+  1863		qsize = aqa & 0x00000fff;
+  1864		pci_addr = asq & GENMASK(63, 12);
+  1865		status = nvmet_pci_epf_create_sq(ctrl->tctrl, 0, NVME_QUEUE_PHYS_CONTIG,
+  1866						 qsize, pci_addr);
+  1867		if (status != NVME_SC_SUCCESS) {
+  1868			dev_err(ctrl->dev, "Failed to create admin submission queue\n");
+  1869			nvmet_pci_epf_delete_cq(ctrl->tctrl, 0);
+  1870			return -EINVAL;
+  1871		}
+  1872	
+  1873		ctrl->sq_ab = NVMET_PCI_EPF_SQ_AB;
+  1874		ctrl->irq_vector_threshold = NVMET_PCI_EPF_IV_THRESHOLD;
+  1875		ctrl->enabled = true;
+  1876	
+  1877		/* Start polling the controller SQs */
+  1878		schedule_delayed_work(&ctrl->poll_sqs, 0);
+  1879	
+  1880		return 0;
+  1881	}
+  1882	
+  1883	static void nvmet_pci_epf_disable_ctrl(struct nvmet_pci_epf_ctrl *ctrl)
+  1884	{
+  1885		int qid;
+  1886	
+  1887		if (!ctrl->enabled)
+  1888			return;
+  1889	
+  1890		dev_info(ctrl->dev, "Disabling controller\n");
+  1891	
+  1892		ctrl->enabled = false;
+  1893		cancel_delayed_work_sync(&ctrl->poll_sqs);
+  1894	
+  1895		/* Delete all IO queues */
+  1896		for (qid = 1; qid < ctrl->nr_queues; qid++)
+  1897			nvmet_pci_epf_delete_sq(ctrl->tctrl, qid);
+  1898	
+  1899		for (qid = 1; qid < ctrl->nr_queues; qid++)
+  1900			nvmet_pci_epf_delete_cq(ctrl->tctrl, qid);
+  1901	
+  1902		/* Delete the admin queue last */
+  1903		nvmet_pci_epf_delete_sq(ctrl->tctrl, 0);
+  1904		nvmet_pci_epf_delete_cq(ctrl->tctrl, 0);
+  1905	}
+  1906	
+  1907	static void nvmet_pci_epf_poll_cc_work(struct work_struct *work)
+  1908	{
+  1909		struct nvmet_pci_epf_ctrl *ctrl =
+  1910			container_of(work, struct nvmet_pci_epf_ctrl, poll_cc.work);
+  1911		u32 old_cc, new_cc;
+  1912		int ret;
+  1913	
+  1914		if (!ctrl->tctrl)
+  1915			return;
+  1916	
+  1917		old_cc = ctrl->cc;
+  1918		new_cc = nvmet_pci_epf_bar_read32(ctrl, NVME_REG_CC);
+  1919		ctrl->cc = new_cc;
+  1920	
+  1921		if (nvmet_cc_en(new_cc) && !nvmet_cc_en(old_cc)) {
+  1922			/* Enable the controller */
+  1923			ret = nvmet_pci_epf_enable_ctrl(ctrl);
+  1924			if (ret)
+  1925				return;
+  1926			ctrl->csts |= NVME_CSTS_RDY;
+  1927		}
+  1928	
+  1929		if (!nvmet_cc_en(new_cc) && nvmet_cc_en(old_cc)) {
+  1930			nvmet_pci_epf_disable_ctrl(ctrl);
+  1931			ctrl->csts &= ~NVME_CSTS_RDY;
+  1932		}
+  1933	
+  1934		if (nvmet_cc_shn(new_cc) && !nvmet_cc_shn(old_cc)) {
+  1935			nvmet_pci_epf_disable_ctrl(ctrl);
+  1936			ctrl->csts |= NVME_CSTS_SHST_CMPLT;
+  1937		}
+  1938	
+  1939		if (!nvmet_cc_shn(new_cc) && nvmet_cc_shn(old_cc))
+  1940			ctrl->csts &= ~NVME_CSTS_SHST_CMPLT;
+  1941	
+  1942		nvmet_update_cc(ctrl->tctrl, ctrl->cc);
+  1943		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_CSTS, ctrl->csts);
+  1944	
+  1945		schedule_delayed_work(&ctrl->poll_cc, NVMET_PCI_EPF_CC_POLL_INTERVAL);
+  1946	}
+  1947	
+  1948	static void nvmet_pci_epf_init_bar(struct nvmet_pci_epf_ctrl *ctrl)
+  1949	{
+  1950		struct nvmet_ctrl *tctrl = ctrl->tctrl;
+  1951	
+  1952		ctrl->bar = ctrl->nvme_epf->reg_bar;
+  1953	
+  1954		/* Copy the target controller capabilities as a base */
+  1955		ctrl->cap = tctrl->cap;
+  1956	
+  1957		/* Contiguous Queues Required (CQR) */
+  1958		ctrl->cap |= 0x1ULL << 16;
+  1959	
+  1960		/* Set Doorbell stride to 4B (DSTRB) */
+> 1961		ctrl->cap &= ~GENMASK(35, 32);
+  1962	
+  1963		/* Clear NVM Subsystem Reset Supported (NSSRS) */
+  1964		ctrl->cap &= ~(0x1ULL << 36);
+  1965	
+  1966		/* Clear Boot Partition Support (BPS) */
+  1967		ctrl->cap &= ~(0x1ULL << 45);
+  1968	
+  1969		/* Clear Persistent Memory Region Supported (PMRS) */
+  1970		ctrl->cap &= ~(0x1ULL << 56);
+  1971	
+  1972		/* Clear Controller Memory Buffer Supported (CMBS) */
+  1973		ctrl->cap &= ~(0x1ULL << 57);
+  1974	
+  1975		/* Controller configuration */
+  1976		ctrl->cc = tctrl->cc & (~NVME_CC_ENABLE);
+  1977	
+  1978		/* Controller status */
+  1979		ctrl->csts = ctrl->tctrl->csts;
+  1980	
+  1981		nvmet_pci_epf_bar_write64(ctrl, NVME_REG_CAP, ctrl->cap);
+  1982		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_VS, tctrl->subsys->ver);
+  1983		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_CSTS, ctrl->csts);
+  1984		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_CC, ctrl->cc);
+  1985	}
+  1986	
 
 -- 
 0-DAY CI Kernel Test Service
