@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1629186E2E;
-	Tue, 24 Dec 2024 11:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6E51AF0D5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Dec 2024 11:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735039012; cv=none; b=kxj/kLBYXwlPomKpPQkATW+Fj9OPyRpzVhceplBtpA0cDqM0i42HQrg5mcu0VGQ+u3xdri5+FFQhGPc9sjVHebbhjphp9R35ynZpYDCgvHoAQHKHje+IqsmMIjBgswZtMs5z2JxbO4jP+8fnqKo12eTZXlaizzHjrcc+EwGhLOc=
+	t=1735039069; cv=none; b=QHC2jm9dZPP0ObKw6QJS4bqYLd8EAnFsKqtqgYG/uM95/gUjqNidvmf2sbiAtnmW0z26SxRcIAGu1Kb0fLmVeqj1AgDx+FXFD4AAUWyBnjXl1T9wRK4WgH2t+XDupelJ8YJKumnW7ngB43juWEajGeVUlLhpfs53FeIuoacDReE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735039012; c=relaxed/simple;
-	bh=2HOtRseGtjMgLatc222DdK/RSeKWMNOgUbwMHw26haI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jDM7DwCJIqJTuJGJWZfCgpCAXR5HfVYOFVmM/KEjP+Z6bEG9J+Im7kcFTun4JAoUvsLgEfdBHbMaeOLoXPAExwuwyJ5l0ETrH3kgj/qi6xNx6DRTceb5/9zaud+CA+YOFhCYQJcubXpcadyuPiZDt69LeRKEsx45wu1oCkCl6no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ykbq/HtH; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1735039069; c=relaxed/simple;
+	bh=msuPqg8/cBIIf6QkTVjrmVN8/U7rspEdBGTJQ4lxrFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n9PDKkhbPnMYZj5DdZczKNxm00xGde+pLG2VSqvihEKWs0CaSz6zd6+GigbruqF9w51zdg4W821TDJD7Yc+WcdvYsEbvU1iadGRBhBTIKUhgd+YYPia1x6pWzz0+JZ1HQ0chGcqcTnrC0jVKLVwdlQ6j64wdf7Obqzfm2Pex1Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LyII+C7f; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ykbq/HtH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyII+C7f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735039010; x=1766575010;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2HOtRseGtjMgLatc222DdK/RSeKWMNOgUbwMHw26haI=;
-  b=Ykbq/HtH49qieSOvGaDNEwumUOtfmBAbGAnWir/gsFPI5H+r9XsQKEe7
-   69O5KDCpC1th/W65ApTnupxKuDUz9mXlnpb8ycbowgL7CUtEEgbTrr6J7
-   cvEssXTTjQe6f5R30TTKxpOXjc3LBu84ejMmEX9v4x1ogzrwoutCHKqAe
-   R2ErZEogrPEGD5FNfD5RDa+gGPXkL7JpsY3HCKg1wejUtNPUqfxLisKpS
-   oChKIP9G+s0UPaH1vU7QEDDHNWxVz4prCA9xRbMBd0329aYw+1/HdCjtt
-   7AzzyDxCslCBEr5QD7ZLk84K4zOByB9kBQhhsn9+7KGLEFaBAqtH1Rq/4
-   w==;
-X-CSE-ConnectionGUID: Q7JUyWzrQbirzu0ueg2LXA==
-X-CSE-MsgGUID: de9N0Y7FTwqOBWf7dgGbSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="46884790"
+  t=1735039069; x=1766575069;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=msuPqg8/cBIIf6QkTVjrmVN8/U7rspEdBGTJQ4lxrFw=;
+  b=LyII+C7f076LIYIzM8DpT+6UWkzQkk6tAXMzcvKmXpWQa7fwhxxNqkXV
+   07xJx+TcZWIuDZh/0u05p1Q3ffjG64CW0Q4cFaXmtP12bPKuavcWlkpph
+   mXDX1Ev2OqjBWi2bf1ThJyX4IM0z+Tso+Byg4ra/GkO706E4+kASAmf5j
+   AaVXlyg3Vc+19WZvPJEZRLwgcy9f4R0oV0VUWlSlJa/pr4k+sHVKpiDgz
+   wmJzJQcxMFIRplb+aReE3IOD+SUv54mQnt0N7wJrLi0gO85OB5pJG7W75
+   LM/qeLIif+UFnlYdIMLTnCz6dTqFLe2w+PyD30CkKRnnk0mE7drj8KEkx
+   A==;
+X-CSE-ConnectionGUID: rCjVVQbfTdWPfS2eCsn79A==
+X-CSE-MsgGUID: JEDvi3AaQlePw7HnwhTZdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="57971989"
 X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; 
-   d="scan'208";a="46884790"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 03:16:50 -0800
-X-CSE-ConnectionGUID: xKlOAgGST+GcPYTapvhgSw==
-X-CSE-MsgGUID: XtiGmS6TTqm0rSpiKdWyIg==
+   d="scan'208";a="57971989"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 03:17:48 -0800
+X-CSE-ConnectionGUID: lx0yfF0CQ2imJeE/asU5xw==
+X-CSE-MsgGUID: rEAoVJWPT+qpRITqvShPVw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100292714"
+X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; 
+   d="scan'208";a="99989016"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Dec 2024 03:16:47 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 24 Dec 2024 03:17:46 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQ2u3-000131-2j;
-	Tue, 24 Dec 2024 11:16:43 +0000
-Date: Tue, 24 Dec 2024 19:16:09 +0800
+	id 1tQ2v2-00013A-0A;
+	Tue, 24 Dec 2024 11:17:44 +0000
+Date: Tue, 24 Dec 2024 19:16:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jammy Huang <jammy_huang@aspeedtech.com>, tzimmermann@suse.de,
-	jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, airlied@redhat.com, airlied@gmail.com,
-	daniel@ffwll.ch
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/ast: Support timings, 1280x720/1280x960/1600x900
-Message-ID: <202412241827.pakDEV5a-lkp@intel.com>
-References: <20241224025430.3773224-1-jammy_huang@aspeedtech.com>
+To: Brian Norris <briannorris@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>
+Subject: [driver-core:driver-core-testing 29/29]
+ include/kunit/platform_device.h:15:57: warning: 'struct completion' declared
+ inside parameter list will not be visible outside of this definition or
+ declaration
+Message-ID: <202412241958.dbAImJsA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,170 +65,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241224025430.3773224-1-jammy_huang@aspeedtech.com>
 
-Hi Jammy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4bbf9020becbfd8fc2c3da790855b7042fad455b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jammy-Huang/drm-ast-Support-timings-1280x720-1280x960-1600x900/20241224-105552
-base:   4bbf9020becbfd8fc2c3da790855b7042fad455b
-patch link:    https://lore.kernel.org/r/20241224025430.3773224-1-jammy_huang%40aspeedtech.com
-patch subject: [PATCH v2] drm/ast: Support timings, 1280x720/1280x960/1600x900
-config: powerpc-randconfig-001-20241224 (https://download.01.org/0day-ci/archive/20241224/202412241827.pakDEV5a-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412241827.pakDEV5a-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git driver-core-testing
+head:   86a5f32ed8813d5534d3d6c77aad29184a9f99b6
+commit: 86a5f32ed8813d5534d3d6c77aad29184a9f99b6 [29/29] drivers: base: test: Add ...find_device_by...(... NULL) tests
+config: arc-randconfig-002-20241224 (https://download.01.org/0day-ci/archive/20241224/202412241958.dbAImJsA-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412241958.dbAImJsA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412241827.pakDEV5a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412241958.dbAImJsA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/ast/ast_mode.c:150:12: error: use of undeclared identifier 'crtc'
-                   else if (crtc->mode.crtc_vdisplay == 720)
-                            ^
-   drivers/gpu/drm/ast/ast_mode.c:152:12: error: use of undeclared identifier 'crtc'
-                   else if (crtc->mode.crtc_vdisplay == 960)
-                            ^
-   2 errors generated.
+   In file included from drivers/base/test/platform-device-test.c:3:
+>> include/kunit/platform_device.h:15:57: warning: 'struct completion' declared inside parameter list will not be visible outside of this definition or declaration
+      15 |                                                  struct completion *x);
+         |                                                         ^~~~~~~~~~
 
 
-vim +/crtc +150 drivers/gpu/drm/ast/ast_mode.c
+vim +15 include/kunit/platform_device.h
 
-   108	
-   109	static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
-   110					    const struct drm_display_mode *mode,
-   111					    struct drm_display_mode *adjusted_mode,
-   112					    struct ast_vbios_mode_info *vbios_mode)
-   113	{
-   114		u32 refresh_rate_index = 0, refresh_rate;
-   115		const struct ast_vbios_enhtable *best = NULL;
-   116		u32 hborder, vborder;
-   117		bool check_sync;
-   118	
-   119		switch (format->cpp[0] * 8) {
-   120		case 8:
-   121			vbios_mode->std_table = &vbios_stdtable[VGAModeIndex];
-   122			break;
-   123		case 16:
-   124			vbios_mode->std_table = &vbios_stdtable[HiCModeIndex];
-   125			break;
-   126		case 24:
-   127		case 32:
-   128			vbios_mode->std_table = &vbios_stdtable[TrueCModeIndex];
-   129			break;
-   130		default:
-   131			return false;
-   132		}
-   133	
-   134		switch (mode->crtc_hdisplay) {
-   135		case 640:
-   136			vbios_mode->enh_table = &res_640x480[refresh_rate_index];
-   137			break;
-   138		case 800:
-   139			vbios_mode->enh_table = &res_800x600[refresh_rate_index];
-   140			break;
-   141		case 1024:
-   142			vbios_mode->enh_table = &res_1024x768[refresh_rate_index];
-   143			break;
-   144		case 1152:
-   145			vbios_mode->enh_table = &res_1152x864[refresh_rate_index];
-   146			break;
-   147		case 1280:
-   148			if (mode->crtc_vdisplay == 800)
-   149				vbios_mode->enh_table = &res_1280x800[refresh_rate_index];
- > 150			else if (crtc->mode.crtc_vdisplay == 720)
-   151				vbios_mode->enh_table = &res_1280x720[refresh_rate_index];
-   152			else if (crtc->mode.crtc_vdisplay == 960)
-   153				vbios_mode->enh_table = &res_1280x960[refresh_rate_index];
-   154			else
-   155				vbios_mode->enh_table = &res_1280x1024[refresh_rate_index];
-   156			break;
-   157		case 1360:
-   158			vbios_mode->enh_table = &res_1360x768[refresh_rate_index];
-   159			break;
-   160		case 1440:
-   161			vbios_mode->enh_table = &res_1440x900[refresh_rate_index];
-   162			break;
-   163		case 1600:
-   164			if (mode->crtc_vdisplay == 900)
-   165				vbios_mode->enh_table = &res_1600x900[refresh_rate_index];
-   166			else
-   167				vbios_mode->enh_table = &res_1600x1200[refresh_rate_index];
-   168			break;
-   169		case 1680:
-   170			vbios_mode->enh_table = &res_1680x1050[refresh_rate_index];
-   171			break;
-   172		case 1920:
-   173			if (mode->crtc_vdisplay == 1080)
-   174				vbios_mode->enh_table = &res_1920x1080[refresh_rate_index];
-   175			else
-   176				vbios_mode->enh_table = &res_1920x1200[refresh_rate_index];
-   177			break;
-   178		default:
-   179			return false;
-   180		}
-   181	
-   182		refresh_rate = drm_mode_vrefresh(mode);
-   183		check_sync = vbios_mode->enh_table->flags & WideScreenMode;
-   184	
-   185		while (1) {
-   186			const struct ast_vbios_enhtable *loop = vbios_mode->enh_table;
-   187	
-   188			while (loop->refresh_rate != 0xff) {
-   189				if ((check_sync) &&
-   190				    (((mode->flags & DRM_MODE_FLAG_NVSYNC)  &&
-   191				      (loop->flags & PVSync))  ||
-   192				     ((mode->flags & DRM_MODE_FLAG_PVSYNC)  &&
-   193				      (loop->flags & NVSync))  ||
-   194				     ((mode->flags & DRM_MODE_FLAG_NHSYNC)  &&
-   195				      (loop->flags & PHSync))  ||
-   196				     ((mode->flags & DRM_MODE_FLAG_PHSYNC)  &&
-   197				      (loop->flags & NHSync)))) {
-   198					loop++;
-   199					continue;
-   200				}
-   201				if (loop->refresh_rate <= refresh_rate
-   202				    && (!best || loop->refresh_rate > best->refresh_rate))
-   203					best = loop;
-   204				loop++;
-   205			}
-   206			if (best || !check_sync)
-   207				break;
-   208			check_sync = 0;
-   209		}
-   210	
-   211		if (best)
-   212			vbios_mode->enh_table = best;
-   213	
-   214		hborder = (vbios_mode->enh_table->flags & HBorder) ? 8 : 0;
-   215		vborder = (vbios_mode->enh_table->flags & VBorder) ? 8 : 0;
-   216	
-   217		adjusted_mode->crtc_htotal = vbios_mode->enh_table->ht;
-   218		adjusted_mode->crtc_hblank_start = vbios_mode->enh_table->hde + hborder;
-   219		adjusted_mode->crtc_hblank_end = vbios_mode->enh_table->ht - hborder;
-   220		adjusted_mode->crtc_hsync_start = vbios_mode->enh_table->hde + hborder +
-   221			vbios_mode->enh_table->hfp;
-   222		adjusted_mode->crtc_hsync_end = (vbios_mode->enh_table->hde + hborder +
-   223						 vbios_mode->enh_table->hfp +
-   224						 vbios_mode->enh_table->hsync);
-   225	
-   226		adjusted_mode->crtc_vtotal = vbios_mode->enh_table->vt;
-   227		adjusted_mode->crtc_vblank_start = vbios_mode->enh_table->vde + vborder;
-   228		adjusted_mode->crtc_vblank_end = vbios_mode->enh_table->vt - vborder;
-   229		adjusted_mode->crtc_vsync_start = vbios_mode->enh_table->vde + vborder +
-   230			vbios_mode->enh_table->vfp;
-   231		adjusted_mode->crtc_vsync_end = (vbios_mode->enh_table->vde + vborder +
-   232						 vbios_mode->enh_table->vfp +
-   233						 vbios_mode->enh_table->vsync);
-   234	
-   235		return true;
-   236	}
-   237	
+5ac79730324c6f Stephen Boyd 2024-07-18  12  
+5ac79730324c6f Stephen Boyd 2024-07-18  13  int kunit_platform_device_prepare_wait_for_probe(struct kunit *test,
+5ac79730324c6f Stephen Boyd 2024-07-18  14  						 struct platform_device *pdev,
+5ac79730324c6f Stephen Boyd 2024-07-18 @15  						 struct completion *x);
+5ac79730324c6f Stephen Boyd 2024-07-18  16  
+
+:::::: The code at line 15 was first introduced by commit
+:::::: 5ac79730324c6f37106ce397586020ffe6e8e234 platform: Add test managed platform_device/driver APIs
+
+:::::: TO: Stephen Boyd <sboyd@kernel.org>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
