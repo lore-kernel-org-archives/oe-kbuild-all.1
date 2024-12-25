@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADCD1E502
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Dec 2024 14:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE451CA81
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Dec 2024 14:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735136898; cv=none; b=PS88vf+Aq7zKadp9jcGlv0PwSKbczEpuLpfA71hynxROd8S1xoZzidDZS2SxhKqi8di8/tA8kd4CMlTKzA8t3aDuAWJUx7RiyRD9P47JHdzlHr75uZxNEPCtY8cp0fWBl8AwMxkFCRAosoReY/HUl+ukcYzmYS5sJSsVCKa2Q4E=
+	t=1735138124; cv=none; b=Jf/pxH+tegjT8Qup/Oct48qsbiW+7bNgp6+crt9p5PXOIa5ZcGAKtlBTth/1m2WfM4mvM1tBdF5mZrVmI7L6yhp/2G/oN0PvcFYkaeKFai8urzpojn3qUnwsl+agbQCOLDrgQZwF5oMCZ88XaK+vEE9t6jV6c5YlqgX92fkRNsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735136898; c=relaxed/simple;
-	bh=+Hyk7e8dnHQSaMmgYQK7z9MCVkY75ybuaOUdke7rKzM=;
+	s=arc-20240116; t=1735138124; c=relaxed/simple;
+	bh=/6IhFL09r0Ql4XQzZZzR7nJpPj7cmYdTKqKLBPyiGu8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lTCPOJl4sbyz2dsErF3SumdufFv5BtJIzMitCQD1zwATu7LINpBMHzszK3hgnm4HLTEh0hALDzkGXymd3dkT15g9mCUigPBVB8qUTPZAW1gBItEAvcfsf+ufdWFZUcAIsDfuJ53RXnchGloAZ9GgbOMmCza0cDJefEPfNPqH64Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kc0JBFG6; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=VvfcOgSbGQ4neO3lGDWutC34ElwFL4mjlM3053PcS8+/hUut6uhCCITAh/NyEOV+BK8aBkcK9Odq0OO0H/wSBoDAm3h49VAfBq737KBVMcbHIptfjdT4U2nz6kRp+pBF8qTjUWEjIKmDIjVCXMPuXDlNV83PnF01APwVFWQ7+zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwycaM+D; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kc0JBFG6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwycaM+D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735136897; x=1766672897;
+  t=1735138123; x=1766674123;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Hyk7e8dnHQSaMmgYQK7z9MCVkY75ybuaOUdke7rKzM=;
-  b=Kc0JBFG6wfY2Spx1j0fzGaFdW2XJeCo5WY2rMruSTsIPGULfOUIWuf6R
-   FUxuTMgg75anREt2unKSbp6y8qUAoZ6lIYUidMNGzlhRwsKpXy7FkxfH9
-   OgZelR4f2cp+shBlg2WqXI2JV296/AW31q8bLrjEqMSIEMEOfWi304Yzt
-   nVH5kjkfJQ0xtWmC1MS5eDkseXDrv8A5360gJnVeLcjq/XcB7zxs3UNA7
-   9qE08NxgRJ/v7UCgPuD+wp6BXh+P6RhxoBdBm7D5lkf2A1t4wKFioRuoW
-   KdnvBZqqlR/kqm8elhTPN+/ShtO+Vl0FneIaQxn8SSmy6Lbjua4v6cUYs
-   A==;
-X-CSE-ConnectionGUID: RHd7NzstRQqT2+espk+UnQ==
-X-CSE-MsgGUID: Xm5skMW6Td2zBFYUd2I3jg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="52986566"
+  bh=/6IhFL09r0Ql4XQzZZzR7nJpPj7cmYdTKqKLBPyiGu8=;
+  b=PwycaM+DNfiM9HwWqVT7ntJWMpcz6T4vCbdYkYB8S6F07do0azy04268
+   6zJCTB6+kCSu7cWZvVWGKinfuv5VCfDU8P6ma837rdEw3jzZfGkwD2zP9
+   sXx9yjW4db7z225//wsSBNMVIB8m0H0Pnv1rAUSJ4vj9xkw942ne/S8CF
+   SHv+aUMsbVMOR1yQW9/fDtsZRgf61/mKSajVkfTq4NbLTEtMcbOvh7aYR
+   bPvCecob/i63ODX4HN7JxCae/v/RAZpzKjbuhVwyB2cXAWm8eYsQmGs9x
+   SJua+oyi0OgL80XK9EWajILQre7VhlbvHQosJpHFS/QBmw8uQKD6OFksw
+   g==;
+X-CSE-ConnectionGUID: 7BH6Tw8SQeaA6+g3sHLMxg==
+X-CSE-MsgGUID: X6mPRJ1ARC2ddnNwXw0ZfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="46584876"
 X-IronPort-AV: E=Sophos;i="6.12,263,1728975600"; 
-   d="scan'208";a="52986566"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 06:28:16 -0800
-X-CSE-ConnectionGUID: T/EneHwyTsKGfXzKPvY9Bw==
-X-CSE-MsgGUID: XH7FNLZ+RWyqLgEIzMv0aA==
+   d="scan'208";a="46584876"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 06:48:42 -0800
+X-CSE-ConnectionGUID: /L2uH1CCTQae5hjelEPzFw==
+X-CSE-MsgGUID: aOs96GhIShW0YvfvKf/yyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,263,1728975600"; 
-   d="scan'208";a="130571778"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="103810384"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Dec 2024 06:28:14 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 25 Dec 2024 06:48:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQSMt-0001uZ-2V;
-	Wed, 25 Dec 2024 14:28:11 +0000
-Date: Wed, 25 Dec 2024 22:27:37 +0800
+	id 1tQSgg-0001vj-2J;
+	Wed, 25 Dec 2024 14:48:38 +0000
+Date: Wed, 25 Dec 2024 22:48:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rahul Pathak <rpathak@ventanamicro.com>
-Subject: [avpatel:riscv_sbi_sse_v3 13/46]
- drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse: sparse: incorrect type
- in assignment (different base types)
-Message-ID: <202412252209.NzE494Dm-lkp@intel.com>
+To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [pali:cifs 29/38] fs/smb/client/connect.c:3097:20: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202412252224.liHxX1nk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,258 +62,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_sse_v3
-head:   36a4c153b9a152c3eb136e4aced7c9ccbaae922d
-commit: f7982fe2b426d7dac99a95701708bdb2a097cd79 [13/46] mailbox: Add RISC-V SBI message proxy (MPXY) based mailbox driver
-config: riscv-randconfig-r133-20241225 (https://download.01.org/0day-ci/archive/20241225/202412252209.NzE494Dm-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241225/202412252209.NzE494Dm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
+head:   4a7fbaf556836b77fe7bb452939af3a505ee5ee9
+commit: 53714b10243a10c39c962a2e38c66a8c3c0388ca [29/38] cifs: Fix establishing NetBIOS session for SMB2+ connection
+config: x86_64-randconfig-123-20241225 (https://download.01.org/0day-ci/archive/20241225/202412252224.liHxX1nk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412252224.liHxX1nk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412252209.NzE494Dm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412252224.liHxX1nk-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] remaining @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse:     expected restricted __le32 [usertype] remaining
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:315:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] returned @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:315:38: sparse:     expected restricted __le32 [usertype] returned
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:315:38: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:316:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lost @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:316:34: sparse:     expected restricted __le32 [usertype] lost
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:316:34: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:317:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] reserved @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:317:38: sparse:     expected restricted __le32 [usertype] reserved
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:317:38: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:495:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] event_datalen @@     got unsigned short [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:495:38: sparse:     expected restricted __le16 [usertype] event_datalen
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:495:38: sparse:     got unsigned short [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:497:52: sparse: sparse: restricted __le16 degrades to integer
+>> fs/smb/client/connect.c:3097:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] length @@     got restricted __be16 [usertype] @@
+   fs/smb/client/connect.c:3097:20: sparse:     expected unsigned short [addressable] [assigned] [usertype] length
+   fs/smb/client/connect.c:3097:20: sparse:     got restricted __be16 [usertype]
 
-vim +314 drivers/mailbox/riscv-sbi-mpxy-mbox.c
+vim +3097 fs/smb/client/connect.c
 
-   295	
-   296	static int mpxy_get_notifications(u32 channel_id,
-   297					  struct sbi_mpxy_notification_data *notif_data,
-   298					  unsigned long *events_data_len)
-   299	{
-   300		struct mpxy_local *mpxy = this_cpu_ptr(&mpxy_local);
-   301		struct sbiret sret;
-   302	
-   303		if (!mpxy->shmem_active)
-   304			return -ENODEV;
-   305		if (!notif_data || !events_data_len)
-   306			return -EINVAL;
-   307	
-   308		get_cpu();
-   309	
-   310		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_GET_NOTIFICATION_EVENTS,
-   311				 channel_id, 0, 0, 0, 0, 0);
-   312		if (!sret.error) {
-   313			memcpy(notif_data, mpxy->shmem, sret.value);
- > 314			notif_data->remaining = le32_to_cpu(notif_data->remaining);
- > 315			notif_data->returned =  le32_to_cpu(notif_data->returned);
- > 316			notif_data->lost =  le32_to_cpu(notif_data->lost);
- > 317			notif_data->reserved =  le32_to_cpu(notif_data->reserved);
-   318			*events_data_len = sret.value - 16;
-   319		}
-   320	
-   321		put_cpu();
-   322		return sbi_err_map_linux_errno(sret.error);
-   323	}
-   324	
-   325	static int mpxy_cleanup_shmem(unsigned int cpu)
-   326	{
-   327		struct mpxy_local *mpxy;
-   328		struct sbiret sret;
-   329	
-   330		mpxy = per_cpu_ptr(&mpxy_local, cpu);
-   331		if (!mpxy->shmem_active)
-   332			return -EINVAL;
-   333	
-   334		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_SET_SHMEM,
-   335				 0, -1U, -1U, 0, 0, 0);
-   336		if (sret.error)
-   337			return sbi_err_map_linux_errno(sret.error);
-   338	
-   339		free_pages((unsigned long)mpxy->shmem, get_order(MPXY_SHMEM_SIZE));
-   340	
-   341		mpxy->shmem = NULL;
-   342		mpxy->shmem_phys_addr = 0;
-   343		mpxy->shmem_active = false;
-   344	
-   345		return 0;
-   346	}
-   347	
-   348	static int mpxy_setup_shmem(unsigned int cpu)
-   349	{
-   350		struct page *shmem_page;
-   351		struct mpxy_local *mpxy;
-   352		struct sbiret sret;
-   353	
-   354		mpxy = per_cpu_ptr(&mpxy_local, cpu);
-   355		if (mpxy->shmem_active)
-   356			return -EINVAL;
-   357	
-   358		shmem_page = alloc_pages(GFP_KERNEL | __GFP_ZERO, get_order(MPXY_SHMEM_SIZE));
-   359		if (!shmem_page)
-   360			return -ENOMEM;
-   361	
-   362		/*
-   363		 * Linux setup of shmem is done in mpxy OVERWRITE mode.
-   364		 * flags[1:0] = 00b
-   365		 */
-   366		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_SET_SHMEM,
-   367				 MPXY_SHMEM_SIZE, page_to_phys(shmem_page), 0, 0, 0, 0);
-   368		if (sret.error) {
-   369			free_pages((unsigned long)page_to_virt(shmem_page),
-   370				   get_order(MPXY_SHMEM_SIZE));
-   371			return sbi_err_map_linux_errno(sret.error);
-   372		}
-   373	
-   374		mpxy->shmem = page_to_virt(shmem_page);
-   375		mpxy->shmem_phys_addr = page_to_phys(shmem_page);
-   376		mpxy->shmem_active = true;
-   377	
-   378		return 0;
-   379	}
-   380	
-   381	/* ====== MPXY mailbox data structures ====== */
-   382	
-   383	/* MPXY mailbox channel */
-   384	struct mpxy_mbox_channel {
-   385		struct mpxy_mbox *mbox;
-   386		u32 channel_id;
-   387		struct sbi_mpxy_channel_attrs attrs;
-   388		struct sbi_mpxy_rpmi_channel_attrs rpmi_attrs;
-   389		struct sbi_mpxy_notification_data *notif;
-   390		u32 max_xfer_len;
-   391		bool have_events_state;
-   392		u32 msi_index;
-   393		u32 msi_irq;
-   394		bool started;
-   395	};
-   396	
-   397	/* MPXY mailbox */
-   398	struct mpxy_mbox {
-   399		struct device *dev;
-   400		u32 channel_count;
-   401		struct mpxy_mbox_channel *channels;
-   402		u32 msi_count;
-   403		struct mpxy_mbox_channel **msi_index_to_channel;
-   404		struct mbox_controller controller;
-   405	};
-   406	
-   407	/* ====== MPXY RPMI processing ====== */
-   408	
-   409	static int mpxy_mbox_send_rpmi_data(struct mpxy_mbox_channel *mchan,
-   410					    struct rpmi_mbox_message *msg)
-   411	{
-   412		int rc = 0;
-   413	
-   414		switch (msg->type) {
-   415		case RPMI_MBOX_MSG_TYPE_GET_ATTRIBUTE:
-   416			switch (msg->attr.id) {
-   417			case RPMI_MBOX_ATTR_SPEC_VERSION:
-   418				msg->attr.value = mchan->attrs.msg_proto_version;
-   419				break;
-   420			case RPMI_MBOX_ATTR_MAX_MSG_DATA_SIZE:
-   421				msg->attr.value = mchan->max_xfer_len;
-   422				break;
-   423			case RPMI_MBOX_ATTR_SERVICEGROUP_ID:
-   424				msg->attr.value = mchan->rpmi_attrs.servicegroup_id;
-   425				break;
-   426			case RPMI_MBOX_ATTR_SERVICEGROUP_VERSION:
-   427				msg->attr.value = mchan->rpmi_attrs.servicegroup_version;
-   428				break;
-   429			default:
-   430				rc = -EOPNOTSUPP;
-   431				break;
-   432			}
-   433			break;
-   434		case RPMI_MBOX_MSG_TYPE_SET_ATTRIBUTE:
-   435			/* None of the RPMI linux mailbox attributes are writeable */
-   436			rc = -EOPNOTSUPP;
-   437			break;
-   438		case RPMI_MBOX_MSG_TYPE_SEND_WITH_RESPONSE:
-   439			if ((!msg->data.request && msg->data.request_len) ||
-   440			    (msg->data.request &&
-   441			     msg->data.request_len > mchan->max_xfer_len) ||
-   442			    (!msg->data.response && msg->data.max_response_len)) {
-   443				rc = -EINVAL;
-   444				break;
-   445			}
-   446			if (!(mchan->attrs.capability & SBI_MPXY_CHAN_CAP_SEND_WITH_RESP)) {
-   447				rc = -EIO;
-   448				break;
-   449			}
-   450			rc = mpxy_send_message_with_resp(mchan->channel_id,
-   451							 msg->data.service_id,
-   452							 msg->data.request,
-   453							 msg->data.request_len,
-   454							 msg->data.response,
-   455							 msg->data.max_response_len,
-   456							 &msg->data.out_response_len);
-   457			break;
-   458		case RPMI_MBOX_MSG_TYPE_SEND_WITHOUT_RESPONSE:
-   459			if ((!msg->data.request && msg->data.request_len) ||
-   460			    (msg->data.request &&
-   461			     msg->data.request_len > mchan->max_xfer_len)) {
-   462				rc = -EINVAL;
-   463				break;
-   464			}
-   465			if (!(mchan->attrs.capability & SBI_MPXY_CHAN_CAP_SEND_WITHOUT_RESP)) {
-   466				rc = -EIO;
-   467				break;
-   468			}
-   469			rc = mpxy_send_message_without_resp(mchan->channel_id,
-   470							    msg->data.service_id,
-   471							    msg->data.request,
-   472							    msg->data.request_len);
-   473			break;
-   474		default:
-   475			rc = -EOPNOTSUPP;
-   476			break;
-   477		}
-   478	
-   479		msg->error = rc;
-   480		return 0;
-   481	}
-   482	
-   483	static void mpxy_mbox_peek_rpmi_data(struct mbox_chan *chan,
-   484					     struct mpxy_mbox_channel *mchan,
-   485					     struct sbi_mpxy_notification_data *notif,
-   486					     unsigned long events_data_len)
-   487	{
-   488		struct rpmi_notification_event *event;
-   489		unsigned long pos = 0, event_size;
-   490		struct rpmi_mbox_message msg;
-   491	
-   492		while ((pos < events_data_len) && !(pos & 0x3) &&
-   493		       ((events_data_len - pos) <= sizeof(*event))) {
-   494			event = (struct rpmi_notification_event *)(notif->events_data + pos);
- > 495			event->event_datalen = le16_to_cpu(event->event_datalen);
-   496	
- > 497			event_size = sizeof(*event) + event->event_datalen;
-   498			if (event_size > (events_data_len - pos)) {
-   499				event_size = events_data_len - pos;
-   500				goto skip_event;
-   501			}
-   502			if (event_size & 0x3)
-   503				goto skip_event;
-   504	
-   505			msg.type = RPMI_MBOX_MSG_TYPE_NOTIFICATION_EVENT;
-   506			msg.notif_event = event;
-   507			msg.error = 0;
-   508			mbox_chan_received_data(chan, &msg);
-   509	
-   510	skip_event:
-   511			pos += event_size;
-   512		}
-   513	}
-   514	
+  3051	
+  3052	static int
+  3053	ip_rfc1001_connect(struct TCP_Server_Info *server)
+  3054	{
+  3055		int rc = 0;
+  3056		/*
+  3057		 * some servers require RFC1001 sessinit before sending
+  3058		 * negprot - BB check reconnection in case where second
+  3059		 * sessinit is sent but no second negprot
+  3060		 */
+  3061		struct rfc1002_session_packet req = {};
+  3062		struct msghdr msg = {};
+  3063		struct kvec iov = {};
+  3064		unsigned int len;
+  3065		size_t sent;
+  3066	
+  3067		req.trailer.session_req.called_len = sizeof(req.trailer.session_req.called_name);
+  3068	
+  3069		if (server->server_RFC1001_name[0] != 0)
+  3070			rfc1002mangle(req.trailer.session_req.called_name,
+  3071				      server->server_RFC1001_name,
+  3072				      RFC1001_NAME_LEN_WITH_NULL);
+  3073		else
+  3074			rfc1002mangle(req.trailer.session_req.called_name,
+  3075				      DEFAULT_CIFS_CALLED_NAME,
+  3076				      RFC1001_NAME_LEN_WITH_NULL);
+  3077	
+  3078		req.trailer.session_req.calling_len = sizeof(req.trailer.session_req.calling_name);
+  3079	
+  3080		/* calling name ends in null (byte 16) from old smb convention */
+  3081		if (server->workstation_RFC1001_name[0] != 0)
+  3082			rfc1002mangle(req.trailer.session_req.calling_name,
+  3083				      server->workstation_RFC1001_name,
+  3084				      RFC1001_NAME_LEN_WITH_NULL);
+  3085		else
+  3086			rfc1002mangle(req.trailer.session_req.calling_name,
+  3087				      "LINUX_CIFS_CLNT",
+  3088				      RFC1001_NAME_LEN_WITH_NULL);
+  3089	
+  3090		/*
+  3091		 * As per rfc1002, @len must be the number of bytes that follows the
+  3092		 * length field of a rfc1002 session request payload.
+  3093		 */
+  3094		len = sizeof(req.trailer.session_req);
+  3095		req.type = RFC1002_SESSION_REQUEST;
+  3096		req.flags = 0;
+> 3097		req.length = cpu_to_be16(len);
+  3098		len += offsetof(typeof(req), trailer.session_req);
+  3099		iov.iov_base = &req;
+  3100		iov.iov_len = len;
+  3101		iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, len);
+  3102		rc = smb_send_kvec(server, &msg, &sent);
+  3103		if (rc < 0 || len != sent)
+  3104			return (rc == -EINTR || rc == -EAGAIN) ? rc : -ECONNABORTED;
+  3105	
+  3106		/*
+  3107		 * RFC1001 layer in at least one server requires very short break before
+  3108		 * negprot presumably because not expecting negprot to follow so fast.
+  3109		 * This is a simple solution that works without complicating the code
+  3110		 * and causes no significant slowing down on mount for everyone else
+  3111		 */
+  3112		usleep_range(1000, 2000);
+  3113	
+  3114		return 0;
+  3115	}
+  3116	
 
 -- 
 0-DAY CI Kernel Test Service
