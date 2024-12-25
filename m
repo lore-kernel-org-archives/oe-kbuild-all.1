@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A6A14E2E2;
-	Wed, 25 Dec 2024 13:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13C7189905
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Dec 2024 13:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735131744; cv=none; b=ft2MksMfPGLZ0/ewz5ZMGG7B+IMY1c+hi9vgOvYF/DKVzec9TqN0T7V1Az3vmNudOrxg01nDKEQxH7V+ZQ9absnNf4iIosMa5az/mDyjZXgALOzCGpsnWyxiqda7gUArKhiMpSqGfdcETgNJ/EDgpWrJsXXwM2cpme/DDC6UAeE=
+	t=1735131859; cv=none; b=cMwjKTZrcKNT8pBTzSLV2Cj1FgVl7Hkp+ixHwOv2v0P/58PbbLzTmvZEyKy9tmZVsOqZGZfDy8sbXRRNr3ViX5O1ZVmWyu3MBjAkI0z+nw8CWbM0wzMKPlRU0/TUVbP0S8Y0geE7VuAE3KlzlM6luOIIKZiCc6N7bCOSHFpHLL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735131744; c=relaxed/simple;
-	bh=EVo1/chTj+XW7R2AlgQpXBNFX2ODe38tSPHJirwHYq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lSdExTn8vEa+ljxWicDC4odTZfcu4nNbI36o3sr5thhZ7CsdiQc9UlpEKSvEOHLkM1SurbQmv+DcZIu5nc2MK3xZkhU54eeR6XRIk4Qegy9bOt5YdtKxU83o9esJLNRC4+JBPXkis+kMZyG0Xsw3OZ+8K1FVtwXIvHPLYnjNWg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mtoU01Yw; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1735131859; c=relaxed/simple;
+	bh=oWjbWuaaVq7VXuJrtiAQFAEs2l1pt1Akiu5/FJkuQdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WxuDUa2Vytadit/XvgFLh1bve61cAGhlMNLL0m16Y7ZryhktmBPMTv277jUTNOEcsenIqKDSPT7LyDKajMkqec1YP9NULQqBdw7exbfHH4WrtnGTq+99aMDaEhDYS4pHUx0zpDkOHQoi1+c2KYICsm8ygjzatN2pSliJS5FDw78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BE/s/y/6; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mtoU01Yw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BE/s/y/6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735131741; x=1766667741;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EVo1/chTj+XW7R2AlgQpXBNFX2ODe38tSPHJirwHYq0=;
-  b=mtoU01Ywjg9iKBI004jqGqdfFqg17oIu6l8x51sW21B3qG6B/yVIy/5H
-   QHrzUii0ZyFSm5mi1rjW5Q3+CcpgVvRo+DxLP5ttApzjk1gWhwSbKNYIT
-   yHDLRskMTkkKrL1mBQQ3jXq0V2z2jsv7Bl+lY9HTUlhaL1miO+agBRqvz
-   nYboyoGCkkimIwJvgqBFZFYGGUOIkg2weClBEwf7RBWzNwqZ0dHDD7KG4
-   eGWxyYHYEoYFG+pDXBiXTNlnMIAGfIzM6JPo0Qho423883BDzEzBLtXRY
-   tyLH1kGOSB34FpeXk3TTU5zSWkQaVXZm8oqe1GpQTILBDk8TJMwnDeCfZ
-   g==;
-X-CSE-ConnectionGUID: QOPV+c95RqGDzZvW1w3u7A==
-X-CSE-MsgGUID: eUJLivJqRFSzfJQGx0uScQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35289394"
+  t=1735131858; x=1766667858;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oWjbWuaaVq7VXuJrtiAQFAEs2l1pt1Akiu5/FJkuQdA=;
+  b=BE/s/y/6MsIL++7QBJiQJBbY4sihDfDzMDfyBfQdtlIkJXKGcw8ILVX2
+   S5f6et8kVtBs7aVBxv3E0F3Nt+HC/TsCikEbyjfhUPfS5RCMkds8upvnY
+   X+Qvbhq7yoOJpJyOodoz2TF6C2mzg/a+rBzVEtJI6s7mC7Jn+EvC5cZim
+   iMlB2Y/31EHQfCyNUF9HEa8zogU+dpt19to5LpjihPriizFOlOxAWsZGz
+   iNDrEzCXw+isCvOKayWECjyET2lOIsamfP6G4bAd1+Bu9qbZnqqYhVHzi
+   BmM1zeSCn2O8HQtvL5c2lLGQgUs+tSl/psg9U19fYjBUB2bEdfnQHJKGB
+   A==;
+X-CSE-ConnectionGUID: BF3v6o99QdqH3VPhlT+x3w==
+X-CSE-MsgGUID: CaBm7kLtRhOVy1Vx5S4MwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35468152"
 X-IronPort-AV: E=Sophos;i="6.12,263,1728975600"; 
-   d="scan'208";a="35289394"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 05:02:20 -0800
-X-CSE-ConnectionGUID: GCQ7BFBTRcOSbGDJLVY0sw==
-X-CSE-MsgGUID: EQJ0TTcORoiG/DVZsYSyYQ==
+   d="scan'208";a="35468152"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 05:04:18 -0800
+X-CSE-ConnectionGUID: vEYCmvx2Sa2biudEF07JgA==
+X-CSE-MsgGUID: vRLxiUBeQqC1w19ezgKVew==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,263,1728975600"; 
-   d="scan'208";a="99564861"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="137043537"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Dec 2024 05:02:14 -0800
+  by orviesa001.jf.intel.com with ESMTP; 25 Dec 2024 05:04:15 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQR1g-0001q3-03;
-	Wed, 25 Dec 2024 13:02:12 +0000
-Date: Wed, 25 Dec 2024 21:02:10 +0800
+	id 1tQR3d-0001qi-1q;
+	Wed, 25 Dec 2024 13:04:13 +0000
+Date: Wed, 25 Dec 2024 21:03:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yong Wang <yongwang@nvidia.com>, razor@blackwall.org, roopa@nvidia.com,
-	davem@davemloft.net, edumazet@google.com, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, aroulin@nvidia.com,
-	idosch@nvidia.com, nmiyar@nvidia.com
-Subject: Re: [PATCH net-next 1/2] net: bridge: multicast: re-implement port
- multicast enable/disable functions
-Message-ID: <202412251623.8huquaZx-lkp@intel.com>
-References: <20241220220604.1430728-2-yongwang@nvidia.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+	Kishon <kishon@ti.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [phy:fixes 12/12] kismet: WARNING: unmet direct dependencies
+ detected for PHY_MTK_HDMI when selected by DRM_MEDIATEK_HDMI
+Message-ID: <202412252129.Sp44aQeF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,89 +65,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241220220604.1430728-2-yongwang@nvidia.com>
 
-Hi Yong,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 3272040790eb4b6cafe6c30ec05049e9599ec456]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wang/net-bridge-multicast-re-implement-port-multicast-enable-disable-functions/20241221-060848
-base:   3272040790eb4b6cafe6c30ec05049e9599ec456
-patch link:    https://lore.kernel.org/r/20241220220604.1430728-2-yongwang%40nvidia.com
-patch subject: [PATCH net-next 1/2] net: bridge: multicast: re-implement port multicast enable/disable functions
-config: i386-randconfig-011-20241225 (https://download.01.org/0day-ci/archive/20241225/202412251623.8huquaZx-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412251623.8huquaZx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git fixes
+head:   17194c2998d39ab366a2ecbc4d1f3281e00d6a05
+commit: 17194c2998d39ab366a2ecbc4d1f3281e00d6a05 [12/12] phy: mediatek: phy-mtk-hdmi: add regulator dependency
+config: nios2-kismet-CONFIG_PHY_MTK_HDMI-CONFIG_DRM_MEDIATEK_HDMI-0-0 (https://download.01.org/0day-ci/archive/20241225/202412252129.Sp44aQeF-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241225/202412252129.Sp44aQeF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412251623.8huquaZx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412252129.Sp44aQeF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from net/bridge/br_multicast.c:10:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/bridge/br_multicast.c:2178:14: error: call to undeclared function 'br_vlan_state_allowed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2178 |                         if (on && br_vlan_state_allowed(br_vlan_get_state(vlan), true))
-         |                                   ^
->> net/bridge/br_multicast.c:2178:36: error: call to undeclared function 'br_vlan_get_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2178 |                         if (on && br_vlan_state_allowed(br_vlan_get_state(vlan), true))
-         |                                                         ^
-   net/bridge/br_multicast.c:2178:36: note: did you mean 'br_vlan_get_stats'?
-   include/trace/events/../../../net/bridge/br_private.h:1792:20: note: 'br_vlan_get_stats' declared here
-    1792 | static inline void br_vlan_get_stats(const struct net_bridge_vlan *v,
-         |                    ^
-   1 warning and 2 errors generated.
-
-
-vim +/br_vlan_state_allowed +2178 net/bridge/br_multicast.c
-
-  2159	
-  2160	static void br_multicast_toggle_port(struct net_bridge_port *port, bool on)
-  2161	{
-  2162		struct net_bridge *br = port->br;
-  2163	
-  2164		if (br_opt_get(br, BROPT_MCAST_VLAN_SNOOPING_ENABLED)) {
-  2165			struct net_bridge_vlan_group *vg;
-  2166			struct net_bridge_vlan *vlan;
-  2167	
-  2168			rcu_read_lock();
-  2169			vg = nbp_vlan_group_rcu(port);
-  2170			if (!vg) {
-  2171				rcu_read_unlock();
-  2172				return;
-  2173			}
-  2174	
-  2175			/* iterate each vlan of the port, toggle port_mcast_ctx per vlan */
-  2176			list_for_each_entry_rcu(vlan, &vg->vlan_list, vlist) {
-  2177				/* enable port_mcast_ctx when vlan is LEARNING or FORWARDING */
-> 2178				if (on && br_vlan_state_allowed(br_vlan_get_state(vlan), true))
-  2179					br_multicast_enable_port_ctx(&vlan->port_mcast_ctx);
-  2180				else
-  2181					br_multicast_disable_port_ctx(&vlan->port_mcast_ctx);
-  2182			}
-  2183			rcu_read_unlock();
-  2184		} else {
-  2185			/* use the port's multicast context when vlan snooping is disabled */
-  2186			if (on)
-  2187				br_multicast_enable_port_ctx(&port->multicast_ctx);
-  2188			else
-  2189				br_multicast_disable_port_ctx(&port->multicast_ctx);
-  2190		}
-  2191	}
-  2192	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PHY_MTK_HDMI when selected by DRM_MEDIATEK_HDMI
+   WARNING: unmet direct dependencies detected for PHY_MTK_HDMI
+     Depends on [n]: (ARCH_MEDIATEK || COMPILE_TEST [=y]) && COMMON_CLK [=y] && OF [=y] && REGULATOR [=n]
+     Selected by [y]:
+     - DRM_MEDIATEK_HDMI [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_MEDIATEK [=y]
 
 -- 
 0-DAY CI Kernel Test Service
