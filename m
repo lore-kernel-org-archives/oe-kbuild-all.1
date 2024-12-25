@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988B8175BF;
-	Wed, 25 Dec 2024 07:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A6A14E2E2;
+	Wed, 25 Dec 2024 13:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735110718; cv=none; b=uHG8DzZxW6xKccqE5k/Mi+to5WWyX1Rchb5VGFeW6XA8qwiwiMwxXaOXesiNKrYJNUzBiyAuzSlBZ4KyBDvkN87R6N1KT1q8MV8RepgjIGO1xkLcnLasBhcwvwtKxWZ2PUXo6Zl1To55YlFqwVufuqXcnSFb7GOVPALRzLYx3G4=
+	t=1735131744; cv=none; b=ft2MksMfPGLZ0/ewz5ZMGG7B+IMY1c+hi9vgOvYF/DKVzec9TqN0T7V1Az3vmNudOrxg01nDKEQxH7V+ZQ9absnNf4iIosMa5az/mDyjZXgALOzCGpsnWyxiqda7gUArKhiMpSqGfdcETgNJ/EDgpWrJsXXwM2cpme/DDC6UAeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735110718; c=relaxed/simple;
-	bh=lWTn3xaaatEmZWb00IapuU+GEuhka/SAQSjBHKqbRy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jP0VLck5OLIIRc+y3KoXUR02oghDr037a9Y00ZkzY2gti6ox/6FzLBTbXipIOWN3PHjqH5JLi1tr+fXU5z4WKtiPTR098wNdHFpr1p6Y5NE88Fk5Bz/vYcXkzMGJ6LxFVxngBpw4QZVA16JqdcKA2h0b8nP+fTbovdSepImCbMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6z/cclt; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1735131744; c=relaxed/simple;
+	bh=EVo1/chTj+XW7R2AlgQpXBNFX2ODe38tSPHJirwHYq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lSdExTn8vEa+ljxWicDC4odTZfcu4nNbI36o3sr5thhZ7CsdiQc9UlpEKSvEOHLkM1SurbQmv+DcZIu5nc2MK3xZkhU54eeR6XRIk4Qegy9bOt5YdtKxU83o9esJLNRC4+JBPXkis+kMZyG0Xsw3OZ+8K1FVtwXIvHPLYnjNWg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mtoU01Yw; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6z/cclt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mtoU01Yw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735110716; x=1766646716;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lWTn3xaaatEmZWb00IapuU+GEuhka/SAQSjBHKqbRy0=;
-  b=b6z/ccltkaHZTnUqoQWgOxRwLri9e0e+TORvGEe4xl2iy4lJIpnBy5ED
-   SKw7u97Ye4EkNY+f2NaLTDTrAfv1MNdY81DgOHAguMOGcnuKr5tVN4zD+
-   E4X6nbhLhT1UT1EMBv7gg8NRQtue3NuiC4FwhK+WsmTzVx1ORu9cQeR2D
-   U4eQofLcjcEQJzPfF4yEVCjsLTqBGHro0U7bM89BNLEEv2DIENg1R1bFR
-   yKTRkn/tBXbPGvglQW0XLcR3n+Klyf6UahZfegD4qJ9AHvDaXTI/FLQl5
-   MWTKBMpdPLY/xgG2g6zRX6fQUUd6vGsoXFPtqaUt0YVSE2PUih8CQe7Ah
-   Q==;
-X-CSE-ConnectionGUID: AzW34DliTsKJ2QkpBIVNTg==
-X-CSE-MsgGUID: suaAYXo+SeKBUHrj+oAoyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="39343710"
-X-IronPort-AV: E=Sophos;i="6.12,262,1728975600"; 
-   d="scan'208";a="39343710"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 23:11:56 -0800
-X-CSE-ConnectionGUID: JQKs3pcQTYWoOrIufcGPNA==
-X-CSE-MsgGUID: qcEy26DbSrWCyLQv8JbjyA==
+  t=1735131741; x=1766667741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EVo1/chTj+XW7R2AlgQpXBNFX2ODe38tSPHJirwHYq0=;
+  b=mtoU01Ywjg9iKBI004jqGqdfFqg17oIu6l8x51sW21B3qG6B/yVIy/5H
+   QHrzUii0ZyFSm5mi1rjW5Q3+CcpgVvRo+DxLP5ttApzjk1gWhwSbKNYIT
+   yHDLRskMTkkKrL1mBQQ3jXq0V2z2jsv7Bl+lY9HTUlhaL1miO+agBRqvz
+   nYboyoGCkkimIwJvgqBFZFYGGUOIkg2weClBEwf7RBWzNwqZ0dHDD7KG4
+   eGWxyYHYEoYFG+pDXBiXTNlnMIAGfIzM6JPo0Qho423883BDzEzBLtXRY
+   tyLH1kGOSB34FpeXk3TTU5zSWkQaVXZm8oqe1GpQTILBDk8TJMwnDeCfZ
+   g==;
+X-CSE-ConnectionGUID: QOPV+c95RqGDzZvW1w3u7A==
+X-CSE-MsgGUID: eUJLivJqRFSzfJQGx0uScQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35289394"
+X-IronPort-AV: E=Sophos;i="6.12,263,1728975600"; 
+   d="scan'208";a="35289394"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 05:02:20 -0800
+X-CSE-ConnectionGUID: GCQ7BFBTRcOSbGDJLVY0sw==
+X-CSE-MsgGUID: EQJ0TTcORoiG/DVZsYSyYQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,262,1728975600"; 
-   d="scan'208";a="130506705"
+X-IronPort-AV: E=Sophos;i="6.12,263,1728975600"; 
+   d="scan'208";a="99564861"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 24 Dec 2024 23:11:56 -0800
+  by orviesa009.jf.intel.com with ESMTP; 25 Dec 2024 05:02:14 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQLYb-0001md-2b;
-	Wed, 25 Dec 2024 07:11:49 +0000
-Date: Wed, 25 Dec 2024 15:10:00 +0800
+	id 1tQR1g-0001q3-03;
+	Wed, 25 Dec 2024 13:02:12 +0000
+Date: Wed, 25 Dec 2024 21:02:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [pali:cifs 20/38] fs/smb/client/cifsacl.c:1505:3: warning: variable
- 'access_flags' is uninitialized when used here
-Message-ID: <202412251549.gizM0H55-lkp@intel.com>
+To: Yong Wang <yongwang@nvidia.com>, razor@blackwall.org, roopa@nvidia.com,
+	davem@davemloft.net, edumazet@google.com, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, aroulin@nvidia.com,
+	idosch@nvidia.com, nmiyar@nvidia.com
+Subject: Re: [PATCH net-next 1/2] net: bridge: multicast: re-implement port
+ multicast enable/disable functions
+Message-ID: <202412251623.8huquaZx-lkp@intel.com>
+References: <20241220220604.1430728-2-yongwang@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +65,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241220220604.1430728-2-yongwang@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
-head:   4a7fbaf556836b77fe7bb452939af3a505ee5ee9
-commit: ce9f9c0511bbb913daa982afed5859ab68adf0e8 [20/38] cifs: Fix getting and setting SACLs over SMB1
-config: i386-randconfig-012-20241225 (https://download.01.org/0day-ci/archive/20241225/202412251549.gizM0H55-lkp@intel.com/config)
+Hi Yong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 3272040790eb4b6cafe6c30ec05049e9599ec456]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wang/net-bridge-multicast-re-implement-port-multicast-enable-disable-functions/20241221-060848
+base:   3272040790eb4b6cafe6c30ec05049e9599ec456
+patch link:    https://lore.kernel.org/r/20241220220604.1430728-2-yongwang%40nvidia.com
+patch subject: [PATCH net-next 1/2] net: bridge: multicast: re-implement port multicast enable/disable functions
+config: i386-randconfig-011-20241225 (https://download.01.org/0day-ci/archive/20241225/202412251623.8huquaZx-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412251549.gizM0H55-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412251623.8huquaZx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412251549.gizM0H55-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412251623.8huquaZx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/smb/client/cifsacl.c:20:
-   In file included from fs/smb/client/cifspdu.h:12:
-   In file included from include/net/sock.h:46:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
+   In file included from net/bridge/br_multicast.c:10:
+   In file included from include/linux/if_ether.h:19:
    In file included from include/linux/skbuff.h:17:
    In file included from include/linux/bvec.h:10:
    In file included from include/linux/highmem.h:8:
@@ -90,72 +99,55 @@ All warnings (new ones prefixed by >>):
    include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
      518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
->> fs/smb/client/cifsacl.c:1505:3: warning: variable 'access_flags' is uninitialized when used here [-Wuninitialized]
-    1505 |                 access_flags |= WRITE_OWNER;
-         |                 ^~~~~~~~~~~~
-   fs/smb/client/cifsacl.c:1491:22: note: initialize the variable 'access_flags' to silence this warning
-    1491 |         int rc, access_flags;
-         |                             ^
-         |                              = 0
-   2 warnings generated.
+>> net/bridge/br_multicast.c:2178:14: error: call to undeclared function 'br_vlan_state_allowed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2178 |                         if (on && br_vlan_state_allowed(br_vlan_get_state(vlan), true))
+         |                                   ^
+>> net/bridge/br_multicast.c:2178:36: error: call to undeclared function 'br_vlan_get_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2178 |                         if (on && br_vlan_state_allowed(br_vlan_get_state(vlan), true))
+         |                                                         ^
+   net/bridge/br_multicast.c:2178:36: note: did you mean 'br_vlan_get_stats'?
+   include/trace/events/../../../net/bridge/br_private.h:1792:20: note: 'br_vlan_get_stats' declared here
+    1792 | static inline void br_vlan_get_stats(const struct net_bridge_vlan *v,
+         |                    ^
+   1 warning and 2 errors generated.
 
 
-vim +/access_flags +1505 fs/smb/client/cifsacl.c
+vim +/br_vlan_state_allowed +2178 net/bridge/br_multicast.c
 
-  1484	
-  1485	 /* Set an ACL on the server */
-  1486	int set_cifs_acl(struct smb_ntsd *pnntsd, __u32 acllen,
-  1487				struct inode *inode, const char *path, int aclflag)
-  1488	{
-  1489		int oplock = 0;
-  1490		unsigned int xid;
-  1491		int rc, access_flags;
-  1492		struct cifs_tcon *tcon;
-  1493		struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
-  1494		struct tcon_link *tlink = cifs_sb_tlink(cifs_sb);
-  1495		struct cifs_fid fid;
-  1496		struct cifs_open_parms oparms;
-  1497	
-  1498		if (IS_ERR(tlink))
-  1499			return PTR_ERR(tlink);
-  1500	
-  1501		tcon = tlink_tcon(tlink);
-  1502		xid = get_xid();
-  1503	
-  1504		if (aclflag & CIFS_ACL_OWNER || aclflag & CIFS_ACL_GROUP)
-> 1505			access_flags |= WRITE_OWNER;
-  1506		if (aclflag & CIFS_ACL_SACL)
-  1507			access_flags |= SYSTEM_SECURITY;
-  1508		if (aclflag & CIFS_ACL_DACL)
-  1509			access_flags |= WRITE_DAC;
-  1510	
-  1511		oparms = (struct cifs_open_parms) {
-  1512			.tcon = tcon,
-  1513			.cifs_sb = cifs_sb,
-  1514			.desired_access = access_flags,
-  1515			.create_options = cifs_create_options(cifs_sb, 0),
-  1516			.disposition = FILE_OPEN,
-  1517			.path = path,
-  1518			.fid = &fid,
-  1519		};
-  1520	
-  1521		rc = CIFS_open(xid, &oparms, &oplock, NULL);
-  1522		if (rc) {
-  1523			cifs_dbg(VFS, "Unable to open file to set ACL\n");
-  1524			goto out;
-  1525		}
-  1526	
-  1527		rc = CIFSSMBSetCIFSACL(xid, tcon, fid.netfid, pnntsd, acllen, aclflag);
-  1528		cifs_dbg(NOISY, "SetCIFSACL rc = %d\n", rc);
-  1529	
-  1530		CIFSSMBClose(xid, tcon, fid.netfid);
-  1531	out:
-  1532		free_xid(xid);
-  1533		cifs_put_tlink(tlink);
-  1534		return rc;
-  1535	}
-  1536	#endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
-  1537	
+  2159	
+  2160	static void br_multicast_toggle_port(struct net_bridge_port *port, bool on)
+  2161	{
+  2162		struct net_bridge *br = port->br;
+  2163	
+  2164		if (br_opt_get(br, BROPT_MCAST_VLAN_SNOOPING_ENABLED)) {
+  2165			struct net_bridge_vlan_group *vg;
+  2166			struct net_bridge_vlan *vlan;
+  2167	
+  2168			rcu_read_lock();
+  2169			vg = nbp_vlan_group_rcu(port);
+  2170			if (!vg) {
+  2171				rcu_read_unlock();
+  2172				return;
+  2173			}
+  2174	
+  2175			/* iterate each vlan of the port, toggle port_mcast_ctx per vlan */
+  2176			list_for_each_entry_rcu(vlan, &vg->vlan_list, vlist) {
+  2177				/* enable port_mcast_ctx when vlan is LEARNING or FORWARDING */
+> 2178				if (on && br_vlan_state_allowed(br_vlan_get_state(vlan), true))
+  2179					br_multicast_enable_port_ctx(&vlan->port_mcast_ctx);
+  2180				else
+  2181					br_multicast_disable_port_ctx(&vlan->port_mcast_ctx);
+  2182			}
+  2183			rcu_read_unlock();
+  2184		} else {
+  2185			/* use the port's multicast context when vlan snooping is disabled */
+  2186			if (on)
+  2187				br_multicast_enable_port_ctx(&port->multicast_ctx);
+  2188			else
+  2189				br_multicast_disable_port_ctx(&port->multicast_ctx);
+  2190		}
+  2191	}
+  2192	
 
 -- 
 0-DAY CI Kernel Test Service
