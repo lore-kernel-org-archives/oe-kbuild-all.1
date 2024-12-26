@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F483EA83
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 16:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D513C4437C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 17:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735232156; cv=none; b=kTDjSV3319Q1s3yBatauwYRscGwF2wLRbC1Nvifh6rDk8BX7/sJLT2dQflWUY73YOoNtiXVQhuRmP2Fr9/rmtrZGLL7xK0VbQLgdE/pDdoEq9zQPUiHZGB72tywVJFWDG8woBQBXJgrf+8uMFUJC+DoK6Xn92QDKxh8p5lnvnbU=
+	t=1735235883; cv=none; b=eRXLtgx36LVhELmKBslmfO0l+fZ+ytO3y5dlAurWAoF7ju/VXwSxvx7BFggiTJL4xJ2PZMB4YXySmmeeypRbTOjn1Hn53Qj1+D4GBETHrdxG3748YydFO6/pqxCtXvlkg4M1mJ4/EX8vIVclHiDVLPQ91K86WYH857tnDfyfln0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735232156; c=relaxed/simple;
-	bh=i0yKT05ZBs+L4axH59ES9oLw6ROltKB6PQuWdpkzgGo=;
+	s=arc-20240116; t=1735235883; c=relaxed/simple;
+	bh=9X+hKudsJf1tc1XPwjKeVsVUfraLM+4DrlhXc4ONhxM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dSu3a1DaVRfUZItcq1Hy7TqQDvY5pXni5o5+WjaVAX1+gjFZznhcJpF81DRF05xmkyciMmcO495723HWEnyEhFCx2iwLo0i0B7ddiknMNkuzJhgCsQSpuZMpdI+GfGu//HT7ZyGWMoVHGb25tFFcXhhmLQwIpbnCYYyvoMjISPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G9u+Alfm; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=I1iwmtvgqMc6JctIc8wTuiCY+SxLJE9ZEWAR6KD3WlK0miM/OttLG3rGs9BotWxIQWK9Kl9LI57n+bDBqG3GdTrrb/NYSC81bNmcCqxxafzPa45Wx5bvM0uZRwGcPmAj9T7g5pJG5N4uWW1b8NXEyVuheRK0ZlqnJlYxu7+zp/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OmqgMh86; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G9u+Alfm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmqgMh86"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735232154; x=1766768154;
+  t=1735235881; x=1766771881;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i0yKT05ZBs+L4axH59ES9oLw6ROltKB6PQuWdpkzgGo=;
-  b=G9u+Alfm1dlquJMvk3/6dHYT9mqGF4UP9l7lSvnbQpHkB2WCEwdyLtJK
-   zshNxdjfI0LvTTklq8mo6y7P89ckFzjHapN/iuyXJ1JjD6/Pkk2MGDUTe
-   XgjzBdWH7S1tLUMKpsk/rqnX8hG92ks3ahldKut1Db2odjqiEvjWvN3Hj
-   2Mp3uq5yh7/YTKJ95Hbgq+rMVp60riR/p6xY0ahAcFZDg8UcJoDqWfW3C
-   pLxNX7Fk3VGDvamPTDo4NrBKOX4Cb0+L02lV9lrPnEFejjlTpW4y9uB9e
-   TUQ/IvYcCLZD/d0M7eJJzjxNkSF8MMlyPKanUqurCgLfbWxMeLKgLDfPA
-   g==;
-X-CSE-ConnectionGUID: 0i0RDixWQqOj0I8pWm8ujg==
-X-CSE-MsgGUID: pDwom7hES0+tHccybaD/Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35680008"
-X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
-   d="scan'208";a="35680008"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 08:55:53 -0800
-X-CSE-ConnectionGUID: B9xQv+QtS5O/XRX68hI6bA==
-X-CSE-MsgGUID: lrBgh5M2RwazP+cuHwpFDA==
+  bh=9X+hKudsJf1tc1XPwjKeVsVUfraLM+4DrlhXc4ONhxM=;
+  b=OmqgMh863x1q+wlYYwp4rMvjZQOKm3Pz6ttmkmgFWv8ct6RQ23n8ME+5
+   /cBS+UV5vy0FSEcNHrE81OKd1QjJSvA7WUmZEOIAcU02qLWxQrzvuva3c
+   PQCdpFm8+wF0MSJ2Tw68q//+Z3I77UMpqrIyThVY7EwDJQGfjGM69kI7M
+   3rZENeutQ0TeoZM2giql8EepBQUCuhHtug2DX8+/K8qyttBzgtGl9zRdF
+   hLp2/eQ8m64MMydn46CBb9+y3wZc5G6dRN16JkS3ddA4ZjDsh4lQQLM2r
+   EY9vlsb1LHpX8iHmf0luPW42PYzq1OXiiowS3bFqbY4QnDz/hw8udOStt
+   A==;
+X-CSE-ConnectionGUID: 3S+XOJT6RUGzfcqgeWUHLQ==
+X-CSE-MsgGUID: EKuxHVuWRCqGHuAX4gIjLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="46247338"
+X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
+   d="scan'208";a="46247338"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 09:58:00 -0800
+X-CSE-ConnectionGUID: 2FS95BgjRKafgYIWlewHCw==
+X-CSE-MsgGUID: BQ9onlP/RY6a9bwaYcB1bg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="130949987"
+X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
+   d="scan'208";a="99803339"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Dec 2024 08:55:51 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 26 Dec 2024 09:57:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQr9J-0002hd-0P;
-	Thu, 26 Dec 2024 16:55:49 +0000
-Date: Fri, 27 Dec 2024 00:55:34 +0800
+	id 1tQs7R-0002j8-1B;
+	Thu, 26 Dec 2024 17:57:57 +0000
+Date: Fri, 27 Dec 2024 01:57:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, liwei <liwei728@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1665/1665] include/linux/entry-common.h:285:9:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202412270028.2z6SRiIf-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.12 4/4]
+ arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb:
+ gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match
+ any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202412270156.s8vTdrjT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,241 +64,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   16a0cbac6609f8ba10a91a9d52b15bf28243c3ee
-commit: d9ed39df777afd38fcbd4f4ca670cceb2f168124 [1665/1665] entry: Move exit to usermode functions to header file
-config: loongarch-randconfig-r132-20241226 (https://download.01.org/0day-ci/archive/20241227/202412270028.2z6SRiIf-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241227/202412270028.2z6SRiIf-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   811e48e07be5a00b2472cecba280dd56c8c200ef
+commit: a1999d13a3f2f800ec8cc5346bc06ec3f8a5690c [4/4] CHROMIUM: arm64: dts: mediatek: mt8192-asurada: Add supply-names to GPU node
+config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241227/202412270156.s8vTdrjT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412270156.s8vTdrjT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412270028.2z6SRiIf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412270156.s8vTdrjT-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c:380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:380:9: sparse:     expected void *ptr
-   kernel/entry/common.c:380:9: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c:423:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:423:29: sparse:     expected void *ptr
-   kernel/entry/common.c:423:29: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c:423:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:423:29: sparse:     expected void *ptr
-   kernel/entry/common.c:423:29: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c:423:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:423:29: sparse:     expected void *ptr
-   kernel/entry/common.c:423:29: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c:423:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/entry/common.c:423:29: sparse:     expected void *ptr
-   kernel/entry/common.c:423:29: sparse:     got int [noderef] __percpu *
-   kernel/entry/common.c: note: in included file:
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got unsigned int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
->> include/linux/entry-common.h:285:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:285:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:285:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got unsigned int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-   include/linux/entry-common.h:298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   include/linux/entry-common.h:298:9: sparse:     expected void *ptr
-   include/linux/entry-common.h:298:9: sparse:     got int [noderef] __percpu *
-
-vim +285 include/linux/entry-common.h
-
-   264	
-   265	/**
-   266	 * exit_to_user_mode_loop - do any pending work before leaving to user space
-   267	 */
-   268	unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
-   269					     unsigned long ti_work);
-   270	
-   271	/**
-   272	 * exit_to_user_mode_prepare - call exit_to_user_mode_loop() if required
-   273	 * @regs:	Pointer to pt_regs on entry stack
-   274	 *
-   275	 * 1) check that interrupts are disabled
-   276	 * 2) call tick_nohz_user_enter_prepare()
-   277	 * 3) call exit_to_user_mode_loop() if any flags from
-   278	 *    EXIT_TO_USER_MODE_WORK are set
-   279	 * 4) check that interrupts are still disabled
-   280	 */
-   281	static __always_inline void exit_to_user_mode_prepare(struct pt_regs *regs)
-   282	{
-   283		unsigned long ti_work;
-   284	
- > 285		lockdep_assert_irqs_disabled();
-   286	
-   287		/* Flush pending rcuog wakeup before the last need_resched() check */
-   288		tick_nohz_user_enter_prepare();
-   289	
-   290		ti_work = read_thread_flags();
-   291		if (unlikely(ti_work & EXIT_TO_USER_MODE_WORK))
-   292			ti_work = exit_to_user_mode_loop(regs, ti_work);
-   293	
-   294		arch_exit_to_user_mode_prepare(regs, ti_work);
-   295	
-   296		/* Ensure that kernel state is sane for a return to userspace */
-   297		kmap_assert_nomap();
-   298		lockdep_assert_irqs_disabled();
-   299		lockdep_sys_exit();
-   300	}
-   301	
+dtcheck warnings: (new ones prefixed by >>)
+   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
+   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
+   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
+   	'jedec,spi-nor' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
+--
+   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
+   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
+   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
+   	'jedec,spi-nor' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
