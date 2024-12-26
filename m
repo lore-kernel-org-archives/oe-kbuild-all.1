@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136FB8F40
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 04:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8E422EE4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 04:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735186749; cv=none; b=JNsQ6V2JQmmOjx1dr+hdn2sHWbZhshjmQkthmhYNDfQYASAyV8znJZf/SoZfNdNIPHCYB99FXxe27RqUh6NJiLVhlti/tdbPy21KyHOEEo/ykKvQEpo7hHAY/Rh3ljNTL5gYqFhhnrtXKPBVRCfH47o/OjSOKtTg+J90dvF4Cr4=
+	t=1735186751; cv=none; b=QK+Tx0PYRFIUukRrsIMrl9PwUvPZqj5KUMXDr9+o0YE9FgaGMKHYPBrOt78asfQHlTGkSzYT4re6nw1Sbvr1VedUcYV3XL1BtITBs923bFGgQYeQgv2vKdaoeSaVUxPkaPi82hGT9Q6sdK/9rJjNM9uoG0cnD371HqMd0A1HCKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735186749; c=relaxed/simple;
-	bh=2CWI6vGuGZH7C/EwbHQA+iO3YT2c3ehcVGfuVLhqR08=;
+	s=arc-20240116; t=1735186751; c=relaxed/simple;
+	bh=Ow8DIytjQ8ne2EOH80T3SdZnhqeUF4X7dGtPikuNIOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YSaF44jFUhq3yJwh5PNo4rzKQGYMR1lfrY+fTIi6ht7fm9XP6A1nX5/wfFS19DCbllkKyjSGIP8eqIyQPK1/5kp6huDpmEjs940JstLC2m6G2/E1Qvg0EJguprmwO5Muy3YomeK9JUlDsPLKm6bCBDUYwk4zPaz6s3Og3BDCv8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iz5jF6Zj; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=UmI5TCAXXp1LrJrftU82AcvJZEtzf6II+mYKKdI0204hgJm3h7gkDuMRxCjWx+2nEIO4IkJOI61MW7OkN2pd2b6xeT5yBoCVzDosUBCxRbAIWLAj9majiNNbBdcnO1D3FPp47FqRikg18oFkDMCqCLFapedEwxhOJyBI1gI6CiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VsDsWnTM; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iz5jF6Zj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VsDsWnTM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735186747; x=1766722747;
+  t=1735186750; x=1766722750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2CWI6vGuGZH7C/EwbHQA+iO3YT2c3ehcVGfuVLhqR08=;
-  b=Iz5jF6ZjB99H19nTFB6qHfO+/9fs3NmBhPWrooer1BQgvAxooYgpMiwr
-   2e2mvQYAf9PlMraUj1hgPEJEBv5ufaCS2pHmYkBaXXYKsoAWnwNpbjXWr
-   OwQLemYJZD3QGoeAKUNQnchDTnKyciExs+DrU+CEBc5nfSMTYnTQJiJLT
-   vA/crtVG8FohZSwvWm5CrwoAU2g6iSueUXTd88RqXE9jEj8uPmJofSwuw
-   YfSbAFsSngLMP3gLjjmDgDZ8Zgaiqn1pvUlNU9VT/MprOkJ0PmBcdU3d3
-   4SeNy4Ccp9Nai1PO4ESxv7kfOQd4Ut4bARxuEv7J4amxKU8xi1GGdscpU
-   A==;
-X-CSE-ConnectionGUID: JOuEmw1zQsKL7XZvk00NJQ==
-X-CSE-MsgGUID: Er8J7LJkTAG67Vec6nH7Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="53138584"
+  bh=Ow8DIytjQ8ne2EOH80T3SdZnhqeUF4X7dGtPikuNIOc=;
+  b=VsDsWnTMHn0SKMl8QQAAYDg8/xblJm+7sX4vOiNkDHyQCzVqXH4xkAUI
+   fR2VmGt1ekMiukpTSpeSWp2LdPBcrj6rId6cYsYGXY5sorXt8aJfDCwLT
+   EG+2kCsLm3xL/t0vF0r5aVfiwfIzIqMm9nuGQgNqjnfVUmoKCp01HVSWq
+   kmLv+VoWasVAi+mE2b+C5Xg9BJKkihJqTx4uKwtF2H6SVKr3EKu7ZGmQ1
+   njMVrmRpV4hbZnwwMWivxSPTLyXVymB0qHW5PXWk+otMnTA+U7gYg+Eaa
+   8SKynT+FIfPp0vwAy4zWP9KNLqBsD19wPjHTGNkndUkLlM75SwhU0J/9i
+   Q==;
+X-CSE-ConnectionGUID: K6v1iDdBSCqpZPv8JXGuNw==
+X-CSE-MsgGUID: etQli/DpRGyjTrBFU+szqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="53138585"
 X-IronPort-AV: E=Sophos;i="6.12,265,1728975600"; 
-   d="scan'208";a="53138584"
+   d="scan'208";a="53138585"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 20:19:05 -0800
-X-CSE-ConnectionGUID: M00EoJchS9eVmuCnWKKIpg==
-X-CSE-MsgGUID: MvjmHbpiQB+vmez5A0/Bzw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 20:19:06 -0800
+X-CSE-ConnectionGUID: W/Ud2e/0SJSlQe1De4UVzw==
+X-CSE-MsgGUID: QVwNYEAhTc+hteHInSkv0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104476076"
+   d="scan'208";a="104476078"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 25 Dec 2024 20:19:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQfKw-0002Kc-1w;
+	id 1tQfKw-0002Kf-2H;
 	Thu, 26 Dec 2024 04:19:02 +0000
-Date: Thu, 26 Dec 2024 12:18:58 +0800
+Date: Thu, 26 Dec 2024 12:18:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: i2c@11009000:
- Unevaluated properties are not allowed ('mediatek,default-timing-adjust' was
- unexpected)
-Message-ID: <202412261248.NJbUzfcX-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1353/1353] fs/debugfs/file.o: warning:
+ objtool: full_proxy_open()+0x55a: unreachable instruction
+Message-ID: <202412261256.ak48t1qF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +62,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   811e48e07be5a00b2472cecba280dd56c8c200ef
-commit: a3e7c6a8ccc078fdf3ce4f6d4901016fa85972d7 [4/4] CHROMIUM: arm64: dts: mt8183: kenzo: Enable G2 touchscreen support
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241226/202412261248.NJbUzfcX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412261248.NJbUzfcX-lkp@intel.com/reproduce)
+Hi Drew,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   07d14ba27c5232baa4db34abda2725802e5cab3c
+commit: d4bdc26bcd632cee393b5171345d5fa6293fe42b [1353/1353] include/asm-generic/bug.h: fix "cut here" for WARN_ON for __WARN_TAINT architectures
+config: x86_64-randconfig-122-20241226 (https://download.01.org/0day-ci/archive/20241226/202412261256.ak48t1qF-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412261256.ak48t1qF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412261248.NJbUzfcX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412261256.ak48t1qF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: trackpad-pins: 'trackpad-int' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: volume-button-pins: 'voldn-btn-odl', 'volup-btn-odl' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'cam0@2', 'cam1@2', 'dpi_pin_default', 'dpi_pin_func', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'it6505_pins', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: i2c@11009000: Unevaluated properties are not allowed ('mediatek,default-timing-adjust' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: it6505dptx@5c: Unevaluated properties are not allowed ('hpd-gpios', 'interrupts', 'no-laneswap', 'port' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+All warnings (new ones prefixed by >>):
+
+   fs/debugfs/file.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/module.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   fs/debugfs/file.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   fs/debugfs/file.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   In file included from fs/debugfs/file.c:15:
+   include/linux/pagemap.h:401:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     401 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+>> fs/debugfs/file.o: warning: objtool: full_proxy_open()+0x55a: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
