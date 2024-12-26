@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22320182D7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 11:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87871CCEE7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 13:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735213271; cv=none; b=TLIhb+HEVJ1U2gUl/Kw8IByvbd/VQ6ILfzrwKOiDUCiWQmiO0jRoQ05AIjWwS4lRDkxJAMH1r8SPTwnKf5E7g8KQSM6WeabHjHpgX8rYw16qImdv/W7PwfHpyqq2lXBrAM0FZIbSkfWZ6CDwry450tp998AID/t/PQswGjW1LEY=
+	t=1735218861; cv=none; b=BtDuXNN3JfVE0UuCKZz3q1w+mEHK8HLCxhEJO93uTPVW+NEu2nY9QWcVgZRruKKH+Q+qXpKWYovRhc0DZM5WSWjbckexwhNH7eKJuU/C8IF0vfHMwK3jTOK16yEM/zvjupTyvjs7K1cO8W0UcOSKWCdW25sSjEaV5eH2zrO8hSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735213271; c=relaxed/simple;
-	bh=npqHrdcnDOzNdovcfbXtpNHBu5paU42IRjWV1pGxi8k=;
+	s=arc-20240116; t=1735218861; c=relaxed/simple;
+	bh=NJ088dU9Oy6Rn1CUxJQ4CtMbHRp4Kf3Lw5sWnodbrrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OYGfJAAD+5Z4iWw9FHBn+VVS+1//a8v8lq0Pdp0ByPfUh+FiYvLHob2Sd6ic1W32lRkoQbSG+UBuTrokLzRaEtVOm6CasBFlqwM9+n3XFJfJmm6SVja6hQ5MGak2kgOaBJDWi3FiM2WHHMzFoLmXncR0FWwwKoOFdE+UUymJfC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hnAeOA+U; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Hw6uAV8FW1n2+E8ds+g3ZZS4HlgenvPh4IUsmuwf0tzzEf9MCYE+UVl+HtQMJsNXjYNbkWZUbsTgGN+gdrkdQ/RG2ljtIOdHwyYK5qehkbrKTGQvwLv7PIh0msKb+OZvZEW2UlVdyWpqWGgFmixQcmNrrGbJzqwqplRGt8Cd8bI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNBYTLCc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hnAeOA+U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNBYTLCc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735213269; x=1766749269;
+  t=1735218858; x=1766754858;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=npqHrdcnDOzNdovcfbXtpNHBu5paU42IRjWV1pGxi8k=;
-  b=hnAeOA+Uun76M/wi2M0K+uhV3bP85ijiAmuyzCqi8jhYDhRZRgtP/PFY
-   UBjqxYOXw/4W0qpSUg677l49xEgw6qNbhQiU/fCknQxFsF4FNBFZ6sBZ3
-   fw2KDBzrJnxPcCKPIJYTavRCA03eAd5toMuuvOkZnNfyc632OM52FLAa5
-   0wlvUEb1xLnqiWfacrSlOF/3kBKezmy5pdiCWlqw0FpBRlMHOzSojVTqw
-   KlS/oV2CcLxsD4z70UV5iitOz0dnLRQJSqCmidMiO2MeNhC0f5B8eWlm+
-   ZSXAVTaHdpoSYDM/Y7J6gu9ovhtbk/mqQB9000with6HApj1Sqz1YIeuu
-   A==;
-X-CSE-ConnectionGUID: kTgJhc8pTzG7DifqhtrDdA==
-X-CSE-MsgGUID: rEzSGZAGSUi8MnXzyAW3rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="47051012"
+  bh=NJ088dU9Oy6Rn1CUxJQ4CtMbHRp4Kf3Lw5sWnodbrrg=;
+  b=jNBYTLCc44tOXrCrD9gijPwo9A+83uCe6lnX2WlqE3U/Ny5Ro6JdEumV
+   nMoyppXyquANlNwseziQpNxurP5wlCFCHvMN+2JqOzhZOMP8GRdot+Zhb
+   BGcP/B/1ytwuCgkl/dhgOrVeYKIky3QOI7+OEw7yg3HgzgfmdsRzUCai2
+   PHxzaf3fMOZMd3aImyvqfOCAR53+BjwMggCgw+IrvifjI6nzkAL2NE85a
+   gVXZXVlBT98TBsM6wWCyt0OZGLMbUlLw2mdtEFZcop1x82dCeavm1asos
+   FdQh92gTOLnRzqiTvBpkH7rbzrOf51DK8+4H7pIStPmyQ7s5DZHdzHlgA
+   g==;
+X-CSE-ConnectionGUID: uGPwAZP8THCbrRiQiZ6jeQ==
+X-CSE-MsgGUID: R+NxpwiASEGGDF8+/qcZdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35773082"
 X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
-   d="scan'208";a="47051012"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 03:41:08 -0800
-X-CSE-ConnectionGUID: GPqy1TbISgqlX9gMDmwhfA==
-X-CSE-MsgGUID: Hvw2qBWsTL2QaKV0ah+M5w==
+   d="scan'208";a="35773082"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 05:14:18 -0800
+X-CSE-ConnectionGUID: sWDZAvcsQnaF7oCLst3wHA==
+X-CSE-MsgGUID: wU6dLRrCQ3OkSb2cooduQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
-   d="scan'208";a="104755214"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="100399438"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Dec 2024 03:41:07 -0800
+  by orviesa007.jf.intel.com with ESMTP; 26 Dec 2024 05:14:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQmEj-0002YI-11;
-	Thu, 26 Dec 2024 11:41:05 +0000
-Date: Thu, 26 Dec 2024 19:40:50 +0800
+	id 1tQngs-0002aj-27;
+	Thu, 26 Dec 2024 13:14:14 +0000
+Date: Thu, 26 Dec 2024 21:13:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb:
- pinctrl@3500000: Unevaluated properties are not allowed
- ('cam_sensor_front_active', 'cam_sensor_front_suspend',
- 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend',
- 'cam_sensor_mclk1_active',...
-Message-ID: <202412261950.QgvUzHT1-lkp@intel.com>
+To: Gabriel Krisman Bertazi <krisman@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+Subject: [linux-next:master 3610/5236] io_uring/io_uring.h:229:27: error:
+ implicit declaration of function 'io_cache_alloc'; did you mean
+ 'kmem_cache_alloc'?
+Message-ID: <202412262106.bjOOaZcE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,151 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   811e48e07be5a00b2472cecba280dd56c8c200ef
-commit: 9eb4da56ac11238b4d176dd887f03a1a3220ea07 [4/4] CHROMIUM: arm64: dts: qcom: Restore camera bits on quackingstick/wormdingler
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241226/202412261950.QgvUzHT1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412261950.QgvUzHT1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+commit: 694022b01368387cc1ed8485e279dfe27939ee43 [3610/5236] io_uring: Add generic helper to allocate async data
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241226/202412262106.bjOOaZcE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412262106.bjOOaZcE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412261950.QgvUzHT1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412262106.bjOOaZcE-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: soc@0: qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: soc@0: qcom,ipe0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: soc@0: qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: panel@0: 'avee-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/boe,tv101wum-nl6.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
+Note: the linux-next/master HEAD 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2 builds fine.
+      It may have been fixed somewhere.
+
+All errors (new ones prefixed by >>):
+
+   In file included from io_uring/io_uring.c:82:
+   io_uring/io_uring.h: In function 'io_uring_alloc_async_data':
+>> io_uring/io_uring.h:229:27: error: implicit declaration of function 'io_cache_alloc'; did you mean 'kmem_cache_alloc'? [-Werror=implicit-function-declaration]
+     229 |         req->async_data = io_cache_alloc(cache, GFP_KERNEL, init_once);
+         |                           ^~~~~~~~~~~~~~
+         |                           kmem_cache_alloc
+   io_uring/io_uring.h:229:25: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     229 |         req->async_data = io_cache_alloc(cache, GFP_KERNEL, init_once);
+         |                         ^
+   In file included from io_uring/io_uring.c:104:
+   io_uring/alloc_cache.h: At top level:
+>> io_uring/alloc_cache.h:33:21: error: conflicting types for 'io_cache_alloc'; have 'void *(struct io_alloc_cache *, gfp_t,  void (*)(void *))' {aka 'void *(struct io_alloc_cache *, unsigned int,  void (*)(void *))'}
+      33 | static inline void *io_cache_alloc(struct io_alloc_cache *cache, gfp_t gfp,
+         |                     ^~~~~~~~~~~~~~
+   io_uring/io_uring.h:229:27: note: previous implicit declaration of 'io_cache_alloc' with type 'int()'
+     229 |         req->async_data = io_cache_alloc(cache, GFP_KERNEL, init_once);
+         |                           ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: soc@0: qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: soc@0: qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: panel@0: 'avee-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/boe,tv101wum-nl6.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: soc@0: qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: soc@0: qcom,ipe0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: soc@0: qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/cam_smmu/msm_cam_smmu_jpeg: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/cam_smmu/msm_cam_icp_fw: failed to match any schema with compatible: ['qcom,msm-cam-smmu-fw-dev']
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: soc@0: qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: soc@0: cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/cam_smmu/msm_cam_smmu_jpeg: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/cam_smmu/msm_cam_icp_fw: failed to match any schema with compatible: ['qcom,msm-cam-smmu-fw-dev']
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0: cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0: qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0: qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0: qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_smmu_jpeg: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_icp_fw: failed to match any schema with compatible: ['qcom,msm-cam-smmu-fw-dev']
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0: cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0: qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0: qcom,ipe0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0: qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0: qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: pinctrl@3500000: Unevaluated properties are not allowed ('cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/qcom,sync: failed to match any schema with compatible: ['qcom,cam-sync']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/qcom,cam-req-mgr: failed to match any schema with compatible: ['qcom,cam-req-mgr']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/cam_smmu: failed to match any schema with compatible: ['qcom,msm-cam-smmu']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_smmu_ife: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_smmu_lrme: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_smmu_jpeg: failed to match any schema with compatible: ['qcom,msm-cam-smmu-cb']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/cam_smmu/msm_cam_icp_fw: failed to match any schema with compatible: ['qcom,msm-cam-smmu-fw-dev']
+   In file included from io_uring/opdef.c:11:
+   io_uring/io_uring.h: In function 'io_uring_alloc_async_data':
+>> io_uring/io_uring.h:229:27: error: implicit declaration of function 'io_cache_alloc'; did you mean 'kmem_cache_alloc'? [-Werror=implicit-function-declaration]
+     229 |         req->async_data = io_cache_alloc(cache, GFP_KERNEL, init_once);
+         |                           ^~~~~~~~~~~~~~
+         |                           kmem_cache_alloc
+   io_uring/io_uring.h:229:25: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     229 |         req->async_data = io_cache_alloc(cache, GFP_KERNEL, init_once);
+         |                         ^
+   cc1: some warnings being treated as errors
+
+
+vim +229 io_uring/io_uring.h
+
+   224	
+   225	static inline void *io_uring_alloc_async_data(struct io_alloc_cache *cache,
+   226						      struct io_kiocb *req,
+   227						      void (*init_once)(void *obj))
+   228	{
+ > 229		req->async_data = io_cache_alloc(cache, GFP_KERNEL, init_once);
+   230		if (req->async_data)
+   231			req->flags |= REQ_F_ASYNC_DATA;
+   232		return req->async_data;
+   233	}
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
