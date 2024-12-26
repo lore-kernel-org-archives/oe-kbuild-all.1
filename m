@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1432F4F20C;
-	Thu, 26 Dec 2024 16:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C333138F80
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 16:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735229572; cv=none; b=Fi4CobKa6fICoJ5tMsVOHWL6xpIGjVvhy+B+yAT64mHrd/wpaBB9QUrDAxfyrfL2f3gK1Zd3kitUTse75nUBGe0Wk3D+MpbHpR9YNnxepeAsXkL4L8PTzhT9DtRM3X6wYerkXWgxIB+nwTJFXBOZfXDT3FU9t6OnQiR+epuLWxQ=
+	t=1735230892; cv=none; b=E559F/fb9K00hVVSnAapFxNQbS7XF8+FeAKkyF3KQs5+ekAJ0FTO+AGM9FNUI/aadzXpzkuns/DFz5Or6WzaZNKxPRFQ7STA/40y23/+beHJRrn4emFvYYRqoYIMpEfKJvYo+z+ziQxYAcT21xXVk4tDqC227+TzOELZAeX84ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735229572; c=relaxed/simple;
-	bh=VTlaFfUyGxXavHeYnrdDn3aVaMe/WmZQsQaO+nlu2y0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jC7/AiHYgSKTjHMgdf8U/VCD5kIqlUCUptorQd0QzbyoEhWI5WfQaE2k75XVp5+Z4S+7UyKVNMSZ3Xmph7BfZd8rz/OXO+sLAkUnUw3tP/Vb0NaDJK6wSjpBUxImEtKckgo8DvrUhmr4U9tJPZUcTU0J0rD87PRBD3cZzQXHrLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lj+2m7z7; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1735230892; c=relaxed/simple;
+	bh=u0PnS9EJj+HyREgBfPmisEJAfatWWNwnCdZRkfhrrQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aPwrJlq30DbtJBOTDHNxTWm1YBznWdZem8ilGTyx42StIPyGkHAC2jVNRHANif/CJub5NrsCOGJy2/bxoqjRsH+keBdErDP7k4AlRTnm4V7MwVSfMZZhAWnBQ6H0grsdEepVNS//1dLsYgosxUonhGAmQYL962FnRqilcjmqoTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bU9oXorU; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lj+2m7z7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bU9oXorU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735229570; x=1766765570;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VTlaFfUyGxXavHeYnrdDn3aVaMe/WmZQsQaO+nlu2y0=;
-  b=lj+2m7z7yFZV8GhptY5zEHZGZ9ljSLxSRmBMGxkbgZSCJ0GZneuWBxOH
-   Osvy3hWToMEL2j+ciI0/Bgaesr3bEHKOh3KSCcH4xdxfskUAmLfatmrEG
-   mwbFtZrBGMEn1Y5ujKhOAnMS3leldNz346sg+tK2fCrZQpaOlGJeF5zic
-   D174OgmZZZRKEV/wdtYkXE1oBWQMw8kfD5QDJL2IFQtCYfiqRnQs5ykWL
-   oRO14wte49Nb42ppWbvRoEvz7rb96iiCkn/CwUmN8I4fMMEuOqaLDNm95
-   tkGmwJVASoeAqHy/xmX8GGw4FTjvrbQ6bSRQpOlv4KNkIQbrEN36ByO1/
-   A==;
-X-CSE-ConnectionGUID: nVDDmzjjT2aO625NpKr2ZQ==
-X-CSE-MsgGUID: /ppgEfIORxWWWWbreJ4w7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35358540"
+  t=1735230891; x=1766766891;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u0PnS9EJj+HyREgBfPmisEJAfatWWNwnCdZRkfhrrQI=;
+  b=bU9oXorUfJHEsArpZkJv89B8V+tpxIcobVmcfCBWSezT1iMWraOaGliy
+   vYrkc8dPk4KNO56t633RiKTLkzY+s/mUUTnQo9JdQDD7qarpp8hjxlvaM
+   RbVwGspeiZ3SX5b2VN/VCGcHKG0gHPIX6loLlPT+GNctX/eIqeaJfLL2t
+   MFQFKSarccbEx2R2WhfcjUrACvX7GU23MXjIIJ8eviFuttUzQvR2Afc01
+   KjYUYalz5Du4N6osWW9pISrqjLdhuS056bH5VRijztfzqO8frUEwECjlS
+   5dx5T10+BP3htMTsLUlbTrzz1JgR24/2XqDXJrAgs3H0F3qsVPOM3ZRf0
+   w==;
+X-CSE-ConnectionGUID: Pqz1s79kRpSEK5SkrfyBmw==
+X-CSE-MsgGUID: y9X3ljivRe6LndakMT9iNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35814238"
 X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
-   d="scan'208";a="35358540"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 08:12:49 -0800
-X-CSE-ConnectionGUID: CllPXsfwR1CBqfRCEfds9g==
-X-CSE-MsgGUID: Lq2Ho4+KTYu+BnCu6FgcZQ==
+   d="scan'208";a="35814238"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 08:34:50 -0800
+X-CSE-ConnectionGUID: 76cBZe4NQ6mXayiQNmCx+w==
+X-CSE-MsgGUID: xCwWLZbxTNizCgL1yT7aaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="137295161"
+   d="scan'208";a="104961536"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Dec 2024 08:12:43 -0800
+  by orviesa005.jf.intel.com with ESMTP; 26 Dec 2024 08:34:49 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQqTZ-0002gT-0S;
-	Thu, 26 Dec 2024 16:12:41 +0000
-Date: Fri, 27 Dec 2024 00:12:02 +0800
+	id 1tQqow-0002hK-2T;
+	Thu, 26 Dec 2024 16:34:46 +0000
+Date: Fri, 27 Dec 2024 00:33:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gur Stavi <gur.stavi@huawei.com>, gongfan <gongfan1@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Cai Huoqing <cai.huoqing@linux.dev>, Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>
-Subject: Re: [PATCH net-next v02 1/1] hinic3: module initialization and tx/rx
- logic
-Message-ID: <202412262331.IwY6o4xF-lkp@intel.com>
-References: <bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi@huawei.com>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:asoc-6.14 3/47] sound/soc/fsl/fsl_easrc.c:1999:2-8:
+ WARNING: do_div() does a 64-by-32 division, please consider using div64_u64
+ instead.
+Message-ID: <202412270022.H4knKz3S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,140 +62,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi@huawei.com>
 
-Hi Gur,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 9268abe611b09edc975aa27e6ce829f629352ff4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gur-Stavi/hinic3-module-initialization-and-tx-rx-logic/20241226-192558
-base:   9268abe611b09edc975aa27e6ce829f629352ff4
-patch link:    https://lore.kernel.org/r/bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi%40huawei.com
-patch subject: [PATCH net-next v02 1/1] hinic3: module initialization and tx/rx logic
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20241226/202412262331.IwY6o4xF-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 319b89197348b7cad1215e235bdc7b5ec8f9b72c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412262331.IwY6o4xF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git asoc-6.14
+head:   69dcf023f1f13ca9c2e9e8f30b9ec52ac0486c0a
+commit: 27147695aaf7ccb0edc3f21454b5405c9037b4ba [3/47] ASoC: fsl_easrc: define functions for memory to memory usage
+config: csky-randconfig-r051-20241226 (https://download.01.org/0day-ci/archive/20241227/202412270022.H4knKz3S-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412262331.IwY6o4xF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412270022.H4knKz3S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> sound/soc/fsl/fsl_easrc.c:1999:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
 
-   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/um/include/asm/cacheflush.h:4:
-   In file included from arch/um/include/asm/tlbflush.h:9:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:292:3: error: call to undeclared function 'csum_ipv6_magic'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     292 |                 csum_ipv6_magic(&ip->v6->saddr, &ip->v6->daddr, 0, proto, 0);
-         |                 ^
-   13 warnings and 1 error generated.
+vim +1999 sound/soc/fsl/fsl_easrc.c
 
-
-vim +/csum_ipv6_magic +292 drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-
-   287	
-   288	static __sum16 csum_magic(union hinic3_ip *ip, unsigned short proto)
-   289	{
-   290		return (ip->v4->version == 4) ?
-   291			csum_tcpudp_magic(ip->v4->saddr, ip->v4->daddr, 0, proto, 0) :
- > 292			csum_ipv6_magic(&ip->v6->saddr, &ip->v6->daddr, 0, proto, 0);
-   293	}
-   294	
+  1949	
+  1950	/* calculate capture data length according to output data length and sample rate */
+  1951	static int fsl_easrc_m2m_calc_out_len(struct fsl_asrc_pair *pair, int input_buffer_length)
+  1952	{
+  1953		struct fsl_asrc *easrc = pair->asrc;
+  1954		struct fsl_easrc_priv *easrc_priv = easrc->private;
+  1955		struct fsl_easrc_ctx_priv *ctx_priv = pair->private;
+  1956		unsigned int in_rate = ctx_priv->in_params.norm_rate;
+  1957		unsigned int out_rate = ctx_priv->out_params.norm_rate;
+  1958		unsigned int channels = pair->channels;
+  1959		unsigned int in_samples, out_samples;
+  1960		unsigned int in_width, out_width;
+  1961		unsigned int out_length;
+  1962		unsigned int frac_bits;
+  1963		u64 val1, val2;
+  1964	
+  1965		switch (easrc_priv->rs_num_taps) {
+  1966		case EASRC_RS_32_TAPS:
+  1967			/* integer bits = 5; */
+  1968			frac_bits = 39;
+  1969			break;
+  1970		case EASRC_RS_64_TAPS:
+  1971			/* integer bits = 6; */
+  1972			frac_bits = 38;
+  1973			break;
+  1974		case EASRC_RS_128_TAPS:
+  1975			/* integer bits = 7; */
+  1976			frac_bits = 37;
+  1977			break;
+  1978		default:
+  1979			return -EINVAL;
+  1980		}
+  1981	
+  1982		val1 = (u64)in_rate << frac_bits;
+  1983		do_div(val1, out_rate);
+  1984		val1 += (s64)ctx_priv->ratio_mod << (frac_bits - 31);
+  1985	
+  1986		in_width = snd_pcm_format_physical_width(ctx_priv->in_params.sample_format) / 8;
+  1987		out_width = snd_pcm_format_physical_width(ctx_priv->out_params.sample_format) / 8;
+  1988	
+  1989		ctx_priv->in_filled_len += input_buffer_length;
+  1990		if (ctx_priv->in_filled_len <= ctx_priv->in_filled_sample * in_width * channels) {
+  1991			out_length = 0;
+  1992		} else {
+  1993			in_samples = ctx_priv->in_filled_len / (in_width * channels) -
+  1994				     ctx_priv->in_filled_sample;
+  1995	
+  1996			/* right shift 12 bit to make ratio in 32bit space */
+  1997			val2 = (u64)in_samples << (frac_bits - 12);
+  1998			val1 = val1 >> 12;
+> 1999			do_div(val2, val1);
+  2000			out_samples = val2;
+  2001	
+  2002			out_length = out_samples * out_width * channels;
+  2003			ctx_priv->in_filled_len = ctx_priv->in_filled_sample * in_width * channels;
+  2004		}
+  2005	
+  2006		return out_length;
+  2007	}
+  2008	
 
 -- 
 0-DAY CI Kernel Test Service
