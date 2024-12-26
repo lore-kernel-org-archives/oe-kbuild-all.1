@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B757E176ADE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 23:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C6214A0A3;
+	Thu, 26 Dec 2024 23:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735254151; cv=none; b=qic2Qa8/+1ZIYrWGudXj/FM+euG7Rsw5bvsLFcFfy+vvmPsRhVBlfrC1b4p/gevde8CtYQMSj9oo6zrOEUJcTezZl4CET7O8E/RI7vBJ+6rb/Kb/hYF7A18EmYkmhdIrWodvrpXJJVkC+uAthEs0cmuJT5EvaC3lcTf2sGYkfBw=
+	t=1735256015; cv=none; b=qgvaj6/neH2JuEiq1HK/qos+GW2PVFEIcuyp8b+4a4w2gi+ZGWn/Gs2VuJ7HXV1PiTvEs3vSNCKGmVN/0TVcI26cRw+NmzmOaB7gnQKqOPxWmnRyhod9nN6ck8ehfAi2oRer89LpmKo3vq1/eHpGR9dgz4pTyeamUa8n0pLFzAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735254151; c=relaxed/simple;
-	bh=tSqTbZPJlxPHwRDMKxPF6j/TBXlDHeMvmq+xppgoj6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EQ8pqHusmqJxfbcm0Eu7bmR/h4vLqq9zU2Lv7GODtNxTm4lNgimGfUvxIpXO90Kdq2fCPr2Li2KIwNrYHD2oTUXMKpa6LCZa5vefOLN8dnkGTm8Hv5m8bzGklz20TkZZQfcG0a/5GCiQoakbsleB+39DJMIE/IFpoUB8NMh2TlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHrxqLLr; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1735256015; c=relaxed/simple;
+	bh=e8L/FcJAcngqHp+Vq6AA1zZh8CFRUiI1I192bTq9bS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y5gb5Jv2Qr4V7y6W4FpCrcq7Afvpbi7Ahg9D62Rg7EXtFNBt36hcyJc62+G0tyYJ2ZsOmWKC/SSn1nG8BXOYnRKIilPkwzsglfmNi3IEOdUQK8DrdVwffyR97J+2yc+SNV6Y81ntECoi2BZXKlekgkhpcC0K2REaYUF5S+3vX7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtYk1zRT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHrxqLLr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtYk1zRT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735254148; x=1766790148;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tSqTbZPJlxPHwRDMKxPF6j/TBXlDHeMvmq+xppgoj6A=;
-  b=BHrxqLLrEe2N3+WkymfwbWFBw28ixf0GHC9g6D4VvIFFZp09vLUO6BmW
-   Z+LltdYcAcek12nOB8x4G7nJYRfvxECID8dG9x0XIhFWgVGqF7NBz6ByB
-   bJv+wjf+m5wI13bRlIyzJcKkt9HDYQMgq/SJ3QCwJrI85lSaSgEn9xbY4
-   iDpf2dLpCmwXGNwtR26iblkgXdB4oXra/QpAN1YFNdhU3IcbRBpFqQTQA
-   8H3bxRMmsxnf+vWxGyIkP7hqxbPW6eS+e7Ue7f/+atCCRJV+HomBJIS5B
-   ZOP1zVEbZuXxbmHgC6WPDujXglHE8EnXZr9DgAXCew4/sUya/Bz/q8xsv
-   Q==;
-X-CSE-ConnectionGUID: ElWZg9MySPOCjviL2nwziQ==
-X-CSE-MsgGUID: 18YEHuycSceT2QNsUk6MzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="46666633"
+  t=1735256013; x=1766792013;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e8L/FcJAcngqHp+Vq6AA1zZh8CFRUiI1I192bTq9bS8=;
+  b=FtYk1zRTw4Q3rXkn4VNTWUQvnaoA5QX6lOHwTJxlvWlM6HxriT8YGxp5
+   f8xwjZAe9gZWS2gTHXOoA7C9XVbo4cNf2AlGkOYLCp24Z4Uh9XETFN+hX
+   VQoN+0l9/Gg/0HCDtFDEQYBbAeUkrCFZ1jANjUQPqf2/gsekdxSWOuZJ1
+   zHY1HbM/JeKBUnxMT/v37k3Bs8XwqOZWm1ZnlBsCzyV9VJTaxqfJhacVV
+   axYX6Qr40nDHaG/nKbj21JSb7T2QC0VNKS/cSIEksYWMWljzOo9uEH/zw
+   XdshEm5jjAI18ey31YZYLLwYxGSHfCCI3+jFd13SmiurWwFss/CSmswN5
+   A==;
+X-CSE-ConnectionGUID: hDN+XNoiSEm5yM6ZR6kJng==
+X-CSE-MsgGUID: lpWx1P5aR1yW7G8ZhgfxNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="35901618"
 X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
-   d="scan'208";a="46666633"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 15:02:28 -0800
-X-CSE-ConnectionGUID: vy21rOaHRJuiF8wG0tQC2Q==
-X-CSE-MsgGUID: cD9RkeaKSymlzU4lJudLbg==
+   d="scan'208";a="35901618"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 15:33:32 -0800
+X-CSE-ConnectionGUID: Rpmn7W0zSe+lSCGVkSAm/Q==
+X-CSE-MsgGUID: xFTe4qVBRtOBwIV5v2FXVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
-   d="scan'208";a="130873121"
+   d="scan'208";a="104996822"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Dec 2024 15:02:28 -0800
+  by orviesa004.jf.intel.com with ESMTP; 26 Dec 2024 15:33:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQws5-0002qA-0J;
-	Thu, 26 Dec 2024 23:02:25 +0000
-Date: Fri, 27 Dec 2024 07:01:23 +0800
+	id 1tQxM7-0002qs-2Q;
+	Thu, 26 Dec 2024 23:33:27 +0000
+Date: Fri, 27 Dec 2024 07:32:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1667/1667] mm/page_cache_limit.c:35:5: sparse:
- sparse: symbol 'cache_reclaim_enable_handler' was not declared. Should it be
- static?
-Message-ID: <202412270644.ScfyxcPp-lkp@intel.com>
+To: Nihar Chaithanya <niharchaithanya@gmail.com>, dpenkler@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, dan.carpenter@linaro.org,
+	skhan@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nihar Chaithanya <niharchaithanya@gmail.com>
+Subject: Re: [PATCH v4 07/15] staging: gpib: fmh: Handle
+ gpib_register_driver() errors
+Message-ID: <202412270718.ELKIIc5I-lkp@intel.com>
+References: <20241226193637.241049-8-niharchaithanya@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +67,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241226193637.241049-8-niharchaithanya@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   16a0cbac6609f8ba10a91a9d52b15bf28243c3ee
-commit: 621647ce254f1d347ae9bc3d328c09cbb2732487 [1667/1667] mm: support periodical memory reclaim
-config: loongarch-randconfig-r121-20241227 (https://download.01.org/0day-ci/archive/20241227/202412270644.ScfyxcPp-lkp@intel.com/config)
+Hi Nihar,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nihar-Chaithanya/staging-gpib-Modify-gpib_register_driver-to-return-error-if-it-fails/20241227-035743
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20241226193637.241049-8-niharchaithanya%40gmail.com
+patch subject: [PATCH v4 07/15] staging: gpib: fmh: Handle gpib_register_driver() errors
+config: loongarch-randconfig-001-20241227 (https://download.01.org/0day-ci/archive/20241227/202412270718.ELKIIc5I-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241227/202412270644.ScfyxcPp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412270718.ELKIIc5I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412270644.ScfyxcPp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412270718.ELKIIc5I-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/page_cache_limit.c:35:5: sparse: sparse: symbol 'cache_reclaim_enable_handler' was not declared. Should it be static?
->> mm/page_cache_limit.c:51:5: sparse: sparse: symbol 'cache_reclaim_sysctl_handler' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/cache_reclaim_enable_handler +35 mm/page_cache_limit.c
-
-    34	
-  > 35	int cache_reclaim_enable_handler(struct ctl_table *table, int write,
-    36				void *buffer, size_t *length, loff_t *ppos)
-    37	{
-    38		int ret;
-    39	
-    40		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-    41		if (ret || !write)
-    42			return ret;
-    43	
-    44		if (should_periodical_reclaim())
-    45			schedule_delayed_work(&shepherd, round_jiffies_relative(
-    46				(unsigned long)vm_cache_reclaim_s * HZ));
-    47	
-    48		return 0;
-    49	}
-    50	
-  > 51	int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
-    52			void *buffer, size_t *length, loff_t *ppos)
-    53	{
-    54		int ret;
-    55	
-    56		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-    57		if (ret || !write)
-    58			return ret;
-    59	
-    60		if (should_periodical_reclaim())
-    61			mod_delayed_work(system_unbound_wq, &shepherd,
-    62					round_jiffies_relative(
-    63					(unsigned long)vm_cache_reclaim_s * HZ));
-    64	
-    65		return ret;
-    66	}
-    67	
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_t1_delay':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:262:(.text+0x388): undefined reference to `nec7210_t1_delay'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_serial_poll_status':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:211:(.text+0x3e0): undefined reference to `nec7210_serial_poll_status'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_secondary_address':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:133:(.text+0x3f0): undefined reference to `nec7210_secondary_address'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_primary_address':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:126:(.text+0x3fc): undefined reference to `nec7210_primary_address'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_update_status':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:119:(.text+0x408): undefined reference to `nec7210_update_status'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_response':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:154:(.text+0x414): undefined reference to `nec7210_parallel_poll_response'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:140:(.text+0x420): undefined reference to `nec7210_parallel_poll'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_configure':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:147:(.text+0x42c): undefined reference to `nec7210_parallel_poll_configure'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_disable_eos':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:112:(.text+0x434): undefined reference to `nec7210_disable_eos'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_enable_eos':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:105:(.text+0x444): undefined reference to `nec7210_enable_eos'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_remote_enable':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:98:(.text+0x450): undefined reference to `nec7210_remote_enable'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_interface_clear':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:91:(.text+0x45c): undefined reference to `nec7210_interface_clear'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_request_system_control':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:84:(.text+0x468): undefined reference to `nec7210_request_system_control'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_go_to_standby':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:76:(.text+0x470): undefined reference to `nec7210_go_to_standby'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_take_control':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:69:(.text+0x47c): undefined reference to `nec7210_take_control'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_command':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:62:(.text+0x490): undefined reference to `nec7210_command'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_write':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:54:(.text+0x4a8): undefined reference to `nec7210_write'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_read':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:46:(.text+0x4c0): undefined reference to `nec7210_read'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_detach':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1512:(.text+0x63c): undefined reference to `nec7210_board_reset'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_internal_interrupt':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1166:(.text+0x720): undefined reference to `push_gpib_event'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1170:(.text+0x73c): undefined reference to `nec7210_interrupt_have_status'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_device_match':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1370:(.text+0x924): undefined reference to `gpib_match_device_path'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_dma_callback':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:363:(.text+0xeb8): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_fifo_write_countable':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:607:(.text+0xf88): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:608:(.text+0xf9c): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:631:(.text+0x1034): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:648:(.text+0x1140): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o:drivers/staging/gpib/fmh_gpib/fmh_gpib.c:649: more undefined references to `nec7210_set_reg_bits' follow
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_pci_detach':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1637:(.text+0x166c): undefined reference to `nec7210_board_reset'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1342:(.text+0x1978): undefined reference to `nec7210_board_reset'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1344:(.text+0x1998): undefined reference to `nec7210_set_handshake_mode'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1351:(.text+0x19c8): undefined reference to `nec7210_board_online'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_pci_attach_impl':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1545:(.text+0x1cbc): undefined reference to `gpib_pci_get_device'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_dma_write':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:426:(.text+0x1f20): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:427:(.text+0x1f34): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:453:(.text+0x2070): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_dma_read':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:761:(.text+0x23ac): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:762:(.text+0x23c0): undefined reference to `nec7210_set_reg_bits'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o:drivers/staging/gpib/fmh_gpib/fmh_gpib.c:787: more undefined references to `nec7210_set_reg_bits' follow
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_exit_module':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1734:(.exit.text+0x18): undefined reference to `gpib_unregister_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1735:(.exit.text+0x20): undefined reference to `gpib_unregister_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1736:(.exit.text+0x28): undefined reference to `gpib_unregister_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1737:(.exit.text+0x30): undefined reference to `gpib_unregister_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init_module':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1700:(.init.text+0x70): undefined reference to `gpib_register_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1704:(.init.text+0x88): undefined reference to `gpib_register_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1708:(.init.text+0xa0): undefined reference to `gpib_register_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1712:(.init.text+0xb4): undefined reference to `gpib_register_driver'
+>> loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1719:(.init.text+0xc4): undefined reference to `gpib_unregister_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1721:(.init.text+0xcc): undefined reference to `gpib_unregister_driver'
+   loongarch64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1723:(.init.text+0xd4): undefined reference to `gpib_unregister_driver'
 
 -- 
 0-DAY CI Kernel Test Service
