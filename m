@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937421D5143
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 13:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938EF18E1F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Dec 2024 13:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735218863; cv=none; b=o4n+zuZWE9cVFtfND/p2Abw0G7AFBnFNQ1NmDdyl2LcPd4dsNPS3iLMe0WY6ulzs15mY6sje4qmWkmluF3ZGY6WWSlMbcFSlN2HIQmM4SCngYy8QZ7pCUzcVa6b8cIiVAmGGEeRU9p51A7BrXtm+uvUMcHQTvvc0rBa38sfPGXY=
+	t=1735220723; cv=none; b=duAyPJExij/Yn0sg8Ruspaf5O6Z/0PuBEuE6/4BACySRBcx0br/2ZRkkvHTOg9SenHHuyWsjAIx2/d+TxT52O08EmO3/LaKYco9zimT4eZSOiHYnv4AP+aePt99ylhawt/68wHVdEsLZjxj3Ev+fd9BfchjlpuIH8xvA1dFd4Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735218863; c=relaxed/simple;
-	bh=Oe02r+DdfCXuXoCIAtatNkcP9IHe1BXCGTCm8vVE8hY=;
+	s=arc-20240116; t=1735220723; c=relaxed/simple;
+	bh=72jqLT5KdUhx5l7bPyF5Qy83+89aaUDh0CR/ykXdl4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y5+1/qd2LOICMNn4yXNmZvgLlElkEX/G4eEk8b6THaAJuE/FW/sgquOuUnss/Q32cjMTVG2+jNlTXigRR7VxJVAsBf5bNt4V5t2O7QHo0mXsw89XY894n25hfjqW0lXqlGLgilB9a6tgyqAfL7gMERyBXiHPex9iJ0f+CyR2tdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fti7O+3x; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=TLIjKEYxcfMUKU7kICIPrW2R1ENTEzqARJvvWgIBlsieahyM+dutcnaSefZtRe2uc/wBlOWEoB90fOQ90Mphyi/PIW6TVtccUPATRdAqdAMf0cEUqZ+DbnDCaTC2nei/ykpwOVtmKmAEFWIdU+vkm6zJivFeO2P2WCqmQK0zaPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apLqUBzt; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fti7O+3x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apLqUBzt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735218861; x=1766754861;
+  t=1735220722; x=1766756722;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Oe02r+DdfCXuXoCIAtatNkcP9IHe1BXCGTCm8vVE8hY=;
-  b=Fti7O+3xS13rVZI4l1H8SR5KqU5gSA/ajzgZ0OWYBqI/zWyeRsfUJYSr
-   53OyZx2+kmOnZOlgZOyMfvxIOZm7cH5ucTYyeAb9SDVm6edzHc4/B4BMO
-   +l0wtIgL2RqseveYdpWGBovh+OxdkV/ySzLY05ogzSC9EqtB858beIyzX
-   o18Hl2azZfLHqT9SS8CGY6k46BXjCRmKcQVaahVsK7oTrIx5osvmpFhWR
-   CTSIlDTPeFyigxipptBiaep/ox7ZMoscRvx4bAqFVmZLyOFbP8UQl7668
-   sF5Rq+ikCXQiRwx73wuL/kIB9+7GRajMUoiw5+HhaBI9jaS1016yEIHzr
+  bh=72jqLT5KdUhx5l7bPyF5Qy83+89aaUDh0CR/ykXdl4U=;
+  b=apLqUBztUFhhvYHsmFJ9xMeZpp/mzhSQxniqbCjW38ULKoZaR+SWvVqD
+   jfGmow9P51157J6kWoBEXCFEXLdc7OgJEgQn2MVfbaNphGqJ/jWroI/IM
+   fXZCDk0HF6NrtBwuKTQ6cKxhOT05LbITSyKuL0s/ne1yGBbV6MMaqspXk
+   qnPTufUmhB/Q/Wq2BFa8PB4Ra6AXqsyrYKqoCUz/biSAG4gocuOyjCLaS
+   Mg2u1bop7j8Qq1aDxT4dwhYqF9XfMxfolpiPOvuiwhXpviWlg3rcHU5h0
+   8uwFeVtn/u7yeo5LJP9QR0q43TeKA5nJlz48fuON/Q6YGkgxZFFR2b7hM
    g==;
-X-CSE-ConnectionGUID: CUWlBoajTsijvVae4CVG9A==
-X-CSE-MsgGUID: zbWQID+DQDO1OwGTjjKS3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35773081"
+X-CSE-ConnectionGUID: pQsqL9QUQsmQPnx/S4qV0w==
+X-CSE-MsgGUID: wjVLxy1xR1Chc22Z1MrIOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="47010375"
 X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
-   d="scan'208";a="35773081"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 05:14:18 -0800
-X-CSE-ConnectionGUID: 1NtUEck3S6+LZEVKx0VaYQ==
-X-CSE-MsgGUID: w6CoDlsRT42xrXpmmDF1Yw==
+   d="scan'208";a="47010375"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 05:45:22 -0800
+X-CSE-ConnectionGUID: +JX9V32AQOukkZLYUWy4sw==
+X-CSE-MsgGUID: 0sj2U9nuSsyLVkFKFWNdFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100399437"
+   d="scan'208";a="130909049"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 Dec 2024 05:14:17 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 26 Dec 2024 05:45:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQngs-0002ag-1X;
-	Thu, 26 Dec 2024 13:14:14 +0000
-Date: Thu, 26 Dec 2024 21:13:18 +0800
+	id 1tQoAw-0002bi-0M;
+	Thu, 26 Dec 2024 13:45:18 +0000
+Date: Thu, 26 Dec 2024 21:44:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 1632/5236] fs/bcachefs/btree_trans_commit.o:
- warning: objtool: bch2_trans_commit_write_locked.isra.0+0xf54: return with
- modified stack frame
-Message-ID: <202412262110.z2qHvawz-lkp@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.debugfs 10/18] alpha-linux-ld:
+ drivers/net/netdevsim/hwstats.o:(.data.rel+0x0): multiple definition of
+ `debugfs_ops';
+ drivers/net/wireless/broadcom/b43legacy/debugfs.o:(.data.rel+0x0): first
+ defined here
+Message-ID: <202412262154.UXjUsZtG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +65,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-commit: e398d6fb0f5aace9f5d181fab0b9dfb7c1025938 [1632/5236] bcachefs: bch2_trans_verify_not_unlocked_or_in_restart()
-config: loongarch-randconfig-r052-20241225 (https://download.01.org/0day-ci/archive/20241226/202412262110.z2qHvawz-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412262110.z2qHvawz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.debugfs
+head:   edd14476c23067c1b707ebbcf685fb1ec9339acf
+commit: 128048c2dc3cfcc04c1437816cf4db1e5d3305ed [10/18] netdevsim: don't embed file_operations into your structs
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241226/202412262154.UXjUsZtG-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412262154.UXjUsZtG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412262110.z2qHvawz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412262154.UXjUsZtG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/bcachefs/btree_trans_commit.o: warning: objtool: bch2_trans_commit_write_locked.isra.0+0xf54: return with modified stack frame
-   fs/bcachefs/btree_trans_commit.o: warning: objtool: do_bch2_trans_commit.isra.0+0x230: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
-   fs/bcachefs/btree_trans_commit.o: warning: objtool: __bch2_trans_commit+0x48: stack state mismatch: reg1[23]=-1+0 reg2[23]=-2-16
+>> alpha-linux-ld: drivers/net/netdevsim/hwstats.o:(.data.rel+0x0): multiple definition of `debugfs_ops'; drivers/net/wireless/broadcom/b43legacy/debugfs.o:(.data.rel+0x0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
