@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C9EA920
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE849433D9
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 20:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735332045; cv=none; b=qnZ8y4YTJYlexHECDK5mAlWAbdKOI7Ez9UUrsBWzB+Wl7xz6eRHkxUx9UNEyiloTsH6hUoaSSFEJf4+O7kezs6fMVCv/UopAniMtl5IDjKK+GUwo0pm6PbqLt9y5Sgb2v0mUcVpQmpqhoVwsX1mAlkG8vCVYXYc/Kpfsi/UX14s=
+	t=1735332045; cv=none; b=LE49G4wt93tPp+sFbTtH7e3AJlzFHXZNr3wXoSfixNYoZeZFV1ccOofG8FL6aKZ4+2xHbxv11ZJdrt7QgkhnzbTmGE8AJflacHXq4hjaOWePwndwtb529yCB/2um7mqF8Gx6obXhplqqph6t1cO9Snxs02zZExmm03x7s3PeoDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1735332045; c=relaxed/simple;
-	bh=AZq5keRfuZDbi3ZoPt88AsBjkw+RkOq54cWaPgnxrNU=;
+	bh=yb24ArD/IjpBEsJbsSA1Nv+fJR/KLOMaxKOS8fjeze4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IfIFYQE4YH52QJUgj2nB1dpUewUpIvOLFKVdUSLeSII0KoBlQZMPVhw/MFihVR54d7TqkmMlEkdkiCYx8gY621eQnsfFAO7HshlwEo05Nh/RlZeSgDkevzN3cla3yrWiGBUNZk+t5nIAMkFhQ7RMkWUGYRJmrqebMyWO9MBS7io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NxWmo4D8; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=qP68xXUNVm4DxI4phoyVJaBPaQHIoyt+dJDTeMW8FyzdstqLDSsE1pvN0+U9kb9U/jOhBNlnFXgSGU/cR1RDQGvtYcJJww1RYtwVDjLmUjvKypcUrIFUpNoPaAR27em/p5DuV24g6HyPoS6SAzFQGuQyRnFS1ElMcu/NTv3uVVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LduwvGNL; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NxWmo4D8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LduwvGNL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735332043; x=1766868043;
+  t=1735332044; x=1766868044;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AZq5keRfuZDbi3ZoPt88AsBjkw+RkOq54cWaPgnxrNU=;
-  b=NxWmo4D8J1N8PJVDi0gg6EZst//0jl6r2HKbP4lDOK+PsBB1TvjuN5MJ
-   vmXjfuiwe18rO5YqmA/axcN3RUBPn7jfT/r9/4tk9cZyryUG6S0cx6Hc5
-   wOe+2D/LNQUexPbB5MQFS/PXyqo7/35EOrRPcrNnr7cKFKxIn/PJOMQ93
-   qV0NcFrcCO5yN/cQBL2ud2FfppAKiHBusXq6uNFo7cQDsqErfOvEBKAsW
-   C4xZUqXMZmXhqmhLxBNLFZsehDRpa1+BsYgmq77X023npq47nqsU/2zAj
-   AOcSovGkk4Z18/RAob0DvmjIeZOLTOeWz2WOuRwZiKJGIm04y18s8kdw8
+  bh=yb24ArD/IjpBEsJbsSA1Nv+fJR/KLOMaxKOS8fjeze4=;
+  b=LduwvGNL7Eb/uzOAbMwt/hysY5yyj3Lsod5D3IAqK5ZbVSA8w+6iKVEb
+   t+wkZiiBoguaHN/PfwGOfRda6axlDn4l+yXWcJVGUE3rBfXN9U8uPf59p
+   9PA78p0da7RpujDdywfjzauBYBWCG76wZh731BCW9zsgZMDF6e3kfwssf
+   YBwybm97Wm+LbOLSoPk2uOpBNfyEnr2KQfX1q/TzxPsjxvsUv2F2aCvNc
+   kWsSae8H+ayhd8EIeoYVwlwsbvtX4Ya+jgZGu4gAiqenGmd9qmeIDTR4U
+   WjNxUF96SPj+ccWY6eH8ELbtQEUhnHEZlxjZLvguaqGAmVAWSCmo1d8hh
    A==;
-X-CSE-ConnectionGUID: crti+c3PSbqilRXTmK3smA==
-X-CSE-MsgGUID: tXBTMx3vQTq6rJP097Ns4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="39505670"
+X-CSE-ConnectionGUID: iA38UXcJTR+YloszQhHm2A==
+X-CSE-MsgGUID: xN/N/avbTViIDSeKVpfUdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35870445"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="39505670"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 12:40:41 -0800
-X-CSE-ConnectionGUID: plv6vxoLTHGaIuLIUdHeww==
-X-CSE-MsgGUID: I+xYNchIQLaU6PlZb2+cBA==
+   d="scan'208";a="35870445"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 12:40:41 -0800
+X-CSE-ConnectionGUID: TTlmC1yORbiJYuyIOZU6iA==
+X-CSE-MsgGUID: a2qqQM9zTK6FY697aS6NFw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104854259"
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
+   d="scan'208";a="105206414"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Dec 2024 12:40:39 -0800
+  by orviesa004.jf.intel.com with ESMTP; 27 Dec 2024 12:40:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRH8P-0003ah-39;
+	id 1tRH8P-0003ae-2w;
 	Fri, 27 Dec 2024 20:40:37 +0000
-Date: Sat, 28 Dec 2024 04:40:26 +0800
+Date: Sat, 28 Dec 2024 04:40:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
+To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:fix_sp_calculation 12/13]
- arch/x86/include/asm/msr.h:364:9: error: call to undeclared function
- 'wrmsr_safe'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202412280449.8l1RvHBS-lkp@intel.com>
+Subject: [pali:cifs 30/48] fs/smb/client/connect.c:3168:21: sparse: sparse:
+ cast to restricted __be16
+Message-ID: <202412280418.Hfy5nEvo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,199 +62,199 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git fix_sp_calculation
-head:   04e87989806be09036718fa57acd80ea138c2319
-commit: 688f8f5d716435f44712807ae801abfb1c1f5c50 [12/13] x86/msr: Remove MSR write APIs that take MSR value in two u32 arguments
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241228/202412280449.8l1RvHBS-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280449.8l1RvHBS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
+head:   cc26137de51202e7210b058f6696393f1e006d46
+commit: 20d462f966b7d331cfc7e9f6c152bd324db85302 [30/48] cifs: Improve establishing SMB connection with NetBIOS session
+config: x86_64-randconfig-123-20241225 (https://download.01.org/0day-ci/archive/20241228/202412280418.Hfy5nEvo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280418.Hfy5nEvo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412280449.8l1RvHBS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412280418.Hfy5nEvo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/smb/client/connect.c:3137:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] length @@     got restricted __be16 [usertype] @@
+   fs/smb/client/connect.c:3137:20: sparse:     expected unsigned short [addressable] [assigned] [usertype] length
+   fs/smb/client/connect.c:3137:20: sparse:     got restricted __be16 [usertype]
+>> fs/smb/client/connect.c:3168:21: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3181:21: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3225:21: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
+   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
 
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:17:
-   In file included from include/linux/slab.h:16:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:22:
-   In file included from include/linux/mm_types.h:16:
-   In file included from include/linux/uprobes.h:18:
-   In file included from include/linux/timer.h:6:
-   In file included from include/linux/ktime.h:25:
-   In file included from include/linux/jiffies.h:10:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:6:
-   In file included from arch/x86/include/asm/tsc.h:10:
->> arch/x86/include/asm/msr.h:364:9: error: call to undeclared function 'wrmsr_safe'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     364 |         return wrmsr_safe(msr_no, l, h);
-         |                ^
-   arch/x86/include/asm/msr.h:364:9: note: did you mean 'wrmsrl_safe'?
-   arch/x86/include/asm/msr.h:303:19: note: 'wrmsrl_safe' declared here
-     303 | static inline int wrmsrl_safe(u32 msr, u64 val)
-         |                   ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
+vim +3168 fs/smb/client/connect.c
 
-
-vim +/wrmsr_safe +364 arch/x86/include/asm/msr.h
-
-505422517d3f12 arch/x86/include/asm/msr.h Borislav Petkov 2009-12-11  312  
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  313  #ifdef CONFIG_SMP
-c6f31932d0a1d2 include/asm-x86/msr.h      H. Peter Anvin  2008-08-25  314  int rdmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 *l, u32 *h);
-c6f31932d0a1d2 include/asm-x86/msr.h      H. Peter Anvin  2008-08-25  315  int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h);
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  316  int rdmsrl_on_cpu(unsigned int cpu, u32 msr_no, u64 *q);
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  317  int wrmsrl_on_cpu(unsigned int cpu, u32 msr_no, u64 q);
-5323922f50ecdf arch/x86/include/asm/msr.h Thomas Gleixner 2024-03-04  318  void rdmsr_on_cpus(const struct cpumask *mask, u32 msr_no, struct msr __percpu *msrs);
-5323922f50ecdf arch/x86/include/asm/msr.h Thomas Gleixner 2024-03-04  319  void wrmsr_on_cpus(const struct cpumask *mask, u32 msr_no, struct msr __percpu *msrs);
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  320  int rdmsr_safe_on_cpu(unsigned int cpu, u32 msr_no, u32 *l, u32 *h);
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  321  int wrmsr_safe_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h);
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  322  int rdmsrl_safe_on_cpu(unsigned int cpu, u32 msr_no, u64 *q);
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  323  int wrmsrl_safe_on_cpu(unsigned int cpu, u32 msr_no, u64 q);
-8b956bf1f0f2b5 arch/x86/include/asm/msr.h H. Peter Anvin  2009-08-31  324  int rdmsr_safe_regs_on_cpu(unsigned int cpu, u32 regs[8]);
-8b956bf1f0f2b5 arch/x86/include/asm/msr.h H. Peter Anvin  2009-08-31  325  int wrmsr_safe_regs_on_cpu(unsigned int cpu, u32 regs[8]);
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  326  #else  /*  CONFIG_SMP  */
-c6f31932d0a1d2 include/asm-x86/msr.h      H. Peter Anvin  2008-08-25  327  static inline int rdmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 *l, u32 *h)
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  328  {
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  329  	rdmsr(msr_no, *l, *h);
-c6f31932d0a1d2 include/asm-x86/msr.h      H. Peter Anvin  2008-08-25  330  	return 0;
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  331  }
-c6f31932d0a1d2 include/asm-x86/msr.h      H. Peter Anvin  2008-08-25  332  static inline int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h)
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  333  {
-027fda52cb9f7f arch/x86/include/asm/msr.h Xin Li (Intel   2024-08-05  334) 	wrmsrl(msr_no, (u64)h << 32 | l);
-c6f31932d0a1d2 include/asm-x86/msr.h      H. Peter Anvin  2008-08-25  335  	return 0;
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  336  }
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  337  static inline int rdmsrl_on_cpu(unsigned int cpu, u32 msr_no, u64 *q)
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  338  {
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  339  	rdmsrl(msr_no, *q);
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  340  	return 0;
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  341  }
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  342  static inline int wrmsrl_on_cpu(unsigned int cpu, u32 msr_no, u64 q)
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  343  {
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  344  	wrmsrl(msr_no, q);
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  345  	return 0;
-1a6b991a9875a4 arch/x86/include/asm/msr.h Jacob Pan       2013-10-11  346  }
-0d0fbbddcc27c0 arch/x86/include/asm/msr.h Rusty Russell   2009-11-05  347  static inline void rdmsr_on_cpus(const struct cpumask *m, u32 msr_no,
-5323922f50ecdf arch/x86/include/asm/msr.h Thomas Gleixner 2024-03-04  348  				struct msr __percpu *msrs)
-b034c19f9f61c8 arch/x86/include/asm/msr.h Borislav Petkov 2009-05-22  349  {
-5323922f50ecdf arch/x86/include/asm/msr.h Thomas Gleixner 2024-03-04  350  	rdmsr_on_cpu(0, msr_no, raw_cpu_ptr(&msrs->l), raw_cpu_ptr(&msrs->h));
-b034c19f9f61c8 arch/x86/include/asm/msr.h Borislav Petkov 2009-05-22  351  }
-0d0fbbddcc27c0 arch/x86/include/asm/msr.h Rusty Russell   2009-11-05  352  static inline void wrmsr_on_cpus(const struct cpumask *m, u32 msr_no,
-5323922f50ecdf arch/x86/include/asm/msr.h Thomas Gleixner 2024-03-04  353  				struct msr __percpu *msrs)
-b034c19f9f61c8 arch/x86/include/asm/msr.h Borislav Petkov 2009-05-22  354  {
-5323922f50ecdf arch/x86/include/asm/msr.h Thomas Gleixner 2024-03-04  355  	wrmsr_on_cpu(0, msr_no, raw_cpu_read(msrs->l), raw_cpu_read(msrs->h));
-b034c19f9f61c8 arch/x86/include/asm/msr.h Borislav Petkov 2009-05-22  356  }
-abb0ade013507c include/asm-x86/msr.h      Joe Perches     2008-03-23  357  static inline int rdmsr_safe_on_cpu(unsigned int cpu, u32 msr_no,
-abb0ade013507c include/asm-x86/msr.h      Joe Perches     2008-03-23  358  				    u32 *l, u32 *h)
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  359  {
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  360  	return rdmsr_safe(msr_no, l, h);
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  361  }
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  362  static inline int wrmsr_safe_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h)
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  363  {
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23 @364  	return wrmsr_safe(msr_no, l, h);
-
-:::::: The code at line 364 was first introduced by commit
-:::::: be7baf80a699644850ff27c2105c171177ece4ea x86: merge msr_32/64.h
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+  3089	
+  3090	static int
+  3091	ip_rfc1001_connect(struct TCP_Server_Info *server)
+  3092	{
+  3093		int rc = 0;
+  3094		/*
+  3095		 * some servers require RFC1001 sessinit before sending
+  3096		 * negprot - BB check reconnection in case where second
+  3097		 * sessinit is sent but no second negprot
+  3098		 */
+  3099		struct rfc1002_session_packet req = {};
+  3100		struct rfc1002_session_packet resp = {};
+  3101		struct msghdr msg = {};
+  3102		struct kvec iov = {};
+  3103		unsigned int len;
+  3104		size_t sent;
+  3105		size_t recv;
+  3106	
+  3107		req.trailer.session_req.called_len = sizeof(req.trailer.session_req.called_name);
+  3108	
+  3109		if (server->server_RFC1001_name[0] != 0)
+  3110			rfc1002mangle(req.trailer.session_req.called_name,
+  3111				      server->server_RFC1001_name,
+  3112				      RFC1001_NAME_LEN_WITH_NULL);
+  3113		else
+  3114			rfc1002mangle(req.trailer.session_req.called_name,
+  3115				      DEFAULT_CIFS_CALLED_NAME,
+  3116				      RFC1001_NAME_LEN_WITH_NULL);
+  3117	
+  3118		req.trailer.session_req.calling_len = sizeof(req.trailer.session_req.calling_name);
+  3119	
+  3120		/* calling name ends in null (byte 16) from old smb convention */
+  3121		if (server->workstation_RFC1001_name[0] != 0)
+  3122			rfc1002mangle(req.trailer.session_req.calling_name,
+  3123				      server->workstation_RFC1001_name,
+  3124				      RFC1001_NAME_LEN_WITH_NULL);
+  3125		else
+  3126			rfc1002mangle(req.trailer.session_req.calling_name,
+  3127				      "LINUX_CIFS_CLNT",
+  3128				      RFC1001_NAME_LEN_WITH_NULL);
+  3129	
+  3130		/*
+  3131		 * As per rfc1002, @len must be the number of bytes that follows the
+  3132		 * length field of a rfc1002 session request payload.
+  3133		 */
+  3134		len = sizeof(req.trailer.session_req);
+  3135		req.type = RFC1002_SESSION_REQUEST;
+  3136		req.flags = 0;
+  3137		req.length = cpu_to_be16(len);
+  3138		len += offsetof(typeof(req), trailer.session_req);
+  3139		iov.iov_base = &req;
+  3140		iov.iov_len = len;
+  3141		iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, len);
+  3142		rc = smb_send_kvec(server, &msg, &sent);
+  3143		if (rc < 0 || len != sent)
+  3144			return (rc == -EINTR || rc == -EAGAIN) ? rc : -ECONNABORTED;
+  3145	
+  3146		/*
+  3147		 * RFC1001 layer in at least one server requires very short break before
+  3148		 * negprot presumably because not expecting negprot to follow so fast.
+  3149		 * For example DOS SMB servers cannot process negprot if it was received
+  3150		 * before the server sent response for SESSION_REQUEST packet. So, wait
+  3151		 * for the response, read it and parse it as it can contain useful error
+  3152		 * information (e.g. specified server name was incorrect). For example
+  3153		 * even the latest Windows Server 2022 SMB1 server over port 139 send
+  3154		 * error if its server name was in SESSION_REQUEST packet incorrect.
+  3155		 * Nowadays usage of port 139 is not common, so waiting for reply here
+  3156		 * does not slowing down mounting of common case (over port 445).
+  3157		 */
+  3158		len = offsetof(typeof(resp), trailer);
+  3159		iov.iov_base = &resp;
+  3160		iov.iov_len = len;
+  3161		iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, len);
+  3162		rc = smb_recv_kvec(server, &msg, &recv);
+  3163		if (rc < 0 || recv != len)
+  3164			return (rc == -EINTR || rc == -EAGAIN) ? rc : -ECONNABORTED;
+  3165	
+  3166		switch (resp.type) {
+  3167		case RFC1002_POSITIVE_SESSION_RESPONSE:
+> 3168			if (be16_to_cpu(resp.length) != 0) {
+  3169				cifs_dbg(VFS, "RFC 1002 positive session response but with invalid non-zero length %u\n",
+  3170					 be16_to_cpu(resp.length));
+  3171				return -EIO;
+  3172			}
+  3173			cifs_dbg(FYI, "RFC 1002 positive session response");
+  3174			break;
+  3175		case RFC1002_NEGATIVE_SESSION_RESPONSE:
+  3176			/* Read RFC1002 response error code and convert it to errno in rc */
+  3177			len = sizeof(resp.trailer.neg_ses_resp_error_code);
+  3178			iov.iov_base = &resp.trailer.neg_ses_resp_error_code;
+  3179			iov.iov_len = len;
+  3180			iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, len);
+  3181			if (be16_to_cpu(resp.length) == len &&
+  3182			    smb_recv_kvec(server, &msg, &recv) == 0 &&
+  3183			    recv == len) {
+  3184				cifs_dbg(VFS, "RFC 1002 negative session response with error 0x%x\n",
+  3185					 resp.trailer.neg_ses_resp_error_code);
+  3186				switch (resp.trailer.neg_ses_resp_error_code) {
+  3187				case RFC1002_NOT_LISTENING_CALLED:
+  3188					/* server does not listen for specified server name */
+  3189					fallthrough;
+  3190				case RFC1002_NOT_PRESENT:
+  3191					/* server name is incorrect */
+  3192					rc = -ENOENT;
+  3193					cifs_dbg(VFS, "Server rejected NetBIOS servername %.15s\n",
+  3194						 server->server_RFC1001_name[0] ?
+  3195						 server->server_RFC1001_name :
+  3196						 DEFAULT_CIFS_CALLED_NAME);
+  3197					cifs_dbg(VFS, "Specify correct NetBIOS servername in source path or with -o servern= option\n");
+  3198					break;
+  3199				case RFC1002_NOT_LISTENING_CALLING:
+  3200					/* client name was not accepted by server */
+  3201					rc = -EACCES;
+  3202					cifs_dbg(VFS, "Server rejected NetBIOS clientname %.15s\n",
+  3203						 server->workstation_RFC1001_name[0] ?
+  3204						 server->workstation_RFC1001_name :
+  3205						 "LINUX_CIFS_CLNT");
+  3206					cifs_dbg(VFS, "Specify correct NetBIOS clientname with -o netbiosname= option\n");
+  3207					break;
+  3208				case RFC1002_INSUFFICIENT_RESOURCE:
+  3209					/* remote server resource error */
+  3210					rc = -EREMOTEIO;
+  3211					break;
+  3212				case RFC1002_UNSPECIFIED_ERROR:
+  3213				default:
+  3214					/* other/unknown error */
+  3215					rc = -EIO;
+  3216					break;
+  3217				}
+  3218			} else {
+  3219				cifs_dbg(VFS, "RFC 1002 negative session response\n");
+  3220				rc = -EIO;
+  3221			}
+  3222			return rc;
+  3223		case RFC1002_RETARGET_SESSION_RESPONSE:
+  3224			cifs_dbg(VFS, "RFC 1002 retarget session response\n");
+  3225			if (be16_to_cpu(resp.length) == sizeof(resp.trailer.retarget_resp)) {
+  3226				len = sizeof(resp.trailer.retarget_resp);
+  3227				iov.iov_base = &resp.trailer.retarget_resp;
+  3228				iov.iov_len = len;
+  3229				iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, len);
+  3230				if (smb_recv_kvec(server, &msg, &recv) == 0 && recv == len) {
+  3231					cifs_dbg(VFS, "Server wants to redirect connection\n");
+  3232					cifs_dbg(VFS, "Remount with options -o ip=%pI4,port=%u\n",
+  3233						 &resp.trailer.retarget_resp.retarget_ip_addr,
+  3234						 be16_to_cpu(resp.trailer.retarget_resp.port));
+  3235				}
+  3236			}
+  3237			cifs_dbg(VFS, "Closing connection\n");
+  3238			/* FIXME: Should we automatically redirect to new retarget_resp server? */
+  3239			return -EMULTIHOP;
+  3240		default:
+  3241			cifs_dbg(VFS, "RFC 1002 unknown response type 0x%x\n", resp.type);
+  3242			return -EIO;
+  3243		}
+  3244	
+  3245		return 0;
+  3246	}
+  3247	
 
 -- 
 0-DAY CI Kernel Test Service
