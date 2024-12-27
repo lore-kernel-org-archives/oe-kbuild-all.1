@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F281E4A1D;
-	Fri, 27 Dec 2024 02:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F682C9A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 03:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735267924; cv=none; b=FohvBZyn6+/DChLM1GJ/u34dYBPPq6smr2F4rPnyaYjoPg1S1/eEIVY3WZXnX8Iq21yUhIU5R4cdIxD4kzbJKX+B/ZJaJ7IfJoNx7bCKy7lxpwyTyAyopykrW+8rhTj0msQ8JOxQWZegMyFWJAvy6nSczAEBcdKg26gcbXHrgm4=
+	t=1735268644; cv=none; b=TOcFIOZir3HqGwO4QCeVOvu8NIPJ6RPo7gNsUpjOZgPoBXDKSnbahyRoiM44vVoWdbMpsElXLtw0wMsoHLSQK4XwFwFFUOBtBbQMhMRUiRPkRWwn5lInMB4Q/LWFQHhN45w/dkp586Oj1nu5wSPNlw96t8Qoe/nAN0FDQ8ydqwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735267924; c=relaxed/simple;
-	bh=j1WCWRzUu60a4hzc4uZ+thlTJCu3j0/eUzmkt5rhJwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rkBZCw3Ei3O27+flpkB+i+VyId5Clfap1CYeyfy83rVFbFUujIoQgrz2gbH8+rcmMCwt0ikoq1Kjb05zq/5dgXIXweIT/IHpokDieVS4CgSLSsnp/BU6kJfK79Sg9QcJOohbttripkSTHaJ7WnrRgc3kwqZnFB4kcuN8Owg61yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LNbpbpUw; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1735268644; c=relaxed/simple;
+	bh=UtuQfpbHjt7R0fwmMuLIOhjOCrprsBcIzZYsqP1GqCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lEJOx8j8aknkyy++66H7BxuiDExY983gNMlQGgvE0zwi3ir9cSk+ZMCLNMj93fNbUXESBEhpg8Gyb5Ykj3Qhg8gC9bvdEzNcaucTGlnOfW/wf05PY3w1V4PxAYjy00UTj89IiP1HKKCyDyi7b83xa38s7uxPd63AFQXDXokeFZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lEynUQxd; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNbpbpUw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEynUQxd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735267921; x=1766803921;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j1WCWRzUu60a4hzc4uZ+thlTJCu3j0/eUzmkt5rhJwI=;
-  b=LNbpbpUwtuczBQwHnii13ikCr72gWSFm5Qo+iePLNN6LymmjCFpTUavE
-   hzwW+rGmcxzfBS31NRctN3eOxsRB3Vc1DlckSRu1AcFRkZPxkafoa1m57
-   5Hj+Ok8RvXE4xDWQD+OS7EuWzn0bb8EX0OUolEQsu4s8SRMBexnLBBO1+
-   /LObCJkoWKvbJ5/UfyIl8riliUp1Yr3dkmuY+o/Ftmf42bha47SosaOnL
-   W8KHabdQPaU04bWFnkaoDPKfZ7N82QgSJ1Uum41QuDiMH0SEBNlXr3pCh
-   wnB/f+9MtNdMiK/8UXgVXJaPAMnAdvgw9yhPDs1jzYtKyOPgZdXvL3ceC
-   A==;
-X-CSE-ConnectionGUID: c3+UUydZTdOiOyW4vvHciQ==
-X-CSE-MsgGUID: m+OfjDpWSwWOkVNdOXZD7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="34988301"
+  t=1735268642; x=1766804642;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UtuQfpbHjt7R0fwmMuLIOhjOCrprsBcIzZYsqP1GqCA=;
+  b=lEynUQxd8p5sGInElrjb7p+Lh3nYN2QNY8vjku4ckGHFNnH9F4FSbFAz
+   bFBB25hXC+anRHbjoAgxQ8ZpdG6VSNeYh4suGjHxLKScCgzAhtEWofIwo
+   snpUX9PPdjnBrzTmAyzu034H3ZI3gtlCKRQWGKlBoQ2uvBd9xTElR8HQf
+   r0jkLqvju5QTuVRh3rLqY5W1o5vhWaHcYEEp6S7tuJM4WufAEl8drxRGM
+   o7jxtTFjvuZPv3r1qC0wBTjPJmEeM7E4t4KfKoKZwekeZ8YvdSdiJk/cw
+   v33l1tydDmcoFrQjd+H9DHoIpiHTyTjREBF0Ph7/coQlHnMjBeGlYjUXJ
+   Q==;
+X-CSE-ConnectionGUID: FJV85CMlQpKBt6NZ9kITIQ==
+X-CSE-MsgGUID: 48eDUA+eTwizfM3kHnKPsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="47103158"
 X-IronPort-AV: E=Sophos;i="6.12,268,1728975600"; 
-   d="scan'208";a="34988301"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 18:52:00 -0800
-X-CSE-ConnectionGUID: GNT3ef1TRFKuudmD2cGTyw==
-X-CSE-MsgGUID: KHSuq87/TM2bBDkuQbTuTw==
+   d="scan'208";a="47103158"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 19:04:01 -0800
+X-CSE-ConnectionGUID: 4GJre4BcRQmcnjKP0ECIog==
+X-CSE-MsgGUID: 3v15Gwd/S5qTs+eMkOdsHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105063403"
+   d="scan'208";a="131044634"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Dec 2024 18:51:58 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 26 Dec 2024 19:03:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tR0SB-0002ve-39;
-	Fri, 27 Dec 2024 02:51:55 +0000
-Date: Fri, 27 Dec 2024 10:51:53 +0800
+	id 1tR0dp-0002wF-2n;
+	Fri, 27 Dec 2024 03:03:57 +0000
+Date: Fri, 27 Dec 2024 11:03:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nihar Chaithanya <niharchaithanya@gmail.com>, dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, dan.carpenter@linaro.org,
-	skhan@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nihar Chaithanya <niharchaithanya@gmail.com>
-Subject: Re: [PATCH v4 07/15] staging: gpib: fmh: Handle
- gpib_register_driver() errors
-Message-ID: <202412271054.Oy0QXjPZ-lkp@intel.com>
-References: <20241226193637.241049-8-niharchaithanya@gmail.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1667/1667] drivers/iommu/loongarch_iommu.c:101:1:
+ sparse: sparse: symbol 'la_rlookup_iommu_list' was not declared. Should it
+ be static?
+Message-ID: <202412271142.yFd4x2L2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,110 +62,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241226193637.241049-8-niharchaithanya@gmail.com>
 
-Hi Nihar,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nihar-Chaithanya/staging-gpib-Modify-gpib_register_driver-to-return-error-if-it-fails/20241227-035743
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20241226193637.241049-8-niharchaithanya%40gmail.com
-patch subject: [PATCH v4 07/15] staging: gpib: fmh: Handle gpib_register_driver() errors
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241227/202412271054.Oy0QXjPZ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412271054.Oy0QXjPZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   16a0cbac6609f8ba10a91a9d52b15bf28243c3ee
+commit: 72fe4978ee346c10869113410da1b61710dd8d8f [1667/1667] LoongArch: add iommu support
+config: loongarch-randconfig-r121-20241227 (https://download.01.org/0day-ci/archive/20241227/202412271142.yFd4x2L2-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241227/202412271142.yFd4x2L2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412271054.Oy0QXjPZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412271142.yFd4x2L2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/loongarch_iommu.c: note: in included file:
+   drivers/iommu/loongarch_iommu.h:137:3: sparse: sparse: symbol 'loongarch_iommu' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.h:152:3: sparse: sparse: symbol 'iommu_info' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.h:161:3: sparse: sparse: symbol 'dom_info' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.h:166:3: sparse: sparse: symbol 'dom_entry' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:101:1: sparse: sparse: symbol 'la_rlookup_iommu_list' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:108:9: sparse: sparse: symbol 'la_iommu_last_bdf' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:112:5: sparse: sparse: symbol 'loongarch_iommu_disable' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:130:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:130:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:130:15: sparse:     got void *
+>> drivers/iommu/loongarch_iommu.c:132:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:132:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:132:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:135:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:135:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:135:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:137:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:137:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:137:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:150:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:150:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:150:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:152:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:152:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:152:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:155:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:155:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:155:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:157:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:157:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:157:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:160:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:160:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:160:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:162:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:162:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:162:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:190:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:190:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:190:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:193:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:193:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:193:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:196:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:196:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:196:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:199:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:199:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:199:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:206:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:206:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:206:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:306:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:306:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:306:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:310:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:310:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:310:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:312:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:312:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:312:23: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:314:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:314:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:314:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:322:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:322:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:322:23: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:325:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:325:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:325:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:327:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:327:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:327:23: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:329:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:329:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:329:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:349:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:349:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:349:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:352:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:352:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:352:9: sparse:     got void *
+>> drivers/iommu/loongarch_iommu.c:610:6: sparse: sparse: symbol 'domain_deattach_iommu' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:651:28: sparse: sparse: symbol 'lookup_rlooptable' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:662:24: sparse: sparse: symbol 'find_iommu_by_dev' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:721:21: sparse: sparse: symbol 'la_iommu_probe_device' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:752:19: sparse: sparse: symbol 'get_iommu_info_from_dom' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:794:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:794:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:794:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:795:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:795:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:795:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:796:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:796:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:796:9: sparse:     got void *
+>> drivers/iommu/loongarch_iommu.c:1178:24: sparse: sparse: symbol 'la_iommu_ops' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:1197:24: sparse: sparse: symbol 'loongarch_get_iommu_by_devid' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:1215:6: sparse: sparse: symbol 'check_device_compat' was not declared. Should it be static?
+>> drivers/iommu/loongarch_iommu.c:1259:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *confbase @@     got void [noderef] __iomem * @@
+   drivers/iommu/loongarch_iommu.c:1259:25: sparse:     expected void *confbase
+   drivers/iommu/loongarch_iommu.c:1259:25: sparse:     got void [noderef] __iomem *
+>> drivers/iommu/loongarch_iommu.c:1344:28: sparse: sparse: symbol 'create_rlookup_entry' was not declared. Should it be static?
 
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_t1_delay':
-   fmh_gpib.c:(.text+0x512): undefined reference to `nec7210_t1_delay'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_serial_poll_status':
-   fmh_gpib.c:(.text+0x606): undefined reference to `nec7210_serial_poll_status'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_secondary_address':
-   fmh_gpib.c:(.text+0xa56): undefined reference to `nec7210_secondary_address'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_primary_address':
-   fmh_gpib.c:(.text+0xb0e): undefined reference to `nec7210_primary_address'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_update_status':
-   fmh_gpib.c:(.text+0xb8e): undefined reference to `nec7210_update_status'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_response':
-   fmh_gpib.c:(.text+0xc0e): undefined reference to `nec7210_parallel_poll_response'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll':
-   fmh_gpib.c:(.text+0xc8e): undefined reference to `nec7210_parallel_poll'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_configure':
-   fmh_gpib.c:(.text+0xd0e): undefined reference to `nec7210_parallel_poll_configure'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_disable_eos':
-   fmh_gpib.c:(.text+0xd86): undefined reference to `nec7210_disable_eos'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_enable_eos':
-   fmh_gpib.c:(.text+0xe16): undefined reference to `nec7210_enable_eos'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_remote_enable':
-   fmh_gpib.c:(.text+0xece): undefined reference to `nec7210_remote_enable'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_interface_clear':
-   fmh_gpib.c:(.text+0xf4e): undefined reference to `nec7210_interface_clear'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_request_system_control':
-   fmh_gpib.c:(.text+0xfce): undefined reference to `nec7210_request_system_control'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_go_to_standby':
-   fmh_gpib.c:(.text+0x1046): undefined reference to `nec7210_go_to_standby'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_take_control':
-   fmh_gpib.c:(.text+0x10ce): undefined reference to `nec7210_take_control'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_command':
-   fmh_gpib.c:(.text+0x115a): undefined reference to `nec7210_command'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_write':
-   fmh_gpib.c:(.text+0x1224): undefined reference to `nec7210_write'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_read':
-   fmh_gpib.c:(.text+0x12e4): undefined reference to `nec7210_read'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_device_match':
-   fmh_gpib.c:(.text+0x146c): undefined reference to `gpib_match_device_path'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init.isra.0':
-   fmh_gpib.c:(.text+0x25d6): undefined reference to `nec7210_board_reset'
-   s390-linux-ld: fmh_gpib.c:(.text+0x260a): undefined reference to `nec7210_set_handshake_mode'
-   s390-linux-ld: fmh_gpib.c:(.text+0x2722): undefined reference to `nec7210_board_online'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_pci_attach_impl':
-   fmh_gpib.c:(.text+0x28f2): undefined reference to `gpib_pci_get_device'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_pci_detach':
-   fmh_gpib.c:(.text+0x386c): undefined reference to `nec7210_board_reset'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_detach':
-   fmh_gpib.c:(.text+0x3b8e): undefined reference to `nec7210_board_reset'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_fifo_read_countable':
-   fmh_gpib.c:(.text+0x4452): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: fmh_gpib.c:(.text+0x4468): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: fmh_gpib.c:(.text+0x47c8): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_fifo_write_countable':
-   fmh_gpib.c:(.text+0x5294): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: fmh_gpib.c:(.text+0x52aa): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o:fmh_gpib.c:(.text+0x52fe): more undefined references to `nec7210_set_reg_bits' follow
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_internal_interrupt':
-   fmh_gpib.c:(.text+0x6012): undefined reference to `push_gpib_event'
-   s390-linux-ld: fmh_gpib.c:(.text+0x6040): undefined reference to `nec7210_interrupt_have_status'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_dma_callback':
-   fmh_gpib.c:(.text+0x6564): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_fifo_read':
-   fmh_gpib.c:(.text+0x66d6): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_dma_write':
-   fmh_gpib.c:(.text+0x6f62): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: fmh_gpib.c:(.text+0x6f78): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: fmh_gpib.c:(.text+0x744c): undefined reference to `nec7210_set_reg_bits'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o:fmh_gpib.c:(.text+0x8142): more undefined references to `nec7210_set_reg_bits' follow
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_exit_module':
-   fmh_gpib.c:(.exit.text+0x2e): undefined reference to `gpib_unregister_driver'
-   s390-linux-ld: fmh_gpib.c:(.exit.text+0x3a): undefined reference to `gpib_unregister_driver'
-   s390-linux-ld: fmh_gpib.c:(.exit.text+0x46): undefined reference to `gpib_unregister_driver'
-   s390-linux-ld: fmh_gpib.c:(.exit.text+0x52): undefined reference to `gpib_unregister_driver'
-   s390-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init_module':
-   fmh_gpib.c:(.init.text+0x9e): undefined reference to `gpib_register_driver'
-   s390-linux-ld: fmh_gpib.c:(.init.text+0xce): undefined reference to `gpib_register_driver'
-   s390-linux-ld: fmh_gpib.c:(.init.text+0x102): undefined reference to `gpib_register_driver'
-   s390-linux-ld: fmh_gpib.c:(.init.text+0x132): undefined reference to `gpib_register_driver'
->> s390-linux-ld: fmh_gpib.c:(.init.text+0x15c): undefined reference to `gpib_unregister_driver'
-   s390-linux-ld: fmh_gpib.c:(.init.text+0x16e): undefined reference to `gpib_unregister_driver'
-   s390-linux-ld: fmh_gpib.c:(.init.text+0x180): undefined reference to `gpib_unregister_driver'
+vim +/la_rlookup_iommu_list +101 drivers/iommu/loongarch_iommu.c
+
+   100	
+ > 101	LIST_HEAD(la_rlookup_iommu_list);
+   102	LIST_HEAD(la_iommu_list);			/* list of all loongarch
+   103							 * IOMMUs in the system
+   104							 */
+   105	
+   106	static u32 rlookup_table_size;			/* size if the rlookup table */
+   107	static int la_iommu_target_ivhd_type;
+ > 108	u16	la_iommu_last_bdf;			/* largest PCI device id
+   109							 *  we have to handle
+   110							 */
+   111	
+ > 112	int loongarch_iommu_disable;
+   113	
+   114	#define iommu_write_regl(iommu, off, val) \
+   115		writel(val, iommu->confbase + off)
+   116	#define iommu_read_regl(iommu, off)	readl(iommu->confbase + off)
+   117	
+   118	static void switch_huge_to_page(unsigned long *ptep, unsigned long start);
+   119	
+   120	static void iommu_translate_disable(struct loongarch_iommu *iommu)
+   121	{
+   122		u32 val;
+   123	
+   124		if (iommu == NULL) {
+   125			pr_err("%s iommu is NULL", __func__);
+   126			return;
+   127		}
+   128	
+   129		/* Disable */
+ > 130		val = iommu_read_regl(iommu, LA_IOMMU_PFM_CNT_EN);
+   131		val &= ~(1 << 31);
+ > 132		iommu_write_regl(iommu, LA_IOMMU_PFM_CNT_EN, val);
+   133	
+   134		/* Write cmd */
+   135		val = iommu_read_regl(iommu, LA_IOMMU_CMD);
+   136		val &= 0xfffffffc;
+   137		iommu_write_regl(iommu, LA_IOMMU_CMD, val);
+   138	}
+   139	
 
 -- 
 0-DAY CI Kernel Test Service
