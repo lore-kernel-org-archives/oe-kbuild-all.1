@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE849433D9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 20:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3892042A93
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 21:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735332045; cv=none; b=LE49G4wt93tPp+sFbTtH7e3AJlzFHXZNr3wXoSfixNYoZeZFV1ccOofG8FL6aKZ4+2xHbxv11ZJdrt7QgkhnzbTmGE8AJflacHXq4hjaOWePwndwtb529yCB/2um7mqF8Gx6obXhplqqph6t1cO9Snxs02zZExmm03x7s3PeoDg=
+	t=1735333428; cv=none; b=mxHYGvU5g5waoNW4/Wuuo9/FqyZAOW0X7pvzUenLlNvO5Y7DldmZcQah5o2pueiwZtl5prmeDzkkHUo8grEhl4wtH4JqKtx1voR5PbiMOqQvh7cvLMONAa0easR99tTtHLLscFp+DdhMr2u+E4TmP0bdr7H8QonZXWbFq0mJEBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735332045; c=relaxed/simple;
-	bh=yb24ArD/IjpBEsJbsSA1Nv+fJR/KLOMaxKOS8fjeze4=;
+	s=arc-20240116; t=1735333428; c=relaxed/simple;
+	bh=1e4N/XiaZHdZMBhKB8HXIcfkTUFYMbvwLIk6KkH2vD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qP68xXUNVm4DxI4phoyVJaBPaQHIoyt+dJDTeMW8FyzdstqLDSsE1pvN0+U9kb9U/jOhBNlnFXgSGU/cR1RDQGvtYcJJww1RYtwVDjLmUjvKypcUrIFUpNoPaAR27em/p5DuV24g6HyPoS6SAzFQGuQyRnFS1ElMcu/NTv3uVVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LduwvGNL; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=Ctu7CCGMH/pW4fRv+F260lHCDCFyO3da2AhUtr/uiFF+k5mEPDuDMpmETPi+2Lw8mSHRXMvYKBg5mNWi21WiLIph0tXrjHh2FToXt7gx+EFojmYRHcfe9nXdtb4k1Dlts/NQ+0A13pkGGcEv29zVss8NYWfmcUKmMie1vYQpKMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DeXx7n4B; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LduwvGNL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeXx7n4B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735332044; x=1766868044;
+  t=1735333426; x=1766869426;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yb24ArD/IjpBEsJbsSA1Nv+fJR/KLOMaxKOS8fjeze4=;
-  b=LduwvGNL7Eb/uzOAbMwt/hysY5yyj3Lsod5D3IAqK5ZbVSA8w+6iKVEb
-   t+wkZiiBoguaHN/PfwGOfRda6axlDn4l+yXWcJVGUE3rBfXN9U8uPf59p
-   9PA78p0da7RpujDdywfjzauBYBWCG76wZh731BCW9zsgZMDF6e3kfwssf
-   YBwybm97Wm+LbOLSoPk2uOpBNfyEnr2KQfX1q/TzxPsjxvsUv2F2aCvNc
-   kWsSae8H+ayhd8EIeoYVwlwsbvtX4Ya+jgZGu4gAiqenGmd9qmeIDTR4U
-   WjNxUF96SPj+ccWY6eH8ELbtQEUhnHEZlxjZLvguaqGAmVAWSCmo1d8hh
-   A==;
-X-CSE-ConnectionGUID: iA38UXcJTR+YloszQhHm2A==
-X-CSE-MsgGUID: xN/N/avbTViIDSeKVpfUdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35870445"
+  bh=1e4N/XiaZHdZMBhKB8HXIcfkTUFYMbvwLIk6KkH2vD0=;
+  b=DeXx7n4BUEFOwBLGplD5o5/6PJXEuneafHQazRHYZkvFAwD6dVu+C2te
+   an6vS/K8RkpFavZqxdLXRvPd6Sg3ImEnyrmR5J48/zXcS/IKr77joFphG
+   jFDfUGibqwfqgbfljiU64bHgHsmYzsal302/afoQ4/wAWuFGiYlP5La4p
+   AzuLQwr622TjCM7qh5J5gktbWlZrDPJWL1eNKG1WmuYWPg1ha+iM6zMT5
+   6/wvoZeCHPnSWmzM4mftkm8MUfBRFV196ivZ3fl7y9qk/OneE7sy3FIfd
+   vM96nMRK1iTE3WKIQrLgo7PIoon6FIkQmzhWTHMnUFxwA5/br9rbkMKkR
+   Q==;
+X-CSE-ConnectionGUID: zUZHIhG3TK28ebzn/rsl3A==
+X-CSE-MsgGUID: lVW9SN5SQxaue/Ghr37k3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="34995525"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="35870445"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 12:40:41 -0800
-X-CSE-ConnectionGUID: TTlmC1yORbiJYuyIOZU6iA==
-X-CSE-MsgGUID: a2qqQM9zTK6FY697aS6NFw==
+   d="scan'208";a="34995525"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 13:03:44 -0800
+X-CSE-ConnectionGUID: atYQbLKiTzyNZ+xtrVdRFw==
+X-CSE-MsgGUID: 3RZLWBK1TyOdCaEF5v2jww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="105206414"
+   d="scan'208";a="100743355"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Dec 2024 12:40:40 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 27 Dec 2024 13:03:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRH8P-0003ae-2w;
-	Fri, 27 Dec 2024 20:40:37 +0000
-Date: Sat, 28 Dec 2024 04:40:25 +0800
+	id 1tRHUi-0003cY-1Y;
+	Fri, 27 Dec 2024 21:03:40 +0000
+Date: Sat, 28 Dec 2024 05:03:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+To: Xin3 Li <xin3.li@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pali:cifs 30/48] fs/smb/client/connect.c:3168:21: sparse: sparse:
- cast to restricted __be16
-Message-ID: <202412280418.Hfy5nEvo-lkp@intel.com>
+Subject: [xinli-intel-fred-public:fix_sp_calculation 10/13]
+ arch/x86/kernel/cpu/zhaoxin.c:39:53: error: macro "rdmsr" requires 3
+ arguments, but only 2 given
+Message-ID: <202412280433.ikWOnA2w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,199 +63,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
-head:   cc26137de51202e7210b058f6696393f1e006d46
-commit: 20d462f966b7d331cfc7e9f6c152bd324db85302 [30/48] cifs: Improve establishing SMB connection with NetBIOS session
-config: x86_64-randconfig-123-20241225 (https://download.01.org/0day-ci/archive/20241228/202412280418.Hfy5nEvo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280418.Hfy5nEvo-lkp@intel.com/reproduce)
+tree:   https://github.com/xinli-intel/linux-fred-public.git fix_sp_calculation
+head:   04e87989806be09036718fa57acd80ea138c2319
+commit: 027fda52cb9f7f1c6eabf9620adcf63d0a8918e8 [10/13] x86/msr: Replace wrmsr() with wrmsrl()
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241228/202412280433.ikWOnA2w-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280433.ikWOnA2w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412280418.Hfy5nEvo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412280433.ikWOnA2w-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/smb/client/connect.c:3137:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] length @@     got restricted __be16 [usertype] @@
-   fs/smb/client/connect.c:3137:20: sparse:     expected unsigned short [addressable] [assigned] [usertype] length
-   fs/smb/client/connect.c:3137:20: sparse:     got restricted __be16 [usertype]
->> fs/smb/client/connect.c:3168:21: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3169:25: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3181:21: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3225:21: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
-   fs/smb/client/connect.c:3232:33: sparse: sparse: cast to restricted __be16
+All errors (new ones prefixed by >>):
 
-vim +3168 fs/smb/client/connect.c
+   arch/x86/kernel/cpu/zhaoxin.c: In function 'init_zhaoxin_cap':
+>> arch/x86/kernel/cpu/zhaoxin.c:39:53: error: macro "rdmsr" requires 3 arguments, but only 2 given
+      39 |                         rdmsr(MSR_ZHAOXIN_FCR57, val);
+         |                                                     ^
+   In file included from arch/x86/include/asm/tsc.h:10,
+                    from arch/x86/include/asm/timex.h:6,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/jiffies.h:10,
+                    from include/linux/ktime.h:25,
+                    from include/linux/timer.h:6,
+                    from include/linux/uprobes.h:18,
+                    from include/linux/mm_types.h:16,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/radix-tree.h:21,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from arch/x86/include/asm/cpu.h:5,
+                    from arch/x86/kernel/cpu/zhaoxin.c:5:
+   arch/x86/include/asm/msr.h:244: note: macro "rdmsr" defined here
+     244 | #define rdmsr(msr, low, high)                                   \
+         | 
+>> arch/x86/kernel/cpu/zhaoxin.c:39:25: error: 'rdmsr' undeclared (first use in this function)
+      39 |                         rdmsr(MSR_ZHAOXIN_FCR57, val);
+         |                         ^~~~~
+   arch/x86/kernel/cpu/zhaoxin.c:39:25: note: each undeclared identifier is reported only once for each function it appears in
 
-  3089	
-  3090	static int
-  3091	ip_rfc1001_connect(struct TCP_Server_Info *server)
-  3092	{
-  3093		int rc = 0;
-  3094		/*
-  3095		 * some servers require RFC1001 sessinit before sending
-  3096		 * negprot - BB check reconnection in case where second
-  3097		 * sessinit is sent but no second negprot
-  3098		 */
-  3099		struct rfc1002_session_packet req = {};
-  3100		struct rfc1002_session_packet resp = {};
-  3101		struct msghdr msg = {};
-  3102		struct kvec iov = {};
-  3103		unsigned int len;
-  3104		size_t sent;
-  3105		size_t recv;
-  3106	
-  3107		req.trailer.session_req.called_len = sizeof(req.trailer.session_req.called_name);
-  3108	
-  3109		if (server->server_RFC1001_name[0] != 0)
-  3110			rfc1002mangle(req.trailer.session_req.called_name,
-  3111				      server->server_RFC1001_name,
-  3112				      RFC1001_NAME_LEN_WITH_NULL);
-  3113		else
-  3114			rfc1002mangle(req.trailer.session_req.called_name,
-  3115				      DEFAULT_CIFS_CALLED_NAME,
-  3116				      RFC1001_NAME_LEN_WITH_NULL);
-  3117	
-  3118		req.trailer.session_req.calling_len = sizeof(req.trailer.session_req.calling_name);
-  3119	
-  3120		/* calling name ends in null (byte 16) from old smb convention */
-  3121		if (server->workstation_RFC1001_name[0] != 0)
-  3122			rfc1002mangle(req.trailer.session_req.calling_name,
-  3123				      server->workstation_RFC1001_name,
-  3124				      RFC1001_NAME_LEN_WITH_NULL);
-  3125		else
-  3126			rfc1002mangle(req.trailer.session_req.calling_name,
-  3127				      "LINUX_CIFS_CLNT",
-  3128				      RFC1001_NAME_LEN_WITH_NULL);
-  3129	
-  3130		/*
-  3131		 * As per rfc1002, @len must be the number of bytes that follows the
-  3132		 * length field of a rfc1002 session request payload.
-  3133		 */
-  3134		len = sizeof(req.trailer.session_req);
-  3135		req.type = RFC1002_SESSION_REQUEST;
-  3136		req.flags = 0;
-  3137		req.length = cpu_to_be16(len);
-  3138		len += offsetof(typeof(req), trailer.session_req);
-  3139		iov.iov_base = &req;
-  3140		iov.iov_len = len;
-  3141		iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, len);
-  3142		rc = smb_send_kvec(server, &msg, &sent);
-  3143		if (rc < 0 || len != sent)
-  3144			return (rc == -EINTR || rc == -EAGAIN) ? rc : -ECONNABORTED;
-  3145	
-  3146		/*
-  3147		 * RFC1001 layer in at least one server requires very short break before
-  3148		 * negprot presumably because not expecting negprot to follow so fast.
-  3149		 * For example DOS SMB servers cannot process negprot if it was received
-  3150		 * before the server sent response for SESSION_REQUEST packet. So, wait
-  3151		 * for the response, read it and parse it as it can contain useful error
-  3152		 * information (e.g. specified server name was incorrect). For example
-  3153		 * even the latest Windows Server 2022 SMB1 server over port 139 send
-  3154		 * error if its server name was in SESSION_REQUEST packet incorrect.
-  3155		 * Nowadays usage of port 139 is not common, so waiting for reply here
-  3156		 * does not slowing down mounting of common case (over port 445).
-  3157		 */
-  3158		len = offsetof(typeof(resp), trailer);
-  3159		iov.iov_base = &resp;
-  3160		iov.iov_len = len;
-  3161		iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, len);
-  3162		rc = smb_recv_kvec(server, &msg, &recv);
-  3163		if (rc < 0 || recv != len)
-  3164			return (rc == -EINTR || rc == -EAGAIN) ? rc : -ECONNABORTED;
-  3165	
-  3166		switch (resp.type) {
-  3167		case RFC1002_POSITIVE_SESSION_RESPONSE:
-> 3168			if (be16_to_cpu(resp.length) != 0) {
-  3169				cifs_dbg(VFS, "RFC 1002 positive session response but with invalid non-zero length %u\n",
-  3170					 be16_to_cpu(resp.length));
-  3171				return -EIO;
-  3172			}
-  3173			cifs_dbg(FYI, "RFC 1002 positive session response");
-  3174			break;
-  3175		case RFC1002_NEGATIVE_SESSION_RESPONSE:
-  3176			/* Read RFC1002 response error code and convert it to errno in rc */
-  3177			len = sizeof(resp.trailer.neg_ses_resp_error_code);
-  3178			iov.iov_base = &resp.trailer.neg_ses_resp_error_code;
-  3179			iov.iov_len = len;
-  3180			iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, len);
-  3181			if (be16_to_cpu(resp.length) == len &&
-  3182			    smb_recv_kvec(server, &msg, &recv) == 0 &&
-  3183			    recv == len) {
-  3184				cifs_dbg(VFS, "RFC 1002 negative session response with error 0x%x\n",
-  3185					 resp.trailer.neg_ses_resp_error_code);
-  3186				switch (resp.trailer.neg_ses_resp_error_code) {
-  3187				case RFC1002_NOT_LISTENING_CALLED:
-  3188					/* server does not listen for specified server name */
-  3189					fallthrough;
-  3190				case RFC1002_NOT_PRESENT:
-  3191					/* server name is incorrect */
-  3192					rc = -ENOENT;
-  3193					cifs_dbg(VFS, "Server rejected NetBIOS servername %.15s\n",
-  3194						 server->server_RFC1001_name[0] ?
-  3195						 server->server_RFC1001_name :
-  3196						 DEFAULT_CIFS_CALLED_NAME);
-  3197					cifs_dbg(VFS, "Specify correct NetBIOS servername in source path or with -o servern= option\n");
-  3198					break;
-  3199				case RFC1002_NOT_LISTENING_CALLING:
-  3200					/* client name was not accepted by server */
-  3201					rc = -EACCES;
-  3202					cifs_dbg(VFS, "Server rejected NetBIOS clientname %.15s\n",
-  3203						 server->workstation_RFC1001_name[0] ?
-  3204						 server->workstation_RFC1001_name :
-  3205						 "LINUX_CIFS_CLNT");
-  3206					cifs_dbg(VFS, "Specify correct NetBIOS clientname with -o netbiosname= option\n");
-  3207					break;
-  3208				case RFC1002_INSUFFICIENT_RESOURCE:
-  3209					/* remote server resource error */
-  3210					rc = -EREMOTEIO;
-  3211					break;
-  3212				case RFC1002_UNSPECIFIED_ERROR:
-  3213				default:
-  3214					/* other/unknown error */
-  3215					rc = -EIO;
-  3216					break;
-  3217				}
-  3218			} else {
-  3219				cifs_dbg(VFS, "RFC 1002 negative session response\n");
-  3220				rc = -EIO;
-  3221			}
-  3222			return rc;
-  3223		case RFC1002_RETARGET_SESSION_RESPONSE:
-  3224			cifs_dbg(VFS, "RFC 1002 retarget session response\n");
-  3225			if (be16_to_cpu(resp.length) == sizeof(resp.trailer.retarget_resp)) {
-  3226				len = sizeof(resp.trailer.retarget_resp);
-  3227				iov.iov_base = &resp.trailer.retarget_resp;
-  3228				iov.iov_len = len;
-  3229				iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, len);
-  3230				if (smb_recv_kvec(server, &msg, &recv) == 0 && recv == len) {
-  3231					cifs_dbg(VFS, "Server wants to redirect connection\n");
-  3232					cifs_dbg(VFS, "Remount with options -o ip=%pI4,port=%u\n",
-  3233						 &resp.trailer.retarget_resp.retarget_ip_addr,
-  3234						 be16_to_cpu(resp.trailer.retarget_resp.port));
-  3235				}
-  3236			}
-  3237			cifs_dbg(VFS, "Closing connection\n");
-  3238			/* FIXME: Should we automatically redirect to new retarget_resp server? */
-  3239			return -EMULTIHOP;
-  3240		default:
-  3241			cifs_dbg(VFS, "RFC 1002 unknown response type 0x%x\n", resp.type);
-  3242			return -EIO;
-  3243		}
-  3244	
-  3245		return 0;
-  3246	}
-  3247	
+
+vim +/rdmsr +39 arch/x86/kernel/cpu/zhaoxin.c
+
+    19	
+    20	static void init_zhaoxin_cap(struct cpuinfo_x86 *c)
+    21	{
+    22		u64 val;
+    23	
+    24		/* Test for Extended Feature Flags presence */
+    25		if (cpuid_eax(0xC0000000) >= 0xC0000001) {
+    26			u32 tmp = cpuid_edx(0xC0000001);
+    27	
+    28			/* Enable ACE unit, if present and disabled */
+    29			if ((tmp & (ACE_PRESENT | ACE_ENABLED)) == ACE_PRESENT) {
+    30				rdmsrl(MSR_ZHAOXIN_FCR57, val);
+    31				/* Enable ACE unit */
+    32				val |= ACE_FCR;
+    33				wrmsrl(MSR_ZHAOXIN_FCR57, val);
+    34				pr_info("CPU: Enabled ACE h/w crypto\n");
+    35			}
+    36	
+    37			/* Enable RNG unit, if present and disabled */
+    38			if ((tmp & (RNG_PRESENT | RNG_ENABLED)) == RNG_PRESENT) {
+  > 39				rdmsr(MSR_ZHAOXIN_FCR57, val);
+    40				/* Enable RNG unit */
+    41				val |= RNG_ENABLE;
+    42				wrmsrl(MSR_ZHAOXIN_FCR57, val);
+    43				pr_info("CPU: Enabled h/w RNG\n");
+    44			}
+    45	
+    46			/*
+    47			 * Store Extended Feature Flags as word 5 of the CPU
+    48			 * capability bit array
+    49			 */
+    50			c->x86_capability[CPUID_C000_0001_EDX] = cpuid_edx(0xC0000001);
+    51		}
+    52	
+    53		if (c->x86 >= 0x6)
+    54			set_cpu_cap(c, X86_FEATURE_REP_GOOD);
+    55	}
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
