@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD9B35958
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 19:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B901F8676
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 19:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735326330; cv=none; b=Y4x7F7zzePzTb9kiFUrnVmwiQr6QwXf0DuHpuyx2OLQIyjTzmeYz7TGnyRM6Y7bxc6tvwJx9Wf67YUC2FYS/UBQjOKIU4ymtdHxmQEkc6JD10uiXaxmxI3M9R9urjya8+nL5xkctFf9+GW6+sJo1Jl3r39ZPeAUPn/sa4yYYR5g=
+	t=1735328191; cv=none; b=Gugaf6A349NHnktVF/2S9pNi2/gkMHk2i8EMO0jBX3ZQXNMOW4i9zyMfZsGQF3ihyfDEiKFaFawD+tXBWwGkagrrHWjGa72GfX67ceay6Gf3lweePlG+9nMtR4ugEZ+6TTLdAb89dNWiBDKtw0NwXM1qlj6J4Vz4vb7fYWZl/wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735326330; c=relaxed/simple;
-	bh=JfMWHtYZH/34bq55sr8rpk6D8Zoa09H3U6xre9PCSnE=;
+	s=arc-20240116; t=1735328191; c=relaxed/simple;
+	bh=uxo5c4AgF+xDyfAHZhKmyav2ea7DWrvM+yudH/u/bV0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sbo4FoFoNlF2N1oFF4DlVP52L6IvY05Z2e0tCZiIuUIc03FqnzuNU+mvY0j29Sl3oAz2myPII4HNgNrnIE0SA64uSxWr3o8qz46pBMcoWyJM6htSxZplRYycV53iDWUzCrIY0KGlU2ZA3fHvb98SvqzJErPbxVeHmg/F1Ps1Dq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEvOGb16; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=sIFRWrjN44PtmZDr09UKtJ82zOI3CyrnuN98PPlrh2Q7tgd6MnQni4vTG6a1P7ek4YVOAuKuICuMSP598eKM7XXHGFq2tKPP1h42mwz7F1I1jBdmZ4FFrBPuzKK05C18jOPiZ6kzx0qT0MgFivoqAW8tzdzeA482QckGnzcGDUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2nlkuVa; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEvOGb16"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2nlkuVa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735326329; x=1766862329;
+  t=1735328189; x=1766864189;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JfMWHtYZH/34bq55sr8rpk6D8Zoa09H3U6xre9PCSnE=;
-  b=HEvOGb1610aHU+3vssIbrC1AUPA6YbxiuJ6ak3FpFcw30FMVt9RPqv1J
-   hEB2qc28Xxp5jCIWIklKHmm3Ay/uvc88G8BLjZD7QEj/mk9598AS9wG+Z
-   7INnI81RAwyGW1KyXy0exBCcUlxCxxlG8hm90xc/0ihIAIeK+em1thtHV
-   qg0iYNwqdDgoFCOIjFuhp531J6v9MmFSjlHGLqVrkRX5Tbp5bWUSN4j9B
-   FgL94Ec+HBfCJHgj6Q4ypIyv61gLtZEIgKusWJngWRHjnP/AQLbifw+yk
-   tTqdUqhscLe+CVBKodZ5LnS0dLxDaX+RcNIh0niULnquv1qlx+JaIb8lP
-   A==;
-X-CSE-ConnectionGUID: 3q0jh1acSZqhY21nTBKByg==
-X-CSE-MsgGUID: V0xAZZ/HTpWYzmghVVFWWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35843241"
+  bh=uxo5c4AgF+xDyfAHZhKmyav2ea7DWrvM+yudH/u/bV0=;
+  b=R2nlkuVa8/lCfgo83I6hy82zNdpaNoBJmuR4CZ8UcTTQ04smTRCkF3vj
+   FSgKLAko8LEFP5t2uIwE42tt+Qj4ZL8ukztW2+e/aCo8QbDgKkG5k/D2o
+   xd0mBh2l1wWu9cyeJIOZrSbomhtICyZ8JzEJbcykR3yaNHQ0OGMIoe7uP
+   1Gpf2Jy73rQ/sRRolYGi7Hml4uW3UTQg4QS8UKNUOv064ybxCWp4nsffg
+   8wbc25cXj0taAUjaaHs3q/HVugLO5T2eoPWadhbRRQdahFmyoP3+VjVrh
+   WrL76eUXmmVjK/cFd3gEPXfWAc6ZFSK6D0s/vdC7YXyJYEXVxRCP8tA0f
+   w==;
+X-CSE-ConnectionGUID: Nx3tDONZT6i5tqVWVERRww==
+X-CSE-MsgGUID: O1o/Zr59SsOr3sXPJGrn0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35632952"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="35843241"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 11:05:25 -0800
-X-CSE-ConnectionGUID: nhKoMmqGSTuInFA0mhlSTA==
-X-CSE-MsgGUID: e12dZ6c6TZCvg76PL+nO4Q==
+   d="scan'208";a="35632952"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 11:36:29 -0800
+X-CSE-ConnectionGUID: Z0+D55iCQxKNT3wAiLGdzg==
+X-CSE-MsgGUID: JYUD5C1pRcquV8MfoB4y2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="105067742"
+   d="scan'208";a="99975408"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Dec 2024 11:05:22 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 27 Dec 2024 11:36:28 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRFeC-0003UV-1B;
-	Fri, 27 Dec 2024 19:05:20 +0000
-Date: Sat, 28 Dec 2024 03:05:10 +0800
+	id 1tRG8H-0003X4-1v;
+	Fri, 27 Dec 2024 19:36:25 +0000
+Date: Sat, 28 Dec 2024 03:35:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rahul Pathak <rpathak@ventanamicro.com>
-Subject: [avpatel:riscv_sbi_sse_v3 13/46]
- drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse: sparse: incorrect type
- in assignment (different base types)
-Message-ID: <202412280253.drrNjTfk-lkp@intel.com>
+To: Raymond Tan <raymond.tan@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, sys_oak <sys_oak@intel.com>,
+	N Pandith <pandith.n@intel.com>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+Subject: [intel-lts:6.6/preempt-rt 3/3]
+ drivers/gpio/gpio-ehl-pse-plat.c:79:6: warning: no previous prototype for
+ function 'ehl_pse_gpio_free'
+Message-ID: <202412280338.BeOO6LY5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,258 +65,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_sse_v3
-head:   36a4c153b9a152c3eb136e4aced7c9ccbaae922d
-commit: f7982fe2b426d7dac99a95701708bdb2a097cd79 [13/46] mailbox: Add RISC-V SBI message proxy (MPXY) based mailbox driver
-config: riscv-randconfig-r133-20241225 (https://download.01.org/0day-ci/archive/20241228/202412280253.drrNjTfk-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241228/202412280253.drrNjTfk-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
+head:   7f064b9d8937d880fb64d1df8d1e8b8115a1c128
+commit: 98f388dc83f17d579f5684c021040f02269a7ebe [3/3] mfd: intel-ehl-gpio: Introduce MFD framework to PSE GPIO/TGPIO
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241228/202412280338.BeOO6LY5-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280338.BeOO6LY5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412280253.drrNjTfk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412280338.BeOO6LY5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] remaining @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse:     expected restricted __le32 [usertype] remaining
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:314:39: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:315:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] returned @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:315:38: sparse:     expected restricted __le32 [usertype] returned
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:315:38: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:316:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lost @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:316:34: sparse:     expected restricted __le32 [usertype] lost
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:316:34: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:317:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] reserved @@     got unsigned int [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:317:38: sparse:     expected restricted __le32 [usertype] reserved
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:317:38: sparse:     got unsigned int [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:495:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] event_datalen @@     got unsigned short [usertype] @@
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:495:38: sparse:     expected restricted __le16 [usertype] event_datalen
-   drivers/mailbox/riscv-sbi-mpxy-mbox.c:495:38: sparse:     got unsigned short [usertype]
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:497:52: sparse: sparse: restricted __le16 degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +314 drivers/mailbox/riscv-sbi-mpxy-mbox.c
+   In file included from drivers/gpio/gpio-ehl-pse-plat.c:15:
+   In file included from include/linux/pci.h:1620:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpio-ehl-pse-plat.c:79:6: warning: no previous prototype for function 'ehl_pse_gpio_free' [-Wmissing-prototypes]
+      79 | void ehl_pse_gpio_free(struct gpio_chip *chip, unsigned int offset)
+         |      ^
+   drivers/gpio/gpio-ehl-pse-plat.c:79:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      79 | void ehl_pse_gpio_free(struct gpio_chip *chip, unsigned int offset)
+         | ^
+         | static 
+   drivers/gpio/gpio-ehl-pse-plat.c:378:10: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
+     378 |                 return NULL;
+         |                        ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   drivers/gpio/gpio-ehl-pse-plat.c:382:10: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
+     382 |                 return NULL;
+         |                        ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   drivers/gpio/gpio-ehl-pse-plat.c:364:16: warning: unused variable 'base' [-Wunused-variable]
+     364 |         void __iomem *base;
+         |                       ^~~~
+   7 warnings and 2 errors generated.
 
-   295	
-   296	static int mpxy_get_notifications(u32 channel_id,
-   297					  struct sbi_mpxy_notification_data *notif_data,
-   298					  unsigned long *events_data_len)
-   299	{
-   300		struct mpxy_local *mpxy = this_cpu_ptr(&mpxy_local);
-   301		struct sbiret sret;
-   302	
-   303		if (!mpxy->shmem_active)
-   304			return -ENODEV;
-   305		if (!notif_data || !events_data_len)
-   306			return -EINVAL;
-   307	
-   308		get_cpu();
-   309	
-   310		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_GET_NOTIFICATION_EVENTS,
-   311				 channel_id, 0, 0, 0, 0, 0);
-   312		if (!sret.error) {
-   313			memcpy(notif_data, mpxy->shmem, sret.value);
- > 314			notif_data->remaining = le32_to_cpu(notif_data->remaining);
- > 315			notif_data->returned =  le32_to_cpu(notif_data->returned);
- > 316			notif_data->lost =  le32_to_cpu(notif_data->lost);
- > 317			notif_data->reserved =  le32_to_cpu(notif_data->reserved);
-   318			*events_data_len = sret.value - 16;
-   319		}
-   320	
-   321		put_cpu();
-   322		return sbi_err_map_linux_errno(sret.error);
-   323	}
-   324	
-   325	static int mpxy_cleanup_shmem(unsigned int cpu)
-   326	{
-   327		struct mpxy_local *mpxy;
-   328		struct sbiret sret;
-   329	
-   330		mpxy = per_cpu_ptr(&mpxy_local, cpu);
-   331		if (!mpxy->shmem_active)
-   332			return -EINVAL;
-   333	
-   334		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_SET_SHMEM,
-   335				 0, -1U, -1U, 0, 0, 0);
-   336		if (sret.error)
-   337			return sbi_err_map_linux_errno(sret.error);
-   338	
-   339		free_pages((unsigned long)mpxy->shmem, get_order(MPXY_SHMEM_SIZE));
-   340	
-   341		mpxy->shmem = NULL;
-   342		mpxy->shmem_phys_addr = 0;
-   343		mpxy->shmem_active = false;
-   344	
-   345		return 0;
-   346	}
-   347	
-   348	static int mpxy_setup_shmem(unsigned int cpu)
-   349	{
-   350		struct page *shmem_page;
-   351		struct mpxy_local *mpxy;
-   352		struct sbiret sret;
-   353	
-   354		mpxy = per_cpu_ptr(&mpxy_local, cpu);
-   355		if (mpxy->shmem_active)
-   356			return -EINVAL;
-   357	
-   358		shmem_page = alloc_pages(GFP_KERNEL | __GFP_ZERO, get_order(MPXY_SHMEM_SIZE));
-   359		if (!shmem_page)
-   360			return -ENOMEM;
-   361	
-   362		/*
-   363		 * Linux setup of shmem is done in mpxy OVERWRITE mode.
-   364		 * flags[1:0] = 00b
-   365		 */
-   366		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_SET_SHMEM,
-   367				 MPXY_SHMEM_SIZE, page_to_phys(shmem_page), 0, 0, 0, 0);
-   368		if (sret.error) {
-   369			free_pages((unsigned long)page_to_virt(shmem_page),
-   370				   get_order(MPXY_SHMEM_SIZE));
-   371			return sbi_err_map_linux_errno(sret.error);
-   372		}
-   373	
-   374		mpxy->shmem = page_to_virt(shmem_page);
-   375		mpxy->shmem_phys_addr = page_to_phys(shmem_page);
-   376		mpxy->shmem_active = true;
-   377	
-   378		return 0;
-   379	}
-   380	
-   381	/* ====== MPXY mailbox data structures ====== */
-   382	
-   383	/* MPXY mailbox channel */
-   384	struct mpxy_mbox_channel {
-   385		struct mpxy_mbox *mbox;
-   386		u32 channel_id;
-   387		struct sbi_mpxy_channel_attrs attrs;
-   388		struct sbi_mpxy_rpmi_channel_attrs rpmi_attrs;
-   389		struct sbi_mpxy_notification_data *notif;
-   390		u32 max_xfer_len;
-   391		bool have_events_state;
-   392		u32 msi_index;
-   393		u32 msi_irq;
-   394		bool started;
-   395	};
-   396	
-   397	/* MPXY mailbox */
-   398	struct mpxy_mbox {
-   399		struct device *dev;
-   400		u32 channel_count;
-   401		struct mpxy_mbox_channel *channels;
-   402		u32 msi_count;
-   403		struct mpxy_mbox_channel **msi_index_to_channel;
-   404		struct mbox_controller controller;
-   405	};
-   406	
-   407	/* ====== MPXY RPMI processing ====== */
-   408	
-   409	static int mpxy_mbox_send_rpmi_data(struct mpxy_mbox_channel *mchan,
-   410					    struct rpmi_mbox_message *msg)
-   411	{
-   412		int rc = 0;
-   413	
-   414		switch (msg->type) {
-   415		case RPMI_MBOX_MSG_TYPE_GET_ATTRIBUTE:
-   416			switch (msg->attr.id) {
-   417			case RPMI_MBOX_ATTR_SPEC_VERSION:
-   418				msg->attr.value = mchan->attrs.msg_proto_version;
-   419				break;
-   420			case RPMI_MBOX_ATTR_MAX_MSG_DATA_SIZE:
-   421				msg->attr.value = mchan->max_xfer_len;
-   422				break;
-   423			case RPMI_MBOX_ATTR_SERVICEGROUP_ID:
-   424				msg->attr.value = mchan->rpmi_attrs.servicegroup_id;
-   425				break;
-   426			case RPMI_MBOX_ATTR_SERVICEGROUP_VERSION:
-   427				msg->attr.value = mchan->rpmi_attrs.servicegroup_version;
-   428				break;
-   429			default:
-   430				rc = -EOPNOTSUPP;
-   431				break;
-   432			}
-   433			break;
-   434		case RPMI_MBOX_MSG_TYPE_SET_ATTRIBUTE:
-   435			/* None of the RPMI linux mailbox attributes are writeable */
-   436			rc = -EOPNOTSUPP;
-   437			break;
-   438		case RPMI_MBOX_MSG_TYPE_SEND_WITH_RESPONSE:
-   439			if ((!msg->data.request && msg->data.request_len) ||
-   440			    (msg->data.request &&
-   441			     msg->data.request_len > mchan->max_xfer_len) ||
-   442			    (!msg->data.response && msg->data.max_response_len)) {
-   443				rc = -EINVAL;
-   444				break;
-   445			}
-   446			if (!(mchan->attrs.capability & SBI_MPXY_CHAN_CAP_SEND_WITH_RESP)) {
-   447				rc = -EIO;
-   448				break;
-   449			}
-   450			rc = mpxy_send_message_with_resp(mchan->channel_id,
-   451							 msg->data.service_id,
-   452							 msg->data.request,
-   453							 msg->data.request_len,
-   454							 msg->data.response,
-   455							 msg->data.max_response_len,
-   456							 &msg->data.out_response_len);
-   457			break;
-   458		case RPMI_MBOX_MSG_TYPE_SEND_WITHOUT_RESPONSE:
-   459			if ((!msg->data.request && msg->data.request_len) ||
-   460			    (msg->data.request &&
-   461			     msg->data.request_len > mchan->max_xfer_len)) {
-   462				rc = -EINVAL;
-   463				break;
-   464			}
-   465			if (!(mchan->attrs.capability & SBI_MPXY_CHAN_CAP_SEND_WITHOUT_RESP)) {
-   466				rc = -EIO;
-   467				break;
-   468			}
-   469			rc = mpxy_send_message_without_resp(mchan->channel_id,
-   470							    msg->data.service_id,
-   471							    msg->data.request,
-   472							    msg->data.request_len);
-   473			break;
-   474		default:
-   475			rc = -EOPNOTSUPP;
-   476			break;
-   477		}
-   478	
-   479		msg->error = rc;
-   480		return 0;
-   481	}
-   482	
-   483	static void mpxy_mbox_peek_rpmi_data(struct mbox_chan *chan,
-   484					     struct mpxy_mbox_channel *mchan,
-   485					     struct sbi_mpxy_notification_data *notif,
-   486					     unsigned long events_data_len)
-   487	{
-   488		struct rpmi_notification_event *event;
-   489		unsigned long pos = 0, event_size;
-   490		struct rpmi_mbox_message msg;
-   491	
-   492		while ((pos < events_data_len) && !(pos & 0x3) &&
-   493		       ((events_data_len - pos) <= sizeof(*event))) {
-   494			event = (struct rpmi_notification_event *)(notif->events_data + pos);
- > 495			event->event_datalen = le16_to_cpu(event->event_datalen);
-   496	
- > 497			event_size = sizeof(*event) + event->event_datalen;
-   498			if (event_size > (events_data_len - pos)) {
-   499				event_size = events_data_len - pos;
-   500				goto skip_event;
-   501			}
-   502			if (event_size & 0x3)
-   503				goto skip_event;
-   504	
-   505			msg.type = RPMI_MBOX_MSG_TYPE_NOTIFICATION_EVENT;
-   506			msg.notif_event = event;
-   507			msg.error = 0;
-   508			mbox_chan_received_data(chan, &msg);
-   509	
-   510	skip_event:
-   511			pos += event_size;
-   512		}
-   513	}
-   514	
+
+vim +/ehl_pse_gpio_free +79 drivers/gpio/gpio-ehl-pse-plat.c
+
+    78	
+  > 79	void ehl_pse_gpio_free(struct gpio_chip *chip, unsigned int offset)
+    80	{
+    81		/* decrease runtime_usage counter */
+    82		pm_runtime_put_sync(chip->parent);
+    83	}
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
