@@ -1,377 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A364EAD21
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 01:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735261736; cv=none; b=kmToL7wHJKQDfoQXgzlJpZ+fZreeuyuyfl0rRwAgTZi/kQuBbFDWlgLr4485ArMxoReh5P3VmWhAM8rgSUgXyu/9tze1EX/cNGWTOmPcP62jTU2P3BaHO7UAOLHwvJMYDwPdN3GD39rEstlDa9+0/4yVluHma63xHcfm764OnnI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735261736; c=relaxed/simple;
-	bh=lj+q/JuBAz7hXR/g248E5fpj95W7GXavm0st1P2NwoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jXDKKE4ef+tVziEAHgVXGWT5nsrKPtthNb9KIxqEtnxFVnMjVdtAw610uiEyCdmL4EZZV8gZYSSn0q+/gVMJ88Gki/HZto2bIMErkWw6xa3Xd4nP7/rVmCB4lAa4gi4vgRxLH/YCRFRKA+un5+Q8NDt+ZEmQkr6BNqYM63Cts1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVmyHqWt; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86224A1D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 01:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735263105; cv=fail; b=C9r9v76WHBU6+4TVwoiLN+SkwLARfD3g7fo0r3EK6g5ONW/ZdwVAx9B+ujc8CLI+t02PffJTOPopXmtnvffUZyIeNbF2+rIZp3dtQKAracR5XDuSlgKE+vXLq+vACH89+eShgC6RBndroWJ2QfRlO86QlV3Q6mjVl6DV8TfZDoU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735263105; c=relaxed/simple;
+	bh=iH9B9XCl0XE8Js/d0tSmk5rd8VylXyO4Xr92Vu1Sq+E=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Y/6xX5B+hfxad8NTpkxJZRUn4yQKH9yUHL5FzAZAU+IwVYF3Lq5+gOcgPMEcj2zhP8NdFlmHyvo2DLphuXHHe23dG/T+h2Xra8alKDFqPCM8RFoZJn7fj1+m65Mv7mL7VRvrqsbtKWLcv2x0Bf3r7PLveY8TiL5VWfM5cm+XXIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2tlYrtr; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVmyHqWt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2tlYrtr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735261734; x=1766797734;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lj+q/JuBAz7hXR/g248E5fpj95W7GXavm0st1P2NwoM=;
-  b=lVmyHqWt9lzs8Vl9OlT2XMDFFVS5hjXbK4/mJsXItpcp+w7ArZAn+RPK
-   8h3hJd9hx7aowpNamhNhVybausu18771zhIlT+7lS0FOiPzc0wVULWDh+
-   GkcHJN0lYstEr+g/yWS/V88QKvakqGo2IK8SpwRTTb/BJy9h0ou1RdSHQ
-   3s9GMMtBht/zEIGHx9lUqYqQ3AbWOKfJVjVvI3qx04nn1OOwegxnGKd0f
-   GrQIzgkD98PyHO+tSHtKSykjakGthywMEbSd7mlQb+6WssRp+yofx0+p2
-   SIR/VrdGCHang4Ue1fi1XOr5noE/dR/qzVW/lw240qGxN85aPvS0aJbeo
-   g==;
-X-CSE-ConnectionGUID: mZ4L5vsORuGjWTbYjFXJmQ==
-X-CSE-MsgGUID: 77rT/kvVSaCYcNeWEB1QLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="47048469"
+  t=1735263104; x=1766799104;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=iH9B9XCl0XE8Js/d0tSmk5rd8VylXyO4Xr92Vu1Sq+E=;
+  b=H2tlYrtr5fbQDc4wpD7cOBoRhBSxJJ2/nGInfxs6JGshnoaDLib4W22c
+   EYzxef9HfbQswx1FOuV+E8lZqQQlNaw3Ku1Ja35v9DcV4/FKVXq9lQaYq
+   OPzhM2/PojQ73fEVB7OcN48VsDmce/xu7H7i12ApcpOpwaG03e8B234ZM
+   7t/iQSOen9uImvVcsHfOsk91YtmkZna86UZvdc/GY2p5wcl49R6dbSyrD
+   SxHEllguO+8B+w1eO+OnbfpXxQxVtqB8lXNl7fq0mZN2E4SJ8vmbU4rm7
+   FrtGAiFo4XNeWcarGQthDWfn68vfY24133JKB/g2S+o7PuGLRzqhPoFHU
+   Q==;
+X-CSE-ConnectionGUID: zFgUFm6STH6PvoLIHph6Sg==
+X-CSE-MsgGUID: FlWevKIDRWeZdRAddQwTjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="35581321"
 X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
-   d="scan'208";a="47048469"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 17:08:51 -0800
-X-CSE-ConnectionGUID: BC1ZPYBqTXK96+XSNqNjog==
-X-CSE-MsgGUID: e0o0TUPiRxqjd7FC7MtnoQ==
+   d="scan'208";a="35581321"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 17:31:43 -0800
+X-CSE-ConnectionGUID: zbJhlAxgQ522EjfyqApb1A==
+X-CSE-MsgGUID: cumjkpbiR2yV1ttxXbI5Ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
-   d="scan'208";a="100552825"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Dec 2024 17:08:49 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tQyqN-0002tC-1A;
-	Fri, 27 Dec 2024 01:08:47 +0000
-Date: Fri, 27 Dec 2024 09:08:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0:
- typec:connector@0: Unevaluated properties are not allowed ('ports' was
- unexpected)
-Message-ID: <202412270939.x3udJX8y-lkp@intel.com>
+   d="scan'208";a="100162936"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Dec 2024 17:31:43 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 26 Dec 2024 17:31:42 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 26 Dec 2024 17:31:42 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 26 Dec 2024 17:31:41 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Sr7r99aGnDJLN6rg1/tnv9XnUqFaL1GE4DZNiuS+LnQ6z19gzdWbyTofJ8WkE9EGLQSigY1mq+tt/GnWI1RHgOYYoh+6UCcI/GxwYB9e1QSfkIOVWuqpcg2VnxaVbNz1Iau4vYnYWqb3VbcRg6Z9DGeSHPVpLOWcSSSTvbXwE6yET5A3qJByAduxWkMcwMJAXAVkGfzxAmFWJ9C/fvkIjalc27cInntt7W1FyUgc7stvRKhs9OXxzlpJSYTKaa5ZWG+mZmgZT+xUgBio/RRWFa8n97Jfxh4mVNrbYuUfK6CL1ivl7Io+Si+vwjegLizj9TkKANL4wCWUKMySDi5Qlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zo1tvudEfQXpFyJQKJTeXoy3tCmUhH5UDE1A6m1drno=;
+ b=sR2d+zitqaBJg3NmWcDa0lTu3ositUX7OADLMLWJTt6scXrPGKtvpnEpNoFci93Q5r6TeVebqreJR0UrO+CV9fXL2gqurY1bxRkgMsDDyF4zQBJMqXLeEIx2xqraIuE4+mB8iyg0NDZ7P80e6MiV3hfl63JLDtCObzsuCP/BLgiJg0ZYhR7gqDNnO2p3eVGgoCv72L6LcQ15vQk3ZhbfN1ClGXi8uElzSGGTUHRd8r/5ZahwjE5u5ILtpx0yHXxHJxdd2HOdfRGtIiM9hEQS2wAHfCGeYYDPeDdOk/LXjINnpjVaz2xr9DdwgcSQChgUfT9kU39SZsIucU99UbC5xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by DM4PR11MB6287.namprd11.prod.outlook.com (2603:10b6:8:a6::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8293.14; Fri, 27 Dec
+ 2024 01:31:17 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8293.000; Fri, 27 Dec 2024
+ 01:31:17 +0000
+Date: Fri, 27 Dec 2024 09:31:09 +0800
+From: Philip Li <philip.li@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Stafford Horne <shorne@gmail.com>, <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [stffrdhrn:or1k-rseq 5/5]
+ tools/testing/selftests/rseq/rseq-or1k.h: rseq-or1k-bits.h is included more
+ than once.
+Message-ID: <Z24DXSKP9VYu570T@rli9-mobl>
+References: <202412270840.23RVr7Xf-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202412270840.23RVr7Xf-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0174.apcprd04.prod.outlook.com (2603:1096:4::36)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DM4PR11MB6287:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4ce5551-1a5d-4640-c2dc-08dd261628d7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HLWTHXfeF9BTAqh1eLox6GygupcXzHBRIIhyF0PzDuVGvwu0zYjZIkWcxUoR?=
+ =?us-ascii?Q?l9ftH2RialmYlttay/13S6bwg0Ewjx/PayQyRiphBBPhMJmXllJkD0MnOc/Z?=
+ =?us-ascii?Q?LJcBzDm8aR1FoKJazx40FCwQ9teIoWtqVlttQeJHpbof2cgAI9MMBCFr5GWZ?=
+ =?us-ascii?Q?lVuyqjzKRij9T1SYk2jfrzDs+u9ljBBw7dEf8bgepDhucRV5ad+4kgsX/GPb?=
+ =?us-ascii?Q?5pMVk8iat300ufjIXPdSXm6epABYQSwDr6FKEOlB1OJjJ81AZJyDQqHL8bXa?=
+ =?us-ascii?Q?za9IWANcPMAGEHXqbn9ywB7Mjy9O529FaJzpUo8IMokec8JySft+70zKFJFH?=
+ =?us-ascii?Q?+wb3DNUvEqfuEcN1FnAoVKuS1d5ohVXhUtmncU7jNbKpIfs5R3OwcN/hW1Am?=
+ =?us-ascii?Q?yg6ujqgqKdi33PEb5VsnZ4V+eQhZhmNY+a2xESHNTYlp/0YVYC7g6dmc8uRq?=
+ =?us-ascii?Q?zYTBdrcRUdIxN54RvCK7WCDhe5k7tNqE/3+grzfsgASGU6t/IvNC2qW4A7E6?=
+ =?us-ascii?Q?oYMZdLpAfBf2XATFyRRofLYoxS+Au5XWORmMjHBckilLJqXQCjEwhA3D2Jl9?=
+ =?us-ascii?Q?GviSgMgVLHvebq5+Pmz9fqsllO8BNeKpGYzqlycF+595ozt0ibqk9s5K46xN?=
+ =?us-ascii?Q?pacj/06ra8RggQM2PVh2333dwhX/3BDcOd79q7BtfUPHLlGaJtkae/+yfrNd?=
+ =?us-ascii?Q?WwJ/bbwvB1w88MASgK9bl3UX1EOFX7qkTXScl72wrDp7LPViVbLa5HolTgu5?=
+ =?us-ascii?Q?sNzd7u+vYbifQsm/+viwKiucj6WMQ0BXNdcZy9atuWiN8IqsKLgJruP6QOha?=
+ =?us-ascii?Q?f0tDZXoezzYxjHUOSkdYL82Gkh182wCkEzjgDvcuG4sV67ozHrx/uvKWR1+6?=
+ =?us-ascii?Q?22oAUTtpGkbRKv0K+a689LUi8dcSg4GCQobRnhKRWNbDL+VA1Q48woBtPSi8?=
+ =?us-ascii?Q?Rhg128hz4xdm0rYgJxvEgN1Qcw1CO05A1owBereDFLdHzqLKIRLuFlu2clFK?=
+ =?us-ascii?Q?O//NxGljbNF9OxGZjMsPAVpeMN1CiV5KSdbJ9Zp4VCIzuou5jSii4XkCzRXt?=
+ =?us-ascii?Q?CFCFlVpEc9UuffuaCYDNGnBve4egHtPHaiiEz7MptanNpfdxcj7G06HFfBqY?=
+ =?us-ascii?Q?gl0yg/oluOU1KJWSWxQutUJkhjn+HAQcZ4YdhalFJFMlyoG+l7PaP762BR3z?=
+ =?us-ascii?Q?95Tr+ZB4/KpqPJUpUgMY9nJgZ0G7rTwz7N2z0funXeITDhaqziTPdkaOSpzX?=
+ =?us-ascii?Q?ZBgO7f/iL3n9g+yAoUHYI6OjtTVuEL6PDIhbaWBT2gJ4vRqp3SEX6RRiMbjW?=
+ =?us-ascii?Q?O7w1rrTGlVO28JdSH4Ib+fpWEIGSBybgGVuN8IYxQiteCi1UM5rdIUImgxbf?=
+ =?us-ascii?Q?nkZmk884gS7bGgFCMaTGKVPJoxMPvTGmUq+v/Nv67oVFOfJtvA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?J3rPIfgsxtxcuib6G67uBLQAqrpcEG68CWUc8U27Q6k63uUMnyNYZFyKbNs7?=
+ =?us-ascii?Q?m3+jo2gWHnTaUOgPtRiJeQdjyOkYkscwaQsnX9zcJK77hmK3CWbsjdBo1H6u?=
+ =?us-ascii?Q?BsBoUqmvvGfhSLLddzfbT3KcOXg+ikut7WODVRavDfVvNRwfSqcqZa7+p28c?=
+ =?us-ascii?Q?4vDFuj5Lj/uELc07B87P/AwlNNt5cINvZZF0wabCTGoWKg+gp1eHon6oyDFo?=
+ =?us-ascii?Q?9gzyVl36c/Z5c1AW+H5gfVnmjsn/dz4wtId5Z/t7GaVAvpph0MTD0tTSAK40?=
+ =?us-ascii?Q?stzdCQJdYV0MTxyOMBS9MCxw/GrF114oHi+a8gn7Fmm53wSWPX4tI9JRt9un?=
+ =?us-ascii?Q?ExiyvxZuI98C+qoiU4H+lsUWQBRM/3NccbbVmKw3eg1b7SkULF0oZZn5rDdd?=
+ =?us-ascii?Q?Dcc43gBt5jH8nlxV4viWi7AIBWNAHGXF2UZi6GJKuaS7EtfmRws6ZEjKUTcP?=
+ =?us-ascii?Q?wYixgVH4yrn/mtR9tf8tZGHUfqwKqpKs1jSrmy9oBNh4zEYFG2WbGyi74+WZ?=
+ =?us-ascii?Q?E2LJ7Thdyw4/mxphNUXpTc5E9arzSjRAPwLJdiclVjN88i3hecE4qLFYeOej?=
+ =?us-ascii?Q?9dmvUN8aMQzmul3uPsHT+ZT7nrfbaljCT8RbHR+NyugL45IsnveYFA/4T74N?=
+ =?us-ascii?Q?NPi5xy5cCVZIH6q9msE42ZEcSwL//c0obqbpgex1bJIz1gRV7rpFuTQIzoHG?=
+ =?us-ascii?Q?hebopwLcpJ6uPPiEJxKD48W4FgkUNp5y/vGl0wkVNkN3tSrdLK+OyQkaQoFa?=
+ =?us-ascii?Q?gJ2To9qNCLdekKkDVMGn2Xy+kkcVhI2hY6cA+OvDItgCK60w77CfLoW+X6L0?=
+ =?us-ascii?Q?7uLP28/2za9BdnMaixTjqaQ+bNVW4ruaWkb5TbjCvNsx83cgoi0ZxV5fDvgG?=
+ =?us-ascii?Q?oV85wjXZSIo2lOL/GkM7TfRDdv7vsk8Wl3aTi2ly1WG4f70mF8a9Zj1LuKpG?=
+ =?us-ascii?Q?Ie4ETf8+98wu+A9FzLwmpM86QALWHELbZ1N5O+lEEY5p+YwWBLHfWoO2YY7r?=
+ =?us-ascii?Q?0D54tNE4tj1y2Y+cqfidyn6GsxZf5CRotJhQx9Trp6I92QiY+xyV5CNZrznk?=
+ =?us-ascii?Q?LzVPGfGJOX+f+c/xiW1TrppdlqWfzt+TVSuA299VkkJMVJKiBqxjEZ4S+slg?=
+ =?us-ascii?Q?3IUAtdMQ+yyXZqhdJYQFJFjs6N4HdkCTrUQsGETTl6XhMSlsZUGJeiC8RRlS?=
+ =?us-ascii?Q?jjTtQz3kQA51sLs6okvuVESTjngtr3fdcTEbxCL7+imIKvXeO4YgYssCp6Tk?=
+ =?us-ascii?Q?5H8lf9dheFSI14cStoS/8SUhkuChoSJvuG5ssRN38fI4SP9/66y3b9dK7BJK?=
+ =?us-ascii?Q?MswKb8aEnwBsG5DOG1UuX9ABVntGEO16lAT10el0Vc8CqZqn7BXbPyoMfNhv?=
+ =?us-ascii?Q?Kim2UhTkiN+1QldWMdbYNW/XwdN0pII3PkFfHSLMvVcO0Q0UjLTD/dX3JIvW?=
+ =?us-ascii?Q?M6cAwRgD5cQRhsUDLFaJttmc21DCinI77uuPOAFKh58hEH1yxip9OUehT13R?=
+ =?us-ascii?Q?eg1mk2aqoTVOryRShoJV9FV35kAg+V1KXbfSawq0On9qpdffa/xB3ox6oQu4?=
+ =?us-ascii?Q?LnrU+dMQ6LexKdNgsSOWA+e4ANXJMQp3YQ2RNx7c?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4ce5551-1a5d-4640-c2dc-08dd261628d7
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2024 01:31:17.5379
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gy5a0tMWurGhTLGFHpxL9sJpPPOO/WcqKVy8EoNtFFdTt29Nwj2WyGohZiAqcwmg9yOjP/R0yhB9CVp2Cv8frg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6287
+X-OriginatorOrg: intel.com
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   811e48e07be5a00b2472cecba280dd56c8c200ef
-commit: 9d926f59c0d7be838551a38ee10773521437bb27 [4/4] CHROMIUM: arm64: dts: mt8192: asurada: Enable external display bridge
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241227/202412270939.x3udJX8y-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412270939.x3udJX8y-lkp@intel.com/reproduce)
+On Fri, Dec 27, 2024 at 08:56:31AM +0800, kernel test robot wrote:
+> tree:   https://github.com/stffrdhrn/linux.git or1k-rseq
+> head:   1fa73dd6c2d3c915af3f33929f8a9b437d7cd112
+> commit: 1fa73dd6c2d3c915af3f33929f8a9b437d7cd112 [5/5] rseq/selftests: Add support for OpenRISC
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412270840.23RVr7Xf-lkp@intel.com/
+> 
+> includecheck warnings: (new ones prefixed by >>)
+> >> tools/testing/selftests/rseq/rseq-or1k.h: rseq-or1k-bits.h is included more than once.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412270939.x3udJX8y-lkp@intel.com/
+Sorry, kindly ignore this report, it should be a false positive.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1445.18-1451.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1453.18-1456.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:430.27-503.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@11d00000/bridge@58: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:447.9-459.5: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:470.11-481.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:489.11-500.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pcm: clocks: [[61, 0], [61, 7], [61, 8], [61, 6], [61, 21], [61, 1], [61, 2], [61, 4], [61, 3], [61, 5], [61, 9], [61, 10], [61, 18], [61, 19], [61, 20], [61, 22], [61, 23], [61, 24], [61, 25], [61, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
---
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: bridge@58: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: bridge@58: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: bridge@58: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: bridge@58: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: bridge@58: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: bridge@58: '#address-cells', '#size-cells', '#sound-dai-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/i2c@11d20000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
---
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1445.18-1451.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1453.18-1456.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:430.27-503.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@11d00000/bridge@58: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:447.9-459.5: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:470.11-481.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:489.11-500.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-afe-pcm: clocks: [[58, 0], [58, 7], [58, 8], [58, 6], [58, 21], [58, 1], [58, 2], [58, 4], [58, 3], [58, 5], [58, 9], [58, 10], [58, 18], [58, 19], [58, 20], [58, 22], [58, 23], [58, 24], [58, 25], [58, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: flash@0: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: bridge@58: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: bridge@58: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: bridge@58: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: bridge@58: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: bridge@58: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: bridge@58: '#address-cells', '#size-cells', '#sound-dai-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: dpi@14016000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: dpi@14016000: Additional properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1445.18-1451.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1453.18-1456.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:430.27-503.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@11d00000/bridge@58: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:447.9-459.5: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:470.11-481.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:489.11-500.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-pcm: clocks: [[58, 0], [58, 7], [58, 8], [58, 6], [58, 21], [58, 1], [58, 2], [58, 4], [58, 3], [58, 5], [58, 9], [58, 10], [58, 18], [58, 19], [58, 20], [58, 22], [58, 23], [58, 24], [58, 25], [58, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
---
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: bridge@58: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: bridge@58: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: bridge@58: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: bridge@58: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: bridge@58: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: bridge@58: '#address-cells', '#size-cells', '#sound-dai-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/i2c@11d20000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
---
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1445.18-1451.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192.dtsi:1453.18-1456.6: Warning (unit_address_vs_reg): /soc/gpu@13000000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:430.27-503.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@11d00000/bridge@58: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:447.9-459.5: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:470.11-481.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi:489.11-500.7: Warning (graph_child_address): /soc/i2c@11d00000/bridge@58/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-pcm: clocks: [[58, 0], [58, 7], [58, 8], [58, 6], [58, 21], [58, 1], [58, 2], [58, 4], [58, 3], [58, 5], [58, 9], [58, 10], [58, 18], [58, 19], [58, 20], [58, 22], [58, 23], [58, 24], [58, 25], [58, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
---
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: flash@0: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: bridge@58: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: bridge@58: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: bridge@58: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: bridge@58: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: bridge@58: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: bridge@58: '#address-cells', '#size-cells', '#sound-dai-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: gpu@13000000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: dpi@14016000: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: dpi@14016000: Additional properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> vim +158 tools/testing/selftests/rseq/rseq-or1k.h
+> 
+>    155	
+>    156	#define RSEQ_TEMPLATE_CPU_ID
+>    157	#define RSEQ_TEMPLATE_MO_RELAXED
+>  > 158	#include "rseq-or1k-bits.h"
+>    159	#undef RSEQ_TEMPLATE_MO_RELAXED
+>    160	
+>    161	#define RSEQ_TEMPLATE_MO_RELEASE
+>  > 162	#include "rseq-or1k-bits.h"
+>    163	#undef RSEQ_TEMPLATE_MO_RELEASE
+>    164	#undef RSEQ_TEMPLATE_CPU_ID
+>    165	
+>    166	/* Per-mm-cid indexing. */
+>    167	
+>    168	#define RSEQ_TEMPLATE_MM_CID
+>    169	#define RSEQ_TEMPLATE_MO_RELAXED
+>  > 170	#include "rseq-or1k-bits.h"
+>    171	#undef RSEQ_TEMPLATE_MO_RELAXED
+>    172	
+>    173	#define RSEQ_TEMPLATE_MO_RELEASE
+>  > 174	#include "rseq-or1k-bits.h"
+>    175	#undef RSEQ_TEMPLATE_MO_RELEASE
+>    176	#undef RSEQ_TEMPLATE_MM_CID
+>    177	
+>    178	/* APIs which are not based on cpu ids. */
+>    179	
+>    180	#define RSEQ_TEMPLATE_CPU_ID_NONE
+>    181	#define RSEQ_TEMPLATE_MO_RELAXED
+>  > 182	#include "rseq-or1k-bits.h"
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
