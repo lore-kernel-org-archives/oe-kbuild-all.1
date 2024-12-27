@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792428C0B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 22:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A9B139579
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 22:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735337333; cv=none; b=t2MATymEwEZz1je7zF8elCKD8BQ0Lx4w/TT2Pspkf77FXTpVJzNOftQkYOBoSwfcrRmcAWerENG6Y++VFd7N/oai8jmWlPU2fASsxnO8dLvbvBUwD8X/iKBJH5EB3qwgt/PoqM92MRTOPCUoZhtLKSN4B5iTCh5biB0TY8X8+lw=
+	t=1735338596; cv=none; b=DKTIxGUoP0jR8BSV8cXC8vjdQX6vMyaEP9r6TWjlh5t8NOWWQqnvBnAdAopZyq3eBjovV5s6Ve8Mv3AI7GDiMGJEQr9Hybwm5YuDhpKexF3iGHxSpaFHpmK+9O9MkFbZ/gSgvoBfwgv/Imlfg4YjzaQJGD+hb11hwH2RE2H+YHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735337333; c=relaxed/simple;
-	bh=y0Dy82pYiXBE6cyhlaThrZwD8+v62Qb4TIUbPr+Q3CY=;
+	s=arc-20240116; t=1735338596; c=relaxed/simple;
+	bh=cm50nXXwlDReJqsqhB5uzi7bHAXpbk6N7+DvdCus0wA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OfkVvLf5PE5tA797V5LreTtqt4uxxMLXybw2/ncI7DKb+T5Q3TIWdJnO/TN/rvL4Y2Xs6jxiIlrk+EQZ9lJhPFa0Bq478rqBh61T5mO2GmzWLz6i8s7Rzrre0Xmvs7Nr0CP2v8Sg9kq1FS2L4tu2erq1tVIL8ydwgfriE8lW8kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alTQbcKb; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=H3uCmwl4O2c7tq0nc2tdIetHhijFQVC7Oq6+yctlFlPoO3fsdzmnepTqIceI/dKJ5biU51YEGz4VV0bB41hcXsjaSGJ0NW6+Kk74mUf0CPJdCz3eHtDz5dr/7XQYwI5IQZu6Um+QQ2WQBiVIKCOH+esyVVE0IZ/vHiIO1BVL+BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WEMeVIH6; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alTQbcKb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WEMeVIH6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735337332; x=1766873332;
+  t=1735338594; x=1766874594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y0Dy82pYiXBE6cyhlaThrZwD8+v62Qb4TIUbPr+Q3CY=;
-  b=alTQbcKbQhHouWvPkTdrieIZFfvrKtW7VwL+bY+h0tMzrMm8IqY8bGP6
-   33esWV06nSfqrpCz9XZluRlByuomHtMfGFBWuOrJX5h08WXDSu6VfEJrp
-   +mvEYTIlfLVEJvTSUSz3yOxO3OtPLHozp8f/h8mmubbQ14u35jmYW1+G+
-   TZo2AK/GiEPzuOd7+QOxk5s4LWORO7KLp6QtXRb1FZeaHP4pHyOkYvEPf
-   ZcGjkdBb6fpMlhSy/y9WMyi9fNIfqZBivqUAlqY7RF0Kug0116Lzq2VMj
-   qOIpzJh2tarsRnG9IzpZYpYEzRGALydFL3bR0lcQBAhyxRjlWT4JfMWDf
-   g==;
-X-CSE-ConnectionGUID: nFak3jWbTyKPvPCdCglYbw==
-X-CSE-MsgGUID: mCA+FSR7RsyMVjtQEZMksg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="39668493"
+  bh=cm50nXXwlDReJqsqhB5uzi7bHAXpbk6N7+DvdCus0wA=;
+  b=WEMeVIH6SOkV5EfVT1wtSw7HS7YrgTYd0puwdO0fpWaaLhUd1Onm8ryA
+   cLF4rZBAaYHZhM6EwDRQPMpY9Amo6YMc6GUTP8hGJYiij0o3fK+KRgtbj
+   BlEwRsHFYDy2sIHBxKgAvyDVrJhDf9abmUpR0ABdO4JNRtuwHaxZbmSOR
+   puRqgIdtCZNIG9+z6sCVg/9rQUOhrEfeQxbAXJHtStzfBkk0pRNoi3GtI
+   89DumOD2JPwoMga6Hsn1S4XqRByLcc+oeULwyTlxu3Y/8cnqhw/dPjS+3
+   xJ1V2ivp24ah1UY7UNfSASTtY5fxPLvWvzDu5mc6nGFAahJ4OJB1wvgji
+   Q==;
+X-CSE-ConnectionGUID: znrWwxoqQ6WUUqcZXaR6+Q==
+X-CSE-MsgGUID: 0aPCzFArQhCZn24bbiWwTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35893507"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="39668493"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 14:08:51 -0800
-X-CSE-ConnectionGUID: xUXbnw1aTkCX1uV6NPsl9w==
-X-CSE-MsgGUID: zOTOE0DvRzm+tgvIvp43ig==
+   d="scan'208";a="35893507"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 14:29:53 -0800
+X-CSE-ConnectionGUID: 5ToheMfVScyDmdcel6ojKw==
+X-CSE-MsgGUID: iV8ov9TeRyOK2LUH/Nsv9A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="123530594"
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
+   d="scan'208";a="131095708"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Dec 2024 14:08:50 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Dec 2024 14:29:52 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRIVk-0003fs-08;
-	Fri, 27 Dec 2024 22:08:48 +0000
-Date: Sat, 28 Dec 2024 06:08:10 +0800
+	id 1tRIq6-0003ge-07;
+	Fri, 27 Dec 2024 22:29:50 +0000
+Date: Sat, 28 Dec 2024 06:29:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+To: Xin3 Li <xin3.li@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pali:cifs 34/48] fs/smb/client/smb1ops.c:1105:42: sparse: sparse:
- cast to restricted __le32
-Message-ID: <202412280617.XlXLExtI-lkp@intel.com>
+Subject: [xinli-intel-fred-public:fix_sp_calculation 13/13]
+ arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+Message-ID: <202412280640.n2fWLrnn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +62,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
-head:   cc26137de51202e7210b058f6696393f1e006d46
-commit: b6ad9c20119706b30484a17d7e7787cb12212121 [34/48] cifs: Implement is_network_name_deleted for SMB1
-config: x86_64-randconfig-123-20241225 (https://download.01.org/0day-ci/archive/20241228/202412280617.XlXLExtI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280617.XlXLExtI-lkp@intel.com/reproduce)
+tree:   https://github.com/xinli-intel/linux-fred-public.git fix_sp_calculation
+head:   04e87989806be09036718fa57acd80ea138c2319
+commit: 04e87989806be09036718fa57acd80ea138c2319 [13/13] x86/msr: Use the alternatives mechanism to call Xen MSR APIs
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241228/202412280640.n2fWLrnn-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280640.n2fWLrnn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412280617.XlXLExtI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412280640.n2fWLrnn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/smb/client/smb1ops.c:1105:42: sparse: sparse: cast to restricted __le32
+All errors (new ones prefixed by >>):
 
-vim +1105 fs/smb/client/smb1ops.c
+   arch/x86/include/asm/msr.h: Assembler messages:
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+   arch/x86/include/asm/msr.h:350: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:350: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+--
+   arch/x86/include/asm/msr.h: Assembler messages:
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+>> arch/x86/include/asm/msr.h:215: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+   arch/x86/include/asm/msr.h:604: Error: unknown pseudo-op: `.insn'
+..
 
-  1079	
-  1080	static bool
-  1081	cifs_is_network_name_deleted(char *buf, struct TCP_Server_Info *server)
-  1082	{
-  1083		struct smb_hdr *shdr = (struct smb_hdr *)buf;
-  1084		struct TCP_Server_Info *pserver;
-  1085		struct cifs_ses *ses;
-  1086		struct cifs_tcon *tcon;
-  1087	
-  1088		if (shdr->Flags2 & SMBFLG2_ERR_STATUS) {
-  1089			if (shdr->Status.CifsError != cpu_to_le32(NT_STATUS_NETWORK_NAME_DELETED))
-  1090				return false;
-  1091		} else {
-  1092			if (shdr->Status.DosError.ErrorClass != ERRSRV ||
-  1093			    shdr->Status.DosError.Error != cpu_to_le16(ERRinvtid))
-  1094				return false;
-  1095		}
-  1096	
-  1097		/* If server is a channel, select the primary channel */
-  1098		pserver = SERVER_IS_CHAN(server) ? server->primary_server : server;
-  1099	
-  1100		spin_lock(&cifs_tcp_ses_lock);
-  1101		list_for_each_entry(ses, &pserver->smb_ses_list, smb_ses_list) {
-  1102			if (cifs_ses_exiting(ses))
-  1103				continue;
-  1104			list_for_each_entry(tcon, &ses->tcon_list, tcon_list) {
-> 1105				if (tcon->tid == le32_to_cpu(shdr->Tid)) {
-  1106					spin_lock(&tcon->tc_lock);
-  1107					tcon->need_reconnect = true;
-  1108					spin_unlock(&tcon->tc_lock);
-  1109					spin_unlock(&cifs_tcp_ses_lock);
-  1110					pr_warn_once("Server share %s deleted.\n",
-  1111						     tcon->tree_name);
-  1112					return true;
-  1113				}
-  1114			}
-  1115		}
-  1116		spin_unlock(&cifs_tcp_ses_lock);
-  1117	
-  1118		return false;
-  1119	}
-  1120	
+
+vim +215 arch/x86/include/asm/msr.h
+
+ > 215	
+   216		return __rdmsr_variable(msr);
+   217	}
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
