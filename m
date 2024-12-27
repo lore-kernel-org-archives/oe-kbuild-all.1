@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F02A1F7087
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 18:44:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B0C1F5F6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Dec 2024 19:05:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735325062; cv=none; b=sVqL7rp5TIoNDAvRNA3E6H/CioLka0rgN5brCkcKE/8zj71eYV0Slwa1ttsHVzXgBNQKU8e+yxF6QHCdbvlONDiRWBZwdFJgSY0CxijSTkeOlJwWMxzpYjz1T0yxXIhm1lXBWAgO6LWchYL9sTus0nYf9CUrbjCxCkonxpGj53g=
+	t=1735326326; cv=none; b=oNWgwqycJAeQXklzvk5lnsY/0a/pJmU6KM5sBDLMUfIDQt7kvwKFpw33feLWORo5WDViT8Km9+OjAsOw/nWmRR6/DJH36dyxZt5x3fa+EnvnYZinDms0cRqvUEhlTY9vALeU0DyvZH7qn4tlwppxJdw+Yzz6Jab5PsCJG9jNazY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735325062; c=relaxed/simple;
-	bh=xcmuUMyMyOHMAaGimKxk+oJ0ID9P+JNFNoGl7IRbDo8=;
+	s=arc-20240116; t=1735326326; c=relaxed/simple;
+	bh=c5Qh+wthok5Aoi3Sfq0zxCBj/TbMF/9riylwXptDQT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fax1aeYf+XqCg3rJV/xdRPgysBEOR/Zs451nQRzdSi8T1p7ZW5+oodGxXicOhfmuK9Mul8SqkZ5aF6IvlNJetCHwF1KVEpV/FZ7aymIk4IJ33H7XENnTtDitI6a3hnJ1nRedb4Su3HvRltgqEDF0i0FLdUgsj+161HDnF6Prrr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdAYzEH6; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=s1ql85HyNb6E1bu5FB6Edq83xPQHG2J1WYqAIdN5m8OWPa5flVj7D4jjU9fC694heuuCp3pgeQh9RZ643MLbOd5IlvRgY0TpxwG8qA2WxIsgWvZrRuIlzLppzVBU968VwRJT/nZAuUUqTBJeSEuiYMzzMy0XcySon8Y1Ns+kG5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0IuaN97; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdAYzEH6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0IuaN97"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735325061; x=1766861061;
+  t=1735326325; x=1766862325;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xcmuUMyMyOHMAaGimKxk+oJ0ID9P+JNFNoGl7IRbDo8=;
-  b=PdAYzEH6xI9InmEGycMMolBg9K566y1ESP9wdrbZqV7HMHF2FrKuEXLB
-   yFMM5dMr3vfDuZjy9NABdXTHOHUTgjRHe+F3Fuvvceiniq+p0qherk1LS
-   PMps4YdhQKGuyPs6vyajZPKziUxuOP+eTmhn1SvuOJSpq14F6WGHepg3A
-   anE+x3riexCuRrRkoFT7M83YJlT7oq8U3LKbyk0gvM9UwaIasFYwBxnJU
-   +gP7lBa8MbWT5sc6iMdKF0XPMl2+XfLqmitF2uZBoPFzqPqlG/BosxbXE
-   35lPsj1kINqtldPljA3eRRKiD7/b0C6HbKli5C3m9v8rAiWT67dGoQyXb
-   g==;
-X-CSE-ConnectionGUID: PqxUrZDtSzO9uCXb1LWTQQ==
-X-CSE-MsgGUID: iV7Ru6TKRsCXdAIP4eepuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35841159"
+  bh=c5Qh+wthok5Aoi3Sfq0zxCBj/TbMF/9riylwXptDQT8=;
+  b=R0IuaN97aWP6PPkEWz0wYb6yoFPZfp0B77vT3nscl/DXDUdZQ8khT9nf
+   KimJMn3SRKnaAm5ZlbvH4uT6twjmTlD+gavwSX8fwohWEHKPVoFAwArgj
+   upNxn7U6dVhDpepJRqaNddHMngiFFH+ojYmRGatPdRdWC72eJpCdS4NGU
+   9m9J8rO5B3YE1mFynm4yWZy7VDPZYc0rMX3B8lIg1UNGkCy5teqxIeQoD
+   LES6QBYA+FMXNXaUR4qIc7AXP9U4Axw2frdWhRRyyoCoy8QMiwGLol3gC
+   I30MF82cnPUkyigPfA6LfMbKES1Tq1iJYWZc3mrA2ZxYCN3ossLZHJAV5
+   A==;
+X-CSE-ConnectionGUID: ZKI7cugnQtiJ3uMxoZTfAA==
+X-CSE-MsgGUID: nIhBKaHbRX2+l/10frWCWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35843234"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="35841159"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 10:44:20 -0800
-X-CSE-ConnectionGUID: qqbS4kyETSqut8+1Qa56Sg==
-X-CSE-MsgGUID: 9YiDhUBLSFaMRCWhpg0Fbg==
+   d="scan'208";a="35843234"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 11:05:24 -0800
+X-CSE-ConnectionGUID: fkUpgWAiSg6s7igxQ+jT/A==
+X-CSE-MsgGUID: tnH6I4b6QM+LFjl9DCeNCQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100055777"
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
+   d="scan'208";a="105067743"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 27 Dec 2024 10:44:20 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Dec 2024 11:05:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRFJo-0003Sc-2t;
-	Fri, 27 Dec 2024 18:44:16 +0000
-Date: Sat, 28 Dec 2024 02:43:41 +0800
+	id 1tRFeC-0003Ub-1X;
+	Fri, 27 Dec 2024 19:05:20 +0000
+Date: Sat, 28 Dec 2024 03:05:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1662/1662] drivers/iommu/amd/iommu.c:69:30:
- sparse: sparse: symbol 'amd_dirty_ops' was not declared. Should it be
- static?
-Message-ID: <202412280224.mAGqCCAG-lkp@intel.com>
+Subject: [pali:cifs 29/48] fs/smb/client/connect.c:3097:20: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202412280229.D4oK9RQ6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,27 +62,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   e53a23ef21aa9859c864e7c4bb6ecde5269f54b6
-commit: ebb4f9309c67ec7e9a872dbd5e7cacaaf78f4bf2 [1662/1662] iommu/amd: Access/Dirty bit support in IOPTEs
-config: x86_64-randconfig-123-20241226 (https://download.01.org/0day-ci/archive/20241228/202412280224.mAGqCCAG-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280224.mAGqCCAG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
+head:   cc26137de51202e7210b058f6696393f1e006d46
+commit: 53714b10243a10c39c962a2e38c66a8c3c0388ca [29/48] cifs: Fix establishing NetBIOS session for SMB2+ connection
+config: x86_64-randconfig-123-20241225 (https://download.01.org/0day-ci/archive/20241228/202412280229.D4oK9RQ6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280229.D4oK9RQ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412280224.mAGqCCAG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412280229.D4oK9RQ6-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/amd/iommu.c:69:30: sparse: sparse: symbol 'amd_dirty_ops' was not declared. Should it be static?
+>> fs/smb/client/connect.c:3097:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] length @@     got restricted __be16 [usertype] @@
+   fs/smb/client/connect.c:3097:20: sparse:     expected unsigned short [addressable] [assigned] [usertype] length
+   fs/smb/client/connect.c:3097:20: sparse:     got restricted __be16 [usertype]
 
-vim +/amd_dirty_ops +69 drivers/iommu/amd/iommu.c
+vim +3097 fs/smb/client/connect.c
 
-    67	
-    68	const struct iommu_ops amd_iommu_ops;
-  > 69	const struct iommu_dirty_ops amd_dirty_ops;
-    70	
+  3051	
+  3052	static int
+  3053	ip_rfc1001_connect(struct TCP_Server_Info *server)
+  3054	{
+  3055		int rc = 0;
+  3056		/*
+  3057		 * some servers require RFC1001 sessinit before sending
+  3058		 * negprot - BB check reconnection in case where second
+  3059		 * sessinit is sent but no second negprot
+  3060		 */
+  3061		struct rfc1002_session_packet req = {};
+  3062		struct msghdr msg = {};
+  3063		struct kvec iov = {};
+  3064		unsigned int len;
+  3065		size_t sent;
+  3066	
+  3067		req.trailer.session_req.called_len = sizeof(req.trailer.session_req.called_name);
+  3068	
+  3069		if (server->server_RFC1001_name[0] != 0)
+  3070			rfc1002mangle(req.trailer.session_req.called_name,
+  3071				      server->server_RFC1001_name,
+  3072				      RFC1001_NAME_LEN_WITH_NULL);
+  3073		else
+  3074			rfc1002mangle(req.trailer.session_req.called_name,
+  3075				      DEFAULT_CIFS_CALLED_NAME,
+  3076				      RFC1001_NAME_LEN_WITH_NULL);
+  3077	
+  3078		req.trailer.session_req.calling_len = sizeof(req.trailer.session_req.calling_name);
+  3079	
+  3080		/* calling name ends in null (byte 16) from old smb convention */
+  3081		if (server->workstation_RFC1001_name[0] != 0)
+  3082			rfc1002mangle(req.trailer.session_req.calling_name,
+  3083				      server->workstation_RFC1001_name,
+  3084				      RFC1001_NAME_LEN_WITH_NULL);
+  3085		else
+  3086			rfc1002mangle(req.trailer.session_req.calling_name,
+  3087				      "LINUX_CIFS_CLNT",
+  3088				      RFC1001_NAME_LEN_WITH_NULL);
+  3089	
+  3090		/*
+  3091		 * As per rfc1002, @len must be the number of bytes that follows the
+  3092		 * length field of a rfc1002 session request payload.
+  3093		 */
+  3094		len = sizeof(req.trailer.session_req);
+  3095		req.type = RFC1002_SESSION_REQUEST;
+  3096		req.flags = 0;
+> 3097		req.length = cpu_to_be16(len);
+  3098		len += offsetof(typeof(req), trailer.session_req);
+  3099		iov.iov_base = &req;
+  3100		iov.iov_len = len;
+  3101		iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, len);
+  3102		rc = smb_send_kvec(server, &msg, &sent);
+  3103		if (rc < 0 || len != sent)
+  3104			return (rc == -EINTR || rc == -EAGAIN) ? rc : -ECONNABORTED;
+  3105	
+  3106		/*
+  3107		 * RFC1001 layer in at least one server requires very short break before
+  3108		 * negprot presumably because not expecting negprot to follow so fast.
+  3109		 * This is a simple solution that works without complicating the code
+  3110		 * and causes no significant slowing down on mount for everyone else
+  3111		 */
+  3112		usleep_range(1000, 2000);
+  3113	
+  3114		return 0;
+  3115	}
+  3116	
 
 -- 
 0-DAY CI Kernel Test Service
