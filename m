@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5025135952
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 10:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6090D35952
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 10:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735380417; cv=none; b=bBNpYQr6b/C3Yt569XI3aiFh6NwBmVlahu0gJI/cHE0DFky3fOoCt+ufvQDhbafgFxZ/pZmfhR1swLJZHbh8Mif0IPr/jgVBd/VWbmUx/GH5irvWNplrzErzpJLP75DNuqx4kZEXa9Mg+gc7AKAz0JljG807/H5SggPpZKo0Bm0=
+	t=1735380419; cv=none; b=cbJ7n6/KLaZACfWcHs4yT5iavDoyPcseZnsYuoHtVbJ5mDRiFhfGj3XjXHfdSf2A6+19IUA6XQDA7p0KrruResytua7aNPCKGnnSgwEKaEEIdWB1/EJ2sohKfQx/fV88sxHjaxABJZCEYS3BVQZ9VZi7YDUAwp1u0svphn13g/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735380417; c=relaxed/simple;
-	bh=0qdmeiPS9LIpivL2OQRyQEAt9QtWBrgbgF4BnKrlXBk=;
+	s=arc-20240116; t=1735380419; c=relaxed/simple;
+	bh=OynbHH0pb3oYUpZ+Eqv2iYVQGiaaPwKqHdRm0FBikP8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SKGUGQJ00dCiihme3z+9qhoPShEirRLfvQxwrJc0HpSOTTQmEB+wJcMBksOYoeQvXS8rIB+VKVLWyxN5Tp1MsBv07qB4uY6bP5PWGK0Xv+LbSQRerSntZ83MkuXHBM7j3RnElM0/coSDQa5E2seocOr7CenTPanPwFvd7Mi7cS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ap664Iux; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=n0QLmmefyVqqyQny9zSyKLaG0fuX0qkYhbaxIbUt8aVof0xRbB737AwCpsdUf5oMdCnND5V74JH0usyyrrQ9Gt0Up58ry0LFGsyDa613n2XkptXN/MyYqFeIzuP/IhLwceZfqhJ2qnyVcfAFwZFKSC2/xeg8WfnLuGHSmMWfIp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNEJXpdY; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ap664Iux"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fNEJXpdY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735380415; x=1766916415;
+  t=1735380417; x=1766916417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0qdmeiPS9LIpivL2OQRyQEAt9QtWBrgbgF4BnKrlXBk=;
-  b=Ap664Iux3VuAi08ghFg+sS9WEIVBi/J4dlfalzUKyNIYpP1xDOiuiko1
-   syP6uGJ5S47Hwdg6foW3tKpuP7/dL3ODKzCxrksIpCf/xjfrAy/Kd2I01
-   rwXjIAkpYQdGPUBQKi9d63poCCQ+N4Bl02rclPHNMH3lIKt/wmXVmN1cp
-   qenkWJTszBrOuV+G2A2eyppWjsHi1LK4USHnuoOpS83Z8wxuZjmDb91+L
-   Htqu3eC3CFi5zBp+FGQBAETEN9cRf0kt+7vEq85LWOQfOAocMVF2VgS8q
-   DUIL390m++lUFVRyyn6FlmYIhNHMtulud2HdsKM4CJK/3FKKJiGNix8m0
-   w==;
-X-CSE-ConnectionGUID: oJvpNPQXTr6umLMxktzMJg==
-X-CSE-MsgGUID: gBBWoUmuSiCkQKozx16I0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="61127626"
+  bh=OynbHH0pb3oYUpZ+Eqv2iYVQGiaaPwKqHdRm0FBikP8=;
+  b=fNEJXpdYf8Rbt4by7Gd0Z84jqR8Z4Y4a36SqxT4ak/J/hPLSmNmN5PRN
+   ASQxjtVtBirPJ/5N3MUf9zB+hxfzAbyF5Ex87T+T9BHg56Q7k8056wJj8
+   beTeb4xFKQht3yvCOEO6ISr1GX3reylFq8bGH0PDtkC91Noh0KqeGHYIE
+   XxKTwBcVygTY1+hp+LOaJG0fVyTU5yDsHiIzhFgpCLszgaXm6j+J3qLmS
+   /AmF79Gk5c4WOPrSwqVzNXUtNT1WuTcpK48MjoBctxvX1JJvwm0VoUUqj
+   r4+NKBkYQqREeIe9cWSBLWVXnLF22xfrPtxzRnqcLKmmXY+FXDz+BJipB
+   Q==;
+X-CSE-ConnectionGUID: MnCFJYG1SICpwXfFBaeHvA==
+X-CSE-MsgGUID: IkhcXam4Remx/l1z3Xzf2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="61127627"
 X-IronPort-AV: E=Sophos;i="6.12,272,1728975600"; 
-   d="scan'208";a="61127626"
+   d="scan'208";a="61127627"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 02:06:54 -0800
-X-CSE-ConnectionGUID: nfNeE0oHR/KPUeFYufJoWQ==
-X-CSE-MsgGUID: udzWDwc9Riuo2KQ7IjsggA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 02:06:55 -0800
+X-CSE-ConnectionGUID: AwJ2SNt+SSWC5Z4k+Q+MBg==
+X-CSE-MsgGUID: Gnx1jLuWRqqymu5SBWNCNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,272,1728975600"; 
-   d="scan'208";a="100097806"
+   d="scan'208";a="100097812"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 28 Dec 2024 02:06:53 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRTid-0003zg-0R;
+	id 1tRTid-0003zi-0k;
 	Sat, 28 Dec 2024 10:06:51 +0000
-Date: Sat, 28 Dec 2024 18:06:20 +0800
+Date: Sat, 28 Dec 2024 18:06:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Xin3 Li <xin3.li@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:fix_sp_calculation 12/13]
- drivers/cpufreq/longrun.c:104:2: error: call to undeclared function 'wrmsr';
- ISO C99 and later do not support implicit function declarations
-Message-ID: <202412281850.tbPWDbz5-lkp@intel.com>
+Subject: [xinli-intel-fred-public:fix_sp_calculation 13/13]
+ arch/x86/include/asm/msr.h:240:17: error: 'cold' attribute only applies to
+ functions
+Message-ID: <202412281808.iFVsmRyj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,98 +64,421 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/xinli-intel/linux-fred-public.git fix_sp_calculation
-head:   831a3852bafc8cabcce4c27132e763d6c88e3e25
-commit: fa35b474c37ab69322a792c957381b9bb28bb057 [12/13] x86/msr: Remove MSR write APIs that take MSR value in two u32 arguments
-config: i386-buildonly-randconfig-005-20241228 (https://download.01.org/0day-ci/archive/20241228/202412281850.tbPWDbz5-lkp@intel.com/config)
+head:   d306be716e5af1adafb2353116f5a5aec9f5fa15
+commit: d306be716e5af1adafb2353116f5a5aec9f5fa15 [13/13] x86/msr: Use the alternatives mechanism to call Xen MSR APIs
+config: x86_64-buildonly-randconfig-002-20241228 (https://download.01.org/0day-ci/archive/20241228/202412281808.iFVsmRyj-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412281850.tbPWDbz5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412281808.iFVsmRyj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412281850.tbPWDbz5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412281808.iFVsmRyj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/cpufreq/longrun.c:104:2: error: call to undeclared function 'wrmsr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     104 |         wrmsr(MSR_TMTA_LONGRUN_FLAGS, msr_lo, msr_hi);
-         |         ^
-   drivers/cpufreq/longrun.c:104:2: note: did you mean 'wrmsrl'?
-   arch/x86/include/asm/msr.h:251:20: note: 'wrmsrl' declared here
-     251 | static inline void wrmsrl(u32 msr, u64 val)
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:16:
+   In file included from include/linux/uprobes.h:18:
+   In file included from include/linux/timer.h:6:
+   In file included from include/linux/ktime.h:25:
+   In file included from include/linux/jiffies.h:10:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:10:
+>> arch/x86/include/asm/msr.h:240:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     240 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:278:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     278 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:313:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     313 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:345:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     345 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:568:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     568 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:594:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     594 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:636:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     636 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:671:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     671 |         __attribute__((cold, unused));
+         |                        ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   11 warnings generated.
+--
+   In file included from lib/kobject.c:15:
+   In file included from include/linux/kobject.h:20:
+   In file included from include/linux/sysfs.h:16:
+   In file included from include/linux/kernfs.h:12:
+   In file included from include/linux/idr.h:15:
+   In file included from include/linux/radix-tree.h:21:
+   In file included from include/linux/xarray.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:16:
+   In file included from include/linux/uprobes.h:18:
+   In file included from include/linux/timer.h:6:
+   In file included from include/linux/ktime.h:25:
+   In file included from include/linux/jiffies.h:10:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:10:
+>> arch/x86/include/asm/msr.h:240:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     240 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:278:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     278 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:313:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     313 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:345:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     345 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:568:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     568 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:594:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     594 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:636:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     636 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:671:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     671 |         __attribute__((cold, unused));
+         |                        ^
+   8 warnings generated.
+--
+   In file included from lib/vsprintf.c:22:
+   In file included from include/linux/clk.h:14:
+   In file included from include/linux/notifier.h:16:
+   In file included from include/linux/srcu.h:21:
+   In file included from include/linux/workqueue.h:9:
+   In file included from include/linux/timer.h:6:
+   In file included from include/linux/ktime.h:25:
+   In file included from include/linux/jiffies.h:10:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:10:
+>> arch/x86/include/asm/msr.h:240:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     240 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:278:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     278 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:313:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     313 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:345:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     345 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:568:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     568 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:594:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     594 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:636:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     636 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:671:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     671 |         __attribute__((cold, unused));
+         |                        ^
+   In file included from lib/vsprintf.c:30:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from lib/vsprintf.c:50:
+   In file included from lib/../mm/internal.h:13:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   13 warnings generated.
+--
+   In file included from lib/test_bitops.c:10:
+   In file included from include/linux/module.h:13:
+   In file included from include/linux/stat.h:19:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:10:
+>> arch/x86/include/asm/msr.h:240:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     240 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:278:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     278 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:313:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     313 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:345:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     345 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:568:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     568 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:594:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     594 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:636:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     636 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:671:17: error: 'cold' attribute only applies to functions [-Werror,-Wignored-attributes]
+     671 |         __attribute__((cold, unused));
+         |                        ^
+   8 errors generated.
+--
+   In file included from lib/crc32test.c:28:
+   In file included from include/linux/module.h:13:
+   In file included from include/linux/stat.h:19:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:10:
+>> arch/x86/include/asm/msr.h:240:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     240 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:278:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     278 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:313:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     313 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:345:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     345 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:568:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     568 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:594:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     594 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:636:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     636 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:671:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     671 |         __attribute__((cold, unused));
+         |                        ^
+   lib/crc32test.c:674:13: warning: variable 'crc' set but not used [-Wunused-but-set-variable]
+     674 |         static u32 crc;
          |                    ^
-   drivers/cpufreq/longrun.c:181:3: error: call to undeclared function 'wrmsr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     181 |                 wrmsr(MSR_TMTA_LRTI_READOUT, msr_hi, msr_hi);
-         |                 ^
-   drivers/cpufreq/longrun.c:219:3: error: call to undeclared function 'wrmsr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     219 |                 wrmsr(MSR_TMTA_LONGRUN_CTRL, msr_lo, msr_hi);
-         |                 ^
-   3 errors generated.
+   lib/crc32test.c:754:13: warning: variable 'crc' set but not used [-Wunused-but-set-variable]
+     754 |         static u32 crc;
+         |                    ^
+   10 warnings generated.
+--
+   In file included from lib/locking-selftest.c:18:
+   In file included from include/linux/sched/mm.h:8:
+   In file included from include/linux/mm_types.h:16:
+   In file included from include/linux/uprobes.h:18:
+   In file included from include/linux/timer.h:6:
+   In file included from include/linux/ktime.h:25:
+   In file included from include/linux/jiffies.h:10:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:10:
+>> arch/x86/include/asm/msr.h:240:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     240 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:278:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     278 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:313:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     313 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:345:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     345 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:568:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     568 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:594:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     594 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:636:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     636 |         __attribute__((cold, unused));
+         |                        ^
+   arch/x86/include/asm/msr.h:671:17: warning: 'cold' attribute only applies to functions [-Wignored-attributes]
+     671 |         __attribute__((cold, unused));
+         |                        ^
+   In file included from lib/locking-selftest.c:22:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   lib/locking-selftest.c:2510:1: warning: unused function 'class_HARDIRQ_lock_ptr' [-Wunused-function]
+    2510 | DEFINE_LOCK_GUARD_0(HARDIRQ, HARDIRQ_ENTER(), HARDIRQ_EXIT())
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:407:49: note: expanded from macro 'DEFINE_LOCK_GUARD_0'
+     407 | __DEFINE_CLASS_IS_CONDITIONAL(_name, false);                            \
+         |                                                                         ^
+     408 | __DEFINE_UNLOCK_GUARD(_name, void, _unlock, __VA_ARGS__)                \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:378:21: note: expanded from macro '\
+   __DEFINE_UNLOCK_GUARD'
+     378 | static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T)     \
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:89:1: note: expanded from here
+      89 | class_HARDIRQ_lock_ptr
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   lib/locking-selftest.c:2511:1: warning: unused function 'class_NOTTHREADED_HARDIRQ_lock_ptr' [-Wunused-function]
+    2511 | DEFINE_LOCK_GUARD_0(NOTTHREADED_HARDIRQ,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2512 |         do {
+         |         ~~~~
+    2513 |                 local_irq_disable();
+         |                 ~~~~~~~~~~~~~~~~~~~~
+    2514 |                 __irq_enter();
+         |                 ~~~~~~~~~~~~~~
+    2515 |                 WARN_ON(!in_irq());
+         |                 ~~~~~~~~~~~~~~~~~~~
+    2516 |         } while(0), HARDIRQ_EXIT())
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:407:49: note: expanded from macro 'DEFINE_LOCK_GUARD_0'
+     407 | __DEFINE_CLASS_IS_CONDITIONAL(_name, false);                            \
+         |                                                                         ^
+     408 | __DEFINE_UNLOCK_GUARD(_name, void, _unlock, __VA_ARGS__)                \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:378:21: note: expanded from macro '\
+   __DEFINE_UNLOCK_GUARD'
+     378 | static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T)     \
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:197:1: note: expanded from here
+     197 | class_NOTTHREADED_HARDIRQ_lock_ptr
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/locking-selftest.c:2517:1: warning: unused function 'class_SOFTIRQ_lock_ptr' [-Wunused-function]
+    2517 | DEFINE_LOCK_GUARD_0(SOFTIRQ, SOFTIRQ_ENTER(), SOFTIRQ_EXIT())
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:407:49: note: expanded from macro 'DEFINE_LOCK_GUARD_0'
+     407 | __DEFINE_CLASS_IS_CONDITIONAL(_name, false);                            \
+         |                                                                         ^
+     408 | __DEFINE_UNLOCK_GUARD(_name, void, _unlock, __VA_ARGS__)                \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:378:21: note: expanded from macro '\
+   __DEFINE_UNLOCK_GUARD'
+     378 | static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T)     \
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:225:1: note: expanded from here
+     225 | class_SOFTIRQ_lock_ptr
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   lib/locking-selftest.c:2520:1: warning: unused function 'class_RCU_lock_ptr' [-Wunused-function]
+    2520 | DEFINE_LOCK_GUARD_0(RCU, rcu_read_lock(), rcu_read_unlock())
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:407:49: note: expanded from macro 'DEFINE_LOCK_GUARD_0'
+..
 
 
-vim +/wrmsr +104 drivers/cpufreq/longrun.c
+vim +/cold +240 arch/x86/include/asm/msr.h
 
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   62  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   63  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   64  /**
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   65   * longrun_set_policy - sets a new CPUFreq policy
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   66   * @policy: new policy
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   67   *
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   68   * Sets a new CPUFreq policy on LongRun-capable processors. This function
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   69   * has to be called with cpufreq_driver locked.
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   70   */
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   71  static int longrun_set_policy(struct cpufreq_policy *policy)
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   72  {
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   73  	u32 msr_lo, msr_hi;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   74  	u32 pctg_lo, pctg_hi;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   75  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   76  	if (!policy)
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   77  		return -EINVAL;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   78  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   79  	if (longrun_high_freq <= longrun_low_freq) {
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   80  		/* Assume degenerate Longrun table */
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   81  		pctg_lo = pctg_hi = 100;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   82  	} else {
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   83  		pctg_lo = (policy->min - longrun_low_freq) /
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   84  			((longrun_high_freq - longrun_low_freq) / 100);
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   85  		pctg_hi = (policy->max - longrun_low_freq) /
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   86  			((longrun_high_freq - longrun_low_freq) / 100);
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   87  	}
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   88  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   89  	if (pctg_hi > 100)
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   90  		pctg_hi = 100;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   91  	if (pctg_lo > pctg_hi)
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   92  		pctg_lo = pctg_hi;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   93  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   94  	/* performance or economy mode */
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   95  	rdmsr(MSR_TMTA_LONGRUN_FLAGS, msr_lo, msr_hi);
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   96  	msr_lo &= 0xFFFFFFFE;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   97  	switch (policy->policy) {
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   98  	case CPUFREQ_POLICY_PERFORMANCE:
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16   99  		msr_lo |= 0x00000001;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  100  		break;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  101  	case CPUFREQ_POLICY_POWERSAVE:
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  102  		break;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  103  	}
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16 @104  	wrmsr(MSR_TMTA_LONGRUN_FLAGS, msr_lo, msr_hi);
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  105  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  106  	/* lower and upper boundary */
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  107  	rdmsr(MSR_TMTA_LONGRUN_CTRL, msr_lo, msr_hi);
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  108  	msr_lo &= 0xFFFFFF80;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  109  	msr_hi &= 0xFFFFFF80;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  110  	msr_lo |= pctg_lo;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  111  	msr_hi |= pctg_hi;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  112  	wrmsr(MSR_TMTA_LONGRUN_CTRL, msr_lo, msr_hi);
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  113  
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  114  	return 0;
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  115  }
-^1da177e4c3f415 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds 2005-04-16  116  
-
-:::::: The code at line 104 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   218	
+   219	/*
+   220	 * XXX: is ASM_CALL_CONSTRAINT compatible with asm goto?  Perhaps "memory"
+   221	 * takes care of the problem without it?
+   222	 */
+   223	
+   224	static __always_inline int __native_rdmsr_variable_safe(const u32 msr, u64 *val)
+   225	{
+   226	#ifdef CONFIG_X86_64
+   227		BUILD_BUG_ON(__builtin_constant_p(msr));
+   228	
+   229		asm_inline volatile goto(
+   230			"1:\n"
+   231			RDMSR_AND_SAVE_RESULT
+   232			EX_RDMSR_SAFE(1b, %l[badmsr])	/* For RDMSR */
+   233			: [val] "=a" (*val)
+   234			: "c" (msr)
+   235			: "memory", "rdx"
+   236			: badmsr);
+   237		return 0;
+   238	
+   239	badmsr:
+ > 240		__attribute__((cold, unused));
+   241		return -EIO;
+   242	#else
+   243		int err = 0;
+   244	
+   245		asm_inline volatile(
+   246			"1: rdmsr\n\t"
+   247			"xor %[err], %[err]\n\t"
+   248			"2:\n\t"
+   249			_ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_RDMSR_SAFE, %[err])
+   250			: [err] "=r" (err), "=A" (val)
+   251			: "c" (msr));
+   252	
+   253		return err;
+   254	#endif
+   255	}
+   256	
 
 -- 
 0-DAY CI Kernel Test Service
