@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC601791F4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 19:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D59A2111
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 19:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735413637; cv=none; b=Wk3NJB3as40OjwcEJq3JXAH/yqjvLZnPI0bY5ZVZy7/HgMfNGC5EHC+abUX52Z773ltrxKW3eqveG22zwiQAeuvv8oKfjMY9Y5sNb2ANpCVc3B4cGThNn84nnBLzOwYZCq4l//Inss/cPfoaX0F3FlUtehK1i62fkdBNSRDvjww=
+	t=1735414238; cv=none; b=iE9W21PrkGo5BNxtYS2ImLnq9KQ6yG0AykfUBOJq1uPvmXt80AEytJjqEnWKGAzBLHQPkmoWE6X7SKZIS9TI58XxukF1RzyjLJpGTbE9Tnu4c1VwgpoxkWS4tAp3Sqfltis4SZGFC6h/KWvmcr7S8pfVtqikr4h2m2C3K2lll5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735413637; c=relaxed/simple;
-	bh=d/d5lBmZB5lYPawCfSORJZRxM1JVy1F+2aBQIRMSpQw=;
+	s=arc-20240116; t=1735414238; c=relaxed/simple;
+	bh=mQAGqJXlXN4+Dfs/zlEF947Ct6Gc554Jh8gHTGwuq3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qT0O0RMSuzyNmTrcnElPY/DxvwvSWdLq0jB/KnGO+GzKLtHGS/MtJL8xV/iSOAnhgid6Qo/BCnd7h88oNB1gw+3PovRIxs2dOIpv2BTQDkuMwgkW0bmOXNIuCB8rY3c2kA2LbplIhXiHS19Pnv/c+sUZLl5dvBZTaOdLgSswZ6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MBG1ZGoG; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=iSqnIejgeAH76FPnmbhotPWIUJGJbn1rd9WE/T/lLEmvW5Wo3S6NW3Z41nlgsXneOqd7Kp5gK/CCHjwWpg1aCAXFmadbDrCcxZdzzaphDhTeIhaU02VUl41PxJQxIH3Cunxw0PkaIrQ1HU5sCdOKU/1A1M41WgycyGhQ37QAPVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZSUmZMiA; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MBG1ZGoG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZSUmZMiA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735413635; x=1766949635;
+  t=1735414237; x=1766950237;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d/d5lBmZB5lYPawCfSORJZRxM1JVy1F+2aBQIRMSpQw=;
-  b=MBG1ZGoGATgpgJqLNssAK2iOgViftv9qhLmSRKNpeerT2caWmuZeC0/K
-   gYCUEQIEFuNzJwhaEWSRf5LX7GcNKCmDUsVYVRvUz+RmunWteBHT4eija
-   PfjsS2fmSbQxHF1bkacnPEkZd72OXuNyX9ACWwxpp4YojUhVPbyTYjr7B
-   0YJ7qvBO3+bz1BOUxLeecfOwrQOa+LOae6xEkhQaHxBifc7zS6BgiWjeA
-   TRBSdGjgFlVkUO8Z7xFX4PvGMzuqH/mGP8JeLoi9//8x5TZJcTQLEYicF
-   QgOptymB0kJRgpjauv2mTvP22B/5YdMyMEW21+nCGrnKzmF/hMfP8nybQ
-   g==;
-X-CSE-ConnectionGUID: 5Z5p0KFcQtmcFlJNFYMIFA==
-X-CSE-MsgGUID: ZmKwOT4lQqegZrhxMbKJeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="46448321"
+  bh=mQAGqJXlXN4+Dfs/zlEF947Ct6Gc554Jh8gHTGwuq3Y=;
+  b=ZSUmZMiAzfnPPCy4PcA+GPR+GPrH+ofWOE7Cyjd3YzL0hknbHaH4vnE6
+   rAAkjRsC7ucMl63lugfEd0xMfFvTk6uRZvCpD3vvaROu5gbAjx/PcxnrK
+   6FeVfoLTxO1ydKEjOzV7ZMljImcMXt6eNGqQKRePU4hrZ57oM4gb6Nrp2
+   NZSD1gFdzfMvMIWWaDtclBaypjbAL4wQL7byTnpKIP3oc28dokv0ynqZ4
+   XyAXfQQdNQ0Yuq0zqiDA6qjVPCxCkn5sNG5+xvawhns84DPGmSrm/ovRF
+   HoqnBXwRZ5PzhWZEVj+d9iLJaSVjD/pWoMxKfSFwjQZHUGuM3OrWgoplZ
+   Q==;
+X-CSE-ConnectionGUID: NO+4K6oMR0WmVxY2OiNlQg==
+X-CSE-MsgGUID: XgpsM7RqTmOtXG0eci8nHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="35029610"
 X-IronPort-AV: E=Sophos;i="6.12,272,1728975600"; 
-   d="scan'208";a="46448321"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 11:20:35 -0800
-X-CSE-ConnectionGUID: Xh4K0IfyQdqi2yzP6MEtNg==
-X-CSE-MsgGUID: /XJbkrbITa2Zksc/LMpxtw==
+   d="scan'208";a="35029610"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 11:30:36 -0800
+X-CSE-ConnectionGUID: 8fmAO+mmTW+2iaL+5EkxDg==
+X-CSE-MsgGUID: BoPTyMzXSR2SiEJGMBSAlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,272,1728975600"; 
-   d="scan'208";a="100917963"
+   d="scan'208";a="131256397"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Dec 2024 11:20:33 -0800
+  by orviesa002.jf.intel.com with ESMTP; 28 Dec 2024 11:30:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRcMR-0004H0-1I;
-	Sat, 28 Dec 2024 19:20:31 +0000
-Date: Sun, 29 Dec 2024 03:19:34 +0800
+	id 1tRcW8-0004HD-02;
+	Sat, 28 Dec 2024 19:30:32 +0000
+Date: Sun, 29 Dec 2024 03:30:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Reding <treding@nvidia.com>
+To: Sean Anderson <sean.anderson@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>
-Subject: drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or
- struct member 'dma_dev' not described in 'tegra_i2c_dev'
-Message-ID: <202412290303.8p5NEqyr-lkp@intel.com>
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: drivers/gpu/drm/xlnx/zynqmp_dp.c:2312:46: error: 'snprintf' output
+ may be truncated before the last format character
+Message-ID: <202412290337.iiDfMw5z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,101 +65,77 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fd0584d220fe285dc45be43eede55df89ad6a3d9
-commit: cdbf26251d3b35c4ccaea0c3a6de4318f727d3d2 i2c: tegra: Allocate DMA memory for DMA engine
-date:   2 years, 2 months ago
-config: sparc-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241229/202412290303.8p5NEqyr-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412290303.8p5NEqyr-lkp@intel.com/reproduce)
+commit: 28edaacb821c69241f6c0be6bbd29f7145f1b44f drm: zynqmp_dp: Add debugfs interface for compliance testing
+date:   8 weeks ago
+config: x86_64-buildonly-randconfig-006-20241229 (https://download.01.org/0day-ci/archive/20241229/202412290337.iiDfMw5z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412290337.iiDfMw5z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412290303.8p5NEqyr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412290337.iiDfMw5z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or struct member 'dma_dev' not described in 'tegra_i2c_dev'
+   drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_bridge_debugfs_init':
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2312:46: error: 'snprintf' output may be truncated before the last format character [-Werror=format-truncation=]
+    2312 |                 snprintf(name, sizeof(name), fmt, i);
+         |                                              ^~~
+   drivers/gpu/drm/xlnx/zynqmp_dp.c:2312:17: note: 'snprintf' output between 18 and 20 bytes into a destination of size 19
+    2312 |                 snprintf(name, sizeof(name), fmt, i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +297 drivers/i2c/busses/i2c-tegra.c
+vim +/snprintf +2312 drivers/gpu/drm/xlnx/zynqmp_dp.c
 
-6ad068ed63100f Laxman Dewangan     2012-08-19  228  
-db811ca0f48578 Colin Cross         2011-02-20  229  /**
-c990bbafdb11c6 Thierry Reding      2018-12-17  230   * struct tegra_i2c_dev - per device I2C context
-db811ca0f48578 Colin Cross         2011-02-20  231   * @dev: device reference for power management
-c990bbafdb11c6 Thierry Reding      2018-12-17  232   * @hw: Tegra I2C HW feature
-c990bbafdb11c6 Thierry Reding      2018-12-17  233   * @adapter: core I2C layer adapter information
-c990bbafdb11c6 Thierry Reding      2018-12-17  234   * @div_clk: clock reference for div clock of I2C controller
-586a97d907ac34 Dmitry Osipenko     2020-09-30  235   * @clocks: array of I2C controller clocks
-586a97d907ac34 Dmitry Osipenko     2020-09-30  236   * @nclocks: number of clocks in the array
-0604ee4aefa20f Thierry Reding      2018-12-17  237   * @rst: reset control for the I2C controller
-db811ca0f48578 Colin Cross         2011-02-20  238   * @base: ioremapped registers cookie
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  239   * @base_phys: physical base address of the I2C controller
-c990bbafdb11c6 Thierry Reding      2018-12-17  240   * @cont_id: I2C controller ID, used for packet header
-c990bbafdb11c6 Thierry Reding      2018-12-17  241   * @irq: IRQ number of transfer complete interrupt
-c990bbafdb11c6 Thierry Reding      2018-12-17  242   * @is_dvc: identifies the DVC I2C controller, has a different register layout
-c73178b93754ed Thierry Reding      2019-06-07  243   * @is_vi: identifies the VI I2C controller, has a different register layout
-db811ca0f48578 Colin Cross         2011-02-20  244   * @msg_complete: transfer completion notifier
-db811ca0f48578 Colin Cross         2011-02-20  245   * @msg_err: error code for completed message
-db811ca0f48578 Colin Cross         2011-02-20  246   * @msg_buf: pointer to current message data
-db811ca0f48578 Colin Cross         2011-02-20  247   * @msg_buf_remaining: size of unsent data in the message buffer
-94a5573f0719cf Dmitry Osipenko     2020-09-30  248   * @msg_read: indicates that the transfer is a read access
-50665d58db052b Akhil R             2021-12-10  249   * @timings: i2c timings information like bus frequency
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  250   * @multimaster_mode: indicates that I2C controller is in multi-master mode
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  251   * @tx_dma_chan: DMA transmit channel
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  252   * @rx_dma_chan: DMA receive channel
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  253   * @dma_phys: handle to DMA resources
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  254   * @dma_buf: pointer to allocated DMA buffer
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  255   * @dma_buf_size: DMA buffer size
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  256   * @dma_mode: indicates active DMA transfer
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  257   * @dma_complete: DMA completion notifier
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  258   * @atomic_mode: indicates active atomic transfer
-db811ca0f48578 Colin Cross         2011-02-20  259   */
-db811ca0f48578 Colin Cross         2011-02-20  260  struct tegra_i2c_dev {
-db811ca0f48578 Colin Cross         2011-02-20  261  	struct device *dev;
-db811ca0f48578 Colin Cross         2011-02-20  262  	struct i2c_adapter adapter;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  263  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  264  	const struct tegra_i2c_hw_feature *hw;
-dda9d6a8262cb1 Stephen Warren      2013-11-06  265  	struct reset_control *rst;
-f1c2ff98065dce Dmitry Osipenko     2020-09-30  266  	unsigned int cont_id;
-f1c2ff98065dce Dmitry Osipenko     2020-09-30  267  	unsigned int irq;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  268  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  269  	phys_addr_t base_phys;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  270  	void __iomem *base;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  271  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  272  	struct clk_bulk_data clocks[2];
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  273  	unsigned int nclocks;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  274  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  275  	struct clk *div_clk;
-50665d58db052b Akhil R             2021-12-10  276  	struct i2c_timings timings;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  277  
-db811ca0f48578 Colin Cross         2011-02-20  278  	struct completion msg_complete;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  279  	size_t msg_buf_remaining;
-db811ca0f48578 Colin Cross         2011-02-20  280  	int msg_err;
-db811ca0f48578 Colin Cross         2011-02-20  281  	u8 *msg_buf;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  282  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  283  	struct completion dma_complete;
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  284  	struct dma_chan *tx_dma_chan;
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  285  	struct dma_chan *rx_dma_chan;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  286  	unsigned int dma_buf_size;
-cdbf26251d3b35 Thierry Reding      2022-10-20  287  	struct device *dma_dev;
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  288  	dma_addr_t dma_phys;
-4be62340f3ce62 Dmitry Osipenko     2020-09-30  289  	void *dma_buf;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  290  
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  291  	bool multimaster_mode;
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  292  	bool atomic_mode;
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  293  	bool dma_mode;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  294  	bool msg_read;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  295  	bool is_dvc;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  296  	bool is_vi;
-db811ca0f48578 Colin Cross         2011-02-20 @297  };
-db811ca0f48578 Colin Cross         2011-02-20  298  
-
-:::::: The code at line 297 was first introduced by commit
-:::::: db811ca0f48578f9940f49f284ac81e336b264ad i2c: tegra: Add i2c support
-
-:::::: TO: Colin Cross <ccross@android.com>
-:::::: CC: Ben Dooks <ben-linux@fluff.org>
+  2278	
+  2279	DEFINE_DEBUGFS_ATTRIBUTE(fops_zynqmp_dp_ignore_hpd, zynqmp_dp_ignore_hpd_get,
+  2280				 zynqmp_dp_ignore_hpd_set, "%llu\n");
+  2281	
+  2282	static void zynqmp_dp_bridge_debugfs_init(struct drm_bridge *bridge,
+  2283						  struct dentry *root)
+  2284	{
+  2285		struct zynqmp_dp *dp = bridge_to_dp(bridge);
+  2286		struct dentry *test;
+  2287		int i;
+  2288	
+  2289		dp->test.bw_code = DP_LINK_BW_5_4;
+  2290		dp->test.link_cnt = dp->num_lanes;
+  2291	
+  2292		test = debugfs_create_dir("test", root);
+  2293	#define CREATE_FILE(name) \
+  2294		debugfs_create_file(#name, 0600, test, dp, &fops_zynqmp_dp_##name)
+  2295		CREATE_FILE(pattern);
+  2296		CREATE_FILE(enhanced);
+  2297		CREATE_FILE(downspread);
+  2298		CREATE_FILE(active);
+  2299		CREATE_FILE(custom);
+  2300		CREATE_FILE(rate);
+  2301		CREATE_FILE(lanes);
+  2302		CREATE_FILE(ignore_aux_errors);
+  2303		CREATE_FILE(ignore_hpd);
+  2304	
+  2305		for (i = 0; i < dp->num_lanes; i++) {
+  2306			static const char fmt[] = "lane%d_preemphasis";
+  2307			char name[sizeof(fmt)];
+  2308	
+  2309			dp->debugfs_train_set[i].dp = dp;
+  2310			dp->debugfs_train_set[i].lane = i;
+  2311	
+> 2312			snprintf(name, sizeof(name), fmt, i);
+  2313			debugfs_create_file(name, 0600, test,
+  2314					    &dp->debugfs_train_set[i],
+  2315					    &fops_zynqmp_dp_preemphasis);
+  2316	
+  2317			snprintf(name, sizeof(name), "lane%d_swing", i);
+  2318			debugfs_create_file(name, 0600, test,
+  2319					    &dp->debugfs_train_set[i],
+  2320					    &fops_zynqmp_dp_swing);
+  2321		}
+  2322	}
+  2323	
 
 -- 
 0-DAY CI Kernel Test Service
