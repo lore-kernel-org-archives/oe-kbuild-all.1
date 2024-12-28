@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B64D3596F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 14:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6935A41C7F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 14:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735394818; cv=none; b=sWVlQDklgYprm75xThu/Q8OxnL3o5qWh1kVX3gz/Qf2ZBnOCv8oV4b5G6DRvl6MIhYtsoU3IJAGHJ3EpqZoJbOXut9vMUg7cT4Fd+jSKxKv7ZXu46zSTvCPlIm0T9jk1fWxQo5LT5WJCK30nT7mNmVISA5Wv/ZWiKrREoJfnRPc=
+	t=1735396735; cv=none; b=WrdvIZNbY9AQcWCRQ2AHHLpdpxYqcIdkSclE9fCLbNqWei1mkXI53EovuEc1XSL5Dt0wm7RIIKGcJ3kxnAQxIhF/9hz6cy2L1io56P0SqIalawujBskfqVmy1FC2cw7yDcOOFn+yIgBy+ZXs779AVy6HzTCIptSbTRB76ydT2Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735394818; c=relaxed/simple;
-	bh=FAcInWWHmm6HzZPd7seJ3S5FCljKkiKHG1+pzSivWbI=;
+	s=arc-20240116; t=1735396735; c=relaxed/simple;
+	bh=/s+doPb275I3IhHaPYNC9vTkc9rK7v6qxGpo/8xhZhw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cSltShsI3LS0RG00qVMD0TrtaEtiHwjSAODf7YXLyGXpXTtezK5use5KmRI13AG85HuqiYbXiEe7k4FDKHXAOY+Yi/0y6GQ5/6sYTxVoMokIMxCSUAQkSpk/n0xR3XAUoVJYEtD056ir+fH/oo8D+CDM+ueH4MssFuo17Eo7+zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oAMJ/ILS; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=AeoVu5T8imBXVWMnFjdo1d4PbSXzzBSEJKTNF9TZLFauG+kP03kcSLkDhpCibQubFdlP3h42BwP2EpsCco6sMLb9jW6q8kwUYGtIKnUR9tFjaRG9B6hduMYLDo+Lzhe7fjvSPSJ9qXB4utWry9Sjdk3H+zWtZ31OxJYHnPzIhks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f86BKIkW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oAMJ/ILS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f86BKIkW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735394815; x=1766930815;
+  t=1735396732; x=1766932732;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FAcInWWHmm6HzZPd7seJ3S5FCljKkiKHG1+pzSivWbI=;
-  b=oAMJ/ILSATRcge/NHbhfJCuvOAOoxF8lFulWlp22IP3QGA/XC64k0TeI
-   nsj6Lo8btuV1HUQC6vZPqkok6BADt2j8pkuNaLhQ7UjdmnH3YFEExZYW2
-   fBB060jqACE+zQEpDU8qL9qg338EF6W6BJkCywB6MgSRy2mg4A/j5OfHm
-   qDlQc0dMczrBXzf9XccDf1OwbpV01GGwF59B+8Gw2soc5sLR+UwFlifq6
-   J+TnKjKgcGHTkSo3ilQx+PzKrRmYiDvBW/NIw2/LFLRhOHDK5Qt1hAEpt
-   JB1cSgosiM4yhJesLNTidX/q7do/mcBsfqxMEKuDAetB/e6Y3pSmRWZlL
-   g==;
-X-CSE-ConnectionGUID: gnF4jCVTSmWrbALjvvuq8A==
-X-CSE-MsgGUID: Kt1SI1KySB6dKTdOKgFzdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="46438857"
+  bh=/s+doPb275I3IhHaPYNC9vTkc9rK7v6qxGpo/8xhZhw=;
+  b=f86BKIkWCac5wY7/H4C0u5b3IyTlFBjHKgx7BvKAWz3NsAJIE2mZGxzk
+   96IEVyamZzstvz1cWNs1IQwsp2ptvIgaRX/Q8PhT0V6uE460dDcQJosEZ
+   Hs00PQdKv313FGDjFkVt8FObcksr56+sY0AJGoXMlHwSKe61mBf7khWFl
+   pRjisE3P+9wwR3clIEpv5Gi+Rz7+H6YTniroxrIOr34xNAOFHMIjGhEkX
+   YhmnNyKTZAGNGpv7aSq+SPee38fQRquqCWIJbSc5mxgXJQ1/bfkeJIGs1
+   zgtblKgDw4vxMMbOUj0km2+DN7zY8UrzMJ/pI+8Cx210Rbqe1vXU+Tmni
+   w==;
+X-CSE-ConnectionGUID: r3tKP2b7ReSWOhLc9V/+Qg==
+X-CSE-MsgGUID: yYDP9IpOT+2zJIDE6xaM1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="39693022"
 X-IronPort-AV: E=Sophos;i="6.12,272,1728975600"; 
-   d="scan'208";a="46438857"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 06:06:54 -0800
-X-CSE-ConnectionGUID: NtPWJNl7QyCgiiRMJSNfqQ==
-X-CSE-MsgGUID: oEUrxiu0S4OVPrHwxqVK1g==
+   d="scan'208";a="39693022"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 06:38:51 -0800
+X-CSE-ConnectionGUID: u7ERUYsnTdOZYr7EhXEm0g==
+X-CSE-MsgGUID: JzzDQOMXT1SUYluRcHTRSA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="137710313"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="105455821"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Dec 2024 06:06:53 -0800
+  by orviesa003.jf.intel.com with ESMTP; 28 Dec 2024 06:38:50 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRXSt-00045w-0G;
-	Sat, 28 Dec 2024 14:06:51 +0000
-Date: Sat, 28 Dec 2024 22:06:00 +0800
+	id 1tRXxn-000475-2r;
+	Sat, 28 Dec 2024 14:38:47 +0000
+Date: Sat, 28 Dec 2024 22:38:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /: failed to
- match any schema with compatible: ['google,chinchou-sku0',
- 'google,chinchou-sku2', 'google,chinchou-sku4', 'google,chinchou-sku5',
- 'google,chinchou', 'mediatek,mt8186']
-Message-ID: <202412282108.Il66E6rv-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1355/1355] kernel/sysctl.c:1817:36:
+ error: 'ten_thousand' undeclared here (not in a function); did you mean
+ 'one_thousand'?
+Message-ID: <202412282259.rKjvWsmv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,236 +63,588 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   ca8e7ba4cbf9fe4c8fe507bf6d5f91c4f6d0b173
-commit: dcaf6b6dfdb68b7309cc2e8d721a9f8180a62891 [4/4] CHROMIUM: arm64: dts: mediate: Introduce MT8186 Chinchou/Chinchou360 Chromebook
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241228/202412282108.Il66E6rv-lkp@intel.com/config)
+Hi Tang,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   773f731853f1368508a0b112047bd9b5a4bb9a5e
+commit: 5a2c074184137763d604ffb3f0178da26bee5260 [1355/1355] share_pool: Add sp_alloc trace
+config: arm64-randconfig-r133-20241227 (https://download.01.org/0day-ci/archive/20241228/202412282259.rKjvWsmv-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412282108.Il66E6rv-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20241228/202412282259.rKjvWsmv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412282108.Il66E6rv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412282259.rKjvWsmv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'google,hana-rev3' was expected
-   	'google,tentacruel-sku262144' was expected
-   	'google,tentacruel-sku262148' was expected
-   	'google,spherion-rev0' was expected
-   	'google,dojo-sku1' was expected
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,dojo' was expected
-   	'google,elm-rev3' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku0', 'google,chinchou-sku2', 'google,chinchou-sku4', 'google,chinchou-sku5', 'google,chinchou', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku0', 'google,chinchou-sku2', 'google,chinchou-sku4', 'google,chinchou-sku5', 'google,chinchou', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku0', 'google,chinchou-sku2', 'google,chinchou-sku4', 'google,chinchou-sku5', 'google,chinchou', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku0', 'google,chinchou-sku2', 'google,chinchou-sku4', 'google,chinchou-sku5', 'google,chinchou', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku0', 'google,chinchou-sku2', 'google,chinchou-sku4', 'google,chinchou-sku5', 'google,chinchou', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: pinctrl@10005000: 'pin-report' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8186-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: anx7625@58: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: trackpad@15: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: rt5650@1a: 'cpvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: rt5650@1a: Unevaluated properties are not allowed ('cbj-sleeve-gpio' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: thermal-zones: 'cpu-ntc', 'pmic-ntc' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: regulator-pp1800-tchscr-report-disable: Unevaluated properties are not allowed ('enable-active-low' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
+All errors (new ones prefixed by >>):
+
+   kernel/sysctl.c:1817:36: sparse: sparse: undefined identifier 'ten_thousand'
+   kernel/sysctl.c:2246:66: sparse: sparse: self-comparison always evaluates to false
+>> kernel/sysctl.c:1817:36: error: 'ten_thousand' undeclared here (not in a function); did you mean 'one_thousand'?
+    1817 |                 .extra2         = &ten_thousand,
+         |                                    ^~~~~~~~~~~~
+         |                                    one_thousand
 --
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: anx7625@58: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: touchscreen@41: 'vcc33-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/ilitek,ili2901.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: trackpad@15: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: rt5650@1a: 'cpvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: rt5650@1a: Unevaluated properties are not allowed ('cbj-sleeve-gpio' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: thermal-zones: 'cpu-ntc', 'pmic-ntc' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: regulator-pp1800-tchscr-report-disable: Unevaluated properties are not allowed ('enable-active-low' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
---
-   	'google,hana-rev3' was expected
-   	'google,tentacruel-sku262144' was expected
-   	'google,tentacruel-sku262148' was expected
-   	'google,spherion-rev0' was expected
-   	'google,dojo-sku1' was expected
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,dojo' was expected
-   	'google,elm-rev3' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku16', 'google,chinchou-sku18', 'google,chinchou-sku19', 'google,chinchou-sku21', 'google,chinchou-sku2147483647', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku16', 'google,chinchou-sku18', 'google,chinchou-sku19', 'google,chinchou-sku21', 'google,chinchou-sku2147483647', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku16', 'google,chinchou-sku18', 'google,chinchou-sku19', 'google,chinchou-sku21', 'google,chinchou-sku2147483647', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku16', 'google,chinchou-sku18', 'google,chinchou-sku19', 'google,chinchou-sku21', 'google,chinchou-sku2147483647', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /: failed to match any schema with compatible: ['google,chinchou-sku16', 'google,chinchou-sku18', 'google,chinchou-sku19', 'google,chinchou-sku21', 'google,chinchou-sku2147483647', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: pinctrl@10005000: 'pin-report' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8186-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: anx7625@58: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: touchscreen@41: 'vcc33-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/ilitek,ili2901.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: trackpad@15: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: rt5650@1a: 'cpvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: rt5650@1a: Unevaluated properties are not allowed ('cbj-sleeve-gpio' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: thermal-zones: 'cpu-ntc', 'pmic-ntc' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: regulator-pp1800-tchscr-report-disable: Unevaluated properties are not allowed ('enable-active-low' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
+>> kernel/sysctl.c:1817:36: error: 'ten_thousand' undeclared here (not in a function); did you mean 'one_thousand'?
+    1817 |                 .extra2         = &ten_thousand,
+         |                                    ^~~~~~~~~~~~
+         |                                    one_thousand
+
+
+vim +1817 kernel/sysctl.c
+
+  1274	
+  1275	static struct ctl_table vm_table[] = {
+  1276		{
+  1277			.procname	= "overcommit_memory",
+  1278			.data		= &sysctl_overcommit_memory,
+  1279			.maxlen		= sizeof(sysctl_overcommit_memory),
+  1280			.mode		= 0644,
+  1281			.proc_handler	= proc_dointvec_minmax,
+  1282			.extra1		= &zero,
+  1283			.extra2		= &two,
+  1284		},
+  1285		{
+  1286			.procname	= "panic_on_oom",
+  1287			.data		= &sysctl_panic_on_oom,
+  1288			.maxlen		= sizeof(sysctl_panic_on_oom),
+  1289			.mode		= 0644,
+  1290			.proc_handler	= proc_dointvec_minmax,
+  1291			.extra1		= &zero,
+  1292			.extra2		= &two,
+  1293		},
+  1294	#ifdef CONFIG_ASCEND_OOM
+  1295		{
+  1296			/* 0: diasable, 1: enable, 2: disable and panic on oom */
+  1297			.procname	= "enable_oom_killer",
+  1298			.data		= &sysctl_enable_oom_killer,
+  1299			.maxlen		= sizeof(sysctl_enable_oom_killer),
+  1300			.mode		= 0644,
+  1301			.proc_handler	= proc_dointvec_minmax,
+  1302			.extra1		= &zero,
+  1303			.extra2		= &two,
+  1304		},
+  1305	#endif
+  1306		{
+  1307			.procname	= "oom_kill_allocating_task",
+  1308			.data		= &sysctl_oom_kill_allocating_task,
+  1309			.maxlen		= sizeof(sysctl_oom_kill_allocating_task),
+  1310			.mode		= 0644,
+  1311			.proc_handler	= proc_dointvec,
+  1312		},
+  1313		{
+  1314			.procname	= "oom_dump_tasks",
+  1315			.data		= &sysctl_oom_dump_tasks,
+  1316			.maxlen		= sizeof(sysctl_oom_dump_tasks),
+  1317			.mode		= 0644,
+  1318			.proc_handler	= proc_dointvec,
+  1319		},
+  1320		{
+  1321			.procname	= "overcommit_ratio",
+  1322			.data		= &sysctl_overcommit_ratio,
+  1323			.maxlen		= sizeof(sysctl_overcommit_ratio),
+  1324			.mode		= 0644,
+  1325			.proc_handler	= overcommit_ratio_handler,
+  1326		},
+  1327		{
+  1328			.procname	= "overcommit_kbytes",
+  1329			.data		= &sysctl_overcommit_kbytes,
+  1330			.maxlen		= sizeof(sysctl_overcommit_kbytes),
+  1331			.mode		= 0644,
+  1332			.proc_handler	= overcommit_kbytes_handler,
+  1333		},
+  1334		{
+  1335			.procname	= "page-cluster", 
+  1336			.data		= &page_cluster,
+  1337			.maxlen		= sizeof(int),
+  1338			.mode		= 0644,
+  1339			.proc_handler	= proc_dointvec_minmax,
+  1340			.extra1		= &zero,
+  1341		},
+  1342		{
+  1343			.procname	= "dirty_background_ratio",
+  1344			.data		= &dirty_background_ratio,
+  1345			.maxlen		= sizeof(dirty_background_ratio),
+  1346			.mode		= 0644,
+  1347			.proc_handler	= dirty_background_ratio_handler,
+  1348			.extra1		= &zero,
+  1349			.extra2		= &one_hundred,
+  1350		},
+  1351		{
+  1352			.procname	= "dirty_background_bytes",
+  1353			.data		= &dirty_background_bytes,
+  1354			.maxlen		= sizeof(dirty_background_bytes),
+  1355			.mode		= 0644,
+  1356			.proc_handler	= dirty_background_bytes_handler,
+  1357			.extra1		= &one_ul,
+  1358		},
+  1359		{
+  1360			.procname	= "dirty_ratio",
+  1361			.data		= &vm_dirty_ratio,
+  1362			.maxlen		= sizeof(vm_dirty_ratio),
+  1363			.mode		= 0644,
+  1364			.proc_handler	= dirty_ratio_handler,
+  1365			.extra1		= &zero,
+  1366			.extra2		= &one_hundred,
+  1367		},
+  1368		{
+  1369			.procname	= "dirty_bytes",
+  1370			.data		= &vm_dirty_bytes,
+  1371			.maxlen		= sizeof(vm_dirty_bytes),
+  1372			.mode		= 0644,
+  1373			.proc_handler	= dirty_bytes_handler,
+  1374			.extra1		= &dirty_bytes_min,
+  1375		},
+  1376		{
+  1377			.procname	= "dirty_writeback_centisecs",
+  1378			.data		= &dirty_writeback_interval,
+  1379			.maxlen		= sizeof(dirty_writeback_interval),
+  1380			.mode		= 0644,
+  1381			.proc_handler	= dirty_writeback_centisecs_handler,
+  1382		},
+  1383		{
+  1384			.procname	= "dirty_expire_centisecs",
+  1385			.data		= &dirty_expire_interval,
+  1386			.maxlen		= sizeof(dirty_expire_interval),
+  1387			.mode		= 0644,
+  1388			.proc_handler	= proc_dointvec_minmax,
+  1389			.extra1		= &zero,
+  1390		},
+  1391		{
+  1392			.procname	= "dirtytime_expire_seconds",
+  1393			.data		= &dirtytime_expire_interval,
+  1394			.maxlen		= sizeof(dirtytime_expire_interval),
+  1395			.mode		= 0644,
+  1396			.proc_handler	= dirtytime_interval_handler,
+  1397			.extra1		= &zero,
+  1398		},
+  1399		{
+  1400			.procname	= "swappiness",
+  1401			.data		= &vm_swappiness,
+  1402			.maxlen		= sizeof(vm_swappiness),
+  1403			.mode		= 0644,
+  1404			.proc_handler	= proc_dointvec_minmax,
+  1405			.extra1		= &zero,
+  1406			.extra2		= &one_hundred,
+  1407		},
+  1408	#ifdef CONFIG_SHRINK_PAGECACHE
+  1409		{
+  1410			.procname       = "cache_reclaim_s",
+  1411			.data           = &vm_cache_reclaim_s,
+  1412			.maxlen         = sizeof(vm_cache_reclaim_s),
+  1413			.mode           = 0644,
+  1414			.proc_handler   = cache_reclaim_sysctl_handler,
+  1415			.extra1         = &vm_cache_reclaim_s_min,
+  1416			.extra2         = &vm_cache_reclaim_s_max,
+  1417		},
+  1418		{
+  1419			.procname       = "cache_reclaim_weight",
+  1420			.data           = &vm_cache_reclaim_weight,
+  1421			.maxlen         = sizeof(vm_cache_reclaim_weight),
+  1422			.mode           = 0644,
+  1423			.proc_handler   = proc_dointvec_minmax,
+  1424			.extra1         = &vm_cache_reclaim_weight_min,
+  1425			.extra2         = &vm_cache_reclaim_weight_max,
+  1426		},
+  1427		{
+  1428			.procname	= "cache_reclaim_enable",
+  1429			.data		= &vm_cache_reclaim_enable,
+  1430			.maxlen		= sizeof(vm_cache_reclaim_enable),
+  1431			.mode		= 0644,
+  1432			.proc_handler	= cache_reclaim_enable_handler,
+  1433			.extra1		= &zero,
+  1434			.extra2		= &one,
+  1435		},
+  1436	#endif
+  1437	#ifdef CONFIG_HUGETLB_PAGE
+  1438		{
+  1439			.procname	= "nr_hugepages",
+  1440			.data		= NULL,
+  1441			.maxlen		= sizeof(unsigned long),
+  1442			.mode		= 0644,
+  1443			.proc_handler	= hugetlb_sysctl_handler,
+  1444		},
+  1445	#ifdef CONFIG_NUMA
+  1446		{
+  1447			.procname       = "nr_hugepages_mempolicy",
+  1448			.data           = NULL,
+  1449			.maxlen         = sizeof(unsigned long),
+  1450			.mode           = 0644,
+  1451			.proc_handler   = &hugetlb_mempolicy_sysctl_handler,
+  1452		},
+  1453		{
+  1454			.procname		= "numa_stat",
+  1455			.data			= &sysctl_vm_numa_stat,
+  1456			.maxlen			= sizeof(int),
+  1457			.mode			= 0644,
+  1458			.proc_handler	= sysctl_vm_numa_stat_handler,
+  1459			.extra1			= &zero,
+  1460			.extra2			= &one,
+  1461		},
+  1462	#endif
+  1463		 {
+  1464			.procname	= "hugetlb_shm_group",
+  1465			.data		= &sysctl_hugetlb_shm_group,
+  1466			.maxlen		= sizeof(gid_t),
+  1467			.mode		= 0644,
+  1468			.proc_handler	= proc_dointvec,
+  1469		 },
+  1470		{
+  1471			.procname	= "nr_overcommit_hugepages",
+  1472			.data		= NULL,
+  1473			.maxlen		= sizeof(unsigned long),
+  1474			.mode		= 0644,
+  1475			.proc_handler	= hugetlb_overcommit_handler,
+  1476		},
+  1477	#endif
+  1478	#ifdef CONFIG_MEMCG_QOS
+  1479		{
+  1480			.procname	= "memcg_qos_enable",
+  1481			.data		= &sysctl_memcg_qos_stat,
+  1482			.maxlen		= sizeof(int),
+  1483			.mode		= 0644,
+  1484			.proc_handler	= sysctl_memcg_qos_handler,
+  1485			.extra1		= &zero,
+  1486			.extra2		= &one,
+  1487		},
+  1488	#endif
+  1489		{
+  1490			.procname	= "lowmem_reserve_ratio",
+  1491			.data		= &sysctl_lowmem_reserve_ratio,
+  1492			.maxlen		= sizeof(sysctl_lowmem_reserve_ratio),
+  1493			.mode		= 0644,
+  1494			.proc_handler	= lowmem_reserve_ratio_sysctl_handler,
+  1495		},
+  1496		{
+  1497			.procname	= "drop_caches",
+  1498			.data		= &sysctl_drop_caches,
+  1499			.maxlen		= sizeof(int),
+  1500			.mode		= 0200,
+  1501			.proc_handler	= drop_caches_sysctl_handler,
+  1502			.extra1		= &one,
+  1503			.extra2		= &four,
+  1504		},
+  1505		{
+  1506			.procname	= "drop_caches_loop_limit",
+  1507			.data		= &drop_caches_loop_limit,
+  1508			.maxlen		= sizeof(unsigned int),
+  1509			.mode		= 0644,
+  1510			.proc_handler	= proc_douintvec,
+  1511		},
+  1512	
+  1513	#ifdef CONFIG_COMPACTION
+  1514		{
+  1515			.procname	= "compact_memory",
+  1516			.data		= &sysctl_compact_memory,
+  1517			.maxlen		= sizeof(int),
+  1518			.mode		= 0200,
+  1519			.proc_handler	= sysctl_compaction_handler,
+  1520		},
+  1521		{
+  1522			.procname	= "extfrag_threshold",
+  1523			.data		= &sysctl_extfrag_threshold,
+  1524			.maxlen		= sizeof(int),
+  1525			.mode		= 0644,
+  1526			.proc_handler	= sysctl_extfrag_handler,
+  1527			.extra1		= &min_extfrag_threshold,
+  1528			.extra2		= &max_extfrag_threshold,
+  1529		},
+  1530		{
+  1531			.procname	= "compact_unevictable_allowed",
+  1532			.data		= &sysctl_compact_unevictable_allowed,
+  1533			.maxlen		= sizeof(int),
+  1534			.mode		= 0644,
+  1535			.proc_handler	= proc_dointvec,
+  1536			.extra1		= &zero,
+  1537			.extra2		= &one,
+  1538		},
+  1539	
+  1540	#endif /* CONFIG_COMPACTION */
+  1541		{
+  1542			.procname	= "min_free_kbytes",
+  1543			.data		= &min_free_kbytes,
+  1544			.maxlen		= sizeof(min_free_kbytes),
+  1545			.mode		= 0644,
+  1546			.proc_handler	= min_free_kbytes_sysctl_handler,
+  1547			.extra1		= &zero,
+  1548		},
+  1549		{
+  1550			.procname	= "watermark_scale_factor",
+  1551			.data		= &watermark_scale_factor,
+  1552			.maxlen		= sizeof(watermark_scale_factor),
+  1553			.mode		= 0644,
+  1554			.proc_handler	= watermark_scale_factor_sysctl_handler,
+  1555			.extra1		= &one,
+  1556			.extra2		= &one_thousand,
+  1557		},
+  1558		{
+  1559			.procname	= "percpu_pagelist_fraction",
+  1560			.data		= &percpu_pagelist_fraction,
+  1561			.maxlen		= sizeof(percpu_pagelist_fraction),
+  1562			.mode		= 0644,
+  1563			.proc_handler	= percpu_pagelist_fraction_sysctl_handler,
+  1564			.extra1		= &zero,
+  1565		},
+  1566	#ifdef CONFIG_MMU
+  1567		{
+  1568			.procname	= "max_map_count",
+  1569			.data		= &sysctl_max_map_count,
+  1570			.maxlen		= sizeof(sysctl_max_map_count),
+  1571			.mode		= 0644,
+  1572			.proc_handler	= proc_dointvec_minmax,
+  1573			.extra1		= &zero,
+  1574		},
+  1575	#else
+  1576		{
+  1577			.procname	= "nr_trim_pages",
+  1578			.data		= &sysctl_nr_trim_pages,
+  1579			.maxlen		= sizeof(sysctl_nr_trim_pages),
+  1580			.mode		= 0644,
+  1581			.proc_handler	= proc_dointvec_minmax,
+  1582			.extra1		= &zero,
+  1583		},
+  1584	#endif
+  1585		{
+  1586			.procname	= "laptop_mode",
+  1587			.data		= &laptop_mode,
+  1588			.maxlen		= sizeof(laptop_mode),
+  1589			.mode		= 0644,
+  1590			.proc_handler	= proc_dointvec_jiffies,
+  1591		},
+  1592		{
+  1593			.procname	= "block_dump",
+  1594			.data		= &block_dump,
+  1595			.maxlen		= sizeof(block_dump),
+  1596			.mode		= 0644,
+  1597			.proc_handler	= proc_dointvec,
+  1598			.extra1		= &zero,
+  1599		},
+  1600		{
+  1601			.procname	= "vfs_cache_pressure",
+  1602			.data		= &sysctl_vfs_cache_pressure,
+  1603			.maxlen		= sizeof(sysctl_vfs_cache_pressure),
+  1604			.mode		= 0644,
+  1605			.proc_handler	= proc_dointvec,
+  1606			.extra1		= &zero,
+  1607		},
+  1608	#ifdef HAVE_ARCH_PICK_MMAP_LAYOUT
+  1609		{
+  1610			.procname	= "legacy_va_layout",
+  1611			.data		= &sysctl_legacy_va_layout,
+  1612			.maxlen		= sizeof(sysctl_legacy_va_layout),
+  1613			.mode		= 0644,
+  1614			.proc_handler	= proc_dointvec,
+  1615			.extra1		= &zero,
+  1616		},
+  1617	#endif
+  1618	#ifdef CONFIG_NUMA
+  1619		{
+  1620			.procname	= "zone_reclaim_mode",
+  1621			.data		= &node_reclaim_mode,
+  1622			.maxlen		= sizeof(node_reclaim_mode),
+  1623			.mode		= 0644,
+  1624			.proc_handler	= proc_dointvec,
+  1625			.extra1		= &zero,
+  1626		},
+  1627		{
+  1628			.procname	= "min_unmapped_ratio",
+  1629			.data		= &sysctl_min_unmapped_ratio,
+  1630			.maxlen		= sizeof(sysctl_min_unmapped_ratio),
+  1631			.mode		= 0644,
+  1632			.proc_handler	= sysctl_min_unmapped_ratio_sysctl_handler,
+  1633			.extra1		= &zero,
+  1634			.extra2		= &one_hundred,
+  1635		},
+  1636		{
+  1637			.procname	= "min_slab_ratio",
+  1638			.data		= &sysctl_min_slab_ratio,
+  1639			.maxlen		= sizeof(sysctl_min_slab_ratio),
+  1640			.mode		= 0644,
+  1641			.proc_handler	= sysctl_min_slab_ratio_sysctl_handler,
+  1642			.extra1		= &zero,
+  1643			.extra2		= &one_hundred,
+  1644		},
+  1645	#endif
+  1646	#ifdef CONFIG_SMP
+  1647		{
+  1648			.procname	= "stat_interval",
+  1649			.data		= &sysctl_stat_interval,
+  1650			.maxlen		= sizeof(sysctl_stat_interval),
+  1651			.mode		= 0644,
+  1652			.proc_handler	= proc_dointvec_jiffies,
+  1653		},
+  1654		{
+  1655			.procname	= "stat_refresh",
+  1656			.data		= NULL,
+  1657			.maxlen		= 0,
+  1658			.mode		= 0600,
+  1659			.proc_handler	= vmstat_refresh,
+  1660		},
+  1661	#endif
+  1662	#ifdef CONFIG_MMU
+  1663		{
+  1664			.procname	= "mmap_min_addr",
+  1665			.data		= &dac_mmap_min_addr,
+  1666			.maxlen		= sizeof(unsigned long),
+  1667			.mode		= 0644,
+  1668			.proc_handler	= mmap_min_addr_handler,
+  1669		},
+  1670	#endif
+  1671	#ifdef CONFIG_NUMA
+  1672		{
+  1673			.procname	= "numa_zonelist_order",
+  1674			.data		= &numa_zonelist_order,
+  1675			.maxlen		= NUMA_ZONELIST_ORDER_LEN,
+  1676			.mode		= 0644,
+  1677			.proc_handler	= numa_zonelist_order_handler,
+  1678		},
+  1679	#endif
+  1680	#if (defined(CONFIG_X86_32) && !defined(CONFIG_UML))|| \
+  1681	   (defined(CONFIG_SUPERH) && defined(CONFIG_VSYSCALL))
+  1682		{
+  1683			.procname	= "vdso_enabled",
+  1684	#ifdef CONFIG_X86_32
+  1685			.data		= &vdso32_enabled,
+  1686			.maxlen		= sizeof(vdso32_enabled),
+  1687	#else
+  1688			.data		= &vdso_enabled,
+  1689			.maxlen		= sizeof(vdso_enabled),
+  1690	#endif
+  1691			.mode		= 0644,
+  1692			.proc_handler	= proc_dointvec,
+  1693			.extra1		= &zero,
+  1694		},
+  1695	#endif
+  1696	#ifdef CONFIG_HIGHMEM
+  1697		{
+  1698			.procname	= "highmem_is_dirtyable",
+  1699			.data		= &vm_highmem_is_dirtyable,
+  1700			.maxlen		= sizeof(vm_highmem_is_dirtyable),
+  1701			.mode		= 0644,
+  1702			.proc_handler	= proc_dointvec_minmax,
+  1703			.extra1		= &zero,
+  1704			.extra2		= &one,
+  1705		},
+  1706	#endif
+  1707	#ifdef CONFIG_MEMORY_FAILURE
+  1708		{
+  1709			.procname	= "memory_failure_early_kill",
+  1710			.data		= &sysctl_memory_failure_early_kill,
+  1711			.maxlen		= sizeof(sysctl_memory_failure_early_kill),
+  1712			.mode		= 0644,
+  1713			.proc_handler	= proc_dointvec_minmax,
+  1714			.extra1		= &zero,
+  1715			.extra2		= &one,
+  1716		},
+  1717		{
+  1718			.procname	= "memory_failure_recovery",
+  1719			.data		= &sysctl_memory_failure_recovery,
+  1720			.maxlen		= sizeof(sysctl_memory_failure_recovery),
+  1721			.mode		= 0644,
+  1722			.proc_handler	= proc_dointvec_minmax,
+  1723			.extra1		= &zero,
+  1724			.extra2		= &one,
+  1725		},
+  1726	#endif
+  1727		{
+  1728			.procname	= "user_reserve_kbytes",
+  1729			.data		= &sysctl_user_reserve_kbytes,
+  1730			.maxlen		= sizeof(sysctl_user_reserve_kbytes),
+  1731			.mode		= 0644,
+  1732			.proc_handler	= proc_doulongvec_minmax,
+  1733		},
+  1734		{
+  1735			.procname	= "admin_reserve_kbytes",
+  1736			.data		= &sysctl_admin_reserve_kbytes,
+  1737			.maxlen		= sizeof(sysctl_admin_reserve_kbytes),
+  1738			.mode		= 0644,
+  1739			.proc_handler	= proc_doulongvec_minmax,
+  1740		},
+  1741	#ifdef CONFIG_HAVE_ARCH_MMAP_RND_BITS
+  1742		{
+  1743			.procname	= "mmap_rnd_bits",
+  1744			.data		= &mmap_rnd_bits,
+  1745			.maxlen		= sizeof(mmap_rnd_bits),
+  1746			.mode		= 0600,
+  1747			.proc_handler	= proc_dointvec_minmax,
+  1748			.extra1		= (void *)&mmap_rnd_bits_min,
+  1749			.extra2		= (void *)&mmap_rnd_bits_max,
+  1750		},
+  1751	#endif
+  1752	#ifdef CONFIG_HAVE_ARCH_MMAP_RND_COMPAT_BITS
+  1753		{
+  1754			.procname	= "mmap_rnd_compat_bits",
+  1755			.data		= &mmap_rnd_compat_bits,
+  1756			.maxlen		= sizeof(mmap_rnd_compat_bits),
+  1757			.mode		= 0600,
+  1758			.proc_handler	= proc_dointvec_minmax,
+  1759			.extra1		= (void *)&mmap_rnd_compat_bits_min,
+  1760			.extra2		= (void *)&mmap_rnd_compat_bits_max,
+  1761		},
+  1762	#endif
+  1763	#ifdef CONFIG_ASCEND_SHARE_POOL
+  1764		{
+  1765			.procname	= "sharepool_ac_mode",
+  1766			.data		= &sysctl_ac_mode,
+  1767			.maxlen		= sizeof(sysctl_ac_mode),
+  1768			.mode		= 0600,
+  1769			.proc_handler	= proc_dointvec_minmax,
+  1770			.extra1		= &zero,
+  1771			.extra2		= &one,
+  1772		},
+  1773		{
+  1774			.procname	= "sharepool_debug_mode",
+  1775			.data		= &sysctl_sp_debug_mode,
+  1776			.maxlen		= sizeof(sysctl_sp_debug_mode),
+  1777			.mode		= 0600,
+  1778			.proc_handler	= proc_dointvec_minmax,
+  1779			.extra1		= &zero,
+  1780			.extra2		= &one,
+  1781		},
+  1782		{
+  1783			/* 0: map_unlock, 1: map_lock */
+  1784			.procname	= "share_pool_map_lock_enable",
+  1785			.data		= &sysctl_share_pool_map_lock_enable,
+  1786			.maxlen		= sizeof(int),
+  1787			.mode		= 0644,
+  1788			.proc_handler	= proc_dointvec_minmax,
+  1789			.extra1		= &zero,
+  1790			.extra2		= &one,
+  1791		},
+  1792		{
+  1793			.procname	= "sharepool_compact_enable",
+  1794			.data		= &sysctl_sp_compact_enable,
+  1795			.maxlen		= sizeof(sysctl_sp_compact_enable),
+  1796			.mode		= 0600,
+  1797			.proc_handler	= proc_dointvec_minmax,
+  1798			.extra1		= &zero,
+  1799			.extra2		= &one,
+  1800		},
+  1801		{
+  1802			.procname	= "sharepool_compact_interval",
+  1803			.data		= &sysctl_sp_compact_interval,
+  1804			.maxlen		= sizeof(sysctl_sp_compact_interval),
+  1805			.mode		= 0600,
+  1806			.proc_handler	= proc_doulongvec_minmax,
+  1807			.extra1		= &zero_ul,
+  1808			.extra2		= &sysctl_sp_compact_interval_max,
+  1809		},
+  1810		{
+  1811			.procname	= "sharepool_perf_alloc",
+  1812			.data		= &sysctl_sp_perf_alloc,
+  1813			.maxlen		= sizeof(sysctl_sp_perf_alloc),
+  1814			.mode		= 0600,
+  1815			.proc_handler	= proc_dointvec_minmax,
+  1816			.extra1		= &zero,
+> 1817			.extra2		= &ten_thousand,
+  1818		},
+  1819	#endif
+  1820		{ }
+  1821	};
+  1822	
 
 -- 
 0-DAY CI Kernel Test Service
