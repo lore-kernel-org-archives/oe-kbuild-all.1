@@ -1,182 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167F612E4A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 06:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245DD4C62E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 06:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735365923; cv=none; b=ETH0pDtdnXDi+lTpTn5lbpK7cMHPv41vdixUTS8LHcRrgs/77+8GKA1FRMTEsVsdFDzclSDLGqoYMpXpHGisM9foWr7WaFxa3EsUw5SoMLz3/ecXlWYpokDDTWXKp45vj+NVdb/3tEd9cjl9WyoPdHyiN7q9BLfG3jqtLafueuU=
+	t=1735367302; cv=none; b=Dt2edtm4U0Ylr9YldjdMJI2KXf3niL8tNkrZXxSrO6ua+CZb0pXDUkvBqsAuxSLbaViGPEAwqVBvbAH6JpWqqMSeFvyN+0zhFNu6NLEfw3k+eVUeeL9GoTojjUuWo1WfHEhI7fbGA+NCvYfUCCPKsePuolnILgNH+MZ9VZzQ4fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735365923; c=relaxed/simple;
-	bh=Zqj9l31B4YH0EHkI5YA67k1oivsCFmUiBM+sFtQzPyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZAaEoJeK69yNNOUE1R6pPpZd2BhPaHzhHNfx2fM4htvfYYE0DB9xkw9Ly0QQX0inZfQIdlokmI6sjsv1sW3KMOKsJL6nkPm3nyIprARgB7tqWlpUx/LQPoo+h497kbyJq+z1xUJZdds5T900E8Rq8uRAWvRlX7U2+YRZ2GJAFw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhGdb30u; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735367302; c=relaxed/simple;
+	bh=d9rFA0aFAmq2vvnUbiF8vH505JoZUmu752qiFXuXFRw=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=uAWxfy0Tv0MOmYsLQ8fEql6gszfUf/X5oMPsC4+whMGjmV0oW0YZwrlm6vyp8a1GLO0vgtymKxb5HlFJ1DLka/I7EtdsA/8Wh5RYxzL9cwqZG7DRU/RY+wk+Rtrf6SmvcSCJIZ5rtaPjAqdm4BUz1mTDFNmkpAcXpWVYCv7MIXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=WqCePZkm; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhGdb30u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735365920; x=1766901920;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="WqCePZkm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zqj9l31B4YH0EHkI5YA67k1oivsCFmUiBM+sFtQzPyE=;
-  b=YhGdb30uB+TULar1VUmcY8LN6FMIEBXqnx2NYf/OpArMA30mA2nTJ69N
-   RlGKrlxtMmtsTNEQ/FiSW4DvUC3jW5tj6Blu3GcfpXHM4Kw92vCcs5+Wm
-   lhJGp9eZYtb0GtrX2LDtqYlP7DNBZ6eX4GucALraiV8oa8Mg0ssdA+Udl
-   Wp6HxeLDQ6NfKg5qbXfIiP3zQhNUsr78/YxOFTofpHwRCYAeXE+li+/qG
-   yUXzJ5P1TYubuRvGUtsEWGmQjwMaOD4WcZfx31FIo45YT7RqOrkUgncmO
-   grrSln/u0pKAJnOhP5xSj6TEVm90XSYZg4mP8UORhLDxNj7HsGAKWkcOu
-   A==;
-X-CSE-ConnectionGUID: iQOqu9SpQfmwszcPWyGU1w==
-X-CSE-MsgGUID: NOKcTPq9QHihi0DlBHD6fg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="39523983"
-X-IronPort-AV: E=Sophos;i="6.12,271,1728975600"; 
-   d="scan'208";a="39523983"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 22:05:19 -0800
-X-CSE-ConnectionGUID: OpP/JkKNQpOZqctMTR/tcA==
-X-CSE-MsgGUID: 51NfPuWmQuy+1LvIpdTbvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104374402"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Dec 2024 22:05:18 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tRPwq-0003u4-1D;
-	Sat, 28 Dec 2024 06:05:16 +0000
-Date: Sat, 28 Dec 2024 14:04:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: drivers/counter/microchip-tcb-capture.c:341:56: warning: '%d'
- directive output may be truncated writing between 1 and 11 bytes into a
- region of size 6
-Message-ID: <202412281402.OOqCckbG-lkp@intel.com>
+  bh=tL6FTj7hHRs/XTnPkO//SYZZjqX7NsloZUqPx7rpAfM=;
+  b=WqCePZkmy1ukULwoYo3q4covy+1eNhjOWGyCt2ZHKiNMlRi+arXcFiBR
+   5GDXlI4urP2trXpAjyow9PabMKuoZHzg8o1/wp7N7j2bs/YWo/bU4xz6U
+   pwSt++d3WM48bA8aq53/ZeOjPCClOH4osp2m8+eJzYqLYw6apuvGSDri+
+   c=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.12,271,1728943200"; 
+   d="scan'208";a="200897333"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 07:27:05 +0100
+Date: Sat, 28 Dec 2024 07:27:05 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Zheng Zengkai <zhengzengkai@huawei.com>
+cc: kernel@openeuler.org, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2601/2601] kernel/stackleak.c:42:5-10: opportunity
+ for str_enabled_disabled(state) (fwd)
+Message-ID: <alpine.DEB.2.22.394.2412280726470.3574@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fd0584d220fe285dc45be43eede55df89ad6a3d9
-commit: 106b104137fd5f0dbcafadd7ad566b86ec183466 counter: Add microchip TCB capture counter
-date:   4 years, 5 months ago
-config: sparc-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241228/202412281402.OOqCckbG-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412281402.OOqCckbG-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Sat, 28 Dec 2024 04:51:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:OLK-5.10 2601/2601] kernel/stackleak.c:42:5-10: opportunity
+    for str_enabled_disabled(state)
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: Zheng Zengkai <zhengzengkai@huawei.com>
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   053a6b6f8e4c86200cdb20bc80c063c3bb119859
+commit: 9d423ac5414e69a36e95dc0b77392429c507cbe1 [2601/2601] gcc-plugins: simplify GCC plugin-dev capability test
+:::::: branch date: 15 hours ago
+:::::: commit date: 2 years, 11 months ago
+config: x86_64-randconfig-101-20241228 (https://download.01.org/0day-ci/archive/20241228/202412280419.SeKIgBFA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412281402.OOqCckbG-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412280419.SeKIgBFA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> kernel/stackleak.c:42:5-10: opportunity for str_enabled_disabled(state)
 
-   drivers/counter/microchip-tcb-capture.c: In function 'mchp_tc_probe':
->> drivers/counter/microchip-tcb-capture.c:341:56: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 6 [-Wformat-truncation=]
-     341 |                 snprintf(clk_name, sizeof(clk_name), "t%d_clk", channel);
-         |                                                        ^~
-   drivers/counter/microchip-tcb-capture.c:341:54: note: directive argument in the range [-2147483648, 2]
-     341 |                 snprintf(clk_name, sizeof(clk_name), "t%d_clk", channel);
-         |                                                      ^~~~~~~~~
-   drivers/counter/microchip-tcb-capture.c:341:17: note: 'snprintf' output between 7 and 17 bytes into a destination of size 7
-     341 |                 snprintf(clk_name, sizeof(clk_name), "t%d_clk", channel);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +42 kernel/stackleak.c
 
+964c9dff009189 Alexander Popov 2018-08-17  21
+964c9dff009189 Alexander Popov 2018-08-17  22  int stack_erasing_sysctl(struct ctl_table *table, int write,
+4773ef33fc6e59 Tobias Klauser  2020-09-18  23  			void *buffer, size_t *lenp, loff_t *ppos)
+964c9dff009189 Alexander Popov 2018-08-17  24  {
+964c9dff009189 Alexander Popov 2018-08-17  25  	int ret = 0;
+964c9dff009189 Alexander Popov 2018-08-17  26  	int state = !static_branch_unlikely(&stack_erasing_bypass);
+964c9dff009189 Alexander Popov 2018-08-17  27  	int prev_state = state;
+964c9dff009189 Alexander Popov 2018-08-17  28
+964c9dff009189 Alexander Popov 2018-08-17  29  	table->data = &state;
+964c9dff009189 Alexander Popov 2018-08-17  30  	table->maxlen = sizeof(int);
+964c9dff009189 Alexander Popov 2018-08-17  31  	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+964c9dff009189 Alexander Popov 2018-08-17  32  	state = !!state;
+964c9dff009189 Alexander Popov 2018-08-17  33  	if (ret || !write || state == prev_state)
+964c9dff009189 Alexander Popov 2018-08-17  34  		return ret;
+964c9dff009189 Alexander Popov 2018-08-17  35
+964c9dff009189 Alexander Popov 2018-08-17  36  	if (state)
+964c9dff009189 Alexander Popov 2018-08-17  37  		static_branch_disable(&stack_erasing_bypass);
+964c9dff009189 Alexander Popov 2018-08-17  38  	else
+964c9dff009189 Alexander Popov 2018-08-17  39  		static_branch_enable(&stack_erasing_bypass);
+964c9dff009189 Alexander Popov 2018-08-17  40
+964c9dff009189 Alexander Popov 2018-08-17  41  	pr_warn("stackleak: kernel stack erasing is %s\n",
+964c9dff009189 Alexander Popov 2018-08-17 @42  					state ? "enabled" : "disabled");
+964c9dff009189 Alexander Popov 2018-08-17  43  	return ret;
+964c9dff009189 Alexander Popov 2018-08-17  44  }
+964c9dff009189 Alexander Popov 2018-08-17  45
 
-vim +341 drivers/counter/microchip-tcb-capture.c
+:::::: The code at line 42 was first introduced by commit
+:::::: 964c9dff0091893a9a74a88edf984c6da0b779f7 stackleak: Allow runtime disabling of kernel stack erasing
 
-   296	
-   297	static int mchp_tc_probe(struct platform_device *pdev)
-   298	{
-   299		struct device_node *np = pdev->dev.of_node;
-   300		const struct atmel_tcb_config *tcb_config;
-   301		const struct of_device_id *match;
-   302		struct mchp_tc_data *priv;
-   303		char clk_name[7];
-   304		struct regmap *regmap;
-   305		struct clk *clk[3];
-   306		int channel;
-   307		int ret, i;
-   308	
-   309		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-   310		if (!priv)
-   311			return -ENOMEM;
-   312	
-   313		platform_set_drvdata(pdev, priv);
-   314	
-   315		match = of_match_node(atmel_tc_of_match, np->parent);
-   316		tcb_config = match->data;
-   317		if (!tcb_config) {
-   318			dev_err(&pdev->dev, "No matching parent node found\n");
-   319			return -ENODEV;
-   320		}
-   321	
-   322		regmap = syscon_node_to_regmap(np->parent);
-   323		if (IS_ERR(priv->regmap))
-   324			return PTR_ERR(priv->regmap);
-   325	
-   326		/* max. channels number is 2 when in QDEC mode */
-   327		priv->num_channels = of_property_count_u32_elems(np, "reg");
-   328		if (priv->num_channels < 0) {
-   329			dev_err(&pdev->dev, "Invalid or missing channel\n");
-   330			return -EINVAL;
-   331		}
-   332	
-   333		/* Register channels and initialize clocks */
-   334		for (i = 0; i < priv->num_channels; i++) {
-   335			ret = of_property_read_u32_index(np, "reg", i, &channel);
-   336			if (ret < 0 || channel > 2)
-   337				return -ENODEV;
-   338	
-   339			priv->channel[i] = channel;
-   340	
- > 341			snprintf(clk_name, sizeof(clk_name), "t%d_clk", channel);
-   342	
-   343			clk[i] = of_clk_get_by_name(np->parent, clk_name);
-   344			if (IS_ERR(clk[i])) {
-   345				/* Fallback to t0_clk */
-   346				clk[i] = of_clk_get_by_name(np->parent, "t0_clk");
-   347				if (IS_ERR(clk[i]))
-   348					return PTR_ERR(clk[i]);
-   349			}
-   350	
-   351			ret = clk_prepare_enable(clk[i]);
-   352			if (ret)
-   353				return ret;
-   354	
-   355			ret = devm_add_action_or_reset(&pdev->dev,
-   356						       mchp_tc_clk_remove,
-   357						       clk[i]);
-   358			if (ret)
-   359				return ret;
-   360	
-   361			dev_dbg(&pdev->dev,
-   362				"Initialized capture mode on channel %d\n",
-   363				channel);
-   364		}
-   365	
-   366		priv->tc_cfg = tcb_config;
-   367		priv->regmap = regmap;
-   368		priv->counter.name = dev_name(&pdev->dev);
-   369		priv->counter.parent = &pdev->dev;
-   370		priv->counter.ops = &mchp_tc_ops;
-   371		priv->counter.num_counts = ARRAY_SIZE(mchp_tc_counts);
-   372		priv->counter.counts = mchp_tc_counts;
-   373		priv->counter.num_signals = ARRAY_SIZE(mchp_tc_count_signals);
-   374		priv->counter.signals = mchp_tc_count_signals;
-   375		priv->counter.priv = priv;
-   376	
-   377		return devm_counter_register(&pdev->dev, &priv->counter);
-   378	}
-   379	
+:::::: TO: Alexander Popov <alex.popov@linux.com>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
