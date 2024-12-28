@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B169474
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 16:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D472AE84
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Dec 2024 17:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735404918; cv=none; b=phldielzToBaTaReIjOgRe4TI+TY73MB2YqfJMU/fzcGYL748OZvrMGYxtjY8Am1wpXFDuAyLNBmitx/lYChAfSqtR5l/zajKdLHe+pyHU89/TAqVha7hSuYLGnN0vFp0n5ifBw4Czoh0derq3m37VuM/6ivnq8Kfq8O5ToxJlE=
+	t=1735405521; cv=none; b=JKcfhXAa5hpzQh5tZzBTvaYJBI7BWO7zAiwQnL+oIJVJQ/QxLnH4ZdqsKg9Dizo6m0nnl8b+3yfPJl7aY/zwZT3pyflU58Z5INigk+Tda/lsujlRiZAQWyZATBGTFL0gVI4GbyDg5OKV2LkpW1WHNytALzVzsEZopbHtVz5sGao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735404918; c=relaxed/simple;
-	bh=GG9nYpqU6SGoLZ30fiLBqWrJFtx/feEWQI/dupiwCF0=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=okPCT/sOILCvj5vofJW6QJrHToPOdnH+r97TgMQ3kbY62SRvgujcW3erCfNCLY3bbQ7AByH1TlQuDc0Gc58IwY7+cVXaG/rVNmqriLf8v245BTdbJUMrxGL61rByXD0UjswgxVAIGoC3yL9CLibcUTCWmrnk1p8p1SIFlrSLJ8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvH4Hua7; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1735405521; c=relaxed/simple;
+	bh=w6PF5j2v+vcnLZtmoE3N42hWGM+MJg42uVqYHgL5Rng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jdhgCOrrEY3XhZc30Uhll86/Nkv1YPFrcKJr4ooGrZ3U4m26nJjAZiknB9KCvXK4dVm+8zr8w78gh3NUA64NFGCY+h9fh5wLSuccpLZgkj4bwwaDroQjaFURKfUaCZitE0P27item4l4n1QGvNHOnx12cfHjCawzhxGfeizfTck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aRo5ARGX; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvH4Hua7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aRo5ARGX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735404916; x=1766940916;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=GG9nYpqU6SGoLZ30fiLBqWrJFtx/feEWQI/dupiwCF0=;
-  b=QvH4Hua7MAst62kesN/+JFG0brgDMW3Pe8cj2zsjShZNNGKGm4w5y+N9
-   7rh+2ALTYpV0/CtB3t7nPayYszMo2KuD9y1R6M2tVc0mC8HDsytADSS6q
-   kj4MpBwxv+mhJ6WKKap6CNUDyLwY0vxrxdoOgGhaGRoJZTD9C0p7mNAlC
-   w/p9ALy27AflHNc5RKQT+Z5z6sn8CY7UxWAtOxgnL3dcKb77gJXCjFM01
-   PoFTJ80Q9LXbsCVbVMHbO63Y/U1Pkpv08SjxhFQZ1WqKaP1c7eAxRbr5c
-   I+ZDTaFrw/JjaS7lpuBYr3Om5LYqJanfqXT5TgYYo0XBKW1MafsPja69A
-   Q==;
-X-CSE-ConnectionGUID: 0DYB6TTDRnKVo3x042FRfw==
-X-CSE-MsgGUID: ARnL62LQT/SHIp5fTjYFiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="53295157"
+  t=1735405519; x=1766941519;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=w6PF5j2v+vcnLZtmoE3N42hWGM+MJg42uVqYHgL5Rng=;
+  b=aRo5ARGX1lrLCZCGErVUqNiLk217jVFWeZ80BZ6qtar1BAhRqwDLAIDJ
+   iCpF1I4gE8U97gP928W9JwbxGX34BrSX4yA8jpCfqyuCoe1aM2kqdx8ve
+   rVUGqWcQq2jBXn8O6Ourjwy8gjfB0FfgOO+V7a0nV8+8T8R/Rn9CmNd4y
+   inMhVGcBBVhlsx2dR4Fdi+10VuTqniS2XkwmMM6KLWSScomGjnzyCmMMR
+   n2TBBMsbz/oXLL0KAxuw00iKX7/3obZj/yw2zKFvVWaQdWjWxLxV7Czzl
+   FyFaWq3Nr8CFRHI5aVQxTU86Rwhe6Ae6LcaVH/X7rrdTPBCjznIOF5whV
+   A==;
+X-CSE-ConnectionGUID: 6yDt44RKRCO/KibYt8JHsg==
+X-CSE-MsgGUID: xO+hezRQTFmPrtWcwuB9iQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="35987666"
 X-IronPort-AV: E=Sophos;i="6.12,272,1728975600"; 
-   d="scan'208";a="53295157"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 08:55:15 -0800
-X-CSE-ConnectionGUID: yR1L2+X7Ri2E63tD/VxNkg==
-X-CSE-MsgGUID: fc3jNDViTJ6LTvRGoOrJ9w==
+   d="scan'208";a="35987666"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 09:05:18 -0800
+X-CSE-ConnectionGUID: KlNM/Mz+TTa/nWdffoUWbg==
+X-CSE-MsgGUID: mmXdBKWZQj6b0aTxxg4sOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,272,1728975600"; 
-   d="scan'208";a="100516349"
+   d="scan'208";a="105251017"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Dec 2024 08:55:14 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 28 Dec 2024 09:05:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRa5n-0004C8-3A
-	for oe-kbuild-all@lists.linux.dev;
-	Sat, 28 Dec 2024 16:55:11 +0000
-Date: Sun, 29 Dec 2024 00:54:27 +0800
+	id 1tRaFX-0004Cq-0H;
+	Sat, 28 Dec 2024 17:05:15 +0000
+Date: Sun, 29 Dec 2024 01:05:11 +0800
 From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/preempt-rt 3/3] WARNING: modpost: "__lshrdi3"
- [drivers/fsi/fsi-master-i2cr.ko] has no CRC!
-Message-ID: <202412290005.ps9QXZ09-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1336/1336]
+ drivers/net/ethernet/netswift/txgbe/txgbe_mtd.o: warning: objtool: missing
+ symbol for section .text
+Message-ID: <202412290049.f0BfxWby-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,225 +63,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Eddie,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
-head:   7f064b9d8937d880fb64d1df8d1e8b8115a1c128
-commit: 53e89e3e4490d6630a68e61a3cb478e7a7f2ce8b [3/3] fsi: Add IBM I2C Responder virtual FSI master
-config: sparc-randconfig-002-20241228 (https://download.01.org/0day-ci/archive/20241229/202412290005.ps9QXZ09-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412290005.ps9QXZ09-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   773f731853f1368508a0b112047bd9b5a4bb9a5e
+commit: e9f0b33ca1fa178f87823d17762a4d2f9296efd1 [1336/1336] net: txgbe: Add support for Netswift 10G NIC
+config: x86_64-buildonly-randconfig-003-20241219 (https://download.01.org/0day-ci/archive/20241229/202412290049.f0BfxWby-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412290049.f0BfxWby-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412290005.ps9QXZ09-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412290049.f0BfxWby-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_compress.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [lib/zstd/zstd_compress.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_decompress.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_common.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/xz/xz_dec.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [lib/xz/xz_dec.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [lib/asn1_encoder.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/broadcom/phy-bcm-kona-usb2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/samsung/phy-exynos5-usbdrd.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/gpio/gpio-latch.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pci/controller/dwc/pci-meson.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/switches/idt_gen3.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/core/fb_ddc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/matrox/matroxfb_DAC1064.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/riva/rivafb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/radeonfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/savage/savagefb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/neofb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/vt8623fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/sstfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/cirrusfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s1d13xxxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/gxt4500.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/ssd1307fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/8250/8250_dw.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/tty/serial/sccnxp.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/sc16is7xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/jsm/jsm.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/omap-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/stm32-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/ks-sa-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/cardreader/rtsx_pci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/dw-xdata-pcie.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/sbus/char/uctrl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns3-imx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ohci-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ehci-fsl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ssb-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc3/dwc3.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc2/dwc2.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/c67x00/c67x00.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/musb/musb_hdrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc_msm.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2272.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2280.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pxa27x_udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/goku_udc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/gadget/udc/m66592-udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/m66592-udc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pch_udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/mv_u3d_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/udc-xilinx.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/usb/gadget/function/u_audio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/misc/adxl34x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-r7301.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-x1205.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-bit.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-pcf.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/busses/i2c-gpio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-arb-gpio-challenge.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-mux-pca954x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i3c/master/dw-i3c-master.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/max15301.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/ucd9000.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/zl6100.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/watchdog/pcwd_usb.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/watchdog/mena21_wdt.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/watchdog/da9063_wdt.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/watchdog/gpio_wdt.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/accessibility/speakup/speakup.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/host/alcor.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/host/cb710-mmc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/host/toshsd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/core/pwrseq_emmc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-bd2802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-is31fl319x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/flash/leds-aat1290.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/flash/leds-ktd2692.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/flash/leds-rt8515.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/extcon/extcon-fsa9480.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/nau7802.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/adc/nau7802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ti-ads7924.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/gyro/itg3200.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/pressure/dlhl60d.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/proximity/srf04.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fsi/fsi-master-hub.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fsi/fsi-master-aspeed.ko] has no CRC!
->> WARNING: modpost: "__lshrdi3" [drivers/fsi/fsi-master-i2cr.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/spmi/hisi-spmi-controller.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/serio/i8042.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/serio/apbps2.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/w1/masters/ds2482.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/masters/sgi_w1.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/w1/wire.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/wire.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/w1/wire.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/bcma/bcma.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/hw/idt/ntb_hw_idt.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/hw/mscc/ntb_hw_switchtec.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/hw/mscc/ntb_hw_switchtec.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_pingpong.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_pingpong.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_tool.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_tool.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_perf.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_perf.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/ntb_transport.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/ntb_transport.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mux/mux-core.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/siox/siox-bus-gpio.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/core/snd-timer.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/core/snd-pcm-dmaengine.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4114.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4113.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4xxx-adda.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/drivers/opl3/snd-opl3-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/drivers/mpu401/snd-mpu401-uart.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/drivers/vx/snd-vx-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-atiixp.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-atiixp-modem.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-cmipci.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-cs4281.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-ens1370.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-ens1371.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-fm801.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-intel8x0m.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-maestro3.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-sonicvibes.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-via82xx-modem.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/ac97/snd-ac97-codec.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/au88x0/snd-au8810.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/au88x0/snd-au8820.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/au88x0/snd-au8830.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/ctxfi/snd-ctxfi.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/ca0106/snd-ca0106.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/cs46xx/snd-cs46xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/lola/snd-lola.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/lx6464es/snd-lx6464es.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-darla20.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-gina20.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-layla20.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-gina24.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-mona.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-mia.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-echo3g.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigo.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigoio.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigodj.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigoiox.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigodjx.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/pci/emu10k1/snd-emu10k1.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/emu10k1/snd-emu10k1.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/hda/snd-hda-codec.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/pci/hda/snd-hda-codec-generic.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [sound/pci/hda/snd-hda-codec-generic.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/pci/hda/snd-hda-intel.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/hda/snd-hda-intel.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/ice1712/snd-ice1724.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/ice1712/snd-ice17xx-ak4xxx.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/korg1212/snd-korg1212.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/nm256/snd-nm256.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/oxygen/snd-oxygen-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/pcxhr/snd-pcxhr.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/riptide/snd-riptide.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/rme9652/snd-rme9652.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/rme9652/snd-hdsp.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/trident/snd-trident.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/ymfpci/snd-ymfpci.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/vx222/snd-vx222.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/usb/snd-usb-audio.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/usb/snd-usb-audio.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [sound/usb/snd-usb-audio.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/usb/line6/snd-usb-line6.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/firewire/snd-firewire-lib.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/soc/snd-soc-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau1701.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-aw8738.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs35l41-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l73.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4265.ko] has no CRC!
-WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-cs4270.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4271.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/soc/codecs/snd-soc-cs53l30.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-dmic.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-max98357a.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8540.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8810.ko] has no CRC!
+   In file included from drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:19:
+   drivers/net/ethernet/netswift/txgbe/txgbe.h:871:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     871 |         u32 cur_diff = 0;
+         |             ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:178:12: warning: no previous prototype for function 'mtdCheckDeviceCapabilities' [-Wmissing-prototypes]
+     178 | MTD_STATUS mtdCheckDeviceCapabilities(
+         |            ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:178:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     178 | MTD_STATUS mtdCheckDeviceCapabilities(
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:290:12: warning: no previous prototype for function 'mtdIsPhyReadyAfterReset' [-Wmissing-prototypes]
+     290 | MTD_STATUS mtdIsPhyReadyAfterReset(
+         |            ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:290:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     290 | MTD_STATUS mtdIsPhyReadyAfterReset(
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:342:12: warning: no previous prototype for function 'mtdIsPhyReadyAfterHardwareReset' [-Wmissing-prototypes]
+     342 | MTD_STATUS mtdIsPhyReadyAfterHardwareReset(
+         |            ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:342:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     342 | MTD_STATUS mtdIsPhyReadyAfterHardwareReset(
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:829:12: warning: no previous prototype for function 'mtdAutonegIsCompleted' [-Wmissing-prototypes]
+     829 | MTD_STATUS mtdAutonegIsCompleted(
+         |            ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:829:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     829 | MTD_STATUS mtdAutonegIsCompleted(
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:1119:12: warning: no previous prototype for function 'mtdCunitSwReset' [-Wmissing-prototypes]
+    1119 | MTD_STATUS mtdCunitSwReset(
+         |            ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:1119:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1119 | MTD_STATUS mtdCunitSwReset(
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:1127:12: warning: no previous prototype for function 'mtdRerunSerdesAutoInitializationUseAutoMode' [-Wmissing-prototypes]
+    1127 | MTD_STATUS mtdRerunSerdesAutoInitializationUseAutoMode(
+         |            ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:1127:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1127 | MTD_STATUS mtdRerunSerdesAutoInitializationUseAutoMode(
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:1275:9: warning: no previous prototype for function 'mtdSemCreate' [-Wmissing-prototypes]
+    1275 | MTD_SEM mtdSemCreate(
+         |         ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_mtd.c:1275:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1275 | MTD_SEM mtdSemCreate(
+         | ^
+         | static 
+   8 warnings generated.
+>> drivers/net/ethernet/netswift/txgbe/txgbe_mtd.o: warning: objtool: missing symbol for section .text
+--
+   In file included from drivers/net/ethernet/netswift/txgbe/txgbe_bp.c:19:
+   In file included from drivers/net/ethernet/netswift/txgbe/txgbe_bp.h:22:
+   drivers/net/ethernet/netswift/txgbe/txgbe.h:871:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     871 |         u32 cur_diff = 0;
+         |             ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_bp.c:582:5: warning: no previous prototype for function 'ReadPhyLaneTxEq' [-Wmissing-prototypes]
+     582 | int ReadPhyLaneTxEq(unsigned short lane, struct txgbe_adapter *adapter, int post_t, int mode)
+         |     ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_bp.c:582:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     582 | int ReadPhyLaneTxEq(unsigned short lane, struct txgbe_adapter *adapter, int post_t, int mode)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_bp.c:645:5: warning: no previous prototype for function 'EnableCl72KrTr' [-Wmissing-prototypes]
+     645 | int EnableCl72KrTr(unsigned int enable, struct txgbe_adapter *adapter)
+         |     ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_bp.c:645:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     645 | int EnableCl72KrTr(unsigned int enable, struct txgbe_adapter *adapter)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/txgbe/txgbe_bp.c:699:5: warning: no previous prototype for function 'CheckCl72KrTrStatus' [-Wmissing-prototypes]
+     699 | int CheckCl72KrTrStatus(struct txgbe_adapter *adapter)
+         |     ^
+   drivers/net/ethernet/netswift/txgbe/txgbe_bp.c:699:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     699 | int CheckCl72KrTrStatus(struct txgbe_adapter *adapter)
+         | ^
+         | static 
+   4 warnings generated.
+>> drivers/net/ethernet/netswift/txgbe/txgbe_bp.o: warning: objtool: missing symbol for section .text
+--
+   In file included from drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:24:
+   In file included from drivers/net/ethernet/netswift/txgbe/txgbe_phy.h:28:
+   drivers/net/ethernet/netswift/txgbe/txgbe.h:871:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     871 |         u32 cur_diff = 0;
+         |             ^
+   1 warning generated.
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:95: warning: Function parameter or member 'hw' not described in 'txgbe_get_phy_type_from_id'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:95: warning: Excess function parameter 'phy_id' description in 'txgbe_get_phy_type_from_id'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:169: warning: Function parameter or member 'device_type' not described in 'txgbe_read_phy_reg_mdi'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:207: warning: Function parameter or member 'device_type' not described in 'txgbe_read_phy_reg'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:324: warning: Function parameter or member 'speed_set' not described in 'txgbe_setup_phy_link'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:324: warning: Function parameter or member 'autoneg_wait_to_complete' not described in 'txgbe_setup_phy_link'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:376: warning: Function parameter or member 'autoneg_wait_to_complete' not described in 'txgbe_setup_phy_link_speed'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:774: warning: Function parameter or member 'sff8472_data' not described in 'txgbe_read_i2c_sff8472'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:774: warning: Excess function parameter 'eeprom_data' description in 'txgbe_read_i2c_sff8472'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:810: warning: Function parameter or member 'dev_addr' not described in 'txgbe_read_i2c_byte_int'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:872: warning: Function parameter or member 'dev_addr' not described in 'txgbe_read_i2c_byte'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:891: warning: Function parameter or member 'dev_addr' not described in 'txgbe_write_i2c_byte_int'
+   drivers/net/ethernet/netswift/txgbe/txgbe_phy.c:935: warning: Function parameter or member 'dev_addr' not described in 'txgbe_write_i2c_byte'
+>> drivers/net/ethernet/netswift/txgbe/txgbe_phy.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
