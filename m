@@ -1,216 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB9A3C17;
-	Sun, 29 Dec 2024 09:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA683FB1B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 09:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735464629; cv=none; b=Pf34gNPeUukaiFL650yHxMhVICGjfK0xUXwg6Cs2RuNDZhce7dLWL+g+A4O127VtMs5GHrGAfkIli+LjA+WxHh0TTX2Vmmycs9s+X7k+FhRd4GjZsN5DPnE/Cznd5EP7kZjzqesdUXgWt3TChFJAwSv3l/kMWLYbdOh0s864Y9E=
+	t=1735465183; cv=none; b=dd9b3w9BcBS+JRnApHgr3l9ym1gtHSmVqAbhPK8+97vZ67iRBuGbwiSw//m6OzWXqhIjI45LiWvGg1ZyQkd2XWbbQThD7YH3RbqrPskVXrp4y/ZmlEAst4pypBFwDdyl/12Jxcw01yco97aq2lcATeqr/JZJQ1KWGeOIbBWuQ+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735464629; c=relaxed/simple;
-	bh=qwqq6QGuYhJc1afZdnkvxvnWwpgOpYbwvYfKR0NOy+Y=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o5fkRWBjQLrR57PTks0GOFWxorQDYU2+XOZeGO5Kq2FZ5JYHQT0YerpxCVQQaqzjx8+NY+PuYrlgATSG315Ajs4Azsg5wXd9Z4Ze9YeaXi0rz5wiN6mVBnJkRzO8t9rMw4AwpEiGNreVDKKIJw6GXjUTA9tc6pHvhp0fwlnfIlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+Sbt+ZV; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735465183; c=relaxed/simple;
+	bh=m8LxhO9WAInf/aI+G2NA0DTO7a5I5/LDBZQet65PiIU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VUlNW2/5Jfi8OCuR/rmiYXI64m+3NikavRlcuE0StJ8Ayj+eoLYOu2DtMC0Mb6Paw4Zy4QTZWbjUXWmrPl0N1zWc1W62sQB+zjyFleq+5q03NntEleHqC2yVOxsV396o3oBncmgP/4SIhcRrLJdl/8I5PgB1UQ+QKgwZiMoP+Ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hTP4jeWR; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+Sbt+ZV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735464627; x=1767000627;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=qwqq6QGuYhJc1afZdnkvxvnWwpgOpYbwvYfKR0NOy+Y=;
-  b=k+Sbt+ZVOPKETb7SIoxPovcct8Tzj6XbAGGy9U6RvBa1gpL2O9zfX+vu
-   9OU2+qnbUhHRsaq31qObt6xmoCK8Tlui4wXB6DWsmruaX9FBuDwVTcI1Y
-   gWwYWxYuziqtUeV8C7ov10Y1xqeRUes5tQoItLxup1pVPxrv+RfrfWRDv
-   r+yHCXkX38s4X2622478VYF98oEaKiS8yvc7ky0WCLRnR89grOofI6E6V
-   Q1kzJDs1FbLCPS+GIcRgGkU5J2bEF1/az5erxG+8zMUc9AyWJ+F1TJUFN
-   ZyG73y7nOpbVFK8WU0DD4Tlx1Ff1GQp2xI0ixZJ2C8yF6PoLNkbuVAJoV
-   Q==;
-X-CSE-ConnectionGUID: Y0WrshQTQhakO89j3J59NQ==
-X-CSE-MsgGUID: dxH7DYOlQYq6MViIK5fiIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="23379341"
-X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="23379341"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 01:30:26 -0800
-X-CSE-ConnectionGUID: iQ9ALlJ2TcyWCmqYQQyx6Q==
-X-CSE-MsgGUID: KWDlRhwkSbCxo+co3W9YUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="137880396"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Dec 2024 01:30:25 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tRpct-0004b2-16;
-	Sun, 29 Dec 2024 09:30:23 +0000
-Date: Sun, 29 Dec 2024 17:29:52 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: kernel/bpf/verifier.c:559:11: warning: bitwise operation between
- different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag')
-Message-ID: <202412291720.pND7BN8r-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hTP4jeWR"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53e389d8dc7so9063973e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 01:39:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735465179; x=1736069979; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0ByclJej6tiTkFqfwf3E6bBwACXyMUPlUOXu0en/5xs=;
+        b=hTP4jeWRBn61O7SnOXe/9fbI5gFw18nwvgcI3HKyhPqw4d/nHJ2ODgsUGhDH5yz2zq
+         074x33VXZQSMlvtI5u5lMrpqnPiVW15P7e7gB0J7FniwX6Do4M32wCjxUZNj7pGVBEAA
+         tB8WY1ztR77R5DorKOZmvyTWEZrzV0+shRX1C/FlZacnYzBkXZf4hwZMXARZhR5+2XsS
+         eQSVegaXvYxZBYQwuj0vjPLY03aSzCNqIf+239nD840ujLj2422U04TDIxnLgzya4I8a
+         8fVBpQSOYabY9SL9QcvwNQbOjRQ8GCwehFtpjSMt+C1aI55cdZXOicPQphleHNMtltro
+         KIhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735465179; x=1736069979;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0ByclJej6tiTkFqfwf3E6bBwACXyMUPlUOXu0en/5xs=;
+        b=hbGkID7YuSRMqz5QRaJRvZQRX064qkmC94P8ags4G21FLShnxxbsa8PJIvm2edl0Fb
+         EXXXO/CH5ULRlvChmpk3Oykpsa3zX17QcF0VWwbRliqLxfVvlEuw9OLHyPMqMEhNqXFJ
+         0Njc3y1O6c3HGjJ8ByDuQWAki72KemPgqhLkLRE7HsKy+ewnQw6cymR/NW4Z/I9HkHDp
+         Esq0JPqGBhLBr6r/sPGd9XBzqxglVSLfqiIk+J6k9GO9TzZG8nsf9kT41K1Dnzv/3TJp
+         NFVZ06mzAslshLkLzvBOTnBWi4UaqtcBcMoMheRvB8X1GwAkurGfl+mTLXH0EQkFeueo
+         7g8Q==
+X-Gm-Message-State: AOJu0YykBHfiRNF2Zog5uU/dPyOgxioflzRZcZFZDaEdPf4XpBTB/CCU
+	adSPlmtOR49/NuG1lgIW3dICeF2A73PAN2iZnY6ozYbN0yma179uEU6pdGASMuIg8At5zwnVvR0
+	m/45FhbGtyDmsxdiIUv6LRG36wSw=
+X-Gm-Gg: ASbGncvUmD9+Fp11w/2J0HhBrWCpIN9jE2hQRkIQS+67Ew24F1U2fS80D4nzAHdMiSZ
+	1tn8o4gy8zsWyUZ8yHxRP3YWXOEU9YKTHVejZGg==
+X-Google-Smtp-Source: AGHT+IFsjhnymwQbGvN+OYy63Em+Rfsjv2d1+Sgi6DWnNjon3HrRVstGD8dUioYipOlEy7mKzZDzuUw1qFSbZ3zcuSY=
+X-Received: by 2002:a05:6512:2288:b0:542:2999:2f1a with SMTP id
+ 2adb3069b0e04-54229992f31mr10063927e87.6.1735465179246; Sun, 29 Dec 2024
+ 01:39:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202412290924.UTP7GH2Z-lkp@intel.com>
+In-Reply-To: <202412290924.UTP7GH2Z-lkp@intel.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Sun, 29 Dec 2024 17:39:22 +0800
+Message-ID: <CAMgjq7DvR2uXi+nMenAFSttrnbeZotM_8V+AgfSzWbJjo6g=qw@mail.gmail.com>
+Subject: Re: mm/list_lru.c:514:3-8: WARNING: NULL check before some freeing
+ functions is not needed.
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CC: linux-kernel@vger.kernel.org
-TO: Hao Luo <haoluo@google.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+On Sun, Dec 29, 2024 at 10:00=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   059dd502b263d8a4e2a84809cf1068d6a3905e6f
+> commit: 28e98022b31efdb8f1ba310d938cd9b97ededfe4 mm/list_lru: simplify re=
+parenting and initial allocation
+> date:   7 weeks ago
+> config: i386-randconfig-054-20241229 (https://download.01.org/0day-ci/arc=
+hive/20241229/202412290924.UTP7GH2Z-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412290924.UTP7GH2Z-lkp=
+@intel.com/
+>
+> cocci warnings: (new ones prefixed by >>)
+> >> mm/list_lru.c:514:3-8: WARNING: NULL check before some freeing functio=
+ns is not needed.
+>
+> vim +514 mm/list_lru.c
+>
+>    470
+>    471  int memcg_list_lru_alloc(struct mem_cgroup *memcg, struct list_lr=
+u *lru,
+>    472                           gfp_t gfp)
+>    473  {
+>    474          unsigned long flags;
+>    475          struct list_lru_memcg *mlru;
+>    476          struct mem_cgroup *pos, *parent;
+>    477          XA_STATE(xas, &lru->xa, 0);
+>    478
+>    479          if (!list_lru_memcg_aware(lru) || memcg_list_lru_allocate=
+d(memcg, lru))
+>    480                  return 0;
+>    481
+>    482          gfp &=3D GFP_RECLAIM_MASK;
+>    483          /*
+>    484           * Because the list_lru can be reparented to the parent c=
+group's
+>    485           * list_lru, we should make sure that this cgroup and all=
+ its
+>    486           * ancestors have allocated list_lru_memcg.
+>    487           */
+>    488          do {
+>    489                  /*
+>    490                   * Keep finding the farest parent that wasn't pop=
+ulated
+>    491                   * until found memcg itself.
+>    492                   */
+>    493                  pos =3D memcg;
+>    494                  parent =3D parent_mem_cgroup(pos);
+>    495                  while (!memcg_list_lru_allocated(parent, lru)) {
+>    496                          pos =3D parent;
+>    497                          parent =3D parent_mem_cgroup(pos);
+>    498                  }
+>    499
+>    500                  mlru =3D memcg_init_list_lru_one(gfp);
+>    501                  if (!mlru)
+>    502                          return -ENOMEM;
+>    503                  xas_set(&xas, pos->kmemcg_id);
+>    504                  do {
+>    505                          xas_lock_irqsave(&xas, flags);
+>    506                          if (!xas_load(&xas) && !css_is_dying(&pos=
+->css)) {
+>    507                                  xas_store(&xas, mlru);
+>    508                                  if (!xas_error(&xas))
+>    509                                          mlru =3D NULL;
+>    510                          }
+>    511                          xas_unlock_irqrestore(&xas, flags);
+>    512                  } while (xas_nomem(&xas, gfp));
+>    513                  if (mlru)
+>  > 514                          kfree(mlru);
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   059dd502b263d8a4e2a84809cf1068d6a3905e6f
-commit: c25b2ae136039ffa820c26138ed4a5e5f3ab3841 bpf: Replace PTR_TO_XXX_OR_NULL with PTR_TO_XXX | PTR_MAYBE_NULL
-date:   3 years ago
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241229/202412291720.pND7BN8r-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412291720.pND7BN8r-lkp@intel.com/reproduce)
+Hmm, does it need a fix? mlru here is most likely always NULL, so in
+most cases this should save a function call, a really micro
+optimization.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412291720.pND7BN8r-lkp@intel.com/
+Perhaps a "if (unlikely(mlru))" is better, and silence the bot?
 
-All warnings (new ones prefixed by >>):
-
-   In file included from kernel/bpf/verifier.c:7:
-   In file included from include/linux/bpf-cgroup.h:5:
-   In file included from include/linux/bpf.h:20:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1721:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/bpf/verifier.c:559:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     559 |         if (type & PTR_MAYBE_NULL) {
-         |             ~~~~ ^ ~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:6602:43: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6602 |                 regs[BPF_REG_0].type = PTR_TO_MAP_VALUE | ret_flag;
-         |                                        ~~~~~~~~~~~~~~~~ ^ ~~~~~~~~
-   kernel/bpf/verifier.c:6609:40: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6609 |                 regs[BPF_REG_0].type = PTR_TO_SOCKET | ret_flag;
-         |                                        ~~~~~~~~~~~~~ ^ ~~~~~~~~
-   kernel/bpf/verifier.c:6612:45: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6612 |                 regs[BPF_REG_0].type = PTR_TO_SOCK_COMMON | ret_flag;
-         |                                        ~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~
-   kernel/bpf/verifier.c:6615:42: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6615 |                 regs[BPF_REG_0].type = PTR_TO_TCP_SOCK | ret_flag;
-         |                                        ~~~~~~~~~~~~~~~ ^ ~~~~~~~~
-   kernel/bpf/verifier.c:6618:37: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6618 |                 regs[BPF_REG_0].type = PTR_TO_MEM | ret_flag;
-         |                                        ~~~~~~~~~~ ^ ~~~~~~~~
-   kernel/bpf/verifier.c:6638:38: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6638 |                         regs[BPF_REG_0].type = PTR_TO_MEM | ret_flag;
-         |                                                ~~~~~~~~~~ ^ ~~~~~~~~
-   kernel/bpf/verifier.c:6641:41: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6641 |                         regs[BPF_REG_0].type = PTR_TO_BTF_ID | ret_flag;
-         |                                                ~~~~~~~~~~~~~ ^ ~~~~~~~~
-   kernel/bpf/verifier.c:6649:40: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6649 |                 regs[BPF_REG_0].type = PTR_TO_BTF_ID | ret_flag;
-         |                                        ~~~~~~~~~~~~~ ^ ~~~~~~~~
->> kernel/bpf/verifier.c:7272:20: warning: bitwise operation between different enumeration types ('const enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    7272 |         if (ptr_reg->type & PTR_MAYBE_NULL) {
-         |             ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   11 warnings generated.
---
-   In file included from kernel/bpf/map_iter.c:3:
-   In file included from include/linux/bpf.h:20:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1721:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/bpf/map_iter.c:177:23: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     177 |                   PTR_TO_RDONLY_BUF | PTR_MAYBE_NULL },
-         |                   ~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   kernel/bpf/map_iter.c:179:21: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     179 |                   PTR_TO_RDWR_BUF | PTR_MAYBE_NULL },
-         |                   ~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   3 warnings generated.
---
-   In file included from net/core/sock_map.c:4:
-   In file included from include/linux/bpf.h:20:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1721:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/core/sock_map.c:1567:23: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    1567 |                   PTR_TO_RDONLY_BUF | PTR_MAYBE_NULL },
-         |                   ~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from net/core/bpf_sk_storage.c:8:
-   In file included from include/linux/bpf.h:20:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:1721:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/core/bpf_sk_storage.c:932:21: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     932 |                   PTR_TO_RDWR_BUF | PTR_MAYBE_NULL },
-         |                   ~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +559 kernel/bpf/verifier.c
-
-   524	
-   525	/* string representation of 'enum bpf_reg_type'
-   526	 *
-   527	 * Note that reg_type_str() can not appear more than once in a single verbose()
-   528	 * statement.
-   529	 */
-   530	static const char *reg_type_str(struct bpf_verifier_env *env,
-   531					enum bpf_reg_type type)
-   532	{
-   533		char postfix[16] = {0};
-   534		static const char * const str[] = {
-   535			[NOT_INIT]		= "?",
-   536			[SCALAR_VALUE]		= "inv",
-   537			[PTR_TO_CTX]		= "ctx",
-   538			[CONST_PTR_TO_MAP]	= "map_ptr",
-   539			[PTR_TO_MAP_VALUE]	= "map_value",
-   540			[PTR_TO_STACK]		= "fp",
-   541			[PTR_TO_PACKET]		= "pkt",
-   542			[PTR_TO_PACKET_META]	= "pkt_meta",
-   543			[PTR_TO_PACKET_END]	= "pkt_end",
-   544			[PTR_TO_FLOW_KEYS]	= "flow_keys",
-   545			[PTR_TO_SOCKET]		= "sock",
-   546			[PTR_TO_SOCK_COMMON]	= "sock_common",
-   547			[PTR_TO_TCP_SOCK]	= "tcp_sock",
-   548			[PTR_TO_TP_BUFFER]	= "tp_buffer",
-   549			[PTR_TO_XDP_SOCK]	= "xdp_sock",
-   550			[PTR_TO_BTF_ID]		= "ptr_",
-   551			[PTR_TO_PERCPU_BTF_ID]	= "percpu_ptr_",
-   552			[PTR_TO_MEM]		= "mem",
-   553			[PTR_TO_RDONLY_BUF]	= "rdonly_buf",
-   554			[PTR_TO_RDWR_BUF]	= "rdwr_buf",
-   555			[PTR_TO_FUNC]		= "func",
-   556			[PTR_TO_MAP_KEY]	= "map_key",
-   557		};
-   558	
- > 559		if (type & PTR_MAYBE_NULL) {
-   560			if (base_type(type) == PTR_TO_BTF_ID ||
-   561			    base_type(type) == PTR_TO_PERCPU_BTF_ID)
-   562				strncpy(postfix, "or_null_", 16);
-   563			else
-   564				strncpy(postfix, "_or_null", 16);
-   565		}
-   566	
-   567		snprintf(env->type_str_buf, TYPE_STR_BUF_LEN, "%s%s",
-   568			 str[base_type(type)], postfix);
-   569		return env->type_str_buf;
-   570	}
-   571	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    515          } while (pos !=3D memcg && !css_is_dying(&pos->css));
+>    516
+>    517          return xas_error(&xas);
+>    518  }
+>    519  #else
+>    520  static inline void memcg_init_list_lru(struct list_lru *lru, bool=
+ memcg_aware)
+>    521  {
+>    522  }
+>    523
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
