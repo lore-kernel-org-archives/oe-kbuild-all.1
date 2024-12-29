@@ -1,59 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63079EC4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 01:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED11800;
+	Sun, 29 Dec 2024 01:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735435773; cv=none; b=QvzzN+J1Hs6RrM7E/zIujkgpEOqNryVsOEbCp4/pUT5gOniOJTydKbIDoaQwJSCd1zksMjCm+crnLsPWv3PLZZTckPNQwcDXnhlJyaMUCeN6rG/VOr6ATh3tyhQ/Sv6qIgTQzJuMviqPflP5IUzcxCO4ac5urIL+NEgBA8J+eFE=
+	t=1735436378; cv=none; b=XSgpIWI82fRZsVGv98TC6KunSV/vjI2L8BPf3TnZHCvhPpbPEyCa43sIjnnhB06h1fcinrrpPQpNbcu1uC/stnKQ1GItJFYtvNGeFfmTN2o549AWXvMNjh5mK7RN177A0KH3DblrTK4dPdWXbne3PbivH+T62eG4FSYb6bnae8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735435773; c=relaxed/simple;
-	bh=kQgSuz8tHLmbpPDJT5sbZRxNicfNTjYyNP7LALbXdmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C9Y03Th/hOZK1AOcTDWOa2J+PChZxf15nkZEDWR0SCn05QuJXFNhbrriQs1caWGqZXpySM6SXZxu4UvUDWuj8akR2TIWZ7ksi/Dxp80lJZ91tjcoSv9nLRhGY/7hrijdn9QWWTANDb1aE3apYDeCrrNZrCnqYbfukVd99nZ0IHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqEvMpBw; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1735436378; c=relaxed/simple;
+	bh=rFQfnH8g9qnvAm/orX7H7+JRj5OpvCxqGxR6Qhq2ETY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hgjQSGYuF7GQCCCt1F1scHh23Wo05V2ureryuxYdJ9Yrhipl3jfeGbh8O2JoPxOtPHyy+qbcwJWPpq8QNiKEbUBOYE2Mm4xKtorn/UUUI86BPnWNnkplA2wM/GNs6yGT5kX1QGWzjoBRk7ysfM77Yw2sjobiPCohXN7eAv8IZOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KAA5cOb+; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqEvMpBw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KAA5cOb+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735435771; x=1766971771;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kQgSuz8tHLmbpPDJT5sbZRxNicfNTjYyNP7LALbXdmE=;
-  b=PqEvMpBwB/yNTpQHIS6TP/VxGc4RffL/eAEe5IRuDL006gg9ecsuBt+U
-   z8WCBSt88RN1ffjdb2TQHwJjEe/B4k3CO8T4OUW/VUpZnC+bJ0FGubPc1
-   DcpIMFcpcXPlKUh69dE0mXT6XZH3e3qhz+joQDega9TfY4e0t2oRlHPKs
-   leoqH8v8KZqRjPf4sOgcPfuvqxTl39ybRJ3nqN/4KRaZ5VXm2ef/wcPjb
-   nc6agmtyygIpAcgPu4O302m0p2uVFKJ5VOgl3OhTrrONhAySB1ZD38fsj
-   wg0a7ODgOVyPCG3fYLwgaf2aeL9aj7RDORqKMiQ07R4uOGRRELOJ+aV4g
+  t=1735436377; x=1766972377;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rFQfnH8g9qnvAm/orX7H7+JRj5OpvCxqGxR6Qhq2ETY=;
+  b=KAA5cOb+HHhu9i8VTwHL7lZbeLSQGkEB/pPYAXQPs9pV4oJoDSYERwwR
+   j4Z2wErfE/i704yxY9jzV7U0wrnvsZH5afvDDRm1yCKzzZNUIOujZUWOl
+   OUuwyiJ01M3fm2IDn8+Hxl0WNm+UjT+nAoSSsO0iIsr/1yLcughG3herM
+   2YSN9c8VQAFvm2TL74dGIEG1VGiYc6i2FVbIO8rcLP+VJ/IdQnCKrEZPC
+   0os94WBAoFriIEafQwlesrC9IoV9/kq9/wLYMER8KzFwOjl+XLV39hXUu
+   +eaomhe7mds+XPTyXwoUj7mP8ukLBfSQt9jUJ++rDzN7mfmkEuz+Eid1w
    Q==;
-X-CSE-ConnectionGUID: 2XW2yp29Tkij877Gsx7THQ==
-X-CSE-MsgGUID: 4NQdEWc3Qaqk/n37ta0nZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="35890755"
+X-CSE-ConnectionGUID: Lv97bzJ5Rz6qJIjXlU0G6A==
+X-CSE-MsgGUID: tUjow86QQFun5DVDsFgfgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="35802055"
 X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="35890755"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 17:29:31 -0800
-X-CSE-ConnectionGUID: aKcrSJpxQ5+znjvbiur1BA==
-X-CSE-MsgGUID: itnYIhYSSyCdHsWqONvEtA==
+   d="scan'208";a="35802055"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 17:39:37 -0800
+X-CSE-ConnectionGUID: Oy4svG45T4qIdA2Vlwx06g==
+X-CSE-MsgGUID: xNOqO8z6T+WhcD2uqXjGIg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="100216849"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="100302592"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Dec 2024 17:29:30 -0800
+  by orviesa010.jf.intel.com with ESMTP; 28 Dec 2024 17:39:31 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRi7T-0004Q0-0s;
-	Sun, 29 Dec 2024 01:29:27 +0000
-Date: Sun, 29 Dec 2024 09:28:36 +0800
+	id 1tRiHA-0004QO-0J;
+	Sun, 29 Dec 2024 01:39:28 +0000
+Date: Sun, 29 Dec 2024 09:39:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1356/1356] kernel/trace/trace_events.o:
- warning: objtool: trace_add_event_call_nolock()+0x20d: unreachable
- instruction
-Message-ID: <202412290943.ju9ShqOs-lkp@intel.com>
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-ide@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-spi@vger.kernel.org
+Subject: Re: [PATCH 2/6] mmc: sdhci-st: Switch from CONFIG_PM_SLEEP guards to
+ pm_sleep_ptr()
+Message-ID: <202412290939.43oNt9t6-lkp@intel.com>
+References: <20241229-update_pm_macro-v1-2-c7d4c4856336@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +86,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241229-update_pm_macro-v1-2-c7d4c4856336@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   773f731853f1368508a0b112047bd9b5a4bb9a5e
-commit: 474685382aab1e2263cb1a6161623cd8cbf758ed [1356/1356] tracing: Lock event_mutex before synth_event_mutex
-config: x86_64-buildonly-randconfig-002-20241228 (https://download.01.org/0day-ci/archive/20241229/202412290943.ju9ShqOs-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412290943.ju9ShqOs-lkp@intel.com/reproduce)
+Hi Raphael,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/usb-dwc3-st-Switch-from-CONFIG_PM_SLEEP-guards-to-pm_sleep_ptr/20241229-073700
+base:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+patch link:    https://lore.kernel.org/r/20241229-update_pm_macro-v1-2-c7d4c4856336%40gmail.com
+patch subject: [PATCH 2/6] mmc: sdhci-st: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
+config: hexagon-randconfig-001-20241229 (https://download.01.org/0day-ci/archive/20241229/202412290939.43oNt9t6-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 319b89197348b7cad1215e235bdc7b5ec8f9b72c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412290939.43oNt9t6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412290943.ju9ShqOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412290939.43oNt9t6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/trace_events.o: warning: objtool: trace_add_event_call_nolock()+0x20d: unreachable instruction
+>> drivers/mmc/host/sdhci-st.c:460:8: error: call to undeclared function 'sdhci_suspend_host'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     460 |         ret = sdhci_suspend_host(host);
+         |               ^
+>> drivers/mmc/host/sdhci-st.c:494:9: error: call to undeclared function 'sdhci_resume_host'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     494 |         return sdhci_resume_host(host);
+         |                ^
+   drivers/mmc/host/sdhci-st.c:494:9: note: did you mean 'sdhci_remove_host'?
+   drivers/mmc/host/sdhci.h:827:6: note: 'sdhci_remove_host' declared here
+     827 | void sdhci_remove_host(struct sdhci_host *host, int dead);
+         |      ^
+   2 errors generated.
+
+
+vim +/sdhci_suspend_host +460 drivers/mmc/host/sdhci-st.c
+
+f52d9c4f459bda Peter Griffin 2014-07-09  449  
+f52d9c4f459bda Peter Griffin 2014-07-09  450  static int sdhci_st_suspend(struct device *dev)
+f52d9c4f459bda Peter Griffin 2014-07-09  451  {
+f52d9c4f459bda Peter Griffin 2014-07-09  452  	struct sdhci_host *host = dev_get_drvdata(dev);
+f52d9c4f459bda Peter Griffin 2014-07-09  453  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+1531675269c833 Jisheng Zhang 2016-02-16  454  	struct st_mmc_platform_data *pdata = sdhci_pltfm_priv(pltfm_host);
+d38dcad4e7b48f Adrian Hunter 2017-03-20  455  	int ret;
+d38dcad4e7b48f Adrian Hunter 2017-03-20  456  
+d38dcad4e7b48f Adrian Hunter 2017-03-20  457  	if (host->tuning_mode != SDHCI_TUNING_MODE_3)
+d38dcad4e7b48f Adrian Hunter 2017-03-20  458  		mmc_retune_needed(host->mmc);
+f52d9c4f459bda Peter Griffin 2014-07-09  459  
+d38dcad4e7b48f Adrian Hunter 2017-03-20 @460  	ret = sdhci_suspend_host(host);
+f52d9c4f459bda Peter Griffin 2014-07-09  461  	if (ret)
+f52d9c4f459bda Peter Griffin 2014-07-09  462  		goto out;
+f52d9c4f459bda Peter Griffin 2014-07-09  463  
+406c24310a7bd7 Peter Griffin 2015-04-10  464  	reset_control_assert(pdata->rstc);
+406c24310a7bd7 Peter Griffin 2015-04-10  465  
+3ae50f4512ce83 Lee Jones     2016-09-08  466  	clk_disable_unprepare(pdata->icnclk);
+f52d9c4f459bda Peter Griffin 2014-07-09  467  	clk_disable_unprepare(pltfm_host->clk);
+f52d9c4f459bda Peter Griffin 2014-07-09  468  out:
+f52d9c4f459bda Peter Griffin 2014-07-09  469  	return ret;
+f52d9c4f459bda Peter Griffin 2014-07-09  470  }
+f52d9c4f459bda Peter Griffin 2014-07-09  471  
+f52d9c4f459bda Peter Griffin 2014-07-09  472  static int sdhci_st_resume(struct device *dev)
+f52d9c4f459bda Peter Griffin 2014-07-09  473  {
+f52d9c4f459bda Peter Griffin 2014-07-09  474  	struct sdhci_host *host = dev_get_drvdata(dev);
+f52d9c4f459bda Peter Griffin 2014-07-09  475  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+1531675269c833 Jisheng Zhang 2016-02-16  476  	struct st_mmc_platform_data *pdata = sdhci_pltfm_priv(pltfm_host);
+2053812f6e1af0 Peter Griffin 2015-04-10  477  	struct device_node *np = dev->of_node;
+7f55eb101d4a75 Arvind Yadav  2017-06-20  478  	int ret;
+f52d9c4f459bda Peter Griffin 2014-07-09  479  
+7f55eb101d4a75 Arvind Yadav  2017-06-20  480  	ret = clk_prepare_enable(pltfm_host->clk);
+7f55eb101d4a75 Arvind Yadav  2017-06-20  481  	if (ret)
+7f55eb101d4a75 Arvind Yadav  2017-06-20  482  		return ret;
+7f55eb101d4a75 Arvind Yadav  2017-06-20  483  
+7f55eb101d4a75 Arvind Yadav  2017-06-20  484  	ret = clk_prepare_enable(pdata->icnclk);
+7f55eb101d4a75 Arvind Yadav  2017-06-20  485  	if (ret) {
+7f55eb101d4a75 Arvind Yadav  2017-06-20  486  		clk_disable_unprepare(pltfm_host->clk);
+7f55eb101d4a75 Arvind Yadav  2017-06-20  487  		return ret;
+7f55eb101d4a75 Arvind Yadav  2017-06-20  488  	}
+f52d9c4f459bda Peter Griffin 2014-07-09  489  
+406c24310a7bd7 Peter Griffin 2015-04-10  490  	reset_control_deassert(pdata->rstc);
+406c24310a7bd7 Peter Griffin 2015-04-10  491  
+2053812f6e1af0 Peter Griffin 2015-04-10  492  	st_mmcss_cconfig(np, host);
+2053812f6e1af0 Peter Griffin 2015-04-10  493  
+f52d9c4f459bda Peter Griffin 2014-07-09 @494  	return sdhci_resume_host(host);
+f52d9c4f459bda Peter Griffin 2014-07-09  495  }
+f52d9c4f459bda Peter Griffin 2014-07-09  496  
 
 -- 
 0-DAY CI Kernel Test Service
