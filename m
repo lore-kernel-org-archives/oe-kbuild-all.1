@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC908A50
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 00:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676A7259491
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 00:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735431733; cv=none; b=UKlyj+rrmcqG2MmTZ4P19WA2k5auukUgtFe0VWB0O/V5jReJtQjwzSMJ7G32QQrBO30U+k6s7SRYp5d1Poenz2YTpOFwXIoepGBA6gvycAWQQ+SQnoFrbQ4wYeLdXIcPi/U4Ih00GpCVDwZ7KKSjVl98dJ9+vSJwEh1NDnrt8g8=
+	t=1735431794; cv=none; b=daQfXBUMH51ViRFdHzdRhKFsvAxAZFi1xJh60E4epHK3vtx5TvXr7ZAXfUwema8TwC0PbFG8GPUoAqN70DWHaj9AFcvhxltmP/xrgVyGrQ6JMLOKULkD/bdzBrWEVSl25IhqCkuFFY+Hagto7Ga3qKLpv2ZJFqF+ScHUwMYeOM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735431733; c=relaxed/simple;
-	bh=xxI13GOtaAnqvobVmLd9etcNnetMPEwxd/DofUeT2hI=;
+	s=arc-20240116; t=1735431794; c=relaxed/simple;
+	bh=w5CuLyvEswAH4ma9NLpBQGSBvfEsUt5nXyaKkpxkAME=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o1KHC17PFQqnDNDjocO44Sy+sPF5I4IM1YuH6XPHZGEgXFPv8LjuWqMMZTk5/0tzVHjnlYTbmnvGkVi1IWvh2JyK++ubmniwjkz6623Qf/rntdnuNPcpvbX19orMQm3n0kqFW4LkRRYiyyh61RLb3mb3Oxg2TBx8acz1/8rT+JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZ2Hxs3Q; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=YkUJjemVeUWrMMLtVzFO+9N944OBCbfG1498jJG/znv05QYFxZddunvZY+1r25IbfuqIUxDZYaOHvMFfl5kASf4AmNrFFYQI5olRX9Mq0tOX5SbXNCNZtC8Mjtuzy5vBYj/QcOQSgXcmt0ADt/BfjwTTKzC89n50N/dr9CbKjUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bqKt2/X/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZ2Hxs3Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bqKt2/X/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735431732; x=1766967732;
+  t=1735431793; x=1766967793;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xxI13GOtaAnqvobVmLd9etcNnetMPEwxd/DofUeT2hI=;
-  b=fZ2Hxs3Q0323IBfJG15duEHmLF6izm8AqvZSGQEfvb0AuEpfO1iYEgpy
-   TAsT0z+13Eahvq25Gj/lKmu1pBLiinEVys/05cF+fFy1rj2gOFwEDXCJT
-   cEEh9Wdjfxhb4wN6wNTteWgYITgpHiwxDIv1t/51OrVP39NS1OXUcjwYo
-   XjgmBB3Lkyjli0I0ILwChSeKPOMHyr48+sR+OP+1xYT0uW6YEHkKXHY8M
-   CEVc8415Xiv4hRLgqVnH8DzgLAaKjyJ3vY/4oGkWrsKKDt2GKqdmORgaI
-   g0hAozG2aEY+VxlOy5ns6daYpP8YtPV/ztS6pMDRs2CGrwzeCoYGxBdR1
-   g==;
-X-CSE-ConnectionGUID: kJ3stmLAQR6euNVTVDX6Gw==
-X-CSE-MsgGUID: 7JCGI4T9T1iZJ2BzhEfgTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="35673949"
+  bh=w5CuLyvEswAH4ma9NLpBQGSBvfEsUt5nXyaKkpxkAME=;
+  b=bqKt2/X/TXMRBw/RvQuz68gu5hvbOtrV2Y8VZNIQ8saNjVAMVVm2w55d
+   N3ONQnXF7cyO5p///awZVNjGrzC2INRVsaBIa+bcBeWD1Ut0zG4wRxzrg
+   mnZrakuDb6uy2rvBa4eVf+UaVLUzIKAczRvyCCePQdBjECBHkQAwmLt1v
+   ddyHNlPyNlEjk2RnfVQcogaiWJomNaTLp3RDTZtREmadHW89iI7MFRRFb
+   S+aEpsP/zsgl/8eJxo2r5hJgZmpaPODq8KfbhxtpObgMYxwgz5kQqRRqN
+   PAKEabFt+IfiU4nYHYqkg8ZGefONuqgHHRbbRW9rHmjal55bnh9R3JZtl
+   w==;
+X-CSE-ConnectionGUID: 8f47TyuaRzyOtWz1hsQy5w==
+X-CSE-MsgGUID: wOBTGZ+pTZagEnCvrU8O1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="23366726"
 X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="35673949"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 16:22:11 -0800
-X-CSE-ConnectionGUID: byHBlM5xSyiMB5IbaZd4Ow==
-X-CSE-MsgGUID: 7ixuXZ3eRkC5JalkGzcR6Q==
+   d="scan'208";a="23366726"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 16:23:12 -0800
+X-CSE-ConnectionGUID: YEsA7+9tRTS/gUuLgFUBCg==
+X-CSE-MsgGUID: g541s3eEScSEVIYsZdyP+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="100831795"
+   d="scan'208";a="100294838"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Dec 2024 16:22:10 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 28 Dec 2024 16:23:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRh4K-0004Oi-1F;
-	Sun, 29 Dec 2024 00:22:08 +0000
-Date: Sun, 29 Dec 2024 08:21:53 +0800
+	id 1tRh5I-0004Oo-1v;
+	Sun, 29 Dec 2024 00:23:08 +0000
+Date: Sun, 29 Dec 2024 08:22:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhihao Cheng <chengzhihao1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2589/2589] fs/iomap/direct-io.o: warning:
- objtool: iomap_dio_actor()+0xde: unreachable instruction
-Message-ID: <202412290825.A4xfCPjV-lkp@intel.com>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
+Subject: sound/core/compress_offload.c:1071:5-11: inconsistent IS_ERR and
+ PTR_ERR on line 1072.
+Message-ID: <202412290846.cncnpGaw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,21 +64,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   4848f81edc2027721953fee5ded81f909a833e26
-commit: adad6411399ac34c26ff8a07233e0ecd8cbb86f7 [2589/2589] iomap: pass a flags argument to iomap_dio_rw
-config: x86_64-buildonly-randconfig-002-20241218 (https://download.01.org/0day-ci/archive/20241229/202412290825.A4xfCPjV-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412290825.A4xfCPjV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   059dd502b263d8a4e2a84809cf1068d6a3905e6f
+commit: 04177158cf98a79744937893b100020d77e6f9ac ALSA: compress_offload: introduce accel operation mode
+date:   9 weeks ago
+config: i386-randconfig-054-20241229 (https://download.01.org/0day-ci/archive/20241229/202412290846.cncnpGaw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412290825.A4xfCPjV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412290846.cncnpGaw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> sound/core/compress_offload.c:1071:5-11: inconsistent IS_ERR and PTR_ERR on line 1072.
+   sound/core/compress_offload.c:1132:5-11: inconsistent IS_ERR and PTR_ERR on line 1133.
+   sound/core/compress_offload.c:1223:5-11: inconsistent IS_ERR and PTR_ERR on line 1224.
 
->> fs/iomap/direct-io.o: warning: objtool: iomap_dio_actor()+0xde: unreachable instruction
+vim +1071 sound/core/compress_offload.c
+
+  1062	
+  1063	static int snd_compr_task_create(struct snd_compr_stream *stream, unsigned long arg)
+  1064	{
+  1065		struct snd_compr_task *task __free(kfree) = NULL;
+  1066		int retval;
+  1067	
+  1068		if (stream->runtime->state != SNDRV_PCM_STATE_SETUP)
+  1069			return -EPERM;
+  1070		task = memdup_user((void __user *)arg, sizeof(*task));
+> 1071		if (IS_ERR(task))
+> 1072			return PTR_ERR(no_free_ptr(task));
+  1073		retval = snd_compr_task_new(stream, task);
+  1074		if (retval >= 0)
+  1075			if (copy_to_user((void __user *)arg, task, sizeof(*task)))
+  1076				retval = -EFAULT;
+  1077		return retval;
+  1078	}
+  1079	
 
 -- 
 0-DAY CI Kernel Test Service
