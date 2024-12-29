@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32888194094
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 21:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DAE25948E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 21:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735506968; cv=none; b=MJn/cAa4DsV6RavIE6eWVfnKMQZ0WYDfuO81MdqI+vNtyijgcKQLJ8XSmlNTNqSQcNmLJpNTQKqCJhbMody2kylqGUXn+hz5psSmFo9JtOg61BN9fFZkqsdN4uXh2iUHE9z8OR1ZTrmLowao+Y/IhWfklZn79X7VdXJGcYkAGn8=
+	t=1735508232; cv=none; b=rjB/52he2hVc98m+UTypVJQkZDX0MqvKLm35h2NtRRmkFIru+304GiEn4vDunq4op0q9jB+IL48V8JES9hpF4Voplr6qbJas1wn1Y68ipu+vBb7J03bkpNRLpwD9MZOeu4t7B8ah0iZUzi1r66JU23k9Q4G6hYtYlghyvSJT3do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735506968; c=relaxed/simple;
-	bh=L2ilbI4yPlcQpbEe9twOdylNt72FHtlqYjmt9v7DNz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J9BhsUJ7uR+gaHuBZ0t8a5FXWvBqb+wsrQYE51RSXeQizBiGOMRFmElFGwXMHnVZGCw55WnD0sz+7b3P3ruACRkxpcv6M/+4QvNv3iaQrb7MI3rh4rAZbpLa5jrHPwr1iCTxMyC7q4ex1rOm0PlgE/aCHz+huPottko3sfJ1GFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuCMUltU; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1735508232; c=relaxed/simple;
+	bh=lkjkANhC5d3LLzyYaeeppWC7xhZU/mxpdSpl5dk8FkE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SbxrvsA3dMju3K9X2JFEmiaqZO2UC83ZKGRlUVUTVmB5BLSHRXej4eVnyWIuVxnlN7W03jnxM6wege6yKNNnhV39DvFwJ9hP56ePygHccwGeh8oVfU5C94ckzBFB4L+c1CGe125TTiuvIraY6DdcpV/OGmwhwKlnbpvvg3eJVXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GagL09CU; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuCMUltU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GagL09CU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735506966; x=1767042966;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L2ilbI4yPlcQpbEe9twOdylNt72FHtlqYjmt9v7DNz4=;
-  b=VuCMUltUys7xJ0sUUPabC/E0+XV1Rl3VG00Yt6FY9zjCdENoDgtZVAOl
-   O7yHcuQ6zMLHoMEEELUgbBVZJi+BLw5JCxu6ANhPnRMnHyu36+7GmvQr8
-   CZhHs1NSjXhc90p0C4M/Zkh46Fe8YW7Nk/llBvecZ1HckP5ebMPVvCQ9V
-   zSyTXAdygxo3U9oA8JdH06kZCvLFQ4zXz7ApQycRw9sH9/o7bRkm5MjLA
-   3yOBnbiz4sGTGeSiXW6o4xsD7lXRPD13QUZILUqn0qOtKDpb7AcrNYXnF
-   OySH0JUhr4jPImap+lL1l24XToExHtKJBqjbUqBJ9xybjZNIB2/6RM8W9
-   A==;
-X-CSE-ConnectionGUID: 7FYKu34BR5qTDIXSe77Vaw==
-X-CSE-MsgGUID: q9PM9rSWT2edEeHciU0bqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="39739017"
+  t=1735508228; x=1767044228;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lkjkANhC5d3LLzyYaeeppWC7xhZU/mxpdSpl5dk8FkE=;
+  b=GagL09CUwlQ95sh+8yfChR4J2YE8cp5Cc3yeWnAeNetvzERFuClcxpP1
+   TXrDAYpCfh3J9r/vykJQ0YtbIwUieVuHPz37tjnvTcsZoqlIiDTfD9g7+
+   vHWR27XkV5kx27LhWeLmIZH5O/5Avi+nxUBHQM+d/d5iq0M1JB6JFyDT/
+   c0EC2LydB18Ds7w/A/9grYltDOZ5xdr86hTM4AEOBiKCrsyqYkEJ4qF0O
+   YvtgmrP6bLbyTDXZ8Sm8ltGe9rATPQMR8VONrlAaYhceCCe/CVTBxJYKL
+   7LcwU1/6JuP98Q4g6OvQlpJ67yuNZRMXGsY6f0aYy4iVJaZ+j+8QD78Mz
+   w==;
+X-CSE-ConnectionGUID: xNnrF7cuTCiIj1TlcRpViw==
+X-CSE-MsgGUID: nP9IIBLQQPOnfJv8nY+Kqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="53206725"
 X-IronPort-AV: E=Sophos;i="6.12,275,1728975600"; 
-   d="scan'208";a="39739017"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 13:16:06 -0800
-X-CSE-ConnectionGUID: UBsjQnHyTZi27F0P0COfKA==
-X-CSE-MsgGUID: dFYuaWt3RbuNdnmovlGkAA==
+   d="scan'208";a="53206725"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 13:37:08 -0800
+X-CSE-ConnectionGUID: hRJIasq+QoGoScXhfmrKLA==
+X-CSE-MsgGUID: tb/nE8cvTze3YIEhUS1eCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,275,1728975600"; 
-   d="scan'208";a="100377895"
+   d="scan'208";a="101136750"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Dec 2024 13:16:04 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 29 Dec 2024 13:37:06 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tS0dm-00058u-11;
-	Sun, 29 Dec 2024 21:16:02 +0000
-Date: Mon, 30 Dec 2024 05:15:39 +0800
+	id 1tS0y8-0005A0-1k;
+	Sun, 29 Dec 2024 21:37:04 +0000
+Date: Mon, 30 Dec 2024 05:36:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Johannes Cornelis Draaijer (datdenkikniet)" <jcdra1@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: drivers/hwmon/aht10.c:182: warning: Function parameter or struct
- member 'data' not described in 'aht10_interval_write'
-Message-ID: <202412300451.KZjpUsgz-lkp@intel.com>
+To: Andrey Albershteyn <aalbersh@redhat.com>, linux-xfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, djwong@kernel.org, david@fromorbit.com,
+	hch@lst.de, Andrey Albershteyn <aalbersh@redhat.com>
+Subject: Re: [PATCH 1/2] iomap: add iomap_writepages_unbound() to write
+ beyond EOF
+Message-ID: <202412300506.Upx51jzg-lkp@intel.com>
+References: <20241229133640.1193578-2-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,95 +64,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241229133640.1193578-2-aalbersh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4099a71718b056d16af5ba095c91016c3b107862
-commit: 8c78f0dee4371ab3b0422edf08597525c6219512 hwmon: Add AHT10 Temperature and Humidity Sensor Driver
-date:   3 years, 11 months ago
-config: mips-randconfig-c004-20220208 (https://download.01.org/0day-ci/archive/20241230/202412300451.KZjpUsgz-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412300451.KZjpUsgz-lkp@intel.com/reproduce)
+Hi Andrey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.13-rc4 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/iomap-add-iomap_writepages_unbound-to-write-beyond-EOF/20241229-213942
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20241229133640.1193578-2-aalbersh%40kernel.org
+patch subject: [PATCH 1/2] iomap: add iomap_writepages_unbound() to write beyond EOF
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20241230/202412300506.Upx51jzg-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412300506.Upx51jzg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412300451.KZjpUsgz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412300506.Upx51jzg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mips64el-linux-ld: arch/mips/loongson2ef/lemote-2f/pm.o: in function `setup_wakeup_events':
->> (.text.setup_wakeup_events+0x60): undefined reference to `i8042_command'
-   mips64el-linux-ld: (.text.setup_wakeup_events+0xe8): undefined reference to `i8042_command'
---
-   drivers/hwmon/aht10.c:87: warning: Excess function parameter 'client' description in 'aht10_init'
-   drivers/hwmon/aht10.c:131: warning: Function parameter or struct member 'data' not described in 'aht10_read_values'
-   drivers/hwmon/aht10.c:131: warning: Excess function parameter 'aht10_data' description in 'aht10_read_values'
->> drivers/hwmon/aht10.c:182: warning: Function parameter or struct member 'data' not described in 'aht10_interval_write'
->> drivers/hwmon/aht10.c:182: warning: Function parameter or struct member 'val' not described in 'aht10_interval_write'
->> drivers/hwmon/aht10.c:193: warning: Function parameter or struct member 'data' not described in 'aht10_interval_read'
->> drivers/hwmon/aht10.c:193: warning: Function parameter or struct member 'val' not described in 'aht10_interval_read'
->> drivers/hwmon/aht10.c:202: warning: Function parameter or struct member 'data' not described in 'aht10_temperature1_read'
->> drivers/hwmon/aht10.c:202: warning: Function parameter or struct member 'val' not described in 'aht10_temperature1_read'
->> drivers/hwmon/aht10.c:217: warning: Function parameter or struct member 'data' not described in 'aht10_humidity1_read'
->> drivers/hwmon/aht10.c:217: warning: Function parameter or struct member 'val' not described in 'aht10_humidity1_read'
+   fs/iomap/buffered-io.c: In function 'iomap_write_iter':
+>> fs/iomap/buffered-io.c:982:37: error: 'IOMAP_NOSIZE' undeclared (first use in this function); did you mean 'IOMAP_HOLE'?
+     982 |                 if (!(iter->flags & IOMAP_NOSIZE) && (pos + written > old_size)) {
+         |                                     ^~~~~~~~~~~~
+         |                                     IOMAP_HOLE
+   fs/iomap/buffered-io.c:982:37: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +182 drivers/hwmon/aht10.c
+vim +982 fs/iomap/buffered-io.c
 
-   174	
-   175	/**
-   176	 * aht10_interval_write() - store the given minimum poll interval.
-   177	 * Return: 0 on success, -EINVAL if a value lower than the
-   178	 *         AHT10_MIN_POLL_INTERVAL is given
-   179	 */
-   180	static ssize_t aht10_interval_write(struct aht10_data *data,
-   181					    long val)
- > 182	{
-   183		data->min_poll_interval = ms_to_ktime(clamp_val(val, 2000, LONG_MAX));
-   184		return 0;
-   185	}
-   186	
-   187	/**
-   188	 * aht10_interval_read() - read the minimum poll interval
-   189	 *                            in milliseconds
-   190	 */
-   191	static ssize_t aht10_interval_read(struct aht10_data *data,
-   192					   long *val)
- > 193	{
-   194		*val = ktime_to_ms(data->min_poll_interval);
-   195		return 0;
-   196	}
-   197	
-   198	/**
-   199	 * aht10_temperature1_read() - read the temperature in millidegrees
-   200	 */
-   201	static int aht10_temperature1_read(struct aht10_data *data, long *val)
- > 202	{
-   203		int res;
-   204	
-   205		res = aht10_read_values(data);
-   206		if (res < 0)
-   207			return res;
-   208	
-   209		*val = data->temperature;
-   210		return 0;
-   211	}
-   212	
-   213	/**
-   214	 * aht10_humidity1_read() - read the relative humidity in millipercent
-   215	 */
-   216	static int aht10_humidity1_read(struct aht10_data *data, long *val)
- > 217	{
-   218		int res;
-   219	
-   220		res = aht10_read_values(data);
-   221		if (res < 0)
-   222			return res;
-   223	
-   224		*val = data->humidity;
-   225		return 0;
-   226	}
-   227	
+   909	
+   910	static loff_t iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i)
+   911	{
+   912		loff_t length = iomap_length(iter);
+   913		loff_t pos = iter->pos;
+   914		ssize_t total_written = 0;
+   915		long status = 0;
+   916		struct address_space *mapping = iter->inode->i_mapping;
+   917		size_t chunk = mapping_max_folio_size(mapping);
+   918		unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
+   919	
+   920		do {
+   921			struct folio *folio;
+   922			loff_t old_size;
+   923			size_t offset;		/* Offset into folio */
+   924			size_t bytes;		/* Bytes to write to folio */
+   925			size_t copied;		/* Bytes copied from user */
+   926			size_t written;		/* Bytes have been written */
+   927	
+   928			bytes = iov_iter_count(i);
+   929	retry:
+   930			offset = pos & (chunk - 1);
+   931			bytes = min(chunk - offset, bytes);
+   932			status = balance_dirty_pages_ratelimited_flags(mapping,
+   933								       bdp_flags);
+   934			if (unlikely(status))
+   935				break;
+   936	
+   937			if (bytes > length)
+   938				bytes = length;
+   939	
+   940			/*
+   941			 * Bring in the user page that we'll copy from _first_.
+   942			 * Otherwise there's a nasty deadlock on copying from the
+   943			 * same page as we're writing to, without it being marked
+   944			 * up-to-date.
+   945			 *
+   946			 * For async buffered writes the assumption is that the user
+   947			 * page has already been faulted in. This can be optimized by
+   948			 * faulting the user page.
+   949			 */
+   950			if (unlikely(fault_in_iov_iter_readable(i, bytes) == bytes)) {
+   951				status = -EFAULT;
+   952				break;
+   953			}
+   954	
+   955			status = iomap_write_begin(iter, pos, bytes, &folio);
+   956			if (unlikely(status)) {
+   957				iomap_write_failed(iter->inode, pos, bytes);
+   958				break;
+   959			}
+   960			if (iter->iomap.flags & IOMAP_F_STALE)
+   961				break;
+   962	
+   963			offset = offset_in_folio(folio, pos);
+   964			if (bytes > folio_size(folio) - offset)
+   965				bytes = folio_size(folio) - offset;
+   966	
+   967			if (mapping_writably_mapped(mapping))
+   968				flush_dcache_folio(folio);
+   969	
+   970			copied = copy_folio_from_iter_atomic(folio, offset, bytes, i);
+   971			written = iomap_write_end(iter, pos, bytes, copied, folio) ?
+   972				  copied : 0;
+   973	
+   974			/*
+   975			 * Update the in-memory inode size after copying the data into
+   976			 * the page cache.  It's up to the file system to write the
+   977			 * updated size to disk, preferably after I/O completion so that
+   978			 * no stale data is exposed.  Only once that's done can we
+   979			 * unlock and release the folio.
+   980			 */
+   981			old_size = iter->inode->i_size;
+ > 982			if (!(iter->flags & IOMAP_NOSIZE) && (pos + written > old_size)) {
+   983				i_size_write(iter->inode, pos + written);
+   984				iter->iomap.flags |= IOMAP_F_SIZE_CHANGED;
+   985			}
+   986			__iomap_put_folio(iter, pos, written, folio);
+   987	
+   988			if (!(iter->flags & IOMAP_NOSIZE) && (old_size < pos))
+   989				pagecache_isize_extended(iter->inode, old_size, pos);
+   990	
+   991			cond_resched();
+   992			if (unlikely(written == 0)) {
+   993				/*
+   994				 * A short copy made iomap_write_end() reject the
+   995				 * thing entirely.  Might be memory poisoning
+   996				 * halfway through, might be a race with munmap,
+   997				 * might be severe memory pressure.
+   998				 */
+   999				iomap_write_failed(iter->inode, pos, bytes);
+  1000				iov_iter_revert(i, copied);
+  1001	
+  1002				if (chunk > PAGE_SIZE)
+  1003					chunk /= 2;
+  1004				if (copied) {
+  1005					bytes = copied;
+  1006					goto retry;
+  1007				}
+  1008			} else {
+  1009				pos += written;
+  1010				total_written += written;
+  1011				length -= written;
+  1012			}
+  1013		} while (iov_iter_count(i) && length);
+  1014	
+  1015		if (status == -EAGAIN) {
+  1016			iov_iter_revert(i, total_written);
+  1017			return -EAGAIN;
+  1018		}
+  1019		return total_written ? total_written : status;
+  1020	}
+  1021	
 
 -- 
 0-DAY CI Kernel Test Service
