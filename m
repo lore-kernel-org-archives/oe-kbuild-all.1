@@ -1,182 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792F98489
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 03:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE6812B93
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 05:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735443885; cv=none; b=fYEFozGGyrCkISCSBq/DkQn/7mDd1zU+MJ2lgIO0AStsopEp0hxPUhO5PZxaoy4yZ9+up6WhTB3AB1eQtqgZSCWaWZLNqPsXHw35AvHvpGJjaM/vogTeUPuTMNiaLtZ03XxgfitvuPwg+zZUaMqgUX4O/Vtga9w66jzew9XbC5s=
+	t=1735450075; cv=none; b=Hni2r89Y+Z9dSu5jJwMu2JJo/JvwTDALM1FknHHU6Y1dEuLNJtP3TtK/rrilB8WbUzqjR+u/e98ByGnRFfYfTFY+5oQyq4lgqdbxgPvegyyAxUxx/+WFawPPz5sCyd/IBEdjFDgRSochDUpzUXWh+Cq9PafKnE8/L9q8PntZemw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735443885; c=relaxed/simple;
-	bh=dXw3GYUP8lc5Y3r0d3bXRNHaFfm8C9+JUKjPC/EH/lo=;
+	s=arc-20240116; t=1735450075; c=relaxed/simple;
+	bh=Jh5ipIBPQAnl9s5+TGdNZn4lZGJjbSNiszL5tZRSgmw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aGqCxtPyP+5OsyALDIY0DmInO8zNMeRXWqdEYWYV9qCLuPgPiEr1BkSDqq3dnclby114Gbk11/FhhpKO/YvEt2hqJ28ZbomSVLZlTfSvumLefP9LS3PdDs8VLT0xf9YNbdOLJ3uc1uG/Br+6n3pMbh3XL3dA4VR5l07i5w7YFNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J38M/6Xs; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Iv+HtbxaUh/ynqzBMomduHSZ7izmHXSYmQLFgYNZDrbOwnE6VuQn4OAzxGgNRAfey0iBfxb9XGpyovTdynQOR9sKh9mvKzrA89Ffm0RgaZw2+SSh+a5kTpBwBtcml/XZQa8DTE6UCY8yb6IPzL2ZZCKTbHGEq6dkhDoKcEiFRGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GW7/nYUF; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J38M/6Xs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GW7/nYUF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735443883; x=1766979883;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dXw3GYUP8lc5Y3r0d3bXRNHaFfm8C9+JUKjPC/EH/lo=;
-  b=J38M/6XsuIyrXdNlIxMEsUufh290WZopTy/ZG0AZWAHgZ7ebaNOvwTB4
-   XRZQtUQ489G2JNjQO8YLd3WT/Mh+sC8MpVm6zzsWfaSlWqfXHZ1vQTbTC
-   M3kRqDimVN2tTSDoqL3z0WDGZ18/w2eTg3IvaqZkaG20iCFx6AVnivRH2
-   CsMuVIi/dLjqqlbwgkIIOxekVRx8SECtkBbDG4bZIvv4CaMN41rdc9RPh
-   CQmSf8vye5jkJw+gBw8VCrMsaEQNNjX1/nN0KNUjzpnExzKEmr/FCDAx2
-   X55OCZtdofrZrI997kAP0Q+j10CPX+MppieTtbLGvvpTmlwxwoJJ3Z4eu
-   Q==;
-X-CSE-ConnectionGUID: 3/wSalTmTrqMnbu2TFqMDw==
-X-CSE-MsgGUID: dRos54L2R8OK7BA2aWk+Kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="39709986"
+  t=1735450072; x=1766986072;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Jh5ipIBPQAnl9s5+TGdNZn4lZGJjbSNiszL5tZRSgmw=;
+  b=GW7/nYUFvwKCX8azTDMbVM8KwN1XkB7XPqg+eMjKPXRvu9pQc+bhmu1I
+   +S/NyfQEjuXMvq2H17ueIU3bCOcnu1+GXQM49/ADsbbcjE5A84FqAJ6UB
+   IKDdCn8KXx+nnLiEqt620yNCiWNVisFJDVf1aqK3I+HdTVwdautVFK9Tq
+   Cb99qX7RjxwcbrpOfxGYkJlELYOB+xPL4/OeAt9+CYrJyZI8bwbDgi56K
+   SeAODiCxC/C+wVhIo4CpMiLkxAtPQtnlixnPUnQTjsmHbnwC6OmBY+W38
+   +pyBpNe2l6DOB8uLZS/yEr6w3L7eQmseZYPLRygDqHZqWA5hfnUBIPTQH
+   g==;
+X-CSE-ConnectionGUID: yKyz6AEPTlueRSnvVThRJw==
+X-CSE-MsgGUID: gQTPEBjMQuKs8FbezF8SXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="46361769"
 X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="39709986"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 19:44:43 -0800
-X-CSE-ConnectionGUID: uD9gqOR1RUqVQp/88+LLzQ==
-X-CSE-MsgGUID: q2GjhaseTpu5Q3khJPNKjw==
+   d="scan'208";a="46361769"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 21:27:51 -0800
+X-CSE-ConnectionGUID: ungSMa+iSymMGQIopEiY9g==
+X-CSE-MsgGUID: gMfECx6JT52EyRfHnzfguw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101324197"
+X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
+   d="scan'208";a="100329158"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Dec 2024 19:44:41 -0800
+  by orviesa009.jf.intel.com with ESMTP; 28 Dec 2024 21:27:50 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRkEJ-0004SW-07;
-	Sun, 29 Dec 2024 03:44:39 +0000
-Date: Sun, 29 Dec 2024 11:44:32 +0800
+	id 1tRlq7-0004Ug-2f;
+	Sun, 29 Dec 2024 05:27:47 +0000
+Date: Sun, 29 Dec 2024 13:27:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c:
- switches:switch@0: 'port' is a required property
-Message-ID: <202412291105.YvXPZC9c-lkp@intel.com>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Pavel <pavel@ucw.cz>
+Subject: drivers/leds/leds-lm3692x.c:119: warning: Function parameter or
+ struct member 'boost_ctrl' not described in 'lm3692x_led'
+Message-ID: <202412291351.Stu5nPDv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   ca8e7ba4cbf9fe4c8fe507bf6d5f91c4f6d0b173
-commit: ad7eb0048b6f883dee8aa44dd80ceffc4ef2619a [4/4] FROMLIST: arm64: dts: mediatek: Add MT8186 Ponyta Chromebooks
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241229/202412291105.YvXPZC9c-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412291105.YvXPZC9c-lkp@intel.com/reproduce)
+Hi Guido,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   059dd502b263d8a4e2a84809cf1068d6a3905e6f
+commit: cffd61a5c7755546154539dcd7f36590e91e002f leds: lm3692x: Allow to configure over voltage protection
+date:   5 years ago
+config: sparc-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20241229/202412291351.Stu5nPDv-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412291351.Stu5nPDv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412291105.YvXPZC9c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412291351.Stu5nPDv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:382.16-388.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:390.16-393.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:476.11-485.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:493.11-502.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: sound: 'model' is a required property
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:382.16-388.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:390.16-393.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:476.11-485.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:493.11-502.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+All warnings (new ones prefixed by >>):
+
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'lock' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'client' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'led_dev' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'regmap' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'enable_gpio' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'regulator' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'led_enable' not described in 'lm3692x_led'
+   drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'model_id' not described in 'lm3692x_led'
+>> drivers/leds/leds-lm3692x.c:119: warning: Function parameter or struct member 'boost_ctrl' not described in 'lm3692x_led'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for COMPAT_BINFMT_ELF
+   Depends on [n]: COMPAT [=y] && BINFMT_ELF [=n]
+   Selected by [y]:
+   - COMPAT [=y] && SPARC64 [=y]
+
+
+vim +119 drivers/leds/leds-lm3692x.c
+
+9699cb6bbef273 Dan Murphy    2017-12-12   96  
+9699cb6bbef273 Dan Murphy    2017-12-12   97  /**
+9699cb6bbef273 Dan Murphy    2017-12-12   98   * struct lm3692x_led -
+9699cb6bbef273 Dan Murphy    2017-12-12   99   * @lock - Lock for reading/writing the device
+9699cb6bbef273 Dan Murphy    2017-12-12  100   * @client - Pointer to the I2C client
+9699cb6bbef273 Dan Murphy    2017-12-12  101   * @led_dev - LED class device pointer
+9699cb6bbef273 Dan Murphy    2017-12-12  102   * @regmap - Devices register map
+9699cb6bbef273 Dan Murphy    2017-12-12  103   * @enable_gpio - VDDIO/EN gpio to enable communication interface
+9699cb6bbef273 Dan Murphy    2017-12-12  104   * @regulator - LED supply regulator pointer
+07abd4325e7013 Dan Murphy    2018-07-02  105   * @led_enable - LED sync to be enabled
+07abd4325e7013 Dan Murphy    2018-07-02  106   * @model_id - Current device model ID enumerated
+9699cb6bbef273 Dan Murphy    2017-12-12  107   */
+9699cb6bbef273 Dan Murphy    2017-12-12  108  struct lm3692x_led {
+9699cb6bbef273 Dan Murphy    2017-12-12  109  	struct mutex lock;
+9699cb6bbef273 Dan Murphy    2017-12-12  110  	struct i2c_client *client;
+9699cb6bbef273 Dan Murphy    2017-12-12  111  	struct led_classdev led_dev;
+9699cb6bbef273 Dan Murphy    2017-12-12  112  	struct regmap *regmap;
+9699cb6bbef273 Dan Murphy    2017-12-12  113  	struct gpio_desc *enable_gpio;
+9699cb6bbef273 Dan Murphy    2017-12-12  114  	struct regulator *regulator;
+07abd4325e7013 Dan Murphy    2018-07-02  115  	int led_enable;
+07abd4325e7013 Dan Murphy    2018-07-02  116  	int model_id;
+cffd61a5c77555 Guido Günther 2020-01-04  117  
+cffd61a5c77555 Guido Günther 2020-01-04  118  	u8 boost_ctrl;
+9699cb6bbef273 Dan Murphy    2017-12-12 @119  };
+9699cb6bbef273 Dan Murphy    2017-12-12  120  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: 9699cb6bbef273d7be25441bfc20a2db9ee0f509 leds: lm3692x: Introduce LM3692x dual string driver
+
+:::::: TO: Dan Murphy <dmurphy@ti.com>
+:::::: CC: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
