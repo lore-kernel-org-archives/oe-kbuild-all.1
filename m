@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4F6208AD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 06:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556DF2594B1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Dec 2024 06:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735454583; cv=none; b=cY2aQU7oXbIXkEPFIZrIza2ZenR+JnKjGVtEH3wc/0+UT8LZHmQqtjdbjTTF1B0Z4CCsCd/EuUI1X7RVoFt5zPACcPvqtpPd0r1xhF6yyLkXL95f+QUl6Cwq72F9kq4WL9MhgqwLMMWaJJM5kxBcaMN+x2z1d4uieVLMZQUateg=
+	t=1735455245; cv=none; b=P6X114/sVK3JFaKCRchgs3zKVyeY2pnZH3CF9Q5aobpO2Zv8rV09rCbD9aqRjzDCHIdsEx3HhL4g2aFTBcwIOji+PHPgGrQnQF9DfD6bU1zO5qkIGNwG+xW3fnrZXLU+A9H7GveqcELXhXuep9UJf+81og6Hg0KWFVshV8AAYH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735454583; c=relaxed/simple;
-	bh=eAWyReerwUrbroL/N81+1JCQBCRwH9EEE0fHY6SOEm8=;
+	s=arc-20240116; t=1735455245; c=relaxed/simple;
+	bh=Rn5qr3WMYuWwhK3L50e/B9oVopPgO1b+3UbDHVGuIhI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SsHeg0D/uTEZ4iaDYLqT/HUVrODbnHF4pocDPGhuypefxlog+4pyqX1eMakp9bsFQOehFDPL+qJ+1wkTtT9QiuIXDT3xrBuGpmSLs9/hQPrsakuNeshriY51IzAVaN/H7dwBRlOW9QQ9zwQVoMscmLcaqLa5mMbUHpscbzgcYSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTCi+x6M; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=ezNqmplB0KZRY6aCI2vSSh3BPc1LD5RryrpkDYOH3IhZEE9akiNobHdWzcfWaYJQmQ7fpQjc5ITBZODHVVG0NPD6tTWsppzZTOstmKYV0DShjJ+savyrbhxwWEwxoFXmUSfYce1dqDiDjDElQ5wGvOZFlImtlSOo+DcFoVaLvpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HavjPgVu; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTCi+x6M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HavjPgVu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735454583; x=1766990583;
+  t=1735455244; x=1766991244;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eAWyReerwUrbroL/N81+1JCQBCRwH9EEE0fHY6SOEm8=;
-  b=XTCi+x6MzZQfpgUvP2KrQQT54DcN6GyhN06ZHwXi8QLCSsbhSpUYeZA2
-   ILeeqcELX2zYD6KJ3We4KWSClKfb0vBcQ1DdmUqNmUtVyGnG6YHiBfgd4
-   wMkk3jNGsvdyofQ1a2gEQLXWFkt9xzbkACLDyIB9a6LNRcWvqT3Xm9iCy
-   VWEQrg658DQC5Ca8s+XsDkx/R7D++zeZqzSuj/FV6ieRSY5NrMDDKfALZ
-   lmIXDaTJYPpv/CLY6jVci2ZFrcIhn5Eqy+SC3X5bvSoy4z77jphOauIND
-   eT3cxa6Pzo9KW8+Io5Wvt0ogbo3lIk1QGL1P+ak+1gWob0kGExMm/LcwZ
+  bh=Rn5qr3WMYuWwhK3L50e/B9oVopPgO1b+3UbDHVGuIhI=;
+  b=HavjPgVuZu9RChwwzJMiCovf+GVF1Snbrh1rGUFSDmjZG2HDaA5CwiHl
+   lg+/h1ALJMCG+8aMc792geJtKPamVUSuwfzUHdoM0vl3h2iqmxR7rPE/5
+   /xV2/TdaQ+oAPvQz8kRf38PZyZ38etDewp9cnjbE/MOGPttn4hNmjNEhU
+   zB+V9kSkjKexG2tp3Drh3zwfKGe3pMrIImmpY2VBPtjDCISK27vr+q2U2
+   cIJVSVta7R21C9jrR1smalWLAemawG6WnvPII6Eugl6eQImAxDYQgCXhb
+   tTZ1TtTk/igCO7U/9vcrFnl9xXmUBYw5Ty6r2m0NFBj2PK4xrdPHJHIj3
    w==;
-X-CSE-ConnectionGUID: Z8ndWoiDTwKYb00y48e1uQ==
-X-CSE-MsgGUID: C2wWsae3S32ZM33Oft3dUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="47144917"
+X-CSE-ConnectionGUID: JJ7kQhkLT6GneCIXDG4Lwg==
+X-CSE-MsgGUID: UAaPTCCMS6uvpsrlja89nA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="39466493"
 X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="47144917"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 22:43:02 -0800
-X-CSE-ConnectionGUID: HvNdtwuiRp24W8FusGmTbw==
-X-CSE-MsgGUID: q3SJKo2yR4aD+iN8uDuj9w==
+   d="scan'208";a="39466493"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 22:54:03 -0800
+X-CSE-ConnectionGUID: cv5tTEpnTBCmUOlIayTfKg==
+X-CSE-MsgGUID: gm4L/L5GSP219qezES6hyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="105482252"
+   d="scan'208";a="105358264"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Dec 2024 22:43:01 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 28 Dec 2024 22:54:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRn0s-0004XH-2b;
-	Sun, 29 Dec 2024 06:42:58 +0000
-Date: Sun, 29 Dec 2024 14:42:24 +0800
+	id 1tRnBX-0004Xa-2b;
+	Sun, 29 Dec 2024 06:53:59 +0000
+Date: Sun, 29 Dec 2024 14:53:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:fix_sp_calculation 14/14]
- arch/x86/kvm/vmx/vmenter.S:128: Error: bad register name `%rax'
-Message-ID: <202412291415.r6kpF8FV-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.12 4/4]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: dp-bridge@5c:
+ switches:switch@0: 'port' is a required property
+Message-ID: <202412291414.Yuw032uj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,95 +63,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git fix_sp_calculation
-head:   a0cabfa58f8dd9676bcc378ca8d5a77ea2eb751c
-commit: a0cabfa58f8dd9676bcc378ca8d5a77ea2eb751c [14/14] KVM: VMX: Use WRMSRNS or WRMSRNSI when available
-config: i386-buildonly-randconfig-001-20241229 (https://download.01.org/0day-ci/archive/20241229/202412291415.r6kpF8FV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412291415.r6kpF8FV-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   ca8e7ba4cbf9fe4c8fe507bf6d5f91c4f6d0b173
+commit: f4eb95df99ac7b2b5e701ad02d69882295e07707 [4/4] CHROMIUM: arm64: dts: mt8186: Remove duplicated properties for Kyogre
+config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241229/202412291414.Yuw032uj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412291414.Yuw032uj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412291415.r6kpF8FV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412291414.Yuw032uj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/x86/kvm/vmx/vmenter.S: Assembler messages:
->> arch/x86/kvm/vmx/vmenter.S:128: Error: bad register name `%rax'
-
-
-vim +128 arch/x86/kvm/vmx/vmenter.S
-
-    68	
-    69	/**
-    70	 * __vmx_vcpu_run - Run a vCPU via a transition to VMX guest mode
-    71	 * @vmx:	struct vcpu_vmx *
-    72	 * @regs:	unsigned long * (to guest registers)
-    73	 * @flags:	VMX_RUN_VMRESUME:	use VMRESUME instead of VMLAUNCH
-    74	 *		VMX_RUN_SAVE_SPEC_CTRL: save guest SPEC_CTRL into vmx->spec_ctrl
-    75	 *
-    76	 * Returns:
-    77	 *	0 on VM-Exit, 1 on VM-Fail
-    78	 */
-    79	SYM_FUNC_START(__vmx_vcpu_run)
-    80		push %_ASM_BP
-    81		mov  %_ASM_SP, %_ASM_BP
-    82	#ifdef CONFIG_X86_64
-    83		push %r15
-    84		push %r14
-    85		push %r13
-    86		push %r12
-    87	#else
-    88		push %edi
-    89		push %esi
-    90	#endif
-    91		push %_ASM_BX
-    92	
-    93		/* Save @vmx for SPEC_CTRL handling */
-    94		push %_ASM_ARG1
-    95	
-    96		/* Save @flags for SPEC_CTRL handling */
-    97		push %_ASM_ARG3
-    98	
-    99		/*
-   100		 * Save @regs, _ASM_ARG2 may be modified by vmx_update_host_rsp() and
-   101		 * @regs is needed after VM-Exit to save the guest's register values.
-   102		 */
-   103		push %_ASM_ARG2
-   104	
-   105		/* Copy @flags to EBX, _ASM_ARG3 is volatile. */
-   106		mov %_ASM_ARG3L, %ebx
-   107	
-   108		lea (%_ASM_SP), %_ASM_ARG2
-   109		call vmx_update_host_rsp
-   110	
-   111		ALTERNATIVE "jmp .Lspec_ctrl_done", "", X86_FEATURE_MSR_SPEC_CTRL
-   112	
-   113		/*
-   114		 * SPEC_CTRL handling: if the guest's SPEC_CTRL value differs from the
-   115		 * host's, write the MSR.
-   116		 *
-   117		 * IMPORTANT: To avoid RSB underflow attacks and any other nastiness,
-   118		 * there must not be any returns or indirect branches between this code
-   119		 * and vmentry.
-   120		 */
-   121		mov 2*WORD_SIZE(%_ASM_SP), %_ASM_DI
-   122		movl VMX_spec_ctrl(%_ASM_DI), %edi
-   123		movl PER_CPU_VAR(x86_spec_ctrl_current), %esi
-   124		cmp %edi, %esi
-   125		je .Lspec_ctrl_done
-   126	
-   127		/* Clear the higher 32-bit of RAX for wrmsrnsi */
- > 128		xor %rax, %rax
-   129	
-   130		xor %edx, %edx
-   131		mov %edi, %eax
-   132		/* Change to 'wrmsrnsi %rax, $MSR_IA32_SPEC_CTRL' once the immediate form wrmsrns is supported */
-   133		ALTERNATIVE_2 "mov 0x48, %ecx; ds wrmsr",					\
-   134			      "mov 0x48, %ecx; .byte 0x0f,0x01,0xc6", X86_FEATURE_WRMSRNS,	\
-   135			      ".byte 0xc4,0xe7,0x7a,0xf6,0xc0; .long 0x48", X86_FEATURE_MSR_IMM
-   136	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: anx7625@58: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: anx7625@58: '#address-cells', '#size-cells', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: switch@0: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: switch@1: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: typec: connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: typec: connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: connector@0: ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: connector@1: ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtb: sound: 'model' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
