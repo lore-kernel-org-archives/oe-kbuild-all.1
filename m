@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317521A0728
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 10:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793431799B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 12:00:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735553349; cv=none; b=dLgk3mTi15zjaeoBzOrYnPNJuJyoiV9XsYIyVHDA7pW3BYlxfmvXwCrGKzoAFC9ibduFt+DCT9+mRY4SgpEji35CYklnuMWKxEWSbpPS3SumD/ZOWj1J3mVn18Rj7ivpHfiCoLT+VGw4tcFzXkHhthVpcAKyN4H/K3ntqgx3Qa8=
+	t=1735560039; cv=none; b=dlNxPYHtwFS+ht81EA30RoUpHJ1Pq6OxoLL/ry6p3vKlrap6PEjR42WOwO05Hj6E9dPDIDk16G64MVHR/oozGswwIrDbxdULqomuyN0+sF1gZ45aqVd/O8hlZ77mI0kTgNjHLPbkze4Q0d2KW06Yq4jQ2Jm2ZFwga/2XmDs0BqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735553349; c=relaxed/simple;
-	bh=XINt2QRJmVlGGTf0HLIyPs9YzzajaQp1W1IJA6uuftQ=;
+	s=arc-20240116; t=1735560039; c=relaxed/simple;
+	bh=lvO4ozbQ1MpfxMtEtbgRrYkt62nF2uiuhHrWZDbX1wE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tdv73eS6+3eJixSIY1QUFJnj2nACeP3bfaoqKtEohDyPCwMd3BgxISiScUAmXBrWrMMEZUIZO7mOifV07UI5VOJx3sk4TynNk7Nsi9HFJKv+bPYrTuw/U1kbykm8YCZ2/IjHW/OPU2zuG95cXhwZDP5r3tgSuQEGsFH3ByH/1SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dd98gRmN; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=fks5ZzQNEJ++aOAZEIWrg2Zt58R1OgyRepIqZ01BePsYagSzy7H/LOqrkdflWz+IGQijeWFR6DQ1ZcLR920XSt6DHaNwBBOJpfMZsf2iiMgR/rhp32vlpwuggIblAijZS2RjHBhhiDn7dLBf6b8r9U2RlWPMKSAgIEcXwa58P7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J0A89L0V; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dd98gRmN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J0A89L0V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735553347; x=1767089347;
+  t=1735560037; x=1767096037;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=XINt2QRJmVlGGTf0HLIyPs9YzzajaQp1W1IJA6uuftQ=;
-  b=dd98gRmNHqjmSdXG/ZoSidyZEQOVUCgWrcAhDVW5A+3N066LuVGtF9Cp
-   W+QpiX063kYMxMcnMQTENduDFKqTf6te9CvjBEZMY06amj4QZnB+WvrHC
-   RvrV06VUQQoNgo8/otcxzFc62jA/PYIEeGosHbvRAHaYIXbr42ny4HIvF
-   ckC2CmV7YNL6Jw1Y81OMj33ILHZWGMqAJp1cjkULpxL6DgENYRAfH0EYc
-   vDYaDfTWg0T4CrP3vbTe7QI2TVu7jjqNKSWvP6mpeTCTAM2uHmtiEgLnF
-   hPD/07c0clavs4zNdGcgWPSV2qjwV18UvdlvWuiBwQXMhP0m4U6d9O0wu
+  bh=lvO4ozbQ1MpfxMtEtbgRrYkt62nF2uiuhHrWZDbX1wE=;
+  b=J0A89L0VcZ7BjMMxbngSfQExD5rcaWLN8nNTIatfXTxG3LgYZKaNOjcb
+   6asguTKpdcoUmUxDPAXsNrBhijGO+8brCkw3WqWREX2QGi08rT+MrSJ9d
+   8WYpQw2fdLliJfu3SyzVL/y+cCYLwxHe2YrYQBDun30VxkXpZe3RIxHoS
+   CkVqSMEx5JwWYWVeYydjT7jwC/AmApWEUFl/bKISCa6wbWRvP6fe/ynp9
+   ygefQ+/EYm0+pWDA7G5oH4nAvVCdUIqAIZSovYesK/AQEaabcKzX4nd+d
+   FQNRSTxVlQg23/bQZviM45ps+WMqnkVH4BiEYl6d79fvPLSmZPTlUwPz4
    Q==;
-X-CSE-ConnectionGUID: 3SajcnaCTN2YF8EqKTj3OQ==
-X-CSE-MsgGUID: F0/zJComSP6hNBKVa7ke0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="36001241"
+X-CSE-ConnectionGUID: yDjkgpIyTqOKffo8kBePig==
+X-CSE-MsgGUID: lxsejV1uRpKkCL96WJSWMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="36009648"
 X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; 
-   d="scan'208";a="36001241"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 02:09:07 -0800
-X-CSE-ConnectionGUID: 6fpE88AJT3SEJwSSqxDIYQ==
-X-CSE-MsgGUID: AuDmj2MgTZqv/7H6CIjiIg==
+   d="scan'208";a="36009648"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 04:00:36 -0800
+X-CSE-ConnectionGUID: SroEnlZfRC291ghcboUoNA==
+X-CSE-MsgGUID: XNxzUKYVTuCn5mAgZ3QDNQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; 
-   d="scan'208";a="105731988"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105396100"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Dec 2024 02:09:06 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 30 Dec 2024 04:00:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSChr-0005dg-0j;
-	Mon, 30 Dec 2024 10:09:03 +0000
-Date: Mon, 30 Dec 2024 18:08:13 +0800
+	id 1tSERk-0005gm-1q;
+	Mon, 30 Dec 2024 12:00:32 +0000
+Date: Mon, 30 Dec 2024 20:00:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:incoming-android15-6.6-desktop-chromeos 877/877]
- mm/migrate.c:630:9: error: implicit declaration of function
- 'folio_migrate_refs'; did you mean 'folio_migrate_ksm'?
-Message-ID: <202412301709.40oQ0a5Z-lkp@intel.com>
+ mm/migrate.c:630:2: error: call to undeclared function 'folio_migrate_refs';
+ ISO C99 and later do not support implicit function declarations
+Message-ID: <202412301944.hXgj67YH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,25 +68,37 @@ Content-Transfer-Encoding: 8bit
 tree:   https://android.googlesource.com/kernel/common incoming-android15-6.6-desktop-chromeos
 head:   d8ee6b4ae3d261b5d5dfe13c527acea28c2724d8
 commit: f835b56b3f4aef0a74db2de2afda42666877a373 [877/877] FIXUP: CHROMIUM: mm/mglru: Fix compilation with no MGLRU
-config: arm64-randconfig-001-20241230 (https://download.01.org/0day-ci/archive/20241230/202412301709.40oQ0a5Z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412301709.40oQ0a5Z-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20241230 (https://download.01.org/0day-ci/archive/20241230/202412301944.hXgj67YH-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412301944.hXgj67YH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412301709.40oQ0a5Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412301944.hXgj67YH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/migrate.c: In function 'folio_migrate_flags':
->> mm/migrate.c:630:9: error: implicit declaration of function 'folio_migrate_refs'; did you mean 'folio_migrate_ksm'? [-Wimplicit-function-declaration]
+   In file included from mm/migrate.c:16:
+   In file included from include/linux/migrate.h:5:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/migrate.c:22:
+   include/linux/mm_inline.h:49:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:51:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      51 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/migrate.c:630:2: error: call to undeclared function 'folio_migrate_refs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      630 |         folio_migrate_refs(newfolio, folio);
-         |         ^~~~~~~~~~~~~~~~~~
-         |         folio_migrate_ksm
+         |         ^
+   3 warnings and 1 error generated.
 
 
-vim +630 mm/migrate.c
+vim +/folio_migrate_refs +630 mm/migrate.c
 
 290408d4a25002 Naoya Horiguchi         2010-09-08  587  
 b20a35035f983f Christoph Lameter       2006-03-22  588  /*
