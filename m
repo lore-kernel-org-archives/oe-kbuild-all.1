@@ -1,152 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378441A76BC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 14:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36C17DA88
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 14:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735569536; cv=none; b=FmuOhJBJw4PG41kJGm1Xcn1mPpwYRSU7htgjKPE80YLDK3mKGZMFEaBYY337H6pkdwpCqk8i3VclvMFYRDVh298UIDos0jgcxH23+uHRmGzPgElHfakleEZOK/st/fNpUcw0xGV3wY5IPi9y5nVYSuzKuPeYcJvl//vzkhvFPtY=
+	t=1735570183; cv=none; b=M6DopBs9o/WxiVyGrZHxisL061TukOyifOdKCgumO30M+OOUj7kbqMkyrdtmHROiaRbb7u/Den62wRBAjok2tz4chJqUjYt/MvJcigdnGX7XMfRUJSDrb/LcwjfaRwfoMCPZPRJU9906rQ8rLQ7Fl+j0rsBoOhVbs21bOSJj0Jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735569536; c=relaxed/simple;
-	bh=xhec6Egl0gjhupm0kdW5P1aT2CN5sMJx+d07ZPeRHqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aqh4216gNTSuQnG8n3XN8Bk8y1FagQze7OQSEdmnlqpv5PjDNdxo/ptRV67DXVz8oe23L6IfJppW7sPFifcFQMkVa2FHKcAt/JCqdMWQ+B/Afh/GXa+BjgkqBk/03OnguhoRNJT/pbqc9A7WYpRurEKlFCZcUHGVFSVGACUjwBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RlHS636w; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735570183; c=relaxed/simple;
+	bh=eW/BU1YW9X+cj72JxOX4s+Kpdq1Z8F+pIPiZS0VFGNo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GN4HVJppaxPZfWAUZis3SLL/dGTrnw5a7mFkPpWqOdk3DtCB/21QRFacmnPBTY6IeUwOE3JHiRHtHF/IDQR8Qk7N35bdmijbpr5xh6obohIsAIYUY4AEthYGiPzAxxl7TS2aFSwmqHZwZuA6IynpYF2DQgH/9iygGsA7XuKEJ8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Id27ikw1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RlHS636w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735569535; x=1767105535;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xhec6Egl0gjhupm0kdW5P1aT2CN5sMJx+d07ZPeRHqk=;
-  b=RlHS636wwYbMOfMNm/49BuYkvvIi5SFvzY5DDRHJODH+UpJO/kv44k81
-   76o5QEI1883U98BOYqEcgtM9oNqsC+N0OQMiYM0y17uHl33R1wuMphaZa
-   IsIxeL4ZMei9dVeoHgSH7VGS2F85DmUrJK5iaTj+5reUXvzAIunktx/M1
-   +eDfC/J1ZAIg6Cdv3vdIN2pCztfjbMZN7/WquCXCjCs0eTc15D7Ccl+R8
-   MQhvV4Enh3e6Z/lpChBAAnLGAKAMjJHVCaqEzR8DvzHjfO4tgrWyoh0pp
-   5MIFkI7Lj8QXU5Myr3Phyf6r430aUYSnm6nU/wJ3kjpdbKMDzIlflWxek
-   w==;
-X-CSE-ConnectionGUID: nzYT9ViqTWCsR+fgZj4zxA==
-X-CSE-MsgGUID: 6wNI1+M9Tqqmf4uWfatU8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="39631108"
-X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; 
-   d="scan'208";a="39631108"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 06:38:55 -0800
-X-CSE-ConnectionGUID: aRs8gQ6NRlCeNprSYvQaxA==
-X-CSE-MsgGUID: erw2t6uqSy+8mS4wFafAkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; 
-   d="scan'208";a="100568897"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Dec 2024 06:38:54 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tSGux-0005r4-1K;
-	Mon, 30 Dec 2024 14:38:51 +0000
-Date: Mon, 30 Dec 2024 22:38:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1673/1673] arch/x86/kvm/svm/csv.c:30:5: sparse:
- sparse: symbol 'csv_vm_attestation' was not declared. Should it be static?
-Message-ID: <202412302222.H5YbllyE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Id27ikw1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02BF3C4CED2;
+	Mon, 30 Dec 2024 14:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735570183;
+	bh=eW/BU1YW9X+cj72JxOX4s+Kpdq1Z8F+pIPiZS0VFGNo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Id27ikw12CWcnIsxgLLwpaOSw8IZd2AOyWCOupIB+R7vUvu2YvE42XKCB0Bpdm6TN
+	 quGRKYVInW2+NlHNDXpQJCeJHP6LaeM6K1VNPqXBxVOcle1xxK8Bz++D1umX40QQg7
+	 CkolSaK05VGqMXCs94GJoMGGxP7lhlAwG8GyUhyodzjEENK4OXx4D/lw2sPCkWNVqM
+	 5gRGCb4q+ZEuprsA+jA9Y2+0g5marYFQdWbFn/xCLOfEV8yv1rcHuDmHH15+9sjuzo
+	 tlUahhSIzE37VJCDEk8MsXsF81vGDsFZMbBLmzJV1VkNy0akICZfmEiMMDdefpu9QM
+	 XZLFzEm7cYKMw==
+Message-ID: <876c0be8-51be-4578-8037-64bdc4f2753e@kernel.org>
+Date: Mon, 30 Dec 2024 15:49:39 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [krzk:next/dt64 21/21]
+ arch/arm64/boot/dts/exynos/exynos990.dtsi:8:10: fatal error:
+ 'dt-bindings/clock/samsung,exynos990.h' file not found
+To: Igor Belwon <igor.belwon@mentallysanemainliners.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+References: <202412300233.Ey9SD8JJ-lkp@intel.com>
+ <8065b144-4d4c-4055-aa5f-e71897468464@kernel.org> <Z3KWdMqz_HKgYW3Q@debian>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <Z3KWdMqz_HKgYW3Q@debian>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8fc6624288123b0750ac5164020e637b70f1de2b
-commit: 0f13b8634792cff1f2fb18bf35e5a24d7a8cbf8e [1673/1673] KVM: x86: Support VM_ATTESTATION hypercall
-config: x86_64-randconfig-121-20241230 (https://download.01.org/0day-ci/archive/20241230/202412302222.H5YbllyE-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412302222.H5YbllyE-lkp@intel.com/reproduce)
+On 30/12/2024 13:47, Igor Belwon wrote:
+> On Mon, Dec 30, 2024 at 08:25:34AM +0100, Krzysztof Kozlowski wrote:
+>> On 29/12/2024 19:51, kernel test robot wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git next/dt64
+>>> head:   f21231ac28f44cd5daf50bc8fdae381f451b46c9
+>>> commit: f21231ac28f44cd5daf50bc8fdae381f451b46c9 [21/21] arm64: dts: exynos990: Add clock management unit nodes
+>>> config: arm64-randconfig-052-20241229 (https://download.01.org/0day-ci/archive/20241230/202412300233.Ey9SD8JJ-lkp@intel.com/config)
+>>> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+>>> dtschema version: 2024.12.dev5+gea243eb
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412300233.Ey9SD8JJ-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202412300233.Ey9SD8JJ-lkp@intel.com/
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>    In file included from arch/arm64/boot/dts/exynos/exynos990-c1s.dts:9:
+>>>>> arch/arm64/boot/dts/exynos/exynos990.dtsi:8:10: fatal error: 'dt-bindings/clock/samsung,exynos990.h' file not found
+>>>    #include <dt-bindings/clock/samsung,exynos990.h>
+>>>             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>    1 error generated.
+>>>
+>>
+>> So this wasn't built (no dependency mentioned in the commit changelog).
+>>
+>> Best regards,
+>> Krzysztof
+> 
+> Hi Krzysztof,
+> 
+> Really sorry for this. This patch obviously depends on the previous CMU
+> driver patch. If you would like, you can drop this change and I can resend
+> with the dependency in the commit letter. If not, I will just keep this
+> in mind for my next patches.
+I applied with dependency.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412302222.H5YbllyE-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/svm/csv.c:30:5: sparse: sparse: symbol 'csv_vm_attestation' was not declared. Should it be static?
-
-vim +/csv_vm_attestation +30 arch/x86/kvm/svm/csv.c
-
-    29	
-  > 30	int csv_vm_attestation(struct kvm *kvm, unsigned long gpa, unsigned long len)
-    31	{
-    32		struct kvm_sev_info *sev = &to_kvm_svm(kvm)->sev_info;
-    33		struct sev_data_attestation_report *data = NULL;
-    34		struct page **pages;
-    35		unsigned long guest_uaddr, n;
-    36		int ret = 0, offset, error;
-    37	
-    38		if (!sev_guest(kvm) || !hygon_kvm_hooks.sev_hooks_installed)
-    39			return -ENOTTY;
-    40	
-    41		/*
-    42		 * The physical address of guest must valid and page aligned, and
-    43		 * the length of guest memory region must be page size aligned.
-    44		 */
-    45		if (!gpa || (gpa & ~PAGE_MASK) || (len & ~PAGE_MASK)) {
-    46			pr_err("invalid guest address or length\n");
-    47			return -EFAULT;
-    48		}
-    49	
-    50		guest_uaddr = gfn_to_hva(kvm, gpa_to_gfn(gpa));
-    51		pages = hygon_kvm_hooks.sev_pin_memory(kvm, guest_uaddr, len, &n, 1);
-    52		if (IS_ERR(pages))
-    53			return PTR_ERR(pages);
-    54	
-    55		/*
-    56		 * The attestation report must be copied into contiguous memory region,
-    57		 * lets verify that userspace memory pages are contiguous before we
-    58		 * issue commmand.
-    59		 */
-    60		if (hygon_kvm_hooks.get_num_contig_pages(0, pages, n) != n) {
-    61			ret = -EINVAL;
-    62			goto e_unpin_memory;
-    63		}
-    64	
-    65		ret = -ENOMEM;
-    66		data = kzalloc(sizeof(*data), GFP_KERNEL);
-    67		if (!data)
-    68			goto e_unpin_memory;
-    69	
-    70		/* csv_vm_mnonce indicates attestation request from guest */
-    71		if (sizeof(csv_vm_mnonce) >= sizeof(data->mnonce)) {
-    72			ret = -EINVAL;
-    73			goto e_free;
-    74		}
-    75	
-    76		memcpy(data->mnonce, csv_vm_mnonce, sizeof(csv_vm_mnonce));
-    77	
-    78		offset = guest_uaddr & (PAGE_SIZE - 1);
-    79		data->address = __sme_page_pa(pages[0]) + offset;
-    80		data->len = len;
-    81	
-    82		data->handle = sev->handle;
-    83		ret = hygon_kvm_hooks.sev_issue_cmd(kvm, SEV_CMD_ATTESTATION_REPORT,
-    84						    data, &error);
-    85	
-    86		if (ret)
-    87			pr_err("vm attestation ret %#x, error %#x\n", ret, error);
-    88	
-    89	e_free:
-    90		kfree(data);
-    91	e_unpin_memory:
-    92		hygon_kvm_hooks.sev_unpin_memory(kvm, pages, n);
-    93		return ret;
-    94	}
-    95	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
