@@ -1,237 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C392F158858
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 07:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738E519F462
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 07:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735542820; cv=none; b=sGCjxZ5hRaL+6JQ78BsRpiJm00foiSfHdAr6KgfPdOusOC7zwkXzVkjYgl6DV2hN6WBPZqmHw35aYVUmkpd9BUBJX2jKNafF4YK+qf6dvuyunYE5SnpTy2c2hBSYAZBSZb9CRKq+Pmx0XDLeJUHFbgYoXWP0I6pGPJtfzOIj/0I=
+	t=1735543538; cv=none; b=jpAtn2wHqMf3D5r4oCimgbq2b002F4PC3x4cTfzDfeD8Lxb/1q2zVo9GpIpGvhPZ5CpqfyK6N+kAiupYX0ZxHkouoat/p3lOu+8ivTFhgrX5UELDMNTf+A8U7Q4poRqr/4F/nGJUVQ1MT9y3y57vT5BRPJdoXWcDPjyjFkmOSok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735542820; c=relaxed/simple;
-	bh=dzaKn13wMfIdixLg5+r3LjokndLms3lvcY4rFBVIm84=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rCxW59eA+TdeZvcUSurXS9Hi7OkYFxVGa9fVWrE8H+P3gh2ihM1uvXGN9OQ8bjSRIfMV4gYxT7AY3a2xSLAnLLtiNs+57vHbgNnQYsPGu/PQX67M0OvGTVSwqQ/TzvK3MpBCQ/c4PcWrNSl6Pgqi+37pfcLV1zq81lwQzyJTK2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYIte1um; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735543538; c=relaxed/simple;
+	bh=kytUhvkkhvzKf3ALkC6TEr+vWL6EI6iM9TYQoMlQNx8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ESx20LtI2uCxgqD+QP3C+OVhlMYfOGnAZphiuA1a1Axleuux5c0zCGgxKAZkqXpFD3JR5zF9xd1WxYrjFZ2lGg3dYM6E/85mWhlIdXw6h62W7xmhnqVs0uhBB+7KA13ZW7h9makpK++LK2a/V9Ryyy1CHhRhbHUbLH7DGealehM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBzqUD1K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYIte1um"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735542818; x=1767078818;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dzaKn13wMfIdixLg5+r3LjokndLms3lvcY4rFBVIm84=;
-  b=XYIte1um+glx8IOvV7YVbbBzMUnDBjVmgNTIWfmf1iKFTpNkBodPlJ/f
-   2nDuzxOZqwP/PdNWVoAa1ntqq7CyuSjBkOtuyVmFCLw3f3vT1Xy5iXYVM
-   By61CQaGoRFIWtyQb1dfWqbUokwCzEgA+HAa7FmcOyTcviYLyxFAgUkSe
-   y4sN48OrR+iAX6GcXQ2qKymbniSjnX0YjkiVREsbU8Ab9ely56iqp1K22
-   +lng7neb2CMv3S55MNPS9wfAzI8vQy3G7vDCQc+DrvBfX37S61+UaR+et
-   Co1akUYV5NtJxOBSp0XuCcADH+YEiVwN97Q+jfVVp7d1vQ1t9RtJYDubF
-   Q==;
-X-CSE-ConnectionGUID: oaUKaG44QzC8GBe9cN0g0g==
-X-CSE-MsgGUID: 3d1LZDEZSu+hfSEri7gbdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="39512639"
-X-IronPort-AV: E=Sophos;i="6.12,275,1728975600"; 
-   d="scan'208";a="39512639"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 23:13:37 -0800
-X-CSE-ConnectionGUID: Ew9UZtV1SUCduY++I9Ut8g==
-X-CSE-MsgGUID: QYyVYW5sQQ+Z3KW9h/fq7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104783702"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Dec 2024 23:13:36 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tS9y1-0005Vo-3D;
-	Mon, 30 Dec 2024 07:13:33 +0000
-Date: Mon, 30 Dec 2024 15:12:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb:
- dp-bridge@5c: switches:switch@0: 'port' is a required property
-Message-ID: <202412301535.fQGIyekz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBzqUD1K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22E7DC4CED7;
+	Mon, 30 Dec 2024 07:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735543538;
+	bh=kytUhvkkhvzKf3ALkC6TEr+vWL6EI6iM9TYQoMlQNx8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kBzqUD1KN2SIh/6nsN0rJmoZ+Fcs80qY+5udH/JCkUAc4ky9dWZlsYynEzKXwKswN
+	 Nqjz803IkAqlYhUSMGxD6+9VtPT923NDLCLjbsbNP6z/8E3gZmtZ6HQY6Qq30QHkFu
+	 8IUVi4mn/uscRMkTSpBCCQPisCCU5ezZTLbuL1VXNlg58vnVJvfZ94VXH4ebAK89qd
+	 sI1mmqIqf3GdTAhTV/ESUR56M1CZgCaVi1WG4/xMePcwnCtP33Jxu0X0NW6BOqqXq2
+	 tzvSb0XT8r5XkiFOrk7p2V2uVF7rp03W3NuCkaPUC3ExzoBRovAF8isnxRCPsjS024
+	 XNyhBohiWV3ew==
+Message-ID: <8065b144-4d4c-4055-aa5f-e71897468464@kernel.org>
+Date: Mon, 30 Dec 2024 08:25:34 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [krzk:next/dt64 21/21]
+ arch/arm64/boot/dts/exynos/exynos990.dtsi:8:10: fatal error:
+ 'dt-bindings/clock/samsung,exynos990.h' file not found
+To: kernel test robot <lkp@intel.com>,
+ Igor Belwon <igor.belwon@mentallysanemainliners.org>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202412300233.Ey9SD8JJ-lkp@intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <202412300233.Ey9SD8JJ-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   ca8e7ba4cbf9fe4c8fe507bf6d5f91c4f6d0b173
-commit: fe191ad6ae40c91af7e51ec7881ba6a2dd637364 [4/4] CHROMIUM: arm64: dts: mt8186: Update SKU settings for Veluza
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241230/202412301535.fQGIyekz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412301535.fQGIyekz-lkp@intel.com/reproduce)
+On 29/12/2024 19:51, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git next/dt64
+> head:   f21231ac28f44cd5daf50bc8fdae381f451b46c9
+> commit: f21231ac28f44cd5daf50bc8fdae381f451b46c9 [21/21] arm64: dts: exynos990: Add clock management unit nodes
+> config: arm64-randconfig-052-20241229 (https://download.01.org/0day-ci/archive/20241230/202412300233.Ey9SD8JJ-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+> dtschema version: 2024.12.dev5+gea243eb
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412300233.Ey9SD8JJ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412300233.Ey9SD8JJ-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from arch/arm64/boot/dts/exynos/exynos990-c1s.dts:9:
+>>> arch/arm64/boot/dts/exynos/exynos990.dtsi:8:10: fatal error: 'dt-bindings/clock/samsung,exynos990.h' file not found
+>    #include <dt-bindings/clock/samsung,exynos990.h>
+>             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    1 error generated.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412301535.fQGIyekz-lkp@intel.com/
+So this wasn't built (no dependency mentioned in the commit changelog).
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131076', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131076', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131076.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131077', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131077', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131077.dtb: sound: 'model' is a required property
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131080', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131080', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131080.dtb: sound: 'model' is a required property
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
