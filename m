@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8952154BE4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 21:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F069B199949
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 22:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735593409; cv=none; b=PlZnJmRmRo9nD6Q5Cu3ZPXjoicBedKICnJI2dm4BsyDsKJhcPViSb3ggHV373OVgwJponNm3nk2RiNi9tishTlh1ID+Uru5B16cJ1e2NZ+36sfGVoIffhN7ZVl6jOHmVHw0PU8xQDdCWU2sy+DSi3HgJpc6knXLURkH4VZQo6Os=
+	t=1735597797; cv=none; b=nxCjs8zuliLympuohhuAKNzqbVD+NJlHp4C9YDOOm1AIxeMLIElTez2o4GlbgskL+1t1BmxdwH59Um0dGFdXhnX3wlJCpSUETH+wlUGCpsgujQhj2Q+c7JCQZz/kEErYkXMEjupm0ZBgMEBws3XE+VLiGNmH5WCpWbUv28Gn3HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735593409; c=relaxed/simple;
-	bh=MI9RmAAwEZLfce8Qh8dsCZnEdN0kYlau8XtzN8SDjHs=;
+	s=arc-20240116; t=1735597797; c=relaxed/simple;
+	bh=BHmYGKz7LKG1jZuVoncvcV1g+87Y90HkVynsuJzF9tI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a/0KivtiSLcGruBQb8ps8lHhR2uB5smhopXuWDfYjqOwVyfx+v0GAKCukB1dqnaFnSIUKaWNN9BsTCSJlAr1vs+oij3sbQZSvF0UNd63a0kWciw8Tzu8ErJ1kOJ8+u4XKLD2kQxZ9xKoP+sMBBCM7jjGHZ2prePYTOciZO/9DtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIqWqlOE; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Lm4i7qUotC7OLZDksebAfKL93wDwihVd6SrO0mT5mK9oZWwFABn/sOpSSjb3IiXg5XWF0qHoajHO4I7QDZYeLzdVM3ItCTAi0tHnUFy4SXYNfMWkLofgoLvB2HiyiSv6tmdDOSfz72UWDWvKV314Qta7DLsCYd5CHRZWRKQIaQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJXn5mGI; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIqWqlOE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJXn5mGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735593407; x=1767129407;
+  t=1735597795; x=1767133795;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MI9RmAAwEZLfce8Qh8dsCZnEdN0kYlau8XtzN8SDjHs=;
-  b=YIqWqlOEx4iXiFItwi7gFtePezSZJ8bOtv1+nQnveYcUvlBb5p4xm17k
-   5JBdvSQB3XKKNauaPCAZp+HDP8kAdDj1eb88D8O06svazqasU7/8PhJO1
-   IftZSSy/AzKs8AeHUu2UNS3cGJT5H9qIxN4LdXtTXpn6uZIyTgv2Ge6EM
-   KIlWEUegRXmOHk4AzjbeoUbJBVLO3X4jyxkVTUdIb0DLlInOdx4t3CIxk
-   ASOcyPzawA/T3sXobK0P82KqaTk5rVRSd/qji2NH/ybbf06C/JYS/VLr+
-   jB+6+Cq82Snon4mjG8oofuVb3y+jR/Ljb0Se2xLkXNgCa4o0ai39O60in
-   A==;
-X-CSE-ConnectionGUID: 1NZVhKsVQ9u5TXpjDwA6Gg==
-X-CSE-MsgGUID: hr86KhdSQqSa7/iZeY7WGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="53427571"
+  bh=BHmYGKz7LKG1jZuVoncvcV1g+87Y90HkVynsuJzF9tI=;
+  b=RJXn5mGI3s/odkTy9dUfBqXIT0Z3SPgnuXOAvAdXW4mDO3Lw74i4aW4I
+   XcTpLb+I+0cAxFvQ4hOzvo6qav7fyA0q/88V5L4Mg22/uDwlKNSjKX41H
+   lFBCxsCHay40TWwRMuN8pAEAShVnC+Mj3yHjCzWnGpr2uDgvcL/qYbr7z
+   XJpvZ7BW2++PuaW/IIi1rRf2V+kE7hPoteGPymr9gKD/0D2UJF98PiPXJ
+   BUMLz7cuxwQDF9aY1dMjmpj75g9X4I86eZRMafLLDVQTmUmOzK/leUTh4
+   ExNFX4RvLPKdai2BOvP6yuCql6oQxJZ4BBp+yUvzJB2VU7J7qyKQ/5hWG
+   w==;
+X-CSE-ConnectionGUID: usBNERtHQju7R32dWLkmrA==
+X-CSE-MsgGUID: Q4axX4VjQUS9gn7mt2mUqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="47247935"
 X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
-   d="scan'208";a="53427571"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 13:16:46 -0800
-X-CSE-ConnectionGUID: Y+ESGKAwT6GUIb6hL9R1ag==
-X-CSE-MsgGUID: Axau30bmRQeZImg3O9nKig==
+   d="scan'208";a="47247935"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 14:29:55 -0800
+X-CSE-ConnectionGUID: LLJahgaGQm+ReYgQP9twKg==
+X-CSE-MsgGUID: HzpqCV4CQX6ZhfaHZo9ZgQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
-   d="scan'208";a="101056693"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="105963749"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Dec 2024 13:16:45 -0800
+  by orviesa003.jf.intel.com with ESMTP; 30 Dec 2024 14:29:53 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSN7y-0006PJ-28;
-	Mon, 30 Dec 2024 21:16:42 +0000
-Date: Tue, 31 Dec 2024 05:15:59 +0800
+	id 1tSOGl-0006RT-0d;
+	Mon, 30 Dec 2024 22:29:51 +0000
+Date: Tue, 31 Dec 2024 06:29:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org, Baokun Li <libaokun1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [openeuler:OLK-5.10 2610/2610] fs/cachefiles/xattr.c:221:5: warning:
- no previous prototype for function 'cachefiles_check_old_object_xattr'
-Message-ID: <202412310541.8ZI8Il3W-lkp@intel.com>
+ no previous prototype for 'cachefiles_check_old_object_xattr'
+Message-ID: <202412310612.ETObn9wZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,34 +65,20 @@ Content-Disposition: inline
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   8bba4b17284e774544bd01d9ea5190546e93a849
 commit: 62cbbf255badab153207e0a54d04da8c345ae307 [2610/2610] cachefiles: use mainline xattr in ondemand mode
-config: x86_64-buildonly-randconfig-001-20241230 (https://download.01.org/0day-ci/archive/20241231/202412310541.8ZI8Il3W-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310541.8ZI8Il3W-lkp@intel.com/reproduce)
+config: arm64-randconfig-004-20241230 (https://download.01.org/0day-ci/archive/20241231/202412310612.ETObn9wZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310612.ETObn9wZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412310541.8ZI8Il3W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412310612.ETObn9wZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/cachefiles/xattr.c:12:
-   In file included from include/linux/fsnotify.h:16:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:1587:
-   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/cachefiles/xattr.c:221:5: warning: no previous prototype for function 'cachefiles_check_old_object_xattr' [-Wmissing-prototypes]
+>> fs/cachefiles/xattr.c:221:5: warning: no previous prototype for 'cachefiles_check_old_object_xattr' [-Wmissing-prototypes]
      221 | int cachefiles_check_old_object_xattr(struct cachefiles_object *object,
-         |     ^
-   fs/cachefiles/xattr.c:221:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     221 | int cachefiles_check_old_object_xattr(struct cachefiles_object *object,
-         | ^
-         | static 
-   2 warnings generated.
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/cachefiles_check_old_object_xattr +221 fs/cachefiles/xattr.c
