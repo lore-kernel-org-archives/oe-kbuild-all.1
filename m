@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7668C1ACECC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 18:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2255E2AE72
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Dec 2024 18:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735582773; cv=none; b=bpoHgZ1oigNeI9noR21NINE+TfBv9y3Lbcl/wZgG4fKWFCKEtTT1Puc0xOVNj8J4jR816esnhCEzF15Fgc3d8IgBHlBTpEVTP3PWdixUVHIfEuhQUhBf3BxuZkJLZk7jqyO0vqXBNjc5+0HEGT1sGRLi2KRgYLRB/sR++j4yMZU=
+	t=1735584693; cv=none; b=Air+qeih0/Mw5uTFKqSxHagnhN6O+WG2lxRUaW4jE8c4Gj+w2RKBw0kBKOaAvXpMtWBYKask88Az4OunOGn1d8dPlJXz8hF+ykg3FPEEn/XzvBnFOFpK11HxL1EecV73ZEapgchxYyuKeaHf1qLFO4OlY2N0PpwbWrffz6FNr18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735582773; c=relaxed/simple;
-	bh=9W8SV5dlZXAmhdKghm86Bcm6T0pbCOijPIy/cch2hOM=;
+	s=arc-20240116; t=1735584693; c=relaxed/simple;
+	bh=FEyqLb5zS/fQkm0IB8Na1WzRE20RPjnglYrwkmkZ9ik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C3c93LzEJCZHQzMg1zoXdpqU7ozekNkE2CoPZ0tLTERKA3b8m6USPNnWON4lmjcOKwwxMaO9uaJ5DzO7YI7F4Fms/oXMEfSRnxVxMOETsClhWLlJt6fz78hdvEynM8Y7/4zlx49KRDSSO8AzoldMmzDMXT4rHkOBO4TDAJ5t2yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqW06aGl; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=O1vFlF3xVYNAYMuzvSk6QUGCyDGzVMENmBxcJ9cTExpO8Cp7B8+5LoVBkgi0HZOty+2UZigejwWh+ciOC/AmchBclfvYGW/Ig/m90CfBm8zdYA/d5HYfP6PkkehBOO+0mfSi67PQ542iksYhackgghhKLuIPt5jahmJaRaEDye4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FjzbW25X; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqW06aGl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FjzbW25X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735582771; x=1767118771;
+  t=1735584691; x=1767120691;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9W8SV5dlZXAmhdKghm86Bcm6T0pbCOijPIy/cch2hOM=;
-  b=aqW06aGl54GnGHifmMb4QBDybylTg+dfZ2ki9X9w9bAfcPkZRI/nT2cn
-   ghppKyNE9QTWdSAOSDXXZhT5+6N/VUxTd1zST1337KJxKpaBUCcOJejlP
-   FSenfh3Qb34DvhqomzK2j4SL4oIJ6i2YBw/Sf1HrZqR9yr6zuDg64RwAF
-   wc5GFRCy/cdwFxhv6znEOaMkPeJLkJtOUmf5MxIFUyAEtOOYRLG28PzCm
-   1dAWu08ciHNo9xnPe1+VunNceHm/gDO5/3OHg+TchQG6XOBVC5KH3CnOP
-   k8yd2BFZVCY9b5Dnj2fspdab/YqGSma7HzJ9G4sBXY0XLclyvPMEI2BEl
+  bh=FEyqLb5zS/fQkm0IB8Na1WzRE20RPjnglYrwkmkZ9ik=;
+  b=FjzbW25X/gh31PllC5QL00Vc/dDu5E2yB0aiIOWL5NMmMlqMRRwTCzXy
+   cUBOJeCWPPbZglkUi7xVbRmwe6MLsc6La8ISjPiDmpKwk8sakquB6ha2J
+   pi5EbyQtbfbFLDayCHywLxTe01hwHV6iQu/5bsoXn0/zEFna8zKf4z6lN
+   4XPA2ftw6K7qNtXtT0Njq1POBKfJl8oALmnoFZnlGN5/50HCwwgFxMrGh
+   Ia8+2E6rkkfWqbCE31/gFM4TD5mzCUABU1iEwlRSGl2kK2MmaNZczNYdr
+   0VRrcigedW6fPt6AodmHgMO7mys5i1u29YFw/U24kDaAmQBXQDXtGkADD
    g==;
-X-CSE-ConnectionGUID: 0cWfUzfgTpG8/xD268i8vA==
-X-CSE-MsgGUID: 4BaEhYB6TSuYONgwLrMOaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="35752927"
+X-CSE-ConnectionGUID: QYPUC8eZSNqD2zSdnnrpyw==
+X-CSE-MsgGUID: JPpg0I0xS7aChbQLNEjrTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="35986797"
 X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
-   d="scan'208";a="35752927"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 10:19:28 -0800
-X-CSE-ConnectionGUID: lhdXp0iFSHOOgQXHBpJLbA==
-X-CSE-MsgGUID: SsnxSI2ZTeWtSVwMmW665w==
+   d="scan'208";a="35986797"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 10:51:31 -0800
+X-CSE-ConnectionGUID: Zaa7aZELRh6yvxW0rbRASA==
+X-CSE-MsgGUID: B+mwbYZZT8mUi4+uifMvlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
-   d="scan'208";a="100968478"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101712490"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Dec 2024 10:19:27 -0800
+  by orviesa008.jf.intel.com with ESMTP; 30 Dec 2024 10:51:29 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSKMO-0006Ih-1a;
-	Mon, 30 Dec 2024 18:19:24 +0000
-Date: Tue, 31 Dec 2024 02:18:42 +0800
+	id 1tSKrP-0006KT-18;
+	Mon, 30 Dec 2024 18:51:27 +0000
+Date: Tue, 31 Dec 2024 02:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Baokun Li <libaokun1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb:
- /soc/thermal-sensor@1100b000: failed to match any schema with compatible:
- ['mediatek,mt8195-lvts']
-Message-ID: <202412310247.x9XYY6jH-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2610/2610] fs/cachefiles/ondemand.c:23:25:
+ warning: implicit conversion from 'enum cachefiles_obj_ref_trace' to 'enum
+ fscache_obj_ref_trace'
+Message-ID: <202412310256.l8FuLcbO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,91 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   ca8e7ba4cbf9fe4c8fe507bf6d5f91c4f6d0b173
-commit: fe729576a2de49184c3946da98846fb744caead4 [4/4] CHROMIUM: arm64: dts: mediatek: mt8195: Match DT node name with SVS driver
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241231/202412310247.x9XYY6jH-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   8bba4b17284e774544bd01d9ea5190546e93a849
+commit: 2937cd5f8c58bd8e7895f6b2698057721442248e [2610/2610] cachefiles: notify the user daemon when looking up cookie
+config: arm64-randconfig-004-20241230 (https://download.01.org/0day-ci/archive/20241231/202412310256.l8FuLcbO-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310247.x9XYY6jH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310256.l8FuLcbO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412310247.x9XYY6jH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412310256.l8FuLcbO-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3625.22-3629.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3631.34-3635.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3022.17-3080.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3097.17-3134.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: eth-phy0@1: Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: eth-phy0@1: $nodename:0: 'eth-phy0@1' does not match '^ethernet-phy(@[a-f0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: gpu@13000000: 'power_model@0', 'power_model@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: mutex@1c101000: 'clock-names', 'reg-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3625.22-3629.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3631.34-3635.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3022.17-3080.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3097.17-3134.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
->> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: regulator: 'BUCK1', 'BUCK2', 'LDO1', 'LDO2', 'LDO3', 'LDO5', 'LDO6', 'LDO7' do not match any of the regexes: '^buck[12]$', '^ldo[123567]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6360-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: gpu@13000000: 'power_model@0', 'power_model@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: mutex@1c101000: 'clock-names', 'reg-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
->> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3625.22-3629.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3631.34-3635.7: Warning (unit_address_vs_reg): /thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3022.17-3080.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3097.17-3134.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: gpu@13000000: 'power_model@0', 'power_model@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/gpu@13000000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/gpu@13000000/power_model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: mutex@1c101000: 'clock-names', 'reg-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+All warnings (new ones prefixed by >>):
+
+   fs/cachefiles/ondemand.c: In function 'cachefiles_ondemand_fd_release':
+>> fs/cachefiles/ondemand.c:23:25: warning: implicit conversion from 'enum cachefiles_obj_ref_trace' to 'enum fscache_obj_ref_trace' [-Wenum-conversion]
+      23 |                         cachefiles_obj_put_ondemand_fd);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cachefiles/ondemand.c: In function 'cachefiles_ondemand_get_fd':
+   fs/cachefiles/ondemand.c:145:25: warning: implicit conversion from 'enum cachefiles_obj_ref_trace' to 'enum fscache_obj_ref_trace' [-Wenum-conversion]
+     145 |                         cachefiles_obj_get_ondemand_fd) ? 0 : -EAGAIN;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cachefiles/ondemand.c:191:25: warning: implicit conversion from 'enum cachefiles_obj_ref_trace' to 'enum fscache_obj_ref_trace' [-Wenum-conversion]
+     191 |                         cachefiles_obj_put_ondemand_fd);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +23 fs/cachefiles/ondemand.c
+
+     7	
+     8	static int cachefiles_ondemand_fd_release(struct inode *inode,
+     9						  struct file *file)
+    10	{
+    11		struct cachefiles_object *object = file->private_data;
+    12		int object_id = object->ondemand_id;
+    13		struct cachefiles_cache *cache;
+    14	
+    15		cache = container_of(object->fscache.cache,
+    16				     struct cachefiles_cache, cache);
+    17	
+    18		object->ondemand_id = CACHEFILES_ONDEMAND_ID_CLOSED;
+    19		xa_lock(&cache->ondemand_ids.idr_rt);
+    20		idr_remove(&cache->ondemand_ids, object_id);
+    21		xa_unlock(&cache->ondemand_ids.idr_rt);
+    22		object->fscache.cache->ops->put_object(&object->fscache,
+  > 23				cachefiles_obj_put_ondemand_fd);
+    24		return 0;
+    25	}
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
