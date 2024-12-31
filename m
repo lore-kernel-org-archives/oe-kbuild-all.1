@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094052907
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 00:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9758F5E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 00:36:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735604708; cv=none; b=f6RKCNSm/KIPQhMmg9bXZ6JOCfS9/rhOHuhNGqReL4+IFd3/0mQKyNu5oXHeCfxrMqbE4GXLtslriE7RsB/BjK6b06z8rVjjPYSQNUkY1w5VimOVhB4rReFKR7mhWbXnQjBwI/OhhvjonavFMys7GksOk47MEYVVEu3X0Yr03XM=
+	t=1735605369; cv=none; b=geF8rZQ88nOgn3zk9/VcBLT5kaxxipTlNzIgwN6RyZ9/58uOBb173I3KpMf7ohccEkW5GecP8PxunKdjgOaWsL7o7PLhb2v6ar8LsikclppcuLhJo7PdaXU8uePPekdOnzsAoHib3kSxus49+GwDSQD/fy1t5vGuzgJK2Tayes0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735604708; c=relaxed/simple;
-	bh=Vv9WTTAzVfld559Bc1f5YaRLtXn9n7ljMG3jiG5qZ7s=;
+	s=arc-20240116; t=1735605369; c=relaxed/simple;
+	bh=fhEb/EBnJXNUd/wOQRnU6MnQ2hFqO1xhHnaWLyuFEaw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VcgZiIR4iBfWMdsPOa57I49XSin+FIcs75DYfYGxAazA2WdQAh/kcfZI4hXRn3tERHCzovBw6wA2AsQ+mndOuU9YywUnDUVoiRRqd0dHSStFxwvkBXfTu2fXQqwJvhRqoyOXt8ySd9pnLJnvZIFPrr0lxru34W0bsw9ENPQWzno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k1JL8vls; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=QqRxRrBAcwN5gHFpI7e7s35bDjhcQ9NMCq6jHN2V0mlfi9CXxtarUdhM6KAM19DsSnmD3GI3OH/Zob6DcGYPK0v5IKwVLDMZ3Vdbdh2/oG4H45tK+uJWudL6fvioY1DVA1VZV7FbTiBzaDh3JFt+uygR7FLwMD/vRJGX+IB9+/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JytcWg/X; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k1JL8vls"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JytcWg/X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735604706; x=1767140706;
+  t=1735605367; x=1767141367;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vv9WTTAzVfld559Bc1f5YaRLtXn9n7ljMG3jiG5qZ7s=;
-  b=k1JL8vlsgw1PcOdxeG1IChJqkt2UoKBx4htirxoXLOWdgmS3F1wAuBaY
-   jQYzoy65HBCvPzu8DD3PwXVm0vfHFXiB3ypGq+S6K5Su7Mf63MOQzIG1D
-   Qzp3YUB9TWahfSJc47FZd12mmtWfQeOOrzrdJv7L3SxJX44E5n4JfA+vl
-   KAkaCZYjsCXaSvbU2WGDcYIbGoMklKJ8zBugaKtGLDPHKAHne+hsaOKPC
-   TYxhsl75SPuUL3LucmZUYAbSHTREbI+hBBO6VIbxuoQU1UxFo4rnwvu/8
-   tmkTKbQMCSKcqStElbwBMruwIOsHxcuRW4tvVHjYWNwfAo2LrlUDk9MTU
-   g==;
-X-CSE-ConnectionGUID: peaIt+mrTV6RMxFrz0n7VQ==
-X-CSE-MsgGUID: xel8DZNTSVmuhoa1PUmdAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="39818302"
+  bh=fhEb/EBnJXNUd/wOQRnU6MnQ2hFqO1xhHnaWLyuFEaw=;
+  b=JytcWg/XWnjeTxCnmOsM1hLWJ5U76f6QavcC+YqxpFbETMK8JNiy12LY
+   22fDxSqnJQPXO2hm3KFo+omb7Wz+HMj/JQM9ilDJAQ5mD+q+PbRCmBs5B
+   otK6PMRJhVV9pruNM99suQiTQhZnwjoJpjqpooOPyjg+qD5Ec7ST73TXh
+   EJHJC2gcU34SWtM1RjjJEVFKV3f+g3oeHDyUMsgVLXn02vJiFbK+ognJ2
+   EKHj5BUa9nzRASakTce/fICuRGXI8/zqNhMOok1v6Ha3DNrpxSyWjwcs5
+   95HKtG7Ar69hrGT8FLs5ziPes5EDpKJK1SFigv3I6ltpMtxtQajjDymKL
+   A==;
+X-CSE-ConnectionGUID: su2WxZ+ISUGJFGtto7FqMA==
+X-CSE-MsgGUID: GEN/SvU/QHCC993EGYjqbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="39818749"
 X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
-   d="scan'208";a="39818302"
+   d="scan'208";a="39818749"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 16:25:05 -0800
-X-CSE-ConnectionGUID: l/qg2707QQWSc8ml0p11UA==
-X-CSE-MsgGUID: rs7Ve7u3RamzPF4s7DAOgQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 16:36:07 -0800
+X-CSE-ConnectionGUID: wcU12ezKT+2i2Pl2/FfzpA==
+X-CSE-MsgGUID: J4GA6EHDSRGqBRDbgjkw+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="138255658"
+   d="scan'208";a="138257044"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Dec 2024 16:25:04 -0800
+  by orviesa001.jf.intel.com with ESMTP; 30 Dec 2024 16:36:06 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSQ4D-0006UZ-2q;
-	Tue, 31 Dec 2024 00:25:01 +0000
-Date: Tue, 31 Dec 2024 08:24:38 +0800
+	id 1tSQEt-0006V0-0n;
+	Tue, 31 Dec 2024 00:36:03 +0000
+Date: Tue, 31 Dec 2024 08:35:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 4/4]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb:
- dp-bridge@5c: switches:switch@0: 'port' is a required property
-Message-ID: <202412310835.Obpn4VYf-lkp@intel.com>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1117: warning: cannot
+ understand function prototype: 'struct registry_list_entry '
+Message-ID: <202412310834.jtCJj4oz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   ca8e7ba4cbf9fe4c8fe507bf6d5f91c4f6d0b173
-commit: 27ba216031ccaf88a3f3805734f55d0135c11d08 [4/4] CHROMIUM: arm64: dts: mt8186: Add unprovisioned SKU IDs for Rusty
-config: arm64-randconfig-053-20241219 (https://download.01.org/0day-ci/archive/20241231/202412310835.Obpn4VYf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310835.Obpn4VYf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ccb98ccef0e543c2bd4ef1a72270461957f3d8d0
+commit: b58a0bc904ffa091fc020f7fd00e91808fec820e nouveau: add command-line GSP-RM registry support
+date:   8 months ago
+config: mips-randconfig-c004-20220208 (https://download.01.org/0day-ci/archive/20241231/202412310834.jtCJj4oz-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310834.jtCJj4oz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412310835.Obpn4VYf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412310834.jtCJj4oz-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: mt6315@6: regulators: 'buck1', 'buck3', 'buck4' do not match any of the regexes: '^vbuck[1-4]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: dp-bridge@5c: switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: dp-bridge@5c: switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: dp-bridge@5c: switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: dp-bridge@5c: switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: dp-bridge@5c: Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: sound: 'model' is a required property
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1117: warning: cannot understand function prototype: 'struct registry_list_entry '
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1320: warning: cannot understand function prototype: 'const struct nv_gsp_registry_entries r535_registry_entries[] = '
+
+
+vim +1117 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+
+  1093	
+  1094	/**
+  1095	 * registry_list_entry - linked list member for a registry key/value
+  1096	 * @head: list_head struct
+  1097	 * @type: dword, binary, or string
+  1098	 * @klen: the length of name of the key
+  1099	 * @vlen: the length of the value
+  1100	 * @key: the key name
+  1101	 * @dword: the data, if REGISTRY_TABLE_ENTRY_TYPE_DWORD
+  1102	 * @binary: the data, if TYPE_BINARY or TYPE_STRING
+  1103	 *
+  1104	 * Every registry key/value is represented internally by this struct.
+  1105	 *
+  1106	 * Type DWORD is a simple 32-bit unsigned integer, and its value is stored in
+  1107	 * @dword.
+  1108	 *
+  1109	 * Types BINARY and STRING are variable-length binary blobs.  The only real
+  1110	 * difference between BINARY and STRING is that STRING is null-terminated and
+  1111	 * is expected to contain only printable characters.
+  1112	 *
+  1113	 * Note: it is technically possible to have multiple keys with the same name
+  1114	 * but different types, but this is not useful since GSP-RM expects keys to
+  1115	 * have only one specific type.
+  1116	 */
+> 1117	struct registry_list_entry {
+  1118		struct list_head head;
+  1119		enum registry_type type;
+  1120		size_t klen;
+  1121		char key[REGISTRY_MAX_KEY_LENGTH];
+  1122		size_t vlen;
+  1123		u32 dword;			/* TYPE_DWORD */
+  1124		u8 binary[] __counted_by(vlen);	/* TYPE_BINARY or TYPE_STRING */
+  1125	};
+  1126	
 
 -- 
 0-DAY CI Kernel Test Service
