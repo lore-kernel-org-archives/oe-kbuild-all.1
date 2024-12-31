@@ -1,182 +1,242 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6578918FC80
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 12:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D082AEE9;
+	Tue, 31 Dec 2024 12:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735647587; cv=none; b=SLPAuJIeDekiK/eFIJHGk/hulpjRHi2WElZjNP8n6yRxaNGsEt7ZcC+0On1OMBZdjqKhZQP0binYHzwC1+rZAMn/cga5gXfZxnafRNBLAN+s6go+kSaUK/C0Ll4uOuSaPEleY1wWBRVOzTab4wtJV5IcZUwoo5h0WUmnsMQ/ySs=
+	t=1735648684; cv=none; b=hd6jqYTjaQE+7M/riuS1BVXcmqGSNfbGu1FEzVNJH5qJB2/vlQWLj7NV0kiRJmJat2nGDwmYRRV9w5CDGhc139hoi9DvA5nDPVlkOGY+ycYU9F4LUoILEa863GRsOuLUtqPemqbej+JDZEIHMCRjIBfrSlqFBQwTHDBO/DMZXvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735647587; c=relaxed/simple;
-	bh=C6NLnh0SNOqaI29oaQXUstp1MmNLex0c0sxSTgN3QyQ=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=u8Ai2jTFhIWvMVV2i9aHRgUu66WJhaJBO6mVLWF90EcB/vk3cYwkL0MJdwewGAUhEH7BnD7EYnE6DwPEfY83CHm/ZrShe2pyG8Dimm0Dsu7VFjcd9YMSDlhdnWbdszupvjN7XQEwtuXkKINN1BmuQppoA2DcaJ+CC9gCKN375Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=lW1TS6YX; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1735648684; c=relaxed/simple;
+	bh=eO4FJRCM46xV+UKrRsbLkkdoDyXhlS27Mj0ITYumRtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Up8QPJTmYjrZW6Dr4NGlRHeG3X9DwsU+5tLXoJbGr3/sLn1J1Q4yd4KVKCg/kAUBPwPQbGH04q0d5BAZVToGqp/yP0ru6PTlbU7y4lRPS8qft5rgYk7jInpnekwV2A17Nh8f+3RNI2irhKyIAXblsmoeHcVNLXzKy42emJW4uVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aaroh0/Q; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="lW1TS6YX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S4e9YxJsePe+7zNNxm/v3Psy85l06/LlbPoVIqojLXM=;
-  b=lW1TS6YXKW6qZI0y0luW+vuX8/5JUkWQCDCpmv6eLEq+pzHtYf91ZaOA
-   MK0c+10vpJcEg7agfup3LHS5nEudxl4008NR8PrHHBcaYJrWLBctVZqS7
-   RNkMDen+sXu76uH6WMhD3igGE+De2VlQoUo6nz08rrGekVoo6KPrGINrF
-   c=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.12,279,1728943200"; 
-   d="scan'208";a="105319164"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 13:18:31 +0100
-Date: Tue, 31 Dec 2024 13:18:30 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: cros-kernel-buildreports@googlegroups.com
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 83/83] drivers/mailbox/mailbox.c:447:3-9:
- preceding lock on line 402 (fwd)
-Message-ID: <b94bb036-e126-f596-8161-b99fdce53254@inria.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aaroh0/Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735648682; x=1767184682;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eO4FJRCM46xV+UKrRsbLkkdoDyXhlS27Mj0ITYumRtE=;
+  b=aaroh0/QE21OGMXBW69O6S+FU/NpY2wIeoeCR+IrTOnJqhOZhoe/7TEz
+   JFKbd7QEEV0fHmnQ5V9e3lIaHj7tNKvRN5tqiSuIXKPTfjFe78gfsQLLj
+   V+wKUIeSowL+Ef8DzTKN03Ioa6EMxz3Y3xjXu93OTH6iSw1+6PhqoYFav
+   6k0uxK51JJgo4KxPXV9lRDn2r2I8uprMlSwyuB5IJSUhzk9zKC8qWZjpO
+   /QIIGgPUTNJGKSAHNNdkW9wusadXhc//iANDSHtT5bDMuX3k4UN3R33gG
+   lDACWp5e0Fq2UZbmE8nWq+NME9s1eC6V1mqtE7rbVngTPOyzHG19LD6q1
+   Q==;
+X-CSE-ConnectionGUID: tB3o6GElTf2XItMkMzHnjA==
+X-CSE-MsgGUID: jLD4lqGqTuKMzlA02VMACA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="35813594"
+X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; 
+   d="scan'208";a="35813594"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 04:38:01 -0800
+X-CSE-ConnectionGUID: sMd/QGpVSAa/dpWzn+5Llw==
+X-CSE-MsgGUID: /wIZTnzGSxiLz8HU51MmMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="131982658"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 31 Dec 2024 04:37:56 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tSbVS-00076l-10;
+	Tue, 31 Dec 2024 12:37:54 +0000
+Date: Tue, 31 Dec 2024 20:37:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
+	Corey Minyard <minyard@acm.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	dri-devel@lists.freedesktop.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev, Chong Qiao <qiaochong@loongson.cn>
+Subject: Re: [PATCH v1 2/4] ipmi: Add Loongson-2K BMC support
+Message-ID: <202412311950.Ij7v1vKv-lkp@intel.com>
+References: <a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin@loongson.cn>
 
-A mutex unlock seems to be necessary on line 447.
+Hi Binbin,
 
-julia
+kernel test robot noticed the following build warnings:
 
----------- Forwarded message ----------
-Date: Tue, 31 Dec 2024 18:44:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [chrome-os:chromeos-6.1 83/83] drivers/mailbox/mailbox.c:447:3-9:
-    preceding lock on line 402
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.13-rc5]
+[cannot apply to cminyard-ipmi/for-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   dcf42c495d0dc7b7303797a236fd1a4ee67e9d72
-commit: fd3d96240b7afa9f0b63c70c175bcfe8d903aad0 [83/83] FROMLIST: mailbox: Add power_get/power_put API to mbox_chan_ops
-:::::: branch date: 4 hours ago
-:::::: commit date: 27 hours ago
-config: x86_64-randconfig-104-20241231 (https://download.01.org/0day-ci/archive/20241231/202412311801.3SkeAmZY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-MFD-Core-driver/20241230-174205
+base:   linus/master
+patch link:    https://lore.kernel.org/r/a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v1 2/4] ipmi: Add Loongson-2K BMC support
+config: loongarch-randconfig-r123-20241231 (https://download.01.org/0day-ci/archive/20241231/202412311950.Ij7v1vKv-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241231/202412311950.Ij7v1vKv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412311801.3SkeAmZY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412311950.Ij7v1vKv-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/mailbox/mailbox.c:447:3-9: preceding lock on line 402
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ls2k_kcs_data *ik @@     got void [noderef] __iomem *const addr @@
+   drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse:     expected struct ls2k_kcs_data *ik
+   drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse:     got void [noderef] __iomem *const addr
+   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ls2k_kcs_data *ik @@     got void [noderef] __iomem *const addr @@
+   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse:     expected struct ls2k_kcs_data *ik
+   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse:     got void [noderef] __iomem *const addr
+>> drivers/char/ipmi/ipmi_si_ls2k.c:226:24: sparse: sparse: symbol 'ipmi_ls2k_platform_driver' was not declared. Should it be static?
 
-vim +447 drivers/mailbox/mailbox.c
+vim +110 drivers/char/ipmi/ipmi_si_ls2k.c
 
-a8803d7421cc2b Thierry Reding  2018-11-28  370
-2b6d83e2b8b7de Jassi Brar      2014-06-12  371  /**
-2b6d83e2b8b7de Jassi Brar      2014-06-12  372   * mbox_request_channel - Request a mailbox channel.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  373   * @cl: Identity of the client requesting the channel.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  374   * @index: Index of mailbox specifier in 'mboxes' property.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  375   *
-2b6d83e2b8b7de Jassi Brar      2014-06-12  376   * The Client specifies its requirements and capabilities while asking for
-2b6d83e2b8b7de Jassi Brar      2014-06-12  377   * a mailbox channel. It can't be called from atomic context.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  378   * The channel is exclusively allocated and can't be used by another
-2b6d83e2b8b7de Jassi Brar      2014-06-12  379   * client before the owner calls mbox_free_channel.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  380   * After assignment, any packet received on this channel will be
-2b6d83e2b8b7de Jassi Brar      2014-06-12  381   * handed over to the client via the 'rx_callback'.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  382   * The framework holds reference to the client, so the mbox_client
-2b6d83e2b8b7de Jassi Brar      2014-06-12  383   * structure shouldn't be modified until the mbox_free_channel returns.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  384   *
-2b6d83e2b8b7de Jassi Brar      2014-06-12  385   * Return: Pointer to the channel assigned to the client if successful.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  386   *		ERR_PTR for request failure.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  387   */
-2b6d83e2b8b7de Jassi Brar      2014-06-12  388  struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
-2b6d83e2b8b7de Jassi Brar      2014-06-12  389  {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  390  	struct device *dev = cl->dev;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  391  	struct mbox_controller *mbox;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  392  	struct of_phandle_args spec;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  393  	struct mbox_chan *chan;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  394  	unsigned long flags;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  395  	int ret;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  396
-2b6d83e2b8b7de Jassi Brar      2014-06-12  397  	if (!dev || !dev->of_node) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  398  		pr_debug("%s: No owner device node\n", __func__);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  399  		return ERR_PTR(-ENODEV);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  400  	}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  401
-2b6d83e2b8b7de Jassi Brar      2014-06-12 @402  	mutex_lock(&con_mutex);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  403
-2b6d83e2b8b7de Jassi Brar      2014-06-12  404  	if (of_parse_phandle_with_args(dev->of_node, "mboxes",
-2b6d83e2b8b7de Jassi Brar      2014-06-12  405  				       "#mbox-cells", index, &spec)) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  406  		dev_dbg(dev, "%s: can't parse \"mboxes\" property\n", __func__);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  407  		mutex_unlock(&con_mutex);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  408  		return ERR_PTR(-ENODEV);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  409  	}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  410
-2d805fc1c6b2ec Benson Leung    2015-05-04  411  	chan = ERR_PTR(-EPROBE_DEFER);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  412  	list_for_each_entry(mbox, &mbox_cons, node)
-2b6d83e2b8b7de Jassi Brar      2014-06-12  413  		if (mbox->dev->of_node == spec.np) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  414  			chan = mbox->of_xlate(mbox, &spec);
-8ed82e23875e60 Mikko Perttunen 2018-11-28  415  			if (!IS_ERR(chan))
-2b6d83e2b8b7de Jassi Brar      2014-06-12  416  				break;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  417  		}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  418
-2b6d83e2b8b7de Jassi Brar      2014-06-12  419  	of_node_put(spec.np);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  420
-2d805fc1c6b2ec Benson Leung    2015-05-04  421  	if (IS_ERR(chan)) {
-2d805fc1c6b2ec Benson Leung    2015-05-04  422  		mutex_unlock(&con_mutex);
-2d805fc1c6b2ec Benson Leung    2015-05-04  423  		return chan;
-2d805fc1c6b2ec Benson Leung    2015-05-04  424  	}
-2d805fc1c6b2ec Benson Leung    2015-05-04  425
-2d805fc1c6b2ec Benson Leung    2015-05-04  426  	if (chan->cl || !try_module_get(mbox->dev->driver->owner)) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  427  		dev_dbg(dev, "%s: mailbox not free\n", __func__);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  428  		mutex_unlock(&con_mutex);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  429  		return ERR_PTR(-EBUSY);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  430  	}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  431
-2b6d83e2b8b7de Jassi Brar      2014-06-12  432  	spin_lock_irqsave(&chan->lock, flags);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  433  	chan->msg_free = 0;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  434  	chan->msg_count = 0;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  435  	chan->active_req = NULL;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  436  	chan->cl = cl;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  437  	init_completion(&chan->tx_complete);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  438
-2b6d83e2b8b7de Jassi Brar      2014-06-12  439  	if (chan->txdone_method	== TXDONE_BY_POLL && cl->knows_txdone)
-33cd7123ac0ba5 Sudeep Holla    2017-09-28  440  		chan->txdone_method = TXDONE_BY_ACK;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  441
-2b6d83e2b8b7de Jassi Brar      2014-06-12  442  	spin_unlock_irqrestore(&chan->lock, flags);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  443
-fd3d96240b7afa Jason-jh Lin    2024-06-14  444  	if (chan->mbox->ops->power_get) {
-fd3d96240b7afa Jason-jh Lin    2024-06-14  445  		ret = chan->mbox->ops->power_get(chan);
-fd3d96240b7afa Jason-jh Lin    2024-06-14  446  		if (ret < 0)
-fd3d96240b7afa Jason-jh Lin    2024-06-14 @447  			return ERR_PTR(ret);
-fd3d96240b7afa Jason-jh Lin    2024-06-14  448  	}
-fd3d96240b7afa Jason-jh Lin    2024-06-14  449
-b7133d6fcd9a9e Bjorn Andersson 2017-05-27  450  	if (chan->mbox->ops->startup) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  451  		ret = chan->mbox->ops->startup(chan);
-b7133d6fcd9a9e Bjorn Andersson 2017-05-27  452
-2b6d83e2b8b7de Jassi Brar      2014-06-12  453  		if (ret) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  454  			dev_err(dev, "Unable to startup the chan (%d)\n", ret);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  455  			mbox_free_channel(chan);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  456  			chan = ERR_PTR(ret);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  457  		}
-b7133d6fcd9a9e Bjorn Andersson 2017-05-27  458  	}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  459
-fd3d96240b7afa Jason-jh Lin    2024-06-14  460  	if (chan->mbox->ops->power_put)
-fd3d96240b7afa Jason-jh Lin    2024-06-14  461  		chan->mbox->ops->power_put(chan);
-fd3d96240b7afa Jason-jh Lin    2024-06-14  462
-2b6d83e2b8b7de Jassi Brar      2014-06-12  463  	mutex_unlock(&con_mutex);
-fd3d96240b7afa Jason-jh Lin    2024-06-14  464
-2b6d83e2b8b7de Jassi Brar      2014-06-12  465  	return chan;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  466  }
-2b6d83e2b8b7de Jassi Brar      2014-06-12  467  EXPORT_SYMBOL_GPL(mbox_request_channel);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  468
+   106	
+   107	static unsigned char ls2k_mem_inb(const struct si_sm_io *io,
+   108					  unsigned int offset)
+   109	{
+ > 110		struct ls2k_kcs_data *ik = io->addr;
+   111		int inb = 0;
+   112	
+   113		if (ik->version == 0)
+   114			inb = intf_sim_inb_v0(ik, offset);
+   115		else if (ik->version == 1)
+   116			inb = intf_sim_inb_v1(ik, offset);
+   117	
+   118		return inb;
+   119	}
+   120	
+   121	static void intf_sim_outb_v0(struct ls2k_kcs_data *ik, unsigned int offset,
+   122				     unsigned char val)
+   123	{
+   124		if (ls2k_get_ibf(ik))
+   125			return;
+   126	
+   127		switch (offset & BIT(0)) {
+   128		case 0:
+   129			ik->reg.data_in = val;
+   130			ik->reg.status &= ~LS2K_KCS_STS_CMD;
+   131			break;
+   132	
+   133		case 1:
+   134			ik->reg.cmd = val;
+   135			ik->reg.status |= LS2K_KCS_STS_CMD;
+   136			break;
+   137		}
+   138	
+   139		ls2k_set_ibf(ik, 1);
+   140		ik->write_req++;
+   141	}
+   142	
+   143	static void intf_sim_outb_v1(struct ls2k_kcs_data *ik, unsigned int offset,
+   144				     unsigned char val)
+   145	{
+   146		if (ik->fifo.ibfh != ik->fifo.ibft)
+   147			return;
+   148	
+   149		switch (offset & BIT(0)) {
+   150		case 0:
+   151			ik->reg.data_in = val;
+   152			ik->cmd_data = 0;
+   153			break;
+   154	
+   155		case 1:
+   156			ik->reg.cmd = val;
+   157			ik->cmd_data = 1;
+   158			break;
+   159		}
+   160	
+   161		ik->fifo.ibfh = !ik->fifo.ibft;
+   162		ik->write_req++;
+   163	}
+   164	
+   165	static void ls2k_mem_outb(const struct si_sm_io *io, unsigned int offset,
+   166				  unsigned char val)
+   167	{
+   168		struct ls2k_kcs_data *ik = io->addr;
+   169	
+   170		if (ik->version == 0)
+   171			intf_sim_outb_v0(ik, offset, val);
+   172		else if (ik->version == 1)
+   173			intf_sim_outb_v1(ik, offset, val);
+   174	}
+   175	
+   176	static void ls2k_mem_cleanup(struct si_sm_io *io)
+   177	{
+   178		if (io->addr)
+   179			iounmap(io->addr);
+   180	}
+   181	
+   182	static int ipmi_ls2k_sim_setup(struct si_sm_io *io)
+   183	{
+   184		io->addr = ioremap(io->addr_data, io->regspacing);
+   185		if (!io->addr)
+   186			return -EIO;
+   187	
+   188		io->inputb = ls2k_mem_inb;
+   189		io->outputb = ls2k_mem_outb;
+   190		io->io_cleanup = ls2k_mem_cleanup;
+   191	
+   192		return 0;
+   193	}
+   194	
+   195	static int ipmi_ls2k_probe(struct platform_device *pdev)
+   196	{
+   197		struct si_sm_io io;
+   198	
+   199		dev_info(&pdev->dev, "probing via ls2k platform");
+   200		memset(&io, 0, sizeof(io));
+   201	
+   202		io.addr_source	= SI_PLATFORM;
+   203		io.si_type	= SI_KCS;
+   204		io.addr_space	= IPMI_MEM_ADDR_SPACE;
+   205		io.io_setup	= ipmi_ls2k_sim_setup;
+   206		io.addr_data	= pdev->resource[0].start;
+   207		io.regspacing	= pdev->resource[0].end - pdev->resource[0].start + 1;
+   208		io.regsize	= DEFAULT_REGSIZE;
+   209		io.regshift	= 0;
+   210		io.dev		= &pdev->dev;
+   211		io.irq		= 0;
+   212		if (io.irq)
+   213			io.irq_setup = ipmi_std_irq_setup;
+   214	
+   215		dev_info(&pdev->dev, "%pR regsize %d spacing %d irq %d\n",
+   216			 &pdev->resource[0], io.regsize, io.regspacing, io.irq);
+   217	
+   218		return ipmi_si_add_smi(&io);
+   219	}
+   220	
+   221	static void ipmi_ls2k_remove(struct platform_device *pdev)
+   222	{
+   223		ipmi_si_remove_by_dev(&pdev->dev);
+   224	}
+   225	
+ > 226	struct platform_driver ipmi_ls2k_platform_driver = {
+   227		.driver = {
+   228			.name = "ls2k-ipmi-si",
+   229		},
+   230		.probe	= ipmi_ls2k_probe,
+   231		.remove	= ipmi_ls2k_remove,
+   232	};
+   233	
 
 -- 
 0-DAY CI Kernel Test Service
