@@ -1,164 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB97195
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 11:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6578918FC80
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 12:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735645539; cv=none; b=oV0zY92vUTBu9ZS+Sw6jiEJfv8Wwldk8qZ4G9azQtC8/CHJluJXfCTogL4MSsSVaS1S1r980O0GjAo2usrr3gLkW5osJ/Qo5JTxfjxRTCOEUIFeu2L1T/vFLnh3b0ZogxE9QpBLa0Z93xOexXTbbYdvpH1F0Rxd+EBrBsZGZS4M=
+	t=1735647587; cv=none; b=SLPAuJIeDekiK/eFIJHGk/hulpjRHi2WElZjNP8n6yRxaNGsEt7ZcC+0On1OMBZdjqKhZQP0binYHzwC1+rZAMn/cga5gXfZxnafRNBLAN+s6go+kSaUK/C0Ll4uOuSaPEleY1wWBRVOzTab4wtJV5IcZUwoo5h0WUmnsMQ/ySs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735645539; c=relaxed/simple;
-	bh=1qV3Ntrj8JVtKizgDv6GvbMFOeh7laZaYM3rl0JmAPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FzTfrWc7mL7TehhyB4KMnv9nuCzHXgtgxCKgfD0jvYZyHIpVTeLMUX9NA6Nb1xp1ZCGC3WMmq7CW0KV7blS4I3fVUiQIURQvU2NNfFo0FnsN2o9UZxsSvHSsnU3y3LJS061NoeJvHz1fHNBE1brHKxC2f9FvEKerruN5CKBIUdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e+P28iB9; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735647587; c=relaxed/simple;
+	bh=C6NLnh0SNOqaI29oaQXUstp1MmNLex0c0sxSTgN3QyQ=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=u8Ai2jTFhIWvMVV2i9aHRgUu66WJhaJBO6mVLWF90EcB/vk3cYwkL0MJdwewGAUhEH7BnD7EYnE6DwPEfY83CHm/ZrShe2pyG8Dimm0Dsu7VFjcd9YMSDlhdnWbdszupvjN7XQEwtuXkKINN1BmuQppoA2DcaJ+CC9gCKN375Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=lW1TS6YX; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e+P28iB9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735645537; x=1767181537;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="lW1TS6YX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1qV3Ntrj8JVtKizgDv6GvbMFOeh7laZaYM3rl0JmAPQ=;
-  b=e+P28iB9g9cN2Z3exldy8kh8W5fpuRoKkVXFs40xfCF8uA1Ep34zu2W1
-   KtMGdT5w4gR9dFWTMnK4VcLih4yLX7FkWXc5dW8dl3/kpWdAxR8tcSG57
-   tw+DEvWZ4IuojZ3WnEb6fFjJ3Xgh4IYaiDWM5HjkpFcAIgyQieg2oxeeo
-   LfNvbCJcJdJEiEfT0M8kVrzWwNY3lIUJWA8qbx2Q+UDcpAy9azbOISZ5Q
-   uf+gELy68AUS/fKRdvEnJK0W8SP0cdAjhGPkqgK8IatfU60y+NbgRoKQK
-   yPgiSMV5z3xt4hgo++q72Sj/ZVWyOJSTLznDudmWuDQe4sLvAujTsEZy4
-   A==;
-X-CSE-ConnectionGUID: PpSyzpx5Sh+MWkLxirCTOg==
-X-CSE-MsgGUID: 8C5NIfqbSJy1m+VVcnwSiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="58391214"
-X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; 
-   d="scan'208";a="58391214"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 03:45:37 -0800
-X-CSE-ConnectionGUID: E4/5pmubSzmzWnfXqJmCrg==
-X-CSE-MsgGUID: 6lW/ryWqQB6sznit1Xiilw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101884156"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 31 Dec 2024 03:45:35 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tSagn-00075n-1s;
-	Tue, 31 Dec 2024 11:45:33 +0000
-Date: Tue, 31 Dec 2024 19:45:21 +0800
-From: kernel test robot <lkp@intel.com>
+  bh=S4e9YxJsePe+7zNNxm/v3Psy85l06/LlbPoVIqojLXM=;
+  b=lW1TS6YXKW6qZI0y0luW+vuX8/5JUkWQCDCpmv6eLEq+pzHtYf91ZaOA
+   MK0c+10vpJcEg7agfup3LHS5nEudxl4008NR8PrHHBcaYJrWLBctVZqS7
+   RNkMDen+sXu76uH6WMhD3igGE+De2VlQoUo6nz08rrGekVoo6KPrGINrF
+   c=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.12,279,1728943200"; 
+   d="scan'208";a="105319164"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 13:18:31 +0100
+Date: Tue, 31 Dec 2024 13:18:30 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
 To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous
- prototype for 'hyp_event_trace_filtered_smc'
-Message-ID: <202412311921.qEfPLYsb-lkp@intel.com>
+cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 83/83] drivers/mailbox/mailbox.c:447:3-9:
+ preceding lock on line 402 (fwd)
+Message-ID: <b94bb036-e126-f596-8161-b99fdce53254@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Mostafa,
+A mutex unlock seems to be necessary on line 447.
 
-FYI, the error/warning still remains.
+julia
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   69b3c870d0b8d800f7140a73551a9603ccf67c93
-commit: eea6841a3b9606ed64907c77030b1d50ebdd56fe [2/2] ANDROID: misc: pkvm_smc: Trace denied SMCs.
-config: arm64-randconfig-r123-20241231 (https://download.01.org/0day-ci/archive/20241231/202412311921.qEfPLYsb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241231/202412311921.qEfPLYsb-lkp@intel.com/reproduce)
+---------- Forwarded message ----------
+Date: Tue, 31 Dec 2024 18:44:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [chrome-os:chromeos-6.1 83/83] drivers/mailbox/mailbox.c:447:3-9:
+    preceding lock on line 402
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   dcf42c495d0dc7b7303797a236fd1a4ee67e9d72
+commit: fd3d96240b7afa9f0b63c70c175bcfe8d903aad0 [83/83] FROMLIST: mailbox: Add power_get/power_put API to mbox_chan_ops
+:::::: branch date: 4 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-104-20241231 (https://download.01.org/0day-ci/archive/20241231/202412311801.3SkeAmZY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412311921.qEfPLYsb-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412311801.3SkeAmZY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/mailbox/mailbox.c:447:3-9: preceding lock on line 402
 
-   In file included from drivers/misc/pkvm-smc/pkvm-smc.c:13:
->> arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_filtered_smc' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/../../../../drivers/misc/pkvm-smc/pkvm/events.h:9:1: note: in expansion of macro 'HYP_EVENT'
-       9 | HYP_EVENT(filtered_smc,
-         | ^~~~~~~~~
+vim +447 drivers/mailbox/mailbox.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-
-
-vim +/hyp_event_trace_filtered_smc +17 arch/arm64/include/asm/kvm_define_hypevents.h
-
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  14  
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  15  #define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  16  	HYP_EVENT_FORMAT(__name, __struct);					\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26 @17  	void hyp_event_trace_##__name(struct ht_iterator *iter)			\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  18  	{									\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  19  		struct trace_hyp_format_##__name __maybe_unused *__entry =	\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  20  			(struct trace_hyp_format_##__name *)iter->ent;		\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  21  		trace_seq_puts(&iter->seq, #__name);				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  22  		trace_seq_putc(&iter->seq, ' ');				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  23  		trace_seq_printf(&iter->seq, __printk);				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  24  		trace_seq_putc(&iter->seq, '\n');				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  25  	}
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  26  #define HYP_EVENT_MULTI_READ
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  27  #include __HYP_EVENT_FILE
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  28  
-
-:::::: The code at line 17 was first introduced by commit
-:::::: f6dbfc683cf5fbbd37b6fdead1b5b08912cf6570 ANDROID: KVM: arm64: Add support for nVHE hyp events
-
-:::::: TO: Vincent Donnefort <vdonnefort@google.com>
-:::::: CC: Fuad Tabba <tabba@google.com>
+a8803d7421cc2b Thierry Reding  2018-11-28  370
+2b6d83e2b8b7de Jassi Brar      2014-06-12  371  /**
+2b6d83e2b8b7de Jassi Brar      2014-06-12  372   * mbox_request_channel - Request a mailbox channel.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  373   * @cl: Identity of the client requesting the channel.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  374   * @index: Index of mailbox specifier in 'mboxes' property.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  375   *
+2b6d83e2b8b7de Jassi Brar      2014-06-12  376   * The Client specifies its requirements and capabilities while asking for
+2b6d83e2b8b7de Jassi Brar      2014-06-12  377   * a mailbox channel. It can't be called from atomic context.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  378   * The channel is exclusively allocated and can't be used by another
+2b6d83e2b8b7de Jassi Brar      2014-06-12  379   * client before the owner calls mbox_free_channel.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  380   * After assignment, any packet received on this channel will be
+2b6d83e2b8b7de Jassi Brar      2014-06-12  381   * handed over to the client via the 'rx_callback'.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  382   * The framework holds reference to the client, so the mbox_client
+2b6d83e2b8b7de Jassi Brar      2014-06-12  383   * structure shouldn't be modified until the mbox_free_channel returns.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  384   *
+2b6d83e2b8b7de Jassi Brar      2014-06-12  385   * Return: Pointer to the channel assigned to the client if successful.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  386   *		ERR_PTR for request failure.
+2b6d83e2b8b7de Jassi Brar      2014-06-12  387   */
+2b6d83e2b8b7de Jassi Brar      2014-06-12  388  struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
+2b6d83e2b8b7de Jassi Brar      2014-06-12  389  {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  390  	struct device *dev = cl->dev;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  391  	struct mbox_controller *mbox;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  392  	struct of_phandle_args spec;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  393  	struct mbox_chan *chan;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  394  	unsigned long flags;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  395  	int ret;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  396
+2b6d83e2b8b7de Jassi Brar      2014-06-12  397  	if (!dev || !dev->of_node) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  398  		pr_debug("%s: No owner device node\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  399  		return ERR_PTR(-ENODEV);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  400  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  401
+2b6d83e2b8b7de Jassi Brar      2014-06-12 @402  	mutex_lock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  403
+2b6d83e2b8b7de Jassi Brar      2014-06-12  404  	if (of_parse_phandle_with_args(dev->of_node, "mboxes",
+2b6d83e2b8b7de Jassi Brar      2014-06-12  405  				       "#mbox-cells", index, &spec)) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  406  		dev_dbg(dev, "%s: can't parse \"mboxes\" property\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  407  		mutex_unlock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  408  		return ERR_PTR(-ENODEV);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  409  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  410
+2d805fc1c6b2ec Benson Leung    2015-05-04  411  	chan = ERR_PTR(-EPROBE_DEFER);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  412  	list_for_each_entry(mbox, &mbox_cons, node)
+2b6d83e2b8b7de Jassi Brar      2014-06-12  413  		if (mbox->dev->of_node == spec.np) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  414  			chan = mbox->of_xlate(mbox, &spec);
+8ed82e23875e60 Mikko Perttunen 2018-11-28  415  			if (!IS_ERR(chan))
+2b6d83e2b8b7de Jassi Brar      2014-06-12  416  				break;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  417  		}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  418
+2b6d83e2b8b7de Jassi Brar      2014-06-12  419  	of_node_put(spec.np);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  420
+2d805fc1c6b2ec Benson Leung    2015-05-04  421  	if (IS_ERR(chan)) {
+2d805fc1c6b2ec Benson Leung    2015-05-04  422  		mutex_unlock(&con_mutex);
+2d805fc1c6b2ec Benson Leung    2015-05-04  423  		return chan;
+2d805fc1c6b2ec Benson Leung    2015-05-04  424  	}
+2d805fc1c6b2ec Benson Leung    2015-05-04  425
+2d805fc1c6b2ec Benson Leung    2015-05-04  426  	if (chan->cl || !try_module_get(mbox->dev->driver->owner)) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  427  		dev_dbg(dev, "%s: mailbox not free\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  428  		mutex_unlock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  429  		return ERR_PTR(-EBUSY);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  430  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  431
+2b6d83e2b8b7de Jassi Brar      2014-06-12  432  	spin_lock_irqsave(&chan->lock, flags);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  433  	chan->msg_free = 0;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  434  	chan->msg_count = 0;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  435  	chan->active_req = NULL;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  436  	chan->cl = cl;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  437  	init_completion(&chan->tx_complete);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  438
+2b6d83e2b8b7de Jassi Brar      2014-06-12  439  	if (chan->txdone_method	== TXDONE_BY_POLL && cl->knows_txdone)
+33cd7123ac0ba5 Sudeep Holla    2017-09-28  440  		chan->txdone_method = TXDONE_BY_ACK;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  441
+2b6d83e2b8b7de Jassi Brar      2014-06-12  442  	spin_unlock_irqrestore(&chan->lock, flags);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  443
+fd3d96240b7afa Jason-jh Lin    2024-06-14  444  	if (chan->mbox->ops->power_get) {
+fd3d96240b7afa Jason-jh Lin    2024-06-14  445  		ret = chan->mbox->ops->power_get(chan);
+fd3d96240b7afa Jason-jh Lin    2024-06-14  446  		if (ret < 0)
+fd3d96240b7afa Jason-jh Lin    2024-06-14 @447  			return ERR_PTR(ret);
+fd3d96240b7afa Jason-jh Lin    2024-06-14  448  	}
+fd3d96240b7afa Jason-jh Lin    2024-06-14  449
+b7133d6fcd9a9e Bjorn Andersson 2017-05-27  450  	if (chan->mbox->ops->startup) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  451  		ret = chan->mbox->ops->startup(chan);
+b7133d6fcd9a9e Bjorn Andersson 2017-05-27  452
+2b6d83e2b8b7de Jassi Brar      2014-06-12  453  		if (ret) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  454  			dev_err(dev, "Unable to startup the chan (%d)\n", ret);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  455  			mbox_free_channel(chan);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  456  			chan = ERR_PTR(ret);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  457  		}
+b7133d6fcd9a9e Bjorn Andersson 2017-05-27  458  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  459
+fd3d96240b7afa Jason-jh Lin    2024-06-14  460  	if (chan->mbox->ops->power_put)
+fd3d96240b7afa Jason-jh Lin    2024-06-14  461  		chan->mbox->ops->power_put(chan);
+fd3d96240b7afa Jason-jh Lin    2024-06-14  462
+2b6d83e2b8b7de Jassi Brar      2014-06-12  463  	mutex_unlock(&con_mutex);
+fd3d96240b7afa Jason-jh Lin    2024-06-14  464
+2b6d83e2b8b7de Jassi Brar      2014-06-12  465  	return chan;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  466  }
+2b6d83e2b8b7de Jassi Brar      2014-06-12  467  EXPORT_SYMBOL_GPL(mbox_request_channel);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  468
 
 -- 
 0-DAY CI Kernel Test Service
