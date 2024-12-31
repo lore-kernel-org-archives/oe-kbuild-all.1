@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9758F5E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 00:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6AA8462
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 00:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735605369; cv=none; b=geF8rZQ88nOgn3zk9/VcBLT5kaxxipTlNzIgwN6RyZ9/58uOBb173I3KpMf7ohccEkW5GecP8PxunKdjgOaWsL7o7PLhb2v6ar8LsikclppcuLhJo7PdaXU8uePPekdOnzsAoHib3kSxus49+GwDSQD/fy1t5vGuzgJK2Tayes0=
+	t=1735605369; cv=none; b=IgjmyFy8UnJRncKLdXA+Hkm4BAJFiY4k1wOKY7QCNPF6UgMg1dkTsbHMzYzP75LoHJFLbAmTom9SOarHREvsTf5fYqkoiFzteMZ9Mus22j+An8cgc84HzQ3Hb4BPQmLvU53UC3sdHKI2HCfxp6X6JfVA/vR9pyyD64zKtH8Xa/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1735605369; c=relaxed/simple;
-	bh=fhEb/EBnJXNUd/wOQRnU6MnQ2hFqO1xhHnaWLyuFEaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QqRxRrBAcwN5gHFpI7e7s35bDjhcQ9NMCq6jHN2V0mlfi9CXxtarUdhM6KAM19DsSnmD3GI3OH/Zob6DcGYPK0v5IKwVLDMZ3Vdbdh2/oG4H45tK+uJWudL6fvioY1DVA1VZV7FbTiBzaDh3JFt+uygR7FLwMD/vRJGX+IB9+/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JytcWg/X; arc=none smtp.client-ip=192.198.163.12
+	bh=GxtCBD9gCQBDq9AvpM0svG3WinlLhiATDPlI35SqkXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPQPX7yRRdM985lszX+h8XyamD594mqVCzdfg69qbXXAetdnmukYN/0BkNiy+FqBgDorTDbAKIlLlzxQ5cT7hWUzI8W4ZLCjTHMbbzf+vDqlCDtnjGak62jcIHAgb6/ioANB8Ybp67DdWgfE7ifZibvz4xyntEKKmYyemm1HrTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wrnkl2gm; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JytcWg/X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wrnkl2gm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1735605367; x=1767141367;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fhEb/EBnJXNUd/wOQRnU6MnQ2hFqO1xhHnaWLyuFEaw=;
-  b=JytcWg/XWnjeTxCnmOsM1hLWJ5U76f6QavcC+YqxpFbETMK8JNiy12LY
-   22fDxSqnJQPXO2hm3KFo+omb7Wz+HMj/JQM9ilDJAQ5mD+q+PbRCmBs5B
-   otK6PMRJhVV9pruNM99suQiTQhZnwjoJpjqpooOPyjg+qD5Ec7ST73TXh
-   EJHJC2gcU34SWtM1RjjJEVFKV3f+g3oeHDyUMsgVLXn02vJiFbK+ognJ2
-   EKHj5BUa9nzRASakTce/fICuRGXI8/zqNhMOok1v6Ha3DNrpxSyWjwcs5
-   95HKtG7Ar69hrGT8FLs5ziPes5EDpKJK1SFigv3I6ltpMtxtQajjDymKL
-   A==;
-X-CSE-ConnectionGUID: su2WxZ+ISUGJFGtto7FqMA==
-X-CSE-MsgGUID: GEN/SvU/QHCC993EGYjqbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="39818749"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GxtCBD9gCQBDq9AvpM0svG3WinlLhiATDPlI35SqkXM=;
+  b=Wrnkl2gm67TTs+rgu8RipI1YT5OPu3ur7qFD8y43izL0W0xIjKwErmbJ
+   gOfG/nGY+Li/WXTmQj7S66na/Wu5mvbGPtmLaUm1KHBlfA0DVdQoqM0Ph
+   upAPo7oJexnSc7nQj9CjUC14+fVBTqZm3OXKxImMvTUVCPX/mYUrX5MKc
+   4JMRKOcRr+5ziBqt6uA9Bs0n3n2COKJJevd7XSpEP+5xCEX4/+3+P7qzZ
+   L9lyL2A7EJO0Tyjs3T1DeOL2/lqRCDj8mhi0uLwk977XwfkECTymBBBgS
+   Bu0XGdJOpW6sNouoPAYStPEb+bgk1xwq76NIPgFPt6/NS5RugOUMvdQJm
+   w==;
+X-CSE-ConnectionGUID: y0eCCW8hShSGGm7/nYLxaA==
+X-CSE-MsgGUID: fqkzdV1iToCrtEh+2lqDJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="36031919"
 X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
-   d="scan'208";a="39818749"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 16:36:07 -0800
-X-CSE-ConnectionGUID: wcU12ezKT+2i2Pl2/FfzpA==
-X-CSE-MsgGUID: J4GA6EHDSRGqBRDbgjkw+Q==
+   d="scan'208";a="36031919"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 16:36:06 -0800
+X-CSE-ConnectionGUID: Yqpw8wxhTCGj5/2thEyTog==
+X-CSE-MsgGUID: J0dYWiU7SJehWZ09OKq40g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="138257044"
+X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
+   d="scan'208";a="105899620"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Dec 2024 16:36:06 -0800
+  by orviesa004.jf.intel.com with ESMTP; 30 Dec 2024 16:36:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSQEt-0006V0-0n;
+	id 1tSQEt-0006Ux-0c;
 	Tue, 31 Dec 2024 00:36:03 +0000
-Date: Tue, 31 Dec 2024 08:35:23 +0800
+Date: Tue, 31 Dec 2024 08:35:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1117: warning: cannot
- understand function prototype: 'struct registry_list_entry '
-Message-ID: <202412310834.jtCJj4oz-lkp@intel.com>
+To: Tvrtko Ursulin <tursulin@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 05/14] drm/sched: Move run queue related code into a
+ separate file
+Message-ID: <202412310801.fR4rGSTm-lkp@intel.com>
+References: <20241230165259.95855-6-tursulin@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +63,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241230165259.95855-6-tursulin@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ccb98ccef0e543c2bd4ef1a72270461957f3d8d0
-commit: b58a0bc904ffa091fc020f7fd00e91808fec820e nouveau: add command-line GSP-RM registry support
-date:   8 months ago
-config: mips-randconfig-c004-20220208 (https://download.01.org/0day-ci/archive/20241231/202412310834.jtCJj4oz-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310834.jtCJj4oz-lkp@intel.com/reproduce)
+Hi Tvrtko,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on linus/master v6.13-rc5 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-sched-Delete-unused-update_job_credits/20241231-011327
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20241230165259.95855-6-tursulin%40igalia.com
+patch subject: [RFC 05/14] drm/sched: Move run queue related code into a separate file
+config: s390-randconfig-001-20241231 (https://download.01.org/0day-ci/archive/20241231/202412310801.fR4rGSTm-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412310801.fR4rGSTm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412310834.jtCJj4oz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412310801.fR4rGSTm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1117: warning: cannot understand function prototype: 'struct registry_list_entry '
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1320: warning: cannot understand function prototype: 'const struct nv_gsp_registry_entries r535_registry_entries[] = '
+>> drivers/gpu/drm/scheduler/sched_rq.c:83: warning: Function parameter or struct member 'ts' not described in 'drm_sched_rq_add_entity'
 
 
-vim +1117 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+vim +83 drivers/gpu/drm/scheduler/sched_rq.c
 
-  1093	
-  1094	/**
-  1095	 * registry_list_entry - linked list member for a registry key/value
-  1096	 * @head: list_head struct
-  1097	 * @type: dword, binary, or string
-  1098	 * @klen: the length of name of the key
-  1099	 * @vlen: the length of the value
-  1100	 * @key: the key name
-  1101	 * @dword: the data, if REGISTRY_TABLE_ENTRY_TYPE_DWORD
-  1102	 * @binary: the data, if TYPE_BINARY or TYPE_STRING
-  1103	 *
-  1104	 * Every registry key/value is represented internally by this struct.
-  1105	 *
-  1106	 * Type DWORD is a simple 32-bit unsigned integer, and its value is stored in
-  1107	 * @dword.
-  1108	 *
-  1109	 * Types BINARY and STRING are variable-length binary blobs.  The only real
-  1110	 * difference between BINARY and STRING is that STRING is null-terminated and
-  1111	 * is expected to contain only printable characters.
-  1112	 *
-  1113	 * Note: it is technically possible to have multiple keys with the same name
-  1114	 * but different types, but this is not useful since GSP-RM expects keys to
-  1115	 * have only one specific type.
-  1116	 */
-> 1117	struct registry_list_entry {
-  1118		struct list_head head;
-  1119		enum registry_type type;
-  1120		size_t klen;
-  1121		char key[REGISTRY_MAX_KEY_LENGTH];
-  1122		size_t vlen;
-  1123		u32 dword;			/* TYPE_DWORD */
-  1124		u8 binary[] __counted_by(vlen);	/* TYPE_BINARY or TYPE_STRING */
-  1125	};
-  1126	
+    68	
+    69	/**
+    70	 * drm_sched_rq_add_entity - add an entity
+    71	 *
+    72	 * @rq: scheduler run queue
+    73	 * @entity: scheduler entity
+    74	 *
+    75	 * Adds a scheduler entity to the run queue.
+    76	 *
+    77	 * Returns a DRM scheduler pre-selected to handle this entity.
+    78	 */
+    79	struct drm_gpu_scheduler *
+    80	drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+    81				struct drm_sched_entity *entity,
+    82				ktime_t ts)
+  > 83	{
+    84		struct drm_gpu_scheduler *sched;
+    85	
+    86		if (entity->stopped) {
+    87			DRM_ERROR("Trying to push to a killed entity\n");
+    88			return NULL;
+    89		}
+    90	
+    91		spin_lock(&entity->lock);
+    92		spin_lock(&rq->lock);
+    93	
+    94		sched = rq->sched;
+    95		atomic_inc(sched->score);
+    96	
+    97		if (!list_empty(&entity->list))
+    98			list_add_tail(&entity->list, &rq->entities);
+    99	
+   100		if (drm_sched_policy == DRM_SCHED_POLICY_RR)
+   101			ts = drm_sched_rq_get_rr_deadline(rq);
+   102	
+   103		if (!RB_EMPTY_NODE(&entity->rb_tree_node))
+   104			__drm_sched_rq_remove_fifo_locked(entity, rq);
+   105		__drm_sched_rq_add_fifo_locked(entity, rq, ts);
+   106	
+   107		spin_unlock(&rq->lock);
+   108		spin_unlock(&entity->lock);
+   109	
+   110		return sched;
+   111	}
+   112	
 
 -- 
 0-DAY CI Kernel Test Service
