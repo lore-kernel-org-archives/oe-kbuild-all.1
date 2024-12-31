@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96B01547DE;
-	Tue, 31 Dec 2024 06:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB1B18A6AB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 06:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735624982; cv=none; b=t0Xz2g9F50suA2JF3fy0DaLOCR/8kf5M/7kSavZN+pljQ8KxdtWJp5+rn2o+3NrQTz4EV9HdhMn5zup72P+T+HFR+3NMz2+hngluz3PbsxUWAjd6FX8NXxmaTmbta63S44S7RpF8mhwSj1XBCVXR8vuy60F+tidd8z1ii7kG0Hw=
+	t=1735627505; cv=none; b=lcVIFAw05wXzuI+Ri4bXa/ups4GDxhIe1ViHOctXiGpsicA6IZ3ZGZdvb3mWA88XZRhJHjagrUksImLjfkRd+XH2hJZdvzCAzovIryeeToj0jcpTqaJ7qnnHu8bocmwIWDfFQ0fDIwvv1EdW1So+9MY5QYLlT4vo1BYlF5LIcZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735624982; c=relaxed/simple;
-	bh=YcnXuO7iHKmJdqPb9BnkF7onhOBNqoZYcDE/yprJUfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sCXQ7DGKTcO8bYvVB1lJ1NuwDNRQYYXQ4TPshINJknfsygWXm92NUOhhWepmEB3fX6TKEsYsrBXwNutC+zvczUM3MM9gfxxS4Ofd/Wc+hi2q7WGgkGigL4k0re7bRp05nDhHQOMxsbmja+yk5dxDE74ukgWdn5//AxsYo3SzROE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YAF4qIKv; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1735627505; c=relaxed/simple;
+	bh=QxPAR9eIf70JngHqhHjpHheTQtp2NFfx0lEUbNtV/h8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YuJd0FeXd+Ou2MvN3aRB7PAQZC+VxvEBFAOuOPZSCFAQoZa/OX9kB/WrA9NbzF7rFvm389Fh24ml8uXf+tmMljBHk6WHHXqXQ5JPmsduaa/Kh2SISoQH0P8MYnhACjkE3toHul7SsbPG0ZD1XtkpWUTkvp7Qe8zUVj3wICktzUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIMuUe5r; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAF4qIKv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIMuUe5r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735624981; x=1767160981;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YcnXuO7iHKmJdqPb9BnkF7onhOBNqoZYcDE/yprJUfg=;
-  b=YAF4qIKvM8VXHWl5qwBOygiecJimOlwqIGL5L24RjycKlUjCFLWU9mOr
-   Qe5qjacgwUSCQpakJ86ZV31BYBvakZRaFA0rmW33DS3jvs+673sTNqQVV
-   d0nr/DM2tyMFBEDefmu+eXkcPvXEUJZfnra1OIUAKjX7LPwFE6vPly1/n
-   q0u80rCmkdh58pIkXStLwPotEzaJAoxuMe/1RbgZBuao2QbYWWgFPZYF1
-   N2vtiXHoqLuAEadHwK4vfmeMPGq0uWMNaJobstPa0pENDKlBPn3PdD2SD
-   WelKyKHE8qyQZHoaNTmocofwOp3qzFsyWufAanFVlJzeqe7xKAfITfwA6
-   g==;
-X-CSE-ConnectionGUID: UaPQG2JCSB6N/7RrhCXuLg==
-X-CSE-MsgGUID: x7CeDxs3SdS06K/ht3Reuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="46399021"
+  t=1735627504; x=1767163504;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QxPAR9eIf70JngHqhHjpHheTQtp2NFfx0lEUbNtV/h8=;
+  b=RIMuUe5r8tSWZxUvHs379NBGtbSpS4Xj54YZ6bwsQ25P8oICFSomHHrA
+   RISz9R1YzFkRv3ALvekZ3GgDEmCP1ci+3vCiBLQbkArcPayY5c1j/Uu40
+   UnIAaOzF3ehwyWZ/oMLdhZ04gwgpG4OM51OjoxmiKAWqgNiViaIiCKyKR
+   khraf24gq8RbXPWQ2h/u/MQ4HU/8tupHaq68oLJwG4hdmqECH2tLfC6vo
+   hOgbg6W2ZReelRH7CUZSv8aZI5sIRvonmHmB1YGxqT1Z6rYAIxoLTw/t8
+   38RVSWqaWjZxIlqdjofLTFQYkDICOscg6eOS4BAB+LO2TPxVRZk7UOe8T
+   w==;
+X-CSE-ConnectionGUID: 2Z/7XEmBTX28M51QUkjwFQ==
+X-CSE-MsgGUID: m0qz0Il7RYGfqGGkVz+e4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="35810155"
 X-IronPort-AV: E=Sophos;i="6.12,278,1728975600"; 
-   d="scan'208";a="46399021"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 22:03:00 -0800
-X-CSE-ConnectionGUID: aG9EFMEvTda4oslupSCMzQ==
-X-CSE-MsgGUID: IdVyz2JETJCj+ot39c0n4w==
+   d="scan'208";a="35810155"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 22:45:03 -0800
+X-CSE-ConnectionGUID: cUzJRvquTiOW+XOIiAV7lA==
+X-CSE-MsgGUID: rEix4LIIQSaowqSElTu5Cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,278,1728975600"; 
-   d="scan'208";a="101088930"
+   d="scan'208";a="101154771"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Dec 2024 22:02:56 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 30 Dec 2024 22:45:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSVLC-0006pT-1B;
-	Tue, 31 Dec 2024 06:02:54 +0000
-Date: Tue, 31 Dec 2024 14:01:57 +0800
+	id 1tSVzw-0006s7-0I;
+	Tue, 31 Dec 2024 06:45:00 +0000
+Date: Tue, 31 Dec 2024 14:44:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shervin Oloumi <enlightened@chromium.org>, mic@digikod.net,
-	viro@zeniv.linux.org.uk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, brauner@kernel.org,
-	jack@suse.cz, paul@paul-moore.com, jmorris@namei.org,
-	serge@hallyn.com, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, gnoack@google.com,
-	shuah@kernel.org, jorgelo@chromium.org, allenwebb@chromium.org,
-	Shervin Oloumi <enlightened@chromium.org>
-Subject: Re: [PATCH 1/2] fs: add loopback/bind mount specific security hook
-Message-ID: <202412311322.DkS3TbED-lkp@intel.com>
-References: <20241231014632.589049-1-enlightened@chromium.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:sframe 7/31] Makefile:47: *** Cannot find a vmlinux for
+ VMLINUX_BTF at any of "  ../../../../vmlinux /sys/kernel/btf/vmlinux
+ /boot/vmlinux-5.9.0-2-amd64".  Stop.
+Message-ID: <202412311405.9On2kiIT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,91 +62,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241231014632.589049-1-enlightened@chromium.org>
 
-Hi Shervin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on fc033cf25e612e840e545f8d5ad2edd6ba613ed5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shervin-Oloumi/landlock-add-support-for-private-bind-mount/20241231-094806
-base:   fc033cf25e612e840e545f8d5ad2edd6ba613ed5
-patch link:    https://lore.kernel.org/r/20241231014632.589049-1-enlightened%40chromium.org
-patch subject: [PATCH 1/2] fs: add loopback/bind mount specific security hook
-config: um-randconfig-001-20241231 (https://download.01.org/0day-ci/archive/20241231/202412311322.DkS3TbED-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 319b89197348b7cad1215e235bdc7b5ec8f9b72c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412311322.DkS3TbED-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
+head:   b610703fefd5a3a992e07a383e2e6f6cbf9a41c8
+commit: e209f14d57ffb81880b2f29d8058b331f3bda06d [7/31] x86/vdso: Enable sframe generation in VDSO
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412311405.9On2kiIT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412311322.DkS3TbED-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412311405.9On2kiIT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/namespace.c:2768:8: error: call to undeclared function 'security_sb_bindmount'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2768 |         err = security_sb_bindmount(&old_path, path);
-         |               ^
-   1 error generated.
+   make[1]: Circular tools/testing/selftests/alsa/global-timer <- tools/testing/selftests/alsa/global-timer dependency dropped.
+   Makefile:60: warning: overriding recipe for target 'emit_tests'
+   ../lib.mk:182: warning: ignoring old recipe for target 'emit_tests'
+   make[1]: *** No targets.  Stop.
+>> Makefile:47: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
+   make[1]: *** No targets.  Stop.
+   make[1]: *** No targets.  Stop.
 
 
-vim +/security_sb_bindmount +2768 fs/namespace.c
+vim +47 Makefile
 
-  2751	
-  2752	/*
-  2753	 * do loopback mount.
-  2754	 */
-  2755	static int do_loopback(struct path *path, const char *old_name,
-  2756					int recurse)
-  2757	{
-  2758		struct path old_path;
-  2759		struct mount *mnt = NULL, *parent;
-  2760		struct mountpoint *mp;
-  2761		int err;
-  2762		if (!old_name || !*old_name)
-  2763			return -EINVAL;
-  2764		err = kern_path(old_name, LOOKUP_FOLLOW|LOOKUP_AUTOMOUNT, &old_path);
-  2765		if (err)
-  2766			return err;
-  2767	
-> 2768		err = security_sb_bindmount(&old_path, path);
-  2769		if (err)
-  2770			goto out;
-  2771	
-  2772		err = -EINVAL;
-  2773		if (mnt_ns_loop(old_path.dentry))
-  2774			goto out;
-  2775	
-  2776		mp = lock_mount(path);
-  2777		if (IS_ERR(mp)) {
-  2778			err = PTR_ERR(mp);
-  2779			goto out;
-  2780		}
-  2781	
-  2782		parent = real_mount(path->mnt);
-  2783		if (!check_mnt(parent))
-  2784			goto out2;
-  2785	
-  2786		mnt = __do_loopback(&old_path, recurse);
-  2787		if (IS_ERR(mnt)) {
-  2788			err = PTR_ERR(mnt);
-  2789			goto out2;
-  2790		}
-  2791	
-  2792		err = graft_tree(mnt, parent, mp);
-  2793		if (err) {
-  2794			lock_mount_hash();
-  2795			umount_tree(mnt, UMOUNT_SYNC);
-  2796			unlock_mount_hash();
-  2797		}
-  2798	out2:
-  2799		unlock_mount(mp);
-  2800	out:
-  2801		path_put(&old_path);
-  2802		return err;
-  2803	}
-  2804	
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  46  
+3812b8c5c5d527 Masahiro Yamada 2019-02-22 @47  # Do not use make's built-in rules and variables
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  48  # (this increases performance and avoids hard-to-debug behaviour)
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  49  MAKEFLAGS += -rR
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  50  
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  51  # Avoid funny character set dependencies
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  52  unexport LC_ALL
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  53  LC_COLLATE=C
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  54  LC_NUMERIC=C
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  55  export LC_COLLATE LC_NUMERIC
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  56  
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  57  # Avoid interference with shell env settings
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  58  unexport GREP_OPTIONS
+3812b8c5c5d527 Masahiro Yamada 2019-02-22  59  
+066b7ed9558087 Michal Marek    2014-07-04 @60  # Beautify output
+066b7ed9558087 Michal Marek    2014-07-04  61  # ---------------------------------------------------------------------------
+066b7ed9558087 Michal Marek    2014-07-04  62  #
+8962b6b475bddc Masahiro Yamada 2022-12-23  63  # Most of build commands in Kbuild start with "cmd_". You can optionally define
+8962b6b475bddc Masahiro Yamada 2022-12-23  64  # "quiet_cmd_*". If defined, the short log is printed. Otherwise, no log from
+8962b6b475bddc Masahiro Yamada 2022-12-23  65  # that command is printed by default.
+066b7ed9558087 Michal Marek    2014-07-04  66  #
+8962b6b475bddc Masahiro Yamada 2022-12-23  67  # e.g.)
+8962b6b475bddc Masahiro Yamada 2022-12-23  68  #    quiet_cmd_depmod = DEPMOD  $(MODLIB)
+8962b6b475bddc Masahiro Yamada 2022-12-23  69  #          cmd_depmod = $(srctree)/scripts/depmod.sh $(DEPMOD) $(KERNELRELEASE)
+066b7ed9558087 Michal Marek    2014-07-04  70  #
+066b7ed9558087 Michal Marek    2014-07-04  71  # A simple variant is to prefix commands with $(Q) - that's useful
+066b7ed9558087 Michal Marek    2014-07-04  72  # for commands that shall be hidden in non-verbose mode.
+066b7ed9558087 Michal Marek    2014-07-04  73  #
+8962b6b475bddc Masahiro Yamada 2022-12-23  74  #    $(Q)$(MAKE) $(build)=scripts/basic
+066b7ed9558087 Michal Marek    2014-07-04  75  #
+6ae4b9868a8f72 Masahiro Yamada 2022-12-23  76  # If KBUILD_VERBOSE contains 1, the whole command is echoed.
+6ae4b9868a8f72 Masahiro Yamada 2022-12-23  77  # If KBUILD_VERBOSE contains 2, the reason for rebuilding is printed.
+066b7ed9558087 Michal Marek    2014-07-04  78  #
+^1da177e4c3f41 Linus Torvalds  2005-04-16  79  # To put more focus on warnings, be less verbose as default
+^1da177e4c3f41 Linus Torvalds  2005-04-16  80  # Use 'make V=1' to see the full commands
+^1da177e4c3f41 Linus Torvalds  2005-04-16  81  
+
+:::::: The code at line 47 was first introduced by commit
+:::::: 3812b8c5c5d527239ac015f1f2c7654da7fcfbba kbuild: make -r/-R effective in top Makefile for old Make versions
+
+:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
+:::::: CC: Masahiro Yamada <yamada.masahiro@socionext.com>
 
 -- 
 0-DAY CI Kernel Test Service
