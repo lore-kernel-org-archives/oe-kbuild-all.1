@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD556DDBE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 20:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A13F19DF48
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 21:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735677161; cv=none; b=PEu0jYEVPwHGOc+OR+BhcGi40qkQcsFMqcAo1Kt8LxJH4SeTCSS7IKLnWUTnhxxDmYJ26Nlcev2FXYyFC9Elbzsu/7S5LaR5JdSkm9XJzblKz8jist4BYBGGphCTttqWQVs898utjmD8NvqV5Rs6rQ7XRb/gGqdz9zHHHlaSARY=
+	t=1735679028; cv=none; b=G4KYJ0mR30G4Q1Dg8jfn/Tt2+wIuklYiVYrw4KEJ3QfQTRMDjGLRfFJE+3QVPOymC3pDChPJA/xO0bN5TKJNtqyF+0jTaOduTMZRa5EWyoBRu0y5L9eOCzu0g17UDpg42QToRTuQu3mByIEL6/uNSzRdt95poJCUumw41oUIgTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735677161; c=relaxed/simple;
-	bh=000OG3sjJRaeX0lTLp5ECeVFWmx4I0vlyw44umys7YE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QONWITIzkvqWc6/gMUTNlGl52ZB+5vgCXCLsGJY59Ez8X3CXWzpGG3n8xJNZjYNmGJess2kT4zvS4ELLzoFUdmVJbLB0Qhh0vhoyZysK5qY7pwSC+Hn6yfzw56y5/Htx3FReSow3JNvfF3mjcFWyBitTyd//LomvihIlz1R+g2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EayV2LGs; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1735679028; c=relaxed/simple;
+	bh=FUwKTnVY4HYxxQ6MSdoUHSg1+VePv0z0vvCf3A7k+YA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mwh2hVxsa0O3y2hOiWPTe9TzRJwGG3odyYGSVqMaEQxQT+WSi4MUskeZyPSWa9mr44uVeOPS8F3UuWSxlRkQg7KXLhyY0MMFfK3YbRiKg9P4/hMXiG2rWBy1HRXByHKhAa7S6I7NgEgKDDEzwZ1zD2eterJaS+ui4lBof3/2wZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=abs3mLAR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EayV2LGs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="abs3mLAR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735677159; x=1767213159;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=000OG3sjJRaeX0lTLp5ECeVFWmx4I0vlyw44umys7YE=;
-  b=EayV2LGseuDLy/PhUOzk2o/yviVG6+SeEX1TmBvp3qCwnzeRtn6Cu+xZ
-   YRPIQDxZo1Ba0quraG8W9ecplidU+Pb1taP2/BDHH0EnCNaq9OPgU48h9
-   cpEBPQV7RYf8yuiuNNaR+NVr3PjWvsGIZwMhPrZfhtygZ81DtW01IW0Bj
-   D/Jm6mv4aP4SvpXoDVnjnVRl12A3JEepjFOflqLsq4ZCLKlBIHTmQtJAa
-   t8VgjY1MQMYhN3TibPTwAsTN5ObndtzYfcDa7g1TIo3zkN6NXAsBVDttH
-   qt9kPRi+9fPRB8iXOp1VfulPGVXBi7TwxKfdFLIZ4NXpmmhqRHcuw7TGT
+  t=1735679026; x=1767215026;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FUwKTnVY4HYxxQ6MSdoUHSg1+VePv0z0vvCf3A7k+YA=;
+  b=abs3mLAR2cAUw7SwzBuHZDXmHXRKirPmOuZZPKvJtS7BSzCpSWeVgvMP
+   INyuF0PosZnQNzCKygxe6NfWsR+iNd8+47E9Pbi/o2QAUq9sVnSHdPHsY
+   GSgNqz3CpKQwhA1bRsHeT9OhvFCguLLBna9IbvxKdgkQbfNMNqpeogliC
+   FTfWYQ4lfAIYaPnuGD4GXG4HnaX2XBCYmcHDZSJvu6vii9cLvjVmJqI8Z
+   dP/6yReAMa6X4NPbp7AbD9hr0JYkjzHMjyx6KUAAiVoxD3UD7kJSyb7Ue
+   Rk8Xz+RprO8zPqO8rBO/TAokABxzsTCSM5ieI1d+Elg/esruxCaZDINSo
    w==;
-X-CSE-ConnectionGUID: 5SJq0ymmQTixsW4j1bYsBQ==
-X-CSE-MsgGUID: 2j/YseE+QDmJuMOCTjIFMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="53500079"
+X-CSE-ConnectionGUID: OUJil3h7QF2mBzdocDBwKg==
+X-CSE-MsgGUID: 89M2PybFRD6jVoK8ZuIxaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="39724472"
 X-IronPort-AV: E=Sophos;i="6.12,280,1728975600"; 
-   d="scan'208";a="53500079"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 12:32:38 -0800
-X-CSE-ConnectionGUID: vTRHTtHaTAO2oRziRbQEaQ==
-X-CSE-MsgGUID: eAbVQPWrTraPNck8jc8dSA==
+   d="scan'208";a="39724472"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 13:03:45 -0800
+X-CSE-ConnectionGUID: /BecopT6SZSWmQBV8OOLPg==
+X-CSE-MsgGUID: dMTzNUw0QKW4aDrYu3khJA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,280,1728975600"; 
-   d="scan'208";a="100975871"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101609784"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Dec 2024 12:32:37 -0800
+  by orviesa007.jf.intel.com with ESMTP; 31 Dec 2024 13:03:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSiup-0007Qx-1B;
-	Tue, 31 Dec 2024 20:32:35 +0000
-Date: Wed, 1 Jan 2025 04:31:50 +0800
+	id 1tSjOu-0007Rb-0K;
+	Tue, 31 Dec 2024 21:03:40 +0000
+Date: Wed, 1 Jan 2025 05:03:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2602/2602] drivers/regulator/core.o: warning:
- objtool: regulator_resolve_supply()+0x73e: unreachable instruction
-Message-ID: <202501010440.4WBUoJJY-lkp@intel.com>
+To: Shervin Oloumi <enlightened@chromium.org>, mic@digikod.net,
+	viro@zeniv.linux.org.uk
+Cc: oe-kbuild-all@lists.linux.dev, brauner@kernel.org, jack@suse.cz,
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+	gnoack@google.com, shuah@kernel.org, jorgelo@chromium.org,
+	allenwebb@chromium.org, Shervin Oloumi <enlightened@chromium.org>
+Subject: Re: [PATCH 2/2] landlock: add support for private bind mount
+Message-ID: <202501010450.vIVxrod1-lkp@intel.com>
+References: <20241231014632.589049-2-enlightened@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +67,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241231014632.589049-2-enlightened@chromium.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   55bf638d3d29c53ddd64ed89efda8b70b47ccbbc
-commit: 63b923a7cf01549235373fdd2c844555c2bf398a [2602/2602] regulator: core: Avoid lockdep reports when resolving supplies
-config: x86_64-buildonly-randconfig-002-20241228 (https://download.01.org/0day-ci/archive/20250101/202501010440.4WBUoJJY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250101/202501010440.4WBUoJJY-lkp@intel.com/reproduce)
+Hi Shervin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on fc033cf25e612e840e545f8d5ad2edd6ba613ed5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shervin-Oloumi/landlock-add-support-for-private-bind-mount/20241231-094806
+base:   fc033cf25e612e840e545f8d5ad2edd6ba613ed5
+patch link:    https://lore.kernel.org/r/20241231014632.589049-2-enlightened%40chromium.org
+patch subject: [PATCH 2/2] landlock: add support for private bind mount
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250101/202501010450.vIVxrod1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250101/202501010450.vIVxrod1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501010440.4WBUoJJY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501010450.vIVxrod1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/regulator/core.o: warning: objtool: regulator_resolve_supply()+0x73e: unreachable instruction
+   In file included from include/linux/init.h:5,
+                    from security/landlock/setup.c:9:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(typeof_member(union access_masks_all, masks)) == sizeof(typeof_member(union access_masks_all, all))"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   security/landlock/ruleset.h:57:1: note: in expansion of macro 'static_assert'
+      57 | static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
+         | ^~~~~~~~~~~~~
+
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c4 Ian Abbott       2017-07-10  60  
+6bab69c65013bed Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013bed Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013bed Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013bed Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013bed Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013bed Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013bed Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013bed Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013bed Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013bed Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013bed Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013bed Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013bed Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013bed Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013bed Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013bed Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013bed Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013bed Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013bed Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79d Maxim Levitsky   2022-10-25  80  
 
 -- 
 0-DAY CI Kernel Test Service
