@@ -1,83 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from AUS01-ME3-obe.outbound.protection.outlook.com (mail-me3aus01olkn2078.outbound.protection.outlook.com [40.92.63.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B40A189915
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 09:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735636885; cv=none; b=dkvW+ui7YG/qAVYaCZ5nlSlbYvGKkMhHxF7cYU/nf3LIDFFleGl6cc++rhjiWL/0Q5Rtmt5OW52AsuhRmVOO44KYGtSLFaCK39RwS8Azt1exDuCS0ubILDy0YYTSmDZ44h01g7IPaYIba3rEietPHcuh83dVh76L8f9xnJHg+KY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735636885; c=relaxed/simple;
-	bh=DdNYikgOdrR0dCTRU0tLNSWeS9wXhJcoFcKZwg67tDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gQg3ty90oYeVRla5JhXJaBalxtRk9hx/z4EgIufANg8ghFLQ5OEX86q+4yZ0pmbp9olUHYD7NyyL5M1UwPhyFglh7iHcnRKXIgomqmQONh/hUui4Z5taZJevPyWKFxk4vAu27HG/PTlc74XysSwixVOP27tQ5O8weYKM0QR/x6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jB4FhmcN; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B4718C00B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Dec 2024 09:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.63.78
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735637662; cv=fail; b=sYf1TSodlv3LIOBQPDOMKZjpF44u/d9noNN+9l6XBVV2sIveIgCA3ZGAjGxvHnpE8ivnjBXCtJwdGcmEs5I7j1g00+dIo559pQrZeuK1I2LmsEAuKKkaTRoYqZL/96+VD8xeZCTCo7xs7H8LZbdY1OabJeC2HZfR88YWsAY5sL0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735637662; c=relaxed/simple;
+	bh=0LVhbMByucJjEjpGF3aCtEmB/Fyecv0tJlZpegXAD6w=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ehVs9/0m/LEJHG6mP2rCS1DBXU/EueIDE5/GTblDClJSVUD/VjQDMZ0XXHUQReoAYnYXVMc+uouo79BHbiUxR5mjmVH8zsEHwlniGym2kfGoz3fzTiRTjrKL0Xw/rrBHPKA4nS5L3CprVMFfiyNWjHe35oEC9tYBctbqx6oBQcI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=oqUlmEkS; arc=fail smtp.client-ip=40.92.63.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jB4FhmcN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735636884; x=1767172884;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DdNYikgOdrR0dCTRU0tLNSWeS9wXhJcoFcKZwg67tDE=;
-  b=jB4FhmcNNXiPjunTud2+/qrXdAXncnVQqb3L3YcBguhiEt9yVg2ljnpC
-   WmqUo60aJVAxw3cpt9s4A5WTYUmQGA4eqQNJ4QlKQ6ix03hFZdvALoin6
-   wd/3spVD90Q91PJectyRHr4gCccqLFbYx+gZI/1kqZ1+TIYctsBt72iNf
-   2gLrqEPcvJOBg0kDcaNW3ffE2ajPC/+ZpZkvjr90HgfXL4ufbiZehnzUk
-   QzTnVfWsbdn9JMNWuiOMf9ySysaFYgNbap/Y0heyG9icRDmvW+tOQRf2h
-   D+q4AEULfHlSjrrdIMxc8uq88WDxxxLpjP7FOlsm9GNxshA2WkL3otcos
-   A==;
-X-CSE-ConnectionGUID: /XiVnAQ1TG2EuWNzS0ZW0w==
-X-CSE-MsgGUID: VE01WpJ6StqGRDm5EUnzjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="61289114"
-X-IronPort-AV: E=Sophos;i="6.12,278,1728975600"; 
-   d="scan'208";a="61289114"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 01:21:23 -0800
-X-CSE-ConnectionGUID: kXsEWLjQT12wGNtmTj5CPg==
-X-CSE-MsgGUID: TcKOYz9nSkajsG4Y7FFHwQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101493835"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 31 Dec 2024 01:21:22 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tSYRD-00070x-2F;
-	Tue, 31 Dec 2024 09:21:19 +0000
-Date: Tue, 31 Dec 2024 17:21:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1359/1359] kernel/user.o: warning:
- objtool: missing symbol for section .text
-Message-ID: <202412311749.tP5DWGDt-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="oqUlmEkS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EzCeY2+rnhn9qbcspt2RuuFNk7bGc3mvVtUTdKYC/It+cb5dbPfGXzZ1ViaW/l8H5GyQya+yglHaMCeOozE4JyRVN6NOG2ycarcuCGRHPcPgvkGG6qGc+h34I/lZCsqnMsH2SC0N3DdeK3Y9V+rOGMctZGpTOY7TA45fe4DGvcFTuliyy42KZ9Y6K7HoMgDV02MF3Q5UUpXRbURV5y152iW0+c+9e2d5MZ+25lQL5RD/zrAeBFpDH2leKAE6UhEAxqLoc8CGOh28I/hj88nTLfs76IwDyjNHFH6LY2SbD2dxV4GF1NsxjePbQpjNT2p/Nfb/RE05d6jTuZlM/yTgDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0LVhbMByucJjEjpGF3aCtEmB/Fyecv0tJlZpegXAD6w=;
+ b=bvj3yuD5y0GLVEV0rIE/znJOYCCkq5xmDhdkT1nK5D6uN7//SMvsGWVGhbiaUF932+SZx3BfLcHe/pwawG+Ki+68k4WgGUPWBdYdz1pCO1WY/X9jafyECBdN8UUpT7gruKwfa9zRTMaUmDopURRkDmO7H6HzCZu1dWxBFh3YOpkl4QrMB2ZfyaaVt6AQnpjnsOFPSpipxiBXE4HRAMIWOes6o1E84Mh88qEbg/Dm3B0N6T8EokCwT1G1GaPOmlZQOr8DGaR8vU4XmGrgLkBlljo16RSET9NUgZIaSJuCSNtNqH375oVRhtqww+SBclfGY83Kuh9u1skgR6FKkxsN2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0LVhbMByucJjEjpGF3aCtEmB/Fyecv0tJlZpegXAD6w=;
+ b=oqUlmEkSJpkw8oE+j/mqF5HfSmurntIpGi+QncMM9te3p5torKllzpECplKXafhBUD5QWWfQc0Z/q1IWSQ14UDrN43OeAR/4b2AYzvq3TqRI7XkfTcx0sgLEFHp1nytL/w8jcohsnJZIi4Rv6INWZAn2JvXhyS+hkpqqjztjqZyUfX1kZVFkmtHO1iLdWS8eB3n31QxxyTOHiOoMVB11gkUJghRDGiZGq1XV4GOLCjdIi0tRf1JTeQw558fjFtuoA7MyJ/npLSTYwPNdzeW/8TMRugP3rrxaROJsMJ+BiQyVplEmmPG0Is6K0RfY4IqgXS6CIlVS1K8cS/xdvccnKA==
+Received: from ME0P300MB0553.AUSP300.PROD.OUTLOOK.COM (2603:10c6:220:22a::15)
+ by SY0P300MB0309.AUSP300.PROD.OUTLOOK.COM (2603:10c6:10:24b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.17; Tue, 31 Dec
+ 2024 09:34:13 +0000
+Received: from ME0P300MB0553.AUSP300.PROD.OUTLOOK.COM
+ ([fe80::fee9:23d3:17b0:d2d3]) by ME0P300MB0553.AUSP300.PROD.OUTLOOK.COM
+ ([fe80::fee9:23d3:17b0:d2d3%4]) with mapi id 15.20.8293.000; Tue, 31 Dec 2024
+ 09:34:13 +0000
+Message-ID:
+ <ME0P300MB055370E97AB98D221B2E0782A60A2@ME0P300MB0553.AUSP300.PROD.OUTLOOK.COM>
+Date: Tue, 31 Dec 2024 17:34:02 +0800
+User-Agent: Mozilla Thunderbird
+From: Junzhong Pan <panjunzhong@outlook.com>
+Subject: Re: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev port
+ features
+To: m.felsch@pengutronix.de
+Cc: broonie@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ festevam@gmail.com, gregkh@linuxfoundation.org, kernel@pengutronix.de,
+ krzk@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, lkp@intel.com, matthias@kaehlcke.net,
+ mka@chromium.org, oe-kbuild-all@lists.linux.dev, robh@kernel.org
+References: <20241028214956.gmefpvcvm3zrfout@pengutronix.de>
+Content-Language: en-US
+In-Reply-To: <20241028214956.gmefpvcvm3zrfout@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0105.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::20) To ME0P300MB0553.AUSP300.PROD.OUTLOOK.COM
+ (2603:10c6:220:22a::15)
+X-Microsoft-Original-Message-ID:
+ <4faf8cb4-5b6f-4fcd-a2e0-ae32056c5736@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ME0P300MB0553:EE_|SY0P300MB0309:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ed1b98e-828d-4e8c-7e18-08dd297e4920
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|7092599003|15080799006|19110799003|461199028|6090799003|8060799006|5072599009|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?T3RVTXkxV3NxbUNTRmhKQ1FRQ0hzRHkrM0g1VWZyZGFoVU8vTXNBOExHTTkx?=
+ =?utf-8?B?T1NBVTRQSVFuTWZOMzNpZi83bE5meDhoN2IycEN2T2ZVN1p3cnpxSzkzaFIr?=
+ =?utf-8?B?Ynp0ZmVuSXVmWlcyeTZKNVh1cXR0U21pUzVuMjZpbldhVkR4bEgrbEhhS21s?=
+ =?utf-8?B?NG5XQUd2UW5paVc4QXlhVDVzUUJjRVZzSzc0b0J5K0pQbTI0NG9iY0xxOEZH?=
+ =?utf-8?B?d0ZQUHR0dld5SFBMMDJkQXJFYVFBNk9jMC9CWDl2ak1sKzZ4Y0lEcUFLa0Zq?=
+ =?utf-8?B?T2cycVJZQ2ZwL2d2Y0NCZm1XcDBCS3hFalFXN1hwc3JSQ0ZqaXhJTUV0MHdK?=
+ =?utf-8?B?bytPZ0oxVWJGL0R0bFZEOFRwM1pzR2FCWjlxOVRVeUhPWGZyMnRMeWE5WVVK?=
+ =?utf-8?B?cnlhTUtlQ240ck8rQXh1T21HK2kwc1orMStMZXNlb2ZQZ2J1Q285dyszcHho?=
+ =?utf-8?B?ajhHK3RLWGJydU16d0dpc2U5dENEWTB0SUxmbjFYQ1A3QXJvNmJFZkp0VUNx?=
+ =?utf-8?B?aDAwQnpwRCtNMFYvdHpmbmhFQUwyeU5kWGppM2U5b0ExdFpXcWpjVmxHQzNs?=
+ =?utf-8?B?eDNIZEphRlozazUvSzVnbjJDWTAwY1FKa0RrZHprbVNLWDdtVGpmQ1dQcUF4?=
+ =?utf-8?B?M3RBbG82MFlnbWs2Ulp3NERlZllWdk5Dcldnbit0dVNwUlBWWTc3NXpVSnRj?=
+ =?utf-8?B?SVFMMy8zUDhWempLNTdYci9tMDc0R2t3d29tcXZFQXV6NXNkSUpRb1RLRm1o?=
+ =?utf-8?B?U2tGSDVOOS9wWmpWSzJhcnd0bUxGd21BbVAwTndCQjcwaHhOdXJ2MWJwNDg0?=
+ =?utf-8?B?VU1LMkQyS1Q0N0dubzFhTEdxSDRTNklCU2NmNFVmdDE4VjM5SnRiSXVaZHRn?=
+ =?utf-8?B?NnVHVTEyWjN6blg0cUlFY3Zic01NalFTVXk4bVhmOXIrWjNINkxFQ0d1Skxr?=
+ =?utf-8?B?WTJwSkdEWHpJaUJITGNWeU8xNHBMbng0Rk9lb3diUHkwUDgzYnFQNUVGQTdN?=
+ =?utf-8?B?VmE5SjA0ZkVNaGJIWEFjMEgvYWNkeXhRQlhnbFh4MlJsZGtjU1cxNldMVjFM?=
+ =?utf-8?B?dHNZWEFCS0FSbUt4eDRIMndHcXBYaDRKcDJaN2VXcGNWT05HWUFkeEYyYW9s?=
+ =?utf-8?B?ZVNnbjhYUHMzZlhOY25UZWdOeVZaSEE2SGJlblE0KzFCU2pXaVZycTJ5Znk0?=
+ =?utf-8?B?bWRjV2NlSzZuZG9pTXAyanBoYWlKK0dQTlc1T0lzcHFKWGk4aTRkZzVOS0pS?=
+ =?utf-8?B?MEdpSWp1dzk4UStvVlVKY3BUTmxnS2lhMk5NdnFSanY0clBEWjZpaWlQcTVJ?=
+ =?utf-8?B?MEF1YmZFdjlyMHV2UWRsNlBBcWEzWkV6eDlzQTBwTHFSZ2tHdmFvUk03U3Zv?=
+ =?utf-8?B?OG0ydEJBcjMvYngrY0w4VjU4NHJkOVFvWDF0WGwwRjdEb3BwdWFDZk5jNVRC?=
+ =?utf-8?B?M1E1SDNhK0FqQkFkRlVKMk9sdWJqb2c5cE9SYnk1bVMvbWN4NkVkZ3AwMlBn?=
+ =?utf-8?Q?dnx7I8=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VnNLME80RnIwSjNkbm9BL3RoN2tNajlORWJDL3paQlY0NGViejN2aEZGUkl4?=
+ =?utf-8?B?TXZRL0pCekdJWHRWQ0VpOEY3NWJwYUhsYVJYSTJSRmwzRzV6LzJWeDZwQit1?=
+ =?utf-8?B?OUNuWE9Jem55N0RkY1N5MzBiNXhaUUJkdS8xeXQwUWJFUUlGRGx5NDlyYk10?=
+ =?utf-8?B?TTlQdkJ1bmZMc2ljNGFNNlAzVXg1STA5bnpYbkFwajMycWtwNm1jUll5KzJM?=
+ =?utf-8?B?ZDNQSENHUWJmTVd6YURPSmM0alY0K2F0bWhna0VnaFYzV0V1TUZ0aVVCKzRH?=
+ =?utf-8?B?b0x1cG1NS1g3aXBXWFg5Rjh1dFhtNTlRcjVkNk1iNnlRcXZSMHRYUU4vd0cx?=
+ =?utf-8?B?OCs0NWJWM1VDcVhDdjhodngvZVFZb2dUSFZlb3lieEZUN0VtbWszTmdRYW5h?=
+ =?utf-8?B?YVh1UTFUWCtaRjM0V0J6RFN6VDVoQ25oWG1ZaWlsUHZFNFI4TjJ2M2VHWGFO?=
+ =?utf-8?B?U2c2N0lSS2d3NUZOY1lJQlllZ1FoMzBTRWRnbkdJMENXODNldFVIVXRlQ3E2?=
+ =?utf-8?B?Wm5GazFjQmFnSzZDOEUybUQ4MDN4Mzl2M0hLV2ErR0xreXlSTWVhc3NBL2xR?=
+ =?utf-8?B?QnRMd0RPUEVybk5VRlRrL0FwZjMrRXVDbkRCSWNiQVZIbVlrNGpibnIzYTc1?=
+ =?utf-8?B?bXFUZy91WFBLS3k0VDJ0RWpBL0FaUlhGWjl3akxmUG9yT256NXFFclloZm12?=
+ =?utf-8?B?aVpSZU1BejNKVDNKam9SZ1V5RkVVUGNZbXFrcDdXa0llajdQZUtwRlUrS3M2?=
+ =?utf-8?B?NVEvUFliSHp5Qk9JbmdsTW1sMllLUDZhVlBMdmR0aVdrU1ptYzArcHNnZWY4?=
+ =?utf-8?B?bTJwcjZ5aE1EYXdpZHVnSjlyaU9sejdyd1hqamxPVC9LMXRFMVljTERGZXpD?=
+ =?utf-8?B?bEdJT285SkhEeGpIOW52WUVnczJLQWVFK3BwNS9WYnphL0loenBXYjZBbzVq?=
+ =?utf-8?B?YSs0VVBuUjUvcnBMK1JEVnc5QitWc0ZLbGdsbHNTekVDSWhpRTJUcFdrQlRO?=
+ =?utf-8?B?TVY2TnhvTmc1d01pRmlRcDkxb0pPOUhhV3VpT0tzd1BNdUxSaWZJUmJEa2lQ?=
+ =?utf-8?B?bmk2YWlQTzI1eFFHQllpSzgvVEwyQjF4b21GK0d3cHJQUUtiMytUajREZm9u?=
+ =?utf-8?B?Z1YvcmtkcEZuZUpxQkJCRnpLVWI0RHh6bHpsSWwzSkFLeFhoOWduQW1YRkdh?=
+ =?utf-8?B?K05TcmVhMm9qR09yN29YVDB2T01tT1BLNStCWFF5ajN1akVrcTJJZXdhK2VL?=
+ =?utf-8?B?NjFaZnBxc21MOFEvcXNiVW1zRlo3THJQa1crYXFoV1diVlkxbmFHSVJpRnVL?=
+ =?utf-8?B?cmdabjZlSm9vUklSTm5XK0lXUVVZOG5aSTMwSWc3MEVyQ2l0WXRLQkgvOWlI?=
+ =?utf-8?B?ZjV1UTRXOXRmcytqdFRzYndlQ0NjQ3VsWkgyNUNHUzFxMnBxV0FLOTdBVGdy?=
+ =?utf-8?B?dDFaK2tSaUNoTjY5cFJOWEZyU3U4Y05PTlJyZWVMNjRrbXZobytPV09SQ0dX?=
+ =?utf-8?B?bzJtek9qZ2FTN1FWeTNITUZaUXdTRWNscFdQZ2ZPSkVVUlduVlA1dW90VWUr?=
+ =?utf-8?B?RTd0ZzA1ZzhsTGZOTlB2VzhITDlSaSsrMWJWMG5oVTNxS0Zoc1V6OE9Gc0xl?=
+ =?utf-8?B?YmNRbHk5UUZJQmkwVVpyMzRWYUc5NUlxSUREemw5dnM3dlhsQkl0blVPTWtm?=
+ =?utf-8?Q?OAshgpum0sxzsaPDUlJK?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ed1b98e-828d-4e8c-7e18-08dd297e4920
+X-MS-Exchange-CrossTenant-AuthSource: ME0P300MB0553.AUSP300.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Dec 2024 09:34:12.9056
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY0P300MB0309
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4dc4cec05b40921a3db85d24f97f1142272e4abf
-commit: ce0a568d327968367f294ea2425fe2c6f4f33ed2 [1359/1359] userns: use irqsave variant of refcount_dec_and_lock()
-config: x86_64-buildonly-randconfig-002-20241231 (https://download.01.org/0day-ci/archive/20241231/202412311749.tP5DWGDt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412311749.tP5DWGDt-lkp@intel.com/reproduce)
+Hi Marco,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412311749.tP5DWGDt-lkp@intel.com/
+On Mon, 28 Oct 2024 22:49:56 +0100 Marco Felsch wrote:
+> I found two mistakes I made in my v1. I would send a v2 if this series
+> is interesting for upstream. The remaining open question is how the
+> driver dependencies should be handled (see idea-1,2,3).
 
-All warnings (new ones prefixed by >>):
+How's everything going? I wish you all good!
+It's a very useful series for various hubs, gentle ping on it.
 
->> kernel/user.o: warning: objtool: missing symbol for section .text
+On Mon, 28 Oct 2024 22:49:56 +0100 Marco Felsch wrote:
+> > > Idea-3:
+> > > -------
+> > >
+> > > Adding a function to the hub.c usbcore which can be used by the
+> > > usb-onboard-dev driver to register this function as hook. This removes> > > the dependency from the core and the usb-onboard-dev module is only
+> > > pulled if really required. Of course this require that the hub.c usbcore> > > driver allows custom hooks.
+> >
+> > This seems like the best approach IMO, if USB maintainers are onboard with> > it.
+Use the existing onboard_hub.h header to do the hooks looks fine.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I recently encountered some kind of platforms using an existing onboard
+hub yet their HW don't utilize the USBPE port power control feature
+while the hub support it.
+Instead, we have another GPIO for controlling the vbus of those ports
+to cut the cost.
+
+Wonder any idea could use this driver considering the limitation of
+the usb compatible set the properties of onboard_dev_pdata hard coded?
+
+Best Regards,
+Pan
