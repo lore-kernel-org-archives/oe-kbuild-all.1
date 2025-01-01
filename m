@@ -1,60 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2246157A5C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jan 2025 13:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6F6383A5;
+	Wed,  1 Jan 2025 17:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735739214; cv=none; b=XZcGSyrbQ0jOPe6+SzWbEiRVtmRW43bJF49PU+05kGNqHEB/PhajswqtTpg/NiyPKdzjsREQV0b3PTCRh8BlAUfYd1y5mluyK6bX3kaHidQGzTf1xdCeV8TLMh85DEYbDrmElhb17QcQY9mrIpiEIqPD478Ge4pgBHfWQO/c/AI=
+	t=1735751403; cv=none; b=pVjYGsP9gFcUCFb6rQMIrn4WMBaHnHiTIHiZN3gZtuVIApVV92pn99DYsVupFbXn9eaTczNAAsSr/Jc2WMzJGwpz7YKjbUJt8ZX/60dsjUObDZrFTSyOqdx5vga5xBAk7z0m+sm0SfX5ClLdoZW+VgLnZ7nVSxt4CGU0RQsOdI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735739214; c=relaxed/simple;
-	bh=Mr1+HP/CCMGQ+ucnxNTtBBsKm1LgMtZCOorgNR5SgUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ks/1611Qu+IHz8DEegl/9v9VJfGX80JMoLKVVqgXGlnAn9xVOWKSxW2TG8jIL8LUtGxxtmyf2zTn0oaSfYDpUgpF7578SLkQSxclcHXT5mWBWedjt3bIUqwDss81/ivGEHsBQGwJxYUyEfCmGmETEn+UQUEFwgOCpL69ePNHmNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kz0uPQ5w; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1735751403; c=relaxed/simple;
+	bh=w4806pHttcq14fcDsE1TCQs1bNJyXM6xixxGIsaUg00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aAfJT0LzDYw6unx5XsBabNKuN8L9ZnIrBsoa4kZKmH53qQpdxSsXRsSbAe+Alz+xo5+a8ZqpjtBp47gG0mbSBbwp3mcEmFvSBwHnap2y8StXEjIVQPNkUdEdkfs9Xt99rM+wnrr/HTpss2eN+cVAwoUj4vDFjzJR6yIILhp+1wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7uSSZqp; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kz0uPQ5w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7uSSZqp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735739212; x=1767275212;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mr1+HP/CCMGQ+ucnxNTtBBsKm1LgMtZCOorgNR5SgUk=;
-  b=kz0uPQ5wcOq0+wOA1xsc2iVmsyO1cTEQ8qbwdF8tQiCMsnmLh/WzvFPh
-   /7S761jQaOKFuy5H6pM96eX2Rt6EuSU3oZ0WpP83uDCRLojN8/desN57S
-   YS/NJk8h8Fv/6WGe/RfTnCRZM2FR2iNMJm/P5i/kusOmvErn/vsdrMgTc
-   E2VQRh9PibZ9qXeM7PtPNd7uMmdn4NC87z0zS1MTFkDceZ6PMgOHxnHCA
-   o7WTZGETYw/DGRich9d2pHTO9E7aGPIevgvjZfvMA5ldMmQ2spC6mgPmV
-   35Y7+VEJ0BttI0NHL0taKhc1kOs+EezQY5J1puoMexPH0nEOrWCKsdsZE
-   Q==;
-X-CSE-ConnectionGUID: 7Xdm9UpDQwqx0s7igmtE4Q==
-X-CSE-MsgGUID: A1/lz/RgTgu5R/aqRcpIaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="61366267"
+  t=1735751400; x=1767287400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w4806pHttcq14fcDsE1TCQs1bNJyXM6xixxGIsaUg00=;
+  b=A7uSSZqppzsXcWeLYH1a5krKndi6gOV+J4Tl3Ly1SDIFCi8eHA5/lkFR
+   MsP2aJETfrWtfwoM8xMHUlG7ARuBFLX9pGQy2XRANMKFOAKi6F9Us3AvW
+   PJaqnxLAFY1qgJsjjt97GhjMLeV2jVDk/JUNLyxuSQhil2Z2IyWCdMYR3
+   WMgYUypGQQPGzqbvFCZs4EWN0DEsx7oCoDBkrGGbWPzTd7oiM+qtvIYp0
+   KATVzCqyu4psAyshMATVmQP9F5Hgn/VurfLily/qIC0n33NSE6UPsVpiG
+   1ZYiJhMBhrIVd9XegvVn7ReSrIkqZmiY39KlFEyWcx/gc4axhgcX5sxuY
+   g==;
+X-CSE-ConnectionGUID: EFpMyWTJScyMt25zWfiZBA==
+X-CSE-MsgGUID: O2FxoXu+RD2rQ6G1bVWdbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="38830081"
 X-IronPort-AV: E=Sophos;i="6.12,282,1728975600"; 
-   d="scan'208";a="61366267"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 05:46:52 -0800
-X-CSE-ConnectionGUID: 4Kn/5lw3RYSZoBHY5b8LsA==
-X-CSE-MsgGUID: +DLcsmVDQgaejsoKxD/6Pw==
+   d="scan'208";a="38830081"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 09:09:59 -0800
+X-CSE-ConnectionGUID: skjhXKsiSWyP1f8EVfehDQ==
+X-CSE-MsgGUID: 1u7BJ6rmS0+nb2yF7WxL+g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,282,1728975600"; 
-   d="scan'208";a="106239294"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="132237852"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Jan 2025 05:46:51 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 01 Jan 2025 09:09:55 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSz3g-0007rb-2t;
-	Wed, 01 Jan 2025 13:46:48 +0000
-Date: Wed, 1 Jan 2025 21:46:15 +0800
+	id 1tT2EC-0007xz-1b;
+	Wed, 01 Jan 2025 17:09:52 +0000
+Date: Thu, 2 Jan 2025 01:09:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.13-mt7988upstream 35/52]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: xs-phy@11e10000:
- usb-phy@11e13000: 'mediatek,syscon-type' does not match any of the regexes:
- 'pinctrl-[0-9]+'
-Message-ID: <202501012144.392tiPij-lkp@intel.com>
+To: Jian Hu <jian.hu@amlogic.com>, Jerome Brunet <jbrunet@baylibre.com>,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>,
+	Chuan Liu <chuan.liu@amlogic.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Dmitry Rokosov <ddrokosov@sberdevices.ru>,
+	robh+dt <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jian Hu <jian.hu@amlogic.com>,
+	devicetree <devicetree@vger.kernel.org>,
+	linux-clk <linux-clk@vger.kernel.org>,
+	linux-amlogic <linux-amlogic@lists.infradead.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 5/5] clk: meson: t7: add t7 clock peripherals controller
+ driver
+Message-ID: <202501020007.bve7QkV9-lkp@intel.com>
+References: <20241231060047.2298871-6-jian.hu@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,29 +77,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241231060047.2298871-6-jian.hu@amlogic.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-mt7988upstream
-head:   389c42a09c0f89ac7792bb5dcb77dc09173265dd
-commit: 0c41c82e7dc3f83e5430aed0539a145a12e65e3f [35/52] arm64: dts: mediatek: mt7988: Add xsphy for ssusb0/pcie2
-config: arm64-randconfig-051-20250101 (https://download.01.org/0day-ci/archive/20250101/202501012144.392tiPij-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250101/202501012144.392tiPij-lkp@intel.com/reproduce)
+Hi Jian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v6.13-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jian-Hu/dt-bindings-clock-add-Amlogic-T7-PLL-clock-controller/20241231-141835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20241231060047.2298871-6-jian.hu%40amlogic.com
+patch subject: [PATCH 5/5] clk: meson: t7: add t7 clock peripherals controller driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250102/202501020007.bve7QkV9-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020007.bve7QkV9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501012144.392tiPij-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501020007.bve7QkV9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:533.24-554.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:566.19-588.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:533.24-554.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:566.19-588.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: xs-phy@11e10000: usb-phy@11e13000: 'mediatek,syscon-type' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: module t7-pll uses symbol meson_clk_hw_get from namespace CLK_MESON, but does not import it.
+WARNING: modpost: module t7-pll uses symbol meson_clk_pll_ops from namespace CLK_MESON, but does not import it.
+WARNING: modpost: module t7-pll uses symbol clk_regmap_divider_ops from namespace CLK_MESON, but does not import it.
+WARNING: modpost: module t7-pll uses symbol meson_clk_pcie_pll_ops from namespace CLK_MESON, but does not import it.
+WARNING: modpost: module t7-pll uses symbol meson_clk_mpll_ops from namespace CLK_MESON, but does not import it.
+WARNING: modpost: module t7-pll uses symbol clk_regmap_gate_ops from namespace CLK_MESON, but does not import it.
+WARNING: modpost: module t7-pll uses symbol clk_regmap_mux_ops from namespace CLK_MESON, but does not import it.
+>> WARNING: modpost: module t7-peripherals uses symbol meson_clk_hw_get from namespace CLK_MESON, but does not import it.
+>> WARNING: modpost: module t7-peripherals uses symbol clk_regmap_gate_ops from namespace CLK_MESON, but does not import it.
+>> WARNING: modpost: module t7-peripherals uses symbol meson_clk_dualdiv_ops from namespace CLK_MESON, but does not import it.
+>> WARNING: modpost: module t7-peripherals uses symbol clk_regmap_mux_ops from namespace CLK_MESON, but does not import it.
+>> WARNING: modpost: module t7-peripherals uses symbol clk_regmap_divider_ops from namespace CLK_MESON, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
