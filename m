@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B65DDBE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jan 2025 17:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32906A33F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jan 2025 19:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735752121; cv=none; b=sdetfAra4UULyBKfI0hOYWOM54rsWDnhXPvV1jiCmDlWRarKQWUfV3c+d0QTkwaMsdwWXH5XooSP2UTCFwXp8K/AwHZol4DfTfUDj6GPna3bu2EABILk7fa1FZU+RNr67lZmF1klpA+mMxdUlR60LN7XrUWF5g4ZOB9RRRKx7XY=
+	t=1735759527; cv=none; b=kjPBF5HAbW/DeiQx6dt2okqReBtY98d395CHYxOQELVQMOgBQhfjT9HtwNUDBWEVEyRiiTiO3mNyXeIJ7bbS4gTYxY4793PlIhkU0sKY/f4T/UsCaSsGzKBzV3k55jbz2hHDuZWExiSFD7m8Yx26fwE0xVO/XS8V91im30mc624=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735752121; c=relaxed/simple;
-	bh=x27b0xxy975+l8qj1vM4cRwScQDmRa5ihFvNCnRVC6k=;
+	s=arc-20240116; t=1735759527; c=relaxed/simple;
+	bh=GRhkfkG8QO0TDtnl7G4bMOcDQyfQjlupIwn13EGPYVU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FYEH+aw5zVW6o3Q/6JhCo+tY+iPgkPaTcxib3WImwRn7PEMl4myfTZ+GxfHL2b643K5W7W4/EXI+dbMai2oSx2G3ML4s6v6bARqjgRK/hA0lijzSW2tm+qe+4ZbhwIh7qwjHGTIfV/t4IxKKtBdbdQqnspeqnIVt9VZvVRXn8co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JcJYxhIV; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=S6DaK6p3EmUuCctTagWP5Db5XVkpH5tM03ySjF1+da0dY/wyHOLqtFEQCc9Gl8GT+2OwWtfuVgWSEfrQctN+VPif0eUpqHASIJVAu4k+5Pvi/toCaYonN/HG0UQU+t7QjvI1ZeaqMcP9FoIdF04SEH3DS6qJU3LWreo5Ab0Aln8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AFveCKo3; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcJYxhIV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AFveCKo3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735752118; x=1767288118;
+  t=1735759526; x=1767295526;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x27b0xxy975+l8qj1vM4cRwScQDmRa5ihFvNCnRVC6k=;
-  b=JcJYxhIVofoOdR5SqGAaJRghHup5vpFGuJ5AgOUuf6uAsqJYNz2SkIdP
-   diYZMuhuggJ8qXP2i/WJnK5o0g0Bd+WXBlMuNuY70t9mrHcKak7EZbBbT
-   /LnGFAhpVslUo0CZBn4t+jpawC6gZam0ldkP2lryBWHahoDOaGuKOVAh4
-   YqxMlgoKpWQX48KTguZ72PaCAGZ/H4OsDYYVJL+uBFJYcVVay7hBR5ooy
-   gwYiXhY4GS/mUnfY/B3ufuTWS3Gn7aZyqJLYSJDUB06ln7YamW+vwWT60
-   POYnuuR/G9iM0e4AJ4QqYODitOUzMXuaAAIn/KFmQaqIxGHT+Tpa0v1KT
-   A==;
-X-CSE-ConnectionGUID: mPc3bKATS5SmarZ6iySe0Q==
-X-CSE-MsgGUID: vCG5qwyMQkegD5h1O5UQ+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="35901085"
-X-IronPort-AV: E=Sophos;i="6.12,282,1728975600"; 
-   d="scan'208";a="35901085"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 09:21:57 -0800
-X-CSE-ConnectionGUID: y4wx6J2uRoekVYI+hb8FKw==
-X-CSE-MsgGUID: /PAZE2HrRWKhcUVAiENbCg==
+  bh=GRhkfkG8QO0TDtnl7G4bMOcDQyfQjlupIwn13EGPYVU=;
+  b=AFveCKo3CwM/IIcdkmWO/G5Nc1/voqFYuOfzSRmWqMuPOPJ6aRFDUHfE
+   DHSBdiCPhaFfLmQ9O96cbS6SfLSJUXXY26doMcjUJ0H7WbstPN/5AOzGi
+   afRr5RBkeAueGOT8qLzt9tDzgyEe9b+S8JKjFSYHkRADwatvpBVTAyr60
+   GDFxy1OmJ0Z8BRZHjh+4KhdIdu0413ZH1/WJiKwYzRZCBZc40XgQoDPd5
+   Rh8oQzed5s1Fs7KxWZ0uElHO6EzpanFxZEqgDzWOerTEkrBsx7pDnIC6v
+   7wfCYK7EocWrIuOxW77d3cJCGe1yDxBIIVtTlo7y5/dZ8LLlw/zqUDvtm
+   Q==;
+X-CSE-ConnectionGUID: 0rCMCQW2Q06gfPIx8U5ZOg==
+X-CSE-MsgGUID: o9kllfPVQlqx0K2UIu1ulg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="46998504"
+X-IronPort-AV: E=Sophos;i="6.12,283,1728975600"; 
+   d="scan'208";a="46998504"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 11:25:26 -0800
+X-CSE-ConnectionGUID: j5VBX/jvQ6K0TnUUmDFyUA==
+X-CSE-MsgGUID: 8bchZHVaRhmMw6cak/wJBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102149917"
+   d="scan'208";a="101158242"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Jan 2025 09:21:56 -0800
+  by orviesa010.jf.intel.com with ESMTP; 01 Jan 2025 11:25:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tT2Pp-0007yN-3D;
-	Wed, 01 Jan 2025 17:21:53 +0000
-Date: Thu, 2 Jan 2025 01:21:06 +0800
+	id 1tT4LK-00081x-0X;
+	Wed, 01 Jan 2025 19:25:22 +0000
+Date: Thu, 2 Jan 2025 03:24:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/misc/dw-xdata-pcie.c:20:41: warning: 'snprintf' output may
- be truncated before the last format character
-Message-ID: <202501020112.gtxIZgvD-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.12/invlpgb 9/12] arch/x86/mm/tlb.c:1315:58: error:
+ 'mm_context_t' has no member named 'broadcast_asid'
+Message-ID: <202501020343.LTojE2Wq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +62,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Gustavo,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ccb98ccef0e543c2bd4ef1a72270461957f3d8d0
-commit: e8a30eef6ef6da4998fcdaaffaaf8d29777c5d7d misc: Add Synopsys DesignWare xData IP driver
-date:   3 years, 9 months ago
-config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250102/202501020112.gtxIZgvD-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020112.gtxIZgvD-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.12/invlpgb
+head:   6960238e894267da7a06ad453cebe17c2cf72f4a
+commit: ddfe42c6d6b421fc0fa05306cb96eee737d6bb42 [9/12] x86/mm: enable broadcast TLB invalidation for multi-threaded processes
+config: x86_64-randconfig-102-20250101 (https://download.01.org/0day-ci/archive/20250102/202501020343.LTojE2Wq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020343.LTojE2Wq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501020112.gtxIZgvD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501020343.LTojE2Wq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/misc/dw-xdata-pcie.c: In function 'dw_xdata_pcie_probe':
->> drivers/misc/dw-xdata-pcie.c:20:41: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-      20 | #define DW_XDATA_DRIVER_NAME            "dw-xdata-pcie"
-         |                                         ^~~~~~~~~~~~~~~
-   drivers/misc/dw-xdata-pcie.c:342:38: note: in expansion of macro 'DW_XDATA_DRIVER_NAME'
-     342 |         snprintf(name, sizeof(name), DW_XDATA_DRIVER_NAME ".%d", id);
-         |                                      ^~~~~~~~~~~~~~~~~~~~
-   drivers/misc/dw-xdata-pcie.c:390:64: note: format string is defined here
-     390 |         if (sscanf(dw->misc_dev.name, DW_XDATA_DRIVER_NAME ".%d", &id) != 1)
-         |                                                                ^
-   drivers/misc/dw-xdata-pcie.c:342:9: note: 'snprintf' output between 16 and 25 bytes into a destination of size 24
-     342 |         snprintf(name, sizeof(name), DW_XDATA_DRIVER_NAME ".%d", id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/tlb.c: In function 'flush_tlb_mm_range':
+>> arch/x86/mm/tlb.c:1315:58: error: 'mm_context_t' has no member named 'broadcast_asid'
+    1315 |         if (IS_ENABLED(CONFIG_CPU_SUP_AMD) && mm->context.broadcast_asid) {
+         |                                                          ^
+   arch/x86/mm/tlb.c:1316:17: error: implicit declaration of function 'broadcast_tlb_flush'; did you mean 'trace_tlb_flush'? [-Werror=implicit-function-declaration]
+    1316 |                 broadcast_tlb_flush(info);
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 trace_tlb_flush
+   arch/x86/mm/tlb.c:1319:17: error: implicit declaration of function 'count_tlb_flush'; did you mean 'trace_tlb_flush'? [-Werror=implicit-function-declaration]
+    1319 |                 count_tlb_flush(mm);
+         |                 ^~~~~~~~~~~~~~~
+         |                 trace_tlb_flush
+   cc1: some warnings being treated as errors
 
 
-vim +/snprintf +20 drivers/misc/dw-xdata-pcie.c
+vim +1315 arch/x86/mm/tlb.c
 
-    19	
-  > 20	#define DW_XDATA_DRIVER_NAME		"dw-xdata-pcie"
-    21	
+  1282	
+  1283	void flush_tlb_mm_range(struct mm_struct *mm, unsigned long start,
+  1284					unsigned long end, unsigned int stride_shift,
+  1285					bool freed_tables)
+  1286	{
+  1287		struct flush_tlb_info *info;
+  1288		unsigned long threshold = tlb_single_page_flush_ceiling;
+  1289		u64 new_tlb_gen;
+  1290		int cpu;
+  1291	
+  1292		if (static_cpu_has(X86_FEATURE_INVLPGB))
+  1293			threshold *= invlpgb_count_max;
+  1294	
+  1295		cpu = get_cpu();
+  1296	
+  1297		/* Should we flush just the requested range? */
+  1298		if ((end == TLB_FLUSH_ALL) ||
+  1299		    ((end - start) >> stride_shift) > threshold) {
+  1300			start = 0;
+  1301			end = TLB_FLUSH_ALL;
+  1302		}
+  1303	
+  1304		/* This is also a barrier that synchronizes with switch_mm(). */
+  1305		new_tlb_gen = inc_mm_tlb_gen(mm);
+  1306	
+  1307		info = get_flush_tlb_info(mm, start, end, stride_shift, freed_tables,
+  1308					  new_tlb_gen);
+  1309	
+  1310		/*
+  1311		 * flush_tlb_multi() is not optimized for the common case in which only
+  1312		 * a local TLB flush is needed. Optimize this use-case by calling
+  1313		 * flush_tlb_func_local() directly in this case.
+  1314		 */
+> 1315		if (IS_ENABLED(CONFIG_CPU_SUP_AMD) && mm->context.broadcast_asid) {
+  1316			broadcast_tlb_flush(info);
+  1317		} else if (cpumask_any_but(mm_cpumask(mm), cpu) < nr_cpu_ids) {
+  1318			flush_tlb_multi(mm_cpumask(mm), info);
+  1319			count_tlb_flush(mm);
+  1320		} else if (mm == this_cpu_read(cpu_tlbstate.loaded_mm)) {
+  1321			lockdep_assert_irqs_enabled();
+  1322			local_irq_disable();
+  1323			flush_tlb_func(info);
+  1324			local_irq_enable();
+  1325		}
+  1326	
+  1327		put_flush_tlb_info();
+  1328		put_cpu();
+  1329		mmu_notifier_arch_invalidate_secondary_tlbs(mm, start, end);
+  1330	}
+  1331	
 
 -- 
 0-DAY CI Kernel Test Service
