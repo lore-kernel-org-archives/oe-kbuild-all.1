@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0D72F85C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jan 2025 20:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF252AE7F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jan 2025 21:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735765020; cv=none; b=eJlq7J7HdcmKr6C/f/4uCgu8x4HxFI5l3ot8hKMKKm1s42j4ANzM31KWV1A4h0782iFEQy2X9+c6Jl4jjZuNxl2pXElQcHf+dv7szocTz0JzUa+U8EakjbuF1yL5vAFTGaXe/ldjIFR+ISqEfpTkVra+nOONkOlLdq3bznRaNfk=
+	t=1735767552; cv=none; b=GJ7I5z/n/lUg7PYDjH6DM+K0Cp8inod520h5c9Lrmbv822fguILATtm2tDpItjRdiCtQxOT0CO1mW4KdhqncHqCjDF6vIRXiKrZyX8GgpNj8dIG6doWXQueNdq78b3p4FI1T7J5YbnE15O+TTagj291W/LLffD3Tm2QLboNeq3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735765020; c=relaxed/simple;
-	bh=ihBTRNy+UMwbWkEtTL4jC+hWVc3E9whiFjUkfrN+9G0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gv1TcF9gE45kd+CiuLy+qrrba9AyyRr8ykbUQRpvfskGoWqfukamydsKPLRUIIDXDa6+qUUd77kmHmcQTjcSNGlts91ZDO03IgCrTNYGHiWcLAX9x0QmACi/Ac0xIDV9QUifuoy+zJYzS2z1ExaKTiwTONEP4dBBQ+MGLVyN/E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HTrQOAK8; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1735767552; c=relaxed/simple;
+	bh=2n2oPEoVDNBErZ10RyCRaudqRgZZmQOE11LggDlT03E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tMT7H5/7hDpYtFQ+x4TIteRrSuMXgmN7NVYjNooVPp/lEH5/51Em8JSED/UpsYERJxh4Gmnha3BzZiEpltCqcDB/foij6I5M/nJ3gD1Tr6rQ7+/QpGQhwHqqkSAOmuExlpInF2N1nOmAfBb5EIRQxexTU0/WbNfhDR47Rp+fIxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K90bXS2z; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTrQOAK8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K90bXS2z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735765019; x=1767301019;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ihBTRNy+UMwbWkEtTL4jC+hWVc3E9whiFjUkfrN+9G0=;
-  b=HTrQOAK8IbJMWRZC7Sly5OSm8C40Wy8bwQyrFID5pbGoKhwedYHoCG+0
-   uLIKbupOiaUqrte8HTrosPiCrBn8fOtIJnlxev18zyDEi9pVHH0t6R97S
-   Eltj5gcpmk1nj4qOyXKtsVcGQRMUJWpd2zdF+J7AcWbJQNUJ0D4Pe3/wX
-   2V7KtuP1giEvNpvOsNYAhfjZSUS4rLXBo3aoLnguJJgy1bWo3Mcm0CVc0
-   4RXk5rJGpTbJA3dSQIDHlr5NAi6pWx+YYDjCjNx2hNsXPRDW1M2d7YW0U
-   UksoSq0bihni0wnZjTdMk9VH09qWpmM30mCP24VZO+cVbG4z+3pwMm83w
-   Q==;
-X-CSE-ConnectionGUID: 9p66nRl+S6uh2678wnhq0A==
-X-CSE-MsgGUID: qaYk+nbfTUaWmvP2mocbiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="36028663"
+  t=1735767550; x=1767303550;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2n2oPEoVDNBErZ10RyCRaudqRgZZmQOE11LggDlT03E=;
+  b=K90bXS2zDeHvF7j1vig1oqIBUVU8WzNVdOLUFeoDBV5RWZ/svoBM8a9q
+   AoKJbYIR18652Wu+cmgtVm3YREMyXfnNzst5I0qAkp7WoKkhMcy8Kg9KC
+   cRg47z5m4FuVVQAjsCkd4l3sYQ2k3AfgQw5cI0aqer+R55j6t2KjAaYA9
+   JBfnwJaajzuB7ZR59vJckLKApBrEHwJJuIxL4H1Gr4yoEVbUj99Mgg/8i
+   4pFvbhlMTKxA1ockvrHfhsysy5T+dkCLpiF+gDLP5V9X0KDXK76YE9KGc
+   JBAInDULo0yg5qlqNZAWiZbNc5tQapkWsjAEYnsSgtBfNXZ6sMSOvIYfw
+   A==;
+X-CSE-ConnectionGUID: 5puCekYpRk2/jdUV4eXsNA==
+X-CSE-MsgGUID: i/iUOlglSVi1QdoGAtC7bA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="35712310"
 X-IronPort-AV: E=Sophos;i="6.12,283,1728975600"; 
-   d="scan'208";a="36028663"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 12:56:59 -0800
-X-CSE-ConnectionGUID: hcQFNE7wTBOHPybxFf2cuA==
-X-CSE-MsgGUID: puq7BG6LQ0GFFhhlaC26jg==
+   d="scan'208";a="35712310"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 13:39:09 -0800
+X-CSE-ConnectionGUID: 5/C7k40TSlSy1jxv3XffLw==
+X-CSE-MsgGUID: nWwmHCJYTtW025pOEFM+1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="132269551"
+   d="scan'208";a="101823708"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Jan 2025 12:56:54 -0800
+  by orviesa007.jf.intel.com with ESMTP; 01 Jan 2025 13:39:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tT5ls-00084J-2O;
-	Wed, 01 Jan 2025 20:56:52 +0000
-Date: Thu, 2 Jan 2025 04:56:44 +0800
+	id 1tT6Qk-00085j-2B;
+	Wed, 01 Jan 2025 21:39:06 +0000
+Date: Thu, 2 Jan 2025 05:38:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Qiang Yu <quic_qianyu@quicinc.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v2 6/6] PCI/pwrctrl: Add pwrctrl driver for PCI Slots
-Message-ID: <202501020407.HmQQQKa0-lkp@intel.com>
-References: <20241231-pci-pwrctrl-slot-v2-6-6a15088ba541@linaro.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2024-08 0/1] WARNING: modpost:
+ vmlinux: section mismatch in reference: __apply_fineibt+0x1306 (section:
+ .text) -> poison_endbr (section: .init.text)
+Message-ID: <202501020552.YBdN7BKC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,85 +62,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241231-pci-pwrctrl-slot-v2-6-6a15088ba541@linaro.org>
 
-Hi Manivannan,
+Hi Peter,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/regulator-Guard-of_regulator_bulk_get_all-with-CONFIG_OF/20241231-174751
-base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-patch link:    https://lore.kernel.org/r/20241231-pci-pwrctrl-slot-v2-6-6a15088ba541%40linaro.org
-patch subject: [PATCH v2 6/6] PCI/pwrctrl: Add pwrctrl driver for PCI Slots
-config: x86_64-randconfig-074-20250102 (https://download.01.org/0day-ci/archive/20250102/202501020407.HmQQQKa0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020407.HmQQQKa0-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-08
+head:   5e3272bc3ed8c598af7c028d443f3271abfb8e21
+commit: 04505bbbbb15da950ea0239e328a76a3ad2376e0 [0/1] x86/fineibt: Poison ENDBR at +0
+config: x86_64-buildonly-randconfig-005-20241231 (https://download.01.org/0day-ci/archive/20250102/202501020552.YBdN7BKC-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020552.YBdN7BKC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501020407.HmQQQKa0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501020552.YBdN7BKC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/pci/pwrctrl/slot.c: In function 'pci_pwrctrl_slot_probe':
->> drivers/pci/pwrctrl/slot.c:39:15: error: implicit declaration of function 'of_regulator_bulk_get_all'; did you mean 'regulator_bulk_get'? [-Werror=implicit-function-declaration]
-      39 |         ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |               regulator_bulk_get
-   cc1: some warnings being treated as errors
-
-
-vim +39 drivers/pci/pwrctrl/slot.c
-
-    28	
-    29	static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
-    30	{
-    31		struct pci_pwrctrl_slot_data *slot;
-    32		struct device *dev = &pdev->dev;
-    33		int ret;
-    34	
-    35		slot = devm_kzalloc(dev, sizeof(*slot), GFP_KERNEL);
-    36		if (!slot)
-    37			return -ENOMEM;
-    38	
-  > 39		ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
-    40						&slot->supplies);
-    41		if (ret < 0) {
-    42			dev_err_probe(dev, ret, "Failed to get slot regulators\n");
-    43			return ret;
-    44		}
-    45	
-    46		slot->num_supplies = ret;
-    47		ret = regulator_bulk_enable(slot->num_supplies, slot->supplies);
-    48		if (ret < 0) {
-    49			dev_err_probe(dev, ret, "Failed to enable slot regulators\n");
-    50			goto err_regulator_free;
-    51		}
-    52	
-    53		ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_slot_power_off,
-    54					       slot);
-    55		if (ret)
-    56			goto err_regulator_disable;
-    57	
-    58		pci_pwrctrl_init(&slot->ctx, dev);
-    59	
-    60		ret = devm_pci_pwrctrl_device_set_ready(dev, &slot->ctx);
-    61		if (ret)
-    62			return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
-    63	
-    64		return 0;
-    65	
-    66	err_regulator_disable:
-    67		regulator_bulk_disable(slot->num_supplies, slot->supplies);
-    68	err_regulator_free:
-    69		regulator_bulk_free(slot->num_supplies, slot->supplies);
-    70	
-    71		return ret;
-    72	}
-    73	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x31d (section: .text) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x60b (section: .text) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x811 (section: .text) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0xacd (section: .text) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0xb66 (section: .text) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0xd93 (section: .text) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x10dc (section: .text) -> text_poke_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x1161 (section: .text) -> text_poke_early (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: __apply_fineibt+0x1306 (section: .text) -> poison_endbr (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
