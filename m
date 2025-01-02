@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4223C610D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 17:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463441ADFEB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 18:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735839162; cv=none; b=ZEbi/nZCMTE/8qHfcmsAmBGOyuJVuYEiQCefR0v/yIlx4Ws2erNEWTbkOqoGIZUtUe1Lu+eo91IKDQBv9kiqEXMBKe0gJNhs+62cCP5RwYVVvdzG8YDzX2ejSjNSexiHUJ7ptC2UKpHRsQo0Qr9u7xvr5Iwp7LlVgg8p3OUbMuo=
+	t=1735842667; cv=none; b=UebFaSYCxO2Pro9KSiNPGoaAbnfvqwz53arjefdOxYJvRoUtMye+Vf8DSZWO4mdpuo9okWQpudGcHXhrhTDq2zXVXjIywUhEE/oCg6HCd+Ol5TFCrkxKZrCxU5h5IFQ5qy0kKhP0UN42K8escEksXa0mKfeL7U6ldVNyPfyx+p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735839162; c=relaxed/simple;
-	bh=i8RYQ7UfbXh/QzEXAks8aof03m/eBbuJib6ucqR5n0s=;
+	s=arc-20240116; t=1735842667; c=relaxed/simple;
+	bh=6IMYpH5FZM+0FXp5LiVVkbn0g+eOfOfGi/I084bqlLs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZMH8rFsJlWTlRyWcl0wYwMrScYMCzG7yGUiqR2YUaHWuYJiXnN7zxVVohruJG6JelPjT1vVRlQgC91zp50XqF9hhL5XlWUmBNZSo2GxLUOxY3cfAerddJquf+rtyXbejFbwI9YELX+oBjHhrzSGg98byBAaiiXkY87ATn7aD9F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kjS1jpV6; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=J7naCXNIqx0xWxoYqa6kCi1kj4sq3tcmEOk1S3wUNEMG/7knt/GEGAaXCQmsGFgvnzf/9UscoIGOPkrSd20qbedSbVpbhGp/3Aw66mek7x+6zCCzIL3lMyxEeyxN47T2BtKSZD/O48aiQ/jFZvS9AdFJ5O9vU5GEQ0G7R1vOEaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z6ft+Gi7; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kjS1jpV6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z6ft+Gi7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735839161; x=1767375161;
+  t=1735842666; x=1767378666;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i8RYQ7UfbXh/QzEXAks8aof03m/eBbuJib6ucqR5n0s=;
-  b=kjS1jpV6Pvoo6Mex7q6RKq6WtZQgQ9oTH29RU2oEUlblWTo/35+5DnY0
-   C/yKwQPfan/1iAxorow65U8ovDVuWvBcZCV4LAlJOZ6sqDzVBHul/70jz
-   SyY5GfqOkwJ5g4zdCOaImwtsEiw353RsrDzkJgYZv0O4aBPZR/29o4+Qu
-   zwUFxZ3bFu/toJ1WdCSCJfUazTOFGEBzsOz7GCE1SIog+b+mnowaUiWwT
-   VnQlVH/2joebLMm7uHRcIVllx9DYSMbPRnX1SSPbkFHRECw64lbDOOSEJ
-   SArPBcct1ZHK1FXZDhW4Q8WQR2wsoB3DTM/tWgtM1OOl3heuPaffAggbh
-   A==;
-X-CSE-ConnectionGUID: OpVkxdVnSa2O0E+Zg9AvAA==
-X-CSE-MsgGUID: 2rZCj2eBTsSHAnrymfO7Ug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="35329528"
+  bh=6IMYpH5FZM+0FXp5LiVVkbn0g+eOfOfGi/I084bqlLs=;
+  b=Z6ft+Gi7KJlIOaxlsJ+hQ/uuSK0pemgmvWr5fL5HwB45VKr+0Sy+lVmD
+   /j0MnIj+75HxCuDgP+hq7WAwWFXbaP4diSBJtbodItZH21wbSq7Xp9sH1
+   KTYRce13ArYL0y6DUeuScvAgLeSjE7qA5GHXLVqKwy9TfxvFWBmLVwdnG
+   Ga1qYZkAXKwOkxpdtd/1r0wWZ1xk5bQ2XyF2UWfv3C+B7L2kJapDL0Jh8
+   +uiSSI/J7/PhfTYFP72lyNUpX+rSVOz97YsggZ6xeb9RzyWgxIVwi+pwC
+   DhKAmXjiZh8k6y0I1W36C2vzw9QO6vxJrVMROmLjdHT784B5Htst09vqo
+   Q==;
+X-CSE-ConnectionGUID: fD9gdDoJTImvCWu2LOU7hQ==
+X-CSE-MsgGUID: EX3WMg14Rzy6oGnMcvg7jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="53498975"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="35329528"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 09:29:00 -0800
-X-CSE-ConnectionGUID: G3CfDMf4TZ+x+9V0SgwUfg==
-X-CSE-MsgGUID: dtW6IBPaSsCNiREmwrluLA==
+   d="scan'208";a="53498975"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 10:31:05 -0800
+X-CSE-ConnectionGUID: SKNpbzU3QRCOP5zyxIq2Uw==
+X-CSE-MsgGUID: 8A4xziBUSSq09N266uZYLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="132414247"
+   d="scan'208";a="101759832"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 Jan 2025 09:28:57 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 02 Jan 2025 10:31:03 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTP0B-0008hG-1J;
-	Thu, 02 Jan 2025 17:28:55 +0000
-Date: Fri, 3 Jan 2025 01:28:39 +0800
+	id 1tTPyH-0008kP-0u;
+	Thu, 02 Jan 2025 18:31:01 +0000
+Date: Fri, 3 Jan 2025 02:30:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: drivers/memory/emif.c:70: warning: Function parameter or struct
- member 'lpmode' not described in 'emif_data'
-Message-ID: <202501030119.Oa3oiMvL-lkp@intel.com>
+To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [pali:cifs 66/68] fs/smb/client/smb1ops.c:994:66: sparse: sparse:
+ restricted __le32 degrades to integer
+Message-ID: <202501030209.KL7nx57y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,76 +62,209 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   56e6a3499e14716b9a28a307bb6d18c10e95301e
-commit: ca7d8b980b67f133317525c4273e144116ee1ae5 memory: add Renesas RPC-IF driver
-date:   4 years, 6 months ago
-config: csky-buildonly-randconfig-r004-20230503 (https://download.01.org/0day-ci/archive/20250103/202501030119.Oa3oiMvL-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030119.Oa3oiMvL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
+head:   40848830c42a91afaa8eb3912e9690acdcb08ae1
+commit: e40f924ba05522b1b8a3958c4acc19afdbea2c8c [66/68] cifs: Fix changing times and read-only attr over SMB1 smb_set_file_info() function
+config: x86_64-randconfig-122-20250101 (https://download.01.org/0day-ci/archive/20250103/202501030209.KL7nx57y-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030209.KL7nx57y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501030119.Oa3oiMvL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501030209.KL7nx57y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/smb/client/smb1ops.c:983:22: sparse: sparse: cast to restricted __le32
+>> fs/smb/client/smb1ops.c:994:66: sparse: sparse: restricted __le32 degrades to integer
+>> fs/smb/client/smb1ops.c:994:61: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __le32 [usertype] attributes @@     got unsigned int @@
+   fs/smb/client/smb1ops.c:994:61: sparse:     expected restricted __le32 [usertype] attributes
+   fs/smb/client/smb1ops.c:994:61: sparse:     got unsigned int
+   fs/smb/client/smb1ops.c:1297:42: sparse: sparse: cast to restricted __le32
+--
+   fs/smb/client/cifssmb.c:2913:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] ByteCount @@     got restricted __le32 [usertype] @@
+   fs/smb/client/cifssmb.c:2913:27: sparse:     expected restricted __le16 [usertype] ByteCount
+   fs/smb/client/cifssmb.c:2913:27: sparse:     got restricted __le32 [usertype]
+>> fs/smb/client/cifssmb.c:5331:40: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le64 [usertype] utc_nanoseconds_since_1601 @@     got unsigned long long [usertype] @@
+   fs/smb/client/cifssmb.c:5331:40: sparse:     expected restricted __le64 [usertype] utc_nanoseconds_since_1601
+   fs/smb/client/cifssmb.c:5331:40: sparse:     got unsigned long long [usertype]
+>> fs/smb/client/cifssmb.c:5337:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] ByteCount @@     got restricted __le16 [usertype] @@
+   fs/smb/client/cifssmb.c:5337:25: sparse:     expected unsigned short [usertype] ByteCount
+   fs/smb/client/cifssmb.c:5337:25: sparse:     got restricted __le16 [usertype]
 
->> drivers/memory/emif.c:70: warning: Function parameter or struct member 'lpmode' not described in 'emif_data'
-   drivers/memory/emif.c:70: warning: Function parameter or struct member 'irq_state' not described in 'emif_data'
-   drivers/memory/emif.c:70: warning: Function parameter or struct member 'addressing' not described in 'emif_data'
+vim +994 fs/smb/client/smb1ops.c
 
-
-vim +70 drivers/memory/emif.c
-
-7ec944538dde3d Aneesh V 2012-04-27  30  
-7ec944538dde3d Aneesh V 2012-04-27  31  /**
-7ec944538dde3d Aneesh V 2012-04-27  32   * struct emif_data - Per device static data for driver's use
-7ec944538dde3d Aneesh V 2012-04-27  33   * @duplicate:			Whether the DDR devices attached to this EMIF
-7ec944538dde3d Aneesh V 2012-04-27  34   *				instance are exactly same as that on EMIF1. In
-7ec944538dde3d Aneesh V 2012-04-27  35   *				this case we can save some memory and processing
-7ec944538dde3d Aneesh V 2012-04-27  36   * @temperature_level:		Maximum temperature of LPDDR2 devices attached
-7ec944538dde3d Aneesh V 2012-04-27  37   *				to this EMIF - read from MR4 register. If there
-7ec944538dde3d Aneesh V 2012-04-27  38   *				are two devices attached to this EMIF, this
-7ec944538dde3d Aneesh V 2012-04-27  39   *				value is the maximum of the two temperature
-7ec944538dde3d Aneesh V 2012-04-27  40   *				levels.
-7ec944538dde3d Aneesh V 2012-04-27  41   * @node:			node in the device list
-7ec944538dde3d Aneesh V 2012-04-27  42   * @base:			base address of memory-mapped IO registers.
-7ec944538dde3d Aneesh V 2012-04-27  43   * @dev:			device pointer.
-a93de288aad3b0 Aneesh V 2012-04-27  44   * @addressing			table with addressing information from the spec
-a93de288aad3b0 Aneesh V 2012-04-27  45   * @regs_cache:			An array of 'struct emif_regs' that stores
-a93de288aad3b0 Aneesh V 2012-04-27  46   *				calculated register values for different
-a93de288aad3b0 Aneesh V 2012-04-27  47   *				frequencies, to avoid re-calculating them on
-a93de288aad3b0 Aneesh V 2012-04-27  48   *				each DVFS transition.
-a93de288aad3b0 Aneesh V 2012-04-27  49   * @curr_regs:			The set of register values used in the last
-a93de288aad3b0 Aneesh V 2012-04-27  50   *				frequency change (i.e. corresponding to the
-a93de288aad3b0 Aneesh V 2012-04-27  51   *				frequency in effect at the moment)
-7ec944538dde3d Aneesh V 2012-04-27  52   * @plat_data:			Pointer to saved platform data.
-aac10aaa8cc65a Aneesh V 2012-04-27  53   * @debugfs_root:		dentry to the root folder for EMIF in debugfs
-e6b42eb6a66c18 Aneesh V 2012-08-17  54   * @np_ddr:			Pointer to ddr device tree node
-7ec944538dde3d Aneesh V 2012-04-27  55   */
-7ec944538dde3d Aneesh V 2012-04-27  56  struct emif_data {
-7ec944538dde3d Aneesh V 2012-04-27  57  	u8				duplicate;
-7ec944538dde3d Aneesh V 2012-04-27  58  	u8				temperature_level;
-a93de288aad3b0 Aneesh V 2012-04-27  59  	u8				lpmode;
-7ec944538dde3d Aneesh V 2012-04-27  60  	struct list_head		node;
-a93de288aad3b0 Aneesh V 2012-04-27  61  	unsigned long			irq_state;
-7ec944538dde3d Aneesh V 2012-04-27  62  	void __iomem			*base;
-7ec944538dde3d Aneesh V 2012-04-27  63  	struct device			*dev;
-a93de288aad3b0 Aneesh V 2012-04-27  64  	const struct lpddr2_addressing	*addressing;
-a93de288aad3b0 Aneesh V 2012-04-27  65  	struct emif_regs		*regs_cache[EMIF_MAX_NUM_FREQUENCIES];
-a93de288aad3b0 Aneesh V 2012-04-27  66  	struct emif_regs		*curr_regs;
-7ec944538dde3d Aneesh V 2012-04-27  67  	struct emif_platform_data	*plat_data;
-aac10aaa8cc65a Aneesh V 2012-04-27  68  	struct dentry			*debugfs_root;
-e6b42eb6a66c18 Aneesh V 2012-08-17  69  	struct device_node		*np_ddr;
-7ec944538dde3d Aneesh V 2012-04-27 @70  };
-7ec944538dde3d Aneesh V 2012-04-27  71  
-
-:::::: The code at line 70 was first introduced by commit
-:::::: 7ec944538dde3d7f490bd4d2619051789db5c3c3 memory: emif: add basic infrastructure for EMIF driver
-
-:::::: TO: Aneesh V <aneesh@ti.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   872	
+   873	static int
+   874	smb_set_file_info(struct inode *inode, const char *full_path,
+   875			  FILE_BASIC_INFO *buf, const unsigned int xid)
+   876	{
+   877		int oplock = 0;
+   878		int rc;
+   879		__u32 netpid;
+   880		struct cifs_fid fid;
+   881		struct cifs_open_parms oparms;
+   882		struct cifsFileInfo *open_file;
+   883		FILE_BASIC_INFO new_buf;
+   884		struct cifs_open_info_data query_data;
+   885		__le64 write_time = buf->LastWriteTime;
+   886		struct cifsInodeInfo *cinode = CIFS_I(inode);
+   887		struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+   888		struct tcon_link *tlink = NULL;
+   889		struct cifs_tcon *tcon;
+   890	
+   891		/* if the file is already open for write, just use that fileid */
+   892		open_file = find_writable_file(cinode, FIND_WR_FSUID_ONLY);
+   893	
+   894		if (open_file) {
+   895			fid.netfid = open_file->fid.netfid;
+   896			netpid = open_file->pid;
+   897			tcon = tlink_tcon(open_file->tlink);
+   898		} else {
+   899			tlink = cifs_sb_tlink(cifs_sb);
+   900			if (IS_ERR(tlink)) {
+   901				rc = PTR_ERR(tlink);
+   902				tlink = NULL;
+   903				goto out;
+   904			}
+   905			tcon = tlink_tcon(tlink);
+   906		}
+   907	
+   908		/*
+   909		 * Non-NT servers interprets zero time value in SMB_SET_FILE_BASIC_INFO
+   910		 * over TRANS2_SET_FILE_INFORMATION as a valid time value. NT servers
+   911		 * interprets zero time value as do not change existing value on server.
+   912		 * API of ->set_file_info() callback expects that zero time value has
+   913		 * the NT meaning - do not change. Therefore if server is non-NT and
+   914		 * some time values in "buf" are zero, then fetch missing time values.
+   915		 */
+   916		if (!(tcon->ses->capabilities & CAP_NT_SMBS) &&
+   917		    (!buf->CreationTime || !buf->LastAccessTime ||
+   918		     !buf->LastWriteTime || !buf->ChangeTime)) {
+   919			rc = cifs_query_path_info(xid, tcon, cifs_sb, full_path, &query_data);
+   920			if (rc) {
+   921				if (open_file) {
+   922					cifsFileInfo_put(open_file);
+   923					open_file = NULL;
+   924				}
+   925				goto out;
+   926			}
+   927			/*
+   928			 * Original write_time from buf->LastWriteTime is preserved
+   929			 * as SMBSetInformation() interprets zero as do not change.
+   930			 */
+   931			new_buf = *buf;
+   932			buf = &new_buf;
+   933			if (!buf->CreationTime)
+   934				buf->CreationTime = query_data.fi.CreationTime;
+   935			if (!buf->LastAccessTime)
+   936				buf->LastAccessTime = query_data.fi.LastAccessTime;
+   937			if (!buf->LastWriteTime)
+   938				buf->LastWriteTime = query_data.fi.LastWriteTime;
+   939			if (!buf->ChangeTime)
+   940				buf->ChangeTime = query_data.fi.ChangeTime;
+   941		}
+   942	
+   943		if (open_file)
+   944			goto set_via_filehandle;
+   945	
+   946		rc = CIFSSMBSetPathInfo(xid, tcon, full_path, buf, cifs_sb->local_nls,
+   947					cifs_sb);
+   948		if (rc == 0) {
+   949			cinode->cifsAttrs = le32_to_cpu(buf->Attributes);
+   950			goto out;
+   951		} else if (rc != -EOPNOTSUPP && rc != -EINVAL) {
+   952			goto out;
+   953		}
+   954	
+   955		oparms = (struct cifs_open_parms) {
+   956			.tcon = tcon,
+   957			.cifs_sb = cifs_sb,
+   958			.desired_access = SYNCHRONIZE | FILE_WRITE_ATTRIBUTES,
+   959			.create_options = cifs_create_options(cifs_sb, 0),
+   960			.disposition = FILE_OPEN,
+   961			.path = full_path,
+   962			.fid = &fid,
+   963		};
+   964	
+   965		if (S_ISDIR(inode->i_mode) && !(tcon->ses->capabilities & CAP_NT_SMBS)) {
+   966			/* Opening directory path is not possible on non-NT servers. */
+   967			rc = -EOPNOTSUPP;
+   968		} else {
+   969			/*
+   970			 * Use cifs_open_file() instead of CIFS_open() as the
+   971			 * cifs_open_file() selects the correct function which
+   972			 * works also on non-NT servers.
+   973			 */
+   974			rc = cifs_open_file(xid, &oparms, &oplock, NULL);
+   975			/*
+   976			 * Opening path for writing on non-NT servers is not
+   977			 * possible when the read-only attribute is already set.
+   978			 * Non-NT server in this case returns -EACCES. For those
+   979			 * servers the only possible way how to clear the read-only
+   980			 * bit is via SMB_COM_SETATTR command.
+   981			 */
+   982			if (rc == -EACCES &&
+ > 983			    (le32_to_cpu(cinode->cifsAttrs) & ATTR_READONLY) &&
+   984			     le32_to_cpu(buf->Attributes) != 0 && /* 0 = do not change attrs */
+   985			     !(le32_to_cpu(buf->Attributes) & ATTR_READONLY) &&
+   986			     !(tcon->ses->capabilities & CAP_NT_SMBS))
+   987				rc = -EOPNOTSUPP;
+   988		}
+   989	
+   990		/* Fallback to SMB_COM_SETATTR command when absolutelty needed. */
+   991		if (rc == -EOPNOTSUPP) {
+   992			cifs_dbg(FYI, "calling SetInformation since SetPathInfo for attrs/times not supported by this server\n");
+   993			rc = SMBSetInformation(xid, tcon, full_path,
+ > 994					       buf->Attributes != 0 ? buf->Attributes : cinode->cifsAttrs,
+   995					       write_time,
+   996					       cifs_sb->local_nls, cifs_sb);
+   997			if (rc == 0)
+   998				cinode->cifsAttrs = le32_to_cpu(buf->Attributes);
+   999			else
+  1000				rc = -EACCES;
+  1001			goto out;
+  1002		}
+  1003	
+  1004		if (rc != 0) {
+  1005			if (rc == -EIO)
+  1006				rc = -EINVAL;
+  1007			goto out;
+  1008		}
+  1009	
+  1010		netpid = current->tgid;
+  1011		cifs_dbg(FYI, "calling SetFileInfo since SetPathInfo for attrs/times not supported by this server\n");
+  1012	
+  1013	set_via_filehandle:
+  1014		rc = CIFSSMBSetFileInfo(xid, tcon, buf, fid.netfid, netpid);
+  1015		if (!rc)
+  1016			cinode->cifsAttrs = le32_to_cpu(buf->Attributes);
+  1017	
+  1018		if (open_file == NULL)
+  1019			CIFSSMBClose(xid, tcon, fid.netfid);
+  1020		else
+  1021			cifsFileInfo_put(open_file);
+  1022	
+  1023		/*
+  1024		 * Setting the read-only bit is not honered on non-NT servers when done
+  1025		 * via open-semantics. So for setting it, use SMB_COM_SETATTR command.
+  1026		 * This command works only after the file is closed, so use it only when
+  1027		 * operation was called without the filehandle.
+  1028		 */
+  1029		if (open_file == NULL &&
+  1030		    !(tcon->ses->capabilities & CAP_NT_SMBS) &&
+  1031		    le32_to_cpu(buf->Attributes) & ATTR_READONLY) {
+  1032			SMBSetInformation(xid, tcon, full_path,
+  1033					  buf->Attributes,
+  1034					  0 /* do not change write time */,
+  1035					  cifs_sb->local_nls, cifs_sb);
+  1036		}
+  1037	out:
+  1038		if (tlink != NULL)
+  1039			cifs_put_tlink(tlink);
+  1040		return rc;
+  1041	}
+  1042	
 
 -- 
 0-DAY CI Kernel Test Service
