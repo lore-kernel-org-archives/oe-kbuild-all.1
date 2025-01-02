@@ -1,69 +1,70 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01841B4236
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 18:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07011ADFEB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 18:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735843126; cv=none; b=V19jlaft7ZSTgqx4y55YadImmFMwqp7leRA6gp7tAMglg/sqUXfubrZCHetuqWGRhFHmX3qfDfAdGpgd7IkC7nmU28mANbCrPc2maHrJZL4NyvPr1JH6uSJHIxN1fOrNJotwAZSY0mk8X8utbhlO0qJFa6Zhm7BiUl6LQxbS7k8=
+	t=1735843155; cv=none; b=QWW4EM7vY9lpSqOji917dtZ82DtClBc9Kok+pjQPETCXPnHeY2u47bLS5vNKZAyjs0/KS9zRzN2zr3OG6YT4UZkrQ/zXvQdu9DsjXmZDScE7tppBUefcKrT64vOhEUzy0H6qwbccoU8fMIWKp/lX8c63sIM0o7zB+3nBeJ9QmhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735843126; c=relaxed/simple;
-	bh=aiK9Eo30lMl+cvPZ9rdk38DZZknLOhcaof4gBaulews=;
+	s=arc-20240116; t=1735843155; c=relaxed/simple;
+	bh=J7Ze9D4Gtuk+yC4T7+SN7mxojsKz3EYzI4q0AmyEC/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jmI/sMl0t9UJoIdfmHD0/69BwP6bZmaTmHSmqMTbkYzVMCPAd4mThbOdXxGB68HYTEA5XNRiYqJuqjz2z+4qDfWF/geYtKX0/AjXMaEeE2kdguFQk80XeoZI68XnuN/8/atwBCda8bgMpumLAWPWX+eGtvAixzMavvbU54d8azo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Tv4whnIt; arc=none smtp.client-ip=209.85.214.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=UhoYpvYa8+3FEcfZ/LQxvUYMyXnyl2H4+EfoRkePYesUsmtjVKJ7+51J/SGcuAEvzjwlDQvzAH5bSFiOGafghhO9cQKlOTr3jogzc1tv0lJkEY3ZWNTq7/W+FLMvDGs9vRsiXScjnOD+c+QJCpoxvXbkJ3upSUOg7BlaSuK6ALE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NfqZxv9k; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Tv4whnIt"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-216395e151bso115811805ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Jan 2025 10:38:44 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NfqZxv9k"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2f4409fc8fdso13624756a91.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Jan 2025 10:39:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1735843124; x=1736447924; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1735843153; x=1736447953; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVR89FDZCwaovneB/CRzO/aHUswAytv58IvwgTr88W4=;
-        b=Tv4whnIt47fJ9LLAShubwI0QVcFblUoFfsynlAfGoM13WiblxKJ2saG6Yb1Ii+V1Rz
-         yd0/3tChXwU3sn/JIy2AguDLnLGz/pmXfMNQ69l1mJjjuNj+kCv/NA5twPL5uvyPHyy5
-         LB67g0p+byGIpWIgHB8srMxnSCWQz/NOjatBo=
+        bh=3DgrC4jHn7uUNb6XfHdL3EKmS6+pzoXkNziiabtfpDo=;
+        b=NfqZxv9kGyTB3hWRtdQoAoQWM43e/Y8ViPcCVSN8bKZ4IWIerN9+KXNUvxC9N4V7r1
+         e963Repa8we7FVo453DdBY391nnG0h+eB4myyYY0cAMGVvbGLvO8N0KshHVilaqcJUge
+         P2+qO3CwXmzBPI9XcDxITsp1Ntws1l1SZbUzU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735843124; x=1736447924;
+        d=1e100.net; s=20230601; t=1735843153; x=1736447953;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yVR89FDZCwaovneB/CRzO/aHUswAytv58IvwgTr88W4=;
-        b=wYK6QOrXStpDLY5bF0hAMFrswUYSiz6Xdidn2Dy28J3tuW1PAt4Yq5Y5leb+axGeCj
-         0vkZ39LiXldN3c+dwbUPy0bs5ffyHue9YfGJ3mQUJUn3/Q7XH8TCi5z/tx01OySjNcJn
-         34omyVo0F+xHNVlwPwQ+biB3zZYtZXSx5ojjHH7sMT9H/cR0asgxTN4iBPOKZaaTwU7f
-         z7fPt4k3fhigiMBr9keHjtRM43m9M41vQsxIunN55pZ50sSGw6UW7k1dDl4wQRE/7ya0
-         sor1V55w1/+nZtvsgLROw4RPUZzerM1O7VZLXVgHhDnEu1pab/O9JiIy/S6hN3VwarG2
-         AnkQ==
-X-Gm-Message-State: AOJu0YyEe1BOVvTMoy6VQnWAt5xGokrS3A2vrg3ZrvGMxbyB1X2unOg+
-	xY2N1fvcHUzDGMSQTOYenaic263c9bgj+qe0HmtjJRfCiLsBT4W1hhDgozDRgQ==
-X-Gm-Gg: ASbGncsMoCUzrVBc7iHP7kMO7OkAepeKpDVf8wdOvcwPdEK4IWIShfX/0e7nbxywHax
-	y0e0fh92z/viu4TU4Tos/PPcNfnOk6EI1fpD/J/I5uG7iflERa/6HfjTJyqDzC7xNghN4X2TYUh
-	0L2RZXPgE2vpNfw470iCTLLWjdo4Z3dhlwBt1BjTLjIF1NsyafawCl5cJhdDxQiA0RO7zgYatYo
-	VGVaH72oK3sgOFL+m2bdzeWSf50pHHcat9e6F+lBV9N6xfhg73Tb5GBrKOJ2dd9/QGqD6vJZAGu
-	Y8K0/XX1pdshnEFCAhE=
-X-Google-Smtp-Source: AGHT+IGKzS7n64vKCx1fJcvRPXHtsFQpEYWhYMqZfY9QaX1QPQwahmk8qRDNflg8T6wWQVybs8zylg==
-X-Received: by 2002:a17:903:98d:b0:215:a2f4:d4ab with SMTP id d9443c01a7336-219e6ccdc98mr741472245ad.7.1735843124189;
-        Thu, 02 Jan 2025 10:38:44 -0800 (PST)
+        bh=3DgrC4jHn7uUNb6XfHdL3EKmS6+pzoXkNziiabtfpDo=;
+        b=GvUYsbwtwVaHvtrS5ht/kDN6WHplcO4JcH4/WTm0dpx927k43zopbOxUWi02bZsshM
+         u0Xj1Jdkx9w1vHazJ/MN/oiX0wL8GF3O28IFeXqPOQefBrFWMKKjl48o0rMpjv+eVQo4
+         XCg4c1Ab9wy6qHcim7l6v9Fx4ebs48wDxlaBGwn9YKTmJ1Z1nsHbMAjvZcM3aQ3BHWbK
+         b6sun7hv6dH+T3gX3hmWuRwnM1eGoKazTZ7uq1hZHxBg4WYrhhLNFoizcscbhtU+IR8P
+         QfCkq9OdlFHz2ZTCDPl5sNiTR/0siJfkNRnvRLtBRbazgxJFcJ9t6lJb/Gi65+mjWmF0
+         0Q3A==
+X-Forwarded-Encrypted: i=1; AJvYcCXIvQCiTnae4u8/HFUuii82Bupm4X93QIoynR2EYVi58IJFHzVwp2Pl9FCa6Z1aZu4ZXU1XysqUiTZmbQ3O@lists.linux.dev
+X-Gm-Message-State: AOJu0YyyKTAuZjBj2exTp9rcy87TOKO5s0AObcS0jeLUIIpUx+YubQeK
+	Qgr2x3rILa+2AdpXfOqzRF0uMIae6qxRQDjoP62iW5QCGfw5l32qNuU2BLPY5A==
+X-Gm-Gg: ASbGnct6Xc5iArKIaUJOgwihfCLCpGrY/0QQygbpbwjq6ibOaCwD0CKK52hAbvInYIS
+	JeDypZ/P2XsQoGlC3dcy/GEEhdpHl1RDnuxIpYL4yThLHAMUYJaheuca6MFKBk9QsEIeYJKHIrm
+	pyQ30tQH+woxkvPj3t/7ZGARSvH+SEES9p6RjpX+abnHGhhR6yL+XjWzvLK8PbAqYXU6lKKZXxc
+	uGR1acDj3by5taqYRGzOCzRNsc6Xy4ZvCf/3F8rh/1bjNoqWPmWZIkklxgUwPmnQ+oqPbuxbWGV
+	PIWEZR3bs8OB5FGoJ4U=
+X-Google-Smtp-Source: AGHT+IGbNPqNI4c3ZBoEFAhUEg/ZeEAa1WlzTNBLfoqNKuh+86qctyL9gMC+Y3LdymYmk1ERcqebfA==
+X-Received: by 2002:a17:90b:524d:b0:2ee:9229:e4bd with SMTP id 98e67ed59e1d1-2f4536030d8mr67313668a91.2.1735843153237;
+        Thu, 02 Jan 2025 10:39:13 -0800 (PST)
 Received: from localhost ([2a00:79e0:2e14:7:2f1b:db40:bb38:fa8e])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-219dc962bfasm231440465ad.2.2025.01.02.10.38.43
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2f2ee06dd46sm31630548a91.36.2025.01.02.10.39.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2025 10:38:43 -0800 (PST)
-Date: Thu, 2 Jan 2025 10:38:42 -0800
+        Thu, 02 Jan 2025 10:39:12 -0800 (PST)
+Date: Thu, 2 Jan 2025 10:39:11 -0800
 From: Brian Norris <briannorris@chromium.org>
 To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>
 Subject: Re: [driver-core:driver-core-testing 29/29]
- include/kunit/platform_device.h:15:57: warning: 'struct completion' declared
- inside parameter list will not be visible outside of this definition or
- declaration
-Message-ID: <Z3bdMogEbi3j7Oj3@google.com>
-References: <202412241958.dbAImJsA-lkp@intel.com>
+ include/kunit/platform_device.h:15:15: warning: declaration of 'struct
+ completion' will not be visible outside of this function
+Message-ID: <Z3bdT0DrjcV6UzHe@google.com>
+References: <202412241917.orLfjA92-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,33 +73,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202412241958.dbAImJsA-lkp@intel.com>
+In-Reply-To: <202412241917.orLfjA92-lkp@intel.com>
 
-On Tue, Dec 24, 2024 at 07:16:35PM +0800, kernel test robot wrote:
+On Tue, Dec 24, 2024 at 07:37:20PM +0800, kernel test robot wrote:
 > All warnings (new ones prefixed by >>):
 > 
 >    In file included from drivers/base/test/platform-device-test.c:3:
-> >> include/kunit/platform_device.h:15:57: warning: 'struct completion' declared inside parameter list will not be visible outside of this definition or declaration
+> >> include/kunit/platform_device.h:15:15: warning: declaration of 'struct completion' will not be visible outside of this function [-Wvisibility]
 >       15 |                                                  struct completion *x);
->          |                                                         ^~~~~~~~~~
-> 
-> 
-> vim +15 include/kunit/platform_device.h
-> 
-> 5ac79730324c6f Stephen Boyd 2024-07-18  12  
-> 5ac79730324c6f Stephen Boyd 2024-07-18  13  int kunit_platform_device_prepare_wait_for_probe(struct kunit *test,
-> 5ac79730324c6f Stephen Boyd 2024-07-18  14  						 struct platform_device *pdev,
-> 5ac79730324c6f Stephen Boyd 2024-07-18 @15  						 struct completion *x);
-> 5ac79730324c6f Stephen Boyd 2024-07-18  16  
-> 
-> :::::: The code at line 15 was first introduced by commit
-> :::::: 5ac79730324c6f37106ce397586020ffe6e8e234 platform: Add test managed platform_device/driver APIs
+>          |                                                         ^
+>    1 warning generated.
 
-For the record, I already patched this here:
+Same:
 
 https://lore.kernel.org/lkml/20241213180841.3023843-1-briannorris@chromium.org/
 Subject: [PATCH] kunit: platform: Resolve 'struct completion' warning
 
-That patch is still pending though.
-
 Brian
+
