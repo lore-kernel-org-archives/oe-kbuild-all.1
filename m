@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A2243173
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 21:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEE1D517
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 22:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735854025; cv=none; b=mCoqkjJrgamQO8mtR/UF6tii+eCWbfRa+VhBFc6txpsAg3qFICROJ0Nkwb57OAEbgKIg/opyY5asy8+OJZM4c3VKjVNbuYOI/CLUMA1ZxQ9xEyIGsKEVv87rbQfMJ713HUhXujloK9/Jn3nWnMz36oKVWsS4vWRgDhflaOpufvI=
+	t=1735855526; cv=none; b=T0etGkzTKEb/HCCN3NgbHs3V4PIqH4CDvZdYtJ1WUfUqa5Vd5uFdu7U4cvukithnfX+TkbUyr6l2tDrfhaapKYy/E3nKzCL2zau5mulCrhPB2OJU0ITUhhFJP5PvR01PZ0JROVWV8VAknrS2L9HrpeQ/Aq4TE2Mj/4j3XQ+LDvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735854025; c=relaxed/simple;
-	bh=zWz8vX1D+bRv+JXgvpoDPq7Uu4S412MMQ4PoFDcGVWQ=;
+	s=arc-20240116; t=1735855526; c=relaxed/simple;
+	bh=OIdTf/oMwvBm0dypgDZc9CH9XcIf8ulK+442afiVduo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VS+T/bG9uz0a1j4Lf8A3EzxoDEFNPhk4uu5U0YSOszU89YWl1MHlu33lld24yzqmZpd4GrlGaZXtbFzswshaFcuYntajbbX9cmc0aolAt4YyOl5aKtxG74TFdUN1BErf6PmRO1ulxXu8ypyIdiMSMLXt+ph4t8mzc0r3HejqxjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NrJ7wTom; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition:In-Reply-To; b=nBFHRXReS4rMz7NP4W4u0JSNBcwIideGoxN89SvMIwENPNTcdFDwqadLk//zQjwnkzQluBTP8MpY/sdse0T9yCnNQOhj+zWA0vIMHEjCzHo0tDXD99cWBXh5qUzHyqFfG2hkdr1nngEtltSBgqXHUVS/LmOTNv5GDQ50PjtLUuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIjKEZ0P; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NrJ7wTom"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIjKEZ0P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735854024; x=1767390024;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zWz8vX1D+bRv+JXgvpoDPq7Uu4S412MMQ4PoFDcGVWQ=;
-  b=NrJ7wTomGoH+DsovqjCuG2rUb8h2/au8Nak1/Wbok5lzX30JX7Ybx+Rh
-   65uODzUlFxpjhwR+MFFmpFrPe4MzdS8SlcMDaFyB/QLRCRMPW0seP90/C
-   YB7RPXW6HeFy1Rf7/y4DnWRgPN/VwmBW4cmLtEm2qdJAn/5Kkz1iZAxI9
-   mVldzb/5NN+70tVMF3D4L7H70o/gfoeybPPgwkmVBdSQUSQW5Yv/mzBzz
-   67MOzs2qSN9NaI5gVXmnB3GRnqVE8nF/uX64n6VBO4u8QQxrCmq8ht6ix
-   R4qCInYCImBdT2jHXs/SAUedSm/8JVYEA/xwRb40hUGf74cC4XSFizJBY
+  t=1735855525; x=1767391525;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=OIdTf/oMwvBm0dypgDZc9CH9XcIf8ulK+442afiVduo=;
+  b=PIjKEZ0PpH0GYeVUuAfjP+RhzkZHOORRPox8Kby8GvoUchVT0CIHxDol
+   Ls3gq1IWiUBgbpdIz+KvE47yYSzxdQzn4SPlmpe0RuW3A203oX8gcyqhY
+   v3xS5HG1RAvwRmys3mgMLVu+rFPYZRuDNoWc6Qe9eMJ/Yi4Ws0ngwPNQl
+   yclOILooXR6p4XKqYKB7T6NKpgdC6SJCS/SPxsfj8zww7v57lIqvA3khy
+   x1sgewtiyqsvvLm7Luflqf8BCR/AZJenUzKz9Z7hnDsLoeRPGblvU1Td5
+   JZFE2C1zNII+vW8RfqSjGwl5bH6qJHEoT63WOOmv2Wa0dz9/wTErz4M4x
    Q==;
-X-CSE-ConnectionGUID: NUyuEXiJQO2WFNsTO2iwVQ==
-X-CSE-MsgGUID: B94sKFRVRravOA6veAQIcQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="47462897"
+X-CSE-ConnectionGUID: k1tsI36TQ4aaU6GrvcRxMA==
+X-CSE-MsgGUID: qJ0BmTV6Rx2nkNh50xZakw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="61481636"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="47462897"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 13:40:24 -0800
-X-CSE-ConnectionGUID: 1cBXeOjTTLO+SCdpvXRzBA==
-X-CSE-MsgGUID: Wrs39LAzSs6f+dK0H8jrFw==
+   d="scan'208";a="61481636"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 14:05:24 -0800
+X-CSE-ConnectionGUID: 6jneRFoLTFmNTZe44SSMRA==
+X-CSE-MsgGUID: p03XMMSTT5eWt49/MzzIGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101463750"
+   d="scan'208";a="132536537"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 02 Jan 2025 13:40:22 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 02 Jan 2025 14:05:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTSvT-0008tP-1N;
-	Thu, 02 Jan 2025 21:40:19 +0000
-Date: Fri, 3 Jan 2025 05:39:36 +0800
+	id 1tTTJh-0008uB-10;
+	Thu, 02 Jan 2025 22:05:21 +0000
+Date: Fri, 3 Jan 2025 06:04:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [geert-m68k:master 2/2] lib/muldi3.c:53:28: sparse: sparse: asm
- output is not an lvalue
-Message-ID: <202501030516.uZrwnuQQ-lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [for-linus][PATCH 1/2] fgraph: Add READ_ONCE() when accessing
+ fgraph_array[]
+Message-ID: <Z3cNawJpV5b4Ob8_@997da2bbb901>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,45 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250102220309.941099662@goodmis.org>
 
-Hi Greg,
+Hi,
 
-First bad commit (maybe != root cause):
+Thanks for your patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git master
-head:   17810b1de0e9e5c1000cf8f5b4787ad930b0353e
-commit: e96424b86d5098f44279399b85551e0f84a1c9e9 [2/2] m68k: Use kernel's generic muldi3 libgcc function
-config: m68k-randconfig-r122-20250101 (https://download.01.org/0day-ci/archive/20250103/202501030516.uZrwnuQQ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250103/202501030516.uZrwnuQQ-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501030516.uZrwnuQQ-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-sparse warnings: (new ones prefixed by >>)
->> lib/muldi3.c:53:28: sparse: sparse: asm output is not an lvalue
->> lib/muldi3.c:53:28: sparse: sparse: asm output is not an lvalue
->> lib/muldi3.c:53:28: sparse: sparse: not addressable
->> lib/muldi3.c:53:28: sparse: sparse: generating address of non-lvalue (11)
->> lib/muldi3.c:53:28: sparse: sparse: generating address of non-lvalue (11)
-
-vim +53 lib/muldi3.c
-
-b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  48  
-b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  49  long long notrace __muldi3(long long u, long long v)
-b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  50  {
-b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  51  	const DWunion uu = {.ll = u};
-b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  52  	const DWunion vv = {.ll = v};
-b35cd9884fa5d81 Palmer Dabbelt 2017-05-23 @53  	DWunion w = {.ll = __umulsidi3(uu.s.low, vv.s.low)};
-
-:::::: The code at line 53 was first introduced by commit
-:::::: b35cd9884fa5d81c9d5e7f57c9d03264ae2bd835 lib: Add shared copies of some GCC library routines
-
-:::::: TO: Palmer Dabbelt <palmer@dabbelt.com>
-:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [for-linus][PATCH 1/2] fgraph: Add READ_ONCE() when accessing fgraph_array[]
+Link: https://lore.kernel.org/stable/20250102220309.941099662%40goodmis.org
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
