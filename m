@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81C01AAA32
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 13:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85ED367
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 13:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735824999; cv=none; b=JRZYE9pilDKvJ567nBFJA+bIPqWnfWzz4Gi9pJkKG8onV5z+EXyfp+RFqfJ6K1Vh/xVIZgqfWnl1UXvBGmQuwlX0wsoHFpknxXoQ15L37AUsw3AEWs8rZIZL1AUSQmqtzL7oUCHjHKmV9Wesi50nkCDYcyqhM5VoG1sVHfQHxiM=
+	t=1735825720; cv=none; b=bYrHWRLS9WJrm5ViA2pUKUGU/jqHZdfrAbUY4ZRgRu/ZmmhJ2g696j+E3Rfw0f/qkwBJARRWeZsXHo71u+BWiXsSZex/jiVAgDzLm13zeagJgnRno4WTddISqtx8I+aMq5xfq4NpCxYJ+VKVxEJ8Ae1JWkE3pm8eI1qlg6o2+cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735824999; c=relaxed/simple;
-	bh=1e+fc+0mNHT92V8QQqtGWLGEaoOLhkeTtD4V5TfGU38=;
+	s=arc-20240116; t=1735825720; c=relaxed/simple;
+	bh=zNP4MVsmhwSxX9IdHnExFQcc3Hoj3qqSt+tlnoZvaOI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nb0M18djXH90mNNLHZfrltzCUmq7SBIdH3sWUoekPlPLIZdFSUjYnrodrf/zeyux/CTDhw2Fb4zsVEUx49SNJbjWTzFLCvjzFT1L6RX2yb6yPiVc3LPnDMW6pG5UTsfrsXbY58iZyQddkFpcVXr0SpeFJ4sckFcM+qcepLmipB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wg1CS2QW; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=YYwl3nuYXn2EEcoA9cKXw/aipOutrS0eWcgvnWsQrD3K2xGcZwphiNMq9yyDMcqBbizkiUWw5JMcvX10rvZCIWTnbxyvDCZ/XYFYIrH9fe1+uVF0W5o+NTy8SqNLqTu1ltSLL+/x+F72SOxP3T/92PokoXXUvPxwECWlPRhevIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oBx1UOpt; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wg1CS2QW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oBx1UOpt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735824998; x=1767360998;
+  t=1735825719; x=1767361719;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1e+fc+0mNHT92V8QQqtGWLGEaoOLhkeTtD4V5TfGU38=;
-  b=Wg1CS2QWXhAPU5ObOG+Z0GKYwjMRywmwWV5gWrhgi34uog/1Tzo50eU1
-   bC/d24ITOTe8VZolpFqjLrtM7aZpLMUiyR6yizJMm33DW+lJzJSLoSZ4X
-   ZIr5/yJV5JFJ5Rgic13h6/J8G4+ltTKBQbMIA/JLrzcU+Xv1AwodSCWR9
-   a17R3v4y09VWqHzR40E0ZOV8tSdXRRCvMznwidf+b5mFUbagqYl17QK1g
-   6RUBmpYBfsmd2qH6S5xnvwlxL/eRR/0LzfHynqOVc3ng/BfmGD+ehxFgJ
-   C6IBLnN2ssiKKGwwzKK79IvPlFDyo/AX0LQoLUyFZcV3+3SfVvW8O9c2m
-   Q==;
-X-CSE-ConnectionGUID: L9d808/MT6ysWi74iXlxOA==
-X-CSE-MsgGUID: Gan2DAA2TrSFAKypb/4bRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="47417147"
+  bh=zNP4MVsmhwSxX9IdHnExFQcc3Hoj3qqSt+tlnoZvaOI=;
+  b=oBx1UOpthywH/3Zwzrhq0PlOLIl+MJpm6xhMiePEHga5d7UGTJwW2MUB
+   6CYjqO9GebCiIagQmnOoniS6ucsZP+VGfKnlQTeswPuVwUy9IPbG/hBKf
+   QEUBMGmDSyFnI9wDGuCMVfRIclQYBs1jgbu3qiiLFXJVK8rCPsMt9tG6D
+   4quNrexq6tZwPbTvCbfAd3TM9U2jyNrjTJ87dmO308SlvQFERN59V0iDu
+   0TgMr/TbwBJVOTcXCBARNazUBPhkRsYRqA8oNVT+aMBCcc11YitAsnVhv
+   tPaVZreDuDSDRyRFXlfRbrBeGECA64VJ5KLvrIbjjVeb7DdTcSThg25Ww
+   w==;
+X-CSE-ConnectionGUID: e2UZpK0RTb2XwpIxfGNDFA==
+X-CSE-MsgGUID: iNmRO5V3RAe57nf5rEeHoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="36078425"
 X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
-   d="scan'208";a="47417147"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 05:36:38 -0800
-X-CSE-ConnectionGUID: 2ZyVzKFURaO5CPVKqDw2zg==
-X-CSE-MsgGUID: PM2pIxjLQ62S/ZzUhq7udw==
+   d="scan'208";a="36078425"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 05:48:39 -0800
+X-CSE-ConnectionGUID: 8OWTDBUbQO2QKNWXoNQTWQ==
+X-CSE-MsgGUID: PzSh5WQDRNCyPoULWTRN+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
-   d="scan'208";a="132351305"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101996534"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 Jan 2025 05:36:36 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Jan 2025 05:48:37 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTLNJ-0008Wm-1w;
-	Thu, 02 Jan 2025 13:36:33 +0000
-Date: Thu, 2 Jan 2025 21:35:56 +0800
+	id 1tTLYx-0008X8-0j;
+	Thu, 02 Jan 2025 13:48:35 +0000
+Date: Thu, 2 Jan 2025 21:48:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>
-Subject: include/linux/fortify-string.h:562:25: error: call to
- '__read_overflow2_field' declared with attribute warning: detected read
- beyond size of field (2nd parameter); maybe use struct_group()?
-Message-ID: <202501022104.eoyR5mzU-lkp@intel.com>
+To: Andrea Gelmini <andrea.gelmini@gelma.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:pr/739 1/1] fs/bcachefs/btree_iter.h:889:38:
+ error: 'PF_MEMALLOC_NORECLAIM' undeclared; did you mean 'PF_MEMALLOC_NOIO'?
+Message-ID: <202501022136.QSXMsu7d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,166 +62,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dave,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   56e6a3499e14716b9a28a307bb6d18c10e95301e
-commit: 377b5b397d073c0aae36b833a5bcac0e6f349243 Merge tag 'amd-drm-next-6.10-2024-04-19' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-date:   9 months ago
-config: loongarch-randconfig-001-20250102 (https://download.01.org/0day-ci/archive/20250102/202501022104.eoyR5mzU-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501022104.eoyR5mzU-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs pr/739
+head:   5aab4d7cc3e134b97e6bb36ea9d51325e66e258c
+commit: d581cdb2a0705aed99b7534ad8c164ce30377a4e [1/1] Fix typos
+config: x86_64-randconfig-006-20250102 (https://download.01.org/0day-ci/archive/20250102/202501022136.QSXMsu7d-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501022136.QSXMsu7d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501022104.eoyR5mzU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501022136.QSXMsu7d-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:369,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:13,
-                    from arch/loongarch/include/asm/processor.h:9,
-                    from arch/loongarch/include/asm/thread_info.h:15,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/os_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:29,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services.h:35,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:26:
-   In function 'fortify_memcpy_chk',
-       inlined from 'dc_stream_remove_writeback' at drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:523:5:
->> include/linux/fortify-string.h:562:25: error: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Werror=attribute-warning]
-     562 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from fs/bcachefs/backpointers.h:6,
+                    from fs/bcachefs/ec.c:8:
+   fs/bcachefs/ec.c: In function 'ec_stripe_mem_alloc':
+>> fs/bcachefs/btree_iter.h:889:38: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     889 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/ec.c:950:16: note: in expansion of macro 'allocate_dropping_locks_errcode'
+     950 |         return allocate_dropping_locks_errcode(trans,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:889:38: note: each undeclared identifier is reported only once for each function it appears in
+     889 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/ec.c:950:16: note: in expansion of macro 'allocate_dropping_locks_errcode'
+     950 |         return allocate_dropping_locks_errcode(trans,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_iter.h:889:60: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
+     889 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                            ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/ec.c:950:16: note: in expansion of macro 'allocate_dropping_locks_errcode'
+     950 |         return allocate_dropping_locks_errcode(trans,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from fs/bcachefs/str_hash.h:5,
+                    from fs/bcachefs/xattr.h:5,
+                    from fs/bcachefs/acl.c:6:
+   fs/bcachefs/acl.c: In function 'bch2_acl_from_disk':
+   fs/bcachefs/btree_iter.h:899:44: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     899 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:139:15: note: in expansion of macro 'allocate_dropping_locks'
+     139 |         acl = allocate_dropping_locks(trans, ret,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:899:44: note: each undeclared identifier is reported only once for each function it appears in
+     899 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:139:15: note: in expansion of macro 'allocate_dropping_locks'
+     139 |         acl = allocate_dropping_locks(trans, ret,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:899:66: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
+     899 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:139:15: note: in expansion of macro 'allocate_dropping_locks'
+     139 |         acl = allocate_dropping_locks(trans, ret,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/acl.c: In function 'bch2_acl_chmod':
+>> fs/bcachefs/btree_iter.h:889:38: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     889 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:425:15: note: in expansion of macro 'allocate_dropping_locks_errcode'
+     425 |         ret = allocate_dropping_locks_errcode(trans,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_iter.h:889:60: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
+     889 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                            ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:425:15: note: in expansion of macro 'allocate_dropping_locks_errcode'
+     425 |         ret = allocate_dropping_locks_errcode(trans,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from fs/bcachefs/btree_locking.h:13,
+                    from fs/bcachefs/btree_io.h:7,
+                    from fs/bcachefs/btree_cache.c:7:
+   fs/bcachefs/btree_cache.c: In function 'bch2_btree_node_mem_alloc':
+>> fs/bcachefs/btree_cache.c:831:31: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     831 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/btree_cache.c:831:31: note: each undeclared identifier is reported only once for each function it appears in
+     831 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:881:53: note: in definition of macro 'memalloc_flags_do'
+     881 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
 
 
-vim +/__read_overflow2_field +562 include/linux/fortify-string.h
+vim +889 fs/bcachefs/btree_iter.h
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  497  
-f68f2ff91512c1 Kees Cook      2021-04-20  498  /*
-f68f2ff91512c1 Kees Cook      2021-04-20  499   * To make sure the compiler can enforce protection against buffer overflows,
-f68f2ff91512c1 Kees Cook      2021-04-20  500   * memcpy(), memmove(), and memset() must not be used beyond individual
-f68f2ff91512c1 Kees Cook      2021-04-20  501   * struct members. If you need to copy across multiple members, please use
-f68f2ff91512c1 Kees Cook      2021-04-20  502   * struct_group() to create a named mirror of an anonymous struct union.
-f68f2ff91512c1 Kees Cook      2021-04-20  503   * (e.g. see struct sk_buff.) Read overflow checking is currently only
-f68f2ff91512c1 Kees Cook      2021-04-20  504   * done when a write overflow is also present, or when building with W=1.
-f68f2ff91512c1 Kees Cook      2021-04-20  505   *
-f68f2ff91512c1 Kees Cook      2021-04-20  506   * Mitigation coverage matrix
-f68f2ff91512c1 Kees Cook      2021-04-20  507   *					Bounds checking at:
-f68f2ff91512c1 Kees Cook      2021-04-20  508   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  509   *					| Compile time  |   Run time    |
-f68f2ff91512c1 Kees Cook      2021-04-20  510   * memcpy() argument sizes:		| write | read  | write | read  |
-f68f2ff91512c1 Kees Cook      2021-04-20  511   *        dest     source   length      +-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  512   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  513   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  514   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  515   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  516   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  517   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  518   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  519   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  520   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  521   *
-f68f2ff91512c1 Kees Cook      2021-04-20  522   * y = perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  523   * n = cannot perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  524   * n/a = no run-time bounds checking needed since compile-time deterministic
-f68f2ff91512c1 Kees Cook      2021-04-20  525   * B = can perform run-time bounds checking (currently unimplemented)
-f68f2ff91512c1 Kees Cook      2021-04-20  526   * V = vulnerable to run-time overflow (will need refactoring to solve)
-f68f2ff91512c1 Kees Cook      2021-04-20  527   *
-f68f2ff91512c1 Kees Cook      2021-04-20  528   */
-54d9469bc515dc Kees Cook      2021-06-24  529  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
-f68f2ff91512c1 Kees Cook      2021-04-20  530  					 const size_t p_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  531  					 const size_t q_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  532  					 const size_t p_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  533  					 const size_t q_size_field,
-475ddf1fce1ec4 Kees Cook      2023-04-07  534  					 const u8 func)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  535  {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  536  	if (__builtin_constant_p(size)) {
-f68f2ff91512c1 Kees Cook      2021-04-20  537  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  538  		 * Length argument is a constant expression, so we
-f68f2ff91512c1 Kees Cook      2021-04-20  539  		 * can perform compile-time bounds checking where
-fa35198f39571b Kees Cook      2022-09-19  540  		 * buffer sizes are also known at compile time.
-f68f2ff91512c1 Kees Cook      2021-04-20  541  		 */
-f68f2ff91512c1 Kees Cook      2021-04-20  542  
-f68f2ff91512c1 Kees Cook      2021-04-20  543  		/* Error when size is larger than enclosing struct. */
-fa35198f39571b Kees Cook      2022-09-19  544  		if (__compiletime_lessthan(p_size_field, p_size) &&
-fa35198f39571b Kees Cook      2022-09-19  545  		    __compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  546  			__write_overflow();
-fa35198f39571b Kees Cook      2022-09-19  547  		if (__compiletime_lessthan(q_size_field, q_size) &&
-fa35198f39571b Kees Cook      2022-09-19  548  		    __compiletime_lessthan(q_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  549  			__read_overflow2();
-f68f2ff91512c1 Kees Cook      2021-04-20  550  
-f68f2ff91512c1 Kees Cook      2021-04-20  551  		/* Warn when write size argument larger than dest field. */
-fa35198f39571b Kees Cook      2022-09-19  552  		if (__compiletime_lessthan(p_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20  553  			__write_overflow_field(p_size_field, size);
-f68f2ff91512c1 Kees Cook      2021-04-20  554  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  555  		 * Warn for source field over-read when building with W=1
-f68f2ff91512c1 Kees Cook      2021-04-20  556  		 * or when an over-write happened, so both can be fixed at
-f68f2ff91512c1 Kees Cook      2021-04-20  557  		 * the same time.
-f68f2ff91512c1 Kees Cook      2021-04-20  558  		 */
-fa35198f39571b Kees Cook      2022-09-19  559  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
-fa35198f39571b Kees Cook      2022-09-19  560  		     __compiletime_lessthan(p_size_field, size)) &&
-fa35198f39571b Kees Cook      2022-09-19  561  		    __compiletime_lessthan(q_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20 @562  			__read_overflow2_field(q_size_field, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  563  	}
-f68f2ff91512c1 Kees Cook      2021-04-20  564  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  565  	 * At this point, length argument may not be a constant expression,
-f68f2ff91512c1 Kees Cook      2021-04-20  566  	 * so run-time bounds checking can be done where buffer sizes are
-f68f2ff91512c1 Kees Cook      2021-04-20  567  	 * known. (This is not an "else" because the above checks may only
-f68f2ff91512c1 Kees Cook      2021-04-20  568  	 * be compile-time warnings, and we want to still warn for run-time
-f68f2ff91512c1 Kees Cook      2021-04-20  569  	 * overflows.)
-f68f2ff91512c1 Kees Cook      2021-04-20  570  	 */
-f68f2ff91512c1 Kees Cook      2021-04-20  571  
-f68f2ff91512c1 Kees Cook      2021-04-20  572  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  573  	 * Always stop accesses beyond the struct that contains the
-f68f2ff91512c1 Kees Cook      2021-04-20  574  	 * field, when the buffer's remaining size is known.
-311fb40aa0569a Kees Cook      2022-09-02  575  	 * (The SIZE_MAX test is to optimize away checks where the buffer
-f68f2ff91512c1 Kees Cook      2021-04-20  576  	 * lengths are unknown.)
-f68f2ff91512c1 Kees Cook      2021-04-20  577  	 */
-475ddf1fce1ec4 Kees Cook      2023-04-07  578  	if (p_size != SIZE_MAX && p_size < size)
-3d965b33e40d97 Kees Cook      2023-04-07  579  		fortify_panic(func, FORTIFY_WRITE, p_size, size, true);
-475ddf1fce1ec4 Kees Cook      2023-04-07  580  	else if (q_size != SIZE_MAX && q_size < size)
-3d965b33e40d97 Kees Cook      2023-04-07  581  		fortify_panic(func, FORTIFY_READ, p_size, size, true);
-54d9469bc515dc Kees Cook      2021-06-24  582  
-54d9469bc515dc Kees Cook      2021-06-24  583  	/*
-54d9469bc515dc Kees Cook      2021-06-24  584  	 * Warn when writing beyond destination field size.
-54d9469bc515dc Kees Cook      2021-06-24  585  	 *
-54d9469bc515dc Kees Cook      2021-06-24  586  	 * We must ignore p_size_field == 0 for existing 0-element
-54d9469bc515dc Kees Cook      2021-06-24  587  	 * fake flexible arrays, until they are all converted to
-54d9469bc515dc Kees Cook      2021-06-24  588  	 * proper flexible arrays.
-54d9469bc515dc Kees Cook      2021-06-24  589  	 *
-9f7d69c5cd2390 Kees Cook      2022-09-19  590  	 * The implementation of __builtin_*object_size() behaves
-54d9469bc515dc Kees Cook      2021-06-24  591  	 * like sizeof() when not directly referencing a flexible
-54d9469bc515dc Kees Cook      2021-06-24  592  	 * array member, which means there will be many bounds checks
-54d9469bc515dc Kees Cook      2021-06-24  593  	 * that will appear at run-time, without a way for them to be
-54d9469bc515dc Kees Cook      2021-06-24  594  	 * detected at compile-time (as can be done when the destination
-54d9469bc515dc Kees Cook      2021-06-24  595  	 * is specifically the flexible array member).
-54d9469bc515dc Kees Cook      2021-06-24  596  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
-54d9469bc515dc Kees Cook      2021-06-24  597  	 */
-54d9469bc515dc Kees Cook      2021-06-24  598  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
-54d9469bc515dc Kees Cook      2021-06-24  599  	    p_size != p_size_field && p_size_field < size)
-54d9469bc515dc Kees Cook      2021-06-24  600  		return true;
-54d9469bc515dc Kees Cook      2021-06-24  601  
-54d9469bc515dc Kees Cook      2021-06-24  602  	return false;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  603  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  604  
-
-:::::: The code at line 562 was first introduced by commit
-:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+   886	
+   887	#define allocate_dropping_locks_errcode(_trans, _do)				\
+   888	({										\
+ > 889		int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+   890											\
+   891		if (bch2_err_matches(_ret, ENOMEM)) {					\
+   892			_ret = drop_locks_do(_trans, _do);				\
+   893		}									\
+   894		_ret;									\
+   895	})
+   896	
 
 -- 
 0-DAY CI Kernel Test Service
