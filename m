@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CF2189B80
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 04:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5614417548
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 05:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735792733; cv=none; b=AcRP2R/7KQlvHiNkypIHTyj7O7aj0frdpjiI8k4nW8GT6eTjNCJRQNvhGA9whWEz1o1MhXsqQpqq+lJPkkgpguZU59s04ei47GK4F1JI6NvuVXYMi6IfVKEyotzrsA917zApb9+/+WcP1wqZiV6/zhY7JH0YIHD9rwE3QnWtysk=
+	t=1735795257; cv=none; b=K4tqN3f+XYpQAIWx6CILOZXxM5zyVv4b3vbBU26ZaXVftuSVaxnFYMD/k/nvG97VbSzNuF0KGlqFmhbZVSlHjNb9oXQUVeght3yNg/tWJTMWUQ6+CwlAWYEGkfWnZkvHhevxQwnVZ5hod7eDOes2JJm7of1bCCtM3TE+rT47QeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735792733; c=relaxed/simple;
-	bh=hbFLCBUVdO+NtdIdrbz4ZCrltIvXjeGV0qnhHgPkT9M=;
+	s=arc-20240116; t=1735795257; c=relaxed/simple;
+	bh=10RttOhFofs1dYsCK12/8W8cceRE3iO38HMTR3nBJUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tOlplSrHB91lyvIbLy2yENhaZHhct9a9mksN2tcb9m+GT/D/iBapLQ8T8EG3X7Z7BR5RRAvaf9TzAy2bBZUJWZHN+F51DNT2I9cxY6slTFa6b0aib+BAKT3uJ6luifziekoGLjdTwT7Q31BvyaPnBrp3Lht28B44goLo7532Kr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gi3bjgUm; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=BNhXnpw8/GzLpc4BUfZqE0OY0u4szvE7PcYbKvFiGU0Shod4V95UKolDCMCJ3N7ZzP8sfkniySxToKJ2oYJWz2pXMKAdSilRNvPqAfbTmYncmeaGu7wcYWlcT94bV2t1bOJzO+XaS1vu9tPPkB7EJ269KjEgQ/7nOAzvVXc53Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZrchjPCB; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gi3bjgUm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZrchjPCB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735792732; x=1767328732;
+  t=1735795255; x=1767331255;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hbFLCBUVdO+NtdIdrbz4ZCrltIvXjeGV0qnhHgPkT9M=;
-  b=gi3bjgUm1vewHC0vgamUgNqU+KfBdG3rYU/TzMhHSdH2R+WAqFjD1Rn3
-   44R/PBkYDEHDoK6igQqmi4mvhMMMrfzBaf9m9xAk67JRG7bktfQ9XY/aW
-   HuaQa728ZIGdFJzYmCUv02v9t4Drg5xXcJQXTu1iUCpoVI7iv80OrJ6C4
-   PFlsuny33eX/co6HpQaQ3d17UbrzQeNat094ubhNDr7n6wNkNqa6ZpLsq
-   WSnqgePU0D/KoR5p77yndrHIkXg9eDH55c5OzwIQxwiO/lg2RaXe/qqXL
-   Q41aAZ4rCIdX/tpi2kuQyTp6yfHVLFOjI4q99mLqGUr99Uz6Bzjtp7LfX
-   Q==;
-X-CSE-ConnectionGUID: fZdPTlABT/SicxAXhYhRYg==
-X-CSE-MsgGUID: I6tPmQTdTvS2wPHq8z/eww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="38852956"
+  bh=10RttOhFofs1dYsCK12/8W8cceRE3iO38HMTR3nBJUM=;
+  b=ZrchjPCBktK4cGWajTbfi6DmgXNZblHaOKNQ/e972CCbtRCNzAFm8xMQ
+   7C1wOR+IEEoirxHwxEPduki0w+POt109s8WvuqCpsIRZUfnFyfFPyRE2k
+   t8U1dpdb16Ci7Zl9RkNdzD2ccb1Ajz3WY4VQrq/HoNARGQ4TnZNoXMzPf
+   1aIwrowJxxBINdQKaqcB/MsZKlxkCqSBV3GVC10r0FKmQl8Ng3MKRNHVu
+   oh03aZrrP9EYwrgswzHAii8wWH6XRaRkrJVVXQBpquWJky+5G8k5D58Xh
+   Xzt8MjDXecXEZHklxarjlQnyaoLrWqeVBCUf+SJ+uOwuWxwxMeeK26VY2
+   w==;
+X-CSE-ConnectionGUID: HiCP+YmTRcWe7v63SemQdg==
+X-CSE-MsgGUID: 7f4bnaX0Th2eW6YyUGe8Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="39953358"
 X-IronPort-AV: E=Sophos;i="6.12,284,1728975600"; 
-   d="scan'208";a="38852956"
+   d="scan'208";a="39953358"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 20:38:51 -0800
-X-CSE-ConnectionGUID: k5HA+giOTW+S7d6SQgoklg==
-X-CSE-MsgGUID: Tv2e/W+RSoifDcuh6skxXA==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 21:20:54 -0800
+X-CSE-ConnectionGUID: e+Bmckf9TjCkHiI74E7ZUA==
+X-CSE-MsgGUID: 4uN5KxRGQQ68mfyKlIr2jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,284,1728975600"; 
-   d="scan'208";a="106377894"
+   d="scan'208";a="106387619"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Jan 2025 20:38:50 -0800
+  by orviesa004.jf.intel.com with ESMTP; 01 Jan 2025 21:20:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTCyt-0008En-2o;
-	Thu, 02 Jan 2025 04:38:47 +0000
-Date: Thu, 2 Jan 2025 12:38:02 +0800
+	id 1tTDdb-0008GB-0d;
+	Thu, 02 Jan 2025 05:20:51 +0000
+Date: Thu, 2 Jan 2025 13:20:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/android/binderfs.c:237: warning: Function parameter or
- struct member 'file' not described in 'binder_ctl_ioctl'
-Message-ID: <202501021220.itBTTNCC-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.12/prjc-revert-active-balance 9/12]
+ include/linux/rcupdate.h:1091:49: warning: cast to pointer from integer of
+ different size
+Message-ID: <202501021329.3mmcdxlV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +63,242 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Christoph,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   56e6a3499e14716b9a28a307bb6d18c10e95301e
-commit: 1045a06724f322ed61f1ffb994427c7bdbe64647 remove CONFIG_ANDROID
-date:   2 years, 6 months ago
-config: csky-randconfig-r036-20230303 (https://download.01.org/0day-ci/archive/20250102/202501021220.itBTTNCC-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501021220.itBTTNCC-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.12/prjc-revert-active-balance
+head:   4a42958cae493501eea276a2926f0d3727193c66
+commit: 2352960e110a0c5e47e22008a9a47003bf62c7c3 [9/12] Revert "sched/alt: Introduce alt_topology.c/.h files"
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250102/202501021329.3mmcdxlV-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501021329.3mmcdxlV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501021220.itBTTNCC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501021329.3mmcdxlV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/android/binderfs.c:237: warning: Function parameter or struct member 'file' not described in 'binder_ctl_ioctl'
->> drivers/android/binderfs.c:237: warning: Function parameter or struct member 'cmd' not described in 'binder_ctl_ioctl'
->> drivers/android/binderfs.c:237: warning: Function parameter or struct member 'arg' not described in 'binder_ctl_ioctl'
-   drivers/android/binderfs.c:237: warning: expecting prototype for binderfs_ctl_ioctl(). Prototype was for binder_ctl_ioctl() instead
---
-   drivers/android/binder.c:260: warning: Function parameter or struct member '_proc' not described in 'binder_proc_unlock'
-   drivers/android/binder.c:260: warning: Excess function parameter 'proc' description in 'binder_proc_unlock'
-   drivers/android/binder.c:362: warning: expecting prototype for binder_node_unlock(). Prototype was for binder_node_inner_unlock() instead
-   drivers/android/binder.c:1182: warning: expecting prototype for binder_dec_ref(). Prototype was for binder_dec_ref_olocked() instead
->> drivers/android/binder.c:1848: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
->> drivers/android/binder.c:1848: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
->> drivers/android/binder.c:2286: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
->> drivers/android/binder.c:2286: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
->> drivers/android/binder.c:2286: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
->> drivers/android/binder.c:2286: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
->> drivers/android/binder.c:2306: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
->> drivers/android/binder.c:2306: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
->> drivers/android/binder.c:2306: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
->> drivers/android/binder.c:2306: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2802: warning: Function parameter or struct member 'procp' not described in 'binder_get_node_refs_for_txn'
-   drivers/android/binder.c:2802: warning: Excess function parameter 'proc' description in 'binder_get_node_refs_for_txn'
->> drivers/android/binder.c:3699: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
+   kernel/sched/alt_core.c:1781:40: error: invalid use of undefined type 'struct affinity_context'
+    1781 |         cpumask_copy(&p->cpus_mask, ctx->new_mask);
+         |                                        ^~
+   kernel/sched/alt_core.c:1782:48: error: invalid use of undefined type 'struct affinity_context'
+    1782 |         p->nr_cpus_allowed = cpumask_weight(ctx->new_mask);
+         |                                                ^~
+   kernel/sched/alt_core.c:1787:16: error: invalid use of undefined type 'struct affinity_context'
+    1787 |         if (ctx->flags & SCA_USER)
+         |                ^~
+   In file included from include/linux/kernel.h:28,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/sched/clock.h:5,
+                    from kernel/sched/alt_core.c:14:
+   kernel/sched/alt_core.c:1788:43: error: invalid use of undefined type 'struct affinity_context'
+    1788 |                 swap(p->user_cpus_ptr, ctx->user_mask);
+         |                                           ^~
+   include/linux/minmax.h:323:44: note: in definition of macro 'swap'
+     323 |         do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
+         |                                            ^
+   kernel/sched/alt_core.c:1788:43: error: invalid use of undefined type 'struct affinity_context'
+    1788 |                 swap(p->user_cpus_ptr, ctx->user_mask);
+         |                                           ^~
+   include/linux/minmax.h:323:49: note: in definition of macro 'swap'
+     323 |         do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
+         |                                                 ^
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:1792:53: warning: 'struct affinity_context' declared inside parameter list will not be visible outside of this definition or declaration
+    1792 | __do_set_cpus_allowed(struct task_struct *p, struct affinity_context *ctx)
+         |                                                     ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function '__do_set_cpus_allowed':
+   kernel/sched/alt_core.c:1795:36: error: passing argument 2 of 'set_cpus_allowed_common' from incompatible pointer type [-Wincompatible-pointer-types]
+    1795 |         set_cpus_allowed_common(p, ctx);
+         |                                    ^~~
+         |                                    |
+         |                                    struct affinity_context *
+   kernel/sched/alt_core.c:1779:73: note: expected 'struct affinity_context *' but argument is of type 'struct affinity_context *'
+    1779 | set_cpus_allowed_common(struct task_struct *p, struct affinity_context *ctx)
+         |                                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   kernel/sched/alt_core.c: In function 'do_set_cpus_allowed':
+   kernel/sched/alt_core.c:1804:16: error: variable 'ac' has initializer but incomplete type
+    1804 |         struct affinity_context ac = {
+         |                ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1805:18: error: 'struct affinity_context' has no member named 'new_mask'
+    1805 |                 .new_mask  = new_mask,
+         |                  ^~~~~~~~
+   kernel/sched/alt_core.c:1805:30: warning: excess elements in struct initializer
+    1805 |                 .new_mask  = new_mask,
+         |                              ^~~~~~~~
+   kernel/sched/alt_core.c:1805:30: note: (near initialization for 'ac')
+   kernel/sched/alt_core.c:1806:18: error: 'struct affinity_context' has no member named 'user_mask'
+    1806 |                 .user_mask = NULL,
+         |                  ^~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/smp.h:11:
+   include/linux/stddef.h:8:14: warning: excess elements in struct initializer
+       8 | #define NULL ((void *)0)
+         |              ^
+   kernel/sched/alt_core.c:1806:30: note: in expansion of macro 'NULL'
+    1806 |                 .user_mask = NULL,
+         |                              ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'ac')
+       8 | #define NULL ((void *)0)
+         |              ^
+   kernel/sched/alt_core.c:1806:30: note: in expansion of macro 'NULL'
+    1806 |                 .user_mask = NULL,
+         |                              ^~~~
+   kernel/sched/alt_core.c:1807:18: error: 'struct affinity_context' has no member named 'flags'
+    1807 |                 .flags     = SCA_USER,  /* clear the user requested mask */
+         |                  ^~~~~
+   kernel/sched/alt_core.c:1493:33: warning: excess elements in struct initializer
+    1493 | #define SCA_USER                0x08
+         |                                 ^~~~
+   kernel/sched/alt_core.c:1807:30: note: in expansion of macro 'SCA_USER'
+    1807 |                 .flags     = SCA_USER,  /* clear the user requested mask */
+         |                              ^~~~~~~~
+   kernel/sched/alt_core.c:1493:33: note: (near initialization for 'ac')
+    1493 | #define SCA_USER                0x08
+         |                                 ^~~~
+   kernel/sched/alt_core.c:1807:30: note: in expansion of macro 'SCA_USER'
+    1807 |                 .flags     = SCA_USER,  /* clear the user requested mask */
+         |                              ^~~~~~~~
+   kernel/sched/alt_core.c:1804:33: error: storage size of 'ac' isn't known
+    1804 |         struct affinity_context ac = {
+         |                                 ^~
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/sched/signal.h:5,
+                    from include/linux/sched/cputime.h:5,
+                    from kernel/sched/alt_core.c:15:
+   include/linux/rcupdate.h:1091:41: error: invalid type argument of '->' (have 'int')
+    1091 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));                       \
+         |                                         ^~
+   include/linux/rcupdate.h:1062:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1062 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1824:9: note: in expansion of macro 'kfree_rcu'
+    1824 |         kfree_rcu((union cpumask_rcuhead *)ac.user_mask, rcu);
+         |         ^~~~~~~~~
+>> include/linux/rcupdate.h:1091:49: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1091 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));                       \
+         |                                                 ^
+   include/linux/rcupdate.h:1062:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1062 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1824:9: note: in expansion of macro 'kfree_rcu'
+    1824 |         kfree_rcu((union cpumask_rcuhead *)ac.user_mask, rcu);
+         |         ^~~~~~~~~
+   kernel/sched/alt_core.c:1804:33: warning: unused variable 'ac' [-Wunused-variable]
+    1804 |         struct affinity_context ac = {
+         |                                 ^~
+   kernel/sched/alt_core.c: In function 'dup_user_cpus_ptr':
+   kernel/sched/alt_core.c:1847:21: error: implicit declaration of function 'alloc_user_cpus_ptr'; did you mean 'dup_user_cpus_ptr'? [-Wimplicit-function-declaration]
+    1847 |         user_mask = alloc_user_cpus_ptr(node);
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     dup_user_cpus_ptr
+   kernel/sched/alt_core.c:1847:19: error: assignment to 'cpumask_t *' {aka 'struct cpumask *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1847 |         user_mask = alloc_user_cpus_ptr(node);
+         |                   ^
+   kernel/sched/alt_core.c: In function 'affine_move_task':
+   kernel/sched/alt_core.c:2138:25: error: implicit declaration of function '__task_access_unlock'; did you mean '__task_rq_unlock'? [-Wimplicit-function-declaration]
+    2138 |                         __task_access_unlock(p, lock);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+         |                         __task_rq_unlock
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:2159:49: warning: 'struct affinity_context' declared inside parameter list will not be visible outside of this definition or declaration
+    2159 |                                          struct affinity_context *ctx,
+         |                                                 ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function '__set_cpus_allowed_ptr_locked':
+   kernel/sched/alt_core.c:2184:44: error: invalid use of undefined type 'struct affinity_context'
+    2184 |         if (!kthread && !cpumask_subset(ctx->new_mask, cpu_allowed_mask)) {
+         |                                            ^~
+   kernel/sched/alt_core.c:2193:17: error: invalid use of undefined type 'struct affinity_context'
+    2193 |         if ((ctx->flags & SCA_CHECK) && (p->flags & PF_NO_SETAFFINITY)) {
+         |                 ^~
+   kernel/sched/alt_core.c:2198:45: error: invalid use of undefined type 'struct affinity_context'
+    2198 |         if (cpumask_equal(&p->cpus_mask, ctx->new_mask))
+         |                                             ^~
+   kernel/sched/alt_core.c:2201:55: error: invalid use of undefined type 'struct affinity_context'
+    2201 |         dest_cpu = cpumask_any_and(cpu_valid_mask, ctx->new_mask);
+         |                                                       ^~
+   include/linux/cpumask.h:857:67: note: in definition of macro 'cpumask_any_and'
+     857 | #define cpumask_any_and(mask1, mask2) cpumask_first_and((mask1), (mask2))
+         |                                                                   ^~~~~
+   kernel/sched/alt_core.c:2207:34: error: passing argument 2 of '__do_set_cpus_allowed' from incompatible pointer type [-Wincompatible-pointer-types]
+    2207 |         __do_set_cpus_allowed(p, ctx);
+         |                                  ^~~
+         |                                  |
+         |                                  struct affinity_context *
+   kernel/sched/alt_core.c:1792:71: note: expected 'struct affinity_context *' but argument is of type 'struct affinity_context *'
+    1792 | __do_set_cpus_allowed(struct task_struct *p, struct affinity_context *ctx)
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:2227:35: warning: 'struct affinity_context' declared inside parameter list will not be visible outside of this definition or declaration
+    2227 |                            struct affinity_context *ctx)
+         |                                   ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:2226:5: warning: no previous prototype for '__set_cpus_allowed_ptr' [-Wmissing-prototypes]
+    2226 | int __set_cpus_allowed_ptr(struct task_struct *p,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function '__set_cpus_allowed_ptr':
+   kernel/sched/alt_core.c:2234:14: error: implicit declaration of function '__task_access_lock'; did you mean '__task_rq_lock'? [-Wimplicit-function-declaration]
+    2234 |         rq = __task_access_lock(p, &lock);
+         |              ^~~~~~~~~~~~~~~~~~
+         |              __task_rq_lock
+   kernel/sched/alt_core.c:2234:12: error: assignment to 'struct rq *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2234 |         rq = __task_access_lock(p, &lock);
+         |            ^
+   kernel/sched/alt_core.c:2240:18: error: invalid use of undefined type 'struct affinity_context'
+    2240 |             !(ctx->flags & SCA_USER) &&
+         |                  ^~
+   kernel/sched/alt_core.c:2241:46: error: invalid use of undefined type 'struct affinity_context'
+    2241 |             cpumask_and(rq->scratch_mask, ctx->new_mask, p->user_cpus_ptr))
+         |                                              ^~
+   kernel/sched/alt_core.c:2242:20: error: invalid use of undefined type 'struct affinity_context'
+    2242 |                 ctx->new_mask = rq->scratch_mask;
+         |                    ^~
+   kernel/sched/alt_core.c:2245:49: error: passing argument 2 of '__set_cpus_allowed_ptr_locked' from incompatible pointer type [-Wincompatible-pointer-types]
+    2245 |         return __set_cpus_allowed_ptr_locked(p, ctx, rq, lock, irq_flags);
+         |                                                 ^~~
+         |                                                 |
+         |                                                 struct affinity_context *
+   kernel/sched/alt_core.c:2159:67: note: expected 'struct affinity_context *' but argument is of type 'struct affinity_context *'
+    2159 |                                          struct affinity_context *ctx,
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   kernel/sched/alt_core.c: In function 'set_cpus_allowed_ptr':
+   kernel/sched/alt_core.c:2250:16: error: variable 'ac' has initializer but incomplete type
+    2250 |         struct affinity_context ac = {
+         |                ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:2251:18: error: 'struct affinity_context' has no member named 'new_mask'
+    2251 |                 .new_mask  = new_mask,
+         |                  ^~~~~~~~
+   kernel/sched/alt_core.c:2251:30: warning: excess elements in struct initializer
+    2251 |                 .new_mask  = new_mask,
+         |                              ^~~~~~~~
+   kernel/sched/alt_core.c:2251:30: note: (near initialization for 'ac')
+   kernel/sched/alt_core.c:2252:18: error: 'struct affinity_context' has no member named 'flags'
+    2252 |                 .flags     = 0,
+         |                  ^~~~~
+   kernel/sched/alt_core.c:2252:30: warning: excess elements in struct initializer
+    2252 |                 .flags     = 0,
 
 
-vim +237 drivers/android/binderfs.c
+vim +1091 include/linux/rcupdate.h
 
-3ad20fe393b310 Christian Brauner 2018-12-14  224  
-3ad20fe393b310 Christian Brauner 2018-12-14  225  /**
-3ad20fe393b310 Christian Brauner 2018-12-14  226   * binderfs_ctl_ioctl - handle binder device node allocation requests
-3ad20fe393b310 Christian Brauner 2018-12-14  227   *
-3ad20fe393b310 Christian Brauner 2018-12-14  228   * The request handler for the binder-control device. All requests operate on
-3ad20fe393b310 Christian Brauner 2018-12-14  229   * the binderfs mount the binder-control device resides in:
-3ad20fe393b310 Christian Brauner 2018-12-14  230   * - BINDER_CTL_ADD
-3ad20fe393b310 Christian Brauner 2018-12-14  231   *   Allocate a new binder device.
-3ad20fe393b310 Christian Brauner 2018-12-14  232   *
-3ad20fe393b310 Christian Brauner 2018-12-14  233   * Return: 0 on success, negative errno on failure
-3ad20fe393b310 Christian Brauner 2018-12-14  234   */
-3ad20fe393b310 Christian Brauner 2018-12-14  235  static long binder_ctl_ioctl(struct file *file, unsigned int cmd,
-3ad20fe393b310 Christian Brauner 2018-12-14  236  			     unsigned long arg)
-3ad20fe393b310 Christian Brauner 2018-12-14 @237  {
-3ad20fe393b310 Christian Brauner 2018-12-14  238  	int ret = -EINVAL;
-3ad20fe393b310 Christian Brauner 2018-12-14  239  	struct inode *inode = file_inode(file);
-3ad20fe393b310 Christian Brauner 2018-12-14  240  	struct binderfs_device __user *device = (struct binderfs_device __user *)arg;
-3ad20fe393b310 Christian Brauner 2018-12-14  241  	struct binderfs_device device_req;
-3ad20fe393b310 Christian Brauner 2018-12-14  242  
-3ad20fe393b310 Christian Brauner 2018-12-14  243  	switch (cmd) {
-3ad20fe393b310 Christian Brauner 2018-12-14  244  	case BINDER_CTL_ADD:
-3ad20fe393b310 Christian Brauner 2018-12-14  245  		ret = copy_from_user(&device_req, device, sizeof(device_req));
-3ad20fe393b310 Christian Brauner 2018-12-14  246  		if (ret) {
-3ad20fe393b310 Christian Brauner 2018-12-14  247  			ret = -EFAULT;
-3ad20fe393b310 Christian Brauner 2018-12-14  248  			break;
-3ad20fe393b310 Christian Brauner 2018-12-14  249  		}
-3ad20fe393b310 Christian Brauner 2018-12-14  250  
-3ad20fe393b310 Christian Brauner 2018-12-14  251  		ret = binderfs_binder_device_create(inode, device, &device_req);
-3ad20fe393b310 Christian Brauner 2018-12-14  252  		break;
-3ad20fe393b310 Christian Brauner 2018-12-14  253  	default:
-3ad20fe393b310 Christian Brauner 2018-12-14  254  		break;
-3ad20fe393b310 Christian Brauner 2018-12-14  255  	}
-3ad20fe393b310 Christian Brauner 2018-12-14  256  
-3ad20fe393b310 Christian Brauner 2018-12-14  257  	return ret;
-3ad20fe393b310 Christian Brauner 2018-12-14  258  }
-3ad20fe393b310 Christian Brauner 2018-12-14  259  
+608723c41cd951 Uladzislau Rezki (Sony  2023-02-01  1084) 
+5130b8fd06901c Uladzislau Rezki (Sony  2020-11-20  1085) #define kvfree_rcu_arg_2(ptr, rhf)					\
+5130b8fd06901c Uladzislau Rezki (Sony  2020-11-20  1086) do {									\
+5130b8fd06901c Uladzislau Rezki (Sony  2020-11-20  1087) 	typeof (ptr) ___p = (ptr);					\
+5130b8fd06901c Uladzislau Rezki (Sony  2020-11-20  1088) 									\
+5ea5d1ed572cb5 Uladzislau Rezki (Sony  2020-11-20  1089) 	if (___p) {									\
+5ea5d1ed572cb5 Uladzislau Rezki (Sony  2020-11-20  1090) 		BUILD_BUG_ON(!__is_kvfree_rcu_offset(offsetof(typeof(*(ptr)), rhf)));	\
+04a522b7da3dbc Uladzislau Rezki (Sony  2022-10-25 @1091) 		kvfree_call_rcu(&((___p)->rhf), (void *) (___p));			\
+5ea5d1ed572cb5 Uladzislau Rezki (Sony  2020-11-20  1092) 	}										\
+5130b8fd06901c Uladzislau Rezki (Sony  2020-11-20  1093) } while (0)
+5130b8fd06901c Uladzislau Rezki (Sony  2020-11-20  1094) 
 
-:::::: The code at line 237 was first introduced by commit
-:::::: 3ad20fe393b31025bebfc2d76964561f65df48aa binder: implement binderfs
+:::::: The code at line 1091 was first introduced by commit
+:::::: 04a522b7da3dbc083f8ae0aa1a6184b959a8f81c rcu: Refactor kvfree_call_rcu() and high-level helpers
 
-:::::: TO: Christian Brauner <christian@brauner.io>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Uladzislau Rezki (Sony) <urezki@gmail.com>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
