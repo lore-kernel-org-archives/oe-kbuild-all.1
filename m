@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FB31B87DD;
-	Thu,  2 Jan 2025 20:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A4C1B0F1E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jan 2025 21:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735850783; cv=none; b=dFNuYa5TXHu9L/EDpbqP2/kZLd++aAMvFagxdl5Lx0a7eQkFhSK6r6D6ClAg4f+VV3RSpIIBXSaTSxASDX91lry0Zp6bwu0v6A5gL1K3ZV+l0/2nAaSJ/8t5RjZZqov185Z7rZklElcGgX9u9KCIi/roU3trgBf/sbVrB8Raps4=
+	t=1735852703; cv=none; b=Qbk9xSAR24vqcb3RaASwT2YfErsF95kpq+shIai/lTXSb9bA7QxBpdieQ1msQcVtvQYv8f8VgSMpC4S8MKAmfXjM4J+gcWvTnjFJpNTMnrODzMBtDtVR7NTd0O4VFbO3XQyApuAhnlyK4KqWMk06c9MdClAtTmGgpMvIO2KMdLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735850783; c=relaxed/simple;
-	bh=lXtHheUcWiplOvGAaTqAv+gEmAbp2r9+jFsyAWbuv5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fJwP/OuX27fWBKStcEFUtBRR3Yb8G38jIubx69Ujn/bRgbEZPZ+rFa0a+neiI22dRYE4S3xuzC2SWqMeSRAcXlBt+WI0H7Nhy64IgMU4D6nkpgheuJrz8zGsyi737eHTh3ltjpDYGzrvz3OLwmjXoZ6+9GjJCdzSR05GUuPkAyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNCwyeNv; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1735852703; c=relaxed/simple;
+	bh=jT2KJA+c+Asit4xqIv9DeICVJmRPRXllLBMAN0Tra8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NWcDvJq35RPwRzVKItezf/gwZWhS77TOWdqAEFr9keDG2e8KSx/LwzgEhPjd2xCOnjWXeWw2uKsHut8Uf+K2LUm3Fmun99k2cuZPlXl4YGJlUAer+i7DH3CAakIGAdWio8PpiQmH1YaSYASB7UtkSrdjOoxCAbZNzdEETEO56+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nvyaTq+X; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNCwyeNv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nvyaTq+X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735850781; x=1767386781;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lXtHheUcWiplOvGAaTqAv+gEmAbp2r9+jFsyAWbuv5E=;
-  b=ZNCwyeNvRKg0HLuvlV3FDoXglFvv7zJzgs2MXKs8ei4K3hf3w/YKpxZI
-   uA8OfU/S3EEKaR9U/9qDkvB2LI3reFC0HiSU73ZUo3iHBAYXAJS5bZFzY
-   43dKffeLcAYgzAIWbxUmXiddrh7w3suA6mphLmgR+Ew6m/oIZxRJdgsck
-   56YuEZi1VPo0o/2oj48TXiwUtdWOjSTKzAuSJ9IrRfwjcytuirIhy85PV
-   WRupGpLHm+k49Qj07y9lx6nefKV151PNb0X8vch7cW9YNvPsjnDbylAsO
-   Kv6duJ9+nkAYXwE+BiIOKMoi7aFdQrf2mIf5+KG44OQdQzmH4HFC8NsnQ
+  t=1735852701; x=1767388701;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jT2KJA+c+Asit4xqIv9DeICVJmRPRXllLBMAN0Tra8E=;
+  b=nvyaTq+XXutMP9uDu8UM2KvbNCaekiIaJ3nLVSJKSk/cNZerEABXVv3f
+   WrlfQzjCih4hMQYeYRHjcZ2KMEpVQA1BS/EbIjHnORMvKJyPpSChULhep
+   nekfmt05TSP2IJ1NppbTCsrj+3yPnXmsbKNXQikpQDeRZmVsXwObGjise
+   XIcph5fFAqM4fKMqew0q4kG10uqSums4y6wzhZKmIhNTKPwrBA8dz9NGd
+   OhEwPG+j5jYzrTP+dKZFE2mjS0yslmJHNphOhB+z8aVwkwolily9OI5W6
+   4hJhG8cWuzfiT06gBI3fmX95ermR+9+8ApiVJKC7MmjWALEWmH1p/H+Le
    w==;
-X-CSE-ConnectionGUID: LO+CqNU0SFu72d0ZHHzaNA==
-X-CSE-MsgGUID: bxfltKihTICVS3Ls5DILpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="38926848"
+X-CSE-ConnectionGUID: f4bMUvyOTR2bMhr67sEUaQ==
+X-CSE-MsgGUID: 10gsAZOaSyK8dKlSFC+wvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="39781740"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="38926848"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 12:46:19 -0800
-X-CSE-ConnectionGUID: JXo9s0gESbW+wTzPOGbn+Q==
-X-CSE-MsgGUID: vzOAfbDNR5eBh3vmRD4fPw==
+   d="scan'208";a="39781740"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 13:18:21 -0800
+X-CSE-ConnectionGUID: qCghb4eqTTaq41vye5CmqA==
+X-CSE-MsgGUID: 2w6669GESIKV9U+Ry54yHw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105654733"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="106469307"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Jan 2025 12:46:16 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 02 Jan 2025 13:18:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTS58-0008rD-0U;
-	Thu, 02 Jan 2025 20:46:14 +0000
-Date: Fri, 3 Jan 2025 04:46:01 +0800
+	id 1tTSa9-0008sL-2U;
+	Thu, 02 Jan 2025 21:18:17 +0000
+Date: Fri, 3 Jan 2025 05:18:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, manivannan.sadhasivam@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kw@linux.com,
-	kishon@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rockswang7@gmail.com, Hans Zhang <18255117159@163.com>,
-	kernel test robot <lkp@intel.com>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: Re: [v6] misc: pci_endpoint_test: Fix overflow of bar_size
-Message-ID: <202501030414.p0DE9xNK-lkp@intel.com>
-References: <20250102120222.1403906-1-18255117159@163.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zcrx/v10-wip 8/26] net/ipv4/../core/devmem.h:170:6: error:
+ expected '=', ',', ';', 'asm' or '__attribute__' before 'net_is_devmem_iov'
+Message-ID: <202501030503.WubhlqEv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,105 +61,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250102120222.1403906-1-18255117159@163.com>
 
-Hi Hans,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ccb98ccef0e543c2bd4ef1a72270461957f3d8d0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/misc-pci_endpoint_test-Fix-overflow-of-bar_size/20250102-200548
-base:   ccb98ccef0e543c2bd4ef1a72270461957f3d8d0
-patch link:    https://lore.kernel.org/r/20250102120222.1403906-1-18255117159%40163.com
-patch subject: [v6] misc: pci_endpoint_test: Fix overflow of bar_size
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20250103/202501030414.p0DE9xNK-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030414.p0DE9xNK-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zcrx/v10-wip
+head:   1e1214d152c4b21b5bc3e9b37e26cd60ed14632b
+commit: 9852e159a9d1e771fe98518bf7f67ac9ee145203 [8/26] net: prepare for non devmem TCP memory providers
+config: i386-buildonly-randconfig-003-20250103 (https://download.01.org/0day-ci/archive/20250103/202501030503.WubhlqEv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030503.WubhlqEv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501030414.p0DE9xNK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501030503.WubhlqEv-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/misc/pci_endpoint_test.c:311:11: warning: comparison of distinct pointer types ('typeof ((bar_size)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-     311 |         remain = do_div(bar_size, buf_size);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:183:28: note: expanded from macro 'do_div'
-     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> drivers/misc/pci_endpoint_test.c:311:11: error: incompatible pointer types passing 'resource_size_t *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-     311 |         remain = do_div(bar_size, buf_size);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:199:22: note: expanded from macro 'do_div'
-     199 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   arch/arm/include/asm/div64.h:24:45: note: passing argument to parameter 'n' here
-      24 | static inline uint32_t __div64_32(uint64_t *n, uint32_t base)
-         |                                             ^
->> drivers/misc/pci_endpoint_test.c:311:11: warning: shift count >= width of type [-Wshift-count-overflow]
-     311 |         remain = do_div(bar_size, buf_size);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:195:25: note: expanded from macro 'do_div'
-     195 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   2 warnings and 1 error generated.
+   In file included from net/ipv4/tcp.c:288:
+>> net/ipv4/../core/devmem.h:170:6: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'net_is_devmem_iov'
+     170 | bool net_is_devmem_iov(struct net_iov *niov)
+         |      ^~~~~~~~~~~~~~~~~
+   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
+>> net/ipv4/tcp.c:2479:30: error: implicit declaration of function 'net_is_devmem_iov' [-Werror=implicit-function-declaration]
+    2479 |                         if (!net_is_devmem_iov(niov)) {
+         |                              ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from net/core/netdev-genl.c:15:
+>> net/core/devmem.h:170:6: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'net_is_devmem_iov'
+     170 | bool net_is_devmem_iov(struct net_iov *niov)
+         |      ^~~~~~~~~~~~~~~~~
 
 
-vim +311 drivers/misc/pci_endpoint_test.c
+vim +170 net/ipv4/../core/devmem.h
 
-   279	
-   280	static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
-   281					  enum pci_barno barno)
-   282	{
-   283		void *write_buf __free(kfree) = NULL;
-   284		void *read_buf __free(kfree) = NULL;
-   285		struct pci_dev *pdev = test->pdev;
-   286		int j, buf_size, iters, remain;
-   287		resource_size_t bar_size;
-   288	
-   289		if (!test->bar[barno])
-   290			return false;
-   291	
-   292		bar_size = pci_resource_len(pdev, barno);
-   293	
-   294		if (barno == test->test_reg_bar)
-   295			bar_size = 0x4;
-   296	
-   297		/*
-   298		 * Allocate a buffer of max size 1MB, and reuse that buffer while
-   299		 * iterating over the whole BAR size (which might be much larger).
-   300		 */
-   301		buf_size = min(SZ_1M, bar_size);
-   302	
-   303		write_buf = kmalloc(buf_size, GFP_KERNEL);
-   304		if (!write_buf)
-   305			return false;
-   306	
-   307		read_buf = kmalloc(buf_size, GFP_KERNEL);
-   308		if (!read_buf)
-   309			return false;
-   310	
- > 311		remain = do_div(bar_size, buf_size);
-   312		iters = bar_size;
-   313		for (j = 0; j < iters; j++)
-   314			if (pci_endpoint_test_bar_memcmp(test, barno, buf_size * j,
-   315							 write_buf, read_buf, buf_size))
-   316				return false;
-   317	
-   318		if (remain)
-   319			if (pci_endpoint_test_bar_memcmp(test, barno, buf_size * iters,
-   320							 write_buf, read_buf, remain))
-   321				return false;
-   322	
-   323		return true;
-   324	}
-   325	
+   168	
+   169	static inline bool
+ > 170	bool net_is_devmem_iov(struct net_iov *niov)
+   171	{
+   172		return false;
+   173	}
+   174	#endif
+   175	
 
 -- 
 0-DAY CI Kernel Test Service
