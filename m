@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553601B87FA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 07:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2311B1C726D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 07:40:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735890031; cv=none; b=haEWZgSCXPogDddQ7itqdVaZpMM6eKdAhzl1+GN4rrzLaiVzeS4nVbgBtgTaEI9O1O313sAr8LmoDzuAISfnlvmHlUZAr5DgO6iznk4dHzlhnYxiVmAxvaNmBIqQ0B3BtaSHKeOt3CBIgPjBlMYeg64rkFpbkFxa2FxPnrbbIRs=
+	t=1735890032; cv=none; b=YGl84Km4ddQg8+bqxl4mXI2ASH3KvROmugxe1Mm9GYMqpSw3FEEjooF4Fm8iZAaz32oKJb/FfZvKesMG1Lp8lwDRknbsyO72PkPEPJx1yYP4XReIVhZWuyi7hI5bGsulLUA8L+vd5GCK+88iOo+x12umlS3njTXM5ovzvEghVDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735890031; c=relaxed/simple;
-	bh=IDpXIqy2gFQ1Rmf70XZiH0jH8JTTTgfajB3KjRpmZXQ=;
+	s=arc-20240116; t=1735890032; c=relaxed/simple;
+	bh=MUMRZcVKfJkMBcy3JOYJjVp0I3Y8nhtmukfkFK1Jbsw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TiAmZMADsyn6Y8FMVprrBQ/ykGXpTJc3GpmFu+cHinYIJGNWt6TVZtG+zvFR+bXAmijfoS7AAVvvrnJ7pcBjf45/nugpYUHwGlughLxB/5PeJUmE3vrDs2cSLLONEh7C3bwR8WbucudVK7cFOdexwHHJVMRGa7m03GyNTRdiNSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nFpiCs6M; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=ixTgINEltkSF3G5axnPUsSQSabc0jmyQFWWd9KZPBDSFRDXqNmtOQ5LDQAkywIl30WGxf0uptDyP/Rs2jFZW+si+UWLpk5FwnV0PJH3Ou7LBwwk5ggpZY5wY6j2gwSJVn4GumEQwxy4nyM2NXdT1I477iYG+DRtl6RaLGyW2/rM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mW1t9PUM; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFpiCs6M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mW1t9PUM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735890029; x=1767426029;
+  t=1735890031; x=1767426031;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IDpXIqy2gFQ1Rmf70XZiH0jH8JTTTgfajB3KjRpmZXQ=;
-  b=nFpiCs6MLxfBfZ2IFNzVgynOuogV+pH2nBIzhez5UMGMskNQS3i8v59s
-   pzBYIPaodsek76G0ciKerEBDWWpJFtl0jQfWiKoAhAgurUCR38mpxpELR
-   FVGv6LND4i/dTwPkOjOzkZLOQpbROTsgxMXBGRFr1iq89ZGgqoZz+5vAP
-   oCXnrArMbGZ0BuTjGev3iHycrYLioe3pWX1kjK8onReCbZnCrRJenGHT8
-   5JlwgJWpA5UykZ7gMjyOCf9s15um7yiCn6lQTZsOi57gaTVWSS+s6S2yN
-   sfvwDuBAuAe7NEJNAbHtTR4838xQuk8LmWCR/lA/G0oV52emCT3GFRORF
+  bh=MUMRZcVKfJkMBcy3JOYJjVp0I3Y8nhtmukfkFK1Jbsw=;
+  b=mW1t9PUMHOwBqTMnC8l9IbcralSvKPOzEMHX3OQg4w3xUMhYKcvUzlhi
+   zGzkMf2u0eZuEBnpIDcwPQK/LLW9P+hZ0sFgB/RsPOUyVvz9/hWMM37XU
+   FV80pLPtuq1KKJGg4+fEdrS4nz9Plcd8iur3HFl2Dv0btHiO/Cn0lMrXE
+   MQRuLDAx3cbyyXyrlbOAFVDzEou1ESZB7JZChK2vMGdpNc62rkbyHV6NQ
+   VO1uA640rprsDraQdabeheZwYOKSjGIHBB3b3laSMvEEyefrQZKHQT+4w
+   Qmy7hqRUznC32cFQB7f+2QC90Ev8MCgf4p6hPnCavIT9dwma5sDxQrvSH
    Q==;
-X-CSE-ConnectionGUID: LZwNEUpESU6XM+x1oSEfkw==
-X-CSE-MsgGUID: ctH9AlhZTASwHkFriQzO5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36156170"
+X-CSE-ConnectionGUID: ZJunneshREafqfB3ylaLfQ==
+X-CSE-MsgGUID: 9DmfSrhdTfqAqmaMNX1SEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36156175"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="36156170"
+   d="scan'208";a="36156175"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 23:40:28 -0800
-X-CSE-ConnectionGUID: 2S70QbROS6+T3g5wlmIeLg==
-X-CSE-MsgGUID: B3N+0MwBTsOz7oxEkbseng==
+X-CSE-ConnectionGUID: EyjWNt1pTuKMy7pGXDG3FA==
+X-CSE-MsgGUID: p0Klw/NdTaeENLkS4W9+oQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="102242756"
+   d="scan'208";a="102242757"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 02 Jan 2025 23:40:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTcIC-0009On-0S;
+	id 1tTcIC-0009Oq-0W;
 	Fri, 03 Jan 2025 07:40:24 +0000
-Date: Fri, 3 Jan 2025 15:39:30 +0800
+Date: Fri, 3 Jan 2025 15:39:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhi Hou <lizhi.hou@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	George Yang <George.Yang@amd.com>, Min Ma <min.ma@amd.com>
-Subject: [linux-next:master 476/5236]
- drivers/accel/amdxdna/aie2_pci.c:254:34: sparse: sparse: cast removes
- address space '__iomem' of expression
-Message-ID: <202501031501.d4Xj8wra-lkp@intel.com>
+To: Uladzislau Rezki <uladzislau.rezki@sony.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	"Uladzislau Rezki (Sony)" <urezki@gmail.com>
+Subject: drivers/android/binder.c:1819: warning: Function parameter or struct
+ member 'file' not described in 'binder_task_work_cb'
+Message-ID: <202501031535.erbln3A2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,135 +64,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-commit: b87f920b934426a24d54613f12ed67c03ae05024 [476/5236] accel/amdxdna: Support hardware mailbox
-config: x86_64-randconfig-122-20241231 (https://download.01.org/0day-ci/archive/20250103/202501031501.d4Xj8wra-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031501.d4Xj8wra-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: 28b3ae426598e722cf5d5ab9cc7038791b955a56 rcu: Introduce CONFIG_RCU_EXP_CPU_STALL_TIMEOUT
+date:   2 years, 8 months ago
+config: csky-randconfig-r022-20230522 (https://download.01.org/0day-ci/archive/20250103/202501031535.erbln3A2-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031535.erbln3A2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031501.d4Xj8wra-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031535.erbln3A2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/accel/amdxdna/aie2_pci.c:254:34: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/accel/amdxdna/aie2_pci.c:256:31: sparse: sparse: cast removes address space '__iomem' of expression
---
->> drivers/accel/amdxdna/amdxdna_mailbox.c:101:23: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:101:23: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/accel/amdxdna/amdxdna_mailbox.c:101:23: sparse:     got void *
->> drivers/accel/amdxdna/amdxdna_mailbox.c:109:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:109:23: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/accel/amdxdna/amdxdna_mailbox.c:109:23: sparse:     got void *
-   drivers/accel/amdxdna/amdxdna_mailbox.c:119:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:119:15: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/accel/amdxdna/amdxdna_mailbox.c:119:15: sparse:     got void *
-   drivers/accel/amdxdna/amdxdna_mailbox.c:119:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:119:15: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/accel/amdxdna/amdxdna_mailbox.c:119:15: sparse:     got void *
-   drivers/accel/amdxdna/amdxdna_mailbox.c:232:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:232:36: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/accel/amdxdna/amdxdna_mailbox.c:232:36: sparse:     got void *
->> drivers/accel/amdxdna/amdxdna_mailbox.c:239:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:239:22: sparse:     expected void volatile [noderef] __iomem *
-   drivers/accel/amdxdna/amdxdna_mailbox.c:239:22: sparse:     got void *
-   drivers/accel/amdxdna/amdxdna_mailbox.c:318:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:318:36: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/accel/amdxdna/amdxdna_mailbox.c:318:36: sparse:     got void *
->> drivers/accel/amdxdna/amdxdna_mailbox.c:344:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void * @@
-   drivers/accel/amdxdna/amdxdna_mailbox.c:344:44: sparse:     expected void const volatile [noderef] __iomem *
-   drivers/accel/amdxdna/amdxdna_mailbox.c:344:44: sparse:     got void *
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +254 drivers/accel/amdxdna/aie2_pci.c
+   drivers/android/binder.c:233: warning: Function parameter or struct member '_proc' not described in 'binder_proc_unlock'
+   drivers/android/binder.c:233: warning: Excess function parameter 'proc' description in 'binder_proc_unlock'
+   drivers/android/binder.c:335: warning: expecting prototype for binder_node_unlock(). Prototype was for binder_node_inner_unlock() instead
+   drivers/android/binder.c:1155: warning: expecting prototype for binder_dec_ref(). Prototype was for binder_dec_ref_olocked() instead
+>> drivers/android/binder.c:1819: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
+>> drivers/android/binder.c:1819: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
+   drivers/android/binder.c:2683: warning: Function parameter or struct member 'procp' not described in 'binder_get_node_refs_for_txn'
+   drivers/android/binder.c:2683: warning: Excess function parameter 'proc' description in 'binder_get_node_refs_for_txn'
+>> drivers/android/binder.c:3510: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
 
-   220	
-   221	static int aie2_hw_start(struct amdxdna_dev *xdna)
-   222	{
-   223		struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
-   224		struct amdxdna_dev_hdl *ndev = xdna->dev_handle;
-   225		struct xdna_mailbox_res mbox_res;
-   226		u32 xdna_mailbox_intr_reg;
-   227		int mgmt_mb_irq, ret;
-   228	
-   229		ret = pci_enable_device(pdev);
-   230		if (ret) {
-   231			XDNA_ERR(xdna, "failed to enable device, ret %d", ret);
-   232			return ret;
-   233		}
-   234		pci_set_master(pdev);
-   235	
-   236		ret = aie2_smu_init(ndev);
-   237		if (ret) {
-   238			XDNA_ERR(xdna, "failed to init smu, ret %d", ret);
-   239			goto disable_dev;
-   240		}
-   241	
-   242		ret = aie2_psp_start(ndev->psp_hdl);
-   243		if (ret) {
-   244			XDNA_ERR(xdna, "failed to start psp, ret %d", ret);
-   245			goto fini_smu;
-   246		}
-   247	
-   248		ret = aie2_get_mgmt_chann_info(ndev);
-   249		if (ret) {
-   250			XDNA_ERR(xdna, "firmware is not alive");
-   251			goto stop_psp;
-   252		}
-   253	
- > 254		mbox_res.ringbuf_base = (u64)ndev->sram_base;
-   255		mbox_res.ringbuf_size = pci_resource_len(pdev, xdna->dev_info->sram_bar);
-   256		mbox_res.mbox_base = (u64)ndev->mbox_base;
-   257		mbox_res.mbox_size = MBOX_SIZE(ndev);
-   258		mbox_res.name = "xdna_mailbox";
-   259		ndev->mbox = xdnam_mailbox_create(&xdna->ddev, &mbox_res);
-   260		if (!ndev->mbox) {
-   261			XDNA_ERR(xdna, "failed to create mailbox device");
-   262			ret = -ENODEV;
-   263			goto stop_psp;
-   264		}
-   265	
-   266		mgmt_mb_irq = pci_irq_vector(pdev, ndev->mgmt_chan_idx);
-   267		if (mgmt_mb_irq < 0) {
-   268			ret = mgmt_mb_irq;
-   269			XDNA_ERR(xdna, "failed to alloc irq vector, ret %d", ret);
-   270			goto stop_psp;
-   271		}
-   272	
-   273		xdna_mailbox_intr_reg = ndev->mgmt_i2x.mb_head_ptr_reg + 4;
-   274		ndev->mgmt_chann = xdna_mailbox_create_channel(ndev->mbox,
-   275							       &ndev->mgmt_x2i,
-   276							       &ndev->mgmt_i2x,
-   277							       xdna_mailbox_intr_reg,
-   278							       mgmt_mb_irq);
-   279		if (!ndev->mgmt_chann) {
-   280			XDNA_ERR(xdna, "failed to create management mailbox channel");
-   281			ret = -EINVAL;
-   282			goto stop_psp;
-   283		}
-   284	
-   285		ret = aie2_mgmt_fw_init(ndev);
-   286		if (ret) {
-   287			XDNA_ERR(xdna, "initial mgmt firmware failed, ret %d", ret);
-   288			goto destroy_mgmt_chann;
-   289		}
-   290	
-   291		return 0;
-   292	
-   293	destroy_mgmt_chann:
-   294		xdna_mailbox_stop_channel(ndev->mgmt_chann);
-   295		xdna_mailbox_destroy_channel(ndev->mgmt_chann);
-   296	stop_psp:
-   297		aie2_psp_stop(ndev->psp_hdl);
-   298	fini_smu:
-   299		aie2_smu_fini(ndev);
-   300	disable_dev:
-   301		pci_disable_device(pdev);
-   302	
-   303		return ret;
-   304	}
-   305	
+
+vim +1819 drivers/android/binder.c
+
+7980240b6d63e0 Martijn Coenen 2017-02-03  1806  
+80cd795630d652 Todd Kjos      2018-12-14  1807  /**
+80cd795630d652 Todd Kjos      2018-12-14  1808   * struct binder_task_work_cb - for deferred close
+80cd795630d652 Todd Kjos      2018-12-14  1809   *
+80cd795630d652 Todd Kjos      2018-12-14  1810   * @twork:                callback_head for task work
+80cd795630d652 Todd Kjos      2018-12-14  1811   * @fd:                   fd to close
+80cd795630d652 Todd Kjos      2018-12-14  1812   *
+80cd795630d652 Todd Kjos      2018-12-14  1813   * Structure to pass task work to be handled after
+80cd795630d652 Todd Kjos      2018-12-14  1814   * returning from binder_ioctl() via task_work_add().
+80cd795630d652 Todd Kjos      2018-12-14  1815   */
+80cd795630d652 Todd Kjos      2018-12-14  1816  struct binder_task_work_cb {
+80cd795630d652 Todd Kjos      2018-12-14  1817  	struct callback_head twork;
+80cd795630d652 Todd Kjos      2018-12-14  1818  	struct file *file;
+80cd795630d652 Todd Kjos      2018-12-14 @1819  };
+80cd795630d652 Todd Kjos      2018-12-14  1820  
+
+:::::: The code at line 1819 was first introduced by commit
+:::::: 80cd795630d6526ba729a089a435bf74a57af927 binder: fix use-after-free due to ksys_close() during fdget()
+
+:::::: TO: Todd Kjos <tkjos@android.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
