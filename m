@@ -1,195 +1,392 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760F5175B1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 00:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735864790; cv=fail; b=nILf71HYGKzl4SHRB0OxY4+RqXEZQx8OzZqdRbUMDLDM8qGW59eaftvdoTlvG0HM6x5FV1ljsX9/QXVfzDcAVodArLlmxKCn9wLbCdHrNZm9Phqkd7ECjn3rcVND7FiCewwVs/g8au7UVRDAV9rEJhMNSl/EUikz3ro17yNPpDE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735864790; c=relaxed/simple;
-	bh=aWvCvI/Q37wRj91hua18HAhwcdATDagz3BdmF8+TdV0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=q0dMtCmiNnugckokIvB3BoyGUYYy1bFckmwft+i52sx/b0Bd0vQ56h9xNYOHrPUEdENg8tHZs76x92YYtua3flvX8VCADSgqvmSjZrtIOllmPWALzeIIP9SUkpUHUhMwjbdIqzC9NO8cXexQu9kr/DRxI9fZV9JTyfjT+AI9ox8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMm8uPs3; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1CD136349
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 00:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735865022; cv=none; b=P517AbsiGZZLM4Qf17y5YAignERgAZcTkND1uV5QPVOjLGCDmvWS9AZJiBTQF+Pqwa1Xn6hB56rA/HpmZQczndBjH58qn34n8bLRnQUahg5SQ8cUiDlDvui/a6SCjcf326FgpAkdKPTSA/kc6trYIYB+BkcmM3G/Vvy2fxiqXUs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735865022; c=relaxed/simple;
+	bh=CQmAINZSglphL6v8jjHHj9QXN+bsiiG9mBjYy3gdIfk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DXXrCFzvCw63gpwGNR+BM8z1Waxg6QsHC3Xos5U/qW59XcEwhnW+4UDArWx49NKFK0w3mRP5MJmF4/T6trxIKj1AkPfM9q2x0h48WRSOeyj0hCcciTBzxiZ3ddAaNh/jF8+Tgm9Dov7ZB8f4v1lOBC7/ZOTMbFayPOG8/zbl5ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQi5JjOQ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMm8uPs3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQi5JjOQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735864789; x=1767400789;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=aWvCvI/Q37wRj91hua18HAhwcdATDagz3BdmF8+TdV0=;
-  b=XMm8uPs3rzzU8WzRSGSStr+bKKIZQ6RO97QfqWFhZ2tVTFaFVt/81/pR
-   F2YD7qvzvojdAkzsRZSFS6LYHMeDpLhpXv7zMopVDxNJ4Gf86JuizFkgy
-   93tznwC7t9v3MPVzBjXo4yMR6q0yW4cEyW+FOKOdt1D/whpcVv3hWkNOk
-   cvtVeKK2cyQiHO0kCvAkRz+1ubIWEjdTfFjcM+jJSbEofdtPmw7VOvk15
-   8ksGnWDQ19xGJWhK0cEZNY19GN1PdKui+f80ZtP3C5Fo1Vg9Jp6Z0dQkP
-   vVK51bTdXcBS7+XjxXbRNx84ySwXr4uJh+oHc61m5t97juJaIr8DfKJeW
+  t=1735865020; x=1767401020;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CQmAINZSglphL6v8jjHHj9QXN+bsiiG9mBjYy3gdIfk=;
+  b=IQi5JjOQYGW/iSiiFpXP2k37PE6qkCB6HpHe9RtAzqxk6Z1ixTtubiPg
+   sTz7zPAekigTlFxVEswBaiwoU2gBl+qV6bbDFYXTtchmDtBwbhJsJXNj3
+   ACl6TkUd+89+TsWK3XxCVmULd9RsH4zSl63DaepLuEc1gtrcu7NLE8s6W
+   d6niznr72ICAYzhdHmx++Uul/xnQsksYnob0gW9aYncxthXCPTXXLh9r5
+   3Kj0MJRkVvBuaLncvgYmf39v8Der7JOjcrsglN67RmErqEu6YtXp+f4mX
+   rU94tZCb1iiPPPpXfrk5ARTLXfZI6kBvLOBUnOC6++CH23LzwHdl0iX5S
    w==;
-X-CSE-ConnectionGUID: SM8KfwJWQwqzES1TDxPkcA==
-X-CSE-MsgGUID: AEI3ne6jRwqWT7djwQZX7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="46694498"
+X-CSE-ConnectionGUID: gzV+Ne2QQSeUW40lZSNG1w==
+X-CSE-MsgGUID: 0pHjVyT1RhiF94amzSXTcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="40037816"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="46694498"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 16:39:46 -0800
-X-CSE-ConnectionGUID: M5aQ2QmSQEyRydCVpqkkAw==
-X-CSE-MsgGUID: IxTyJvbhS8Sj7ZEncFDFIw==
+   d="scan'208";a="40037816"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 16:43:40 -0800
+X-CSE-ConnectionGUID: srSSp6XqSlixWJDc7UhIFg==
+X-CSE-MsgGUID: OJju3k0YTuGWYy9npUvZvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="132505643"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Jan 2025 16:39:46 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 2 Jan 2025 16:39:45 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Thu, 2 Jan 2025 16:39:45 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 2 Jan 2025 16:39:45 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fMd1M8YBrpf86luxObg9LWdgWVWVXjs/kzJLvEJL3w0eNe6IuWBQCHmi4Rdt9l761uTqWENlcU6FtkPEDApPaASPIi6Ih3VPUJ/9iJwOMtACrI6UTfejrZMUIZY4cUU6h6a5ZRQQ/mvm8bDzFxhwIiBUg7nvNKtV82EU1L00TM6ttrdO/yRvDuled1lOR0YzajdtISpkLM7kpfFF0QC8tbIZaXQBObRoXorU6L7GeoZ80ZSptkWcqktYzcGCz7TQgR0BaS6/PfxkvzDuNxx1qKE+FLzyU1Dc87XagjUlNCNh3X1Dc1kooH4Md5lSr6NxDV+5qbzcgs63cJl/fh+ZdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=inVTS4dQmB0KuOil25K83DnxVAAo5Ezh+LiFPTJNz80=;
- b=rqa/sF2HkEnOW8dNU96nwt0T17GwLL73VtvKjH5LwtHzyocxkFrt4HuEDxbhAhuuZRniGq88kupB9XlxGAtqSqA6KGg3DJQF+d5YAgD1xATYhW4qobrGo/FSk/Sfq4HIttaC8GRuNdHO4oJfTimNlMKBY57/xJ30CuJ4Z2BVnjhmsxZogSR8eL7C9duruJQDIjUJBzBHgKCVXy92Vl/CoKsx3vlA0yt3H1FBi6oGVmppCume0P+eayFwIjrGgwXHeGJ1JG6cSGTcrgXrVFsPltdPG0x9/v8s3XcuwAi3bTb4V1OoLOLjkc1Za24JVgzS5MX6C5VykXWSHU6ASIe1OQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by CH0PR11MB5316.namprd11.prod.outlook.com (2603:10b6:610:bf::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.14; Fri, 3 Jan
- 2025 00:39:39 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8314.013; Fri, 3 Jan 2025
- 00:39:39 +0000
-Date: Fri, 3 Jan 2025 08:39:23 +0800
-From: Philip Li <philip.li@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-CC: kernel test robot <lkp@intel.com>, <stable@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>
-Subject: Re: [for-linus][PATCH 1/2] fgraph: Add READ_ONCE() when accessing
- fgraph_array[]
-Message-ID: <Z3cxu/YGxFMi7sjX@rli9-mobl>
-References: <20250102220309.941099662@goodmis.org>
- <Z3cNawJpV5b4Ob8_@997da2bbb901>
- <20250102171007.1c41355a@gandalf.local.home>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250102171007.1c41355a@gandalf.local.home>
-X-ClientProxiedBy: SG2PR04CA0160.apcprd04.prod.outlook.com (2603:1096:4::22)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101498568"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 02 Jan 2025 16:43:39 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tTVmq-0008zw-0I;
+	Fri, 03 Jan 2025 00:43:36 +0000
+Date: Fri, 3 Jan 2025 08:43:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1365/1365] kernel/sched/debug.c:990:29:
+ error: 'struct dyn_affinity_stats' has no member named
+ 'nr_wakeups_preferred_cpus'
+Message-ID: <202501030826.kEDgBIqw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|CH0PR11MB5316:EE_
-X-MS-Office365-Filtering-Correlation-Id: 328bf46e-4306-4b1d-2143-08dd2b8f1b34
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ChbyTWGGhvAOE773fAtKkcFOW5+dGquDvWTjr7pGK5im+0MZOw+RatTRh0Y+?=
- =?us-ascii?Q?6tbA7cs7jEHzjhzkLGxSFByP8kdrzxWd9s7qo4oVNCvAC1ThFALk83AVAvRV?=
- =?us-ascii?Q?vlTbzP2buucWD11tdOVwWZw0WTQlKMEWmj91VeImPxcdxAEwes/yTmgB7Z2a?=
- =?us-ascii?Q?cEwEkZ67NlA2Qpd277Vgm/QQmlczf0zcthse1etsfBIlU3lc58G/+wUaBcAT?=
- =?us-ascii?Q?C4z4Uu1uotTSVDKLacwTj6HOWxHkxd7WmNGJjmEhcbrFHfX/MKjxlvB3C2vb?=
- =?us-ascii?Q?jBOcmxl1h9eneNf8VWbmiUhSQo7m9mMkYd1OTBdw5Fj/9jBoXtzvnECov7OR?=
- =?us-ascii?Q?1yYBcbGeh0w3eA+/BSVfhw+nZj5lbWhbRT3sx/gIeAsUq/z8YXWd0qQ+1dpM?=
- =?us-ascii?Q?DtBDiBH9L1vWztIvsIQS8CMJeXlp4/dUt83oPHaggJWc2DxiZjZh07NHDsGm?=
- =?us-ascii?Q?iUF0ytLXmT70PRtjcefhCWcHnBP31/XrAPOF5CjNmoYYnP9idUM0WR9/nxzO?=
- =?us-ascii?Q?ytRnBnA/A223MginjGuCYEWs3ffMlYOwKzkp6zj+qGVP9a65UdzsMhkmN1aL?=
- =?us-ascii?Q?bVHw3UegI5fLHyo39C03Xs619I30I0CfktLE1gKnszizPfnpPhLWQe7VrYys?=
- =?us-ascii?Q?7O//0wnmIbTuwrxq+QnUiK4tTMBJBQSHuW78Jc3tSqNW9rp9r3EqgHfosSgY?=
- =?us-ascii?Q?thNSvN5n0HFAtfSr/G96b1xRQJyNuQgbMjaGX9DHf3PygIvOjLpqdVzpTyzj?=
- =?us-ascii?Q?HE5l75zRshYfkjitx/ZYT+xU1nljzn28pV1CRRy2XubvwTGGP3bcN7aDr5XL?=
- =?us-ascii?Q?bZP835Q+qKYjNxdfFCqqpC3wB8YgSasdyP0uKGBfVAp6frfy47QCw752xjW5?=
- =?us-ascii?Q?SN0Ph8pJMnWmOPwkO5jcBeVsHkpeb3yBiEmuing+22hoWOafjDyQJmdgMD37?=
- =?us-ascii?Q?rkZd49+fXqwvEpjk2T0JBxE0maCNkyiYpKhJrLOGQQQfJuPtR9kJeCscNvEF?=
- =?us-ascii?Q?Vjos6yrwQJRveu7qoH6v6odPDDGJ9aC3pUKZSQxFpJmrgy3lXDQ2fSPwtWMA?=
- =?us-ascii?Q?PxaXs+Vaph1EbSg2L2uZTsc6lppkB3h0P4c2npYsJk4nnGHkhsMLWlSHARee?=
- =?us-ascii?Q?MX2+gkCKg5yp/R80+7eKZ4jDv0r2RCkJpU5przP/DKD/z86GqTS/ULVs0WC+?=
- =?us-ascii?Q?rlc4585ejIP3VElipRwPp1MA3mKgc8h287L2/mEVT3hfC4v7TNrQSGk+QU9f?=
- =?us-ascii?Q?ERexDOXcvSWApXXH/LhnkTJ86kVeDulITtXQZk34enaiq53M/ZrEfZ5czedt?=
- =?us-ascii?Q?YDmE+fxgiKsl870Ko9VEhVKzpf15ci5CMvcSpeNGp2GVTA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SxGLHqgBdnZlq+nmx2v3uLpM0M1mwfIlM2Zamd8CNeAvO11dfCT3x9+AY5Sm?=
- =?us-ascii?Q?JqSU8iIq2qcRPlxYBNCDgBne9c9dgJxnPYJKSX110q2w1NJwWeTZDKMtw7lW?=
- =?us-ascii?Q?mVifKaBFqJKC7FPGPvAgyzn9HqjjqeowUL4cdeNMdbE+H91s+QxHbOJEZr7l?=
- =?us-ascii?Q?1a3fhrQuhQkjcRWfVnwVrgZ7CsuoOs5YHQ8uRa6MYOD4wLf4y9OWQkyrF796?=
- =?us-ascii?Q?Y7GBU6ntGdjknVqVxbyseFZG1GlSTgBnCn+Qp7nBMzI0gyPRGkRsuBw8y01V?=
- =?us-ascii?Q?Qm3840rhzwnBmH3GAMZfQo91KOOY+LnOoLjdz3Q9XigpixOc/G8d/B3CWosm?=
- =?us-ascii?Q?woFc6wd4MORiC+vDwiHOOpMfXPFvB1/fSTZOPQ1QvLV0gR3LuzXYt+D+oAEs?=
- =?us-ascii?Q?IeKKIbw0ZTNXYawOCLC+TJkO+EXOTr5Wxf0edoqoZSvd5MBnQg8qSsi6LMAj?=
- =?us-ascii?Q?GxXbWQfvYhEZ9aUneI2HqrrRSP7fUiTplIb5UHxjfAqaOIUWeBhE7SUrxHdG?=
- =?us-ascii?Q?ZXzx5lBdrG3cymqq7h0gaB6JEKxOEkeG+MWdRkO3Fz/J8rcbzc1T34fOvZUe?=
- =?us-ascii?Q?IWlgF/edkEEAZCSIpv+Z3tvHN0j5vEH00WNaJ3Ng4xNUZvcZPbWQqVZ0TO+r?=
- =?us-ascii?Q?2wOgGZOUPIz2V+LvyuFbUN6Ig8RbWRR3uVMTD21XHBxN/ccmuHvsIN8T45u+?=
- =?us-ascii?Q?BnR3f275bEnYmETIlQ769zZl0yXms0//5YNVVU7wDFhzl7x4M3Lnr5TFR6CF?=
- =?us-ascii?Q?hUbcdKOn/GVlV06SG5j8xjzeE8XB9rDXX96DrGUzI/1j+Th32+vmUlLZqFZO?=
- =?us-ascii?Q?27Yr6jVgcvksn/9MBy5lOZLB4xaRuMV6rvaArmr1NAqWU7U9qkhNUJLG0fad?=
- =?us-ascii?Q?en9B1BvrkQB+f0JHa9Inkb69SQs0//7yAzPs8uSrRcsOGR0gsU+fV2YQI29W?=
- =?us-ascii?Q?GyGtgfsil/RMvGa8ybabTiajlvEX0LkUOpwMhdEHqwHHNhjbhlIOxke6+9Gj?=
- =?us-ascii?Q?WNgycT26NHvGp6wjTe1W3X4M6tXRpalesJAq2hryPZkw6KZ4YM131FWSErWD?=
- =?us-ascii?Q?nMt4JJ5IoMGtMycUNoLd/27D15qjhAnGsdLaaniDuUn5OXt5Uu3JaJmVaoi+?=
- =?us-ascii?Q?wBEIacUWuSaaO8TzisHOcGTdoq2804sXaeVmZ44oWFXCwC7MUMZ+gKstXWG3?=
- =?us-ascii?Q?3X0yrud/h0SlKuMzAkPtBPsBjEtGR6R0uZoxX6vJEkSqAal4LqjRaUUXRYp4?=
- =?us-ascii?Q?yFbsiriDv2eNHbQ+oC3YhMT99NAO0ld9/FDfEECOmJ/7YGu8UXGK81UdjIzO?=
- =?us-ascii?Q?tzbFED09i0xmqoRg23vk86/D+9GzL3Sn8vGQ+I2yxPGO5cROZkQWNd3miLv2?=
- =?us-ascii?Q?7slGsifnXapELadiHzHwzhWU9ynQ3JxWBK1BVW5F9Tok7KNf8jQ5YkNBhsDf?=
- =?us-ascii?Q?ZVT4TyrSO7cgNzKcq8rK4kOKM9OeGJIwNN9GIWU3MxzmpfDT3r0QKfxKarK4?=
- =?us-ascii?Q?pauqct9/kYs9niv/FSRnArMqAilbcp7forP5LbYs4KgUg3y73SQEr+1GLeim?=
- =?us-ascii?Q?t8Yp5PivHlrtHf9eu/NM5k/EDx9+ZyasXkcXAQHc?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 328bf46e-4306-4b1d-2143-08dd2b8f1b34
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2025 00:39:39.4275
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oggSB1lW0ARO4XVLvtyMQCrlKqAjbP3u9OXeYaJ4JhuAjtyp1qUShotq9ynxGScE4zJipKqfSUVlldls2FufgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5316
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jan 02, 2025 at 05:10:07PM -0500, Steven Rostedt wrote:
-> On Fri, 3 Jan 2025 06:04:27 +0800
-> kernel test robot <lkp@intel.com> wrote:
-> 
-> > Hi,
-> > 
-> > Thanks for your patch.
-> > 
-> > FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> > 
-> > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-> > 
-> > Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-> > Subject: [for-linus][PATCH 1/2] fgraph: Add READ_ONCE() when accessing fgraph_array[]
-> > Link: https://lore.kernel.org/stable/20250102220309.941099662%40goodmis.org
-> > 
-> 
-> I noticed that it has "Cc:stable@vger.kernel.org". I guess it needs a space
-> before "stable"?
+Hi Hui,
 
-Hi Steve, yes, the check logic expects there's a space before stable.
+FYI, the error/warning still remains.
 
-> 
-> -- Steve
-> 
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4c116febc8d53bc1f8f25a3d60db331f17ab8cd8
+commit: ebca52abe099caa97d7669d0acc71209ea80cfec [1365/1365] sched: Add statistics for scheduler dynamic affinity
+config: x86_64-randconfig-r062-20250103 (https://download.01.org/0day-ci/archive/20250103/202501030826.kEDgBIqw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030826.kEDgBIqw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501030826.kEDgBIqw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   kernel/sched/debug.c:815:6: warning: no previous prototype for 'sysrq_sched_debug_tidy' [-Wmissing-prototypes]
+     815 | void sysrq_sched_debug_tidy(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/debug.c: In function 'proc_sched_show_task':
+>> kernel/sched/debug.c:990:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_preferred_cpus'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                             ^~
+   kernel/sched/debug.c:21:31: note: in definition of macro 'SEQ_printf'
+      21 |                 seq_printf(m, x);               \
+         |                               ^
+   kernel/sched/debug.c:990:17: note: in expansion of macro '__P'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                 ^~~
+   In file included from include/linux/kernel.h:14,
+                    from arch/x86/include/asm/percpu.h:45,
+                    from arch/x86/include/asm/current.h:6,
+                    from include/linux/sched.h:12,
+                    from kernel/sched/sched.h:5,
+                    from kernel/sched/debug.c:12:
+>> kernel/sched/debug.c:990:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_preferred_cpus'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                             ^~
+   include/linux/printk.h:362:33: note: in definition of macro 'pr_cont'
+     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+   kernel/sched/debug.c:939:9: note: in expansion of macro 'SEQ_printf'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |         ^~~~~~~~~~
+   kernel/sched/debug.c:990:17: note: in expansion of macro '__P'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                 ^~~
+>> kernel/sched/debug.c:991:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_force_preferred_cpus'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                             ^~
+   kernel/sched/debug.c:21:31: note: in definition of macro 'SEQ_printf'
+      21 |                 seq_printf(m, x);               \
+         |                               ^
+   kernel/sched/debug.c:991:17: note: in expansion of macro '__P'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                 ^~~
+>> kernel/sched/debug.c:991:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_force_preferred_cpus'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                             ^~
+   include/linux/printk.h:362:33: note: in definition of macro 'pr_cont'
+     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+   kernel/sched/debug.c:939:9: note: in expansion of macro 'SEQ_printf'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |         ^~~~~~~~~~
+   kernel/sched/debug.c:991:17: note: in expansion of macro '__P'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                 ^~~
+   In file included from include/linux/migrate.h:6,
+                    from kernel/sched/sched.h:52:
+   include/linux/mempolicy.h: At top level:
+   include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
+
+
+vim +990 kernel/sched/debug.c
+
+   814	
+ > 815	void sysrq_sched_debug_tidy(void)
+   816	{
+   817		int cpu;
+   818	
+   819		SEQ_printf(NULL, "Sched Debug Version: v0.11, %s %.*s\n",
+   820			init_utsname()->release,
+   821			(int)strcspn(init_utsname()->version, " "),
+   822			init_utsname()->version);
+   823	
+   824		for_each_online_cpu(cpu)
+   825			print_cpu_tidy(NULL, cpu);
+   826	}
+   827	
+   828	/*
+   829	 * This itererator needs some explanation.
+   830	 * It returns 1 for the header position.
+   831	 * This means 2 is CPU 0.
+   832	 * In a hotplugged system some CPUs, including CPU 0, may be missing so we have
+   833	 * to use cpumask_* to iterate over the CPUs.
+   834	 */
+   835	static void *sched_debug_start(struct seq_file *file, loff_t *offset)
+   836	{
+   837		unsigned long n = *offset;
+   838	
+   839		if (n == 0)
+   840			return (void *) 1;
+   841	
+   842		n--;
+   843	
+   844		if (n > 0)
+   845			n = cpumask_next(n - 1, cpu_online_mask);
+   846		else
+   847			n = cpumask_first(cpu_online_mask);
+   848	
+   849		*offset = n + 1;
+   850	
+   851		if (n < nr_cpu_ids)
+   852			return (void *)(unsigned long)(n + 2);
+   853	
+   854		return NULL;
+   855	}
+   856	
+   857	static void *sched_debug_next(struct seq_file *file, void *data, loff_t *offset)
+   858	{
+   859		(*offset)++;
+   860		return sched_debug_start(file, offset);
+   861	}
+   862	
+   863	static void sched_debug_stop(struct seq_file *file, void *data)
+   864	{
+   865	}
+   866	
+   867	static const struct seq_operations sched_debug_sops = {
+   868		.start		= sched_debug_start,
+   869		.next		= sched_debug_next,
+   870		.stop		= sched_debug_stop,
+   871		.show		= sched_debug_show,
+   872	};
+   873	
+   874	static int __init init_sched_debug_procfs(void)
+   875	{
+   876		if (!proc_create_seq("sched_debug", 0444, NULL, &sched_debug_sops))
+   877			return -ENOMEM;
+   878		return 0;
+   879	}
+   880	
+   881	__initcall(init_sched_debug_procfs);
+   882	
+   883	#define __P(F)	SEQ_printf(m, "%-45s:%21Ld\n",	     #F, (long long)F)
+   884	#define   P(F)	SEQ_printf(m, "%-45s:%21Ld\n",	     #F, (long long)p->F)
+   885	#define __PN(F)	SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
+   886	#define   PN(F)	SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
+   887	
+   888	
+   889	#ifdef CONFIG_NUMA_BALANCING
+   890	void print_numa_stats(struct seq_file *m, int node, unsigned long tsf,
+   891			unsigned long tpf, unsigned long gsf, unsigned long gpf)
+   892	{
+   893		SEQ_printf(m, "numa_faults node=%d ", node);
+   894		SEQ_printf(m, "task_private=%lu task_shared=%lu ", tpf, tsf);
+   895		SEQ_printf(m, "group_private=%lu group_shared=%lu\n", gpf, gsf);
+   896	}
+   897	#endif
+   898	
+   899	
+   900	static void sched_show_numa(struct task_struct *p, struct seq_file *m)
+   901	{
+   902	#ifdef CONFIG_NUMA_BALANCING
+   903		struct mempolicy *pol;
+   904	
+   905		if (p->mm)
+   906			P(mm->numa_scan_seq);
+   907	
+   908		task_lock(p);
+   909		pol = p->mempolicy;
+   910		if (pol && !(pol->flags & MPOL_F_MORON))
+   911			pol = NULL;
+   912		mpol_get(pol);
+   913		task_unlock(p);
+   914	
+   915		P(numa_pages_migrated);
+   916		P(numa_preferred_nid);
+   917		P(total_numa_faults);
+   918		SEQ_printf(m, "current_node=%d, numa_group_id=%d\n",
+   919				task_node(p), task_numa_group_id(p));
+   920		show_numa_stats(p, m);
+   921		mpol_put(pol);
+   922	#endif
+   923	}
+   924	
+   925	void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+   926							  struct seq_file *m)
+   927	{
+   928	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
+   929		struct dyn_affinity_stats	*dyn_affi = p->se.dyn_affi_stats;
+   930	#endif
+   931		unsigned long nr_switches;
+   932	
+   933		SEQ_printf(m, "%s (%d, #threads: %d)\n", p->comm, task_pid_nr_ns(p, ns),
+   934							get_nr_threads(p));
+   935		SEQ_printf(m,
+   936			"---------------------------------------------------------"
+   937			"----------\n");
+   938	#define __P(F) \
+ > 939		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+   940	#define P(F) \
+   941		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)p->F)
+   942	#define P_SCHEDSTAT(F) \
+   943		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)schedstat_val(p->F))
+   944	#define __PN(F) \
+   945		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
+   946	#define PN(F) \
+   947		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
+   948	#define PN_SCHEDSTAT(F) \
+   949		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)schedstat_val(p->F)))
+   950	
+   951		PN(se.exec_start);
+   952		PN(se.vruntime);
+   953		PN(se.sum_exec_runtime);
+   954	
+   955		nr_switches = p->nvcsw + p->nivcsw;
+   956	
+   957		P(se.nr_migrations);
+   958	
+   959		if (schedstat_enabled()) {
+   960			u64 avg_atom, avg_per_cpu;
+   961	
+   962			PN_SCHEDSTAT(se.statistics.sum_sleep_runtime);
+   963			PN_SCHEDSTAT(se.statistics.wait_start);
+   964			PN_SCHEDSTAT(se.statistics.sleep_start);
+   965			PN_SCHEDSTAT(se.statistics.block_start);
+   966			PN_SCHEDSTAT(se.statistics.sleep_max);
+   967			PN_SCHEDSTAT(se.statistics.block_max);
+   968			PN_SCHEDSTAT(se.statistics.exec_max);
+   969			PN_SCHEDSTAT(se.statistics.slice_max);
+   970			PN_SCHEDSTAT(se.statistics.wait_max);
+   971			PN_SCHEDSTAT(se.statistics.wait_sum);
+   972			P_SCHEDSTAT(se.statistics.wait_count);
+   973			PN_SCHEDSTAT(se.statistics.iowait_sum);
+   974			P_SCHEDSTAT(se.statistics.iowait_count);
+   975			P_SCHEDSTAT(se.statistics.nr_migrations_cold);
+   976			P_SCHEDSTAT(se.statistics.nr_failed_migrations_affine);
+   977			P_SCHEDSTAT(se.statistics.nr_failed_migrations_running);
+   978			P_SCHEDSTAT(se.statistics.nr_failed_migrations_hot);
+   979			P_SCHEDSTAT(se.statistics.nr_forced_migrations);
+   980			P_SCHEDSTAT(se.statistics.nr_wakeups);
+   981			P_SCHEDSTAT(se.statistics.nr_wakeups_sync);
+   982			P_SCHEDSTAT(se.statistics.nr_wakeups_migrate);
+   983			P_SCHEDSTAT(se.statistics.nr_wakeups_local);
+   984			P_SCHEDSTAT(se.statistics.nr_wakeups_remote);
+   985			P_SCHEDSTAT(se.statistics.nr_wakeups_affine);
+   986			P_SCHEDSTAT(se.statistics.nr_wakeups_affine_attempts);
+   987			P_SCHEDSTAT(se.statistics.nr_wakeups_passive);
+   988			P_SCHEDSTAT(se.statistics.nr_wakeups_idle);
+   989	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
+ > 990			__P(dyn_affi->nr_wakeups_preferred_cpus);
+ > 991			__P(dyn_affi->nr_wakeups_force_preferred_cpus);
+   992	#endif
+   993	
+   994			avg_atom = p->se.sum_exec_runtime;
+   995			if (nr_switches)
+   996				avg_atom = div64_ul(avg_atom, nr_switches);
+   997			else
+   998				avg_atom = -1LL;
+   999	
+  1000			avg_per_cpu = p->se.sum_exec_runtime;
+  1001			if (p->se.nr_migrations) {
+  1002				avg_per_cpu = div64_u64(avg_per_cpu,
+  1003							p->se.nr_migrations);
+  1004			} else {
+  1005				avg_per_cpu = -1LL;
+  1006			}
+  1007	
+  1008			__PN(avg_atom);
+  1009			__PN(avg_per_cpu);
+  1010		}
+  1011	
+  1012		__P(nr_switches);
+  1013		SEQ_printf(m, "%-45s:%21Ld\n",
+  1014			   "nr_voluntary_switches", (long long)p->nvcsw);
+  1015		SEQ_printf(m, "%-45s:%21Ld\n",
+  1016			   "nr_involuntary_switches", (long long)p->nivcsw);
+  1017	
+  1018		P(se.load.weight);
+  1019		P(se.runnable_weight);
+  1020	#ifdef CONFIG_SMP
+  1021		P(se.avg.load_sum);
+  1022		P(se.avg.runnable_load_sum);
+  1023		P(se.avg.util_sum);
+  1024		P(se.avg.load_avg);
+  1025		P(se.avg.runnable_load_avg);
+  1026		P(se.avg.util_avg);
+  1027		P(se.avg.last_update_time);
+  1028		P(se.avg.util_est.ewma);
+  1029		P(se.avg.util_est.enqueued);
+  1030	#endif
+  1031		P(policy);
+  1032		P(prio);
+  1033		if (task_has_dl_policy(p)) {
+  1034			P(dl.runtime);
+  1035			P(dl.deadline);
+  1036		}
+  1037	#undef PN_SCHEDSTAT
+  1038	#undef PN
+  1039	#undef __PN
+  1040	#undef P_SCHEDSTAT
+  1041	#undef P
+  1042	#undef __P
+  1043	
+  1044		{
+  1045			unsigned int this_cpu = raw_smp_processor_id();
+  1046			u64 t0, t1;
+  1047	
+  1048			t0 = cpu_clock(this_cpu);
+  1049			t1 = cpu_clock(this_cpu);
+  1050			SEQ_printf(m, "%-45s:%21Ld\n",
+  1051				   "clock-delta", (long long)(t1-t0));
+  1052		}
+  1053	
+  1054		sched_show_numa(p, m);
+  1055	}
+  1056	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
