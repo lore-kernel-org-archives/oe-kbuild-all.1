@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73731B218F;
-	Fri,  3 Jan 2025 04:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02042581
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 04:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735878613; cv=none; b=MFIVlO4RkbcgHPqNBSXa9W80w8y/f7RZkPkd6HY5B92MeJlpeGtNrN6ZWqv6broRLShveJAqYMVG7hVyrCGBQ1L5ikzV1Nip5ADKVHlKIbT+gP/r3wb3GFn92Kces4tWO+rSy0YYLqWwLVGyI/0uZm4lcLMnJqDqNpCluCDhPpU=
+	t=1735879931; cv=none; b=oJOeqtznQAnwIQJIRW/VrB06Y3affO9kUGvsUtVMxJPTUq74ZrXqmnX9u73i5hNSw7o3vRywODQjQTTpstQzWDnnNV5y7CoMOzLL/rK0XJ+sWC5fFb7EYkdLlHjCmgPcVCg6EvqfrqvQFncy042BSfGCFTASNSvXXyVQrAEJF7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735878613; c=relaxed/simple;
-	bh=BLBgIr+YQ8Ibsk9KHPiZG6yNnG4b3R5nEab97uXLP9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fYzcKsGPR1FiJ4ryINA1Wne03rVHHPYhfQWSOtQzFvh4S/1ecUjzpbUK6sDrU2ZWeqjHl+G5rwDFxfEMIkpHOtWXzdjfBzogcT+vpG80HEuc4jGku/ChDNoRQCOSOSMd7n+vWasQArnoQNrVmOAesq+QY99WB6gP5DHW/47eb7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+vkwsix; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1735879931; c=relaxed/simple;
+	bh=eKAuKdR41x/110vP3weSS+NOHUmVNcSfwqqOp8iGMBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AOYgJtNcpFefQRBQHafeAXGHiOTzlI6Dg/81P7LoxtYHwiWIjipTtymqmGw0C78dpN8ybDlmEPwdBcNYKfZhbrmWi2glpT1Z0AkqvRirKOYCE9z6VaAtAVVZHa1Kq3HTYcjVhUkelMYcDaVfzL2kge/fAqHhlMtArFhFyLECzf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mESBKY0b; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+vkwsix"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mESBKY0b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735878611; x=1767414611;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BLBgIr+YQ8Ibsk9KHPiZG6yNnG4b3R5nEab97uXLP9k=;
-  b=L+vkwsixYKD5OpYHO8ylUuKAd1VM3Zi7sbuJfUCDIAo7XmiHS1pi7uV3
-   AoKpmGMvqk1DS9tDPUf2AR8xG/wRlzneSuqQa8y1R2aG7D3VIggNxHFM0
-   EeTflN88QpDSeUjJ1ig+RbRA9hCo1j3s4yeGXK8VcNcn1y65822ICC7iD
-   rOc7ayB8Lkn5efkPWsAXTFp29gVRNSNe7qyPjeDURLQIh1Ykn4EMvCmw/
-   FhjWVOc7FsYhCOucH+/lVmKd3or0yHY3FhWLUWuE2NznYcj8wVdMohASb
-   XKcehiPnJ8LKQLZX4sqF+K51U9c5jCRLBuiMW6VpVxVPtJUQKjEXj42vM
-   Q==;
-X-CSE-ConnectionGUID: /Mdyy6CkQd+CPUM7B3eprA==
-X-CSE-MsgGUID: y7SIuK7+SsqCKnKgmxwxfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="35368520"
+  t=1735879930; x=1767415930;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eKAuKdR41x/110vP3weSS+NOHUmVNcSfwqqOp8iGMBg=;
+  b=mESBKY0bqwaRC7SF+vEbwT95ZMJmf30898PznxxJb7QBdpJdIXk4R+jz
+   RIrRDn901DxVl34Nkwx1F9dssCks24lhfcUrnI77hZEVlMcHk6iK2WRz2
+   EwYPsh/MIvC1gLh8W8zVYCBkVewc622QvyMIRwE41hlLC5fIQQR112429
+   pFNemEPwo3rPUUs2eV7O+r4QNryneKRi4QlWCjYCIAIsV2RRn8ghiXOly
+   /ZXOhqTP2th3ENI9NeMjlAY4sBJ3/6XwLr5/c/9AGv12Nf0TmMwrWogOu
+   2upOBaUobyZtvFKpFaMVuHM7UvWGwu1NV6/jalU5qyWZ7UbbM6IWV7L1o
+   A==;
+X-CSE-ConnectionGUID: UHulKALAQgO1QnCnqhsdoQ==
+X-CSE-MsgGUID: HZYCHMjbSO2GirVf3kdT/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="38953123"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="35368520"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:30:10 -0800
-X-CSE-ConnectionGUID: S5U5uUSLR9S43ttLaiE61w==
-X-CSE-MsgGUID: OAei6xYXSuOlpOJsyITW9w==
+   d="scan'208";a="38953123"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:52:09 -0800
+X-CSE-ConnectionGUID: TTudr4f8QvqAN+05fcBgkA==
+X-CSE-MsgGUID: jH8b+65qTnCMI9x52hNfuw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="106668447"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102193553"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Jan 2025 20:30:05 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Jan 2025 20:52:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTZJz-0009Cx-0k;
-	Fri, 03 Jan 2025 04:30:03 +0000
-Date: Fri, 3 Jan 2025 12:29:37 +0800
+	id 1tTZfJ-0009ED-2c;
+	Fri, 03 Jan 2025 04:52:05 +0000
+Date: Fri, 3 Jan 2025 12:51:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
-	Corey Minyard <minyard@acm.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	dri-devel@lists.freedesktop.org, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev, Chong Qiao <qiaochong@loongson.cn>
-Subject: Re: [PATCH v1 2/4] ipmi: Add Loongson-2K BMC support
-Message-ID: <202501031235.JEXCZscQ-lkp@intel.com>
-References: <a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin@loongson.cn>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1693/1693]
+ drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:19: sparse: sparse: cast
+ removes address space '__iomem' of expression
+Message-ID: <202501031239.NY9f5zcm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,171 +62,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin@loongson.cn>
 
-Hi Binbin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.13-rc5]
-[cannot apply to cminyard-ipmi/for-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes next-20241220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-MFD-Core-driver/20241230-174205
-base:   linus/master
-patch link:    https://lore.kernel.org/r/a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v1 2/4] ipmi: Add Loongson-2K BMC support
-config: loongarch-randconfig-r123-20241231 (https://download.01.org/0day-ci/archive/20250103/202501031235.JEXCZscQ-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c2f1662c3fb301fe7ba127fe06c14538112982d4
+commit: 2815e6db6a7a2f0759dfc574e28b3b807a1a3377 [1693/1693] drm/loongson: use old version of ast driver for LoongArch platform
+config: loongarch-randconfig-r112-20250103 (https://download.01.org/0day-ci/archive/20250103/202501031239.NY9f5zcm-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250103/202501031235.JEXCZscQ-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20250103/202501031239.NY9f5zcm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031235.JEXCZscQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031239.NY9f5zcm-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ls2k_kcs_data *ik @@     got void [noderef] __iomem *const addr @@
-   drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse:     expected struct ls2k_kcs_data *ik
-   drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse:     got void [noderef] __iomem *const addr
-   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ls2k_kcs_data *ik @@     got void [noderef] __iomem *const addr @@
-   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse:     expected struct ls2k_kcs_data *ik
-   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse:     got void [noderef] __iomem *const addr
->> drivers/char/ipmi/ipmi_si_ls2k.c:226:24: sparse: sparse: symbol 'ipmi_ls2k_platform_driver' was not declared. Should it be static?
+>> drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:19: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *dstxor @@     got unsigned char [usertype] * @@
+   drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:16: sparse:     expected unsigned char [noderef] [usertype] __iomem *dstxor
+   drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:16: sparse:     got unsigned char [usertype] *
+   drivers/gpu/drm/loongson/ast_old/ast_mode.c: note: in included file (through arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/processor.h, ...):
+   arch/loongarch/include/asm/loongarch.h:1136:16: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
 
-vim +110 drivers/char/ipmi/ipmi_si_ls2k.c
+vim +/__iomem +746 drivers/gpu/drm/loongson/ast_old/ast_mode.c
 
-   106	
-   107	static unsigned char ls2k_mem_inb(const struct si_sm_io *io,
-   108					  unsigned int offset)
-   109	{
- > 110		struct ls2k_kcs_data *ik = io->addr;
-   111		int inb = 0;
-   112	
-   113		if (ik->version == 0)
-   114			inb = intf_sim_inb_v0(ik, offset);
-   115		else if (ik->version == 1)
-   116			inb = intf_sim_inb_v1(ik, offset);
-   117	
-   118		return inb;
-   119	}
-   120	
-   121	static void intf_sim_outb_v0(struct ls2k_kcs_data *ik, unsigned int offset,
-   122				     unsigned char val)
-   123	{
-   124		if (ls2k_get_ibf(ik))
-   125			return;
-   126	
-   127		switch (offset & BIT(0)) {
-   128		case 0:
-   129			ik->reg.data_in = val;
-   130			ik->reg.status &= ~LS2K_KCS_STS_CMD;
-   131			break;
-   132	
-   133		case 1:
-   134			ik->reg.cmd = val;
-   135			ik->reg.status |= LS2K_KCS_STS_CMD;
-   136			break;
-   137		}
-   138	
-   139		ls2k_set_ibf(ik, 1);
-   140		ik->write_req++;
-   141	}
-   142	
-   143	static void intf_sim_outb_v1(struct ls2k_kcs_data *ik, unsigned int offset,
-   144				     unsigned char val)
-   145	{
-   146		if (ik->fifo.ibfh != ik->fifo.ibft)
-   147			return;
-   148	
-   149		switch (offset & BIT(0)) {
-   150		case 0:
-   151			ik->reg.data_in = val;
-   152			ik->cmd_data = 0;
-   153			break;
-   154	
-   155		case 1:
-   156			ik->reg.cmd = val;
-   157			ik->cmd_data = 1;
-   158			break;
-   159		}
-   160	
-   161		ik->fifo.ibfh = !ik->fifo.ibft;
-   162		ik->write_req++;
-   163	}
-   164	
-   165	static void ls2k_mem_outb(const struct si_sm_io *io, unsigned int offset,
-   166				  unsigned char val)
-   167	{
-   168		struct ls2k_kcs_data *ik = io->addr;
-   169	
-   170		if (ik->version == 0)
-   171			intf_sim_outb_v0(ik, offset, val);
-   172		else if (ik->version == 1)
-   173			intf_sim_outb_v1(ik, offset, val);
-   174	}
-   175	
-   176	static void ls2k_mem_cleanup(struct si_sm_io *io)
-   177	{
-   178		if (io->addr)
-   179			iounmap(io->addr);
-   180	}
-   181	
-   182	static int ipmi_ls2k_sim_setup(struct si_sm_io *io)
-   183	{
-   184		io->addr = ioremap(io->addr_data, io->regspacing);
-   185		if (!io->addr)
-   186			return -EIO;
-   187	
-   188		io->inputb = ls2k_mem_inb;
-   189		io->outputb = ls2k_mem_outb;
-   190		io->io_cleanup = ls2k_mem_cleanup;
-   191	
-   192		return 0;
-   193	}
-   194	
-   195	static int ipmi_ls2k_probe(struct platform_device *pdev)
-   196	{
-   197		struct si_sm_io io;
-   198	
-   199		dev_info(&pdev->dev, "probing via ls2k platform");
-   200		memset(&io, 0, sizeof(io));
-   201	
-   202		io.addr_source	= SI_PLATFORM;
-   203		io.si_type	= SI_KCS;
-   204		io.addr_space	= IPMI_MEM_ADDR_SPACE;
-   205		io.io_setup	= ipmi_ls2k_sim_setup;
-   206		io.addr_data	= pdev->resource[0].start;
-   207		io.regspacing	= pdev->resource[0].end - pdev->resource[0].start + 1;
-   208		io.regsize	= DEFAULT_REGSIZE;
-   209		io.regshift	= 0;
-   210		io.dev		= &pdev->dev;
-   211		io.irq		= 0;
-   212		if (io.irq)
-   213			io.irq_setup = ipmi_std_irq_setup;
-   214	
-   215		dev_info(&pdev->dev, "%pR regsize %d spacing %d irq %d\n",
-   216			 &pdev->resource[0], io.regsize, io.regspacing, io.irq);
-   217	
-   218		return ipmi_si_add_smi(&io);
-   219	}
-   220	
-   221	static void ipmi_ls2k_remove(struct platform_device *pdev)
-   222	{
-   223		ipmi_si_remove_by_dev(&pdev->dev);
-   224	}
-   225	
- > 226	struct platform_driver ipmi_ls2k_platform_driver = {
-   227		.driver = {
-   228			.name = "ls2k-ipmi-si",
-   229		},
-   230		.probe	= ipmi_ls2k_probe,
-   231		.remove	= ipmi_ls2k_remove,
-   232	};
-   233	
+   719	
+   720	/*
+   721	 * Cursor plane
+   722	 */
+   723	
+   724	static void ast_update_cursor_image(u8 __iomem *dst, const u8 *src, int width,
+   725					    int height)
+   726	{
+   727		union {
+   728			u32 ul;
+   729			u8 b[4];
+   730		} srcdata32[2], data32;
+   731		union {
+   732			u16 us;
+   733			u8 b[2];
+   734		} data16;
+   735		u32 csum = 0;
+   736		s32 alpha_dst_delta, last_alpha_dst_delta;
+   737		u8 __iomem *dstxor;
+   738		const u8 *srcxor;
+   739		int i, j;
+   740		u32 per_pixel_copy, two_pixel_copy;
+   741	
+   742		alpha_dst_delta = AST_MAX_HWC_WIDTH << 1;
+   743		last_alpha_dst_delta = alpha_dst_delta - (width << 1);
+   744	
+   745		srcxor = src;
+ > 746		dstxor = (u8 *)dst + last_alpha_dst_delta +
+   747			 (AST_MAX_HWC_HEIGHT - height) * alpha_dst_delta;
+   748		per_pixel_copy = width & 1;
+   749		two_pixel_copy = width >> 1;
+   750	
+   751		for (j = 0; j < height; j++) {
+   752			for (i = 0; i < two_pixel_copy; i++) {
+   753				srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
+   754				srcdata32[1].ul = *((u32 *)(srcxor + 4)) & 0xf0f0f0f0;
+   755				data32.b[0] = srcdata32[0].b[1] |
+   756					      (srcdata32[0].b[0] >> 4);
+   757				data32.b[1] = srcdata32[0].b[3] |
+   758					      (srcdata32[0].b[2] >> 4);
+   759				data32.b[2] = srcdata32[1].b[1] |
+   760					      (srcdata32[1].b[0] >> 4);
+   761				data32.b[3] = srcdata32[1].b[3] |
+   762					      (srcdata32[1].b[2] >> 4);
+   763	
+   764				writel(data32.ul, dstxor);
+   765				csum += data32.ul;
+   766	
+   767				dstxor += 4;
+   768				srcxor += 8;
+   769			}
+   770	
+   771			for (i = 0; i < per_pixel_copy; i++) {
+   772				srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
+   773				data16.b[0] = srcdata32[0].b[1] |
+   774					      (srcdata32[0].b[0] >> 4);
+   775				data16.b[1] = srcdata32[0].b[3] |
+   776					      (srcdata32[0].b[2] >> 4);
+   777				writew(data16.us, dstxor);
+   778				csum += (u32)data16.us;
+   779	
+   780				dstxor += 2;
+   781				srcxor += 4;
+   782			}
+   783			dstxor += last_alpha_dst_delta;
+   784		}
+   785	
+   786		/* write checksum + signature */
+   787		dst += AST_HWC_SIZE;
+   788		writel(csum, dst);
+   789		writel(width, dst + AST_HWC_SIGNATURE_SizeX);
+   790		writel(height, dst + AST_HWC_SIGNATURE_SizeY);
+   791		writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
+   792		writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
+   793	}
+   794	
 
 -- 
 0-DAY CI Kernel Test Service
