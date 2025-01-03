@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005D91B87FA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 19:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACA02594A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 19:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735930979; cv=none; b=T+GmLO4pDnXMERk0xpz+KX/RghGQw/O0l+gHW40AyrJ/ru/c56a5jA6Apy9E94QOFnPT+18mTkfz2ZCU277XgMbENfExJMbJJ7PrBSt17nMZJjH+PXm86a6bY38PEaHDiIkYwtd2X3CGrQutDgXnTXOA2Zb9BzVrYF2jI6vvjgw=
+	t=1735932903; cv=none; b=rxWDjCBQtOyb4oazTC9+oXYKvOOlTiiUJggbnbXl2NlLsilmEwWujeKe3Kyp2YBSN/tevCyrMilLq55nJNMiVcVbWXH1b4U1etDs7ibXV6MvVFQWbOnbPdM1TtoUzdINUUH2+NaRyK+H+zjR64L6g4jh3rFJg2x5x/o01UgxWUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735930979; c=relaxed/simple;
-	bh=dTVcPW0Du7VAEokw5TgMuHbnmwIpQgmqrKJ5KEXk6ig=;
+	s=arc-20240116; t=1735932903; c=relaxed/simple;
+	bh=VDYDDRquYPeZ8ytgkgQq8k1UMO7Reh4mBq/nxTXd27Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BsypEw8gfvxGMqhYK6XiSXTDUx1YH+xp+DFT//SFCWTuyBcmzLt9F+Qjd4rP4Dp/C3y+x4VEX2SnicczsOgQiCh4EbJDd6QfOyCEZugDTqbIbwG/ccFJn2cnJ8/XygWalGmRekAYxynPwkLxForJsYxlnS71nAkSNDi+26a5hCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gGuSYX+0; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=U5HK/rTD0hxtzC3ffwXn4edWfi308KBfX1x55HFMWbXsGqEk1x2D/wrpFfvA9e1UomIHqBxGr3hsInNfujagy+GMwl18g8vCaIriibrzYG6HUCTrCszr6O08kDdOkq1nOYtlR3ItLGVceTJ/QWlzbKAYDuwY003tbH2Qk5beiAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMMDnPWv; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gGuSYX+0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMMDnPWv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735930978; x=1767466978;
+  t=1735932901; x=1767468901;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dTVcPW0Du7VAEokw5TgMuHbnmwIpQgmqrKJ5KEXk6ig=;
-  b=gGuSYX+0DIyK8bE1BeKh9R9BoyqR+hOvbZZaan1Ido7b1jKrQEIL9M0i
-   6hY7IaT4gtM82o5dn+G5tXcp25gwFGspRbw/lJ1qsSVMPwTg4xPdZnUTv
-   SO0MNFtZBQ59tq6nh1obYVv0Z3purSbQ2AfeDMqXRZQ9I1c1aJNJATvbA
-   bK60fZw2/szjdwzJ1GHXuoyvtormBXLE0nFINpKzwa8d/dpKXO7tQzNiz
-   ObpOFsWUhBqG1j3ZCBdX1eUOmRGrvYVc++kQ8BLfBZBfL8YAN1Uwvzp2A
-   7jP+jZia8qVCX/xS/qr+rqMUk0N6Yp1nO5/Izmg1hNDT/rorMOQSqyaNK
-   Q==;
-X-CSE-ConnectionGUID: fzlfrnvJR1CXvn4RoOY4Ug==
-X-CSE-MsgGUID: iiwTK0GqQ02TYgVeeoiItw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47594425"
+  bh=VDYDDRquYPeZ8ytgkgQq8k1UMO7Reh4mBq/nxTXd27Q=;
+  b=OMMDnPWv15EuGHnenxA6Kyn2DHHje5gXdoMMNwpK2mm5hNKvPTg1pm/k
+   ThzR/u/HuRAJErJbtmV2ZcdKdUDXBf4+jSE+n2EpG0wuvRZk6rRYXoFTu
+   vaxeCUOYOVkpX5MNTyvy5N1cf9/4q15I0bbvdwd9K791Cakk8TTHIm8+M
+   4LAAEeoUgGzP8OU6CImUAFjexVt+qoWSXpdoDTtK8D2MyIpoq/uXkvYuV
+   fUNi4YSG+aY1rMMk9UtcE100rqHX0F1pgyqkKsjNs/mcdPfMMMXDIg+im
+   eWj+Ykhi9kG8toPCC4pUtfojbKRRhNAbG+uaxTxCE7tiC01XPGYg5RXuY
+   g==;
+X-CSE-ConnectionGUID: +XKJZWExSce4kbx1+IKkpQ==
+X-CSE-MsgGUID: 7SgT0d+NTPuu2rAuRxy49Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36408802"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="47594425"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 11:02:58 -0800
-X-CSE-ConnectionGUID: xlDAuQe/TOSnjjS+b7/tng==
-X-CSE-MsgGUID: 121KF7ykSgK/3iBrshGQig==
+   d="scan'208";a="36408802"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 11:35:00 -0800
+X-CSE-ConnectionGUID: rUa295YTS7WCne15oF+X2g==
+X-CSE-MsgGUID: eGs3hNAARGO6J377z4Hr6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105906501"
+   d="scan'208";a="106908652"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Jan 2025 11:02:56 -0800
+  by orviesa005.jf.intel.com with ESMTP; 03 Jan 2025 11:34:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTmwg-000ACV-03;
-	Fri, 03 Jan 2025 19:02:54 +0000
-Date: Sat, 4 Jan 2025 03:01:54 +0800
+	id 1tTnRh-000ADz-0j;
+	Fri, 03 Jan 2025 19:34:57 +0000
+Date: Sat, 4 Jan 2025 03:34:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: drivers/hwtracing/intel_th/msu.c:162: warning: Function parameter or
- struct member 'mbuf_priv' not described in 'msc'
-Message-ID: <202501040214.DyemqWbj-lkp@intel.com>
+To: Lizhi Hou <lizhi.hou@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Xiaoming Ren <xiaoming.ren@amd.com>
+Subject: [linux-next:master 3630/5236]
+ drivers/accel/amdxdna/npu6_regs.c:76:31: sparse: sparse: symbol
+ 'npu6_dev_priv' was not declared. Should it be static?
+Message-ID: <202501040316.PChncpYi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,105 +65,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alexander,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
-commit: 615c164da0eb42cbfb1688cb429cc4d5039db5d8 intel_th: msu: Introduce buffer interface
-date:   5 years ago
-config: parisc-randconfig-r016-20230411 (https://download.01.org/0day-ci/archive/20250104/202501040214.DyemqWbj-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040214.DyemqWbj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+commit: 273b5176ac178d0d890cc1785d3688dc6f8adf37 [3630/5236] accel/amdxdna: Add RyzenAI-npu6 support
+config: x86_64-randconfig-122-20241231 (https://download.01.org/0day-ci/archive/20250104/202501040316.PChncpYi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040316.PChncpYi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501040214.DyemqWbj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501040316.PChncpYi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/accel/amdxdna/npu6_regs.c:76:31: sparse: sparse: symbol 'npu6_dev_priv' was not declared. Should it be static?
 
-   drivers/hwtracing/intel_th/msu.c:77: warning: Function parameter or struct member 'msc' not described in 'msc_window'
-   drivers/hwtracing/intel_th/msu.c:122: warning: bad line: 
-   drivers/hwtracing/intel_th/msu.c:162: warning: Function parameter or struct member 'msu_base' not described in 'msc'
->> drivers/hwtracing/intel_th/msu.c:162: warning: Function parameter or struct member 'mbuf_priv' not described in 'msc'
->> drivers/hwtracing/intel_th/msu.c:162: warning: Function parameter or struct member 'work' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:162: warning: Function parameter or struct member 'iter_list' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:162: warning: Function parameter or struct member 'do_irq' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:1276: warning: Function parameter or struct member 'nr_pages' not described in 'msc_buffer_alloc'
-   drivers/hwtracing/intel_th/msu.c:1276: warning: Function parameter or struct member 'nr_wins' not described in 'msc_buffer_alloc'
-   drivers/hwtracing/intel_th/msu.c:1276: warning: Excess function parameter 'size' description in 'msc_buffer_alloc'
+vim +/npu6_dev_priv +76 drivers/accel/amdxdna/npu6_regs.c
 
-
-vim +162 drivers/hwtracing/intel_th/msu.c
-
-ba82664c134ef7 Alexander Shishkin 2015-09-22  104  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  105  /**
-ba82664c134ef7 Alexander Shishkin 2015-09-22  106   * struct msc - MSC device representation
-ba82664c134ef7 Alexander Shishkin 2015-09-22  107   * @reg_base:		register window base address
-ba82664c134ef7 Alexander Shishkin 2015-09-22  108   * @thdev:		intel_th_device pointer
-615c164da0eb42 Alexander Shishkin 2019-07-05  109   * @mbuf:		MSU buffer, if assigned
-615c164da0eb42 Alexander Shishkin 2019-07-05  110   * @mbuf_priv		MSU buffer's private data, if @mbuf
-ba82664c134ef7 Alexander Shishkin 2015-09-22  111   * @win_list:		list of windows in multiblock mode
-4e0eaf239fb33e Alexander Shishkin 2019-05-03  112   * @single_sgt:		single mode buffer
-aad14ad3cf3a63 Alexander Shishkin 2019-05-03  113   * @cur_win:		current window
-ba82664c134ef7 Alexander Shishkin 2015-09-22  114   * @nr_pages:		total number of pages allocated for this buffer
-ba82664c134ef7 Alexander Shishkin 2015-09-22  115   * @single_sz:		amount of data in single mode
-ba82664c134ef7 Alexander Shishkin 2015-09-22  116   * @single_wrap:	single mode wrap occurred
-ba82664c134ef7 Alexander Shishkin 2015-09-22  117   * @base:		buffer's base pointer
-ba82664c134ef7 Alexander Shishkin 2015-09-22  118   * @base_addr:		buffer's base address
-ba82664c134ef7 Alexander Shishkin 2015-09-22  119   * @user_count:		number of users of the buffer
-ba82664c134ef7 Alexander Shishkin 2015-09-22  120   * @mmap_count:		number of mappings
-ba82664c134ef7 Alexander Shishkin 2015-09-22  121   * @buf_mutex:		mutex to serialize access to buffer-related bits
-ba82664c134ef7 Alexander Shishkin 2015-09-22  122  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  123   * @enabled:		MSC is enabled
-ba82664c134ef7 Alexander Shishkin 2015-09-22  124   * @wrap:		wrapping is enabled
-ba82664c134ef7 Alexander Shishkin 2015-09-22  125   * @mode:		MSC operating mode
-ba82664c134ef7 Alexander Shishkin 2015-09-22  126   * @burst_len:		write burst length
-ba82664c134ef7 Alexander Shishkin 2015-09-22  127   * @index:		number of this MSC in the MSU
-ba82664c134ef7 Alexander Shishkin 2015-09-22  128   */
-ba82664c134ef7 Alexander Shishkin 2015-09-22  129  struct msc {
-ba82664c134ef7 Alexander Shishkin 2015-09-22  130  	void __iomem		*reg_base;
-aac8da65174a35 Alexander Shishkin 2019-05-03  131  	void __iomem		*msu_base;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  132  	struct intel_th_device	*thdev;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  133  
-615c164da0eb42 Alexander Shishkin 2019-07-05  134  	const struct msu_buffer	*mbuf;
-615c164da0eb42 Alexander Shishkin 2019-07-05  135  	void			*mbuf_priv;
-615c164da0eb42 Alexander Shishkin 2019-07-05  136  
-615c164da0eb42 Alexander Shishkin 2019-07-05  137  	struct work_struct	work;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  138  	struct list_head	win_list;
-4e0eaf239fb33e Alexander Shishkin 2019-05-03  139  	struct sg_table		single_sgt;
-aad14ad3cf3a63 Alexander Shishkin 2019-05-03  140  	struct msc_window	*cur_win;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  141  	unsigned long		nr_pages;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  142  	unsigned long		single_sz;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  143  	unsigned int		single_wrap : 1;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  144  	void			*base;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  145  	dma_addr_t		base_addr;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  146  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  147  	/* <0: no buffer, 0: no users, >0: active users */
-ba82664c134ef7 Alexander Shishkin 2015-09-22  148  	atomic_t		user_count;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  149  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  150  	atomic_t		mmap_count;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  151  	struct mutex		buf_mutex;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  152  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  153  	struct list_head	iter_list;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  154  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  155  	/* config */
-ba82664c134ef7 Alexander Shishkin 2015-09-22  156  	unsigned int		enabled : 1,
-aac8da65174a35 Alexander Shishkin 2019-05-03  157  				wrap	: 1,
-aac8da65174a35 Alexander Shishkin 2019-05-03  158  				do_irq	: 1;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  159  	unsigned int		mode;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  160  	unsigned int		burst_len;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  161  	unsigned int		index;
-ba82664c134ef7 Alexander Shishkin 2015-09-22 @162  };
-ba82664c134ef7 Alexander Shishkin 2015-09-22  163  
-
-:::::: The code at line 162 was first introduced by commit
-:::::: ba82664c134ef7ab97808f09a3c5e894b0a4900d intel_th: Add Memory Storage Unit driver
-
-:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    75	
+  > 76	const struct amdxdna_dev_priv npu6_dev_priv = {
+    77		.fw_path        = "amdnpu/17f0_10/npu.sbin",
+    78		.protocol_major = 0x6,
+    79		.protocol_minor = 12,
+    80		.rt_config	= {NPU6_RT_CFG_TYPE_PDI_LOAD, NPU6_RT_CFG_VAL_PDI_LOAD_APP},
+    81		.col_align	= COL_ALIGN_NATURE,
+    82		.mbox_dev_addr  = NPU6_MBOX_BAR_BASE,
+    83		.mbox_size      = 0, /* Use BAR size */
+    84		.sram_dev_addr  = NPU6_SRAM_BAR_BASE,
+    85		.sram_offs      = {
+    86			DEFINE_BAR_OFFSET(MBOX_CHANN_OFF, NPU6_SRAM, MPNPU_SRAM_X2I_MAILBOX_0),
+    87			DEFINE_BAR_OFFSET(FW_ALIVE_OFF,   NPU6_SRAM, MPNPU_SRAM_X2I_MAILBOX_15),
+    88		},
+    89		.psp_regs_off   = {
+    90			DEFINE_BAR_OFFSET(PSP_CMD_REG,    NPU6_PSP, MP0_C2PMSG_123),
+    91			DEFINE_BAR_OFFSET(PSP_ARG0_REG,   NPU6_REG, MPNPU_PUB_SCRATCH3),
+    92			DEFINE_BAR_OFFSET(PSP_ARG1_REG,   NPU6_REG, MPNPU_PUB_SCRATCH4),
+    93			DEFINE_BAR_OFFSET(PSP_ARG2_REG,   NPU6_REG, MPNPU_PUB_SCRATCH9),
+    94			DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU6_PSP, MP0_C2PMSG_73),
+    95			DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU6_PSP, MP0_C2PMSG_123),
+    96			DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU6_REG, MPNPU_PUB_SCRATCH3),
+    97		},
+    98		.smu_regs_off   = {
+    99			DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU6_SMU, MP1_C2PMSG_0),
+   100			DEFINE_BAR_OFFSET(SMU_ARG_REG,  NPU6_SMU, MP1_C2PMSG_60),
+   101			DEFINE_BAR_OFFSET(SMU_INTR_REG, NPU6_SMU, MMNPU_APERTURE4_BASE),
+   102			DEFINE_BAR_OFFSET(SMU_RESP_REG, NPU6_SMU, MP1_C2PMSG_61),
+   103			DEFINE_BAR_OFFSET(SMU_OUT_REG,  NPU6_SMU, MP1_C2PMSG_60),
+   104		},
+   105	};
+   106	
 
 -- 
 0-DAY CI Kernel Test Service
