@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497DF17B402
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 23:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7381C4A29
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 23:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735945470; cv=none; b=RE/XE2XE6MVf6Da5qGUH4AzCE/PfCiSDv/xfuo+snICXcD5A2t7TfbpSarMDwMQ3ix5FkGEttNHMNqINgi5MkvreHXkvrojnYzB5mUzSMmtoigg0uuvBIWc3MfoVezND5WsTWvtWZx45WixN32qMDpSkLQS4hrhXU8lBWbfZ8B8=
+	t=1735945532; cv=none; b=ZM3rNI6l5CIw10JVtrg/o2cJI5B/IXS7X238mVQmHU7VxN/exmm91W3+3A8/QvrPPsBkvQwOkRw9XgDh+B4gez7cX96h7OMPtLvqCg1F8SJJt4/dQqhQDLQRBIKdeq9r2q7F1r7ldMcr18V8KEEU+ZaU08QoBh+guV5hyiqwBMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735945470; c=relaxed/simple;
-	bh=ASFKmi0OXCJsjwo7p57f3ICOfTJtWlcQqZmAm4rqZ5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R9sI6Qs2CNaVF5og/ni1ytv8xvg+B1bQ1LQw9D5S0jxwog4cd89EMWxFM15LKMgPLEYh6X0C/SsVRD1SpBigBwihx4Ty0/EruWV5VGzNHuXeUlJ0QVx9FJ181G8kGi6IStweY6bVgM1C1uh3JC0WXYUH194FflDpaMef3rLEAQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcLslQKs; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1735945532; c=relaxed/simple;
+	bh=B8W+q9xxGmRh9DkOnC+lZU+X1RSdxitAqgxldKE5xgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxDuIq3PPjYJQbv4p3RVtfdBkhIztuLCTgnKKFf2YX4OOV2s4Pma4Q+IzkevTjikn2tqsq7YHlz6Xxan2zrM4N6fD3h+VZvjef8JPc5iJAacwZcpPM9ZUmWWjS/Kxjxt0GC9UjI+4ev01AbUTIzcRYhsA9S+yda3GQsfJF/0Sfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nf1rayRc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcLslQKs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nf1rayRc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735945469; x=1767481469;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ASFKmi0OXCJsjwo7p57f3ICOfTJtWlcQqZmAm4rqZ5A=;
-  b=jcLslQKsR5p/KvsNINp8ieBqxoAEvjJfU6eT9uJmzf4jYFIUH8jFTbpI
-   CtFa4HL2Oi1j1DsBUzmeV/Fp/QR3uYoLk9goru64B7gWTgFYAOz1JjOqg
-   oFOsuwsdkkTzCAZO0HabZfTudw5F8Yn1d2v8v/xKNqq4p8Y7+GXImvTCH
-   v70GN+ZSMPOKPKF7aVtfVNap2ykFQi8AYstOt6qV23L6wDCJivHugPgus
-   G/VJ1EHKBMsKWRwSGc1WJPrl+j83iCiE671Iz4aVXrVPgy9nFEjR1vxIa
-   0ZsHjiiwWtt07OWLNQfoTpomWXPfqRx4N+ucXKPqQhJow+IhXyWTvbtfm
-   w==;
-X-CSE-ConnectionGUID: YWvlFkzZTlOO9vumXmi7bg==
-X-CSE-MsgGUID: aX2WHLbgQhiMUhk68Eyz6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="46691599"
+  t=1735945530; x=1767481530;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B8W+q9xxGmRh9DkOnC+lZU+X1RSdxitAqgxldKE5xgg=;
+  b=Nf1rayRc+QfmJY3JoVYA4FVtba4CEUlhp5wIzk+9ftT7H43K2kJvaiMy
+   V+yt9jEyLsLUMAtuTUnCLTZNJE3dqHgpn8+NKUPX1sd7pYuz0GNdgbenn
+   RJE7QQMqgWmCmZzVjROnG9VZAVqrk8WBZQcnWaDhLkgMMj1tzFeLX+n/2
+   dtWwzcKpYuM+e7LEl3LLhvOKy0htg2huXnU5NoPVMpjeVui8UxmOQxU5J
+   FcEHRfuGRTmsI0cZPzrv3QJfJmIk0qbHkWEKHIjrji+wdiiXV0OV0R8gq
+   Bo3IR6aWD9VVE4MDm1SLmnGvMYS7FOPJOGjZwl9hQFilHOJNAY2hIho9o
+   g==;
+X-CSE-ConnectionGUID: XEHGVlEiSXKB/1N6Q3t8yA==
+X-CSE-MsgGUID: VLHmXa5YSL64mP/O54pXEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36343365"
 X-IronPort-AV: E=Sophos;i="6.12,287,1728975600"; 
-   d="scan'208";a="46691599"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 15:04:28 -0800
-X-CSE-ConnectionGUID: hetX8J1dTe6ffnz2mFLoZA==
-X-CSE-MsgGUID: geNu6fjYRcy7gET8QxaQsA==
+   d="scan'208";a="36343365"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 15:05:29 -0800
+X-CSE-ConnectionGUID: VkR9Cq0ISJukE/I8kQdvBQ==
+X-CSE-MsgGUID: Q8W+7y/DSROwbGJBnMWuyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,287,1728975600"; 
-   d="scan'208";a="101981350"
+   d="scan'208";a="102417339"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jan 2025 15:04:27 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jan 2025 15:05:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTqiO-000APp-1m;
-	Fri, 03 Jan 2025 23:04:24 +0000
-Date: Sat, 4 Jan 2025 07:04:00 +0800
+	id 1tTqjM-000APz-29;
+	Fri, 03 Jan 2025 23:05:24 +0000
+Date: Sat, 4 Jan 2025 07:04:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2610/2610] mm/vmscan.c:4737
- get_swapcache_reclaim_num() warn: unsigned 'swapcache_watermark[0]' is never
- less than zero.
-Message-ID: <202501040621.5WmwOLsx-lkp@intel.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>, mpe@ellerman.id.au,
+	maddy@linux.ibm.com, linuxppc-dev@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, sshegde@linux.ibm.com, npiggin@gmail.com,
+	christophe.leroy@csgroup.eu, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] powerpc: Enable dynamic preemption
+Message-ID: <202501040657.5tSQad1Y-lkp@intel.com>
+References: <20250102191856.499424-2-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +64,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250102191856.499424-2-sshegde@linux.ibm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   d51fb86ce6a3a3e59d7cba58738b63903b8cb37c
-commit: abfd8691d951fb037506e1ee52ed39abee8430fa [2610/2610] etmem: add swapcache reclaim to etmem
-config: x86_64-randconfig-161-20241231 (https://download.01.org/0day-ci/archive/20250104/202501040621.5WmwOLsx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Shrikanth,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[cannot apply to powerpc/fixes linus/master v6.13-rc5 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/powerpc-Enable-dynamic-preemption/20250103-032131
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20250102191856.499424-2-sshegde%40linux.ibm.com
+patch subject: [PATCH v2 1/1] powerpc: Enable dynamic preemption
+config: powerpc-randconfig-r072-20250104 (https://download.01.org/0day-ci/archive/20250104/202501040657.5tSQad1Y-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040657.5tSQad1Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501040621.5WmwOLsx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501040657.5tSQad1Y-lkp@intel.com/
 
-smatch warnings:
-mm/vmscan.c:4737 get_swapcache_reclaim_num() warn: unsigned 'swapcache_watermark[0]' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +4737 mm/vmscan.c
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:14:
+   In file included from include/linux/sem.h:5:
+   In file included from include/uapi/linux/sem.h:5:
+   In file included from include/linux/ipc.h:7:
+   In file included from include/linux/rhashtable-types.h:12:
+   In file included from include/linux/alloc_tag.h:11:
+   In file included from include/linux/preempt.h:79:
+>> arch/powerpc/include/asm/preempt.h:8:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+       8 | DECLARE_STATIC_KEY_TRUE(sk_dynamic_irqentry_exit_cond_resched);
+         | ^
+         | int
+>> arch/powerpc/include/asm/preempt.h:8:25: error: a parameter list without types is only allowed in a function definition
+       8 | DECLARE_STATIC_KEY_TRUE(sk_dynamic_irqentry_exit_cond_resched);
+         |                         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                      ^      ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
 
-  4733	
-  4734	static unsigned long get_swapcache_reclaim_num(unsigned long *swapcache_watermark)
-  4735	{
-  4736		return total_swapcache_pages() >
-> 4737			swapcache_watermark[ETMEM_SWAPCACHE_WMARK_LOW] ?
-  4738			(total_swapcache_pages() - swapcache_watermark[ETMEM_SWAPCACHE_WMARK_LOW]) : 0;
-  4739	}
-  4740	
+
+vim +/int +8 arch/powerpc/include/asm/preempt.h
+
+     6	
+     7	#if defined(CONFIG_PREEMPT_DYNAMIC) && defined(CONFIG_HAVE_PREEMPT_DYNAMIC_KEY)
+   > 8	DECLARE_STATIC_KEY_TRUE(sk_dynamic_irqentry_exit_cond_resched);
+     9	#endif
+    10	
 
 -- 
 0-DAY CI Kernel Test Service
