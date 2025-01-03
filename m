@@ -1,130 +1,123 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A201B87FA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 11:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6A917BB32
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 12:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735905534; cv=none; b=VfGE3FoHEVJopY3XUPeJNFXPTP8vVn40t8mJmu/WAYvZxGO20n8jfHGpbrgIDViSwYlz+pmgPpyKuQ/IVOBiHUxsJ0FrwzEQZD9HgvGIDRH9WOT0a8vWgDBxn23xpd4m/erM0baKPhOIPSkNVyAfvLImR3c5j9NiOY2VbC9Xb/k=
+	t=1735905844; cv=none; b=shRYQAbJEJBfjzKUcMabkJnuWmwmlOK7/YF+ZxOYs4tQY2/eFeAntBCrBQc9+ShsCHKGr/CgV5n5ak231zGKonEoEs7ua/CfScF618JGb18z1ohqMkAnoeDwbyGDroyG/PLLwl65hyrDwNEEU0a7rpKYJ2mwy7rEDyC4O/kgVk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735905534; c=relaxed/simple;
-	bh=f6UY6MUHnVaJUkjb2kx/uTugt47g+EprsTnV3N1NrFg=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=R8bmq3cpjjXZnCRcLPO45IQhR7QBm4b2WucFtETWkGmiOE2UUAtMfX9bQEn52Jli2IpyJqbMx2vl9dzFq+s1x9y69FWU8mODcISA/YUfbVA6EIzRkobQT6ob+clEzy+mhc7VC/C6xRdNdHMxtJwCbUW/h7aFLNSFTsrYZm4UnlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=CEqYslvg; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1735905844; c=relaxed/simple;
+	bh=/6GmG8dFrYaGA59+Z8LUwDsleCPK/8W7WE/lIk9og0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XtSV2gmWt+C9xRXKaFIiOwLt7IkAbPRBSkmr8RTMjBbR+bREsfSdlxp2trvxGNTOVO1ieq9Raizd8qxW33xePfl6DjVPIEYAGStZmYsn3Z3iMQZ2bm3FYH2aXL4m4/GiP+eiG20owIKGAHS8a+Jl/1qdXW5KLlFiIbjjZDbyo04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJTeBtvk; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="CEqYslvg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJTeBtvk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735905841; x=1767441841;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5PHqPIILjfDOxgWqvFktoKDD+bLbn9GgwJGsoVSmUus=;
-  b=CEqYslvg9HfM0lxSrm03WY02nhdvKyTR4JT2+qwE8kcBC513im2ZjBWB
-   pmYUxgqzPhfUgLVlgfwTwB33PtpcC9X/rAcJN+A+t8K/TxLoBsUGQj9e9
-   1Rxm55g+VrhqJmEBJGIoBmsb3u4Dt5VBOLvfSpf/F4Mh1Hz0WqiGk10ql
-   w=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.12,286,1728943200"; 
-   d="scan'208";a="201326658"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 12:58:43 +0100
-Date: Fri, 3 Jan 2025 12:58:43 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Zheng Zengkai <zhengzengkai@huawei.com>
-cc: kernel@openeuler.org, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2616/2616] arch/arm64/kernel/mpam/mpam_device.c:1838:1-33:
- WARNING: Function "for_each_available_child_of_node" should have of_node_put()
- before break around line 1841. (fwd)
-Message-ID: <5eb53592-9fd8-60f0-db74-a9da53318f85@inria.fr>
+  bh=/6GmG8dFrYaGA59+Z8LUwDsleCPK/8W7WE/lIk9og0Y=;
+  b=VJTeBtvkzVITaXrqMgdJ9RCxj0NxqjOWMStou3mywb4QenvpqPkADiwK
+   KU5WC9qZQ2RzwyaY8WNU1xcg8u5bvjtKgdv3KkoOz5noxVkAxPiJmklUE
+   fiZXyR3a6viIXTMdCRs5Flrwf4xVfx1X6QlIE1qQ/T+ar4OhV6zsMDYvs
+   N9iMUHTbuPNi72mT0bNL7macb9H8dlJNJWGhrIwE192GEFmMUd7ut6rCX
+   A9bcmF7WEJvjPZPBtERu/hiBJUdUeUutpetWt21nSiFgQLsrIgneVnk+K
+   mxfCWc6K6A/voE+PGrpr7UgWirFa3J7UHDuhd+Mfd9jzM5B395o+rQtsn
+   A==;
+X-CSE-ConnectionGUID: poAjjzN+QTmknXqXHkTSvg==
+X-CSE-MsgGUID: P+HdZ36CR2eBenQCjVQq8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="39920328"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="39920328"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 04:04:01 -0800
+X-CSE-ConnectionGUID: LthNcco0QBeJ1GmKqERxnA==
+X-CSE-MsgGUID: VAW3FI5LT++LxlhaPZ2cig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="101645628"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 03 Jan 2025 04:04:00 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tTgPF-0009hV-2s;
+	Fri, 03 Jan 2025 12:03:57 +0000
+Date: Fri, 3 Jan 2025 20:03:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Subject: drivers/gpu/drm/tests/drm_kunit_helpers.c:324: warning: bad line:
+                                            for a KUnit test
+Message-ID: <202501032001.O6WY1VCW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
-
-I think I reported on this previously, or perhaps  at another code
-location.  Maybe the of_node_put is hidden in the call to
-mpam_discovery_failed, but it could be better to make it explicit in the
-loop so it is directly clear that the needed cleanup is done.
-
-julia
-
----------- Forwarded message ----------
-Date: Fri, 3 Jan 2025 19:41:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:OLK-5.10 2616/2616]
-    arch/arm64/kernel/mpam/mpam_device.c:1838:1-33: WARNING: Function
-    "for_each_available_child_of_node" should have of_node_put() before break
-    around line 1841.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Zheng Zengkai <zhengzengkai@huawei.com>
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   d51fb86ce6a3a3e59d7cba58738b63903b8cb37c
-commit: c0ec28ac9769e4df7757ba3ed94295446243ec31 [2616/2616] arm64/mpam: refactor device tree structure to support multiple devices
-:::::: branch date: 4 hours ago
-:::::: commit date: 2 years, 11 months ago
-config: arm64-randconfig-r052-20250101 (https://download.01.org/0day-ci/archive/20250103/202501031939.oFEiUJOt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: caa714f86699bcfb01aa2d698db12d91af7d0d81 drm/tests: helpers: Add helper for drm_display_mode_from_cea_vic()
+date:   9 weeks ago
+config: csky-randconfig-051-20240716 (https://download.01.org/0day-ci/archive/20250103/202501032001.O6WY1VCW-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501032001.O6WY1VCW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202501031939.oFEiUJOt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501032001.O6WY1VCW-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/arm64/kernel/mpam/mpam_device.c:1838:1-33: WARNING: Function "for_each_available_child_of_node" should have of_node_put() before break around line 1841.
+All warnings (new ones prefixed by >>):
 
-vim +/for_each_available_child_of_node +1838 arch/arm64/kernel/mpam/mpam_device.c
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:324: warning: bad line:                                            for a KUnit test
 
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1817
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1818  static int arm_mpam_device_probe(struct platform_device *pdev)
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1819  {
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1820  	int ret;
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1821  	struct device *dev = &pdev->dev;
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1822  	struct device_node *node = dev->of_node;
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1823  	struct device_node *child = NULL;
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1824
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1825  	if (!cpus_have_const_cap(ARM64_HAS_MPAM))
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1826  		return 0;
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1827
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1828  	if (!acpi_disabled || mpam_enabled != MPAM_ENABLE_OF)
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1829  		return 0;
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1830
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1831  	if (!node || !of_match_node(arm_mpam_of_device_ids, pdev->dev.of_node))
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1832  		return -EINVAL;
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1833
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1834  	ret = mpam_discovery_start();
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1835  	if (ret)
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1836  		return ret;
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1837
-c0ec28ac9769e4 Xingang Wang 2022-01-29 @1838  	for_each_available_child_of_node(node, child) {
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1839  		ret = of_mpam_add_child(pdev, child);
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1840  		if (ret)
-c0ec28ac9769e4 Xingang Wang 2022-01-29 @1841  			break;
-c0ec28ac9769e4 Xingang Wang 2022-01-29  1842  	}
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1843
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1844  	if (ret) {
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1845  		mpam_discovery_failed();
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1846  	} else {
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1847  		ret = mpam_discovery_complete();
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1848  		if (!ret)
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1849  			pr_info("Successfully init mpam by DT.\n");
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1850  	}
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1851
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1852  	return ret;
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1853  }
-7926bf06ce9fb8 Xingang Wang 2022-01-10  1854
+
+vim +324 drivers/gpu/drm/tests/drm_kunit_helpers.c
+
+   321	
+   322	/**
+   323	 * drm_kunit_display_mode_from_cea_vic() - return a mode for CEA VIC
+ > 324						   for a KUnit test
+   325	 * @test: The test context object
+   326	 * @dev: DRM device
+   327	 * @video_code: CEA VIC of the mode
+   328	 *
+   329	 * Creates a new mode matching the specified CEA VIC for a KUnit test.
+   330	 *
+   331	 * Resources will be cleaned up automatically.
+   332	 *
+   333	 * Returns: A new drm_display_mode on success or NULL on failure
+   334	 */
+   335	struct drm_display_mode *
+   336	drm_kunit_display_mode_from_cea_vic(struct kunit *test, struct drm_device *dev,
+   337					    u8 video_code)
+   338	{
+   339		struct drm_display_mode *mode;
+   340		int ret;
+   341	
+   342		mode = drm_display_mode_from_cea_vic(dev, video_code);
+   343		if (!mode)
+   344			return NULL;
+   345	
+   346		ret = kunit_add_action_or_reset(test,
+   347						kunit_action_drm_mode_destroy,
+   348						mode);
+   349		if (ret)
+   350			return NULL;
+   351	
+   352		return mode;
+   353	}
+   354	EXPORT_SYMBOL_GPL(drm_kunit_display_mode_from_cea_vic);
+   355	
 
 -- 
 0-DAY CI Kernel Test Service
