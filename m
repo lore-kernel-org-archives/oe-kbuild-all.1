@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986AB33DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 04:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9D92F22
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 04:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735877406; cv=none; b=CTcwUrYBpWGs6wmnHRKJy2bNe/UAOlEO1FCMm9xmQo27ewe9SQKDT6IVFBLGfhMUEce2GjLE8LmlxvnThq+s0Mzz5h4VWJIvejouDno6sfbCxqRiZSuIhF1sFJoIyWzGzlZRqp06PVniqdNR22azNPno/BD8N0HRaIC1W/42bIE=
+	t=1735878612; cv=none; b=jtkbwwad/lEZlyFxGi87/AdgNkcSQi5xyKAYROdf3P+AMX1y5pDNCrrPwxwmQTT3Npb2xGMXZriXWihFmCJaMjdjPY2SvzCQZncBlG66eUhnuBapq2yYlJfhscvsMVxnKiUVqDR0LZZJ7olk/2Gt7x75gd36E/DK+51oPiMF43k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735877406; c=relaxed/simple;
-	bh=6dvm6YPH3VcC4CvZrXP4QO1lpKrLUltRih0JsFwemns=;
+	s=arc-20240116; t=1735878612; c=relaxed/simple;
+	bh=8dI5hC+db/Wrm8gLkGLQ4u3doAksK8tUgiyqFpph+5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XEc8VuntW5DX7VFZvQ2c28Ayd4GHKwTz++7wgj0khH26HHBTz3TGrU7dCl74oBgpwHUSMgrnk84fcyy0PNqoMNkD+yl1u0VVgvI7Gqke35fr4KtgIO2VHVrPxr0w4wUS1w5B67miDLuNH4gICqSgpz9fBP4Jkkofi5HsJkNiVmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJmJ/9cl; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=oJd/qYvu2H8RnAvjj/6Vad+vR7veNvg8yWo5gtCBh6C3pNfGf/8Qv8cTwUtMBrRSU2DPVZ+TBllYcuPMZ15nDlWJL3En8Ln1YUvs+WTWboZN20zTpVvb2q0wT8nzoxaCXfWhLZEIr1NVGEJNN7pFibDIijooajvMtvSmnC5HuX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIEG+q2v; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJmJ/9cl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIEG+q2v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735877405; x=1767413405;
+  t=1735878609; x=1767414609;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6dvm6YPH3VcC4CvZrXP4QO1lpKrLUltRih0JsFwemns=;
-  b=LJmJ/9cl7p9Q6qdQwbelMAo5GrwnGkdXSLiNAtXizcjQFq8/xAnSR8j7
-   urum1ob9NZde7UPAkt/lmlE/R9/skFP+m40wiBQbF5BxOft483VNEgqsH
-   GdUkX9PoQnxPpWW6LvRLNjD/Ku3WptruSXh8hxd5O0gFxIR2eNpwuFTTN
-   mBGfjWIxMsy49DOpm23AiJ71JJhdyNjgA/XKXEktQFQBfIIEyuaAkE3Wf
-   WJZf6CQFH9sNMcH3dPI/w4wrL30smgTelBFodlNQabIEe2joVBI3Y+niR
-   R2gIavcf50PBELhO1BJWsb/1zOuDLotP0kSX8GpPvyCI4lDRwVTA9uEqe
+  bh=8dI5hC+db/Wrm8gLkGLQ4u3doAksK8tUgiyqFpph+5s=;
+  b=QIEG+q2vnA3uoVst498AQi2JBlHmw31IYPopFMLecV+SyfQC5PB0n2gd
+   nRbROhahPDI6Qf1BgUH1cxEVWYxkZE4s/T8mh4WIkQHSkmjA5m8RKCeDA
+   eH5eivyoyzsf+k7v6utdnWfNInXkNV2M98c4a7fpdoqILw1OcOqxwq63+
+   IglghgGf5LDpJ+9xkFqKiOkHap4IPDJNORX++jdLUUcn+NxSw4i1Ev8ne
+   bSMGkw6ApeWkAn3xNbFt2vpAhS2Y0+xIrdoKXVFbCN6IyOVsIokro6Vg1
+   uru1we7fO/YANepN/3BlJAhgNxYsjGCvxH3IFWyKoIVOrDOa9gFcnPKmR
    A==;
-X-CSE-ConnectionGUID: 0bdyNhDqQ3uEG8R4adMolw==
-X-CSE-MsgGUID: wYl79KafTCST/P73DhqyJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="40048548"
+X-CSE-ConnectionGUID: taHf2B/AQCizO9s5ZIhpew==
+X-CSE-MsgGUID: nxttWTkpRUOyVurMAFdLEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="35427001"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="40048548"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:10:04 -0800
-X-CSE-ConnectionGUID: 927RmN8yQc2C833Y4fy/xg==
-X-CSE-MsgGUID: m+ZTU+S6TmCtGnE0l0dg0Q==
+   d="scan'208";a="35427001"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:30:08 -0800
+X-CSE-ConnectionGUID: tSmmTJS5R1eXIDO+W7caPg==
+X-CSE-MsgGUID: RpwXAa0bR6CBf2K19W2l7w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="106544925"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102553098"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Jan 2025 20:10:03 -0800
+  by orviesa008.jf.intel.com with ESMTP; 02 Jan 2025 20:30:06 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTZ0b-0009BV-0Y;
-	Fri, 03 Jan 2025 04:10:01 +0000
-Date: Fri, 3 Jan 2025 12:09:04 +0800
+	id 1tTZJz-0009D1-0t;
+	Fri, 03 Jan 2025 04:30:03 +0000
+Date: Fri, 3 Jan 2025 12:29:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 99/99] drivers/mailbox/mailbox.c:382:32:
- warning: returning 'void *' from a function with return type 'int' makes
- integer from pointer without a cast
-Message-ID: <202501031100.VtKKrYUf-lkp@intel.com>
+To: Akshata Jahagirdar <akshata.jahagirdar@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Matt Roper <matthew.d.roper@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison
+ of constant 274877906944 with expression of type 'resource_size_t' (aka
+ 'unsigned int') is always true
+Message-ID: <202501031209.FksJ4I9X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +65,249 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   79ef5afd889ffc81ed98258b561e132e0d9d81a3
-commit: 71e4fcb288df366078213ba4fcf976f12a14d5e2 [99/99] FROMLIST: mailbox: Add power_get/power_put API to mbox_chan_ops
-config: x86_64-buildonly-randconfig-003-20241230 (https://download.01.org/0day-ci/archive/20250103/202501031100.VtKKrYUf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031100.VtKKrYUf-lkp@intel.com/reproduce)
+Hi Akshata,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: 8d79acd567db183e675cccc6cc737d2959e2a2d9 drm/xe/migrate: Add helper function to program identity map
+date:   6 months ago
+config: i386-randconfig-053-20250103 (https://download.01.org/0day-ci/archive/20250103/202501031209.FksJ4I9X-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031209.FksJ4I9X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031100.VtKKrYUf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031209.FksJ4I9X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mailbox/mailbox.c: In function '__mbox_bind_client':
->> drivers/mailbox/mailbox.c:382:32: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
-     382 |                         return ERR_PTR(ret);
-         |                                ^~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_migrate.c:12:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison of constant 274877906944 with expression of type 'resource_size_t' (aka 'unsigned int') is always true [-Werror,-Wtautological-constant-out-of-range-compare]
+     304 |                 xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:108:54: note: expanded from macro 'xe_assert'
+     108 | #define xe_assert(xe, condition) xe_assert_msg((xe), condition, "")
+         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:111:24: note: expanded from macro 'xe_assert_msg'
+     111 |         __xe_assert_msg(__xe, condition,                                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     112 |                         "platform: %s subplatform: %d\n"                                        \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     113 |                         "graphics: %s %u.%02u step %s\n"                                        \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     114 |                         "media: %s %u.%02u step %s\n"                                           \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     115 |                         msg,                                                                    \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     116 |                         __xe->info.platform_name, __xe->info.subplatform,                       \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                         __xe->info.graphics_name,                                               \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     118 |                         __xe->info.graphics_verx100 / 100,                                      \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     119 |                         __xe->info.graphics_verx100 % 100,                                      \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     120 |                         xe_step_name(__xe->info.step.graphics),                                 \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     121 |                         __xe->info.media_name,                                                  \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     122 |                         __xe->info.media_verx100 / 100,                                         \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     123 |                         __xe->info.media_verx100 % 100,                                         \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     124 |                         xe_step_name(__xe->info.step.media),                                    \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     125 |                         ## arg);                                                                \
+         |                         ~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:84:31: note: expanded from macro '__xe_assert_msg'
+      84 |         (void)drm_WARN(&(xe)->drm, !(condition), "[" DRM_NAME "] Assertion `%s` failed!\n" msg, \
+         |               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      85 |                        __stringify(condition), ## arg);                                         \
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:635:7: note: expanded from macro 'drm_WARN'
+     635 |         WARN(condition, "%s %s: [drm] " format,                         \
+         |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     636 |                         dev_driver_string((drm)->dev),                  \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     637 |                         dev_name((drm)->dev), ## arg)
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:132:25: note: expanded from macro 'WARN'
+     132 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   2 errors generated.
 
 
-vim +382 drivers/mailbox/mailbox.c
+vim +304 drivers/gpu/drm/xe/xe_migrate.c
 
-   355	
-   356	static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   357	{
-   358		struct device *dev = cl->dev;
-   359		unsigned long flags;
-   360		int ret;
-   361	
-   362		if (chan->cl || !try_module_get(chan->mbox->dev->driver->owner)) {
-   363			dev_dbg(dev, "%s: mailbox not free\n", __func__);
-   364			return -EBUSY;
-   365		}
-   366	
-   367		spin_lock_irqsave(&chan->lock, flags);
-   368		chan->msg_free = 0;
-   369		chan->msg_count = 0;
-   370		chan->active_req = NULL;
-   371		chan->cl = cl;
-   372		init_completion(&chan->tx_complete);
-   373	
-   374		if (chan->txdone_method	== TXDONE_BY_POLL && cl->knows_txdone)
-   375			chan->txdone_method = TXDONE_BY_ACK;
-   376	
-   377		spin_unlock_irqrestore(&chan->lock, flags);
-   378	
-   379		if (chan->mbox->ops->power_get) {
-   380			ret = chan->mbox->ops->power_get(chan);
-   381			if (ret < 0)
- > 382				return ERR_PTR(ret);
-   383		}
-   384	
-   385		if (chan->mbox->ops->startup) {
-   386			ret = chan->mbox->ops->startup(chan);
-   387	
-   388			if (ret) {
-   389				dev_err(dev, "Unable to startup the chan (%d)\n", ret);
-   390				mbox_free_channel(chan);
-   391				return ret;
-   392			}
-   393		}
-   394	
-   395		return 0;
-   396	}
-   397	
+   177	
+   178	static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
+   179					 struct xe_vm *vm)
+   180	{
+   181		struct xe_device *xe = tile_to_xe(tile);
+   182		u16 pat_index = xe->pat.idx[XE_CACHE_WB];
+   183		u8 id = tile->id;
+   184		u32 num_entries = NUM_PT_SLOTS, num_level = vm->pt_root[id]->level,
+   185		    num_setup = num_level + 1;
+   186		u32 map_ofs, level, i;
+   187		struct xe_bo *bo, *batch = tile->mem.kernel_bb_pool->bo;
+   188		u64 entry, pt30_ofs;
+   189	
+   190		/* Can't bump NUM_PT_SLOTS too high */
+   191		BUILD_BUG_ON(NUM_PT_SLOTS > SZ_2M/XE_PAGE_SIZE);
+   192		/* Must be a multiple of 64K to support all platforms */
+   193		BUILD_BUG_ON(NUM_PT_SLOTS * XE_PAGE_SIZE % SZ_64K);
+   194		/* And one slot reserved for the 4KiB page table updates */
+   195		BUILD_BUG_ON(!(NUM_KERNEL_PDE & 1));
+   196	
+   197		/* Need to be sure everything fits in the first PT, or create more */
+   198		xe_tile_assert(tile, m->batch_base_ofs + batch->size < SZ_2M);
+   199	
+   200		bo = xe_bo_create_pin_map(vm->xe, tile, vm,
+   201					  num_entries * XE_PAGE_SIZE,
+   202					  ttm_bo_type_kernel,
+   203					  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
+   204					  XE_BO_FLAG_PINNED);
+   205		if (IS_ERR(bo))
+   206			return PTR_ERR(bo);
+   207	
+   208		/* PT31 reserved for 2M identity map */
+   209		pt30_ofs = bo->size - 2 * XE_PAGE_SIZE;
+   210		entry = vm->pt_ops->pde_encode_bo(bo, pt30_ofs, pat_index);
+   211		xe_pt_write(xe, &vm->pt_root[id]->bo->vmap, 0, entry);
+   212	
+   213		map_ofs = (num_entries - num_setup) * XE_PAGE_SIZE;
+   214	
+   215		/* Map the entire BO in our level 0 pt */
+   216		for (i = 0, level = 0; i < num_entries; level++) {
+   217			entry = vm->pt_ops->pte_encode_bo(bo, i * XE_PAGE_SIZE,
+   218							  pat_index, 0);
+   219	
+   220			xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64, entry);
+   221	
+   222			if (vm->flags & XE_VM_FLAG_64K)
+   223				i += 16;
+   224			else
+   225				i += 1;
+   226		}
+   227	
+   228		if (!IS_DGFX(xe)) {
+   229			/* Write out batch too */
+   230			m->batch_base_ofs = NUM_PT_SLOTS * XE_PAGE_SIZE;
+   231			for (i = 0; i < batch->size;
+   232			     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
+   233			     XE_PAGE_SIZE) {
+   234				entry = vm->pt_ops->pte_encode_bo(batch, i,
+   235								  pat_index, 0);
+   236	
+   237				xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
+   238					  entry);
+   239				level++;
+   240			}
+   241			if (xe->info.has_usm) {
+   242				xe_tile_assert(tile, batch->size == SZ_1M);
+   243	
+   244				batch = tile->primary_gt->usm.bb_pool->bo;
+   245				m->usm_batch_base_ofs = m->batch_base_ofs + SZ_1M;
+   246				xe_tile_assert(tile, batch->size == SZ_512K);
+   247	
+   248				for (i = 0; i < batch->size;
+   249				     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
+   250				     XE_PAGE_SIZE) {
+   251					entry = vm->pt_ops->pte_encode_bo(batch, i,
+   252									  pat_index, 0);
+   253	
+   254					xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
+   255						  entry);
+   256					level++;
+   257				}
+   258			}
+   259		} else {
+   260			u64 batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
+   261	
+   262			m->batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
+   263	
+   264			if (xe->info.has_usm) {
+   265				batch = tile->primary_gt->usm.bb_pool->bo;
+   266				batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
+   267				m->usm_batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
+   268			}
+   269		}
+   270	
+   271		for (level = 1; level < num_level; level++) {
+   272			u32 flags = 0;
+   273	
+   274			if (vm->flags & XE_VM_FLAG_64K && level == 1)
+   275				flags = XE_PDE_64K;
+   276	
+   277			entry = vm->pt_ops->pde_encode_bo(bo, map_ofs + (u64)(level - 1) *
+   278							  XE_PAGE_SIZE, pat_index);
+   279			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level, u64,
+   280				  entry | flags);
+   281		}
+   282	
+   283		/* Write PDE's that point to our BO. */
+   284		for (i = 0; i < map_ofs / PAGE_SIZE; i++) {
+   285			entry = vm->pt_ops->pde_encode_bo(bo, (u64)i * XE_PAGE_SIZE,
+   286							  pat_index);
+   287	
+   288			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE +
+   289				  (i + 1) * 8, u64, entry);
+   290		}
+   291	
+   292		/* Set up a 1GiB NULL mapping at 255GiB offset. */
+   293		level = 2;
+   294		xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level + 255 * 8, u64,
+   295			  vm->pt_ops->pte_encode_addr(xe, 0, pat_index, level, IS_DGFX(xe), 0)
+   296			  | XE_PTE_NULL);
+   297		m->cleared_mem_ofs = (255ULL << xe_pt_shift(level));
+   298	
+   299		/* Identity map the entire vram at 256GiB offset */
+   300		if (IS_DGFX(xe)) {
+   301			u64 pt31_ofs = bo->size - XE_PAGE_SIZE;
+   302	
+   303			xe_migrate_program_identity(xe, vm, bo, map_ofs, 256, pat_index, pt31_ofs);
+ > 304			xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
+   305		}
+   306	
+   307		/*
+   308		 * Example layout created above, with root level = 3:
+   309		 * [PT0...PT7]: kernel PT's for copy/clear; 64 or 4KiB PTE's
+   310		 * [PT8]: Kernel PT for VM_BIND, 4 KiB PTE's
+   311		 * [PT9...PT27]: Userspace PT's for VM_BIND, 4 KiB PTE's
+   312		 * [PT28 = PDE 0] [PT29 = PDE 1] [PT30 = PDE 2] [PT31 = 2M vram identity map]
+   313		 *
+   314		 * This makes the lowest part of the VM point to the pagetables.
+   315		 * Hence the lowest 2M in the vm should point to itself, with a few writes
+   316		 * and flushes, other parts of the VM can be used either for copying and
+   317		 * clearing.
+   318		 *
+   319		 * For performance, the kernel reserves PDE's, so about 20 are left
+   320		 * for async VM updates.
+   321		 *
+   322		 * To make it easier to work, each scratch PT is put in slot (1 + PT #)
+   323		 * everywhere, this allows lockless updates to scratch pages by using
+   324		 * the different addresses in VM.
+   325		 */
+   326	#define NUM_VMUSA_UNIT_PER_PAGE	32
+   327	#define VM_SA_UPDATE_UNIT_SIZE		(XE_PAGE_SIZE / NUM_VMUSA_UNIT_PER_PAGE)
+   328	#define NUM_VMUSA_WRITES_PER_UNIT	(VM_SA_UPDATE_UNIT_SIZE / sizeof(u64))
+   329		drm_suballoc_manager_init(&m->vm_update_sa,
+   330					  (size_t)(map_ofs / XE_PAGE_SIZE - NUM_KERNEL_PDE) *
+   331					  NUM_VMUSA_UNIT_PER_PAGE, 0);
+   332	
+   333		m->pt_bo = bo;
+   334		return 0;
+   335	}
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
