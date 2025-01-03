@@ -1,148 +1,126 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDF61CDA3F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 09:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EAB1B393C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 09:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735896105; cv=none; b=nkdZ7H8TeJ/tQ5qQU7CsoSN0Cw6CYGCwX2SE7c+7zAXsE06ATvengnz/daTPT8Tza4fyvQN9oLDX27L7Q7kVsWMb9x234v4uRFIujPTjAJt3P3+r+iMz1zrtITIL0WtFb1mUmgnc4h4GxFurOhzFPDYvrgYd0ITC3BKC3NudVvU=
+	t=1735897846; cv=none; b=bl9iQiRgBaEwHXjstrCFKXQqJJrI/qbXfmYDg1g4xdmPZfk+sd4Dt7Yg8FMdamgtkfmtsndkyJFE71Qq69+FCDb4ogxqvg5klAck2X8fzrsuAcv8pMqRuc4a24OhT0jhsZhvWB8v7+AyD0kPqvBYoAYrI0ptS5ahXxJGZU+Z/7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735896105; c=relaxed/simple;
-	bh=n/Lb1MC5YXbPQi/MvxoZMw34dEukKFqqg7Z7FZEyaWc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P+5xPE9zt0WPfVfaT732Bo6nyMvIpDJisHkavQ30eFnvewFcC5gVdvQyhaQWr9rtzjxjld0GrukSRmSt6WH3jwF5fAyhl/L9bIrN5pnHFtfauvXoHecelDw4kKHKjJXJmNJzot+xZA57G9bexD78ymD6S1NLefsUrbSeAx6sSTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5187f0b893dso3911289e0c.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 03 Jan 2025 01:21:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735896098; x=1736500898;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Thojfix4iWawRcqBh7qgVLXXAozIA058kz1GrMnIvc=;
-        b=cj+bZkjWrasWMF8DfOMSTWo6PuIlO2OUzVQxGqyWmL0ydJ8UBVhEWEk8rPUAP5vQNL
-         x1kxsgyU0LK8/MGcnTpz16Q8MjjEXO654p9GX63+f3Pyrg/3iChZwJ7lDsrUuxZtbQhv
-         Sq9JohXvt1Lgb4WMzGHMeOcR40hvSORDE8ebnt26OXQOtVKa2dAaDbnCxRg1fR8HY5dA
-         LmCWYPvxAuYAHuNOVzAYeCCGy139j03IwXI8p7tbGLiL7GjpFZ8qM5qSTnAwvmeuHod4
-         ee9R2m9z3gqGPnBJUb/bMZ/cehD70VYIfWfJNyruG0+MLY0lqm8/hBuJbQyvL+T51A/6
-         50fA==
-X-Forwarded-Encrypted: i=1; AJvYcCWPSfrcl9EhMZDjtxdHBbfKBC5SYbyqt5hF8ogDTy4wzBD7ZVR8dsWrbZ5N7q0V0W7BMbtjCTYnOAWz82Hy@lists.linux.dev
-X-Gm-Message-State: AOJu0YzthJo75/YsI1b5Q15GruqJn3s4qO82M1QysKhHbQaeZENntCUv
-	JX/8hCInOCXdQQctTdo1ueJZjQWmLyCAjECJAX/Aa8NTzOsuY0eo5GhxAoAN
-X-Gm-Gg: ASbGncvDf6Et+DD+1DJJCp0Grvt4uoQ5zABeQdq/9KsCA4cXeV16REoS1GgUMx4sfJp
-	M64N0sWZ74iTYADBTDwGAMtm7XZoEjFfgPRUh7Xv2D9BayR3yLECuatnzksVGrkdRW8a0hk23uc
-	o8FpcM4l/WVmv1uig/Kj3DzfMqfOphgsJOZG/KnHkj+A9QYBKqinVjffyR3JbLIpziXabO7D794
-	hD5WyrQd4BXF5yUCOuddwmTeo/KsobJaqkqd+VOucWXwHF+k7XAgVA0SPAOR6J0cHQeyT71HDS8
-	lwv/vt6xu8Ao9KMKtoAzUYk=
-X-Google-Smtp-Source: AGHT+IHqLBp7RZ0urVuhg+CBtreX+sKzdZCF8uJ0ESgOoB5Vlh3CGdisgtUXEVvAoeJ6yMn6T+au2A==
-X-Received: by 2002:a05:6122:8c18:b0:516:1bd5:67da with SMTP id 71dfb90a1353d-51b75d384aamr33468383e0c.8.1735896098081;
-        Fri, 03 Jan 2025 01:21:38 -0800 (PST)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51b68bea730sm3265887e0c.29.2025.01.03.01.21.37
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jan 2025 01:21:37 -0800 (PST)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-518957b0533so3877401e0c.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 03 Jan 2025 01:21:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVh7smUTjXDH1f9X22gCLIcp0vRRHogV8ex/q/krKp/b9YyrLD6s4UeOsDRJ3otZHtTZzUXQBRR7Rgngd4+@lists.linux.dev
-X-Received: by 2002:a05:6102:6e88:b0:4b2:cca8:88d0 with SMTP id
- ada2fe7eead31-4b2cca889d7mr31721757137.1.1735896097341; Fri, 03 Jan 2025
- 01:21:37 -0800 (PST)
+	s=arc-20240116; t=1735897846; c=relaxed/simple;
+	bh=iBuGK6GiGFs97pmazNPaJhsJf5uyQnmQA+/y40c+bcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XWoiAHew9zS7UosoSTl1QEN271xrDHQFy/NfLLYhfe4dvteaj3zKG3LAWL+sLoH00h/tdhjkJePo8GdSjyghMDnFvQ57lIxd4n+rpK4h9QLuxtMCbXi0hl3MFWf452jrqTohGNUlfXcfAB1Zo/xLs0EYZBCjcWYgmzjkzGmtOPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CpnGU9SX; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CpnGU9SX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735897845; x=1767433845;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iBuGK6GiGFs97pmazNPaJhsJf5uyQnmQA+/y40c+bcQ=;
+  b=CpnGU9SXf53Tv3KAFfhfkP2vdXWwvc7byPfAnRYU51DYTH6TpsQ4S4gy
+   U3ET7my2lIELL3zmvVskhXihAaedwKqGkrZdNNmxCnUmrx4YSON6PqD8g
+   P6v+bve7opSOSyCYQFbjvT8IQThpcm4fNuCbOntGuT8JHAlAcnzN86phX
+   2aV3vEfLxeXsf4341GHhomOd7CkoDjl0fq/Zd0/zeT99fx0zhB+wTMxdr
+   EjLC9hHaaCaifWfbNFEvbbU7p9oOUPzUsQePHdOiiFivoFrjIjGolwwb8
+   KpQW18phuruhL37Lsw/QD0CFPqXztExvmMwvP1LlArTs9+Xzaj/BdqIoB
+   g==;
+X-CSE-ConnectionGUID: b37+++PdRAOauqsxoahtMQ==
+X-CSE-MsgGUID: M9SODRnIQvC0mFcHiUWVHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36259934"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="36259934"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 01:50:45 -0800
+X-CSE-ConnectionGUID: i4MCMfZ2RbycecxW7hSo3g==
+X-CSE-MsgGUID: TPjn/D3eSpeyceziuY/QtA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106384577"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 03 Jan 2025 01:50:42 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tTeKG-0009XP-1o;
+	Fri, 03 Jan 2025 09:50:40 +0000
+Date: Fri, 3 Jan 2025 17:49:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Subject: sound/soc/codecs/rt5514-spi.c:496:34: warning: 'rt5514_of_match'
+ defined but not used
+Message-ID: <202501031724.GqTW66FA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501030516.uZrwnuQQ-lkp@intel.com>
-In-Reply-To: <202501030516.uZrwnuQQ-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 3 Jan 2025 10:21:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW-DYPp_2nAaBdvgoa6Yr9et2cNS_260H-9H_CT4yEasw@mail.gmail.com>
-Message-ID: <CAMuHMdW-DYPp_2nAaBdvgoa6Yr9et2cNS_260H-9H_CT4yEasw@mail.gmail.com>
-Subject: Re: [geert-m68k:master 2/2] lib/muldi3.c:53:28: sparse: sparse: asm
- output is not an lvalue
-To: kernel test robot <lkp@intel.com>
-Cc: Greg Ungerer <gerg@linux-m68k.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-m68k@lists.linux-m68k.org, Arnd Bergmann <arnd@arndb.de>, 
-	linux-sparse@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kernel test robot,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: bbd7ffdbef6888459f301c5889f3b14ada38b913 clk: Allow the common clk framework to be selectable
+date:   4 years, 8 months ago
+config: parisc-randconfig-r025-20211224 (https://download.01.org/0day-ci/archive/20250103/202501031724.GqTW66FA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031724.GqTW66FA-lkp@intel.com/reproduce)
 
-CC linux-sparse
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031724.GqTW66FA-lkp@intel.com/
 
-On Thu, Jan 2, 2025 at 10:40=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
-> First bad commit (maybe !=3D root cause):
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.=
-git master
-> head:   17810b1de0e9e5c1000cf8f5b4787ad930b0353e
-> commit: e96424b86d5098f44279399b85551e0f84a1c9e9 [2/2] m68k: Use kernel's=
- generic muldi3 libgcc function
-> config: m68k-randconfig-r122-20250101 (https://download.01.org/0day-ci/ar=
-chive/20250103/202501030516.uZrwnuQQ-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 14.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250103/202501030516=
-.uZrwnuQQ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501030516.uZrwnuQQ-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> lib/muldi3.c:53:28: sparse: sparse: asm output is not an lvalue
-> >> lib/muldi3.c:53:28: sparse: sparse: asm output is not an lvalue
-> >> lib/muldi3.c:53:28: sparse: sparse: not addressable
-> >> lib/muldi3.c:53:28: sparse: sparse: generating address of non-lvalue (=
-11)
-> >> lib/muldi3.c:53:28: sparse: sparse: generating address of non-lvalue (=
-11)
->
-> vim +53 lib/muldi3.c
->
-> b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  48
-> b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  49  long long notrace __muldi3=
-(long long u, long long v)
-> b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  50  {
-> b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  51   const DWunion uu =3D {.ll=
- =3D u};
-> b35cd9884fa5d81 Palmer Dabbelt 2017-05-23  52   const DWunion vv =3D {.ll=
- =3D v};
-> b35cd9884fa5d81 Palmer Dabbelt 2017-05-23 @53   DWunion w =3D {.ll =3D __=
-umulsidi3(uu.s.low, vv.s.low)};
->
-> :::::: The code at line 53 was first introduced by commit
-> :::::: b35cd9884fa5d81c9d5e7f57c9d03264ae2bd835 lib: Add shared copies of=
- some GCC library routines
+All warnings (new ones prefixed by >>):
 
-Thanks for the report!
+   In file included from include/linux/mm.h:95,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/spi/spi.h:14,
+                    from sound/soc/codecs/rt5514-spi.c:11:
+   include/asm-generic/pgtable.h: In function 'pte_clear_not_present_full':
+   arch/parisc/include/asm/pgtable.h:96:23: warning: variable 'old_pte' set but not used [-Wunused-but-set-variable]
+      96 |                 pte_t old_pte;                                  \
+         |                       ^~~~~~~
+   arch/parisc/include/asm/pgtable.h:322:34: note: in expansion of macro 'set_pte_at'
+     322 | #define pte_clear(mm, addr, xp)  set_pte_at(mm, addr, xp, __pte(0))
+         |                                  ^~~~~~~~~~
+   include/asm-generic/pgtable.h:202:9: note: in expansion of macro 'pte_clear'
+     202 |         pte_clear(mm, address, ptep);
+         |         ^~~~~~~~~
+   include/asm-generic/pgtable.h: In function '__ptep_modify_prot_commit':
+   arch/parisc/include/asm/pgtable.h:96:23: warning: variable 'old_pte' set but not used [-Wunused-but-set-variable]
+      96 |                 pte_t old_pte;                                  \
+         |                       ^~~~~~~
+   include/asm-generic/pgtable.h:641:9: note: in expansion of macro 'set_pte_at'
+     641 |         set_pte_at(vma->vm_mm, addr, ptep, pte);
+         |         ^~~~~~~~~~
+   sound/soc/codecs/rt5514-spi.c: At top level:
+>> sound/soc/codecs/rt5514-spi.c:496:34: warning: 'rt5514_of_match' defined but not used [-Wunused-const-variable=]
+     496 | static const struct of_device_id rt5514_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~
 
-Comparing m68k to the other two architectures that use
-GENERIC_LIB_MULDI3 (csky and xtensa), and to microblaze (which has
-its own arch/microblaze/lib/muldi3.c), that don't trigger this error,
-the difference is that m68k uses inline assembler in its umul_ppmm()
-implementation. I don't see anything that's wrong with it, though.
 
-Perhaps this is an issue with sparse?
+vim +/rt5514_of_match +496 sound/soc/codecs/rt5514-spi.c
 
-Gr{oetje,eeting}s,
+58f1c07d23cddb oder_chiou@realtek.com 2017-11-08  495  
+6eebf35b0e4a02 Oder Chiou             2016-06-06 @496  static const struct of_device_id rt5514_of_match[] = {
+6eebf35b0e4a02 Oder Chiou             2016-06-06  497  	{ .compatible = "realtek,rt5514", },
+6eebf35b0e4a02 Oder Chiou             2016-06-06  498  	{},
+6eebf35b0e4a02 Oder Chiou             2016-06-06  499  };
+6eebf35b0e4a02 Oder Chiou             2016-06-06  500  MODULE_DEVICE_TABLE(of, rt5514_of_match);
+6eebf35b0e4a02 Oder Chiou             2016-06-06  501  
 
-                        Geert
+:::::: The code at line 496 was first introduced by commit
+:::::: 6eebf35b0e4a02248f7dba5d1719c6896afe41ba ASoC: rt5514: add rt5514 SPI driver
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+:::::: TO: Oder Chiou <oder_chiou@realtek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
