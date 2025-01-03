@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12F985931
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 05:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A597418AE2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 05:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735880534; cv=none; b=kyPnscTp8meIXBP4twHFrUUBNeFwAdxrRvkJD14cUFs5Si0kcy4Y6IVhyhoj1BXh6UW9WhDVND4/bHRxBFIv+hfpfkSXGE6klEPRj5XT3l98u1yyV4QV0nGxLqFkMw/aymLwC/fVK9clw1R8rH94Ko1sMLOa+wlHyuZLfqchhfI=
+	t=1735881193; cv=none; b=htKT3yofFCsff1PhFvRmUZtl5d18H8I9EGPFbNl5TUwkv04TjThbgGWT+KZNsj9d9KGIdKFFETq3zjJpcr4XUJRn/ge9I94pw0Ya9KCYsAa/DZyeZYWQ6jzLvKo5x0TatAimIO7UJ5kk3zlrrNlCDTETTJQGeI3HGOofw0DRug4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735880534; c=relaxed/simple;
-	bh=UrG6Xq5iEd6mMzqtIF59u0/KBauq9HMZ/caeNpDM3To=;
+	s=arc-20240116; t=1735881193; c=relaxed/simple;
+	bh=PX+alqlk3yL6hpYtrQ74f39fzz5mSQwgDy685QukwTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ii9mSH15ksUzCHD8CGxnQU6JdT7fD4mxe2i1Lwxmuxm9TPfFof7spqIp07ZYFhdAx+8ovy31XyTTEsiIWu8CnjKrDyWbsrLVm9KLsGS3+UzzdU6pCCAS1GR8ewI3t6crO0F3rVax1K5gYPmVZjcIuQbgxpSBfGf7/vuIiI9lQeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kOqw3FXg; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=JkpqR37Upp6LoRAeJttaO00tQuCmaEnwh38lhkVh05J+q864od5ERvVO6TQOr51orBVRjK/fqX5fKvhLwp8O9puQHgMDndzILPpnGyYz2YUBUzqGN57sfLkGtrGAX5/qJ7dUx/HvCt+fE5L7usOSdP3UyCZXy+GKPONAHp9A+go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKKZPJOG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kOqw3FXg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKKZPJOG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735880533; x=1767416533;
+  t=1735881192; x=1767417192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UrG6Xq5iEd6mMzqtIF59u0/KBauq9HMZ/caeNpDM3To=;
-  b=kOqw3FXgU7B49Mrrp+riMVBm0OHTxCMFR3wlevw2/iuWhqTWR+SzRmme
-   jkaG4EjC/+S19mn7diP9pvsSLHIEEJOo+l+nXAtocV5ntHKV/AlzT/eMw
-   tivPFX/BY+uExJC0GD3Ifgfe5aSRW4Xtrxr0/hAAsyTB6RBcvGrdOKCfG
-   F9d/Ve/BCpMqInFR0Kc5edLgBqIokwYiNV7OHwGWDTTknyeg37xnS5BlK
-   qpD8n7jfXjENs8nvobSEDaKachgA6O6KhQJ2sztQos6PRvPc4M6h9ZN+S
-   Pw9OvgvgCOqvjc3gELPuFh0TeuBZV3YBNls8e/sZ37gGDozwQyOJf18Sf
-   Q==;
-X-CSE-ConnectionGUID: Hc/gBIcTS62RPaa196WCFg==
-X-CSE-MsgGUID: JR+2YZtoQKCFDZcZ36525g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="47486862"
+  bh=PX+alqlk3yL6hpYtrQ74f39fzz5mSQwgDy685QukwTI=;
+  b=fKKZPJOGyhDgZwBFcrVz2B1TFGEGrw9vJtpbuj2iFe0dHkgwtrBFFrbt
+   7NZNScPTrBRqcnntpR1qU8gXEhauvTeg91IEn1IJxMtYCuKbAXVjbpq9Q
+   5rvbi1ZVe7qmr+2cU9j/iY2MxxgS9HLxdLU+U/AOOZT1frl3+1cq5QG5Z
+   12j4vpfarmV8Y6RABHeoY9vcFLG+8YBkoUNv/WXYje7CFmEDWFzZbVq6W
+   0ApS8GpcY9VZxLme2Vq0PetNI83Q+VhFNTM9dbKtm8sxIG0un4ITLfxP6
+   yU80oALu76Fn4/0DNRkwJfif7KAQt8jfMfC1Lz405liShcfYbZNwXmRkP
+   A==;
+X-CSE-ConnectionGUID: qOAqDSrTSgu1ADTdwZf2Lg==
+X-CSE-MsgGUID: RAC0qFGPTUKqNoiinuYM9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="58594834"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="47486862"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 21:02:09 -0800
-X-CSE-ConnectionGUID: TDFu55/BQve1YidgmtmvOQ==
-X-CSE-MsgGUID: srHgwv7mRv+YXcvSMQu3Nw==
+   d="scan'208";a="58594834"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 21:13:11 -0800
+X-CSE-ConnectionGUID: DThBLCWMRJSeSlbGEssWeg==
+X-CSE-MsgGUID: rJ/Bf/CTRiKwzWC4OtpIfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="101887237"
+   d="scan'208";a="101498038"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Jan 2025 21:02:08 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 02 Jan 2025 21:13:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTZp0-0009El-1e;
-	Fri, 03 Jan 2025 05:02:06 +0000
-Date: Fri, 3 Jan 2025 13:01:50 +0800
+	id 1tTZzf-0009FO-1k;
+	Fri, 03 Jan 2025 05:13:07 +0000
+Date: Fri, 3 Jan 2025 13:12:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Gmeiner <cgmeiner@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: [linux-next:master 1073/5236]
- drivers/gpu/drm/v3d/v3d_perfmon.c:317:9: sparse: sparse: Using plain integer
- as NULL pointer
-Message-ID: <202501031246.AD8Jjze0-lkp@intel.com>
+To: Xin3 Li <xin3.li@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [xinli-intel-fred-public:fix_sp_calculation 6/14]
+ arch/x86/include/asm/msr.h:149:9: sparse: sparse: cast truncates bits from
+ constant value (8000000000000000 becomes 0)
+Message-ID: <202501031322.ZbtR75Vj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,46 +63,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-commit: c6eabbab359c156669e10d5dec3e71e80ff09bd2 [1073/5236] drm/v3d: Add DRM_IOCTL_V3D_PERFMON_SET_GLOBAL
-config: hexagon-randconfig-r133-20241229 (https://download.01.org/0day-ci/archive/20250103/202501031246.AD8Jjze0-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 319b89197348b7cad1215e235bdc7b5ec8f9b72c)
-reproduce: (https://download.01.org/0day-ci/archive/20250103/202501031246.AD8Jjze0-lkp@intel.com/reproduce)
+Hi Xin,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/xinli-intel/linux-fred-public.git fix_sp_calculation
+head:   eaa81ab93145df5a8414e5d1c00c9228a947cced
+commit: 6ebb91ca8c107df651ecd668673761c860351f42 [6/14] x86/msr: Replace __wrmsr() with native_wrmsrl()
+config: i386-randconfig-062-20241229 (https://download.01.org/0day-ci/archive/20250103/202501031322.ZbtR75Vj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031322.ZbtR75Vj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031246.AD8Jjze0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031322.ZbtR75Vj-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/v3d/v3d_perfmon.c:317:9: sparse: sparse: Using plain integer as NULL pointer
-   drivers/gpu/drm/v3d/v3d_perfmon.c:405:9: sparse: sparse: Using plain integer as NULL pointer
-   drivers/gpu/drm/v3d/v3d_perfmon.c:492:13: sparse: sparse: Using plain integer as NULL pointer
-   drivers/gpu/drm/v3d/v3d_perfmon.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/stackdepot.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   arch/x86/hyperv/hv_init.c:73:20: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/x86/hyperv/hv_init.c:241:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   arch/x86/hyperv/hv_init.c:241:33: sparse:     expected void volatile [noderef] __iomem *addr
+   arch/x86/hyperv/hv_init.c:241:33: sparse:     got void *
+   arch/x86/hyperv/hv_init.c: note: in included file (through arch/x86/include/asm/tsc.h, arch/x86/include/asm/timex.h, include/linux/timex.h, ...):
+>> arch/x86/include/asm/msr.h:149:9: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+--
+   arch/x86/events/intel/uncore_snb.c: note: in included file (through arch/x86/include/asm/tsc.h, arch/x86/include/asm/timex.h, include/linux/timex.h, ...):
+>> arch/x86/include/asm/msr.h:149:9: sparse: sparse: cast truncates bits from constant value (1000000ff becomes ff)
+--
+   arch/x86/events/intel/uncore_nhmex.c: note: in included file (through arch/x86/include/asm/tsc.h, arch/x86/include/asm/timex.h, include/linux/timex.h, ...):
+>> arch/x86/include/asm/msr.h:149:9: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+>> arch/x86/include/asm/msr.h:149:9: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
 
-vim +317 drivers/gpu/drm/v3d/v3d_perfmon.c
+vim +149 arch/x86/include/asm/msr.h
 
-   306	
-   307	static int v3d_perfmon_idr_del(int id, void *elem, void *data)
-   308	{
-   309		struct v3d_perfmon *perfmon = elem;
-   310		struct v3d_dev *v3d = (struct v3d_dev *)data;
-   311	
-   312		/* If the active perfmon is being destroyed, stop it first */
-   313		if (perfmon == v3d->active_perfmon)
-   314			v3d_perfmon_stop(v3d, perfmon, false);
-   315	
-   316		/* If the global perfmon is being destroyed, set it to NULL */
- > 317		cmpxchg(&v3d->global_perfmon, perfmon, NULL);
-   318	
-   319		v3d_perfmon_put(perfmon);
-   320	
-   321		return 0;
-   322	}
-   323	
+   142	
+   143	/* Can be uninlined because referenced by paravirt */
+   144	static inline void notrace
+   145	native_write_msr(unsigned int msr, u32 low, u32 high)
+   146	{
+   147		u64 val = (u64)high << 32 | low;
+   148	
+ > 149		native_wrmsrl(msr, val);
+   150	
+   151		if (tracepoint_enabled(write_msr))
+   152			do_trace_write_msr(msr, val, 0);
+   153	}
+   154	
 
 -- 
 0-DAY CI Kernel Test Service
