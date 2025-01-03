@@ -1,118 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A3D15573A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 20:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601EB186A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 20:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735934767; cv=none; b=ST6WENvFwT7EYbZxaYrpM3PyRb5TyeVT1iVgL3k/ZAoi74cwFSA6HJsWlt9o8Y6IqPZNt2cEq0jqVQ3jTCW+z/gcnKguIR1wSM3eTNah01wi7cFvxsNkulYiZH/w2EZqCe3LpB3F5e3/aS1QQiwK29FoXe5LhiJaQyllnqC2A8A=
+	t=1735936092; cv=none; b=Ia6MXryP16+ZLWxjlRF5a41pupCzIQQmnb4sYGCtzQIFT3HZyispA1FoeAMDyTs8LUrn3G3gg6S9imIe6TDGkas3ZWQY1jJrNciIXMxewtXqvk8gKJpEdQoj+1oesXQKRYlLpLMloENQmh810sQxEA8krkXbl7QZQWhLp/RrFIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735934767; c=relaxed/simple;
-	bh=HHQyoiApxje9tVkqv5G9AI2GRiUVHF21MsH8/Rtv8eE=;
+	s=arc-20240116; t=1735936092; c=relaxed/simple;
+	bh=NrlEp6okl23zuUMFcNStNYQiuFSXd5KPI8AXNJo+Ccc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sf7mb/6sMycuCpm7MGSZPjs9CP0v9JHO1PCRCrtTbqMFOAIED1vXo01lDg7Qcj+ILkj/WhIwK2D8SbDvxaZRgUAxtHcLu26NLuX0ErZwJgn+wEG4Pp3BL8xhKHmNQWNR0UkCwNW36qgPlckqduxSRTsFyHPr8s789VpUxd4qZ30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2mSkc02; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=hi8QRsEP4BZo1Pnxgqizmlcp0a9mu/i7QbOcllvK5CezU+7paSu1LAuewEr70lmG8+E9R/kSgH3szUpFU7nF+kC5ZmyRaP5wvX1SIgVpOgYK5AkkVaG81qdCPgCBtEc+2tuPej6Rw4hlvriJ4oDP5tohDKAt5r/vNZMZKkSPx3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZxcfXQ1x; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2mSkc02"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZxcfXQ1x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735934766; x=1767470766;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HHQyoiApxje9tVkqv5G9AI2GRiUVHF21MsH8/Rtv8eE=;
-  b=l2mSkc02C1KxZpZpF378umecgvoSS7E4MvJsZZE6qaDXWuteXVFd66Lb
-   ttntGh6+/uoxk26LEaoXxbqtfY3wKRIF0Ax7fQmLgnqC14akxeyUO3xtD
-   g5hkrgjZUKrigyQByDTHsiSCrlmX6TBUAmq/2BajX++fj0gVlgCCMqRAw
-   9MvC1cuzy+0J6Fjg+sBVoCoRGTqnZVuft4YRUlC/rSRs/HGsQCBv2Gj7u
-   2DEO2pHD+v5xmNQyN2aObSejNJ52E4h7j8pL+B1lS0pIITJJK+esXqFfq
-   kbzj+9SRWGz7/o5amzSPwujwWHiSzlXGizvvxhtleTyGOCnD92msT0w3l
-   w==;
-X-CSE-ConnectionGUID: 3YP75k5pSpmmuf8nn6/qbA==
-X-CSE-MsgGUID: FQu/f2UVT3SxGLEcaq0+iQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="39950907"
+  t=1735936090; x=1767472090;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NrlEp6okl23zuUMFcNStNYQiuFSXd5KPI8AXNJo+Ccc=;
+  b=ZxcfXQ1xlhjQSKNHB/Em3MUCMRFnE/04VFqQBPSHLkf0ptMvZecTl+SV
+   EsK6pTDeToKI4NKC3bCliCAzUArIQDXld6JLKveB8UiH+IijMcZfWyXQO
+   6C/kz2RCUQpuonPFksjflSFKmW3tV0NYz2Gmfjy0j4awt1ATEf4BgwiKY
+   iryuHQucjou76DgdXGNWStCA3L67IBI5CiotXXjPUtjOk8WS4qmv/Z/Dt
+   qkxn/uCIg0P2aPDokIxDiXqOQpxWu2MTN3qWHdn/Or1EpyT6iJcZoMeGq
+   eTTyRQHalmoNJ9TP/a7O2SIoniOPO3KZ4qJs3ya7ffjXbTatiYDkjRk5b
+   A==;
+X-CSE-ConnectionGUID: NF5TkHfwS2ycvKRDIWPQPw==
+X-CSE-MsgGUID: V2ifwiW5Tl+hcl394Vsa8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36061412"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="39950907"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 12:06:05 -0800
-X-CSE-ConnectionGUID: CVzmhMWCQFKBVv20K/ELQg==
-X-CSE-MsgGUID: OIraSmQkSm2ixc3hgQUydA==
+   d="scan'208";a="36061412"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 12:28:09 -0800
+X-CSE-ConnectionGUID: Nv2p4y9kTQGeC2IoXgjCNg==
+X-CSE-MsgGUID: yQGqHuf/SKCliCc2BUL34w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="101670827"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102371361"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Jan 2025 12:06:06 -0800
+  by orviesa007.jf.intel.com with ESMTP; 03 Jan 2025 12:28:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTnvm-000AFf-2O;
-	Fri, 03 Jan 2025 20:06:02 +0000
-Date: Sat, 4 Jan 2025 04:05:53 +0800
+	id 1tToH8-000AGl-10;
+	Fri, 03 Jan 2025 20:28:06 +0000
+Date: Sat, 4 Jan 2025 04:27:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: mm/migrate.c:236:33: sparse: sparse: cast to non-scalar
-Message-ID: <202501040330.ObpSNF7x-lkp@intel.com>
+To: David Laight <David.Laight@aculab.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-nonmm-unstable 42/141]
+ include/linux/compiler_types.h:542:45: error: call to
+ '__compiletime_assert_413' declared with attribute error: clamp() low limit
+ source_min greater than high limit source_max
+Message-ID: <202501040446.CrPCDN4l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
-commit: dee081bf8f824cabeb7c7495367d5dad0a444eb1 READ_ONCE: Drop pointer qualifiers when reading from scalar types
-date:   4 years, 9 months ago
-config: alpha-randconfig-r121-20241225 (https://download.01.org/0day-ci/archive/20250104/202501040330.ObpSNF7x-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250104/202501040330.ObpSNF7x-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   cedff7a221491210ded37efd786e4095067faa84
+commit: 08015b572224e06c290793e2b8be3cc94875d37b [42/141] minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20250104/202501040446.CrPCDN4l-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040446.CrPCDN4l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501040330.ObpSNF7x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501040446.CrPCDN4l-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/migrate.c:236:33: sparse: sparse: cast to non-scalar
->> mm/migrate.c:236:33: sparse: sparse: cast from non-scalar
-   mm/migrate.c:824:9: sparse: sparse: context imbalance in '__buffer_migrate_page' - different lock contexts for basic block
+All errors (new ones prefixed by >>):
 
-vim +236 mm/migrate.c
+   In file included from <command-line>:
+   drivers/gpu/drm/i915/display/intel_backlight.c: In function 'scale':
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_413' declared with attribute error: clamp() low limit source_min greater than high limit source_max
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:109:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     109 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:116:9: note: in expansion of macro '__clamp_once'
+     116 |         __clamp_once(val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
+         |         ^~~~~~~~~~~~
+   include/linux/minmax.h:192:28: note: in expansion of macro '__careful_clamp'
+     192 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_backlight.c:47:22: note: in expansion of macro 'clamp'
+      47 |         source_val = clamp(source_val, source_min, source_max);
+         |                      ^~~~~
 
-616b8371539a6c Zi Yan             2017-09-08  234  
-0697212a411c1d Christoph Lameter  2006-06-23  235  		get_page(new);
-6d2329f8872f23 Andrea Arcangeli   2016-10-07 @236  		pte = pte_mkold(mk_pte(new, READ_ONCE(vma->vm_page_prot)));
-3fe87967c536e8 Kirill A. Shutemov 2017-02-24  237  		if (pte_swp_soft_dirty(*pvmw.pte))
-c3d16e16522fe3 Cyrill Gorcunov    2013-10-16  238  			pte = pte_mksoft_dirty(pte);
-d3cb8bf6081b8b Mel Gorman         2014-10-02  239  
-3fe87967c536e8 Kirill A. Shutemov 2017-02-24  240  		/*
-3fe87967c536e8 Kirill A. Shutemov 2017-02-24  241  		 * Recheck VMA as permissions can change since migration started
-3fe87967c536e8 Kirill A. Shutemov 2017-02-24  242  		 */
-3fe87967c536e8 Kirill A. Shutemov 2017-02-24  243  		entry = pte_to_swp_entry(*pvmw.pte);
-0697212a411c1d Christoph Lameter  2006-06-23  244  		if (is_write_migration_entry(entry))
-d3cb8bf6081b8b Mel Gorman         2014-10-02  245  			pte = maybe_mkwrite(pte, vma);
-f45ec5ff16a75f Peter Xu           2020-04-06  246  		else if (pte_swp_uffd_wp(*pvmw.pte))
-f45ec5ff16a75f Peter Xu           2020-04-06  247  			pte = pte_mkuffd_wp(pte);
-d3cb8bf6081b8b Mel Gorman         2014-10-02  248  
-df6ad69838fc9d Jérôme Glisse      2017-09-08  249  		if (unlikely(is_zone_device_page(new))) {
-df6ad69838fc9d Jérôme Glisse      2017-09-08  250  			if (is_device_private_page(new)) {
-a5430dda8a3a1c Jérôme Glisse      2017-09-08  251  				entry = make_device_private_entry(new, pte_write(pte));
-a5430dda8a3a1c Jérôme Glisse      2017-09-08  252  				pte = swp_entry_to_pte(entry);
-f45ec5ff16a75f Peter Xu           2020-04-06  253  				if (pte_swp_uffd_wp(*pvmw.pte))
-f45ec5ff16a75f Peter Xu           2020-04-06  254  					pte = pte_mkuffd_wp(pte);
-df6ad69838fc9d Jérôme Glisse      2017-09-08  255  			}
-d2b2c6dd227ba5 Lars Persson       2019-03-28  256  		}
-a5430dda8a3a1c Jérôme Glisse      2017-09-08  257  
 
-:::::: The code at line 236 was first introduced by commit
-:::::: 6d2329f8872f23e46a19d240930571510ce525eb mm: vm_page_prot: update with WRITE_ONCE/READ_ONCE
+vim +/__compiletime_assert_413 +542 include/linux/compiler_types.h
 
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  528  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  531  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  532  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  536   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  539   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  540   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+
+:::::: The code at line 542 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
