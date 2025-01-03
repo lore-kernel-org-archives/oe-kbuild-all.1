@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE4B192B96
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 03:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BAE182
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 03:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735874821; cv=none; b=Rp7QxYYI7wmwfYMBwkfEqkAySpyVfW27LFjlSECUPX5aUWsAscEPbg9ZPCZJqlRQJTO5KiE1+PhaFVjck/ltcHIqqllWGGiw6Umq4fjoziFZ+A+m18C6/fsrQFClI2eFEEdck6ymPHf8qfoQFNHusnxB/5AXifCKFoyPHRI7M9I=
+	t=1735876082; cv=none; b=cUH6gG473kTfXJddO1YayXiYOIrVTEIgUEQpPDJdRb0bsnSF7rLen6DBJxr7e2Xg78cglyGw/Qwc43W/7Idwa911tiaCyIZwHgoIIlf8S+J0WWifhJNjSWIeVa8owjiWidY1SBSYEI/UwhcI/L3Vxs1ImVuVS6N8WktiP2ednSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735874821; c=relaxed/simple;
-	bh=gAWjNG9Dk3oAXrreEoIseB0NSU3CHUp/jHEYC63NsME=;
+	s=arc-20240116; t=1735876082; c=relaxed/simple;
+	bh=phsM8VKZWAzm67SCQPDToXbSdv73tOnVZtSg8U1jPQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E+1D3bUjkcGWtScLQQwyFC6OCs6UGyU8TcG2nNv0PnsAMfxydxdAii5roEi05+GldnVrDINoyZUrtGyZtmv0Ze35van2wRnyyLyMiep7mywaGDCAHG1mUCgTRkIYR1Zz2q5ZuB+l0UU/7bZmstp458f2cSfBmfTLlR5bwLJBH9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jS3Aa/up; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=kGaG4HXM1DteOJMmS9AEU8BqY1+dZuNq7+SltjIBaXNQqVKJ2onXSt1biknl6fYHqjhntrmir0wdFwF272IHUdUbZ3v6xxEfE9YLtieIpDS9t2DBYM+DOLfaSjsdkjyIXO62rjyP9obp3KI1qhf+OxYNcE+ARJKtE46yN2AUJAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JZ4GGUOS; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS3Aa/up"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JZ4GGUOS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735874820; x=1767410820;
+  t=1735876080; x=1767412080;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gAWjNG9Dk3oAXrreEoIseB0NSU3CHUp/jHEYC63NsME=;
-  b=jS3Aa/upmB5Ux1Oes0548Pwq2PqS3SuMyu7ZrgAd6Rskg9yx05T3FGli
-   /rXrpIQ4aivXBOAWYR0e7FWsjhVajlAzoqpg6Fw+9ozyIg8c/2Z0F33KI
-   eZ8Ki/Ps3kaVoDEeQ8fPk8KUjaYBIo9PCnRPN4VmU+uKEY/Ixu7K/4Q/4
-   VwjNsjSKmGvPzvQTkXYZTpKAgsQNr6x9RIEU3EjupBoezI80hoHvXu9xz
-   dzTiP4H53YixdUjpJ5f0pJIr0FQtatiCg0A5y7mcsi7oumVneC2yeFb3b
-   OIq5LsCJFC/bhcHR4iFLt3sMkjkH8XhUXt+F4Ik5YKxRy4ZMX0B5haMul
-   A==;
-X-CSE-ConnectionGUID: EvLMNGbBRS6YJFNMudgSJg==
-X-CSE-MsgGUID: oOSVwX1uSuCPbrWjlTgFhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="23716723"
+  bh=phsM8VKZWAzm67SCQPDToXbSdv73tOnVZtSg8U1jPQQ=;
+  b=JZ4GGUOSrCfA15H3o0Y1ao8oLrllERk72exlmKtAAgoR6KWdXfkrP20a
+   3ZyIm1DFXZcc6pviPv4iy1Z/i3CDVdArnmpBoOedgsHrb7qlIXW3OhN+T
+   d+Ovwcc1w4QXaGeiv+tF/Apb2SuZWQd0PTLuX1gNxaRzk/zLK+3k2CT0f
+   lZWwPFl4XItgGVmDvt6HfilEGkeWtifnnniQcKMCVC1Eo6FkI/p07i5j+
+   XnfnMYe292DTd8iqScJIUovJmQ/HeNVBfPmk9Unu6dNsgnT2IK0XFkICK
+   M9RheCWWGDheaAjBPyrr9AI4cuoTV1706X8TWOVDRXg+93ESndN/iJoNV
+   Q==;
+X-CSE-ConnectionGUID: GMpUdpvGRW6nNQbAXsBpvw==
+X-CSE-MsgGUID: 2BUqJiMdRfe3uchgpq+NOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36275467"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="23716723"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 19:26:58 -0800
-X-CSE-ConnectionGUID: coO90XBUQH2EoqXL7t7b4A==
-X-CSE-MsgGUID: TNVFTVy1RCKvWjrxXsSgjQ==
+   d="scan'208";a="36275467"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 19:48:00 -0800
+X-CSE-ConnectionGUID: Arf2AJXZSTaJ7nPAj/XMTA==
+X-CSE-MsgGUID: nCh6B3k0RfS3FhW4LBfkmA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106729633"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="106661527"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 Jan 2025 19:26:57 -0800
+  by orviesa004.jf.intel.com with ESMTP; 02 Jan 2025 19:47:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTYKs-00098t-1C;
-	Fri, 03 Jan 2025 03:26:54 +0000
-Date: Fri, 3 Jan 2025 11:26:32 +0800
+	id 1tTYfE-0009A6-1n;
+	Fri, 03 Jan 2025 03:47:56 +0000
+Date: Fri, 3 Jan 2025 11:47:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Atharva Tiwari <evepolonium@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andi Shyti <andi.shyti@kernel.org>
-Subject: [andi-shyti:i2c/i2c-host-next 21/22]
- drivers/i2c/busses/i2c-amd756.c:215:32: sparse: sparse: incorrect type in
- argument 1 (different base types)
-Message-ID: <202501031155.RWJvjc8p-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1673/1673] arch/x86/kvm/svm/csv.c:30:5: sparse:
+ sparse: symbol 'csv_vm_attestation' was not declared. Should it be static?
+Message-ID: <202501031119.BkQTUZGn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,124 +62,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host-next
-head:   811e13219d56d9bc13ff73029a917e5e5f8401d4
-commit: ec6b1f01db79c76b883453ba1d86b0e251a9ab4d [21/22] i2c: amd756: Fix endianness handling for word data
-config: m68k-randconfig-r121-20241230 (https://download.01.org/0day-ci/archive/20250103/202501031155.RWJvjc8p-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250103/202501031155.RWJvjc8p-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c2f1662c3fb301fe7ba127fe06c14538112982d4
+commit: 0f13b8634792cff1f2fb18bf35e5a24d7a8cbf8e [1673/1673] KVM: x86: Support VM_ATTESTATION hypercall
+config: x86_64-randconfig-121-20241230 (https://download.01.org/0day-ci/archive/20250103/202501031119.BkQTUZGn-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031119.BkQTUZGn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031155.RWJvjc8p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031119.BkQTUZGn-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-amd756.c:215:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/i2c/busses/i2c-amd756.c:215:32: sparse:     expected unsigned short [usertype] value
-   drivers/i2c/busses/i2c-amd756.c:215:32: sparse:     got restricted __le16 [usertype]
->> drivers/i2c/busses/i2c-amd756.c:260:30: sparse: sparse: cast to restricted __le16
->> drivers/i2c/busses/i2c-amd756.c:260:30: sparse: sparse: cast to restricted __le16
->> drivers/i2c/busses/i2c-amd756.c:260:30: sparse: sparse: cast to restricted __le16
->> drivers/i2c/busses/i2c-amd756.c:260:30: sparse: sparse: cast to restricted __le16
+>> arch/x86/kvm/svm/csv.c:30:5: sparse: sparse: symbol 'csv_vm_attestation' was not declared. Should it be static?
 
-vim +215 drivers/i2c/busses/i2c-amd756.c
+vim +/csv_vm_attestation +30 arch/x86/kvm/svm/csv.c
 
-   180	
-   181	/* Return negative errno on error. */
-   182	static s32 amd756_access(struct i2c_adapter * adap, u16 addr,
-   183			  unsigned short flags, char read_write,
-   184			  u8 command, int size, union i2c_smbus_data * data)
-   185	{
-   186		int i, len;
-   187		int status;
-   188	
-   189		switch (size) {
-   190		case I2C_SMBUS_QUICK:
-   191			outw_p(((addr & 0x7f) << 1) | (read_write & 0x01),
-   192			       SMB_HOST_ADDRESS);
-   193			size = AMD756_QUICK;
-   194			break;
-   195		case I2C_SMBUS_BYTE:
-   196			outw_p(((addr & 0x7f) << 1) | (read_write & 0x01),
-   197			       SMB_HOST_ADDRESS);
-   198			if (read_write == I2C_SMBUS_WRITE)
-   199				outb_p(command, SMB_HOST_DATA);
-   200			size = AMD756_BYTE;
-   201			break;
-   202		case I2C_SMBUS_BYTE_DATA:
-   203			outw_p(((addr & 0x7f) << 1) | (read_write & 0x01),
-   204			       SMB_HOST_ADDRESS);
-   205			outb_p(command, SMB_HOST_COMMAND);
-   206			if (read_write == I2C_SMBUS_WRITE)
-   207				outw_p(data->byte, SMB_HOST_DATA);
-   208			size = AMD756_BYTE_DATA;
-   209			break;
-   210		case I2C_SMBUS_WORD_DATA:
-   211			outw_p(((addr & 0x7f) << 1) | (read_write & 0x01),
-   212			       SMB_HOST_ADDRESS);
-   213			outb_p(command, SMB_HOST_COMMAND);
-   214			if (read_write == I2C_SMBUS_WRITE)
- > 215				outw_p(cpu_to_le16(data->word), SMB_HOST_DATA);
-   216			size = AMD756_WORD_DATA;
-   217			break;
-   218		case I2C_SMBUS_BLOCK_DATA:
-   219			outw_p(((addr & 0x7f) << 1) | (read_write & 0x01),
-   220			       SMB_HOST_ADDRESS);
-   221			outb_p(command, SMB_HOST_COMMAND);
-   222			if (read_write == I2C_SMBUS_WRITE) {
-   223				len = data->block[0];
-   224				if (len < 0)
-   225					len = 0;
-   226				if (len > 32)
-   227					len = 32;
-   228				outw_p(len, SMB_HOST_DATA);
-   229				/* i = inw_p(SMBHSTCNT); Reset SMBBLKDAT */
-   230				for (i = 1; i <= len; i++)
-   231					outb_p(data->block[i],
-   232					       SMB_HOST_BLOCK_DATA);
-   233			}
-   234			size = AMD756_BLOCK_DATA;
-   235			break;
-   236		default:
-   237			dev_warn(&adap->dev, "Unsupported transaction %d\n", size);
-   238			return -EOPNOTSUPP;
-   239		}
-   240	
-   241		/* How about enabling interrupts... */
-   242		outw_p(size & GE_CYC_TYPE_MASK, SMB_GLOBAL_ENABLE);
-   243	
-   244		status = amd756_transaction(adap);
-   245		if (status)
-   246			return status;
-   247	
-   248		if ((read_write == I2C_SMBUS_WRITE) || (size == AMD756_QUICK))
-   249			return 0;
-   250	
-   251	
-   252		switch (size) {
-   253		case AMD756_BYTE:
-   254			data->byte = inw_p(SMB_HOST_DATA);
-   255			break;
-   256		case AMD756_BYTE_DATA:
-   257			data->byte = inw_p(SMB_HOST_DATA);
-   258			break;
-   259		case AMD756_WORD_DATA:
- > 260			data->word = le16_to_cpu(inw_p(SMB_HOST_DATA));
-   261			break;
-   262		case AMD756_BLOCK_DATA:
-   263			data->block[0] = inw_p(SMB_HOST_DATA) & 0x3f;
-   264			if(data->block[0] > 32)
-   265				data->block[0] = 32;
-   266			/* i = inw_p(SMBHSTCNT); Reset SMBBLKDAT */
-   267			for (i = 1; i <= data->block[0]; i++)
-   268				data->block[i] = inb_p(SMB_HOST_BLOCK_DATA);
-   269			break;
-   270		}
-   271	
-   272		return 0;
-   273	}
-   274	
+    29	
+  > 30	int csv_vm_attestation(struct kvm *kvm, unsigned long gpa, unsigned long len)
+    31	{
+    32		struct kvm_sev_info *sev = &to_kvm_svm(kvm)->sev_info;
+    33		struct sev_data_attestation_report *data = NULL;
+    34		struct page **pages;
+    35		unsigned long guest_uaddr, n;
+    36		int ret = 0, offset, error;
+    37	
+    38		if (!sev_guest(kvm) || !hygon_kvm_hooks.sev_hooks_installed)
+    39			return -ENOTTY;
+    40	
+    41		/*
+    42		 * The physical address of guest must valid and page aligned, and
+    43		 * the length of guest memory region must be page size aligned.
+    44		 */
+    45		if (!gpa || (gpa & ~PAGE_MASK) || (len & ~PAGE_MASK)) {
+    46			pr_err("invalid guest address or length\n");
+    47			return -EFAULT;
+    48		}
+    49	
+    50		guest_uaddr = gfn_to_hva(kvm, gpa_to_gfn(gpa));
+    51		pages = hygon_kvm_hooks.sev_pin_memory(kvm, guest_uaddr, len, &n, 1);
+    52		if (IS_ERR(pages))
+    53			return PTR_ERR(pages);
+    54	
+    55		/*
+    56		 * The attestation report must be copied into contiguous memory region,
+    57		 * lets verify that userspace memory pages are contiguous before we
+    58		 * issue commmand.
+    59		 */
+    60		if (hygon_kvm_hooks.get_num_contig_pages(0, pages, n) != n) {
+    61			ret = -EINVAL;
+    62			goto e_unpin_memory;
+    63		}
+    64	
+    65		ret = -ENOMEM;
+    66		data = kzalloc(sizeof(*data), GFP_KERNEL);
+    67		if (!data)
+    68			goto e_unpin_memory;
+    69	
+    70		/* csv_vm_mnonce indicates attestation request from guest */
+    71		if (sizeof(csv_vm_mnonce) >= sizeof(data->mnonce)) {
+    72			ret = -EINVAL;
+    73			goto e_free;
+    74		}
+    75	
+    76		memcpy(data->mnonce, csv_vm_mnonce, sizeof(csv_vm_mnonce));
+    77	
+    78		offset = guest_uaddr & (PAGE_SIZE - 1);
+    79		data->address = __sme_page_pa(pages[0]) + offset;
+    80		data->len = len;
+    81	
+    82		data->handle = sev->handle;
+    83		ret = hygon_kvm_hooks.sev_issue_cmd(kvm, SEV_CMD_ATTESTATION_REPORT,
+    84						    data, &error);
+    85	
+    86		if (ret)
+    87			pr_err("vm attestation ret %#x, error %#x\n", ret, error);
+    88	
+    89	e_free:
+    90		kfree(data);
+    91	e_unpin_memory:
+    92		hygon_kvm_hooks.sev_unpin_memory(kvm, pages, n);
+    93		return ret;
+    94	}
+    95	
 
 -- 
 0-DAY CI Kernel Test Service
