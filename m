@@ -1,61 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9D92F22
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 04:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73731B218F;
+	Fri,  3 Jan 2025 04:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735878612; cv=none; b=jtkbwwad/lEZlyFxGi87/AdgNkcSQi5xyKAYROdf3P+AMX1y5pDNCrrPwxwmQTT3Npb2xGMXZriXWihFmCJaMjdjPY2SvzCQZncBlG66eUhnuBapq2yYlJfhscvsMVxnKiUVqDR0LZZJ7olk/2Gt7x75gd36E/DK+51oPiMF43k=
+	t=1735878613; cv=none; b=MFIVlO4RkbcgHPqNBSXa9W80w8y/f7RZkPkd6HY5B92MeJlpeGtNrN6ZWqv6broRLShveJAqYMVG7hVyrCGBQ1L5ikzV1Nip5ADKVHlKIbT+gP/r3wb3GFn92Kces4tWO+rSy0YYLqWwLVGyI/0uZm4lcLMnJqDqNpCluCDhPpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735878612; c=relaxed/simple;
-	bh=8dI5hC+db/Wrm8gLkGLQ4u3doAksK8tUgiyqFpph+5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oJd/qYvu2H8RnAvjj/6Vad+vR7veNvg8yWo5gtCBh6C3pNfGf/8Qv8cTwUtMBrRSU2DPVZ+TBllYcuPMZ15nDlWJL3En8Ln1YUvs+WTWboZN20zTpVvb2q0wT8nzoxaCXfWhLZEIr1NVGEJNN7pFibDIijooajvMtvSmnC5HuX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIEG+q2v; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1735878613; c=relaxed/simple;
+	bh=BLBgIr+YQ8Ibsk9KHPiZG6yNnG4b3R5nEab97uXLP9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fYzcKsGPR1FiJ4ryINA1Wne03rVHHPYhfQWSOtQzFvh4S/1ecUjzpbUK6sDrU2ZWeqjHl+G5rwDFxfEMIkpHOtWXzdjfBzogcT+vpG80HEuc4jGku/ChDNoRQCOSOSMd7n+vWasQArnoQNrVmOAesq+QY99WB6gP5DHW/47eb7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+vkwsix; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIEG+q2v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+vkwsix"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735878609; x=1767414609;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8dI5hC+db/Wrm8gLkGLQ4u3doAksK8tUgiyqFpph+5s=;
-  b=QIEG+q2vnA3uoVst498AQi2JBlHmw31IYPopFMLecV+SyfQC5PB0n2gd
-   nRbROhahPDI6Qf1BgUH1cxEVWYxkZE4s/T8mh4WIkQHSkmjA5m8RKCeDA
-   eH5eivyoyzsf+k7v6utdnWfNInXkNV2M98c4a7fpdoqILw1OcOqxwq63+
-   IglghgGf5LDpJ+9xkFqKiOkHap4IPDJNORX++jdLUUcn+NxSw4i1Ev8ne
-   bSMGkw6ApeWkAn3xNbFt2vpAhS2Y0+xIrdoKXVFbCN6IyOVsIokro6Vg1
-   uru1we7fO/YANepN/3BlJAhgNxYsjGCvxH3IFWyKoIVOrDOa9gFcnPKmR
-   A==;
-X-CSE-ConnectionGUID: taHf2B/AQCizO9s5ZIhpew==
-X-CSE-MsgGUID: nxttWTkpRUOyVurMAFdLEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="35427001"
+  t=1735878611; x=1767414611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BLBgIr+YQ8Ibsk9KHPiZG6yNnG4b3R5nEab97uXLP9k=;
+  b=L+vkwsixYKD5OpYHO8ylUuKAd1VM3Zi7sbuJfUCDIAo7XmiHS1pi7uV3
+   AoKpmGMvqk1DS9tDPUf2AR8xG/wRlzneSuqQa8y1R2aG7D3VIggNxHFM0
+   EeTflN88QpDSeUjJ1ig+RbRA9hCo1j3s4yeGXK8VcNcn1y65822ICC7iD
+   rOc7ayB8Lkn5efkPWsAXTFp29gVRNSNe7qyPjeDURLQIh1Ykn4EMvCmw/
+   FhjWVOc7FsYhCOucH+/lVmKd3or0yHY3FhWLUWuE2NznYcj8wVdMohASb
+   XKcehiPnJ8LKQLZX4sqF+K51U9c5jCRLBuiMW6VpVxVPtJUQKjEXj42vM
+   Q==;
+X-CSE-ConnectionGUID: /Mdyy6CkQd+CPUM7B3eprA==
+X-CSE-MsgGUID: y7SIuK7+SsqCKnKgmxwxfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="35368520"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="35427001"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:30:08 -0800
-X-CSE-ConnectionGUID: tSmmTJS5R1eXIDO+W7caPg==
-X-CSE-MsgGUID: RpwXAa0bR6CBf2K19W2l7w==
+   d="scan'208";a="35368520"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:30:10 -0800
+X-CSE-ConnectionGUID: S5U5uUSLR9S43ttLaiE61w==
+X-CSE-MsgGUID: OAei6xYXSuOlpOJsyITW9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102553098"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="106668447"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Jan 2025 20:30:06 -0800
+  by orviesa004.jf.intel.com with ESMTP; 02 Jan 2025 20:30:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTZJz-0009D1-0t;
+	id 1tTZJz-0009Cx-0k;
 	Fri, 03 Jan 2025 04:30:03 +0000
-Date: Fri, 3 Jan 2025 12:29:45 +0800
+Date: Fri, 3 Jan 2025 12:29:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Akshata Jahagirdar <akshata.jahagirdar@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
+	Corey Minyard <minyard@acm.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Matt Roper <matthew.d.roper@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>
-Subject: drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison
- of constant 274877906944 with expression of type 'resource_size_t' (aka
- 'unsigned int') is always true
-Message-ID: <202501031209.FksJ4I9X-lkp@intel.com>
+	openipmi-developer@lists.sourceforge.net,
+	dri-devel@lists.freedesktop.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev, Chong Qiao <qiaochong@loongson.cn>
+Subject: Re: [PATCH v1 2/4] ipmi: Add Loongson-2K BMC support
+Message-ID: <202501031235.JEXCZscQ-lkp@intel.com>
+References: <a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,250 +72,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin@loongson.cn>
 
-Hi Akshata,
+Hi Binbin,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
-commit: 8d79acd567db183e675cccc6cc737d2959e2a2d9 drm/xe/migrate: Add helper function to program identity map
-date:   6 months ago
-config: i386-randconfig-053-20250103 (https://download.01.org/0day-ci/archive/20250103/202501031209.FksJ4I9X-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031209.FksJ4I9X-lkp@intel.com/reproduce)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.13-rc5]
+[cannot apply to cminyard-ipmi/for-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-MFD-Core-driver/20241230-174205
+base:   linus/master
+patch link:    https://lore.kernel.org/r/a4cfdeed1a91a7a12c7ebe56bed2ba94991c4065.1735550269.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v1 2/4] ipmi: Add Loongson-2K BMC support
+config: loongarch-randconfig-r123-20241231 (https://download.01.org/0day-ci/archive/20250103/202501031235.JEXCZscQ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250103/202501031235.JEXCZscQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031209.FksJ4I9X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031235.JEXCZscQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ls2k_kcs_data *ik @@     got void [noderef] __iomem *const addr @@
+   drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse:     expected struct ls2k_kcs_data *ik
+   drivers/char/ipmi/ipmi_si_ls2k.c:110:38: sparse:     got void [noderef] __iomem *const addr
+   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ls2k_kcs_data *ik @@     got void [noderef] __iomem *const addr @@
+   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse:     expected struct ls2k_kcs_data *ik
+   drivers/char/ipmi/ipmi_si_ls2k.c:168:38: sparse:     got void [noderef] __iomem *const addr
+>> drivers/char/ipmi/ipmi_si_ls2k.c:226:24: sparse: sparse: symbol 'ipmi_ls2k_platform_driver' was not declared. Should it be static?
 
-   In file included from drivers/gpu/drm/xe/xe_migrate.c:12:
-   In file included from include/drm/ttm/ttm_tt.h:30:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison of constant 274877906944 with expression of type 'resource_size_t' (aka 'unsigned int') is always true [-Werror,-Wtautological-constant-out-of-range-compare]
-     304 |                 xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_assert.h:108:54: note: expanded from macro 'xe_assert'
-     108 | #define xe_assert(xe, condition) xe_assert_msg((xe), condition, "")
-         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_assert.h:111:24: note: expanded from macro 'xe_assert_msg'
-     111 |         __xe_assert_msg(__xe, condition,                                                        \
-         |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     112 |                         "platform: %s subplatform: %d\n"                                        \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     113 |                         "graphics: %s %u.%02u step %s\n"                                        \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     114 |                         "media: %s %u.%02u step %s\n"                                           \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     115 |                         msg,                                                                    \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     116 |                         __xe->info.platform_name, __xe->info.subplatform,                       \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                         __xe->info.graphics_name,                                               \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     118 |                         __xe->info.graphics_verx100 / 100,                                      \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     119 |                         __xe->info.graphics_verx100 % 100,                                      \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     120 |                         xe_step_name(__xe->info.step.graphics),                                 \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     121 |                         __xe->info.media_name,                                                  \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     122 |                         __xe->info.media_verx100 / 100,                                         \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     123 |                         __xe->info.media_verx100 % 100,                                         \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     124 |                         xe_step_name(__xe->info.step.media),                                    \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     125 |                         ## arg);                                                                \
-         |                         ~~~~~~~
-   drivers/gpu/drm/xe/xe_assert.h:84:31: note: expanded from macro '__xe_assert_msg'
-      84 |         (void)drm_WARN(&(xe)->drm, !(condition), "[" DRM_NAME "] Assertion `%s` failed!\n" msg, \
-         |               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      85 |                        __stringify(condition), ## arg);                                         \
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:635:7: note: expanded from macro 'drm_WARN'
-     635 |         WARN(condition, "%s %s: [drm] " format,                         \
-         |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     636 |                         dev_driver_string((drm)->dev),                  \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     637 |                         dev_name((drm)->dev), ## arg)
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:132:25: note: expanded from macro 'WARN'
-     132 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   2 errors generated.
+vim +110 drivers/char/ipmi/ipmi_si_ls2k.c
 
-
-vim +304 drivers/gpu/drm/xe/xe_migrate.c
-
-   177	
-   178	static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
-   179					 struct xe_vm *vm)
-   180	{
-   181		struct xe_device *xe = tile_to_xe(tile);
-   182		u16 pat_index = xe->pat.idx[XE_CACHE_WB];
-   183		u8 id = tile->id;
-   184		u32 num_entries = NUM_PT_SLOTS, num_level = vm->pt_root[id]->level,
-   185		    num_setup = num_level + 1;
-   186		u32 map_ofs, level, i;
-   187		struct xe_bo *bo, *batch = tile->mem.kernel_bb_pool->bo;
-   188		u64 entry, pt30_ofs;
-   189	
-   190		/* Can't bump NUM_PT_SLOTS too high */
-   191		BUILD_BUG_ON(NUM_PT_SLOTS > SZ_2M/XE_PAGE_SIZE);
-   192		/* Must be a multiple of 64K to support all platforms */
-   193		BUILD_BUG_ON(NUM_PT_SLOTS * XE_PAGE_SIZE % SZ_64K);
-   194		/* And one slot reserved for the 4KiB page table updates */
-   195		BUILD_BUG_ON(!(NUM_KERNEL_PDE & 1));
-   196	
-   197		/* Need to be sure everything fits in the first PT, or create more */
-   198		xe_tile_assert(tile, m->batch_base_ofs + batch->size < SZ_2M);
-   199	
-   200		bo = xe_bo_create_pin_map(vm->xe, tile, vm,
-   201					  num_entries * XE_PAGE_SIZE,
-   202					  ttm_bo_type_kernel,
-   203					  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
-   204					  XE_BO_FLAG_PINNED);
-   205		if (IS_ERR(bo))
-   206			return PTR_ERR(bo);
-   207	
-   208		/* PT31 reserved for 2M identity map */
-   209		pt30_ofs = bo->size - 2 * XE_PAGE_SIZE;
-   210		entry = vm->pt_ops->pde_encode_bo(bo, pt30_ofs, pat_index);
-   211		xe_pt_write(xe, &vm->pt_root[id]->bo->vmap, 0, entry);
-   212	
-   213		map_ofs = (num_entries - num_setup) * XE_PAGE_SIZE;
+   106	
+   107	static unsigned char ls2k_mem_inb(const struct si_sm_io *io,
+   108					  unsigned int offset)
+   109	{
+ > 110		struct ls2k_kcs_data *ik = io->addr;
+   111		int inb = 0;
+   112	
+   113		if (ik->version == 0)
+   114			inb = intf_sim_inb_v0(ik, offset);
+   115		else if (ik->version == 1)
+   116			inb = intf_sim_inb_v1(ik, offset);
+   117	
+   118		return inb;
+   119	}
+   120	
+   121	static void intf_sim_outb_v0(struct ls2k_kcs_data *ik, unsigned int offset,
+   122				     unsigned char val)
+   123	{
+   124		if (ls2k_get_ibf(ik))
+   125			return;
+   126	
+   127		switch (offset & BIT(0)) {
+   128		case 0:
+   129			ik->reg.data_in = val;
+   130			ik->reg.status &= ~LS2K_KCS_STS_CMD;
+   131			break;
+   132	
+   133		case 1:
+   134			ik->reg.cmd = val;
+   135			ik->reg.status |= LS2K_KCS_STS_CMD;
+   136			break;
+   137		}
+   138	
+   139		ls2k_set_ibf(ik, 1);
+   140		ik->write_req++;
+   141	}
+   142	
+   143	static void intf_sim_outb_v1(struct ls2k_kcs_data *ik, unsigned int offset,
+   144				     unsigned char val)
+   145	{
+   146		if (ik->fifo.ibfh != ik->fifo.ibft)
+   147			return;
+   148	
+   149		switch (offset & BIT(0)) {
+   150		case 0:
+   151			ik->reg.data_in = val;
+   152			ik->cmd_data = 0;
+   153			break;
+   154	
+   155		case 1:
+   156			ik->reg.cmd = val;
+   157			ik->cmd_data = 1;
+   158			break;
+   159		}
+   160	
+   161		ik->fifo.ibfh = !ik->fifo.ibft;
+   162		ik->write_req++;
+   163	}
+   164	
+   165	static void ls2k_mem_outb(const struct si_sm_io *io, unsigned int offset,
+   166				  unsigned char val)
+   167	{
+   168		struct ls2k_kcs_data *ik = io->addr;
+   169	
+   170		if (ik->version == 0)
+   171			intf_sim_outb_v0(ik, offset, val);
+   172		else if (ik->version == 1)
+   173			intf_sim_outb_v1(ik, offset, val);
+   174	}
+   175	
+   176	static void ls2k_mem_cleanup(struct si_sm_io *io)
+   177	{
+   178		if (io->addr)
+   179			iounmap(io->addr);
+   180	}
+   181	
+   182	static int ipmi_ls2k_sim_setup(struct si_sm_io *io)
+   183	{
+   184		io->addr = ioremap(io->addr_data, io->regspacing);
+   185		if (!io->addr)
+   186			return -EIO;
+   187	
+   188		io->inputb = ls2k_mem_inb;
+   189		io->outputb = ls2k_mem_outb;
+   190		io->io_cleanup = ls2k_mem_cleanup;
+   191	
+   192		return 0;
+   193	}
+   194	
+   195	static int ipmi_ls2k_probe(struct platform_device *pdev)
+   196	{
+   197		struct si_sm_io io;
+   198	
+   199		dev_info(&pdev->dev, "probing via ls2k platform");
+   200		memset(&io, 0, sizeof(io));
+   201	
+   202		io.addr_source	= SI_PLATFORM;
+   203		io.si_type	= SI_KCS;
+   204		io.addr_space	= IPMI_MEM_ADDR_SPACE;
+   205		io.io_setup	= ipmi_ls2k_sim_setup;
+   206		io.addr_data	= pdev->resource[0].start;
+   207		io.regspacing	= pdev->resource[0].end - pdev->resource[0].start + 1;
+   208		io.regsize	= DEFAULT_REGSIZE;
+   209		io.regshift	= 0;
+   210		io.dev		= &pdev->dev;
+   211		io.irq		= 0;
+   212		if (io.irq)
+   213			io.irq_setup = ipmi_std_irq_setup;
    214	
-   215		/* Map the entire BO in our level 0 pt */
-   216		for (i = 0, level = 0; i < num_entries; level++) {
-   217			entry = vm->pt_ops->pte_encode_bo(bo, i * XE_PAGE_SIZE,
-   218							  pat_index, 0);
-   219	
-   220			xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64, entry);
-   221	
-   222			if (vm->flags & XE_VM_FLAG_64K)
-   223				i += 16;
-   224			else
-   225				i += 1;
-   226		}
-   227	
-   228		if (!IS_DGFX(xe)) {
-   229			/* Write out batch too */
-   230			m->batch_base_ofs = NUM_PT_SLOTS * XE_PAGE_SIZE;
-   231			for (i = 0; i < batch->size;
-   232			     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
-   233			     XE_PAGE_SIZE) {
-   234				entry = vm->pt_ops->pte_encode_bo(batch, i,
-   235								  pat_index, 0);
-   236	
-   237				xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
-   238					  entry);
-   239				level++;
-   240			}
-   241			if (xe->info.has_usm) {
-   242				xe_tile_assert(tile, batch->size == SZ_1M);
-   243	
-   244				batch = tile->primary_gt->usm.bb_pool->bo;
-   245				m->usm_batch_base_ofs = m->batch_base_ofs + SZ_1M;
-   246				xe_tile_assert(tile, batch->size == SZ_512K);
-   247	
-   248				for (i = 0; i < batch->size;
-   249				     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
-   250				     XE_PAGE_SIZE) {
-   251					entry = vm->pt_ops->pte_encode_bo(batch, i,
-   252									  pat_index, 0);
-   253	
-   254					xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
-   255						  entry);
-   256					level++;
-   257				}
-   258			}
-   259		} else {
-   260			u64 batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
-   261	
-   262			m->batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
-   263	
-   264			if (xe->info.has_usm) {
-   265				batch = tile->primary_gt->usm.bb_pool->bo;
-   266				batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
-   267				m->usm_batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
-   268			}
-   269		}
-   270	
-   271		for (level = 1; level < num_level; level++) {
-   272			u32 flags = 0;
-   273	
-   274			if (vm->flags & XE_VM_FLAG_64K && level == 1)
-   275				flags = XE_PDE_64K;
-   276	
-   277			entry = vm->pt_ops->pde_encode_bo(bo, map_ofs + (u64)(level - 1) *
-   278							  XE_PAGE_SIZE, pat_index);
-   279			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level, u64,
-   280				  entry | flags);
-   281		}
-   282	
-   283		/* Write PDE's that point to our BO. */
-   284		for (i = 0; i < map_ofs / PAGE_SIZE; i++) {
-   285			entry = vm->pt_ops->pde_encode_bo(bo, (u64)i * XE_PAGE_SIZE,
-   286							  pat_index);
-   287	
-   288			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE +
-   289				  (i + 1) * 8, u64, entry);
-   290		}
-   291	
-   292		/* Set up a 1GiB NULL mapping at 255GiB offset. */
-   293		level = 2;
-   294		xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level + 255 * 8, u64,
-   295			  vm->pt_ops->pte_encode_addr(xe, 0, pat_index, level, IS_DGFX(xe), 0)
-   296			  | XE_PTE_NULL);
-   297		m->cleared_mem_ofs = (255ULL << xe_pt_shift(level));
-   298	
-   299		/* Identity map the entire vram at 256GiB offset */
-   300		if (IS_DGFX(xe)) {
-   301			u64 pt31_ofs = bo->size - XE_PAGE_SIZE;
-   302	
-   303			xe_migrate_program_identity(xe, vm, bo, map_ofs, 256, pat_index, pt31_ofs);
- > 304			xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
-   305		}
-   306	
-   307		/*
-   308		 * Example layout created above, with root level = 3:
-   309		 * [PT0...PT7]: kernel PT's for copy/clear; 64 or 4KiB PTE's
-   310		 * [PT8]: Kernel PT for VM_BIND, 4 KiB PTE's
-   311		 * [PT9...PT27]: Userspace PT's for VM_BIND, 4 KiB PTE's
-   312		 * [PT28 = PDE 0] [PT29 = PDE 1] [PT30 = PDE 2] [PT31 = 2M vram identity map]
-   313		 *
-   314		 * This makes the lowest part of the VM point to the pagetables.
-   315		 * Hence the lowest 2M in the vm should point to itself, with a few writes
-   316		 * and flushes, other parts of the VM can be used either for copying and
-   317		 * clearing.
-   318		 *
-   319		 * For performance, the kernel reserves PDE's, so about 20 are left
-   320		 * for async VM updates.
-   321		 *
-   322		 * To make it easier to work, each scratch PT is put in slot (1 + PT #)
-   323		 * everywhere, this allows lockless updates to scratch pages by using
-   324		 * the different addresses in VM.
-   325		 */
-   326	#define NUM_VMUSA_UNIT_PER_PAGE	32
-   327	#define VM_SA_UPDATE_UNIT_SIZE		(XE_PAGE_SIZE / NUM_VMUSA_UNIT_PER_PAGE)
-   328	#define NUM_VMUSA_WRITES_PER_UNIT	(VM_SA_UPDATE_UNIT_SIZE / sizeof(u64))
-   329		drm_suballoc_manager_init(&m->vm_update_sa,
-   330					  (size_t)(map_ofs / XE_PAGE_SIZE - NUM_KERNEL_PDE) *
-   331					  NUM_VMUSA_UNIT_PER_PAGE, 0);
-   332	
-   333		m->pt_bo = bo;
-   334		return 0;
-   335	}
-   336	
+   215		dev_info(&pdev->dev, "%pR regsize %d spacing %d irq %d\n",
+   216			 &pdev->resource[0], io.regsize, io.regspacing, io.irq);
+   217	
+   218		return ipmi_si_add_smi(&io);
+   219	}
+   220	
+   221	static void ipmi_ls2k_remove(struct platform_device *pdev)
+   222	{
+   223		ipmi_si_remove_by_dev(&pdev->dev);
+   224	}
+   225	
+ > 226	struct platform_driver ipmi_ls2k_platform_driver = {
+   227		.driver = {
+   228			.name = "ls2k-ipmi-si",
+   229		},
+   230		.probe	= ipmi_ls2k_probe,
+   231		.remove	= ipmi_ls2k_remove,
+   232	};
+   233	
 
 -- 
 0-DAY CI Kernel Test Service
