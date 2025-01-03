@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1CD136349
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 00:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0F913AA2A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 00:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735865022; cv=none; b=P517AbsiGZZLM4Qf17y5YAignERgAZcTkND1uV5QPVOjLGCDmvWS9AZJiBTQF+Pqwa1Xn6hB56rA/HpmZQczndBjH58qn34n8bLRnQUahg5SQ8cUiDlDvui/a6SCjcf326FgpAkdKPTSA/kc6trYIYB+BkcmM3G/Vvy2fxiqXUs=
+	t=1735865024; cv=none; b=rAJGlSahk8Ng9j4pBY45sEnI7O7alxXTQCAJfMg43RGj++NsZk2mvKd0tw1AdF1RrzFaVeOdmBXyQHBNCq9Mrz/LNUZheHGOU3ciWvOHIkiETVoAcL+L6M4IqMX9AEibp1tPo4FCBTT6SDazpqYg2MgDJG4OLPeGKR1IHWwtx5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735865022; c=relaxed/simple;
-	bh=CQmAINZSglphL6v8jjHHj9QXN+bsiiG9mBjYy3gdIfk=;
+	s=arc-20240116; t=1735865024; c=relaxed/simple;
+	bh=evyTVioEnv/+GvvTIk9JFjtGj83ivp5eTu/OCUE3K6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DXXrCFzvCw63gpwGNR+BM8z1Waxg6QsHC3Xos5U/qW59XcEwhnW+4UDArWx49NKFK0w3mRP5MJmF4/T6trxIKj1AkPfM9q2x0h48WRSOeyj0hCcciTBzxiZ3ddAaNh/jF8+Tgm9Dov7ZB8f4v1lOBC7/ZOTMbFayPOG8/zbl5ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQi5JjOQ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=mYFPyzY+vAByqgMPhbpIbccV0Mlqn2OOHTjZmK1+CyhSl2MIfFSmhg27Zfk/o0aB8P9pmO1a9AOyzdx3xeyTsfKrMZ07ODCtaQsmJ0fQNzQaIgtPYUC2rnNsu2QeGUGdDFn2iHp9R5LA08AXu3mtSoQ0GR2A/sRCDHX7oyXm3gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ha8jT+VN; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQi5JjOQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ha8jT+VN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735865020; x=1767401020;
+  t=1735865022; x=1767401022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CQmAINZSglphL6v8jjHHj9QXN+bsiiG9mBjYy3gdIfk=;
-  b=IQi5JjOQYGW/iSiiFpXP2k37PE6qkCB6HpHe9RtAzqxk6Z1ixTtubiPg
-   sTz7zPAekigTlFxVEswBaiwoU2gBl+qV6bbDFYXTtchmDtBwbhJsJXNj3
-   ACl6TkUd+89+TsWK3XxCVmULd9RsH4zSl63DaepLuEc1gtrcu7NLE8s6W
-   d6niznr72ICAYzhdHmx++Uul/xnQsksYnob0gW9aYncxthXCPTXXLh9r5
-   3Kj0MJRkVvBuaLncvgYmf39v8Der7JOjcrsglN67RmErqEu6YtXp+f4mX
-   rU94tZCb1iiPPPpXfrk5ARTLXfZI6kBvLOBUnOC6++CH23LzwHdl0iX5S
-   w==;
-X-CSE-ConnectionGUID: gzV+Ne2QQSeUW40lZSNG1w==
-X-CSE-MsgGUID: 0pHjVyT1RhiF94amzSXTcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="40037816"
+  bh=evyTVioEnv/+GvvTIk9JFjtGj83ivp5eTu/OCUE3K6Q=;
+  b=ha8jT+VNYCmG+LcThuqxc0/aH6HGmqWd2aQLhuLJhYZFY/f6EtaWg42W
+   eI9IUtbzETWyMnzWEbW4rx0tSnu5+aNPO7kqQlb7TwiNc6E8/+OK3zU0I
+   RdhlidDpvq44TSu/1GXy/GK9GyREO5xZJO89DbZ6gHsR/H6Ap5xE4lhUu
+   MkzkiR7F5+Tw6YveIr2JQ1ic5OyS8P0aBZDES2n2twHFtjD+NsljTVPOx
+   CEVTcSI8CLbEjw5xDNGYt7NXRodI9sVhN3NrTiHTdTrT+Wt230FiS73Tg
+   DmJw6E6r0xbtaWPWoFaFMuyQEXX4lPNrExr9nXowBnPTmai9X+teLdfVJ
+   A==;
+X-CSE-ConnectionGUID: fwyUrXihTLySyuz8Gzr2Ow==
+X-CSE-MsgGUID: A3K1VYOfStWf+Jmi/sQTZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="40037818"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="40037816"
+   d="scan'208";a="40037818"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 16:43:40 -0800
-X-CSE-ConnectionGUID: srSSp6XqSlixWJDc7UhIFg==
-X-CSE-MsgGUID: OJju3k0YTuGWYy9npUvZvA==
+X-CSE-ConnectionGUID: o7bNOt0MRQi+GK0GsT06MQ==
+X-CSE-MsgGUID: l+TJVcYbShW5kUTj2JiIRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101498568"
+   d="scan'208";a="101498574"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 02 Jan 2025 16:43:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTVmq-0008zw-0I;
+	id 1tTVmq-000900-0Y;
 	Fri, 03 Jan 2025 00:43:36 +0000
-Date: Fri, 3 Jan 2025 08:43:33 +0800
+Date: Fri, 3 Jan 2025 08:43:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1365/1365] kernel/sched/debug.c:990:29:
- error: 'struct dyn_affinity_stats' has no member named
- 'nr_wakeups_preferred_cpus'
-Message-ID: <202501030826.kEDgBIqw-lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Matt Roper <matthew.d.roper@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_cursor.c:314:17: error:
+ arithmetic between different enumeration types ('enum pipe' and 'enum
+ intel_display_power_domain')
+Message-ID: <202501030820.uuKfUZvC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,329 +64,363 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Hui,
+Hi Lucas,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4c116febc8d53bc1f8f25a3d60db331f17ab8cd8
-commit: ebca52abe099caa97d7669d0acc71209ea80cfec [1365/1365] sched: Add statistics for scheduler dynamic affinity
-config: x86_64-randconfig-r062-20250103 (https://download.01.org/0day-ci/archive/20250103/202501030826.kEDgBIqw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030826.kEDgBIqw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: 237412e45390805e14a6936fb998d756c4eac9d8 drm/xe: Enable 32bits build
+date:   11 months ago
+config: i386-randconfig-053-20250103 (https://download.01.org/0day-ci/archive/20250103/202501030820.uuKfUZvC-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030820.uuKfUZvC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501030826.kEDgBIqw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501030820.uuKfUZvC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/debug.c:815:6: warning: no previous prototype for 'sysrq_sched_debug_tidy' [-Wmissing-prototypes]
-     815 | void sysrq_sched_debug_tidy(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/debug.c: In function 'proc_sched_show_task':
->> kernel/sched/debug.c:990:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_preferred_cpus'
-     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
-         |                             ^~
-   kernel/sched/debug.c:21:31: note: in definition of macro 'SEQ_printf'
-      21 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:990:17: note: in expansion of macro '__P'
-     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
-         |                 ^~~
-   In file included from include/linux/kernel.h:14,
-                    from arch/x86/include/asm/percpu.h:45,
-                    from arch/x86/include/asm/current.h:6,
-                    from include/linux/sched.h:12,
-                    from kernel/sched/sched.h:5,
-                    from kernel/sched/debug.c:12:
->> kernel/sched/debug.c:990:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_preferred_cpus'
-     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
-         |                             ^~
-   include/linux/printk.h:362:33: note: in definition of macro 'pr_cont'
-     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~
-   kernel/sched/debug.c:939:9: note: in expansion of macro 'SEQ_printf'
-     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-         |         ^~~~~~~~~~
-   kernel/sched/debug.c:990:17: note: in expansion of macro '__P'
-     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
-         |                 ^~~
->> kernel/sched/debug.c:991:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_force_preferred_cpus'
-     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
-         |                             ^~
-   kernel/sched/debug.c:21:31: note: in definition of macro 'SEQ_printf'
-      21 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:991:17: note: in expansion of macro '__P'
-     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
-         |                 ^~~
->> kernel/sched/debug.c:991:29: error: 'struct dyn_affinity_stats' has no member named 'nr_wakeups_force_preferred_cpus'
-     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
-         |                             ^~
-   include/linux/printk.h:362:33: note: in definition of macro 'pr_cont'
-     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~
-   kernel/sched/debug.c:939:9: note: in expansion of macro 'SEQ_printf'
-     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-         |         ^~~~~~~~~~
-   kernel/sched/debug.c:991:17: note: in expansion of macro '__P'
-     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
-         |                 ^~~
-   In file included from include/linux/migrate.h:6,
-                    from kernel/sched/sched.h:52:
-   include/linux/mempolicy.h: At top level:
-   include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
-     329 | static long __do_mbind(unsigned long start, unsigned long len,
-         |             ^~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_cursor.c:7:
+   In file included from include/drm/drm_atomic_helper.h:31:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_cursor.c:314:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+     314 |         power_domain = POWER_DOMAIN_PIPE(PIPE_A);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cursor.c:610:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+     610 |         power_domain = POWER_DOMAIN_PIPE(plane->pipe);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/intel_ddi.c:32:
+   In file included from include/drm/drm_privacy_screen_consumer.h:13:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_ddi.c:811:12: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+     811 |                                                                    POWER_DOMAIN_TRANSCODER(cpu_transcoder));
+         |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:825:37: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+     825 |                 intel_display_power_put(dev_priv, POWER_DOMAIN_TRANSCODER(cpu_transcoder),
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:3754:18: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3754 |                 power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_ddi.c:4669:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4669 |                 return HPD_PORT_D + port - PORT_D_XELPD;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4671:23: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4671 |                 return HPD_PORT_TC1 + port - PORT_TC1;
+         |                        ~~~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4673:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4673 |                 return HPD_PORT_A + port - PORT_A;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4680:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4680 |                 return HPD_PORT_C + port - PORT_TC1;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4682:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4682 |                 return HPD_PORT_A + port - PORT_A;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4689:23: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4689 |                 return HPD_PORT_TC1 + port - PORT_TC1;
+         |                        ~~~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4691:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4691 |                 return HPD_PORT_A + port - PORT_A;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4701:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4701 |                 return HPD_PORT_C + port - PORT_TC1;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4703:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4703 |                 return HPD_PORT_A + port - PORT_A;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4710:23: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4710 |                 return HPD_PORT_TC1 + port - PORT_C;
+         |                        ~~~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4712:21: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4712 |                 return HPD_PORT_A + port - PORT_A;
+         |                        ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4724:20: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4724 |         return HPD_PORT_A + port - PORT_A;
+         |                ~~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_ddi.c:4732:20: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    4732 |         return HPD_PORT_A + port - PORT_A;
+         |                ~~~~~~~~~~ ^ ~~~~
+   17 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/intel_display.c:28:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_display.c:314:17: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+     314 |         power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_display.c:1889:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1889 |                 return PHY_D + port - PORT_D_XELPD;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1891:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1891 |                 return PHY_F + port - PORT_TC1;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1893:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1893 |                 return PHY_B + port - PORT_TC1;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1895:16: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1895 |                 return PHY_C + port - PORT_TC1;
+         |                        ~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1900:15: error: arithmetic between different enumeration types ('enum phy' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1900 |         return PHY_A + port - PORT_A;
+         |                ~~~~~ ^ ~~~~
+>> drivers/gpu/drm/i915/display/intel_display.c:1909:20: error: arithmetic between different enumeration types ('enum tc_port' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1909 |                 return TC_PORT_1 + port - PORT_TC1;
+         |                        ~~~~~~~~~ ^ ~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1911:20: error: arithmetic between different enumeration types ('enum tc_port' and 'enum port') [-Werror,-Wenum-enum-conversion]
+    1911 |                 return TC_PORT_1 + port - PORT_C;
+         |                        ~~~~~~~~~ ^ ~~~~
+>> drivers/gpu/drm/i915/display/intel_display.c:1939:10: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1939 |         set_bit(POWER_DOMAIN_PIPE(pipe), mask->bits);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1940:10: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1940 |         set_bit(POWER_DOMAIN_TRANSCODER(cpu_transcoder), mask->bits);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:1943:11: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1943 |                 set_bit(POWER_DOMAIN_PIPE_PANEL_FITTER(pipe), mask->bits);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:122:11: note: expanded from macro 'POWER_DOMAIN_PIPE_PANEL_FITTER'
+     122 |                 ((pipe) + POWER_DOMAIN_PIPE_PANEL_FITTER_A)
+         |                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:2943:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    2943 |         power_domain = POWER_DOMAIN_PIPE(crtc->pipe);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3335:17: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3335 |         power_domain = POWER_DOMAIN_PIPE(crtc->pipe);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3426:17: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3426 |         power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3464:18: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3464 |                 power_domain = POWER_DOMAIN_PIPE(pipe);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3542:18: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3542 |                 power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3647:14: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3647 |                                                        POWER_DOMAIN_TRANSCODER(pipe_config->cpu_transcoder)))
+         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3679:15: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    3679 |                                                                POWER_DOMAIN_TRANSCODER(cpu_transcoder)))
+         |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:7:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_display_irq.c:1428:10: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1428 |                                                    POWER_DOMAIN_PIPE(pipe)))
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_display_irq.c:1453:13: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1453 |                         domain = POWER_DOMAIN_TRANSCODER(trans);
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_irq.c:1467:10: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1467 |                                                    POWER_DOMAIN_PIPE(pipe)))
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_irq.c:1686:13: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1686 |                         domain = POWER_DOMAIN_TRANSCODER(trans);
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:125:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
+     125 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
+         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_irq.c:1700:10: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+    1700 |                                                    POWER_DOMAIN_PIPE(pipe)))
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   6 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/intel_dpll_mgr.c:28:
+   In file included from drivers/gpu/drm/i915/display/intel_de.h:9:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_dpll_mgr.c:188:19: error: arithmetic between different enumeration types ('enum tc_port' and 'enum intel_dpll_id') [-Werror,-Wenum-enum-conversion]
+     188 |         return TC_PORT_1 + id - DPLL_ID_ICL_MGPLL1;
+         |                ~~~~~~~~~ ^ ~~
+   2 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/intel_hotplug.c:26:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_hotplug.c:92:20: error: arithmetic between different enumeration types ('enum hpd_pin' and 'enum port') [-Werror,-Wenum-enum-conversion]
+      92 |         return HPD_PORT_A + port - PORT_A;
+         |                ~~~~~~~~~~ ^ ~~~~
+   2 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/intel_tc.c:6:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_tc.c:251:41: error: arithmetic between different enumeration types ('enum intel_display_power_domain' and 'enum tc_port') [-Werror,-Wenum-enum-conversion]
+     251 |         return POWER_DOMAIN_PORT_DDI_LANES_TC1 + tc_port - TC_PORT_1;
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~
+   2 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/intel_vdsc.c:12:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_vdsc.c:369:10: error: arithmetic between different enumeration types ('enum pipe' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
+     369 |                 return POWER_DOMAIN_PIPE(pipe);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_power.h:120:41: note: expanded from macro 'POWER_DOMAIN_PIPE'
+     120 | #define POWER_DOMAIN_PIPE(pipe) ((pipe) + POWER_DOMAIN_PIPE_A)
+         |                                  ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+..
 
 
-vim +990 kernel/sched/debug.c
+vim +314 drivers/gpu/drm/i915/display/intel_cursor.c
 
-   814	
- > 815	void sysrq_sched_debug_tidy(void)
-   816	{
-   817		int cpu;
-   818	
-   819		SEQ_printf(NULL, "Sched Debug Version: v0.11, %s %.*s\n",
-   820			init_utsname()->release,
-   821			(int)strcspn(init_utsname()->version, " "),
-   822			init_utsname()->version);
-   823	
-   824		for_each_online_cpu(cpu)
-   825			print_cpu_tidy(NULL, cpu);
-   826	}
-   827	
-   828	/*
-   829	 * This itererator needs some explanation.
-   830	 * It returns 1 for the header position.
-   831	 * This means 2 is CPU 0.
-   832	 * In a hotplugged system some CPUs, including CPU 0, may be missing so we have
-   833	 * to use cpumask_* to iterate over the CPUs.
-   834	 */
-   835	static void *sched_debug_start(struct seq_file *file, loff_t *offset)
-   836	{
-   837		unsigned long n = *offset;
-   838	
-   839		if (n == 0)
-   840			return (void *) 1;
-   841	
-   842		n--;
-   843	
-   844		if (n > 0)
-   845			n = cpumask_next(n - 1, cpu_online_mask);
-   846		else
-   847			n = cpumask_first(cpu_online_mask);
-   848	
-   849		*offset = n + 1;
-   850	
-   851		if (n < nr_cpu_ids)
-   852			return (void *)(unsigned long)(n + 2);
-   853	
-   854		return NULL;
-   855	}
-   856	
-   857	static void *sched_debug_next(struct seq_file *file, void *data, loff_t *offset)
-   858	{
-   859		(*offset)++;
-   860		return sched_debug_start(file, offset);
-   861	}
-   862	
-   863	static void sched_debug_stop(struct seq_file *file, void *data)
-   864	{
-   865	}
-   866	
-   867	static const struct seq_operations sched_debug_sops = {
-   868		.start		= sched_debug_start,
-   869		.next		= sched_debug_next,
-   870		.stop		= sched_debug_stop,
-   871		.show		= sched_debug_show,
-   872	};
-   873	
-   874	static int __init init_sched_debug_procfs(void)
-   875	{
-   876		if (!proc_create_seq("sched_debug", 0444, NULL, &sched_debug_sops))
-   877			return -ENOMEM;
-   878		return 0;
-   879	}
-   880	
-   881	__initcall(init_sched_debug_procfs);
-   882	
-   883	#define __P(F)	SEQ_printf(m, "%-45s:%21Ld\n",	     #F, (long long)F)
-   884	#define   P(F)	SEQ_printf(m, "%-45s:%21Ld\n",	     #F, (long long)p->F)
-   885	#define __PN(F)	SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
-   886	#define   PN(F)	SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
-   887	
-   888	
-   889	#ifdef CONFIG_NUMA_BALANCING
-   890	void print_numa_stats(struct seq_file *m, int node, unsigned long tsf,
-   891			unsigned long tpf, unsigned long gsf, unsigned long gpf)
-   892	{
-   893		SEQ_printf(m, "numa_faults node=%d ", node);
-   894		SEQ_printf(m, "task_private=%lu task_shared=%lu ", tpf, tsf);
-   895		SEQ_printf(m, "group_private=%lu group_shared=%lu\n", gpf, gsf);
-   896	}
-   897	#endif
-   898	
-   899	
-   900	static void sched_show_numa(struct task_struct *p, struct seq_file *m)
-   901	{
-   902	#ifdef CONFIG_NUMA_BALANCING
-   903		struct mempolicy *pol;
-   904	
-   905		if (p->mm)
-   906			P(mm->numa_scan_seq);
-   907	
-   908		task_lock(p);
-   909		pol = p->mempolicy;
-   910		if (pol && !(pol->flags & MPOL_F_MORON))
-   911			pol = NULL;
-   912		mpol_get(pol);
-   913		task_unlock(p);
-   914	
-   915		P(numa_pages_migrated);
-   916		P(numa_preferred_nid);
-   917		P(total_numa_faults);
-   918		SEQ_printf(m, "current_node=%d, numa_group_id=%d\n",
-   919				task_node(p), task_numa_group_id(p));
-   920		show_numa_stats(p, m);
-   921		mpol_put(pol);
-   922	#endif
-   923	}
-   924	
-   925	void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
-   926							  struct seq_file *m)
-   927	{
-   928	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
-   929		struct dyn_affinity_stats	*dyn_affi = p->se.dyn_affi_stats;
-   930	#endif
-   931		unsigned long nr_switches;
-   932	
-   933		SEQ_printf(m, "%s (%d, #threads: %d)\n", p->comm, task_pid_nr_ns(p, ns),
-   934							get_nr_threads(p));
-   935		SEQ_printf(m,
-   936			"---------------------------------------------------------"
-   937			"----------\n");
-   938	#define __P(F) \
- > 939		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-   940	#define P(F) \
-   941		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)p->F)
-   942	#define P_SCHEDSTAT(F) \
-   943		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)schedstat_val(p->F))
-   944	#define __PN(F) \
-   945		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
-   946	#define PN(F) \
-   947		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
-   948	#define PN_SCHEDSTAT(F) \
-   949		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)schedstat_val(p->F)))
-   950	
-   951		PN(se.exec_start);
-   952		PN(se.vruntime);
-   953		PN(se.sum_exec_runtime);
-   954	
-   955		nr_switches = p->nvcsw + p->nivcsw;
-   956	
-   957		P(se.nr_migrations);
-   958	
-   959		if (schedstat_enabled()) {
-   960			u64 avg_atom, avg_per_cpu;
-   961	
-   962			PN_SCHEDSTAT(se.statistics.sum_sleep_runtime);
-   963			PN_SCHEDSTAT(se.statistics.wait_start);
-   964			PN_SCHEDSTAT(se.statistics.sleep_start);
-   965			PN_SCHEDSTAT(se.statistics.block_start);
-   966			PN_SCHEDSTAT(se.statistics.sleep_max);
-   967			PN_SCHEDSTAT(se.statistics.block_max);
-   968			PN_SCHEDSTAT(se.statistics.exec_max);
-   969			PN_SCHEDSTAT(se.statistics.slice_max);
-   970			PN_SCHEDSTAT(se.statistics.wait_max);
-   971			PN_SCHEDSTAT(se.statistics.wait_sum);
-   972			P_SCHEDSTAT(se.statistics.wait_count);
-   973			PN_SCHEDSTAT(se.statistics.iowait_sum);
-   974			P_SCHEDSTAT(se.statistics.iowait_count);
-   975			P_SCHEDSTAT(se.statistics.nr_migrations_cold);
-   976			P_SCHEDSTAT(se.statistics.nr_failed_migrations_affine);
-   977			P_SCHEDSTAT(se.statistics.nr_failed_migrations_running);
-   978			P_SCHEDSTAT(se.statistics.nr_failed_migrations_hot);
-   979			P_SCHEDSTAT(se.statistics.nr_forced_migrations);
-   980			P_SCHEDSTAT(se.statistics.nr_wakeups);
-   981			P_SCHEDSTAT(se.statistics.nr_wakeups_sync);
-   982			P_SCHEDSTAT(se.statistics.nr_wakeups_migrate);
-   983			P_SCHEDSTAT(se.statistics.nr_wakeups_local);
-   984			P_SCHEDSTAT(se.statistics.nr_wakeups_remote);
-   985			P_SCHEDSTAT(se.statistics.nr_wakeups_affine);
-   986			P_SCHEDSTAT(se.statistics.nr_wakeups_affine_attempts);
-   987			P_SCHEDSTAT(se.statistics.nr_wakeups_passive);
-   988			P_SCHEDSTAT(se.statistics.nr_wakeups_idle);
-   989	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
- > 990			__P(dyn_affi->nr_wakeups_preferred_cpus);
- > 991			__P(dyn_affi->nr_wakeups_force_preferred_cpus);
-   992	#endif
-   993	
-   994			avg_atom = p->se.sum_exec_runtime;
-   995			if (nr_switches)
-   996				avg_atom = div64_ul(avg_atom, nr_switches);
-   997			else
-   998				avg_atom = -1LL;
-   999	
-  1000			avg_per_cpu = p->se.sum_exec_runtime;
-  1001			if (p->se.nr_migrations) {
-  1002				avg_per_cpu = div64_u64(avg_per_cpu,
-  1003							p->se.nr_migrations);
-  1004			} else {
-  1005				avg_per_cpu = -1LL;
-  1006			}
-  1007	
-  1008			__PN(avg_atom);
-  1009			__PN(avg_per_cpu);
-  1010		}
-  1011	
-  1012		__P(nr_switches);
-  1013		SEQ_printf(m, "%-45s:%21Ld\n",
-  1014			   "nr_voluntary_switches", (long long)p->nvcsw);
-  1015		SEQ_printf(m, "%-45s:%21Ld\n",
-  1016			   "nr_involuntary_switches", (long long)p->nivcsw);
-  1017	
-  1018		P(se.load.weight);
-  1019		P(se.runnable_weight);
-  1020	#ifdef CONFIG_SMP
-  1021		P(se.avg.load_sum);
-  1022		P(se.avg.runnable_load_sum);
-  1023		P(se.avg.util_sum);
-  1024		P(se.avg.load_avg);
-  1025		P(se.avg.runnable_load_avg);
-  1026		P(se.avg.util_avg);
-  1027		P(se.avg.last_update_time);
-  1028		P(se.avg.util_est.ewma);
-  1029		P(se.avg.util_est.enqueued);
-  1030	#endif
-  1031		P(policy);
-  1032		P(prio);
-  1033		if (task_has_dl_policy(p)) {
-  1034			P(dl.runtime);
-  1035			P(dl.deadline);
-  1036		}
-  1037	#undef PN_SCHEDSTAT
-  1038	#undef PN
-  1039	#undef __PN
-  1040	#undef P_SCHEDSTAT
-  1041	#undef P
-  1042	#undef __P
-  1043	
-  1044		{
-  1045			unsigned int this_cpu = raw_smp_processor_id();
-  1046			u64 t0, t1;
-  1047	
-  1048			t0 = cpu_clock(this_cpu);
-  1049			t1 = cpu_clock(this_cpu);
-  1050			SEQ_printf(m, "%-45s:%21Ld\n",
-  1051				   "clock-delta", (long long)(t1-t0));
-  1052		}
-  1053	
-  1054		sched_show_numa(p, m);
-  1055	}
-  1056	
+99ce270a1ec154 Dave Airlie 2020-12-21  305  
+99ce270a1ec154 Dave Airlie 2020-12-21  306  static bool i845_cursor_get_hw_state(struct intel_plane *plane,
+99ce270a1ec154 Dave Airlie 2020-12-21  307  				     enum pipe *pipe)
+99ce270a1ec154 Dave Airlie 2020-12-21  308  {
+99ce270a1ec154 Dave Airlie 2020-12-21  309  	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
+99ce270a1ec154 Dave Airlie 2020-12-21  310  	enum intel_display_power_domain power_domain;
+99ce270a1ec154 Dave Airlie 2020-12-21  311  	intel_wakeref_t wakeref;
+99ce270a1ec154 Dave Airlie 2020-12-21  312  	bool ret;
+99ce270a1ec154 Dave Airlie 2020-12-21  313  
+99ce270a1ec154 Dave Airlie 2020-12-21 @314  	power_domain = POWER_DOMAIN_PIPE(PIPE_A);
+99ce270a1ec154 Dave Airlie 2020-12-21  315  	wakeref = intel_display_power_get_if_enabled(dev_priv, power_domain);
+99ce270a1ec154 Dave Airlie 2020-12-21  316  	if (!wakeref)
+99ce270a1ec154 Dave Airlie 2020-12-21  317  		return false;
+99ce270a1ec154 Dave Airlie 2020-12-21  318  
+99ce270a1ec154 Dave Airlie 2020-12-21  319  	ret = intel_de_read(dev_priv, CURCNTR(PIPE_A)) & CURSOR_ENABLE;
+99ce270a1ec154 Dave Airlie 2020-12-21  320  
+99ce270a1ec154 Dave Airlie 2020-12-21  321  	*pipe = PIPE_A;
+99ce270a1ec154 Dave Airlie 2020-12-21  322  
+99ce270a1ec154 Dave Airlie 2020-12-21  323  	intel_display_power_put(dev_priv, power_domain, wakeref);
+99ce270a1ec154 Dave Airlie 2020-12-21  324  
+99ce270a1ec154 Dave Airlie 2020-12-21  325  	return ret;
+99ce270a1ec154 Dave Airlie 2020-12-21  326  }
+99ce270a1ec154 Dave Airlie 2020-12-21  327  
+
+:::::: The code at line 314 was first introduced by commit
+:::::: 99ce270a1ec1540d2517bac646a552c0199ae226 drm/i915: refactor cursor code out of i915_display.c
+
+:::::: TO: Dave Airlie <airlied@redhat.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
