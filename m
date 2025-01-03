@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02042581
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 04:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3361E49F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 04:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735879931; cv=none; b=oJOeqtznQAnwIQJIRW/VrB06Y3affO9kUGvsUtVMxJPTUq74ZrXqmnX9u73i5hNSw7o3vRywODQjQTTpstQzWDnnNV5y7CoMOzLL/rK0XJ+sWC5fFb7EYkdLlHjCmgPcVCg6EvqfrqvQFncy042BSfGCFTASNSvXXyVQrAEJF7w=
+	t=1735879932; cv=none; b=L8X6bTq08nm68svgISHITb1/8tsyNwXAxl6+3QqhxM758t3xgnlTfnShTgcBZAxoi30R4ic01KOPL3FojJsRCkWEVUfo1H9qj0dHXWi2/sDT8Oa2SOOxmyw0tLLOeedu1YwfpSGaD+Alnl+BLjuQYuJ9acbkIF+zpfQXhSwr5Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735879931; c=relaxed/simple;
-	bh=eKAuKdR41x/110vP3weSS+NOHUmVNcSfwqqOp8iGMBg=;
+	s=arc-20240116; t=1735879932; c=relaxed/simple;
+	bh=AEta1aeazsDFyrXTT2GXYHIbKIinrUDU9vP9/r2yKnw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AOYgJtNcpFefQRBQHafeAXGHiOTzlI6Dg/81P7LoxtYHwiWIjipTtymqmGw0C78dpN8ybDlmEPwdBcNYKfZhbrmWi2glpT1Z0AkqvRirKOYCE9z6VaAtAVVZHa1Kq3HTYcjVhUkelMYcDaVfzL2kge/fAqHhlMtArFhFyLECzf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mESBKY0b; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=kYTIZhC93NA9jd6cgwH+iXojU0TyBROeg6ImV56JnzrA+48uTwdFKXmQwi/6SbBYil39Vt+oEwtS6A8orPDHDVSmGI0FQe0qj3p/1oKiHaA7XSS/n9M05VZErFQEsJZxop7R9SZeTFPs+9Y6odQaDzr6vQQ8mXVJS5aXB+5mBNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EgtcGb6H; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mESBKY0b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EgtcGb6H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735879930; x=1767415930;
+  t=1735879931; x=1767415931;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eKAuKdR41x/110vP3weSS+NOHUmVNcSfwqqOp8iGMBg=;
-  b=mESBKY0bqwaRC7SF+vEbwT95ZMJmf30898PznxxJb7QBdpJdIXk4R+jz
-   RIrRDn901DxVl34Nkwx1F9dssCks24lhfcUrnI77hZEVlMcHk6iK2WRz2
-   EwYPsh/MIvC1gLh8W8zVYCBkVewc622QvyMIRwE41hlLC5fIQQR112429
-   pFNemEPwo3rPUUs2eV7O+r4QNryneKRi4QlWCjYCIAIsV2RRn8ghiXOly
-   /ZXOhqTP2th3ENI9NeMjlAY4sBJ3/6XwLr5/c/9AGv12Nf0TmMwrWogOu
-   2upOBaUobyZtvFKpFaMVuHM7UvWGwu1NV6/jalU5qyWZ7UbbM6IWV7L1o
-   A==;
-X-CSE-ConnectionGUID: UHulKALAQgO1QnCnqhsdoQ==
-X-CSE-MsgGUID: HZYCHMjbSO2GirVf3kdT/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="38953123"
+  bh=AEta1aeazsDFyrXTT2GXYHIbKIinrUDU9vP9/r2yKnw=;
+  b=EgtcGb6H4h02LxyPm4BPLbcik8OSrTZWjVw/yfUXaSkqZRB9keEfbquZ
+   DJ/Kk3oTS66GO+FSFjgS/VKV12wjxbnraGTZ8gs/JqIbBA9W6tv4WPrW1
+   k/N2qDfVBkpOQRufXnKTHlSn0Y/0Nvf+oogrhrxUW588rqRVhJf/6hEww
+   xIKcd/On9Je1vCIy8ITK4+R4fcKKD2umeHbmHIpv8WGPnM8gEHdZ1/Ucl
+   RQqYeE2R6lv5ZhXH3xNigkbIA8GwGOyls3UMRMI+A+6JzmZenFiUcvc0r
+   yzcgMR5K2TZB6kxn4fFd3YPy0pnIbBnga05HowwttlnNVWIS/DyxHnyEp
+   w==;
+X-CSE-ConnectionGUID: f4hiQgWAT4mmc1o/RLB/cQ==
+X-CSE-MsgGUID: B0JSYnGZQ4+7RWUlOT6Z0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36031098"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="38953123"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:52:09 -0800
-X-CSE-ConnectionGUID: TTudr4f8QvqAN+05fcBgkA==
-X-CSE-MsgGUID: jH8b+65qTnCMI9x52hNfuw==
+   d="scan'208";a="36031098"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 20:52:10 -0800
+X-CSE-ConnectionGUID: 46TBn1taSo6FTwePIvg+Rg==
+X-CSE-MsgGUID: M3qPjKNGRJ6xof9c6Ff8cw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102193553"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="132546777"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Jan 2025 20:52:08 -0800
+  by orviesa002.jf.intel.com with ESMTP; 02 Jan 2025 20:52:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTZfJ-0009ED-2c;
+	id 1tTZfJ-0009EB-2P;
 	Fri, 03 Jan 2025 04:52:05 +0000
-Date: Fri, 3 Jan 2025 12:51:18 +0800
+Date: Fri, 3 Jan 2025 12:51:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1693/1693]
- drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:19: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202501031239.NY9f5zcm-lkp@intel.com>
+To: Lizhi Hou <lizhi.hou@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Narendra Gutta <VenkataNarendraKumar.Gutta@amd.com>,
+	George Yang <George.Yang@amd.com>, Min Ma <min.ma@amd.com>
+Subject: [linux-next:master 475/5236]
+ drivers/accel/amdxdna/npu1_regs.c:52:31: sparse: sparse: symbol
+ 'npu1_dev_priv' was not declared. Should it be static?
+Message-ID: <202501031251.niHzOGln-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,104 +65,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c2f1662c3fb301fe7ba127fe06c14538112982d4
-commit: 2815e6db6a7a2f0759dfc574e28b3b807a1a3377 [1693/1693] drm/loongson: use old version of ast driver for LoongArch platform
-config: loongarch-randconfig-r112-20250103 (https://download.01.org/0day-ci/archive/20250103/202501031239.NY9f5zcm-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250103/202501031239.NY9f5zcm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+commit: 8c9ff1b181ba3d31d6b4a48606248b52180a7046 [475/5236] accel/amdxdna: Add a new driver for AMD AI Engine
+config: x86_64-randconfig-122-20241231 (https://download.01.org/0day-ci/archive/20250103/202501031251.niHzOGln-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031251.niHzOGln-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031239.NY9f5zcm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501031251.niHzOGln-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:19: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *dstxor @@     got unsigned char [usertype] * @@
-   drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:16: sparse:     expected unsigned char [noderef] [usertype] __iomem *dstxor
-   drivers/gpu/drm/loongson/ast_old/ast_mode.c:746:16: sparse:     got unsigned char [usertype] *
-   drivers/gpu/drm/loongson/ast_old/ast_mode.c: note: in included file (through arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/processor.h, ...):
-   arch/loongarch/include/asm/loongarch.h:1136:16: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
+>> drivers/accel/amdxdna/npu1_regs.c:52:31: sparse: sparse: symbol 'npu1_dev_priv' was not declared. Should it be static?
+--
+>> drivers/accel/amdxdna/npu5_regs.c:69:31: sparse: sparse: symbol 'npu5_dev_priv' was not declared. Should it be static?
+--
+>> drivers/accel/amdxdna/npu2_regs.c:69:31: sparse: sparse: symbol 'npu2_dev_priv' was not declared. Should it be static?
+--
+>> drivers/accel/amdxdna/npu4_regs.c:69:31: sparse: sparse: symbol 'npu4_dev_priv' was not declared. Should it be static?
 
-vim +/__iomem +746 drivers/gpu/drm/loongson/ast_old/ast_mode.c
+vim +/npu1_dev_priv +52 drivers/accel/amdxdna/npu1_regs.c
 
-   719	
-   720	/*
-   721	 * Cursor plane
-   722	 */
-   723	
-   724	static void ast_update_cursor_image(u8 __iomem *dst, const u8 *src, int width,
-   725					    int height)
-   726	{
-   727		union {
-   728			u32 ul;
-   729			u8 b[4];
-   730		} srcdata32[2], data32;
-   731		union {
-   732			u16 us;
-   733			u8 b[2];
-   734		} data16;
-   735		u32 csum = 0;
-   736		s32 alpha_dst_delta, last_alpha_dst_delta;
-   737		u8 __iomem *dstxor;
-   738		const u8 *srcxor;
-   739		int i, j;
-   740		u32 per_pixel_copy, two_pixel_copy;
-   741	
-   742		alpha_dst_delta = AST_MAX_HWC_WIDTH << 1;
-   743		last_alpha_dst_delta = alpha_dst_delta - (width << 1);
-   744	
-   745		srcxor = src;
- > 746		dstxor = (u8 *)dst + last_alpha_dst_delta +
-   747			 (AST_MAX_HWC_HEIGHT - height) * alpha_dst_delta;
-   748		per_pixel_copy = width & 1;
-   749		two_pixel_copy = width >> 1;
-   750	
-   751		for (j = 0; j < height; j++) {
-   752			for (i = 0; i < two_pixel_copy; i++) {
-   753				srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
-   754				srcdata32[1].ul = *((u32 *)(srcxor + 4)) & 0xf0f0f0f0;
-   755				data32.b[0] = srcdata32[0].b[1] |
-   756					      (srcdata32[0].b[0] >> 4);
-   757				data32.b[1] = srcdata32[0].b[3] |
-   758					      (srcdata32[0].b[2] >> 4);
-   759				data32.b[2] = srcdata32[1].b[1] |
-   760					      (srcdata32[1].b[0] >> 4);
-   761				data32.b[3] = srcdata32[1].b[3] |
-   762					      (srcdata32[1].b[2] >> 4);
-   763	
-   764				writel(data32.ul, dstxor);
-   765				csum += data32.ul;
-   766	
-   767				dstxor += 4;
-   768				srcxor += 8;
-   769			}
-   770	
-   771			for (i = 0; i < per_pixel_copy; i++) {
-   772				srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
-   773				data16.b[0] = srcdata32[0].b[1] |
-   774					      (srcdata32[0].b[0] >> 4);
-   775				data16.b[1] = srcdata32[0].b[3] |
-   776					      (srcdata32[0].b[2] >> 4);
-   777				writew(data16.us, dstxor);
-   778				csum += (u32)data16.us;
-   779	
-   780				dstxor += 2;
-   781				srcxor += 4;
-   782			}
-   783			dstxor += last_alpha_dst_delta;
-   784		}
-   785	
-   786		/* write checksum + signature */
-   787		dst += AST_HWC_SIZE;
-   788		writel(csum, dst);
-   789		writel(width, dst + AST_HWC_SIGNATURE_SizeX);
-   790		writel(height, dst + AST_HWC_SIGNATURE_SizeY);
-   791		writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
-   792		writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
-   793	}
-   794	
+    51	
+  > 52	const struct amdxdna_dev_priv npu1_dev_priv = {
+    53		.fw_path        = "amdnpu/1502_00/npu.sbin",
+    54		.protocol_major = 0x5,
+    55		.protocol_minor = 0x1,
+    56		.rt_config	= {NPU1_RT_CFG_TYPE_PDI_LOAD, NPU1_RT_CFG_VAL_PDI_LOAD_APP},
+    57		.col_align	= COL_ALIGN_NONE,
+    58		.mbox_dev_addr  = NPU1_MBOX_BAR_BASE,
+    59		.mbox_size      = 0, /* Use BAR size */
+    60		.sram_dev_addr  = NPU1_SRAM_BAR_BASE,
+    61		.sram_offs      = {
+    62			DEFINE_BAR_OFFSET(MBOX_CHANN_OFF, NPU1_SRAM, MPNPU_SRAM_X2I_MAILBOX_0),
+    63			DEFINE_BAR_OFFSET(FW_ALIVE_OFF,   NPU1_SRAM, MPNPU_SRAM_I2X_MAILBOX_15),
+    64		},
+    65		.psp_regs_off   = {
+    66			DEFINE_BAR_OFFSET(PSP_CMD_REG,    NPU1_PSP, MPNPU_PUB_SCRATCH2),
+    67			DEFINE_BAR_OFFSET(PSP_ARG0_REG,   NPU1_PSP, MPNPU_PUB_SCRATCH3),
+    68			DEFINE_BAR_OFFSET(PSP_ARG1_REG,   NPU1_PSP, MPNPU_PUB_SCRATCH4),
+    69			DEFINE_BAR_OFFSET(PSP_ARG2_REG,   NPU1_PSP, MPNPU_PUB_SCRATCH9),
+    70			DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU1_PSP, MPNPU_PUB_SEC_INTR),
+    71			DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU1_PSP, MPNPU_PUB_SCRATCH2),
+    72			DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU1_PSP, MPNPU_PUB_SCRATCH3),
+    73		},
+    74		.smu_regs_off   = {
+    75			DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU1_SMU, MPNPU_PUB_SCRATCH5),
+    76			DEFINE_BAR_OFFSET(SMU_ARG_REG,  NPU1_SMU, MPNPU_PUB_SCRATCH7),
+    77			DEFINE_BAR_OFFSET(SMU_INTR_REG, NPU1_SMU, MPNPU_PUB_PWRMGMT_INTR),
+    78			DEFINE_BAR_OFFSET(SMU_RESP_REG, NPU1_SMU, MPNPU_PUB_SCRATCH6),
+    79			DEFINE_BAR_OFFSET(SMU_OUT_REG,  NPU1_SMU, MPNPU_PUB_SCRATCH7),
+    80		},
+    81		.smu_mpnpuclk_freq_max = NPU1_MPNPUCLK_FREQ_MAX,
+    82		.smu_hclk_freq_max     = NPU1_HCLK_FREQ_MAX,
+    83	};
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
