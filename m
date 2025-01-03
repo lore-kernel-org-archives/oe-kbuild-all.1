@@ -1,59 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30A933DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 01:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94DEE56A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 01:06:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735866403; cv=none; b=SWwcMTWklHgQZWO8rA6Ru8/XgLf8LFbZ26w82OagJJ7JH7qfr8wLnLPXyp/Dy0yx/+XEdwIddfbPEy+FyKV11sjZb23zCb6JcXt4rlyMFP6KlVZNzBa/nmVVRyEbjOZOWw66SmWXpkTSb39lANmak1SeDVa/h9obMMFtyRokUwQ=
+	t=1735866405; cv=none; b=n3F06bz8CW9Y3GnYoqbT+s6fReg0d+K9JS2zO9xX/wCysJzUEsRYmUQJE7PUTRbKOCIFrfo3EqmEDoQ+Sa49JgidmbbVlocT+XBIR6WvYbcvJD0aSs8casGW6pmhn4zVjwueZ4AuvN2epKWpzxJXtlVpYIh/5JsLhGAYGOi0dnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735866403; c=relaxed/simple;
-	bh=rINH4zqL9sY9GpCaU/qdhNWRYp4nKOD08mqjOlNLeIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oqoD3bWOPnxqP0AYCNXN79Iry+Kchlxv8G99dOQNsjpnbE8QzTVrXArrgnUii2S5Uci8In9d0DIx5aonffW4j0u3KcycUY2TBi3YwuvjmnCpFcj9zCNeALAluW978Y6rIjq4v4VrWc8CHYL8FUZtjM/QRfmM1psaTfbSwWfLdoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXl1Ss6i; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1735866405; c=relaxed/simple;
+	bh=DMQKZbvjT3IhZkRxB7+oofR+nMrgbeHoaLM1Q80piKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OhSqBdveMACH7Io11l2i55ouNQh3+4rEs6S5uqZLH80/XEjV7gqiMuNxs/xYRMWf5Jw7GzYUXq47eTMRrgOt65kgU7502LfgoojaXBIBZOMtO+1KoZi+jqHmvN3O0HOv9G7Fd3utuZviXb/X1RPfS6M1N0QX+/+oocHIN7/fiNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxRCf7CK; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXl1Ss6i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxRCf7CK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735866402; x=1767402402;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rINH4zqL9sY9GpCaU/qdhNWRYp4nKOD08mqjOlNLeIE=;
-  b=aXl1Ss6iQyFA1T2TqXB+q960EIjd2qSZs3MuD7HKZvK/qgxeh80r/6y/
-   WeiZJWcPfVmdGA3PFN2rOQtkFtMp2pvFKGMyrb2Tw38khIFedGuRcI0og
-   2sa4M0u9HDDFaKQ8C8wwcO15IrTC1nxgUMx0hDFK3N0sUzEXAlNhBNJsd
-   pKxwnNFYfI1Qg9gZKSUWHQFnw04Rc8zOJaTqchk++T5vw77JjuLNKf44q
-   Q3K1NogxhHiH3iUBDFmSy2kzFT4k8UVzUzqnGvwoGIKT+NsJODYf59eKF
-   fheTVwrMkRPApAZMP/bCVbyGhOjFc/QZ4X0UI4b+6cJkI4AFWhlWk6Nxf
-   A==;
-X-CSE-ConnectionGUID: nZkJoy2NRBylHA/D7LBC2A==
-X-CSE-MsgGUID: kIg9tX7EQFivzznkO5FeRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36019904"
+  t=1735866403; x=1767402403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DMQKZbvjT3IhZkRxB7+oofR+nMrgbeHoaLM1Q80piKI=;
+  b=RxRCf7CKCqmUSyUgpuEy7VM6ivNzD+5iPKwTiKJIOot1P0cDbo84lRc4
+   4yeaYXWtKqCXEmWWERUqvbWD8wWvpCY12NYko7nMp6gS3C74+BcJ+Hl27
+   bGM11+vCcVA/fc2D+/bOBnPoLWFLTVqpJI1nmG2km2B9Zb3F+2V85b8Mu
+   NfzKywR85qMo3QpeLZkTnZz5yC/ftm00gmcuu1UU80Fs47zvM/wNJXVk5
+   hKz/K2BLApg86HW1Lh6x27tNGbqx+9ZXyc1GE9f1v8U3+ofWakW5Kbvqa
+   JPxMhxRfwcp4Qcmxbts/cdHqRJQT7u3W/i0D94b+9fTiJ3MHwcrDTeBN3
+   g==;
+X-CSE-ConnectionGUID: Jm4uc1QQTPSOiUV7DBA59Q==
+X-CSE-MsgGUID: Cbbb9M1+TZax6RBfja9euw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36019913"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="36019904"
+   d="scan'208";a="36019913"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 17:06:41 -0800
-X-CSE-ConnectionGUID: yvp0+eDGRQCrjUTgU1lKAQ==
-X-CSE-MsgGUID: woTRX0uZRXGDWwx/HvoZJA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 17:06:42 -0800
+X-CSE-ConnectionGUID: aimplwUmRMiE9STF5FQDKw==
+X-CSE-MsgGUID: w8n4LjtCT9+L2j3VqTlcMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="138987631"
+   d="scan'208";a="138987630"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 02 Jan 2025 17:06:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTW98-00091J-0l;
+	id 1tTW98-00091H-0h;
 	Fri, 03 Jan 2025 01:06:38 +0000
-Date: Fri, 3 Jan 2025 09:05:39 +0800
+Date: Fri, 3 Jan 2025 09:05:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/v10-wip 8/26] net/core/devmem.h:169:8: warning:
- 'no_instrument_function' attribute only applies to functions and Objective-C
- methods
-Message-ID: <202501030856.y3ahTYhF-lkp@intel.com>
+To: Samiullah Khawaja <skhawaja@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	skhawaja@google.com
+Subject: Re: [PATCH net-next 3/3] Extend napi threaded polling to allow
+ kthread based busy polling
+Message-ID: <202501030842.OdBE8ADq-lkp@intel.com>
+References: <20250102191227.2084046-4-skhawaja@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +67,201 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250102191227.2084046-4-skhawaja@google.com>
 
-tree:   https://github.com/isilence/linux zcrx/v10-wip
-head:   1e1214d152c4b21b5bc3e9b37e26cd60ed14632b
-commit: 9852e159a9d1e771fe98518bf7f67ac9ee145203 [8/26] net: prepare for non devmem TCP memory providers
-config: x86_64-buildonly-randconfig-004-20250103 (https://download.01.org/0day-ci/archive/20250103/202501030856.y3ahTYhF-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030856.y3ahTYhF-lkp@intel.com/reproduce)
+Hi Samiullah,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Samiullah-Khawaja/Add-support-to-set-napi-threaded-for-individual-napi/20250103-031428
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250102191227.2084046-4-skhawaja%40google.com
+patch subject: [PATCH net-next 3/3] Extend napi threaded polling to allow kthread based busy polling
+config: i386-buildonly-randconfig-006-20250103 (https://download.01.org/0day-ci/archive/20250103/202501030842.OdBE8ADq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501030842.OdBE8ADq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501030856.y3ahTYhF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501030842.OdBE8ADq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/core/netdev-genl.c:3:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from net/core/netdev-genl.c:15:
-   net/core/devmem.h:169:8: error: 'inline' can only appear on functions
-     169 | static inline bool
-         |        ^
-   include/linux/compiler_types.h:236:16: note: expanded from macro 'inline'
-     236 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   In file included from net/core/netdev-genl.c:15:
-   net/core/devmem.h:169:8: warning: '__gnu_inline__' attribute only applies to functions [-Wignored-attributes]
-   include/linux/compiler_types.h:236:23: note: expanded from macro 'inline'
-     236 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                       ^
-   include/linux/compiler_attributes.h:165:56: note: expanded from macro '__gnu_inline'
-     165 | #define __gnu_inline                    __attribute__((__gnu_inline__))
-         |                                                        ^
-   In file included from net/core/netdev-genl.c:15:
->> net/core/devmem.h:169:8: warning: 'no_instrument_function' attribute only applies to functions and Objective-C methods [-Wignored-attributes]
-   include/linux/compiler_types.h:236:58: note: expanded from macro 'inline'
-     236 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                                                          ^
-   arch/x86/include/asm/linkage.h:9:32: note: expanded from macro 'notrace'
-       9 | #define notrace __attribute__((no_instrument_function))
-         |                                ^
-   In file included from net/core/netdev-genl.c:15:
-   net/core/devmem.h:170:1: error: redefinition of 'bool' as different kind of symbol
-     170 | bool net_is_devmem_iov(struct net_iov *niov)
-         | ^
-   include/linux/types.h:35:17: note: previous definition is here
-      35 | typedef _Bool                   bool;
-         |                                 ^
-   In file included from net/core/netdev-genl.c:15:
-   net/core/devmem.h:170:5: error: expected ';' after top level declarator
-     170 | bool net_is_devmem_iov(struct net_iov *niov)
-         |     ^
-         |     ;
-   3 warnings and 3 errors generated.
+   drivers/net/ethernet/atheros/atl1c/atl1c_main.c: In function 'atl1c_probe':
+>> drivers/net/ethernet/atheros/atl1c/atl1c_main.c:2691:34: error: 'DEV_NAPI_THREADED' undeclared (first use in this function); did you mean 'NAPI_THREADED'?
+    2691 |         dev_set_threaded(netdev, DEV_NAPI_THREADED);
+         |                                  ^~~~~~~~~~~~~~~~~
+         |                                  NAPI_THREADED
+   drivers/net/ethernet/atheros/atl1c/atl1c_main.c:2691:34: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/no_instrument_function +169 net/core/devmem.h
+vim +2691 drivers/net/ethernet/atheros/atl1c/atl1c_main.c
 
-   168	
- > 169	static inline bool
-   170	bool net_is_devmem_iov(struct net_iov *niov)
-   171	{
-   172		return false;
-   173	}
-   174	#endif
-   175	
+  2600	
+  2601	/**
+  2602	 * atl1c_probe - Device Initialization Routine
+  2603	 * @pdev: PCI device information struct
+  2604	 * @ent: entry in atl1c_pci_tbl
+  2605	 *
+  2606	 * Returns 0 on success, negative on failure
+  2607	 *
+  2608	 * atl1c_probe initializes an adapter identified by a pci_dev structure.
+  2609	 * The OS initialization, configuring of the adapter private structure,
+  2610	 * and a hardware reset occur.
+  2611	 */
+  2612	static int atl1c_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+  2613	{
+  2614		struct net_device *netdev;
+  2615		struct atl1c_adapter *adapter;
+  2616		static int cards_found;
+  2617		u8 __iomem *hw_addr;
+  2618		enum atl1c_nic_type nic_type;
+  2619		u32 queue_count = 1;
+  2620		int err = 0;
+  2621		int i;
+  2622	
+  2623		/* enable device (incl. PCI PM wakeup and hotplug setup) */
+  2624		err = pci_enable_device_mem(pdev);
+  2625		if (err)
+  2626			return dev_err_probe(&pdev->dev, err, "cannot enable PCI device\n");
+  2627	
+  2628		/*
+  2629		 * The atl1c chip can DMA to 64-bit addresses, but it uses a single
+  2630		 * shared register for the high 32 bits, so only a single, aligned,
+  2631		 * 4 GB physical address range can be used at a time.
+  2632		 *
+  2633		 * Supporting 64-bit DMA on this hardware is more trouble than it's
+  2634		 * worth.  It is far easier to limit to 32-bit DMA than update
+  2635		 * various kernel subsystems to support the mechanics required by a
+  2636		 * fixed-high-32-bit system.
+  2637		 */
+  2638		err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+  2639		if (err) {
+  2640			dev_err(&pdev->dev, "No usable DMA configuration,aborting\n");
+  2641			goto err_dma;
+  2642		}
+  2643	
+  2644		err = pci_request_regions(pdev, atl1c_driver_name);
+  2645		if (err) {
+  2646			dev_err(&pdev->dev, "cannot obtain PCI resources\n");
+  2647			goto err_pci_reg;
+  2648		}
+  2649	
+  2650		pci_set_master(pdev);
+  2651	
+  2652		hw_addr = pci_ioremap_bar(pdev, 0);
+  2653		if (!hw_addr) {
+  2654			err = -EIO;
+  2655			dev_err(&pdev->dev, "cannot map device registers\n");
+  2656			goto err_ioremap;
+  2657		}
+  2658	
+  2659		nic_type = atl1c_get_mac_type(pdev, hw_addr);
+  2660		if (nic_type == athr_mt)
+  2661			queue_count = 4;
+  2662	
+  2663		netdev = alloc_etherdev_mq(sizeof(struct atl1c_adapter), queue_count);
+  2664		if (netdev == NULL) {
+  2665			err = -ENOMEM;
+  2666			goto err_alloc_etherdev;
+  2667		}
+  2668	
+  2669		err = atl1c_init_netdev(netdev, pdev);
+  2670		if (err) {
+  2671			dev_err(&pdev->dev, "init netdevice failed\n");
+  2672			goto err_init_netdev;
+  2673		}
+  2674		adapter = netdev_priv(netdev);
+  2675		adapter->bd_number = cards_found;
+  2676		adapter->netdev = netdev;
+  2677		adapter->pdev = pdev;
+  2678		adapter->hw.adapter = adapter;
+  2679		adapter->hw.nic_type = nic_type;
+  2680		adapter->msg_enable = netif_msg_init(-1, atl1c_default_msg);
+  2681		adapter->hw.hw_addr = hw_addr;
+  2682		adapter->tx_queue_count = queue_count;
+  2683		adapter->rx_queue_count = queue_count;
+  2684	
+  2685		/* init mii data */
+  2686		adapter->mii.dev = netdev;
+  2687		adapter->mii.mdio_read  = atl1c_mdio_read;
+  2688		adapter->mii.mdio_write = atl1c_mdio_write;
+  2689		adapter->mii.phy_id_mask = 0x1f;
+  2690		adapter->mii.reg_num_mask = MDIO_CTRL_REG_MASK;
+> 2691		dev_set_threaded(netdev, DEV_NAPI_THREADED);
+  2692		for (i = 0; i < adapter->rx_queue_count; ++i)
+  2693			netif_napi_add(netdev, &adapter->rrd_ring[i].napi,
+  2694				       atl1c_clean_rx);
+  2695		for (i = 0; i < adapter->tx_queue_count; ++i)
+  2696			netif_napi_add_tx(netdev, &adapter->tpd_ring[i].napi,
+  2697					  atl1c_clean_tx);
+  2698		timer_setup(&adapter->phy_config_timer, atl1c_phy_config, 0);
+  2699		/* setup the private structure */
+  2700		err = atl1c_sw_init(adapter);
+  2701		if (err) {
+  2702			dev_err(&pdev->dev, "net device private data init failed\n");
+  2703			goto err_sw_init;
+  2704		}
+  2705		/* set max MTU */
+  2706		atl1c_set_max_mtu(netdev);
+  2707	
+  2708		atl1c_reset_pcie(&adapter->hw, ATL1C_PCIE_L0S_L1_DISABLE);
+  2709	
+  2710		/* Init GPHY as early as possible due to power saving issue  */
+  2711		atl1c_phy_reset(&adapter->hw);
+  2712	
+  2713		err = atl1c_reset_mac(&adapter->hw);
+  2714		if (err) {
+  2715			err = -EIO;
+  2716			goto err_reset;
+  2717		}
+  2718	
+  2719		/* reset the controller to
+  2720		 * put the device in a known good starting state */
+  2721		err = atl1c_phy_init(&adapter->hw);
+  2722		if (err) {
+  2723			err = -EIO;
+  2724			goto err_reset;
+  2725		}
+  2726		if (atl1c_read_mac_addr(&adapter->hw)) {
+  2727			/* got a random MAC address, set NET_ADDR_RANDOM to netdev */
+  2728			netdev->addr_assign_type = NET_ADDR_RANDOM;
+  2729		}
+  2730		eth_hw_addr_set(netdev, adapter->hw.mac_addr);
+  2731		if (netif_msg_probe(adapter))
+  2732			dev_dbg(&pdev->dev, "mac address : %pM\n",
+  2733				adapter->hw.mac_addr);
+  2734	
+  2735		atl1c_hw_set_mac_addr(&adapter->hw, adapter->hw.mac_addr);
+  2736		INIT_WORK(&adapter->common_task, atl1c_common_task);
+  2737		adapter->work_event = 0;
+  2738		err = register_netdev(netdev);
+  2739		if (err) {
+  2740			dev_err(&pdev->dev, "register netdevice failed\n");
+  2741			goto err_register;
+  2742		}
+  2743	
+  2744		cards_found++;
+  2745		return 0;
+  2746	
+  2747	err_reset:
+  2748	err_register:
+  2749	err_sw_init:
+  2750	err_init_netdev:
+  2751		free_netdev(netdev);
+  2752	err_alloc_etherdev:
+  2753		iounmap(hw_addr);
+  2754	err_ioremap:
+  2755		pci_release_regions(pdev);
+  2756	err_pci_reg:
+  2757	err_dma:
+  2758		pci_disable_device(pdev);
+  2759		return err;
+  2760	}
+  2761	
 
 -- 
 0-DAY CI Kernel Test Service
