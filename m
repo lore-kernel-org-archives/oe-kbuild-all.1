@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF43C1FAC49
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 17:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223711FAC59
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 17:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735925210; cv=none; b=ZMplP2AZJ53Tw/+af9LVcfve+JnyMGIle089NZnLN6ie6qmtA6N1fea8NgMo9JMV25oPqe1P2vveNj6cC2cZMRBjQHGmL8/5iCCeNKJYaxbgbJALFc0bNqntZL3JCnkycbvn+Nf+eSaWec0YM/dzLQm2KdiCeli45uTmDNv7jMg=
+	t=1735925270; cv=none; b=oxoE6CjQ/sEa0WBN+UxM15Bvu5dRF05C9BuDcJ4fpu5rgMkT0Em8BZ8K2kFQHWVRD+TRG8x/8bjejufVqluafc/IN7cTuODHv1qdkr9bb3s3G2Q80l3yGHxDlJuddQlm9391+bHasTvj6mYSCQFWNg0ziF2YLB/L1WjQXyArYMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735925210; c=relaxed/simple;
-	bh=a9soXkcUckaUMzyuAmIPERzPY7LVtfpCcL3tvaWJ2fI=;
+	s=arc-20240116; t=1735925270; c=relaxed/simple;
+	bh=2HL60j7pDALkkaehLftQNP4RV3TXCVWxoClBJvzRq7Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k0SXk/+9IJ7Sr3B18WYJPipYkoA0KUvESwo3x1cGtkgJzMkMWUPKlUAqTMIjJ4h0whwyxUUYUob9DXMeQOuP7KHRPXBuChXgexPzFjFEIf+miWop5RtIX+NdP9Vo5VqK5QM/2HcOlLvrGNiF7HCVWka3rfPaCC6/wSfM+NLECwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1B5lDEv; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=MF71w3GD8vDcSZYA+dlBRsa93i3veVDH2A/poy+p+8JNrBkP7fEdYBB80k561vR8n9Ju/2hkEpyXggS9n+RDliM6h1w7ddSCoPlk35ZyzDs3+Zhg7RTqLpGLLh/xwFEreASkGS5pmT50WBCwzaJEGaDIk2OjeIhRPpgMU/Y5Bps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eiloByMo; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1B5lDEv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eiloByMo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735925207; x=1767461207;
+  t=1735925267; x=1767461267;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a9soXkcUckaUMzyuAmIPERzPY7LVtfpCcL3tvaWJ2fI=;
-  b=Q1B5lDEvbowjdCCPW5Us6SzKhu0H/ulFwXGZwWBeeFm8bDwfzYdRkxdk
-   V2m98XAf0oE0unqtnWkNRxBQeMxOJJ6/Owcb+Y1G4H4Zyn1YChgSSo/1c
-   WaT44yd0z+13B8CtlFbL3Bu029trBQ9R0TbOZp9kDHtDLzyrnJH6sWMET
-   Kifm+MSILDLGS54AowBoEJ9nYqLHF6HOhnZ7om/3/5AW/voZTfr9rPXzA
-   uFD8ylbfmP/4/DgmpAuUeHC014x11Bf6TdjmCupw50ykBR/ljzDX2C3Q9
-   zIfNt4x4jp6lGCvgt4ZJpt39Q9XDSoyh6lFrF7miB3QhrQ9qUrK2/bWwm
-   g==;
-X-CSE-ConnectionGUID: 5X6HlOA+ShKSyx/cvWmSmg==
-X-CSE-MsgGUID: nvk6EhHzTWWiRyF78+6z4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47161132"
+  bh=2HL60j7pDALkkaehLftQNP4RV3TXCVWxoClBJvzRq7Y=;
+  b=eiloByMoU2F85+tF51KxKP9G7rzMNc6WJ4Lkqsgl1xHtrLZFCHLVlPj0
+   5Ie4JlLZzaX9rfAeBHrjqORYKnjgA6dunHWZ6RCN1acherGX34GLpeX9q
+   6f+XPHnRP4vSbpLIcL6hIW+MkQsUOrXUbJEaQ0dAxSC7N107F38kWcLBb
+   fIoesQg/ja1eZcvjofkp0uXhnHfVWeEkxgY8qI/2DlTYIjD0Fvkcu0v0d
+   UQ8IpE9mkMwp4hGvdiRV7ySH0LVwLurjoFnfGtt+3BEy03QuyKqw6v9TA
+   4fi5WkJgy8p/OExFYbocgomfxq5RUSiOeAV9t4RKpsl6vjbDAz1M8BFJG
+   A==;
+X-CSE-ConnectionGUID: CeMVo/OIT7OZjpdbu9A/KQ==
+X-CSE-MsgGUID: E7dmZOn4TDqYisjqyUU2MA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="39940478"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="47161132"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 09:26:47 -0800
-X-CSE-ConnectionGUID: 6i5D/3iBRQiSzB++jauowg==
-X-CSE-MsgGUID: 6s55VlQwRFOz72a0yASLyQ==
+   d="scan'208";a="39940478"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 09:27:47 -0800
+X-CSE-ConnectionGUID: DelapiTTSQKCPI6zSdntwg==
+X-CSE-MsgGUID: LDw/KiWnQaCSSnScHi477w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="101697208"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101701612"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Jan 2025 09:26:45 -0800
+  by orviesa010.jf.intel.com with ESMTP; 03 Jan 2025 09:27:45 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTlRb-000A5u-0K;
-	Fri, 03 Jan 2025 17:26:43 +0000
-Date: Sat, 4 Jan 2025 01:26:27 +0800
+	id 1tTlSZ-000A5z-0c;
+	Fri, 03 Jan 2025 17:27:43 +0000
+Date: Sat, 4 Jan 2025 01:26:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhi Hou <lizhi.hou@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Min Ma <min.ma@amd.com>
-Subject: [linux-next:master 483/5236]
- drivers/accel/amdxdna/aie2_pci.c:549:39: sparse: sparse: incorrect type in
- argument 2 (different address spaces)
-Message-ID: <202501040135.plFlC72Z-lkp@intel.com>
+To: Tingwei Zhang <tingwei@codeaurora.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Subject: drivers/hwtracing/stm/ftrace.c:38: warning: Function parameter or
+ struct member 'export' not described in 'stm_ftrace_write'
+Message-ID: <202501040153.N5GYtNcw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,64 +64,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-commit: 850d71f6bf4c2010efae845f9ff841cce902f22c [483/5236] accel/amdxdna: Add query functions
-config: x86_64-randconfig-122-20241231 (https://download.01.org/0day-ci/archive/20250104/202501040135.plFlC72Z-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040135.plFlC72Z-lkp@intel.com/reproduce)
+Hi Tingwei,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: 7b9749bd830848bca9179b0a16251ca3c36e82e6 stm class: ftrace: Change dependency to TRACING
+date:   4 years, 3 months ago
+config: csky-randconfig-r026-20230729 (https://download.01.org/0day-ci/archive/20250104/202501040153.N5GYtNcw-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040153.N5GYtNcw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501040135.plFlC72Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501040153.N5GYtNcw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/accel/amdxdna/aie2_pci.c:27:5: sparse: sparse: symbol 'aie2_max_col' was not declared. Should it be static?
-   drivers/accel/amdxdna/aie2_pci.c:311:34: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/accel/amdxdna/aie2_pci.c:313:31: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/accel/amdxdna/aie2_pci.c:549:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char *buf @@     got void [noderef] __user * @@
-   drivers/accel/amdxdna/aie2_pci.c:549:39: sparse:     expected char *buf
-   drivers/accel/amdxdna/aie2_pci.c:549:39: sparse:     got void [noderef] __user *
+All warnings (new ones prefixed by >>):
 
-vim +549 drivers/accel/amdxdna/aie2_pci.c
+>> drivers/hwtracing/stm/ftrace.c:38: warning: Function parameter or struct member 'export' not described in 'stm_ftrace_write'
 
-   528	
-   529	static int aie2_get_aie_status(struct amdxdna_client *client,
-   530				       struct amdxdna_drm_get_info *args)
-   531	{
-   532		struct amdxdna_drm_query_aie_status status;
-   533		struct amdxdna_dev *xdna = client->xdna;
-   534		struct amdxdna_dev_hdl *ndev;
-   535		int ret;
-   536	
-   537		ndev = xdna->dev_handle;
-   538		if (copy_from_user(&status, u64_to_user_ptr(args->buffer), sizeof(status))) {
-   539			XDNA_ERR(xdna, "Failed to copy AIE request into kernel");
-   540			return -EFAULT;
-   541		}
-   542	
-   543		if (ndev->metadata.cols * ndev->metadata.size < status.buffer_size) {
-   544			XDNA_ERR(xdna, "Invalid buffer size. Given Size: %u. Need Size: %u.",
-   545				 status.buffer_size, ndev->metadata.cols * ndev->metadata.size);
-   546			return -EINVAL;
-   547		}
-   548	
- > 549		ret = aie2_query_status(ndev, u64_to_user_ptr(status.buffer),
-   550					status.buffer_size, &status.cols_filled);
-   551		if (ret) {
-   552			XDNA_ERR(xdna, "Failed to get AIE status info. Ret: %d", ret);
-   553			return ret;
-   554		}
-   555	
-   556		if (copy_to_user(u64_to_user_ptr(args->buffer), &status, sizeof(status))) {
-   557			XDNA_ERR(xdna, "Failed to copy AIE request info to user space");
-   558			return -EFAULT;
-   559		}
-   560	
-   561		return 0;
-   562	}
-   563	
+
+vim +38 drivers/hwtracing/stm/ftrace.c
+
+262e1f6e39143c Chunyan Zhang 2016-11-21  30  
+262e1f6e39143c Chunyan Zhang 2016-11-21  31  /**
+262e1f6e39143c Chunyan Zhang 2016-11-21  32   * stm_ftrace_write() - write data to STM via 'stm_ftrace' source
+262e1f6e39143c Chunyan Zhang 2016-11-21  33   * @buf:	buffer containing the data packet
+262e1f6e39143c Chunyan Zhang 2016-11-21  34   * @len:	length of the data packet
+262e1f6e39143c Chunyan Zhang 2016-11-21  35   */
+262e1f6e39143c Chunyan Zhang 2016-11-21  36  static void notrace
+a773d419275bf5 Felipe Balbi  2017-06-02  37  stm_ftrace_write(struct trace_export *export, const void *buf, unsigned int len)
+262e1f6e39143c Chunyan Zhang 2016-11-21 @38  {
+a773d419275bf5 Felipe Balbi  2017-06-02  39  	struct stm_ftrace *stm = container_of(export, struct stm_ftrace, ftrace);
+a773d419275bf5 Felipe Balbi  2017-06-02  40  
+a773d419275bf5 Felipe Balbi  2017-06-02  41  	stm_source_write(&stm->data, STM_FTRACE_CHAN, buf, len);
+262e1f6e39143c Chunyan Zhang 2016-11-21  42  }
+262e1f6e39143c Chunyan Zhang 2016-11-21  43  
+
+:::::: The code at line 38 was first introduced by commit
+:::::: 262e1f6e39143c2a0f559e2fb4a835069a7693a9 stm class: ftrace: Add ftrace-export-over-stm driver
+
+:::::: TO: Chunyan Zhang <zhang.chunyan@linaro.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
