@@ -1,143 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40561F9F76
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 11:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A201B87FA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jan 2025 11:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735905182; cv=none; b=rWQ14fctOxTVwLQ0slbocOTQs0kVvSL4Hc6cStDvBI9aisGk0MDconWqXJhAEw0AJYsxoNURwD16TPMyFa+taOzvjyXTcMKt2bMw6NLExDcK9MlefZXubHtBM80sbIZrJxN8TwYbW7MsMOSZ8hWL+72aPhLzhPGeTYA0nqkJpi8=
+	t=1735905534; cv=none; b=VfGE3FoHEVJopY3XUPeJNFXPTP8vVn40t8mJmu/WAYvZxGO20n8jfHGpbrgIDViSwYlz+pmgPpyKuQ/IVOBiHUxsJ0FrwzEQZD9HgvGIDRH9WOT0a8vWgDBxn23xpd4m/erM0baKPhOIPSkNVyAfvLImR3c5j9NiOY2VbC9Xb/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735905182; c=relaxed/simple;
-	bh=Sn1vxpMU94orCBrl4wjddSE/NhotxWL4K0PdR77ANjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fyoq31c2vUZ6K/AJxs0MbYn2FZgoKlq7EOWp8I602mh+87aMoUVr6PgDi0jR1KlxzoJ/Nnn8TIM7URdF13M4ON2+uTfFZwSk5HgkvjwCXNPV7sG7l+RvWzXP9E9I9GScIPvDmMOLeWzcYVj1F7FmtOQjILVZAtqJwf3QdL9MPlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hc9HD6mV; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735905534; c=relaxed/simple;
+	bh=f6UY6MUHnVaJUkjb2kx/uTugt47g+EprsTnV3N1NrFg=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=R8bmq3cpjjXZnCRcLPO45IQhR7QBm4b2WucFtETWkGmiOE2UUAtMfX9bQEn52Jli2IpyJqbMx2vl9dzFq+s1x9y69FWU8mODcISA/YUfbVA6EIzRkobQT6ob+clEzy+mhc7VC/C6xRdNdHMxtJwCbUW/h7aFLNSFTsrYZm4UnlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=CEqYslvg; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hc9HD6mV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735905181; x=1767441181;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="CEqYslvg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sn1vxpMU94orCBrl4wjddSE/NhotxWL4K0PdR77ANjw=;
-  b=hc9HD6mVbJIL2QXqr0BcjAHndPVfe0+N/xkubyHf2cvX/ywgXn8HvkJ3
-   RoWoVKE0OExoI6rLyoVq7iRvOAE6x6LYxtRdVRBAglsl0TUxNxql0GqwY
-   SRCD7b0+F9r8EG9+V/ePXxQYix0YQLiHaHl4bKQ2sXFLSrqho7hBWa9A/
-   PgX20cZKbUFQVAPGomXvsCLAlD61IpZmUlZh/5CYdzZLOM8F9ICd7Pdgr
-   1UcN2w2CT2Bx1JwLPyIe6J3kBtXvMDSO3dhiy0devq68KfLlV+ZfIAftp
-   GulqknokFFYxPgEZaLOymEgqo714C+htOseVUmaChvpiPFLIKiQR4Q9mD
-   A==;
-X-CSE-ConnectionGUID: 4OnAizQ+Rz+lvLezybV/xA==
-X-CSE-MsgGUID: mh57XYQTQvi+QSdghFBMiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36058116"
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="36058116"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 03:53:00 -0800
-X-CSE-ConnectionGUID: siaJxPlrQ/CmvBWRLU+DSA==
-X-CSE-MsgGUID: ZTbvUFaGSfCM9u+3QeDNng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102278203"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Jan 2025 03:52:59 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tTgEb-0009h8-0J;
-	Fri, 03 Jan 2025 11:52:57 +0000
-Date: Fri, 3 Jan 2025 19:52:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:fix_sp_calculation 11/14]
- arch/x86/include/asm/msr.h:563:2: error: call to '__compiletime_assert_64'
- declared with 'error' attribute: BUILD_BUG_ON failed:
- __builtin_constant_p(msr)
-Message-ID: <202501031933.1UqWrRkH-lkp@intel.com>
+  bh=5PHqPIILjfDOxgWqvFktoKDD+bLbn9GgwJGsoVSmUus=;
+  b=CEqYslvg9HfM0lxSrm03WY02nhdvKyTR4JT2+qwE8kcBC513im2ZjBWB
+   pmYUxgqzPhfUgLVlgfwTwB33PtpcC9X/rAcJN+A+t8K/TxLoBsUGQj9e9
+   1Rxm55g+VrhqJmEBJGIoBmsb3u4Dt5VBOLvfSpf/F4Mh1Hz0WqiGk10ql
+   w=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.12,286,1728943200"; 
+   d="scan'208";a="201326658"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 12:58:43 +0100
+Date: Fri, 3 Jan 2025 12:58:43 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Zheng Zengkai <zhengzengkai@huawei.com>
+cc: kernel@openeuler.org, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2616/2616] arch/arm64/kernel/mpam/mpam_device.c:1838:1-33:
+ WARNING: Function "for_each_available_child_of_node" should have of_node_put()
+ before break around line 1841. (fwd)
+Message-ID: <5eb53592-9fd8-60f0-db74-a9da53318f85@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git fix_sp_calculation
-head:   c24dec61406e23e2e07e26232e233cf439295918
-commit: e1a36c8372ac54e78b93de48e40c293ed20ee384 [11/14] x86/msr: Use the alternatives mechanism to call Xen MSR APIs
-config: i386-buildonly-randconfig-001-20250103 (https://download.01.org/0day-ci/archive/20250103/202501031933.1UqWrRkH-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501031933.1UqWrRkH-lkp@intel.com/reproduce)
+Hello,
+
+I think I reported on this previously, or perhaps  at another code
+location.  Maybe the of_node_put is hidden in the call to
+mpam_discovery_failed, but it could be better to make it explicit in the
+loop so it is directly clear that the needed cleanup is done.
+
+julia
+
+---------- Forwarded message ----------
+Date: Fri, 3 Jan 2025 19:41:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:OLK-5.10 2616/2616]
+    arch/arm64/kernel/mpam/mpam_device.c:1838:1-33: WARNING: Function
+    "for_each_available_child_of_node" should have of_node_put() before break
+    around line 1841.
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: Zheng Zengkai <zhengzengkai@huawei.com>
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   d51fb86ce6a3a3e59d7cba58738b63903b8cb37c
+commit: c0ec28ac9769e4df7757ba3ed94295446243ec31 [2616/2616] arm64/mpam: refactor device tree structure to support multiple devices
+:::::: branch date: 4 hours ago
+:::::: commit date: 2 years, 11 months ago
+config: arm64-randconfig-r052-20250101 (https://download.01.org/0day-ci/archive/20250103/202501031939.oFEiUJOt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501031933.1UqWrRkH-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202501031939.oFEiUJOt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/arm64/kernel/mpam/mpam_device.c:1838:1-33: WARNING: Function "for_each_available_child_of_node" should have of_node_put() before break around line 1841.
 
-   In file included from arch/x86/kernel/cpu/amd.c:4:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:76:
-   In file included from arch/x86/include/asm/vdso.h:11:
-   In file included from include/linux/mm_types.h:16:
-   In file included from include/linux/uprobes.h:18:
-   In file included from include/linux/timer.h:6:
-   In file included from include/linux/ktime.h:25:
-   In file included from include/linux/jiffies.h:10:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:6:
-   In file included from arch/x86/include/asm/tsc.h:10:
->> arch/x86/include/asm/msr.h:563:2: error: call to '__compiletime_assert_64' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_constant_p(msr)
-     563 |         BUILD_BUG_ON(__builtin_constant_p(msr));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:542:2: note: expanded from macro 'compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:530:2: note: expanded from macro '_compiletime_assert'
-     530 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:523:4: note: expanded from macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:34:1: note: expanded from here
-      34 | __compiletime_assert_64
-         | ^
-   1 error generated.
+vim +/for_each_available_child_of_node +1838 arch/arm64/kernel/mpam/mpam_device.c
 
-
-vim +563 arch/x86/include/asm/msr.h
-
-   560	
-   561	static __always_inline int __native_wrmsr_variable_safe(const u32 msr, const u64 val)
-   562	{
- > 563		BUILD_BUG_ON(__builtin_constant_p(msr));
-   564	
-   565		asm_inline volatile goto(
-   566			"1:\n"
-   567			ALTERNATIVE("ds wrmsr",
-   568				    INSN_WRMSRNS,
-   569				    X86_FEATURE_WRMSRNS)
-   570			EX_WRMSR_SAFE(1b, %l[badmsr])
-   571			: : "a" ((u32)val), "d" ((u32)(val >> 32)), "c" (msr)
-   572			: "memory"
-   573			: badmsr);
-   574		return 0;
-   575	
-   576	badmsr:
-   577		return -EIO;
-   578	}
-   579	
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1817
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1818  static int arm_mpam_device_probe(struct platform_device *pdev)
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1819  {
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1820  	int ret;
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1821  	struct device *dev = &pdev->dev;
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1822  	struct device_node *node = dev->of_node;
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1823  	struct device_node *child = NULL;
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1824
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1825  	if (!cpus_have_const_cap(ARM64_HAS_MPAM))
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1826  		return 0;
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1827
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1828  	if (!acpi_disabled || mpam_enabled != MPAM_ENABLE_OF)
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1829  		return 0;
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1830
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1831  	if (!node || !of_match_node(arm_mpam_of_device_ids, pdev->dev.of_node))
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1832  		return -EINVAL;
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1833
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1834  	ret = mpam_discovery_start();
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1835  	if (ret)
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1836  		return ret;
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1837
+c0ec28ac9769e4 Xingang Wang 2022-01-29 @1838  	for_each_available_child_of_node(node, child) {
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1839  		ret = of_mpam_add_child(pdev, child);
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1840  		if (ret)
+c0ec28ac9769e4 Xingang Wang 2022-01-29 @1841  			break;
+c0ec28ac9769e4 Xingang Wang 2022-01-29  1842  	}
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1843
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1844  	if (ret) {
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1845  		mpam_discovery_failed();
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1846  	} else {
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1847  		ret = mpam_discovery_complete();
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1848  		if (!ret)
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1849  			pr_info("Successfully init mpam by DT.\n");
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1850  	}
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1851
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1852  	return ret;
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1853  }
+7926bf06ce9fb8 Xingang Wang 2022-01-10  1854
 
 -- 
 0-DAY CI Kernel Test Service
