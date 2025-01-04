@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFAD1DDEA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 17:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666FE45016;
+	Sat,  4 Jan 2025 18:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736010548; cv=none; b=Z58Fl+HsGWAwszqVs97SFR2Atth9WKvg5cjIuMHAmqgGJdyRXDT0JWM2h2t8biMoo4IHoz0Wn5wd4i/aZTjA9EEEqpy6FVDVNFz8vms+ynBemTf+9zDj0QiW8/BXRn/2h8gJE1m67sc9Ve8q99rW4YZFQwobXxWClYwXbURmgqk=
+	t=1736014334; cv=none; b=j4TjQ6unKAxLTCMoxOXML4igh0gCsSTu1WEloZH2f+6CZGf12E61IyJQ7+WPbTIPN/4RncqGrsHpPh712pb/EN6bCtyFWdcs25RCzhzMPwev1lqqATjR4zbSusQexFzvuEHPjT5kFoB8oDVuEI1wsVNz2TUvgVCCAfLd7fQJFFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736010548; c=relaxed/simple;
-	bh=Y0YrV7ile9sA2QU8mhJWUoeovHYaLn/T2EynKijqAng=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k/8D/c4COhXy0Vems7y91g+BTNB5Kh0VY+qJA5XmdnTMf9RQMJtSj287iDVnclOIMZJpm4rYE+QK+iQMBfcMrjTX9WH6ZqRZrgn0bv5+GAoz3DXDXcbWuzQ2WtSZh3+hrLNMBfg84ndDxkgL3WOOxAQl6uRNu/Ayv4jDW+cwtG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=feXPl+cN; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1736014334; c=relaxed/simple;
+	bh=bEdEZDsKvjKvYISSsqUWqDonU9gW1hZc1LD8ZT7VxKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UotqXaXUk9gS3gsbmK1zDKG8mYmZsaxXCTUCQBfAJcubpJdp7lxEiCNmOK2LgSaMIfOcb/C+vCiVnrzziJF9gWjo/nL8vxP1FbczzuhMtEVUKAM16CbFgqvAe3T/TU4EyCgfdMCgd25EFsgaaSmgeNMG/vLOWOlHdwJvud20Bb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B7ZS7Zv5; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="feXPl+cN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B7ZS7Zv5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736010547; x=1767546547;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y0YrV7ile9sA2QU8mhJWUoeovHYaLn/T2EynKijqAng=;
-  b=feXPl+cN/qbbliRvbyvHEjigIawOURrTsz5xajUy+HmKDtZ0BP3YWkfI
-   6c2Ztce/G8duASsTEhq1oQ0gLh62+1/j0+dtJEZNEsD2VRGwq38VB8qTR
-   CrJbf0QsDaBFNSMKXsUaOiueMzCJM13f2UE/jjGNfSavaj+GYpN3BvhjL
-   WR9g3Y9Q25iRKDDQWCsf1Qu8lKx9FRdfLxBqOK7YF0UYelNqexzwJ4BMY
-   +0Xkc48DkqYpQLPumN0Sk0fWrTLyTwrt38+8TUh/860/YzxCSsAc1a7fb
-   Nrp6c4SA+1Nfq4J4gz0CG1xLSEHES5kPSxKzDGf9fnFxT4u4GlHWnRMlH
+  t=1736014331; x=1767550331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bEdEZDsKvjKvYISSsqUWqDonU9gW1hZc1LD8ZT7VxKw=;
+  b=B7ZS7Zv5OqseHSgslFT39iLKOyW5461C49xhftvNsIayokY3tNr+VogU
+   5EARw8VHaQoUb1GZLeSJPnSsP/pDQvGZgiZuutu9oxUJUvcIcNUfSPqHd
+   YCyG34HK1whC9DwsLhLrOxUpW+XvowJH/M1jeTORZIswIKy2tzC0jNcgp
+   OcsmdDd0MDOD+8FYc4SNsYpTLuYRGd1xTcWvdNdQGaDLIGpI9bkn8yVef
+   hALDwibscyrwvkBHUMLVbfp1osEzklZjNq3qTreDNs56M4phKVBy89Wq0
+   Uwg/xITmys9n5SL1Nii7Pk1faq9cEh9IEK4gtFDUEJn2qS6rAsNniG+RU
    Q==;
-X-CSE-ConnectionGUID: RRm5k0Z7SjC7vdEwvCH94w==
-X-CSE-MsgGUID: JeE0NMxPTRioLySTGCc1yA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11305"; a="36096747"
+X-CSE-ConnectionGUID: miODIY/fTmiem7iVnK9vjg==
+X-CSE-MsgGUID: drRh/XoHQGqA0tR6VP4Vhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11305"; a="53765793"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="36096747"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 09:09:07 -0800
-X-CSE-ConnectionGUID: juUB3+MpQ4GSwPmjyTuTsQ==
-X-CSE-MsgGUID: Bg7GU6NWRKiM5k/8AE5gjw==
+   d="scan'208";a="53765793"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 10:12:11 -0800
+X-CSE-ConnectionGUID: PWYoHdEfS5yRDNe49Nrr8Q==
+X-CSE-MsgGUID: dbnoRSxiQbWPWUzn2BL7tw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102912354"
+X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
+   d="scan'208";a="106907870"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 04 Jan 2025 09:09:05 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 04 Jan 2025 10:12:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tU7e2-000B5X-1B;
-	Sat, 04 Jan 2025 17:09:02 +0000
-Date: Sun, 5 Jan 2025 01:08:46 +0800
+	id 1tU8d4-000B7X-2c;
+	Sat, 04 Jan 2025 18:12:06 +0000
+Date: Sun, 5 Jan 2025 02:11:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or
- struct member 'switch_on_unlock' not described in 'msc'
-Message-ID: <202501050137.ZcXa1BjX-lkp@intel.com>
+To: Stefano Stabellini <sstabellini@kernel.org>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	sstabellini@kernel.org, jgross@suse.com,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH] xen: update pvcalls_front_accept prototype
+Message-ID: <202501050103.LVGxLcNl-lkp@intel.com>
+References: <alpine.DEB.2.22.394.2501031501420.16425@ubuntu-linux-20-04-desktop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,162 +65,187 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2501031501420.16425@ubuntu-linux-20-04-desktop>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   63676eefb7a026d04b51dcb7aaf54f358517a2ec
-commit: 8622dfefb6ac333c58d354331d1bf78a2927ce51 intel_th: msu: Make stopping the trace optional
-date:   4 years, 9 months ago
-config: parisc-randconfig-r016-20230411 (https://download.01.org/0day-ci/archive/20250105/202501050137.ZcXa1BjX-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501050137.ZcXa1BjX-lkp@intel.com/reproduce)
+Hi Stefano,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on xen-tip/linux-next]
+[also build test ERROR on linus/master v6.13-rc5 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefano-Stabellini/xen-update-pvcalls_front_accept-prototype/20250104-070503
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
+patch link:    https://lore.kernel.org/r/alpine.DEB.2.22.394.2501031501420.16425%40ubuntu-linux-20-04-desktop
+patch subject: [PATCH] xen: update pvcalls_front_accept prototype
+config: x86_64-buildonly-randconfig-005-20250104 (https://download.01.org/0day-ci/archive/20250105/202501050103.LVGxLcNl-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501050103.LVGxLcNl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501050137.ZcXa1BjX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501050103.LVGxLcNl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hwtracing/intel_th/msu.c:77: warning: Function parameter or struct member 'msc' not described in 'msc_window'
-   drivers/hwtracing/intel_th/msu.c:122: warning: bad line: 
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'msu_base' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'mbuf_priv' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'work' not described in 'msc'
->> drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'switch_on_unlock' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'orig_addr' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'orig_sz' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'iter_list' not described in 'msc'
->> drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'stop_on_full' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'do_irq' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:168: warning: Function parameter or struct member 'multi_is_broken' not described in 'msc'
-   drivers/hwtracing/intel_th/msu.c:1287: warning: Function parameter or struct member 'nr_pages' not described in 'msc_buffer_alloc'
-   drivers/hwtracing/intel_th/msu.c:1287: warning: Function parameter or struct member 'nr_wins' not described in 'msc_buffer_alloc'
-   drivers/hwtracing/intel_th/msu.c:1287: warning: Excess function parameter 'size' description in 'msc_buffer_alloc'
+   In file included from drivers/xen/pvcalls-front.c:7:
+   In file included from include/linux/net.h:24:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/xen/pvcalls-front.c:772:5: error: conflicting types for 'pvcalls_front_accept'
+     772 | int pvcalls_front_accept(struct socket *sock, struct socket *newsock, int flags)
+         |     ^
+   drivers/xen/pvcalls-front.h:13:5: note: previous declaration is here
+      13 | int pvcalls_front_accept(struct socket *sock,
+         |     ^
+   1 warning and 1 error generated.
 
 
-vim +168 drivers/hwtracing/intel_th/msu.c
+vim +/pvcalls_front_accept +772 drivers/xen/pvcalls-front.c
 
-615c164da0eb42 Alexander Shishkin 2019-07-05   55  
-ba82664c134ef7 Alexander Shishkin 2015-09-22   56  /**
-ba82664c134ef7 Alexander Shishkin 2015-09-22   57   * struct msc_window - multiblock mode window descriptor
-ba82664c134ef7 Alexander Shishkin 2015-09-22   58   * @entry:	window list linkage (msc::win_list)
-ba82664c134ef7 Alexander Shishkin 2015-09-22   59   * @pgoff:	page offset into the buffer that this window starts at
-615c164da0eb42 Alexander Shishkin 2019-07-05   60   * @lockout:	lockout state, see comment below
-615c164da0eb42 Alexander Shishkin 2019-07-05   61   * @lo_lock:	lockout state serialization
-ba82664c134ef7 Alexander Shishkin 2015-09-22   62   * @nr_blocks:	number of blocks (pages) in this window
-fa52b3fe5e9383 Alexander Shishkin 2019-06-27   63   * @nr_segs:	number of segments in this window (<= @nr_blocks)
-bbbc08a154a175 Alexander Shishkin 2019-06-27   64   * @_sgt:	array of block descriptors
-ba39bd8306057f Alexander Shishkin 2019-05-03   65   * @sgt:	array of block descriptors
-ba82664c134ef7 Alexander Shishkin 2015-09-22   66   */
-ba82664c134ef7 Alexander Shishkin 2015-09-22   67  struct msc_window {
-ba82664c134ef7 Alexander Shishkin 2015-09-22   68  	struct list_head	entry;
-ba82664c134ef7 Alexander Shishkin 2015-09-22   69  	unsigned long		pgoff;
-615c164da0eb42 Alexander Shishkin 2019-07-05   70  	enum lockout_state	lockout;
-615c164da0eb42 Alexander Shishkin 2019-07-05   71  	spinlock_t		lo_lock;
-ba82664c134ef7 Alexander Shishkin 2015-09-22   72  	unsigned int		nr_blocks;
-fa52b3fe5e9383 Alexander Shishkin 2019-06-27   73  	unsigned int		nr_segs;
-ba82664c134ef7 Alexander Shishkin 2015-09-22   74  	struct msc		*msc;
-bbbc08a154a175 Alexander Shishkin 2019-06-27   75  	struct sg_table		_sgt;
-bbbc08a154a175 Alexander Shishkin 2019-06-27   76  	struct sg_table		*sgt;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  @77  };
-ba82664c134ef7 Alexander Shishkin 2015-09-22   78  
-ba82664c134ef7 Alexander Shishkin 2015-09-22   79  /**
-ba82664c134ef7 Alexander Shishkin 2015-09-22   80   * struct msc_iter - iterator for msc buffer
-ba82664c134ef7 Alexander Shishkin 2015-09-22   81   * @entry:		msc::iter_list linkage
-ba82664c134ef7 Alexander Shishkin 2015-09-22   82   * @msc:		pointer to the MSC device
-ba82664c134ef7 Alexander Shishkin 2015-09-22   83   * @start_win:		oldest window
-ba82664c134ef7 Alexander Shishkin 2015-09-22   84   * @win:		current window
-ba82664c134ef7 Alexander Shishkin 2015-09-22   85   * @offset:		current logical offset into the buffer
-ba82664c134ef7 Alexander Shishkin 2015-09-22   86   * @start_block:	oldest block in the window
-ba82664c134ef7 Alexander Shishkin 2015-09-22   87   * @block:		block number in the window
-ba82664c134ef7 Alexander Shishkin 2015-09-22   88   * @block_off:		offset into current block
-ba82664c134ef7 Alexander Shishkin 2015-09-22   89   * @wrap_count:		block wrapping handling
-ba82664c134ef7 Alexander Shishkin 2015-09-22   90   * @eof:		end of buffer reached
-ba82664c134ef7 Alexander Shishkin 2015-09-22   91   */
-ba82664c134ef7 Alexander Shishkin 2015-09-22   92  struct msc_iter {
-ba82664c134ef7 Alexander Shishkin 2015-09-22   93  	struct list_head	entry;
-ba82664c134ef7 Alexander Shishkin 2015-09-22   94  	struct msc		*msc;
-ba82664c134ef7 Alexander Shishkin 2015-09-22   95  	struct msc_window	*start_win;
-ba82664c134ef7 Alexander Shishkin 2015-09-22   96  	struct msc_window	*win;
-ba82664c134ef7 Alexander Shishkin 2015-09-22   97  	unsigned long		offset;
-57b69a1f66486d Alexander Shishkin 2019-07-05   98  	struct scatterlist	*start_block;
-57b69a1f66486d Alexander Shishkin 2019-07-05   99  	struct scatterlist	*block;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  100  	unsigned int		block_off;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  101  	unsigned int		wrap_count;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  102  	unsigned int		eof;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  103  };
-ba82664c134ef7 Alexander Shishkin 2015-09-22  104  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  105  /**
-ba82664c134ef7 Alexander Shishkin 2015-09-22  106   * struct msc - MSC device representation
-ba82664c134ef7 Alexander Shishkin 2015-09-22  107   * @reg_base:		register window base address
-ba82664c134ef7 Alexander Shishkin 2015-09-22  108   * @thdev:		intel_th_device pointer
-615c164da0eb42 Alexander Shishkin 2019-07-05  109   * @mbuf:		MSU buffer, if assigned
-615c164da0eb42 Alexander Shishkin 2019-07-05  110   * @mbuf_priv		MSU buffer's private data, if @mbuf
-ba82664c134ef7 Alexander Shishkin 2015-09-22  111   * @win_list:		list of windows in multiblock mode
-4e0eaf239fb33e Alexander Shishkin 2019-05-03  112   * @single_sgt:		single mode buffer
-aad14ad3cf3a63 Alexander Shishkin 2019-05-03  113   * @cur_win:		current window
-ba82664c134ef7 Alexander Shishkin 2015-09-22  114   * @nr_pages:		total number of pages allocated for this buffer
-ba82664c134ef7 Alexander Shishkin 2015-09-22  115   * @single_sz:		amount of data in single mode
-ba82664c134ef7 Alexander Shishkin 2015-09-22  116   * @single_wrap:	single mode wrap occurred
-ba82664c134ef7 Alexander Shishkin 2015-09-22  117   * @base:		buffer's base pointer
-ba82664c134ef7 Alexander Shishkin 2015-09-22  118   * @base_addr:		buffer's base address
-ba82664c134ef7 Alexander Shishkin 2015-09-22  119   * @user_count:		number of users of the buffer
-ba82664c134ef7 Alexander Shishkin 2015-09-22  120   * @mmap_count:		number of mappings
-ba82664c134ef7 Alexander Shishkin 2015-09-22  121   * @buf_mutex:		mutex to serialize access to buffer-related bits
-ba82664c134ef7 Alexander Shishkin 2015-09-22  122  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  123   * @enabled:		MSC is enabled
-ba82664c134ef7 Alexander Shishkin 2015-09-22  124   * @wrap:		wrapping is enabled
-ba82664c134ef7 Alexander Shishkin 2015-09-22  125   * @mode:		MSC operating mode
-ba82664c134ef7 Alexander Shishkin 2015-09-22  126   * @burst_len:		write burst length
-ba82664c134ef7 Alexander Shishkin 2015-09-22  127   * @index:		number of this MSC in the MSU
-ba82664c134ef7 Alexander Shishkin 2015-09-22  128   */
-ba82664c134ef7 Alexander Shishkin 2015-09-22  129  struct msc {
-ba82664c134ef7 Alexander Shishkin 2015-09-22  130  	void __iomem		*reg_base;
-aac8da65174a35 Alexander Shishkin 2019-05-03  131  	void __iomem		*msu_base;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  132  	struct intel_th_device	*thdev;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  133  
-615c164da0eb42 Alexander Shishkin 2019-07-05  134  	const struct msu_buffer	*mbuf;
-615c164da0eb42 Alexander Shishkin 2019-07-05  135  	void			*mbuf_priv;
-615c164da0eb42 Alexander Shishkin 2019-07-05  136  
-615c164da0eb42 Alexander Shishkin 2019-07-05  137  	struct work_struct	work;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  138  	struct list_head	win_list;
-4e0eaf239fb33e Alexander Shishkin 2019-05-03  139  	struct sg_table		single_sgt;
-aad14ad3cf3a63 Alexander Shishkin 2019-05-03  140  	struct msc_window	*cur_win;
-8622dfefb6ac33 Alexander Shishkin 2020-03-19  141  	struct msc_window	*switch_on_unlock;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  142  	unsigned long		nr_pages;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  143  	unsigned long		single_sz;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  144  	unsigned int		single_wrap : 1;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  145  	void			*base;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  146  	dma_addr_t		base_addr;
-092f47c383adbf Alexander Shishkin 2019-07-05  147  	u32			orig_addr;
-092f47c383adbf Alexander Shishkin 2019-07-05  148  	u32			orig_sz;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  149  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  150  	/* <0: no buffer, 0: no users, >0: active users */
-ba82664c134ef7 Alexander Shishkin 2015-09-22  151  	atomic_t		user_count;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  152  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  153  	atomic_t		mmap_count;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  154  	struct mutex		buf_mutex;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  155  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  156  	struct list_head	iter_list;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  157  
-8622dfefb6ac33 Alexander Shishkin 2020-03-19  158  	bool			stop_on_full;
-8622dfefb6ac33 Alexander Shishkin 2020-03-19  159  
-ba82664c134ef7 Alexander Shishkin 2015-09-22  160  	/* config */
-ba82664c134ef7 Alexander Shishkin 2015-09-22  161  	unsigned int		enabled : 1,
-aac8da65174a35 Alexander Shishkin 2019-05-03  162  				wrap	: 1,
-397c7729665a3b Alexander Shishkin 2020-03-17  163  				do_irq	: 1,
-397c7729665a3b Alexander Shishkin 2020-03-17  164  				multi_is_broken : 1;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  165  	unsigned int		mode;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  166  	unsigned int		burst_len;
-ba82664c134ef7 Alexander Shishkin 2015-09-22  167  	unsigned int		index;
-ba82664c134ef7 Alexander Shishkin 2015-09-22 @168  };
-ba82664c134ef7 Alexander Shishkin 2015-09-22  169  
-
-:::::: The code at line 168 was first introduced by commit
-:::::: ba82664c134ef7ab97808f09a3c5e894b0a4900d intel_th: Add Memory Storage Unit driver
-
-:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+1853f11d72ed46 Stefano Stabellini 2017-10-30  771  
+9774c6cca26610 Stefano Stabellini 2017-10-30 @772  int pvcalls_front_accept(struct socket *sock, struct socket *newsock, int flags)
+9774c6cca26610 Stefano Stabellini 2017-10-30  773  {
+9774c6cca26610 Stefano Stabellini 2017-10-30  774  	struct pvcalls_bedata *bedata;
+9774c6cca26610 Stefano Stabellini 2017-10-30  775  	struct sock_mapping *map;
+9774c6cca26610 Stefano Stabellini 2017-10-30  776  	struct sock_mapping *map2 = NULL;
+9774c6cca26610 Stefano Stabellini 2017-10-30  777  	struct xen_pvcalls_request *req;
+0102e4efda76d0 Yan Yankovskyi     2020-03-23  778  	int notify, req_id, ret, nonblock;
+0102e4efda76d0 Yan Yankovskyi     2020-03-23  779  	evtchn_port_t evtchn;
+9774c6cca26610 Stefano Stabellini 2017-10-30  780  
+64d6871827b1e2 Stefano Stabellini 2018-02-14  781  	map = pvcalls_enter_sock(sock);
+64d6871827b1e2 Stefano Stabellini 2018-02-14  782  	if (IS_ERR(map))
+64d6871827b1e2 Stefano Stabellini 2018-02-14  783  		return PTR_ERR(map);
+9774c6cca26610 Stefano Stabellini 2017-10-30  784  	bedata = dev_get_drvdata(&pvcalls_front_dev->dev);
+9774c6cca26610 Stefano Stabellini 2017-10-30  785  
+9774c6cca26610 Stefano Stabellini 2017-10-30  786  	if (map->passive.status != PVCALLS_STATUS_LISTEN) {
+64d6871827b1e2 Stefano Stabellini 2018-02-14  787  		pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  788  		return -EINVAL;
+9774c6cca26610 Stefano Stabellini 2017-10-30  789  	}
+9774c6cca26610 Stefano Stabellini 2017-10-30  790  
+9774c6cca26610 Stefano Stabellini 2017-10-30  791  	nonblock = flags & SOCK_NONBLOCK;
+9774c6cca26610 Stefano Stabellini 2017-10-30  792  	/*
+9774c6cca26610 Stefano Stabellini 2017-10-30  793  	 * Backend only supports 1 inflight accept request, will return
+9774c6cca26610 Stefano Stabellini 2017-10-30  794  	 * errors for the others
+9774c6cca26610 Stefano Stabellini 2017-10-30  795  	 */
+9774c6cca26610 Stefano Stabellini 2017-10-30  796  	if (test_and_set_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT,
+9774c6cca26610 Stefano Stabellini 2017-10-30  797  			     (void *)&map->passive.flags)) {
+9774c6cca26610 Stefano Stabellini 2017-10-30  798  		req_id = READ_ONCE(map->passive.inflight_req_id);
+9774c6cca26610 Stefano Stabellini 2017-10-30  799  		if (req_id != PVCALLS_INVALID_ID &&
+9774c6cca26610 Stefano Stabellini 2017-10-30  800  		    READ_ONCE(bedata->rsp[req_id].req_id) == req_id) {
+9774c6cca26610 Stefano Stabellini 2017-10-30  801  			map2 = map->passive.accept_map;
+9774c6cca26610 Stefano Stabellini 2017-10-30  802  			goto received;
+9774c6cca26610 Stefano Stabellini 2017-10-30  803  		}
+9774c6cca26610 Stefano Stabellini 2017-10-30  804  		if (nonblock) {
+64d6871827b1e2 Stefano Stabellini 2018-02-14  805  			pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  806  			return -EAGAIN;
+9774c6cca26610 Stefano Stabellini 2017-10-30  807  		}
+9774c6cca26610 Stefano Stabellini 2017-10-30  808  		if (wait_event_interruptible(map->passive.inflight_accept_req,
+9774c6cca26610 Stefano Stabellini 2017-10-30  809  			!test_and_set_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT,
+9774c6cca26610 Stefano Stabellini 2017-10-30  810  					  (void *)&map->passive.flags))) {
+64d6871827b1e2 Stefano Stabellini 2018-02-14  811  			pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  812  			return -EINTR;
+9774c6cca26610 Stefano Stabellini 2017-10-30  813  		}
+9774c6cca26610 Stefano Stabellini 2017-10-30  814  	}
+9774c6cca26610 Stefano Stabellini 2017-10-30  815  
+9f51c05dc41a6d Wen Yang           2018-12-05  816  	map2 = kzalloc(sizeof(*map2), GFP_KERNEL);
+9f51c05dc41a6d Wen Yang           2018-12-05  817  	if (map2 == NULL) {
+9f51c05dc41a6d Wen Yang           2018-12-05  818  		clear_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT,
+9f51c05dc41a6d Wen Yang           2018-12-05  819  			  (void *)&map->passive.flags);
+9f51c05dc41a6d Wen Yang           2018-12-05  820  		pvcalls_exit_sock(sock);
+9f51c05dc41a6d Wen Yang           2018-12-05  821  		return -ENOMEM;
+9f51c05dc41a6d Wen Yang           2018-12-05  822  	}
+9f51c05dc41a6d Wen Yang           2018-12-05  823  	ret = alloc_active_ring(map2);
+9774c6cca26610 Stefano Stabellini 2017-10-30  824  	if (ret < 0) {
+9774c6cca26610 Stefano Stabellini 2017-10-30  825  		clear_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT,
+9774c6cca26610 Stefano Stabellini 2017-10-30  826  				(void *)&map->passive.flags);
+9f51c05dc41a6d Wen Yang           2018-12-05  827  		kfree(map2);
+64d6871827b1e2 Stefano Stabellini 2018-02-14  828  		pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  829  		return ret;
+9774c6cca26610 Stefano Stabellini 2017-10-30  830  	}
+c66bb48edd58c3 Juergen Gross      2023-04-03  831  	ret = create_active(map2, &evtchn);
+9f51c05dc41a6d Wen Yang           2018-12-05  832  	if (ret < 0) {
+9f51c05dc41a6d Wen Yang           2018-12-05  833  		free_active_ring(map2);
+9f51c05dc41a6d Wen Yang           2018-12-05  834  		kfree(map2);
+c66bb48edd58c3 Juergen Gross      2023-04-03  835  		clear_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT,
+c66bb48edd58c3 Juergen Gross      2023-04-03  836  			  (void *)&map->passive.flags);
+64d6871827b1e2 Stefano Stabellini 2018-02-14  837  		pvcalls_exit_sock(sock);
+9f51c05dc41a6d Wen Yang           2018-12-05  838  		return ret;
+9774c6cca26610 Stefano Stabellini 2017-10-30  839  	}
+9f51c05dc41a6d Wen Yang           2018-12-05  840  
+c66bb48edd58c3 Juergen Gross      2023-04-03  841  	spin_lock(&bedata->socket_lock);
+c66bb48edd58c3 Juergen Gross      2023-04-03  842  	ret = get_request(bedata, &req_id);
+9774c6cca26610 Stefano Stabellini 2017-10-30  843  	if (ret < 0) {
+9774c6cca26610 Stefano Stabellini 2017-10-30  844  		clear_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT,
+9774c6cca26610 Stefano Stabellini 2017-10-30  845  			  (void *)&map->passive.flags);
+9774c6cca26610 Stefano Stabellini 2017-10-30  846  		spin_unlock(&bedata->socket_lock);
+c66bb48edd58c3 Juergen Gross      2023-04-03  847  		pvcalls_front_free_map(bedata, map2);
+64d6871827b1e2 Stefano Stabellini 2018-02-14  848  		pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  849  		return ret;
+9774c6cca26610 Stefano Stabellini 2017-10-30  850  	}
+c66bb48edd58c3 Juergen Gross      2023-04-03  851  
+9774c6cca26610 Stefano Stabellini 2017-10-30  852  	list_add_tail(&map2->list, &bedata->socket_mappings);
+9774c6cca26610 Stefano Stabellini 2017-10-30  853  
+9774c6cca26610 Stefano Stabellini 2017-10-30  854  	req = RING_GET_REQUEST(&bedata->ring, req_id);
+9774c6cca26610 Stefano Stabellini 2017-10-30  855  	req->req_id = req_id;
+9774c6cca26610 Stefano Stabellini 2017-10-30  856  	req->cmd = PVCALLS_ACCEPT;
+9774c6cca26610 Stefano Stabellini 2017-10-30  857  	req->u.accept.id = (uintptr_t) map;
+9774c6cca26610 Stefano Stabellini 2017-10-30  858  	req->u.accept.ref = map2->active.ref;
+9774c6cca26610 Stefano Stabellini 2017-10-30  859  	req->u.accept.id_new = (uintptr_t) map2;
+9774c6cca26610 Stefano Stabellini 2017-10-30  860  	req->u.accept.evtchn = evtchn;
+9774c6cca26610 Stefano Stabellini 2017-10-30  861  	map->passive.accept_map = map2;
+9774c6cca26610 Stefano Stabellini 2017-10-30  862  
+9774c6cca26610 Stefano Stabellini 2017-10-30  863  	bedata->ring.req_prod_pvt++;
+9774c6cca26610 Stefano Stabellini 2017-10-30  864  	RING_PUSH_REQUESTS_AND_CHECK_NOTIFY(&bedata->ring, notify);
+9774c6cca26610 Stefano Stabellini 2017-10-30  865  	spin_unlock(&bedata->socket_lock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  866  	if (notify)
+9774c6cca26610 Stefano Stabellini 2017-10-30  867  		notify_remote_via_irq(bedata->irq);
+9774c6cca26610 Stefano Stabellini 2017-10-30  868  	/* We could check if we have received a response before returning. */
+9774c6cca26610 Stefano Stabellini 2017-10-30  869  	if (nonblock) {
+9774c6cca26610 Stefano Stabellini 2017-10-30  870  		WRITE_ONCE(map->passive.inflight_req_id, req_id);
+64d6871827b1e2 Stefano Stabellini 2018-02-14  871  		pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  872  		return -EAGAIN;
+9774c6cca26610 Stefano Stabellini 2017-10-30  873  	}
+9774c6cca26610 Stefano Stabellini 2017-10-30  874  
+9774c6cca26610 Stefano Stabellini 2017-10-30  875  	if (wait_event_interruptible(bedata->inflight_req,
+9774c6cca26610 Stefano Stabellini 2017-10-30  876  		READ_ONCE(bedata->rsp[req_id].req_id) == req_id)) {
+64d6871827b1e2 Stefano Stabellini 2018-02-14  877  		pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  878  		return -EINTR;
+9774c6cca26610 Stefano Stabellini 2017-10-30  879  	}
+9774c6cca26610 Stefano Stabellini 2017-10-30  880  	/* read req_id, then the content */
+9774c6cca26610 Stefano Stabellini 2017-10-30  881  	smp_rmb();
+9774c6cca26610 Stefano Stabellini 2017-10-30  882  
+9774c6cca26610 Stefano Stabellini 2017-10-30  883  received:
+9774c6cca26610 Stefano Stabellini 2017-10-30  884  	map2->sock = newsock;
+beee1fbe8f7d57 Stefano Stabellini 2018-12-21  885  	newsock->sk = sk_alloc(sock_net(sock->sk), PF_INET, GFP_KERNEL, &pvcalls_proto, false);
+9774c6cca26610 Stefano Stabellini 2017-10-30  886  	if (!newsock->sk) {
+9774c6cca26610 Stefano Stabellini 2017-10-30  887  		bedata->rsp[req_id].req_id = PVCALLS_INVALID_ID;
+9774c6cca26610 Stefano Stabellini 2017-10-30  888  		map->passive.inflight_req_id = PVCALLS_INVALID_ID;
+9774c6cca26610 Stefano Stabellini 2017-10-30  889  		clear_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT,
+9774c6cca26610 Stefano Stabellini 2017-10-30  890  			  (void *)&map->passive.flags);
+9774c6cca26610 Stefano Stabellini 2017-10-30  891  		pvcalls_front_free_map(bedata, map2);
+64d6871827b1e2 Stefano Stabellini 2018-02-14  892  		pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  893  		return -ENOMEM;
+9774c6cca26610 Stefano Stabellini 2017-10-30  894  	}
+9774c6cca26610 Stefano Stabellini 2017-10-30  895  	newsock->sk->sk_send_head = (void *)map2;
+9774c6cca26610 Stefano Stabellini 2017-10-30  896  
+9774c6cca26610 Stefano Stabellini 2017-10-30  897  	ret = bedata->rsp[req_id].ret;
+9774c6cca26610 Stefano Stabellini 2017-10-30  898  	bedata->rsp[req_id].req_id = PVCALLS_INVALID_ID;
+9774c6cca26610 Stefano Stabellini 2017-10-30  899  	map->passive.inflight_req_id = PVCALLS_INVALID_ID;
+9774c6cca26610 Stefano Stabellini 2017-10-30  900  
+9774c6cca26610 Stefano Stabellini 2017-10-30  901  	clear_bit(PVCALLS_FLAG_ACCEPT_INFLIGHT, (void *)&map->passive.flags);
+9774c6cca26610 Stefano Stabellini 2017-10-30  902  	wake_up(&map->passive.inflight_accept_req);
+9774c6cca26610 Stefano Stabellini 2017-10-30  903  
+64d6871827b1e2 Stefano Stabellini 2018-02-14  904  	pvcalls_exit_sock(sock);
+9774c6cca26610 Stefano Stabellini 2017-10-30  905  	return ret;
+9774c6cca26610 Stefano Stabellini 2017-10-30  906  }
+9774c6cca26610 Stefano Stabellini 2017-10-30  907  
 
 -- 
 0-DAY CI Kernel Test Service
