@@ -1,94 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ADA22EE4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 08:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF2E14D6F6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 08:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735980241; cv=fail; b=T1NXnladkQG+KCVoo2H6PYdRjpsQCaY4vRgx6SaCcDtMt0Oqkcdxz3/PxfCEZiiIZ7mK6OD7g72aDR90BccW8okaCMq940DksPm8t43BtmrcHbLbvGgEw++gpausxQHV9MBaos3H2RRsR9HuhJZKWsdJTZ+SYdnbVLkQa/fZPoM=
+	t=1735980953; cv=fail; b=afGBj23LdaqE9OC9BjXwqNo1TaTUQ+RwCm7ZX/cRx1J8kxGLHxdUBASkc8ljj64J9nKuxjVv1Wl2QdcHE3bFL1Su2P/9ySmw6JWGTCzDPhH/oPE46jHv8RjW+MnoEPTQQ2DVKxZYtKtBMUza6Cu9RSHe2m/p1Azce8y1urZDoy0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735980241; c=relaxed/simple;
-	bh=Xvzf0PyxHRHamLGOne86lq0N6hssoQgLcEoIMDRPCT0=;
+	s=arc-20240116; t=1735980953; c=relaxed/simple;
+	bh=TCYqJ2lVSLv2sHa9b7GTXthsB5Acp7F/K0vVogMEUFs=;
 	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=kcKOqlNSc1KdcfhpF8i91GDBGdEVXKczHNxKN7vTpllEOXTgbMBZ1aQ+F5LLZWsKTcAUgAw0FCJr8qkVaw5uAw4/e75uI6jZRwzJkCayacwHwrnfeyUGZ4tYZTJiw+6iF5UQ0vrFzpAhTifi6rUaZMJASFPZPijY+Wc3FYRQhqM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qm63wDOx; arc=fail smtp.client-ip=192.198.163.7
+	 Content-Disposition:In-Reply-To:MIME-Version; b=m8gubrXPMbC1+nQlPfFQo7iFQaxutMYNpjc3gx8ST+EkqENrD6tyGudO9DSe/Q/fsH2yIWDkCAqKjQrNbuaNpMQE0ozR+O5+pGQLdffkzDk98qfbRmH1uh77AQEsLUqSeu9ALIAzrxeMSdYCJDgZH9cljwGGMmn2jkH1RWEWZf4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gI2bl/8i; arc=fail smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qm63wDOx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gI2bl/8i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735980240; x=1767516240;
+  t=1735980951; x=1767516951;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=Xvzf0PyxHRHamLGOne86lq0N6hssoQgLcEoIMDRPCT0=;
-  b=Qm63wDOxvyj6+NGPZ+UsWg2Pej6G7aBUqxpd2P5CKlU9rzKYs3ch5j0r
-   YzVikImqRUpl67GXs3x8lFTuOl62qyqs7J3on6R4/qqAppmnFdx9gfbG1
-   ppzZisR8uVTLTTQXqO3hMs66TciB8mr8I5uk5S4VNVWaXPwDJS4wE5VGL
-   bm8QvwxoM+jrUtjLEKRerxcvRpCZiftVcyzp3Buncbp3SLt3to+LurG5s
-   /mQCWpVidY9arqiKTWzbri+FSDyy6XULuZ5gHjz+jW0pkAx68t7TgWt/c
-   KUR2fn1RcMRMJ2e83RByu2u99duld+jejglrZKgr6qRZrRiyjls1u4Jx0
-   A==;
-X-CSE-ConnectionGUID: UQhP9f9jScq3fPa076whMA==
-X-CSE-MsgGUID: l7pqv5LJS6SfIMXLHQWfWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="61582450"
+  bh=TCYqJ2lVSLv2sHa9b7GTXthsB5Acp7F/K0vVogMEUFs=;
+  b=gI2bl/8iohxxHX56fMFKvdnzezLo7DP8trU/ADiLKlcnVcgeZ/aEA+rF
+   BlyHSOdHKcRPn3/LZADDTMecAenfkMj64qEZr79XZm4gOgbnBmMsrrh/t
+   s1NfajRy7ktEPUmVqy99/szB/psoqOnBzU/sAiPXUIUq5U8tdogo0KnvF
+   nJFvv2Q6XuXFsotqt3bSyCk/ehcC4xXh3dWmwbERppw5/1kQ2IGluh/Ae
+   r3cz2m40DHaFuhe1gVMsw7QsraixdLpHRa4AAUGncUlbfnHDpBDr9Pg83
+   RsKEqf3KKbWI7lFPNoVZEtAvPFEN5E9b5Ng9A/IU7hkOLHzp7ZtHowIAd
+   Q==;
+X-CSE-ConnectionGUID: oh+GWvZpQeupUFQw+r7vEQ==
+X-CSE-MsgGUID: uGPgjQuGRHmI1ug0pjv1Sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="35449391"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="61582450"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 00:43:59 -0800
-X-CSE-ConnectionGUID: 2rep5mJFRjK0eoFCuY3wHA==
-X-CSE-MsgGUID: ne7PYUdqT6iOzMtf+NcvVQ==
+   d="scan'208";a="35449391"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 00:55:50 -0800
+X-CSE-ConnectionGUID: Xd9t1zQdTe2JD9mdeM2Pog==
+X-CSE-MsgGUID: ISMo91U/Qk6HZFvqugzTSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="132898477"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Jan 2025 00:43:59 -0800
+   d="scan'208";a="102850964"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Jan 2025 00:55:50 -0800
 Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Sat, 4 Jan 2025 00:43:58 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ 15.1.2507.44; Sat, 4 Jan 2025 00:55:50 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
  orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Sat, 4 Jan 2025 00:43:58 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2507.44 via Frontend Transport; Sat, 4 Jan 2025 00:55:50 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Sat, 4 Jan 2025 00:43:57 -0800
+ 15.1.2507.44; Sat, 4 Jan 2025 00:55:49 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i2N1XKGZUIUFwiBKSeD12MFK8bJQlHetFf1b3QuOV180kxMTOiYfEK+3XiWzCpDgx/mZ0aWz4eKE/UqdkQ8n/4CCuMCEK2EF2tYwT6bSbaKRSAwEdh1vJy+VhR3cFc/FBVD0VTczhmK5a/i3vzlDNvrJiZ4aa9Nu3poHYONtZ3rqdwAgMpNqzlHJqjmQzJqL5qDdrfmv5WEI8eREndmar1/O30iyNTCviHtK382ZAeTDfo8fS4QaI/pf6vX/3lvNjxw66cLCH42Myk5scVFXJeP5dLI7115/1tIApngK1zHeREgAAF/WPpOGqPxXuextCu5Lty9N52IeUfqlizxyfQ==
+ b=Z6rzKdueBA0zt6RfaSDFrKRCnYaUtdYhx2rJ7SS3OTbkXTv5/MU3hnxIfGnWaDu8VabFwDiH+WdNW7iL5KUgxum78iBoBKxCMrs3yvUyCgJMn9Utv9rOxCzlYJ7p+oaJ1R/51n/xxYE3bqkJ3N9Ade4cEfolkdT3GL3B7pRhexIB46cSPz2LVsh2+n3h3YUuIDxnj2F15p1HO89zMdqJYw7j5BFqemK59cojzuM6APjxHRnZRlfRPMWwwWLdt9QoCFZWC1Ko1VDP1B8XJER67I3UKhQnDtB6kFT2yGfaxcf3+x+So2bWK9O1KqC1QO24Z17tci6ShwMfcTdqNsTwGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8dnrJTcJhHRx/ywW8IeyiWdfhrMUweprzWUT18Cpe3Q=;
- b=RWlPtbVN8fQD8AjETbPAn2ffScUFfnReb0v4V4NeFkUvNLmFuH8FT0DmTQ8Z9mz03Q/feGyZbkOElRQedUaTwNTo4Ra099gObUAKcXKE8zo18hG0de+zYcIzuqfqeK2tqybOA2z9cQJinn1baN0YeJOlkN1pc7QrqTZoYBOeiBs5PRuDdoDB7K2KoblPGDn6f1TPr9AIoYDJbsTZTb3lL8U4rCEFHorS0eP3ELkG6+sCpUFrMiA0GgiehsTmziC+AhDhnCETTssMxs2lRXP8OZgmM0E/PFh9m5Vg6n+tyZuCFNUXSYGcXqUr/K8y7Ny1nqQhGDcxCXUO9MkRa9VJbA==
+ bh=jYhglo1xfSUVtyPoRbO4r2o/7jb8qewu2IDfmH0yTB4=;
+ b=lUdS65Dm9nk9PcVV6rrtJwLuNL38XxPV/lt839Xuo+VQlVCs6xWEtMfKWCpRbazAOnJVSm9YYRn6QrT5F2OOTeb3ZH3fHvPs90iyMlDwDKMr/CfngHZCNDjV1c5ffxgNId/Jh4fasuTVPUMsuybMq94HUtj8IaeLDsBlDeWQNSly6l9qCivt5Vt+fOE9k7oqEcpKvSJp0yE6bp7VPNnGv/vHlEZAPIDo+b7YIHNwHXdRWY9UFQ50Yf10Q0Z6/O2wbOqmuchPBT+2vu3ers2MjWTjLkgTxex9yZcwEmRtTzeRReDtmUprr2B6BdfVGrgyh1HctlpvAts+S8hxsz/1rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by DM3PR11MB8684.namprd11.prod.outlook.com (2603:10b6:0:4a::21) with
+ by MN2PR11MB4630.namprd11.prod.outlook.com (2603:10b6:208:24e::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.14; Sat, 4 Jan
- 2025 08:43:47 +0000
+ 2025 08:55:38 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8314.013; Sat, 4 Jan 2025
- 08:43:46 +0000
-Date: Sat, 4 Jan 2025 16:43:36 +0800
+ 08:55:38 +0000
+Date: Sat, 4 Jan 2025 16:55:28 +0800
 From: Philip Li <philip.li@intel.com>
 To: kernel test robot <lkp@intel.com>
-CC: Uladzislau Rezki <uladzislau.rezki@sony.com>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Paul E.
- McKenney" <paulmck@kernel.org>, "Uladzislau Rezki (Sony)" <urezki@gmail.com>
-Subject: Re: drivers/android/binderfs.c:235: warning: Function parameter or
- struct member 'file' not described in 'binder_ctl_ioctl'
-Message-ID: <Z3j0uC5d/bSHof3s@rli9-mobl>
-References: <202501041430.6u1qEegs-lkp@intel.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Kees Cook <keescook@chromium.org>
+Subject: Re: scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts
+Message-ID: <Z3j3gLrRE+I9MGf/@rli9-mobl>
+References: <202501041653.ehAbBy13-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <202501041430.6u1qEegs-lkp@intel.com>
+In-Reply-To: <202501041653.ehAbBy13-lkp@intel.com>
 X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
@@ -98,169 +96,196 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DM3PR11MB8684:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b858745-ca1b-4ef0-c2d5-08dd2c9be721
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|MN2PR11MB4630:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5367c7b8-88ed-4731-8b68-08dd2c9d8f25
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?n/hP5aRrSGKru7VlHeztXGsZzSJLG4wWVWq4y/nmOFDMjg22edSSdZZjpwG6?=
- =?us-ascii?Q?QannAGwueays5H8nYGcZpdUzwgIi13CRfKNGoqz002fS90gW5kwImDj2QQ+B?=
- =?us-ascii?Q?RHyA9hnO6NUJ6Pr+nzVOfJkTKNz8PpBeMEjaDu012ER2TNDrfo2UNOBCpKae?=
- =?us-ascii?Q?H5eVVI9s0A3WkBp5YnnJuVB/qPQ7t1EmJLby6qrvSQmWUbXFVPAl8CWwQOQx?=
- =?us-ascii?Q?HQxP9uqsVYy0X8aIp/ztns1Dud9XZCpSTKUyD/GID6Iyte4ATqA1xDOSykMd?=
- =?us-ascii?Q?lKHVeC55QIzPEUyvj+eE/KJ+EhPAMMa4YTFPQFrdONSc44a2MhSrXKsfqwHD?=
- =?us-ascii?Q?DutNO7vEqLLkXF4b4ymfk9bB/3egJbx6AzS6vxsctqq4hbnaLctBqrcTsaEu?=
- =?us-ascii?Q?tKdy0gn22d03KI5tf10Ad+CnACNiX5UIcSsQtna1Uahcx/KxVt/G7dV1WyX7?=
- =?us-ascii?Q?LMnKgyL4vcOUYSpz1SVmuy4taz0dovez2r5PZvpejCwJppMn+m1M+45kxSXS?=
- =?us-ascii?Q?crJ7p0mfv6nXcT+eZcfg/EQ152+PQUiA3mhqZ4LskM/aDbuoXk1L1jrT8mDt?=
- =?us-ascii?Q?hBAmT4MNoGEHx5SNdIP3VpkAwd6XT6QRZIBtIKy5dLiuEoUf8o7Q82uNS7DT?=
- =?us-ascii?Q?V1868gMh32t1qzXHjRomXZsy4/hv+tshwwiILZYI4c+HfI2Fvj0w15HGyMYq?=
- =?us-ascii?Q?r7ldO2rDjIe9ircASwiwAfTMmPnnHA/5Ypi/lRCSGQaaO/xdNaLwD4mNTTjy?=
- =?us-ascii?Q?9Rm9nXK+9j9NP0q/gwHk90TKwo0ZV0iOjvPu2nejfsOL3XWx7LLbMxdWQ1G4?=
- =?us-ascii?Q?7GBydrXFruc8zbKORirPBLWyKcGJ3uWa2ciDJRVC4+qgBgB+9aE3LrSH89YT?=
- =?us-ascii?Q?vakWoONeYRIQ39/OU/lYiSux0Fphm3BxARD9QW3oyo/ljooqt2Rm0ng6uxic?=
- =?us-ascii?Q?MfYliG98O6XTwm3D1lSFSOYFo0UAQgnPywWcWqv4fCdtVDp1ksG02X9fBlGd?=
- =?us-ascii?Q?Tr67rTlPhMkv2NFzhEh4pWmG9tEi04/pazMOFIdUosmJ97XG/L+y63/w6rak?=
- =?us-ascii?Q?2jEr43Ae0ZSLpsKNXgR/zbJ7zBHaAL8ni1mHG9AfSqUpovkDkD2rZX3qV8CV?=
- =?us-ascii?Q?7ekkgH09LtUtzBxEAypGxsdlxr5KZW6PQRV7hxopf/jocveNMU8ZWJOR0jzm?=
- =?us-ascii?Q?kTTcuSVrlNewqP7wgJGuWqscLMIr99Loi+rXKyR8GWo0rAAMzvbhhhBWck+o?=
- =?us-ascii?Q?jbqVirn8U1rYnTeoggKkNR5z9CzeE9//nDRtO19ixwUnrvDIVOpIs0lFMbcF?=
- =?us-ascii?Q?eJHmLn7nsUdINhyhNujOtExdsGBvfyNeLRBvN6cX+2FQNA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?e2GEXNlUHWlmi3BwT6hM6vkr9GKWCHH/XFclshxtomp4luwuAfmZ6mfY7UJ3?=
+ =?us-ascii?Q?KBxa+p9cRzIp9cJAPr5tCoElx8KG3Xh3TFs29fZi5JWRLllxE0WKe8xctB/X?=
+ =?us-ascii?Q?M99tMy63O2P60aoRDeaT8icGOBSigArO6IhFVEPmt1CtaOMmoc4nBiGsmef/?=
+ =?us-ascii?Q?p3gXLil6H7cTWf0k/DdWcU2JzUqIlYXjAhqnJymWzhpUi//+MrZs9EsO5bme?=
+ =?us-ascii?Q?BFE1q6Fpj3WGcxz1lDsADZVWQ9tDU8tmuWSISvAyhspuSxp4nuuJ0sGfYw8K?=
+ =?us-ascii?Q?YHEVO2DjiXDx3a9ROGNli9ulWUagD5V+zqdNBfXopRcH4dgBy58gF/RDts38?=
+ =?us-ascii?Q?qnBf679TtK6rNT1/HkL3R2U2db9SQO1DqNUSvq3kX1d3Hq5hbGjLSwKcSQYJ?=
+ =?us-ascii?Q?ZUU1NKFiU4W3DJHy6Lj4SgCigQPlQHhje6UrJ7d3knlLyGeRMTsjDw+y3jKD?=
+ =?us-ascii?Q?4/ZFz5V8/svqQppaog3smC8gWNDZz06hTywbyCyY+499UjUBGyc3mKdMlIrH?=
+ =?us-ascii?Q?sX3PWmmtL4TCy1V8hMI66Wq9E67y8Y11i+lRwwfvnSc0EYr/BdUKrOK+m6qq?=
+ =?us-ascii?Q?eQj+5iV1jQX1Fiaj30mHCQjjUkHHwmSGGO8+MzGC7Q/8nsqLd145nic0JQMK?=
+ =?us-ascii?Q?+lr6kWqMg55x2GLoGr2NC5IYrEIxEDngGPNbbZKiQoAsxNHhrXuaDBqQjdt5?=
+ =?us-ascii?Q?z75/vLdb6IK4/rVGwU5andgszYP6AhpZ7z6pBc/pruOmtl3kZT5R0xCFouwb?=
+ =?us-ascii?Q?8YDRz1TVL7FcJ/4N4zvtfbZqV68f8D7knK+4dLrgkVfYMadk0Q9pnCHaB6Vg?=
+ =?us-ascii?Q?Cm55BcsgAU/2KPx2rc8kd4w+4rbjmNgXw0Y2V99jv6xA63m2oWdPGEEmkeNC?=
+ =?us-ascii?Q?pLcrS+rzzf0NzXXyksSOcq2ZoSnKkODjcNfOskVl5QVVCPJQ1WP+rJB+FNSf?=
+ =?us-ascii?Q?i0zhtxp8BwX+zpDzGzT5hyEUSPc+9vtVzp2CUjqo4ro2d7QinZBm6sCw9bgZ?=
+ =?us-ascii?Q?MVHuSPrM5ssRDG825iZr4q+GGoJ2Ipk3Xpu1DrDeSeTasyYCDiokT+q3DT55?=
+ =?us-ascii?Q?uyGAio3QKF01kTpMkXd6iZeFGhSqoqABsPx0ug42f1+jGaHznsH3cDhG+5BV?=
+ =?us-ascii?Q?gGwXYs9K5SCglHaBLMw4YKTjaeaHjvgCJmFK9a2KTP7ZIxJcuuSKnfI9An8L?=
+ =?us-ascii?Q?XZq5fEDLrdmdoeipapiewh8EQ/qGrIK0Cu/2gweqJAt1ajLspcX3t3EQ+vE0?=
+ =?us-ascii?Q?r7n0cPol/Tac/iWhbjzigDVU3XTpjmG4XXuYLjDoXUEO3dnrBRMNi7/XvKIl?=
+ =?us-ascii?Q?MjdLFBNgF4xpOv0IuBh95IsQO3C1Zyv+Ysgw6T2qc7R7Zw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tGllAO0wJFgswGFc+p6W0hjoX6cWYTsy0j1gCRZWNHN7gdCVV7zGeBVNW1vg?=
- =?us-ascii?Q?7frSlbdFI2DV77JtZGEo94FbT7MDt3FtaMsaga+eyXSOpcG8G2dykpiG4NSv?=
- =?us-ascii?Q?jHjW9gnBdzz6QjMxX9ZiLiysryGTzd230NBJ56kziiLMKv0mWnN5LVSY6XIh?=
- =?us-ascii?Q?HmChKfOqCPbwmIod76Hl4MxLrYRYzy1G8FVZOrIwHqGWFpSx50zumGKlOdyB?=
- =?us-ascii?Q?4lC1x+/QUNZtnIcEdJMqXu3Mp5x+lxeje53C3nHpBdN6DVwMJbWWxDKnsGpM?=
- =?us-ascii?Q?stm1UBep2R95g55A0+Ru1+t1Gsnxt0CWeq2geBmupv4QuwHtGjytB+szdqfw?=
- =?us-ascii?Q?kuPL2suAWp57bfT4htLuN/ofGWM0QozrJRUX7HML6O1/Ze6fapmUryNG4/ct?=
- =?us-ascii?Q?nfGTGsyYE+GwL+Ofrcuz1l113+iZPl7hEkfYbmsu7lsqGkbfuOFygTKer/Ds?=
- =?us-ascii?Q?5vlTYN9Y1ll5w1g830inGSqizDVhO55jW/KZbqSZNTy8aD1RYFaVB1o9BdxP?=
- =?us-ascii?Q?dVdWPSMPAB/6d7b3viAdn6AbRePA+ShrbQLjXZg4HSrah7UnoY6/CysWkj6p?=
- =?us-ascii?Q?sJ7wyhQDtgfD+nOHvp6AU+Ha40R1+AYhqZA119B0ODCchiVlA/RVdHuf+L8t?=
- =?us-ascii?Q?90eMVVw+WWEQ4Bbr4idCDg9jLUdasmKs7sm8UP4QkBPu2HyHDvE8Zx8lfvG8?=
- =?us-ascii?Q?gZexOo2Z+phtpk3YDZObutHj4cRx3SmKKlX9a6wN3KeXmY9t99S7U/o3Vy8w?=
- =?us-ascii?Q?ehlAbs2Pbq/7PEZlmO11bGKUy8KQqAdrT78voqzCPo84HyyDZKzCXyCuI6iQ?=
- =?us-ascii?Q?0WPAyHZIc6WcZmFOLn6ee+VvC2pl7r6BAqGorachWxyTBg00m+Vhv5v6YNM2?=
- =?us-ascii?Q?IDc+lJ5jhZ7ydKdlVdT7p3jYOL783mSpYbaYMovtNY8rJZW+Zziy8ht/6CBn?=
- =?us-ascii?Q?qa40Ijrd3dSztps6sZVNaGJ0bQM3OtcjsXsNevBYOHVrHqNkDkCNRKbltRYy?=
- =?us-ascii?Q?fGNgUlR8k3rfVR9F1GFuFw9dtfm94HB6KPiQs0FbTW4XUGoWDmziMdGLz8mz?=
- =?us-ascii?Q?66ybqFCSfE123sz60E/cyTyXp4NSWb3hYzUqCup1ghvMwbIj/Zjzsw/vECv3?=
- =?us-ascii?Q?Nwqgdf4V3ATTJ5FKp/XZSR2sBLanQIt1oCs4PpZh8LtkpiR9tEUY/Xp0PNm8?=
- =?us-ascii?Q?JBJfcNP00Li1mS/w/3FpqhClj9WsBzhHtsKFE6+3NFMCYzi60zBWYuOs2HsE?=
- =?us-ascii?Q?tmZHXh2EaXFJZG3lwDpZJwIvvQ/X/YnToqpV/qAkvFBpBzmpmHbYiM+tbotJ?=
- =?us-ascii?Q?azKgeOFEByEMjBfxE7U97AI3c5TcBUDmlJb8jhTEm2ZO9D1Y9Wst3lYmedUb?=
- =?us-ascii?Q?yJnYTMpcwyaeaK7xjpf3wWuFcsm2y8jjb5y5xWDTgJgCa6ImH4Fmxpj61zOP?=
- =?us-ascii?Q?oeDc9aS7dYMztiGEal7F3Wzw5gUGHZGSolq7rZwXgeWigPA+T7uGzQqJXWTu?=
- =?us-ascii?Q?vP85XR/1A8RU2UUZ4A3gFAIcH/j0wKV4tjECh+MTCVz4+jEgyY/anFSYrKqC?=
- =?us-ascii?Q?RrO5lF/ZEbtsBmR9P9ZJTY6ldRei2DIsfwAi5jtR?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b858745-ca1b-4ef0-c2d5-08dd2c9be721
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AFFDDU0OZ2dOATd0rMiiA2KEEUlYotncR2fs8GoVfykCdptGnLw4+gIAauzY?=
+ =?us-ascii?Q?2sOG4d4ReZDcslQ37aIn+WHF0GNHa40LPnkaUT/wc950GP63BzGMtFKxhaI9?=
+ =?us-ascii?Q?7OojHVN7H7axI490e8JuR9QwLsfk0Ex0DuElvHboI1G4r5NLUdQ9EqiRly+2?=
+ =?us-ascii?Q?dhKCroQkgpu9b+oIsSrSVnVPVNe5bA5r91I2H1Jz8HFMWwIgI1RM+KHg7lPs?=
+ =?us-ascii?Q?D+Nv26gZecES5MAeZrR6FJRGdr/L3hTvFA/dexfSienvU9UwXjs/7V8KE7Kz?=
+ =?us-ascii?Q?0CZXpW1BZ9Tvk6Nnec0DRQ8RcbxjwocggdJRUC69Dp+VvBgIKYTeW+eFJWMd?=
+ =?us-ascii?Q?yRNGpG3Ev2q9p78qa67M104FO39Yr9lN3elPzQIZTRlBF2ih5yAZ/sVJv7x+?=
+ =?us-ascii?Q?fN8bYgDxYPGq3HqGhwGkgK4xges33vvF4zCKsi0wHbEWOmMp1TstMRKeptBY?=
+ =?us-ascii?Q?0eHjeXRq/RAxUls6TJRwaKYtmMxWRCjN7N9KwElrDAlJDtYKX32olFZ3UGhy?=
+ =?us-ascii?Q?g956vqNIVx8zEerbh5JfyuoTX9vV2gsKfgpPfwdO05o3T1eezz8UKB2Sa32o?=
+ =?us-ascii?Q?hK7Ba80pjy2gvHQh19zOLjZaOtfIDnSGEyTLu4tFuQpvGwC6omoxTx3+GCDh?=
+ =?us-ascii?Q?w7JxeN8h3bGCgCfh5MWZE8JHeKj81fbrO7MlBi62lAghOPJlJEqQerlQ3Iel?=
+ =?us-ascii?Q?pFvA/PhHtKQB0R+3RrmGyesfFKBl7Q7OKWi9aNRBTdjgvmEiZl/XW/aYuUIO?=
+ =?us-ascii?Q?jw05Uh86+ETNqWfKcbpUNTUVbwiI2GYl51ZSAvNcGR3y4WM8jpBiEZwvPAR4?=
+ =?us-ascii?Q?xcIzivlxoCq+8hXlyQMsxqeKr98vDNdKB2SksBqF7OUPSI3QRlOCmD9o9xB7?=
+ =?us-ascii?Q?vWXGCt+zzzNsrbpbSkGCEXmM3tXeIa5VKkXDPPogFzAqd9Y4LxyiCxpYe7EY?=
+ =?us-ascii?Q?ej42z/cKTmt/4LwHpRIzpM8IkgiLrCE+VKDLF+kV4hn8ilCKGDhKl2uPVdIe?=
+ =?us-ascii?Q?nZaxfP/qs4mxWBRocshZcQKan2FZZUzLWZK2K1oGYIyYoO4N7qBniaUH8DhO?=
+ =?us-ascii?Q?fI5e3rh5CymEH6Y+7oAF6ZHy54YKkPVTnFwMzkcMPOe5ZnkUXKgRuQhCTBzs?=
+ =?us-ascii?Q?+Km+Me6Yji9uOOC3XF+JYrIJWkmhIbOg1ZSsDds9shBTtzCC69MDh/dUnI3m?=
+ =?us-ascii?Q?J6721Yxl+cmUgSo7fr+eb8e1WDrZ17+6InS11zt8ti+5QQDVtWiz20knI6IS?=
+ =?us-ascii?Q?0inMjgbHGilobz5UlGsK3kTQ01CTvBeNZATu/lN+eM2kIACog92bpi1WLOws?=
+ =?us-ascii?Q?u2CcOb6jTl4Zxghek2T3LKuwD/wY7eTvTYPZ+7Ms6h/PHXsMtzJYFolM8jC7?=
+ =?us-ascii?Q?k0jBfnRli7/GhohuUvBbyXZ5m7nMwdvLmCeV4A6/wpz7V0cdIaDp/b1CtkTF?=
+ =?us-ascii?Q?0Lhx63y1w06FEiB0kkwHcmGjwQfjMuAQHAPNq49Qtw0LUxegwKTfiQcc05qX?=
+ =?us-ascii?Q?Aqf6mfpMRWyOLgAILfTSEYXD0R0QyqSAuUU3olVa3izcwIWVjZbKNHj1i/Hw?=
+ =?us-ascii?Q?reIIXBeooa0xyNwYknbg3x4WqK5bd59aB6L0NNgB?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5367c7b8-88ed-4731-8b68-08dd2c9d8f25
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2025 08:43:46.8010
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2025 08:55:38.2402
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wDMeRPSgX3iBLvGvY8T0OBdbr+bv/rFIIBu12uptyJmBqZG1DAB4xmM0hbPSh33QuuKoSm/TYZHqbUBiaVWQ6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8684
+X-MS-Exchange-CrossTenant-UserPrincipalName: wLMjtnuQwJO2XFl6wY2XfjYm/pZrYPzgr28mhHeYh2yPe/Adal57R7dS4aRgnOfGu2pg5Ex+Cb+CVNSbbKqs+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4630
 X-OriginatorOrg: intel.com
 
-On Sat, Jan 04, 2025 at 02:17:23PM +0800, kernel test robot wrote:
-> Hi Uladzislau,
-> 
-> First bad commit (maybe != root cause):
-
-Hi Uladzislau, sorry, kindly ignore this false report. This has been discussed in [1]
-already that the commit is not the actual cause.
-
-[1] https://lore.kernel.org/oe-kbuild-all/202501031535.erbln3A2-lkp@intel.com/
-
-> 
+On Sat, Jan 04, 2025 at 04:38:11PM +0800, kernel test robot wrote:
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 > head:   63676eefb7a026d04b51dcb7aaf54f358517a2ec
-> commit: 28b3ae426598e722cf5d5ab9cc7038791b955a56 rcu: Introduce CONFIG_RCU_EXP_CPU_STALL_TIMEOUT
-> date:   2 years, 8 months ago
-> config: csky-randconfig-r036-20230303 (https://download.01.org/0day-ci/archive/20250104/202501041430.6u1qEegs-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041430.6u1qEegs-lkp@intel.com/reproduce)
+> commit: 1e860048c53ee77ee9870dcce94847a28544b753 gcc-plugins: simplify GCC plugin-dev capability test
+> date:   4 years, 1 month ago
+> config: i386-randconfig-002-20240720 (https://download.01.org/0day-ci/archive/20250104/202501041653.ehAbBy13-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041653.ehAbBy13-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501041430.6u1qEegs-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501041653.ehAbBy13-lkp@intel.com/
 > 
 > All warnings (new ones prefixed by >>):
+
+Kindly ignore this report, this detected commit doesn't look like the first bad commit
+that leads to the issue. Sorry about this.
+
 > 
-> >> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'file' not described in 'binder_ctl_ioctl'
-> >> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'cmd' not described in 'binder_ctl_ioctl'
-> >> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'arg' not described in 'binder_ctl_ioctl'
->    drivers/android/binderfs.c:235: warning: expecting prototype for binderfs_ctl_ioctl(). Prototype was for binder_ctl_ioctl() instead
+> >> scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+> >> scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+>    scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 > --
->    drivers/android/binder.c:233: warning: Function parameter or struct member '_proc' not described in 'binder_proc_unlock'
->    drivers/android/binder.c:233: warning: Excess function parameter 'proc' description in 'binder_proc_unlock'
->    drivers/android/binder.c:335: warning: expecting prototype for binder_node_unlock(). Prototype was for binder_node_inner_unlock() instead
->    drivers/android/binder.c:1155: warning: expecting prototype for binder_dec_ref(). Prototype was for binder_dec_ref_olocked() instead
-> >> drivers/android/binder.c:1819: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
-> >> drivers/android/binder.c:1819: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
-> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
-> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
-> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
-> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
-> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
-> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
-> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
-> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
->    drivers/android/binder.c:2683: warning: Function parameter or struct member 'procp' not described in 'binder_get_node_refs_for_txn'
->    drivers/android/binder.c:2683: warning: Excess function parameter 'proc' description in 'binder_get_node_refs_for_txn'
-> >> drivers/android/binder.c:3510: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
-> 
-> 
-> vim +235 drivers/android/binderfs.c
-> 
-> 3ad20fe393b310 Christian Brauner 2018-12-14  222  
-> 3ad20fe393b310 Christian Brauner 2018-12-14  223  /**
-> 3ad20fe393b310 Christian Brauner 2018-12-14  224   * binderfs_ctl_ioctl - handle binder device node allocation requests
-> 3ad20fe393b310 Christian Brauner 2018-12-14  225   *
-> 3ad20fe393b310 Christian Brauner 2018-12-14  226   * The request handler for the binder-control device. All requests operate on
-> 3ad20fe393b310 Christian Brauner 2018-12-14  227   * the binderfs mount the binder-control device resides in:
-> 3ad20fe393b310 Christian Brauner 2018-12-14  228   * - BINDER_CTL_ADD
-> 3ad20fe393b310 Christian Brauner 2018-12-14  229   *   Allocate a new binder device.
-> 3ad20fe393b310 Christian Brauner 2018-12-14  230   *
-> 3ad20fe393b310 Christian Brauner 2018-12-14  231   * Return: 0 on success, negative errno on failure
-> 3ad20fe393b310 Christian Brauner 2018-12-14  232   */
-> 3ad20fe393b310 Christian Brauner 2018-12-14  233  static long binder_ctl_ioctl(struct file *file, unsigned int cmd,
-> 3ad20fe393b310 Christian Brauner 2018-12-14  234  			     unsigned long arg)
-> 3ad20fe393b310 Christian Brauner 2018-12-14 @235  {
-> 3ad20fe393b310 Christian Brauner 2018-12-14  236  	int ret = -EINVAL;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  237  	struct inode *inode = file_inode(file);
-> 3ad20fe393b310 Christian Brauner 2018-12-14  238  	struct binderfs_device __user *device = (struct binderfs_device __user *)arg;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  239  	struct binderfs_device device_req;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  240  
-> 3ad20fe393b310 Christian Brauner 2018-12-14  241  	switch (cmd) {
-> 3ad20fe393b310 Christian Brauner 2018-12-14  242  	case BINDER_CTL_ADD:
-> 3ad20fe393b310 Christian Brauner 2018-12-14  243  		ret = copy_from_user(&device_req, device, sizeof(device_req));
-> 3ad20fe393b310 Christian Brauner 2018-12-14  244  		if (ret) {
-> 3ad20fe393b310 Christian Brauner 2018-12-14  245  			ret = -EFAULT;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  246  			break;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  247  		}
-> 3ad20fe393b310 Christian Brauner 2018-12-14  248  
-> 3ad20fe393b310 Christian Brauner 2018-12-14  249  		ret = binderfs_binder_device_create(inode, device, &device_req);
-> 3ad20fe393b310 Christian Brauner 2018-12-14  250  		break;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  251  	default:
-> 3ad20fe393b310 Christian Brauner 2018-12-14  252  		break;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  253  	}
-> 3ad20fe393b310 Christian Brauner 2018-12-14  254  
-> 3ad20fe393b310 Christian Brauner 2018-12-14  255  	return ret;
-> 3ad20fe393b310 Christian Brauner 2018-12-14  256  }
-> 3ad20fe393b310 Christian Brauner 2018-12-14  257  
-> 
-> :::::: The code at line 235 was first introduced by commit
-> :::::: 3ad20fe393b31025bebfc2d76964561f65df48aa binder: implement binderfs
-> 
-> :::::: TO: Christian Brauner <christian@brauner.io>
-> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >> scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+> >> scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+>    scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+>    scripts/extract-cert.c: In function 'display_openssl_errors':
+>    scripts/extract-cert.c:46:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>       46 |         while ((e = ERR_get_error_line(&file, &line))) {
+>          |         ^~~~~
+>    In file included from scripts/extract-cert.c:23:
+>    /usr/include/openssl/err.h:423:15: note: declared here
+>      423 | unsigned long ERR_get_error_line(const char **file, int *line);
+>          |               ^~~~~~~~~~~~~~~~~~
+>    scripts/extract-cert.c: In function 'drain_openssl_errors':
+>    scripts/extract-cert.c:59:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>       59 |         while (ERR_get_error_line(&file, &line)) {}
+>          |         ^~~~~
+>    /usr/include/openssl/err.h:423:15: note: declared here
+>      423 | unsigned long ERR_get_error_line(const char **file, int *line);
+>          |               ^~~~~~~~~~~~~~~~~~
+>    scripts/extract-cert.c: In function 'main':
+>    scripts/extract-cert.c:124:17: warning: 'ENGINE_load_builtin_engines' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      124 |                 ENGINE_load_builtin_engines();
+>          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    In file included from scripts/extract-cert.c:24:
+>    /usr/include/openssl/engine.h:358:28: note: declared here
+>      358 | OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
+>          |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    scripts/extract-cert.c:126:17: warning: 'ENGINE_by_id' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      126 |                 e = ENGINE_by_id("pkcs11");
+>          |                 ^
+>    /usr/include/openssl/engine.h:336:31: note: declared here
+>      336 | OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
+>          |                               ^~~~~~~~~~~~
+>    scripts/extract-cert.c:128:17: warning: 'ENGINE_init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      128 |                 if (ENGINE_init(e))
+>          |                 ^~
+>    /usr/include/openssl/engine.h:620:27: note: declared here
+>      620 | OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
+>          |                           ^~~~~~~~~~~
+>    scripts/extract-cert.c:133:25: warning: 'ENGINE_ctrl_cmd_string' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      133 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
+>          |                         ^~~
+>    /usr/include/openssl/engine.h:479:5: note: declared here
+>      479 | int ENGINE_ctrl_cmd_string(ENGINE *e, const char *cmd_name, const char *arg,
+>          |     ^~~~~~~~~~~~~~~~~~~~~~
+>    scripts/extract-cert.c:134:17: warning: 'ENGINE_ctrl_cmd' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      134 |                 ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
+>          |                 ^~~~~~~~~~~~~~~
+>    /usr/include/openssl/engine.h:450:27: note: declared here
+>      450 | OSSL_DEPRECATEDIN_3_0 int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
+>          |                           ^~~~~~~~~~~~~~~
+>    scripts/sign-file.c: In function 'display_openssl_errors':
+>    scripts/sign-file.c:89:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>       89 |         while ((e = ERR_get_error_line(&file, &line))) {
+>          |         ^~~~~
+>    In file included from scripts/sign-file.c:29:
+>    /usr/include/openssl/err.h:423:15: note: declared here
+>      423 | unsigned long ERR_get_error_line(const char **file, int *line);
+>          |               ^~~~~~~~~~~~~~~~~~
+>    scripts/sign-file.c: In function 'drain_openssl_errors':
+>    scripts/sign-file.c:102:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      102 |         while (ERR_get_error_line(&file, &line)) {}
+>          |         ^~~~~
+>    /usr/include/openssl/err.h:423:15: note: declared here
+>      423 | unsigned long ERR_get_error_line(const char **file, int *line);
+>          |               ^~~~~~~~~~~~~~~~~~
+>    scripts/sign-file.c: In function 'read_private_key':
+>    scripts/sign-file.c:142:17: warning: 'ENGINE_load_builtin_engines' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      142 |                 ENGINE_load_builtin_engines();
+>          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    In file included from scripts/sign-file.c:30:
+>    /usr/include/openssl/engine.h:358:28: note: declared here
+>      358 | OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
+>          |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    scripts/sign-file.c:144:17: warning: 'ENGINE_by_id' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      144 |                 e = ENGINE_by_id("pkcs11");
+>          |                 ^
+>    /usr/include/openssl/engine.h:336:31: note: declared here
+>      336 | OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
+>          |                               ^~~~~~~~~~~~
+>    scripts/sign-file.c:146:17: warning: 'ENGINE_init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      146 |                 if (ENGINE_init(e))
+>          |                 ^~
+>    /usr/include/openssl/engine.h:620:27: note: declared here
+>      620 | OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
+>          |                           ^~~~~~~~~~~
+>    scripts/sign-file.c:151:25: warning: 'ENGINE_ctrl_cmd_string' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      151 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0),
+>          |                         ^~~
+>    /usr/include/openssl/engine.h:479:5: note: declared here
+>      479 | int ENGINE_ctrl_cmd_string(ENGINE *e, const char *cmd_name, const char *arg,
+>          |     ^~~~~~~~~~~~~~~~~~~~~~
+>    scripts/sign-file.c:153:17: warning: 'ENGINE_load_private_key' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+>      153 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+>          |                 ^~~~~~~~~~~
+>    /usr/include/openssl/engine.h:638:11: note: declared here
+>      638 | EVP_PKEY *ENGINE_load_private_key(ENGINE *e, const char *key_id,
+>          |           ^~~~~~~~~~~~~~~~~~~~~~~
 > 
 > -- 
 > 0-DAY CI Kernel Test Service
