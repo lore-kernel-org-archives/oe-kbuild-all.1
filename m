@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D321C5F14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E181C5F1F
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 15:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736005621; cv=none; b=BT/0ADWCmAGbJGYyc1T3zD3JSADH4FEf26LtQuU6BjaGhpy2Zy4zKshO9ZMs7kQtENEo+X1PMxAxMcz6pJ8L2QGYph6BqZ2c2aDqzsxrvcL2y/b7qnCchc60emTwEfTzj9u/tBQ1AhM33eOW1pqemqICP0RLS/VmaAAzEdQKVx4=
+	t=1736005622; cv=none; b=igJpXPniSGElDWt5PNnvdZ1ynuAwXVrSQwXreHKpdQkbJA1++C5nLZu2b+pNXk7Iqh7jQF2EkuTx0ZFe3X5L6TD69bv5UPT3DAtlnfQsLhcguKFEC2RDf16xJRg1D1a49DakhiyhEQwbMn1j/70YswBo8FMzsjadcmCC86pelDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736005621; c=relaxed/simple;
-	bh=cDoCB8ly4BngNLiaGd43l/gh0k6AEb2hA2PowVYd5B4=;
+	s=arc-20240116; t=1736005622; c=relaxed/simple;
+	bh=fbr07a0oxzqUCVyg3zt6BppXONYgLGwTcnpNxWNTjM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lnExzxWwQntWB6D9zrv2mcNcwtaftAyTAqExkKxQCj1OmQaEGcqA5fp5BcV3Q0zkzfLQFqG5gB/0cxKZ9WblYBYUATwQwc0dPdsLDws/2GxSv44fUzxDVgkE9V90l05MHyAPoKwPX/Bxa15Go/eJVs6uVHOibUO/9l1Jupr5eGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUiJ//zS; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ILhe9RadKX4gnjPufPq4kBph7DiXdMffw9AqIUrC6ocdWdj2Pv8iTPaWpxQ/WVf04FWFUpXCDA67MHepB7VhiiKz32HjT8+ExmsJyASouw//f0/7PsZ8V9t92u9tgU0eIZqckZR0rCegyXYEJ7PHWkNXsBLsrkzwd8Scvxsc0SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N5WKTrjg; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUiJ//zS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N5WKTrjg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1736005619; x=1767541619;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cDoCB8ly4BngNLiaGd43l/gh0k6AEb2hA2PowVYd5B4=;
-  b=bUiJ//zSVvBBo+v5vC5JFIPKrDk+Cim3d+FpHgsuxGvqNubGp0YnRYbK
-   sXSicDA5z6YIAGak7C2+1JbtloRhlRMqi5Gv39CSZRcHiwV1jbHzbrCKr
-   RTz3Tmk2T1kv4yPbwylAiSTU9T+ChUKTiPG4xed+no02FFcXU++RZFMM4
-   h1G/+MV7nzKaaaSnAyKYOjIact9q2F5tQM7Q5Vvxx4fuZ2CHLhfOYcErw
-   lw7JLDCipHvd6rNE6KvTO1+jNUnGFkiEkXNbxPqtBdQoIWqRwIZfvS4RK
-   poq1aqTvQwmGBhR9z85ZJppIHiM3F0UASKITyDJXvlUGZ1HEiXpbnattB
-   Q==;
-X-CSE-ConnectionGUID: 8TdclY3+Qlu49dn/KFHVpQ==
-X-CSE-MsgGUID: 7DhsqzDZQRW0PT8k5sP2/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11305"; a="61591875"
+  bh=fbr07a0oxzqUCVyg3zt6BppXONYgLGwTcnpNxWNTjM4=;
+  b=N5WKTrjgD/LMEMxPFizIem24ttRTJQdPCof6veO7CKdLOtBcNA70Bswb
+   RycQ8b2txLgwDVvQ9mICxQUt0mq0R5UzPCtzMMGhDu5qEJ8txXkFLLRdP
+   nfcis5UBCJF/qXPcqtMUnq2qs9WqI2VT57mUoa89FLvUvy2acw/xbIZL0
+   KuDNoFTCRlaqLuoU/iN/io8yWURsC6oCBeB3x+GLdYXBDNAoxohRQwxTh
+   iPNizqbt+1vNxcmSNMcJ6AEYiLvbYG7dS52GdloD/yGxGm3A93JwjXxq/
+   c34bGs23RV8WK1Ix4noHfQZw8YJqsl4DPU8KA/rCGqGutWLznm6IBh5XX
+   g==;
+X-CSE-ConnectionGUID: Sc2pgxXQRw2WutdVI+aZqg==
+X-CSE-MsgGUID: xV/fn09PRcuuCg3EuFSCbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11305"; a="36094427"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="61591875"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 07:46:58 -0800
-X-CSE-ConnectionGUID: BUwNkeFxT+u1+x5IKoJhUg==
-X-CSE-MsgGUID: r0bGyvbtRvKe7vAK+caTZw==
+   d="scan'208";a="36094427"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 07:46:58 -0800
+X-CSE-ConnectionGUID: ChndAzcxS8mrTTdZBXc4Qw==
+X-CSE-MsgGUID: aIgxDF4+TkuJckNdbQM5kA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="101861133"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101891609"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Jan 2025 07:46:56 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Jan 2025 07:46:57 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tU6MY-000B1U-2D;
+	id 1tU6MY-000B1R-29;
 	Sat, 04 Jan 2025 15:46:54 +0000
-Date: Sat, 4 Jan 2025 23:46:12 +0800
+Date: Sat, 4 Jan 2025 23:46:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+To: Logan Gunthorpe <logang@deltatee.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: drivers/scsi/mpt3sas/mpt3sas_base.c:3135:63: warning: '-mq-poll'
- directive output may be truncated writing 8 bytes into a region of size
- between 6 and 31
-Message-ID: <202501042342.wWL4vQFF-lkp@intel.com>
+	Jon Mason <jdmason@kudzu.us>
+Subject: drivers/ntb/msi.c:38: warning: Function parameter or struct member
+ 'desc_changed' not described in 'ntb_msi_init'
+Message-ID: <202501042317.rG3tE7M5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,122 +63,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sreekanth,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   63676eefb7a026d04b51dcb7aaf54f358517a2ec
-commit: 432bc7caef4eaacc1101ee2569bb870bdfeed7ce scsi: mpt3sas: Add io_uring iopoll support
-date:   3 years, 5 months ago
-config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250104/202501042342.wWL4vQFF-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501042342.wWL4vQFF-lkp@intel.com/reproduce)
+commit: 26b3a37b928457ba2cd98eaf6d7b0feca5a30fa6 NTB: Introduce MSI library
+date:   6 years ago
+config: alpha-randconfig-r025-20220508 (https://download.01.org/0day-ci/archive/20250104/202501042317.rG3tE7M5-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501042317.rG3tE7M5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501042342.wWL4vQFF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501042317.rG3tE7M5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/scsi/mpt3sas/mpt3sas_base.c: In function '_base_request_irq':
-   drivers/scsi/mpt3sas/mpt3sas_base.c:3144:68: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 26 [-Wformat-truncation=]
-    3144 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
-         |                                                                    ^~
-   drivers/scsi/mpt3sas/mpt3sas_base.c:3144:58: note: directive argument in the range [0, 254]
-    3144 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
-         |                                                          ^~~~~~~~~~~~~
-   drivers/scsi/mpt3sas/mpt3sas_base.c:3144:17: note: 'snprintf' output between 8 and 35 bytes into a destination of size 32
-    3144 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3145 |                     ioc->driver_name, ioc->id, index);
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/mpt3sas/mpt3sas_base.c:3135:63: warning: '-mq-poll' directive output may be truncated writing 8 bytes into a region of size between 6 and 31 [-Wformat-truncation=]
-    3135 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
-         |                                                               ^~~~~~~~
-   drivers/scsi/mpt3sas/mpt3sas_base.c:3135:58: note: directive argument in the range [-255, 255]
-    3135 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/scsi/mpt3sas/mpt3sas_base.c:3135:17: note: 'snprintf' output between 11 and 39 bytes into a destination of size 32
-    3135 |                 snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3136 |                     ioc->driver_name, ioc->id, qid);
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/mpt3sas/mpt3sas_base.c: In function 'mpt3sas_base_start_watchdog':
-   drivers/scsi/mpt3sas/mpt3sas_base.c:831:57: warning: '%s' directive output may be truncated writing up to 23 bytes into a region of size 15 [-Wformat-truncation=]
-     831 |             sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
-         |                                                         ^~
-   drivers/scsi/mpt3sas/mpt3sas_base.c:831:51: note: directive argument in the range [0, 255]
-     831 |             sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
-         |                                                   ^~~~~~~~~~~~~~~~~~
-   drivers/scsi/mpt3sas/mpt3sas_base.c:830:9: note: 'snprintf' output between 14 and 39 bytes into a destination of size 20
-     830 |         snprintf(ioc->fault_reset_work_q_name,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     831 |             sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     832 |             ioc->driver_name, ioc->id);
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ntb/msi.c:38: warning: Function parameter or struct member 'desc_changed' not described in 'ntb_msi_init'
+   drivers/ntb/msi.c:288: warning: Function parameter or struct member 'name' not described in 'ntbm_msi_request_threaded_irq'
+   drivers/ntb/msi.c:288: warning: Function parameter or struct member 'msi_desc' not described in 'ntbm_msi_request_threaded_irq'
+   drivers/ntb/msi.c:288: warning: Excess function parameter 'devname' description in 'ntbm_msi_request_threaded_irq'
 
 
-vim +3135 drivers/scsi/mpt3sas/mpt3sas_base.c
+vim +38 drivers/ntb/msi.c
 
-  3107	
-  3108	/**
-  3109	 * _base_request_irq - request irq
-  3110	 * @ioc: per adapter object
-  3111	 * @index: msix index into vector table
-  3112	 *
-  3113	 * Inserting respective reply_queue into the list.
-  3114	 */
-  3115	static int
-  3116	_base_request_irq(struct MPT3SAS_ADAPTER *ioc, u8 index)
-  3117	{
-  3118		struct pci_dev *pdev = ioc->pdev;
-  3119		struct adapter_reply_queue *reply_q;
-  3120		int r, qid;
-  3121	
-  3122		reply_q =  kzalloc(sizeof(struct adapter_reply_queue), GFP_KERNEL);
-  3123		if (!reply_q) {
-  3124			ioc_err(ioc, "unable to allocate memory %zu!\n",
-  3125				sizeof(struct adapter_reply_queue));
-  3126			return -ENOMEM;
-  3127		}
-  3128		reply_q->ioc = ioc;
-  3129		reply_q->msix_index = index;
-  3130	
-  3131		atomic_set(&reply_q->busy, 0);
-  3132	
-  3133		if (index >= ioc->iopoll_q_start_index) {
-  3134			qid = index - ioc->iopoll_q_start_index;
-> 3135			snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-mq-poll%d",
-  3136			    ioc->driver_name, ioc->id, qid);
-  3137			reply_q->is_iouring_poll_q = 1;
-  3138			ioc->io_uring_poll_queues[qid].reply_q = reply_q;
-  3139			goto out;
-  3140		}
-  3141	
-  3142	
-  3143		if (ioc->msix_enable)
-  3144			snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
-  3145			    ioc->driver_name, ioc->id, index);
-  3146		else
-  3147			snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d",
-  3148			    ioc->driver_name, ioc->id);
-  3149		r = request_irq(pci_irq_vector(pdev, index), _base_interrupt,
-  3150				IRQF_SHARED, reply_q->name, reply_q);
-  3151		if (r) {
-  3152			pr_err("%s: unable to allocate interrupt %d!\n",
-  3153			       reply_q->name, pci_irq_vector(pdev, index));
-  3154			kfree(reply_q);
-  3155			return -EBUSY;
-  3156		}
-  3157	out:
-  3158		INIT_LIST_HEAD(&reply_q->list);
-  3159		list_add_tail(&reply_q->list, &ioc->reply_queue_list);
-  3160		return 0;
-  3161	}
-  3162	
+    22	
+    23	/**
+    24	 * ntb_msi_init() - Initialize the MSI context
+    25	 * @ntb:	NTB device context
+    26	 *
+    27	 * This function must be called before any other ntb_msi function.
+    28	 * It initializes the context for MSI operations and maps
+    29	 * the peer memory windows.
+    30	 *
+    31	 * This function reserves the last N outbound memory windows (where N
+    32	 * is the number of peers).
+    33	 *
+    34	 * Return: Zero on success, otherwise a negative error number.
+    35	 */
+    36	int ntb_msi_init(struct ntb_dev *ntb,
+    37			 void (*desc_changed)(void *ctx))
+  > 38	{
+    39		phys_addr_t mw_phys_addr;
+    40		resource_size_t mw_size;
+    41		size_t struct_size;
+    42		int peer_widx;
+    43		int peers;
+    44		int ret;
+    45		int i;
+    46	
+    47		peers = ntb_peer_port_count(ntb);
+    48		if (peers <= 0)
+    49			return -EINVAL;
+    50	
+    51		struct_size = sizeof(*ntb->msi) + sizeof(*ntb->msi->peer_mws) * peers;
+    52	
+    53		ntb->msi = devm_kzalloc(&ntb->dev, struct_size, GFP_KERNEL);
+    54		if (!ntb->msi)
+    55			return -ENOMEM;
+    56	
+    57		ntb->msi->desc_changed = desc_changed;
+    58	
+    59		for (i = 0; i < peers; i++) {
+    60			peer_widx = ntb_peer_mw_count(ntb) - 1 - i;
+    61	
+    62			ret = ntb_peer_mw_get_addr(ntb, peer_widx, &mw_phys_addr,
+    63						   &mw_size);
+    64			if (ret)
+    65				goto unroll;
+    66	
+    67			ntb->msi->peer_mws[i] = devm_ioremap(&ntb->dev, mw_phys_addr,
+    68							     mw_size);
+    69			if (!ntb->msi->peer_mws[i]) {
+    70				ret = -EFAULT;
+    71				goto unroll;
+    72			}
+    73		}
+    74	
+    75		return 0;
+    76	
+    77	unroll:
+    78		for (i = 0; i < peers; i++)
+    79			if (ntb->msi->peer_mws[i])
+    80				devm_iounmap(&ntb->dev, ntb->msi->peer_mws[i]);
+    81	
+    82		devm_kfree(&ntb->dev, ntb->msi);
+    83		ntb->msi = NULL;
+    84		return ret;
+    85	}
+    86	EXPORT_SYMBOL(ntb_msi_init);
+    87	
 
 -- 
 0-DAY CI Kernel Test Service
