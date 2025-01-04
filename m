@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFA420EB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 12:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1211335C0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 13:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735993243; cv=none; b=oLP3cJMDbBYVNBbX7tk26g3LvYUrjlf5b/RhoETNTbLkC2ABfpnZlQOfv0nQOmRyAbbO6DHV2qHtC0vNnGXHXCektSEK0BUKXo3fpW+p9w78lXg5QwcjAZtXNVFpDIskWqhR2caLI/YM776MLv5bhuuWnx6uVA722BMJJIJVl18=
+	t=1735995879; cv=none; b=GdBA7h0auBCpG9C+wWQWtf+5SIpxH79e7nDUpmFOS/TvwWvDCPCKVNpjEDTJah61j2q5NEqjvJptHGUACY3iGew7i50oYyUNPgJQxDLnJ7gskOJ0KTNRza8jkTCXtNBMnISskMfKFHb2RiP7ZTdeM9H0dDt+nG/dG1l3feUgf20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735993243; c=relaxed/simple;
-	bh=SwkhW83SN+9B0/cCedUZg9e7m00QztMGxnZT4lZjad8=;
+	s=arc-20240116; t=1735995879; c=relaxed/simple;
+	bh=JTpwKEeauwnLtZZ9wCrKCc+kFchiTHPNdQz9vvRAW94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gamP2ZkNj5Vm2E1xjxSA9asA0e0+Q5jk15gGTuYC/x/EiJ6TQiq+0x/uEm8P96yCoXS9SBKLlZcRprIkSOrZBeXXETz/s8j06LNlmtWr6LaVf2r6Y9yNPkSQf81tzvt/P8oQiiSB1Zdhk1OWnVJmOngqlVXNKPpahQAJ+R1xuGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gP/z5HUM; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqv0/6BVKV8o8ZU5rBMAMZXpk6kXMN3IIYyq9Fint3Eg03FQzLRkXu9Eh5WGF/Q96dp2D8dqtAkxRJIZ5H8PwloAzsAmUB69SwtZ2GgdIzwVVgNrFjBsSWVVq+Li6ReD1JE3rODROEREuvpAlMBXMrxDw26g/SezjrAZ4aYMR3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LltuZBSk; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gP/z5HUM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LltuZBSk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735993242; x=1767529242;
+  t=1735995878; x=1767531878;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SwkhW83SN+9B0/cCedUZg9e7m00QztMGxnZT4lZjad8=;
-  b=gP/z5HUMaQG8eOBxU5BZnOX2r40dKXfFLylqvrZeKagNd3GNWoHyEp8l
-   DI+WPLQs/+fYjxn5sVJFcrsXmqjXweyp/l+de1zWri3iApAfBiJerjZfk
-   Rdux820HYDfqQ4CLptH4pSfxPJFJkLex/SvzgaTaRViwJqDEKRSu6wbsV
-   Jrm2J3Uo7HiEu5iKEp2VeGQ+Ui1Aw5FRxETVK1+TGgwq0J5g3rN1ChE3D
-   ZubMebeyVvLZT+Bff+/1InWnyKegg68p/8gnlwxZubJJX4Kcd2ANNeGeB
-   JJHwCWmE4yTnZSf5q2ygEMIo3j+DqPtd22AZtm/n3ZIiJm5MD4SJJRrF6
-   g==;
-X-CSE-ConnectionGUID: anvvD3tlSd+kRZxXSYRwPQ==
-X-CSE-MsgGUID: yzkuJT8qSI6HUfSAXkg3Ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="58676855"
+  bh=JTpwKEeauwnLtZZ9wCrKCc+kFchiTHPNdQz9vvRAW94=;
+  b=LltuZBSkJ0MnSsbYN6rtlWWttMVbMXtjjWzZ0+9ED+EFSDRYrXrugie0
+   K28kwBokhfE7fUf5NPw+fJ2XXVjc34/lWHYQxOWmiLdAdomsrBOaaaLhA
+   y2OwQm/5iXrFxRXqsWtpvhAqZEF+QWKQWMLyX1AHNumk/O+QM1/rbmJXS
+   MRxvJY7gVhze3w/eLD0ZP9F+0yQD8w1Wh54DICrgwHXkcpRwPOSKQhsjQ
+   A2dEuY2XPkFDGIvu5OmiUS5y+Iwz/FIOQ0KtJ09XnI9aXzmHupqcmP8lK
+   Qzz6VfFa/+WaGixFm8V2GnZsMGcIJU5HeujFw/qIhJqywyRxFdzE9GVwP
+   Q==;
+X-CSE-ConnectionGUID: iwMqk3pRT2SJlpXUHqG/cg==
+X-CSE-MsgGUID: dHf1JcsbTyiGVqETqB/J/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="61587792"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="58676855"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 04:20:41 -0800
-X-CSE-ConnectionGUID: p0FvasuYSDyxzefyQE6o+Q==
-X-CSE-MsgGUID: CHhcGX+YQvmLdp3QM8C65Q==
+   d="scan'208";a="61587792"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 05:04:37 -0800
+X-CSE-ConnectionGUID: kcBQ+cHERjiaWxsC721hng==
+X-CSE-MsgGUID: U+axFSXCRdi3vWtyWEs6Hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106047238"
+   d="scan'208";a="132931847"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Jan 2025 04:20:37 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 04 Jan 2025 05:02:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tU38t-000Atn-0B;
-	Sat, 04 Jan 2025 12:20:35 +0000
-Date: Sat, 4 Jan 2025 20:20:26 +0800
+	id 1tU3na-000Av1-0X;
+	Sat, 04 Jan 2025 13:02:38 +0000
+Date: Sat, 4 Jan 2025 21:02:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
@@ -57,7 +57,7 @@ Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
 	przemyslaw.kitszel@intel.com, jdamato@fastly.com, shayd@nvidia.com,
 	akpm@linux-foundation.org, Ahmed Zaki <ahmed.zaki@intel.com>
 Subject: Re: [PATCH net-next v3 1/6] net: move ARFS rmap management to core
-Message-ID: <202501042007.PjCFMiMs-lkp@intel.com>
+Message-ID: <202501042032.NTXMscn3-lkp@intel.com>
 References: <20250104004314.208259-2-ahmed.zaki@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -71,27 +71,27 @@ In-Reply-To: <20250104004314.208259-2-ahmed.zaki@intel.com>
 
 Hi Ahmed,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on net-next/main]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Zaki/net-move-ARFS-rmap-management-to-core/20250104-084501
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20250104004314.208259-2-ahmed.zaki%40intel.com
 patch subject: [PATCH net-next v3 1/6] net: move ARFS rmap management to core
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250104/202501042007.PjCFMiMs-lkp@intel.com/config)
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20250104/202501042032.NTXMscn3-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501042007.PjCFMiMs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501042032.NTXMscn3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501042007.PjCFMiMs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501042032.NTXMscn3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    drivers/net/ethernet/amazon/ena/ena_netdev.c: In function 'ena_init_rx_cpu_rmap':
-   drivers/net/ethernet/amazon/ena/ena_netdev.c:165:16: error: too few arguments to function 'netif_enable_cpu_rmap'
+>> drivers/net/ethernet/amazon/ena/ena_netdev.c:165:16: error: too few arguments to function 'netif_enable_cpu_rmap'
      165 |         return netif_enable_cpu_rmap(adapter->netdev);
          |                ^~~~~~~~~~~~~~~~~~~~~
    In file included from include/net/inet_sock.h:19,
@@ -100,23 +100,23 @@ All warnings (new ones prefixed by >>):
    include/linux/netdevice.h:2769:5: note: declared here
     2769 | int netif_enable_cpu_rmap(struct net_device *dev, unsigned int num_irqs);
          |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/amazon/ena/ena_netdev.c:169:1: warning: control reaches end of non-void function [-Wreturn-type]
+   drivers/net/ethernet/amazon/ena/ena_netdev.c:169:1: warning: control reaches end of non-void function [-Wreturn-type]
      169 | }
          | ^
 
 
-vim +169 drivers/net/ethernet/amazon/ena/ena_netdev.c
+vim +/netif_enable_cpu_rmap +165 drivers/net/ethernet/amazon/ena/ena_netdev.c
 
-548c4940b9f1f5 Sameeh Jubran    2019-12-10  161  
-1738cd3ed34229 Netanel Belgazal 2016-08-10  162  static int ena_init_rx_cpu_rmap(struct ena_adapter *adapter)
-1738cd3ed34229 Netanel Belgazal 2016-08-10  163  {
-1738cd3ed34229 Netanel Belgazal 2016-08-10  164  #ifdef CONFIG_RFS_ACCEL
-4f6e7588aa8a24 Ahmed Zaki       2025-01-03  165  	return netif_enable_cpu_rmap(adapter->netdev);
-4f6e7588aa8a24 Ahmed Zaki       2025-01-03  166  #else
-1738cd3ed34229 Netanel Belgazal 2016-08-10  167  	return 0;
-4f6e7588aa8a24 Ahmed Zaki       2025-01-03  168  #endif /* CONFIG_RFS_ACCEL */
-1738cd3ed34229 Netanel Belgazal 2016-08-10 @169  }
-1738cd3ed34229 Netanel Belgazal 2016-08-10  170  
+   161	
+   162	static int ena_init_rx_cpu_rmap(struct ena_adapter *adapter)
+   163	{
+   164	#ifdef CONFIG_RFS_ACCEL
+ > 165		return netif_enable_cpu_rmap(adapter->netdev);
+   166	#else
+   167		return 0;
+   168	#endif /* CONFIG_RFS_ACCEL */
+   169	}
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
