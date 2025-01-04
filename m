@@ -1,58 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1D510E0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 06:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B678A10E0;
+	Sat,  4 Jan 2025 06:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735973532; cv=none; b=OA+MDuhT7ursyeHGwjAPZl60b5JovQ0S5F32FVI989dhzxtlGZXaZNpPVVRklXAjkijKOaFbZZxq0IxVGzsQvT5sAq+Uolp2QNK7n5aTCxistSYy6hQiePckKX1jp1xCxn9vg/15RXXrkD284tHdSXAmIXbU8J1erxQQALeMMSk=
+	t=1735973534; cv=none; b=agdb9u4OKlOvtBxfPNwBfm8RybJUuoUnqhxysx/PjfG/J7pYEuoWJeoEbPD/34dlHEKvXAgsamkeLU6+CHP2480pAPwmL0jXv5LVgmbbwkJWy/61oXKifAwEC1Zw+87qq2tCh7k2E4iusddu7Yxc8aFB/eZC3fmxgQwYQHKlS7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735973532; c=relaxed/simple;
-	bh=1qoyNI0A5ZQRZZnOxKLhLlZuulWLhIQIlN5wZKtKBqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KC8cyYfYqiar/UoEE/gGSAS6/lj+lnZvquFJ54AN7IQgV+A8U/+dnbenKFZU5RlrTNDChQ2QhyyYFw/dJH33tmuy59TwLWb5sugxqvdGDarh5iIi2qEuJ1fy9IsdzY7XX4Ip9mFFp5kHKJD1wWjnZ1UNYw/sX54rEE/N2VqlzbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRSgz1no; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1735973534; c=relaxed/simple;
+	bh=6l8RMlcLcA4FQZMn5PsKIYFZzTojoZI33nFpPc9Vhx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ebm7ghzcWdU7lIOYEyvoB/EjO4bCujFrCm3quj0nn/6+lPGpgr1mXQ9PviRVCiA7SCRgglFE4GDtFdTg5FtF73i+OcnX1rQW674dQERFH4ISCcRDbsZ57IghUwMlGzD3y2vOhoEJKVQJqY3V2QdovWOA1BTxEUjkc10P4jyspFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZA8J7G0R; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRSgz1no"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZA8J7G0R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735973530; x=1767509530;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1qoyNI0A5ZQRZZnOxKLhLlZuulWLhIQIlN5wZKtKBqM=;
-  b=gRSgz1nonF8pnl/wSo/XrTnHdGVlVe1JPjVMczmU6kNEUOWliQ9s+Y3l
-   5CFMTZ46jjVo25dWNoFLbs3WINOL1puXs6jlU9R45Op2PVrw4m0Y3Cd+o
-   3t/FAu8XX6rwkiDd0f1OI0jOzmAxaUtVZo4K4SNK6SPqyUdhcS0rjL6SN
-   3/wYM6L6ZIBis0krk5JVp38kpXzW90Li4esAvhGB6qLvp3+tgAQRyIS3V
-   lk+bDR8NLRwofRZITxbQWL4ZER8MAjmECLw56LjfQfhrjJ5DpEbJOXdmE
-   l3Ksgkbirlg8dHmstBKYqOaDzDvwhVWIA7RcM0ck65xZD6m6dR3ys+v0G
-   g==;
-X-CSE-ConnectionGUID: nlmU68SVSmCrw0ClfusVHw==
-X-CSE-MsgGUID: NdmbiQ83Sg6swPpa6SQhEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="35906167"
+  t=1735973533; x=1767509533;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6l8RMlcLcA4FQZMn5PsKIYFZzTojoZI33nFpPc9Vhx4=;
+  b=ZA8J7G0Rp7OXVJ6QnpEO/R2xYXuwHF1BLb5mzhkuZWZDAOPAEbdQT98D
+   rXwBp9/I5XRVYPSjm3ME7woj3Ww+c5vYtMbEJPIxnH4naX2t/1c897/oN
+   +ohg0JNYTMfkPcObIpI6gOeWy6Q8wc2ovg9Sa8RCA6kyXcjBD27GUMyik
+   SGrG9pNj6ZyKfIHBYm1lj1z74WGPLLrlsOjyAk2uTuQrTzTv7V1KYIJk0
+   gorxM6QrN9KdJZaZiMlZ2xmHpI1kQdQJfPdc8gCqAodJE0d9vFDHbCUhZ
+   fyb7+t+B795KLyxfx6byMk3xZEjX7XkAprIk3UBwFtG57QQr6BTjN1PUZ
+   Q==;
+X-CSE-ConnectionGUID: c3ByYYlASBqz1GLG5VNMJA==
+X-CSE-MsgGUID: OqA6B5MwQd2RrrofR7bRkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="35906173"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="35906167"
+   d="scan'208";a="35906173"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 22:52:10 -0800
-X-CSE-ConnectionGUID: uL/ZdzKURmeJwB6ENCig3g==
-X-CSE-MsgGUID: hlM9zFesRIKfDByZWWLrzA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 22:52:12 -0800
+X-CSE-ConnectionGUID: QWbCuNnHR9uti7bT3CiKOg==
+X-CSE-MsgGUID: SWFbocZ6QBae1Lkqdkowzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="102147897"
+   d="scan'208";a="102147906"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 03 Jan 2025 22:52:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTy10-000AiS-1w;
+	id 1tTy10-000AiN-1g;
 	Sat, 04 Jan 2025 06:52:06 +0000
-Date: Sat, 4 Jan 2025 14:51:26 +0800
+Date: Sat, 4 Jan 2025 14:51:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2626/2626] ld.lld: error: undefined symbol:
- latency_fsnotify
-Message-ID: <202501041734.WciMoLAr-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Tzvetomir Stoyanov <tz.stoyanov@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jason Baron <jbaron@akamai.com>, Ard Biesheuvel <ardb@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] Provide __free(argv) for argv_split() users
+Message-ID: <202501041451.yG7LhbEv-lkp@intel.com>
+References: <173594530753.1055889.17844868397124331132.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,28 +74,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <173594530753.1055889.17844868397124331132.stgit@devnote2>
 
-Hi Daniel,
+Hi Masami,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   d51fb86ce6a3a3e59d7cba58738b63903b8cb37c
-commit: d11dbe8b4e8ad4c5bd90147912352ef6f13a2bb6 [2626/2626] trace: Add osnoise tracer
-config: x86_64-randconfig-104-20250103 (https://download.01.org/0day-ci/archive/20250104/202501041734.WciMoLAr-lkp@intel.com/config)
+[auto build test ERROR on next-20241220]
+[also build test ERROR on v6.13-rc5]
+[cannot apply to kees/for-next/hardening linus/master rostedt-trace/for-next rostedt-trace/for-next-urgent v6.13-rc5 v6.13-rc4 v6.13-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-kprobes-Fix-to-free-objects-when-failed-to-copy-a-symbol/20250104-070535
+base:   next-20241220
+patch link:    https://lore.kernel.org/r/173594530753.1055889.17844868397124331132.stgit%40devnote2
+patch subject: [PATCH 2/6] Provide __free(argv) for argv_split() users
+config: i386-buildonly-randconfig-001-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041451.yG7LhbEv-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041734.WciMoLAr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041451.yG7LhbEv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501041734.WciMoLAr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501041451.yG7LhbEv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: latency_fsnotify
-   >>> referenced by trace_osnoise.c:933 (kernel/trace/trace_osnoise.c:933)
-   >>>               trace/trace_osnoise.o:(run_osnoise) in archive kernel/built-in.a
+   In file included from scripts/mod/devicetable-offsets.c:3:
+   In file included from include/linux/mod_devicetable.h:14:
+   In file included from include/linux/uuid.h:11:
+>> include/linux/string.h:315:19: error: expected identifier
+     315 | DEFINE_FREE(argv, char **, argv_free(_T))
+         |                   ^
+>> include/linux/string.h:315:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     315 | DEFINE_FREE(argv, char **, argv_free(_T))
+         | ^
+         | int
+>> include/linux/string.h:315:12: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     315 | DEFINE_FREE(argv, char **, argv_free(_T))
+         |            ^                            
+         |                                         void
+>> include/linux/string.h:315:42: error: expected ';' after top level declarator
+     315 | DEFINE_FREE(argv, char **, argv_free(_T))
+         |                                          ^
+         |                                          ;
+   4 errors generated.
+   make[3]: *** [scripts/Makefile.build:102: scripts/mod/devicetable-offsets.s] Error 1 shuffle=808271366
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1262: prepare0] Error 2 shuffle=808271366
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=808271366
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=808271366
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +315 include/linux/string.h
+
+   314	
+ > 315	DEFINE_FREE(argv, char **, argv_free(_T))
+   316	
 
 -- 
 0-DAY CI Kernel Test Service
