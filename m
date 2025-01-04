@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65050168DA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 05:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B96208CA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 06:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735968364; cv=none; b=rExxNod//SJABme/iBfLuTF3TEVuDptEFOywOQ+hmT+E+/se9nYV8df2iawf76+QPXVpr/AEWy6dalt/j9C8IcGSNhCzDVsaK/PbVgxHqYjaMlzbD16+nBwWyG9bImJbpMgIti+G+9yC8x5P4EO9yM+Hl2MgRIqykO3B8R0TXAY=
+	t=1735971489; cv=none; b=jBtK3OS82Zd4OnGR0n/qQlIDWmwwyvcceIiwYoyzWh/Lm7zVHYal/wG8+RyptAgmPaRf7cahDRkeW81yN3uH8YyPFT5Kf0dfJQlji1qO24ZlO1OUg6TDcAGe7rOpE08JwxWuH/u/5d0QWdN/UZPQykGJmRz/IPsD33hH2Tg94EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735968364; c=relaxed/simple;
-	bh=JvNCG+zIWqkg7koSgsWvycPn5XczpOVOLp/4XzxXXkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3q1i3l8c/Q//6Is5G+B4gXoSbmJkLTcmQ6eiMc5F5zJa0mSKOZ6DXLFPUhAQNBC9AlRvQi4kCp6voiJOR9zKXpQr5Yf9/CM01Au2H8RAdk/xm6vaUOO8YPsKSHm2YxhIf8CUusnr7cBj+Atr3q0N0WfQBjVJ9o6IT+hymMjiwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Asp9J9Eq; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1735971489; c=relaxed/simple;
+	bh=FNS0ARyEe0Il5GViIdI8/6D5ge2falGsw64jEP5bdBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WUS8F5rcbcj38DJUZxPWeARg44weqFEJagTLU/gaieSKTsM7XPC+2JptlZ3bfgqlEZ3K8OgMdS46X+Jp4vce8J4T2+ukMzKFwbJxH0E2LvZ3BbKrb382jIFvRaq12BCH6pFKcG5g1cgl4GfHnt5AQVLFMi16o7ZsZmJT2A4elR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f84Pp6p3; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Asp9J9Eq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f84Pp6p3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735968362; x=1767504362;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JvNCG+zIWqkg7koSgsWvycPn5XczpOVOLp/4XzxXXkY=;
-  b=Asp9J9EqowqKmne7j0f9npwrrJ5Ov7+5q58ATp6/NIaHbYh1vndDMQnU
-   MvzVGFKlnHCNAqkTAXjBHdR2G11/fRCAdchp9XBYcECC2/2UaKo6xHBEC
-   GTHmFfG2Z9CzGj0c2DU4mnzS10LqJMKb93L87dPVZbVMfWUxxtMMi2PeM
-   7jFzyrh2EEA26kvNysvNeI5TkuTMIyiyLHk9KTMBTl0ey0rYq/gdrMeAy
-   Otsn1FCFSCIXovDdPzQn4pUIaR5uvnB4YlBfnEdjd0DR/ao8FOGrc/3aD
-   oG3O2XlgmyKKpVNBKiTgPwSoOKObQ+3Yee48rmBOuITvKjF2ZzDPF8Frs
-   w==;
-X-CSE-ConnectionGUID: nw41QR41R3eJEb/ckHiiDw==
-X-CSE-MsgGUID: CiNsS2uURriqvRLRJZ96zA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36083197"
+  t=1735971488; x=1767507488;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FNS0ARyEe0Il5GViIdI8/6D5ge2falGsw64jEP5bdBY=;
+  b=f84Pp6p3iONYcJVN+vsbRFmA46w1WZSP0CItHnXXWRNqkxAZnbG6kYVh
+   TocQrX2cLU+GE+KrqDRc5nqGtIjwpbxSM82lod01CMmf8wm7a1+rfd/VM
+   3y4ssZujzvNAqVfxQ5gCBYF2gweFo2ZpyRJdgtC4NkeyBSVsDpA8YWqtJ
+   f7AXakqPVlJNlK375sdMpOEHIGUa8m+uz3QFWUDGS0vgHxzvHrcl8hLs0
+   RBk5i5n/SouD9W5QSyQS48tvFQiacaVvGApRP0h6tqp3N44gYS3kMp/vT
+   8kWsgKphg2oH+Y1XP/lJa9t/qJrw5gr+aOr/2DFAUzMdisqECYe9rB2Hh
+   g==;
+X-CSE-ConnectionGUID: d3Uk/6hAQcy+McrtaHGf1A==
+X-CSE-MsgGUID: WsoqAUN1TQSnipiUHQ8SJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="53620711"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="36083197"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 21:26:02 -0800
-X-CSE-ConnectionGUID: WCPldQ7/SDyg1EXSgfsjaw==
-X-CSE-MsgGUID: jo78kJMfTAuurA0QqabX1A==
+   d="scan'208";a="53620711"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 22:18:07 -0800
+X-CSE-ConnectionGUID: O5Rch7+ESyOHRMJH3Jn1AA==
+X-CSE-MsgGUID: tdyW+GGXQUyZxycxCDXv3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="102029356"
+   d="scan'208";a="102144364"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jan 2025 21:26:01 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 03 Jan 2025 22:18:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTwfe-000Adz-1i;
-	Sat, 04 Jan 2025 05:25:58 +0000
-Date: Sat, 4 Jan 2025 13:24:58 +0800
+	id 1tTxU3-000AgF-1R;
+	Sat, 04 Jan 2025 06:18:03 +0000
+Date: Sat, 4 Jan 2025 14:17:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zi Yan <ziy@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 5/5] test: add sysctl for folio copy tests and adjust
- NR_MAX_BATCHED_MIGRATION
-Message-ID: <202501041307.zfuQDHd5-lkp@intel.com>
-References: <20250103172419.4148674-6-ziy@nvidia.com>
+To: Uladzislau Rezki <uladzislau.rezki@sony.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	"Uladzislau Rezki (Sony)" <urezki@gmail.com>
+Subject: drivers/android/binderfs.c:235: warning: Function parameter or
+ struct member 'file' not described in 'binder_ctl_ioctl'
+Message-ID: <202501041430.6u1qEegs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,281 +63,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250103172419.4148674-6-ziy@nvidia.com>
 
-Hi Zi,
+Hi Uladzislau,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master sysctl/sysctl-next v6.13-rc5 next-20241220]
-[cannot apply to mcgrof/sysctl-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-separate-move-undo-doing-on-folio-list-from-migrate_pages_batch/20250104-012955
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250103172419.4148674-6-ziy%40nvidia.com
-patch subject: [RFC PATCH 5/5] test: add sysctl for folio copy tests and adjust NR_MAX_BATCHED_MIGRATION
-config: i386-buildonly-randconfig-004-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041307.zfuQDHd5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041307.zfuQDHd5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   63676eefb7a026d04b51dcb7aaf54f358517a2ec
+commit: 28b3ae426598e722cf5d5ab9cc7038791b955a56 rcu: Introduce CONFIG_RCU_EXP_CPU_STALL_TIMEOUT
+date:   2 years, 8 months ago
+config: csky-randconfig-r036-20230303 (https://download.01.org/0day-ci/archive/20250104/202501041430.6u1qEegs-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041430.6u1qEegs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501041307.zfuQDHd5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501041430.6u1qEegs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sysctl.c:2096:36: error: 'use_mt_copy' undeclared here (not in a function)
-    2096 |                 .data           = &use_mt_copy,
-         |                                    ^~~~~~~~~~~
->> kernel/sysctl.c:2105:36: error: 'limit_mt_num' undeclared here (not in a function)
-    2105 |                 .data           = &limit_mt_num,
-         |                                    ^~~~~~~~~~~~
->> kernel/sysctl.c:2114:36: error: 'push_0_pull_1' undeclared here (not in a function)
-    2114 |                 .data           = &push_0_pull_1,
-         |                                    ^~~~~~~~~~~~~
+>> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'file' not described in 'binder_ctl_ioctl'
+>> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'cmd' not described in 'binder_ctl_ioctl'
+>> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'arg' not described in 'binder_ctl_ioctl'
+   drivers/android/binderfs.c:235: warning: expecting prototype for binderfs_ctl_ioctl(). Prototype was for binder_ctl_ioctl() instead
+--
+   drivers/android/binder.c:233: warning: Function parameter or struct member '_proc' not described in 'binder_proc_unlock'
+   drivers/android/binder.c:233: warning: Excess function parameter 'proc' description in 'binder_proc_unlock'
+   drivers/android/binder.c:335: warning: expecting prototype for binder_node_unlock(). Prototype was for binder_node_inner_unlock() instead
+   drivers/android/binder.c:1155: warning: expecting prototype for binder_dec_ref(). Prototype was for binder_dec_ref_olocked() instead
+>> drivers/android/binder.c:1819: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
+>> drivers/android/binder.c:1819: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2254: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
+>> drivers/android/binder.c:2274: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
+   drivers/android/binder.c:2683: warning: Function parameter or struct member 'procp' not described in 'binder_get_node_refs_for_txn'
+   drivers/android/binder.c:2683: warning: Excess function parameter 'proc' description in 'binder_get_node_refs_for_txn'
+>> drivers/android/binder.c:3510: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
 
 
-vim +/use_mt_copy +2096 kernel/sysctl.c
+vim +235 drivers/android/binderfs.c
 
-  2032	
-  2033	static struct ctl_table vm_table[] = {
-  2034		{
-  2035			.procname	= "overcommit_memory",
-  2036			.data		= &sysctl_overcommit_memory,
-  2037			.maxlen		= sizeof(sysctl_overcommit_memory),
-  2038			.mode		= 0644,
-  2039			.proc_handler	= overcommit_policy_handler,
-  2040			.extra1		= SYSCTL_ZERO,
-  2041			.extra2		= SYSCTL_TWO,
-  2042		},
-  2043		{
-  2044			.procname	= "overcommit_ratio",
-  2045			.data		= &sysctl_overcommit_ratio,
-  2046			.maxlen		= sizeof(sysctl_overcommit_ratio),
-  2047			.mode		= 0644,
-  2048			.proc_handler	= overcommit_ratio_handler,
-  2049		},
-  2050		{
-  2051			.procname	= "overcommit_kbytes",
-  2052			.data		= &sysctl_overcommit_kbytes,
-  2053			.maxlen		= sizeof(sysctl_overcommit_kbytes),
-  2054			.mode		= 0644,
-  2055			.proc_handler	= overcommit_kbytes_handler,
-  2056		},
-  2057		{
-  2058			.procname	= "page-cluster",
-  2059			.data		= &page_cluster,
-  2060			.maxlen		= sizeof(int),
-  2061			.mode		= 0644,
-  2062			.proc_handler	= proc_dointvec_minmax,
-  2063			.extra1		= SYSCTL_ZERO,
-  2064			.extra2		= (void *)&page_cluster_max,
-  2065		},
-  2066		{
-  2067			.procname	= "dirtytime_expire_seconds",
-  2068			.data		= &dirtytime_expire_interval,
-  2069			.maxlen		= sizeof(dirtytime_expire_interval),
-  2070			.mode		= 0644,
-  2071			.proc_handler	= dirtytime_interval_handler,
-  2072			.extra1		= SYSCTL_ZERO,
-  2073		},
-  2074		{
-  2075			.procname	= "swappiness",
-  2076			.data		= &vm_swappiness,
-  2077			.maxlen		= sizeof(vm_swappiness),
-  2078			.mode		= 0644,
-  2079			.proc_handler	= proc_dointvec_minmax,
-  2080			.extra1		= SYSCTL_ZERO,
-  2081			.extra2		= SYSCTL_TWO_HUNDRED,
-  2082		},
-  2083	#ifdef CONFIG_NUMA
-  2084		{
-  2085			.procname	= "numa_stat",
-  2086			.data		= &sysctl_vm_numa_stat,
-  2087			.maxlen		= sizeof(int),
-  2088			.mode		= 0644,
-  2089			.proc_handler	= sysctl_vm_numa_stat_handler,
-  2090			.extra1		= SYSCTL_ZERO,
-  2091			.extra2		= SYSCTL_ONE,
-  2092		},
-  2093	#endif
-  2094		{
-  2095			.procname	= "use_mt_copy",
-> 2096			.data		= &use_mt_copy,
-  2097			.maxlen		= sizeof(use_mt_copy),
-  2098			.mode		= 0644,
-  2099			.proc_handler	= proc_dointvec_minmax,
-  2100			.extra1		= SYSCTL_ZERO,
-  2101			.extra2		= SYSCTL_ONE,
-  2102		},
-  2103		{
-  2104			.procname	= "limit_mt_num",
-> 2105			.data		= &limit_mt_num,
-  2106			.maxlen		= sizeof(limit_mt_num),
-  2107			.mode		= 0644,
-  2108			.proc_handler	= proc_dointvec_minmax,
-  2109			.extra1		= SYSCTL_ONE,
-  2110			.extra2		= SYSCTL_32,
-  2111		},
-  2112		{
-  2113			.procname	= "push_0_pull_1",
-> 2114			.data		= &push_0_pull_1,
-  2115			.maxlen		= sizeof(push_0_pull_1),
-  2116			.mode		= 0644,
-  2117			.proc_handler	= proc_dointvec_minmax,
-  2118			.extra1		= SYSCTL_ZERO,
-  2119			.extra2		= SYSCTL_ONE,
-  2120		},
-  2121		{
-  2122			.procname	= "drop_caches",
-  2123			.data		= &sysctl_drop_caches,
-  2124			.maxlen		= sizeof(int),
-  2125			.mode		= 0200,
-  2126			.proc_handler	= drop_caches_sysctl_handler,
-  2127			.extra1		= SYSCTL_ONE,
-  2128			.extra2		= SYSCTL_FOUR,
-  2129		},
-  2130		{
-  2131			.procname	= "page_lock_unfairness",
-  2132			.data		= &sysctl_page_lock_unfairness,
-  2133			.maxlen		= sizeof(sysctl_page_lock_unfairness),
-  2134			.mode		= 0644,
-  2135			.proc_handler	= proc_dointvec_minmax,
-  2136			.extra1		= SYSCTL_ZERO,
-  2137		},
-  2138	#ifdef CONFIG_MMU
-  2139		{
-  2140			.procname	= "max_map_count",
-  2141			.data		= &sysctl_max_map_count,
-  2142			.maxlen		= sizeof(sysctl_max_map_count),
-  2143			.mode		= 0644,
-  2144			.proc_handler	= proc_dointvec_minmax,
-  2145			.extra1		= SYSCTL_ZERO,
-  2146		},
-  2147	#else
-  2148		{
-  2149			.procname	= "nr_trim_pages",
-  2150			.data		= &sysctl_nr_trim_pages,
-  2151			.maxlen		= sizeof(sysctl_nr_trim_pages),
-  2152			.mode		= 0644,
-  2153			.proc_handler	= proc_dointvec_minmax,
-  2154			.extra1		= SYSCTL_ZERO,
-  2155		},
-  2156	#endif
-  2157		{
-  2158			.procname	= "vfs_cache_pressure",
-  2159			.data		= &sysctl_vfs_cache_pressure,
-  2160			.maxlen		= sizeof(sysctl_vfs_cache_pressure),
-  2161			.mode		= 0644,
-  2162			.proc_handler	= proc_dointvec_minmax,
-  2163			.extra1		= SYSCTL_ZERO,
-  2164		},
-  2165	#if defined(HAVE_ARCH_PICK_MMAP_LAYOUT) || \
-  2166	    defined(CONFIG_ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT)
-  2167		{
-  2168			.procname	= "legacy_va_layout",
-  2169			.data		= &sysctl_legacy_va_layout,
-  2170			.maxlen		= sizeof(sysctl_legacy_va_layout),
-  2171			.mode		= 0644,
-  2172			.proc_handler	= proc_dointvec_minmax,
-  2173			.extra1		= SYSCTL_ZERO,
-  2174		},
-  2175	#endif
-  2176	#ifdef CONFIG_NUMA
-  2177		{
-  2178			.procname	= "zone_reclaim_mode",
-  2179			.data		= &node_reclaim_mode,
-  2180			.maxlen		= sizeof(node_reclaim_mode),
-  2181			.mode		= 0644,
-  2182			.proc_handler	= proc_dointvec_minmax,
-  2183			.extra1		= SYSCTL_ZERO,
-  2184		},
-  2185	#endif
-  2186	#ifdef CONFIG_SMP
-  2187		{
-  2188			.procname	= "stat_interval",
-  2189			.data		= &sysctl_stat_interval,
-  2190			.maxlen		= sizeof(sysctl_stat_interval),
-  2191			.mode		= 0644,
-  2192			.proc_handler	= proc_dointvec_jiffies,
-  2193		},
-  2194		{
-  2195			.procname	= "stat_refresh",
-  2196			.data		= NULL,
-  2197			.maxlen		= 0,
-  2198			.mode		= 0600,
-  2199			.proc_handler	= vmstat_refresh,
-  2200		},
-  2201	#endif
-  2202	#ifdef CONFIG_MMU
-  2203		{
-  2204			.procname	= "mmap_min_addr",
-  2205			.data		= &dac_mmap_min_addr,
-  2206			.maxlen		= sizeof(unsigned long),
-  2207			.mode		= 0644,
-  2208			.proc_handler	= mmap_min_addr_handler,
-  2209		},
-  2210	#endif
-  2211	#if (defined(CONFIG_X86_32) && !defined(CONFIG_UML))|| \
-  2212	   (defined(CONFIG_SUPERH) && defined(CONFIG_VSYSCALL))
-  2213		{
-  2214			.procname	= "vdso_enabled",
-  2215	#ifdef CONFIG_X86_32
-  2216			.data		= &vdso32_enabled,
-  2217			.maxlen		= sizeof(vdso32_enabled),
-  2218	#else
-  2219			.data		= &vdso_enabled,
-  2220			.maxlen		= sizeof(vdso_enabled),
-  2221	#endif
-  2222			.mode		= 0644,
-  2223			.proc_handler	= proc_dointvec,
-  2224			.extra1		= SYSCTL_ZERO,
-  2225		},
-  2226	#endif
-  2227		{
-  2228			.procname	= "user_reserve_kbytes",
-  2229			.data		= &sysctl_user_reserve_kbytes,
-  2230			.maxlen		= sizeof(sysctl_user_reserve_kbytes),
-  2231			.mode		= 0644,
-  2232			.proc_handler	= proc_doulongvec_minmax,
-  2233		},
-  2234		{
-  2235			.procname	= "admin_reserve_kbytes",
-  2236			.data		= &sysctl_admin_reserve_kbytes,
-  2237			.maxlen		= sizeof(sysctl_admin_reserve_kbytes),
-  2238			.mode		= 0644,
-  2239			.proc_handler	= proc_doulongvec_minmax,
-  2240		},
-  2241	#ifdef CONFIG_HAVE_ARCH_MMAP_RND_BITS
-  2242		{
-  2243			.procname	= "mmap_rnd_bits",
-  2244			.data		= &mmap_rnd_bits,
-  2245			.maxlen		= sizeof(mmap_rnd_bits),
-  2246			.mode		= 0600,
-  2247			.proc_handler	= proc_dointvec_minmax,
-  2248			.extra1		= (void *)&mmap_rnd_bits_min,
-  2249			.extra2		= (void *)&mmap_rnd_bits_max,
-  2250		},
-  2251	#endif
-  2252	#ifdef CONFIG_HAVE_ARCH_MMAP_RND_COMPAT_BITS
-  2253		{
-  2254			.procname	= "mmap_rnd_compat_bits",
-  2255			.data		= &mmap_rnd_compat_bits,
-  2256			.maxlen		= sizeof(mmap_rnd_compat_bits),
-  2257			.mode		= 0600,
-  2258			.proc_handler	= proc_dointvec_minmax,
-  2259			.extra1		= (void *)&mmap_rnd_compat_bits_min,
-  2260			.extra2		= (void *)&mmap_rnd_compat_bits_max,
-  2261		},
-  2262	#endif
-  2263	};
-  2264	
+3ad20fe393b310 Christian Brauner 2018-12-14  222  
+3ad20fe393b310 Christian Brauner 2018-12-14  223  /**
+3ad20fe393b310 Christian Brauner 2018-12-14  224   * binderfs_ctl_ioctl - handle binder device node allocation requests
+3ad20fe393b310 Christian Brauner 2018-12-14  225   *
+3ad20fe393b310 Christian Brauner 2018-12-14  226   * The request handler for the binder-control device. All requests operate on
+3ad20fe393b310 Christian Brauner 2018-12-14  227   * the binderfs mount the binder-control device resides in:
+3ad20fe393b310 Christian Brauner 2018-12-14  228   * - BINDER_CTL_ADD
+3ad20fe393b310 Christian Brauner 2018-12-14  229   *   Allocate a new binder device.
+3ad20fe393b310 Christian Brauner 2018-12-14  230   *
+3ad20fe393b310 Christian Brauner 2018-12-14  231   * Return: 0 on success, negative errno on failure
+3ad20fe393b310 Christian Brauner 2018-12-14  232   */
+3ad20fe393b310 Christian Brauner 2018-12-14  233  static long binder_ctl_ioctl(struct file *file, unsigned int cmd,
+3ad20fe393b310 Christian Brauner 2018-12-14  234  			     unsigned long arg)
+3ad20fe393b310 Christian Brauner 2018-12-14 @235  {
+3ad20fe393b310 Christian Brauner 2018-12-14  236  	int ret = -EINVAL;
+3ad20fe393b310 Christian Brauner 2018-12-14  237  	struct inode *inode = file_inode(file);
+3ad20fe393b310 Christian Brauner 2018-12-14  238  	struct binderfs_device __user *device = (struct binderfs_device __user *)arg;
+3ad20fe393b310 Christian Brauner 2018-12-14  239  	struct binderfs_device device_req;
+3ad20fe393b310 Christian Brauner 2018-12-14  240  
+3ad20fe393b310 Christian Brauner 2018-12-14  241  	switch (cmd) {
+3ad20fe393b310 Christian Brauner 2018-12-14  242  	case BINDER_CTL_ADD:
+3ad20fe393b310 Christian Brauner 2018-12-14  243  		ret = copy_from_user(&device_req, device, sizeof(device_req));
+3ad20fe393b310 Christian Brauner 2018-12-14  244  		if (ret) {
+3ad20fe393b310 Christian Brauner 2018-12-14  245  			ret = -EFAULT;
+3ad20fe393b310 Christian Brauner 2018-12-14  246  			break;
+3ad20fe393b310 Christian Brauner 2018-12-14  247  		}
+3ad20fe393b310 Christian Brauner 2018-12-14  248  
+3ad20fe393b310 Christian Brauner 2018-12-14  249  		ret = binderfs_binder_device_create(inode, device, &device_req);
+3ad20fe393b310 Christian Brauner 2018-12-14  250  		break;
+3ad20fe393b310 Christian Brauner 2018-12-14  251  	default:
+3ad20fe393b310 Christian Brauner 2018-12-14  252  		break;
+3ad20fe393b310 Christian Brauner 2018-12-14  253  	}
+3ad20fe393b310 Christian Brauner 2018-12-14  254  
+3ad20fe393b310 Christian Brauner 2018-12-14  255  	return ret;
+3ad20fe393b310 Christian Brauner 2018-12-14  256  }
+3ad20fe393b310 Christian Brauner 2018-12-14  257  
+
+:::::: The code at line 235 was first introduced by commit
+:::::: 3ad20fe393b31025bebfc2d76964561f65df48aa binder: implement binderfs
+
+:::::: TO: Christian Brauner <christian@brauner.io>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
