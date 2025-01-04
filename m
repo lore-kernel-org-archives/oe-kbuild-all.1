@@ -1,42 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A5815CD52;
-	Sat,  4 Jan 2025 08:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6670514A4C7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 08:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735978609; cv=none; b=LfaE51wXF8dwJKjBCV8rXdMQrTuP8a1+gJtLJMPgb0fbhrsqcrzhyj8Sja/+/38d1U7DcFEennUjdArhNf6/7G2NozyhGy9pANL7RNSpYZB+rF4AlLed/tpFPt/XuEZCvBTeuR2b9xadPouNY/84fTMy/qu9tULArcj4W5z+Scw=
+	t=1735979966; cv=none; b=QWDO3vAZaancmLNwQaAERiBMOh9w0GPA7lT3lZRhkC/lE0LIywBoLHBsqN3gr8oHx3ckwEhah+pf8w2+YPAvAUb3Bd12GxE/f8QdXHkieVTwCv5Kvf9bshr803H2maqe60f1hjJ5AiAf/hyJIBGieVa9bqm/EIUltXEpEEDgOYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735978609; c=relaxed/simple;
-	bh=UN/ClCXmLVHdqZ49k4NY0JrEKsTcQ5uklWpiSJf+J5o=;
+	s=arc-20240116; t=1735979966; c=relaxed/simple;
+	bh=rFBnzSQ4rK5w/x0CPH/EAzDZ6VubNpuVUGmGvhtpRtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j2my61dMe8JKCpzMXiqdbw2MCWPyuMfKZzQebfG6UNzlpkP0yOlw0epK0Ii+N6fc7kDG1rj6EcO0MYTqN15gLXHhEsf9sUrS91tAiDln/VWeJGZiQkQJequ2tffDBQCRMGgLBJOX2VriUMd+/L3pU7j7cG7vM8MugMYbzOlfqZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ErjvOaZZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VtCoq51sXiYAezmA+sbjA0mO1bbrc122ASaY1z7hmpkcxwoI2Ge0h4f46KTwM6Vzw6bjesgbaAq2dSDixsQYiWREBb4Ez4d7PeLt6UKEwNyL5AvffzmTWPh0ePtTXpX2IK+ClIFf4yN9kCVjD+skIFdLWq2PSKSSufWGBypfaUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPumQRvs; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ErjvOaZZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2DAC4CED1;
-	Sat,  4 Jan 2025 08:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1735978608;
-	bh=UN/ClCXmLVHdqZ49k4NY0JrEKsTcQ5uklWpiSJf+J5o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ErjvOaZZzq6Bc6USMsYRunFWBbfVFfUlOpNEHUg5ohRvIQTrt/4GQZiI8oftQioPZ
-	 RTwaAGxxrbDj27fpwf4n1N1WuhdZUQ+IvYWNyuVEsziLPu+4khTulID+1bgp7CIFJe
-	 kb8ZrscxOjTwgm2bzsWQkT66+LUUBFwqaspDlmd0=
-Date: Sat, 4 Jan 2025 09:16:00 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Brian Norris <briannorris@chromium.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
-	Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>
-Subject: Re: [driver-core:driver-core-testing 29/29]
- include/kunit/platform_device.h:15:15: warning: declaration of 'struct
- completion' will not be visible outside of this function
-Message-ID: <2025010433-fretful-gallery-e9cd@gregkh>
-References: <202412241917.orLfjA92-lkp@intel.com>
- <Z3bdT0DrjcV6UzHe@google.com>
- <2025010347-outright-fifteen-a9c9@gregkh>
- <Z3gjL50fsmh-fQPH@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPumQRvs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735979964; x=1767515964;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rFBnzSQ4rK5w/x0CPH/EAzDZ6VubNpuVUGmGvhtpRtg=;
+  b=dPumQRvsGxe6IccaCis3BKBNRRSfvWXlCtPklz++ODwjBYFFqYHNA2ja
+   XmpD30vSA53hcqbE+rgZj1nwrf/r13omixeYKeyJsSAIvknN95WrzFpOX
+   Ivj6pHZrPGADg40sLCwF0EF1rzFjS+v2HEOPbLyAlS+StXifg/uaAVqil
+   H8Etn/hFqA/ja6rtlT9dlnGm9Enr5Tdd1Y6nZAeWKg6ywFcyWhSbA7J+k
+   zYnZjcljNQ6v5ihELd43ZzsT4qgv7nxhmF0eDOtPYrjYlUv/AxLs0j3Dt
+   3gwygG+F54wVW/TR70gTHq7I1j5g/qqlSJyANLvZ/WL4pnR6VjKmFaXsJ
+   w==;
+X-CSE-ConnectionGUID: kTsxtDk6SmecL2Un5YC5tw==
+X-CSE-MsgGUID: ifs2/IvLS+acYF3uaekwVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36109717"
+X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
+   d="scan'208";a="36109717"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 00:39:22 -0800
+X-CSE-ConnectionGUID: Tnk0+16tTl2lpglMqFg4xA==
+X-CSE-MsgGUID: FMDfiChcSbSzsT9k1Mcndw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
+   d="scan'208";a="102491781"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Jan 2025 00:39:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tTzgi-000Alz-0m;
+	Sat, 04 Jan 2025 08:39:16 +0000
+Date: Sat, 4 Jan 2025 16:38:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shree Ramamoorthy <s-ramamoorthy@ti.com>, lgirdwood@gmail.com,
+	broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, aaro.koskinen@iki.fi, andreas@kemnade.info,
+	khilman@baylibre.com, rogerq@kernel.org, tony@atomide.com,
+	jerome.neanne@baylibre.com, linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, m-leonard@ti.com, praneeth@ti.com,
+	christophe.jaillet@wanadoo.fr
+Subject: Re: [PATCH v2 2/7] regulator: tps65215: Update function & struct
+ names
+Message-ID: <202501041639.sIGy7REE-lkp@intel.com>
+References: <20250103230446.197597-3-s-ramamoorthy@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,40 +69,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z3gjL50fsmh-fQPH@google.com>
+In-Reply-To: <20250103230446.197597-3-s-ramamoorthy@ti.com>
 
-On Fri, Jan 03, 2025 at 09:49:35AM -0800, Brian Norris wrote:
-> On Fri, Jan 03, 2025 at 04:52:01PM +0100, Greg Kroah-Hartman wrote:
-> > On Thu, Jan 02, 2025 at 10:39:11AM -0800, Brian Norris wrote:
-> > > On Tue, Dec 24, 2024 at 07:37:20PM +0800, kernel test robot wrote:
-> > > > All warnings (new ones prefixed by >>):
-> > > > 
-> > > >    In file included from drivers/base/test/platform-device-test.c:3:
-> > > > >> include/kunit/platform_device.h:15:15: warning: declaration of 'struct completion' will not be visible outside of this function [-Wvisibility]
-> > > >       15 |                                                  struct completion *x);
-> > > >          |                                                         ^
-> > > >    1 warning generated.
-> > > 
-> > > Same:
-> > > 
-> > > https://lore.kernel.org/lkml/20241213180841.3023843-1-briannorris@chromium.org/
-> > > Subject: [PATCH] kunit: platform: Resolve 'struct completion' warning
-> > 
-> > I guess it should have been cc:ed me.  I'll go dig it up now...
-> 
-> I sent it where get_maintainer pointed me:
-> 
-> $ scripts/get_maintainer.pl -f include/kunit/platform_device.h
-> Brendan Higgins <brendan.higgins@linux.dev> (maintainer:KERNEL UNIT TESTING FRAMEWORK (KUnit))
-> David Gow <davidgow@google.com> (maintainer:KERNEL UNIT TESTING FRAMEWORK (KUnit))
-> Rae Moar <rmoar@google.com> (reviewer:KERNEL UNIT TESTING FRAMEWORK (KUnit))
-> linux-kselftest@vger.kernel.org (open list:KERNEL UNIT TESTING FRAMEWORK (KUnit))
-> kunit-dev@googlegroups.com (open list:KERNEL UNIT TESTING FRAMEWORK (KUnit))
-> linux-kernel@vger.kernel.org (open list)
+Hi Shree,
 
-That's good, but you also need to send it to the maintainer that owns
-the git tree where the bug is showing up in :)
+kernel test robot noticed the following build errors:
 
-Something to remember for future stuff, thanks!
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on next-20241220]
+[cannot apply to robh/for-next tmlind-omap/for-next linus/master v6.13-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-greg k-h
+url:    https://github.com/intel-lab-lkp/linux/commits/Shree-Ramamoorthy/regulator-dt-bindings-Add-TI-TPS65215-PMIC-bindings/20250104-070914
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250103230446.197597-3-s-ramamoorthy%40ti.com
+patch subject: [PATCH v2 2/7] regulator: tps65215: Update function & struct names
+config: i386-buildonly-randconfig-004-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041639.sIGy7REE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041639.sIGy7REE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501041639.sIGy7REE-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/regulator/tps65219-regulator.c:261:44: error: 'TPS65215_LDO_2' undeclared here (not in a function); did you mean 'TPS65219_LDO_2'?
+     261 |         TPS65219_REGULATOR("LDO2", "ldo2", TPS65215_LDO_2,
+         |                                            ^~~~~~~~~~~~~~
+   drivers/regulator/tps65219-regulator.c:99:43: note: in definition of macro 'TPS65219_REGULATOR'
+      99 |                 .id                     = _id,                          \
+         |                                           ^~~
+>> drivers/regulator/tps65219-regulator.c:263:28: error: 'TPS65215_REG_LDO2_VOUT' undeclared here (not in a function); did you mean 'TPS65219_REG_LDO2_VOUT'?
+     263 |                            TPS65215_REG_LDO2_VOUT,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/tps65219-regulator.c:104:43: note: in definition of macro 'TPS65219_REGULATOR'
+     104 |                 .vsel_reg               = _vr,                          \
+         |                                           ^~~
+>> drivers/regulator/tps65219-regulator.c:266:28: error: 'TPS65215_ENABLE_LDO2_EN_MASK' undeclared here (not in a function); did you mean 'TPS65219_ENABLE_LDO2_EN_MASK'?
+     266 |                            TPS65215_ENABLE_LDO2_EN_MASK, 0, 0, tps65215_ldo_2_range,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/tps65219-regulator.c:111:43: note: in definition of macro 'TPS65219_REGULATOR'
+     111 |                 .enable_mask            = _em,                          \
+         |                                           ^~~
+   In file included from include/linux/kernel.h:16,
+                    from drivers/regulator/tps65219-regulator.c:12:
+   drivers/regulator/tps65219-regulator.c: In function 'tps65219_regulator_probe':
+   drivers/regulator/tps65219-regulator.c:328:36: error: 'regulators' undeclared (first use in this function); did you mean 'regulator'?
+     328 |         for (i = 0; i < ARRAY_SIZE(regulators); i++) {
+         |                                    ^~~~~~~~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   drivers/regulator/tps65219-regulator.c:328:36: note: each undeclared identifier is reported only once for each function it appears in
+     328 |         for (i = 0; i < ARRAY_SIZE(regulators); i++) {
+         |                                    ^~~~~~~~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   In file included from include/linux/array_size.h:5:
+   include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/regulator/tps65219-regulator.c:328:25: note: in expansion of macro 'ARRAY_SIZE'
+     328 |         for (i = 0; i < ARRAY_SIZE(regulators); i++) {
+         |                         ^~~~~~~~~~
+   drivers/regulator/tps65219-regulator.c: At top level:
+   drivers/regulator/tps65219-regulator.c:270:36: warning: 'tps65219_regs' defined but not used [-Wunused-const-variable=]
+     270 | static const struct regulator_desc tps65219_regs[] = {
+         |                                    ^~~~~~~~~~~~~
+   drivers/regulator/tps65219-regulator.c:259:36: warning: 'tps65215_regs' defined but not used [-Wunused-const-variable=]
+     259 | static const struct regulator_desc tps65215_regs[] = {
+         |                                    ^~~~~~~~~~~~~
+   drivers/regulator/tps65219-regulator.c:228:36: warning: 'common_regs' defined but not used [-Wunused-const-variable=]
+     228 | static const struct regulator_desc common_regs[] = {
+         |                                    ^~~~~~~~~~~
+
+
+vim +261 drivers/regulator/tps65219-regulator.c
+
+   258	
+   259	static const struct regulator_desc tps65215_regs[] = {
+   260		// TPS65215's LDO2 is the same as TPS65219's LDO3
+ > 261		TPS65219_REGULATOR("LDO2", "ldo2", TPS65215_LDO_2,
+   262				   REGULATOR_VOLTAGE, ldos_3_4_ops, 64,
+ > 263				   TPS65215_REG_LDO2_VOUT,
+   264				   TPS65219_BUCKS_LDOS_VOUT_VSET_MASK,
+   265				   TPS65219_REG_ENABLE_CTRL,
+ > 266				   TPS65215_ENABLE_LDO2_EN_MASK, 0, 0, tps65215_ldo_2_range,
+   267				   3, 0, 0, NULL, 0, 0),
+   268	};
+   269	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
