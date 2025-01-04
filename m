@@ -1,268 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F9C1E507
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 10:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10D71E507
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 10:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735985849; cv=none; b=KPP+DZktz6upUCcGuQ4VLYQZexDZ443906NXThWLuk0kJENvtfyq6KiF01eB2pbc82QCJXjF0xgvFf2PsKmjJongRJdaIysKnNJsZ5L3BLkkRQL35GsqLCRNQWoQfJ8YnfXBqaW6IXTtojZLlvrYK0BS/0yl+mtiixpeETgjnU0=
+	t=1735986215; cv=none; b=tnsRGEZnrLGtVfFZPcUYlhsCR4UKpCNzs5pUqtVdCo4PiSvgki5gQE7nZxkroXLd3AenWo2ag9L3ATU4BLNbX8Iyfx6ACXuIa8xL1dMXhRvM63U3O+vM8yPjSL7HtawaB84Z9pi9sGstiAEAa6JvdPTutRnW6juUwRmQ5qzhxL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735985849; c=relaxed/simple;
-	bh=f/KnG+rPSxNNwFprnpdDYnTouNMtLzYajnDKDCaGtiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qPSnV+r7ATOk6D11cBolKcANyTg+TDQizNtgO08YyOgnQUuxi+jj3HMI49OJhMNuoUrBpISk6LM48b3QNmecGXiOJ2yJABd8pa3GbCIe75cNcPps4FNsdHokUzQffNQsxsOGY18LdK2rYXalfFmd8IXVQl5mWSSKO35fpWmj0oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WWSDOmJz; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735986215; c=relaxed/simple;
+	bh=Fdf1rjpjA6sxjXaV2e0oeC/d7EbPbdaM3pY/SSgVVFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WwOsukl0DGjV9WmNjXoAUPjyGxOvWFKWvKfNnPFbKsOOHablzgqMQrmuEbMdFs/Ny/SiHD4+rNQDzRwPHy3dG/t4rzy5VcAC9hxjxZUwrHAKfsBGhoXR4jNrvUWaN4ThCq4eGbWH/5/SbkDTeR8NsHBweC+w9fF/DP/nu/tg+kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B8rhXnUq; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WWSDOmJz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735985848; x=1767521848;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f/KnG+rPSxNNwFprnpdDYnTouNMtLzYajnDKDCaGtiw=;
-  b=WWSDOmJz1WPRGJTfRpDjU0EOl6Ce1XbKszVEpMzPSO97ngdousMaElyg
-   1eCvc/u4eS8qaGw01rcVHVp5YOpPe0zfGnUX+zbIQ0Ixk/4qrIXjYzHg3
-   2NltE7WmI5UIw1Vwh5FqgMhhUsFBrbrwdExZnREuS7gWfauIcGyPfJ37n
-   RjatGA0bzMX7oJFDWCJ+mTJzEQBhZ3yux1U2Fzq60KvyBAs/oGkKgLEHX
-   CcJ7rgRWfmW2Rt0hxMyCdTIdfjv3B0pDHag+ixHTX656wsR/QU/4wKN+e
-   5R4IGNH33hVJF1keBeqLBEgefYMHR4Vk6jhllJt7qEftG9Auaag1yN8QB
-   g==;
-X-CSE-ConnectionGUID: 8rR6oCkNTdaat6BTjatO4A==
-X-CSE-MsgGUID: XRnkXd80RMeayDCbA+G15A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="53754934"
-X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="53754934"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 02:17:27 -0800
-X-CSE-ConnectionGUID: e+OlQyIQR6+HIQ+8tNi9pw==
-X-CSE-MsgGUID: 5Ld3bTV+STuMENgupHwvQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="102173379"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Jan 2025 02:17:26 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tU1Df-000Aot-3C;
-	Sat, 04 Jan 2025 10:17:23 +0000
-Date: Sat, 4 Jan 2025 18:16:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 3/3] mm/page_alloc.c:137:40: sparse:
- sparse: restricted gfp_t degrades to integer
-Message-ID: <202501041828.tyspRPuh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B8rhXnUq"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21644aca3a0so109343145ad.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Jan 2025 02:23:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1735986213; x=1736591013; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=d7WWzM81eH7w8ivFPUo0nbOJxsERMoQeN/4oy/OiqOM=;
+        b=B8rhXnUqhuKmIuHx+bwsHldLInzFA9ISWqt+EzYU+Ia+4bbZzsEwnCsYQiGAhrsC9Q
+         z0fapQXodNAZgBS3kNej01ja4LPiP3bDyYu0UoEwG69coLRR6DeP+VI24YuHkKJjzMKP
+         uuvprGjSj1m7XX0eLhHRTIqW39lHoYn3h+T/kImEHK39eVq1HiVZX7Us2lgV/snPM6oG
+         6Of2Eb99V3WS1/5XIWHCOfoEsQY1gAzM2Celqf7YGb3VcDCKuayhCPE2nFU9Ky0OJZbH
+         kL42O6QjSy2pckuGmCmXFqu8zRplWxYyalxu/vAyVsY6lZreeSDG0xQ6yNgrl324AmFj
+         azMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735986213; x=1736591013;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d7WWzM81eH7w8ivFPUo0nbOJxsERMoQeN/4oy/OiqOM=;
+        b=kZvb49me2fAo4fTomDWLiHioHGrsrF7iMsSlHCV+rznybbfY1C8ug0unYGLJaQdncL
+         aBun0dG8olqVL/Bg3kVu1MkrttXVXJffBq4mLY0OBQRRWeKRV0JcSv1HRbaEm8lBx9ry
+         trXBd+uA4AH841FJkEyAiWzho2hecCNvo/wmB4RwxAas6Pv6KozpLwOKX4Wo35T3amr4
+         DpySMWqEzrRqgRQKLQ47UjjbKxbbJaxwySSP6Rh352LUg6hs47ZoHXQV9ylbNplZcQsV
+         As/zfJ2qjttIKTcd9xe/SVWL5K3ZplZNpBPupQc+zpW+F0+3JL/eppQESbU8yX7dRtAA
+         fMoA==
+X-Forwarded-Encrypted: i=1; AJvYcCVVtLB2QsfFsS3aHy9jMC5hYK0Dkpwq84EGLrXbihjkCYiV8nfTcDAi3bSA5PfXcU/ZdrgJ7zkEUdkuJrNK@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywg4d9N4sZVdYUN6pCFBcFU7Zu2zvwV2UXeepn4aPgnrfswlSD0
+	h/JF2x8yJRdF4TSs4lTu1anPhrpHxSQVgjEGQKYqaknf/879L1tw9lw3lNDvNw==
+X-Gm-Gg: ASbGnctObhB5Ob5mZaBZswNK5XDe0hdY+FZct34ppgtwA9CX4s0ukFjVoEhN27oiyv1
+	NXt42e5nszBCJMCKDoAstqMekRHDNMcsi4ZJi4ibMytwAu7G2Hr1wJIzU06eZyrNGLnic1i/6Kw
+	3WtqNQg22IHduaTlZSOLBDNWlMIye3o6L165bNbyVFnoRULg8HdecYeown7Hg0uRgHUr/7YaaSm
+	9tkgZU7tfN3OgIy12ohGtvlzWyjYPPXoSyyDDdu3sjH0/oFo4Z9QtHvn50P6u/d1VE=
+X-Google-Smtp-Source: AGHT+IGcYitKOORgbvygOZzt0NgzHQbBY9dbcSLI15yYAQJ/pt0tykyK+M3h+WkGeOApZbx9WoujYg==
+X-Received: by 2002:a17:903:320a:b0:216:6901:d599 with SMTP id d9443c01a7336-219e6e9e86emr788176895ad.13.1735986213063;
+        Sat, 04 Jan 2025 02:23:33 -0800 (PST)
+Received: from thinkpad ([36.255.17.199])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc962bfasm258736595ad.2.2025.01.04.02.23.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jan 2025 02:23:32 -0800 (PST)
+Date: Sat, 4 Jan 2025 15:53:27 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Qiang Yu <quic_qianyu@quicinc.com>
+Subject: Re: [PATCH v2 6/6] PCI/pwrctrl: Add pwrctrl driver for PCI Slots
+Message-ID: <20250104102327.fxswvs3dvsixbsh3@thinkpad>
+References: <20241231-pci-pwrctrl-slot-v2-6-6a15088ba541@linaro.org>
+ <202501020407.HmQQQKa0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202501020407.HmQQQKa0-lkp@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   2057b3f0228c6d85bed5e0a892cf71ec286a2872
-commit: b9d3d8f1e991052edb89b0537b8f2e8b2aa941ac [3/3] ANDROID: GKI: cma: redirect page allocation to CMA
-config: arm-randconfig-r113-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041828.tyspRPuh-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250104/202501041828.tyspRPuh-lkp@intel.com/reproduce)
+On Thu, Jan 02, 2025 at 04:56:44AM +0800, kernel test robot wrote:
+> Hi Manivannan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/regulator-Guard-of_regulator_bulk_get_all-with-CONFIG_OF/20241231-174751
+> base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+> patch link:    https://lore.kernel.org/r/20241231-pci-pwrctrl-slot-v2-6-6a15088ba541%40linaro.org
+> patch subject: [PATCH v2 6/6] PCI/pwrctrl: Add pwrctrl driver for PCI Slots
+> config: x86_64-randconfig-074-20250102 (https://download.01.org/0day-ci/archive/20250102/202501020407.HmQQQKa0-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020407.HmQQQKa0-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501020407.HmQQQKa0-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/pci/pwrctrl/slot.c: In function 'pci_pwrctrl_slot_probe':
+> >> drivers/pci/pwrctrl/slot.c:39:15: error: implicit declaration of function 'of_regulator_bulk_get_all'; did you mean 'regulator_bulk_get'? [-Werror=implicit-function-declaration]
+>       39 |         ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
+>          |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+>          |               regulator_bulk_get
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501041828.tyspRPuh-lkp@intel.com/
+Sigh! The driver was built with !CONFIG_REGULATOR. This requires fixing
+'include/linux/regulator/consumer.h'. Will add it in next iteration.
 
-sparse warnings: (new ones prefixed by >>)
->> init/main.c:1167:28: sparse: sparse: restricted gfp_t degrades to integer
->> init/main.c:1167:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted gfp_t extern [addressable] [toplevel] [usertype] gfp_allowed_mask @@     got unsigned int @@
-   init/main.c:1167:26: sparse:     expected restricted gfp_t extern [addressable] [toplevel] [usertype] gfp_allowed_mask
-   init/main.c:1167:26: sparse:     got unsigned int
---
-   mm/page_alloc.c:106:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
-   mm/page_alloc.c:107:1: sparse: sparse: symbol '__pcpu_scope_pcpu_drain' was not declared. Should it be static?
->> mm/page_alloc.c:137:40: sparse: sparse: restricted gfp_t degrades to integer
->> mm/page_alloc.c:137:40: sparse: sparse: restricted gfp_t degrades to integer
->> mm/page_alloc.c:137:40: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t [addressable] [toplevel] [usertype] gfp_allowed_mask @@     got unsigned int @@
-   mm/page_alloc.c:137:40: sparse:     expected restricted gfp_t [addressable] [toplevel] [usertype] gfp_allowed_mask
-   mm/page_alloc.c:137:40: sparse:     got unsigned int
-   mm/page_alloc.c:2741:29: sparse: sparse: Using plain integer as NULL pointer
-   mm/page_alloc.c:3252:51: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int cma @@     got restricted gfp_t @@
-   mm/page_alloc.c:3252:51: sparse:     expected int cma
-   mm/page_alloc.c:3252:51: sparse:     got restricted gfp_t
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:325:27: sparse: sparse: restricted gfp_t degrades to integer
---
->> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1699:46: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1699:46: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1699:38: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1699:44: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t [usertype] invalid_mask @@     got unsigned int @@
-   mm/slub.c:1699:44: sparse:     expected restricted gfp_t [usertype] invalid_mask
-   mm/slub.c:1699:44: sparse:     got unsigned int
-   mm/slub.c:1700:27: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1700:27: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1700:23: sparse: sparse: invalid assignment: &=
-   mm/slub.c:1700:23: sparse:    left side has type restricted gfp_t
-   mm/slub.c:1700:23: sparse:    right side has type unsigned int
-   mm/slub.c:2158:28: sparse: sparse: context imbalance in 'deactivate_slab' - unexpected unlock
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: self-comparison always evaluates to false
-   mm/slub.c:2856:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: self-comparison always evaluates to false
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
---
-   lib/radix-tree.c:275:36: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] __rcu *parent @@
-   lib/radix-tree.c:275:36: sparse:     expected struct xa_node *nodes
-   lib/radix-tree.c:275:36: sparse:     got struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:293:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *parent @@
-   lib/radix-tree.c:293:29: sparse:     expected struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:293:29: sparse:     got struct xa_node *parent
-   lib/radix-tree.c:353:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *nodes @@
-   lib/radix-tree.c:353:38: sparse:     expected struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:353:38: sparse:     got struct xa_node *nodes
-   lib/radix-tree.c:455:54: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *node @@
-   lib/radix-tree.c:455:54: sparse:     expected struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:455:54: sparse:     got struct xa_node *node
-   lib/radix-tree.c:567:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *parent @@     got struct xa_node [noderef] __rcu *parent @@
-   lib/radix-tree.c:567:24: sparse:     expected struct xa_node *parent
-   lib/radix-tree.c:567:24: sparse:     got struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:681:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] child @@     got struct xa_node [noderef] __rcu *parent @@
-   lib/radix-tree.c:681:31: sparse:     expected struct xa_node *[assigned] child
-   lib/radix-tree.c:681:31: sparse:     got struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:955:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] __rcu *parent @@
-   lib/radix-tree.c:955:22: sparse:     expected struct xa_node *node
-   lib/radix-tree.c:955:22: sparse:     got struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:1015:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] __rcu *parent @@
-   lib/radix-tree.c:1015:22: sparse:     expected struct xa_node *node
-   lib/radix-tree.c:1015:22: sparse:     got struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:1536:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] node @@     got struct xa_node [noderef] __rcu *parent @@
-   lib/radix-tree.c:1536:38: sparse:     expected struct xa_node *[assigned] node
-   lib/radix-tree.c:1536:38: sparse:     got struct xa_node [noderef] __rcu *parent
-   lib/radix-tree.c:1596:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] __rcu *parent @@
-   lib/radix-tree.c:1596:28: sparse:     expected struct xa_node *nodes
-   lib/radix-tree.c:1596:28: sparse:     got struct xa_node [noderef] __rcu *parent
->> lib/radix-tree.c:106:34: sparse: sparse: restricted gfp_t degrades to integer
-   lib/radix-tree.c:106:52: sparse: sparse: restricted gfp_t degrades to integer
-   lib/radix-tree.c:106:20: sparse: sparse: restricted gfp_t degrades to integer
->> lib/radix-tree.c:106:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted gfp_t @@     got unsigned int @@
-   lib/radix-tree.c:106:31: sparse:     expected restricted gfp_t
-   lib/radix-tree.c:106:31: sparse:     got unsigned int
+- Mani
 
-vim +137 mm/page_alloc.c
-
-ab8fabd46f811d Johannes Weiner        2012-01-10  135  
-1b76b02f15c70d Hugh Dickins           2012-05-11  136  int percpu_pagelist_fraction;
-dcce284a259373 Benjamin Herrenschmidt 2009-06-18 @137  gfp_t gfp_allowed_mask __read_mostly = GFP_BOOT_MASK;
-6471384af2a653 Alexander Potapenko    2019-07-11  138  #ifdef CONFIG_INIT_ON_ALLOC_DEFAULT_ON
-6471384af2a653 Alexander Potapenko    2019-07-11  139  DEFINE_STATIC_KEY_TRUE(init_on_alloc);
-6471384af2a653 Alexander Potapenko    2019-07-11  140  #else
-6471384af2a653 Alexander Potapenko    2019-07-11  141  DEFINE_STATIC_KEY_FALSE(init_on_alloc);
-6471384af2a653 Alexander Potapenko    2019-07-11  142  #endif
-6471384af2a653 Alexander Potapenko    2019-07-11  143  EXPORT_SYMBOL(init_on_alloc);
-6471384af2a653 Alexander Potapenko    2019-07-11  144  
-
-:::::: The code at line 137 was first introduced by commit
-:::::: dcce284a259373f9e5570f2e33f79eca84fcf565 mm: Extend gfp masking to the page allocator
-
-:::::: TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +39 drivers/pci/pwrctrl/slot.c
+> 
+>     28	
+>     29	static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
+>     30	{
+>     31		struct pci_pwrctrl_slot_data *slot;
+>     32		struct device *dev = &pdev->dev;
+>     33		int ret;
+>     34	
+>     35		slot = devm_kzalloc(dev, sizeof(*slot), GFP_KERNEL);
+>     36		if (!slot)
+>     37			return -ENOMEM;
+>     38	
+>   > 39		ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
+>     40						&slot->supplies);
+>     41		if (ret < 0) {
+>     42			dev_err_probe(dev, ret, "Failed to get slot regulators\n");
+>     43			return ret;
+>     44		}
+>     45	
+>     46		slot->num_supplies = ret;
+>     47		ret = regulator_bulk_enable(slot->num_supplies, slot->supplies);
+>     48		if (ret < 0) {
+>     49			dev_err_probe(dev, ret, "Failed to enable slot regulators\n");
+>     50			goto err_regulator_free;
+>     51		}
+>     52	
+>     53		ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_slot_power_off,
+>     54					       slot);
+>     55		if (ret)
+>     56			goto err_regulator_disable;
+>     57	
+>     58		pci_pwrctrl_init(&slot->ctx, dev);
+>     59	
+>     60		ret = devm_pci_pwrctrl_device_set_ready(dev, &slot->ctx);
+>     61		if (ret)
+>     62			return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
+>     63	
+>     64		return 0;
+>     65	
+>     66	err_regulator_disable:
+>     67		regulator_bulk_disable(slot->num_supplies, slot->supplies);
+>     68	err_regulator_free:
+>     69		regulator_bulk_free(slot->num_supplies, slot->supplies);
+>     70	
+>     71		return ret;
+>     72	}
+>     73	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
