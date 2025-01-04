@@ -1,257 +1,268 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477DF15ECD7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 08:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735979973; cv=none; b=DKdIy9Cfmn0aHW8v1CB1tGVzI6x6FhK0GCMagqnahdMYONwPt0vMThbqU0+i0ocSquqiEUbrTvMaohu+fnJlkJgYsu47bQ4ISO0f55mURGYAxswBrdAliz3g9lkhNgPdxh0GLlfn1m9YLcawihetelszGE0xKqR7LQOncLItFYI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735979973; c=relaxed/simple;
-	bh=KFiKINE36jaH0nS+AwFQTTrmBUsbOfqChk+/Y6EK+4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qif26bJh83sCWvqXW/phjSs5AIC1vgADdAqP9XLHfmQ56qtcxNrG0tEakK+9o4MkgnggtrcdCF2pTClyAItMpYNqaF4NZRFLDiC/V2j99NL3XNbRrJAGtjqnertv/nYfsISebMMgme4f/e4bxgZTmA/yLvQu0U4ATpsFdxppctY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0+TtSTI; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ADA22EE4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 08:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735980241; cv=fail; b=T1NXnladkQG+KCVoo2H6PYdRjpsQCaY4vRgx6SaCcDtMt0Oqkcdxz3/PxfCEZiiIZ7mK6OD7g72aDR90BccW8okaCMq940DksPm8t43BtmrcHbLbvGgEw++gpausxQHV9MBaos3H2RRsR9HuhJZKWsdJTZ+SYdnbVLkQa/fZPoM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735980241; c=relaxed/simple;
+	bh=Xvzf0PyxHRHamLGOne86lq0N6hssoQgLcEoIMDRPCT0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=kcKOqlNSc1KdcfhpF8i91GDBGdEVXKczHNxKN7vTpllEOXTgbMBZ1aQ+F5LLZWsKTcAUgAw0FCJr8qkVaw5uAw4/e75uI6jZRwzJkCayacwHwrnfeyUGZ4tYZTJiw+6iF5UQ0vrFzpAhTifi6rUaZMJASFPZPijY+Wc3FYRQhqM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qm63wDOx; arc=fail smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0+TtSTI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qm63wDOx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735979971; x=1767515971;
+  t=1735980240; x=1767516240;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KFiKINE36jaH0nS+AwFQTTrmBUsbOfqChk+/Y6EK+4Q=;
-  b=G0+TtSTIvrDz26hwKXK9e2e/rFJSDhWUbfqA2O1xQkkStMe7IMGBJ6Tb
-   UYz8uX5ES9URx8r6hvRWZSItE6yvMZY2wcmWEh4Tvpwwca/7uFAbMuoBy
-   yKDEi2MueUqYhw8IC9U+F8sicSKCejpY1gt7BAFVtloRa/04PIcVn//1K
-   YPzLneVAyM5OSf96JqraMwxbDxpjUxrmpK7XZFFVJX/AChSls/LjHVLzi
-   HdXUFSB1nM6qybO7xiV8bU6wDKWSB0KOPLy1LJwMJBjZl3YHw60oscc29
-   0XV438rC1UwZShsGVNWn3r9ZdGAnLuyt5BD9r4KmNbrBq+7gZQTq2o2ot
+   in-reply-to:mime-version;
+  bh=Xvzf0PyxHRHamLGOne86lq0N6hssoQgLcEoIMDRPCT0=;
+  b=Qm63wDOxvyj6+NGPZ+UsWg2Pej6G7aBUqxpd2P5CKlU9rzKYs3ch5j0r
+   YzVikImqRUpl67GXs3x8lFTuOl62qyqs7J3on6R4/qqAppmnFdx9gfbG1
+   ppzZisR8uVTLTTQXqO3hMs66TciB8mr8I5uk5S4VNVWaXPwDJS4wE5VGL
+   bm8QvwxoM+jrUtjLEKRerxcvRpCZiftVcyzp3Buncbp3SLt3to+LurG5s
+   /mQCWpVidY9arqiKTWzbri+FSDyy6XULuZ5gHjz+jW0pkAx68t7TgWt/c
+   KUR2fn1RcMRMJ2e83RByu2u99duld+jejglrZKgr6qRZrRiyjls1u4Jx0
    A==;
-X-CSE-ConnectionGUID: 5saXI4ZNRGWrpbYTtCJ2Zg==
-X-CSE-MsgGUID: gN3DBG1YThu2Lz/u8vuiOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47622216"
+X-CSE-ConnectionGUID: UQhP9f9jScq3fPa076whMA==
+X-CSE-MsgGUID: l7pqv5LJS6SfIMXLHQWfWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="61582450"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="47622216"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 00:39:20 -0800
-X-CSE-ConnectionGUID: 3DfRyqxySrm1H+h8VrGFOg==
-X-CSE-MsgGUID: aczqzdmBSsC5MSiQ2BNrXw==
+   d="scan'208";a="61582450"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 00:43:59 -0800
+X-CSE-ConnectionGUID: 2rep5mJFRjK0eoFCuY3wHA==
+X-CSE-MsgGUID: ne7PYUdqT6iOzMtf+NcvVQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="102452128"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Jan 2025 00:39:18 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tTzgi-000Alv-0g;
-	Sat, 04 Jan 2025 08:39:16 +0000
-Date: Sat, 4 Jan 2025 16:39:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>, sparclinux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 2/3] PCI: of: Simplify bus range parsing
-Message-ID: <202501041649.cjMwvH2B-lkp@intel.com>
-References: <20250103213129.5182-3-helgaas@kernel.org>
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="132898477"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Jan 2025 00:43:59 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Sat, 4 Jan 2025 00:43:58 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Sat, 4 Jan 2025 00:43:58 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Sat, 4 Jan 2025 00:43:57 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=i2N1XKGZUIUFwiBKSeD12MFK8bJQlHetFf1b3QuOV180kxMTOiYfEK+3XiWzCpDgx/mZ0aWz4eKE/UqdkQ8n/4CCuMCEK2EF2tYwT6bSbaKRSAwEdh1vJy+VhR3cFc/FBVD0VTczhmK5a/i3vzlDNvrJiZ4aa9Nu3poHYONtZ3rqdwAgMpNqzlHJqjmQzJqL5qDdrfmv5WEI8eREndmar1/O30iyNTCviHtK382ZAeTDfo8fS4QaI/pf6vX/3lvNjxw66cLCH42Myk5scVFXJeP5dLI7115/1tIApngK1zHeREgAAF/WPpOGqPxXuextCu5Lty9N52IeUfqlizxyfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8dnrJTcJhHRx/ywW8IeyiWdfhrMUweprzWUT18Cpe3Q=;
+ b=RWlPtbVN8fQD8AjETbPAn2ffScUFfnReb0v4V4NeFkUvNLmFuH8FT0DmTQ8Z9mz03Q/feGyZbkOElRQedUaTwNTo4Ra099gObUAKcXKE8zo18hG0de+zYcIzuqfqeK2tqybOA2z9cQJinn1baN0YeJOlkN1pc7QrqTZoYBOeiBs5PRuDdoDB7K2KoblPGDn6f1TPr9AIoYDJbsTZTb3lL8U4rCEFHorS0eP3ELkG6+sCpUFrMiA0GgiehsTmziC+AhDhnCETTssMxs2lRXP8OZgmM0E/PFh9m5Vg6n+tyZuCFNUXSYGcXqUr/K8y7Ny1nqQhGDcxCXUO9MkRa9VJbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by DM3PR11MB8684.namprd11.prod.outlook.com (2603:10b6:0:4a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.14; Sat, 4 Jan
+ 2025 08:43:47 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8314.013; Sat, 4 Jan 2025
+ 08:43:46 +0000
+Date: Sat, 4 Jan 2025 16:43:36 +0800
+From: Philip Li <philip.li@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Uladzislau Rezki <uladzislau.rezki@sony.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Paul E.
+ McKenney" <paulmck@kernel.org>, "Uladzislau Rezki (Sony)" <urezki@gmail.com>
+Subject: Re: drivers/android/binderfs.c:235: warning: Function parameter or
+ struct member 'file' not described in 'binder_ctl_ioctl'
+Message-ID: <Z3j0uC5d/bSHof3s@rli9-mobl>
+References: <202501041430.6u1qEegs-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202501041430.6u1qEegs-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250103213129.5182-3-helgaas@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DM3PR11MB8684:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b858745-ca1b-4ef0-c2d5-08dd2c9be721
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?n/hP5aRrSGKru7VlHeztXGsZzSJLG4wWVWq4y/nmOFDMjg22edSSdZZjpwG6?=
+ =?us-ascii?Q?QannAGwueays5H8nYGcZpdUzwgIi13CRfKNGoqz002fS90gW5kwImDj2QQ+B?=
+ =?us-ascii?Q?RHyA9hnO6NUJ6Pr+nzVOfJkTKNz8PpBeMEjaDu012ER2TNDrfo2UNOBCpKae?=
+ =?us-ascii?Q?H5eVVI9s0A3WkBp5YnnJuVB/qPQ7t1EmJLby6qrvSQmWUbXFVPAl8CWwQOQx?=
+ =?us-ascii?Q?HQxP9uqsVYy0X8aIp/ztns1Dud9XZCpSTKUyD/GID6Iyte4ATqA1xDOSykMd?=
+ =?us-ascii?Q?lKHVeC55QIzPEUyvj+eE/KJ+EhPAMMa4YTFPQFrdONSc44a2MhSrXKsfqwHD?=
+ =?us-ascii?Q?DutNO7vEqLLkXF4b4ymfk9bB/3egJbx6AzS6vxsctqq4hbnaLctBqrcTsaEu?=
+ =?us-ascii?Q?tKdy0gn22d03KI5tf10Ad+CnACNiX5UIcSsQtna1Uahcx/KxVt/G7dV1WyX7?=
+ =?us-ascii?Q?LMnKgyL4vcOUYSpz1SVmuy4taz0dovez2r5PZvpejCwJppMn+m1M+45kxSXS?=
+ =?us-ascii?Q?crJ7p0mfv6nXcT+eZcfg/EQ152+PQUiA3mhqZ4LskM/aDbuoXk1L1jrT8mDt?=
+ =?us-ascii?Q?hBAmT4MNoGEHx5SNdIP3VpkAwd6XT6QRZIBtIKy5dLiuEoUf8o7Q82uNS7DT?=
+ =?us-ascii?Q?V1868gMh32t1qzXHjRomXZsy4/hv+tshwwiILZYI4c+HfI2Fvj0w15HGyMYq?=
+ =?us-ascii?Q?r7ldO2rDjIe9ircASwiwAfTMmPnnHA/5Ypi/lRCSGQaaO/xdNaLwD4mNTTjy?=
+ =?us-ascii?Q?9Rm9nXK+9j9NP0q/gwHk90TKwo0ZV0iOjvPu2nejfsOL3XWx7LLbMxdWQ1G4?=
+ =?us-ascii?Q?7GBydrXFruc8zbKORirPBLWyKcGJ3uWa2ciDJRVC4+qgBgB+9aE3LrSH89YT?=
+ =?us-ascii?Q?vakWoONeYRIQ39/OU/lYiSux0Fphm3BxARD9QW3oyo/ljooqt2Rm0ng6uxic?=
+ =?us-ascii?Q?MfYliG98O6XTwm3D1lSFSOYFo0UAQgnPywWcWqv4fCdtVDp1ksG02X9fBlGd?=
+ =?us-ascii?Q?Tr67rTlPhMkv2NFzhEh4pWmG9tEi04/pazMOFIdUosmJ97XG/L+y63/w6rak?=
+ =?us-ascii?Q?2jEr43Ae0ZSLpsKNXgR/zbJ7zBHaAL8ni1mHG9AfSqUpovkDkD2rZX3qV8CV?=
+ =?us-ascii?Q?7ekkgH09LtUtzBxEAypGxsdlxr5KZW6PQRV7hxopf/jocveNMU8ZWJOR0jzm?=
+ =?us-ascii?Q?kTTcuSVrlNewqP7wgJGuWqscLMIr99Loi+rXKyR8GWo0rAAMzvbhhhBWck+o?=
+ =?us-ascii?Q?jbqVirn8U1rYnTeoggKkNR5z9CzeE9//nDRtO19ixwUnrvDIVOpIs0lFMbcF?=
+ =?us-ascii?Q?eJHmLn7nsUdINhyhNujOtExdsGBvfyNeLRBvN6cX+2FQNA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tGllAO0wJFgswGFc+p6W0hjoX6cWYTsy0j1gCRZWNHN7gdCVV7zGeBVNW1vg?=
+ =?us-ascii?Q?7frSlbdFI2DV77JtZGEo94FbT7MDt3FtaMsaga+eyXSOpcG8G2dykpiG4NSv?=
+ =?us-ascii?Q?jHjW9gnBdzz6QjMxX9ZiLiysryGTzd230NBJ56kziiLMKv0mWnN5LVSY6XIh?=
+ =?us-ascii?Q?HmChKfOqCPbwmIod76Hl4MxLrYRYzy1G8FVZOrIwHqGWFpSx50zumGKlOdyB?=
+ =?us-ascii?Q?4lC1x+/QUNZtnIcEdJMqXu3Mp5x+lxeje53C3nHpBdN6DVwMJbWWxDKnsGpM?=
+ =?us-ascii?Q?stm1UBep2R95g55A0+Ru1+t1Gsnxt0CWeq2geBmupv4QuwHtGjytB+szdqfw?=
+ =?us-ascii?Q?kuPL2suAWp57bfT4htLuN/ofGWM0QozrJRUX7HML6O1/Ze6fapmUryNG4/ct?=
+ =?us-ascii?Q?nfGTGsyYE+GwL+Ofrcuz1l113+iZPl7hEkfYbmsu7lsqGkbfuOFygTKer/Ds?=
+ =?us-ascii?Q?5vlTYN9Y1ll5w1g830inGSqizDVhO55jW/KZbqSZNTy8aD1RYFaVB1o9BdxP?=
+ =?us-ascii?Q?dVdWPSMPAB/6d7b3viAdn6AbRePA+ShrbQLjXZg4HSrah7UnoY6/CysWkj6p?=
+ =?us-ascii?Q?sJ7wyhQDtgfD+nOHvp6AU+Ha40R1+AYhqZA119B0ODCchiVlA/RVdHuf+L8t?=
+ =?us-ascii?Q?90eMVVw+WWEQ4Bbr4idCDg9jLUdasmKs7sm8UP4QkBPu2HyHDvE8Zx8lfvG8?=
+ =?us-ascii?Q?gZexOo2Z+phtpk3YDZObutHj4cRx3SmKKlX9a6wN3KeXmY9t99S7U/o3Vy8w?=
+ =?us-ascii?Q?ehlAbs2Pbq/7PEZlmO11bGKUy8KQqAdrT78voqzCPo84HyyDZKzCXyCuI6iQ?=
+ =?us-ascii?Q?0WPAyHZIc6WcZmFOLn6ee+VvC2pl7r6BAqGorachWxyTBg00m+Vhv5v6YNM2?=
+ =?us-ascii?Q?IDc+lJ5jhZ7ydKdlVdT7p3jYOL783mSpYbaYMovtNY8rJZW+Zziy8ht/6CBn?=
+ =?us-ascii?Q?qa40Ijrd3dSztps6sZVNaGJ0bQM3OtcjsXsNevBYOHVrHqNkDkCNRKbltRYy?=
+ =?us-ascii?Q?fGNgUlR8k3rfVR9F1GFuFw9dtfm94HB6KPiQs0FbTW4XUGoWDmziMdGLz8mz?=
+ =?us-ascii?Q?66ybqFCSfE123sz60E/cyTyXp4NSWb3hYzUqCup1ghvMwbIj/Zjzsw/vECv3?=
+ =?us-ascii?Q?Nwqgdf4V3ATTJ5FKp/XZSR2sBLanQIt1oCs4PpZh8LtkpiR9tEUY/Xp0PNm8?=
+ =?us-ascii?Q?JBJfcNP00Li1mS/w/3FpqhClj9WsBzhHtsKFE6+3NFMCYzi60zBWYuOs2HsE?=
+ =?us-ascii?Q?tmZHXh2EaXFJZG3lwDpZJwIvvQ/X/YnToqpV/qAkvFBpBzmpmHbYiM+tbotJ?=
+ =?us-ascii?Q?azKgeOFEByEMjBfxE7U97AI3c5TcBUDmlJb8jhTEm2ZO9D1Y9Wst3lYmedUb?=
+ =?us-ascii?Q?yJnYTMpcwyaeaK7xjpf3wWuFcsm2y8jjb5y5xWDTgJgCa6ImH4Fmxpj61zOP?=
+ =?us-ascii?Q?oeDc9aS7dYMztiGEal7F3Wzw5gUGHZGSolq7rZwXgeWigPA+T7uGzQqJXWTu?=
+ =?us-ascii?Q?vP85XR/1A8RU2UUZ4A3gFAIcH/j0wKV4tjECh+MTCVz4+jEgyY/anFSYrKqC?=
+ =?us-ascii?Q?RrO5lF/ZEbtsBmR9P9ZJTY6ldRei2DIsfwAi5jtR?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b858745-ca1b-4ef0-c2d5-08dd2c9be721
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2025 08:43:46.8010
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wDMeRPSgX3iBLvGvY8T0OBdbr+bv/rFIIBu12uptyJmBqZG1DAB4xmM0hbPSh33QuuKoSm/TYZHqbUBiaVWQ6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8684
+X-OriginatorOrg: intel.com
 
-Hi Bjorn,
+On Sat, Jan 04, 2025 at 02:17:23PM +0800, kernel test robot wrote:
+> Hi Uladzislau,
+> 
+> First bad commit (maybe != root cause):
 
-kernel test robot noticed the following build errors:
+Hi Uladzislau, sorry, kindly ignore this false report. This has been discussed in [1]
+already that the commit is not the actual cause.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus robh/for-next linus/master v6.13-rc5 next-20241220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[1] https://lore.kernel.org/oe-kbuild-all/202501031535.erbln3A2-lkp@intel.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Helgaas/PCI-Unexport-of_pci_parse_bus_range/20250104-053408
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250103213129.5182-3-helgaas%40kernel.org
-patch subject: [PATCH 2/3] PCI: of: Simplify bus range parsing
-config: i386-buildonly-randconfig-006-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041649.cjMwvH2B-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041649.cjMwvH2B-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501041649.cjMwvH2B-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/pci/of.c: In function 'devm_of_pci_get_host_bridge_resources':
->> drivers/pci/of.c:349:57: error: 'bus_max' undeclared (first use in this function)
-     349 |                 if (bus_range->end > bus_range->start + bus_max)
-         |                                                         ^~~~~~~
-   drivers/pci/of.c:349:57: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/bus_max +349 drivers/pci/of.c
-
-4670d610d59233 Rob Herring         2018-01-17  300  
-4670d610d59233 Rob Herring         2018-01-17  301  /**
-5bd51b35c7cbbc Jan Kiszka          2018-05-15  302   * devm_of_pci_get_host_bridge_resources() - Resource-managed parsing of PCI
-5bd51b35c7cbbc Jan Kiszka          2018-05-15  303   *                                           host bridge resources from DT
-055f87a2a33640 Jan Kiszka          2018-05-15  304   * @dev: host bridge device
-4670d610d59233 Rob Herring         2018-01-17  305   * @resources: list where the range of resources will be added after DT parsing
-9b41d19aff4090 Krzysztof Kozlowski 2020-07-29  306   * @ib_resources: list where the range of inbound resources (with addresses
-9b41d19aff4090 Krzysztof Kozlowski 2020-07-29  307   *                from 'dma-ranges') will be added after DT parsing
-4670d610d59233 Rob Herring         2018-01-17  308   * @io_base: pointer to a variable that will contain on return the physical
-4670d610d59233 Rob Herring         2018-01-17  309   * address for the start of the I/O range. Can be NULL if the caller doesn't
-4670d610d59233 Rob Herring         2018-01-17  310   * expect I/O ranges to be present in the device tree.
-4670d610d59233 Rob Herring         2018-01-17  311   *
-4670d610d59233 Rob Herring         2018-01-17  312   * This function will parse the "ranges" property of a PCI host bridge device
-4670d610d59233 Rob Herring         2018-01-17  313   * node and setup the resource mapping based on its content. It is expected
-4670d610d59233 Rob Herring         2018-01-17  314   * that the property conforms with the Power ePAPR document.
-4670d610d59233 Rob Herring         2018-01-17  315   *
-4670d610d59233 Rob Herring         2018-01-17  316   * It returns zero if the range parsing has been successful or a standard error
-4670d610d59233 Rob Herring         2018-01-17  317   * value if it failed.
-4670d610d59233 Rob Herring         2018-01-17  318   */
-3b55809cf91f54 Rob Herring         2019-10-28  319  static int devm_of_pci_get_host_bridge_resources(struct device *dev,
-331f63457165a3 Rob Herring         2019-10-30  320  			struct list_head *resources,
-331f63457165a3 Rob Herring         2019-10-30  321  			struct list_head *ib_resources,
-331f63457165a3 Rob Herring         2019-10-30  322  			resource_size_t *io_base)
-4670d610d59233 Rob Herring         2018-01-17  323  {
-055f87a2a33640 Jan Kiszka          2018-05-15  324  	struct device_node *dev_node = dev->of_node;
-93c9a7f8793175 Jan Kiszka          2018-06-19  325  	struct resource *res, tmp_res;
-4670d610d59233 Rob Herring         2018-01-17  326  	struct resource *bus_range;
-4670d610d59233 Rob Herring         2018-01-17  327  	struct of_pci_range range;
-4670d610d59233 Rob Herring         2018-01-17  328  	struct of_pci_range_parser parser;
-331f63457165a3 Rob Herring         2019-10-30  329  	const char *range_type;
-4670d610d59233 Rob Herring         2018-01-17  330  	int err;
-4670d610d59233 Rob Herring         2018-01-17  331  
-4670d610d59233 Rob Herring         2018-01-17  332  	if (io_base)
-4670d610d59233 Rob Herring         2018-01-17  333  		*io_base = (resource_size_t)OF_BAD_ADDR;
-4670d610d59233 Rob Herring         2018-01-17  334  
-5bd51b35c7cbbc Jan Kiszka          2018-05-15  335  	bus_range = devm_kzalloc(dev, sizeof(*bus_range), GFP_KERNEL);
-4670d610d59233 Rob Herring         2018-01-17  336  	if (!bus_range)
-4670d610d59233 Rob Herring         2018-01-17  337  		return -ENOMEM;
-4670d610d59233 Rob Herring         2018-01-17  338  
-d9c5d5ac287caa Jan Kiszka          2018-05-15  339  	dev_info(dev, "host bridge %pOF ranges:\n", dev_node);
-4670d610d59233 Rob Herring         2018-01-17  340  
-126b7de6bfd84b Jan Kiszka          2018-05-15  341  	err = of_pci_parse_bus_range(dev_node, bus_range);
-4670d610d59233 Rob Herring         2018-01-17  342  	if (err) {
-5ad20c289cd7a4 Bjorn Helgaas       2025-01-03  343  		bus_range->start = 0;
-5ad20c289cd7a4 Bjorn Helgaas       2025-01-03  344  		bus_range->end = 0xff;
-4670d610d59233 Rob Herring         2018-01-17  345  		bus_range->flags = IORESOURCE_BUS;
-d9c5d5ac287caa Jan Kiszka          2018-05-15  346  		dev_info(dev, "  No bus range found for %pOF, using %pR\n",
-126b7de6bfd84b Jan Kiszka          2018-05-15  347  			 dev_node, bus_range);
-4670d610d59233 Rob Herring         2018-01-17  348  	} else {
-4670d610d59233 Rob Herring         2018-01-17 @349  		if (bus_range->end > bus_range->start + bus_max)
-4670d610d59233 Rob Herring         2018-01-17  350  			bus_range->end = bus_range->start + bus_max;
-4670d610d59233 Rob Herring         2018-01-17  351  	}
-4670d610d59233 Rob Herring         2018-01-17  352  	pci_add_resource(resources, bus_range);
-4670d610d59233 Rob Herring         2018-01-17  353  
-4670d610d59233 Rob Herring         2018-01-17  354  	/* Check for ranges property */
-126b7de6bfd84b Jan Kiszka          2018-05-15  355  	err = of_pci_range_parser_init(&parser, dev_node);
-4670d610d59233 Rob Herring         2018-01-17  356  	if (err)
-d277f6e88c8872 Rob Herring         2021-08-03  357  		return 0;
-4670d610d59233 Rob Herring         2018-01-17  358  
-d9c5d5ac287caa Jan Kiszka          2018-05-15  359  	dev_dbg(dev, "Parsing ranges property...\n");
-4670d610d59233 Rob Herring         2018-01-17  360  	for_each_of_pci_range(&parser, &range) {
-4670d610d59233 Rob Herring         2018-01-17  361  		/* Read next ranges element */
-4670d610d59233 Rob Herring         2018-01-17  362  		if ((range.flags & IORESOURCE_TYPE_BITS) == IORESOURCE_IO)
-331f63457165a3 Rob Herring         2019-10-30  363  			range_type = "IO";
-4670d610d59233 Rob Herring         2018-01-17  364  		else if ((range.flags & IORESOURCE_TYPE_BITS) == IORESOURCE_MEM)
-331f63457165a3 Rob Herring         2019-10-30  365  			range_type = "MEM";
-4670d610d59233 Rob Herring         2018-01-17  366  		else
-331f63457165a3 Rob Herring         2019-10-30  367  			range_type = "err";
-331f63457165a3 Rob Herring         2019-10-30  368  		dev_info(dev, "  %6s %#012llx..%#012llx -> %#012llx\n",
-d9c5d5ac287caa Jan Kiszka          2018-05-15  369  			 range_type, range.cpu_addr,
-d9c5d5ac287caa Jan Kiszka          2018-05-15  370  			 range.cpu_addr + range.size - 1, range.pci_addr);
-4670d610d59233 Rob Herring         2018-01-17  371  
-4670d610d59233 Rob Herring         2018-01-17  372  		/*
-4670d610d59233 Rob Herring         2018-01-17  373  		 * If we failed translation or got a zero-sized region
-4670d610d59233 Rob Herring         2018-01-17  374  		 * then skip this range
-4670d610d59233 Rob Herring         2018-01-17  375  		 */
-4670d610d59233 Rob Herring         2018-01-17  376  		if (range.cpu_addr == OF_BAD_ADDR || range.size == 0)
-4670d610d59233 Rob Herring         2018-01-17  377  			continue;
-4670d610d59233 Rob Herring         2018-01-17  378  
-93c9a7f8793175 Jan Kiszka          2018-06-19  379  		err = of_pci_range_to_resource(&range, dev_node, &tmp_res);
-93c9a7f8793175 Jan Kiszka          2018-06-19  380  		if (err)
-93c9a7f8793175 Jan Kiszka          2018-06-19  381  			continue;
-93c9a7f8793175 Jan Kiszka          2018-06-19  382  
-93c9a7f8793175 Jan Kiszka          2018-06-19  383  		res = devm_kmemdup(dev, &tmp_res, sizeof(tmp_res), GFP_KERNEL);
-4670d610d59233 Rob Herring         2018-01-17  384  		if (!res) {
-4670d610d59233 Rob Herring         2018-01-17  385  			err = -ENOMEM;
-5bd51b35c7cbbc Jan Kiszka          2018-05-15  386  			goto failed;
-4670d610d59233 Rob Herring         2018-01-17  387  		}
-4670d610d59233 Rob Herring         2018-01-17  388  
-4670d610d59233 Rob Herring         2018-01-17  389  		if (resource_type(res) == IORESOURCE_IO) {
-4670d610d59233 Rob Herring         2018-01-17  390  			if (!io_base) {
-d9c5d5ac287caa Jan Kiszka          2018-05-15  391  				dev_err(dev, "I/O range found for %pOF. Please provide an io_base pointer to save CPU base address\n",
-126b7de6bfd84b Jan Kiszka          2018-05-15  392  					dev_node);
-4670d610d59233 Rob Herring         2018-01-17  393  				err = -EINVAL;
-5bd51b35c7cbbc Jan Kiszka          2018-05-15  394  				goto failed;
-4670d610d59233 Rob Herring         2018-01-17  395  			}
-4670d610d59233 Rob Herring         2018-01-17  396  			if (*io_base != (resource_size_t)OF_BAD_ADDR)
-d9c5d5ac287caa Jan Kiszka          2018-05-15  397  				dev_warn(dev, "More than one I/O resource converted for %pOF. CPU base address for old range lost!\n",
-126b7de6bfd84b Jan Kiszka          2018-05-15  398  					 dev_node);
-4670d610d59233 Rob Herring         2018-01-17  399  			*io_base = range.cpu_addr;
-3bd6b8271ee660 Punit Agrawal       2021-06-15  400  		} else if (resource_type(res) == IORESOURCE_MEM) {
-3bd6b8271ee660 Punit Agrawal       2021-06-15  401  			res->flags &= ~IORESOURCE_MEM_64;
-4670d610d59233 Rob Herring         2018-01-17  402  		}
-4670d610d59233 Rob Herring         2018-01-17  403  
-4670d610d59233 Rob Herring         2018-01-17  404  		pci_add_resource_offset(resources, res,	res->start - range.pci_addr);
-4670d610d59233 Rob Herring         2018-01-17  405  	}
-4670d610d59233 Rob Herring         2018-01-17  406  
-331f63457165a3 Rob Herring         2019-10-30  407  	/* Check for dma-ranges property */
-331f63457165a3 Rob Herring         2019-10-30  408  	if (!ib_resources)
-331f63457165a3 Rob Herring         2019-10-30  409  		return 0;
-331f63457165a3 Rob Herring         2019-10-30  410  	err = of_pci_dma_range_parser_init(&parser, dev_node);
-331f63457165a3 Rob Herring         2019-10-30  411  	if (err)
-331f63457165a3 Rob Herring         2019-10-30  412  		return 0;
-331f63457165a3 Rob Herring         2019-10-30  413  
-331f63457165a3 Rob Herring         2019-10-30  414  	dev_dbg(dev, "Parsing dma-ranges property...\n");
-331f63457165a3 Rob Herring         2019-10-30  415  	for_each_of_pci_range(&parser, &range) {
-331f63457165a3 Rob Herring         2019-10-30  416  		/*
-331f63457165a3 Rob Herring         2019-10-30  417  		 * If we failed translation or got a zero-sized region
-331f63457165a3 Rob Herring         2019-10-30  418  		 * then skip this range
-331f63457165a3 Rob Herring         2019-10-30  419  		 */
-331f63457165a3 Rob Herring         2019-10-30  420  		if (((range.flags & IORESOURCE_TYPE_BITS) != IORESOURCE_MEM) ||
-331f63457165a3 Rob Herring         2019-10-30  421  		    range.cpu_addr == OF_BAD_ADDR || range.size == 0)
-331f63457165a3 Rob Herring         2019-10-30  422  			continue;
-331f63457165a3 Rob Herring         2019-10-30  423  
-331f63457165a3 Rob Herring         2019-10-30  424  		dev_info(dev, "  %6s %#012llx..%#012llx -> %#012llx\n",
-331f63457165a3 Rob Herring         2019-10-30  425  			 "IB MEM", range.cpu_addr,
-331f63457165a3 Rob Herring         2019-10-30  426  			 range.cpu_addr + range.size - 1, range.pci_addr);
-331f63457165a3 Rob Herring         2019-10-30  427  
-331f63457165a3 Rob Herring         2019-10-30  428  
-331f63457165a3 Rob Herring         2019-10-30  429  		err = of_pci_range_to_resource(&range, dev_node, &tmp_res);
-331f63457165a3 Rob Herring         2019-10-30  430  		if (err)
-331f63457165a3 Rob Herring         2019-10-30  431  			continue;
-331f63457165a3 Rob Herring         2019-10-30  432  
-331f63457165a3 Rob Herring         2019-10-30  433  		res = devm_kmemdup(dev, &tmp_res, sizeof(tmp_res), GFP_KERNEL);
-331f63457165a3 Rob Herring         2019-10-30  434  		if (!res) {
-331f63457165a3 Rob Herring         2019-10-30  435  			err = -ENOMEM;
-331f63457165a3 Rob Herring         2019-10-30  436  			goto failed;
-331f63457165a3 Rob Herring         2019-10-30  437  		}
-331f63457165a3 Rob Herring         2019-10-30  438  
-b8397a8f4ebc0b Robin Murphy        2022-05-09  439  		pci_add_resource_offset(ib_resources, res,
-331f63457165a3 Rob Herring         2019-10-30  440  					res->start - range.pci_addr);
-331f63457165a3 Rob Herring         2019-10-30  441  	}
-331f63457165a3 Rob Herring         2019-10-30  442  
-4670d610d59233 Rob Herring         2018-01-17  443  	return 0;
-4670d610d59233 Rob Herring         2018-01-17  444  
-5bd51b35c7cbbc Jan Kiszka          2018-05-15  445  failed:
-4670d610d59233 Rob Herring         2018-01-17  446  	pci_free_resource_list(resources);
-4670d610d59233 Rob Herring         2018-01-17  447  	return err;
-4670d610d59233 Rob Herring         2018-01-17  448  }
-4670d610d59233 Rob Herring         2018-01-17  449  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   63676eefb7a026d04b51dcb7aaf54f358517a2ec
+> commit: 28b3ae426598e722cf5d5ab9cc7038791b955a56 rcu: Introduce CONFIG_RCU_EXP_CPU_STALL_TIMEOUT
+> date:   2 years, 8 months ago
+> config: csky-randconfig-r036-20230303 (https://download.01.org/0day-ci/archive/20250104/202501041430.6u1qEegs-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 12.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041430.6u1qEegs-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501041430.6u1qEegs-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'file' not described in 'binder_ctl_ioctl'
+> >> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'cmd' not described in 'binder_ctl_ioctl'
+> >> drivers/android/binderfs.c:235: warning: Function parameter or struct member 'arg' not described in 'binder_ctl_ioctl'
+>    drivers/android/binderfs.c:235: warning: expecting prototype for binderfs_ctl_ioctl(). Prototype was for binder_ctl_ioctl() instead
+> --
+>    drivers/android/binder.c:233: warning: Function parameter or struct member '_proc' not described in 'binder_proc_unlock'
+>    drivers/android/binder.c:233: warning: Excess function parameter 'proc' description in 'binder_proc_unlock'
+>    drivers/android/binder.c:335: warning: expecting prototype for binder_node_unlock(). Prototype was for binder_node_inner_unlock() instead
+>    drivers/android/binder.c:1155: warning: expecting prototype for binder_dec_ref(). Prototype was for binder_dec_ref_olocked() instead
+> >> drivers/android/binder.c:1819: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
+> >> drivers/android/binder.c:1819: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
+> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
+> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
+> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
+> >> drivers/android/binder.c:2254: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
+> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
+> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
+> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
+> >> drivers/android/binder.c:2274: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
+>    drivers/android/binder.c:2683: warning: Function parameter or struct member 'procp' not described in 'binder_get_node_refs_for_txn'
+>    drivers/android/binder.c:2683: warning: Excess function parameter 'proc' description in 'binder_get_node_refs_for_txn'
+> >> drivers/android/binder.c:3510: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
+> 
+> 
+> vim +235 drivers/android/binderfs.c
+> 
+> 3ad20fe393b310 Christian Brauner 2018-12-14  222  
+> 3ad20fe393b310 Christian Brauner 2018-12-14  223  /**
+> 3ad20fe393b310 Christian Brauner 2018-12-14  224   * binderfs_ctl_ioctl - handle binder device node allocation requests
+> 3ad20fe393b310 Christian Brauner 2018-12-14  225   *
+> 3ad20fe393b310 Christian Brauner 2018-12-14  226   * The request handler for the binder-control device. All requests operate on
+> 3ad20fe393b310 Christian Brauner 2018-12-14  227   * the binderfs mount the binder-control device resides in:
+> 3ad20fe393b310 Christian Brauner 2018-12-14  228   * - BINDER_CTL_ADD
+> 3ad20fe393b310 Christian Brauner 2018-12-14  229   *   Allocate a new binder device.
+> 3ad20fe393b310 Christian Brauner 2018-12-14  230   *
+> 3ad20fe393b310 Christian Brauner 2018-12-14  231   * Return: 0 on success, negative errno on failure
+> 3ad20fe393b310 Christian Brauner 2018-12-14  232   */
+> 3ad20fe393b310 Christian Brauner 2018-12-14  233  static long binder_ctl_ioctl(struct file *file, unsigned int cmd,
+> 3ad20fe393b310 Christian Brauner 2018-12-14  234  			     unsigned long arg)
+> 3ad20fe393b310 Christian Brauner 2018-12-14 @235  {
+> 3ad20fe393b310 Christian Brauner 2018-12-14  236  	int ret = -EINVAL;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  237  	struct inode *inode = file_inode(file);
+> 3ad20fe393b310 Christian Brauner 2018-12-14  238  	struct binderfs_device __user *device = (struct binderfs_device __user *)arg;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  239  	struct binderfs_device device_req;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  240  
+> 3ad20fe393b310 Christian Brauner 2018-12-14  241  	switch (cmd) {
+> 3ad20fe393b310 Christian Brauner 2018-12-14  242  	case BINDER_CTL_ADD:
+> 3ad20fe393b310 Christian Brauner 2018-12-14  243  		ret = copy_from_user(&device_req, device, sizeof(device_req));
+> 3ad20fe393b310 Christian Brauner 2018-12-14  244  		if (ret) {
+> 3ad20fe393b310 Christian Brauner 2018-12-14  245  			ret = -EFAULT;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  246  			break;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  247  		}
+> 3ad20fe393b310 Christian Brauner 2018-12-14  248  
+> 3ad20fe393b310 Christian Brauner 2018-12-14  249  		ret = binderfs_binder_device_create(inode, device, &device_req);
+> 3ad20fe393b310 Christian Brauner 2018-12-14  250  		break;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  251  	default:
+> 3ad20fe393b310 Christian Brauner 2018-12-14  252  		break;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  253  	}
+> 3ad20fe393b310 Christian Brauner 2018-12-14  254  
+> 3ad20fe393b310 Christian Brauner 2018-12-14  255  	return ret;
+> 3ad20fe393b310 Christian Brauner 2018-12-14  256  }
+> 3ad20fe393b310 Christian Brauner 2018-12-14  257  
+> 
+> :::::: The code at line 235 was first introduced by commit
+> :::::: 3ad20fe393b31025bebfc2d76964561f65df48aa binder: implement binderfs
+> 
+> :::::: TO: Christian Brauner <christian@brauner.io>
+> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
