@@ -1,65 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FBA17A5BD
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 08:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59A2184524
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 08:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735979970; cv=none; b=KfQck/9B4TiWXuj38iYe1edf/HsvFWMP11d9zIzP2wlGalKRQufcoO5sRHcO9yStn5ocJQlim68fKMIpGyJoJQCG6KILPQy12kBG600LNbdNHVBph5EHYoOdKfXe0bAwwc3HYbLzXV0B6mZY5dPb35tpU57IMayWBjeIY9d5UC4=
+	t=1735979972; cv=none; b=mhStzlR238fYpzEIiO+lnN5BSTReQFd7x885eqCeNGKxBtx2vCidFhodYZqdl87Yvow4BeoI4x/voD32eqVnEdonyCnOaJgnITpcLKR3bFxtyC/wlhfa0ZyUUXuA8KiikiXm32vbO6Lr9NP+tJMGJD0VyXRXcZPb14NcjSEpA1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735979970; c=relaxed/simple;
-	bh=rmqQdecFejEbhZ/B74PHXS3uLUnT/6Cud/GhwTPE+Is=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i3nh7JpvkiQHXrQrKfcdl4WEpXdB+l3iEQpO0/AaA4/iW8j3L6zgO6Pfz59tDWbZZsbk76A3ToGRSsA1mfryEBT7mPvL99GwvQtPYudKaKyO0UkLCnVJfAVecjMkElVod7xf9p6R3dqTD5ZFPZ3qLm8cQ3Fsvs6ezMZooaKDa6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Og6pbTdh; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1735979972; c=relaxed/simple;
+	bh=kJW4mmfxwYbKzwz7fycwVQidk0kigc5zv/cgoMYeGh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=S06jCBNjSVCQTonsR9efm7iMPo/yti8itK7gB7p+1vGnFQHaTeE8MYz1WBQwlf7R6q65fbBfFNR4eS8vCJ6uVAc0GFIo0g5D9WROMz6JGlgV3BmK3rEmbma64n98qu3BBlyael0TsDTN+3NQmqQGT4ter7lAEPAOxLlbMH+DnBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KdKPiLCI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Og6pbTdh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KdKPiLCI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735979968; x=1767515968;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rmqQdecFejEbhZ/B74PHXS3uLUnT/6Cud/GhwTPE+Is=;
-  b=Og6pbTdh1dmv5CQ77TjK9CaSnYGo/pj1k7Ih58OQG4EDZDW1ymr161QG
-   jEg4X3/bUha1Vw33UB6dNZUXQg0qww/PWEOuHf/xuqULZGtIBuVLphwHA
-   U5Qmyfa+Kp7AEw5FHY+PjW0UBO03OwHpNzbbxBXZQiUHS50eDAZwwXR4w
-   SX++Y7/MjExTr6cF1ZTxQbJV2o7QY+CmwlHyX4qfKUaq6uCk3Smexxxcs
-   LlSiHcMTk+hgTHBsLTQOuHCyNxmH1Asch5pTB/ZtaoGiUNvzB1Rp8gk7L
-   rSMoeCYzWfGezQTiZt2jiu91ablwgUofRK78nMtXSwauaNgSGhZXhTZfd
+  t=1735979971; x=1767515971;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kJW4mmfxwYbKzwz7fycwVQidk0kigc5zv/cgoMYeGh0=;
+  b=KdKPiLCIBJIL23OqbHpJodagkoBNqFEDOE7GFraTrPQo7dFI7N/Whdjr
+   Y6ch/txgtyV70/9VYWBWSMsQoTADRhGqAP+e0+aJywCHjsCd5WX1LBu2A
+   ES/EUd3/UxTZ4pXbROhRTg/D9r9psZkOy6wK8luCifsVmdtG0F2dTfmoq
+   CYZ2dyfzL/h4cB8XgSzY0wNrFxQXcDuDqaSv3Bcu0c7Zy35w1i4B/SMYT
+   ST1aPUyVdVFFhK/xQ67E7eZOQYjFBSqrjykV38TMWD2UAiQ1p9yW3o8wG
+   VEc/tviPstk9jgj5AqZDbIUS46hf9P5mmNgIkqOYbuVfrfcOKQuBzdV0X
    g==;
-X-CSE-ConnectionGUID: NT/M7uciT8K4RVQQ1kQktA==
-X-CSE-MsgGUID: NAoteiS6SuSxU/ozSHHEIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47622209"
+X-CSE-ConnectionGUID: 7Dk1WHOiSIq07cvunzp18g==
+X-CSE-MsgGUID: 26P5/gWvTM2IEfHxW+Clpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47622205"
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="47622209"
+   d="scan'208";a="47622205"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 00:39:20 -0800
-X-CSE-ConnectionGUID: /GWteRrLTjeB5nR8ryUMGg==
-X-CSE-MsgGUID: jQ2yae2jSl6OBZGIwIcqqA==
+X-CSE-ConnectionGUID: kdsOhhIhTm6AangYxAM3jg==
+X-CSE-MsgGUID: CNysNZdxTpiO/EnwUVsXsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
-   d="scan'208";a="102452129"
+   d="scan'208";a="102452130"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 04 Jan 2025 00:39:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTzgi-000Alx-0j;
+	id 1tTzgi-000Am1-0p;
 	Sat, 04 Jan 2025 08:39:16 +0000
-Date: Sat, 4 Jan 2025 16:38:55 +0800
+Date: Sat, 4 Jan 2025 16:38:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guo Weikang <guoweikang.kernel@gmail.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	Guo Weikang <guoweikang.kernel@gmail.com>
-Subject: Re: [PATCH 3/3] mm/memblock: Modify the default failure behavior of
- memblock_alloc_low(from)
-Message-ID: <202501041603.0c8v8Wbr-lkp@intel.com>
-References: <20250103105158.1350689-3-guoweikang.kernel@gmail.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>
+Subject: scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts
+Message-ID: <202501041653.ehAbBy13-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,132 +61,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250103105158.1350689-3-guoweikang.kernel@gmail.com>
 
-Hi Guo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guo-Weikang/mm-memblock-Modify-the-default-failure-behavior-of-memblock_alloc_raw-to-panic/20250103-185401
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250103105158.1350689-3-guoweikang.kernel%40gmail.com
-patch subject: [PATCH 3/3] mm/memblock: Modify the default failure behavior of memblock_alloc_low(from)
-config: sparc-randconfig-001-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041603.0c8v8Wbr-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041603.0c8v8Wbr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   63676eefb7a026d04b51dcb7aaf54f358517a2ec
+commit: 1e860048c53ee77ee9870dcce94847a28544b753 gcc-plugins: simplify GCC plugin-dev capability test
+date:   4 years, 1 month ago
+config: i386-randconfig-002-20240720 (https://download.01.org/0day-ci/archive/20250104/202501041653.ehAbBy13-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041653.ehAbBy13-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501041603.0c8v8Wbr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501041653.ehAbBy13-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/sparc/mm/init_64.c: In function 'arch_hugetlb_valid_size':
-   arch/sparc/mm/init_64.c:361:24: warning: variable 'hv_pgsz_idx' set but not used [-Wunused-but-set-variable]
-     361 |         unsigned short hv_pgsz_idx;
-         |                        ^~~~~~~~~~~
-   arch/sparc/mm/init_64.c: In function 'kernel_map_range':
->> arch/sparc/mm/init_64.c:1788:32: warning: variable 'new' set but not used [-Wunused-but-set-variable]
-    1788 |                         pud_t *new;
-         |                                ^~~
-   arch/sparc/mm/init_64.c: In function 'sun4v_linear_pte_xor_finalize':
-   arch/sparc/mm/init_64.c:2200:23: warning: variable 'pagecv_flag' set but not used [-Wunused-but-set-variable]
-    2200 |         unsigned long pagecv_flag;
-         |                       ^~~~~~~~~~~
-
-
-vim +/new +1788 arch/sparc/mm/init_64.c
-
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1764  
-896aef430e5afb arch/sparc64/mm/init.c  Sam Ravnborg    2008-02-24  1765  static unsigned long __ref kernel_map_range(unsigned long pstart,
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1766  					    unsigned long pend, pgprot_t prot,
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1767  					    bool use_huge)
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1768  {
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1769  	unsigned long vstart = PAGE_OFFSET + pstart;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1770  	unsigned long vend = PAGE_OFFSET + pend;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1771  	unsigned long alloc_bytes = 0UL;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1772  
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1773  	if ((vstart & ~PAGE_MASK) || (vend & ~PAGE_MASK)) {
-13edad7a5cef1c arch/sparc64/mm/init.c  David S. Miller 2005-09-29  1774  		prom_printf("kernel_map: Unaligned physmem[%lx:%lx]\n",
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1775  			    vstart, vend);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1776  		prom_halt();
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1777  	}
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1778  
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1779  	while (vstart < vend) {
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1780  		unsigned long this_end, paddr = __pa(vstart);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1781  		pgd_t *pgd = pgd_offset_k(vstart);
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1782  		p4d_t *p4d;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1783  		pud_t *pud;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1784  		pmd_t *pmd;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1785  		pte_t *pte;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1786  
-ac55c768143aa3 arch/sparc/mm/init_64.c David S. Miller 2014-09-26  1787  		if (pgd_none(*pgd)) {
-ac55c768143aa3 arch/sparc/mm/init_64.c David S. Miller 2014-09-26 @1788  			pud_t *new;
-ac55c768143aa3 arch/sparc/mm/init_64.c David S. Miller 2014-09-26  1789  
-4fc4a09e4cc112 arch/sparc/mm/init_64.c Mike Rapoport   2018-10-30  1790  			new = memblock_alloc_from(PAGE_SIZE, PAGE_SIZE,
-4fc4a09e4cc112 arch/sparc/mm/init_64.c Mike Rapoport   2018-10-30  1791  						  PAGE_SIZE);
-ac55c768143aa3 arch/sparc/mm/init_64.c David S. Miller 2014-09-26  1792  			alloc_bytes += PAGE_SIZE;
-ac55c768143aa3 arch/sparc/mm/init_64.c David S. Miller 2014-09-26  1793  			pgd_populate(&init_mm, pgd, new);
-ac55c768143aa3 arch/sparc/mm/init_64.c David S. Miller 2014-09-26  1794  		}
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1795  
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1796  		p4d = p4d_offset(pgd, vstart);
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1797  		if (p4d_none(*p4d)) {
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1798  			pud_t *new;
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1799  
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1800  			new = memblock_alloc_from(PAGE_SIZE, PAGE_SIZE,
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1801  						  PAGE_SIZE);
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1802  			alloc_bytes += PAGE_SIZE;
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1803  			p4d_populate(&init_mm, p4d, new);
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1804  		}
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1805  
-5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport   2019-11-24  1806  		pud = pud_offset(p4d, vstart);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1807  		if (pud_none(*pud)) {
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1808  			pmd_t *new;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1809  
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1810  			if (kernel_can_map_hugepud(vstart, vend, use_huge)) {
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1811  				vstart = kernel_map_hugepud(vstart, vend, pud);
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1812  				continue;
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1813  			}
-4fc4a09e4cc112 arch/sparc/mm/init_64.c Mike Rapoport   2018-10-30  1814  			new = memblock_alloc_from(PAGE_SIZE, PAGE_SIZE,
-4fc4a09e4cc112 arch/sparc/mm/init_64.c Mike Rapoport   2018-10-30  1815  						  PAGE_SIZE);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1816  			alloc_bytes += PAGE_SIZE;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1817  			pud_populate(&init_mm, pud, new);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1818  		}
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1819  
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1820  		pmd = pmd_offset(pud, vstart);
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1821  		if (pmd_none(*pmd)) {
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1822  			pte_t *new;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1823  
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1824  			if (kernel_can_map_hugepmd(vstart, vend, use_huge)) {
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1825  				vstart = kernel_map_hugepmd(vstart, vend, pmd);
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1826  				continue;
-0dd5b7b09e13da arch/sparc/mm/init_64.c David S. Miller 2014-09-24  1827  			}
-4fc4a09e4cc112 arch/sparc/mm/init_64.c Mike Rapoport   2018-10-30  1828  			new = memblock_alloc_from(PAGE_SIZE, PAGE_SIZE,
-4fc4a09e4cc112 arch/sparc/mm/init_64.c Mike Rapoport   2018-10-30  1829  						  PAGE_SIZE);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1830  			alloc_bytes += PAGE_SIZE;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1831  			pmd_populate_kernel(&init_mm, pmd, new);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1832  		}
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1833  
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1834  		pte = pte_offset_kernel(pmd, vstart);
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1835  		this_end = (vstart + PMD_SIZE) & PMD_MASK;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1836  		if (this_end > vend)
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1837  			this_end = vend;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1838  
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1839  		while (vstart < this_end) {
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1840  			pte_val(*pte) = (paddr | pgprot_val(prot));
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1841  
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1842  			vstart += PAGE_SIZE;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1843  			paddr += PAGE_SIZE;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1844  			pte++;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1845  		}
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1846  	}
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1847  
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1848  	return alloc_bytes;
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1849  }
-56425306517ef2 arch/sparc64/mm/init.c  David S. Miller 2005-09-25  1850  
+>> scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+>> scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+--
+>> scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+>> scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   scripts/extract-cert.c: In function 'display_openssl_errors':
+   scripts/extract-cert.c:46:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+      46 |         while ((e = ERR_get_error_line(&file, &line))) {
+         |         ^~~~~
+   In file included from scripts/extract-cert.c:23:
+   /usr/include/openssl/err.h:423:15: note: declared here
+     423 | unsigned long ERR_get_error_line(const char **file, int *line);
+         |               ^~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c: In function 'drain_openssl_errors':
+   scripts/extract-cert.c:59:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+      59 |         while (ERR_get_error_line(&file, &line)) {}
+         |         ^~~~~
+   /usr/include/openssl/err.h:423:15: note: declared here
+     423 | unsigned long ERR_get_error_line(const char **file, int *line);
+         |               ^~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c: In function 'main':
+   scripts/extract-cert.c:124:17: warning: 'ENGINE_load_builtin_engines' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     124 |                 ENGINE_load_builtin_engines();
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from scripts/extract-cert.c:24:
+   /usr/include/openssl/engine.h:358:28: note: declared here
+     358 | OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c:126:17: warning: 'ENGINE_by_id' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     126 |                 e = ENGINE_by_id("pkcs11");
+         |                 ^
+   /usr/include/openssl/engine.h:336:31: note: declared here
+     336 | OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
+         |                               ^~~~~~~~~~~~
+   scripts/extract-cert.c:128:17: warning: 'ENGINE_init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     128 |                 if (ENGINE_init(e))
+         |                 ^~
+   /usr/include/openssl/engine.h:620:27: note: declared here
+     620 | OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
+         |                           ^~~~~~~~~~~
+   scripts/extract-cert.c:133:25: warning: 'ENGINE_ctrl_cmd_string' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     133 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
+         |                         ^~~
+   /usr/include/openssl/engine.h:479:5: note: declared here
+     479 | int ENGINE_ctrl_cmd_string(ENGINE *e, const char *cmd_name, const char *arg,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c:134:17: warning: 'ENGINE_ctrl_cmd' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     134 |                 ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
+         |                 ^~~~~~~~~~~~~~~
+   /usr/include/openssl/engine.h:450:27: note: declared here
+     450 | OSSL_DEPRECATEDIN_3_0 int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
+         |                           ^~~~~~~~~~~~~~~
+   scripts/sign-file.c: In function 'display_openssl_errors':
+   scripts/sign-file.c:89:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+      89 |         while ((e = ERR_get_error_line(&file, &line))) {
+         |         ^~~~~
+   In file included from scripts/sign-file.c:29:
+   /usr/include/openssl/err.h:423:15: note: declared here
+     423 | unsigned long ERR_get_error_line(const char **file, int *line);
+         |               ^~~~~~~~~~~~~~~~~~
+   scripts/sign-file.c: In function 'drain_openssl_errors':
+   scripts/sign-file.c:102:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     102 |         while (ERR_get_error_line(&file, &line)) {}
+         |         ^~~~~
+   /usr/include/openssl/err.h:423:15: note: declared here
+     423 | unsigned long ERR_get_error_line(const char **file, int *line);
+         |               ^~~~~~~~~~~~~~~~~~
+   scripts/sign-file.c: In function 'read_private_key':
+   scripts/sign-file.c:142:17: warning: 'ENGINE_load_builtin_engines' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     142 |                 ENGINE_load_builtin_engines();
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from scripts/sign-file.c:30:
+   /usr/include/openssl/engine.h:358:28: note: declared here
+     358 | OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   scripts/sign-file.c:144:17: warning: 'ENGINE_by_id' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     144 |                 e = ENGINE_by_id("pkcs11");
+         |                 ^
+   /usr/include/openssl/engine.h:336:31: note: declared here
+     336 | OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
+         |                               ^~~~~~~~~~~~
+   scripts/sign-file.c:146:17: warning: 'ENGINE_init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     146 |                 if (ENGINE_init(e))
+         |                 ^~
+   /usr/include/openssl/engine.h:620:27: note: declared here
+     620 | OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
+         |                           ^~~~~~~~~~~
+   scripts/sign-file.c:151:25: warning: 'ENGINE_ctrl_cmd_string' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     151 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0),
+         |                         ^~~
+   /usr/include/openssl/engine.h:479:5: note: declared here
+     479 | int ENGINE_ctrl_cmd_string(ENGINE *e, const char *cmd_name, const char *arg,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   scripts/sign-file.c:153:17: warning: 'ENGINE_load_private_key' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     153 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+         |                 ^~~~~~~~~~~
+   /usr/include/openssl/engine.h:638:11: note: declared here
+     638 | EVP_PKEY *ENGINE_load_private_key(ENGINE *e, const char *key_id,
+         |           ^~~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
