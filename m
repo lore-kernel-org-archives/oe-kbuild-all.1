@@ -1,176 +1,160 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10D71E507
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jan 2025 10:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82781865E9;
+	Sat,  4 Jan 2025 10:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735986215; cv=none; b=tnsRGEZnrLGtVfFZPcUYlhsCR4UKpCNzs5pUqtVdCo4PiSvgki5gQE7nZxkroXLd3AenWo2ag9L3ATU4BLNbX8Iyfx6ACXuIa8xL1dMXhRvM63U3O+vM8yPjSL7HtawaB84Z9pi9sGstiAEAa6JvdPTutRnW6juUwRmQ5qzhxL4=
+	t=1735987054; cv=none; b=Joa+ePUO4oA3Y8ktyPIA1CbF63+18j2tVzl4w6emkkZXV6ujvsLHvj2HfziWo/C/C5kDwUVqtSossZKu3VEg5PaQO+tIDbPAkcOO8bKlBJPwNV9lyP9UKqozRxlNVY27sABmXTIOgLdebmuODUuH7CY/rfJXPy0TJfl/XrA99O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735986215; c=relaxed/simple;
-	bh=Fdf1rjpjA6sxjXaV2e0oeC/d7EbPbdaM3pY/SSgVVFI=;
+	s=arc-20240116; t=1735987054; c=relaxed/simple;
+	bh=bjPDqVZBaZJzcmurYGsIsen5k1kKSiXYFmFIjS5sDFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WwOsukl0DGjV9WmNjXoAUPjyGxOvWFKWvKfNnPFbKsOOHablzgqMQrmuEbMdFs/Ny/SiHD4+rNQDzRwPHy3dG/t4rzy5VcAC9hxjxZUwrHAKfsBGhoXR4jNrvUWaN4ThCq4eGbWH/5/SbkDTeR8NsHBweC+w9fF/DP/nu/tg+kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B8rhXnUq; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ODbvLVgJjTKfMuYFCt0N5paTyt7Qb9lZnXOYpi7zujFM9is/16Y97IelY+UlGUzdTwOA1dDcUzxoQJfHkzsOoVNy/zke3VW5XZ41v5e8mD5n0Yt8V547Bc/kredWKWJBI8W3Pf2mKiAF9MMD9uzxmrmpn0GZd/+6Fk2vTHvbtvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ht0sr0tp; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B8rhXnUq"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21644aca3a0so109343145ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Jan 2025 02:23:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735986213; x=1736591013; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=d7WWzM81eH7w8ivFPUo0nbOJxsERMoQeN/4oy/OiqOM=;
-        b=B8rhXnUqhuKmIuHx+bwsHldLInzFA9ISWqt+EzYU+Ia+4bbZzsEwnCsYQiGAhrsC9Q
-         z0fapQXodNAZgBS3kNej01ja4LPiP3bDyYu0UoEwG69coLRR6DeP+VI24YuHkKJjzMKP
-         uuvprGjSj1m7XX0eLhHRTIqW39lHoYn3h+T/kImEHK39eVq1HiVZX7Us2lgV/snPM6oG
-         6Of2Eb99V3WS1/5XIWHCOfoEsQY1gAzM2Celqf7YGb3VcDCKuayhCPE2nFU9Ky0OJZbH
-         kL42O6QjSy2pckuGmCmXFqu8zRplWxYyalxu/vAyVsY6lZreeSDG0xQ6yNgrl324AmFj
-         azMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735986213; x=1736591013;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d7WWzM81eH7w8ivFPUo0nbOJxsERMoQeN/4oy/OiqOM=;
-        b=kZvb49me2fAo4fTomDWLiHioHGrsrF7iMsSlHCV+rznybbfY1C8ug0unYGLJaQdncL
-         aBun0dG8olqVL/Bg3kVu1MkrttXVXJffBq4mLY0OBQRRWeKRV0JcSv1HRbaEm8lBx9ry
-         trXBd+uA4AH841FJkEyAiWzho2hecCNvo/wmB4RwxAas6Pv6KozpLwOKX4Wo35T3amr4
-         DpySMWqEzrRqgRQKLQ47UjjbKxbbJaxwySSP6Rh352LUg6hs47ZoHXQV9ylbNplZcQsV
-         As/zfJ2qjttIKTcd9xe/SVWL5K3ZplZNpBPupQc+zpW+F0+3JL/eppQESbU8yX7dRtAA
-         fMoA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVtLB2QsfFsS3aHy9jMC5hYK0Dkpwq84EGLrXbihjkCYiV8nfTcDAi3bSA5PfXcU/ZdrgJ7zkEUdkuJrNK@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywg4d9N4sZVdYUN6pCFBcFU7Zu2zvwV2UXeepn4aPgnrfswlSD0
-	h/JF2x8yJRdF4TSs4lTu1anPhrpHxSQVgjEGQKYqaknf/879L1tw9lw3lNDvNw==
-X-Gm-Gg: ASbGnctObhB5Ob5mZaBZswNK5XDe0hdY+FZct34ppgtwA9CX4s0ukFjVoEhN27oiyv1
-	NXt42e5nszBCJMCKDoAstqMekRHDNMcsi4ZJi4ibMytwAu7G2Hr1wJIzU06eZyrNGLnic1i/6Kw
-	3WtqNQg22IHduaTlZSOLBDNWlMIye3o6L165bNbyVFnoRULg8HdecYeown7Hg0uRgHUr/7YaaSm
-	9tkgZU7tfN3OgIy12ohGtvlzWyjYPPXoSyyDDdu3sjH0/oFo4Z9QtHvn50P6u/d1VE=
-X-Google-Smtp-Source: AGHT+IGcYitKOORgbvygOZzt0NgzHQbBY9dbcSLI15yYAQJ/pt0tykyK+M3h+WkGeOApZbx9WoujYg==
-X-Received: by 2002:a17:903:320a:b0:216:6901:d599 with SMTP id d9443c01a7336-219e6e9e86emr788176895ad.13.1735986213063;
-        Sat, 04 Jan 2025 02:23:33 -0800 (PST)
-Received: from thinkpad ([36.255.17.199])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc962bfasm258736595ad.2.2025.01.04.02.23.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 02:23:32 -0800 (PST)
-Date: Sat, 4 Jan 2025 15:53:27 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Qiang Yu <quic_qianyu@quicinc.com>
-Subject: Re: [PATCH v2 6/6] PCI/pwrctrl: Add pwrctrl driver for PCI Slots
-Message-ID: <20250104102327.fxswvs3dvsixbsh3@thinkpad>
-References: <20241231-pci-pwrctrl-slot-v2-6-6a15088ba541@linaro.org>
- <202501020407.HmQQQKa0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ht0sr0tp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735987053; x=1767523053;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bjPDqVZBaZJzcmurYGsIsen5k1kKSiXYFmFIjS5sDFE=;
+  b=Ht0sr0tp1MDRiBjPd7Ava+XaGvL/mjDZBfcZ11hlsZKVzJFJdNm1pPrJ
+   jMRFG0xYFMwH8RMDyvSAnoZOCcHxXTj0MhGZ884aVKyCdSc9o/sHqu/0J
+   lT6nQMqpSNdsoX5E4ty2C7eB/15HOP7ACYNthS6874JERGvtetJQAAR04
+   TYPUWbrl5061rnLQkgI/THCjTfxbnffSItuw/5vyxk90VpPUrilYQVhky
+   JnY+wu25Q3oApqsoJCWGUxlHKfwSruCN/+7ZXf9UJFtqBcoYDdBCj6bWV
+   YDQiAoeiRn92Yjv/miJnh1Z0k48SMyP/OvceZBbL7NFDVOyAorNhy5poR
+   w==;
+X-CSE-ConnectionGUID: eCpnGb8oT42DrrW4EVUPkg==
+X-CSE-MsgGUID: 2P2hXO4dRWO+hDhOAbHuag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="46790724"
+X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
+   d="scan'208";a="46790724"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 02:37:32 -0800
+X-CSE-ConnectionGUID: giedkJldRWmQ+Hfh73aEnQ==
+X-CSE-MsgGUID: 4YzrNCnhQRe/rf1ByjSbCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="132911756"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Jan 2025 02:37:28 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tU1X3-000Apb-2E;
+	Sat, 04 Jan 2025 10:37:25 +0000
+Date: Sat, 4 Jan 2025 18:37:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shree Ramamoorthy <s-ramamoorthy@ti.com>, lgirdwood@gmail.com,
+	broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, aaro.koskinen@iki.fi, andreas@kemnade.info,
+	khilman@baylibre.com, rogerq@kernel.org, tony@atomide.com,
+	jerome.neanne@baylibre.com, linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, m-leonard@ti.com,
+	praneeth@ti.com, christophe.jaillet@wanadoo.fr
+Subject: Re: [PATCH v2 2/7] regulator: tps65215: Update function & struct
+ names
+Message-ID: <202501041857.Nm1l2pdj-lkp@intel.com>
+References: <20250103230446.197597-3-s-ramamoorthy@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202501020407.HmQQQKa0-lkp@intel.com>
+In-Reply-To: <20250103230446.197597-3-s-ramamoorthy@ti.com>
 
-On Thu, Jan 02, 2025 at 04:56:44AM +0800, kernel test robot wrote:
-> Hi Manivannan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/regulator-Guard-of_regulator_bulk_get_all-with-CONFIG_OF/20241231-174751
-> base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-> patch link:    https://lore.kernel.org/r/20241231-pci-pwrctrl-slot-v2-6-6a15088ba541%40linaro.org
-> patch subject: [PATCH v2 6/6] PCI/pwrctrl: Add pwrctrl driver for PCI Slots
-> config: x86_64-randconfig-074-20250102 (https://download.01.org/0day-ci/archive/20250102/202501020407.HmQQQKa0-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020407.HmQQQKa0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501020407.HmQQQKa0-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/pci/pwrctrl/slot.c: In function 'pci_pwrctrl_slot_probe':
-> >> drivers/pci/pwrctrl/slot.c:39:15: error: implicit declaration of function 'of_regulator_bulk_get_all'; did you mean 'regulator_bulk_get'? [-Werror=implicit-function-declaration]
->       39 |         ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
->          |               ^~~~~~~~~~~~~~~~~~~~~~~~~
->          |               regulator_bulk_get
+Hi Shree,
 
-Sigh! The driver was built with !CONFIG_REGULATOR. This requires fixing
-'include/linux/regulator/consumer.h'. Will add it in next iteration.
+kernel test robot noticed the following build errors:
 
-- Mani
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on next-20241220]
+[cannot apply to robh/for-next tmlind-omap/for-next linus/master v6.13-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +39 drivers/pci/pwrctrl/slot.c
-> 
->     28	
->     29	static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
->     30	{
->     31		struct pci_pwrctrl_slot_data *slot;
->     32		struct device *dev = &pdev->dev;
->     33		int ret;
->     34	
->     35		slot = devm_kzalloc(dev, sizeof(*slot), GFP_KERNEL);
->     36		if (!slot)
->     37			return -ENOMEM;
->     38	
->   > 39		ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
->     40						&slot->supplies);
->     41		if (ret < 0) {
->     42			dev_err_probe(dev, ret, "Failed to get slot regulators\n");
->     43			return ret;
->     44		}
->     45	
->     46		slot->num_supplies = ret;
->     47		ret = regulator_bulk_enable(slot->num_supplies, slot->supplies);
->     48		if (ret < 0) {
->     49			dev_err_probe(dev, ret, "Failed to enable slot regulators\n");
->     50			goto err_regulator_free;
->     51		}
->     52	
->     53		ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_slot_power_off,
->     54					       slot);
->     55		if (ret)
->     56			goto err_regulator_disable;
->     57	
->     58		pci_pwrctrl_init(&slot->ctx, dev);
->     59	
->     60		ret = devm_pci_pwrctrl_device_set_ready(dev, &slot->ctx);
->     61		if (ret)
->     62			return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
->     63	
->     64		return 0;
->     65	
->     66	err_regulator_disable:
->     67		regulator_bulk_disable(slot->num_supplies, slot->supplies);
->     68	err_regulator_free:
->     69		regulator_bulk_free(slot->num_supplies, slot->supplies);
->     70	
->     71		return ret;
->     72	}
->     73	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Shree-Ramamoorthy/regulator-dt-bindings-Add-TI-TPS65215-PMIC-bindings/20250104-070914
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250103230446.197597-3-s-ramamoorthy%40ti.com
+patch subject: [PATCH v2 2/7] regulator: tps65215: Update function & struct names
+config: i386-buildonly-randconfig-001-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041857.Nm1l2pdj-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041857.Nm1l2pdj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501041857.Nm1l2pdj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/regulator/tps65219-regulator.c:21:
+   In file included from include/linux/regulator/driver.h:18:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/regulator/tps65219-regulator.c:261:37: error: use of undeclared identifier 'TPS65215_LDO_2'; did you mean 'TPS65219_LDO_2'?
+     261 |         TPS65219_REGULATOR("LDO2", "ldo2", TPS65215_LDO_2,
+         |                                            ^~~~~~~~~~~~~~
+         |                                            TPS65219_LDO_2
+   drivers/regulator/tps65219-regulator.c:99:11: note: expanded from macro 'TPS65219_REGULATOR'
+      99 |                 .id                     = _id,                          \
+         |                                           ^
+   include/linux/mfd/tps65219.h:302:2: note: 'TPS65219_LDO_2' declared here
+     302 |         TPS65219_LDO_2,
+         |         ^
+>> drivers/regulator/tps65219-regulator.c:263:7: error: use of undeclared identifier 'TPS65215_REG_LDO2_VOUT'
+     263 |                            TPS65215_REG_LDO2_VOUT,
+         |                            ^
+>> drivers/regulator/tps65219-regulator.c:266:7: error: use of undeclared identifier 'TPS65215_ENABLE_LDO2_EN_MASK'
+     266 |                            TPS65215_ENABLE_LDO2_EN_MASK, 0, 0, tps65215_ldo_2_range,
+         |                            ^
+>> drivers/regulator/tps65219-regulator.c:263:7: error: use of undeclared identifier 'TPS65215_REG_LDO2_VOUT'
+     263 |                            TPS65215_REG_LDO2_VOUT,
+         |                            ^
+   drivers/regulator/tps65219-regulator.c:328:29: error: use of undeclared identifier 'regulators'
+     328 |         for (i = 0; i < ARRAY_SIZE(regulators); i++) {
+         |                                    ^
+   drivers/regulator/tps65219-regulator.c:328:29: error: use of undeclared identifier 'regulators'
+   drivers/regulator/tps65219-regulator.c:328:29: error: use of undeclared identifier 'regulators'
+   drivers/regulator/tps65219-regulator.c:329:47: error: use of undeclared identifier 'regulators'
+     329 |                 rdev = devm_regulator_register(&pdev->dev, &regulators[i],
+         |                                                             ^
+   drivers/regulator/tps65219-regulator.c:334:6: error: use of undeclared identifier 'regulators'
+     334 |                                         regulators[i].name);
+         |                                         ^
+   1 warning and 9 errors generated.
+
+
+vim +261 drivers/regulator/tps65219-regulator.c
+
+   258	
+   259	static const struct regulator_desc tps65215_regs[] = {
+   260		// TPS65215's LDO2 is the same as TPS65219's LDO3
+ > 261		TPS65219_REGULATOR("LDO2", "ldo2", TPS65215_LDO_2,
+   262				   REGULATOR_VOLTAGE, ldos_3_4_ops, 64,
+ > 263				   TPS65215_REG_LDO2_VOUT,
+   264				   TPS65219_BUCKS_LDOS_VOUT_VSET_MASK,
+   265				   TPS65219_REG_ENABLE_CTRL,
+ > 266				   TPS65215_ENABLE_LDO2_EN_MASK, 0, 0, tps65215_ldo_2_range,
+   267				   3, 0, 0, NULL, 0, 0),
+   268	};
+   269	
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
