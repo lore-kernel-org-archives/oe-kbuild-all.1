@@ -1,286 +1,301 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B95980027
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 03:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EBA171BB;
+	Sun,  5 Jan 2025 03:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736046298; cv=none; b=ALt5hANzgT6pF4R4Dchaay+arzE8NmPfRgDOitb5+nfllR+SV9Z5+5jQQxVLF8OOglqTqqOcQr1MxN8M1DUqV6LXpzjjPVC924PQePSlB8VfF3d2Bejtwnwpg078qmGaz8JM45oX7M2V/CF7Vjqu9cWN8PPesR7mjfZ6YhHtJ0c=
+	t=1736048822; cv=none; b=IiRsG9ZynhbsqYtkOhW/cSYZYdRSIWxiHgtnWjjR5cWAmNBibrXAiTVgOOBQBnZIX8BllflMsv1LOPCadp2isA6l6gY3qjLjGyO5OiTbPTJ/0cwkSYtQXGyJGDG0zQZV7hkXTf6C/3GkTdfmWss8bRfsDqSilAK5b2E/LainxSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736046298; c=relaxed/simple;
-	bh=BNw9zK6inKSikVLGcAzuO8/e24ExHeKqGeEp/CR8PnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H+gKTvRUyXNHL6XtulHZ9WIO2FsorUyNvsr2+GJOSTfJvfQ7W/qkdKp+GfYEwpSYvz9FmcGBFtWLIAWNXU753m7yzEckLYCUvJzRGvoZC5dAjFLzEuJIm5rL+OM1vFgi1IPhyPADoGn/M4SdsKn1TmMFJfivUOi0qoc4iIHFs4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CnBxO3pN; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1736048822; c=relaxed/simple;
+	bh=+TeqafMl/OM0XNFNBDiF5WzqQgtdIZlMjUCeGoc3yKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bo8z6cN3lAS6tHvDRJsxjAmBMPotp4qaNqX8aJCUwHdNjIQE/7gh96CGQvawXesh7XiyCguc+LyLY49hu65gKTxmvGmGHj2KwCgVnmEWeLcSWdeRh2UNrTopMm3uZd7S542kKbKVHs1aRv5ZzIiOnKM8+XSII883kXEHe1JYtMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAp1Lb2X; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CnBxO3pN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAp1Lb2X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736046296; x=1767582296;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BNw9zK6inKSikVLGcAzuO8/e24ExHeKqGeEp/CR8PnA=;
-  b=CnBxO3pNoUsV7SkOQUafxUkxvlylYsHMThE2oO7oMY35Qn8tRVdjSus6
-   GgrqFKTXfW8W4EBpqP6Rc48iyN1ECbc5dAR+55VMM2IvppVKUWWai3tuH
-   /WUqr0R0CTcTiePQUhNuK9o5C/ScFWKL2DxXYP4czKjvm9bgBXjhLCDD6
-   lJ1fgj5g9bQDB9yqMTPVhWQUTxnWK2SQ+66rVLkyCHrhRagvV17DIV3SH
-   rBLvRyErYmOnXxmtCWpI7WOe38kvJPb6SAqyg3HuMhWyQ0QR5kvRZR/S0
-   UjGJHgMG3etY9PiXF87g96K+LgpX4Xqw9+iCyhekvZefZUMhvHyTySppt
+  t=1736048821; x=1767584821;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+TeqafMl/OM0XNFNBDiF5WzqQgtdIZlMjUCeGoc3yKY=;
+  b=AAp1Lb2XweP5z8YujgS2AWrXx8TZr80D4wUZS6Sjzv+E4fvMNwY/2K9x
+   0XVeuzUxsD2WGlshNihGHDubMOi3vYWxw1fYmrWN/v39RnWgcvq8J5T8D
+   mn1i2Syvdx7iaNX94sxIp7EfbTLq1JSuRmpMHHKoNkQh8Hp43wjB/Ys1Z
+   gkQnX7hDNadQFbuw7PhMwANu2RCky4kZBlaFfpos6zUc9ftZGPf2716+Q
+   hxea37RFVwSGJR4FXh3KbHtv9kMFGaEWN38qxhAP/vyEAS2DKOevfw3U3
+   j80q1TR0tdaniFUAVJ9PandvEZ8bzbo/UkQvky1SGGV0sA7Upg27/D7PN
    w==;
-X-CSE-ConnectionGUID: mYluvowYQ8yucZ2SxdZFkw==
-X-CSE-MsgGUID: wr1DdWQJTTyMoHj5ALlXzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11305"; a="46732137"
+X-CSE-ConnectionGUID: mdj+waXCQ3uo0BJP1MrH0A==
+X-CSE-MsgGUID: 1pupeL6VQlyZG17a7hIg9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11305"; a="36251400"
 X-IronPort-AV: E=Sophos;i="6.12,289,1728975600"; 
-   d="scan'208";a="46732137"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 19:04:55 -0800
-X-CSE-ConnectionGUID: Me2NV59QQ+CrnVCKXZ0ElQ==
-X-CSE-MsgGUID: L808XPXkQPS9oV0jut62ug==
+   d="scan'208";a="36251400"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2025 19:47:00 -0800
+X-CSE-ConnectionGUID: IXhOI71kShmz1X9SqvYL/A==
+X-CSE-MsgGUID: SmwLknrpQiOVFgTmw+F3gA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,289,1728975600"; 
-   d="scan'208";a="102588796"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101971665"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Jan 2025 19:04:53 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Jan 2025 19:46:57 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUGwd-000BQ3-1m;
-	Sun, 05 Jan 2025 03:04:51 +0000
-Date: Sun, 5 Jan 2025 11:04:04 +0800
+	id 1tUHbK-000BQh-2M;
+	Sun, 05 Jan 2025 03:46:54 +0000
+Date: Sun, 5 Jan 2025 11:45:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>
-Subject: drivers/mtd/mtdpart.c:999:34: warning: '%s' directive argument is
- null
-Message-ID: <202501051058.uM0FMNXL-lkp@intel.com>
+To: Haren Myneni <haren@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	msuchanek@suse.de, mahesh@linux.ibm.com, tyreld@linux.ibm.com,
+	hbabu@us.ibm.com, haren@linux.ibm.com
+Subject: Re: [PATCH 3/6] powerpc/pseries: Add papr-indices char driver for
+ ibm,get-indices HCALL
+Message-ID: <202501051117.D90y1VNS-lkp@intel.com>
+References: <20250104204652.388720-4-haren@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250104204652.388720-4-haren@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ab75170520d4964f3acf8bb1f91d34cbc650688e
-commit: 37686b1353cfc30e127cef811959cdbcd0495d98 tracing: Improve "if" macro code generation
-date:   6 years ago
-config: powerpc-randconfig-r011-20220404 (https://download.01.org/0day-ci/archive/20250105/202501051058.uM0FMNXL-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501051058.uM0FMNXL-lkp@intel.com/reproduce)
+Hi Haren,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes linus/master v6.13-rc5 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-common-functions-for-RTAS-sequence-HCALLs/20250105-045010
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20250104204652.388720-4-haren%40linux.ibm.com
+patch subject: [PATCH 3/6] powerpc/pseries: Add papr-indices char driver for ibm,get-indices HCALL
+config: powerpc64-randconfig-002-20250105 (https://download.01.org/0day-ci/archive/20250105/202501051117.D90y1VNS-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501051117.D90y1VNS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501051058.uM0FMNXL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501051117.D90y1VNS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:472:9: note: in expansion of macro 'unlikely'
-     472 |         unlikely(branch);                                                       \
-         |         ^~~~~~~~
-   include/linux/dynamic_debug.h:98:9: note: in expansion of macro 'static_branch_unlikely'
-      98 |         static_branch_unlikely(&descriptor.key.dd_key_false)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:117:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
-     117 |         if (DYNAMIC_DEBUG_BRANCH(id))                   \
-         |             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:136:9: note: in expansion of macro '__dynamic_func_call'
-     136 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:146:9: note: in expansion of macro '_dynamic_func_call'
-     146 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:334:9: note: in expansion of macro 'dynamic_pr_debug'
-     334 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:994:25: note: in expansion of macro 'pr_debug'
-     994 |                         pr_debug("%s: parsing partitions %s\n", master->name,
-         |                         ^~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/linux/dynamic_debug.h:117:9: note: in expansion of macro 'if'
-     117 |         if (DYNAMIC_DEBUG_BRANCH(id))                   \
-         |         ^~
-   include/linux/dynamic_debug.h:136:9: note: in expansion of macro '__dynamic_func_call'
-     136 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:146:9: note: in expansion of macro '_dynamic_func_call'
-     146 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:334:9: note: in expansion of macro 'dynamic_pr_debug'
-     334 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:994:25: note: in expansion of macro 'pr_debug'
-     994 |                         pr_debug("%s: parsing partitions %s\n", master->name,
-         |                         ^~~~~~~~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("\"_ftrace_annotated_branch\"")' because it conflicts with previous 'section ("\"_ftrace_branch\"")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   include/linux/dynamic_debug.h:117:9: note: in expansion of macro 'if'
-     117 |         if (DYNAMIC_DEBUG_BRANCH(id))                   \
-         |         ^~
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:472:9: note: in expansion of macro 'unlikely'
-     472 |         unlikely(branch);                                                       \
-         |         ^~~~~~~~
-   include/linux/dynamic_debug.h:98:9: note: in expansion of macro 'static_branch_unlikely'
-      98 |         static_branch_unlikely(&descriptor.key.dd_key_false)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:117:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
-     117 |         if (DYNAMIC_DEBUG_BRANCH(id))                   \
-         |             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:136:9: note: in expansion of macro '__dynamic_func_call'
-     136 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:146:9: note: in expansion of macro '_dynamic_func_call'
-     146 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:334:9: note: in expansion of macro 'dynamic_pr_debug'
-     334 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:999:25: note: in expansion of macro 'pr_debug'
-     999 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                         ^~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/linux/dynamic_debug.h:117:9: note: in expansion of macro 'if'
-     117 |         if (DYNAMIC_DEBUG_BRANCH(id))                   \
-         |         ^~
-   include/linux/dynamic_debug.h:136:9: note: in expansion of macro '__dynamic_func_call'
-     136 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:146:9: note: in expansion of macro '_dynamic_func_call'
-     146 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:334:9: note: in expansion of macro 'dynamic_pr_debug'
-     334 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:999:25: note: in expansion of macro 'pr_debug'
-     999 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                         ^~~~~~~~
-   In file included from include/linux/kernel.h:15:
->> drivers/mtd/mtdpart.c:999:34: warning: '%s' directive argument is null [-Wformat-overflow=]
-     999 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:286:21: note: in definition of macro 'pr_fmt'
-     286 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:136:9: note: in expansion of macro '__dynamic_func_call'
-     136 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:146:9: note: in expansion of macro '_dynamic_func_call'
-     146 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:334:9: note: in expansion of macro 'dynamic_pr_debug'
-     334 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:999:25: note: in expansion of macro 'pr_debug'
-     999 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                         ^~~~~~~~
-   drivers/mtd/mtdpart.c:999:50: note: format string is defined here
-     999 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                                                  ^~
+>> arch/powerpc/platforms/pseries/papr-indices.c:45: warning: expecting prototype for struct rtas_ibm_get_indices_params. Prototype was for struct rtas_get_indices_params instead
+>> arch/powerpc/platforms/pseries/papr-indices.c:210: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Work function to be passed to papr_rtas_blob_generate().
+>> arch/powerpc/platforms/pseries/papr-indices.c:247: warning: Function parameter or struct member 'file' not described in 'papr_indices_handle_read'
+>> arch/powerpc/platforms/pseries/papr-indices.c:247: warning: Function parameter or struct member 'buf' not described in 'papr_indices_handle_read'
+>> arch/powerpc/platforms/pseries/papr-indices.c:247: warning: Function parameter or struct member 'size' not described in 'papr_indices_handle_read'
+>> arch/powerpc/platforms/pseries/papr-indices.c:247: warning: Function parameter or struct member 'off' not described in 'papr_indices_handle_read'
 
 
-vim +999 drivers/mtd/mtdpart.c
+vim +45 arch/powerpc/platforms/pseries/papr-indices.c
 
-5b644aa012f67f Rafał Miłecki           2018-03-14   955  
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   956  /**
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   957   * parse_mtd_partitions - parse and register MTD partitions
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   958   *
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   959   * @master: the master partition (describes whole MTD device)
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   960   * @types: names of partition parsers to try or %NULL
-c7975330154af1 Dmitry Eremin-Solenikov 2011-06-10   961   * @data: MTD partition parser-specific data
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   962   *
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   963   * This function tries to find & register partitions on MTD device @master. It
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   964   * uses MTD partition parsers, specified in @types. However, if @types is %NULL,
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   965   * then the default list of parsers is used. The default list contains only the
-d26c87d64eff27 Dmitry Eremin-Solenikov 2011-05-29   966   * "cmdlinepart" and "ofpart" parsers ATM.
-c51803ddba10d8 Huang Shijie            2012-08-18   967   * Note: If there are more then one parser in @types, the kernel only takes the
-c51803ddba10d8 Huang Shijie            2012-08-18   968   * partitions parsed out by the first parser.
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   969   *
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   970   * This function may return:
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   971   * o a negative error code in case of failure
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   972   * o number of found partitions otherwise
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   973   */
-26a4734623e4f0 Artem Bityutskiy        2013-03-11   974  int parse_mtd_partitions(struct mtd_info *master, const char *const *types,
-c7975330154af1 Dmitry Eremin-Solenikov 2011-06-10   975  			 struct mtd_part_parser_data *data)
-^1da177e4c3f41 Linus Torvalds          2005-04-16   976  {
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   977  	struct mtd_partitions pparts = { };
-^1da177e4c3f41 Linus Torvalds          2005-04-16   978  	struct mtd_part_parser *parser;
-5a2415b0769233 Brian Norris            2015-10-11   979  	int ret, err = 0;
-^1da177e4c3f41 Linus Torvalds          2005-04-16   980  
-5c4eefbd5bb82a Dmitry Eremin-Solenikov 2011-06-02   981  	if (!types)
-76a832254ab055 Rafał Miłecki           2018-07-13   982  		types = mtd_is_partition(master) ? default_subpartition_types :
-76a832254ab055 Rafał Miłecki           2018-07-13   983  			default_mtd_part_types;
-5c4eefbd5bb82a Dmitry Eremin-Solenikov 2011-06-02   984  
-5a2415b0769233 Brian Norris            2015-10-11   985  	for ( ; *types; types++) {
-5b644aa012f67f Rafał Miłecki           2018-03-14   986  		/*
-5b644aa012f67f Rafał Miłecki           2018-03-14   987  		 * ofpart is a special type that means OF partitioning info
-5b644aa012f67f Rafał Miłecki           2018-03-14   988  		 * should be used. It requires a bit different logic so it is
-5b644aa012f67f Rafał Miłecki           2018-03-14   989  		 * handled in a separated function.
-5b644aa012f67f Rafał Miłecki           2018-03-14   990  		 */
-5b644aa012f67f Rafał Miłecki           2018-03-14   991  		if (!strcmp(*types, "ofpart")) {
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   992  			ret = mtd_part_of_parse(master, &pparts);
-5b644aa012f67f Rafał Miłecki           2018-03-14   993  		} else {
-5b644aa012f67f Rafał Miłecki           2018-03-14   994  			pr_debug("%s: parsing partitions %s\n", master->name,
-5b644aa012f67f Rafał Miłecki           2018-03-14   995  				 *types);
-5531ae4818fb04 Brian Norris            2015-12-04   996  			parser = mtd_part_parser_get(*types);
-^1da177e4c3f41 Linus Torvalds          2005-04-16   997  			if (!parser && !request_module("%s", *types))
-5531ae4818fb04 Brian Norris            2015-12-04   998  				parser = mtd_part_parser_get(*types);
-8e2c992b59fcb5 Michal Suchanek         2015-08-18  @999  			pr_debug("%s: got parser %s\n", master->name,
-8e2c992b59fcb5 Michal Suchanek         2015-08-18  1000  				parser ? parser->name : NULL);
-7c802fbd541448 Artem Bityutskiy        2011-05-17  1001  			if (!parser)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1002  				continue;
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27  1003  			ret = mtd_part_do_parse(parser, master, &pparts, data);
-5b644aa012f67f Rafał Miłecki           2018-03-14  1004  			if (ret <= 0)
-5b644aa012f67f Rafał Miłecki           2018-03-14  1005  				mtd_part_parser_put(parser);
-5b644aa012f67f Rafał Miłecki           2018-03-14  1006  		}
-01f9c7240a900d Brian Norris            2017-05-23  1007  		/* Found partitions! */
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27  1008  		if (ret > 0) {
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27  1009  			err = add_mtd_partitions(master, pparts.parts,
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27  1010  						 pparts.nr_parts);
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27  1011  			mtd_part_parser_cleanup(&pparts);
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27  1012  			return err ? err : pparts.nr_parts;
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27  1013  		}
-5a2415b0769233 Brian Norris            2015-10-11  1014  		/*
-5a2415b0769233 Brian Norris            2015-10-11  1015  		 * Stash the first error we see; only report it if no parser
-5a2415b0769233 Brian Norris            2015-10-11  1016  		 * succeeds
-5a2415b0769233 Brian Norris            2015-10-11  1017  		 */
-5a2415b0769233 Brian Norris            2015-10-11  1018  		if (ret < 0 && !err)
-5a2415b0769233 Brian Norris            2015-10-11  1019  			err = ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1020  	}
-5a2415b0769233 Brian Norris            2015-10-11  1021  	return err;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1022  }
-5daa7b21496aeb Roman Tereshonkov       2010-09-17  1023  
-
-:::::: The code at line 999 was first introduced by commit
-:::::: 8e2c992b59fcb5e56e3667f5c30c7d26fbbf14a2 mtd: mtdpart: add debug prints to partition parser.
-
-:::::: TO: Michal Suchanek <hramrach@gmail.com>
-:::::: CC: Brian Norris <computersforpeace@gmail.com>
+    29	
+    30	/**
+    31	 * struct rtas_ibm_get_indices_params - Parameters (in and out) for
+    32	 *                                      ibm,get-indices.
+    33	 * @is_sensor:	In: Caller-provided whether sensor or indicator.
+    34	 * @indice_type:In: Caller-provided indice (sensor or indicator) token
+    35	 * @work_area:	In: Caller-provided work area buffer for results.
+    36	 * @next:	In: Sequence number. Out: Next sequence number.
+    37	 * @status:	Out: RTAS call status.
+    38	 */
+    39	struct rtas_get_indices_params {
+    40		u8 is_sensor;
+    41		u32 indice_type;
+    42		struct rtas_work_area *work_area;
+    43		u32 next;
+    44		s32 status;
+  > 45	};
+    46	
+    47	/**
+    48	 * rtas_ibm_get_indices() - Call ibm,get-indices to fill a work area buffer.
+    49	 * @params: See &struct rtas_ibm_get_indices_params.
+    50	 *
+    51	 * Calls ibm,get-indices until it errors or successfully deposits data
+    52	 * into the supplied work area. Handles RTAS retry statuses. Maps RTAS
+    53	 * error statuses to reasonable errno values.
+    54	 *
+    55	 * The caller is expected to invoke rtas_ibm_get_indices() multiple times
+    56	 * to retrieve all indices data for the provided indice type. Only one
+    57	 * sequence should be in progress at any time; starting a new sequence
+    58	 * will disrupt any sequence already in progress. Serialization of
+    59	 * indices retrieval sequences is the responsibility of the caller.
+    60	 *
+    61	 * The caller should inspect @params.status to determine whether more
+    62	 * calls are needed to complete the sequence.
+    63	 *
+    64	 * Context: May sleep.
+    65	 * Return: -ve on error, 0 otherwise.
+    66	 */
+    67	static int rtas_ibm_get_indices(struct rtas_get_indices_params *params)
+    68	{
+    69		struct rtas_work_area *work_area = params->work_area;
+    70		const s32 token = rtas_function_token(RTAS_FN_IBM_GET_INDICES);
+    71		u32 rets;
+    72		s32 fwrc;
+    73		int ret;
+    74	
+    75		if (token == RTAS_UNKNOWN_SERVICE)
+    76			return -ENOENT;
+    77	
+    78		lockdep_assert_held(&rtas_ibm_get_indices_lock);
+    79	
+    80		do {
+    81			fwrc = rtas_call(token, 5, 2, &rets, params->is_sensor,
+    82					params->indice_type,
+    83					rtas_work_area_phys(work_area),
+    84					rtas_work_area_size(work_area),
+    85					params->next);
+    86		} while (rtas_busy_delay(fwrc));
+    87	
+    88		switch (fwrc) {
+    89		case RTAS_HARDWARE_ERROR:
+    90			ret = -EIO;
+    91			break;
+    92		case RTAS_INVALID_PARAMETER: /* Indicator type is not supported */
+    93			ret = -EINVAL;
+    94			break;
+    95		case RTAS_IBM_GET_INDICES_START_OVER:
+    96			ret = -EAGAIN;
+    97			pr_info_ratelimited("Indices changed during retrieval, retrying\n");
+    98			params->next = 1;
+    99			break;
+   100		case RTAS_IBM_GET_INDICES_MORE_DATA:
+   101			params->next = rets;
+   102			fallthrough;
+   103		case RTAS_IBM_GET_INDICES_COMPLETE:
+   104			params->next = 0;
+   105			ret = 0;
+   106			break;
+   107		default:
+   108			ret = -EIO;
+   109			pr_err_ratelimited("unexpected ibm,get-indices status %d\n", fwrc);
+   110			break;
+   111		}
+   112	
+   113		params->status = fwrc;
+   114		return ret;
+   115	}
+   116	
+   117	/*
+   118	 * Internal indices sequence APIs. A sequence is a series of calls to
+   119	 * ibm,get-indices for a given location code. The sequence ends when
+   120	 * an error is encountered or all indices for the input has been
+   121	 * returned.
+   122	 */
+   123	
+   124	/**
+   125	 * indices_sequence_begin() - Begin a indices retrieval sequence.
+   126	 * @seq:      Uninitialized sequence state.
+   127	 * @params: Indices call parameters and initialization
+   128	 *
+   129	 * Initializes @seq with the resources necessary to carry out indices
+   130	 * call sequence. Callers must pass @seq to indices_sequence_end()
+   131	 * regardless of whether the sequence succeeds.
+   132	 *
+   133	 * Context: May sleep.
+   134	 */
+   135	static void indices_sequence_begin(struct papr_rtas_sequence *seq,
+   136					void *params)
+   137	{
+   138		struct rtas_get_indices_params  *param;
+   139	
+   140		param = (struct rtas_get_indices_params *)params;
+   141		/*
+   142		 * We could allocate the work area before acquiring the
+   143		 * function lock, but that would allow concurrent requests to
+   144		 * exhaust the limited work area pool for no benefit. So
+   145		 * allocate the work area under the lock.
+   146		 */
+   147		mutex_lock(&rtas_ibm_get_indices_lock);
+   148		param->work_area = rtas_work_area_alloc(RTAS_GET_INDICES_BUF_SIZE);
+   149		param->next = 1;
+   150		param->status = 0;
+   151		seq->params = param;
+   152	}
+   153	
+   154	/**
+   155	 * indices_sequence_end() - Finalize a indices retrieval sequence.
+   156	 * @seq: indices call parameters from sequence struct
+   157	 *
+   158	 * Releases resources obtained by indices_sequence_begin().
+   159	 */
+   160	static void indices_sequence_end(struct papr_rtas_sequence *seq)
+   161	{
+   162		struct rtas_get_indices_params *param;
+   163	
+   164		param =  (struct rtas_get_indices_params *)seq->params;
+   165		rtas_work_area_free(param->work_area);
+   166		mutex_unlock(&rtas_ibm_get_indices_lock);
+   167	}
+   168	
+   169	/**
+   170	 * indices_sequence_should_stop() - Determine whether a indices
+   171	 *                                  retrieval sequence should continue.
+   172	 * @seq: indices sequence state.
+   173	 *
+   174	 * Examines the sequence error state and outputs of the last call to
+   175	 * ibm,get-indices to determine whether the sequence in progress should
+   176	 * continue or stop.
+   177	 *
+   178	 * Return: True if the sequence has encountered an error or if all
+   179	 *         indices for this sequence has been retrieved. False otherwise.
+   180	 */
+   181	static bool indices_sequence_should_stop(const struct papr_rtas_sequence *seq)
+   182	{
+   183		struct rtas_get_indices_params *param;
+   184		bool done;
+   185	
+   186		if (seq->error)
+   187			return true;
+   188	
+   189		param =  (struct rtas_get_indices_params *)seq->params;
+   190	
+   191		switch (param->status) {
+   192		case RTAS_IBM_GET_INDICES_COMPLETE:
+   193			if (param->next == 1)
+   194				done = false; /* Initial state. */
+   195			else
+   196				done = true; /* All data consumed. */
+   197			break;
+   198		case RTAS_IBM_GET_INDICES_MORE_DATA:
+   199			done = false; /* More data available. */
+   200			break;
+   201		default:
+   202			done = true; /* Error encountered. */
+   203			break;
+   204		}
+   205	
+   206		return done;
+   207	}
+   208	
+   209	/**
+ > 210	 * Work function to be passed to papr_rtas_blob_generate().
+   211	 *
+   212	 * ibm,get-indices RTAS call fills the work area with the certain
+   213	 * format but does not return the bytes written in the buffer. So
+   214	 * instead of kernel parsing this work area to determine the buffer
+   215	 * length, copy the complete work area (RTAS_GET_INDICES_BUF_SIZE)
+   216	 * to the blob and let the user space to obtain the data.
+   217	 * Means RTAS_GET_INDICES_BUF_SIZE data will be returned for each
+   218	 * read().
+   219	 */
+   220	
 
 -- 
 0-DAY CI Kernel Test Service
