@@ -1,662 +1,325 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C7913C9D9
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 09:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A231F5F6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 11:11:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736071111; cv=none; b=RurN2kuOKcxSznDEOhuFhhFL+QwqJ0UcTGhPL9ys8ZnOkXGxab+OBkVAOzUpX1o82hRbafkhldzCEGxbHRUW/BzEMQIn+kyX3x8N9cWqVFKXWBB3Eh4Ib3hKiUQTREtvIsBhIsH0phDVbGaCQNOj6ezeK+lugxER/gt6k8kJoes=
+	t=1736075496; cv=none; b=D8eU0XW0b2sCxpvDET76eRw+t+4GeTXF7DTihVLAaOVx0BKZcBUGq3hIrR/g14GQavxWuR+Lm2kLKMtmADxQBKXdSHOMPtJsxSRGkt/BDv9uZYfabJl32BhDDLm6j3IYvf8dYfFmcnofEdYInxZUWqTypiOaJm7taHQdwv6DMt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736071111; c=relaxed/simple;
-	bh=VScAM5uQn5WfL15gRTU+PQeAKdIkrKJQc/GZSzVBdrM=;
+	s=arc-20240116; t=1736075496; c=relaxed/simple;
+	bh=MBeJBzOIQBLiuDuKb8cMFL3d1IpIlLK6K+CbDf55tCE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OASRUKxxtTyugfOpev+RAu9/yu21vNp4cO2ykMXBPIgoj7i0xUM4bSs/fLfesOo5NweI+bGKUf/AcnC/UwoYiyQfU2vLPrijSYbI27g8c6h2bXHRCRScYPqnYqqPOswTYFOUGUZRJhSMq9RlICbl8MtWKMDZCNdCQzM/ASxNmOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UejoCitH; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=QdSpERbnsLLtGZOmzT0Sip4B7Kl3lVkSH2/1sC2+PiFrPQi3RabfX7CTrH6cXnbrZ0MJ0p7pU0r45LjK7447R0r5il/GS4Ya4qMnJBcFl/t3dqUFHLg7a4FwhDE83zUrnglQHgxeyTQ4GGJ81PAHYFV5JhdLzWDGXOfjqXgWLzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i4paXbwM; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UejoCitH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4paXbwM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736071109; x=1767607109;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VScAM5uQn5WfL15gRTU+PQeAKdIkrKJQc/GZSzVBdrM=;
-  b=UejoCitH7Fj3ifE3RmN2CI5otVfaDFLvGlxwNdhRfrbu9e5Vz+QgIRsE
-   VX3kIiwT845s6m0Huq4pzfLKeSTwcDtpP6htWD86ou8PQu5b0YvEi1S3W
-   6e83YXpKQyqccSMRZ122lK9jjcwoSIRnm8luXiCcxZScHlO6GmcFMpiw1
-   79T2MkOR7jVkIz+qyYVyribnhrcJE+aWd13VREftqaIEloGDgRAAPyJ9q
-   KPK3natHUGQnorm8NmOPOGDPO7CnTuxMpZej1dJpi/7RGXEsqyK/lBTTp
-   jM0e0HKTr18woJ+8dqj+DERxGnFyLa1Ds6j4h7DRRGbOgd2wfXSAfggrv
-   g==;
-X-CSE-ConnectionGUID: LRfcbnj9RgGBsRIT0O0AvQ==
-X-CSE-MsgGUID: v1yZq+X8TbmixheYsQ77oA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11305"; a="36396643"
+  t=1736075494; x=1767611494;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MBeJBzOIQBLiuDuKb8cMFL3d1IpIlLK6K+CbDf55tCE=;
+  b=i4paXbwM9teWdy0JZJ1ceCLM1NPgrecWI9KAgUCQVhJVaNsPiClgndgE
+   NMWxo4tn2WaeMr047eDZm6BVSBblZxMy8A21EHszJvT7/fX+XSZoQUXdk
+   pDdM6gfwRDR5IZjwU4s1JwslqDiqznog4IyoKeBW6LwQHICHAoZm6ujie
+   dfHsMkhr5qrtpwKGavBCViyhkcjIcZmIZT2uWP2iCab/ryAtWkVfvaWkg
+   OgPNOFsRcDvQ2p3WzF2f2DtLT0U4lMzqBkh00MCIaQ8Cu9Mwud4WLtmkw
+   Yg9yOIxZD6COfLM9lRHUPrddt0K3rmWSWZJ3acplYoKVGOo6nAIUwtGon
+   w==;
+X-CSE-ConnectionGUID: 86ZXOY8KRI2STSwRe9aSAA==
+X-CSE-MsgGUID: kgYFfRFiQNOPmZBIhWEG5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36399137"
 X-IronPort-AV: E=Sophos;i="6.12,290,1728975600"; 
-   d="scan'208";a="36396643"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 01:58:28 -0800
-X-CSE-ConnectionGUID: h7L9bMmNTFiB/lSJ69jjFg==
-X-CSE-MsgGUID: KlvA021ETZSSz09hnxreTw==
+   d="scan'208";a="36399137"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 03:11:34 -0800
+X-CSE-ConnectionGUID: bzuQPXhNRZuxGiDzTkzU0w==
+X-CSE-MsgGUID: qU8uIB8/TLK6VuFO94IAnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,290,1728975600"; 
-   d="scan'208";a="107029650"
+   d="scan'208";a="107158806"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Jan 2025 01:58:25 -0800
+  by orviesa004.jf.intel.com with ESMTP; 05 Jan 2025 03:11:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUNOp-000Bbv-1m;
-	Sun, 05 Jan 2025 09:58:23 +0000
-Date: Sun, 5 Jan 2025 17:58:10 +0800
+	id 1tUOXZ-000Bdb-0A;
+	Sun, 05 Jan 2025 11:11:29 +0000
+Date: Sun, 5 Jan 2025 19:10:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Javed Hasan <jhasan@marvell.com>
+To: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: drivers/scsi/libfc/fc_encode.h:357:30: warning: '%s' directive
- output may be truncated writing up to 64 bytes into a region of size between
- 62 and 126
-Message-ID: <202501051751.jg65wgwM-lkp@intel.com>
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Subject: security/landlock/fs.c:480: warning: Function parameter or struct
+ member '' not described in 'is_access_to_paths_allowed'
+Message-ID: <202501051942.ltat2hZ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ab75170520d4964f3acf8bb1f91d34cbc650688e
-commit: 49d3e5996155a3067782748b0c4edf0309e951b6 scsi: fc: FDMI enhancement
-date:   3 years, 7 months ago
-config: parisc-randconfig-c44-20220907 (https://download.01.org/0day-ci/archive/20250105/202501051751.jg65wgwM-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501051751.jg65wgwM-lkp@intel.com/reproduce)
+commit: 106794c46b13a2820d3954d7a2892fa1978b4162 landlock: Refactor check_access_path_dual() into is_access_to_paths_allowed()
+date:   2 years, 3 months ago
+config: csky-randconfig-r026-20230729 (https://download.01.org/0day-ci/archive/20250105/202501051942.ltat2hZ8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501051942.ltat2hZ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501051751.jg65wgwM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501051942.ltat2hZ8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/scsi/libfc/fc_elsct.c:18:
-   drivers/scsi/libfc/fc_encode.h: In function 'fc_ct_ns_fill':
-   drivers/scsi/libfc/fc_encode.h:153:17: warning: 'strncpy' output may be truncated copying between 0 and 255 bytes from a string of length 255 [-Wstringop-truncation]
-     153 |                 strncpy(ct->payload.snn.fr_name,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                         fc_host_symbolic_name(lport->host), len);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libfc/fc_encode.h:143:17: warning: 'strncpy' output may be truncated copying between 0 and 255 bytes from a string of length 255 [-Wstringop-truncation]
-     143 |                 strncpy(ct->payload.spn.fr_name,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     144 |                         fc_host_symbolic_name(lport->host), len);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libfc/fc_encode.h: In function 'fc_ct_ms_fill.constprop':
->> drivers/scsi/libfc/fc_encode.h:357:30: warning: '%s' directive output may be truncated writing up to 64 bytes into a region of size between 62 and 126 [-Wformat-truncation=]
-     357 |                         "%s v%s",
-         |                              ^~
-     358 |                         init_utsname()->sysname,
-     359 |                         init_utsname()->release);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libfc/fc_encode.h:355:17: note: 'snprintf' output between 3 and 131 bytes into a destination of size 128
-     355 |                 snprintf((char *)&entry->value,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     356 |                         FC_FDMI_HBA_ATTR_OSNAMEVERSION_LEN,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     357 |                         "%s v%s",
-         |                         ~~~~~~~~~
-     358 |                         init_utsname()->sysname,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~
-     359 |                         init_utsname()->release);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~
+   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 480.
+   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
+   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
+   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 480.
+   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 480.
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 480.
+   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 480.
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 480.
+   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 480.
+   Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 480.
+>> security/landlock/fs.c:480: warning: Function parameter or struct member '' not described in 'is_access_to_paths_allowed'
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 480.
+   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 480.
+   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
+   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
+   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 480.
+   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 480.
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 480.
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 480.
+   Use of uninitialized value $parameterlist[3] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 480.
+   Use of uninitialized value $parameterlist[6] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 480.
+>> security/landlock/fs.c:480: warning: Excess function parameter 'layer_masks_parent1' description in 'is_access_to_paths_allowed'
+>> security/landlock/fs.c:480: warning: Excess function parameter 'layer_masks_parent2' description in 'is_access_to_paths_allowed'
+   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 707.
+   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 707.
+   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 707.
+   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 707.
+   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 707.
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 707.
+   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 707.
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 707.
+   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 707.
+   Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 707.
+   security/landlock/fs.c:707: warning: Function parameter or struct member '' not described in 'collect_domain_accesses'
+   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 707.
+   Use of uninitialized value $parameterlist[3] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 707.
+   security/landlock/fs.c:707: warning: Excess function parameter 'layer_masks_dom' description in 'collect_domain_accesses'
 
 
-vim +357 drivers/scsi/libfc/fc_encode.h
+vim +480 security/landlock/fs.c
 
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  175  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  176  /**
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  177   * fc_ct_ms_fill() - Fill in a mgmt service request frame
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  178   * @lport: local port.
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  179   * @fc_id: FC_ID of non-destination rport for GPN_ID and similar inquiries.
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  180   * @fp: frame to contain payload.
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  181   * @op: CT opcode.
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  182   * @r_ctl: pointer to FC header R_CTL.
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  183   * @fh_type: pointer to FC-4 type.
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  184   */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  185  static inline int fc_ct_ms_fill(struct fc_lport *lport,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  186  		      u32 fc_id, struct fc_frame *fp,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  187  		      unsigned int op, enum fc_rctl *r_ctl,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  188  		      enum fc_fh_type *fh_type)
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  189  {
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  190  	struct fc_ct_req *ct;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  191  	size_t len;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  192  	struct fc_fdmi_attr_entry *entry;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  193  	struct fs_fdmi_attrs *hba_attrs;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  194  	int numattrs = 0;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  195  	struct fc_host_attrs *fc_host = shost_to_fc_host(lport->host);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  196  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  197  	switch (op) {
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  198  	case FC_FDMI_RHBA:
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  199  		numattrs = 11;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  200  		len = sizeof(struct fc_fdmi_rhba);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  201  		len -= sizeof(struct fc_fdmi_attr_entry);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  202  		len += (numattrs * FC_FDMI_ATTR_ENTRY_HEADER_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  203  		len += FC_FDMI_HBA_ATTR_NODENAME_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  204  		len += FC_FDMI_HBA_ATTR_MANUFACTURER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  205  		len += FC_FDMI_HBA_ATTR_SERIALNUMBER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  206  		len += FC_FDMI_HBA_ATTR_MODEL_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  207  		len += FC_FDMI_HBA_ATTR_MODELDESCR_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  208  		len += FC_FDMI_HBA_ATTR_HARDWAREVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  209  		len += FC_FDMI_HBA_ATTR_DRIVERVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  210  		len += FC_FDMI_HBA_ATTR_OPTIONROMVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  211  		len += FC_FDMI_HBA_ATTR_FIRMWAREVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  212  		len += FC_FDMI_HBA_ATTR_OSNAMEVERSION_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  213  		len += FC_FDMI_HBA_ATTR_MAXCTPAYLOAD_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  214  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  215  		if (fc_host->fdmi_version == FDMI_V2) {
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  216  			numattrs += 7;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  217  			len += FC_FDMI_HBA_ATTR_NODESYMBLNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  218  			len += FC_FDMI_HBA_ATTR_VENDORSPECIFICINFO_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  219  			len += FC_FDMI_HBA_ATTR_NUMBEROFPORTS_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  220  			len += FC_FDMI_HBA_ATTR_FABRICNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  221  			len += FC_FDMI_HBA_ATTR_BIOSVERSION_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  222  			len += FC_FDMI_HBA_ATTR_BIOSSTATE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  223  			len += FC_FDMI_HBA_ATTR_VENDORIDENTIFIER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  224  		}
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  225  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  226  		ct = fc_ct_hdr_fill(fp, op, len, FC_FST_MGMT,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  227  				FC_FDMI_SUBTYPE);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  228  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  229  		/* HBA Identifier */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  230  		put_unaligned_be64(lport->wwpn, &ct->payload.rhba.hbaid.id);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  231  		/* Number of Ports - always 1 */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  232  		put_unaligned_be32(1, &ct->payload.rhba.port.numport);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  233  		/* Port Name */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  234  		put_unaligned_be64(lport->wwpn,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  235  				   &ct->payload.rhba.port.port[0].portname);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  236  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  237  		/* HBA Attributes */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  238  		put_unaligned_be32(numattrs,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  239  				   &ct->payload.rhba.hba_attrs.numattrs);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  240  		hba_attrs = &ct->payload.rhba.hba_attrs;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  241  		entry = (struct fc_fdmi_attr_entry *)hba_attrs->attr;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  242  		/* NodeName*/
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  243  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  244  		len += FC_FDMI_HBA_ATTR_NODENAME_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  245  		put_unaligned_be16(FC_FDMI_HBA_ATTR_NODENAME,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  246  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  247  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  248  		put_unaligned_be64(lport->wwnn,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  249  				   (__be64 *)&entry->value[0]);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  250  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  251  		/* Manufacturer */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  252  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  253  					FC_FDMI_HBA_ATTR_NODENAME_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  254  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  255  		len += FC_FDMI_HBA_ATTR_MANUFACTURER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  256  		put_unaligned_be16(FC_FDMI_HBA_ATTR_MANUFACTURER,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  257  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  258  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  259  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  260  			fc_host_manufacturer(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  261  			FC_FDMI_HBA_ATTR_MANUFACTURER_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  262  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  263  		/* SerialNumber */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  264  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  265  					FC_FDMI_HBA_ATTR_MANUFACTURER_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  266  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  267  		len += FC_FDMI_HBA_ATTR_SERIALNUMBER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  268  		put_unaligned_be16(FC_FDMI_HBA_ATTR_SERIALNUMBER,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  269  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  270  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  271  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  272  			fc_host_serial_number(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  273  			FC_FDMI_HBA_ATTR_SERIALNUMBER_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  274  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  275  		/* Model */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  276  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  277  					FC_FDMI_HBA_ATTR_SERIALNUMBER_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  278  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  279  		len += FC_FDMI_HBA_ATTR_MODEL_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  280  		put_unaligned_be16(FC_FDMI_HBA_ATTR_MODEL,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  281  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  282  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  283  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  284  			fc_host_model(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  285  			FC_FDMI_HBA_ATTR_MODEL_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  286  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  287  		/* Model Description */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  288  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  289  					FC_FDMI_HBA_ATTR_MODEL_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  290  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  291  		len += FC_FDMI_HBA_ATTR_MODELDESCR_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  292  		put_unaligned_be16(FC_FDMI_HBA_ATTR_MODELDESCRIPTION,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  293  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  294  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  295  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  296  			fc_host_model_description(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  297  			FC_FDMI_HBA_ATTR_MODELDESCR_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  298  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  299  		/* Hardware Version */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  300  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  301  					FC_FDMI_HBA_ATTR_MODELDESCR_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  302  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  303  		len += FC_FDMI_HBA_ATTR_HARDWAREVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  304  		put_unaligned_be16(FC_FDMI_HBA_ATTR_HARDWAREVERSION,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  305  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  306  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  307  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  308  			fc_host_hardware_version(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  309  			FC_FDMI_HBA_ATTR_HARDWAREVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  310  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  311  		/* Driver Version */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  312  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  313  					FC_FDMI_HBA_ATTR_HARDWAREVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  314  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  315  		len += FC_FDMI_HBA_ATTR_DRIVERVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  316  		put_unaligned_be16(FC_FDMI_HBA_ATTR_DRIVERVERSION,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  317  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  318  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  319  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  320  			fc_host_driver_version(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  321  			FC_FDMI_HBA_ATTR_DRIVERVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  322  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  323  		/* OptionROM Version */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  324  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  325  					FC_FDMI_HBA_ATTR_DRIVERVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  326  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  327  		len += FC_FDMI_HBA_ATTR_OPTIONROMVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  328  		put_unaligned_be16(FC_FDMI_HBA_ATTR_OPTIONROMVERSION,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  329  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  330  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  331  		fc_ct_ms_fill_attr(entry,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  332  			"unknown",
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  333  			FC_FDMI_HBA_ATTR_OPTIONROMVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  334  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  335  		/* Firmware Version */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  336  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  337  					FC_FDMI_HBA_ATTR_OPTIONROMVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  338  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  339  		len += FC_FDMI_HBA_ATTR_FIRMWAREVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  340  		put_unaligned_be16(FC_FDMI_HBA_ATTR_FIRMWAREVERSION,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  341  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  342  		put_unaligned_be16(len, &entry->len);
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  343  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  344  			fc_host_firmware_version(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  345  			FC_FDMI_HBA_ATTR_FIRMWAREVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  346  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  347  		/* OS Name and Version */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  348  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  349  					FC_FDMI_HBA_ATTR_FIRMWAREVERSION_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  350  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  351  		len += FC_FDMI_HBA_ATTR_OSNAMEVERSION_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  352  		put_unaligned_be16(FC_FDMI_HBA_ATTR_OSNAMEVERSION,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  353  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  354  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  355  		snprintf((char *)&entry->value,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  356  			FC_FDMI_HBA_ATTR_OSNAMEVERSION_LEN,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22 @357  			"%s v%s",
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  358  			init_utsname()->sysname,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  359  			init_utsname()->release);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  360  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  361  		/* Max CT payload */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  362  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  363  					FC_FDMI_HBA_ATTR_OSNAMEVERSION_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  364  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  365  		len += FC_FDMI_HBA_ATTR_MAXCTPAYLOAD_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  366  		put_unaligned_be16(FC_FDMI_HBA_ATTR_MAXCTPAYLOAD,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  367  				&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  368  		put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  369  		put_unaligned_be32(fc_host_max_ct_payload(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  370  				&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  371  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  372  		if (fc_host->fdmi_version == FDMI_V2) {
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  373  			/* Node symbolic name */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  374  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  375  					FC_FDMI_HBA_ATTR_MAXCTPAYLOAD_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  376  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  377  			len += FC_FDMI_HBA_ATTR_NODESYMBLNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  378  			put_unaligned_be16(FC_FDMI_HBA_ATTR_NODESYMBLNAME,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  379  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  380  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  381  			fc_ct_ms_fill_attr(entry,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  382  					fc_host_symbolic_name(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  383  					FC_FDMI_HBA_ATTR_NODESYMBLNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  384  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  385  			/* Vendor specific info */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  386  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  387  					FC_FDMI_HBA_ATTR_NODESYMBLNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  388  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  389  			len += FC_FDMI_HBA_ATTR_VENDORSPECIFICINFO_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  390  			put_unaligned_be16(FC_FDMI_HBA_ATTR_VENDORSPECIFICINFO,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  391  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  392  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  393  			put_unaligned_be32(0,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  394  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  395  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  396  			/* Number of ports */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  397  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  398  					FC_FDMI_HBA_ATTR_VENDORSPECIFICINFO_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  399  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  400  			len += FC_FDMI_HBA_ATTR_NUMBEROFPORTS_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  401  			put_unaligned_be16(FC_FDMI_HBA_ATTR_NUMBEROFPORTS,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  402  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  403  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  404  			put_unaligned_be32(fc_host_num_ports(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  405  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  406  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  407  			/* Fabric name */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  408  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  409  					FC_FDMI_HBA_ATTR_NUMBEROFPORTS_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  410  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  411  			len += FC_FDMI_HBA_ATTR_FABRICNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  412  			put_unaligned_be16(FC_FDMI_HBA_ATTR_FABRICNAME,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  413  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  414  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  415  			put_unaligned_be64(fc_host_fabric_name(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  416  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  417  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  418  			/* BIOS version */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  419  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  420  					FC_FDMI_HBA_ATTR_FABRICNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  421  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  422  			len += FC_FDMI_HBA_ATTR_BIOSVERSION_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  423  			put_unaligned_be16(FC_FDMI_HBA_ATTR_BIOSVERSION,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  424  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  425  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  426  			fc_ct_ms_fill_attr(entry,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  427  					fc_host_bootbios_version(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  428  					FC_FDMI_HBA_ATTR_BIOSVERSION_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  429  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  430  			/* BIOS state */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  431  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  432  					FC_FDMI_HBA_ATTR_BIOSVERSION_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  433  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  434  			len += FC_FDMI_HBA_ATTR_BIOSSTATE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  435  			put_unaligned_be16(FC_FDMI_HBA_ATTR_BIOSSTATE,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  436  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  437  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  438  			put_unaligned_be32(fc_host_bootbios_state(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  439  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  440  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  441  			/* Vendor identifier  */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  442  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  443  					FC_FDMI_HBA_ATTR_BIOSSTATE_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  444  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  445  			len += FC_FDMI_HBA_ATTR_VENDORIDENTIFIER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  446  			put_unaligned_be16(FC_FDMI_HBA_ATTR_VENDORIDENTIFIER,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  447  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  448  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  449  			fc_ct_ms_fill_attr(entry,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  450  					fc_host_vendor_identifier(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  451  					FC_FDMI_HBA_ATTR_VENDORIDENTIFIER_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  452  		}
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  453  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  454  		break;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  455  	case FC_FDMI_RPA:
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  456  		numattrs = 6;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  457  		len = sizeof(struct fc_fdmi_rpa);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  458  		len -= sizeof(struct fc_fdmi_attr_entry);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  459  		len += (numattrs * FC_FDMI_ATTR_ENTRY_HEADER_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  460  		len += FC_FDMI_PORT_ATTR_FC4TYPES_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  461  		len += FC_FDMI_PORT_ATTR_SUPPORTEDSPEED_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  462  		len += FC_FDMI_PORT_ATTR_CURRENTPORTSPEED_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  463  		len += FC_FDMI_PORT_ATTR_MAXFRAMESIZE_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  464  		len += FC_FDMI_PORT_ATTR_OSDEVICENAME_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  465  		len += FC_FDMI_PORT_ATTR_HOSTNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  466  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  467  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  468  		if (fc_host->fdmi_version == FDMI_V2) {
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  469  			numattrs += 10;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  470  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  471  			len += FC_FDMI_PORT_ATTR_NODENAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  472  			len += FC_FDMI_PORT_ATTR_PORTNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  473  			len += FC_FDMI_PORT_ATTR_SYMBOLICNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  474  			len += FC_FDMI_PORT_ATTR_PORTTYPE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  475  			len += FC_FDMI_PORT_ATTR_SUPPORTEDCLASSSRVC_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  476  			len += FC_FDMI_PORT_ATTR_FABRICNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  477  			len += FC_FDMI_PORT_ATTR_CURRENTFC4TYPE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  478  			len += FC_FDMI_PORT_ATTR_PORTSTATE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  479  			len += FC_FDMI_PORT_ATTR_DISCOVEREDPORTS_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  480  			len += FC_FDMI_PORT_ATTR_PORTID_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  481  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  482  		}
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  483  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  484  		ct = fc_ct_hdr_fill(fp, op, len, FC_FST_MGMT,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  485  				    FC_FDMI_SUBTYPE);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  486  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  487  		/* Port Name */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  488  		put_unaligned_be64(lport->wwpn,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  489  				   &ct->payload.rpa.port.portname);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  490  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  491  		/* Port Attributes */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  492  		put_unaligned_be32(numattrs,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  493  				   &ct->payload.rpa.hba_attrs.numattrs);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  494  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  495  		hba_attrs = &ct->payload.rpa.hba_attrs;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  496  		entry = (struct fc_fdmi_attr_entry *)hba_attrs->attr;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  497  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  498  		/* FC4 types */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  499  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  500  		len += FC_FDMI_PORT_ATTR_FC4TYPES_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  501  		put_unaligned_be16(FC_FDMI_PORT_ATTR_FC4TYPES,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  502  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  503  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  504  		memcpy(&entry->value, fc_host_supported_fc4s(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  505  		       FC_FDMI_PORT_ATTR_FC4TYPES_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  506  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  507  		/* Supported Speed */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  508  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  509  					FC_FDMI_PORT_ATTR_FC4TYPES_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  510  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  511  		len += FC_FDMI_PORT_ATTR_SUPPORTEDSPEED_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  512  		put_unaligned_be16(FC_FDMI_PORT_ATTR_SUPPORTEDSPEED,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  513  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  514  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  515  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  516  		put_unaligned_be32(fc_host_supported_speeds(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  517  				   &entry->value);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  518  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  519  		/* Current Port Speed */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  520  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  521  					FC_FDMI_PORT_ATTR_SUPPORTEDSPEED_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  522  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  523  		len += FC_FDMI_PORT_ATTR_CURRENTPORTSPEED_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  524  		put_unaligned_be16(FC_FDMI_PORT_ATTR_CURRENTPORTSPEED,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  525  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  526  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  527  		put_unaligned_be32(lport->link_speed,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  528  				   &entry->value);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  529  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  530  		/* Max Frame Size */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  531  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  532  					FC_FDMI_PORT_ATTR_CURRENTPORTSPEED_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  533  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  534  		len += FC_FDMI_PORT_ATTR_MAXFRAMESIZE_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  535  		put_unaligned_be16(FC_FDMI_PORT_ATTR_MAXFRAMESIZE,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  536  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  537  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  538  		put_unaligned_be32(fc_host_maxframe_size(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  539  				   &entry->value);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  540  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  541  		/* OS Device Name */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  542  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  543  					FC_FDMI_PORT_ATTR_MAXFRAMESIZE_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  544  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  545  		len += FC_FDMI_PORT_ATTR_OSDEVICENAME_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  546  		put_unaligned_be16(FC_FDMI_PORT_ATTR_OSDEVICENAME,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  547  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  548  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  549  		/* Use the sysfs device name */
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  550  		fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  551  			dev_name(&lport->host->shost_gendev),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  552  			strnlen(dev_name(&lport->host->shost_gendev),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  553  				FC_FDMI_PORT_ATTR_HOSTNAME_LEN));
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  554  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  555  		/* Host Name */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  556  		entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  557  					FC_FDMI_PORT_ATTR_OSDEVICENAME_LEN);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  558  		len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  559  		len += FC_FDMI_PORT_ATTR_HOSTNAME_LEN;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  560  		put_unaligned_be16(FC_FDMI_PORT_ATTR_HOSTNAME,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  561  				   &entry->type);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  562  		put_unaligned_be16(len, &entry->len);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  563  		if (strlen(fc_host_system_hostname(lport->host)))
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  564  			fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  565  				fc_host_system_hostname(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  566  				strnlen(fc_host_system_hostname(lport->host),
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  567  					FC_FDMI_PORT_ATTR_HOSTNAME_LEN));
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  568  		else
-8fd9efca86d083 drivers/scsi/libfc/fc_encode.h Arnd Bergmann 2020-10-26  569  			fc_ct_ms_fill_attr(entry,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  570  				init_utsname()->nodename,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  571  				FC_FDMI_PORT_ATTR_HOSTNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  572  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  573  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  574  		if (fc_host->fdmi_version == FDMI_V2) {
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  575  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  576  			/* Node name */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  577  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  578  					FC_FDMI_PORT_ATTR_HOSTNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  579  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  580  			len += FC_FDMI_PORT_ATTR_NODENAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  581  			put_unaligned_be16(FC_FDMI_PORT_ATTR_NODENAME,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  582  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  583  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  584  			put_unaligned_be64(fc_host_node_name(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  585  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  586  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  587  			/* Port name  */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  588  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  589  					FC_FDMI_PORT_ATTR_NODENAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  590  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  591  			len += FC_FDMI_PORT_ATTR_PORTNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  592  			put_unaligned_be16(FC_FDMI_PORT_ATTR_PORTNAME,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  593  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  594  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  595  			put_unaligned_be64(lport->wwpn,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  596  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  597  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  598  			/* Port symbolic name */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  599  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  600  					FC_FDMI_PORT_ATTR_PORTNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  601  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  602  			len += FC_FDMI_PORT_ATTR_SYMBOLICNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  603  			put_unaligned_be16(FC_FDMI_PORT_ATTR_SYMBOLICNAME,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  604  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  605  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  606  			fc_ct_ms_fill_attr(entry,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  607  					fc_host_symbolic_name(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  608  					FC_FDMI_PORT_ATTR_SYMBOLICNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  609  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  610  			/* Port type */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  611  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  612  					FC_FDMI_PORT_ATTR_SYMBOLICNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  613  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  614  			len += FC_FDMI_PORT_ATTR_PORTTYPE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  615  			put_unaligned_be16(FC_FDMI_PORT_ATTR_PORTTYPE,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  616  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  617  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  618  			put_unaligned_be32(fc_host_port_type(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  619  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  620  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  621  			/* Supported class of service */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  622  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  623  					FC_FDMI_PORT_ATTR_PORTTYPE_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  624  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  625  			len += FC_FDMI_PORT_ATTR_SUPPORTEDCLASSSRVC_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  626  			put_unaligned_be16(FC_FDMI_PORT_ATTR_SUPPORTEDCLASSSRVC,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  627  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  628  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  629  			put_unaligned_be32(fc_host_supported_classes(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  630  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  631  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  632  			/* Port Fabric name */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  633  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  634  					FC_FDMI_PORT_ATTR_SUPPORTEDCLASSSRVC_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  635  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  636  			len += FC_FDMI_PORT_ATTR_FABRICNAME_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  637  			put_unaligned_be16(FC_FDMI_PORT_ATTR_FABRICNAME,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  638  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  639  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  640  			put_unaligned_be64(fc_host_fabric_name(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  641  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  642  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  643  			/* Port active FC-4 */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  644  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  645  					FC_FDMI_PORT_ATTR_FABRICNAME_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  646  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  647  			len += FC_FDMI_PORT_ATTR_CURRENTFC4TYPE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  648  			put_unaligned_be16(FC_FDMI_PORT_ATTR_CURRENTFC4TYPE,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  649  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  650  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  651  			memcpy(&entry->value, fc_host_active_fc4s(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  652  					FC_FDMI_PORT_ATTR_CURRENTFC4TYPE_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  653  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  654  			/* Port state */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  655  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  656  					FC_FDMI_PORT_ATTR_CURRENTFC4TYPE_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  657  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  658  			len += FC_FDMI_PORT_ATTR_PORTSTATE_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  659  			put_unaligned_be16(FC_FDMI_PORT_ATTR_PORTSTATE,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  660  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  661  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  662  			put_unaligned_be32(fc_host_port_state(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  663  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  664  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  665  			/* Discovered ports */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  666  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  667  					FC_FDMI_PORT_ATTR_PORTSTATE_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  668  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  669  			len += FC_FDMI_PORT_ATTR_DISCOVEREDPORTS_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  670  			put_unaligned_be16(FC_FDMI_PORT_ATTR_DISCOVEREDPORTS,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  671  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  672  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  673  			put_unaligned_be32(fc_host_num_discovered_ports(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  674  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  675  
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  676  			/* Port ID */
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  677  			entry = (struct fc_fdmi_attr_entry *)((char *)entry->value +
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  678  					FC_FDMI_PORT_ATTR_DISCOVEREDPORTS_LEN);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  679  			len = FC_FDMI_ATTR_ENTRY_HEADER_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  680  			len += FC_FDMI_PORT_ATTR_PORTID_LEN;
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  681  			put_unaligned_be16(FC_FDMI_PORT_ATTR_PORTID,
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  682  					&entry->type);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  683  			put_unaligned_be16(len, &entry->len);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  684  			put_unaligned_be32(fc_host_port_id(lport->host),
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  685  					&entry->value);
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  686  		}
-82897fefab6811 drivers/scsi/libfc/fc_encode.h Javed Hasan   2021-06-03  687  
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  688  		break;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  689  	case FC_FDMI_DPRT:
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  690  		len = sizeof(struct fc_fdmi_dprt);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  691  		ct = fc_ct_hdr_fill(fp, op, len, FC_FST_MGMT,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  692  				    FC_FDMI_SUBTYPE);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  693  		/* Port Name */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  694  		put_unaligned_be64(lport->wwpn,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  695  				   &ct->payload.dprt.port.portname);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  696  		break;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  697  	case FC_FDMI_DHBA:
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  698  		len = sizeof(struct fc_fdmi_dhba);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  699  		ct = fc_ct_hdr_fill(fp, op, len, FC_FST_MGMT,
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  700  				    FC_FDMI_SUBTYPE);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  701  		/* HBA Identifier */
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  702  		put_unaligned_be64(lport->wwpn, &ct->payload.dhba.hbaid.id);
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  703  		break;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  704  	default:
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  705  		return -EINVAL;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  706  	}
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  707  	*r_ctl = FC_RCTL_DD_UNSOL_CTL;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  708  	*fh_type = FC_TYPE_CT;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  709  	return 0;
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  710  }
-d78c317f6cd701 include/scsi/fc_encode.h       Neerav Parikh 2012-01-22  711  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  431  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  432  /**
+106794c46b13a2 Günther Noack  2022-10-18  433   * is_access_to_paths_allowed - Check accesses for requests with a common path
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  434   *
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  435   * @domain: Domain to check against.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  436   * @path: File hierarchy to walk through.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  437   * @access_request_parent1: Accesses to check, once @layer_masks_parent1 is
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  438   *     equal to @layer_masks_parent2 (if any).  This is tied to the unique
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  439   *     requested path for most actions, or the source in case of a refer action
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  440   *     (i.e. rename or link), or the source and destination in case of
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  441   *     RENAME_EXCHANGE.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  442   * @layer_masks_parent1: Pointer to a matrix of layer masks per access
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  443   *     masks, identifying the layers that forbid a specific access.  Bits from
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  444   *     this matrix can be unset according to the @path walk.  An empty matrix
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  445   *     means that @domain allows all possible Landlock accesses (i.e. not only
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  446   *     those identified by @access_request_parent1).  This matrix can
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  447   *     initially refer to domain layer masks and, when the accesses for the
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  448   *     destination and source are the same, to requested layer masks.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  449   * @dentry_child1: Dentry to the initial child of the parent1 path.  This
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  450   *     pointer must be NULL for non-refer actions (i.e. not link nor rename).
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  451   * @access_request_parent2: Similar to @access_request_parent1 but for a
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  452   *     request involving a source and a destination.  This refers to the
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  453   *     destination, except in case of RENAME_EXCHANGE where it also refers to
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  454   *     the source.  Must be set to 0 when using a simple path request.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  455   * @layer_masks_parent2: Similar to @layer_masks_parent1 but for a refer
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  456   *     action.  This must be NULL otherwise.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  457   * @dentry_child2: Dentry to the initial child of the parent2 path.  This
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  458   *     pointer is only set for RENAME_EXCHANGE actions and must be NULL
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  459   *     otherwise.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  460   *
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  461   * This helper first checks that the destination has a superset of restrictions
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  462   * compared to the source (if any) for a common path.  Because of
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  463   * RENAME_EXCHANGE actions, source and destinations may be swapped.  It then
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  464   * checks that the collected accesses and the remaining ones are enough to
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  465   * allow the request.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  466   *
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  467   * Returns:
+106794c46b13a2 Günther Noack  2022-10-18  468   * - true if the access request is granted;
+106794c46b13a2 Günther Noack  2022-10-18  469   * - false otherwise.
+106794c46b13a2 Günther Noack  2022-10-18  470   */
+106794c46b13a2 Günther Noack  2022-10-18  471  static bool is_access_to_paths_allowed(
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  472  	const struct landlock_ruleset *const domain,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  473  	const struct path *const path,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  474  	const access_mask_t access_request_parent1,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  475  	layer_mask_t (*const layer_masks_parent1)[LANDLOCK_NUM_ACCESS_FS],
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  476  	const struct dentry *const dentry_child1,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  477  	const access_mask_t access_request_parent2,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  478  	layer_mask_t (*const layer_masks_parent2)[LANDLOCK_NUM_ACCESS_FS],
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  479  	const struct dentry *const dentry_child2)
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06 @480  {
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  481  	bool allowed_parent1 = false, allowed_parent2 = false, is_dom_check,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  482  	     child1_is_directory = true, child2_is_directory = true;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  483  	struct path walker_path;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  484  	access_mask_t access_masked_parent1, access_masked_parent2;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  485  	layer_mask_t _layer_masks_child1[LANDLOCK_NUM_ACCESS_FS],
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  486  		_layer_masks_child2[LANDLOCK_NUM_ACCESS_FS];
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  487  	layer_mask_t(*layer_masks_child1)[LANDLOCK_NUM_ACCESS_FS] = NULL,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  488  	(*layer_masks_child2)[LANDLOCK_NUM_ACCESS_FS] = NULL;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  489  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  490  	if (!access_request_parent1 && !access_request_parent2)
+106794c46b13a2 Günther Noack  2022-10-18  491  		return true;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  492  	if (WARN_ON_ONCE(!domain || !path))
+106794c46b13a2 Günther Noack  2022-10-18  493  		return true;
+9da82b20fde958 Mickaël Salaün 2022-05-06  494  	if (is_nouser_or_private(path->dentry))
+106794c46b13a2 Günther Noack  2022-10-18  495  		return true;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  496  	if (WARN_ON_ONCE(domain->num_layers < 1 || !layer_masks_parent1))
+106794c46b13a2 Günther Noack  2022-10-18  497  		return false;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  498  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  499  	if (unlikely(layer_masks_parent2)) {
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  500  		if (WARN_ON_ONCE(!dentry_child1))
+106794c46b13a2 Günther Noack  2022-10-18  501  			return false;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  502  		/*
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  503  		 * For a double request, first check for potential privilege
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  504  		 * escalation by looking at domain handled accesses (which are
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  505  		 * a superset of the meaningful requested accesses).
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  506  		 */
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  507  		access_masked_parent1 = access_masked_parent2 =
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  508  			get_handled_accesses(domain);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  509  		is_dom_check = true;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  510  	} else {
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  511  		if (WARN_ON_ONCE(dentry_child1 || dentry_child2))
+106794c46b13a2 Günther Noack  2022-10-18  512  			return false;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  513  		/* For a simple request, only check for requested accesses. */
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  514  		access_masked_parent1 = access_request_parent1;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  515  		access_masked_parent2 = access_request_parent2;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  516  		is_dom_check = false;
+8ba0005ff418ec Mickaël Salaün 2022-05-06  517  	}
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  518  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  519  	if (unlikely(dentry_child1)) {
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  520  		unmask_layers(find_rule(domain, dentry_child1),
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  521  			      init_layer_masks(domain, LANDLOCK_MASK_ACCESS_FS,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  522  					       &_layer_masks_child1),
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  523  			      &_layer_masks_child1);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  524  		layer_masks_child1 = &_layer_masks_child1;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  525  		child1_is_directory = d_is_dir(dentry_child1);
+8ba0005ff418ec Mickaël Salaün 2022-05-06  526  	}
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  527  	if (unlikely(dentry_child2)) {
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  528  		unmask_layers(find_rule(domain, dentry_child2),
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  529  			      init_layer_masks(domain, LANDLOCK_MASK_ACCESS_FS,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  530  					       &_layer_masks_child2),
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  531  			      &_layer_masks_child2);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  532  		layer_masks_child2 = &_layer_masks_child2;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  533  		child2_is_directory = d_is_dir(dentry_child2);
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  534  	}
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  535  
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  536  	walker_path = *path;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  537  	path_get(&walker_path);
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  538  	/*
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  539  	 * We need to walk through all the hierarchy to not miss any relevant
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  540  	 * restriction.
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  541  	 */
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  542  	while (true) {
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  543  		struct dentry *parent_dentry;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  544  		const struct landlock_rule *rule;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  545  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  546  		/*
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  547  		 * If at least all accesses allowed on the destination are
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  548  		 * already allowed on the source, respectively if there is at
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  549  		 * least as much as restrictions on the destination than on the
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  550  		 * source, then we can safely refer files from the source to
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  551  		 * the destination without risking a privilege escalation.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  552  		 * This also applies in the case of RENAME_EXCHANGE, which
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  553  		 * implies checks on both direction.  This is crucial for
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  554  		 * standalone multilayered security policies.  Furthermore,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  555  		 * this helps avoid policy writers to shoot themselves in the
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  556  		 * foot.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  557  		 */
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  558  		if (unlikely(is_dom_check &&
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  559  			     no_more_access(
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  560  				     layer_masks_parent1, layer_masks_child1,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  561  				     child1_is_directory, layer_masks_parent2,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  562  				     layer_masks_child2,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  563  				     child2_is_directory))) {
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  564  			allowed_parent1 = scope_to_request(
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  565  				access_request_parent1, layer_masks_parent1);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  566  			allowed_parent2 = scope_to_request(
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  567  				access_request_parent2, layer_masks_parent2);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  568  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  569  			/* Stops when all accesses are granted. */
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  570  			if (allowed_parent1 && allowed_parent2)
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  571  				break;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  572  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  573  			/*
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  574  			 * Now, downgrades the remaining checks from domain
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  575  			 * handled accesses to requested accesses.
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  576  			 */
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  577  			is_dom_check = false;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  578  			access_masked_parent1 = access_request_parent1;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  579  			access_masked_parent2 = access_request_parent2;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  580  		}
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  581  
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  582  		rule = find_rule(domain, walker_path.dentry);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  583  		allowed_parent1 = unmask_layers(rule, access_masked_parent1,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  584  						layer_masks_parent1);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  585  		allowed_parent2 = unmask_layers(rule, access_masked_parent2,
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  586  						layer_masks_parent2);
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  587  
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  588  		/* Stops when a rule from each layer grants access. */
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  589  		if (allowed_parent1 && allowed_parent2)
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  590  			break;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  591  
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  592  jump_up:
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  593  		if (walker_path.dentry == walker_path.mnt->mnt_root) {
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  594  			if (follow_up(&walker_path)) {
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  595  				/* Ignores hidden mount points. */
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  596  				goto jump_up;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  597  			} else {
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  598  				/*
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  599  				 * Stops at the real root.  Denies access
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  600  				 * because not all layers have granted access.
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  601  				 */
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  602  				break;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  603  			}
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  604  		}
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  605  		if (unlikely(IS_ROOT(walker_path.dentry))) {
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  606  			/*
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  607  			 * Stops at disconnected root directories.  Only allows
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  608  			 * access to internal filesystems (e.g. nsfs, which is
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  609  			 * reachable through /proc/<pid>/ns/<namespace>).
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  610  			 */
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  611  			allowed_parent1 = allowed_parent2 =
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  612  				!!(walker_path.mnt->mnt_flags & MNT_INTERNAL);
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  613  			break;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  614  		}
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  615  		parent_dentry = dget_parent(walker_path.dentry);
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  616  		dput(walker_path.dentry);
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  617  		walker_path.dentry = parent_dentry;
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  618  	}
+cb2c7d1a177605 Mickaël Salaün 2021-04-22  619  	path_put(&walker_path);
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  620  
+106794c46b13a2 Günther Noack  2022-10-18  621  	return allowed_parent1 && allowed_parent2;
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  622  }
+b91c3e4ea756b1 Mickaël Salaün 2022-05-06  623  
 
-:::::: The code at line 357 was first introduced by commit
-:::::: d78c317f6cd701bda9f6dbfbfbcba72f39dd6ad7 [SCSI] libfc: Add support for FDMI
+:::::: The code at line 480 was first introduced by commit
+:::::: b91c3e4ea756b12b7d992529226edce1cfd854d7 landlock: Add support for file reparenting with LANDLOCK_ACCESS_FS_REFER
 
-:::::: TO: Neerav Parikh <neerav.parikh@intel.com>
-:::::: CC: James Bottomley <JBottomley@Parallels.com>
+:::::: TO: Mickaël Salaün <mic@digikod.net>
+:::::: CC: Mickaël Salaün <mic@digikod.net>
 
 -- 
 0-DAY CI Kernel Test Service
