@@ -1,325 +1,217 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A231F5F6
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 11:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9231E871
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 12:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736075496; cv=none; b=D8eU0XW0b2sCxpvDET76eRw+t+4GeTXF7DTihVLAaOVx0BKZcBUGq3hIrR/g14GQavxWuR+Lm2kLKMtmADxQBKXdSHOMPtJsxSRGkt/BDv9uZYfabJl32BhDDLm6j3IYvf8dYfFmcnofEdYInxZUWqTypiOaJm7taHQdwv6DMt8=
+	t=1736078559; cv=none; b=Irw0sx3/Ud6xftYPTzEkqwq05UQSyXp00uWBoq+jx6Dk9f95xmNTq0DGZa3DkVhtjLI00jhjw2Psb8g3PqBS1GIikXWsq6mFjkc8JrfdsGzhRVCUMCszA+OZo1LILm8IeLCLLgO5XXqy/gOrOxT7nBabICwtfkPQIXElRXbFiJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736075496; c=relaxed/simple;
-	bh=MBeJBzOIQBLiuDuKb8cMFL3d1IpIlLK6K+CbDf55tCE=;
+	s=arc-20240116; t=1736078559; c=relaxed/simple;
+	bh=qzagKvGRcOTTZ40B33iHwZuNQGfSYXTeW7uc0KnSRsw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QdSpERbnsLLtGZOmzT0Sip4B7Kl3lVkSH2/1sC2+PiFrPQi3RabfX7CTrH6cXnbrZ0MJ0p7pU0r45LjK7447R0r5il/GS4Ya4qMnJBcFl/t3dqUFHLg7a4FwhDE83zUrnglQHgxeyTQ4GGJ81PAHYFV5JhdLzWDGXOfjqXgWLzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i4paXbwM; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=einRb7Rx/MN5ZCNkPjMd82g0it7rX109KV2JgKtCscGUHZ8vHuH5m3WYKWM3HEgzaSP3Smq2PSy0QQXLm8ZaCFu9ijP7lNJ8wdpY8bnHknW8X3x33+EVnwfjXOhogpXTc5xx61YjFAWkYlhxEou+7uHtM+y1V7vP/HytdxQJiIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xki1O5J1; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4paXbwM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xki1O5J1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736075494; x=1767611494;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MBeJBzOIQBLiuDuKb8cMFL3d1IpIlLK6K+CbDf55tCE=;
-  b=i4paXbwM9teWdy0JZJ1ceCLM1NPgrecWI9KAgUCQVhJVaNsPiClgndgE
-   NMWxo4tn2WaeMr047eDZm6BVSBblZxMy8A21EHszJvT7/fX+XSZoQUXdk
-   pDdM6gfwRDR5IZjwU4s1JwslqDiqznog4IyoKeBW6LwQHICHAoZm6ujie
-   dfHsMkhr5qrtpwKGavBCViyhkcjIcZmIZT2uWP2iCab/ryAtWkVfvaWkg
-   OgPNOFsRcDvQ2p3WzF2f2DtLT0U4lMzqBkh00MCIaQ8Cu9Mwud4WLtmkw
-   Yg9yOIxZD6COfLM9lRHUPrddt0K3rmWSWZJ3acplYoKVGOo6nAIUwtGon
-   w==;
-X-CSE-ConnectionGUID: 86ZXOY8KRI2STSwRe9aSAA==
-X-CSE-MsgGUID: kgYFfRFiQNOPmZBIhWEG5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36399137"
+  t=1736078558; x=1767614558;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qzagKvGRcOTTZ40B33iHwZuNQGfSYXTeW7uc0KnSRsw=;
+  b=Xki1O5J1hBeHD/BY8RYcUDtrd7biOCSnNQGOVxg0rquQ11hc40mGOISU
+   NHypLXlvsAuDhOl8PjL10TD5B5sELyhfjt8Uszx/1mc6thpMVWpomaSZC
+   ggLfyxGiKoBfDgQgd9nDTVdgP8ixp95T8vW29rvVgmnHSXRU4Y94jG0JI
+   Q5KvlAEiJfmbILN/7Cjv37bfFh+m3z5xUSavtWspXBgjqwzX920mUc8AC
+   8oTDJm06Qc8fDAqn85djabjQRfX4TcUedIWY0E4UoF1/PotZSmvAwxcJF
+   b2w9X3fjuLIZBzRHqDnJ+HAWnFMCZ4SD1mKFrNFNyvRWVdf1li50wHKKp
+   Q==;
+X-CSE-ConnectionGUID: +p+9ek5SRyytHWgrwHlLpQ==
+X-CSE-MsgGUID: FwVwyldoTwOx9UH+RMX6iQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36264954"
 X-IronPort-AV: E=Sophos;i="6.12,290,1728975600"; 
-   d="scan'208";a="36399137"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 03:11:34 -0800
-X-CSE-ConnectionGUID: bzuQPXhNRZuxGiDzTkzU0w==
-X-CSE-MsgGUID: qU8uIB8/TLK6VuFO94IAnQ==
+   d="scan'208";a="36264954"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 04:02:38 -0800
+X-CSE-ConnectionGUID: J8Y6KK2rQXugGSxp2QgwWw==
+X-CSE-MsgGUID: WZz3yR1ETXmaliIo4Sh8Mg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,290,1728975600"; 
-   d="scan'208";a="107158806"
+   d="scan'208";a="102676033"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jan 2025 03:11:32 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Jan 2025 04:02:35 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUOXZ-000Bdb-0A;
-	Sun, 05 Jan 2025 11:11:29 +0000
-Date: Sun, 5 Jan 2025 19:10:45 +0800
+	id 1tUPKz-000Bf5-27;
+	Sun, 05 Jan 2025 12:02:33 +0000
+Date: Sun, 5 Jan 2025 20:02:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To: Jani Nikula <jani.nikula@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Subject: security/landlock/fs.c:480: warning: Function parameter or struct
- member '' not described in 'is_access_to_paths_allowed'
-Message-ID: <202501051942.ltat2hZ8-lkp@intel.com>
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel'
+ directive output may be truncated writing 4 bytes into a region of size
+ between 3 and 13
+Message-ID: <202501051919.A2xmLCN8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ab75170520d4964f3acf8bb1f91d34cbc650688e
-commit: 106794c46b13a2820d3954d7a2892fa1978b4162 landlock: Refactor check_access_path_dual() into is_access_to_paths_allowed()
-date:   2 years, 3 months ago
-config: csky-randconfig-r026-20230729 (https://download.01.org/0day-ci/archive/20250105/202501051942.ltat2hZ8-lkp@intel.com/config)
+commit: 03ee752f00fd0daa082b43774cfd03a7f9a17385 drm/imx: prefer snprintf over sprintf
+date:   11 months ago
+config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250105/202501051919.A2xmLCN8-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501051942.ltat2hZ8-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250105/202501051919.A2xmLCN8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501051942.ltat2hZ8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501051919.A2xmLCN8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 480.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
-   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 480.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 480.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 480.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 480.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 480.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 480.
-   Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 480.
->> security/landlock/fs.c:480: warning: Function parameter or struct member '' not described in 'is_access_to_paths_allowed'
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 480.
-   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 480.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 480.
-   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 480.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 480.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 480.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 480.
-   Use of uninitialized value $parameterlist[3] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 480.
-   Use of uninitialized value $parameterlist[6] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 480.
->> security/landlock/fs.c:480: warning: Excess function parameter 'layer_masks_parent1' description in 'is_access_to_paths_allowed'
->> security/landlock/fs.c:480: warning: Excess function parameter 'layer_masks_parent2' description in 'is_access_to_paths_allowed'
-   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 707.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 707.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 707.
-   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 707.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 707.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 707.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 707.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 707.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 707.
-   Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 707.
-   security/landlock/fs.c:707: warning: Function parameter or struct member '' not described in 'collect_domain_accesses'
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 707.
-   Use of uninitialized value $parameterlist[3] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 707.
-   security/landlock/fs.c:707: warning: Excess function parameter 'layer_masks_dom' description in 'collect_domain_accesses'
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function 'imx_ldb_probe':
+>> drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Wformat-truncation=]
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                                                         ^~~~
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 16
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +480 security/landlock/fs.c
+vim +/_sel +658 drivers/gpu/drm/imx/ipuv3/imx-ldb.c
 
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  431  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  432  /**
-106794c46b13a2 Günther Noack  2022-10-18  433   * is_access_to_paths_allowed - Check accesses for requests with a common path
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  434   *
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  435   * @domain: Domain to check against.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  436   * @path: File hierarchy to walk through.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  437   * @access_request_parent1: Accesses to check, once @layer_masks_parent1 is
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  438   *     equal to @layer_masks_parent2 (if any).  This is tied to the unique
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  439   *     requested path for most actions, or the source in case of a refer action
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  440   *     (i.e. rename or link), or the source and destination in case of
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  441   *     RENAME_EXCHANGE.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  442   * @layer_masks_parent1: Pointer to a matrix of layer masks per access
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  443   *     masks, identifying the layers that forbid a specific access.  Bits from
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  444   *     this matrix can be unset according to the @path walk.  An empty matrix
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  445   *     means that @domain allows all possible Landlock accesses (i.e. not only
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  446   *     those identified by @access_request_parent1).  This matrix can
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  447   *     initially refer to domain layer masks and, when the accesses for the
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  448   *     destination and source are the same, to requested layer masks.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  449   * @dentry_child1: Dentry to the initial child of the parent1 path.  This
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  450   *     pointer must be NULL for non-refer actions (i.e. not link nor rename).
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  451   * @access_request_parent2: Similar to @access_request_parent1 but for a
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  452   *     request involving a source and a destination.  This refers to the
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  453   *     destination, except in case of RENAME_EXCHANGE where it also refers to
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  454   *     the source.  Must be set to 0 when using a simple path request.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  455   * @layer_masks_parent2: Similar to @layer_masks_parent1 but for a refer
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  456   *     action.  This must be NULL otherwise.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  457   * @dentry_child2: Dentry to the initial child of the parent2 path.  This
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  458   *     pointer is only set for RENAME_EXCHANGE actions and must be NULL
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  459   *     otherwise.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  460   *
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  461   * This helper first checks that the destination has a superset of restrictions
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  462   * compared to the source (if any) for a common path.  Because of
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  463   * RENAME_EXCHANGE actions, source and destinations may be swapped.  It then
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  464   * checks that the collected accesses and the remaining ones are enough to
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  465   * allow the request.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  466   *
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  467   * Returns:
-106794c46b13a2 Günther Noack  2022-10-18  468   * - true if the access request is granted;
-106794c46b13a2 Günther Noack  2022-10-18  469   * - false otherwise.
-106794c46b13a2 Günther Noack  2022-10-18  470   */
-106794c46b13a2 Günther Noack  2022-10-18  471  static bool is_access_to_paths_allowed(
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  472  	const struct landlock_ruleset *const domain,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  473  	const struct path *const path,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  474  	const access_mask_t access_request_parent1,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  475  	layer_mask_t (*const layer_masks_parent1)[LANDLOCK_NUM_ACCESS_FS],
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  476  	const struct dentry *const dentry_child1,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  477  	const access_mask_t access_request_parent2,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  478  	layer_mask_t (*const layer_masks_parent2)[LANDLOCK_NUM_ACCESS_FS],
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  479  	const struct dentry *const dentry_child2)
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06 @480  {
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  481  	bool allowed_parent1 = false, allowed_parent2 = false, is_dom_check,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  482  	     child1_is_directory = true, child2_is_directory = true;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  483  	struct path walker_path;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  484  	access_mask_t access_masked_parent1, access_masked_parent2;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  485  	layer_mask_t _layer_masks_child1[LANDLOCK_NUM_ACCESS_FS],
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  486  		_layer_masks_child2[LANDLOCK_NUM_ACCESS_FS];
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  487  	layer_mask_t(*layer_masks_child1)[LANDLOCK_NUM_ACCESS_FS] = NULL,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  488  	(*layer_masks_child2)[LANDLOCK_NUM_ACCESS_FS] = NULL;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  489  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  490  	if (!access_request_parent1 && !access_request_parent2)
-106794c46b13a2 Günther Noack  2022-10-18  491  		return true;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  492  	if (WARN_ON_ONCE(!domain || !path))
-106794c46b13a2 Günther Noack  2022-10-18  493  		return true;
-9da82b20fde958 Mickaël Salaün 2022-05-06  494  	if (is_nouser_or_private(path->dentry))
-106794c46b13a2 Günther Noack  2022-10-18  495  		return true;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  496  	if (WARN_ON_ONCE(domain->num_layers < 1 || !layer_masks_parent1))
-106794c46b13a2 Günther Noack  2022-10-18  497  		return false;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  498  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  499  	if (unlikely(layer_masks_parent2)) {
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  500  		if (WARN_ON_ONCE(!dentry_child1))
-106794c46b13a2 Günther Noack  2022-10-18  501  			return false;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  502  		/*
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  503  		 * For a double request, first check for potential privilege
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  504  		 * escalation by looking at domain handled accesses (which are
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  505  		 * a superset of the meaningful requested accesses).
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  506  		 */
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  507  		access_masked_parent1 = access_masked_parent2 =
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  508  			get_handled_accesses(domain);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  509  		is_dom_check = true;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  510  	} else {
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  511  		if (WARN_ON_ONCE(dentry_child1 || dentry_child2))
-106794c46b13a2 Günther Noack  2022-10-18  512  			return false;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  513  		/* For a simple request, only check for requested accesses. */
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  514  		access_masked_parent1 = access_request_parent1;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  515  		access_masked_parent2 = access_request_parent2;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  516  		is_dom_check = false;
-8ba0005ff418ec Mickaël Salaün 2022-05-06  517  	}
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  518  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  519  	if (unlikely(dentry_child1)) {
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  520  		unmask_layers(find_rule(domain, dentry_child1),
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  521  			      init_layer_masks(domain, LANDLOCK_MASK_ACCESS_FS,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  522  					       &_layer_masks_child1),
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  523  			      &_layer_masks_child1);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  524  		layer_masks_child1 = &_layer_masks_child1;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  525  		child1_is_directory = d_is_dir(dentry_child1);
-8ba0005ff418ec Mickaël Salaün 2022-05-06  526  	}
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  527  	if (unlikely(dentry_child2)) {
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  528  		unmask_layers(find_rule(domain, dentry_child2),
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  529  			      init_layer_masks(domain, LANDLOCK_MASK_ACCESS_FS,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  530  					       &_layer_masks_child2),
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  531  			      &_layer_masks_child2);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  532  		layer_masks_child2 = &_layer_masks_child2;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  533  		child2_is_directory = d_is_dir(dentry_child2);
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  534  	}
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  535  
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  536  	walker_path = *path;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  537  	path_get(&walker_path);
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  538  	/*
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  539  	 * We need to walk through all the hierarchy to not miss any relevant
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  540  	 * restriction.
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  541  	 */
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  542  	while (true) {
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  543  		struct dentry *parent_dentry;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  544  		const struct landlock_rule *rule;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  545  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  546  		/*
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  547  		 * If at least all accesses allowed on the destination are
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  548  		 * already allowed on the source, respectively if there is at
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  549  		 * least as much as restrictions on the destination than on the
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  550  		 * source, then we can safely refer files from the source to
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  551  		 * the destination without risking a privilege escalation.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  552  		 * This also applies in the case of RENAME_EXCHANGE, which
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  553  		 * implies checks on both direction.  This is crucial for
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  554  		 * standalone multilayered security policies.  Furthermore,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  555  		 * this helps avoid policy writers to shoot themselves in the
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  556  		 * foot.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  557  		 */
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  558  		if (unlikely(is_dom_check &&
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  559  			     no_more_access(
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  560  				     layer_masks_parent1, layer_masks_child1,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  561  				     child1_is_directory, layer_masks_parent2,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  562  				     layer_masks_child2,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  563  				     child2_is_directory))) {
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  564  			allowed_parent1 = scope_to_request(
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  565  				access_request_parent1, layer_masks_parent1);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  566  			allowed_parent2 = scope_to_request(
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  567  				access_request_parent2, layer_masks_parent2);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  568  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  569  			/* Stops when all accesses are granted. */
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  570  			if (allowed_parent1 && allowed_parent2)
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  571  				break;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  572  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  573  			/*
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  574  			 * Now, downgrades the remaining checks from domain
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  575  			 * handled accesses to requested accesses.
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  576  			 */
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  577  			is_dom_check = false;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  578  			access_masked_parent1 = access_request_parent1;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  579  			access_masked_parent2 = access_request_parent2;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  580  		}
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  581  
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  582  		rule = find_rule(domain, walker_path.dentry);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  583  		allowed_parent1 = unmask_layers(rule, access_masked_parent1,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  584  						layer_masks_parent1);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  585  		allowed_parent2 = unmask_layers(rule, access_masked_parent2,
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  586  						layer_masks_parent2);
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  587  
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  588  		/* Stops when a rule from each layer grants access. */
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  589  		if (allowed_parent1 && allowed_parent2)
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  590  			break;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  591  
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  592  jump_up:
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  593  		if (walker_path.dentry == walker_path.mnt->mnt_root) {
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  594  			if (follow_up(&walker_path)) {
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  595  				/* Ignores hidden mount points. */
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  596  				goto jump_up;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  597  			} else {
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  598  				/*
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  599  				 * Stops at the real root.  Denies access
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  600  				 * because not all layers have granted access.
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  601  				 */
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  602  				break;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  603  			}
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  604  		}
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  605  		if (unlikely(IS_ROOT(walker_path.dentry))) {
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  606  			/*
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  607  			 * Stops at disconnected root directories.  Only allows
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  608  			 * access to internal filesystems (e.g. nsfs, which is
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  609  			 * reachable through /proc/<pid>/ns/<namespace>).
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  610  			 */
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  611  			allowed_parent1 = allowed_parent2 =
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  612  				!!(walker_path.mnt->mnt_flags & MNT_INTERNAL);
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  613  			break;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  614  		}
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  615  		parent_dentry = dget_parent(walker_path.dentry);
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  616  		dput(walker_path.dentry);
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  617  		walker_path.dentry = parent_dentry;
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  618  	}
-cb2c7d1a177605 Mickaël Salaün 2021-04-22  619  	path_put(&walker_path);
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  620  
-106794c46b13a2 Günther Noack  2022-10-18  621  	return allowed_parent1 && allowed_parent2;
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  622  }
-b91c3e4ea756b1 Mickaël Salaün 2022-05-06  623  
-
-:::::: The code at line 480 was first introduced by commit
-:::::: b91c3e4ea756b12b7d992529226edce1cfd854d7 landlock: Add support for file reparenting with LANDLOCK_ACCESS_FS_REFER
-
-:::::: TO: Mickaël Salaün <mic@digikod.net>
-:::::: CC: Mickaël Salaün <mic@digikod.net>
+   617	
+   618	static int imx_ldb_probe(struct platform_device *pdev)
+   619	{
+   620		struct device *dev = &pdev->dev;
+   621		struct device_node *np = dev->of_node;
+   622		struct device_node *child;
+   623		struct imx_ldb *imx_ldb;
+   624		int dual;
+   625		int ret;
+   626		int i;
+   627	
+   628		imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
+   629		if (!imx_ldb)
+   630			return -ENOMEM;
+   631	
+   632		imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
+   633		if (IS_ERR(imx_ldb->regmap)) {
+   634			dev_err(dev, "failed to get parent regmap\n");
+   635			return PTR_ERR(imx_ldb->regmap);
+   636		}
+   637	
+   638		/* disable LDB by resetting the control register to POR default */
+   639		regmap_write(imx_ldb->regmap, IOMUXC_GPR2, 0);
+   640	
+   641		imx_ldb->dev = dev;
+   642		imx_ldb->lvds_mux = device_get_match_data(dev);
+   643	
+   644		dual = of_property_read_bool(np, "fsl,dual-channel");
+   645		if (dual)
+   646			imx_ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
+   647	
+   648		/*
+   649		 * There are three different possible clock mux configurations:
+   650		 * i.MX53:  ipu1_di0_sel, ipu1_di1_sel
+   651		 * i.MX6q:  ipu1_di0_sel, ipu1_di1_sel, ipu2_di0_sel, ipu2_di1_sel
+   652		 * i.MX6dl: ipu1_di0_sel, ipu1_di1_sel, lcdif_sel
+   653		 * Map them all to di0_sel...di3_sel.
+   654		 */
+   655		for (i = 0; i < 4; i++) {
+   656			char clkname[16];
+   657	
+ > 658			snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+   659			imx_ldb->clk_sel[i] = devm_clk_get(imx_ldb->dev, clkname);
+   660			if (IS_ERR(imx_ldb->clk_sel[i])) {
+   661				ret = PTR_ERR(imx_ldb->clk_sel[i]);
+   662				imx_ldb->clk_sel[i] = NULL;
+   663				break;
+   664			}
+   665	
+   666			imx_ldb->clk_parent[i] = clk_get_parent(imx_ldb->clk_sel[i]);
+   667		}
+   668		if (i == 0)
+   669			return ret;
+   670	
+   671		for_each_child_of_node(np, child) {
+   672			struct imx_ldb_channel *channel;
+   673			int bus_format;
+   674	
+   675			ret = of_property_read_u32(child, "reg", &i);
+   676			if (ret || i < 0 || i > 1) {
+   677				ret = -EINVAL;
+   678				goto free_child;
+   679			}
+   680	
+   681			if (!of_device_is_available(child))
+   682				continue;
+   683	
+   684			if (dual && i > 0) {
+   685				dev_warn(dev, "dual-channel mode, ignoring second output\n");
+   686				continue;
+   687			}
+   688	
+   689			channel = &imx_ldb->channel[i];
+   690			channel->ldb = imx_ldb;
+   691			channel->chno = i;
+   692	
+   693			/*
+   694			 * The output port is port@4 with an external 4-port mux or
+   695			 * port@2 with the internal 2-port mux.
+   696			 */
+   697			ret = drm_of_find_panel_or_bridge(child,
+   698							  imx_ldb->lvds_mux ? 4 : 2, 0,
+   699							  &channel->panel, &channel->bridge);
+   700			if (ret && ret != -ENODEV)
+   701				goto free_child;
+   702	
+   703			/* panel ddc only if there is no bridge */
+   704			if (!channel->bridge) {
+   705				ret = imx_ldb_panel_ddc(dev, channel, child);
+   706				if (ret)
+   707					goto free_child;
+   708			}
+   709	
+   710			bus_format = of_get_bus_format(dev, child);
+   711			if (bus_format == -EINVAL) {
+   712				/*
+   713				 * If no bus format was specified in the device tree,
+   714				 * we can still get it from the connected panel later.
+   715				 */
+   716				if (channel->panel && channel->panel->funcs &&
+   717				    channel->panel->funcs->get_modes)
+   718					bus_format = 0;
+   719			}
+   720			if (bus_format < 0) {
+   721				dev_err(dev, "could not determine data mapping: %d\n",
+   722					bus_format);
+   723				ret = bus_format;
+   724				goto free_child;
+   725			}
+   726			channel->bus_format = bus_format;
+   727			channel->child = child;
+   728		}
+   729	
+   730		platform_set_drvdata(pdev, imx_ldb);
+   731	
+   732		return component_add(&pdev->dev, &imx_ldb_ops);
+   733	
+   734	free_child:
+   735		of_node_put(child);
+   736		return ret;
+   737	}
+   738	
 
 -- 
 0-DAY CI Kernel Test Service
