@@ -1,139 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210335FEED
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 21:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8193597E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 21:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736111271; cv=none; b=b3oFLjDSqTOULJ10dAFvHL8HcNqE35PsAUJ0uU59OHzS48+ygS1F34yOSDDFmNX9VnxAngAMk8n4nORj1l+9Cz4jkMW+fb49XLxh04ixL97nVthdSDOTEsoEBJu8z4qJQqc6zVlVM9vYp9kaA3PdK6zW0vE9xEDxmHerfAVeQTo=
+	t=1736113903; cv=none; b=h67mc1QdMA/J/3dZ+/julCX6vUnCJcR9gPrMYOBHkLaO65EaahToUPBMxw7eI7YBWMA3alJ4H7qAZcXzDJOxFmaovgZGKIjRmW7eHV55uEbVc4Iz1RdBD9Vo8vb6nfCIU1On6IB1oI5XTWkzGjhLVcj8KUgtZYtLKJ0r13Pn1X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736111271; c=relaxed/simple;
-	bh=Ksfx8+X8iAo9DgmFvaYWOuXaewtHooQUTjU5zFD5f8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QOI/goSwxh9B7H91a+1lpc69T1rKLkygiwJdcFQQL/ynFTUGNGh6IepKUCblQ/nleyDikXudJGpeH2lQMM6mu3L0Q19nAM4JkcnfitYf9p0kBogqMrxpOj9DdEok83Jak8YrqWzM3r6uSTBJvgcJqI7qWvuJtMo/z2IIvaXq2fE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DctNk0dl; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736113903; c=relaxed/simple;
+	bh=+Iv4GzdSfyP/K9u9CoJb2eqJJr5fi++CFIMk1H2xTVE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GlH92FeBdvTc65J9QKKBcGjP3n61vioaBjNG8q/w55i48WAFf1wrJZwC6/AfZE2IZFbXghER0SwZ0qd7hW/hSDrWJ82QsQ2+70vy1sXv4xw4C3ZzvVcEhF/JKoYJH9JdM+skMep0FzFi62yZua6UTolxaC/SxQXJ1eqGw6oMXzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=QUy/w8FQ; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DctNk0dl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736111270; x=1767647270;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ksfx8+X8iAo9DgmFvaYWOuXaewtHooQUTjU5zFD5f8I=;
-  b=DctNk0dlc3kxRZya5t9imqsOlXR3RZo3gBGy3O7zK5KSxkdN+OjwkpOd
-   QyQlAfTKfOMEJwQIg54eotSRmQMCoux70cJUqVE93Y1f9J/5Jj8LdDbUo
-   Mzq/gnCqjzL92EmkfM93EIhxuNyTsJgMeqyO4yRBR9eTglslPQGP5erRS
-   fl5lgrsXBpPpQuE+KNjWvLZ7jVlPrqm7AwTmYqG+afD+yAMFZcsSLvrFk
-   Bn/mUcFgkfUiF2uYa87yF77u62I86HcS0lh8tu+otunKucWih4ggI8XLl
-   Sgfl+I62Cyin9SCgUXgfKZHGlQwnB+ReE5LJnBJIQn/Q6qjIHadWVIDWS
-   A==;
-X-CSE-ConnectionGUID: sqH2oxD4RNScD+aGW4n6ig==
-X-CSE-MsgGUID: rmutWuVJSZ2TTlFV/uSs/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="47249458"
-X-IronPort-AV: E=Sophos;i="6.12,291,1728975600"; 
-   d="scan'208";a="47249458"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 13:07:50 -0800
-X-CSE-ConnectionGUID: AfNFs8RmR862NDA498WJLw==
-X-CSE-MsgGUID: jQuDrS/1SMONLfmvgNnDHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="125549097"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 13:07:48 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tUXqb-000BzG-2L;
-	Sun, 05 Jan 2025 21:07:45 +0000
-Date: Mon, 6 Jan 2025 05:07:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Subject: security/landlock/ruleset.c:644: warning: Function parameter or
- struct member '' not described in 'landlock_init_layer_masks'
-Message-ID: <202501060543.XG0RGoPB-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="QUy/w8FQ"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso1544868566b.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 Jan 2025 13:51:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1736113899; x=1736718699; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rpmRkGX5eC8WQcFjbwo5fM+X4EHi5ZBIwXmu7JGQna8=;
+        b=QUy/w8FQRWZ+HLLaanmYNihigbiEEkE1W6+8p2HIq8sIydB5ESwZAyJ2IN8XR5lbcG
+         h2Bhe+VTzdxUVv7/QpbUkjfohPNt1dQjeS2ib1rtNYsBI96fJrdCNS/c6uCVr16dWhGz
+         Y+DR4p6WIbKSDia/+zkyGciKdbD08YlcsRvMY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736113899; x=1736718699;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rpmRkGX5eC8WQcFjbwo5fM+X4EHi5ZBIwXmu7JGQna8=;
+        b=w+PYvkelpme3XPxHnCAvMeMZZYl9cB2MZJooxfGUy3VbNm7nnncJdD/RBtZkM4QRu2
+         CbyjK2qmJWwa7iBZoQYVr/HOMI4eo4KaADSQgAXG+pWY63A57YqlzSJo9ZV8JTnmk685
+         +2NeqIGVTyD5zYN1bJOrU0ztSRbrxnenjJWsCLGNrctvxFoXpVYu2cQcp23WAdmHknH0
+         YuiuaRreGohrmCbv8HmcaOEbALFziVg2ubKLy4pTxEWItOJLycgg8OpusRsbO+3sJxeW
+         qFV4MbvrpHwtKuv6Yfxd56JehbQDZ4HezwlF2d/pyKCv+7floWNNRphzcI1lQzHjs4SK
+         17OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ2mqtyn2q6KjkSyqjwldDfaj8s8YF1PeoKT6kKH/mMLVxO8JLDJo2VMXJmnMiqDxFexoMfltyRoPjN1Ie@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7ikw0pvx/rISJJr7PK20smpOwywauOqwAf0RqZieSlYTodq1o
+	610jlkMT+cflmIZzyQ/OqwkP/LS595vSM0xSmhyZ13s77hhz0QFI2xzYEv61n1vomuAsfgMdug/
+	pdUQ=
+X-Gm-Gg: ASbGncuh2IPqNhtPOLPFdqcQ6e0Wn0EDTLz5FdKhxl3QIlbfXsC/XjEwAnl0SAjDoEA
+	xSaJOIlnvwefC3Dpgkc0Q8Ici6B8MkWlskkOxinKEhZDtUVH7hgESj7BoKKXR2g1geEJ8V3wpZ2
+	d2i6cqkyEUa6dHpVk7b+CWVH4b//6sVKi4Xf/YHGiti8qcdMTtjnPb4B4Zj2m0T/aCPqbMwsnR5
+	r3G3vQoad4JjzgnWDPE60Nox1/NaJMrQoTpZ869S/th0GAy4vvuE3sg13W3qoP8LqKFWXrhmZAt
+	je3I8dPErVl2nptB9JvT43eVWs+YqqM=
+X-Google-Smtp-Source: AGHT+IGny7PO+KuUVDPAse8vv61MwSVqZZMUkX2AFpp21o7lv3iya1Y9G7gLNyW2w/ZYz6gFItWmYA==
+X-Received: by 2002:a17:907:3f1d:b0:aab:d7ef:d44 with SMTP id a640c23a62f3a-aac2d326ba8mr5022206166b.24.1736113899498;
+        Sun, 05 Jan 2025 13:51:39 -0800 (PST)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f013900sm2183395566b.144.2025.01.05.13.51.38
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Jan 2025 13:51:38 -0800 (PST)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-aaee0b309adso1622497866b.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 Jan 2025 13:51:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX0u9aR45UZLjTtKWyWanO93k71JHhhcUP0aD25RUN+LJaym5PYTYxUN7Ju/BP8DO8HtJdsKwb7rOYH1AMv@lists.linux.dev
+X-Received: by 2002:a17:907:728c:b0:aab:9430:40e9 with SMTP id
+ a640c23a62f3a-aac2d420441mr4954091566b.32.1736113898164; Sun, 05 Jan 2025
+ 13:51:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202501030516.uZrwnuQQ-lkp@intel.com> <CAMuHMdW-DYPp_2nAaBdvgoa6Yr9et2cNS_260H-9H_CT4yEasw@mail.gmail.com>
+In-Reply-To: <CAMuHMdW-DYPp_2nAaBdvgoa6Yr9et2cNS_260H-9H_CT4yEasw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 5 Jan 2025 13:51:21 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wj4tYCytRshQGkWSNmZS=59PtKEUpG7f4Sy_46n+WYtXw@mail.gmail.com>
+Message-ID: <CAHk-=wj4tYCytRshQGkWSNmZS=59PtKEUpG7f4Sy_46n+WYtXw@mail.gmail.com>
+Subject: Re: [geert-m68k:master 2/2] lib/muldi3.c:53:28: sparse: sparse: asm
+ output is not an lvalue
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>, Greg Ungerer <gerg@linux-m68k.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, Arnd Bergmann <arnd@arndb.de>, 
+	linux-sparse@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Konstantin,
+On Fri, 3 Jan 2025 at 01:22, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Perhaps this is an issue with sparse?
 
-FYI, the error/warning still remains.
+No, this is just m68k doing disgusting things that happen to work with
+gcc, because gcc considers casts to be lvalues (which in turn is comes
+from some horrid C++ thing, since in C++ casting is a whole magical
+extra complexity).
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9244696b34f2a626d7468864420ab6a47289bf10
-commit: 0e7410112964168a65578002269ae3b80b207936 landlock: Move and rename layer helpers
-date:   1 year, 2 months ago
-config: csky-randconfig-r026-20230729 (https://download.01.org/0day-ci/archive/20250106/202501060543.XG0RGoPB-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501060543.XG0RGoPB-lkp@intel.com/reproduce)
+IOW, this m68k pattern is horrendous, and sparse quite reasonably
+complains about it:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501060543.XG0RGoPB-lkp@intel.com/
+  #define umul_ppmm(w1, w0, u, v) \
+    __asm__ ("mulu%.l %3,%1:%0"                                           \
+             : "=d" ((USItype)(w0)),                                      \
+               "=d" ((USItype)(w1))                                       \
+             : "%0" ((USItype)(u)),                                       \
+               "dmi" ((USItype)(v)))
 
-All warnings (new ones prefixed by >>):
+notice how it has two register outputs (the "=d"), and the destination
+of said output is not a proper lvalue, but a cast expression.
 
-   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 182.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 182.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 182.
-   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 182.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 182.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 182.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 182.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 182.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 182.
-   Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 182.
-   security/landlock/ruleset.c:182: warning: Function parameter or struct member '' not described in 'insert_rule'
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 182.
-   Use of uninitialized value $parameterlist[2] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 182.
-   security/landlock/ruleset.c:182: warning: Excess function parameter 'layers' description in 'insert_rule'
-   Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 644.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 644.
-   Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 644.
-   Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 644.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 644.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 644.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 644.
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 644.
-   Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 644.
-   Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 644.
->> security/landlock/ruleset.c:644: warning: Function parameter or struct member '' not described in 'landlock_init_layer_masks'
-   Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 644.
-   Use of uninitialized value $parameterlist[2] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 644.
->> security/landlock/ruleset.c:644: warning: Excess function parameter 'layer_masks' description in 'landlock_init_layer_masks'
+I think you could just remove the cast. Afaik the w0/w1 arguments come from
 
+#define __umulsidi3(u, v) \
+  ({DIunion __w;                                                        \
+    umul_ppmm (__w.s.high, __w.s.low, u, v);                            \
+    __w.ll; })
 
-vim +644 security/landlock/ruleset.c
+and __w.s.high and __w.s.low are from struct DIstruct, which uses
+"SItype". So all the cast does is to change the signedness of the
+variable, but that has no *meaning* when you assign to it and the
+sizes match.
 
-   626	
-   627	/**
-   628	 * landlock_init_layer_masks - Initialize layer masks from an access request
-   629	 *
-   630	 * Populates @layer_masks such that for each access right in @access_request,
-   631	 * the bits for all the layers are set where this access right is handled.
-   632	 *
-   633	 * @domain: The domain that defines the current restrictions.
-   634	 * @access_request: The requested access rights to check.
-   635	 * @layer_masks: The layer masks to populate.
-   636	 *
-   637	 * Returns: An access mask where each access right bit is set which is handled
-   638	 * in any of the active layers in @domain.
-   639	 */
-   640	access_mask_t landlock_init_layer_masks(
-   641		const struct landlock_ruleset *const domain,
-   642		const access_mask_t access_request,
-   643		layer_mask_t (*const layer_masks)[LANDLOCK_NUM_ACCESS_FS])
- > 644	{
+Alternatively, you could just use the right types explicitly and write
+the umul_ppmm() macro something like
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#define umul_ppmm(w1, w0, u, v) do {            \
+        USItype __w0, __w1;                     \
+        __asm__ ("mulu%.l %3,%1:%0"             \
+                : "=d" (__w0)                   \
+                  "=d" (__w1)                   \
+                : "%0" ((USItype)(u)),          \
+                  "dmi" ((USItype)(v)));        \
+        w0 = __w0; w1 = __w1; } while (0)
+
+NOTE! UNTESTED! Treat the above as a "something like this, perhaps".
+
+              Linus
