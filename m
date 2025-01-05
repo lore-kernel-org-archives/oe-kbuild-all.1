@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787971D0E36;
-	Sun,  5 Jan 2025 19:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1232CDDD3
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jan 2025 20:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736106320; cv=none; b=d539pEb1HSLedEeyJUSxzqmBd1FeBvZaHtUpBGFb5mtWgwxzdSDNUxlLmGDq1jOSCYrWjIdGGILMX+9WxSLgsOdnDjXNCfoeoSEg4yaNNT2yFUvpVA1sjlEPF37VYEsqppeOEgItWEPLLjNrF5C041ovRpSqSPWy/pnvJ9+jqYc=
+	t=1736107527; cv=none; b=E16HgrblTqxWiVxYcQMI9SqT9QkrrGIEHM9WQhfZ7H2jhK1t1Ocw45e+nj4nVlKiF6x8utjTX0Ldev3fRuHk36fUyQDZ1+kTs1Db840ENu06qBRQkn0jEZhCPCw18DW+MTckPYZIP4kpCEZPgb+a+brel74bd+or7T46uetSZt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736106320; c=relaxed/simple;
-	bh=iBvD54JPeK5ixXvm/kmalDau6FZdHe/1SAO9TNCB+/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UMQ4CFhuWKp+VNfpXVdCMj6kIrIqwPPq4ilgGqrtV+yGRR2P/EUZPDCyWI67DzMG770n5KWwfPAQHIQFnqoSczK72HE9L7eQp5k7TFrqvMFObePhzOVaBu8hSRFYCtHzh6OEHD5nqx8oRlN4SdGy/u+5KwOu9wUIE32e+/1TEv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ze2W/mt+; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1736107527; c=relaxed/simple;
+	bh=dM629ExilA9/yz3nDjq+dTeDHc2G4KV1uYfpuGnhFIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UCkJtRZXkaFDHY/s7T7RIdCt+K+sCuJnktPMKdLKfzzZTVigTuB+gXTa47U0jwZ3/0Qavsa0IeTnfgQxEx0tN5ZmejRBQCqceqW57aj21erDAC/eOf5WF6HZZT98OiqMV9LFPcBXe0oHtknwGvaJt8QtcmpXZAbpnIz5Ra0VJFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ko6THBYl; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ze2W/mt+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ko6THBYl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736106319; x=1767642319;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iBvD54JPeK5ixXvm/kmalDau6FZdHe/1SAO9TNCB+/E=;
-  b=Ze2W/mt+xfNLPqxI7rcpJ+EHKUPUpDorBofLTXwQXvwNCKOzcxCJD3Zh
-   NnGuHpS2H6puj78YuYzioPxvWeGiLzawOEbQrzOdlKuLzT1qIdbsoRkxC
-   mCqRGTcS2nVeVt504imYcypNRPLHEWfEFpYf9r0Xe1+oJSZ+FzUS9iZNR
-   8g0lPtbn/rUwUK9hAHgDCinma8cymgrE21Hs1N4DCPp3NBsNGiUooQD9A
-   Y0nBDdv95E7NMpWGv4cgkJFxAdaMzO8+0WfatD3OjgfuZa65PHMEzJxF4
-   blsgDW02TSS+1bAZIatU8HsLqcJvLPxTYyJTX5+sUacXWe4WdyR2ZWt1N
-   g==;
-X-CSE-ConnectionGUID: AcNAD+rVQp++K20tfbCyRg==
-X-CSE-MsgGUID: 9RbC0f8kQdaKlsD/CFOTTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="39946015"
+  t=1736107526; x=1767643526;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dM629ExilA9/yz3nDjq+dTeDHc2G4KV1uYfpuGnhFIo=;
+  b=ko6THBYllRpTUuXTWVg5imYCxPfM3kDk9sz/fhKun7rW7rWe1gVEX/KW
+   PQbsbJe+XD5aKujEltDBj/yLCF4akAMhtejT7tUfjrtYoAWoHwAtm91gf
+   +zd9JJYRtc8IQpFqzoxgX8knEAmDLf7ztSdErfKM+rjjYFyOl/TlsyyIg
+   ZKLbFMSykaBLHUieClEnFQlJd1fEODT25TPTf5hCw6bnwQ7HzVfE+YtlL
+   PPuTWUcAmm0L/rYE7lfPkeWE8kaudRiGbChrlUw11QzsBQ/2gcYCx4ZJ3
+   ESxJr7VMNQIrRZAiv0Bsm2gdoJonv2FFZhA6af2vTfZNix3fWtzg7W4Qw
+   Q==;
+X-CSE-ConnectionGUID: xAo5wvVsRUOOLmJHu2FNjg==
+X-CSE-MsgGUID: WOlS9THYS5+1zJroOcJGtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="40196166"
 X-IronPort-AV: E=Sophos;i="6.12,291,1728975600"; 
-   d="scan'208";a="39946015"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 11:45:18 -0800
-X-CSE-ConnectionGUID: xSKKZzxPQ4S0keJ7S7ZZ6Q==
-X-CSE-MsgGUID: ysUBLt8xRgCPJOmvi2F5Ug==
+   d="scan'208";a="40196166"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 12:05:25 -0800
+X-CSE-ConnectionGUID: DUfSVeUgSzu189ulj4Jegw==
+X-CSE-MsgGUID: nOW/ldNhT5G826Jd89/8nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,291,1728975600"; 
-   d="scan'208";a="102140161"
+   d="scan'208";a="133101349"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Jan 2025 11:45:16 -0800
+  by orviesa002.jf.intel.com with ESMTP; 05 Jan 2025 12:05:25 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUWYj-000Bx5-1Y;
-	Sun, 05 Jan 2025 19:45:13 +0000
-Date: Mon, 6 Jan 2025 03:44:20 +0800
+	id 1tUWsD-000By2-2r;
+	Sun, 05 Jan 2025 20:05:21 +0000
+Date: Mon, 6 Jan 2025 04:05:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ilpo.jarvinen@linux.intel.com, w_armin@gmx.de,
-	mario.limonciello@amd.com, hdegoede@redhat.com,
-	Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
-	Kurt Borja <kuurtb@gmail.com>
-Subject: Re: [PATCH v3 16/20] platform/x86: Add alienware-wmi.h
-Message-ID: <202501060332.wvfPD58P-lkp@intel.com>
-References: <20250105153019.19206-18-kuurtb@gmail.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: drivers/rtc/rtc-pl031.c:85: warning: Function parameter or struct
+ member 'range_min' not described in 'pl031_vendor_data'
+Message-ID: <202501060322.FAnXQ5Qy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,43 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250105153019.19206-18-kuurtb@gmail.com>
 
-Hi Kurt,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6b228cfc52a6e9b7149cf51e247076963d6561cd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/platform-x86-alienware-wmi-Remove-unnecessary-check-at-module-exit/20250105-233751
-base:   6b228cfc52a6e9b7149cf51e247076963d6561cd
-patch link:    https://lore.kernel.org/r/20250105153019.19206-18-kuurtb%40gmail.com
-patch subject: [PATCH v3 16/20] platform/x86: Add alienware-wmi.h
-config: i386-buildonly-randconfig-006-20250105 (https://download.01.org/0day-ci/archive/20250106/202501060332.wvfPD58P-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501060332.wvfPD58P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ab75170520d4964f3acf8bb1f91d34cbc650688e
+commit: 03f2a0e45f395bc34b0a44105bc7e935bfd40c27 rtc: pl031: set range
+date:   4 years, 10 months ago
+config: arm-randconfig-r013-20220706 (https://download.01.org/0day-ci/archive/20250106/202501060322.FAnXQ5Qy-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501060322.FAnXQ5Qy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501060332.wvfPD58P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501060322.FAnXQ5Qy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/platform/x86/dell/alienware-wmi-base.c:17:
->> drivers/platform/x86/dell/alienware-wmi.h:9:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
-       9 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |         ^
-   include/linux/printk.h:391:9: note: previous definition is here
-     391 | #define pr_fmt(fmt) fmt
-         |         ^
-   1 warning generated.
+>> drivers/rtc/rtc-pl031.c:85: warning: Function parameter or struct member 'range_min' not described in 'pl031_vendor_data'
+>> drivers/rtc/rtc-pl031.c:85: warning: Function parameter or struct member 'range_max' not described in 'pl031_vendor_data'
 
 
-vim +/pr_fmt +9 drivers/platform/x86/dell/alienware-wmi.h
+vim +85 drivers/rtc/rtc-pl031.c
 
-   > 9	#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-    10	
+8ae6e163c1b637 Deepak Saxena     2006-06-25  68  
+aff05ed5d10352 Linus Walleij     2012-07-30  69  /**
+aff05ed5d10352 Linus Walleij     2012-07-30  70   * struct pl031_vendor_data - per-vendor variations
+aff05ed5d10352 Linus Walleij     2012-07-30  71   * @ops: the vendor-specific operations used on this silicon version
+1bb457fc9268bb Linus Walleij     2012-07-30  72   * @clockwatch: if this is an ST Microelectronics silicon version with a
+1bb457fc9268bb Linus Walleij     2012-07-30  73   *	clockwatch function
+1bb457fc9268bb Linus Walleij     2012-07-30  74   * @st_weekday: if this is an ST Microelectronics silicon version that need
+1bb457fc9268bb Linus Walleij     2012-07-30  75   *	the weekday fix
+559a6fc0508392 Mattias Wallin    2012-07-30  76   * @irqflags: special IRQ flags per variant
+aff05ed5d10352 Linus Walleij     2012-07-30  77   */
+aff05ed5d10352 Linus Walleij     2012-07-30  78  struct pl031_vendor_data {
+aff05ed5d10352 Linus Walleij     2012-07-30  79  	struct rtc_class_ops ops;
+1bb457fc9268bb Linus Walleij     2012-07-30  80  	bool clockwatch;
+1bb457fc9268bb Linus Walleij     2012-07-30  81  	bool st_weekday;
+559a6fc0508392 Mattias Wallin    2012-07-30  82  	unsigned long irqflags;
+03f2a0e45f395b Alexandre Belloni 2020-03-06  83  	time64_t range_min;
+03f2a0e45f395b Alexandre Belloni 2020-03-06  84  	timeu64_t range_max;
+aff05ed5d10352 Linus Walleij     2012-07-30 @85  };
+aff05ed5d10352 Linus Walleij     2012-07-30  86  
+
+:::::: The code at line 85 was first introduced by commit
+:::::: aff05ed5d103524bd69bd9d7b621c5c8a6c63198 rtc: pl031: encapsulate per-vendor ops
+
+:::::: TO: Linus Walleij <linus.walleij@linaro.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
