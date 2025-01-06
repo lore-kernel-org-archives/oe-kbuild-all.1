@@ -1,165 +1,132 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756E11DF26F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 20:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CD27081E;
+	Mon,  6 Jan 2025 20:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736195085; cv=none; b=mIwGM2c+1ks5HwXnUCYd8Zo3OCRgj7RhWv/h4Nqu57aW4KarmyxelMcMHNBpWY6F4lswUJOJ9tlVvNgy4San/rJ/YaD1ixMqsy5ZuFz0Vw98nPQUq7Sb/lXp6vCK4iksvso4dJ64k/4n+yG1NFrbl2XaY+Q5qqKNi72yGhKBM5o=
+	t=1736196032; cv=none; b=uVV6Ko431yoDpNN5uJpyQzA80GkKQqDAZ1bQQST4cBBJ0pYbzqYEQ+pVWVDHg99Ha52WlJ7XD+hbbJ/NIXEkfTygqoB/BMbjFkQSTkHSCp0E3bur7lg5geD1QEw6wYxSQBo0TbQCmwh83Ya5mAtjNgico9wix+FnpdSCDS2MZ3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736195085; c=relaxed/simple;
-	bh=GbDnOeV1hVwo672CoCyWd3qVKQ+X93NyezNNPZoCkOI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SvKp4PMne+DODCBRUL5JutAkLX1OR01Mnvzdjcl1pw8vhyCUz/9sK8Ov/Weqw6dRJK35jazg6DcYyTAGqzWwgzOMCzLQOWbJuwAloLV/9biNyd8c+F12s+ZBkVrdoE4htAEsxu4PsSOdYh0YfvqRJM03wPPFYrYlQH19e5oPTqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLTc+sNJ; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736196032; c=relaxed/simple;
+	bh=SaR0YnPa4eDCNH2V7kPhqI+8zzTtomJB5TUHEoNLy5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oqkc1WeqUKUrePiBuqJpptRW5tzpsTeNZ1zBY3NiJqPhJmnSG3wEQfXPg86MOUti9aeFR5BoL2zlS+rfRwCWU09siaGd96b7jN2zSqJoUoMGrHr3WePHAJ+f3jTxz21monxROpL6s2PU6o57zqy3DuAAOIzTb1ORT3umWSC2cS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=POTtvzoq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLTc+sNJ"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-51882748165so5037363e0c.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 12:24:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736195082; x=1736799882; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oBvFGKLQ+3Mx2W8DaDMuz7zf+1Q+8Q3d42tdhLaH9yA=;
-        b=eLTc+sNJtk4YEOnmkdMWCLDRN5slspHK3JDV1ZhtrrFrRSKQscRQsRhI4BSttMJE6p
-         wpA/CjV+/q1cQe0CIkmYchCiCGX/N2XRYMTFrmuJrx3OHggpqWJ1MKUg5di9gYdpUWCa
-         Wy/vPpvmmAFuwoQnnLhk/PTHMdjaeERYCeMBj1TsI/Vu5/hiDPaQr8ljoz9fVvaQM8Bl
-         FCx+Geu80A/IYS/dl/E0VToweymNsBhsI32goyE38Hn1zkUZa1nXAGDdIQlco6X882Zr
-         qxMLu4DMBOh3VE3q8U8K1cVbDUY+5CM7DIQKKZTAN0BPRYTfCB2Wjdg1G56HYOONLTgM
-         4/sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736195082; x=1736799882;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oBvFGKLQ+3Mx2W8DaDMuz7zf+1Q+8Q3d42tdhLaH9yA=;
-        b=jqB5tfM43UEJEc4gqfd13C9iMuDutIW46pEHv0SRfpKoUhG7460zbzoxiTt6FHlJxq
-         gniAvPS5ZO3FuWuwduyf25d9wfAgJ/vRdoS1n0OMfzd0OoQ0W43SuKiG9EvmDOFhtdJm
-         JfrDbOVSl2ycIuo+SiDi+weDSd9bRb9oE29dNL81V8xt9vN2+4jAxRogi0/Pl6fwKf5J
-         ssJuqoq7bY6FqXDf5MZB8HU5w6A+rNkj9NeQ+yC8tWg0utdPdOVt15A0WgGUe0E9jNeZ
-         MPIeXCbMWY8Fv7YrU0V+ew/U9yAknG06YGSL04XfEZf3dlFb1jWw3n/9Ae94cf0gJ2bL
-         SJ1g==
-X-Forwarded-Encrypted: i=1; AJvYcCW2sjtoslELvJmcVOq02SUVgDeFVL3D+51qp1Zw1myeXSk7NUziSne22wo6gtYNki5OeoXUQnNtvZ9ZS3kY@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywe81CkJaxxmvtnjRP9rDmRAPbfXl2QgcDM4QuwwzbO2OlloMvC
-	XRHaO4nhZpf7XwhPrXNvwBlfvui4HAmJbbd8b2JpT0cM760WUls7XEGj0rPyoKkYO2NLnibHUTg
-	3ikX4SCyTasCF8pYeCA+kbZ8rnb/Yc/l8sl4=
-X-Gm-Gg: ASbGncuj55DgHnyGnuO2kjfRHDds3sK3CqbKbd7Qoxx0lydXDmibZVlatIJ9iNAsegr
-	1iCatHsf23diI8epUfQtiwLI8n8wC7+0LBny5pqk=
-X-Google-Smtp-Source: AGHT+IH1yiuOpU5pEW6akY5iVdCxCjAh9URCh0h/9jVWcXuhF9lj+aGcCksb5NeTZkADviugLxX3HFy/u7RFt6gn50Y=
-X-Received: by 2002:a05:6122:270b:b0:518:7ab7:afbb with SMTP id
- 71dfb90a1353d-51b75d3134dmr46260808e0c.8.1736195082143; Mon, 06 Jan 2025
- 12:24:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="POTtvzoq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CE84C4CED2;
+	Mon,  6 Jan 2025 20:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736196031;
+	bh=SaR0YnPa4eDCNH2V7kPhqI+8zzTtomJB5TUHEoNLy5s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=POTtvzoqHdUO+We6+awLEKRYhFfc9nrzJLeZs1apKyZf1ruwX8MYtKSIBxREtQhe3
+	 KDqjiSRYGZuZQzjflSYJzmYk3uEx3AVGYkypzCQ0YhQNuI58CoQk12h9qINNQnkVAl
+	 8fxMKFBlFfCtugWZxoAH9Jg+752s7m7gjEBlXKG5mmXfhPopME9Oe0QchVg93QRik7
+	 KYeyfNLZvPnypyFYRzxFF+dwsLUHhqhQ4XXykz2lJ7QuBstooCYm92d3lThIlPcYhp
+	 51dtnLaEkoK6AVub+t7cVj1fNxeLNIjfMcC3Bzto/I5ITqmIYkco5qMPxOD6j4orNo
+	 cHxs28cRJJ3Qg==
+Received: by pali.im (Postfix)
+	id 836AD8AF; Mon,  6 Jan 2025 21:40:20 +0100 (CET)
+Date: Mon, 6 Jan 2025 21:40:20 +0100
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [pali:cifs 20/48] fs/smb/client/cifsacl.c:1514 set_cifs_acl()
+ error: uninitialized symbol 'access_flags'.
+Message-ID: <20250106204020.4x6odds53jdc3nh3@pali>
+References: <8e2d1d8e-5830-4342-b646-ccf025d2c508@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250104175346.656352-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <202501061001.6iClUTxN-lkp@intel.com>
-In-Reply-To: <202501061001.6iClUTxN-lkp@intel.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 6 Jan 2025 20:24:16 +0000
-X-Gm-Features: AbW1kvYQ64lqXt0W7fYkP0Qt5wLKSoL_IQ1o051C3begc80IQMGykBNFk93Rm4k
-Message-ID: <CA+V-a8tFnLMzUiou8DDrA8qauyCZef7H3Za5NABPOwWkptQMtg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Add clock and reset entry for DRP-AI
-To: kernel test robot <lkp@intel.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8e2d1d8e-5830-4342-b646-ccf025d2c508@stanley.mountain>
+User-Agent: NeoMutt/20180716
 
-Hi,
-
-Thank you for the report.
-
-On Mon, Jan 6, 2025 at 3:11=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Prabhakar,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on geert-renesas-drivers/renesas-clk]
-> [also build test WARNING on clk/clk-next linus/master v6.13-rc6 next-2024=
-1220]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/clk-rene=
-sas-r9a07g044-Add-clock-and-reset-entry-for-DRP-AI/20250105-015708
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dri=
-vers.git renesas-clk
-> patch link:    https://lore.kernel.org/r/20250104175346.656352-1-prabhaka=
-r.mahadev-lad.rj%40bp.renesas.com
-> patch subject: [PATCH] clk: renesas: r9a07g044: Add clock and reset entry=
- for DRP-AI
-> config: nios2-randconfig-r052-20250106 (https://download.01.org/0day-ci/a=
-rchive/20250106/202501061001.6iClUTxN-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250106/202501061001.6iClUTxN-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On Monday 06 January 2025 13:46:56 Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
+> head:   cc26137de51202e7210b058f6696393f1e006d46
+> commit: ce9f9c0511bbb913daa982afed5859ab68adf0e8 [20/48] cifs: Fix getting and setting SACLs over SMB1
+> config: riscv-randconfig-r072-20241228 (https://download.01.org/0day-ci/archive/20241228/202412281410.msF9yv6K-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 14.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501061001.6iClUTxN-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> drivers/clk/renesas/r9a07g044-cpg.c:97:35: warning: 'dtable_4_32' defi=
-ned but not used [-Wunused-const-variable=3D]
->       97 | static const struct clk_div_table dtable_4_32[] =3D {
->          |                                   ^~~~~~~~~~~
->
->
-> vim +/dtable_4_32 +97 drivers/clk/renesas/r9a07g044-cpg.c
->
->     96
->   > 97  static const struct clk_div_table dtable_4_32[] =3D {
->     98          {3, 4},
->     99          {4, 5},
->    100          {5, 6},
->    101          {6, 7},
->    102          {7, 8},
->    103          {8, 9},
->    104          {9, 10},
->    105          {10, 11},
->    106          {11, 12},
->    107          {12, 13},
->    108          {13, 14},
->    109          {14, 15},
->    110          {15, 16},
->    111          {16, 17},
->    112          {17, 18},
->    113          {18, 19},
->    114          {19, 20},
->    115          {20, 21},
->    116          {21, 22},
->    117          {22, 23},
->    118          {23, 24},
->    119          {24, 25},
->    120          {25, 26},
->    121          {26, 27},
->    122          {27, 28},
->    123          {28, 29},
->    124          {29, 30},
->    125          {30, 31},
->    126          {31, 32},
->    127          {0, 0},
->    128  };
->    129
->
-I'll guard the above with #ifdef CONFIG_CLK_R9A07G054.
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202412281410.msF9yv6K-lkp@intel.com/
+> 
+> smatch warnings:
+> fs/smb/client/cifsacl.c:1514 set_cifs_acl() error: uninitialized symbol 'access_flags'.
 
-Cheers,
-Prabhakar
+Hello, I have already figured it out and wrote to the list:
+https://lore.kernel.org/linux-cifs/20241227144343.volpdup7xx6xlsiq@pali/T/#u
+
+> vim +/access_flags +1514 fs/smb/client/cifsacl.c
+> 
+> 3651487607ae77 fs/smb/client/cifsacl.c ChenXiaoSong       2024-08-22  1486  int set_cifs_acl(struct smb_ntsd *pnntsd, __u32 acllen,
+> a5ff376966c079 fs/cifs/cifsacl.c       Shirish Pargaonkar 2011-10-13  1487  			struct inode *inode, const char *path, int aclflag)
+> b96d31a62f7145 fs/cifs/cifsacl.c       Christoph Hellwig  2009-05-27  1488  {
+> b96d31a62f7145 fs/cifs/cifsacl.c       Christoph Hellwig  2009-05-27  1489  	int oplock = 0;
+> 6d5786a34d98bf fs/cifs/cifsacl.c       Pavel Shilovsky    2012-06-20  1490  	unsigned int xid;
+> 0f060936e490c6 fs/cifs/cifsacl.c       Amir Goldstein     2020-02-03  1491  	int rc, access_flags;
+> 96daf2b09178d8 fs/cifs/cifsacl.c       Steve French       2011-05-27  1492  	struct cifs_tcon *tcon;
+> a5ff376966c079 fs/cifs/cifsacl.c       Shirish Pargaonkar 2011-10-13  1493  	struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+> 7ffec372458d16 fs/cifs/cifsacl.c       Jeff Layton        2010-09-29  1494  	struct tcon_link *tlink = cifs_sb_tlink(cifs_sb);
+> d81b8a40e2ece0 fs/cifs/cifsacl.c       Pavel Shilovsky    2014-01-16  1495  	struct cifs_fid fid;
+> d81b8a40e2ece0 fs/cifs/cifsacl.c       Pavel Shilovsky    2014-01-16  1496  	struct cifs_open_parms oparms;
+> 7ffec372458d16 fs/cifs/cifsacl.c       Jeff Layton        2010-09-29  1497  
+> 7ffec372458d16 fs/cifs/cifsacl.c       Jeff Layton        2010-09-29  1498  	if (IS_ERR(tlink))
+> 7ffec372458d16 fs/cifs/cifsacl.c       Jeff Layton        2010-09-29  1499  		return PTR_ERR(tlink);
+> 97837582bc1e19 fs/cifs/cifsacl.c       Steve French       2007-12-31  1500  
+> 7ffec372458d16 fs/cifs/cifsacl.c       Jeff Layton        2010-09-29  1501  	tcon = tlink_tcon(tlink);
+> 6d5786a34d98bf fs/cifs/cifsacl.c       Pavel Shilovsky    2012-06-20  1502  	xid = get_xid();
+> 97837582bc1e19 fs/cifs/cifsacl.c       Steve French       2007-12-31  1503  
+> ce9f9c0511bbb9 fs/smb/client/cifsacl.c Pali Rohár         2024-10-14  1504  	if (aclflag & CIFS_ACL_OWNER || aclflag & CIFS_ACL_GROUP)
+> ce9f9c0511bbb9 fs/smb/client/cifsacl.c Pali Rohár         2024-10-14  1505  		access_flags |= WRITE_OWNER;
+> ce9f9c0511bbb9 fs/smb/client/cifsacl.c Pali Rohár         2024-10-14  1506  	if (aclflag & CIFS_ACL_SACL)
+> ce9f9c0511bbb9 fs/smb/client/cifsacl.c Pali Rohár         2024-10-14  1507  		access_flags |= SYSTEM_SECURITY;
+> ce9f9c0511bbb9 fs/smb/client/cifsacl.c Pali Rohár         2024-10-14  1508  	if (aclflag & CIFS_ACL_DACL)
+> ce9f9c0511bbb9 fs/smb/client/cifsacl.c Pali Rohár         2024-10-14  1509  		access_flags |= WRITE_DAC;
+> 
+> What if the permisions are 000?
+
+Then it means "no permission". And SMB server refuses opening file/dir
+with "no permission". And in case the buggy server opens it, then kernel
+would ask to do "no operation" as no update flag would be set.
+
+But in any case, calling this ->set_acl() callback with zero or invalid
+aclflag is an error, so the callback would return error from server.
+
+Now I check that no kernel code is calling ->set_acl() with zero /
+invalid flags.
+
+So basically, it is just a compiler false-positive warning, not a real
+error in a code. But of course I will include the fixup from the list in
+next version.
+
+Anyway, same logic is in set_smb2_acl implementation of ->set_acl()
+callback. So I think it is safe.
+
+> a5ff376966c079 fs/cifs/cifsacl.c       Shirish Pargaonkar 2011-10-13  1510  
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11  1511  	oparms = (struct cifs_open_parms) {
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11  1512  		.tcon = tcon,
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11  1513  		.cifs_sb = cifs_sb,
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11 @1514  		.desired_access = access_flags,
+>                                                                                                           ^^^^^^^^^^^^
+> warning
+> 
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11  1515  		.create_options = cifs_create_options(cifs_sb, 0),
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11  1516  		.disposition = FILE_OPEN,
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11  1517  		.path = path,
+> de036dcaca65cf fs/cifs/cifsacl.c       Volker Lendecke    2023-01-11  1518  		.fid = &fid,
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
