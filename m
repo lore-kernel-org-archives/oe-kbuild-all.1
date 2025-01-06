@@ -1,145 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156FB3D69
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 03:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF03189B83;
+	Mon,  6 Jan 2025 03:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736133062; cv=none; b=lT894Ko1h3rUO8BCTnufhW31Aqz/JC4xYnFLx/1JVvBaQL5zeGJa6Fb0xzAc5IZ67r1UisIHku3YOGKr41JQV3sMGBkvnpoCHmwb4AwE0PBGsGHXbpml6Aaki06hnkqUkhdjOhN5HpK+6nLbGtj3fNqdzpS5Zj6Sd1ZV6aYUyAo=
+	t=1736134355; cv=none; b=u+nDkrwgmFQ3ehJ+G7qKLYuDiwHt5y+8DAr60q8ihZHf/4DHTZV1Ia8/EuFJ6DeX7CKrGhZPu6NabR439F/BipUX0L4P0FLUTGslTkjvCEgflEJ1lQNC94O0I8O71iWlWo8YCXdBFHdhnEE23qlq3GRLwmuEF4cEuuzUnIf2RsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736133062; c=relaxed/simple;
-	bh=BGHJPAGUmaDxq3GKXC+GLKFqJprVvTr3ybxTHqO3EEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wma/FTOIljgHOtcdsWaDiBMUfb0RpIN9OjbXn4XB8G9+rsCHqXU1M30kiNc27pjnz0I7uwCKlqR/ecne0jgShMXR6pNwJIje5SHGX1eSnjqrvOv//sUqnljtnVzClh728eS6yZygkPEbptN121UQ+Oc1i/FKumpt7m2FP3l9e8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cx8lkfNt; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736134355; c=relaxed/simple;
+	bh=/sA1apcuf0zGIgwqqP0Bw/8pgVGlZLkA4uxQTqVfgi0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=EBr+So37SJLd4kcUUaNSCCWBXPRSogQryj2ixvXUf0z0U5W4BMZyL2yFdWktDOMsV+l9vbKvVh4xNeFrFDtczLsLgaDOmjmYT7QUxrQBohdE3nkSncZNjEkC+j4BA2EcgGX4b+5ozhs5P7ag5WKgfkt4L37zItgLNEb4kuJCbA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=iw3KAys8; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cx8lkfNt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736133061; x=1767669061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BGHJPAGUmaDxq3GKXC+GLKFqJprVvTr3ybxTHqO3EEk=;
-  b=cx8lkfNtlO5HA0V+cc3gPA1zBPS/ygt7kjeQ4Cr7FFlqGw/gDDBEEH0S
-   wL79aAxSH66vKzhbB3ZGKyH6ghZTdtt2dgDe3I3sCJnY6w0OdKe/u0DWd
-   371NBalBKoH4I9GYXGF922L1h+nYlqQt7LMjhgS0X60Ez9iE2xI8xa2R+
-   GnFBAoboWbScDzEe+rkweM9NrFwYUqVuD2nbHh8mnmWrpC7vIQjvlcoWF
-   fZOzb+sT9QR49GuV9dUcDBPagXtSlzgDYPa9MISmAFxBOCqc/HxGSN7wX
-   +xOL9pcc0pCM/V8kWctM7D8l71sgQ3HZX01+GjCfYkWX3gr2HPSLul30/
-   w==;
-X-CSE-ConnectionGUID: nM6WS+PqRhy60lC9D6QBnA==
-X-CSE-MsgGUID: OGY6SqlbT/axbvb6ImNJSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="40045775"
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="40045775"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 19:11:00 -0800
-X-CSE-ConnectionGUID: RaTZywhFRLaPo7RRqvOO+w==
-X-CSE-MsgGUID: +IbA2OdQQFqI6jJhZzw2Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="102846774"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Jan 2025 19:10:38 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tUdVf-000CCN-24;
-	Mon, 06 Jan 2025 03:10:31 +0000
-Date: Mon, 6 Jan 2025 11:10:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Add clock and reset entry for
- DRP-AI
-Message-ID: <202501061001.6iClUTxN-lkp@intel.com>
-References: <20250104175346.656352-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="iw3KAys8"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 5063WMUt81560621, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1736134342; bh=/sA1apcuf0zGIgwqqP0Bw/8pgVGlZLkA4uxQTqVfgi0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=iw3KAys85UJ1cDLGYdiy4iwlDWDKVlvt8ybpiFxphh+uOSDc+7uaxDCYJKkHn4ud3
+	 pVa24ZVXOnt3sEDI8roF9u5L2vhnnOCSva26v0MOcqZ0ZuBnxTecWJRn4qcMoXRy5Y
+	 MuR3HPijLtN0nZ4uZ8f2qTCgd6sbqJ3l5x63wbXZ76D24WUTSCHLq0tDtoKyTT2z4g
+	 jZ6VnWZ8TBmfH0JCI8lIAdHTscmOd2sAdVnh5OIKCfFk0fWdbbhccVUV3PhUv+uzaj
+	 in2APpX0+HA7IiVbAXEn9sZrKfu4wQFZrn3D7z1Af+GeeujHngqImVZmJWxKo9yvU3
+	 fwej+fY7BHwyQ==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 5063WMUt81560621
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 6 Jan 2025 11:32:22 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 6 Jan 2025 11:32:22 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 6 Jan 2025 11:32:22 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f]) by
+ RTEXMBS04.realtek.com.tw ([fe80::2882:4142:db9:db1f%11]) with mapi id
+ 15.01.2507.035; Mon, 6 Jan 2025 11:32:22 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: kernel test robot <lkp@intel.com>,
+        Bitterblue Smith
+	<rtl8821cerfe2@gmail.com>,
+        "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: RE: [PATCH v2] wifi: rtw88: Add support for LED blinking
+Thread-Topic: [PATCH v2] wifi: rtw88: Add support for LED blinking
+Thread-Index: AQHbX6USMgYFR0rPTUaMgQ9rRgfsCbMIgpmAgACT7WA=
+Date: Mon, 6 Jan 2025 03:32:22 +0000
+Message-ID: <77d348b8149b4d93bfbe86108941ba07@realtek.com>
+References: <57c7d192-97ee-4da1-87a8-f040e9b8e3d1@gmail.com>
+ <202501061046.U1iOSkRv-lkp@intel.com>
+In-Reply-To: <202501061046.U1iOSkRv-lkp@intel.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250104175346.656352-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-Hi Prabhakar,
+kernel test robot <lkp@intel.com> wrote:
+>=20
+> Hi Bitterblue,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on wireless-next/main]
+> [also build test ERROR on wireless/main linus/master v6.13-rc6 next-20241=
+220]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtw8=
+8-Add-support-for-LED-blinkin
+> g/20250106-030830
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless=
+-next.git main
+> patch link:    https://lore.kernel.org/r/57c7d192-97ee-4da1-87a8-f040e9b8=
+e3d1%40gmail.com
+> patch subject: [PATCH v2] wifi: rtw88: Add support for LED blinking
+> config: sh-allmodconfig
+> (https://download.01.org/0day-ci/archive/20250106/202501061046.U1iOSkRv-l=
+kp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20250106/202501061046.U1iOSkRv-l=
+kp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501061046.U1iOSkRv-lkp=
+@intel.com/
+>=20
+> All error/warnings (new ones prefixed by >>):
+>=20
+> >> drivers/net/wireless/realtek/rtw88/led.c:19:6: error: redefinition of =
+'rtw_led_init'
+>       19 | void rtw_led_init(struct rtw_dev *rtwdev)
+>          |      ^~~~~~~~~~~~
 
-kernel test robot noticed the following build warnings:
+As led.c is built, CONFIG_LEDS_CLASS=3Dy in Makefile.
+=20
+>    In file included from drivers/net/wireless/realtek/rtw88/led.c:7:
+>    drivers/net/wireless/realtek/rtw88/led.h:15:13: note: previous definit=
+ion of 'rtw_led_init' with type
+> 'void(struct rtw_dev *)'
+>       15 | static void rtw_led_init(struct rtw_dev *rtwdev)
+>          |             ^~~~~~~~~~~~
 
-[auto build test WARNING on geert-renesas-drivers/renesas-clk]
-[also build test WARNING on clk/clk-next linus/master v6.13-rc6 next-20241220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+However, weirdly CONFIG_LEDS_CLASS isn't defined in led.h.=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/clk-renesas-r9a07g044-Add-clock-and-reset-entry-for-DRP-AI/20250105-015708
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-patch link:    https://lore.kernel.org/r/20250104175346.656352-1-prabhakar.mahadev-lad.rj%40bp.renesas.com
-patch subject: [PATCH] clk: renesas: r9a07g044: Add clock and reset entry for DRP-AI
-config: nios2-randconfig-r052-20250106 (https://download.01.org/0day-ci/archive/20250106/202501061001.6iClUTxN-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061001.6iClUTxN-lkp@intel.com/reproduce)
+By the way, my local build with selected CONFIG_LEDS_CLASS is fine.=20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501061001.6iClUTxN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/clk/renesas/r9a07g044-cpg.c:97:35: warning: 'dtable_4_32' defined but not used [-Wunused-const-variable=]
-      97 | static const struct clk_div_table dtable_4_32[] = {
-         |                                   ^~~~~~~~~~~
-
-
-vim +/dtable_4_32 +97 drivers/clk/renesas/r9a07g044-cpg.c
-
-    96	
-  > 97	static const struct clk_div_table dtable_4_32[] = {
-    98		{3, 4},
-    99		{4, 5},
-   100		{5, 6},
-   101		{6, 7},
-   102		{7, 8},
-   103		{8, 9},
-   104		{9, 10},
-   105		{10, 11},
-   106		{11, 12},
-   107		{12, 13},
-   108		{13, 14},
-   109		{14, 15},
-   110		{15, 16},
-   111		{16, 17},
-   112		{17, 18},
-   113		{18, 19},
-   114		{19, 20},
-   115		{20, 21},
-   116		{21, 22},
-   117		{22, 23},
-   118		{23, 24},
-   119		{24, 25},
-   120		{25, 26},
-   121		{26, 27},
-   122		{27, 28},
-   123		{28, 29},
-   124		{29, 30},
-   125		{30, 31},
-   126		{31, 32},
-   127		{0, 0},
-   128	};
-   129	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
