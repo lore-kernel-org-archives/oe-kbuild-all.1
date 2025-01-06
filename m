@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB0B13665B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 18:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790B11DED5A;
+	Mon,  6 Jan 2025 18:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736186779; cv=none; b=thKIlUYkQjM9+6YdKE/HPkMVzoGAY+hujdDPcRVu37JqhkjS+8IxWYX/1Tuea20Yw1gehUrdpGmtcIz1+djWbZpRtziH9xYRINZj0H7vvE2p7CyX1LReTp0LeYK/Kw+WeOV+IIBhvUWD0T8mZxpjrGBDwXdzj5xHxPSipNJa9Yg=
+	t=1736188042; cv=none; b=KRv9xQXxU9ISuukXn4TFyzkkmcGN6MfnOCVgG+dtsRAA+Bj29xwN+3nWqhPK4F3kSeNrjBQn6i5U0fHei51D2BvVdHAjC8rRIN/U9kFb2osVImx0eZPjek647SecwSfAU+qd+7GTwINYrf4Ww2DMZKxLBUuEVE+Ng1uC/g3XC2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736186779; c=relaxed/simple;
-	bh=Ve8+y10j9iy7kvl7NtRtHG5qyNtv97CAV6t1GyipD1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l7Hlisis/LIyYbtOCBnCdOohJ8HTttFFJ4AO/HpeMQ0fDGserEB4T2pK3Vm0MLv+RC9L+HjFTjxv20SPEknJdr/AABQAnDU5XUnXFG/5qhqXbWaZmkx5WGmO5EGatQO90bHMyNxeChYmSMslozU9TiB1pbr9//ssgdcnqSeNc1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsXpu9Rh; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1736188042; c=relaxed/simple;
+	bh=9NvDwZvFg7r1qwT4ypIYBEKI5qLP+aP69YwjZJZLQgs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BJbEEXOOjO2DjvFOr+Yz+8p8RsIVEKdf6c0AFaDIDsAyzSUQxn7OSkcySYN47ZW9N702fN0sho5zTbg5iqdqSY1NlnN6EqN4csuctbY7gc3aMnJA0z/xhO8zHZpYhMi6oChKEB5Wc+xq18ipiHqDiTI0ckPMiC2dmo1SB67xMDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nivM7HUu; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsXpu9Rh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nivM7HUu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736186778; x=1767722778;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ve8+y10j9iy7kvl7NtRtHG5qyNtv97CAV6t1GyipD1E=;
-  b=nsXpu9RhLmKAxxUN5OySvgoG08HAbJO2jbYWK15fx42eFWxxU022e1G4
-   lBl9V6WPmjLMDaH1VvyQMcJLbGu9fjwiQjb3LLjIzzPj66ESZXTiPj4a9
-   /m21h8ZtBLRpCustOguUt2qbYVNDOXHPLXPgyVLR0meYCNn02/Hz5STF0
-   cYtr0pHUqGZqzH6ghVTKbx9t+MjL08AyctZL8pr/PZs4Qzpa7tvKM5qUW
-   Zj9hUlhMMA+AlVxeoaG30vahYHrqbvrI0X9CvfFCc8EDbMx45+xG4o0Ml
-   Xsw3UV+UyWlJfpIZHSFknBJBd0xx635s/S/odpUjRqX6iZlRqO+I+iBDx
-   A==;
-X-CSE-ConnectionGUID: wsDd5YnKR+6suRH1u490nw==
-X-CSE-MsgGUID: nrXcA/n7Re2Fpd+j9PEvKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36223175"
+  t=1736188041; x=1767724041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9NvDwZvFg7r1qwT4ypIYBEKI5qLP+aP69YwjZJZLQgs=;
+  b=nivM7HUuYfpQxv8Z0FZ0ZibFb5VDHEDvn6gJPH3AlJR6hmMo7bG0BUEh
+   1cTo4WGegJW5RuXGLojP8MnIg32A9vbv4S9mXUYJbeGM8zObMK4i7j0Fs
+   +WeTgzX9rN8s+AVj223NLEfn9I2xvGbCOOEePfGnsjFyqlUuczwT1bRDo
+   OTIF57lC8SV8+0tau+iolgVam8IoDfJjeIupr0V+YgiBgnb5CSzhS1iH9
+   PJnpoMDLslNEoaYXa/x49txZ+dXAeypdUAmQQenKOklRc1P+SUmPijIEv
+   +adn7IjaOtl73//0mKRyOg5zGoqlUxJMVl4CH43mFIZzuez9HWX+bhgyH
+   w==;
+X-CSE-ConnectionGUID: r//vdIsxRMqepiaHl6nk/A==
+X-CSE-MsgGUID: F3OGIRcsT528knPhqC2DLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="47337760"
 X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
-   d="scan'208";a="36223175"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 10:06:17 -0800
-X-CSE-ConnectionGUID: tAohSDO3SgyJbMwIo1Vg6Q==
-X-CSE-MsgGUID: UAqd93LIQqGxQGSgzwo48g==
+   d="scan'208";a="47337760"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 10:27:20 -0800
+X-CSE-ConnectionGUID: H4cNptL1RQa/uJfpJZqLsQ==
+X-CSE-MsgGUID: htWPl3GMRWeJn3SLA/Lyqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
-   d="scan'208";a="103006584"
+   d="scan'208";a="102317803"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Jan 2025 10:06:15 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Jan 2025 10:27:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUrUT-000DnH-21;
-	Mon, 06 Jan 2025 18:06:13 +0000
-Date: Tue, 7 Jan 2025 02:05:29 +0800
+	id 1tUroq-000Dod-0L;
+	Mon, 06 Jan 2025 18:27:16 +0000
+Date: Tue, 7 Jan 2025 02:26:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 17728/25291]
- drivers/vdpa/ifcvf/ifcvf_main.c:553:20: error: initialization of 'void
- (*)(struct vdpa_mgmt_dev *, struct vdpa_device *, int)' from incompatible
- pointer type 'void (*)(struct vdpa_mgmt_dev *, struct vdpa_device *)'
-Message-ID: <202501070130.LAsoRn5P-lkp@intel.com>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	jikos@kernel.org, bentiss@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] HID: Add hid-universal-pidff driver and
+ supported device ids
+Message-ID: <202501070200.pA9ifqd5-lkp@intel.com>
+References: <20250105193628.296350-11-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,48 +65,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250105193628.296350-11-tomasz.pakula.oficjalny@gmail.com>
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
-commit: e4b7b11288fc91b44fd73cd10b954c515eeb26ca [17728/25291] bytedance: vdpa: Add deletion timeout support
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250107/202501070130.LAsoRn5P-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501070130.LAsoRn5P-lkp@intel.com/reproduce)
+Hi Tomasz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.13-rc6 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Paku-a/HID-pidff-Convert-infinite-length-from-Linux-API-to-PID-standard/20250106-033931
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250105193628.296350-11-tomasz.pakula.oficjalny%40gmail.com
+patch subject: [PATCH v2 10/10] HID: Add hid-universal-pidff driver and supported device ids
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250107/202501070200.pA9ifqd5-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501070200.pA9ifqd5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501070130.LAsoRn5P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501070200.pA9ifqd5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/vdpa/ifcvf/ifcvf_main.c:553:20: error: initialization of 'void (*)(struct vdpa_mgmt_dev *, struct vdpa_device *, int)' from incompatible pointer type 'void (*)(struct vdpa_mgmt_dev *, struct vdpa_device *)' [-Werror=incompatible-pointer-types]
-     553 |         .dev_del = ifcvf_vdpa_dev_del
-         |                    ^~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:553:20: note: (near initialization for 'ifcvf_vdpa_mgmt_dev_ops.dev_del')
-   cc1: some warnings being treated as errors
---
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:2650:20: error: initialization of 'void (*)(struct vdpa_mgmt_dev *, struct vdpa_device *, int)' from incompatible pointer type 'void (*)(struct vdpa_mgmt_dev *, struct vdpa_device *)' [-Werror=incompatible-pointer-types]
-    2650 |         .dev_del = mlx5_vdpa_dev_del,
-         |                    ^~~~~~~~~~~~~~~~~
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:2650:20: note: (near initialization for 'mdev_ops.dev_del')
-   cc1: some warnings being treated as errors
+   In file included from drivers/hid/hid-universal-pidff.c:11:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-universal-pidff.c:90:16: error: incompatible function pointer types assigning to 'void (*)(struct hid_device *, __u32)' (aka 'void (*)(struct hid_device *, unsigned int)') from 'int (struct hid_device *, __u32)' (aka 'int (struct hid_device *, unsigned int)') [-Wincompatible-function-pointer-types]
+      90 |         init_function = hid_pidff_init_with_quirks;
+         |                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-universal-pidff.c:97:8: error: assigning to 'int' from incompatible type 'void'
+      97 |         error = init_function(hdev, id->driver_data);
+         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings and 2 errors generated.
 
 
-vim +553 drivers/vdpa/ifcvf/ifcvf_main.c
+vim +90 drivers/hid/hid-universal-pidff.c
 
-6b5df347c6482f Zhu Lingshan 2021-08-12  550  
-6b5df347c6482f Zhu Lingshan 2021-08-12  551  static const struct vdpa_mgmtdev_ops ifcvf_vdpa_mgmt_dev_ops = {
-6b5df347c6482f Zhu Lingshan 2021-08-12  552  	.dev_add = ifcvf_vdpa_dev_add,
-6b5df347c6482f Zhu Lingshan 2021-08-12 @553  	.dev_del = ifcvf_vdpa_dev_del
-6b5df347c6482f Zhu Lingshan 2021-08-12  554  };
-6b5df347c6482f Zhu Lingshan 2021-08-12  555  
-
-:::::: The code at line 553 was first introduced by commit
-:::::: 6b5df347c6482f57b0d8f0569b86fb8fcd90d168 vDPA/ifcvf: implement management netlink framework for ifcvf
-
-:::::: TO: Zhu Lingshan <lingshan.zhu@intel.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+    66	
+    67	
+    68	/*
+    69	 * Check if the device is PID and initialize it
+    70	 * Add quirks after initialisation
+    71	 */
+    72	static int universal_pidff_probe(struct hid_device *hdev,
+    73					 const struct hid_device_id *id)
+    74	{
+    75		int error;
+    76		error = hid_parse(hdev);
+    77		if (error) {
+    78			hid_err(hdev, "HID parse failed\n");
+    79			goto err;
+    80		}
+    81	
+    82		error = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
+    83		if (error) {
+    84			hid_err(hdev, "HID hw start failed\n");
+    85			goto err;
+    86		}
+    87	
+    88		// Check if HID_PID support is enabled
+    89		void (*init_function)(struct hid_device *, __u32);
+  > 90		init_function = hid_pidff_init_with_quirks;
+    91	
+    92		if (!init_function) {
+    93			hid_warn(hdev, "HID_PID support not enabled!\n");
+    94			return 0;
+    95		}
+    96	
+  > 97		error = init_function(hdev, id->driver_data);
+    98		if (error) {
+    99			hid_warn(hdev, "Force Feedback initialization failed\n");
+   100			goto err;
+   101		}
+   102	
+   103		hid_info(hdev, "Universal pidff driver loaded sucesfully!");
+   104	
+   105		return 0;
+   106	err:
+   107		return error;
+   108	}
+   109	
 
 -- 
 0-DAY CI Kernel Test Service
