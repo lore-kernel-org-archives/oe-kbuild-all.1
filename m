@@ -1,66 +1,69 @@
 Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877261D9353
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C191D618E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:32:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736155840; cv=none; b=AczqJ79NNL1ZsAJTBtOQCCVtlo7ixG5aope5f6RvjCO/xKnOYBKcr1YOslLVClfoT7Up9jfgGRSk2259o8RO5VUiVXV5vaA35bhMhVEYzTngEWReWIjyS+lgRsKbQ01psKYfp+Zss6Z40tcdMnmR5yA72LYssyxlK7l5H9oXlt8=
+	t=1736155941; cv=none; b=Fd0FuePR4EaHZF3U+FxRv2sGD2JESqPI7U+Khqs+ByeUi3Wo5qa/cXGDGgXAajVITMpHS0RAL7sOdFGpjRagds9NLfo2PhTk7tN26EVZLmc4kyAFrTilSW2eOkwZSMaCGfhOSLBuZv5M91wmxYiWTnNCWqAXt116OYUMYbZDTB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736155840; c=relaxed/simple;
-	bh=RyecLJ4QeDj/QNPJ/o1ThkF0wQ4Td7mz9XAHP/cBSeo=;
+	s=arc-20240116; t=1736155941; c=relaxed/simple;
+	bh=j+5K/Yw15zWJf1U3wa5I1b3+ipxeNF3waXlDVublRJ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NTjnFcuMTeGJawz7zzRX5Nw7tzKHcr5/6V+bzxWU+WiySPlcG1OPGxhanzVg5NtnbS4l2dwOMs0Jb0VedaV/mhMQD90bdtycI4XSls9xa1zUi3eKHk8Pn49E7x9/9Yog7N0jPZoODNwtpfYdbPv8WWx44BTSorULdE5qnYVoqis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=an3tgrEM; arc=none smtp.client-ip=209.85.221.47
+	 Content-Disposition; b=e6sjUx8On4mw34xzMqU1basIyZaBtCrbUbkfuXpZYMJZnu5tPfWfXRpS5W1Aw+p09022U427bV2p4UHrHaeas63pNcTDbKpE0EGRPYLhj6ZC/NtvBjkW+yQmMBB4wfCNCBXvhQOk+EdipR/d19WmEppXN4muzUn72yBSU/h1mNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oeMqsbQJ; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="an3tgrEM"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385d7b4da2bso11983232f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 01:30:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oeMqsbQJ"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3862a921123so9537833f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 01:32:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736155837; x=1736760637; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1736155937; x=1736760737; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=31XuZD5Ueo22jIbx6m96MXPhGYnvReUJUIki6uMvlo4=;
-        b=an3tgrEMWpmHMw/529XFfbV7eGvAtxA9PccyJsrrPAa28jHJUQwAyAfNIn2FRU/a0X
-         6QxTGIQYz4IYH7QEbDAIbGT5IOl47P0NhMoe0RnaN5voUs1h0veyHutL183pvqq+Tkdq
-         snne7VM8qU2TeVIrmMxsP0MyK6c8sHTdVjGmgggTh/YG4paeGbrRPtyOVZzWC3fsIER6
-         JysBbsrL1KmFRdzUe8OSAmKol2qaiqMAZz4ZXdsf4i8vbzQVVa/2EqDXREi4v1f9I5XZ
-         XlekBNs0CLJMrK/7pVFhp5SrAkF2wRmKdA5z4P24Q4iqZVFVYfMT1OrhJZKwbt7pZWmH
-         wqZg==
+        bh=B4wudLqt36meOHn2FyBRvJb7RBQuV91xkEx9ZCgxGr8=;
+        b=oeMqsbQJ0T+vGB+gehEWyD+CznlyexrNGXeKkbTm+D2It+JwRusVtPL4QgsDUXisUG
+         1m71BEsQxnW/5WpaDAvRZDx2WsRFPVHAwW0jACCibm7hJ39VTVhdLnD8wxt8AeN7KYaA
+         beh8z/YvohRt7XGyL0pFEi1RLKv7bjwmSwAQJc6nF6qIR7Odf+UI5ARJyr8bPA9H2ZQZ
+         LvSmL+ZEeaRpAHo2y+Purl/9LpkxhjLy3Fsgu4rATpPdVVVzxU9UpW/Gy62nlfaw0w0I
+         1oe+Z0L8vkMueRpjdV8SdPgRed+C7v36dlm8WCo6+SvZ4Yf8fF4IX7ESnlPYzUg+tirv
+         ZErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736155837; x=1736760637;
+        d=1e100.net; s=20230601; t=1736155937; x=1736760737;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=31XuZD5Ueo22jIbx6m96MXPhGYnvReUJUIki6uMvlo4=;
-        b=RKhetv7SSTWLukbbjamdnEWb5e9iITxWT47gAWpiUqQO0+ZRWYYMuWJN1L/X0lUDQZ
-         GqibGBLLxHpRWmYN3OR3BgsY1azA1JVtHq2EzDri9yiDiz5fcDo9FYkSaIQKG7vbYUbT
-         aIIzJ902LAgOXPlycXkFHWFnZbUV1OlqjFnTu1Ra38nF5uCyTDsbojEwZoO7bQwM4Z97
-         t5ndzocnzDVudlujytGLZT3MwSjbeY6BN74RHVZVAmQwI/hinT2acR2/meERaSc5B5xP
-         rpfM4nC3CcAE0WCNDMX3u04VPbJ9cQrBVY7maJ5DAbHlr1Fl7ckG26pu0N9ceK21mSmD
-         61ag==
-X-Forwarded-Encrypted: i=1; AJvYcCW8t28XXIBjNmhMKruwU9a4dusNg8dn/x8fVmwi7NzfIjdOi7bc/79xj/nuG0HO5CRJ/1x+I4jDoFH8Akwr@lists.linux.dev
-X-Gm-Message-State: AOJu0Yycyeexvm07KDk+eaXdshp4CP1hleGRp9NAo0rlAk+2ElVakFt2
-	NyTnDdL4qotWBWZRhr1KZewaSQnxl3MhnZrTMgMGmQ8ngvPu0KQwmlyJ/Eu2BGU=
-X-Gm-Gg: ASbGncsdSJvuJA2ejVQI2c36hcTFM+qaRU92s2UcX1PqX9sB5XvTJ7rlQfE9XYbxipp
-	JaFV9RUcsLEA2fSxokQ9byHzqVVaz6IThtT0VvPPtXrEXFU1G+5y+moRfS2hFX1T3exjcaqna/4
-	unUX1CBHDSY7wHW6l1yQVG5DjFSmlPL5xK86VlT1aLkqCXdhvc0oB4HsZ/x+T7VLWK8T+PfjXib
-	ouXt4LpLqyQkMB1uTPi67wb99DNJ32QFtDsHUmemMVwjL0wQkLqUs8zqF7dbg==
-X-Google-Smtp-Source: AGHT+IHHtEovPio2CBN6lOioiddfh+RP2w+BNAsymUq7W0uwRKhL0Vh/WiSKE6yBCUGyVSjwAKWcaA==
-X-Received: by 2002:a05:6000:1568:b0:385:dc45:ea22 with SMTP id ffacd0b85a97d-38a223f835dmr45778901f8f.39.1736155836662;
-        Mon, 06 Jan 2025 01:30:36 -0800 (PST)
+        bh=B4wudLqt36meOHn2FyBRvJb7RBQuV91xkEx9ZCgxGr8=;
+        b=XQTeaPRT3gcA5PpULoH4sYUseaN9ibn7PxFHQdY6ZDvV3vzTFG6SHMnnioPMJiwFFR
+         UMwIc7PZ7B/J8JBE5xi/olD+YO5c4PNEZysM1JWJyNBI6iDuhlT6UI+HkaO3+QO5jO1l
+         zemmQrri9Q6Vy4/moaxD4wdoPQ4RVsRyTxpHbn6PyhPu/NWdysEB61vfFoS/u8xhd8bk
+         3KB844qrlEYmmjeFPi8sTjDVB9cBc6Wb52rp1iMb2kpclofllhB8IY41NbXpt5CLs1jr
+         NAksOmMS+iohxyfraOZQJwDVvv6efPSOY9Kq/vSC+zE8F2ewKyT+Co3HA60l0w5+3PUC
+         wgCg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdraJ33PdKYHiXBb/LqMEueKDwSBvbaTq3i9q903u6fcrOFXhPR0NVRDT1HqRZdiBWPq1WS44PyzThIEMx@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWUYD6+YAx+S7R1nzwV2g7srnJLaxjV97LBXJN7pmH+cMA/vwx
+	x4rvTstN5n97oXX7pyCfveMwxPdBIgGcyGMOR5Ek6vAPOCJQUqGYtyhOLIKk+Gc=
+X-Gm-Gg: ASbGncu3+cHzu63NOpSxfZPoqZkAK3NjIyP9bc/gN51H3v2xumNT+XTLnlSnpJ3LUj4
+	aGs8A3O6+xZrrfWUnkzM+kZsEd4J09WKLAswVXSKPg9HysYcz+QzEADbeG80I+3AmiEcunP6x7Z
+	RFvN5XS20YsPih3lJZWwu3BPJf1fH6HAV4ccOGVRh9wZkZ/VYe+r7VceMUxevAuC9J8poqxdA/5
+	8ZWhfQb+h7/TKHpeyGCuTtF41aSi06M/sGI5PzcCGA1aTkXd3UyB8y267i8hg==
+X-Google-Smtp-Source: AGHT+IGznhjdf9roPTBUrh2MEvUFKUvamB3tHvYpuQ5p6JfZYitbi6+g1EMjzXBFszXoYz9UAtvwrg==
+X-Received: by 2002:a05:6000:18a8:b0:385:f7d2:7e29 with SMTP id ffacd0b85a97d-38a221ea539mr47426696f8f.15.1736155936734;
+        Mon, 06 Jan 2025 01:32:16 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e357sm48637060f8f.72.2025.01.06.01.30.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8acabbsm47077330f8f.93.2025.01.06.01.32.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 01:30:36 -0800 (PST)
-Date: Mon, 6 Jan 2025 12:30:33 +0300
+        Mon, 06 Jan 2025 01:32:16 -0800 (PST)
+Date: Mon, 6 Jan 2025 12:32:12 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:zoned 140/144] fs/xfs/libxfs/xfs_zones.c:164
- xfs_zone_validate() warn: signedness bug returning '(-5)'
-Message-ID: <ab7e7949-33f5-4c0b-ace9-72bed0d7d898@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Varshini Rajendran <varshini.rajendran@microchip.com>,
+	=?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
+Subject: [linux-next:master 3636/5236] drivers/spi/atmel-quadspi.c:1282
+ atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
+Message-ID: <f3b27d32-1440-4585-9a78-cbd2fd47a992@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,61 +73,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git zoned
-head:   e438c133cc544cff3b44f8c3fde87a8ab5f8a3de
-commit: 89f3e23cc043cf574275ea94a8f126eb4c806fc3 [140/144] xfs: support zone gaps
-config: i386-randconfig-141-20241222 (https://download.01.org/0day-ci/archive/20241222/202412221007.JUrl8Z6K-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+commit: 5af42209a4d23adc9a09e59e586d1b47fef3cc86 [3636/5236] spi: atmel-quadspi: Add support for sama7g5 QSPI
+config: nios2-randconfig-r072-20241222 (https://download.01.org/0day-ci/archive/20241222/202412222135.I9vxNl6I-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412221007.JUrl8Z6K-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412222135.I9vxNl6I-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/libxfs/xfs_zones.c:164 xfs_zone_validate() warn: signedness bug returning '(-5)'
+drivers/spi/atmel-quadspi.c:1282 atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
 
-vim +164 fs/xfs/libxfs/xfs_zones.c
+vim +/PTR_ERR +1282 drivers/spi/atmel-quadspi.c
 
-39f9a996878403 Christoph Hellwig 2024-12-19  132  bool
-39f9a996878403 Christoph Hellwig 2024-12-19  133  xfs_zone_validate(
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1274  static int atmel_qspi_dma_init(struct spi_controller *ctrl)
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1275  {
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1276  	struct atmel_qspi *aq = spi_controller_get_devdata(ctrl);
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1277  	int ret;
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1278  
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1279  	aq->rx_chan = dma_request_chan(&aq->pdev->dev, "rx");
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1280  	if (IS_ERR(aq->rx_chan)) {
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1281  		aq->rx_chan = NULL;
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28 @1282  		return dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->rx_chan),
+                                                                                                                                             ^^^^^^^^^^^
+The error code was over-written with NULL on the previous line.
 
-This function returns bool.
-
-39f9a996878403 Christoph Hellwig 2024-12-19  134  	struct blk_zone		*zone,
-39f9a996878403 Christoph Hellwig 2024-12-19  135  	struct xfs_rtgroup	*rtg,
-39f9a996878403 Christoph Hellwig 2024-12-19  136  	xfs_rgblock_t		*write_pointer)
-39f9a996878403 Christoph Hellwig 2024-12-19  137  {
-39f9a996878403 Christoph Hellwig 2024-12-19  138  	struct xfs_mount	*mp = rtg_mount(rtg);
-39f9a996878403 Christoph Hellwig 2024-12-19  139  	struct xfs_groups	*g = &mp->m_groups[XG_TYPE_RTG];
-89f3e23cc043cf Christoph Hellwig 2024-12-19  140  	uint32_t		expected_size;
-39f9a996878403 Christoph Hellwig 2024-12-19  141  
-39f9a996878403 Christoph Hellwig 2024-12-19  142  	/*
-39f9a996878403 Christoph Hellwig 2024-12-19  143  	 * Check that the zone capacity matches the rtgroup size stored in the
-39f9a996878403 Christoph Hellwig 2024-12-19  144  	 * superblock.  Note that all zones including the last one must have a
-39f9a996878403 Christoph Hellwig 2024-12-19  145  	 * uniform capacity.
-39f9a996878403 Christoph Hellwig 2024-12-19  146  	 */
-39f9a996878403 Christoph Hellwig 2024-12-19  147  	if (XFS_BB_TO_FSB(mp, zone->capacity) != g->blocks) {
-39f9a996878403 Christoph Hellwig 2024-12-19  148  		xfs_warn(mp,
-39f9a996878403 Christoph Hellwig 2024-12-19  149  "zone %u capacity (0x%llx) does not match RT group size (0x%x).",
-39f9a996878403 Christoph Hellwig 2024-12-19  150  			rtg_rgno(rtg), XFS_BB_TO_FSB(mp, zone->capacity),
-39f9a996878403 Christoph Hellwig 2024-12-19  151  			g->blocks);
-39f9a996878403 Christoph Hellwig 2024-12-19  152  		return false;
-39f9a996878403 Christoph Hellwig 2024-12-19  153  	}
-39f9a996878403 Christoph Hellwig 2024-12-19  154  
-89f3e23cc043cf Christoph Hellwig 2024-12-19  155  	if (g->has_daddr_gaps) {
-89f3e23cc043cf Christoph Hellwig 2024-12-19  156  		expected_size = 1 << g->blklog;
-89f3e23cc043cf Christoph Hellwig 2024-12-19  157  	} else {
-89f3e23cc043cf Christoph Hellwig 2024-12-19  158  		if (zone->len != zone->capacity) {
-89f3e23cc043cf Christoph Hellwig 2024-12-19  159  			xfs_warn(mp,
-89f3e23cc043cf Christoph Hellwig 2024-12-19  160  "zone %u has capacity != size ((0x%llx vs 0x%llx)",
-89f3e23cc043cf Christoph Hellwig 2024-12-19  161  				rtg_rgno(rtg),
-89f3e23cc043cf Christoph Hellwig 2024-12-19  162  				XFS_BB_TO_FSB(mp, zone->len),
-89f3e23cc043cf Christoph Hellwig 2024-12-19  163  				XFS_BB_TO_FSB(mp, zone->capacity));
-89f3e23cc043cf Christoph Hellwig 2024-12-19 @164  			return -EIO;
-                                                                               ^^^^
-s/-EIO/false/
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1283  				     "RX DMA channel is not available\n");
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1284  	}
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1285  
+5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1286  	aq->tx_chan = dma_request_chan(&aq->pdev->dev, "tx");
 
 -- 
 0-DAY CI Kernel Test Service
