@@ -1,174 +1,248 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-bc0e.mail.infomaniak.ch (smtp-bc0e.mail.infomaniak.ch [45.157.188.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E8D1547F3;
-	Mon,  6 Jan 2025 17:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B79170824
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 17:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736183029; cv=none; b=K7VdEeS4V5FtOGbPyXhEn66kXGJckpZOW7G31l1nTjcDlNR8+cdcR2ygytzZ9S0R+5dv/T8l7Qru/8At943+HA6wth4/4Am04Ds1hGWZRZdNeJgacZFPZMptV+XLnjVv0+A8AhmyV+1FKWUAScqbp7EILVC6wPsALUpks9fkEFE=
+	t=1736183106; cv=none; b=ASWirqeR2Rv03LFhty7/jhYKKc5ay6XKEk4gVh+p7XewKO94zs0TOdEoa2OLpZKWxtmMqZV64AXm0hQQFktBvoCSkPrOaW/dY0+PUt3JchFy40juZHlEG9SBuVOKY36S4JGa8JrHrIaFzYV01KgrnBxKBDBXt1CCeLnCgYEdh48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736183029; c=relaxed/simple;
-	bh=OmZH5DFI3ydMZxsFlgjunTH5iT8WY/3SKlvaV8ZTqOE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PlRetqONASqjwbjbKeXuohRopWcgaZjA+/yRBJJjzwqeN1Kh1uRmMTWXqzLeTpyeo1PMTPSTFDTvs6dFfR2Rk+XhO82JIBS93ARAmJGLNHBKsseIo1O9YVqLlq2MYBjVNpcKhF6a6MXriFE6XTtGD/nUBx5YOuFEJGAhi/mupZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPualMu4; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736183106; c=relaxed/simple;
+	bh=8ifLHMRYzV/BdHndyMnDaMSrSWA0Gu2AeLVzaoW+uTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UWAgExa9DoGKUyiIzONrlEzVDTqaI+1GdZ/rHHfXjL2i6oAIxifl/ae3mlQ7zeN9w5Nttu16mlFINR/Qp/GZ0m7yQENBzUyEYYCv0ltcJ2Gx3AfMePNidrK2u07k356S+Ki0xy19uSFAIukTEb7L+w79YhUJap74DX3FGkVLFZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=xQhsJh1m; arc=none smtp.client-ip=45.157.188.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPualMu4"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53f22fd6832so16135800e87.1;
-        Mon, 06 Jan 2025 09:03:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736183025; x=1736787825; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vDewTj+7tUroBMoex5nb7sNODcMKrxnRD7GW3YVIuh0=;
-        b=KPualMu4M0BCIAIT7+5p42XpVyYHI0Ib9/gm6pAf8eUX42Zi9hK99O5s1ohMAjtp39
-         AdE3jgxxt1tWdReGYCZz+vmZWtQJMua2MN9YN3/aQ/q4i3UdSYw3aZSZ8SrjIygYE0DD
-         MuoqFnrmLTJr+Coi4IwuqQMgI7jzThkdxQzZyEbwe5ppBU84tcMzsEm9CcbM1WQPQZIh
-         7KcJsgmySkMSKpO4ut9wdIhLPio4diiKMcZdhSDYv5zzyYSoRMrH0TiIOyTRZIgcY4XA
-         tJG2MxaDqo7fV7qHe0GTLK8rvx6K8SL8v7cGtA+sTR9h5Yi5wnGzYLnt6OQiVLDT/p9Z
-         Ta7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736183025; x=1736787825;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vDewTj+7tUroBMoex5nb7sNODcMKrxnRD7GW3YVIuh0=;
-        b=YY5PkRe5JbjjYJUvCW1dQiI9OaKbnybKjWUUrPQIPtwQosHR04anVSxS6mkEHyxW5x
-         8KQ09bLgDn1rjWG3OwpW/2OHu2/MrplsTyOfBgZYXJW05iHPsIa2GzOleaC0V6pNRoOk
-         oZ/BJb/KRt1S5iFbMwOGNdc/YECTVEsC1P4pEx/aPSDuVJyJkLH3IDIX5GTFVcL3vdUy
-         27jvY+2ugnyy8n394tJOJ4Fiat/rR9D+YjlkzDqB1XJ6D44RBMcWhIcvh8naalVfOocs
-         0DtYJebLF/riwopXJhmolxE9OSmHDyY6mNfakb5sNsMyOuRe7rhErD1adYcQg+AM0M01
-         VbEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXR5aFuxkPLByPgoapteqLa0yyNGa4QIuflXyfqEMTSGM9mJ29WXkac8W1RTJSsBbOJ082hyf30DFL3PBg9@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyvf83wzern5otFZADgJo7wWhmhLPNbt+4AXEYl3K9lh5o5u8od
-	ZtY3cLbbFil2U2ieg91Y19L2VnlHMnIa/rStRFXljE35qHdQz+01hN1ulR6quqBhe1VKzneo6gN
-	HI7cdHR/wdJaLTmIG80Ng1pt+sO8=
-X-Gm-Gg: ASbGncuRGz9YWlOkiwKI5fF/9EViuW0zdBEC3lVTei1AlVEcY4Fr2g34S4aML7aRfjW
-	1NHAATx0q3VDB7QQAjSoM3L/+OZXi/uAaDE4C9aeoC+1vGR6nV1Gif2FV7TnPIdZKctx+TDzH
-X-Google-Smtp-Source: AGHT+IHWwDPZme6hk8Wj9ukxP3B8UmlenwQzmdI5fIXFykX8VP3n3kaWiQt6dUCPVmPlY6BHdfeJVoKcPjKJHpxIId4=
-X-Received: by 2002:a05:6512:1313:b0:540:2ef4:9cf0 with SMTP id
- 2adb3069b0e04-54229532f62mr16976471e87.18.1736183025029; Mon, 06 Jan 2025
- 09:03:45 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="xQhsJh1m"
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4YRgXV15mgzNtH;
+	Mon,  6 Jan 2025 18:04:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1736183098;
+	bh=xnnP5Ge2UVIjVFy75zw34onoBGTBNO+43xM26tZU+Qg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xQhsJh1mMXToUZchdzlrXYlpcL7+YU2H+jl5e3K36qeO++GrWYS5BASL58ddPyGHs
+	 pRl2jfvVFDcx3cv179UdU7aac6PNixKzaSSSl6BpidHYfSMkPF0DZKK4mb32Q9dgfM
+	 atc5gub4Li60d+7tJYPg7nDWfmfNlYWuDR7Majug=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4YRgXT3KQSzMSh;
+	Mon,  6 Jan 2025 18:04:57 +0100 (CET)
+Date: Mon, 6 Jan 2025 18:04:56 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, James Morris <jamorris@linux.microsoft.com>, 
+	Jann Horn <jannh@google.com>
+Subject: Re: security/landlock/ruleset.c:96:9: warning: 'memcpy' accessing
+ 4294967295 bytes at offsets 20 and 0 overlaps 6442450943 bytes at offset
+ -2147483648
+Message-ID: <20250106.uu8as0Ha6pof@digikod.net>
+References: <202501040747.S3LYfvYq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <a376beb3-c362-4b73-b2e6-9104d4df6978@stanley.mountain>
-In-Reply-To: <a376beb3-c362-4b73-b2e6-9104d4df6978@stanley.mountain>
-From: Steve French <smfrench@gmail.com>
-Date: Mon, 6 Jan 2025 11:03:33 -0600
-Message-ID: <CAH2r5ms7EkWfEmane-V+4fd-_7Y+qpLc_+-y=nDucjo1aG3RnA@mail.gmail.com>
-Subject: Re: [cifs:for-next-next 13/13] fs/smb/client/fs_context.c:1466
- smb3_fs_context_parse_param() warn: statement has no effect 22
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202501040747.S3LYfvYq-lkp@intel.com>
+X-Infomaniak-Routing: alpha
 
-buggy patch removed
+I guess the GCC warning is a false positive?
+See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=116494
 
-On Mon, Jan 6, 2025 at 3:24=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next-next
-> head:   8f97b4a68ea216bad142a5391e30fa63c8efce30
-> commit: 8f97b4a68ea216bad142a5391e30fa63c8efce30 [13/13] smb3 client: min=
-or cleanup of username parsing on mount
-> config: x86_64-randconfig-161-20241220 (https://download.01.org/0day-ci/a=
-rchive/20241222/202412220354.ZyCvciEy-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51=
-eccf88f5321e7c60591c5546b254b6afab99)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On Sat, Jan 04, 2025 at 07:26:27AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+> commit: ae271c1b14de343b888e77f74f640e3dcbdeb4c9 landlock: Add ruleset and domain management
+> date:   3 years, 8 months ago
+> config: csky-randconfig-r026-20230729 (https://download.01.org/0day-ci/archive/20250104/202501040747.S3LYfvYq-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 12.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040747.S3LYfvYq-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202412220354.ZyCvciEy-lkp@intel.com/
->
-> smatch warnings:
-> fs/smb/client/fs_context.c:1466 smb3_fs_context_parse_param() warn: state=
-ment has no effect 22
->
-> vim +1466 fs/smb/client/fs_context.c
->
-> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
-452            /* if first character is null, then anonymous auth */
-> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
-453            if (*(param->string) =3D=3D 0) {
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-454                    /* null user, ie. anonymous authentication */
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-455                    ctx->nullauth =3D 1;
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-456                    break;
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-457            }
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-458
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-459            if (strnlen(param->string, CIFS_MAX_USERNAME_LEN) >
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-460                CIFS_MAX_USERNAME_LEN) {
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-461                    pr_warn("username too long\n");
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-462                    goto cifs_parse_mount_err;
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-463            }
-> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
-464            ctx->username =3D param->string, GFP_KERNEL;
-> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
-465            /* streal string from caller, but set to NULL so caller does=
-n't free */
->
-> Typo: "streal" should be "steal".
->
-> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23 @1=
-466            param->string =3D=3D NULL;
->
->
-> It should be =3D instead of =3D=3D.  It's surprising this compiles...
->
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-467            break;
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-468    case Opt_pass:
-> a4e430c8c8ba96b fs/cifs/fs_context.c       Enzo Matsumiya   2022-09-20  1=
-469            kfree_sensitive(ctx->password);
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-470            ctx->password =3D NULL;
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-471            if (strlen(param->string) =3D=3D 0)
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-472                    break;
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-473
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-474            ctx->password =3D kstrdup(param->string, GFP_KERNEL);
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-475            if (ctx->password =3D=3D NULL) {
-> 24fedddc954ed16 fs/cifs/fs_context.c       Aurelien Aptel   2021-03-01  1=
-476                    cifs_errorf(fc, "OOM when copying password string\n"=
-);
-> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
-477                    goto cifs_parse_mount_err;
->
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501040747.S3LYfvYq-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    security/landlock/ruleset.c: In function 'create_rule':
+> >> security/landlock/ruleset.c:96:9: warning: 'memcpy' accessing 4294967295 bytes at offsets 20 and 0 overlaps 6442450943 bytes at offset -2147483648 [-Wrestrict]
+>       96 |         memcpy(new_rule->layers, layers,
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       97 |                         flex_array_size(new_rule, layers, num_layers));
+>          |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > --
+>    Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 146.
+>    Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 146.
+>    Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 146.
+>    Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 146.
+>    Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 146.
+>    Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 146.
+>    Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 146.
+>    Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 146.
+>    Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 146.
+>    Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 146.
+> >> security/landlock/ruleset.c:146: warning: Function parameter or struct member '' not described in 'insert_rule'
+>    Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 146.
+>    Use of uninitialized value $parameterlist[2] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 146.
+> >> security/landlock/ruleset.c:146: warning: Excess function parameter 'layers' description in 'insert_rule'
+> 
+> 
+> vim +/memcpy +96 security/landlock/ruleset.c
+> 
+>     68	
+>     69	static struct landlock_rule *create_rule(
+>     70			struct landlock_object *const object,
+>     71			const struct landlock_layer (*const layers)[],
+>     72			const u32 num_layers,
+>     73			const struct landlock_layer *const new_layer)
+>     74	{
+>     75		struct landlock_rule *new_rule;
+>     76		u32 new_num_layers;
+>     77	
+>     78		build_check_rule();
+>     79		if (new_layer) {
+>     80			/* Should already be checked by landlock_merge_ruleset(). */
+>     81			if (WARN_ON_ONCE(num_layers >= LANDLOCK_MAX_NUM_LAYERS))
+>     82				return ERR_PTR(-E2BIG);
+>     83			new_num_layers = num_layers + 1;
+>     84		} else {
+>     85			new_num_layers = num_layers;
+>     86		}
+>     87		new_rule = kzalloc(struct_size(new_rule, layers, new_num_layers),
+>     88				GFP_KERNEL_ACCOUNT);
+>     89		if (!new_rule)
+>     90			return ERR_PTR(-ENOMEM);
+>     91		RB_CLEAR_NODE(&new_rule->node);
+>     92		landlock_get_object(object);
+>     93		new_rule->object = object;
+>     94		new_rule->num_layers = new_num_layers;
+>     95		/* Copies the original layer stack. */
+>   > 96		memcpy(new_rule->layers, layers,
+>     97				flex_array_size(new_rule, layers, num_layers));
+>     98		if (new_layer)
+>     99			/* Adds a copy of @new_layer on the layer stack. */
+>    100			new_rule->layers[new_rule->num_layers - 1] = *new_layer;
+>    101		return new_rule;
+>    102	}
+>    103	
+>    104	static void free_rule(struct landlock_rule *const rule)
+>    105	{
+>    106		might_sleep();
+>    107		if (!rule)
+>    108			return;
+>    109		landlock_put_object(rule->object);
+>    110		kfree(rule);
+>    111	}
+>    112	
+>    113	static void build_check_ruleset(void)
+>    114	{
+>    115		const struct landlock_ruleset ruleset = {
+>    116			.num_rules = ~0,
+>    117			.num_layers = ~0,
+>    118		};
+>    119	
+>    120		BUILD_BUG_ON(ruleset.num_rules < LANDLOCK_MAX_NUM_RULES);
+>    121		BUILD_BUG_ON(ruleset.num_layers < LANDLOCK_MAX_NUM_LAYERS);
+>    122	}
+>    123	
+>    124	/**
+>    125	 * insert_rule - Create and insert a rule in a ruleset
+>    126	 *
+>    127	 * @ruleset: The ruleset to be updated.
+>    128	 * @object: The object to build the new rule with.  The underlying kernel
+>    129	 *          object must be held by the caller.
+>    130	 * @layers: One or multiple layers to be copied into the new rule.
+>    131	 * @num_layers: The number of @layers entries.
+>    132	 *
+>    133	 * When user space requests to add a new rule to a ruleset, @layers only
+>    134	 * contains one entry and this entry is not assigned to any level.  In this
+>    135	 * case, the new rule will extend @ruleset, similarly to a boolean OR between
+>    136	 * access rights.
+>    137	 *
+>    138	 * When merging a ruleset in a domain, or copying a domain, @layers will be
+>    139	 * added to @ruleset as new constraints, similarly to a boolean AND between
+>    140	 * access rights.
+>    141	 */
+>    142	static int insert_rule(struct landlock_ruleset *const ruleset,
+>    143			struct landlock_object *const object,
+>    144			const struct landlock_layer (*const layers)[],
+>    145			size_t num_layers)
+>  > 146	{
+>    147		struct rb_node **walker_node;
+>    148		struct rb_node *parent_node = NULL;
+>    149		struct landlock_rule *new_rule;
+>    150	
+>    151		might_sleep();
+>    152		lockdep_assert_held(&ruleset->lock);
+>    153		if (WARN_ON_ONCE(!object || !layers))
+>    154			return -ENOENT;
+>    155		walker_node = &(ruleset->root.rb_node);
+>    156		while (*walker_node) {
+>    157			struct landlock_rule *const this = rb_entry(*walker_node,
+>    158					struct landlock_rule, node);
+>    159	
+>    160			if (this->object != object) {
+>    161				parent_node = *walker_node;
+>    162				if (this->object < object)
+>    163					walker_node = &((*walker_node)->rb_right);
+>    164				else
+>    165					walker_node = &((*walker_node)->rb_left);
+>    166				continue;
+>    167			}
+>    168	
+>    169			/* Only a single-level layer should match an existing rule. */
+>    170			if (WARN_ON_ONCE(num_layers != 1))
+>    171				return -EINVAL;
+>    172	
+>    173			/* If there is a matching rule, updates it. */
+>    174			if ((*layers)[0].level == 0) {
+>    175				/*
+>    176				 * Extends access rights when the request comes from
+>    177				 * landlock_add_rule(2), i.e. @ruleset is not a domain.
+>    178				 */
+>    179				if (WARN_ON_ONCE(this->num_layers != 1))
+>    180					return -EINVAL;
+>    181				if (WARN_ON_ONCE(this->layers[0].level != 0))
+>    182					return -EINVAL;
+>    183				this->layers[0].access |= (*layers)[0].access;
+>    184				return 0;
+>    185			}
+>    186	
+>    187			if (WARN_ON_ONCE(this->layers[0].level == 0))
+>    188				return -EINVAL;
+>    189	
+>    190			/*
+>    191			 * Intersects access rights when it is a merge between a
+>    192			 * ruleset and a domain.
+>    193			 */
+>    194			new_rule = create_rule(object, &this->layers, this->num_layers,
+>    195					&(*layers)[0]);
+>    196			if (IS_ERR(new_rule))
+>    197				return PTR_ERR(new_rule);
+>    198			rb_replace_node(&this->node, &new_rule->node, &ruleset->root);
+>    199			free_rule(this);
+>    200			return 0;
+>    201		}
+>    202	
+>    203		/* There is no match for @object. */
+>    204		build_check_ruleset();
+>    205		if (ruleset->num_rules >= LANDLOCK_MAX_NUM_RULES)
+>    206			return -E2BIG;
+>    207		new_rule = create_rule(object, layers, num_layers, NULL);
+>    208		if (IS_ERR(new_rule))
+>    209			return PTR_ERR(new_rule);
+>    210		rb_link_node(&new_rule->node, parent_node, walker_node);
+>    211		rb_insert_color(&new_rule->node, &ruleset->root);
+>    212		ruleset->num_rules++;
+>    213		return 0;
+>    214	}
+>    215	
+> 
+> -- 
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests/wiki
->
->
-
-
---=20
-Thanks,
-
-Steve
