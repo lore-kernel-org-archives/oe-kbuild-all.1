@@ -1,60 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DC61DFD8C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 20:46:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7831DCB0E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 21:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736196405; cv=none; b=JRL6NvShw0U1J3g3etWjfERo972LNMoTsVj9oULngCWpX83xFYgQYHl5oz1WioVIPm8yHHz/7jWq7b9kqFOAwSk53mGoH35RBa0rUZ7AUvPrvrNIJ6BDDQPfTl040WNWhmNpVc/tKxxRLCP+6UkxFSSeMd+TQnXldWzWA/4Vhfo=
+	t=1736199493; cv=none; b=tetBcKlszESXS60r9/7FgxVN0235ZfXhVVJx2NTR+8vvBjfs5GBhlsQDuKZ+W7idBSykolgsqi3I8kgYIV4G6FXLN8kjI0NWwKmoT5FNL7M3BPfaCGK0Bk4LmfmHHkBUN2zJPX6tsEhqOwVs+YyVn1AUlaacN51le0acUzpzAHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736196405; c=relaxed/simple;
-	bh=l+Z8/bcGj7c1R8sqLU62MvQLb/ygQABt2MI+Vi3t89c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j215xMpp7PEEkq4XzAaUAxYF2jTZrzg2xp7ZW/qrzwJoSuhJJyJmokpuGUd74o/1nEZgBkA9VZBJK2Maj2JXXbdcyLC8NJwCoV23C/cFXkuAXm2r2RU/22rFXB9StTCtJ7Jxz9YHw1KcaWRoXsvfvYAWJ5EdPxizNPiFL7gFQfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0Wnf/O7; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1736199493; c=relaxed/simple;
+	bh=HvONposlKuJw4Y+dSo+jkkd/aq1cJfkDp0GXQPM1m7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eiUrZpPxLNGMxEwQa08wpYWN+DU6eU74PFYIZyzu65MNC4vE6sVnLQ0OY4zudc0KkNwbjmlQ4YfaJoQ2XDQS4uf1fUCwzAXTdeNEsI3K0xVidVziJQ/nQ76+QrmjNeGwT4p5kOi9RRxcMVv8U+qW5OYXvcuo2zwXSUADAFSWv4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGlUebwF; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0Wnf/O7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGlUebwF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736196402; x=1767732402;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l+Z8/bcGj7c1R8sqLU62MvQLb/ygQABt2MI+Vi3t89c=;
-  b=K0Wnf/O7x+8jlJvNW7KS/+X2m4w86GtEravnnSmYaYc1h/hXGhgSDJJN
-   KHNQIK6XBUARuicpZ+ZtI9TUuMxeKiKfTveOCGz696hanSunuc/kAHXtR
-   4yQdzbfRQk5Xbic2oIkESFtUkxsBUe6ooK+Oxnihs3n5aNwM927ze9XOK
-   Pi9ZTeSpbRwXO0kvFEO5Q4xF/ApW65COeCBW+CLVvjD4MdTBuTcADaFKv
-   iylSF8UxQBzWZ3xs5GzhTu3F8JLC0mjtT8u2GqrauSnulj7FjgrxKbMr0
-   hMV490DPl8Z4jBvFzY8b2l8okClO3s/bAU0CejhDgsMywL0irA54yD4mZ
-   g==;
-X-CSE-ConnectionGUID: Mw4ZVmMnQZOR/PxzN2bUbA==
-X-CSE-MsgGUID: 4NSb2tWgS6Gt/k3sCjq/oA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="53775966"
+  t=1736199492; x=1767735492;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HvONposlKuJw4Y+dSo+jkkd/aq1cJfkDp0GXQPM1m7g=;
+  b=jGlUebwF5yvqEVZOmW6GJtMfOwCHV0QG6Xd2xN+r5z4hydGqzacqPte2
+   PpJrHEH1iM0Y3mYo8YFbHoiR3R51T+9Up/Og/ZydnXRIWLtA62rXfy5xY
+   mfhxk5vXYT+NPF86lOr5JXIJ6mdPgP0czZF7vO6P7kVZSPmvM+qHlwYAd
+   1IeaGR6ABJHfqBaYeEdmkVOjhf+VvWZtZfRktuSxZE50j9iIewzrsaFT/
+   9Vur1OIH8TqwxhAVeBlnHw2A+dmmUVMysgAQjwDLItIjhp0ueLLTQpFpI
+   CCGMOQkvBZ1QLgOppEsZYhAG3srHA4zcxKNrLoGYhB67bznr1nLNad2q9
+   w==;
+X-CSE-ConnectionGUID: EP0tfpA2Sri4khoInrUlkw==
+X-CSE-MsgGUID: A7wQCaqHRp65TYQEuuxLHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="53780323"
 X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
-   d="scan'208";a="53775966"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 12:46:42 -0800
-X-CSE-ConnectionGUID: el46eYwBT/SGPm2KQa8r5Q==
-X-CSE-MsgGUID: RyKHVX8gT6+k3QlBLv0QCQ==
+   d="scan'208";a="53780323"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 13:38:11 -0800
+X-CSE-ConnectionGUID: QPWSosUcR8GXShDSJc/YYQ==
+X-CSE-MsgGUID: fPwO4tSLSAarkRVBMlbf0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="107170205"
+X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
+   d="scan'208";a="103079957"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Jan 2025 12:46:40 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 06 Jan 2025 13:38:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUtzi-000DuZ-1f;
-	Mon, 06 Jan 2025 20:46:38 +0000
-Date: Tue, 7 Jan 2025 04:45:46 +0800
+	id 1tUunW-000Dwh-1W;
+	Mon, 06 Jan 2025 21:38:06 +0000
+Date: Tue, 7 Jan 2025 05:37:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 177/177]
- drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:69:
- warning: Function parameter or member 'wdma_end_addr_offset' not described
- in 'vdec_h264_slice_info_ex'
-Message-ID: <202501070415.cF5bDqTy-lkp@intel.com>
+To: Chukun Pan <amadeus@jmu.edu.cn>, Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jianfeng Liu <liujianfeng1994@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Chukun Pan <amadeus@jmu.edu.cn>
+Subject: Re: [PATCH 1/1] phy: rockchip: naneng-combphy: compatible with old
+ DT for RK3568
+Message-ID: <202501070458.qKEuL2HH-lkp@intel.com>
+References: <20250106070000.605284-1-amadeus@jmu.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,126 +69,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250106070000.605284-1-amadeus@jmu.edu.cn>
 
-Hi Yunfei,
+Hi Chukun,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   37484545df505e5a625635cadf4bbdf4f3eef3e1
-commit: 9b611361920c1cd4c33c08f3242325549549fe8e [177/177] FROMLIST: media: mediatek: vcodec: rename vsi to extend vsi
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20250107/202501070415.cF5bDqTy-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501070415.cF5bDqTy-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.13-rc6 next-20250106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chukun-Pan/phy-rockchip-naneng-combphy-compatible-with-old-DT-for-RK3568/20250106-150311
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250106070000.605284-1-amadeus%40jmu.edu.cn
+patch subject: [PATCH 1/1] phy: rockchip: naneng-combphy: compatible with old DT for RK3568
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250107/202501070458.qKEuL2HH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501070458.qKEuL2HH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501070415.cF5bDqTy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501070458.qKEuL2HH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:69: warning: Function parameter or member 'wdma_end_addr_offset' not described in 'vdec_h264_slice_info_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:69: warning: Function parameter or member 'reserved' not described in 'vdec_h264_slice_info_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:129: warning: Function parameter or member 'bs' not described in 'vdec_h264_slice_vsi_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:129: warning: Function parameter or member 'fb' not described in 'vdec_h264_slice_vsi_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:129: warning: Function parameter or member 'ube' not described in 'vdec_h264_slice_vsi_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:129: warning: Function parameter or member 'trans' not described in 'vdec_h264_slice_vsi_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:129: warning: Function parameter or member 'row_info' not described in 'vdec_h264_slice_vsi_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:129: warning: Function parameter or member 'err_map' not described in 'vdec_h264_slice_vsi_ex'
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c:129: warning: Function parameter or member 'slice_bc' not described in 'vdec_h264_slice_vsi_ex'
+   drivers/phy/rockchip/phy-rockchip-naneng-combphy.c: In function 'rockchip_combphy_parse_dt':
+>> drivers/phy/rockchip/phy-rockchip-naneng-combphy.c:314:32: error: passing argument 1 of 'ERR_PTR' makes integer from pointer without a cast [-Wint-conversion]
+     314 |         if (IS_ERR(ERR_PTR(priv->phy_rst)))
+         |                            ~~~~^~~~~~~~~
+         |                                |
+         |                                struct reset_control *
+   In file included from include/linux/clk.h:12,
+                    from drivers/phy/rockchip/phy-rockchip-naneng-combphy.c:9:
+   include/linux/err.h:39:48: note: expected 'long int' but argument is of type 'struct reset_control *'
+      39 | static inline void * __must_check ERR_PTR(long error)
+         |                                           ~~~~~^~~~~
 
 
-vim +69 drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+vim +/ERR_PTR +314 drivers/phy/rockchip/phy-rockchip-naneng-combphy.c
 
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   49  
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   50  /**
-9b611361920c1c drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   51   * struct vdec_h264_slice_info_ex - extend decode information
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   52   *
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   53   * @nal_info:		nal info of current picture
-ab83e4255f4ff2 drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Sebastian Fricke 2024-03-02   54   * @timeout:		Decode timeout: 1 timeout, 0 no timeout
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   55   * @bs_buf_size:	bitstream size
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   56   * @bs_buf_addr:	bitstream buffer dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   57   * @y_fb_dma:		Y frame buffer dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   58   * @c_fb_dma:		C frame buffer dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   59   * @vdec_fb_va:	VDEC frame buffer struct virtual address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   60   * @crc:		Used to check whether hardware's status is right
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   61   */
-9b611361920c1c drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   62  struct vdec_h264_slice_info_ex {
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   63  	u64 wdma_end_addr_offset;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   64  	u16 nal_info;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   65  	u16 timeout;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   66  	u64 vdec_fb_va;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   67  	u32 crc[8];
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   68  	u32 reserved;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  @69  };
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   70  
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   71  /*
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   72   * struct vdec_h264_slice_mem - memory address and size
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   73   */
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   74  struct vdec_h264_slice_mem {
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   75  	union {
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   76  		u64 buf;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   77  		u64 dma_addr;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   78  	};
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   79  	union {
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   80  		size_t size;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   81  		u64 dma_addr_end;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   82  	};
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   83  };
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   84  
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   85  /**
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   86   * struct vdec_h264_slice_fb - frame buffer for decoding
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   87   * @y:  current y buffer address info
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   88   * @c:  current c buffer address info
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   89   */
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   90  struct vdec_h264_slice_fb {
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   91  	struct vdec_h264_slice_mem y;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   92  	struct vdec_h264_slice_mem c;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   93  };
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   94  
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   95  /**
-9b611361920c1c drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20   96   * struct vdec_h264_slice_vsi_ex - extend shared memory for decode information exchange
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   97   *        between SCP and Host.
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   98   *
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12   99   * @wdma_err_addr:		wdma error dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  100   * @wdma_start_addr:		wdma start dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  101   * @wdma_end_addr:		wdma end dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  102   * @slice_bc_start_addr:	slice bc start dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  103   * @slice_bc_end_addr:		slice bc end dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  104   * @row_info_start_addr:	row info start dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  105   * @row_info_end_addr:		row info end dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  106   * @trans_start:		trans start dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  107   * @trans_end:			trans end dma address
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  108   * @wdma_end_addr_offset:	wdma end address offset
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  109   *
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  110   * @mv_buf_dma:		HW working motion vector buffer
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  111   *				dma address (AP-W, VPU-R)
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  112   * @dec:			decode information (AP-R, VPU-W)
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  113   * @h264_slice_params:		decode parameters for hw used
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  114   */
-9b611361920c1c drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  115  struct vdec_h264_slice_vsi_ex {
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  116  	/* LAT dec addr */
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  117  	struct vdec_h264_slice_mem bs;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  118  	struct vdec_h264_slice_fb fb;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  119  
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  120  	struct vdec_h264_slice_mem ube;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  121  	struct vdec_h264_slice_mem trans;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  122  	struct vdec_h264_slice_mem row_info;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  123  	struct vdec_h264_slice_mem err_map;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  124  	struct vdec_h264_slice_mem slice_bc;
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  125  
-83ee8446dfaf3b drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  126  	struct vdec_h264_slice_mem mv_buf_dma[H264_MAX_MV_NUM];
-9b611361920c1c drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c Yunfei Dong      2024-07-20  127  	struct vdec_h264_slice_info_ex dec;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  128  	struct vdec_h264_slice_lat_dec_param h264_slice_params;
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12 @129  };
-59fba9eed5a736 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c         Yunfei Dong      2022-05-12  130  
-
-:::::: The code at line 69 was first introduced by commit
-:::::: 83ee8446dfaf3b28910370e9b0d846a87a2254c9 FROMLIST: media: mediatek: vcodec: re-construct h264 driver to support svp mode
-
-:::::: TO: Yunfei Dong <yunfei.dong@mediatek.com>
-:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
+   274	
+   275	static int rockchip_combphy_parse_dt(struct device *dev, struct rockchip_combphy_priv *priv)
+   276	{
+   277		int i;
+   278	
+   279		priv->num_clks = devm_clk_bulk_get_all(dev, &priv->clks);
+   280		if (priv->num_clks < 1)
+   281			return -EINVAL;
+   282	
+   283		priv->refclk = NULL;
+   284		for (i = 0; i < priv->num_clks; i++) {
+   285			if (!strncmp(priv->clks[i].id, "ref", 3)) {
+   286				priv->refclk = priv->clks[i].clk;
+   287				break;
+   288			}
+   289		}
+   290	
+   291		if (!priv->refclk) {
+   292			dev_err(dev, "no refclk found\n");
+   293			return -EINVAL;
+   294		}
+   295	
+   296		priv->pipe_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,pipe-grf");
+   297		if (IS_ERR(priv->pipe_grf)) {
+   298			dev_err(dev, "failed to find peri_ctrl pipe-grf regmap\n");
+   299			return PTR_ERR(priv->pipe_grf);
+   300		}
+   301	
+   302		priv->phy_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,pipe-phy-grf");
+   303		if (IS_ERR(priv->phy_grf)) {
+   304			dev_err(dev, "failed to find peri_ctrl pipe-phy-grf regmap\n");
+   305			return PTR_ERR(priv->phy_grf);
+   306		}
+   307	
+   308		priv->enable_ssc = device_property_present(dev, "rockchip,enable-ssc");
+   309	
+   310		priv->ext_refclk = device_property_present(dev, "rockchip,ext-refclk");
+   311	
+   312		priv->phy_rst = devm_reset_control_get(dev, "phy");
+   313		/* fallback to old behaviour */
+ > 314		if (IS_ERR(ERR_PTR(priv->phy_rst)))
+   315			priv->phy_rst = devm_reset_control_array_get_exclusive(dev);
+   316	
+   317		if (IS_ERR(priv->phy_rst))
+   318			return dev_err_probe(dev, PTR_ERR(priv->phy_rst), "failed to get phy reset\n");
+   319	
+   320		return 0;
+   321	}
+   322	
 
 -- 
 0-DAY CI Kernel Test Service
