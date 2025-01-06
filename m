@@ -1,75 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3111DA63C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 10:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBBE1D517B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 10:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736158152; cv=none; b=kw4LfVn+VdcUFvu+B8aDqdYEnvTEaA09LtYYR/cyRzAp8IscGGhKy0k/8OfPuM/WsnuTNWJuTiZWEW0rskJRQ5sZiHkLU0NFnwf8NUB+iUudemtVSs1YNvpYu3Da/JwYRwM49N70pdq9DRbpIXcwCoWi4fN6iM5IlVc4ROGgDq8=
+	t=1736159864; cv=none; b=hP0rWWI/ANqWXzEo5vvzs6HwTrdWSWgZy6F7MsCuRlMlmA0iFICrGCFkbmRpLKaWdCDy8vEaftNLwT8vakwxDeqtqiG3udUQH+op1gLQgHlo9gmp4IldUlszx1gxSAdBCqljPf5gLxzqQ4YuyfXUQ1sr85xbd8AwLvqp6NO9wOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736158152; c=relaxed/simple;
-	bh=sEL7NksqZgZXuAEm9a2vntcgzwajolbt9hhD8Ehbcv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uZ8PpkjFROqLFNR0giOrz3R3JuAcn2flGowvtl5cod+Q32i9Ab1J6cuSe61c6pnqWYTqDq8yGPdz1BGr8zDWXqCyv5Cjgrx8QLqgbCi39wqWEcgcDwRSCgXTND9HKYQV7dfYuTloceK0GPKJyy4fEip8F6GwlS7PmI4nqo5WoD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGt0bk7p; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736159864; c=relaxed/simple;
+	bh=quRPf5+PfHdlHnEA5M8N5dGuP+LWwVuW1Fda+pYW0vU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HB9Szv6wOzWKbhtyCljALBS6+PcCQhwD/nsPUS+QIJL7DCi+K5p8WRjOpPA9vMcOfc6md3tBmBgy9o3M2vUV72UzeY4Jn9j8yXCN1qaDLVObJIM+lLsl8aRKmug6DOes99eoNh1W6JH3WLvEx5KO3NKdDUTU5ULtLcdp67O15AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Cf0PvqNi; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGt0bk7p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736158151; x=1767694151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sEL7NksqZgZXuAEm9a2vntcgzwajolbt9hhD8Ehbcv8=;
-  b=XGt0bk7pwXGyBoyUcaqL72EsMnuJuhfJPgeL4fLy6i+EcS3wStxT7/Ke
-   YAmX8vm8xBqQV6zoXfM0y8erNNWICnCEDciG0gnHEkeZFSxuPZhbIchGp
-   Uk9tptPoIjkN6eQO26PosiZrab6L3TWFl2FeTzJNG2TYMeRj+9/+iSRnZ
-   RGGTHvTllAf7iOr2rg1+moebuimJtTNlemIBcVjI3artvK6/m89UBq9Y9
-   CEd9N70XqAVSbJHbUXRlqFdeEbJn0xlN5FkRIop70PWNFEIufUAw4t2Z+
-   HAjyV5oHQiLGpEMx2i4XxO6JiZrQ+rjBQwVJTo8qZFfbdheZK0pEk31aT
-   w==;
-X-CSE-ConnectionGUID: MLCNciC/TXuBXpcUmLEyZw==
-X-CSE-MsgGUID: o5CyFKV3TtuLgeD2UO4mgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36178051"
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="36178051"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 02:08:00 -0800
-X-CSE-ConnectionGUID: r8cLw7L4SKCzwa2GNg8UxA==
-X-CSE-MsgGUID: IFzx8dRQSGCblnOYPgMMFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="102893843"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Jan 2025 02:07:53 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tUk1X-000CTb-0m;
-	Mon, 06 Jan 2025 10:07:51 +0000
-Date: Mon, 6 Jan 2025 18:07:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org, linux-kernel@vger.kernel.org, ioworker0@gmail.com,
-	david@redhat.com, ryan.roberts@arm.com, zhengtangquan@oppo.com,
-	ying.huang@intel.com, kasong@tencent.com, chrisl@kernel.org,
-	baolin.wang@linux.alibaba.com, Barry Song <v-songbaohua@oppo.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Shaoqin Huang <shahuang@redhat.com>, Gavin Shan <gshan@redhat.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-Message-ID: <202501061736.FoHcInHJ-lkp@intel.com>
-References: <20250106031711.82855-3-21cnbao@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Cf0PvqNi"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43618283d48so102578685e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 02:37:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736159859; x=1736764659; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Jw5iGf3snAWQVAPigHDpYqiFBGsnJPk5BPWBWM1emNU=;
+        b=Cf0PvqNivqoJBAfHyVdiAXeeohWSzQqQhFD3L9dmP4+nSIEHRxcql+bsojck1RILnm
+         qGJ56zEDf1B82N8Z0gUY2qde6zOb58/LhTE4wPmqI8iWgSkchSorNQm9FCzebYJ8zPz+
+         0aVhI0nZjB637+NAGy2VlgR4OCCaDS1OTrjt0aq6SQ2uBvk3IMWJguWpEsgi9GWRSzf4
+         +7bapVDp41VP4/ChpHVN06IsluCTNrwEBHT5rGhUnLDafZA+AOHNUE7QbceMowNVP3i1
+         9IPU35obDX7Z+dGi+qCIw/32DycBoxGqRygbFObnjLh4HResBz7FyOcQpoxSo8Azz+lo
+         9u7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736159859; x=1736764659;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jw5iGf3snAWQVAPigHDpYqiFBGsnJPk5BPWBWM1emNU=;
+        b=TvJxyKmRJ60hJff3Cim5avo8NiLsfUUGFZSiBS3zHJXSXdcW3Y+mvzis0s3lJQvJPl
+         nCcmF6sbV2sGcGU06vnscuN3Uao/nhc8rTwrTE/y8G7zoZ+qUedXPD7Xh/QAck0rwU4p
+         GXhshLHtgH2VPSvaHjDXSbjbl2pBHydzMwqHmDMw9WqFISV9QXmspynXswIiDjC5EHCe
+         gzt8Z7NMuWpsyAg9k+P3l1InO6XXiHmcCvsJHpu2jhVj7QU4N2c+t7A++z2NXyqX3c8n
+         MsGO+rEspwBr6e/jZ219j71KiytS3sYC7xzlBS1PwI7QkDELyJLUeeGgR02M+J6Zqy7/
+         ofVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWrTB/UTM+lTgFyFWD/ZVovui8H+xyANgttCBk1vtMbC5oQKb8u36BsC4bVjnwzslFlg67rALnl3P7SJh13@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQ8FgsL9V2ko2zUpowFp6lb6+j6HwtCls3Z3d1ngngeavfVCke
+	sENYXWzuVWw5zWKWfXsbfL1xyYbOram3+ItVB+Qu8m8QHW57+jLK6yi0x2plGDQ=
+X-Gm-Gg: ASbGnctAtMS/5Skaq/savMlrV0is9pUVqegz6CQHxrWK7R3ND9OLwwPIpIHD20lMf2J
+	iMEVLss92QUtyN2nKn6PJtngs9FfipxlXiMdwXEfNx4YEjaG8a1sRBKMV54mbjfvJOwr06fk3xS
+	RPgvDPb5CqQbjCXR35geBOxLUWmYBm2UtKa2tQrm7gotYVt0pd7Tk1H/l1ggpdmXwmyCxZLHf+2
+	J1ORwzzU9ioNTH4tO3+rzg9AL71iCX+UAlw4QZaiaWZ9ivA9qdBRS2SjHpFeQ==
+X-Google-Smtp-Source: AGHT+IEePWXQ2gEoZC/gxUJ3HOXj7WQzEIrzqvnWBH0X6zcyQZd2MJ+n/a8TkfuQDGr42U2R1w+nPQ==
+X-Received: by 2002:a7b:cd95:0:b0:436:30e4:4590 with SMTP id 5b1f17b1804b1-43668b7a1d0mr424647475e9.32.1736159858799;
+        Mon, 06 Jan 2025 02:37:38 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b013e1sm592162175e9.12.2025.01.06.02.37.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jan 2025 02:37:38 -0800 (PST)
+Date: Mon, 6 Jan 2025 13:37:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Muhammad Husaini Zulkifli <muhammad.husaini.zulkifli@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Kishor408 <kishorx.buchi@intel.com>,
+	Aravindhan Gunasekaran <aravindhan.gunasekaran@intel.com>
+Subject: [intel-lts:6.12/linux 1/1] net/core/rtnetlink.c:1593 rtnl_xdp_fill()
+ warn: missing error code 'err'
+Message-ID: <ee667823-e39c-4a62-b7ba-f85dad13da5e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,98 +72,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250106031711.82855-3-21cnbao@gmail.com>
 
-Hi Barry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-set-folio-swapbacked-iff-folios-are-dirty-in-try_to_unmap_one/20250106-112638
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250106031711.82855-3-21cnbao%40gmail.com
-patch subject: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-config: riscv-randconfig-001-20250106 (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.12/linux
+head:   af28adffb0fe876a7f6b55f145e6cae4861209a9
+commit: d422faba40f2b00b944ed5ffa9c365bf904c950b [1/1] rtnetlink: Fix unchecked return value of dev_xdp_query_md_btf()
+config: i386-randconfig-141-20241226 (https://download.01.org/0day-ci/archive/20241226/202412261741.KiMk9t5S-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501061736.FoHcInHJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412261741.KiMk9t5S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+net/core/rtnetlink.c:1593 rtnl_xdp_fill() warn: missing error code 'err'
 
-   mm/rmap.c: In function 'set_tlb_ubc_flush_pending':
->> mm/rmap.c:685:9: error: too many arguments to function 'arch_tlbbatch_add_pending'
-     685 |         arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/riscv/include/asm/pgtable.h:113,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from mm/rmap.c:55:
-   arch/riscv/include/asm/tlbflush.h:62:6: note: declared here
-      62 | void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/err +1593 net/core/rtnetlink.c
 
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1554  static int rtnl_xdp_fill(struct sk_buff *skb, struct net_device *dev)
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1555  {
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1556  	u32 prog_id, md_btf_id;
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1557  	u8 md_btf_enabled = 0;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1558  	struct nlattr *xdp;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1559  	int err;
+4f91da26c81145 Jakub Kicinski            2018-07-11  1560  	u8 mode;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1561  
+ae0be8de9a53cd Michal Kubecek            2019-04-26  1562  	xdp = nla_nest_start_noflag(skb, IFLA_XDP);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1563  	if (!xdp)
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1564  		return -EMSGSIZE;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1565  
+a25717d2b60434 Jakub Kicinski            2018-07-11  1566  	prog_id = 0;
+a25717d2b60434 Jakub Kicinski            2018-07-11  1567  	mode = XDP_ATTACHED_NONE;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1568  	err = rtnl_xdp_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_SKB,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1569  				  IFLA_XDP_SKB_PROG_ID, rtnl_xdp_prog_skb);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1570  	if (err)
+b5cdae3291f7be David S. Miller           2017-04-18  1571  		goto err_cancel;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1572  	err = rtnl_xdp_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_DRV,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1573  				  IFLA_XDP_DRV_PROG_ID, rtnl_xdp_prog_drv);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1574  	if (err)
+a25717d2b60434 Jakub Kicinski            2018-07-11  1575  		goto err_cancel;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1576  	err = rtnl_xdp_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_HW,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1577  				  IFLA_XDP_HW_PROG_ID, rtnl_xdp_prog_hw);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1578  	if (err)
+58038695e62b44 Martin KaFai Lau          2017-06-15  1579  		goto err_cancel;
+4f91da26c81145 Jakub Kicinski            2018-07-11  1580  
+a25717d2b60434 Jakub Kicinski            2018-07-11  1581  	err = nla_put_u8(skb, IFLA_XDP_ATTACHED, mode);
+b5cdae3291f7be David S. Miller           2017-04-18  1582  	if (err)
+b5cdae3291f7be David S. Miller           2017-04-18  1583  		goto err_cancel;
+d67b9cd28c1d7f Daniel Borkmann           2017-05-12  1584  
+a25717d2b60434 Jakub Kicinski            2018-07-11  1585  	if (prog_id && mode != XDP_ATTACHED_MULTI) {
+58038695e62b44 Martin KaFai Lau          2017-06-15  1586  		err = nla_put_u32(skb, IFLA_XDP_PROG_ID, prog_id);
+58038695e62b44 Martin KaFai Lau          2017-06-15  1587  		if (err)
+58038695e62b44 Martin KaFai Lau          2017-06-15  1588  			goto err_cancel;
+58038695e62b44 Martin KaFai Lau          2017-06-15  1589  	}
+58038695e62b44 Martin KaFai Lau          2017-06-15  1590  
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1591  	md_btf_id = dev_xdp_query_md_btf(dev, &md_btf_enabled);
+d422faba40f2b0 Muhammad Husaini Zulkifli 2021-07-30  1592  	if (!md_btf_id)
+d422faba40f2b0 Muhammad Husaini Zulkifli 2021-07-30 @1593  		goto err_cancel;
 
-vim +/arch_tlbbatch_add_pending +685 mm/rmap.c
+Set err on this path?
 
-   663	
-   664	/*
-   665	 * Bits 0-14 of mm->tlb_flush_batched record pending generations.
-   666	 * Bits 16-30 of mm->tlb_flush_batched bit record flushed generations.
-   667	 */
-   668	#define TLB_FLUSH_BATCH_FLUSHED_SHIFT	16
-   669	#define TLB_FLUSH_BATCH_PENDING_MASK			\
-   670		((1 << (TLB_FLUSH_BATCH_FLUSHED_SHIFT - 1)) - 1)
-   671	#define TLB_FLUSH_BATCH_PENDING_LARGE			\
-   672		(TLB_FLUSH_BATCH_PENDING_MASK / 2)
-   673	
-   674	static void set_tlb_ubc_flush_pending(struct mm_struct *mm, pte_t pteval,
-   675					      unsigned long uaddr,
-   676					      unsigned long size)
-   677	{
-   678		struct tlbflush_unmap_batch *tlb_ubc = &current->tlb_ubc;
-   679		int batch;
-   680		bool writable = pte_dirty(pteval);
-   681	
-   682		if (!pte_accessible(mm, pteval))
-   683			return;
-   684	
- > 685		arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
-   686		tlb_ubc->flush_required = true;
-   687	
-   688		/*
-   689		 * Ensure compiler does not re-order the setting of tlb_flush_batched
-   690		 * before the PTE is cleared.
-   691		 */
-   692		barrier();
-   693		batch = atomic_read(&mm->tlb_flush_batched);
-   694	retry:
-   695		if ((batch & TLB_FLUSH_BATCH_PENDING_MASK) > TLB_FLUSH_BATCH_PENDING_LARGE) {
-   696			/*
-   697			 * Prevent `pending' from catching up with `flushed' because of
-   698			 * overflow.  Reset `pending' and `flushed' to be 1 and 0 if
-   699			 * `pending' becomes large.
-   700			 */
-   701			if (!atomic_try_cmpxchg(&mm->tlb_flush_batched, &batch, 1))
-   702				goto retry;
-   703		} else {
-   704			atomic_inc(&mm->tlb_flush_batched);
-   705		}
-   706	
-   707		/*
-   708		 * If the PTE was dirty then it's best to assume it's writable. The
-   709		 * caller must use try_to_unmap_flush_dirty() or try_to_unmap_flush()
-   710		 * before the page is queued for IO.
-   711		 */
-   712		if (writable)
-   713			tlb_ubc->writable = true;
-   714	}
-   715	
+d422faba40f2b0 Muhammad Husaini Zulkifli 2021-07-30  1594  
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1595  	nla_put_u32(skb, IFLA_XDP_MD_BTF_ID, md_btf_id);
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1596  	nla_put_u8(skb, IFLA_XDP_MD_BTF_STATE, md_btf_enabled);
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1597  
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1598  	nla_nest_end(skb, xdp);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1599  	return 0;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1600  
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1601  err_cancel:
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1602  	nla_nest_cancel(skb, xdp);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1603  	return err;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1604  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
