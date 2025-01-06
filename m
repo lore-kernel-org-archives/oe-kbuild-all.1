@@ -1,124 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003B639FCE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 14:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1142F23A6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 14:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736172306; cv=none; b=FFSb+VwZGj79F8f3lo4AjQleUWP6S1EncJk9lTVJQ6ZZnUQK08DPcy6PZWFMLklzi59UtjJLkBLrTl3ZKgZCevJf1kOE5C6s1bfmrEXRN/nzNqsrWw+02clehDBXCqjhBf22ACNBbeK73mbg9jmzAZotzgOe0EWlDG9xOFGseY8=
+	t=1736173745; cv=none; b=YpyJTCHxo7LXngwcf3VW0jjvc72E0E5HdJL6aIAtkVM1+3NujV4f8fyP9wgZgcpJNmUQssOJQmG7S0rbXX6aqEqtcCm5Hy6cDSgp/fUOeAMXzEVMj5wuDNZ6V3PdYBFRvr8uyW2nVUUgGbdIj0foaRBsTGR3oqmHH/E88Tn0fGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736172306; c=relaxed/simple;
-	bh=APfcYwSdBR5AkASkpxgCLitK7fSEQA4VqFvu3bfBIpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EKyLd5OnR88AWlnf/i8kFKefkYUM9T4HliOrjYjxjT5CiGfVexcAnnEXj+FKbCC/vSvfN1Y5v3BJjonlSvBEsTw23ENLKLK3ktQLhP7Oc1bcaur9IwOGuY86utG5tpPExXE8D25tbIjehISQ43TotOY5ITVXP/juXTmplHaUzO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mANFTX6e; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mANFTX6e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736172305; x=1767708305;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=APfcYwSdBR5AkASkpxgCLitK7fSEQA4VqFvu3bfBIpg=;
-  b=mANFTX6etNtLWlVqdzs4FWXLy5VRoN2SuxjJg0EZhQth/Qz947h2ApTZ
-   VErDxXAG2TP3b29ao/iGJ1ayjzjgMeTgp46wBr8qy4gsNlcOU1ObHcHqT
-   7Z71phCLojEZEEpTLXEf4VVsaKdm1+ExhwgzU5Vt43WAMBOaSJwYNcYNU
-   +93H9zEns+y1fVYU09bXTyRmYaYOiyc171ZOmVHV2tSoHpxmnC36CZL6T
-   lrDRg+3Qth4680EON2k+wMfYzyQyH/8MEpMf4LldouWmXnrux2z9SddSd
-   hhu9KRKkThtrGbnCd67P9DlcXkFbsf4HwqlklthPlJstJKDFzXHpmvpYL
-   A==;
-X-CSE-ConnectionGUID: zm90zcRdR9mVCDtwfw69jg==
-X-CSE-MsgGUID: i6WFjpZySweja/LoQUd4fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="61694186"
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="61694186"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 06:05:03 -0800
-X-CSE-ConnectionGUID: 3aGbbQKfSo+Vg9OAkOgyCw==
-X-CSE-MsgGUID: tXnSqncIRSq5JY9ypLB9Jg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="102340825"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Jan 2025 06:05:01 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tUnj1-000CgH-1J;
-	Mon, 06 Jan 2025 14:04:59 +0000
-Date: Mon, 6 Jan 2025 22:04:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 17987/25291]
- arch/arm64/kernel/stacktrace.c:161:13: warning: no previous prototype for
- 'walk_stackframe_reliable'
-Message-ID: <202501062140.ChT4rl5x-lkp@intel.com>
+	s=arc-20240116; t=1736173745; c=relaxed/simple;
+	bh=tDpzm4Bj9QcJNosTjFSSPqoZ3zZOgYkdsQMreDEVpwY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EA5VBDK7NF1zJJZZWX6c5wB24eXwmahJSUmNs4TeDPt8D3TQKwGPaWR6TTgS7xFQXS6jKVf/IAPVvvh9GZgIH/qbdLBeDX5IRqeJ6kCjepcBpsUmf0QlcPSzN/8upOjAwMCfTSn0On8UghlFm+9fI7tyxbGUVec73lne+x7HLrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1tUo5x-0005hl-W8; Mon, 06 Jan 2025 15:28:42 +0100
+Message-ID: <1c0957b2-48cf-49a1-aa5e-666defd7f0fd@pengutronix.de>
+Date: Mon, 6 Jan 2025 15:28:39 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/11] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
+To: kernel test robot <lkp@intel.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
+ devicetree@vger.kernel.org, kernel@pengutronix.de
+References: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
+ <202412201310.JWkUQ9qf-lkp@intel.com>
+Content-Language: en-US
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <202412201310.JWkUQ9qf-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
-commit: f6c94c34964ebf155b3188788a086805d33bcbf3 [17987/25291] bytedance: arm64: introduce reliable stacktraces
-config: arm64-randconfig-003-20250106 (https://download.01.org/0day-ci/archive/20250106/202501062140.ChT4rl5x-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501062140.ChT4rl5x-lkp@intel.com/reproduce)
+On 20.12.24 07:12, kernel test robot wrote:
+> Hi Ahmad,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
+> base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+> patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-2-263a0c1df802%40pengutronix.de
+> patch subject: [PATCH 02/11] reboot: reboot, not shutdown, on hw_protection_reboot timeout
+> config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412201310.JWkUQ9qf-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
+>>> kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
+>>> kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501062140.ChT4rl5x-lkp@intel.com/
+Will fix the kernel doc issues for v2.
 
-All warnings (new ones prefixed by >>):
+>    kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_shutdown'
+>    kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_shutdown'
+> 
+> 
+> vim +995 kernel/reboot.c
+> 
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   983  
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   984  static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   985  			    hw_failure_emergency_poweroff_func);
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   986  
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   987  /**
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   988   * hw_failure_emergency_schedule - Schedule an emergency system shutdown or reboot
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   989   *
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   990   * This may be called from any critical situation to trigger a system shutdown
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   991   * after a given period of time. If time is negative this is not scheduled.
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   992   */
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   993  static void hw_failure_emergency_schedule(enum hw_protection_action action,
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   994  					  int poweroff_delay_ms)
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  @995  {
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   996  	if (poweroff_delay_ms <= 0)
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   997  		return;
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   998  	hw_failure_emergency_action = action;
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   999  	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  1000  			      msecs_to_jiffies(poweroff_delay_ms));
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  1001  }
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
+> 
 
->> arch/arm64/kernel/stacktrace.c:161:13: warning: no previous prototype for 'walk_stackframe_reliable' [-Wmissing-prototypes]
-     161 | int notrace walk_stackframe_reliable(struct task_struct *tsk, struct stackframe *frame,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/walk_stackframe_reliable +161 arch/arm64/kernel/stacktrace.c
-
-   160	
- > 161	int notrace walk_stackframe_reliable(struct task_struct *tsk, struct stackframe *frame,
-   162				bool (*fn)(void *, unsigned long), void *data)
-   163	{
-   164		int ret = 0;
-   165	
-   166		if (!tsk)
-   167			tsk = current;
-   168	
-   169		do {
-   170			/* Final frame for kthread; nothing to unwind */
-   171			if ((frame->fp == (unsigned long)task_pt_regs(tsk)->stackframe)
-   172				&& ptrauth_strip_insn_pac(frame->pc) == (unsigned long)&kthread_return_to_user)
-   173				return 0;
-   174	
-   175			if (!unwind_state_is_reliable(frame))
-   176				return -EINVAL;
-   177	
-   178			ret = fn(data, ptrauth_strip_insn_pac(frame->pc));
-   179			if (!ret)
-   180				return ret;
-   181	
-   182			ret = unwind_frame(tsk, frame);
-   183			if (ret < 0)
-   184				break;
-   185		} while (1);
-   186	
-   187		if (ret == -ENOENT)
-   188			ret = 0;
-   189	
-   190		return ret;
-   191	}
-   192	NOKPROBE_SYMBOL(walk_stackframe_reliable);
-   193	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
