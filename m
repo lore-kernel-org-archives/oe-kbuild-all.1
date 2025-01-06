@@ -1,149 +1,92 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A2A1917E9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 11:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF46C1D5ADD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 11:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736163775; cv=none; b=mg5H97ewsTnTd4e5X0RFdn/fOwHJmrMyDazW3UB3TpB0TCmKh/etyZGzExGHHAuKbe0y2NtN+h7/0+I6Sfn/zsj/b7xk8Y+ncd1jEH2wtZdrTwYgA0ENYwEE/94ADtZXGurGV7I9iX3yKLiF06fC18tYFp/xRzrZTZioy6bwnvs=
+	t=1736164198; cv=none; b=drM68dV3GC2JKHweuMw9Swj3L282DnqTLa15TJ9xque9sDy9tmb/AWebTs/Wq51slZHUT2LdY3zIkhK5IAPXjinQaDQKKh6kyHWe4N0OJ9nMgjEL9XewBhTKvYw5hUfVZQaoUirhR4Qa/LbN0Bm+Gfy91xgXqTZXO3QMowspcmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736163775; c=relaxed/simple;
-	bh=qW4wObHyuTrT4Zir2rUK748yTIQfQRMYqu6TyI7Ae5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QCDbsdZ0o1oOLEOwW3FwWihG2xMBmOWxA/UP2qgb20icUgIVHfF22MeBhMYTiN3UumR69cOwUS4PKMsAtS0v8Aql8j4WxUCNLaHIvwccLRGc+bDHJ2pb1avXjqqb83SaQsTVYTEdyjgk7nm1Q0SfUv81MhEnoJAaqHYlxJiaXj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tljCNQ38; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1736164198; c=relaxed/simple;
+	bh=4Rw2FXcuLyDvbB4yWFIF9m7FpWxwGc+koiL03Ib+BQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A6FWjUYOVKemFYIBUt9fx50+29sj/8KQ2aBQHMa+RAWiuwbHXTZdixhq3be5chgxTpwQbKiZB1TEpo3+hMbpKwlJsRFrigYT4h4TslJ8sHzdfoDTshKzOYDUj36k9cAwjx+Es/QcbisxIuKkCYmoujAgrCzxYkS9TexUzJgUeJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aTD9KwSD; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tljCNQ38"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38632b8ae71so10029128f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 03:42:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aTD9KwSD"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-385e06af753so7143391f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 03:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736163772; x=1736768572; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7YG3GOy+g/NwAsJ5y2aA9Pj10HoYNeBxwmK3RuNDKnA=;
-        b=tljCNQ38X2xzlJDsz6wkOmtIeNpyxnY8V1S+C+MU9CMJE/ZDFJ0KITPcZYq2zh+8sa
-         vZ+gRgXHuSCBvALLw108PeWo6JZKseO9IN1f+lCJMcvQEmklBgBu1+TY6oXmCGcC13oY
-         6cMPpABDuXaudkVt4TPzZJYjSpl04F9ASbqa94gQNuEAfsaMagytKqJEeZIdAecaR/bI
-         5QiYjt+kRlmZZzheLInhesk1ZSkrNVJer/fFL4IzFWcPdsPjoIHK0C0aZLoTBuvfOkhC
-         f2ghiNMzIcLaUZiOiMjcel3pZcOai8XFE1CDXtV0uHnxTv7lthxtKBksWpjAJd1mWQC5
-         HW2Q==
+        d=google.com; s=20230601; t=1736164195; x=1736768995; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Rw2FXcuLyDvbB4yWFIF9m7FpWxwGc+koiL03Ib+BQY=;
+        b=aTD9KwSDdbOGNOmnnzuk1RU5/Qs8YV7HnoA+q+dbNnvAlGVT6lasMV7q4W0FMCYk0r
+         Z1WCb7JTN3n/NurArV+gBTBEu8N0rt442J1YpTo2s1QlN5fDzvshtLK6rIRwv6qJaRJh
+         q67npCt5SEuXNVJBjw0mN9r2u84ltT5GRCIIWfqPpTKvbSD024SWSvMLJC8bBbVrnrGY
+         kjzVRQHOB6hqji/Z68h+gXLMh9nBoZ8++Il7XkhIu4ddCzLOlFG7BJ8tpbQi9Lh4EVyp
+         B0z5gwBwTPlye1pwbB5rQzEJpULXD3jrJW49//FrcdsQYpUiOCOvRLWVbjGkUqL5NBzH
+         zm7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736163772; x=1736768572;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7YG3GOy+g/NwAsJ5y2aA9Pj10HoYNeBxwmK3RuNDKnA=;
-        b=p3/qjVXdoqa85TEuVtZnpzeX/Rxbev8XF5GkrSOooIgRs3BXvzC4pb9cTGTZc4Ak9d
-         luw4af46WXK7HeLfgZWni5Ux0tD9HuZV7md+8b3Z/RECitbVv7jIzze5KLnsvySO9UHP
-         iTorcKdQB/waBxgqiV5U40mCgZ/FOF5wprOY7+TcZKoZ/AAfpb4EifgzQ9rP0gJLwUHQ
-         sitT1fRjutbcN/1IXUvy4osI7OnwFHy2hxusC4NHR2KwXP3FGzqpzVjBRXROBkZS0i8P
-         2r3qhG8WL+AVMYodsC+27b/9SqOn33OLUkOSTbHh/0r/ELZExZsxxxuI5vl/rs16qyeC
-         i9Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXHI5PB3jHqwBs/ssk03KnMheJ1wUAL2LVCKMP+hzENYVz5klNrHLb5YNiWz0rlfa6v+LWZJ1wQPzVNCXBN@lists.linux.dev
-X-Gm-Message-State: AOJu0YymtCQUeCOkDNcVr4rOlAvflmdRVGTeLVHBow27aTrc/x12f2uM
-	O8ky9wanPjhiWlFcNUB/+taNti2JPQb7SHucoL3fY7UW1M+EqNYy5tb9lDMIJJ8=
-X-Gm-Gg: ASbGnctDLbTQuD3/0QqqQHdYlWBFE9mk/WCyjycBoV1h3HVmJm46E01tC5mbdwg3fqb
-	ipvM9fd3dGsX7OWJeekf0EVV+A2chJSKzD0YIA1rrW1L2zAGIFdPOs5BVvm9NVGScOjVWbYUo07
-	zOWOET/pYG6V+l2Rw0svLL8mJlTrJd2DThBXqjG0lB+IoyGtHDpXTC46O2udRjexn6wKQl4wUN3
-	faHsts6fgwKqgsebQNHRBCQ4crT3GBuWeWXsxvcZmrlia8RqxyR52N/DOHzUw==
-X-Google-Smtp-Source: AGHT+IG58q8cr4ocVDcWdFjGoPg3w6C7BABpHxOy8yDsyEhI0WRiV8e3ntHXum0mHI3s5vxK/9Yb1w==
-X-Received: by 2002:a5d:584f:0:b0:386:399a:7f17 with SMTP id ffacd0b85a97d-38a221f2ed2mr38603926f8f.24.1736163771738;
-        Mon, 06 Jan 2025 03:42:51 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8a6abesm47655764f8f.90.2025.01.06.03.42.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 03:42:51 -0800 (PST)
-Date: Mon, 6 Jan 2025 14:42:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ahmed Zaki <ahmed.zaki@intel.com>,
-	netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	intel-wired-lan@lists.osuosl.org, andrew+netdev@lunn.ch,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	davem@davemloft.net, michael.chan@broadcom.com, tariqt@nvidia.com,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	jdamato@fastly.com, shayd@nvidia.com, akpm@linux-foundation.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH net-next v3 3/6] net: napi: add CPU
- affinity to napi_config
-Message-ID: <e602748b-4376-433f-b864-066afa11daf5@stanley.mountain>
+        d=1e100.net; s=20230601; t=1736164195; x=1736768995;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4Rw2FXcuLyDvbB4yWFIF9m7FpWxwGc+koiL03Ib+BQY=;
+        b=DyTL8ah77UlhnjTg4H72mmUCc/JJsyK65/LyJ/1FRn6G/PPrcftHjJmtUkEygeyPEk
+         3bNPmjQosX3vZfYeqqX8Yjy5OtiY+0U5CesIBm6HcHZiG6ZFBiUiHT6Kosp9gYeRtl5r
+         saEw/832KaFmHvfOuBK5lWAtLP4XOHDazYLglgWcBdY2Uo0eT2Hk75hym5FGX1+A8S/e
+         y/W5wvDb6sp7Jg4EzI/83Eeoo4WuPGOYA+qwpO+yZKKwKhqp8ib1lSiAZu4gWYRKR1wC
+         qdQCQqjFuRpSOVP1R459/Y4fNkS6JBFzSzdKdUTo3ehHLKqLnIRyn6jA4jzqd9KJg7+s
+         trZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXQc0uWH8plmHstax8pZLSQ1oSGWP6mtUJACAIPKSIuHytHAMYEAwjX4Rgy+jqVaZU1X+f9fiBWMaO4kaO9@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZdFX0RLPHygzIIj2/vLwiMBL9lJs+0Zej7k8VhD6TXCSw3Lc6
+	TBfNMcpPeG/usrFEo6qShgxQ6D7xYcgK1UEeyTJi7FF/up3qoh50O3W27izuBY/QD2ENQopXmoL
+	6T5jASkdRelpJRU7LzS4rI9+nNxzoRaDb9kJq
+X-Gm-Gg: ASbGncuzLJ/9bpOUSjZFNAz5V5Jf9oQlqG+lXddYixpsdbzn/hlomX5jJnF6S7ISy+W
+	TcBDKNjFfqpinlOVAO8+RBqiK6afYzfTcRFn61mHaD59D9wlJsm1lAh3GYSCP0pgTUbgW
+X-Google-Smtp-Source: AGHT+IFTVwCtZdYxRH3gg2J8q1c0et3XC3IEuJFb8eqipTN8aLBnWtMWzAE37+Ba+8Z+XBOu21Ozobzo0Pb/UQtiCH4=
+X-Received: by 2002:a5d:47cf:0:b0:385:ee59:44eb with SMTP id
+ ffacd0b85a97d-38a221fa9ffmr47376443f8f.33.1736164195277; Mon, 06 Jan 2025
+ 03:49:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250104004314.208259-4-ahmed.zaki@intel.com>
+References: <202412311507.14xdiaIX-lkp@intel.com> <Z3OyANq7fAkCs+Qi@rli9-mobl>
+In-Reply-To: <Z3OyANq7fAkCs+Qi@rli9-mobl>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 6 Jan 2025 12:49:43 +0100
+Message-ID: <CAH5fLghNqbu2LO6SMr2Nsciji5k01tagaAEMZQ-WKJ8b9E56hg@mail.gmail.com>
+Subject: Re: error[E0425]: cannot find value `__tracepoint_rust_sample_loaded`
+ in crate `$crate::bindings`
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, "Steven Rostedt (Google)" <rostedt@goodmis.org>, 
+	Boqun Feng <boqun.feng@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ahmed,
+On Tue, Dec 31, 2024 at 9:58=E2=80=AFAM Philip Li <philip.li@intel.com> wro=
+te:
+>
+> On Tue, Dec 31, 2024 at 03:15:47PM +0800, kernel test robot wrote:
+> > Hi Alice,
+> >
+> > FYI, the error/warning still remains.
+>
+> Kindly ignore this report, which had already been discussed in [1]
+>
+> [1] https://lore.kernel.org/oe-kbuild-all/CAH5fLggEzmerC6Qg1fjuc_wiy21BJQ=
+GGYdZSZA+KV=3DoP6q9iJg@mail.gmail.com/
 
-kernel test robot noticed the following build warnings:
+Would it be possible to upgrade bindgen used by this robot? Please see:
+https://lore.kernel.org/all/CAH5fLgjmtuZ7Sxp49GoGC079sXqS4wmsEmZKM-T4Mh9Fyc=
+DYGQ@mail.gmail.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Zaki/net-move-ARFS-rmap-management-to-core/20250104-084501
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250104004314.208259-4-ahmed.zaki%40intel.com
-patch subject: [Intel-wired-lan] [PATCH net-next v3 3/6] net: napi: add CPU affinity to napi_config
-config: i386-randconfig-141-20250104 (https://download.01.org/0day-ci/archive/20250105/202501050625.nY1c97EX-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501050625.nY1c97EX-lkp@intel.com/
-
-smatch warnings:
-net/core/dev.c:6835 napi_restore_config() warn: variable dereferenced before check 'n->config' (see line 6831)
-net/core/dev.c:6855 napi_save_config() warn: variable dereferenced before check 'n->config' (see line 6850)
-
-vim +6835 net/core/dev.c
-
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6829  static void napi_restore_config(struct napi_struct *n)
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6830  {
-86e25f40aa1e9e5 Joe Damato     2024-10-11 @6831  	n->defer_hard_irqs = n->config->defer_hard_irqs;
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6832  	n->gro_flush_timeout = n->config->gro_flush_timeout;
-5dc51ec86df6e22 Martin Karsten 2024-11-09  6833  	n->irq_suspend_timeout = n->config->irq_suspend_timeout;
-                                                                                 ^^^^^^^^^
-These lines all dereference n->config.
-
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6834  
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03 @6835  	if (n->irq > 0 && n->config && n->dev->irq_affinity_auto)
-                                                                          ^^^^^^^^^
-This code assumes it can be NULL
-
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6836  		irq_set_affinity(n->irq, &n->config->affinity_mask);
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6837  
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6838  	/* a NAPI ID might be stored in the config, if so use it. if not, use
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6839  	 * napi_hash_add to generate one for us. It will be saved to the config
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6840  	 * in napi_disable.
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6841  	 */
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6842  	if (n->config->napi_id)
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6843  		napi_hash_add_with_id(n, n->config->napi_id);
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6844  	else
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6845  		napi_hash_add(n);
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6846  }
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6847  
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6848  static void napi_save_config(struct napi_struct *n)
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6849  {
-86e25f40aa1e9e5 Joe Damato     2024-10-11 @6850  	n->config->defer_hard_irqs = n->defer_hard_irqs;
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6851  	n->config->gro_flush_timeout = n->gro_flush_timeout;
-5dc51ec86df6e22 Martin Karsten 2024-11-09  6852  	n->config->irq_suspend_timeout = n->irq_suspend_timeout;
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6853  	n->config->napi_id = n->napi_id;
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6854  
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03 @6855  	if (n->irq > 0 && n->config && n->dev->irq_affinity_auto)
-
-Same
-
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6856  		irq_set_affinity_notifier(n->irq, NULL);
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6857  
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6858  	napi_hash_del(n);
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6859  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Alice
