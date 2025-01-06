@@ -1,69 +1,65 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8FF2AE94
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D542E1DA31F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736156630; cv=none; b=EusEkcaC9jrhI5Spbm1++ieaUViMzlpLkUMi68/wIDdCvWIvna8np85aD0IXLsraNtoAq7hrv130CEiNvwv25kCIOXD/UQwBi0esi1DlXpJ9vrdEbwVZ+kzRJ5VrhLGnM/eaivSZyCbTfvv5MsFlY9Cd6lsaT3dnrf0DqP307Ok=
+	t=1736156756; cv=none; b=IMICE4YTS87ZmDl0T6AuVwuNJ4yRMBuf0rsvFbeM8mSvsHAQoNz1k8vt/WMxedsPIWGh2WemiX+LLk7aKldrDUXEB6OKwCpjSSf2qED+klpuZdUlnf4VOb6TS0Ltx5RrGK0uEIW/qLvC2ve7NO37Js09rZGvlj3/xir/7uhd7v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736156630; c=relaxed/simple;
-	bh=nn88hpp6nf5t1s45ZH0IpdaFSlKDUzV8ZiHfDn7X76s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ndXlGThfQAb2zoT6bzzDcLbhuCtSO2l7x5XHgZymL9z+rdmrb0oCsQRySGF2WjJyWb4DindSzQkl/4peTCoQLC6jpiIQElyHWHIOuVy+r2eTh7n8zMAvcJaqa+bbIUioYGlJJOeVcfJT4FPpg5kLEmEUXgLAip99Dsu5//WPnyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Lg59vwNE; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1736156756; c=relaxed/simple;
+	bh=ZQU+ovsD55f64DF1zOadfrUNcIGee3cjAidEI96IOp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U8AoytaGx+bznYXKLc6B/5RaUwEg3xHOpbQnG3DU7aUOtQR0eMRYZ9TVMow81aGOwgmCJYti+8nJr3bdc6B+569B2h2Bweea+g6Ish7nIM4VhP27493cyc4WQ85F1wfIwfJ+7Nhx+8dJ8AsduFDE3QDz4squ0rpsiG2X7BIN2+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEX/BOsG; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lg59vwNE"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43634b570c1so101228475e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 01:43:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736156626; x=1736761426; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8+dNzGeurdxTiF3lweD7uy5ZExBGDAhgDE2t5fP9vpw=;
-        b=Lg59vwNEtzcDD/lh+EpFJ8baxjGC4Nr7tGJP3ptNm+aXPOEZVlZGxSvp8EClHNr+fx
-         HNg55ga6KekDifT9dOXohX/1RzWG4urYV+b3VmIKoNRXcXGfxoDihBvaTQhoLJ0ZtkRv
-         Hxf4aAdUKbBHzojkvdfKPPQ4uVjUCFAxfPgGkfcvNF6s4oIIcQiATBlR91FwH2vahSH6
-         mNF0pDbyV0JoptZ3SqEonHyujE0q1/LlQ/BH7kpF6O1zeJVSPjeBR5oYdreLEsCiCDVj
-         oPwrqoiBBRGZqYc5ntDC+CiJN6Np730mUx6RTmVtL/G3e57OlYr8aNoxW/oeLrrFT0zn
-         MSZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736156626; x=1736761426;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8+dNzGeurdxTiF3lweD7uy5ZExBGDAhgDE2t5fP9vpw=;
-        b=TECsOm+t34kH5qXXI+dF6M/WYMXx5wK1Oxrt3JXZJa3i6XSNwQ3GUa09bTsQJ9uNcK
-         /QG9fsC1SJ2Cq7VdCleBg87EJXYeFst5J2BPijk4Fk603UDppXgsS+JAfyB1Bx3YyHVX
-         ebmn9vDzZ61Y+sywCHyOfEZbFbORJdGfyEndw32PHVBXvYmD77w3tUazc9/0T//EsLW6
-         WSSM9ha2Tv8stK3mFm9SuoV/pJoG7dHQ/yz+YETr2cBVPeVfgEnx2Dok/ZbuERckOsHI
-         QVwwHyEvKPIiAKu/NQq3RSyjnH35aKjcqOhJwFpj7w2wWGT1zhf+e/S04nrpUhHNS3xD
-         9tjw==
-X-Forwarded-Encrypted: i=1; AJvYcCVKceI+ilYLyV77phxcYrMbYTNVnPTHVsUYHroWbPZVWxaa6WmMbH+zrb7ektR4ed4YlgW54yTQr+DnvAE6@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIbB9mlBWjrwcdTPH0bYcmtoghQEUqRfxHWdR6IZD7iMK63PW1
-	T/Ee0wbuN94djKcyJ+s56xC1CxiihVWOvkq4IlHT4SIcfHXpdXKTQ1tktJU7zyY=
-X-Gm-Gg: ASbGncvI4ktGZoHhOLi83V3H+LM0AK6XmIFtCRrastCCYffkxSrvfAgRkoqCCN9YlJQ
-	YvTOU2wCc3WtDik79BX8H1Bd8S3uPHJULY5jqKyHaBco56NtGB237TxuCPVflH2HQJujJjNISVf
-	pzXcvsrmOXEzDDiz28ARIDveBBZU22iUXh/B6sLwVC0ejc/3Pufiu5Kde87GezojTl9ZYnhZF0Y
-	U/zKuLfySy7IiQoRKlv2kpE9gFF52APL5Jf+cHdvFn9shg1Iki4LTh8Z/M2Cg==
-X-Google-Smtp-Source: AGHT+IGXyfzClNPiHyW2GNgTFvRt33m5nLlGBHLrrlc1xwKG0qtkGFBadXCTz9nR7y031prj/lvvTw==
-X-Received: by 2002:a05:600c:46ce:b0:434:fdbc:5ce5 with SMTP id 5b1f17b1804b1-43668b78d1fmr459372995e9.29.1736156626486;
-        Mon, 06 Jan 2025 01:43:46 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366e210cecsm527334305e9.2.2025.01.06.01.43.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 01:43:45 -0800 (PST)
-Date: Mon, 6 Jan 2025 12:43:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [lumag-msm:msm-next-lumag 13/20]
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1042
- dpu_plane_virtual_atomic_check() error: uninitialized symbol 'crtc_state'.
-Message-ID: <849910b1-10d0-45bb-aae4-87c55d2b6dea@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEX/BOsG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736156754; x=1767692754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZQU+ovsD55f64DF1zOadfrUNcIGee3cjAidEI96IOp0=;
+  b=KEX/BOsGgVg0iKJ5HPqVq15YJDhWRAJnsa0c9U4vMs+ZGtxws/aO1qrp
+   H1XzXNNZzisG7gqKdyNS16Bkg4i4UUxQUBZJlv3DSGENtssKqW/MHpcfD
+   +FYOZmdKpjYVQx61tKatWUT/iKLE25QEaQAGrgKjxaXdjo8rL6+XGRcLL
+   YOC0CoEJVEZwpdAZEb+rJYsuyf3xur+ZsMsKNujdUj3aFqNFeh+zdFqSW
+   JKCmdp2KL7O3johaPpOwlESYuuX0YIHSqRD36af/xOfCKYYQNUYC0cRrL
+   DAD+OGG/WizlmRetq6h3qmazyOuUbFspkR4PN+6JdrwqcV33SffSFspJ2
+   g==;
+X-CSE-ConnectionGUID: lC2F5zD2T42jkWgUOIfhUw==
+X-CSE-MsgGUID: ZFXql33/Qeq7Wv1lwnn0Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="35537150"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="35537150"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 01:45:53 -0800
+X-CSE-ConnectionGUID: 0fzl6LKNQaOw5xaSmu4jfA==
+X-CSE-MsgGUID: eEhcNsKlTfudbQR8gqUD3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="102292716"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 06 Jan 2025 01:45:50 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUjgB-000CT1-2H;
+	Mon, 06 Jan 2025 09:45:47 +0000
+Date: Mon, 6 Jan 2025 17:45:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leo Yang <leo.yang.sy0@gmail.com>, jdelvare@suse.com,
+	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net,
+	Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power
+ Monitor
+Message-ID: <202501061734.nPNdRKqO-lkp@intel.com>
+References: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,58 +68,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
 
-tree:   https://gitlab.freedesktop.org/lumag/msm msm-next-lumag
-head:   c9261bcc1546a564407513e148c35a79a58bc2b9
-commit: 774bcfb731765d092992136b54c34958d7c64bea [13/20] drm/msm/dpu: add support for virtual planes
-config: powerpc-randconfig-r072-20241223 (https://download.01.org/0day-ci/archive/20241223/202412231937.tOzYv4oB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
+Hi Leo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.13-rc6 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Yang/dt-bindings-Add-INA233-device/20250106-151934
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250106071337.3017926-3-Leo-Yang%40quantatw.com
+patch subject: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power Monitor
+reproduce: (https://download.01.org/0day-ci/archive/20250106/202501061734.nPNdRKqO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412231937.tOzYv4oB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501061734.nPNdRKqO-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1042 dpu_plane_virtual_atomic_check() error: uninitialized symbol 'crtc_state'.
-drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1130 dpu_assign_plane_resources() error: uninitialized symbol 'ret'.
+All warnings (new ones prefixed by >>):
 
-vim +/crtc_state +1042 drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1027  static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1028  					  struct drm_atomic_state *state)
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1029  {
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1030  	struct drm_plane_state *plane_state =
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1031  		drm_atomic_get_plane_state(state, plane);
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1032  	struct drm_plane_state *old_plane_state =
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1033  		drm_atomic_get_old_plane_state(state, plane);
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1034  	struct dpu_plane_state *pstate = to_dpu_plane_state(plane_state);
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1035  	struct drm_crtc_state *crtc_state;
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1036  	int ret;
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1037  
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1038  	if (plane_state->crtc)
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1039  		crtc_state = drm_atomic_get_new_crtc_state(state,
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1040  							   plane_state->crtc);
-
-crtc_state not initialized on else path.
-
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1041  
-774bcfb731765d Dmitry Baryshkov 2024-12-15 @1042  	ret = dpu_plane_atomic_check_nosspp(plane, plane_state, crtc_state);
-                                                                                                                ^^^^^^^^^^
-uninitialized.  My guess is that it isn't used in this case, however passing
-uninitialized variables is still considered a bug.  If
-dpu_plane_atomic_check_nosspp() were inlined (it's not) and the variable
-isn't used then that's fine.
-
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1043  	if (ret)
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1044  		return ret;
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1045  
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1046  	if (!plane_state->visible) {
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1047  		/*
-774bcfb731765d Dmitry Baryshkov 2024-12-15  1048  		 * resources are freed by dpu_crtc_assign_plane_resources(),
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/ina233.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
