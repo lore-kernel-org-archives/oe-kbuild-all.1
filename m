@@ -1,75 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEEC2AE93
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 08:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D779B676
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 08:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736151802; cv=none; b=SOZcuwKopTL0QBwYGwx4oiw7w9ow6jdhcRROxsECBZFaB6ZSgnBdSzoCxvd3XpR8wxe/OodqzeQpredMKM4tfqNTyrBQZUrZk5Rz8lu1aP+mXluUxaALc0oL65mKNl+5Z/WPOJrufs2pMGZF5KQaItLATRbaXBpSdecG4pTQvg8=
+	t=1736152380; cv=none; b=XSMXfMDJg42FhhH7MXH+lsi15RF59Pa7SOEM/QjG0o7Wt0B+Q/YkpXm6Hb4YtoPMNVA8EDA5Hx1CodSczfotgxHo0oSOMP4qbMkY0z8tIL+2/YqsTmN6oC+TjBOIsrmBs+FCZzlhGpsC5iDWiIGLr1GWqZ3OlUBxVqRkEaDDAPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736151802; c=relaxed/simple;
-	bh=qbh8stjkoKOoPPH9RsjjUGRjx6DS+Qtuv/u29rQsVzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ehJlmC/IUIYz3Yft8WgWJdU9ny263BLyuaHNmQ9BNZyVNSu+Hh4FJhKAOunEYJMnNZRO2Jb7wKBeEcjnIm8eCA7GdaihjQlo5waWR9rAY1kxJmf/y9iHYtVydBnHLlhPru9IDZV+z9dLwrRVlyfFaULentJWQng422ywOrbMSYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=icdbkhDY; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736152380; c=relaxed/simple;
+	bh=WCtZWEzmTF4f21pSZfNXJYvhHTcF7SQ/jbcrALzDGsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JjJv29petelxCuGf45LHi34ClIAHUZpc4qEbgAN7S2G4WurXgfHjT5bJlKkTTzvt+rpmABTquJ+an2ooX278DhGDiGgjS7ttA0NdFxN/N7s7EIKsaAvnU2muc/IQdti02gfVSXDs4Djw7gUDa9Z70ayIxbukfaAIHSDHUyFJoQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CfH3Criu; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icdbkhDY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736151800; x=1767687800;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qbh8stjkoKOoPPH9RsjjUGRjx6DS+Qtuv/u29rQsVzA=;
-  b=icdbkhDYyjZwpmGn9aiMYFkElSVZdGlTS5qDhl1fXR5fhVGsF8KESt4C
-   OfW6BZLWQium18iBUI23ggNdaEO72diBzRjk3PMc8wpQt0XxJUcj4KqqV
-   3SsxlZjFNUB3tLACh9GeCDxsL9+J13NhLtg7mGzbXVbv75g4kvGG8g6/u
-   wyRewSEjEG8prB1RlKPQFpybavFOK9aWQrmHehrenWFtmrW4Le3yTDrsw
-   BBcVDxh4EWhY/nem9pn9fjGw0lmC4k/RBH03M1RFUTJ+ONiKxxXHuoEmd
-   Pxb76ma6H7lCm3Uh8LPwTzfUL8XY4cgoaUvCUzoLcqyDIJ9xzwZI4sS5X
-   Q==;
-X-CSE-ConnectionGUID: Mepib72vQ5CQ3e/aVuIeEw==
-X-CSE-MsgGUID: HDUCnOxgRjuYhZ2aZH3TQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36170382"
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="36170382"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 00:23:20 -0800
-X-CSE-ConnectionGUID: ddA8u+WbRImU6byF4QhJSA==
-X-CSE-MsgGUID: rQt2dOlFQfWP2aIwx4Tt5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133296706"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Jan 2025 00:23:13 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tUiOD-000CNn-0p;
-	Mon, 06 Jan 2025 08:23:09 +0000
-Date: Mon, 6 Jan 2025 16:22:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org, linux-kernel@vger.kernel.org, ioworker0@gmail.com,
-	david@redhat.com, ryan.roberts@arm.com, zhengtangquan@oppo.com,
-	ying.huang@intel.com, kasong@tencent.com, chrisl@kernel.org,
-	baolin.wang@linux.alibaba.com, Barry Song <v-songbaohua@oppo.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Shaoqin Huang <shahuang@redhat.com>, Gavin Shan <gshan@redhat.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-Message-ID: <202501061535.zx9E486H-lkp@intel.com>
-References: <20250106031711.82855-3-21cnbao@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CfH3Criu"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3862d161947so6685416f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 00:32:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736152375; x=1736757175; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wkaOiwNyTO0MIQqjxZHiYRLxcWbq5F19IgQTE5vXkmg=;
+        b=CfH3CriuEFfVEUFVH0jFhwuXso0U7Vuq8P+ay4Ft1MI+u9nl4mjD4z78WKyMHidf39
+         fgZfbtYM6gvdp3T12X3YvoaBWYDUR2V2+p09vEdLpZF4IqosDCLwaDAAbRlO8uZmcgmF
+         BTzGygUUYJIWgUGa2twDyFZ7skSmFwW31p65WoRH0mbJOsaOyo5fhjv7hH2NaSrjMQbP
+         H7y7qZHpqUKSBTjxpL+uN+m60cHh77Xvc6pJ4JPNnKuPAE0/KMuzirJueH/Qv9cGfejK
+         QjKKatqaK/KGV6++eVWallsWRv4tTv/fgo2rnAzGm3m62yfTfhXUpha9avUHURIae1Dv
+         bXsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736152375; x=1736757175;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wkaOiwNyTO0MIQqjxZHiYRLxcWbq5F19IgQTE5vXkmg=;
+        b=NGFhAKviyvej9tLBRvn31MXqtfz02luJi6VNhN2n0ya5ZRJyPgoxCeOy79Y1+/66LM
+         9bAkMXW28syICIWCQfgm3jCDCxvBL7ls16fJ5fD1uaC1DR4Tiig7D9q/bwHjVUIeMA27
+         MR68XtekY47IBUSkiT+wnUyxxtR+vWy13mi22AN1XPVAB8GKffRaSp44rBWJ1HO2ERRa
+         wJWiygzboICRW52+V05bOw0IcYitfVYFesTB7l+IhhB1C6XNex7R0ZuKiic6oM6Gsl7k
+         P+6CoF4NbPfGsoRRO++5mKc+oDdZcEXRTWULpTl/uXvH3tK1OJjIxy6NkE6msgxHwRwz
+         yMEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWp9d3j69FCdvuMkVJfSJogc8VZ63shLj7v4XjJUOqYKeskfCIeTnAcwzR5oA+5ABJnuBdj2UybFGPQrdGl@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0dA89g6+eJ24f+QA7+zVl0m7EkTiLoF0WuNrwVS0SzmI0Vql4
+	pU0SrWJcwvw5anLW3cPkY829VzypGCD3AYr9wTjA6ufaENpgqbkoDYqiod3/JaeDfZZm/0cyh10
+	q
+X-Gm-Gg: ASbGncsAvJttiuyzi666ggHHVQ9AW2cuxLEU8t9juuXWIV9vu535qV8FPEzXfDSNEfv
+	82sDm4hSOZOlR+8z/gBDTTsPPrbHnpJwV/kbnqLJeu12T8vxflC77nrxS7Y+MIZcpAcIyzlE46R
+	kdGy7MSOteWhoSMIoiL3Jo4C0WtZ6Kqm+xn/MajK4KGON+mWCwFcT7G7YbZjdRj0WiniTlOKTBq
+	3nBxHTgnJywMqZ/0uM5dVXD2D/ys3Klyaxs9FbN/yKfrAPmovt6Dbbtx23MKQ==
+X-Google-Smtp-Source: AGHT+IFKi5jnpzwvLEeRn3TeR99eNPCnTMJcqsnzl6oPyVxq40XarZo6OPD20jIn8GuabRjxYScpkg==
+X-Received: by 2002:a5d:584e:0:b0:385:e8dd:b143 with SMTP id ffacd0b85a97d-38a221eaf78mr52006098f8f.19.1736152375399;
+        Mon, 06 Jan 2025 00:32:55 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366127c4bbsm557833375e9.32.2025.01.06.00.32.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jan 2025 00:32:54 -0800 (PST)
+Date: Mon, 6 Jan 2025 11:32:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/staging/gpib/ni_usb/ni_usb_gpib.c:837 ni_usb_write() warn:
+ inconsistent returns '&ni_priv->addressed_transfer_lock'.
+Message-ID: <7683b46c-cc82-4a77-99ba-f26a663802d3@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,69 +71,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250106031711.82855-3-21cnbao@gmail.com>
 
-Hi Barry,
+Hi Dave,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-set-folio-swapbacked-iff-folios-are-dirty-in-try_to_unmap_one/20250106-112638
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250106031711.82855-3-21cnbao%40gmail.com
-patch subject: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-config: i386-buildonly-randconfig-002-20250106 (https://download.01.org/0day-ci/archive/20250106/202501061535.zx9E486H-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8faabc041a001140564f718dabe37753e88b37fa
+commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
+config: i386-randconfig-141-20241219 (https://download.01.org/0day-ci/archive/20241220/202412201550.9NCO57Ye-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061535.zx9E486H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501061535.zx9E486H-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412201550.9NCO57Ye-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/staging/gpib/ni_usb/ni_usb_gpib.c:837 ni_usb_write() warn: inconsistent returns '&ni_priv->addressed_transfer_lock'.
 
-   In file included from arch/x86/include/asm/uaccess.h:17,
-                    from include/linux/uaccess.h:12,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/cgroup.h:17,
-                    from include/linux/memcontrol.h:13,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/x86/kernel/asm-offsets.c:14:
->> arch/x86/include/asm/tlbflush.h:283:46: error: unknown type name 'unsignd'; did you mean 'unsigned'?
-     283 |                                              unsignd long size)
-         |                                              ^~~~~~~
-         |                                              unsigned
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=998720002
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1263: prepare0] Error 2 shuffle=998720002
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=998720002
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=998720002
-   make: Target 'prepare' not remade because of errors.
+Old smatch warnings:
+drivers/staging/gpib/ni_usb/ni_usb_gpib.c:418 ni_usb_parse_termination_block() warn: was && intended here instead of ||?
+drivers/staging/gpib/ni_usb/ni_usb_gpib.c:697 ni_usb_read() warn: passing freed memory 'in_data' (line 693)
 
+vim +837 drivers/staging/gpib/ni_usb/ni_usb_gpib.c
 
-vim +283 arch/x86/include/asm/tlbflush.h
+4e127de14fa78b Dave Penkler 2024-09-18  737  static int ni_usb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
+4e127de14fa78b Dave Penkler 2024-09-18  738  			int send_eoi, size_t *bytes_written)
+4e127de14fa78b Dave Penkler 2024-09-18  739  {
+4e127de14fa78b Dave Penkler 2024-09-18  740  	int retval;
+4e127de14fa78b Dave Penkler 2024-09-18  741  	struct ni_usb_priv *ni_priv = board->private_data;
+4e127de14fa78b Dave Penkler 2024-09-18  742  	u8 *out_data, *in_data;
+4e127de14fa78b Dave Penkler 2024-09-18  743  	int out_data_length;
+4e127de14fa78b Dave Penkler 2024-09-18  744  	static const int in_data_length = 0x10;
+4e127de14fa78b Dave Penkler 2024-09-18  745  	int usb_bytes_written = 0, usb_bytes_read = 0;
+4e127de14fa78b Dave Penkler 2024-09-18  746  	int i = 0, j;
+4e127de14fa78b Dave Penkler 2024-09-18  747  	int complement_count;
+4e127de14fa78b Dave Penkler 2024-09-18  748  	struct ni_usb_status_block status;
+4e127de14fa78b Dave Penkler 2024-09-18  749  	static const int max_write_length = 0xffff;
+4e127de14fa78b Dave Penkler 2024-09-18  750  
+4e127de14fa78b Dave Penkler 2024-09-18  751  	*bytes_written = 0;
+4e127de14fa78b Dave Penkler 2024-09-18  752  	if (length > max_write_length) {
+4e127de14fa78b Dave Penkler 2024-09-18  753  		length = max_write_length;
+4e127de14fa78b Dave Penkler 2024-09-18  754  		send_eoi = 0;
+4e127de14fa78b Dave Penkler 2024-09-18  755  		pr_err("%s: write length too long\n", __func__);
+4e127de14fa78b Dave Penkler 2024-09-18  756  	}
+4e127de14fa78b Dave Penkler 2024-09-18  757  	out_data_length = length + 0x10;
+4e127de14fa78b Dave Penkler 2024-09-18  758  	out_data = kmalloc(out_data_length, GFP_KERNEL);
+4e127de14fa78b Dave Penkler 2024-09-18  759  	if (!out_data)
+4e127de14fa78b Dave Penkler 2024-09-18  760  		return -ENOMEM;
+4e127de14fa78b Dave Penkler 2024-09-18  761  	out_data[i++] = 0x0d;
+4e127de14fa78b Dave Penkler 2024-09-18  762  	complement_count = length;
+4e127de14fa78b Dave Penkler 2024-09-18  763  	complement_count = length - 1;
+4e127de14fa78b Dave Penkler 2024-09-18  764  	complement_count = ~complement_count;
+4e127de14fa78b Dave Penkler 2024-09-18  765  	out_data[i++] = complement_count & 0xff;
+4e127de14fa78b Dave Penkler 2024-09-18  766  	out_data[i++] = (complement_count >> 8) & 0xff;
+4e127de14fa78b Dave Penkler 2024-09-18  767  	out_data[i++] = ni_usb_timeout_code(board->usec_timeout);
+4e127de14fa78b Dave Penkler 2024-09-18  768  	out_data[i++] = 0x0;
+4e127de14fa78b Dave Penkler 2024-09-18  769  	out_data[i++] = 0x0;
+4e127de14fa78b Dave Penkler 2024-09-18  770  	if (send_eoi)
+4e127de14fa78b Dave Penkler 2024-09-18  771  		out_data[i++] = 0x8;
+4e127de14fa78b Dave Penkler 2024-09-18  772  	else
+4e127de14fa78b Dave Penkler 2024-09-18  773  		out_data[i++] = 0x0;
+4e127de14fa78b Dave Penkler 2024-09-18  774  	out_data[i++] = 0x0;
+4e127de14fa78b Dave Penkler 2024-09-18  775  	for (j = 0; j < length; j++)
+4e127de14fa78b Dave Penkler 2024-09-18  776  		out_data[i++] = buffer[j];
+4e127de14fa78b Dave Penkler 2024-09-18  777  	while (i % 4)	// pad with zeros to 4-byte boundary
+4e127de14fa78b Dave Penkler 2024-09-18  778  		out_data[i++] = 0x0;
+4e127de14fa78b Dave Penkler 2024-09-18  779  	i += ni_usb_bulk_termination(&out_data[i]);
+4e127de14fa78b Dave Penkler 2024-09-18  780  
+4e127de14fa78b Dave Penkler 2024-09-18  781  	mutex_lock(&ni_priv->addressed_transfer_lock);
+4e127de14fa78b Dave Penkler 2024-09-18  782  
+4e127de14fa78b Dave Penkler 2024-09-18  783  	retval = ni_usb_send_bulk_msg(ni_priv, out_data, i, &usb_bytes_written,
+4e127de14fa78b Dave Penkler 2024-09-18  784  				      ni_usb_timeout_msecs(board->usec_timeout));
+4e127de14fa78b Dave Penkler 2024-09-18  785  	kfree(out_data);
+4e127de14fa78b Dave Penkler 2024-09-18  786  	if (retval || usb_bytes_written != i)	{
+4e127de14fa78b Dave Penkler 2024-09-18  787  		mutex_unlock(&ni_priv->addressed_transfer_lock);
+4e127de14fa78b Dave Penkler 2024-09-18  788  		pr_err("%s: ni_usb_send_bulk_msg returned %i, usb_bytes_written=%i, i=%i\n",
+4e127de14fa78b Dave Penkler 2024-09-18  789  		       __func__, retval, usb_bytes_written, i);
+4e127de14fa78b Dave Penkler 2024-09-18  790  		return retval;
+4e127de14fa78b Dave Penkler 2024-09-18  791  	}
+4e127de14fa78b Dave Penkler 2024-09-18  792  
+4e127de14fa78b Dave Penkler 2024-09-18  793  	in_data = kmalloc(in_data_length, GFP_KERNEL);
+4e127de14fa78b Dave Penkler 2024-09-18  794  	if (!in_data)
+4e127de14fa78b Dave Penkler 2024-09-18  795  		return -ENOMEM;
 
-   279	
-   280	static inline void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
-   281						     struct mm_struct *mm,
-   282						     unsigned long uaddr,
- > 283						     unsignd long size)
-   284	{
-   285		inc_mm_tlb_gen(mm);
-   286		cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
-   287		mmu_notifier_arch_invalidate_secondary_tlbs(mm, 0, -1UL);
-   288	}
-   289	
+mutex_unlock(&ni_priv->addressed_transfer_lock); before returning.
+
+4e127de14fa78b Dave Penkler 2024-09-18  796  	retval = ni_usb_receive_bulk_msg(ni_priv, in_data, in_data_length, &usb_bytes_read,
+4e127de14fa78b Dave Penkler 2024-09-18  797  					 ni_usb_timeout_msecs(board->usec_timeout), 1);
+4e127de14fa78b Dave Penkler 2024-09-18  798  
+4e127de14fa78b Dave Penkler 2024-09-18  799  	mutex_unlock(&ni_priv->addressed_transfer_lock);
+4e127de14fa78b Dave Penkler 2024-09-18  800  
+4e127de14fa78b Dave Penkler 2024-09-18  801  	if ((retval && retval != -ERESTARTSYS) || usb_bytes_read != 12) {
+4e127de14fa78b Dave Penkler 2024-09-18  802  		pr_err("%s: ni_usb_receive_bulk_msg returned %i, usb_bytes_read=%i\n",
+4e127de14fa78b Dave Penkler 2024-09-18  803  		       __func__, retval, usb_bytes_read);
+4e127de14fa78b Dave Penkler 2024-09-18  804  		kfree(in_data);
+4e127de14fa78b Dave Penkler 2024-09-18  805  		return retval;
+4e127de14fa78b Dave Penkler 2024-09-18  806  	}
+4e127de14fa78b Dave Penkler 2024-09-18  807  	ni_usb_parse_status_block(in_data, &status);
+4e127de14fa78b Dave Penkler 2024-09-18  808  	kfree(in_data);
+4e127de14fa78b Dave Penkler 2024-09-18  809  	switch	(status.error_code) {
+4e127de14fa78b Dave Penkler 2024-09-18  810  	case NIUSB_NO_ERROR:
+4e127de14fa78b Dave Penkler 2024-09-18  811  		retval = 0;
+4e127de14fa78b Dave Penkler 2024-09-18  812  		break;
+4e127de14fa78b Dave Penkler 2024-09-18  813  	case NIUSB_ABORTED_ERROR:
+4e127de14fa78b Dave Penkler 2024-09-18  814  		/* this is expected if ni_usb_receive_bulk_msg got
+4e127de14fa78b Dave Penkler 2024-09-18  815  		 * interrupted by a signal and returned -ERESTARTSYS
+4e127de14fa78b Dave Penkler 2024-09-18  816  		 */
+4e127de14fa78b Dave Penkler 2024-09-18  817  		break;
+4e127de14fa78b Dave Penkler 2024-09-18  818  	case NIUSB_ADDRESSING_ERROR:
+4e127de14fa78b Dave Penkler 2024-09-18  819  		pr_err("%s: Addressing error retval %d error code=%i\n",
+4e127de14fa78b Dave Penkler 2024-09-18  820  		       __func__, retval, status.error_code);
+4e127de14fa78b Dave Penkler 2024-09-18  821  		retval = -ENXIO;
+4e127de14fa78b Dave Penkler 2024-09-18  822  		break;
+4e127de14fa78b Dave Penkler 2024-09-18  823  	case NIUSB_NO_LISTENER_ERROR:
+4e127de14fa78b Dave Penkler 2024-09-18  824  		retval = -ECOMM;
+4e127de14fa78b Dave Penkler 2024-09-18  825  		break;
+4e127de14fa78b Dave Penkler 2024-09-18  826  	case NIUSB_TIMEOUT_ERROR:
+4e127de14fa78b Dave Penkler 2024-09-18  827  		retval = -ETIMEDOUT;
+4e127de14fa78b Dave Penkler 2024-09-18  828  		break;
+4e127de14fa78b Dave Penkler 2024-09-18  829  	default:
+4e127de14fa78b Dave Penkler 2024-09-18  830  		pr_err("%s: unknown error code=%i\n",
+4e127de14fa78b Dave Penkler 2024-09-18  831  		       __func__, status.error_code);
+4e127de14fa78b Dave Penkler 2024-09-18  832  		retval = -EPIPE;
+4e127de14fa78b Dave Penkler 2024-09-18  833  		break;
+4e127de14fa78b Dave Penkler 2024-09-18  834  	}
+4e127de14fa78b Dave Penkler 2024-09-18  835  	ni_usb_soft_update_status(board, status.ibsta, 0);
+4e127de14fa78b Dave Penkler 2024-09-18  836  	*bytes_written = length - status.count;
+4e127de14fa78b Dave Penkler 2024-09-18 @837  	return retval;
+4e127de14fa78b Dave Penkler 2024-09-18  838  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
