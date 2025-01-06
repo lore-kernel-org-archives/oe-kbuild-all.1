@@ -1,68 +1,59 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D779B676
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 08:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04AE79CD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 08:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736152380; cv=none; b=XSMXfMDJg42FhhH7MXH+lsi15RF59Pa7SOEM/QjG0o7Wt0B+Q/YkpXm6Hb4YtoPMNVA8EDA5Hx1CodSczfotgxHo0oSOMP4qbMkY0z8tIL+2/YqsTmN6oC+TjBOIsrmBs+FCZzlhGpsC5iDWiIGLr1GWqZ3OlUBxVqRkEaDDAPY=
+	t=1736153659; cv=none; b=N3IFbHJ4antcZ35aAzsrQOmmSmGvmW1iLf9sqSu0cFXk8sADQ5qj2EAwOfe502RVUK57v9pHQzGKHtYSwjyyetm7T3j7x5sHZ22kjx+bgrtwWn1sDmHRQICPqihOzSXEowEfVjb5K3Sg7jUtYIYRkmdMgt6oKbZcqe4ENkYbLTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736152380; c=relaxed/simple;
-	bh=WCtZWEzmTF4f21pSZfNXJYvhHTcF7SQ/jbcrALzDGsw=;
+	s=arc-20240116; t=1736153659; c=relaxed/simple;
+	bh=rd5yIrMpeMEbKPxBhUAf+6BzUQPS3MQrY+5dxjo6JxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JjJv29petelxCuGf45LHi34ClIAHUZpc4qEbgAN7S2G4WurXgfHjT5bJlKkTTzvt+rpmABTquJ+an2ooX278DhGDiGgjS7ttA0NdFxN/N7s7EIKsaAvnU2muc/IQdti02gfVSXDs4Djw7gUDa9Z70ayIxbukfaAIHSDHUyFJoQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CfH3Criu; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=uTDKUwX/RKcGOjZuZiSStfsnY9HdO06uLZ0qXZeLsykl/oYDVUnx6/1opght/oP5+HLdujBX9TWd3kLNCDMBTdvjO/v12Mw+ihSef3t7NOBnHBOuLdP/t1ohJR8Nom/Cyi/Cx7ik0F3U56e1KHXqD0+CBV/IFnivewJRUHKXS24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QoYgYxr2; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CfH3Criu"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3862d161947so6685416f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 00:32:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736152375; x=1736757175; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wkaOiwNyTO0MIQqjxZHiYRLxcWbq5F19IgQTE5vXkmg=;
-        b=CfH3CriuEFfVEUFVH0jFhwuXso0U7Vuq8P+ay4Ft1MI+u9nl4mjD4z78WKyMHidf39
-         fgZfbtYM6gvdp3T12X3YvoaBWYDUR2V2+p09vEdLpZF4IqosDCLwaDAAbRlO8uZmcgmF
-         BTzGygUUYJIWgUGa2twDyFZ7skSmFwW31p65WoRH0mbJOsaOyo5fhjv7hH2NaSrjMQbP
-         H7y7qZHpqUKSBTjxpL+uN+m60cHh77Xvc6pJ4JPNnKuPAE0/KMuzirJueH/Qv9cGfejK
-         QjKKatqaK/KGV6++eVWallsWRv4tTv/fgo2rnAzGm3m62yfTfhXUpha9avUHURIae1Dv
-         bXsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736152375; x=1736757175;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wkaOiwNyTO0MIQqjxZHiYRLxcWbq5F19IgQTE5vXkmg=;
-        b=NGFhAKviyvej9tLBRvn31MXqtfz02luJi6VNhN2n0ya5ZRJyPgoxCeOy79Y1+/66LM
-         9bAkMXW28syICIWCQfgm3jCDCxvBL7ls16fJ5fD1uaC1DR4Tiig7D9q/bwHjVUIeMA27
-         MR68XtekY47IBUSkiT+wnUyxxtR+vWy13mi22AN1XPVAB8GKffRaSp44rBWJ1HO2ERRa
-         wJWiygzboICRW52+V05bOw0IcYitfVYFesTB7l+IhhB1C6XNex7R0ZuKiic6oM6Gsl7k
-         P+6CoF4NbPfGsoRRO++5mKc+oDdZcEXRTWULpTl/uXvH3tK1OJjIxy6NkE6msgxHwRwz
-         yMEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWp9d3j69FCdvuMkVJfSJogc8VZ63shLj7v4XjJUOqYKeskfCIeTnAcwzR5oA+5ABJnuBdj2UybFGPQrdGl@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0dA89g6+eJ24f+QA7+zVl0m7EkTiLoF0WuNrwVS0SzmI0Vql4
-	pU0SrWJcwvw5anLW3cPkY829VzypGCD3AYr9wTjA6ufaENpgqbkoDYqiod3/JaeDfZZm/0cyh10
-	q
-X-Gm-Gg: ASbGncsAvJttiuyzi666ggHHVQ9AW2cuxLEU8t9juuXWIV9vu535qV8FPEzXfDSNEfv
-	82sDm4hSOZOlR+8z/gBDTTsPPrbHnpJwV/kbnqLJeu12T8vxflC77nrxS7Y+MIZcpAcIyzlE46R
-	kdGy7MSOteWhoSMIoiL3Jo4C0WtZ6Kqm+xn/MajK4KGON+mWCwFcT7G7YbZjdRj0WiniTlOKTBq
-	3nBxHTgnJywMqZ/0uM5dVXD2D/ys3Klyaxs9FbN/yKfrAPmovt6Dbbtx23MKQ==
-X-Google-Smtp-Source: AGHT+IFKi5jnpzwvLEeRn3TeR99eNPCnTMJcqsnzl6oPyVxq40XarZo6OPD20jIn8GuabRjxYScpkg==
-X-Received: by 2002:a5d:584e:0:b0:385:e8dd:b143 with SMTP id ffacd0b85a97d-38a221eaf78mr52006098f8f.19.1736152375399;
-        Mon, 06 Jan 2025 00:32:55 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366127c4bbsm557833375e9.32.2025.01.06.00.32.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 00:32:54 -0800 (PST)
-Date: Mon, 6 Jan 2025 11:32:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/staging/gpib/ni_usb/ni_usb_gpib.c:837 ni_usb_write() warn:
- inconsistent returns '&ni_priv->addressed_transfer_lock'.
-Message-ID: <7683b46c-cc82-4a77-99ba-f26a663802d3@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoYgYxr2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736153657; x=1767689657;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rd5yIrMpeMEbKPxBhUAf+6BzUQPS3MQrY+5dxjo6JxA=;
+  b=QoYgYxr2nL3vgzqU8iIUuuj09OnqnA45LNF8LwlJafNv4rUN0Rmdyfsn
+   wm/am7s+JLcxrXS0YmGm9jzZKbQ5vGVGUqOtUygnZWHLr8Dqhm2D0E1YK
+   s1SpZP9+6aVWwHb8EBdwowrLTJVkKKEd2UAbQ5eAyy7EMFNuAq6I4LmxE
+   YjEDtxFQrl4UXya7ZWlbkQ/OyZPzLbSsK5bn/Z6fBNmqlKSagDfxyW07a
+   mYZf0N5cVEKz+eFWNvTWMZQXvG/8ZD/mPmTU4GbOceP1X3VFNicXPYS3M
+   JKiI/ODUOdXv4I7NMDeJTF+HCtH5G+FWm0LmIOCwSqLu4Jh9HMGdIfu1r
+   w==;
+X-CSE-ConnectionGUID: XSHQ0FfeTVyvSPf2HF7Yvg==
+X-CSE-MsgGUID: 4rVQRJ/eQymuPetxHaPo1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="35597922"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="35597922"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 00:54:17 -0800
+X-CSE-ConnectionGUID: vMNtRfmDRdWF985UIK+Qjg==
+X-CSE-MsgGUID: v8DtyhPERRWRvsHeFDSfBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="102463170"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 06 Jan 2025 00:54:16 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUisH-000CQ6-2Q;
+	Mon, 06 Jan 2025 08:54:13 +0000
+Date: Mon, 6 Jan 2025 16:54:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aswath Govindraju <a-govindraju@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>
+Subject: drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined
+ but not used
+Message-ID: <202501061623.b5Jszq2k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,138 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dave,
+Hi Aswath,
 
 First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8faabc041a001140564f718dabe37753e88b37fa
-commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
-config: i386-randconfig-141-20241219 (https://download.01.org/0day-ci/archive/20241220/202412201550.9NCO57Ye-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+head:   9d89551994a430b50c4fffcb1e617a057fa76e20
+commit: e4d4371253029528c02bfb43a46c252e1c3d035f phy: phy-can-transceiver: Add support for setting mux
+date:   2 years, 9 months ago
+config: sh-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20250106/202501061623.b5Jszq2k-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061623.b5Jszq2k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412201550.9NCO57Ye-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501061623.b5Jszq2k-lkp@intel.com/
 
-New smatch warnings:
-drivers/staging/gpib/ni_usb/ni_usb_gpib.c:837 ni_usb_write() warn: inconsistent returns '&ni_priv->addressed_transfer_lock'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/staging/gpib/ni_usb/ni_usb_gpib.c:418 ni_usb_parse_termination_block() warn: was && intended here instead of ||?
-drivers/staging/gpib/ni_usb/ni_usb_gpib.c:697 ni_usb_read() warn: passing freed memory 'in_data' (line 693)
+>> drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined but not used [-Wunused-const-variable=]
+     134 | static const struct of_device_id adg792a_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~
 
-vim +837 drivers/staging/gpib/ni_usb/ni_usb_gpib.c
 
-4e127de14fa78b Dave Penkler 2024-09-18  737  static int ni_usb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
-4e127de14fa78b Dave Penkler 2024-09-18  738  			int send_eoi, size_t *bytes_written)
-4e127de14fa78b Dave Penkler 2024-09-18  739  {
-4e127de14fa78b Dave Penkler 2024-09-18  740  	int retval;
-4e127de14fa78b Dave Penkler 2024-09-18  741  	struct ni_usb_priv *ni_priv = board->private_data;
-4e127de14fa78b Dave Penkler 2024-09-18  742  	u8 *out_data, *in_data;
-4e127de14fa78b Dave Penkler 2024-09-18  743  	int out_data_length;
-4e127de14fa78b Dave Penkler 2024-09-18  744  	static const int in_data_length = 0x10;
-4e127de14fa78b Dave Penkler 2024-09-18  745  	int usb_bytes_written = 0, usb_bytes_read = 0;
-4e127de14fa78b Dave Penkler 2024-09-18  746  	int i = 0, j;
-4e127de14fa78b Dave Penkler 2024-09-18  747  	int complement_count;
-4e127de14fa78b Dave Penkler 2024-09-18  748  	struct ni_usb_status_block status;
-4e127de14fa78b Dave Penkler 2024-09-18  749  	static const int max_write_length = 0xffff;
-4e127de14fa78b Dave Penkler 2024-09-18  750  
-4e127de14fa78b Dave Penkler 2024-09-18  751  	*bytes_written = 0;
-4e127de14fa78b Dave Penkler 2024-09-18  752  	if (length > max_write_length) {
-4e127de14fa78b Dave Penkler 2024-09-18  753  		length = max_write_length;
-4e127de14fa78b Dave Penkler 2024-09-18  754  		send_eoi = 0;
-4e127de14fa78b Dave Penkler 2024-09-18  755  		pr_err("%s: write length too long\n", __func__);
-4e127de14fa78b Dave Penkler 2024-09-18  756  	}
-4e127de14fa78b Dave Penkler 2024-09-18  757  	out_data_length = length + 0x10;
-4e127de14fa78b Dave Penkler 2024-09-18  758  	out_data = kmalloc(out_data_length, GFP_KERNEL);
-4e127de14fa78b Dave Penkler 2024-09-18  759  	if (!out_data)
-4e127de14fa78b Dave Penkler 2024-09-18  760  		return -ENOMEM;
-4e127de14fa78b Dave Penkler 2024-09-18  761  	out_data[i++] = 0x0d;
-4e127de14fa78b Dave Penkler 2024-09-18  762  	complement_count = length;
-4e127de14fa78b Dave Penkler 2024-09-18  763  	complement_count = length - 1;
-4e127de14fa78b Dave Penkler 2024-09-18  764  	complement_count = ~complement_count;
-4e127de14fa78b Dave Penkler 2024-09-18  765  	out_data[i++] = complement_count & 0xff;
-4e127de14fa78b Dave Penkler 2024-09-18  766  	out_data[i++] = (complement_count >> 8) & 0xff;
-4e127de14fa78b Dave Penkler 2024-09-18  767  	out_data[i++] = ni_usb_timeout_code(board->usec_timeout);
-4e127de14fa78b Dave Penkler 2024-09-18  768  	out_data[i++] = 0x0;
-4e127de14fa78b Dave Penkler 2024-09-18  769  	out_data[i++] = 0x0;
-4e127de14fa78b Dave Penkler 2024-09-18  770  	if (send_eoi)
-4e127de14fa78b Dave Penkler 2024-09-18  771  		out_data[i++] = 0x8;
-4e127de14fa78b Dave Penkler 2024-09-18  772  	else
-4e127de14fa78b Dave Penkler 2024-09-18  773  		out_data[i++] = 0x0;
-4e127de14fa78b Dave Penkler 2024-09-18  774  	out_data[i++] = 0x0;
-4e127de14fa78b Dave Penkler 2024-09-18  775  	for (j = 0; j < length; j++)
-4e127de14fa78b Dave Penkler 2024-09-18  776  		out_data[i++] = buffer[j];
-4e127de14fa78b Dave Penkler 2024-09-18  777  	while (i % 4)	// pad with zeros to 4-byte boundary
-4e127de14fa78b Dave Penkler 2024-09-18  778  		out_data[i++] = 0x0;
-4e127de14fa78b Dave Penkler 2024-09-18  779  	i += ni_usb_bulk_termination(&out_data[i]);
-4e127de14fa78b Dave Penkler 2024-09-18  780  
-4e127de14fa78b Dave Penkler 2024-09-18  781  	mutex_lock(&ni_priv->addressed_transfer_lock);
-4e127de14fa78b Dave Penkler 2024-09-18  782  
-4e127de14fa78b Dave Penkler 2024-09-18  783  	retval = ni_usb_send_bulk_msg(ni_priv, out_data, i, &usb_bytes_written,
-4e127de14fa78b Dave Penkler 2024-09-18  784  				      ni_usb_timeout_msecs(board->usec_timeout));
-4e127de14fa78b Dave Penkler 2024-09-18  785  	kfree(out_data);
-4e127de14fa78b Dave Penkler 2024-09-18  786  	if (retval || usb_bytes_written != i)	{
-4e127de14fa78b Dave Penkler 2024-09-18  787  		mutex_unlock(&ni_priv->addressed_transfer_lock);
-4e127de14fa78b Dave Penkler 2024-09-18  788  		pr_err("%s: ni_usb_send_bulk_msg returned %i, usb_bytes_written=%i, i=%i\n",
-4e127de14fa78b Dave Penkler 2024-09-18  789  		       __func__, retval, usb_bytes_written, i);
-4e127de14fa78b Dave Penkler 2024-09-18  790  		return retval;
-4e127de14fa78b Dave Penkler 2024-09-18  791  	}
-4e127de14fa78b Dave Penkler 2024-09-18  792  
-4e127de14fa78b Dave Penkler 2024-09-18  793  	in_data = kmalloc(in_data_length, GFP_KERNEL);
-4e127de14fa78b Dave Penkler 2024-09-18  794  	if (!in_data)
-4e127de14fa78b Dave Penkler 2024-09-18  795  		return -ENOMEM;
+vim +/adg792a_of_match +134 drivers/mux/adg792a.c
 
-mutex_unlock(&ni_priv->addressed_transfer_lock); before returning.
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  133  
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14 @134  static const struct of_device_id adg792a_of_match[] = {
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  135  	{ .compatible = "adi,adg792a", },
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  136  	{ .compatible = "adi,adg792g", },
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  137  	{ }
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  138  };
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  139  MODULE_DEVICE_TABLE(of, adg792a_of_match);
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  140  
 
-4e127de14fa78b Dave Penkler 2024-09-18  796  	retval = ni_usb_receive_bulk_msg(ni_priv, in_data, in_data_length, &usb_bytes_read,
-4e127de14fa78b Dave Penkler 2024-09-18  797  					 ni_usb_timeout_msecs(board->usec_timeout), 1);
-4e127de14fa78b Dave Penkler 2024-09-18  798  
-4e127de14fa78b Dave Penkler 2024-09-18  799  	mutex_unlock(&ni_priv->addressed_transfer_lock);
-4e127de14fa78b Dave Penkler 2024-09-18  800  
-4e127de14fa78b Dave Penkler 2024-09-18  801  	if ((retval && retval != -ERESTARTSYS) || usb_bytes_read != 12) {
-4e127de14fa78b Dave Penkler 2024-09-18  802  		pr_err("%s: ni_usb_receive_bulk_msg returned %i, usb_bytes_read=%i\n",
-4e127de14fa78b Dave Penkler 2024-09-18  803  		       __func__, retval, usb_bytes_read);
-4e127de14fa78b Dave Penkler 2024-09-18  804  		kfree(in_data);
-4e127de14fa78b Dave Penkler 2024-09-18  805  		return retval;
-4e127de14fa78b Dave Penkler 2024-09-18  806  	}
-4e127de14fa78b Dave Penkler 2024-09-18  807  	ni_usb_parse_status_block(in_data, &status);
-4e127de14fa78b Dave Penkler 2024-09-18  808  	kfree(in_data);
-4e127de14fa78b Dave Penkler 2024-09-18  809  	switch	(status.error_code) {
-4e127de14fa78b Dave Penkler 2024-09-18  810  	case NIUSB_NO_ERROR:
-4e127de14fa78b Dave Penkler 2024-09-18  811  		retval = 0;
-4e127de14fa78b Dave Penkler 2024-09-18  812  		break;
-4e127de14fa78b Dave Penkler 2024-09-18  813  	case NIUSB_ABORTED_ERROR:
-4e127de14fa78b Dave Penkler 2024-09-18  814  		/* this is expected if ni_usb_receive_bulk_msg got
-4e127de14fa78b Dave Penkler 2024-09-18  815  		 * interrupted by a signal and returned -ERESTARTSYS
-4e127de14fa78b Dave Penkler 2024-09-18  816  		 */
-4e127de14fa78b Dave Penkler 2024-09-18  817  		break;
-4e127de14fa78b Dave Penkler 2024-09-18  818  	case NIUSB_ADDRESSING_ERROR:
-4e127de14fa78b Dave Penkler 2024-09-18  819  		pr_err("%s: Addressing error retval %d error code=%i\n",
-4e127de14fa78b Dave Penkler 2024-09-18  820  		       __func__, retval, status.error_code);
-4e127de14fa78b Dave Penkler 2024-09-18  821  		retval = -ENXIO;
-4e127de14fa78b Dave Penkler 2024-09-18  822  		break;
-4e127de14fa78b Dave Penkler 2024-09-18  823  	case NIUSB_NO_LISTENER_ERROR:
-4e127de14fa78b Dave Penkler 2024-09-18  824  		retval = -ECOMM;
-4e127de14fa78b Dave Penkler 2024-09-18  825  		break;
-4e127de14fa78b Dave Penkler 2024-09-18  826  	case NIUSB_TIMEOUT_ERROR:
-4e127de14fa78b Dave Penkler 2024-09-18  827  		retval = -ETIMEDOUT;
-4e127de14fa78b Dave Penkler 2024-09-18  828  		break;
-4e127de14fa78b Dave Penkler 2024-09-18  829  	default:
-4e127de14fa78b Dave Penkler 2024-09-18  830  		pr_err("%s: unknown error code=%i\n",
-4e127de14fa78b Dave Penkler 2024-09-18  831  		       __func__, status.error_code);
-4e127de14fa78b Dave Penkler 2024-09-18  832  		retval = -EPIPE;
-4e127de14fa78b Dave Penkler 2024-09-18  833  		break;
-4e127de14fa78b Dave Penkler 2024-09-18  834  	}
-4e127de14fa78b Dave Penkler 2024-09-18  835  	ni_usb_soft_update_status(board, status.ibsta, 0);
-4e127de14fa78b Dave Penkler 2024-09-18  836  	*bytes_written = length - status.count;
-4e127de14fa78b Dave Penkler 2024-09-18 @837  	return retval;
-4e127de14fa78b Dave Penkler 2024-09-18  838  }
+:::::: The code at line 134 was first introduced by commit
+:::::: afda08c4caa9489511557def51e322a5f2142a2f mux: adg792a: add mux controller driver for ADG792A/G
+
+:::::: TO: Peter Rosin <peda@axentia.se>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
