@@ -1,223 +1,287 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2044.outbound.protection.outlook.com [40.107.93.44])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DF9156237;
-	Mon,  6 Jan 2025 15:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736176797; cv=fail; b=jT3coXgi3C4sfuqYtS01XOkVEfn/QLejR3+FZ0NGoKUQuXA5X9ZL38UjhSrSlqJfFqhm+vQcox//5nenHTOxQh9oeLJZDTk3MgXIEOr/2GTLg6ldmm+gZ0IpUE23oshRBDFwKnA3l+TQjNDnNtnAwi5gq/tgkNfzgrjZTwff0LA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736176797; c=relaxed/simple;
-	bh=HDvOx7h/VYYT/dweSETmF3/paSddEAWCkiIF8Fardj8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qn+fMLJG8oR4fgoJxm3++8Kb/8YAyw7dq6zHwHnO/xzZx/ytRSO0PLD4LJGPnf6g0MyzmZUGvsg6AqwD740SpgE6Htg4a+Sbkevy6YEWSHXSm/I7TX+jLStRU/RHvUYoSJgcEQ4ZIkHNnuT1mvk1zNe2I157i6fXtnJQZYMkThE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MNfqiJ5B; arc=fail smtp.client-ip=40.107.93.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4550D14884C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 15:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736177303; cv=none; b=qCiyYZ/KZUnoFX5JV70pIolOmEvq1ZrUQuY1TBp2X3WygOTY1ZRPyU5dfs27kjY90/Ix/1rtK/MEgsZHBjKLuT2udzGYN8OUHiDexfn0ASxCN9UX8DELJHpBFGD9J1W4MdusoKBqLc39Ki/bZalhIkuKQi1gC9CLWXdm1ceKvps=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736177303; c=relaxed/simple;
+	bh=LxnCyfd49SzuDqRdXuGbTQmsIFvsToK2ZEzEj/M33nE=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uzqetIg8Txugj0v3jWDg7xKINKLpr0oFuypCGSk1wR5RpnpCtLahcXdAQShyjd3g3CcFpOzqSa9ndgVmA6fDYWmRCnhmrdxWS1EgLhNwXTh/Ab4jJp/qncCs37C0B/l7GZK3mtHMgt93zuQWv4JGOE0B8NLXa2UIlKSvy57Fh1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQIXL8u4; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MNfqiJ5B"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LV7je2Vk7n7KinoGo8t+P8xBEP67yKg5V/ELDCfMOBT1uOyygVNey+/Af9jdNvaUJXCGchElGxsmjEnfx0hbPSbNW0x6SF4bJdIpSzSKqgAuoNh6ABYWsUSCDXMukQ7o9HE4D4ZYuZ/FDvMqkmWuvSpQBmffL0lj2CgU+Eg/jaCYB9VyewqZ5Wb89CdnSZdbkv6oD6KJh/93DqameLKWfy612WtWIboP7kS/BivjI2I4KL4CUsBRu81TItjU6FY+VkEFYXc8khlOOWlodHQ3bi3e9CE9rjhqKc7AVqdyV+85VI9TJuBwKUWqXhI4jD0IqahnCQduj3M+710ehbS2dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rw9/mYWZt/6ANyfyVUQlabJTp27jPYaHXFgBlyMcbJc=;
- b=jsfFLDBQxNWcjfrfewLmz8wcJfkzrXSy7bN+2mSIDYdVZkmNgTBf0eo3ctEzmwGNVu/U67jPiGLfIhXrS3Xe3+qEnLzC5j5zvvKq1muMIu6dM/A26YasY05axGsrNoucRiqi7jegVSlJYgaKDT5204XO308BsTAZy61HKztqbX+PUO3/KnL+3tXcM8UvccCBY8M8/xPQpeNxCr/UJCS1PVboMQZiiC47UsuRQtx1v2U/1jy8HViKWJBgODWHSBz3fpJB8vKb554ZJt17oFYJHPZVym5ASeh8El9SaTW3xRpLfLdRsT17AsozeVLMmJKpL7jc0OcILXT3FvwMQnbbFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rw9/mYWZt/6ANyfyVUQlabJTp27jPYaHXFgBlyMcbJc=;
- b=MNfqiJ5BjdGKhamaKk5tW0SsGcEf6Pbo7dJ/sjiM3N33nxEpw/fSRT5lQPlV7IBOrruPfTxMwRg2TDX9V/yvtPUxS1a+8tf3SQ6m6QGxNqUSjUkTSfgCDylV0M6zXRFIC7TsZV9uIfyxjW15DlmEDpWAmSWHDr1bJNq5MlDjERg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
- by PH7PR12MB5733.namprd12.prod.outlook.com (2603:10b6:510:1e0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.16; Mon, 6 Jan
- 2025 15:19:47 +0000
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79]) by DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79%6]) with mapi id 15.20.8314.015; Mon, 6 Jan 2025
- 15:19:47 +0000
-Message-ID: <9d9f8f11-e008-634d-b125-dbf822b00c25@amd.com>
-Date: Mon, 6 Jan 2025 15:19:39 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
- netdev@vger.kernel.org, dan.j.williams@intel.com, martin.habets@xilinx.com,
- edward.cree@amd.com, davem@davemloft.net, kuba@kernel.org,
- pabeni@redhat.com, edumazet@google.com, dave.jiang@intel.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <0fe103b3-76d5-47a0-900b-3769b9c59cee@stanley.mountain>
-From: Alejandro Lucero Palau <alucerop@amd.com>
-In-Reply-To: <0fe103b3-76d5-47a0-900b-3769b9c59cee@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0390.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::18) To DM6PR12MB4202.namprd12.prod.outlook.com
- (2603:10b6:5:219::22)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQIXL8u4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736177301; x=1767713301;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=LxnCyfd49SzuDqRdXuGbTQmsIFvsToK2ZEzEj/M33nE=;
+  b=cQIXL8u4anhNu4DyaFuPm3TdAi5FvVRxo1DXT15OvfpwF9vXoFWVgshP
+   +tFqvQam5DvNlgwtYJm1OC4JUTTjTvRy5CQCkQjQSNr6zV4CXMDuA5Tme
+   FPXvxUEhSZk9HCzb9zc2PJr0DGsKxcLqAAz/4xqN91Fq35p4us3Fps8vf
+   IYM3V77WG2d+NF829+UWltz5V2uGsmU28r3tOLuEvVFWTM3/RXHeplkVm
+   N8b9XrjgNbciEUk1q7z3ed4NAfx0Kqka0V83JtJgheeZMwz+xImZ5JzLT
+   Y2ggmrI9KZLTAu92aSsJVUHg7G8sgNJfskejI/NqWvV2kH6NwedrtsasA
+   g==;
+X-CSE-ConnectionGUID: 28TlQHdATFKByZf/B4M/Qg==
+X-CSE-MsgGUID: YNJUDNVEQzqAb1h3NsFFDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="23929450"
+X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
+   d="scan'208";a="23929450"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 07:28:19 -0800
+X-CSE-ConnectionGUID: 3JXMw8rxQP24+AUDjKXuog==
+X-CSE-MsgGUID: vp5kvzxRROu+pZbI5jKBSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107102789"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 06 Jan 2025 07:28:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUp1c-000CrJ-24
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 06 Jan 2025 15:28:16 +0000
+Date: Mon, 6 Jan 2025 23:27:40 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:6.6/preempt-rt 3/3] WARNING: modpost: "__lshrdi3"
+ [drivers/fsi/fsi-master-i2cr.ko] has no CRC!
+Message-ID: <202501062350.83legcSH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4202:EE_|PH7PR12MB5733:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7fe6a41-2b05-4af0-f00d-08dd2e658e1a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RnEyU2NZMmVuSHBQSTIvdXloRWhabDlJWXdSN3d5T3paZDdpaXhwcnhOOFJI?=
- =?utf-8?B?MVh6bHFJQ2VQUlZpM204LzBnZSs0cFRTWUJSU1RxbzlVZmZ6TU8yZGh6bWNK?=
- =?utf-8?B?RFZzU1grTWdLTkhwVU1jdlZxVzVlS2hqY3p2Z2d6MXdlVDZSbElhL0VaUXdC?=
- =?utf-8?B?S0hUU2pjSG1ic3h4Skc5VURYVzdwbnhRcXo1UnNOZXRxNWVsQnhPSkp4UHVw?=
- =?utf-8?B?bTFFUm42SkgzKzUwOFZXc2J3T1pwdWRpTy9PMDV2QkJ2Z1dIcnZqWFlPdEU4?=
- =?utf-8?B?NVhNdHVqUUIrbVhJRGw1WmZ3dkhpdUR6ZnQvc0xTSkN2YVRtY1hlbEZKNCtD?=
- =?utf-8?B?L3JNVW9YODVhRkZ4MDBHdDJjNzlPVVlSYy9TSlZsSSs4clFBYW5qMGl1QlpO?=
- =?utf-8?B?cW5ZL1pCWGQvU1BCMm0vSm96YkN5a05oZU9IcWRQdlFPU0dDZHFzZkNzSDNU?=
- =?utf-8?B?aURXcVh6dUFEUDVXYkF2UTRNeWNaVFZhUVU3UGtqNTg1WUJFaWcxRm5paFg4?=
- =?utf-8?B?azkzOFl1K3JkTSs5NzlEa3EvaS91N1VZQWdZQ08vK0p5MVlJY1RqQnlLVVFs?=
- =?utf-8?B?dE5Md2VyblIrUWc1bElWWEJKeXNMeFpyZHNlWlk3NW51NFRYekRlZEV2WXZ5?=
- =?utf-8?B?WnZYblZ1UVpMa3RzT2l6VXF3L0NVUlhoa0NGMEllTTNPbHlJWkJRZTZ3Zlcx?=
- =?utf-8?B?bkpDcUFrcmJ0UWR1djZObStIVkRMWmRhTXozaFJnbmxBaUZuc3JHVjdKYzh5?=
- =?utf-8?B?emFuUGlSQW9sYkhqeFlwNnVEUDNIWHZja2pYcTU0Sys3NzNWaHFQTUFsbUVK?=
- =?utf-8?B?ZFA5cjQ2bjdjMXdqclJkdGlIeThtbXlESU1RbHMxbXJhNTEyTWl5TXNhN2wz?=
- =?utf-8?B?eGROSVd6TEZ6S0tHVzNHdmE2NkM1TmFNdldqaEx5d3hQSmRJOFhkbWZiNkEr?=
- =?utf-8?B?eUFSV0RORXBjVWxVaDRZWHVmdjhTbTlKaDR5RjAzQkNzQksya2oxZDN0NU5H?=
- =?utf-8?B?TGhEUEp2SkQ0V1V4R0hDYm41R05qNDRCKzBRWnF3VUpLT2Q0c3lrUHc1ZnZi?=
- =?utf-8?B?RWdrWXgzeWNaM1NsK0YrWUpNNUlLTXBHZ0pBSHlLNUVzczVmalV3OEg5VFFC?=
- =?utf-8?B?V3d0UzZ5Qkl6MzE2QmQ5Rzl0VkNxSEZ1aFdPSnZwazdYL3FJcUcrWXpWV0tP?=
- =?utf-8?B?UGpDQnM5QTQ0VjFWTURGbjQ3OXNaNFMrTG5XdmdPNko1RGpaT25rdXRHc2Rt?=
- =?utf-8?B?UGlqemZlM1dqeENNZ0krdGE4WHREOTFjNnRzcjNUak5iTjVlMXhTSUhLUUQ5?=
- =?utf-8?B?UGt6ZkJnOEhsTXQ2bWNFZWZ6bllkcGhxMk1sWEtlNURSNlMySnNTMmpSb3k4?=
- =?utf-8?B?enJNNmZpMXpKYXBSYVRCVnZQY3B0UVcwK3dBbjQ4YzhCTFpMSUx6OWRiZnJK?=
- =?utf-8?B?Y0VINEFmNWZOeHhZSVgyYm1HV1lyNjBmc3RBNjVBOFk4Yy9vanR1Q0V0eS9U?=
- =?utf-8?B?YWZyWWNjazlCRG5WRmk4azlSY1pUMVVwNXl4UmZiRnc5ckoxbGE0Z2ZhM1g5?=
- =?utf-8?B?TFBqR3B6ZTBScHlTdzFwSHNXMGljSklOSXdoanI1eFRlLzNYYnlaZVZKRGU3?=
- =?utf-8?B?N2dXMHNWenRZV0tPZ2ltRTMwaEQ4bW9RcDR1bVhhdWZSWHZzM1lnMlRLbWw5?=
- =?utf-8?B?azduUlFOWm5JR2RndUg4NmRiOXdvL3RxZWdOL0RTNFc1QmY1anltK2Q0Ymk5?=
- =?utf-8?B?azBPYUcrcFRYQnc4RnR1aE9LN1NDVUtOcjkyelo2ZHBVUURoM2xPL0ZXWjA3?=
- =?utf-8?B?Z2gvalk4WUNpc0J0Zkk5OFF0SFRZZlZKY3gwOWpJOUdqUCtmbEF5c2M1bUVF?=
- =?utf-8?Q?i77ArDL0XuwgC?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z0VjUUhmMnZIVEU2N1lQcHA1dW5tcmZCaExBWXVNRkR0dk1WeG1QajNxTHhP?=
- =?utf-8?B?TFBJU1BROG9VLzJ0a2c5OVVOcUJpSkNuNmF4OEVXeHh6eHZKZnhDVDdSdFNz?=
- =?utf-8?B?YS9tdGN3elZxZ2NDd2MwYWVUMFpLaEtRTDN5Y2VtZ2hjTi9wYTZGbGtXV0hs?=
- =?utf-8?B?bTRFRFByUmd3eVNCSnpjUmh0eTRyNUsxNFRQSHZGTW9Hc2pVVHJrbkxHVm9Q?=
- =?utf-8?B?dkJ6RlkwQlZXemtRcWF3LzNqOHlTUEIvSVNpZGN2SG4vaU1ScmFmV3Iyd3FU?=
- =?utf-8?B?bDhUcjg5NEhkMEVqUEFTYjhpZG55Q1o4d29DWklhaEhwcGk0djNKTVZjM0Fp?=
- =?utf-8?B?R095a3crOWU1cjBYTmUrMDhFdHdLdFVwTDhpQlozUmQrWHFlMCtYMWVvWFZD?=
- =?utf-8?B?K2tyb0F3V2l4UENzM3ZjUm81aGVUWXRFUUdpa0VFYS9BU2dId0s3Z0NDSkZS?=
- =?utf-8?B?cG1lOUdZZFNzQmFUZ2Q5N1NqZGJHWTJWNFloQUx3bGlFWWxZUFlqVXVQbDBT?=
- =?utf-8?B?WUN1QkpkbWxxUG9EditXNmFGSllDU2lYbG9rS0lpQ1grTHBzZno3dTZ6MzJU?=
- =?utf-8?B?Vmo3T05QMjFRTTJwY3A0eVRtMHd2dWFobHN1T01ra1dVNUhOQTRRSmNQV2pu?=
- =?utf-8?B?WXdHZ2J6OHVyeFZjYUkzN1lQOWM1RVVneDZSUSt2dTJ0dHd6OGQ1elUrK0dl?=
- =?utf-8?B?UDhUNFZQZ2FvellNSkJvM1hEUjlZR2FTTWU0ZUN4NUgrUVZIbXNka1FDQ0hP?=
- =?utf-8?B?bWlGM3lIa0pTRkZMSHdkWW1ac0tiVTdSelcwNitqWkFvVHZJR1ZGL0lTRWFv?=
- =?utf-8?B?VlM2YjdUZnUxTlNRKzNFbGF1RGJySnFQWHhBQytseVRDVGR6RS9Wa05tbjhS?=
- =?utf-8?B?eXFZSHRwS2RJV2NTNFI1Q0Z3NFVNNFhuWTA0ZUlVU1Q1QjJWQi94U2h5QXNu?=
- =?utf-8?B?MmNhekZBblQ5MVJueURDN2NaWnA2Z0tMaHNQQnphbDRjK0QzSS84UnFrdXJv?=
- =?utf-8?B?US9ITGN0YWQ0SHpOZ0RpSjdhRk1Ha0k2a3lFMndRV2ROdUZBbnh4V25CelpL?=
- =?utf-8?B?b1J4bm1QL1ZjYkVsKzhVY1lzQ3FuT1JKS3JsaHdCUGtBNEJkdTRtcFhnbE1J?=
- =?utf-8?B?UXM0dFlnVnJEbDVtL3ZJUGczcEl0UTlGUTd1RCtLdW93Y0dNUXFBUkZMQ0dP?=
- =?utf-8?B?S24vb1psRUtPdVVyQTdRRDJDRm1MOTVzYlI5TEp0c2IzQnA3WVBjeGNXV3JL?=
- =?utf-8?B?YXBBblQ2L0dTYjdjTk1jVkZHa2dTTWdRMTVuR3lrYmFPdFpvWGloR2RocTBI?=
- =?utf-8?B?eVhqYkhLRTNKNmMvTjJBQkl1TldBUTA4NVpvajRqUzNoRW15U0JzU0svRlVM?=
- =?utf-8?B?T1pOZFRBNzA2RXNsY0RsRlJZUXNDcDMrTGVKZmVSVWpKeXA1bWhkWDd3alUx?=
- =?utf-8?B?UlhNeHdFdndqL0w2clpheWZSYW5SaTJOdjA0VHBTdzBZeVZaTlhiOFJpbnVv?=
- =?utf-8?B?bUtoQnowdHQ4YVBrZ3hYajVzOFJvZ05vYnprR1pkL1ZZMGh2SUM5Y3cyR1RS?=
- =?utf-8?B?WHRPbDlCSWVqM0cyZllyd2laRk82OTZaeHlZZVRaYjA3MnlaVTR0dnBkMzEv?=
- =?utf-8?B?cUFzR1Mvc0VIemZ1RDJQdStLR0dBYnFFamdwSC9pZWlEeExjKzZaVFNJSnBJ?=
- =?utf-8?B?djlMUXdaOTJ3bXcxMXZENllIYWU2YnY2T3hNMmdRVDBxK2RTbWVXOUFwYlNI?=
- =?utf-8?B?Q1h1M3oxUWpEVlYvMk55VzRUbE9EQTdYd2JGbU9CUUpzOVhYYnpBSHFnUHpx?=
- =?utf-8?B?R3BxMmpUWE5VUUFSbXBLWW9MY1ZiakNLbDQ4YmUvZC9tMUtMczdvZ0ZKeG1h?=
- =?utf-8?B?VmpNYzFEUHc1WDd0VWFnamRURWo2dGF1eVA1YXRScEVtOVBGWUpDTllZbjQv?=
- =?utf-8?B?R3p3R0paYmZqaUJRajB1R1pFQWgvTEpuRE91eGZxNkR4aUllWU9sN1dVa29v?=
- =?utf-8?B?Y3IwcFRCTXFsOG92YTJqU2pYQlNIbWVBanhKTFlJczhhSVcxOGVQRXBwY211?=
- =?utf-8?B?cFJDRHE5SjRGUUNpVko1anpOcjNxbTVmVWtpSzNwQ3I4dzZvbkxGQUVaNkdJ?=
- =?utf-8?Q?OUryW649N0yF58ozKdAvwy+aA?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7fe6a41-2b05-4af0-f00d-08dd2e658e1a
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2025 15:19:47.2027
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r2vYS3cH4P107w4K1SNHRbsMaozmNRanTe616q2syzDhs/9407nbHknrTBpei6xS7tpfDvnHzYF56ro/dwU4Xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5733
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi Eddie,
 
-On 1/6/25 10:41, Dan Carpenter wrote:
-> Hi,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20241217-001923
-> base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-> patch link:    https://lore.kernel.org/r/20241216161042.42108-7-alejandro.lucero-palau%40amd.com
-> patch subject: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-> config: arm64-randconfig-r072-20241225 (https://download.01.org/0day-ci/archive/20241227/202412270320.Aydp9B4U-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202412270320.Aydp9B4U-lkp@intel.com/
->
-> smatch warnings:
-> drivers/cxl/core/pci.c:1134 cxl_pci_accel_setup_regs() warn: missing error code? 'rc'
->
-> vim +/rc +1134 drivers/cxl/core/pci.c
->
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1118  int cxl_pci_accel_setup_regs(struct pci_dev *pdev, struct cxl_dev_state *cxlds)
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1119  {
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1120  	int rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1121
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1122  	rc = cxl_pci_setup_memdev_regs(pdev, cxlds);
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1123  	if (rc)
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1124  		return rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1125
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1126  	rc = cxl_pci_setup_regs(pdev, CXL_REGLOC_RBI_COMPONENT,
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1127  				&cxlds->reg_map, cxlds->capabilities);
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1128  	if (rc) {
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1129  		dev_warn(&pdev->dev, "No component registers (%d)\n", rc);
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1130  		return rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1131  	}
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1132
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1133  	if (!test_bit(CXL_CM_CAP_CAP_ID_RAS, cxlds->capabilities))
-> cfbd1d00295bff Alejandro Lucero 2024-12-16 @1134  		return rc;
->
-> This looks like it's supposed to be return -EPERM.
+FYI, the error/warning still remains.
 
+tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
+head:   7f064b9d8937d880fb64d1df8d1e8b8115a1c128
+commit: 53e89e3e4490d6630a68e61a3cb478e7a7f2ce8b [3/3] fsi: Add IBM I2C Responder virtual FSI master
+config: sparc-randconfig-002-20241228 (https://download.01.org/0day-ci/archive/20250106/202501062350.83legcSH-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501062350.83legcSH-lkp@intel.com/reproduce)
 
-Not really. It is not an error if the device does not advertise it, and 
-this return should be a return 0. It was pointed out by another review 
-and it will be fixed in v10.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501062350.83legcSH-lkp@intel.com/
 
-Thanks
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
+WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
+WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [lib/zstd/zstd_compress.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [lib/zstd/zstd_compress.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [lib/zstd/zstd_decompress.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [lib/zstd/zstd_common.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [lib/xz/xz_dec.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [lib/xz/xz_dec.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [lib/asn1_encoder.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/phy/broadcom/phy-bcm-kona-usb2.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/phy/samsung/phy-exynos5-usbdrd.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/gpio/gpio-latch.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/pci/controller/dwc/pci-meson.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/rapidio/switches/idt_gen3.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/core/fb_ddc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/matrox/matroxfb_DAC1064.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/riva/rivafb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/radeonfb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/savage/savagefb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/neofb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/vt8623fb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/sstfb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/cirrusfb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/s1d13xxxfb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/gxt4500.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/video/fbdev/ssd1307fb.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/8250/8250_dw.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/tty/serial/sccnxp.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/sc16is7xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/tty/serial/jsm/jsm.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/hw_random/omap-rng.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/hw_random/stm32-rng.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/char/hw_random/ks-sa-rng.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/misc/cardreader/rtsx_pci.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/misc/dw-xdata-pcie.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/firewire/firewire-ohci.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/firewire/firewire-ohci.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/firewire/firewire-ohci.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/sbus/char/uctrl.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns3-imx.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/host/ohci-hcd.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/host/ehci-fsl.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/host/ssb-hcd.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/dwc3/dwc3.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/dwc2/dwc2.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/usb/c67x00/c67x00.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/musb/musb_hdrc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc_msm.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2272.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2280.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pxa27x_udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/goku_udc.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/usb/gadget/udc/m66592-udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/m66592-udc.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pch_udc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/mv_u3d_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/udc-xilinx.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/usb/gadget/function/u_audio.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/misc/adxl34x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/rtc/rtc-r7301.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/rtc/rtc-x1205.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-bit.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-pcf.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i2c/busses/i2c-gpio.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-arb-gpio-challenge.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-mux-pca954x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/i3c/master/dw-i3c-master.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
+WARNING: modpost: "__ashrdi3" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/max15301.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/ucd9000.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/zl6100.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/watchdog/pcwd_usb.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/watchdog/mena21_wdt.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/watchdog/da9063_wdt.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/watchdog/gpio_wdt.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/accessibility/speakup/speakup.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/alcor.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/cb710-mmc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/host/toshsd.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mmc/core/pwrseq_emmc.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/leds/leds-bd2802.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/leds/leds-is31fl319x.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/leds/flash/leds-aat1290.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/leds/flash/leds-ktd2692.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/leds/flash/leds-rt8515.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/extcon/extcon-fsa9480.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/nau7802.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/iio/adc/nau7802.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/adc/ti-ads7924.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/gyro/itg3200.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/pressure/dlhl60d.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/iio/proximity/srf04.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/fsi/fsi-master-hub.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/fsi/fsi-master-aspeed.ko] has no CRC!
+>> WARNING: modpost: "__lshrdi3" [drivers/fsi/fsi-master-i2cr.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/spmi/hisi-spmi-controller.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/serio/i8042.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/input/serio/apbps2.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/w1/masters/ds2482.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/w1/masters/sgi_w1.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/w1/wire.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/w1/wire.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/w1/wire.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/bcma/bcma.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/ntb/hw/idt/ntb_hw_idt.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/ntb/hw/mscc/ntb_hw_switchtec.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/ntb/hw/mscc/ntb_hw_switchtec.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_pingpong.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_pingpong.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_tool.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_tool.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_perf.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_perf.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [drivers/ntb/ntb_transport.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [drivers/ntb/ntb_transport.ko] has no CRC!
+WARNING: modpost: "__udelay" [drivers/mux/mux-core.ko] has no CRC!
+WARNING: modpost: "__ndelay" [drivers/siox/siox-bus-gpio.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/core/snd-timer.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/core/snd-pcm-dmaengine.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4114.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4113.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4xxx-adda.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/drivers/opl3/snd-opl3-lib.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/drivers/mpu401/snd-mpu401-uart.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/drivers/vx/snd-vx-lib.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-atiixp.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-atiixp-modem.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-cmipci.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-cs4281.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-ens1370.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-ens1371.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-fm801.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-intel8x0m.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-maestro3.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-sonicvibes.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/snd-via82xx-modem.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/ac97/snd-ac97-codec.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/au88x0/snd-au8810.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/au88x0/snd-au8820.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/au88x0/snd-au8830.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/ctxfi/snd-ctxfi.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/ca0106/snd-ca0106.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/cs46xx/snd-cs46xx.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/lola/snd-lola.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/lx6464es/snd-lx6464es.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-darla20.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-gina20.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-layla20.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-gina24.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-mona.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-mia.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-echo3g.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigo.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigoio.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigodj.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigoiox.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/echoaudio/snd-indigodjx.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/pci/emu10k1/snd-emu10k1.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/emu10k1/snd-emu10k1.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/hda/snd-hda-codec.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/pci/hda/snd-hda-codec-generic.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [sound/pci/hda/snd-hda-codec-generic.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/pci/hda/snd-hda-intel.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/hda/snd-hda-intel.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/ice1712/snd-ice1724.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/ice1712/snd-ice17xx-ak4xxx.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/korg1212/snd-korg1212.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/nm256/snd-nm256.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/oxygen/snd-oxygen-lib.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/pcxhr/snd-pcxhr.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/riptide/snd-riptide.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/rme9652/snd-rme9652.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/rme9652/snd-hdsp.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/trident/snd-trident.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/ymfpci/snd-ymfpci.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/pci/vx222/snd-vx222.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/usb/snd-usb-audio.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/usb/snd-usb-audio.ko] has no CRC!
+WARNING: modpost: "__lshrdi3" [sound/usb/snd-usb-audio.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/usb/line6/snd-usb-line6.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/firewire/snd-firewire-lib.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/soc/snd-soc-core.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-adau1701.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-aw8738.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs35l41-lib.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs42l73.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4265.ko] has no CRC!
+WARNING: modpost: "__ndelay" [sound/soc/codecs/snd-soc-cs4270.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-cs4271.ko] has no CRC!
+WARNING: modpost: "__ashldi3" [sound/soc/codecs/snd-soc-cs53l30.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-dmic.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-max98357a.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8540.ko] has no CRC!
+WARNING: modpost: "__udelay" [sound/soc/codecs/snd-soc-nau8810.ko] has no CRC!
 
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1135
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1136  	rc = cxl_map_component_regs(&cxlds->reg_map,
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1137  				    &cxlds->regs.component,
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1138  				    BIT(CXL_CM_CAP_CAP_ID_RAS));
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1139  	if (rc)
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1140  		dev_dbg(&pdev->dev, "Failed to map RAS capability.\n");
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1141
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1142  	return rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1143  }
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
