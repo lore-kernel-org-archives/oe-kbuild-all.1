@@ -1,74 +1,59 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0D51D619E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B102B9CD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736154189; cv=none; b=uBhN5I+2ZxTwNv4Pr0nA7bqpQUNcZ5CIDOl53ydtodWAwiVsTHlBmN46bwFEkMyCsu23sxbmbquxtQ8rcHKEj0q91sy8S3TpMPICIgJnY9aguykV7QuSvTOeBiS+bPhNMd/d7CDV2UHOc6Rjt2IItCdD7xJ5emdQk6zkQjtUNlc=
+	t=1736154453; cv=none; b=tdKzVeCGSLfJuouiY64yVITKy+Wrnt6kk294vP5p/6xuypjvBi0CJOu2w6XSnIAIxDHq0fVEzTHB+ggJ/r65UWrwBMhS/1n6aFSLMo7u85WbDDh0XG3bimKVOuocHQRvZ3EU2c5d+vlDUpf91r+6hoRRk+y6KG/12tvpqWIdWec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736154189; c=relaxed/simple;
-	bh=juM5YEfDOlWpNld4K35OrSFVfYmtXaaXifTMs8sHTjw=;
+	s=arc-20240116; t=1736154453; c=relaxed/simple;
+	bh=WX/cTI51eExRWKE1duz3/a9PE/4RT3CpYAUg8nb39Q0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=fIMIvNnrFVtUOxOw1gBPMRRt3vRXpGpJRefZ2iELbaN23xzTMrDidMZoIZpCj04Oxjbb8w7RFU+iogCthRUk8ewMozDdO6pifvj8XXAlVx9KINeVYhXyBkOUROuWpvY+C+2YiptDlxRZatFOmTQwqweg9eJqo/5kJ6ki9V9TYgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yb+X6mcU; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition:In-Reply-To; b=LDGLxzOFx8NDNLiutpUfCiwhThCjS5BPHGacM0ZYO2AHVYso/1U3OzlQMUlIs2deRiECBJJc1zHoyla6SvlheH3GTgKU7bnt1QNTVSXN2puBqscBuZF7Gxpi/Afzp1kJ59x49hVTSHd+yaG3DXZtUXxF10ciGSaqFCrejU3e1CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOi6Xr10; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yb+X6mcU"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43675b1155bso133488115e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 01:03:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736154184; x=1736758984; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oL+Jxhui4zRjFC3suo3KlWvwyOpIsU0MH4paHdgkKgo=;
-        b=yb+X6mcU98mBYelU5xgSLJzIownki1JSgWsCM+5rgtXmtpfsOdtgl48/9SxYdE6sEi
-         ZoiKF0C68R2JPGTTNcGilhUgLokLeebb2Ycow3tU7XdIzm/+NUWxMsUIckjAN3+rgrfF
-         sIzV/27FicAxFLC+vttERhEoTqmGjZuB0c8N1/GLP949Ik8LaFYbyQPARuwIQ44pgciM
-         b2zvbGFa5mtHFak5q94Gtf+O65y8y+5+fPD/KumVDILRh22TD7D7O31UVljwaO51YSRC
-         MpqrF9EQGUmRNqjL3NseolhvVKYqr53I/5481YADkO5LYLFWURLcLQhRDDIw/It0LILE
-         kgFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736154184; x=1736758984;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oL+Jxhui4zRjFC3suo3KlWvwyOpIsU0MH4paHdgkKgo=;
-        b=cSneV3GbjlDNBsPwB7yDXBn/xk+QgfvqL569J3adIuarqWMP2xQ7yy8ZyQ8Q9cK0mg
-         s6bGhbrg+OJ02ThoCI+dauLtEH3rCIDyFx30PvMhnNAXBSCn2RMJtfYHbwHdFAZrlp7D
-         qnispYdXeo81/C5gJ+8+kyi5mfvRGVV+ZdG6y18E0/rEVsshB8dSF6XpL7Mmuae5cuBr
-         uLdDTfO8lHldKhBhXUPBoYe852bgVeS+HChCswiAAFFnVQ5QQaoVV+wD412FjKManjgZ
-         Cu1DRZaZtP3OvmSJ2GJfighY6n1A+7kgqMATCo2RVR0bw19Be5loA5qrqdjkjqagOZlG
-         2/tw==
-X-Forwarded-Encrypted: i=1; AJvYcCWzUbg+dgojmOKb2VtRloMDeKuC5bUkOxbSdAiJtlKhf+f9ajy+U6y3WgrJe/j991IyTK3F0Vxerr2FJUAE@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyyt9hz7+RFFqhkWkf4upDFqjnFK9CB3Wlrk6GsosFFI1yQh4qn
-	OTTlL3BnaCnJPhSFbjZb028dgcK60oHqJEQNwHoq0tgcEAJL0qFNv2E+uTMfkX4=
-X-Gm-Gg: ASbGncseGNXrzAgM0BfICJ4vaRBIDKovkJgFrC/e2Y8K6an5cJTGqqj2N4Dg/95cVKq
-	0Jzw8VJsCuLyEuFdvFE6dTLvr15MM/PQDjHWFjwcVxSCriO4XKcsBlILmIKsI3ywPGGGb/yOQJD
-	6IUSfU+fM6HaFmhcA72BwPav3K/vsIC3G25C5cy1SpESO2tSkqc9e6LcZD5GvMyl1s2nfbotgFi
-	cA8lC/V0PipVM8c/UisrRvdVxjugyGAzfHXbbVlIjNu4aEOvKG2n5RT17TYPg==
-X-Google-Smtp-Source: AGHT+IEPXIHvrc32OoZtJWsDZGJwq3OSJblgy8U6VR2xjZol+ruFVo1KZnFqsZwfgFL65bu/loXZQg==
-X-Received: by 2002:a05:600c:1c99:b0:434:f218:e1a8 with SMTP id 5b1f17b1804b1-436686476eamr487743045e9.19.1736154183813;
-        Mon, 06 Jan 2025 01:03:03 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436611ea423sm568734155e9.2.2025.01.06.01.03.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 01:03:03 -0800 (PST)
-Date: Mon, 6 Jan 2025 12:02:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se, jernej.skrabec@gmail.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Subject: Re: [PATCH v2] drm/bridge: display-connector: implement the error
- path of .probe()
-Message-ID: <7606924f-b3b2-41d2-8617-700bc287d2b5@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOi6Xr10"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736154453; x=1767690453;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=WX/cTI51eExRWKE1duz3/a9PE/4RT3CpYAUg8nb39Q0=;
+  b=NOi6Xr10PQlWokVv6+ZuUOms4Wta8wdLL87a/JWXSwLiqVUuykgQ5tpY
+   eDo9KuJ17Kwo5gEqMufXnUroK0J8SOMpfIicCiclxFTODRsba+rL70Dl3
+   gQz07EMawOZLxGf35lRwtlmUkqAmGB8j2yJkcq7sO7GIllN3C8fEXzWT2
+   5c1uNVdFc5o/1j5LNZCKCsUonJ83gNzD5M0aX3PP1+na5yYJ4KZcBtAAc
+   NnhxABapbiLW8c94BK1HlxJxRP0dFTvynVln/yAqN4N1LIHuNd8PemW/C
+   62kzzLbNUmyQf1GPbBcgnRscheXGyLu+IQtonn3majpyTJ5xVLXieXTdr
+   Q==;
+X-CSE-ConnectionGUID: kTHvnBoDQGanFfVdbdmg5A==
+X-CSE-MsgGUID: sLUdJrAWSNu4V0dn+k9dhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36173880"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="36173880"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 01:07:32 -0800
+X-CSE-ConnectionGUID: sDaGljBQTOyN5GuzVXgVng==
+X-CSE-MsgGUID: ReEg4zVDQz6bcml8UqaRlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="139730985"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 06 Jan 2025 01:07:30 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUj56-000CR1-22;
+	Mon, 06 Jan 2025 09:07:28 +0000
+Date: Mon, 6 Jan 2025 17:07:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: wujing <realwujing@qq.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] sched/fair: Fix ksmd and kthreadd running on isolated
+ CPU0 on arm64 systems
+Message-ID: <Z3udQDqJnJTaQ6Hc@997da2bbb901>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,239 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241214012652.2104807-1-joe@pf.is.s.u-tokyo.ac.jp>
+In-Reply-To: <tencent_44452B098A632CA84FCB293DA658E7BD4306@qq.com>
 
-Hi Joe,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Hattori/drm-bridge-display-connector-implement-the-error-path-of-probe/20241214-230605
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241214012652.2104807-1-joe%40pf.is.s.u-tokyo.ac.jp
-patch subject: [PATCH v2] drm/bridge: display-connector: implement the error path of .probe()
-config: x86_64-randconfig-161-20241220 (https://download.01.org/0day-ci/archive/20241221/202412212129.OT9Bt8p0-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412212129.OT9Bt8p0-lkp@intel.com/
-
-smatch warnings:
-drivers/gpu/drm/bridge/display-connector.c:397 display_connector_probe() error: uninitialized symbol 'ret'.
-
-vim +/ret +397 drivers/gpu/drm/bridge/display-connector.c
-
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  205  static int display_connector_probe(struct platform_device *pdev)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  206  {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  207  	struct display_connector *conn;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  208  	unsigned int type;
-189723fbe9aca18 Dan Carpenter        2021-10-13  209  	const char *label = NULL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  210  	int ret;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  211  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  212  	conn = devm_kzalloc(&pdev->dev, sizeof(*conn), GFP_KERNEL);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  213  	if (!conn)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  214  		return -ENOMEM;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  215  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  216  	platform_set_drvdata(pdev, conn);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  217  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  218  	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  219  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  220  	/* Get the exact connector type. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  221  	switch (type) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  222  	case DRM_MODE_CONNECTOR_DVII: {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  223  		bool analog, digital;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  224  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  225  		analog = of_property_read_bool(pdev->dev.of_node, "analog");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  226  		digital = of_property_read_bool(pdev->dev.of_node, "digital");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  227  		if (analog && !digital) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  228  			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  229  		} else if (!analog && digital) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  230  			conn->bridge.type = DRM_MODE_CONNECTOR_DVID;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  231  		} else if (analog && digital) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  232  			conn->bridge.type = DRM_MODE_CONNECTOR_DVII;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  233  		} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  234  			dev_err(&pdev->dev, "DVI connector with no type\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  235  			return -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  236  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  237  		break;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  238  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  239  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  240  	case DRM_MODE_CONNECTOR_HDMIA: {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  241  		const char *hdmi_type;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  242  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  243  		ret = of_property_read_string(pdev->dev.of_node, "type",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  244  					      &hdmi_type);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  245  		if (ret < 0) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  246  			dev_err(&pdev->dev, "HDMI connector with no type\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  247  			return -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  248  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  249  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  250  		if (!strcmp(hdmi_type, "a") || !strcmp(hdmi_type, "c") ||
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  251  		    !strcmp(hdmi_type, "d") || !strcmp(hdmi_type, "e")) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  252  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  253  		} else if (!strcmp(hdmi_type, "b")) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  254  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIB;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  255  		} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  256  			dev_err(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  257  				"Unsupported HDMI connector type '%s'\n",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  258  				hdmi_type);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  259  			return -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  260  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  261  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  262  		break;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  263  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  264  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  265  	default:
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  266  		conn->bridge.type = type;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  267  		break;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  268  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  269  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  270  	/* All the supported connector types support interlaced modes. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  271  	conn->bridge.interlace_allowed = true;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  272  
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  273  	if (type == DRM_MODE_CONNECTOR_HDMIA ||
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  274  	    type == DRM_MODE_CONNECTOR_DisplayPort)
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  275  		conn->bridge.ycbcr_420_allowed = true;
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  276  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  277  	/* Get the optional connector label. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  278  	of_property_read_string(pdev->dev.of_node, "label", &label);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  279  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  280  	/*
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  281  	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  282  	 * edge interrupts, register an interrupt handler.
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  283  	 */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  284  	if (type == DRM_MODE_CONNECTOR_DVII ||
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  285  	    type == DRM_MODE_CONNECTOR_HDMIA ||
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  286  	    type == DRM_MODE_CONNECTOR_DisplayPort) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  287  		conn->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  288  							 GPIOD_IN);
-ed8f4e1002781c4 Ye Xingchen          2023-03-22  289  		if (IS_ERR(conn->hpd_gpio))
-ed8f4e1002781c4 Ye Xingchen          2023-03-22  290  			return dev_err_probe(&pdev->dev, PTR_ERR(conn->hpd_gpio),
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  291  					     "Unable to retrieve HPD GPIO\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  292  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  293  		conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  294  	} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  295  		conn->hpd_irq = -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  296  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  297  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  298  	if (conn->hpd_irq >= 0) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  299  		ret = devm_request_threaded_irq(&pdev->dev, conn->hpd_irq,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  300  						NULL, display_connector_hpd_irq,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  301  						IRQF_TRIGGER_RISING |
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  302  						IRQF_TRIGGER_FALLING |
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  303  						IRQF_ONESHOT,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  304  						"HPD", conn);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  305  		if (ret) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  306  			dev_info(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  307  				 "Failed to request HPD edge interrupt, falling back to polling\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  308  			conn->hpd_irq = -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  309  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  310  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  311  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  312  	/* Retrieve the DDC I2C adapter for DVI, HDMI and VGA connectors. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  313  	if (type == DRM_MODE_CONNECTOR_DVII ||
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  314  	    type == DRM_MODE_CONNECTOR_HDMIA ||
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  315  	    type == DRM_MODE_CONNECTOR_VGA) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  316  		struct device_node *phandle;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  317  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  318  		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  319  		if (phandle) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  320  			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  321  			of_node_put(phandle);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  322  			if (!conn->bridge.ddc)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  323  				return -EPROBE_DEFER;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  324  		} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  325  			dev_dbg(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  326  				"No I2C bus specified, disabling EDID readout\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  327  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  328  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  329  
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  330  	/* Get the DP PWR for DP connector. */
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  331  	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  332  		int ret;
-
-Shadow variable.
-
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  333  
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  334  		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  335  		if (ret < 0) {
-a7afd1756ad7c06 Joe Hattori          2024-12-14  336  			ret = dev_err_probe(&pdev->dev, ret,
-a7afd1756ad7c06 Joe Hattori          2024-12-14  337  					    "failed to get DP PWR regulator\n");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  338  			goto err_put;
-a7afd1756ad7c06 Joe Hattori          2024-12-14  339  		}
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  340  	}
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  341  
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  342  	/* enable DDC */
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  343  	if (type == DRM_MODE_CONNECTOR_HDMIA) {
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  344  		int ret;
-
-This "ret" shadows an earlier declaration and leads to an error code bug.
-
-I feel like say that ret is one of those variables which should *always*
-be declared with function scope even if we don't return the error code.
-These sorts of bugs aren't super common.  We probably only get a couple
-per year.
-
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  345  
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  346  		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  347  						       GPIOD_OUT_HIGH);
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  348  
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  349  		if (IS_ERR(conn->ddc_en)) {
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  350  			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  351  			ret = PTR_ERR(conn->ddc_en);
-a7afd1756ad7c06 Joe Hattori          2024-12-14  352  			goto err_put;
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  353  		}
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  354  
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  355  		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  356  		if (ret < 0) {
-a7afd1756ad7c06 Joe Hattori          2024-12-14  357  			ret = dev_err_probe(
-a7afd1756ad7c06 Joe Hattori          2024-12-14  358  				&pdev->dev, ret,
-a7afd1756ad7c06 Joe Hattori          2024-12-14  359  				"failed to get HDMI +5V Power regulator\n");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  360  			goto err_put;
-a7afd1756ad7c06 Joe Hattori          2024-12-14  361  		}
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  362  	}
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  363  
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  364  	if (conn->supply) {
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  365  		ret = regulator_enable(conn->supply);
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  366  		if (ret) {
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  367  			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
-a7afd1756ad7c06 Joe Hattori          2024-12-14  368  			goto err_put;
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  369  		}
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  370  	}
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  371  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  372  	conn->bridge.funcs = &display_connector_bridge_funcs;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  373  	conn->bridge.of_node = pdev->dev.of_node;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  374  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  375  	if (conn->bridge.ddc)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  376  		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  377  				 |  DRM_BRIDGE_OP_DETECT;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  378  	if (conn->hpd_gpio)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  379  		conn->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  380  	if (conn->hpd_irq >= 0)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  381  		conn->bridge.ops |= DRM_BRIDGE_OP_HPD;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  382  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  383  	dev_dbg(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  384  		"Found %s display connector '%s' %s DDC bus and %s HPD GPIO (ops 0x%x)\n",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  385  		drm_get_connector_type_name(conn->bridge.type),
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  386  		label ? label : "<unlabelled>",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  387  		conn->bridge.ddc ? "with" : "without",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  388  		conn->hpd_gpio ? "with" : "without",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  389  		conn->bridge.ops);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  390  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  391  	drm_bridge_add(&conn->bridge);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  392  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  393  	return 0;
-a7afd1756ad7c06 Joe Hattori          2024-12-14  394  
-a7afd1756ad7c06 Joe Hattori          2024-12-14  395  err_put:
-a7afd1756ad7c06 Joe Hattori          2024-12-14  396  	i2c_put_adapter(conn->bridge.ddc);
-a7afd1756ad7c06 Joe Hattori          2024-12-14 @397  	return ret;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  398  }
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] sched/fair: Fix ksmd and kthreadd running on isolated CPU0 on arm64 systems
+Link: https://lore.kernel.org/stable/tencent_44452B098A632CA84FCB293DA658E7BD4306%40qq.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
 
