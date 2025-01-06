@@ -1,178 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD452AF12
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 07:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67F51D54D8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 07:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736146871; cv=none; b=U5smB4TjdlyrQ+N93YsxR1C8NcCT/LOkTI+9wmpyK04ZL/jkLN1EhMSWsXJLZTfuNrjx3ZmXXGWZCCodiyKMC+hIHikGB3NZTD36WNTmT8hg8iSLJ6i14fryjQEFlSilok4l/9t9+3DLFE4K4BaSse68H9zk/a1GuLGfsdwgygM=
+	t=1736147384; cv=none; b=B97bqPZFImsztkfJsU9o00jGrgXZOYEmunAEWzfuStH3V/baB532TxSE1VkYriTz7b0aZ6gMdZ4OTERIXWkHN3DG4Vo7s8DlNyBXoRVTycTUqkNqU5LSppih8d5lMhgUGcZji5AW02EIv5Y0vr+jSgNh2OKVce8FPu+mS5hfXZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736146871; c=relaxed/simple;
-	bh=3DJRRjwhUGbjnWPmYBdGknrdMvMJTKZCv+Hc9KNEmpk=;
+	s=arc-20240116; t=1736147384; c=relaxed/simple;
+	bh=ztlXVC7yO7hJz6FC0eG6OR5kDNx4yBqxg+5Cteup9nU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eY3wawAEVYsmckpE6lYIib8odZknKAM4jmhgrnunzindc6FmpFO8Jo0Kv6xBQBsTJWkhN0Qj/4brCvB87mUxnN/Mu/iCbM3ZJNb33/toFUUizpjgPZxNYDC+T5iq79fKc6WJdhM2rISyb/Vc1PalFa7UGCdHkmpGJCA//YlLFNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G32x2EHF; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=oUnCGUfeN/ayAk3Xdv3j/nz3Ju9o1/nJgtZw6dPKtNmlgLzHfx4bCT/J1i5SmWsWBlD8yyjOV3A0BfkgdVFi9KCW4uzyiacoMSox3Afki1gihsAWciTRe3q1JlEvLSuonh+5+5lMnNiU7JQslsMIXrh1REBDScA1UjDiNxPE9HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x43xfMR6; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G32x2EHF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736146868; x=1767682868;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3DJRRjwhUGbjnWPmYBdGknrdMvMJTKZCv+Hc9KNEmpk=;
-  b=G32x2EHFgOBv4ozEVqSGy7qQ9V11Y5W2hTOPaBCAiAj9t2/38rRByxKX
-   /n0WHSqarvnoJOugYbrhAJScAkqoVMqijcSpYKxtodHyNgZCSgiGT/gH7
-   TG/CRwu6gH5jxLpDxVzIq8fZrMyqbn78rePGbntatA/JXDZ66KqCB4GgQ
-   EMPsndsZasyv6eAvAPRbpUyLUm3VF8kGlbnzGLr5XCngxIVF1YbO+277X
-   9qM3EY6cconIY/ezjFBwiq0zI2jZZ9lDgBFQ1W0WXCCzu8TyslqfUyPsE
-   jdWcojWNWUBFBO36q3I3mZJrxfviYRyimyzuzSDSou7lcfuXSZCPsrjo6
-   g==;
-X-CSE-ConnectionGUID: N2P1uMa0SZWpjGJ3aJzJ1Q==
-X-CSE-MsgGUID: LfuyVuoRRd6jCL+LgD9VAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="53830332"
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="53830332"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 23:01:07 -0800
-X-CSE-ConnectionGUID: ejbf5HK8TtC2YVaGwXQfgA==
-X-CSE-MsgGUID: co4+M8LvTnCjVEGZi7A2Bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="107333660"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jan 2025 23:01:05 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tUh6j-000CL1-35;
-	Mon, 06 Jan 2025 07:01:01 +0000
-Date: Mon, 6 Jan 2025 15:00:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: drivers/firmware/turris-mox-rwtm.c:249:90: warning: '%08x' directive
- writing 8 bytes into a region of size between 7 and 9
-Message-ID: <202501061439.SOt2vO20-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x43xfMR6"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3862d16b4f5so8630393f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 Jan 2025 23:09:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736147380; x=1736752180; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2WnamjGhXvBMgL8bchnikXP7xxUqq1nXsMC1Inb9MrU=;
+        b=x43xfMR6tbwS40OmzLJq8v/nvQPpeD8CePqPQfeXhwhUoiA6jnpekTc/aS0QnCkaGY
+         2C5PGPvU/i2rEvmvEzaGGrzyCrH12iog4rqgJyiQmf9Z3Ey5ICYLmX9iQWnwPwH6/6YA
+         2w66w4JN/vqqKM3NJbC4zDMyePNJXWfHyLhcg1ShbinZTpIs4pui/VpSpOCM0dyT5DXS
+         pSXkfHpGtWSSwgC4ZfKC2YApu05HX/NW7Q4Gkifcx2qJiLEm+npHRsw6VFxdDKClkL4w
+         HZd7n6N9gfa0G9k7cbSlP+iPIC94mTrxTs6HNkwwvVvKqO4RYuXJ3ikIZ1XAFg4/N/qG
+         rRWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736147380; x=1736752180;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2WnamjGhXvBMgL8bchnikXP7xxUqq1nXsMC1Inb9MrU=;
+        b=LcaGGdy5EVZXfXCbJmwiY/QSpdzzCow1aAAUSSjechyNKQWLxeUvybUjqErbp0lBv2
+         zA7hz4TBf4Sx8UEEOLG5uc23ijMqJLWyZeNTwawKY1qsEUCCNiupX7JidQPg81VxM2nO
+         SKyyXAfXeJ5SC5SdOmA1heaYXj5a6HKcjll4R3+gU6EJLdPb6ysSSs5O076o51WoCbHH
+         qH2OKzKJBk/o87eDuoTazLldB01hT2ab4bhHxHtiVavJS5JL9/b1GwqdDoXTGgVoTG68
+         969rxUQMDThlTyg4jUObw69NcJL6ZJyKkp2epOl5NjB90xm5hxGh7I/DhNaXrfQITFCN
+         1+yA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXNX95/o8OLweRHrbpZVqK7wTrVEe77uvJH6OUDvbFYuu5fq0xl8j97vPZh/5ScS2OH4O5xhUqOHHpknAp@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbINQECd/63laf+3aSqvGUjIMutBIoEnFKGXjR9PhyPpjzsfeC
+	RgLrlo56aFyYfm7u2y1djOxvYA0sDhGdmqay4tTJnbm9f6IeFMG96ziWMFpSbic=
+X-Gm-Gg: ASbGncuAHDRkct6vXUvDwyz0t7GAqlTgzEy9Br+pSUpyHXiRylcH2mfOvrz/3A0MtxE
+	mmYJoI+hMxmY0XfxRwDfw60eNfU8stijDpa8osUWBJjk66ccXSOtfENTgZygFfDN+sjKKtYq9CW
+	V4FlwffXGacfQrXNncRQI+LUok7ojG73qx2GN2g9gtBiCXbik5EEJFlxNdhMXRQUbWR9zMzK0m9
+	DYjFtpJcyImFi2JWnJ7UxJhqCufxKP+yBwUat+dbz8HrFJyl9ABkQn/OmL18Q==
+X-Google-Smtp-Source: AGHT+IEGyL0miqJbyxWnjUMeL4aDYo1IwQVWlwe6GF4LurZRepayXVomG0o84ovgMFTmNmQj/TLf6g==
+X-Received: by 2002:a05:6000:2a5:b0:386:3d27:b4f0 with SMTP id ffacd0b85a97d-38a1a221da1mr49526089f8f.14.1736147379663;
+        Sun, 05 Jan 2025 23:09:39 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8472casm47923323f8f.45.2025.01.05.23.09.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jan 2025 23:09:39 -0800 (PST)
+Date: Mon, 6 Jan 2025 10:09:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381
+ agilent_82357a_attach() warn: inconsistent returns 'global
+ &agilent_82357a_hotplug_lock'.
+Message-ID: <affedc44-c822-47a5-8db4-7bfad72dc408@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d89551994a430b50c4fffcb1e617a057fa76e20
-commit: e34e60253d9272311831daed8a2d967cf80ca3dc firmware: turris-mox-rwtm: fix reply status decoding function
-date:   3 years, 7 months ago
-config: arm-randconfig-r002-20220811 (https://download.01.org/0day-ci/archive/20250106/202501061439.SOt2vO20-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061439.SOt2vO20-lkp@intel.com/reproduce)
+head:   8faabc041a001140564f718dabe37753e88b37fa
+commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
+config: i386-randconfig-141-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210143.WJhYzXfD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501061439.SOt2vO20-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412210143.WJhYzXfD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381 agilent_82357a_attach() warn: inconsistent returns 'global &agilent_82357a_hotplug_lock'.
 
-   drivers/firmware/turris-mox-rwtm.c: In function 'mox_get_board_info':
->> drivers/firmware/turris-mox-rwtm.c:249:90: warning: '%08x' directive writing 8 bytes into a region of size between 7 and 9 [-Wformat-overflow=]
-     249 |                         "%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
-         |                                                                                          ^~~~
-   drivers/firmware/turris-mox-rwtm.c:248:17: note: 'sprintf' output between 135 and 137 bytes into a destination of size 135
-     248 |                 sprintf(rwtm->pubkey,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-     249 |                         "%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     250 |                         ret, s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     251 |                         s[8], s[9], s[10], s[11], s[12], s[13], s[14], s[15]);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +1381 drivers/staging/gpib/agilent_82357a/agilent_82357a.c
 
+4c41fe886a56c5b Dave Penkler 2024-09-18  1306  static int agilent_82357a_attach(gpib_board_t *board, const gpib_board_config_t *config)
+4c41fe886a56c5b Dave Penkler 2024-09-18  1307  {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1308  	int retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1309  	int i;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1310  	unsigned int product_id;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1311  	struct agilent_82357a_priv *a_priv;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1312  	struct usb_device *usb_dev;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1313  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1314  	if (mutex_lock_interruptible(&agilent_82357a_hotplug_lock))
+4c41fe886a56c5b Dave Penkler 2024-09-18  1315  		return -ERESTARTSYS;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1316  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1317  	retval = agilent_82357a_allocate_private(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1318  	if (retval < 0) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1319  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1320  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1321  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1322  	a_priv = board->private_data;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1323  	for (i = 0; i < MAX_NUM_82357A_INTERFACES; ++i) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1324  		if (agilent_82357a_driver_interfaces[i] &&
+4c41fe886a56c5b Dave Penkler 2024-09-18  1325  		    !usb_get_intfdata(agilent_82357a_driver_interfaces[i]) &&
+4c41fe886a56c5b Dave Penkler 2024-09-18  1326  		    agilent_82357a_device_match(agilent_82357a_driver_interfaces[i], config)) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1327  			a_priv->bus_interface = agilent_82357a_driver_interfaces[i];
+4c41fe886a56c5b Dave Penkler 2024-09-18  1328  			usb_set_intfdata(agilent_82357a_driver_interfaces[i], board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1329  			usb_dev = interface_to_usbdev(a_priv->bus_interface);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1330  			dev_info(&usb_dev->dev,
+4c41fe886a56c5b Dave Penkler 2024-09-18  1331  				 "bus %d dev num %d attached to gpib minor %d, agilent usb interface %i\n",
+4c41fe886a56c5b Dave Penkler 2024-09-18  1332  				 usb_dev->bus->busnum, usb_dev->devnum, board->minor, i);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1333  			break;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1334  		}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1335  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1336  	if (i == MAX_NUM_82357A_INTERFACES) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1337  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1338  		pr_err("No Agilent 82357 gpib adapters found, have you loaded its firmware?\n");
+4c41fe886a56c5b Dave Penkler 2024-09-18  1339  		return -ENODEV;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1340  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1341  	product_id = le16_to_cpu(interface_to_usbdev(a_priv->bus_interface)->descriptor.idProduct);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1342  	switch (product_id) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1343  	case USB_DEVICE_ID_AGILENT_82357A:
+4c41fe886a56c5b Dave Penkler 2024-09-18  1344  		a_priv->bulk_out_endpoint = AGILENT_82357A_BULK_OUT_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1345  		a_priv->interrupt_in_endpoint = AGILENT_82357A_INTERRUPT_IN_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1346  		break;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1347  	case USB_DEVICE_ID_AGILENT_82357B:
+4c41fe886a56c5b Dave Penkler 2024-09-18  1348  		a_priv->bulk_out_endpoint = AGILENT_82357B_BULK_OUT_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1349  		a_priv->interrupt_in_endpoint = AGILENT_82357B_INTERRUPT_IN_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1350  		break;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1351  	default:
+4c41fe886a56c5b Dave Penkler 2024-09-18  1352  		pr_err("bug, unhandled product_id in switch?\n");
 
-vim +249 drivers/firmware/turris-mox-rwtm.c
+mutex_unlock(&agilent_82357a_hotplug_lock); before returning.
 
-389711b3749399 Marek Behún 2019-08-22  190  
-389711b3749399 Marek Behún 2019-08-22  191  static int mox_get_board_info(struct mox_rwtm *rwtm)
-389711b3749399 Marek Behún 2019-08-22  192  {
-389711b3749399 Marek Behún 2019-08-22  193  	struct armada_37xx_rwtm_tx_msg msg;
-389711b3749399 Marek Behún 2019-08-22  194  	struct armada_37xx_rwtm_rx_msg *reply = &rwtm->reply;
-389711b3749399 Marek Behún 2019-08-22  195  	int ret;
-389711b3749399 Marek Behún 2019-08-22  196  
-389711b3749399 Marek Behún 2019-08-22  197  	msg.command = MBOX_CMD_BOARD_INFO;
-389711b3749399 Marek Behún 2019-08-22  198  	ret = mbox_send_message(rwtm->mbox, &msg);
-389711b3749399 Marek Behún 2019-08-22  199  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  200  		return ret;
-389711b3749399 Marek Behún 2019-08-22  201  
-389711b3749399 Marek Behún 2019-08-22  202  	ret = wait_for_completion_timeout(&rwtm->cmd_done, HZ / 2);
-389711b3749399 Marek Behún 2019-08-22  203  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  204  		return ret;
-389711b3749399 Marek Behún 2019-08-22  205  
-389711b3749399 Marek Behún 2019-08-22  206  	ret = mox_get_status(MBOX_CMD_BOARD_INFO, reply->retval);
-389711b3749399 Marek Behún 2019-08-22  207  	if (ret < 0 && ret != -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  208  		return ret;
-389711b3749399 Marek Behún 2019-08-22  209  	} else if (ret == -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  210  		dev_warn(rwtm->dev,
-389711b3749399 Marek Behún 2019-08-22  211  			 "Board does not have manufacturing information burned!\n");
-389711b3749399 Marek Behún 2019-08-22  212  	} else {
-389711b3749399 Marek Behún 2019-08-22  213  		rwtm->serial_number = reply->status[1];
-389711b3749399 Marek Behún 2019-08-22  214  		rwtm->serial_number <<= 32;
-389711b3749399 Marek Behún 2019-08-22  215  		rwtm->serial_number |= reply->status[0];
-389711b3749399 Marek Behún 2019-08-22  216  		rwtm->board_version = reply->status[2];
-389711b3749399 Marek Behún 2019-08-22  217  		rwtm->ram_size = reply->status[3];
-389711b3749399 Marek Behún 2019-08-22  218  		reply_to_mac_addr(rwtm->mac_address1, reply->status[4],
-389711b3749399 Marek Behún 2019-08-22  219  				  reply->status[5]);
-389711b3749399 Marek Behún 2019-08-22  220  		reply_to_mac_addr(rwtm->mac_address2, reply->status[6],
-389711b3749399 Marek Behún 2019-08-22  221  				  reply->status[7]);
-389711b3749399 Marek Behún 2019-08-22  222  		rwtm->has_board_info = 1;
-389711b3749399 Marek Behún 2019-08-22  223  
-389711b3749399 Marek Behún 2019-08-22  224  		pr_info("Turris Mox serial number %016llX\n",
-389711b3749399 Marek Behún 2019-08-22  225  			rwtm->serial_number);
-389711b3749399 Marek Behún 2019-08-22  226  		pr_info("           board version %i\n", rwtm->board_version);
-389711b3749399 Marek Behún 2019-08-22  227  		pr_info("           burned RAM size %i MiB\n", rwtm->ram_size);
-389711b3749399 Marek Behún 2019-08-22  228  	}
-389711b3749399 Marek Behún 2019-08-22  229  
-389711b3749399 Marek Behún 2019-08-22  230  	msg.command = MBOX_CMD_ECDSA_PUB_KEY;
-389711b3749399 Marek Behún 2019-08-22  231  	ret = mbox_send_message(rwtm->mbox, &msg);
-389711b3749399 Marek Behún 2019-08-22  232  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  233  		return ret;
-389711b3749399 Marek Behún 2019-08-22  234  
-389711b3749399 Marek Behún 2019-08-22  235  	ret = wait_for_completion_timeout(&rwtm->cmd_done, HZ / 2);
-389711b3749399 Marek Behún 2019-08-22  236  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  237  		return ret;
-389711b3749399 Marek Behún 2019-08-22  238  
-389711b3749399 Marek Behún 2019-08-22  239  	ret = mox_get_status(MBOX_CMD_ECDSA_PUB_KEY, reply->retval);
-389711b3749399 Marek Behún 2019-08-22  240  	if (ret < 0 && ret != -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  241  		return ret;
-389711b3749399 Marek Behún 2019-08-22  242  	} else if (ret == -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  243  		dev_warn(rwtm->dev, "Board has no public key burned!\n");
-389711b3749399 Marek Behún 2019-08-22  244  	} else {
-389711b3749399 Marek Behún 2019-08-22  245  		u32 *s = reply->status;
-389711b3749399 Marek Behún 2019-08-22  246  
-389711b3749399 Marek Behún 2019-08-22  247  		rwtm->has_pubkey = 1;
-389711b3749399 Marek Behún 2019-08-22  248  		sprintf(rwtm->pubkey,
-389711b3749399 Marek Behún 2019-08-22 @249  			"%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
-389711b3749399 Marek Behún 2019-08-22  250  			ret, s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
-389711b3749399 Marek Behún 2019-08-22  251  			s[8], s[9], s[10], s[11], s[12], s[13], s[14], s[15]);
-389711b3749399 Marek Behún 2019-08-22  252  	}
-389711b3749399 Marek Behún 2019-08-22  253  
-389711b3749399 Marek Behún 2019-08-22  254  	return 0;
-389711b3749399 Marek Behún 2019-08-22  255  }
-389711b3749399 Marek Behún 2019-08-22  256  
-
-:::::: The code at line 249 was first introduced by commit
-:::::: 389711b374939968d2d0adede01b9e1f3bb4f531 firmware: Add Turris Mox rWTM firmware driver
-
-:::::: TO: Marek Behún <marek.behun@nic.cz>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+4c41fe886a56c5b Dave Penkler 2024-09-18  1353  		return -EIO;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1354  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1355  #ifdef RESET_USB_CONFIG
+4c41fe886a56c5b Dave Penkler 2024-09-18  1356  	retval = agilent_82357a_reset_usb_configuration(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1357  	if (retval < 0)	{
+4c41fe886a56c5b Dave Penkler 2024-09-18  1358  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1359  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1360  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1361  #endif
+4c41fe886a56c5b Dave Penkler 2024-09-18  1362  	retval = agilent_82357a_setup_urbs(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1363  	if (retval < 0)	{
+4c41fe886a56c5b Dave Penkler 2024-09-18  1364  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1365  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1366  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1367  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1368  	timer_setup(&a_priv->bulk_timer, agilent_82357a_timeout_handler, 0);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1369  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1370  	board->t1_nano_sec = 800;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1371  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1372  	retval = agilent_82357a_init(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1373  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1374  	if (retval < 0)	{
+4c41fe886a56c5b Dave Penkler 2024-09-18  1375  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1376  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1377  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1378  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1379  	pr_info("%s: attached\n", __func__);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1380  	mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18 @1381  	return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1382  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
