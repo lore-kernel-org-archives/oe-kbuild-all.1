@@ -1,58 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F641D7E2F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 08:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEEC2AE93
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 08:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736150533; cv=none; b=Gr/K6KKuXyZ3FxIHHhZrjgd+HwwJrvw6HFhMxVQhMdxIpjhlm7hbrUj0quG1pBt9IBHyhWQXBrT/PauE6gEBBcaLf34IhEdwmXEw3akr4MNcgrGAxOmL2wCO8rZ2q4/5A54IwUE+vZti1a7GXeZRBKMsDwORHb4NM4Fy/6JqE40=
+	t=1736151802; cv=none; b=SOZcuwKopTL0QBwYGwx4oiw7w9ow6jdhcRROxsECBZFaB6ZSgnBdSzoCxvd3XpR8wxe/OodqzeQpredMKM4tfqNTyrBQZUrZk5Rz8lu1aP+mXluUxaALc0oL65mKNl+5Z/WPOJrufs2pMGZF5KQaItLATRbaXBpSdecG4pTQvg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736150533; c=relaxed/simple;
-	bh=Vy0HioTwGmy+8CDti0JUDSntctN2OPX1zmj7uXNGVMc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vstulp2jgdeVggHxEXmBoTDJ7X1lYjc6fWS3oakGmpyt/XVJ5xc7BPxuPknMkcQwPf6asRG/zpC5LBRy95+ZaKWawIBmZhjAisFvbMILJcSy53knRMNoFLdlLvDtm38iC01stH1LyskTQEcCnUFdQ+EjHUaKU6vK4UBoyHCmKn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gh2COCZt; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1736151802; c=relaxed/simple;
+	bh=qbh8stjkoKOoPPH9RsjjUGRjx6DS+Qtuv/u29rQsVzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ehJlmC/IUIYz3Yft8WgWJdU9ny263BLyuaHNmQ9BNZyVNSu+Hh4FJhKAOunEYJMnNZRO2Jb7wKBeEcjnIm8eCA7GdaihjQlo5waWR9rAY1kxJmf/y9iHYtVydBnHLlhPru9IDZV+z9dLwrRVlyfFaULentJWQng422ywOrbMSYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=icdbkhDY; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gh2COCZt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icdbkhDY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736150531; x=1767686531;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Vy0HioTwGmy+8CDti0JUDSntctN2OPX1zmj7uXNGVMc=;
-  b=gh2COCZtVcxQGdZbCC0FFA+fS8fCW360Cg7j5SWGu3OFhup7uNZu5g9q
-   +KYPyZd+4AXbyY1tsjhCQXmQRYWOgiydIzMpgNGLPPEl88t2iYxVYzqM/
-   AxO2gqiERNJdzjVdq1LX/ksGJqzg2xCkSOGULcR/WqvmIDnh8wtxNgliD
-   3xgerGXTPc4VkJGvmWUVcn7EHlTlsdiGwT5C6unW/X3LkWcBy6ixhwm7X
-   iI6ntvLsuaflY1CTc2Va5mdhrWQbgkDBspnwNsypok88mlUVWWkRWorFs
-   91VVxwP07vVW6nHnlSRazHIHh07dRMY/LM7B9uOLqG32X3yqX3F3MZAz3
-   g==;
-X-CSE-ConnectionGUID: zpFyHdkHTAqNaFs7ahsITg==
-X-CSE-MsgGUID: ZBcOA5rSR1CFRVJr7vNkxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="53709032"
+  t=1736151800; x=1767687800;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qbh8stjkoKOoPPH9RsjjUGRjx6DS+Qtuv/u29rQsVzA=;
+  b=icdbkhDYyjZwpmGn9aiMYFkElSVZdGlTS5qDhl1fXR5fhVGsF8KESt4C
+   OfW6BZLWQium18iBUI23ggNdaEO72diBzRjk3PMc8wpQt0XxJUcj4KqqV
+   3SsxlZjFNUB3tLACh9GeCDxsL9+J13NhLtg7mGzbXVbv75g4kvGG8g6/u
+   wyRewSEjEG8prB1RlKPQFpybavFOK9aWQrmHehrenWFtmrW4Le3yTDrsw
+   BBcVDxh4EWhY/nem9pn9fjGw0lmC4k/RBH03M1RFUTJ+ONiKxxXHuoEmd
+   Pxb76ma6H7lCm3Uh8LPwTzfUL8XY4cgoaUvCUzoLcqyDIJ9xzwZI4sS5X
+   Q==;
+X-CSE-ConnectionGUID: Mepib72vQ5CQ3e/aVuIeEw==
+X-CSE-MsgGUID: HDUCnOxgRjuYhZ2aZH3TQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36170382"
 X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="53709032"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 00:02:11 -0800
-X-CSE-ConnectionGUID: nrDXjWsXQcGgltDheh5GRA==
-X-CSE-MsgGUID: AdkGa7uwSjyA46tsiZz5FA==
+   d="scan'208";a="36170382"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 00:23:20 -0800
+X-CSE-ConnectionGUID: ddA8u+WbRImU6byF4QhJSA==
+X-CSE-MsgGUID: rQt2dOlFQfWP2aIwx4Tt5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="125658421"
+   d="scan'208";a="133296706"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Jan 2025 00:02:10 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 06 Jan 2025 00:23:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUi3r-000CMx-1h
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 06 Jan 2025 08:02:07 +0000
-Date: Mon, 6 Jan 2025 16:01:53 +0800
+	id 1tUiOD-000CNn-0p;
+	Mon, 06 Jan 2025 08:23:09 +0000
+Date: Mon, 6 Jan 2025 16:22:37 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/preempt-rt 3/3] WARNING: modpost: "__udelay"
- [drivers/char/hw_random/ingenic-rng.ko] has no CRC!
-Message-ID: <202501061628.zQHTLtNt-lkp@intel.com>
+To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, linux-kernel@vger.kernel.org, ioworker0@gmail.com,
+	david@redhat.com, ryan.roberts@arm.com, zhengtangquan@oppo.com,
+	ying.huang@intel.com, kasong@tencent.com, chrisl@kernel.org,
+	baolin.wang@linux.alibaba.com, Barry Song <v-songbaohua@oppo.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Shaoqin Huang <shahuang@redhat.com>, Gavin Shan <gshan@redhat.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Yosry Ahmed <yosryahmed@google.com>
+Subject: Re: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
+Message-ID: <202501061535.zx9E486H-lkp@intel.com>
+References: <20250106031711.82855-3-21cnbao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,231 +78,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250106031711.82855-3-21cnbao@gmail.com>
 
-Hi Rob,
+Hi Barry,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
-head:   7f064b9d8937d880fb64d1df8d1e8b8115a1c128
-commit: 1ce1cd8208ad6060e4fcf6e09068c8954687c127 [3/3] hwrng: Enable COMPILE_TEST for more drivers
-config: sparc-randconfig-002-20241228 (https://download.01.org/0day-ci/archive/20250106/202501061628.zQHTLtNt-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061628.zQHTLtNt-lkp@intel.com/reproduce)
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-set-folio-swapbacked-iff-folios-are-dirty-in-try_to_unmap_one/20250106-112638
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250106031711.82855-3-21cnbao%40gmail.com
+patch subject: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
+config: i386-buildonly-randconfig-002-20250106 (https://download.01.org/0day-ci/archive/20250106/202501061535.zx9E486H-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061535.zx9E486H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501061628.zQHTLtNt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501061535.zx9E486H-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_zero.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/twl4030_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: EXPORT symbol "empty_zero_page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "empty_zero_page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__udelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__udelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "bzero_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "bzero_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__copy_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__copy_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__divdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__divdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_exit" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_exit" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_try" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_try" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_write_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_write_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__muldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__muldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "__udelay" [kernel/locking/locktorture.ko] has no CRC!
-WARNING: modpost: "__udelay" [kernel/rcu/refscale.ko] has no CRC!
-WARNING: modpost: "__ndelay" [kernel/rcu/refscale.ko] has no CRC!
-WARNING: modpost: "__udelay" [kernel/scftorture.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [fs/quota/quota_v2.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [fs/quota/quota_tree.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [fs/quota/quota_tree.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [fs/ecryptfs/ecryptfs.ko] has no CRC!
-WARNING: modpost: "empty_zero_page" [lib/crypto/libchacha20poly1305.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [lib/test_scanf.ko] has no CRC!
-WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_compress.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [lib/zstd/zstd_compress.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_decompress.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/zstd/zstd_common.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [lib/xz/xz_dec.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [lib/xz/xz_dec.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [lib/asn1_encoder.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/broadcom/phy-bcm-kona-usb2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/samsung/phy-exynos5-usbdrd.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/gpio/gpio-latch.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pci/controller/dwc/pci-meson.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rapidio/switches/idt_gen3.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/core/fb_ddc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/matrox/matroxfb_DAC1064.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/riva/rivafb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/radeonfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/savage/savagefb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/neofb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/vt8623fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/sstfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/cirrusfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s1d13xxxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/gxt4500.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/ssd1307fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/8250/8250_dw.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/tty/serial/sccnxp.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/sc16is7xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/tty/serial/jsm/jsm.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/char/hw_random/intel-rng.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/char/hw_random/geode-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/omap-rng.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/char/hw_random/mxc-rnga.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/char/hw_random/ingenic-rng.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/char/hw_random/xgene-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/stm32-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/ks-sa-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/cardreader/rtsx_pci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/dw-xdata-pcie.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/firewire/firewire-ohci.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/sbus/char/uctrl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/cdns3/cdns3-imx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ohci-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ehci-fsl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/host/ssb-hcd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc3/dwc3.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/dwc2/dwc2.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/c67x00/c67x00.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/musb/musb_hdrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/chipidea/ci_hdrc_msm.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2272.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/net2280.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pxa27x_udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/goku_udc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/gadget/udc/m66592-udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/m66592-udc.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/r8a66597-udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/pch_udc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/mv_u3d_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/usb/gadget/udc/udc-xilinx.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/usb/gadget/function/u_audio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/misc/adxl34x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-r7301.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/rtc/rtc-x1205.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-bit.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/algos/i2c-algo-pcf.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/busses/i2c-gpio.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-arb-gpio-challenge.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i2c/muxes/i2c-mux-pca954x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/i3c/master/dw-i3c-master.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
-WARNING: modpost: "__ashrdi3" [drivers/hwmon/pmbus/pmbus_core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/max15301.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/ucd9000.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/hwmon/pmbus/zl6100.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/watchdog/pcwd_usb.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/watchdog/mena21_wdt.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/watchdog/da9063_wdt.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/watchdog/gpio_wdt.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/accessibility/speakup/speakup.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/host/alcor.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/host/cb710-mmc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/host/toshsd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mmc/core/pwrseq_emmc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-bd2802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/leds-is31fl319x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/flash/leds-aat1290.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/flash/leds-ktd2692.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/leds/flash/leds-rt8515.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/extcon/extcon-fsa9480.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/nau7802.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/iio/adc/nau7802.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/adc/ti-ads7924.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/gyro/itg3200.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/pressure/dlhl60d.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/iio/proximity/srf04.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fsi/fsi-master-hub.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/fsi/fsi-master-aspeed.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/spmi/hisi-spmi-controller.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/serio/i8042.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/input/serio/apbps2.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/w1/masters/ds2482.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/masters/sgi_w1.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/slaves/w1_ds28e17.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/w1/wire.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/w1/wire.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/w1/wire.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/bcma/bcma.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/hw/idt/ntb_hw_idt.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/hw/mscc/ntb_hw_switchtec.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/hw/mscc/ntb_hw_switchtec.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_pingpong.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_pingpong.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_tool.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_tool.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/test/ntb_perf.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/test/ntb_perf.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/ntb/ntb_transport.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/ntb/ntb_transport.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mux/mux-core.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/siox/siox-bus-gpio.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/core/snd-timer.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [sound/core/snd-pcm-dmaengine.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4114.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4113.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/i2c/other/snd-ak4xxx-adda.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/drivers/opl3/snd-opl3-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/drivers/mpu401/snd-mpu401-uart.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/drivers/vx/snd-vx-lib.ko] has no CRC!
-WARNING: modpost: "__udelay" [sound/pci/snd-atiixp.ko] has no CRC!
+   In file included from arch/x86/include/asm/uaccess.h:17,
+                    from include/linux/uaccess.h:12,
+                    from include/linux/sched/task.h:13,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/cgroup.h:17,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/x86/kernel/asm-offsets.c:14:
+>> arch/x86/include/asm/tlbflush.h:283:46: error: unknown type name 'unsignd'; did you mean 'unsigned'?
+     283 |                                              unsignd long size)
+         |                                              ^~~~~~~
+         |                                              unsigned
+   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=998720002
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1263: prepare0] Error 2 shuffle=998720002
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=998720002
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=998720002
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +283 arch/x86/include/asm/tlbflush.h
+
+   279	
+   280	static inline void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
+   281						     struct mm_struct *mm,
+   282						     unsigned long uaddr,
+ > 283						     unsignd long size)
+   284	{
+   285		inc_mm_tlb_gen(mm);
+   286		cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
+   287		mmu_notifier_arch_invalidate_secondary_tlbs(mm, 0, -1UL);
+   288	}
+   289	
 
 -- 
 0-DAY CI Kernel Test Service
