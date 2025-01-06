@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E743913A257
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 15:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80DE35973
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 15:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736176641; cv=none; b=maPYE89nF2hKKkIjEzyq0u8+SpAABVyLIVLqkX1/Mt5L7mnVB156Zmit/tK0LDBPja3D3UTuK+6ac3nrz6mvPfosJvgglblBcnnCfXgm0IvoX8wS0xvGmMjf+9CfUwwCw7ohC73BIW/NxTitNBYRFLQn0ostRyhxPA0QJSJ3kxw=
+	t=1736176696; cv=none; b=mkP6iMeiYaVowoPdVPZqSUvFStEmvinWN2pHDG/igKQ7fP8dxIv9ECw51HnFq1z7HgFiK0xrygd/QAxlU+1uwjgK6EfZfijgfBlW1DLbcop/HP0znZPhDAGqEAEU40beDTeEhIEVon47EBJYgWmSR9c40fYD91JXY2SMqMpN3Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736176641; c=relaxed/simple;
-	bh=oArqFN5CnUhm4NXwUlpr8peKwGSRfUNCUsFFeIVfJhc=;
+	s=arc-20240116; t=1736176696; c=relaxed/simple;
+	bh=I2tUvdPeZzALd2MIDYqRivrmBQpDsllbbv4nweFoIK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rTRS3QVa+oZOCPvGbaTd/DhnLQwqv3LvX+RN4ncKg5damAWHJalsMHlnunW9tkxuSF2WLGo56XiH9M1F8Y1Q/isg0T59nAQS1tW/IbL/evKIt5o4X/iMRGtYT3F40fe8h8JiFgGmICahjGkFeOVS3usYnFX7n7qz8O36EELuETI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUCzOXCN; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=fBgXdLYzL/hVsh/0M3F1IFPRA6iw06in0gOLhYwlVpfB9c/cFVcYervWSQz0N6Y8ZrzRkaQ/03/YSnwhJjRpe8CjOe5M18M594HBx4CkI3ju7AoP6fRcxu2BL9kIn68DOMIutIOLA/x8TvJ4hTAW+t3j7eSVzvIbjUfrHVqkjUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8IyBlXB; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUCzOXCN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8IyBlXB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736176638; x=1767712638;
+  t=1736176695; x=1767712695;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oArqFN5CnUhm4NXwUlpr8peKwGSRfUNCUsFFeIVfJhc=;
-  b=RUCzOXCNQkK2Cnbko4qvzB59e1S2XV1BTEHWyq5ZYxYdQiS8tJ84eMvX
-   1Kiz75Rrlha8Vj5aByIhaqU8+2a2+nbNo3ra9dRikDnxhXyet1C2qDx1x
-   NAKz5mmI3SuwyP6ZEVnroyeRRbpKyd9OSrAB/4dpEtXzTuNnid0I+A0Qb
-   9R9CMeDL4yVpyM0ytX7ifYVot8P1Sod1osdfmHcpawN4n4nOXFbp4m9EN
-   Z5sxsuYWkpDvoXW21BsuGzY9H9d1+NBgTdEPPnEX/f2nbsQvh6J1qn9PS
-   sX4J+2b93CylZvDKbVBr6dKtwp4CMPCjMtki2g/reU+JJ5EuM6RmCXamW
-   w==;
-X-CSE-ConnectionGUID: x/L2A039R1GHDhYODUeUww==
-X-CSE-MsgGUID: 7N6vGw48T1OLuP/hbt6WIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36487631"
+  bh=I2tUvdPeZzALd2MIDYqRivrmBQpDsllbbv4nweFoIK0=;
+  b=D8IyBlXBGDqAvM6T3ik9uQb6rhy9WqwbRJyjIuFCHuOfQOLJHLjYVHeo
+   M0JTrYZfoZYIdsm33h1yvwLda6IPV5ZEXQb7WxwUNpVlDMzPuurqZ9lx0
+   o3nvk0A8qocuCGakYHqJeqavaOci9l/Kau6+Pt2r6Rb62sbHgfWVPOmqN
+   xXPVYCLrq0PEuszSI/DA05j3KuRGi5OT7b/RTvF5ScS76SYcie+ZYkyaB
+   hMKu1voeOhqEAs13YxqZSzAYvaRLq+oUxFrfbJCC2gjsjvYQ4kqsp1fGV
+   Dt89wz8xgkWWe2ADPY6RQa7YkEJ+pCs7TXjZ7XZvEWw3gRRXGvvtyk4dX
+   Q==;
+X-CSE-ConnectionGUID: eVo0sR/ESjadLaflvQsmlA==
+X-CSE-MsgGUID: mELGFBiqSYi0NgbWahTCYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="23928064"
 X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
-   d="scan'208";a="36487631"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 07:17:14 -0800
-X-CSE-ConnectionGUID: 5UhE6zz8Q6uvj8TyxtIFmg==
-X-CSE-MsgGUID: +d/tw5UPQfmxGBqX9/9VAA==
+   d="scan'208";a="23928064"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 07:18:15 -0800
+X-CSE-ConnectionGUID: AtUJ4FQMQhOT6//7ei+DUQ==
+X-CSE-MsgGUID: qRdFhVJ+Qou1SDEGI3MxDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102321679"
+   d="scan'208";a="125751170"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Jan 2025 07:17:12 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 06 Jan 2025 07:18:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUoqs-000CjX-0O;
-	Mon, 06 Jan 2025 15:17:10 +0000
-Date: Mon, 6 Jan 2025 23:16:52 +0800
+	id 1tUorq-000Cjh-0f;
+	Mon, 06 Jan 2025 15:18:10 +0000
+Date: Mon, 6 Jan 2025 23:17:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 23372/25291] lib/random32.c:579:16: error:
- implicit declaration of function 'kmalloc'
-Message-ID: <202501062315.jcVRRarN-lkp@intel.com>
+To: Quinn Tran <qutran@marvell.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Nilesh Javali <njavali@marvell.com>
+Subject: drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or
+ struct member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
+Message-ID: <202501062332.mMT0MRFg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,100 +65,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
-commit: 7fd72e0ffe7119a2c76785aa88ca99a3e9557ceb [23372/25291] mm: don't include <linux/blk-cgroup.h> in <linux/writeback.h>
-config: x86_64-buildonly-randconfig-004-20250106 (https://download.01.org/0day-ci/archive/20250106/202501062315.jcVRRarN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501062315.jcVRRarN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d89551994a430b50c4fffcb1e617a057fa76e20
+commit: c019cd656e717349ff22d0c41d6fbfc773f48c52 scsi: qla2xxx: edif: Fix dropped IKE message
+date:   2 years, 6 months ago
+config: parisc-randconfig-c44-20220907 (https://download.01.org/0day-ci/archive/20250106/202501062332.mMT0MRFg-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501062332.mMT0MRFg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501062315.jcVRRarN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501062332.mMT0MRFg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   lib/random32.c: In function 'prandom32_state_selftest':
->> lib/random32.c:579:16: error: implicit declaration of function 'kmalloc' [-Werror=implicit-function-declaration]
-     579 |         data = kmalloc(sizeof(*data) * TEST_SIZE, GFP_KERNEL);
-         |                ^~~~~~~
->> lib/random32.c:579:51: error: 'GFP_KERNEL' undeclared (first use in this function); did you mean 'SI_KERNEL'?
-     579 |         data = kmalloc(sizeof(*data) * TEST_SIZE, GFP_KERNEL);
-         |                                                   ^~~~~~~~~~
-         |                                                   SI_KERNEL
-   lib/random32.c:579:51: note: each undeclared identifier is reported only once for each function it appears in
->> lib/random32.c:610:9: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-     610 |         kfree(data);
-         |         ^~~~~
-         |         kvfree
-   cc1: some warnings being treated as errors
+>> drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or struct member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
 
 
-vim +/kmalloc +579 lib/random32.c
+vim +3724 drivers/scsi/qla2xxx/qla_isr.c
 
-c51f8f88d705e0 George Spelvin 2020-08-09  560  
-c6e169bc146a76 Willy Tarreau  2020-10-24  561  #ifdef CONFIG_RANDOM32_SELFTEST
-c6e169bc146a76 Willy Tarreau  2020-10-24  562  /* Principle: True 32-bit random numbers will all have 16 differing bits on
-c6e169bc146a76 Willy Tarreau  2020-10-24  563   * average. For each 32-bit number, there are 601M numbers differing by 16
-c6e169bc146a76 Willy Tarreau  2020-10-24  564   * bits, and 89% of the numbers differ by at least 12 bits. Note that more
-c6e169bc146a76 Willy Tarreau  2020-10-24  565   * than 16 differing bits also implies a correlation with inverted bits. Thus
-c6e169bc146a76 Willy Tarreau  2020-10-24  566   * we take 1024 random numbers and compare each of them to the other ones,
-c6e169bc146a76 Willy Tarreau  2020-10-24  567   * counting the deviation of correlated bits to 16. Constants report 32,
-c6e169bc146a76 Willy Tarreau  2020-10-24  568   * counters 32-log2(TEST_SIZE), and pure randoms, around 6 or lower. With the
-c6e169bc146a76 Willy Tarreau  2020-10-24  569   * u32 total, TEST_SIZE may be as large as 4096 samples.
-c6e169bc146a76 Willy Tarreau  2020-10-24  570   */
-c6e169bc146a76 Willy Tarreau  2020-10-24  571  #define TEST_SIZE 1024
-c6e169bc146a76 Willy Tarreau  2020-10-24  572  static int __init prandom32_state_selftest(void)
-c6e169bc146a76 Willy Tarreau  2020-10-24  573  {
-c6e169bc146a76 Willy Tarreau  2020-10-24  574  	unsigned int x, y, bits, samples;
-c6e169bc146a76 Willy Tarreau  2020-10-24  575  	u32 xor, flip;
-c6e169bc146a76 Willy Tarreau  2020-10-24  576  	u32 total;
-c6e169bc146a76 Willy Tarreau  2020-10-24  577  	u32 *data;
-c6e169bc146a76 Willy Tarreau  2020-10-24  578  
-c6e169bc146a76 Willy Tarreau  2020-10-24 @579  	data = kmalloc(sizeof(*data) * TEST_SIZE, GFP_KERNEL);
-c6e169bc146a76 Willy Tarreau  2020-10-24  580  	if (!data)
-c6e169bc146a76 Willy Tarreau  2020-10-24  581  		return 0;
-c6e169bc146a76 Willy Tarreau  2020-10-24  582  
-c6e169bc146a76 Willy Tarreau  2020-10-24  583  	for (samples = 0; samples < TEST_SIZE; samples++)
-c6e169bc146a76 Willy Tarreau  2020-10-24  584  		data[samples] = prandom_u32();
-c6e169bc146a76 Willy Tarreau  2020-10-24  585  
-c6e169bc146a76 Willy Tarreau  2020-10-24  586  	flip = total = 0;
-c6e169bc146a76 Willy Tarreau  2020-10-24  587  	for (x = 0; x < samples; x++) {
-c6e169bc146a76 Willy Tarreau  2020-10-24  588  		for (y = 0; y < samples; y++) {
-c6e169bc146a76 Willy Tarreau  2020-10-24  589  			if (x == y)
-c6e169bc146a76 Willy Tarreau  2020-10-24  590  				continue;
-c6e169bc146a76 Willy Tarreau  2020-10-24  591  			xor = data[x] ^ data[y];
-c6e169bc146a76 Willy Tarreau  2020-10-24  592  			flip |= xor;
-c6e169bc146a76 Willy Tarreau  2020-10-24  593  			bits = hweight32(xor);
-c6e169bc146a76 Willy Tarreau  2020-10-24  594  			total += (bits - 16) * (bits - 16);
-c6e169bc146a76 Willy Tarreau  2020-10-24  595  		}
-c6e169bc146a76 Willy Tarreau  2020-10-24  596  	}
-c6e169bc146a76 Willy Tarreau  2020-10-24  597  
-c6e169bc146a76 Willy Tarreau  2020-10-24  598  	/* We'll return the average deviation as 2*sqrt(corr/samples), which
-c6e169bc146a76 Willy Tarreau  2020-10-24  599  	 * is also sqrt(4*corr/samples) which provides a better resolution.
-c6e169bc146a76 Willy Tarreau  2020-10-24  600  	 */
-c6e169bc146a76 Willy Tarreau  2020-10-24  601  	bits = int_sqrt(total / (samples * (samples - 1)) * 4);
-c6e169bc146a76 Willy Tarreau  2020-10-24  602  	if (bits > 6)
-c6e169bc146a76 Willy Tarreau  2020-10-24  603  		pr_warn("prandom32: self test failed (at least %u bits"
-c6e169bc146a76 Willy Tarreau  2020-10-24  604  			" correlated, fixed_mask=%#x fixed_value=%#x\n",
-c6e169bc146a76 Willy Tarreau  2020-10-24  605  			bits, ~flip, data[0] & ~flip);
-c6e169bc146a76 Willy Tarreau  2020-10-24  606  	else
-c6e169bc146a76 Willy Tarreau  2020-10-24  607  		pr_info("prandom32: self test passed (less than %u bits"
-c6e169bc146a76 Willy Tarreau  2020-10-24  608  			" correlated)\n",
-c6e169bc146a76 Willy Tarreau  2020-10-24  609  			bits+1);
-c6e169bc146a76 Willy Tarreau  2020-10-24 @610  	kfree(data);
-c6e169bc146a76 Willy Tarreau  2020-10-24  611  	return 0;
-c6e169bc146a76 Willy Tarreau  2020-10-24  612  }
-c6e169bc146a76 Willy Tarreau  2020-10-24  613  core_initcall(prandom32_state_selftest);
-c6e169bc146a76 Willy Tarreau  2020-10-24  614  #endif /*  CONFIG_RANDOM32_SELFTEST */
-c6e169bc146a76 Willy Tarreau  2020-10-24  615  
+e84067d7430107a Duane Grigsby 2017-06-21  3713  
+fac2807946c10b9 Quinn Tran    2021-06-23  3714  /**
+fac2807946c10b9 Quinn Tran    2021-06-23  3715   * qla_chk_cont_iocb_avail - check for all continuation iocbs are available
+fac2807946c10b9 Quinn Tran    2021-06-23  3716   *   before iocb processing can start.
+fac2807946c10b9 Quinn Tran    2021-06-23  3717   * @vha: host adapter pointer
+fac2807946c10b9 Quinn Tran    2021-06-23  3718   * @rsp: respond queue
+fac2807946c10b9 Quinn Tran    2021-06-23  3719   * @pkt: head iocb describing how many continuation iocb
+fac2807946c10b9 Quinn Tran    2021-06-23  3720   * Return: 0 all iocbs has arrived, xx- all iocbs have not arrived.
+fac2807946c10b9 Quinn Tran    2021-06-23  3721   */
+fac2807946c10b9 Quinn Tran    2021-06-23  3722  static int qla_chk_cont_iocb_avail(struct scsi_qla_host *vha,
+c019cd656e71734 Quinn Tran    2022-07-12  3723  	struct rsp_que *rsp, response_t *pkt, u32 rsp_q_in)
+fac2807946c10b9 Quinn Tran    2021-06-23 @3724  {
+c019cd656e71734 Quinn Tran    2022-07-12  3725  	int start_pkt_ring_index;
+c019cd656e71734 Quinn Tran    2022-07-12  3726  	u32 iocb_cnt = 0;
+fac2807946c10b9 Quinn Tran    2021-06-23  3727  	int rc = 0;
+fac2807946c10b9 Quinn Tran    2021-06-23  3728  
+fac2807946c10b9 Quinn Tran    2021-06-23  3729  	if (pkt->entry_count == 1)
+fac2807946c10b9 Quinn Tran    2021-06-23  3730  		return rc;
+fac2807946c10b9 Quinn Tran    2021-06-23  3731  
+fac2807946c10b9 Quinn Tran    2021-06-23  3732  	/* ring_index was pre-increment. set it back to current pkt */
+fac2807946c10b9 Quinn Tran    2021-06-23  3733  	if (rsp->ring_index == 0)
+fac2807946c10b9 Quinn Tran    2021-06-23  3734  		start_pkt_ring_index = rsp->length - 1;
+fac2807946c10b9 Quinn Tran    2021-06-23  3735  	else
+fac2807946c10b9 Quinn Tran    2021-06-23  3736  		start_pkt_ring_index = rsp->ring_index - 1;
+fac2807946c10b9 Quinn Tran    2021-06-23  3737  
+c019cd656e71734 Quinn Tran    2022-07-12  3738  	if (rsp_q_in < start_pkt_ring_index)
+c019cd656e71734 Quinn Tran    2022-07-12  3739  		/* q in ptr is wrapped */
+c019cd656e71734 Quinn Tran    2022-07-12  3740  		iocb_cnt = rsp->length - start_pkt_ring_index + rsp_q_in;
+fac2807946c10b9 Quinn Tran    2021-06-23  3741  	else
+c019cd656e71734 Quinn Tran    2022-07-12  3742  		iocb_cnt = rsp_q_in - start_pkt_ring_index;
+fac2807946c10b9 Quinn Tran    2021-06-23  3743  
+c019cd656e71734 Quinn Tran    2022-07-12  3744  	if (iocb_cnt < pkt->entry_count)
+fac2807946c10b9 Quinn Tran    2021-06-23  3745  		rc = -EIO;
+fac2807946c10b9 Quinn Tran    2021-06-23  3746  
+c019cd656e71734 Quinn Tran    2022-07-12  3747  	ql_dbg(ql_dbg_init, vha, 0x5091,
+c019cd656e71734 Quinn Tran    2022-07-12  3748  	       "%s - ring %p pkt %p entry count %d iocb_cnt %d rsp_q_in %d rc %d\n",
+c019cd656e71734 Quinn Tran    2022-07-12  3749  	       __func__, rsp->ring, pkt, pkt->entry_count, iocb_cnt, rsp_q_in, rc);
+fac2807946c10b9 Quinn Tran    2021-06-23  3750  
+fac2807946c10b9 Quinn Tran    2021-06-23  3751  	return rc;
+fac2807946c10b9 Quinn Tran    2021-06-23  3752  }
+fac2807946c10b9 Quinn Tran    2021-06-23  3753  
 
-:::::: The code at line 579 was first introduced by commit
-:::::: c6e169bc146a76d5ccbf4d3825f705414352bd03 random32: add a selftest for the prandom32 code
+:::::: The code at line 3724 was first introduced by commit
+:::::: fac2807946c10b9a509b9c348afd442fa823c5f7 scsi: qla2xxx: edif: Add extraction of auth_els from the wire
 
-:::::: TO: Willy Tarreau <w@1wt.eu>
-:::::: CC: Willy Tarreau <w@1wt.eu>
+:::::: TO: Quinn Tran <qutran@marvell.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
