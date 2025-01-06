@@ -1,74 +1,68 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C651D86C0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4666C1E505
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736156839; cv=none; b=MSBT2SXdN4VYgamK8V26acajyExYvB7Cga4anJ5z43ROPL13IbsW7hTX2LPI2R22fqEx4c0pP0zHbEuRpk2iqCh+gpsjrkpyWMuHQjBojv90kdk19Q5+kd26w+SRvUyYsAvVQJUWHNcrHfxQz791Og5EsJtgEBYqEUzAyjVVucs=
+	t=1736156927; cv=none; b=hy7JuAexx7tDgGB6eTa2AF2YRwfwaggHI4YmMbNuhF4T4aDEqvqGELOZvIJqtVEDUyJhdKarDXHvRDM4dJAbY4JAbw2xQhESN9Ht9VM2VxAvjZ69zm3eLEZQ2aKnvU1c30keuuDUdKI+t4KVLbHcPHinHFKnClq4s1DlSsZ61Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736156839; c=relaxed/simple;
-	bh=4FeV6ZPr3jGASfKnVKZgWxePWMd6SkcF8XKyp9R5ZL0=;
+	s=arc-20240116; t=1736156927; c=relaxed/simple;
+	bh=APYCS3DTa/e0jkN5JGTvJUWOvo8IXYDxlrsuDrv0AxI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MRpRmvgaRo9Bim9GWrfJzCRvOz+k4qKlcXqyeFll/+MBRJx33K6/qt83dV9Fa7M/uHRQZkf17vbpdJWthBD9Ivj/MYbj27ArrtwqPRNdqz9Pqaqipaz1y1+R3l9LrRrRixKc54Ju4Wek57o4tgaAn+PgsKx5BiE6wMkIrXwTD5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ADp/aGhk; arc=none smtp.client-ip=209.85.221.50
+	 Content-Disposition:In-Reply-To; b=JQssyZ5qtJLt8kV/N+9IIOzfSfHjpM0zxVEpAQ9wdOgWtoYC9S+lBA7P4wzHgGLg5HaKVIAdTQdLA0qIvGqrnvKjSEyaKfja4lC4g2d7CMAAKHrvZoP2mCfaSwQIqSI+9E8PsDQjimcehoN6FJ8RQUIBovHc6AvfI/BIHQcNI8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Kwbt9BDH; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ADp/aGhk"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385dece873cso5195153f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 01:47:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kwbt9BDH"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-436249df846so97745915e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 01:48:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736156836; x=1736761636; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1736156923; x=1736761723; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=drQE5mfG6UfY6qmLY59TYj//IZAj9bk+9THlcgSH/G4=;
-        b=ADp/aGhkrjjxQqaD3QnVQcjf2AhL+t/nvZKqQ1b1fOMGe5n5pszGR1NLDJI+vJU5J8
-         FtKqmLWMC3nUkNnwW1YrzvYTmc15cR7UCjEj+N6fvCy2angquOV2W4jr5468lILFIqV0
-         nKNJqqdPYlniEFPCUKKEtjwbK3AiUinGR7BjxBsznmSOu19FC2lq7lDKzFWe73tBiE3G
-         JB0ypt8WVKLcej0J/FmCMdU5wuiBr/jXXS5kAOGkV/TBkF7HIlQjXZseLiXj8fctB1yo
-         oP5qExz3T2lEoGslYNp7VfDwNw0RVgDu1nxjVyFUWJgOf543HsPFqYirjk5IP5oa4DBA
-         SN5g==
+        bh=U7DUxAhSibqlywitnIsaO/xKBm773Tj0vayibwmG2Eo=;
+        b=Kwbt9BDHYiPHj/KFgyGyfRFU5S1UA5K3b175o34D59l1Icj9iH3oGByyy/qJtN+Syi
+         ZzNhSsGqmpg18Rgf7tQqtBA2h8SNl8LDUVP8Xl7u+8UQX4LqJRxBk7UvZNw+Wo+BI9oN
+         J8WLvB9icbwf3aArcTQNiGve8NhFRzANULChq2l6GxhD+hEPugldpMt8AAkld9XtxTNi
+         h0z4Cj85IUkfWU9XT6T2vk7GiypQHRtSABBJm4KK0/dDf4Q+8+bfBi/D+AfO4ZtUGEiR
+         woUc2MEsNiclMkTcvDH6MwxbeUeNqqSNVljfTIpRCy/3tUUYN3NjAGyn3GeJbQBR0kh6
+         Rnhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736156836; x=1736761636;
+        d=1e100.net; s=20230601; t=1736156923; x=1736761723;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=drQE5mfG6UfY6qmLY59TYj//IZAj9bk+9THlcgSH/G4=;
-        b=JqJgSRfgJXDcDRCh+j5FsFdj2UWro3uFE10tAgk/NSq8goxlPnSmXJZ7MtqYzhQnTV
-         hlTcZp3oGsC/+jKk0f6ojklqz2o8oWnvPAOtSfqeUlwPGOWtOzZlP0p+vp0dzlu3gArw
-         9zWPIRVEytZcrSF+qDzSxhLE1xFNYUVRZDkEb9UVWB7r4+QrjWcn/R1haB0VpxDTvwdH
-         0zDuefLNKSS3EMMJwQTK/PkKEdZEQfc+hHpV73WLMAYDVFXHlSW6uGzabPeL3MxzlqNE
-         g9Ry8OK4S1SBMopk5cbrWg3AOjJ4NiT9NrM1046wDhzvcNoY13P4Eur/wKJbPDGAwo1q
-         aKGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGsrt2IErbAdGQT+6sSutk2bOriWedcTxfFxcP+oNBs+WT7lmFHtix/aC2nE9AHFX0zkuiWJy4IhwhBVVD@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+qlDWGwZXB8gQyvYq8WQCsXK7fef2rGYIgVo5F2GYkeoVJ91X
-	VjIl6Lbs/N1SlDXFYoZ/q6b8Ak7CFWQQ7WOv+BKESwEoCFNaDKEEhZogFWXpoOM=
-X-Gm-Gg: ASbGncsWIeiYPJT43um/rD62dpuQ/vNe5g5/PSDctLaqrc7RsIFDK3w3+PGPZpKXm9O
-	jPYvkEKdnLQkhtpsnLbtk6BbSmQFGyzYKuO36RotLxBtTDdqenNhX7PSMeOUulqNGYKfqJS3/Bj
-	b+KeIzKtXunkZamUjZcdsMUpDAZPQIPISXsguzNMUl03/C9fmwkozoP/5EeYc9SNvEt5SHi/gL9
-	GJLM7/xeThydhscKmqABvaeDyHdBrF9mTeFXnOqyMDdLS3ex4H2ZqahtttbUQ==
-X-Google-Smtp-Source: AGHT+IE1QA9GPbRGZrUYTaXeGGbTxlnKdAg52i/b75L7wR5SaTyuDJ7JMDNCeaS8O+uXqqVvObeBRQ==
-X-Received: by 2002:a05:6000:156b:b0:385:e30a:e0f7 with SMTP id ffacd0b85a97d-38a221fab38mr48263786f8f.22.1736156835874;
-        Mon, 06 Jan 2025 01:47:15 -0800 (PST)
+        bh=U7DUxAhSibqlywitnIsaO/xKBm773Tj0vayibwmG2Eo=;
+        b=XNeOWWYqAk6npgDSbotT0Li/NzC3rMVUfNFAh9sOAGtGlU3oZnacks+pM1UII6J2jd
+         n8PyrpQZ27XfHUJNvotNYI7LufgonkHqVyCcBHeciMYf1v3TnuMt0y0UXGiHIBKB/3az
+         fQVNuA8OlwrCOkeKkBTuiGV17Z8WV1LFOmAwU5PMza3QGZG/GVrKbBGyDKul65o1xXXE
+         fAP9+6r/jMB/KUq5G2w3u3lzovp6s+HgnUDQivbWOfJbgxwsiTCbzU40/nSW1cTkRYDh
+         miXBKKss+iSeP00OYtYBaaeM2PjSQpEXJvYpuL6xKwO78OA+JMROCHlG6sCBFY4vjpi8
+         d1xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSO6QeL7PnQ0C0vXDJYuEr7KF4WLT9ZVASuHYgnPpX3UZ4Ec3HX9iveBM7o+13bpikG9fpmiZAlVn0doQa@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCZQ6nFr7kajW5uEJsdKNBGJu8T8iVQM8pj/cx7ArK82SiUFP9
+	+2MTCXSgQQD7cscY0n6GjoPruwAqSgp7T6+oXJVOgiY9uDxB4cjUJTxjvePTKB64H/OnVELgCcV
+	K
+X-Gm-Gg: ASbGncvDnTFAGh7KIGXlwo7fQyuXORDu3bUStis8aBhQCsYCLX40rb5v0woUig2gpJn
+	gBUjSGtEyNkxEKwe2AD7AXOVfzQNS8cnosLEeTar66ThQiTy0+b9CBGFlhYGSUP0+CkDZq7qV1F
+	1JeNHweqI61yxeCNbcA8E+5wn7ZbZ4U7KhB9KN7BzfSb23BgWjArSm/SzTRlgW228bsXCkWzIZh
+	mSmmoR2PGosC0UfkQbBhCQ1AZkfQMIWNlInLbsYqL7iw+53dJ8ZoueEtWct7Q==
+X-Google-Smtp-Source: AGHT+IGh8Fp20Zq7XtaVm6KGcGqlEafo7OexWSrsYD9e1SunnlLmTNIbsGBKyA1oWnjMCpGHujCl/g==
+X-Received: by 2002:a05:600c:1c1a:b0:434:eb73:b0c0 with SMTP id 5b1f17b1804b1-43668548301mr470618275e9.5.1736156923467;
+        Mon, 06 Jan 2025 01:48:43 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8ace0esm46740074f8f.106.2025.01.06.01.47.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e1c0sm48271951f8f.77.2025.01.06.01.48.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 01:47:15 -0800 (PST)
-Date: Mon, 6 Jan 2025 12:47:12 +0300
+        Mon, 06 Jan 2025 01:48:43 -0800 (PST)
+Date: Mon, 6 Jan 2025 12:48:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, mtk22730 <Cloud.Zhang@mediatek.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	Cloud Zhang <cloud.zhang@mediatek.com>
-Subject: Re: [PATCH] [v1] spi: spi-mtk-nor: Modify the clock architecture of
- nor controller
-Message-ID: <63ddb297-822c-47bd-a33b-e2203fe1fad1@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] drm/msm: register a fault handler for display mmu
+ faults
+Message-ID: <e0846cd2-c03f-44a8-9f0b-6d78b241f093@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,64 +71,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241212092206.14071-1-Cloud.Zhang@mediatek.com>
+In-Reply-To: <20241217-abhinavk-smmu-fault-handler-v2-1-451377666cad@quicinc.com>
 
-Hi mtk22730,
+Hi Jessica,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mtk22730/spi-spi-mtk-nor-Modify-the-clock-architecture-of-nor-controller/20241212-172704
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20241212092206.14071-1-Cloud.Zhang%40mediatek.com
-patch subject: [PATCH] [v1] spi: spi-mtk-nor: Modify the clock architecture of nor controller
-config: parisc-randconfig-r073-20241223 (https://download.01.org/0day-ci/archive/20241223/202412232136.cWvRuwoD-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jessica-Zhang/drm-msm-register-a-fault-handler-for-display-mmu-faults/20241218-082950
+base:   86313a9cd152330c634b25d826a281c6a002eb77
+patch link:    https://lore.kernel.org/r/20241217-abhinavk-smmu-fault-handler-v2-1-451377666cad%40quicinc.com
+patch subject: [PATCH v2 1/5] drm/msm: register a fault handler for display mmu faults
+config: powerpc-randconfig-r072-20241223 (https://download.01.org/0day-ci/archive/20241223/202412232320.jOVlNH6W-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412232136.cWvRuwoD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412232320.jOVlNH6W-lkp@intel.com/
 
 smatch warnings:
-drivers/spi/spi-mtk-nor.c:746 mtk_nor_parse_clk() warn: impossible condition '(cnt == -22) => (1-255 == (-22))'
+drivers/gpu/drm/msm/msm_kms.c:211 msm_kms_init_aspace() error: 'aspace' dereferencing possible ERR_PTR()
 
-vim +746 drivers/spi/spi-mtk-nor.c
+vim +/aspace +211 drivers/gpu/drm/msm/msm_kms.c
 
-87d65a23444841 Cloud Zhang   2024-12-12  738  static int mtk_nor_parse_clk(struct device *dev, struct mtk_nor *sp)
-87d65a23444841 Cloud Zhang   2024-12-12  739  {
-87d65a23444841 Cloud Zhang   2024-12-12  740  	struct device_node *np = dev->of_node;
-87d65a23444841 Cloud Zhang   2024-12-12  741  	int ret;
-87d65a23444841 Cloud Zhang   2024-12-12  742  	const char *name;
-87d65a23444841 Cloud Zhang   2024-12-12  743  	u8 cnt, i;
-                                                ^^^^^^
+506efcba31296e Dmitry Baryshkov 2023-10-09  176  struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
+506efcba31296e Dmitry Baryshkov 2023-10-09  177  {
+506efcba31296e Dmitry Baryshkov 2023-10-09  178  	struct msm_gem_address_space *aspace;
+506efcba31296e Dmitry Baryshkov 2023-10-09  179  	struct msm_mmu *mmu;
+506efcba31296e Dmitry Baryshkov 2023-10-09  180  	struct device *mdp_dev = dev->dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  181  	struct device *mdss_dev = mdp_dev->parent;
+0752a7416c0b8f Abhinav Kumar    2024-12-17  182  	struct msm_drm_private *priv = dev->dev_private;
+0752a7416c0b8f Abhinav Kumar    2024-12-17  183  	struct msm_kms *kms = priv->kms;
+506efcba31296e Dmitry Baryshkov 2023-10-09  184  	struct device *iommu_dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  185  
+506efcba31296e Dmitry Baryshkov 2023-10-09  186  	/*
+506efcba31296e Dmitry Baryshkov 2023-10-09  187  	 * IOMMUs can be a part of MDSS device tree binding, or the
+506efcba31296e Dmitry Baryshkov 2023-10-09  188  	 * MDP/DPU device.
+506efcba31296e Dmitry Baryshkov 2023-10-09  189  	 */
+506efcba31296e Dmitry Baryshkov 2023-10-09  190  	if (device_iommu_mapped(mdp_dev))
+506efcba31296e Dmitry Baryshkov 2023-10-09  191  		iommu_dev = mdp_dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  192  	else
+506efcba31296e Dmitry Baryshkov 2023-10-09  193  		iommu_dev = mdss_dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  194  
+506efcba31296e Dmitry Baryshkov 2023-10-09  195  	mmu = msm_iommu_new(iommu_dev, 0);
+506efcba31296e Dmitry Baryshkov 2023-10-09  196  	if (IS_ERR(mmu))
+506efcba31296e Dmitry Baryshkov 2023-10-09  197  		return ERR_CAST(mmu);
+506efcba31296e Dmitry Baryshkov 2023-10-09  198  
+506efcba31296e Dmitry Baryshkov 2023-10-09  199  	if (!mmu) {
+506efcba31296e Dmitry Baryshkov 2023-10-09  200  		drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
+506efcba31296e Dmitry Baryshkov 2023-10-09  201  		return NULL;
+506efcba31296e Dmitry Baryshkov 2023-10-09  202  	}
+506efcba31296e Dmitry Baryshkov 2023-10-09  203  
+506efcba31296e Dmitry Baryshkov 2023-10-09  204  	aspace = msm_gem_address_space_create(mmu, "mdp_kms",
+506efcba31296e Dmitry Baryshkov 2023-10-09  205  		0x1000, 0x100000000 - 0x1000);
+506efcba31296e Dmitry Baryshkov 2023-10-09  206  	if (IS_ERR(aspace)) {
+506efcba31296e Dmitry Baryshkov 2023-10-09  207  		dev_err(mdp_dev, "aspace create, error %pe\n", aspace);
+506efcba31296e Dmitry Baryshkov 2023-10-09  208  		mmu->funcs->destroy(mmu);
 
-87d65a23444841 Cloud Zhang   2024-12-12  744  
-87d65a23444841 Cloud Zhang   2024-12-12  745  	cnt = of_property_count_strings(np, "clock-names");
-87d65a23444841 Cloud Zhang   2024-12-12 @746  	if (!cnt || (cnt == -EINVAL)) {
-                                                             ^^^^^^^^^^^^^^
-cnt needs to be declared as an int.
+This should return aspace;
 
-87d65a23444841 Cloud Zhang   2024-12-12  747  		dev_err(dev, "Unable to find clocks\n");
-87d65a23444841 Cloud Zhang   2024-12-12  748  		ret = -EINVAL;
-87d65a23444841 Cloud Zhang   2024-12-12  749  		goto out;
-87d65a23444841 Cloud Zhang   2024-12-12  750  	} else if (cnt < 0) {
-                                                           ^^^^^^^
-It's weird that this doesn't trigger a warning.
+506efcba31296e Dmitry Baryshkov 2023-10-09  209  	}
+506efcba31296e Dmitry Baryshkov 2023-10-09  210  
+0752a7416c0b8f Abhinav Kumar    2024-12-17 @211  	msm_mmu_set_fault_handler(aspace->mmu, kms, msm_kms_fault_handler);
+                                                                                  ^^^^^^^^^^^
+Crash.
 
-87d65a23444841 Cloud Zhang   2024-12-12  751  		dev_err(dev, "Count clock strings failed, err %d\n", cnt);
-87d65a23444841 Cloud Zhang   2024-12-12  752  		ret = cnt;
-87d65a23444841 Cloud Zhang   2024-12-12  753  		goto out;
-87d65a23444841 Cloud Zhang   2024-12-12  754  	} else if (cnt > MAX_CLOCK_CNT) {
-87d65a23444841 Cloud Zhang   2024-12-12  755  		ret = -EINVAL;
-87d65a23444841 Cloud Zhang   2024-12-12  756  		goto out;
-87d65a23444841 Cloud Zhang   2024-12-12  757  	}
-87d65a23444841 Cloud Zhang   2024-12-12  758  
-87d65a23444841 Cloud Zhang   2024-12-12  759  	sp->clock_cnt = cnt;
-87d65a23444841 Cloud Zhang   2024-12-12  760  
-87d65a23444841 Cloud Zhang   2024-12-12  761  	for (i = 0; i < cnt; i++) {
+0752a7416c0b8f Abhinav Kumar    2024-12-17  212  
+506efcba31296e Dmitry Baryshkov 2023-10-09  213  	return aspace;
+506efcba31296e Dmitry Baryshkov 2023-10-09  214  }
+506efcba31296e Dmitry Baryshkov 2023-10-09  215  
 
 -- 
 0-DAY CI Kernel Test Service
