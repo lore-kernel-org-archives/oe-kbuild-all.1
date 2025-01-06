@@ -1,248 +1,103 @@
-Received: from smtp-bc0e.mail.infomaniak.ch (smtp-bc0e.mail.infomaniak.ch [45.157.188.14])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B79170824
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 17:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3652149C42;
+	Mon,  6 Jan 2025 17:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736183106; cv=none; b=ASWirqeR2Rv03LFhty7/jhYKKc5ay6XKEk4gVh+p7XewKO94zs0TOdEoa2OLpZKWxtmMqZV64AXm0hQQFktBvoCSkPrOaW/dY0+PUt3JchFy40juZHlEG9SBuVOKY36S4JGa8JrHrIaFzYV01KgrnBxKBDBXt1CCeLnCgYEdh48=
+	t=1736184034; cv=none; b=Jk+gqiMYgQqB9bB5eQbbOMaNvriaxsDw37nXuCpTlayY0JVaXItmOkxeR+VoPo0rJXqste8sVbu45M1OePYrzhE0I/+jYBpV6pi7UBJlt612zNR270KfOvKCyldwbjlYKAePjGAzxfNS31a9gUDzCkT6wCSrKBxAcU8u69y0t00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736183106; c=relaxed/simple;
-	bh=8ifLHMRYzV/BdHndyMnDaMSrSWA0Gu2AeLVzaoW+uTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UWAgExa9DoGKUyiIzONrlEzVDTqaI+1GdZ/rHHfXjL2i6oAIxifl/ae3mlQ7zeN9w5Nttu16mlFINR/Qp/GZ0m7yQENBzUyEYYCv0ltcJ2Gx3AfMePNidrK2u07k356S+Ki0xy19uSFAIukTEb7L+w79YhUJap74DX3FGkVLFZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=xQhsJh1m; arc=none smtp.client-ip=45.157.188.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1736184034; c=relaxed/simple;
+	bh=IEpcYaMf56C9Sf07BJdYcx7X3nhqLd4LLJNoDGAh5xI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IWCv3LPc22DAJ5JQikzYRuJNLoFV0E0vcQNq15FbOAWrt42aC6B88Tm+szeE4YZNYvg8N+KgATZ4XEF1XPQyw1bYZdX++RpvhhViBe+u985J0/2oj/XjzPC2pnR9bfgeZi01r/CbpoX6bfYkQ0XeZiJtX8vGBqG/eJkaLf66Nwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=t16FDDu+; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="xQhsJh1m"
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4YRgXV15mgzNtH;
-	Mon,  6 Jan 2025 18:04:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1736183098;
-	bh=xnnP5Ge2UVIjVFy75zw34onoBGTBNO+43xM26tZU+Qg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xQhsJh1mMXToUZchdzlrXYlpcL7+YU2H+jl5e3K36qeO++GrWYS5BASL58ddPyGHs
-	 pRl2jfvVFDcx3cv179UdU7aac6PNixKzaSSSl6BpidHYfSMkPF0DZKK4mb32Q9dgfM
-	 atc5gub4Li60d+7tJYPg7nDWfmfNlYWuDR7Majug=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4YRgXT3KQSzMSh;
-	Mon,  6 Jan 2025 18:04:57 +0100 (CET)
-Date: Mon, 6 Jan 2025 18:04:56 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, James Morris <jamorris@linux.microsoft.com>, 
-	Jann Horn <jannh@google.com>
-Subject: Re: security/landlock/ruleset.c:96:9: warning: 'memcpy' accessing
- 4294967295 bytes at offsets 20 and 0 overlaps 6442450943 bytes at offset
- -2147483648
-Message-ID: <20250106.uu8as0Ha6pof@digikod.net>
-References: <202501040747.S3LYfvYq-lkp@intel.com>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="t16FDDu+"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 69CA1A06F3;
+	Mon,  6 Jan 2025 18:20:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=T85dDHQcmfjuBtiWjIc3
+	9bFlaSzOVCbF4UVEp+0Psck=; b=t16FDDu+lf+xIeulbOGCgYc/jrIFotdvmX0H
+	mwSkvIJPpKf7TtvqJBNe/THAMQgEAP5yMpnRzfoVBmSbbuKamiAQyNcjbEZIL6IZ
+	04jrBrDRzPoXrGW/UoV0OyARlK4Gig+KciOmNyLJiNXJlLsaKIDTzroEIDepB+iL
+	+YnlsBJliWo2lCqKm2t2j8CT0ifXrtkm8WS8/1eiIt+SUOWT0mL/B5EZHOvCiTCR
+	Sr7ide7oTrZXHdggaGc91mbHoE459yM02rmwOBsh5PGCgRbPO+A2ojfpmNbSujfr
+	ZL0GaAg8YpCMBtLSx30x2t8ZEXCvsz4MuLpwQoju9Hhc/G+o3wapWxsnH/lvkTMS
+	34Fc10IqLVFi7nxNPOwi8hWJm/ePlUNQTjJsZhGAeS5lUqXO9sVmHk4t6TmwBoz3
+	tABO58GDqYV5y2EFDB9nEwLFfwGYMBCJCcDwiJ2xOQW//eo1AGv0l4tQtRMPWFR3
+	hbbUbiZHpHaZ9w30A2PZkazJea6Lv6mR6nJWXg3Ooy4qZnkTGBlYcrcPWpw5bzDG
+	Jbd3i0ZdlMY/7YfAwy7zLQoii3leO0bYvovynvxgdoAUzCiKSZ9S4G8WdAPKM7+0
+	K3SATY/cn+qL95gFadUaO7L0AYejZXSgu+xJ+FAnjXW7Wbh9rEYNtv3Xwi4p9wDs
+	bmHpZb4=
+Message-ID: <f42ab0c9-2822-446a-9650-23372810de01@prolan.hu>
+Date: Mon, 6 Jan 2025 18:20:26 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202501040747.S3LYfvYq-lkp@intel.com>
-X-Infomaniak-Routing: alpha
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 3636/5236] drivers/spi/atmel-quadspi.c:1282
+ atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Mark Brown
+	<broonie@kernel.org>, Varshini Rajendran <varshini.rajendran@microchip.com>,
+	Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+References: <f3b27d32-1440-4585-9a78-cbd2fd47a992@stanley.mountain>
+Content-Language: en-US
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <f3b27d32-1440-4585-9a78-cbd2fd47a992@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94852657067
 
-I guess the GCC warning is a false positive?
-See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=116494
+Hi,
 
-On Sat, Jan 04, 2025 at 07:26:27AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
-> commit: ae271c1b14de343b888e77f74f640e3dcbdeb4c9 landlock: Add ruleset and domain management
-> date:   3 years, 8 months ago
-> config: csky-randconfig-r026-20230729 (https://download.01.org/0day-ci/archive/20250104/202501040747.S3LYfvYq-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040747.S3LYfvYq-lkp@intel.com/reproduce)
+On 2025. 01. 06. 10:32, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+> commit: 5af42209a4d23adc9a09e59e586d1b47fef3cc86 [3636/5236] spi: atmel-quadspi: Add support for sama7g5 QSPI
+
+> smatch warnings:
+> drivers/spi/atmel-quadspi.c:1282 atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501040747.S3LYfvYq-lkp@intel.com/
+> vim +/PTR_ERR +1282 drivers/spi/atmel-quadspi.c
 > 
-> All warnings (new ones prefixed by >>):
-> 
->    security/landlock/ruleset.c: In function 'create_rule':
-> >> security/landlock/ruleset.c:96:9: warning: 'memcpy' accessing 4294967295 bytes at offsets 20 and 0 overlaps 6442450943 bytes at offset -2147483648 [-Wrestrict]
->       96 |         memcpy(new_rule->layers, layers,
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       97 |                         flex_array_size(new_rule, layers, num_layers));
->          |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --
->    Use of uninitialized value $param in regexp compilation at scripts/kernel-doc line 1532, <IN_FILE> line 146.
->    Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 146.
->    Use of uninitialized value $actual in substitution (s///) at scripts/kernel-doc line 1484, <IN_FILE> line 146.
->    Use of uninitialized value $param in substitution (s///) at scripts/kernel-doc line 1588, <IN_FILE> line 146.
->    Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1616, <IN_FILE> line 146.
->    Use of uninitialized value $param in hash element at scripts/kernel-doc line 1626, <IN_FILE> line 146.
->    Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1626, <IN_FILE> line 146.
->    Use of uninitialized value $param in hash element at scripts/kernel-doc line 1627, <IN_FILE> line 146.
->    Use of uninitialized value $param in pattern match (m//) at scripts/kernel-doc line 1629, <IN_FILE> line 146.
->    Use of uninitialized value $param in concatenation (.) or string at scripts/kernel-doc line 1630, <IN_FILE> line 146.
-> >> security/landlock/ruleset.c:146: warning: Function parameter or struct member '' not described in 'insert_rule'
->    Use of uninitialized value $param in hash element at scripts/kernel-doc line 1645, <IN_FILE> line 146.
->    Use of uninitialized value $parameterlist[2] in join or string at scripts/kernel-doc line 1806, <IN_FILE> line 146.
-> >> security/landlock/ruleset.c:146: warning: Excess function parameter 'layers' description in 'insert_rule'
-> 
-> 
-> vim +/memcpy +96 security/landlock/ruleset.c
-> 
->     68	
->     69	static struct landlock_rule *create_rule(
->     70			struct landlock_object *const object,
->     71			const struct landlock_layer (*const layers)[],
->     72			const u32 num_layers,
->     73			const struct landlock_layer *const new_layer)
->     74	{
->     75		struct landlock_rule *new_rule;
->     76		u32 new_num_layers;
->     77	
->     78		build_check_rule();
->     79		if (new_layer) {
->     80			/* Should already be checked by landlock_merge_ruleset(). */
->     81			if (WARN_ON_ONCE(num_layers >= LANDLOCK_MAX_NUM_LAYERS))
->     82				return ERR_PTR(-E2BIG);
->     83			new_num_layers = num_layers + 1;
->     84		} else {
->     85			new_num_layers = num_layers;
->     86		}
->     87		new_rule = kzalloc(struct_size(new_rule, layers, new_num_layers),
->     88				GFP_KERNEL_ACCOUNT);
->     89		if (!new_rule)
->     90			return ERR_PTR(-ENOMEM);
->     91		RB_CLEAR_NODE(&new_rule->node);
->     92		landlock_get_object(object);
->     93		new_rule->object = object;
->     94		new_rule->num_layers = new_num_layers;
->     95		/* Copies the original layer stack. */
->   > 96		memcpy(new_rule->layers, layers,
->     97				flex_array_size(new_rule, layers, num_layers));
->     98		if (new_layer)
->     99			/* Adds a copy of @new_layer on the layer stack. */
->    100			new_rule->layers[new_rule->num_layers - 1] = *new_layer;
->    101		return new_rule;
->    102	}
->    103	
->    104	static void free_rule(struct landlock_rule *const rule)
->    105	{
->    106		might_sleep();
->    107		if (!rule)
->    108			return;
->    109		landlock_put_object(rule->object);
->    110		kfree(rule);
->    111	}
->    112	
->    113	static void build_check_ruleset(void)
->    114	{
->    115		const struct landlock_ruleset ruleset = {
->    116			.num_rules = ~0,
->    117			.num_layers = ~0,
->    118		};
->    119	
->    120		BUILD_BUG_ON(ruleset.num_rules < LANDLOCK_MAX_NUM_RULES);
->    121		BUILD_BUG_ON(ruleset.num_layers < LANDLOCK_MAX_NUM_LAYERS);
->    122	}
->    123	
->    124	/**
->    125	 * insert_rule - Create and insert a rule in a ruleset
->    126	 *
->    127	 * @ruleset: The ruleset to be updated.
->    128	 * @object: The object to build the new rule with.  The underlying kernel
->    129	 *          object must be held by the caller.
->    130	 * @layers: One or multiple layers to be copied into the new rule.
->    131	 * @num_layers: The number of @layers entries.
->    132	 *
->    133	 * When user space requests to add a new rule to a ruleset, @layers only
->    134	 * contains one entry and this entry is not assigned to any level.  In this
->    135	 * case, the new rule will extend @ruleset, similarly to a boolean OR between
->    136	 * access rights.
->    137	 *
->    138	 * When merging a ruleset in a domain, or copying a domain, @layers will be
->    139	 * added to @ruleset as new constraints, similarly to a boolean AND between
->    140	 * access rights.
->    141	 */
->    142	static int insert_rule(struct landlock_ruleset *const ruleset,
->    143			struct landlock_object *const object,
->    144			const struct landlock_layer (*const layers)[],
->    145			size_t num_layers)
->  > 146	{
->    147		struct rb_node **walker_node;
->    148		struct rb_node *parent_node = NULL;
->    149		struct landlock_rule *new_rule;
->    150	
->    151		might_sleep();
->    152		lockdep_assert_held(&ruleset->lock);
->    153		if (WARN_ON_ONCE(!object || !layers))
->    154			return -ENOENT;
->    155		walker_node = &(ruleset->root.rb_node);
->    156		while (*walker_node) {
->    157			struct landlock_rule *const this = rb_entry(*walker_node,
->    158					struct landlock_rule, node);
->    159	
->    160			if (this->object != object) {
->    161				parent_node = *walker_node;
->    162				if (this->object < object)
->    163					walker_node = &((*walker_node)->rb_right);
->    164				else
->    165					walker_node = &((*walker_node)->rb_left);
->    166				continue;
->    167			}
->    168	
->    169			/* Only a single-level layer should match an existing rule. */
->    170			if (WARN_ON_ONCE(num_layers != 1))
->    171				return -EINVAL;
->    172	
->    173			/* If there is a matching rule, updates it. */
->    174			if ((*layers)[0].level == 0) {
->    175				/*
->    176				 * Extends access rights when the request comes from
->    177				 * landlock_add_rule(2), i.e. @ruleset is not a domain.
->    178				 */
->    179				if (WARN_ON_ONCE(this->num_layers != 1))
->    180					return -EINVAL;
->    181				if (WARN_ON_ONCE(this->layers[0].level != 0))
->    182					return -EINVAL;
->    183				this->layers[0].access |= (*layers)[0].access;
->    184				return 0;
->    185			}
->    186	
->    187			if (WARN_ON_ONCE(this->layers[0].level == 0))
->    188				return -EINVAL;
->    189	
->    190			/*
->    191			 * Intersects access rights when it is a merge between a
->    192			 * ruleset and a domain.
->    193			 */
->    194			new_rule = create_rule(object, &this->layers, this->num_layers,
->    195					&(*layers)[0]);
->    196			if (IS_ERR(new_rule))
->    197				return PTR_ERR(new_rule);
->    198			rb_replace_node(&this->node, &new_rule->node, &ruleset->root);
->    199			free_rule(this);
->    200			return 0;
->    201		}
->    202	
->    203		/* There is no match for @object. */
->    204		build_check_ruleset();
->    205		if (ruleset->num_rules >= LANDLOCK_MAX_NUM_RULES)
->    206			return -E2BIG;
->    207		new_rule = create_rule(object, layers, num_layers, NULL);
->    208		if (IS_ERR(new_rule))
->    209			return PTR_ERR(new_rule);
->    210		rb_link_node(&new_rule->node, parent_node, walker_node);
->    211		rb_insert_color(&new_rule->node, &ruleset->root);
->    212		ruleset->num_rules++;
->    213		return 0;
->    214	}
->    215	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1274  static int atmel_qspi_dma_init(struct spi_controller *ctrl)
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1275  {
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1276  	struct atmel_qspi *aq = spi_controller_get_devdata(ctrl);
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1277  	int ret;
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1278
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1279  	aq->rx_chan = dma_request_chan(&aq->pdev->dev, "rx");
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1280  	if (IS_ERR(aq->rx_chan)) {
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1281  		aq->rx_chan = NULL;
+> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28 @1282  		return dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->rx_chan),
+>                                                                                                                                               ^^^^^^^^^^^
+> The error code was over-written with NULL on the previous line.
+
+It would appear so. I already have a patch that cleans up this section, 
+but it is dependent on [1] and [2].
+
+[1] 
+https://lore.kernel.org/dmaengine/0d77f2cc-53e2-4aad-97f5-5dd449691944@prolan.hu/T/
+[2] 
+https://lore.kernel.org/linux-spi/20250106155416.1959803-1-csokas.bence@prolan.hu/T/
+
+Bence
+
+P.S. it seems Krzysztof has also patched this: [3]
+
+[3] 
+https://lore.kernel.org/linux-spi/20250104205437.184782-2-krzysztof.kozlowski@linaro.org/
+
