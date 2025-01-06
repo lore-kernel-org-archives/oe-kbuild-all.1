@@ -1,162 +1,136 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04930159596
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 09:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41C31D934B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 10:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736157371; cv=none; b=omsuaAx3x6tTF7EXeL7rhqC/T5q0Dk81Bhjy5IG94xEgfB2H3c3lhZ4A54M7WwJAwc856vD7r4GpwqXPvJ7ZEXC3qg0WdLRB2KpbWw+aBix+15m7kpn3bjB0pixwz03I2eIUsnTtLa1l0F35InVXUjTnTbK8J0LA+mzSEdRJ7Z8=
+	t=1736157926; cv=none; b=ILgcmzUvQ0YtbVJHCIKDDAZdgFXxPWYbZ5G71aHgZ41d+hGgEGpM95zhYeq4RXIhc50F09FcqjE9zd1oaCr1DTAx5rzbqCK/Qv6eW28IyTww3XdNji8nu8jtVQAr5t3p2K1dV90OOChCqmS/sVrLtaLm3GUg6F5hYvTtXQUmkMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736157371; c=relaxed/simple;
-	bh=g/OoJEckbiVwHqoVZ/DJIoLLvVB6DKWKjEkArqzX77U=;
+	s=arc-20240116; t=1736157926; c=relaxed/simple;
+	bh=lUn+M5Zy6trOi6wrXsrHJQTCwXdFFJRf9ku/RcsF31M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=HwFgquYAdR8ZFS7uT6H9ok3FJQQjnVHkzkEzvanYLVBtivHiYlH0/qpQW3TXCuudNv73WhjfrL23L8643CFuVJefV+bhFO+UXsi7X9het22rXrBm7N4o5Lko0CIWSMyNpqTKSbyoel3FLmI/yRpJXOCOtdGZ0AjcgvYjjziSdkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vLLzwSl4; arc=none smtp.client-ip=209.85.221.43
+	 Content-Disposition; b=Dk7HtUAjFVwJmr8xuNZcgBNdDMZILZgD6cvhflCIvbw6wKb5AQe01yiNQMc+3/hK3yi5fCOcWmjoy0d8Mzjm1JMt9RpP//WiKixWLAmf+CzsWgSeXZ5uIAgAtaiAjJ4Td+0LmU1/MCpsV+6GZZvLOS2I32a3d8P4AUTEbvxVkKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SeveE3Tc; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vLLzwSl4"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-385dece873cso5198973f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 01:56:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SeveE3Tc"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43624b2d453so146544605e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 02:05:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736157366; x=1736762166; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XPxusyoqlnRrNJq7+ups8OMfqGNcbuHMUJVymBouBjo=;
-        b=vLLzwSl4UwsL66tuf/ZcTo2MWaWcwBkyvqF5N+8FfJ31DDX8ZGcASoTctMy5rZX8Vg
-         4koCLRumXf3VZMHQqXtpycIgXWHHiS8ZyQphtCyuKi5fnSI+0B9R9CZbrz9251xPacN3
-         iy1ft2QBtO3R+XtEKUZFykq22k7yHMWMrlZZxugAl3TMcm666J/kgqx13BlJpn48B4dZ
-         to8rezWrbtVLa0ZC8ViMsgP0wnc08D8Gj55rWmANN3ToPJBGLXAwzk5hbzVMZ2WYkeGV
-         XrMpRUdjAjjz0PK5zp+TVH6oBxXI+CnZAAjfu7nosFteSgroV7WJQCv7c1+eatI+EEp7
-         2hiQ==
+        d=linaro.org; s=google; t=1736157922; x=1736762722; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9aFuwxRJ1BLmIcHxDipA4iDhvwHUfxFdxsK1ms3FFHY=;
+        b=SeveE3TcPMgCwBAP7aeTobcJf0iUH0v+2F8Yh/7evfEkX2+wlSPjzN/qRJuRmfXsSS
+         7sMZUnlAB5WYV3AyyqKfjg71KF7b77raibHI7mB0l9A2u3b52VnH/i9MaNx0e8KaLeGo
+         rG172SlJ/nmbqysLDHNUeLe3ENd4BluRoRqj1jXUIVuVXDy7aDBuRirXGzgJZGhTRi3r
+         hLVZ5M8f2Ir4y8p/o/2DRIqEqlPjGfC8wHjoxulWO6Fxub0tTGnLwu5W3CJUUCh6k76V
+         Fk5Vi34vzszmcJEHhj26X9cqfZHVMomEVaKu+TXv8aHn6NdwRteWTYQrvKkUa5np7o4A
+         SXXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736157366; x=1736762166;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XPxusyoqlnRrNJq7+ups8OMfqGNcbuHMUJVymBouBjo=;
-        b=XCsFrFVrKHfKbT1VxVu1FPJ7Wbrw4D1Fzp+Q/S71apmInqD02y8cUxL2au5OoI2dn+
-         9IOOxWd1EUQ7GExD4L0GUYWprkQElEoSe0R8ewDxxiRzFhzXQH0ebPfcsRXQtnof1pE0
-         TjM6YU4LWO8PIAQTcmDQqDml3vkwIloOJhMcZE3KJjdfb9N1iijtW4kAGIPmu9L7jTM1
-         9FhjDe0i+/NLIlvaacdmhBoCBQu1yjWY+v9UjtKXAExa1iSrutegTyUtEymjGi1RVBLS
-         JPZwZRqwuN8x61OjtFDTYrjm6T7YzhUkXStbdga/5oDRzNu3GWGKZal8OmQM3pXh2uJ7
-         dsVA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5Al4pn0QMnfqz3Tb0dwIGqUEmxefWNhzHLiqiRmeBHJ3W8PGQ67Kbb5AV7xWJFOWG5wlZQOHAyv1IZDf4@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/YW8bKxRPJQdLnpJVxPb+945uRynQ7RHMa0TO/BBwHa5fx+5b
-	cmKNTJbc/CLGDB5I4PxR2RFuTDbTVmJrA7JAVHgi1xrUSObYOCEtMtyq0Yfq0RM=
-X-Gm-Gg: ASbGnctVgvf5iMsROJhxItiuC97Q08m+w5q57zMsorcabMMTUG0CeP+Y/DZVrN/KaBG
-	va4ErG3ODa5hXBsegOqvGyotFXb/ZzWbOddXDgJ+YJojAQrVsoc6HUa30IfgO2tjBedniMzBH7S
-	m25uSOhiG6ykaqenjYx03H1TlE13VrfjlIraiP1TB5LULetYnUee3b3EQW5KGpzta+tlNdGx2Db
-	FMbOxJ01lejE8QOYBfMFw8laxI0rsQ7FgMicuKkpxAV8qRoPJM+lvQWDtU3Xg==
-X-Google-Smtp-Source: AGHT+IGhWRISLmROsfexY/7S1VN3olm0rXAnp4XlnaP5acP2aBFiZteVn7JIK9wCL3+4yp5Vobvaww==
-X-Received: by 2002:a5d:6484:0:b0:388:da10:ea7e with SMTP id ffacd0b85a97d-38a221faea2mr45331915f8f.24.1736157366234;
-        Mon, 06 Jan 2025 01:56:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736157922; x=1736762722;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9aFuwxRJ1BLmIcHxDipA4iDhvwHUfxFdxsK1ms3FFHY=;
+        b=aJFdQsaCMg707X/ZztvdBfFtefIdvaFQONELgPJ6bbqHnorJfR7/RfZogZrla9pfsj
+         WXxHMhKaPH3McpSBmBbJmaZpYAQ4AYfaUuBRTjvK/uu+SsXGBKYuYpllSw31oKtAfC6s
+         4JwKnfOS+++7GhZ0jdLC+qgQwOzWleOvW7XCSAoRph3PwQo3OWugjT9JiHCu3CxzDobF
+         Ru5s6MM3JY59m64lCRWNu2Qs7bTlDns+HWYZGjZjYQ5CxhOG7p/pLZcSQ0b6lcVTwyRn
+         sNm4Iy3I3AOLlKkjfXL8viF+KxInBoT+wCrr3iWSaiE25C2JVTSW93S6nPWQ6IIun6za
+         vb3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWtcAllSoOBfxRQRC+JzadMdnkoyxRNXXo8hatTPk9g0y7XUETY7MKk9LALde1ePtKJUEpWd7ujMHSGTdkA@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkLGuxXGeQFm2PBdEfPkW0uDatUW3hFCm5HBN3kK+gqWpUab4g
+	FYiF4H+eC5Y4/edVRjjkA2Q/WwCMCjEWXA34E0luVyhDIqT0gzrLe74OFwx8b3M=
+X-Gm-Gg: ASbGncsYf6vNaI8dY9PmGRNqYG9ElN+RVwt+U8sQJf93NUiGgZHbAaJP2RVa7otnPc2
+	2rzujXGx7Hb/ZEIu4meEZDLNPa+kWIlyfRm+xJJQ5TbGrJ8sANprWsqSB9Z7b/8rm7MEmjAxalP
+	3Gld4Ud5DcMaBH1/T/8s2QBaTuo+TvnrFpq5wMnduyCnxGRheT3U1eaOprJVFsOX/9oaTOupJ32
+	k93RToLEbm5W/uxXWJjAXD60FMRF64KW64cp4I3UelcdPyHJlEDElloKyzewg==
+X-Google-Smtp-Source: AGHT+IGp3YCHi5t7UsBO/+Q0WIL1yrj9Ezk1Z36xacbIdhsyNWYE/FAd3rLiRRgeKXh9dlNSTuaffw==
+X-Received: by 2002:a05:6000:186b:b0:385:e877:c037 with SMTP id ffacd0b85a97d-38a223f82f4mr42706303f8f.42.1736157922229;
+        Mon, 06 Jan 2025 02:05:22 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43661219a08sm568953115e9.25.2025.01.06.01.56.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a412f778esm33215177f8f.4.2025.01.06.02.05.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 01:56:05 -0800 (PST)
-Date: Mon, 6 Jan 2025 12:56:02 +0300
+        Mon, 06 Jan 2025 02:05:21 -0800 (PST)
+Date: Mon, 6 Jan 2025 13:05:18 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Peter Geis <pgwipeout@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Peter Geis <pgwipeout@gmail.com>, Caesar Wang <wxt@rock-chips.com>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Finley Xiao <finley.xiao@rock-chips.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Kevin Hilman <khilman@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 1/6] pmdomain: rockchip: fix rockchip_pd_power error
- handling
-Message-ID: <e3a5c27e-cab1-409d-b118-7dc96962db36@stanley.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [selinuxproject-selinux:pr/72 12/22]
+ security/selinux/ss/conditional.c:436 cond_read_list() warn: missing unwind
+ goto?
+Message-ID: <acd3d4e7-80b3-4aaa-bc01-064f44d17515@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241210013010.81257-2-pgwipeout@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Peter,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Geis/pmdomain-rockchip-fix-rockchip_pd_power-error-handling/20241210-093424
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20241210013010.81257-2-pgwipeout%40gmail.com
-patch subject: [PATCH 1/6] pmdomain: rockchip: fix rockchip_pd_power error handling
-config: powerpc-randconfig-r072-20241223 (https://download.01.org/0day-ci/archive/20241224/202412240015.MfjYhpNz-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/SELinuxProject/selinux-kernel pr/72
+head:   658ac7dc269a7bc68b2040caf9953fcf2ec7d9b1
+commit: 3ec5d7b95729824a7373521ca15951c852fb7125 [12/22] selinux: check length fields in policies
+config: alpha-randconfig-r073-20241224 (https://download.01.org/0day-ci/archive/20241224/202412241405.LK8YTZqp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412240015.MfjYhpNz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412241405.LK8YTZqp-lkp@intel.com/
 
 smatch warnings:
-drivers/pmdomain/rockchip/pm-domains.c:614 rockchip_pd_power() warn: inconsistent returns '&pmu->mutex'.
+security/selinux/ss/conditional.c:436 cond_read_list() warn: missing unwind goto?
 
-vim +614 drivers/pmdomain/rockchip/pm-domains.c
+vim +436 security/selinux/ss/conditional.c
 
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  572  static int rockchip_pd_power(struct rockchip_pm_domain *pd, bool power_on)
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  573  {
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  574  	struct rockchip_pmu *pmu = pd->pmu;
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  575  	int ret;
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  576  
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  577  	mutex_lock(&pmu->mutex);
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  578  
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  579  	if (rockchip_pmu_domain_is_on(pd) != power_on) {
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  580  		ret = clk_bulk_enable(pd->num_clks, pd->clks);
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  581  		if (ret < 0) {
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  582  			dev_err(pmu->dev, "failed to enable clocks\n");
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  583  			mutex_unlock(&pmu->mutex);
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  584  			return ret;
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  585  		}
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  586  
-8b579881de295d drivers/pmdomain/rockchip/pm-domains.c Detlev Casanova 2024-08-29  587  		rockchip_pmu_ungate_clk(pd, true);
-8b579881de295d drivers/pmdomain/rockchip/pm-domains.c Detlev Casanova 2024-08-29  588  
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  589  		if (!power_on) {
-074c6a422d86ff drivers/soc/rockchip/pm_domains.c      Elaine Zhang    2016-04-14  590  			rockchip_pmu_save_qos(pd);
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  591  
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  592  			/* if powering down, idle request to NIU first */
-a15817772c0ae6 drivers/pmdomain/rockchip/pm-domains.c Peter Geis      2024-12-10  593  			ret = rockchip_pmu_set_idle_request(pd, true);
-a15817772c0ae6 drivers/pmdomain/rockchip/pm-domains.c Peter Geis      2024-12-10  594  			if (ret < 0)
-a15817772c0ae6 drivers/pmdomain/rockchip/pm-domains.c Peter Geis      2024-12-10  595  				return ret;
+006caddaada8c9 Christian Göttsche 2024-11-14  418  int cond_read_list(struct policydb *p, struct policy_file *fp)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  419  {
+b5bf6c55edf94e Alexey Dobriyan    2005-09-03  420  	__le32 buf[1];
+b5bf6c55edf94e Alexey Dobriyan    2005-09-03  421  	u32 i, len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  422  	int rc;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  423  
+65d96351b135c2 Ethan Edwards      2020-06-24  424  	rc = next_entry(buf, fp, sizeof(buf));
+5241c1074f6e2f Dan Carpenter      2010-06-12  425  	if (rc)
+5241c1074f6e2f Dan Carpenter      2010-06-12  426  		return rc;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  427  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  428  	len = le32_to_cpu(buf[0]);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  429  
+3ec5d7b9572982 Christian Göttsche 2024-11-14  430  	rc = oom_check(2 * sizeof(u32), len, fp);
+3ec5d7b9572982 Christian Göttsche 2024-11-14  431  	if (rc)
+3ec5d7b9572982 Christian Göttsche 2024-11-14  432  		goto err;
+3ec5d7b9572982 Christian Göttsche 2024-11-14  433  
+60abd3181db29e Ondrej Mosnacek    2020-02-03  434  	p->cond_list = kcalloc(len, sizeof(*p->cond_list), GFP_KERNEL);
+60abd3181db29e Ondrej Mosnacek    2020-02-03  435  	if (!p->cond_list)
+292fed1fc89509 Wei Yongjun        2020-04-27 @436  		return -ENOMEM;
 
-mutex_unlock(&pmu->mutex);
+goto err?
 
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  596  		}
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  597  
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  598  		rockchip_do_pmu_set_power_domain(pd, power_on);
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  599  
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  600  		if (power_on) {
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  601  			/* if powering up, leave idle mode */
-a15817772c0ae6 drivers/pmdomain/rockchip/pm-domains.c Peter Geis      2024-12-10  602  			ret = rockchip_pmu_set_idle_request(pd, false);
-a15817772c0ae6 drivers/pmdomain/rockchip/pm-domains.c Peter Geis      2024-12-10  603  			if (ret < 0)
-a15817772c0ae6 drivers/pmdomain/rockchip/pm-domains.c Peter Geis      2024-12-10  604  				return ret;
-
-mutex_unlock(&pmu->mutex);
-
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  605  
-074c6a422d86ff drivers/soc/rockchip/pm_domains.c      Elaine Zhang    2016-04-14  606  			rockchip_pmu_restore_qos(pd);
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  607  		}
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  608  
-8b579881de295d drivers/pmdomain/rockchip/pm-domains.c Detlev Casanova 2024-08-29  609  		rockchip_pmu_ungate_clk(pd, false);
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  610  		clk_bulk_disable(pd->num_clks, pd->clks);
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  611  	}
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  612  
-d909072d0521a8 drivers/soc/rockchip/pm_domains.c      Jeffy Chen      2018-02-28  613  	mutex_unlock(&pmu->mutex);
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08 @614  	return 0;
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  615  }
-7c696693a4f54d drivers/soc/rockchip/pm_domains.c      Caesar Wang     2015-09-08  616  
+60abd3181db29e Ondrej Mosnacek    2020-02-03  437  
+3232c110b56bd0 Yuichi Nakamura    2007-08-24  438  	rc = avtab_alloc(&(p->te_cond_avtab), p->te_avtab.nel);
+3232c110b56bd0 Yuichi Nakamura    2007-08-24  439  	if (rc)
+3232c110b56bd0 Yuichi Nakamura    2007-08-24  440  		goto err;
+3232c110b56bd0 Yuichi Nakamura    2007-08-24  441  
+60abd3181db29e Ondrej Mosnacek    2020-02-03  442  	p->cond_list_len = len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  443  
+60abd3181db29e Ondrej Mosnacek    2020-02-03  444  	for (i = 0; i < len; i++) {
+60abd3181db29e Ondrej Mosnacek    2020-02-03  445  		rc = cond_read_node(p, &p->cond_list[i], fp);
+5241c1074f6e2f Dan Carpenter      2010-06-12  446  		if (rc)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  447  			goto err;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  448  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  449  	return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  450  err:
+60abd3181db29e Ondrej Mosnacek    2020-02-03  451  	cond_list_destroy(p);
+5241c1074f6e2f Dan Carpenter      2010-06-12  452  	return rc;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  453  }
 
 -- 
 0-DAY CI Kernel Test Service
