@@ -1,145 +1,174 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6BF1DC985
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 10:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F2E1DC9A1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 11:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736161159; cv=none; b=Hoih4lqGL4SfnEU/BVlTvfmdbXGp0kkj2BIKbl4vZtwWF22s5obfau8rza+FACKwQH9Ve9xw4PvckuYRPBbaErLfyfVzpij2TLoyTmz+2+uoeRyjuHIpXsgNu2H9DtVVZWU9jej5ompnVV3PZUK3TKV8w1kFsxOGAHHmdSVQu8M=
+	t=1736161236; cv=none; b=IYxj4cWBspV8Uac7h1TE7kU5rvuYfEcI2X3ad3AuXfnRezOlLI2Jvm1XL/ebVJWT0ig7mfZUlf2BKT5oeRVWwYM9DqgLK+1LcD9Ef7h+Ua1rjyUGm+iZaeta9lKZ/4wACcSBmhZcYIRsAhIyHLd68FMJZUwEFP7EAKVR3rOPk9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736161159; c=relaxed/simple;
-	bh=ErVrTjQTnrcJ4QgCkFLOVLncHkcN82/+t7EHdJX6nj8=;
+	s=arc-20240116; t=1736161236; c=relaxed/simple;
+	bh=lh/ORYqUqQPBypRcMrlJ/jQ1FOJKC+DIQpRFKEQOn0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cA8Ty5DMBMd+cFIlBopvTZCmwhhrv8M4/1r45qdrWkT7rxo3yQZz9KaC9NTP8GfXpZE08jdu357c8au8yhx93feYnlpDx8qigT/Nvz4B85Ye7+GpGCqbDtV6j+0O9n4y7LLbob1C4Z4QDSbjlol0/GW77ff/dQP6wwcBSczyuoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LfFlhUg4; arc=none smtp.client-ip=209.85.221.42
+	 Content-Disposition; b=fp7QTB/+SnIAilGryRSvMii2MB0c3Fr2ApwV1GuOV5wrGf+AaRQychfdmXHKQmHL3Bx8QoStE2/3y6xs4NjTAsPG+4gic+YQgbJyHUTsKmQAWncCZeKSEGGss/9D4b7nCMmz+CL9H0uQ+fNdnWahkK8Ml4xxuuHeJ3GNzTxLSfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=txlle3Pn; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LfFlhUg4"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38637614567so6429574f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 02:59:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="txlle3Pn"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3862f32a33eso6422987f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Jan 2025 03:00:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736161155; x=1736765955; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rGHpVK1pgwjXUnuBrtM7o2RIlNaOXIumSPhdbcQwh8w=;
-        b=LfFlhUg4Wbkx+ZQNVKOMrf6jc9CJqEjq5Z95uN7pNwWl9mj0b8bdBcA1mQTCv6ppx+
-         EE+TMRp6N5nQCwS+3h9YHhrPUIKau2QlZRX1P9MOKYYkxJAyLEvzr9XFmOenqFBV/KDg
-         tApRDxTZZFH5k/lSa2ThpSrnhFr9GyZ30oqBIPGSh9EQm2vKeswYEJUbQ9KihmRmwPS+
-         LRlFl85pStGo28daJiaED9Kemig320WkMf89wuqwwRDN5J1E+zYZpBN1sFv/Ol6qlCYp
-         5qRU+rTb97eJqFOscOgDUHJ3N5qwF+5gYNwNWoQnEY0lGRu4NZXFeJKMChgWEX6+oYp2
-         pQew==
+        d=linaro.org; s=google; t=1736161232; x=1736766032; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w8r5DvTTbSeaovka4UsuI6KgmOl0LLdaR15jf6X6Kjk=;
+        b=txlle3PneB+r1R0zhWHwBmA+mj0ksuVvGqWC4zKEhc3xfrc9cw6V9HNX5u09KSeUSz
+         mdrFgJ98C6TPAzUUIviw7eBGrXlJZBvbnCGKcO9hlpK0ZSaVCN9aiHLdcXre+hN0P1de
+         oBw8BbZ0I+xuTZM8nCzig3AYvhan/nAN0XFL0bX+6Wdd9+8o02rCt4FH0JcfngwETkMq
+         gzL7GYmKNmg3cgWJZsBz+YYpL6iePPkHJXZI8qT0oaVTAXAoBYUSWW5oK0W3NG5QI8SX
+         IdTZc8suoPaNCtZ42ShNcH6gfTdW0itLyOWJCXtZwr36QFAOeBOqbmBFaRaP2CCjdZpp
+         dI3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736161155; x=1736765955;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rGHpVK1pgwjXUnuBrtM7o2RIlNaOXIumSPhdbcQwh8w=;
-        b=e1q/wz/9R4XNqyrfli8wm0Uu/naycRLkZZDraSED1vGP1/Hfsi3RUpvgV4u9dQOm9k
-         Y3czW4cxmA4LrgChZELK4CUwURQIF85WXSSPRIG9uP1noqe6ZbWu3J3MYq47paJDU9Iy
-         BhNo99z6DEdPjDLQl4gcni4mRtPk4IJrx5b6Kw6inxjOgsYvOBjjzGR4+SY8bBptSCSO
-         AjOBmhwIDaWKJ+l9BAJC5+9Z6dZTOxQj7QHj43jZga8OBOrszaFNIEnhDuO77Djr5tgt
-         bRbwYSkVzvgaZ0rVrG5mvA0/fFt/VezBmZtBfYbfVQTFCCULJaimMr9gx5gRYdwGAoWb
-         Wq/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUYnecAsNBPtYkM3FyO1ZKXCmsia3+wPS5lhSh3SqJzNMS2L1pdRT27lhENsSZXZphLFfd2JfKLstMpcO8y@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx64AkTuAddQuqPI7Bu56/BvAQ2mtInzmb2FSNss/AC9MEXbyWL
-	qoVyHp/XsSbjV3curBcsxeQhr2tzX+MGIduKMRPWedtihYKXAWvy49UE6uBAp2Y=
-X-Gm-Gg: ASbGncsr8Kxy4QQB0hK3OsxOIwvmil7+SkAQnka97sLjTrVBUfJG+rqxlUkdb0Cp1zw
-	27HO8qNWVEHcPtW+3Mqsjec5KJzqY7Pg9dYrcPN9Yk5PFc6B0fScsTcktRAEWNQ0OskPe0zbGDu
-	WKzazaIM7RxMiWfntkqIdU1HDdy77ji2ZdZ+9eiRefDxq6rfSktWW6FUEYE+ZpKiHleGK9PFTf1
-	eROtac5ei4oiyZY1lUEPCvKjniMaJD5FBQ5iMZwb+6W2Wggwiqszu7n8/UBvA==
-X-Google-Smtp-Source: AGHT+IHjGCBAHYcrmzbtuFGrX2DIGSLhoBn+LUgUMGhredPFuHNSJWEpV6FO9CkvBHijZu0wjs3jTw==
-X-Received: by 2002:a05:6000:2ad:b0:385:e8f9:e839 with SMTP id ffacd0b85a97d-38a224063b2mr43747658f8f.56.1736161155021;
-        Mon, 06 Jan 2025 02:59:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736161232; x=1736766032;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w8r5DvTTbSeaovka4UsuI6KgmOl0LLdaR15jf6X6Kjk=;
+        b=kHcGjCbJxFh2ty2/y8h3fgqudc1oZgcdN7bquYFmNbT3vn7QGjT2Y42OfJiJPFMZJ8
+         qd6rEi5MPFbAOVODPO/0HfRGDbYyu8seg8DLNtQvMWyLoYjEPre/1HlRbgGOLzLYB4SA
+         7zbhk8XrPGDkpswKRZaMvyS65v449IwWaS9znyQzvDoQJFgg/NKoVbfC56yFtuyySgtG
+         hvvWGKEzmIA1HLiIkx7gFuyQnY25Xz9nmpeaOaUizqoGtrqrv5eJOjQOCaftu+dpFM8x
+         Hhr+Kfu9BHvmDt1QHsYtDQbPpKaMy9GzmRWr19kc1dE6bNTm2NRXaGfMFL3ESGUsL8HR
+         3rOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzSXt7l8VVTv9EqVJA4A61CU1y3nQlZn1/7trQMGkDl6KXAsLI8kOwSiiXPnbZunXpQTRjO3CiQxSvB1ai@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMhQPS3LMk0x0zfbAY5TqDN2jxQ8yoHiCRxt2hK+3wJMea0ZW7
+	zEbajAWVuiddkeuLj8Bk/zkUfui5TrjrN3k8ZsoFAHiwG9SOW9rJ58doMWSL788=
+X-Gm-Gg: ASbGncuUAwVMXt3Q1YyVE6nmJY4UjVsCtUdIJpz47qKV5kd+n4n/0DFmRNdTWd89pAK
+	OZ7sJ+Vb4c71f9IVpKBBiD691vbpnW7NsE6MONJylqDWM6wDpsjONhVPX35NIJdAQOJCh2PFWxI
+	ffCVxsXWs0mdLIWzuGBQ8TyjRovcipYGvXuPpd8MTXL7JMWzkV3haHhpyQD1lfa5CyWQjTh+KfN
+	wqTJ+khlMM4HJp5vYVv2owY3Uiw0Cr6l5xuaN4icuwaO2ZgBmVdFmB59EqYyg==
+X-Google-Smtp-Source: AGHT+IGl2uXI9+gTO9L8MR8mKK4sPXtv9Rlne32FuJVrnlMQf6KfuvVpA/Trlp9iOqZ9m3U3FESElw==
+X-Received: by 2002:a05:6000:4a0a:b0:385:ef39:6ce9 with SMTP id ffacd0b85a97d-38a221f1716mr57646915f8f.21.1736161232155;
+        Mon, 06 Jan 2025 03:00:32 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436604e9c2csm565202195e9.43.2025.01.06.02.59.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8292adsm47258675f8f.19.2025.01.06.03.00.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 02:59:14 -0800 (PST)
-Date: Mon, 6 Jan 2025 13:59:11 +0300
+        Mon, 06 Jan 2025 03:00:31 -0800 (PST)
+Date: Mon, 6 Jan 2025 14:00:28 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Greg Ungerer <gerg@uclinux.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:armnommu 3/3] drivers/mtd/maps/pismo.c:243
- pismo_probe() error: we previously assumed 'pdata' could be null (see line
- 226)
-Message-ID: <c25c37d3-eb4c-42de-b961-7eca78ab6a8d@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 62/62] drivers/mailbox/mailbox.c:465
+ mbox_request_channel() warn: inconsistent returns 'global &con_mutex'.
+Message-ID: <34f1ff99-3dbf-43b6-b8c7-57ecdb69d839@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
-head:   d03e292d5f72c15f004a13503f4a5cca0a26bec0
-commit: d03e292d5f72c15f004a13503f4a5cca0a26bec0 [3/3] ARM: versatile: support configuring versatile machine for no-MMU
-config: arm-randconfig-r073-20241230 (https://download.01.org/0day-ci/archive/20241231/202412310053.VgXsTpPO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   1dc73fc6a85fde80aea12b39fa2dba89e5e571bc
+commit: fd3d96240b7afa9f0b63c70c175bcfe8d903aad0 [62/62] FROMLIST: mailbox: Add power_get/power_put API to mbox_chan_ops
+config: x86_64-randconfig-161-20241230 (https://download.01.org/0day-ci/archive/20241231/202412310234.doSHE0xj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412310053.VgXsTpPO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412310234.doSHE0xj-lkp@intel.com/
 
-smatch warnings:
-drivers/mtd/maps/pismo.c:243 pismo_probe() error: we previously assumed 'pdata' could be null (see line 226)
+New smatch warnings:
+drivers/mailbox/mailbox.c:465 mbox_request_channel() warn: inconsistent returns 'global &con_mutex'.
 
-vim +/pdata +243 drivers/mtd/maps/pismo.c
+vim +465 drivers/mailbox/mailbox.c
 
-0b79d5d1e5982b Uwe Kleine-König         2023-02-26  209  static int pismo_probe(struct i2c_client *client)
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  210  {
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  211  	struct pismo_pdata *pdata = client->dev.platform_data;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  212  	struct pismo_eeprom eeprom;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  213  	struct pismo_data *pismo;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  214  	int ret, i;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  215  
-752031210ca145 Wolfram Sang             2019-07-22  216  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  217  		dev_err(&client->dev, "functionality mismatch\n");
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  218  		return -EIO;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  219  	}
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  220  
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  221  	pismo = kzalloc(sizeof(*pismo), GFP_KERNEL);
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  222  	if (!pismo)
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  223  		return -ENOMEM;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  224  
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  225  	pismo->client = client;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29 @226  	if (pdata) {
-                                                                    ^^^^^
-This code assumes pdata can be NULL
+2b6d83e2b8b7de Jassi Brar      2014-06-12  388  struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
+2b6d83e2b8b7de Jassi Brar      2014-06-12  389  {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  390  	struct device *dev = cl->dev;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  391  	struct mbox_controller *mbox;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  392  	struct of_phandle_args spec;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  393  	struct mbox_chan *chan;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  394  	unsigned long flags;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  395  	int ret;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  396  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  397  	if (!dev || !dev->of_node) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  398  		pr_debug("%s: No owner device node\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  399  		return ERR_PTR(-ENODEV);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  400  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  401  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  402  	mutex_lock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  403  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  404  	if (of_parse_phandle_with_args(dev->of_node, "mboxes",
+2b6d83e2b8b7de Jassi Brar      2014-06-12  405  				       "#mbox-cells", index, &spec)) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  406  		dev_dbg(dev, "%s: can't parse \"mboxes\" property\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  407  		mutex_unlock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  408  		return ERR_PTR(-ENODEV);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  409  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  410  
+2d805fc1c6b2ec Benson Leung    2015-05-04  411  	chan = ERR_PTR(-EPROBE_DEFER);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  412  	list_for_each_entry(mbox, &mbox_cons, node)
+2b6d83e2b8b7de Jassi Brar      2014-06-12  413  		if (mbox->dev->of_node == spec.np) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  414  			chan = mbox->of_xlate(mbox, &spec);
+8ed82e23875e60 Mikko Perttunen 2018-11-28  415  			if (!IS_ERR(chan))
+2b6d83e2b8b7de Jassi Brar      2014-06-12  416  				break;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  417  		}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  418  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  419  	of_node_put(spec.np);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  420  
+2d805fc1c6b2ec Benson Leung    2015-05-04  421  	if (IS_ERR(chan)) {
+2d805fc1c6b2ec Benson Leung    2015-05-04  422  		mutex_unlock(&con_mutex);
+2d805fc1c6b2ec Benson Leung    2015-05-04  423  		return chan;
+2d805fc1c6b2ec Benson Leung    2015-05-04  424  	}
+2d805fc1c6b2ec Benson Leung    2015-05-04  425  
+2d805fc1c6b2ec Benson Leung    2015-05-04  426  	if (chan->cl || !try_module_get(mbox->dev->driver->owner)) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  427  		dev_dbg(dev, "%s: mailbox not free\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  428  		mutex_unlock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  429  		return ERR_PTR(-EBUSY);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  430  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  431  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  432  	spin_lock_irqsave(&chan->lock, flags);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  433  	chan->msg_free = 0;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  434  	chan->msg_count = 0;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  435  	chan->active_req = NULL;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  436  	chan->cl = cl;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  437  	init_completion(&chan->tx_complete);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  438  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  439  	if (chan->txdone_method	== TXDONE_BY_POLL && cl->knows_txdone)
+33cd7123ac0ba5 Sudeep Holla    2017-09-28  440  		chan->txdone_method = TXDONE_BY_ACK;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  441  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  442  	spin_unlock_irqrestore(&chan->lock, flags);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  443  
+fd3d96240b7afa Jason-jh Lin    2024-06-14  444  	if (chan->mbox->ops->power_get) {
+fd3d96240b7afa Jason-jh Lin    2024-06-14  445  		ret = chan->mbox->ops->power_get(chan);
+fd3d96240b7afa Jason-jh Lin    2024-06-14  446  		if (ret < 0)
+fd3d96240b7afa Jason-jh Lin    2024-06-14  447  			return ERR_PTR(ret);
 
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  227  		pismo->vpp = pdata->set_vpp;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  228  		pismo->vpp_data = pdata->vpp_data;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  229  	}
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  230  	i2c_set_clientdata(client, pismo);
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  231  
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  232  	ret = pismo_eeprom_read(client, &eeprom, 0, sizeof(eeprom));
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  233  	if (ret < 0) {
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  234  		dev_err(&client->dev, "error reading EEPROM: %d\n", ret);
-395b228858778d Wolfram Sang             2010-03-20  235  		goto exit_free;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  236  	}
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  237  
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  238  	dev_info(&client->dev, "%.15s board found\n", eeprom.board);
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  239  
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  240  	for (i = 0; i < ARRAY_SIZE(eeprom.cs); i++)
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  241  		if (eeprom.cs[i].type != 0xff)
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  242  			pismo_add_one(pismo, i, &eeprom.cs[i],
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29 @243  				      pdata->cs_addrs[i]);
-                                                                                              ^^^^^^^
-Unchecked dereference
+mutex_unlock(&con_mutex);
 
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  244  
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  245  	return 0;
-395b228858778d Wolfram Sang             2010-03-20  246  
-395b228858778d Wolfram Sang             2010-03-20  247   exit_free:
-395b228858778d Wolfram Sang             2010-03-20  248  	kfree(pismo);
-395b228858778d Wolfram Sang             2010-03-20  249  	return ret;
-f6a8c60960bbea Russell King - ARM Linux 2009-11-29  250  }
+fd3d96240b7afa Jason-jh Lin    2024-06-14  448  	}
+fd3d96240b7afa Jason-jh Lin    2024-06-14  449  
+b7133d6fcd9a9e Bjorn Andersson 2017-05-27  450  	if (chan->mbox->ops->startup) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  451  		ret = chan->mbox->ops->startup(chan);
+b7133d6fcd9a9e Bjorn Andersson 2017-05-27  452  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  453  		if (ret) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  454  			dev_err(dev, "Unable to startup the chan (%d)\n", ret);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  455  			mbox_free_channel(chan);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  456  			chan = ERR_PTR(ret);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  457  		}
+b7133d6fcd9a9e Bjorn Andersson 2017-05-27  458  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  459  
+fd3d96240b7afa Jason-jh Lin    2024-06-14  460  	if (chan->mbox->ops->power_put)
+fd3d96240b7afa Jason-jh Lin    2024-06-14  461  		chan->mbox->ops->power_put(chan);
+fd3d96240b7afa Jason-jh Lin    2024-06-14  462  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  463  	mutex_unlock(&con_mutex);
+fd3d96240b7afa Jason-jh Lin    2024-06-14  464  
+2b6d83e2b8b7de Jassi Brar      2014-06-12 @465  	return chan;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  466  }
 
 -- 
 0-DAY CI Kernel Test Service
