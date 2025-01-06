@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D74E1CA9C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 06:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A773219343B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jan 2025 06:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736144283; cv=none; b=BuvMm/gRH8bX6zjtevK9btZvw76Gymw9VGHb1HZMs9s2kAKWC8aENiTe9dB73ZnAFHHzKGP/DcroDKnYt4RjxqfLIoEz6qiUmwJJpC3zpyOwIa21yX17a1AVXILGnNuToHP7+pW4TBV+kBgDg35QZbKKMglygmbBfxJH8ndZkIU=
+	t=1736144945; cv=none; b=CnMwSCUe+7v5eVxOp33tatXRiDVWUXVe7S7efeXzq92JNYcRJ6jU7AMnF1YGe1uUQqeSvzxxMDB9UqswgjovhtFqgAzQoYG0OwEKzbtd5Ip+TfVH1KKTTqZ+ET/4v36TNmEhWOeCvARpvR+cEeb5a+t+95JcwNdf1e9g50L1NRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736144283; c=relaxed/simple;
-	bh=QV1JsIPBOREGvNV27gIoYpiER0XMks9iA3E72JZj/FA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RUjQsAb4X0Htk+9WB4W/2+Uf9MXknjbyPmuFpvoHjIihIU4SCdkToZnvl5dAYzBncUVMDNjrey9go2pckCauly1RRv9s8WQjP+SU5pU0pqt1jPDkLLtfoM8lFddR0QbwLITlMzxEOkCWRgpq1zvS6BxKvTDEZZFzStKLwWgRfmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYR6Vaa4; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1736144945; c=relaxed/simple;
+	bh=TVbzn6A95XNB7VX6WHfDFdPSCdS4sboCHVyKf1ch3Qk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=atesO5BSlD5GO3eQgvT7DJ5F/s89zBRoFJS6Ts1UXdDF7TtBXWLcqwNMsUYHIAQq7CPkKWugE7jpiZKdJeJEnH61a35pH8LN44BdEWZyHx0JrIxPjP98c/IuyRpWYAYHmoHQzz933sGq0KhgzuNpo8xRfDqTGnIdUNOx4C+WsCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1Ea9bK0; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYR6Vaa4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1Ea9bK0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736144283; x=1767680283;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QV1JsIPBOREGvNV27gIoYpiER0XMks9iA3E72JZj/FA=;
-  b=PYR6Vaa4cd/e/5o1UG79V/DVesxT7/gHDxkuYzoEZ89TVud11a4jt3j9
-   QzI0G4tXHJ904+3+Du38SLs+oJJ29Jk454u1HMxCSF8O2FM0Kob5Gv8Bz
-   aYflF5ObSUcD13FkQSCZuRl2f2w2+/USqBUigkBgQG56c2v0zKYdkP5Jm
-   1PV5Jk5crsahU8mCVPIBEiDF/XLqGC+DfIt4Mt+5CE9rl3BxTq3mcJQqz
-   L1/w91pD5MuHy2MnwQ19qWNlV/tSmjbiLK5nOLsOnPkmJHg5X1WPHgSDH
-   lnuBXpbWuszsgRLPzlpzhPCNkBuKzQhTiF7Wj43n2Jq77ay1KP/xzx83y
-   g==;
-X-CSE-ConnectionGUID: WEX29r77SuePifOTaa00Lw==
-X-CSE-MsgGUID: 81XM5OXURb24OkLVSYKBPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="58748481"
+  t=1736144944; x=1767680944;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TVbzn6A95XNB7VX6WHfDFdPSCdS4sboCHVyKf1ch3Qk=;
+  b=Q1Ea9bK0zrEh/MeMQBckpO7j86JzVu0tWGty55FddTbYdNo0Ch5I0OHj
+   TwRW2o72kwYsyvqUMTt0SmjFBjYO+l/BPyMAl73RpAHjGEQw4Vz9hrIRS
+   gz3KN+YthGji1kuWgmuoRyB0SzZlcIkxyuELJAqwCwwKxyNc9J0zphGi0
+   ruvq15ooESuZuW83G9GkVlxnYkOFkf5Yl2ga50+gWIKvQvUx5T8Mup74T
+   T0HCVJ7bG6IDpcOhftM1C+1LfmNl1Mh9nZgVYSNDzcBzeMuQ2P5JEcYjF
+   7Rgt814vU44Vs87upvlOPMqQ6w3LaOJf5r4AQ224jk0I9Fe5zA+yznczK
+   w==;
+X-CSE-ConnectionGUID: DWjARL5MR7esMb/yptiJgQ==
+X-CSE-MsgGUID: OJcdxWs7Sjm7x65k7p6tNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="39968269"
 X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="58748481"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 22:18:02 -0800
-X-CSE-ConnectionGUID: DR+xzxtqTii0KU+0yWndSw==
-X-CSE-MsgGUID: v4XKlng3Qyi8Dekw4On9rA==
+   d="scan'208";a="39968269"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 22:29:03 -0800
+X-CSE-ConnectionGUID: Y1kodxODRXeXQkc/zGs3Ow==
+X-CSE-MsgGUID: 8cbBXr1bRbOmNpn0IjfE6A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="107412435"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="125636357"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 Jan 2025 22:18:01 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 22:29:01 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUgR4-000CJT-1B;
-	Mon, 06 Jan 2025 06:17:58 +0000
-Date: Mon, 6 Jan 2025 14:17:32 +0800
+	id 1tUgbj-000CJn-0e;
+	Mon, 06 Jan 2025 06:28:59 +0000
+Date: Mon, 6 Jan 2025 14:28:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/trace/stages/init.h:2:23: warning:
- 'str__irq_vectors__trace_system_name' defined but not used
-Message-ID: <202501061455.3mO4FN32-lkp@intel.com>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	jikos@kernel.org, bentiss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] HID: Add hid-universal-pidff driver and
+ supported device ids
+Message-ID: <202501061243.bXGf8kc8-lkp@intel.com>
+References: <20250105193628.296350-11-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,52 +65,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250105193628.296350-11-tomasz.pakula.oficjalny@gmail.com>
 
-Hi Steven,
+Hi Tomasz,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d89551994a430b50c4fffcb1e617a057fa76e20
-commit: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-date:   2 years, 10 months ago
-config: i386-randconfig-063-20231024 (https://download.01.org/0day-ci/archive/20250106/202501061455.3mO4FN32-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061455.3mO4FN32-lkp@intel.com/reproduce)
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.13-rc6 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Paku-a/HID-pidff-Convert-infinite-length-from-Linux-API-to-PID-standard/20250106-033931
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250105193628.296350-11-tomasz.pakula.oficjalny%40gmail.com
+patch subject: [PATCH v2 10/10] HID: Add hid-universal-pidff driver and supported device ids
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250106/202501061243.bXGf8kc8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061243.bXGf8kc8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501061455.3mO4FN32-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501061243.bXGf8kc8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from arch/x86/include/asm/trace/irq_vectors.h:383,
-                    from arch/x86/kernel/irq.c:27:
->> include/trace/stages/init.h:2:23: warning: 'str__irq_vectors__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-universal-pidff.c: In function 'universal_pidff_probe':
+>> drivers/hid/hid-universal-pidff.c:90:23: error: assignment to 'void (*)(struct hid_device *, __u32)' {aka 'void (*)(struct hid_device *, unsigned int)'} from incompatible pointer type 'int (*)(struct hid_device *, __u32)' {aka 'int (*)(struct hid_device *, unsigned int)'} [-Wincompatible-pointer-types]
+      90 |         init_function = hid_pidff_init_with_quirks;
+         |                       ^
+>> drivers/hid/hid-universal-pidff.c:97:15: error: void value not ignored as it ought to be
+      97 |         error = init_function(hdev, id->driver_data);
+         |               ^
 
 
-vim +/str__irq_vectors__trace_system_name +2 include/trace/stages/init.h
+vim +90 drivers/hid/hid-universal-pidff.c
 
-   > 2	#define __app__(x, y) str__##x##y
-     3	#define __app(x, y) __app__(x, y)
-     4	
+    66	
+    67	
+    68	/*
+    69	 * Check if the device is PID and initialize it
+    70	 * Add quirks after initialisation
+    71	 */
+    72	static int universal_pidff_probe(struct hid_device *hdev,
+    73					 const struct hid_device_id *id)
+    74	{
+    75		int error;
+    76		error = hid_parse(hdev);
+    77		if (error) {
+    78			hid_err(hdev, "HID parse failed\n");
+    79			goto err;
+    80		}
+    81	
+    82		error = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
+    83		if (error) {
+    84			hid_err(hdev, "HID hw start failed\n");
+    85			goto err;
+    86		}
+    87	
+    88		// Check if HID_PID support is enabled
+    89		void (*init_function)(struct hid_device *, __u32);
+  > 90		init_function = hid_pidff_init_with_quirks;
+    91	
+    92		if (!init_function) {
+    93			hid_warn(hdev, "HID_PID support not enabled!\n");
+    94			return 0;
+    95		}
+    96	
+  > 97		error = init_function(hdev, id->driver_data);
+    98		if (error) {
+    99			hid_warn(hdev, "Force Feedback initialization failed\n");
+   100			goto err;
+   101		}
+   102	
+   103		hid_info(hdev, "Universal pidff driver loaded sucesfully!");
+   104	
+   105		return 0;
+   106	err:
+   107		return error;
+   108	}
+   109	
 
 -- 
 0-DAY CI Kernel Test Service
