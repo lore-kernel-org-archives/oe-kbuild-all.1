@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCCF186E40
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 04:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282E91DE3C3;
+	Tue,  7 Jan 2025 07:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736225029; cv=none; b=ULb6bKwiH59L1uDdpx/j2Cq7+ajCqdDd3HheP9L00TYwUGwxmb96eXVBT13m+oQgHiZvPkbER+CUkwMDSX3jTlJD/9lLeO9GGHanLVBLxhlPoxmiLEwcjv513mC0Jr9hU5gBEdG7Jusy7XuAxxPb88wESPsRE0sdhAJ8+NWk+Og=
+	t=1736233637; cv=none; b=W2QhPlv/fFPy809YmrzzalwQPon9aY/kK6RlJk1sjCMjBFRa8E9vhZ9T0UM/atOBiNtSx/A3fujU+3+TfC4gdP3ri4rlaMtP/y629bdqhJ3KfVaA7bFIfXQF+luqAWd3RamWnDiVWr7VHsO/jMoMEYtkVqSQereDV5rJBijX+44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736225029; c=relaxed/simple;
-	bh=D03ILILykj+h7eJtYCGuNPXx2nMAaO1BS0gOBL+aIFo=;
+	s=arc-20240116; t=1736233637; c=relaxed/simple;
+	bh=cBvHJaVWeBjeJ/PISu1wZvr0CC7LQUYnuw9giVpoK+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jTIRPf5xTrxMfTZSXyximAmlYzOh97f16GIyMqau+IXQbRBehVUIp2ROyhkkKUzOeiJ+s51p09+fWEptQTSOo11UXCHdml9SYFmlDveTvX+WQBFJvamsfyFsqtvAFfgzAAPXK7F0EktpRZUrusEp0d/h3P4uV3yAEQwEhpCW8ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1dErRgb; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=nnU6RGhU6UlkTbHC9oBapaoSolPZEq0Wx2MGpPhUp9HAbRakLS6kcvHrBs2mP+r1RtpbxiZ7m78lWT6BjHXAIhE/Q+ehOMHJcoVZe946Kbk4MAbauLag53sQPYqdtvTNBpnp8SW4QSnl+8ZSnrh+aFOfPr5Mm/yN7P8lXIsvNEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DYR6WDrm; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1dErRgb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DYR6WDrm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736225026; x=1767761026;
+  t=1736233634; x=1767769634;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D03ILILykj+h7eJtYCGuNPXx2nMAaO1BS0gOBL+aIFo=;
-  b=B1dErRgb5f8HuROHl8iDJZdzBEx1VpWPGpIxQTxVMoNxAY+y9pDCUb2g
-   us5sQzxakMpK44ebwClWuWF+R0fgHOQb5hDCMojDGHodyKysZG5ItDjZt
-   d8rGPHv97xAfaHqTDIUYKQZ2QxvRNjfQt4LrCnOeGtMxqdiWiNSxDULze
-   VF8bZtPe5dDFnuQkyzouQRrK+XYVOkoPKgzFwmtmBfWvQcHuKPHiJnn2M
-   VeAq2DcHKmpUY8x5KnEnl/ouXJx4udXJs7ZS69y679cgiNSjHyRqU51cY
-   biPE940HQIh3fvGfI2z8SdXzEPk9cvjlBSOEj+dGePhV65D9GXjs5H2if
-   g==;
-X-CSE-ConnectionGUID: qthckv9yTTajtCuv+xr+hQ==
-X-CSE-MsgGUID: fMLeIF9KS1+zroYFrZ1cIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="35689224"
+  bh=cBvHJaVWeBjeJ/PISu1wZvr0CC7LQUYnuw9giVpoK+0=;
+  b=DYR6WDrmb2J2Fn09sFJsDjf9NXQfmoREhw+bcoDOh0UM5H69KUWPEjL6
+   s3i87DvsuZ23SVHIU324cA9KyJOGAFZi+AB2W+IvLLXwzfna8pRM2jhDf
+   +0z8gdNqkaIaacp9eRFcVzcHh4p5FlICjn55HG/o9gQ6SYnPycCBW3R5b
+   /wMRti9pBibSSrTT2jw2VpCKBe9bvC1z+Yx/F4UsEReCIRcioeaSrB7ur
+   z+VaKESX1CHc34yIM+NeBRIo/CA4Oq6HDDWhWRism3Gt2KjUDR9psJaaM
+   li4tKiPr0WRY49cQnZxHiSQHh3jLu7GzSumY2FcmObykOfPgAlWqoWCn7
+   A==;
+X-CSE-ConnectionGUID: 0mqgz0SYTuaTQJwFxwufaw==
+X-CSE-MsgGUID: 96DO9xSXSDCmj+o2d3urwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36419536"
 X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
-   d="scan'208";a="35689224"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 20:43:42 -0800
-X-CSE-ConnectionGUID: +H6WXs1TQ0uxZKb6wlR3Tw==
-X-CSE-MsgGUID: GDTmpg3JTeypMlgvOdyMzQ==
+   d="scan'208";a="36419536"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 23:07:13 -0800
+X-CSE-ConnectionGUID: XizBfwSXRka/68e++4MD6Q==
+X-CSE-MsgGUID: j1xSHsNWRciXPhScdf+q+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
-   d="scan'208";a="133507277"
+   d="scan'208";a="102481070"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Jan 2025 20:43:41 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Jan 2025 23:07:11 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tV1RK-000EFt-2b;
-	Tue, 07 Jan 2025 04:43:38 +0000
-Date: Tue, 7 Jan 2025 12:43:05 +0800
+	id 1tV3gD-000ELX-0W;
+	Tue, 07 Jan 2025 07:07:09 +0000
+Date: Tue, 7 Jan 2025 15:06:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2025-01 1/1] fs/smb/server/vfs.c:74:
- warning: Function parameter or member 'user_ns' not described in
- 'ksmbd_vfs_lock_parent'
-Message-ID: <202501071243.8NGdTXTX-lkp@intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:20241217_ckeepax_expand_soundwire_mbq_register_map_support
+ 4/4] drivers/base/regmap/regmap-sdw-mbq.c:57:6: warning: variable 'ret' is
+ used uninitialized whenever 'if' condition is false
+Message-ID: <202501071455.Gv6kl3eR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,99 +64,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Steve,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-01
-head:   bd15ae767bd293b77e31786ef49abaee8cc016d8
-commit: 29429a1f5871dbe54ee0da81bb12db8567f15379 [1/1] smb: move client and server files to common directory fs/smb
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250107/202501071243.8NGdTXTX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501071243.8NGdTXTX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20241217_ckeepax_expand_soundwire_mbq_register_map_support
+head:   766e902f1c1c12164474c206edae09c3af3a5318
+commit: 766e902f1c1c12164474c206edae09c3af3a5318 [4/4] regmap: sdw-mbq: Add support for SDCA deferred controls
+config: x86_64-randconfig-076-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071455.Gv6kl3eR-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501071455.Gv6kl3eR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501071243.8NGdTXTX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501071455.Gv6kl3eR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/smb/server/vfs.c:74: warning: Function parameter or member 'user_ns' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:74: warning: Function parameter or member 'parent' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:74: warning: Function parameter or member 'child' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:366: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_read'
-   fs/smb/server/vfs.c:366: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_read'
-   fs/smb/server/vfs.c:482: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_write'
-   fs/smb/server/vfs.c:482: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_write'
-   fs/smb/server/vfs.c:545: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Function parameter or member 'stat' not described in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'work' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'attrs' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:562: warning: Function parameter or member 'p_id' not described in 'ksmbd_vfs_fsync'
-   fs/smb/server/vfs.c:585: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_remove_file'
-   fs/smb/server/vfs.c:645: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_link'
-   fs/smb/server/vfs.c:846: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_truncate'
-   fs/smb/server/vfs.c:846: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_truncate'
-   fs/smb/server/vfs.c:887: warning: Excess function parameter 'size' description in 'ksmbd_vfs_listxattr'
->> fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_name' not described in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_value' not described in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_size' not described in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Excess function parameter 'name' description in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Excess function parameter 'value' description in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Excess function parameter 'size' description in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:984: warning: Function parameter or member 'option' not described in 'ksmbd_vfs_set_fadvise'
-   fs/smb/server/vfs.c:984: warning: Excess function parameter 'options' description in 'ksmbd_vfs_set_fadvise'
-   fs/smb/server/vfs.c:1180: warning: Function parameter or member 'um' not described in 'ksmbd_vfs_lookup_in_dir'
->> fs/smb/server/vfs.c:1214: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_kern_path'
+>> drivers/base/regmap/regmap-sdw-mbq.c:57:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      57 |         if (ctx->readable_reg(dev, reg)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/regmap/regmap-sdw-mbq.c:70:9: note: uninitialized use occurs here
+      70 |         return ret;
+         |                ^~~
+   drivers/base/regmap/regmap-sdw-mbq.c:57:2: note: remove the 'if' if its condition is always true
+      57 |         if (ctx->readable_reg(dev, reg)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      58 |                 ret = read_poll_timeout(sdw_read_no_pm, val,
+      59 |                                         val < 0 || !(val & SDCA_CTL_ENTITY_0_FUNCTION_BUSY),
+      60 |                                         ctx->cfg.timeout_us, ctx->cfg.retry_us,
+      61 |                                         false, slave, reg);
+      62 |                 if (val < 0)
+      63 |                         return val;
+      64 |                 if (ret)
+      65 |                         dev_err(dev, "Function busy timed out 0x%x: %d\n", reg, val);
+      66 |         } else {
+         |           ~~~~~~
+      67 |                 fsleep(ctx->cfg.timeout_us);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      68 |         }
+         |         ~
+   drivers/base/regmap/regmap-sdw-mbq.c:50:14: note: initialize the variable 'ret' to silence this warning
+      50 |         int val, ret;
+         |                     ^
+         |                      = 0
+   1 warning generated.
 
 
-vim +74 fs/smb/server/vfs.c
+vim +57 drivers/base/regmap/regmap-sdw-mbq.c
 
-f44158485826c07 fs/cifsd/vfs.c Namjae Jeon       2021-03-16  62  
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  63  /**
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  64   * ksmbd_vfs_lock_parent() - lock parent dentry if it is stable
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  65   *
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  66   * the parent dentry got by dget_parent or @parent could be
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  67   * unstable, we try to lock a parent inode and lookup the
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  68   * child dentry again.
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  69   *
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  70   * the reference count of @parent isn't incremented.
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  71   */
-da1e7ada5b62859 fs/ksmbd/vfs.c Christian Brauner 2021-08-23  72  int ksmbd_vfs_lock_parent(struct user_namespace *user_ns, struct dentry *parent,
-da1e7ada5b62859 fs/ksmbd/vfs.c Christian Brauner 2021-08-23  73  			  struct dentry *child)
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23 @74  {
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  75  	struct dentry *dentry;
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  76  	int ret = 0;
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  77  
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  78  	inode_lock_nested(d_inode(parent), I_MUTEX_PARENT);
-da1e7ada5b62859 fs/ksmbd/vfs.c Christian Brauner 2021-08-23  79  	dentry = lookup_one(user_ns, child->d_name.name, parent,
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  80  			    child->d_name.len);
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  81  	if (IS_ERR(dentry)) {
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  82  		ret = PTR_ERR(dentry);
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  83  		goto out_err;
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  84  	}
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  85  
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  86  	if (dentry != child) {
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  87  		ret = -ESTALE;
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  88  		dput(dentry);
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  89  		goto out_err;
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  90  	}
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  91  
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  92  	dput(dentry);
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  93  	return 0;
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  94  out_err:
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  95  	inode_unlock(d_inode(parent));
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  96  	return ret;
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  97  }
-333111a6dc32a27 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  98  
-
-:::::: The code at line 74 was first introduced by commit
-:::::: 333111a6dc32a2768f581876bdb5ef4231f5084e ksmbd: factor out a ksmbd_vfs_lock_parent helper
-
-:::::: TO: Hyunchul Lee <hyc.lee@gmail.com>
-:::::: CC: Namjae Jeon <namjae.jeon@samsung.com>
+    45	
+    46	static int regmap_sdw_mbq_poll_busy(struct sdw_slave *slave, unsigned int reg,
+    47					    struct regmap_mbq_context *ctx)
+    48	{
+    49		struct device *dev = &slave->dev;
+    50		int val, ret;
+    51	
+    52		dev_dbg(dev, "Deferring transaction for 0x%x\n", reg);
+    53	
+    54		reg = SDW_SDCA_CTL(SDW_SDCA_CTL_FUNC(reg), 0,
+    55				   SDCA_CTL_ENTITY_0_FUNCTION_STATUS, 0);
+    56	
+  > 57		if (ctx->readable_reg(dev, reg)) {
+    58			ret = read_poll_timeout(sdw_read_no_pm, val,
+    59						val < 0 || !(val & SDCA_CTL_ENTITY_0_FUNCTION_BUSY),
+    60						ctx->cfg.timeout_us, ctx->cfg.retry_us,
+    61						false, slave, reg);
+    62			if (val < 0)
+    63				return val;
+    64			if (ret)
+    65				dev_err(dev, "Function busy timed out 0x%x: %d\n", reg, val);
+    66		} else {
+    67			fsleep(ctx->cfg.timeout_us);
+    68		}
+    69	
+    70		return ret;
+    71	}
+    72	
 
 -- 
 0-DAY CI Kernel Test Service
