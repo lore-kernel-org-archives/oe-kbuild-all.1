@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB2B1F4289
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 21:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748901DFE25;
+	Tue,  7 Jan 2025 21:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736284535; cv=none; b=f1Gi+SctGIG2KgVFS83Gn+DVGTYQ9d/DJV0wJYR92OHr5PPPypp/oLQt+NupriPtBrkBq7rW9odn9/CZ0Un+z2JTnhRAByUBolO20IfjJAXXUWyoMVRvMBXHw6VCN3ma3MAe9DoSW82fw8pBbgurs7uxZo2KSd95hHMXjPDrJXU=
+	t=1736285861; cv=none; b=WqIDlxsPC+/La5D1rEKBpuobwdgeC/exs9Iy18eTBOBD07HjklGYvdgvryaMVX0bOBm+FpKgYrHPsn3VumwmxFyTYsDDohUVQIPyRSOIyAiHVTAEBDCVk0rJ2pfXfUpfP+ST4GEITxDjwj4/JmBgEwPPK7YygH6lUQZeaZf+g3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736284535; c=relaxed/simple;
-	bh=cr1vmsfIKiogrB8nlfWHRnkT9e0s/hDlv3PcQauCWfo=;
+	s=arc-20240116; t=1736285861; c=relaxed/simple;
+	bh=kYCbp/CNVkebZZ+uod3hukYTWN4A72b6Ll94sL9u74c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bdLv/HbLsFAxzibiGfPPgZ+2Rl/WN3dJ96zlimjKsjegGXqNVHE04Hzfy5mp0c7iV3Ll2nEy2ZSEuCHK6x+R1Yg+liqYyiD/LElZJB/15+++P8NoDgJEDh187BtJTYojbph0BjhLz9TADW+eQBi69bmVsvhrTw2t8Xyn85h+tQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+qPjpSu; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=iD70fcnOTi4YBOz5nLzw7UDiQ2UVxm+3ByDc4TwL1Uz4ZNiZK5bKl3yPmRpn0E/9hBHsWsrvd6p0HP8R83u+YpANyh1Xo1wls5hbzHIYLhHqt+vomqQD/spbjUWcr8rn1AOKcr/mUJhy0jVGnuT0KjxS84HKvD6fVA+EkUl5yAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFBCgw9p; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+qPjpSu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFBCgw9p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736284533; x=1767820533;
+  t=1736285859; x=1767821859;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cr1vmsfIKiogrB8nlfWHRnkT9e0s/hDlv3PcQauCWfo=;
-  b=Y+qPjpSu1d3lrAE46XeFUE4vNWboRH+hGxsMYrHb0W1bO8O7mxWl92gl
-   OfBCSVZn/BKrovQ2H7vsN6q7rLACpSfYViZVpG8FEDA/Yd4/YwqydnBNt
-   U8YKujIObgJCJJ0YLCl+U+3t4mGtp5g5IC92/+sZ95igklkpYa+KGGYK4
-   pojyrb04gx4eGtI9xUYY3rb3K5dfGaTM523F67IcbSzo5Bw378yqC00jQ
-   psGHa2ifP0su1llWmAVK+j0vR+Dl/LAOta7CFVBGdeWFgfLLgY+nCWhG8
-   uqVfjOHwVHT4b5zKZo34qTGT+TYW6DLVF8Zvx6Ly05ta7PYZuS2A800R5
-   w==;
-X-CSE-ConnectionGUID: WstT0eudROqQ1nXY/bra2Q==
-X-CSE-MsgGUID: KlEjAqDkRuiGy6qnnDt4HQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36651875"
+  bh=kYCbp/CNVkebZZ+uod3hukYTWN4A72b6Ll94sL9u74c=;
+  b=mFBCgw9ps4d7RH+U0Q8ug4yX8DLPb0ei+q9VaQHdeSeey1r/TS1eZAiF
+   5CFwzU82bFVIVuD74w24NDkkhH8MBPG27m6r2u6Drgx/ezOLi7/lKLKCL
+   6WJajQTeXlYm7zmZWX0ldeqbG94Tn3LqFzAoSlSyokHmhFfZJPqRC8k59
+   maJF0V4kGuz6zUEotd/96Bh9DKei3+PayZG0KvxJnyWh8c+2Jztx/xVO4
+   JUYVsbKRC3k7XrwcKH0wUcvDYP0vSIndfvQXpvd69Oms5762pCz2IHSPM
+   ZIPcWjk7y3ZZaYTZKnwe4YXaLC6HfDe4ZsPeAZC6IaiSRp5CQo4aIe1Y3
+   g==;
+X-CSE-ConnectionGUID: BgFfY9PwS86Yq/OrrSOrZw==
+X-CSE-MsgGUID: 61DzdLAeSpymNh1KwUd4LA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36710623"
 X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="36651875"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 13:15:31 -0800
-X-CSE-ConnectionGUID: L67Bm+/QQdG/5onqs5wqWQ==
-X-CSE-MsgGUID: K8+okcYjT6i3BKQJ68YigA==
+   d="scan'208";a="36710623"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 13:37:33 -0800
+X-CSE-ConnectionGUID: NWTEVg7BTG22xKdGUlKrjA==
+X-CSE-MsgGUID: /0IBWi/wSqOdfPZSdO5XrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="103400491"
+   d="scan'208";a="102803658"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Jan 2025 13:15:30 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 07 Jan 2025 13:37:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVGvA-000FEd-1E;
-	Tue, 07 Jan 2025 21:15:28 +0000
-Date: Wed, 8 Jan 2025 05:14:30 +0800
+	id 1tVHGU-000FFT-0I;
+	Tue, 07 Jan 2025 21:37:30 +0000
+Date: Wed, 8 Jan 2025 05:36:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:rust/cpufreq-dt 8/20] error[E0425]: cannot find function
- `em_dev_unregister_perf_domain` in crate `bindings`
-Message-ID: <202501080527.kSFmEKUu-lkp@intel.com>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [char-misc:char-misc-testing 34/74]
+ drivers/pps/clients/pps-gpio.c:66:24: error: passing 'struct device' to
+ parameter of incompatible type 'const struct device *'; take the address
+ with &
+Message-ID: <202501080532.9Txj1W30-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +65,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
-head:   497d0dab0af034c34b987f1b37db1df4c45a1b7e
-commit: ad3b4b81d2fee32501e59d50c1efdd574b289211 [8/20] rust: Extend OPP bindings for the OPP table
-config: arm64-randconfig-001-20250107 (https://download.01.org/0day-ci/archive/20250108/202501080527.kSFmEKUu-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501080527.kSFmEKUu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
+head:   1ec8487e879dc872c506483553c376be2a556463
+commit: 8aa0545f419e5bffbb27354e0221997cb6e87cbd [34/74] pps: clients: gpio: Bypass edge's direction check when not needed
+config: i386-buildonly-randconfig-001-20250108 (https://download.01.org/0day-ci/archive/20250108/202501080532.9Txj1W30-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501080532.9Txj1W30-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501080527.kSFmEKUu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501080532.9Txj1W30-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `em_dev_unregister_perf_domain` in crate `bindings`
-   --> rust/kernel/opp.rs:425:28
-   |
-   425 |         unsafe { bindings::em_dev_unregister_perf_domain(self.dev.as_raw()) };
-   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+>> drivers/pps/clients/pps-gpio.c:66:24: error: passing 'struct device' to parameter of incompatible type 'const struct device *'; take the address with &
+      66 |                 dev_warn_ratelimited(info->pps->dev, "IRQ did not trigger any PPS event\n");
+         |                                      ^~~~~~~~~~~~~~
+         |                                      &
+   include/linux/dev_printk.h:227:34: note: expanded from macro 'dev_warn_ratelimited'
+     227 |         dev_level_ratelimited(dev_warn, dev, fmt, ##__VA_ARGS__)
+         |                                         ^~~
+   include/linux/dev_printk.h:215:13: note: expanded from macro 'dev_level_ratelimited'
+     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
+         |                           ^~~
+   include/linux/dev_printk.h:156:49: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/linux/dev_printk.h:52:37: note: passing argument to parameter 'dev' here
+      52 | void _dev_warn(const struct device *dev, const char *fmt, ...);
+         |                                     ^
+   1 error generated.
+
+
+vim +66 drivers/pps/clients/pps-gpio.c
+
+    39	
+    40	/*
+    41	 * Report the PPS event
+    42	 */
+    43	
+    44	static irqreturn_t pps_gpio_irq_handler(int irq, void *data)
+    45	{
+    46		const struct pps_gpio_device_data *info;
+    47		struct pps_event_time ts;
+    48		int rising_edge;
+    49	
+    50		/* Get the time stamp first */
+    51		pps_get_ts(&ts);
+    52	
+    53		info = data;
+    54	
+    55		/* Small trick to bypass the check on edge's direction when capture_clear is unset */
+    56		rising_edge = info->capture_clear ?
+    57			      gpiod_get_value(info->gpio_pin) : !info->assert_falling_edge;
+    58		if ((rising_edge && !info->assert_falling_edge) ||
+    59				(!rising_edge && info->assert_falling_edge))
+    60			pps_event(info->pps, &ts, PPS_CAPTUREASSERT, data);
+    61		else if (info->capture_clear &&
+    62				((rising_edge && info->assert_falling_edge) ||
+    63				(!rising_edge && !info->assert_falling_edge)))
+    64			pps_event(info->pps, &ts, PPS_CAPTURECLEAR, data);
+    65		else
+  > 66			dev_warn_ratelimited(info->pps->dev, "IRQ did not trigger any PPS event\n");
+    67	
+    68		return IRQ_HANDLED;
+    69	}
+    70	
 
 -- 
 0-DAY CI Kernel Test Service
