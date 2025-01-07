@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D4D1F0E42;
-	Tue,  7 Jan 2025 14:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F1B1EC014
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 14:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736259026; cv=none; b=UVrxX2BXJcl1gXB3I7vObYevcnaqWnxRk/ScBfkr2sGnwRYoatFRMHDfiiqYL2QFhW49XozEj318zT05di4ZCfc56fqORmHv9y4w2i5NXU+U9OaRFFefl+7VhU3DlNu8tzDHh7irsad2xSJHZOiELAiZ1w15cAOcUOp/HwmS4/s=
+	t=1736259702; cv=none; b=r92SWDFXNtJRyOJdxufAymb0dR3XsAJitgzgGcH0/HzgEXSy9xfr3j7oxg/4ibFwE970dvE+JVP4jPFkVW9DDVmMyxxs1p7zqbXWY/jvoyqC7X2arEe35QzvE2pdeKwRyVMe00IG5cELgxEiA/W42HITrxmLg/b7V8GZ7pnNt30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736259026; c=relaxed/simple;
-	bh=3b84z7hNbN/ujsQ15hlspvRs+E6hkU9AxN18dOko4eg=;
+	s=arc-20240116; t=1736259702; c=relaxed/simple;
+	bh=1yQ4f+MVcf07ti25MBmsO1NUVXFgtxug/XwVW6QF01I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WsHGDyYGJXxQN6mFnHsfAqJAlu9iio9swQPIK7TvaPMraen6b3UQdTPRoE85wK/i++PHFnaRpDRTFFJwS4QInRFVHeg2+W/WWihSxxJEL6lCTuzUozNrmQTPhEKldIBsoVE108dinVmO8mJwjPhMiVk6D3+OZk6roIA3mR79Z8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XS97Swtr; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=Noan1AacQs1tTHYXP0NKqYStxQGcLmGxdvt2aXwbHSDNLusrtSTLE8xcqHhRBUDDPO7lYKTxfZKondCo/U8kWGKuLgsL/4zAsQaEpD1M624iGA3Hj6fxMguhdpCfdcycMsgPcXxpKPcEnCUFn06ALgjCdnvHp2kpQiaZPZp2dCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXT0ISt2; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XS97Swtr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXT0ISt2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736259023; x=1767795023;
+  t=1736259698; x=1767795698;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3b84z7hNbN/ujsQ15hlspvRs+E6hkU9AxN18dOko4eg=;
-  b=XS97SwtrH8ZpNNJEwTAdyayF9gQYskZdQuZ8m5HIhgh4j48Bqfmd+hb3
-   MlMsQnjQNVKUHeA9R9ZLil4m7E9WZhxMMKqvc+uVmCNgNJZDOygK7nsz1
-   mUdjNqqaP60unkb2N3Ycc36z7EdvQ68lIC0L2fUMQJ/XB26pQ7dj+NUma
-   +NhgeVAqpJgaIs38PQSp+j2hH46nKzlvvWQAiU7+izDxepeRN17jlZKny
-   iNcUPWgkuJH8bcpCrhauw29VDfbddxeA7ZxBXGcczK2Bb6g5wBhTNHvZ5
-   CjFqI6ZzKKJm6XIR00IdkyJbqEwSGTgCiAXRbEQIzpK8wRSoc7d5CwR3g
-   A==;
-X-CSE-ConnectionGUID: dGsFdcbGTUSTY5ABz5+otg==
-X-CSE-MsgGUID: so9cVDCDRHmlKCPcJ0bHeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="40113581"
+  bh=1yQ4f+MVcf07ti25MBmsO1NUVXFgtxug/XwVW6QF01I=;
+  b=HXT0ISt244QEYiySMFEQUQgX69AsfMG+zFMn+Bj0G6BLWiEXSoSTS2B1
+   yf50/2deeHBY7C4nvS9XSYDrYprSYngIApVqdRkYB+wELxcEiKlBiQPAz
+   j/nKHjYgKo5l1hVeJGf2Q1YPgXjURdSVz4Yxe7nJ7BS1tEsghjlbKCoPB
+   C13kNpjAm0Qq8M8iCvamp0pIWosJjPJY/gSgUDnUgRMNJzSL7/9fc2uB9
+   Jv2PTQOcPHMU8+gj8rAkqcj+ge6Y7lu1xhaUa8Z2IHemQzyK51APS+Wb5
+   wMA5f/ZAUJMIWiUWEx9y3+zo50n5gEOj3Uw5RN2NFRorH8tBqruPzAROl
+   w==;
+X-CSE-ConnectionGUID: 3b8g00SrRsWt4O6NhnRlGA==
+X-CSE-MsgGUID: vFfR9B6mTiKrv54EYtvyZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47801921"
 X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="40113581"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 06:10:23 -0800
-X-CSE-ConnectionGUID: IM7D+ul8TK6u6jQODwDLmw==
-X-CSE-MsgGUID: 3NDbhhRGSaOySE8hNMeamA==
+   d="scan'208";a="47801921"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 06:21:38 -0800
+X-CSE-ConnectionGUID: Ocd3MDFaSkqtfxw+3oHGeA==
+X-CSE-MsgGUID: X4O8aSg1Q7yFlXKZIjhd8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="107655387"
+   d="scan'208";a="102849244"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Jan 2025 06:10:21 -0800
+  by orviesa006.jf.intel.com with ESMTP; 07 Jan 2025 06:21:37 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVAHj-000EmO-0w;
-	Tue, 07 Jan 2025 14:10:19 +0000
-Date: Tue, 7 Jan 2025 22:10:15 +0800
+	id 1tVASc-000Enf-1O;
+	Tue, 07 Jan 2025 14:21:34 +0000
+Date: Tue, 7 Jan 2025 22:21:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huang Ying <ying.huang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: kernel/resource.c:1838:43: warning: implicit conversion from
- 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value
- from 68719476735 to 4294967295
-Message-ID: <202501072245.XEsNqAlW-lkp@intel.com>
+To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 1347/1347] io_uring/rsrc.c:331:6-25:
+ WARNING: atomic_dec_and_test variation before object free at line 334.
+Message-ID: <202501072208.DfzbLy9F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,70 +62,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbfd64d25c7af3b8695201ebc85efe90be28c5a3
-commit: 99185c10d5d9214d0d0c8b7866660203e344ee3b resource, kunit: add test case for region_intersects()
-date:   4 months ago
-config: arm-randconfig-001-20241228 (https://download.01.org/0day-ci/archive/20250107/202501072245.XEsNqAlW-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501072245.XEsNqAlW-lkp@intel.com/reproduce)
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
+commit: 1bb0e8728b1a31c1dc1437d45d65dbabc10cd7ec [1347/1347] io_uring: move rsrc related data, core, and commands
+config: x86_64-randconfig-101-20250107 (https://download.01.org/0day-ci/archive/20250107/202501072208.DfzbLy9F-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501072245.XEsNqAlW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501072208.DfzbLy9F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> io_uring/rsrc.c:331:6-25: WARNING: atomic_dec_and_test variation before object free at line 334.
 
->> kernel/resource.c:1838:43: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
-                   end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
-   #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
-                                                               ^
-   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
-   #define min_t(type, x, y) __cmp_once(min, type, x, y)
-                             ~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
-           __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
-           ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-                                  ~~    ^
-   kernel/resource.c:1855:45: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
-                   addr <= min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
-   #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
-                                                               ^
-   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
-   #define min_t(type, x, y) __cmp_once(min, type, x, y)
-                             ~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
-           __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
-           ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-                                  ~~    ^
-   2 warnings generated.
+vim +331 io_uring/rsrc.c
 
-
-vim +1838 kernel/resource.c
-
-  1831	
-  1832	static resource_size_t gfr_start(struct resource *base, resource_size_t size,
-  1833					 resource_size_t align, unsigned long flags)
-  1834	{
-  1835		if (flags & GFR_DESCENDING) {
-  1836			resource_size_t end;
-  1837	
-> 1838			end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-  1839			return end - size + 1;
-  1840		}
-  1841	
-  1842		return ALIGN(max(base->start, align), align);
-  1843	}
-  1844	
+   313	
+   314	__cold static int io_rsrc_ref_quiesce(struct io_rsrc_data *data,
+   315					      struct io_ring_ctx *ctx)
+   316	{
+   317		int ret;
+   318	
+   319		/* As we may drop ->uring_lock, other task may have started quiesce */
+   320		if (data->quiesce)
+   321			return -ENXIO;
+   322	
+   323		data->quiesce = true;
+   324		do {
+   325			ret = io_rsrc_node_switch_start(ctx);
+   326			if (ret)
+   327				break;
+   328			io_rsrc_node_switch(ctx, data);
+   329	
+   330			/* kill initial ref, already quiesced if zero */
+ > 331			if (atomic_dec_and_test(&data->refs))
+   332				break;
+   333			mutex_unlock(&ctx->uring_lock);
+ > 334			flush_delayed_work(&ctx->rsrc_put_work);
+   335			ret = wait_for_completion_interruptible(&data->done);
+   336			if (!ret) {
+   337				mutex_lock(&ctx->uring_lock);
+   338				if (atomic_read(&data->refs) > 0) {
+   339					/*
+   340					 * it has been revived by another thread while
+   341					 * we were unlocked
+   342					 */
+   343					mutex_unlock(&ctx->uring_lock);
+   344				} else {
+   345					break;
+   346				}
+   347			}
+   348	
+   349			atomic_inc(&data->refs);
+   350			/* wait for all works potentially completing data->done */
+   351			flush_delayed_work(&ctx->rsrc_put_work);
+   352			reinit_completion(&data->done);
+   353	
+   354			ret = io_run_task_work_sig();
+   355			mutex_lock(&ctx->uring_lock);
+   356		} while (ret >= 0);
+   357		data->quiesce = false;
+   358	
+   359		return ret;
+   360	}
+   361	
 
 -- 
 0-DAY CI Kernel Test Service
