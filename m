@@ -1,107 +1,88 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334441487F4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 08:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03F7158868
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 08:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736237678; cv=none; b=k19pyE9QZrfhKL3OmpSgQ4SqKF2j9KevqkL954CV3qCx1LJ34wyXy1aRczIAu1/Pg0iko7N3EPhNuwsL53vh765tWVLBvhvLPZ7lWO2QGnw/+eAV/G5Z0YlxUMuu/jpm5pOgcAiELtpudfm2/dk//DkLKmI4lrQ0nEp65keqrm4=
+	t=1736238343; cv=none; b=iMsTyAujWoFB/lGKdSx40XDzw2fOnnrYNXJ3bOZv3NC9XeVEw42DLFiHMVTbp40oAh0pZaC0ER1TMKhyn0Q3PT5sJLmhjMZqjfhblSZ6Xtk8GtQK2vuGYQeYRA9dkrYiiXflkCT29sEF1g8WvMEvFC3CwaQ1PHOlWz/DeeEtJTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736237678; c=relaxed/simple;
-	bh=KW8CSi3Sk4+4dv/2hSfpqMBQsjqBC0nsKEyEjE0JBkw=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=HkNowgaiG0VGIqYxC/Zig4Hp+kVSdlOaJeplD1azxrUw+N/ysZt0dSbpNHb/5EKRrVU6s+xrQpD1W1IgYh+V617kWC/KZu7gdbjY8W6FDtz1lOruIrANWHy7boFNnQrajC+llFp0siNS6rBcghNAbRf3Wc2mmWtfi6l5SCzB1Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=FlM98sVB; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1736238343; c=relaxed/simple;
+	bh=Ge+Lxvul77YblNYe2QQkuFNArtoFbtFFjW34eQO1mjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YWMUnNlOI61bWz/8rZQ2TMBvto8C6QHeTq4JM0dZUbjjp0dEHgkJyegav76IpuyHKoKk2FPJIqFmazfamRIda6kllblT4moW66syjCAsDMsHyVHq12xbNsIqSqLEpFyssOyhBzJfbVvd7zVcWvSHwc7gM9e4rd6XzgVFhBi6ffk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Elc9iil2; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="FlM98sVB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Elc9iil2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736238341; x=1767774341;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oIppB2Qbo6uuv3jXCH5RwQ/oNkZ7r87UPApfiAIqLYo=;
-  b=FlM98sVBHNctw8+Fmorc9MnXMT5EUFLYp/BE+H0efO///Q2TJraV7bz4
-   lFnUIlfOYT9rgTKtkVQq9eGOp0QFNt3KVdoTOPwFkI3K64CCQ0r800XBx
-   riV8eP5q6R5OXXf7ad/kd0EleS8funeAYsJ+51j6JmT6fXuzTUShDoDlj
-   E=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; 
-   d="scan'208";a="201746520"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 09:14:27 +0100
-Date: Tue, 7 Jan 2025 09:14:26 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
+  bh=Ge+Lxvul77YblNYe2QQkuFNArtoFbtFFjW34eQO1mjA=;
+  b=Elc9iil2oXWCJ3dCo1kVSQpvYP0Mj7G6zytMvQR7mXyRFuZnBPF7WVtU
+   NULzsy7YHt3di1yWHshSmgJFl++Aj/tH2YgDaZPxQaOpkqH1Bgei2ZSEE
+   XRnQD1YBsYXOEhN9iLOp4xhHhK8RItd1ycGoJbXqFgEssbUFiBlCT/7Ze
+   Z0RhsYTtDfLieUSgRG2B9Ju9tGq4oJTPiqAQrMNoyIYeYg92pyZ3S+JV2
+   GHtMtk6a2Sr3RId2GQoWkZL7xkR+iEvgixdS46FdMG7fJ0hS6qvQHYwle
+   4WKEd9EEFx8Ft/kcG5FdL2b0Z6AseLp+nbOaZ9LVRV8RY3Pfo6ZRiWhU9
+   A==;
+X-CSE-ConnectionGUID: rh+P7bzaQ3m3bI98vFD3BQ==
+X-CSE-MsgGUID: exlzCHy8TAanUO6HncnLzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="47397689"
+X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
+   d="scan'208";a="47397689"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 00:25:40 -0800
+X-CSE-ConnectionGUID: Hfkqjw4uTA+DXwVURhe7Yw==
+X-CSE-MsgGUID: je5JMK5yReCNttvRmjIrjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
+   d="scan'208";a="102882821"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 07 Jan 2025 00:25:38 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tV4u8-000EQB-1a;
+	Tue, 07 Jan 2025 08:25:36 +0000
+Date: Tue, 7 Jan 2025 16:25:05 +0800
+From: kernel test robot <lkp@intel.com>
 To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 1347/1347] drivers/nvme/host/qmap.c:208:8-12:
- ERROR: invalid reference to the index variable of the iterator on line 202
- (fwd)
-Message-ID: <bc63dabd-a6d1-cb3-2ff7-37a23c8c33a2@inria.fr>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 1347/1347] drivers/nvme/host/qmap.c:34:21:
+ sparse: sparse: symbol 'qmap_mgr' was not declared. Should it be static?
+Message-ID: <202501071629.A0rfowSm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-
-Hello,
-
-Is there a guarantee that the break on line 204 will be taken?  If not, an
-invalid pointer will be returned.  The NULL initialization of qmap is not
-useful.  list_for_each_entry always initializes the first argument, even
-if the list is empty.
-
-julia
-
----------- Forwarded message ----------
-Date: Tue, 7 Jan 2025 12:11:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [bytedance:5.15-velinux 1347/1347] drivers/nvme/host/qmap.c:208:8-12:
-    ERROR: invalid reference to the index variable of the iterator on line 202
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: jason.zeng@intel.com
-TO: lin.x.wang@intel.com
-TO: pei.p.jia@intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 tree:   https://github.com/bytedance/kernel.git 5.15-velinux
 head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
-commit: 6e74a414cbefd3f08ab27d0e7ee5b56afa19a7f4 [1347/1347] bytedance: nvme-qmap: modify according advise
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: x86_64-randconfig-103-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071221.CmfPsaU3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 3a9b973eb8419fe1dad8585ceb7d4ab6cdcf8da0 [1347/1347] bytedance: nvme: Introduce nvme qmap
+config: arm64-randconfig-r133-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071629.A0rfowSm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250107/202501071629.A0rfowSm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202501071221.CmfPsaU3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501071629.A0rfowSm-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/nvme/host/qmap.c:208:8-12: ERROR: invalid reference to the index variable of the iterator on line 202
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/qmap.c:34:21: sparse: sparse: symbol 'qmap_mgr' was not declared. Should it be static?
+>> drivers/nvme/host/qmap.c:1135:30: sparse: sparse: symbol 'nvme_qmap_fops' was not declared. Should it be static?
 
-vim +208 drivers/nvme/host/qmap.c
+vim +/qmap_mgr +34 drivers/nvme/host/qmap.c
 
-3a9b973eb8419f dingtao.darren 2024-07-08  196
-3a9b973eb8419f dingtao.darren 2024-07-08  197  struct nvme_qmap *nvme_qmap_get_qmap_from_ndev(struct nvme_dev *ndev)
-3a9b973eb8419f dingtao.darren 2024-07-08  198  {
-3a9b973eb8419f dingtao.darren 2024-07-08  199  	struct nvme_qmap *qmap = NULL;
-3a9b973eb8419f dingtao.darren 2024-07-08  200
-6e74a414cbefd3 dingtao.darren 2024-07-16  201  	down_read(&qmap_list.list_rwsem);
-6e74a414cbefd3 dingtao.darren 2024-07-16 @202  	list_for_each_entry(qmap, &qmap_list.qmap_head, qmap_entry) {
-3a9b973eb8419f dingtao.darren 2024-07-08  203  		if (qmap->nvme_dev == ndev)
-6e74a414cbefd3 dingtao.darren 2024-07-16  204  			break;
-3a9b973eb8419f dingtao.darren 2024-07-08  205  	}
-6e74a414cbefd3 dingtao.darren 2024-07-16  206  	up_read(&qmap_list.list_rwsem);
-6e74a414cbefd3 dingtao.darren 2024-07-16  207
-6e74a414cbefd3 dingtao.darren 2024-07-16 @208  	return qmap;
-3a9b973eb8419f dingtao.darren 2024-07-08  209  }
-3a9b973eb8419f dingtao.darren 2024-07-08  210  EXPORT_SYMBOL_GPL(nvme_qmap_get_qmap_from_ndev);
-3a9b973eb8419f dingtao.darren 2024-07-08  211
+    33	
+  > 34	struct qmap_manager qmap_mgr;
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
