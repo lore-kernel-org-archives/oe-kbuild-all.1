@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6824B8C1E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 12:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7851EE7D3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 12:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736252072; cv=none; b=oe2/GJVvcZddMTsNYKzr3PbsWK5EBSF+AzN85JCnBuOsk1NSp+Io+PMakwgXVOO36hQu2ScDh12s+9o2SKOptSAgOBmCQfGc+D0yk8oUv081pvAXztNHALL0XBGYIh9LQyy/DrhFEUvFfaCZrMn/22R5FrT686iowk+8nW7t9O0=
+	t=1736254596; cv=none; b=OlzbWFUp3ckgU4ugBdAC3iU0iZny382/2rasDqNgm0XpSGAkU1KIBHgV17dNv18i0AkEqkln7GCOFlTPrbyakv+Sr95Y9/kM9SopcqppuVo9W2fV8dINfpxIJfaHsI7VhXccSuTMoV+ab7ItsPjVevWkHXNgjCeK0BtGkVcRmwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736252072; c=relaxed/simple;
-	bh=sOjRLXmx9DwpHsaj4hBp+o1af/Z2x3VoAOtvH64iEPM=;
+	s=arc-20240116; t=1736254596; c=relaxed/simple;
+	bh=QFYF/l9CwdEYUIzxxMAbX3RInAJJ2lo+D6OmFn+35Y8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EPs+EWo+pkE4HewV8XrwUKBp/zam31fxUl1u9DjeVLskc5zRwLiNOM+Q3/OKTElGeSP/01q5BM95HUAnEvn8GEIzYsiQ0T8d+/J1MhzFwenLbgPdRrxiiJEiM0GIwzVN48iBPe3SIVMH9xF+6kZKKnzPLk0ClCHZpYHLdmFKrWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMTN6d5P; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=eaxsa+xLef0KRAUk5RaBJQhuDGXdBkfHb6NN/FLL8idrDoHyQDjie/8lZXN9grpgQZVbmviosKozyLLVkWjJ77Hj4q9p0tDsrW5m0h9U52+hvUJcs+tNNXRkyOX2TiOY9VPO/gviBcgfRBJ4OcAOuzOek8ItbyLW2U9faztnbXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dn0tpvJV; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMTN6d5P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dn0tpvJV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736252069; x=1767788069;
+  t=1736254594; x=1767790594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sOjRLXmx9DwpHsaj4hBp+o1af/Z2x3VoAOtvH64iEPM=;
-  b=dMTN6d5PHIfA2hhKs2tJNhNa9Q6LmWh1tyBR5RDAy6RxAVVpixz+0xRL
-   MMAKCv+sOYM2wl++rryVGCUSG9y93Yd9K3ARxafVzrkA3vML875x2Jy1V
-   F0oCuPHKQ/yiLDxRHrohu5L1QER6h+p/F4UB8u3693n6zk5+jgiL2zejv
-   SilJ4t4wEmZJVMr3yOc23ojwuynNbJ31zaxk+DhN0KzJj1bKXnPke0LQr
-   cQJ0AMh5pa7wK+LhgLHMQkoGY0oRf6xd1W3Q48H2x0aCsfFnvHKNRDJJa
-   JiRgdGLXzatq//px6q52Jy84mLOKi2ck1sc3OE2xVe6Dzt7wKOVpuIK7i
+  bh=QFYF/l9CwdEYUIzxxMAbX3RInAJJ2lo+D6OmFn+35Y8=;
+  b=Dn0tpvJVwKueBKjyl6oXQtnyvyfihj4ycBGLGMTddiCjNmBBSCOcOs02
+   h7BPIzHUG5CIJzQ6aj2XhMqinMBFMl6ZnH9TE7oRHIBlFh8ujmFiuT/5R
+   cASzbP1p8AA7GgQCot4c+iPdMVJKT+PzVfqtoMKk28LA6CfTCTPCjsQSf
+   K8EFYmFrrOH+QgybJgfJck9cvIIFCmm7KW7fB0B4RZjvn1QLPFnieGMie
+   YswuDbB5M7f8GcXlt1O0ekzupQgUUhFHXyEi4PDp/DUC13Doa/lfomWtn
+   p6kWS9wdhQhsNlAIvf0LFTJO2zYiTniH8GP3UxUuhkj6jWHLa0IUyGE/3
    Q==;
-X-CSE-ConnectionGUID: 97PYK+zUQt+bZZEqaKf5fQ==
-X-CSE-MsgGUID: kuQVtHbTRdGJQYe/kZUxNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="47849007"
+X-CSE-ConnectionGUID: qhytejSoRZiCnyYisXz4tQ==
+X-CSE-MsgGUID: rV7hGjRGS0+ebhvVQwNadg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="40381912"
 X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="47849007"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 04:14:29 -0800
-X-CSE-ConnectionGUID: yW4RGLmTTXy61NOBWnF4hw==
-X-CSE-MsgGUID: vKKEcXHORhWA1kgEwQYSng==
+   d="scan'208";a="40381912"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 04:56:33 -0800
+X-CSE-ConnectionGUID: VhdKI6TZRAiUCXjZ3kcw7A==
+X-CSE-MsgGUID: FcDoIo5FT1SzSLx2DbfQRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="103262954"
+   d="scan'208";a="103270931"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Jan 2025 04:14:27 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 07 Jan 2025 04:56:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tV8TZ-000EeZ-2G;
-	Tue, 07 Jan 2025 12:14:25 +0000
-Date: Tue, 7 Jan 2025 20:13:45 +0800
+	id 1tV98I-000EhW-0L;
+	Tue, 07 Jan 2025 12:56:30 +0000
+Date: Tue, 7 Jan 2025 20:56:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 1347/1347] fs/file_table.c:331:5-29:
- WARNING: atomic_dec_and_test variation before object free at line 346.
-Message-ID: <202501072019.eYFsUuDi-lkp@intel.com>
+Subject: [android-common:android14-6.1-2025-01 1/1]
+ kernel/trace/trace_events_synth.c:436:68: sparse: sparse: incorrect type in
+ argument 2 (different address spaces)
+Message-ID: <202501072010.tL94nVVl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +63,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
-commit: b81c7169d761934a461fd1ef5a4b2876c30e84ca [1347/1347] fs: remove fget_many and fput_many interface
-config: x86_64-randconfig-101-20250107 (https://download.01.org/0day-ci/archive/20250107/202501072019.eYFsUuDi-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-01
+head:   bd15ae767bd293b77e31786ef49abaee8cc016d8
+commit: 0934ae9977c27133449b6dd8c6213970e7eece38 [1/1] tracing: Fix reading strings from synthetic events
+config: i386-randconfig-061-20250107 (https://download.01.org/0day-ci/archive/20250107/202501072010.tL94nVVl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501072010.tL94nVVl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501072019.eYFsUuDi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501072010.tL94nVVl-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/file_table.c:331:5-29: WARNING: atomic_dec_and_test variation before object free at line 346.
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/trace_events_synth.c:436:68: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *unsafe_addr @@     got char *str_val @@
+   kernel/trace/trace_events_synth.c:436:68: sparse:     expected void const [noderef] __user *unsafe_addr
+   kernel/trace/trace_events_synth.c:436:68: sparse:     got char *str_val
+   kernel/trace/trace_events_synth.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:248:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +331 fs/file_table.c
+vim +436 kernel/trace/trace_events_synth.c
 
-   328	
-   329	void fput(struct file *file)
-   330	{
- > 331		if (atomic_long_dec_and_test(&file->f_count)) {
-   332			struct task_struct *task = current;
-   333	
-   334			if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-   335				init_task_work(&file->f_u.fu_rcuhead, ____fput);
-   336				if (!task_work_add(task, &file->f_u.fu_rcuhead, TWA_RESUME))
-   337					return;
-   338				/*
-   339				 * After this task has run exit_task_work(),
-   340				 * task_work_add() will fail.  Fall through to delayed
-   341				 * fput to avoid leaking *file.
-   342				 */
-   343			}
-   344	
-   345			if (llist_add(&file->f_u.fu_llist, &delayed_fput_list))
- > 346				schedule_delayed_work(&delayed_fput_work, 1);
-   347		}
-   348	}
-   349	
+   404	
+   405	static unsigned int trace_string(struct synth_trace_event *entry,
+   406					 struct synth_event *event,
+   407					 char *str_val,
+   408					 bool is_dynamic,
+   409					 unsigned int data_size,
+   410					 unsigned int *n_u64)
+   411	{
+   412		unsigned int len = 0;
+   413		char *str_field;
+   414		int ret;
+   415	
+   416		if (is_dynamic) {
+   417			u32 data_offset;
+   418	
+   419			data_offset = offsetof(typeof(*entry), fields);
+   420			data_offset += event->n_u64 * sizeof(u64);
+   421			data_offset += data_size;
+   422	
+   423			len = kern_fetch_store_strlen((unsigned long)str_val);
+   424	
+   425			data_offset |= len << 16;
+   426			*(u32 *)&entry->fields[*n_u64] = data_offset;
+   427	
+   428			ret = kern_fetch_store_string((unsigned long)str_val, &entry->fields[*n_u64], entry);
+   429	
+   430			(*n_u64)++;
+   431		} else {
+   432			str_field = (char *)&entry->fields[*n_u64];
+   433	
+   434	#ifdef CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
+   435			if ((unsigned long)str_val < TASK_SIZE)
+ > 436				ret = strncpy_from_user_nofault(str_field, str_val, STR_VAR_LEN_MAX);
+   437			else
+   438	#endif
+   439				ret = strncpy_from_kernel_nofault(str_field, str_val, STR_VAR_LEN_MAX);
+   440	
+   441			if (ret < 0)
+   442				strcpy(str_field, FAULT_STRING);
+   443	
+   444			(*n_u64) += STR_VAR_LEN_MAX / sizeof(u64);
+   445		}
+   446	
+   447		return len;
+   448	}
+   449	
 
 -- 
 0-DAY CI Kernel Test Service
