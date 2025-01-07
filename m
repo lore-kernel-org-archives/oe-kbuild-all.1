@@ -1,267 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DEB1E1044
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 11:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354C11DED58;
+	Tue,  7 Jan 2025 12:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736250632; cv=none; b=hRwhFlMwBF9Zj3+ZE3qrZZvJXBU7iSgeUywtURQCxod8HK8kvclXnr3CBuW9I7qWQ40gbuhImUeyh7jV5nYOPi/gjj8yTBCRsEdTrfJzBHRVaMmuNpxMxZErpNpbfr0KyZYG3gkd0WpBs4OyJSWMKb1ilhsK2fBntl+xE6YMixg=
+	t=1736251298; cv=none; b=H7QrzHFfWtwOejUxofZf4oZMUKI1wJknwD6p4xob6gXhTkgHwTEJd7y+Tlz35IDl2jtL3nCaA0/2RC6bHIvBkbaiRrBot11LyBvbRvnVNvUpQr4b6OZy+NpqP02FjRSFPvdByAXLOUbPdo63kFLR1RYRZmD3+HHDNEDgWNnbask=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736250632; c=relaxed/simple;
-	bh=3vMsSxTNrjPXHEWsI17IWe27KTVfX5tScNS58VJ4jbY=;
+	s=arc-20240116; t=1736251298; c=relaxed/simple;
+	bh=1xxYm8+Lma6Xb19NLtXLlSEWYgo5SCk2wTJS4fLJ5r4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HWzdtaj5F36Sbh/e092KJYHRdR1YobCOjvGsE6w+sjxVwfkvLGHz4z0qYRmM11pWz19zqWIkGXyu0pSnh+b7UtxLb4eFeWuT3lMPZ5IC2dloVVz688yTo/Z+e4tD2EHMc4ZXNlGNRIhW3v8UNhnsEeCC+71fOZpn6qZrLfTyfb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQ55i+zY; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=fk0ciZA2WtPvkIo3Z47Ly2Teg35sUUVAc8H4IDz1jBxf64JGpEFsH1PDZVPNobOeX+YysXRhOkYgEnst5QVFKvH/NTewXsjNfnSNdnGCI849J0fy/Cgh7dbt5QQSDGp39Bj3xQIddPdlGfrFGtgZcmPXDNpFCJS+kDwSaE6ywRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjD+N38t; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQ55i+zY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjD+N38t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736250628; x=1767786628;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3vMsSxTNrjPXHEWsI17IWe27KTVfX5tScNS58VJ4jbY=;
-  b=JQ55i+zYKSzH5YKTEG1V1s7X6bEPCNalr+uMNBEAweRFrzdpuPsdRVRh
-   7ivQyaJyzmCQe/UDX29yzQ8p7uaeBS28vIyPE6Z6dMNnuCp5gjyPx+x2i
-   WKjyMUjCITrrQs6QT9WoR8O00vRGBKuvtW/rZXBho6O4BC2HYINST4wlS
-   ISky5Mujb7Um1rfZJ3WrG1dxo3IO44G4swMHbiiGBUEf4NUMtjcoJgp4T
-   vayzCDD5BhjdU6S+utkH72pFsE4wMDZhOAVJPy89UnqyPqVmVBxPzCGJh
-   Iu5Gi2mG6MzJHeobW2ttLPYwBJTAhsy14ckvnVVh99bIGd/POohIMPajU
-   w==;
-X-CSE-ConnectionGUID: hObYC7KQQnOb55f9PtoofQ==
-X-CSE-MsgGUID: JKgenoCdTWy8b3SQLuIF4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="35661043"
+  t=1736251295; x=1767787295;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=1xxYm8+Lma6Xb19NLtXLlSEWYgo5SCk2wTJS4fLJ5r4=;
+  b=OjD+N38t9YRQd0Fb7pvl1mkuW2+JV2h3cGT2WKJ0tGEoLLvWv0AqeFaO
+   roWhmuxc2AHBBJap6XfSZeYoT8ug1WQwJS3+v+Vt5YbxywCsTG1Tl7t0k
+   VQVvwaXepTP/T5mlBl1Gme82sIvgf97BZK19LB0SJHhbdxVGLNqfHwXuJ
+   ky+uFThILpqL8bPkZvJy6M8wLeEgxk2NlAFh+I1WRfrdP/KeDJlJHbrRZ
+   zhcrBtnZF5Yj2F4gJMIjnEqlM37D+6hgLUU6iTzciJwbV3oi3C/4gKH2u
+   QEJecZJltzaVxNuw7c99/dRW21mV+S6If54Jgh8yl5IX++W65txvpZ/Qc
+   Q==;
+X-CSE-ConnectionGUID: gkprirPPQxqSk8rw232ahw==
+X-CSE-MsgGUID: 7Dd2fwqDT2uI+MIWoy+f2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36587177"
 X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="35661043"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 03:50:27 -0800
-X-CSE-ConnectionGUID: ieUNU4uoQraXTREiOq0HWA==
-X-CSE-MsgGUID: xPn/lhTZQe+Wuf6WcrCtZA==
+   d="scan'208";a="36587177"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 04:01:28 -0800
+X-CSE-ConnectionGUID: kQPkRcf8SE2/HJm0gq9L6A==
+X-CSE-MsgGUID: LwMeN8N9QQu8VAuX6xM6wA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="102824271"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="140087113"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Jan 2025 03:50:25 -0800
+  by orviesa001.jf.intel.com with ESMTP; 07 Jan 2025 04:01:27 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tV86J-000EdH-0C;
-	Tue, 07 Jan 2025 11:50:23 +0000
-Date: Tue, 7 Jan 2025 19:49:37 +0800
+	id 1tV8Gx-000Edf-2X;
+	Tue, 07 Jan 2025 12:01:23 +0000
+Date: Tue, 7 Jan 2025 20:00:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>
-Subject: drivers/firmware/efi/sysfb_efi.c:331:39: warning: 'efifb_fwnode_ops'
- defined but not used
-Message-ID: <202501071933.20nlmJJt-lkp@intel.com>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Maxime Ripard <mripard@kernel.org>,
+	Friedrich Vock <friedrich.vock@gmx.de>
+Subject: [mripard:cgroup-dmem-drm 3/4] drivers/gpu/drm/ttm/ttm_bo.c:461:2:
+ warning: variable 'ret' is used uninitialized whenever 'if' condition is
+ true
+Message-ID: <202501071904.2ZS4kmtn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Randy,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbfd64d25c7af3b8695201ebc85efe90be28c5a3
-commit: 15d27b15de965043d6f8e23bc7f34386fcd1a772 efi: sysfb_efi: fix build when EFI is not set
-date:   3 years, 5 months ago
-config: x86_64-randconfig-r032-20230910 (https://download.01.org/0day-ci/archive/20250107/202501071933.20nlmJJt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501071933.20nlmJJt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git cgroup-dmem-drm
+head:   aa4f9d7f77836d5a48daaa99479c2603e9a548ed
+commit: 6627b2708ea9f8e3e3c2e6ee8d5d4bb277edad96 [3/4] drm/ttm: Handle cgroup based eviction in TTM
+config: i386-buildonly-randconfig-002-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071904.2ZS4kmtn-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501071904.2ZS4kmtn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501071933.20nlmJJt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501071904.2ZS4kmtn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/efi/sysfb_efi.c:72:6: warning: no previous prototype for 'efifb_setup_from_dmi' [-Wmissing-prototypes]
-      72 | void efifb_setup_from_dmi(struct screen_info *si, const char *opt)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/firmware/efi/sysfb_efi.c:331:39: warning: 'efifb_fwnode_ops' defined but not used [-Wunused-const-variable=]
-     331 | static const struct fwnode_operations efifb_fwnode_ops = {
-         |                                       ^~~~~~~~~~~~~~~~
->> drivers/firmware/efi/sysfb_efi.c:240:35: warning: 'efifb_dmi_swap_width_height' defined but not used [-Wunused-const-variable=]
-     240 | static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/firmware/efi/sysfb_efi.c:190:35: warning: 'efifb_dmi_system_table' defined but not used [-Wunused-const-variable=]
-     190 | static const struct dmi_system_id efifb_dmi_system_table[] __initconst = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/ttm/ttm_bo.c:461:2: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     461 |         if (!ttm_bo_get_unless_zero(bo))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:28: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/ttm_bo.c:486:9: note: uninitialized use occurs here
+     486 |         return ret;
+         |                ^~~
+   drivers/gpu/drm/ttm/ttm_bo.c:461:2: note: remove the 'if' if its condition is always false
+     461 |         if (!ttm_bo_get_unless_zero(bo))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     462 |                 goto out_no_ref;
+         |                 ~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:23: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                       ^
+   drivers/gpu/drm/ttm/ttm_bo.c:451:9: note: initialize the variable 'ret' to silence this warning
+     451 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
+--
+>> drivers/gpu/drm/ttm/ttm_bo.c:1097: warning: Function parameter or struct member 'hit_low' not described in 'ttm_bo_swapout_walk'
+>> drivers/gpu/drm/ttm/ttm_bo.c:1097: warning: Function parameter or struct member 'evict_low' not described in 'ttm_bo_swapout_walk'
 
 
-vim +/efifb_fwnode_ops +331 drivers/firmware/efi/sysfb_efi.c
+vim +461 drivers/gpu/drm/ttm/ttm_bo.c
 
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  178  
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  179  #define EFIFB_DMI_SYSTEM_ID(vendor, name, enumid)		\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  180  	{							\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  181  		efifb_set_system,				\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  182  		name,						\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  183  		{						\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  184  			DMI_MATCH(DMI_BIOS_VENDOR, vendor),	\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  185  			DMI_MATCH(DMI_PRODUCT_NAME, name)	\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  186  		},						\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  187  		&efifb_dmi_list[enumid]				\
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  188  	}
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  189  
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02 @190  static const struct dmi_system_id efifb_dmi_system_table[] __initconst = {
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  191  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "iMac4,1", M_I17),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  192  	/* At least one of these two will be right; maybe both? */
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  193  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "iMac5,1", M_I20),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  194  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "iMac5,1", M_I20),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  195  	/* At least one of these two will be right; maybe both? */
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  196  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "iMac6,1", M_I24),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  197  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "iMac6,1", M_I24),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  198  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "iMac7,1", M_I20_SR),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  199  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "iMac8,1", M_I24_8_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  200  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "iMac10,1", M_I24_10_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  201  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "iMac11,1", M_I27_11_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  202  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "Macmini1,1", M_MINI),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  203  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "Macmini3,1", M_MINI_3_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  204  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "Macmini4,1", M_MINI_4_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  205  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "MacBook1,1", M_MB),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  206  	/* At least one of these two will be right; maybe both? */
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  207  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "MacBook2,1", M_MB),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  208  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBook2,1", M_MB),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  209  	/* At least one of these two will be right; maybe both? */
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  210  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "MacBook3,1", M_MB),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  211  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBook3,1", M_MB),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  212  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBook4,1", M_MB),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  213  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBook5,1", M_MB_5_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  214  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBook6,1", M_MB_6_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  215  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBook7,1", M_MB_7_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  216  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookAir1,1", M_MBA),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  217  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookAir3,1", M_MBA_3),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  218  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "MacBookPro1,1", M_MBP),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  219  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "MacBookPro2,1", M_MBP_2),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  220  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "MacBookPro2,2", M_MBP_2_2),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  221  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro2,1", M_MBP_2),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  222  	EFIFB_DMI_SYSTEM_ID("Apple Computer, Inc.", "MacBookPro3,1", M_MBP_SR),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  223  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro3,1", M_MBP_SR),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  224  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro4,1", M_MBP_4),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  225  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro5,1", M_MBP_5_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  226  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro5,2", M_MBP_5_2),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  227  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro5,3", M_MBP_5_3),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  228  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro6,1", M_MBP_6_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  229  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro6,2", M_MBP_6_2),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  230  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro7,1", M_MBP_7_1),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  231  	EFIFB_DMI_SYSTEM_ID("Apple Inc.", "MacBookPro8,2", M_MBP_8_2),
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  232  	{},
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  233  };
-2995e506276bfd arch/x86/kernel/sysfb_efi.c      David Herrmann           2013-08-02  234  
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  235  /*
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  236   * Some devices have a portrait LCD but advertise a landscape resolution (and
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  237   * pitch). We simply swap width and height for these devices so that we can
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  238   * correctly deal with some of them coming with multiple resolutions.
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  239   */
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21 @240  static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  241  	{
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  242  		/*
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  243  		 * Lenovo MIIX310-10ICR, only some batches have the troublesome
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  244  		 * 800x1280 portrait screen. Luckily the portrait version has
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  245  		 * its own BIOS version, so we match on that.
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  246  		 */
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  247  		.matches = {
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  248  			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  249  			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "MIIX 310-10ICR"),
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  250  			DMI_EXACT_MATCH(DMI_BIOS_VERSION, "1HCN44WW"),
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  251  		},
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  252  	},
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  253  	{
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  254  		/* Lenovo MIIX 320-10ICR with 800x1280 portrait screen */
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  255  		.matches = {
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  256  			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  257  			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION,
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  258  					"Lenovo MIIX 320-10ICR"),
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  259  		},
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  260  	},
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  261  	{
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  262  		/* Lenovo D330 with 800x1280 or 1200x1920 portrait screen */
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  263  		.matches = {
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  264  			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  265  			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION,
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  266  					"Lenovo ideapad D330-10IGM"),
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  267  		},
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  268  	},
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  269  	{},
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  270  };
-d02f1aa39189e0 arch/x86/kernel/sysfb_efi.c      Hans de Goede            2019-07-21  271  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  272  static bool efifb_overlaps_pci_range(const struct of_pci_range *range)
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  273  {
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  274  	u64 fb_base = screen_info.lfb_base;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  275  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  276  	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  277  		fb_base |= (u64)(unsigned long)screen_info.ext_lfb_base << 32;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  278  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  279  	return fb_base >= range->cpu_addr &&
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  280  	       fb_base < (range->cpu_addr + range->size);
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  281  }
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  282  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  283  static struct device_node *find_pci_overlap_node(void)
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  284  {
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  285  	struct device_node *np;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  286  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  287  	for_each_node_by_type(np, "pci") {
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  288  		struct of_pci_range_parser parser;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  289  		struct of_pci_range range;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  290  		int err;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  291  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  292  		err = of_pci_range_parser_init(&parser, np);
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  293  		if (err) {
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  294  			pr_warn("of_pci_range_parser_init() failed: %d\n", err);
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  295  			continue;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  296  		}
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  297  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  298  		for_each_of_pci_range(&parser, &range)
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  299  			if (efifb_overlaps_pci_range(&range))
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  300  				return np;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  301  	}
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  302  	return NULL;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  303  }
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  304  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  305  /*
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  306   * If the efifb framebuffer is backed by a PCI graphics controller, we have
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  307   * to ensure that this relation is expressed using a device link when
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  308   * running in DT mode, or the probe order may be reversed, resulting in a
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  309   * resource reservation conflict on the memory window that the efifb
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  310   * framebuffer steals from the PCIe host bridge.
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  311   */
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  312  static int efifb_add_links(struct fwnode_handle *fwnode)
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  313  {
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  314  	struct device_node *sup_np;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  315  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  316  	sup_np = find_pci_overlap_node();
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  317  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  318  	/*
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  319  	 * If there's no PCI graphics controller backing the efifb, we are
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  320  	 * done here.
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  321  	 */
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  322  	if (!sup_np)
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  323  		return 0;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  324  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  325  	fwnode_link_add(fwnode, of_fwnode_handle(sup_np));
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  326  	of_node_put(sup_np);
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  327  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  328  	return 0;
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  329  }
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  330  
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25 @331  static const struct fwnode_operations efifb_fwnode_ops = {
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  332  	.add_links = efifb_add_links,
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  333  };
-8633ef82f101c0 drivers/firmware/efi/sysfb_efi.c Javier Martinez Canillas 2021-06-25  334  
+a2ab19fed9d1dc Christian König   2016-08-30  435  
+3756310e9fe1e0 Thomas Hellström  2024-07-05  436  /**
+3756310e9fe1e0 Thomas Hellström  2024-07-05  437   * ttm_bo_evict_first() - Evict the first bo on the manager's LRU list.
+3756310e9fe1e0 Thomas Hellström  2024-07-05  438   * @bdev: The ttm device.
+3756310e9fe1e0 Thomas Hellström  2024-07-05  439   * @man: The manager whose bo to evict.
+3756310e9fe1e0 Thomas Hellström  2024-07-05  440   * @ctx: The TTM operation ctx governing the eviction.
+d5769ba315d8ff Roger He          2017-12-21  441   *
+3756310e9fe1e0 Thomas Hellström  2024-07-05  442   * Return: 0 if successful or the resource disappeared. Negative error code on error.
+d5769ba315d8ff Roger He          2017-12-21  443   */
+3756310e9fe1e0 Thomas Hellström  2024-07-05  444  int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man,
+3756310e9fe1e0 Thomas Hellström  2024-07-05  445  		       struct ttm_operation_ctx *ctx)
+d5769ba315d8ff Roger He          2017-12-21  446  {
+3756310e9fe1e0 Thomas Hellström  2024-07-05  447  	struct ttm_resource_cursor cursor;
+3756310e9fe1e0 Thomas Hellström  2024-07-05  448  	struct ttm_buffer_object *bo;
+3756310e9fe1e0 Thomas Hellström  2024-07-05  449  	struct ttm_resource *res;
+3756310e9fe1e0 Thomas Hellström  2024-07-05  450  	unsigned int mem_type;
+6627b2708ea9f8 Maarten Lankhorst 2024-12-04  451  	int ret;
+d5769ba315d8ff Roger He          2017-12-21  452  
+3756310e9fe1e0 Thomas Hellström  2024-07-05  453  	spin_lock(&bdev->lru_lock);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  454  	res = ttm_resource_manager_first(man, &cursor);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  455  	ttm_resource_cursor_fini(&cursor);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  456  	if (!res) {
+3756310e9fe1e0 Thomas Hellström  2024-07-05  457  		ret = -ENOENT;
+3756310e9fe1e0 Thomas Hellström  2024-07-05  458  		goto out_no_ref;
+a2848d08742c8e Christian König   2023-07-07  459  	}
+3756310e9fe1e0 Thomas Hellström  2024-07-05  460  	bo = res->bo;
+3756310e9fe1e0 Thomas Hellström  2024-07-05 @461  	if (!ttm_bo_get_unless_zero(bo))
+3756310e9fe1e0 Thomas Hellström  2024-07-05  462  		goto out_no_ref;
+3756310e9fe1e0 Thomas Hellström  2024-07-05  463  	mem_type = res->mem_type;
+3756310e9fe1e0 Thomas Hellström  2024-07-05  464  	spin_unlock(&bdev->lru_lock);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  465  	ret = ttm_bo_reserve(bo, ctx->interruptible, ctx->no_wait_gpu, NULL);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  466  	if (ret)
+3756310e9fe1e0 Thomas Hellström  2024-07-05  467  		goto out_no_lock;
+3756310e9fe1e0 Thomas Hellström  2024-07-05  468  	if (!bo->resource || bo->resource->mem_type != mem_type)
+3756310e9fe1e0 Thomas Hellström  2024-07-05  469  		goto out_bo_moved;
+a2848d08742c8e Christian König   2023-07-07  470  
+3756310e9fe1e0 Thomas Hellström  2024-07-05  471  	if (bo->deleted) {
+3756310e9fe1e0 Thomas Hellström  2024-07-05  472  		ret = ttm_bo_wait_ctx(bo, ctx);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  473  		if (!ret)
+3756310e9fe1e0 Thomas Hellström  2024-07-05  474  			ttm_bo_cleanup_memtype_use(bo);
+d5769ba315d8ff Roger He          2017-12-21  475  	} else {
+3756310e9fe1e0 Thomas Hellström  2024-07-05  476  		ret = ttm_bo_evict(bo, ctx);
+d5769ba315d8ff Roger He          2017-12-21  477  	}
+3756310e9fe1e0 Thomas Hellström  2024-07-05  478  out_bo_moved:
+abb50d67adf3f0 Thomas Hellström  2021-06-02  479  	dma_resv_unlock(bo->base.resv);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  480  out_no_lock:
+3756310e9fe1e0 Thomas Hellström  2024-07-05  481  	ttm_bo_put(bo);
+3756310e9fe1e0 Thomas Hellström  2024-07-05  482  	return ret;
+abb50d67adf3f0 Thomas Hellström  2021-06-02  483  
+3756310e9fe1e0 Thomas Hellström  2024-07-05  484  out_no_ref:
+3756310e9fe1e0 Thomas Hellström  2024-07-05  485  	spin_unlock(&bdev->lru_lock);
+d5769ba315d8ff Roger He          2017-12-21  486  	return ret;
+d5769ba315d8ff Roger He          2017-12-21  487  }
+d5769ba315d8ff Roger He          2017-12-21  488  
 
-:::::: The code at line 331 was first introduced by commit
-:::::: 8633ef82f101c040427b57d4df7b706261420b94 drivers/firmware: consolidate EFI framebuffer setup for all arches
+:::::: The code at line 461 was first introduced by commit
+:::::: 3756310e9fe1e0182adac89cedaa98c0eea66675 drm/ttm: Use the LRU walker for eviction
 
-:::::: TO: Javier Martinez Canillas <javierm@redhat.com>
-:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
+:::::: TO: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+:::::: CC: Christian König <christian.koenig@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
