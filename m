@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891D18C03B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 19:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBC68F6B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 20:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736278644; cv=none; b=b4jYVnMmWtPGpYboHmiUoBsoXMpERw1pUeXJRgZzpmOqeYstfwsZr69rTuzeOyUxua0/EYxIXJomvLcroXVckrB4aHbvmA6bdcSxPkNpusv0oBvhe4Tj3BQlXZsM9q+9bS2k2gOPzsSaNGBO0+wJ3DNPg4P0HSm6bniiPegXIaQ=
+	t=1736280627; cv=none; b=B0UEn/eAAOMXN6X0NlDbE9zJ4IypfHIQ4fWslQ9jEXy0hC8PjEryz4QqOhu7ZsEN9McvMg3iczR1VHh8Qjeh7RpfaOdEEXowUDZSDc/uWNsajTMyIdklzmTkHTdLgxoFBLsPsQIx46epZnv6PTaLRuSZu370OO3bowbRDEAwxtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736278644; c=relaxed/simple;
-	bh=QCVc9Bm3Cj8QW92AQAh44QmDM6/6Z/8K5DFRA24PAqM=;
+	s=arc-20240116; t=1736280627; c=relaxed/simple;
+	bh=Ody/UlRgjlVKAEmimrlylCo3hZZLu7mclw3dvd9dH1g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aL5UoEmEdsz92MuhBXEJsRQxEjS2F6/WdY7J9H/+1VDo6c6bTcRNjMkrNWVb3rXdAdydPD9WwRyRm2uItv3EjpiRukjqKEEh8NhWzlyzekmFBLH+dQz+EUYJj4XMbehdUMl2YXw9nRs52egCPQrnSsYxLXfm6UFnscB2vvFTwGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxjpeUPW; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=SGOQbQ/34QJI4+VLFxLsVu2W+isxKo6la/ngEAPqAK9AiFUjz0YmNokFhCeduGVbbHUUVNQ5+aOlbEUxN39xkElrwzuaQGYRRFTw1h1CYS49nneJ5J29H1oyDg2kVq/uCZEKZV6Jfo59WDbz9t60hMMSf+gPgL4Cg0Ye56suSgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgvoSC3N; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxjpeUPW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgvoSC3N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736278641; x=1767814641;
+  t=1736280624; x=1767816624;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QCVc9Bm3Cj8QW92AQAh44QmDM6/6Z/8K5DFRA24PAqM=;
-  b=bxjpeUPWgIvZAogVw4mrHaAbEP3dfrA5dp0LtJbgJUHhPOtpE5JhLOq5
-   rgbSmtDpUznQW7ruD0S/+ki97EzwqwxpNPJboyf6abuRBQQfHCbsKqDVU
-   hwiKMmORW4msa3rssBq1J0ie+7LvbSFcDGBQumRlNw7LFsp19jenJLc+U
-   grt6hxozFyIFR+g5607RtsNZAPXGUrOF8dd24Bc106E7r31mIkE4NqNkq
-   FdhxC6EUAUyN5Fl2CLhQm9/niUfz0IE38j1K4clbINyaT/Dftx4sMgr65
-   OpBipWDzlMDG12ODgAoXnTnMHzVcobO6piSgxdE8GwpdtF5Cf76/B/wrG
-   w==;
-X-CSE-ConnectionGUID: 19n4ingIQgWk7jPBH01hGg==
-X-CSE-MsgGUID: cR+K03pgTjSF+tJaAxGVaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36700658"
+  bh=Ody/UlRgjlVKAEmimrlylCo3hZZLu7mclw3dvd9dH1g=;
+  b=jgvoSC3Npd586TqdMCrgiqf2OXLYVGk2OJ55zhEsrImVKHDWPVchIzDZ
+   5MIpoyOXsQhusPehA26WBMjCydEDyrX7FDJE4y8kuoFn5qY2Dna/72A0S
+   S+98nGX9vP4patpr17b2MKKf/amqxdju82rRhGGo58WZaGtzkXs7OgUn/
+   1JbM9mmn48zo9WypQYniJiV0zkMOMrWWNCBquGUoHHXTf+hBpIbkOeFWV
+   ET4XSJQG6Fx322OJuT+gYB9vsAMdksAh0vcPSX4G3s0S9K6/n0zL/sPN3
+   45MLcke99h5UY9oEf8h7eDeelHsjnJTxH6UcW9zRcIBfAbb1XV1HIEdck
+   A==;
+X-CSE-ConnectionGUID: FIIT1jh3RNCpEn2W+u1hlw==
+X-CSE-MsgGUID: YHnW/UkaSe2a6aq2H0eBjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47900725"
 X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="36700658"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 11:37:20 -0800
-X-CSE-ConnectionGUID: oB8VJKDNR2KTj4CyuQ8N3w==
-X-CSE-MsgGUID: veUYcUAyRq+TrtnFEi/Q1w==
+   d="scan'208";a="47900725"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 12:10:23 -0800
+X-CSE-ConnectionGUID: RhlrnGj3TbCBrfnUKvnFnA==
+X-CSE-MsgGUID: fYp2ISwpQkqNLen7yFxO2w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103366314"
+X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
+   d="scan'208";a="103079460"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 07 Jan 2025 11:37:20 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 07 Jan 2025 12:10:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVFO8-000F91-32;
-	Tue, 07 Jan 2025 19:37:16 +0000
-Date: Wed, 8 Jan 2025 03:37:10 +0800
+	id 1tVFu7-000FAP-3B;
+	Tue, 07 Jan 2025 20:10:19 +0000
+Date: Wed, 8 Jan 2025 04:10:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [char-misc:char-misc-testing 34/74]
- drivers/pps/clients/pps-gpio.c:66:47: error: incompatible type for argument
- 1 of '_dev_warn'
-Message-ID: <202501080313.MmWpjmSe-lkp@intel.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Lee Jones <lee@kernel.org>, Gwendal Grignou <gwendal@chromium.org>
+Subject: drivers/power/supply/cros_usbpd-charger.c:15:49: warning: '%d'
+ directive writing between 1 and 11 bytes into a region of size 5
+Message-ID: <202501080332.cWaGQlRG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +63,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
-head:   daec45916d68bc14406f20f547a8c39a3eab88b3
-commit: 8aa0545f419e5bffbb27354e0221997cb6e87cbd [34/74] pps: clients: gpio: Bypass edge's direction check when not needed
-config: arm-randconfig-001-20250108 (https://download.01.org/0day-ci/archive/20250108/202501080313.MmWpjmSe-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501080313.MmWpjmSe-lkp@intel.com/reproduce)
+Hi Enric,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fbfd64d25c7af3b8695201ebc85efe90be28c5a3
+commit: 47f11e0b40e97f373da4efbacee0a9526c816ed5 mfd / platform: cros_ec: Move cros-ec core driver out from MFD
+date:   5 years ago
+config: arm-randconfig-r016-20221216 (https://download.01.org/0day-ci/archive/20250108/202501080332.cWaGQlRG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501080332.cWaGQlRG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501080313.MmWpjmSe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501080332.cWaGQlRG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/pps/clients/pps-gpio.c:17:
-   drivers/pps/clients/pps-gpio.c: In function 'pps_gpio_irq_handler':
->> drivers/pps/clients/pps-gpio.c:66:47: error: incompatible type for argument 1 of '_dev_warn'
-      66 |                 dev_warn_ratelimited(info->pps->dev, "IRQ did not trigger any PPS event\n");
-         |                                      ~~~~~~~~~^~~~~
-         |                                               |
-         |                                               struct device
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   include/linux/dev_printk.h:215:17: note: in expansion of macro 'dev_warn'
-     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
-         |                 ^~~~~~~~~
-   include/linux/dev_printk.h:227:9: note: in expansion of macro 'dev_level_ratelimited'
-     227 |         dev_level_ratelimited(dev_warn, dev, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pps/clients/pps-gpio.c:66:17: note: in expansion of macro 'dev_warn_ratelimited'
-      66 |                 dev_warn_ratelimited(info->pps->dev, "IRQ did not trigger any PPS event\n");
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:52:37: note: expected 'const struct device *' but argument is of type 'struct device'
-      52 | void _dev_warn(const struct device *dev, const char *fmt, ...);
-         |                ~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/power/supply/cros_usbpd-charger.c: In function 'cros_usbpd_charger_probe':
+>> drivers/power/supply/cros_usbpd-charger.c:15:49: warning: '%d' directive writing between 1 and 11 bytes into a region of size 5 [-Wformat-overflow=]
+      15 | #define CHARGER_USBPD_DIR_NAME                  "CROS_USBPD_CHARGER%d"
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/cros_usbpd-charger.c:656:45: note: in expansion of macro 'CHARGER_USBPD_DIR_NAME'
+     656 |                         sprintf(port->name, CHARGER_USBPD_DIR_NAME, i);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/cros_usbpd-charger.c:15:68: note: format string is defined here
+      15 | #define CHARGER_USBPD_DIR_NAME                  "CROS_USBPD_CHARGER%d"
+         |                                                                    ^~
+   drivers/power/supply/cros_usbpd-charger.c:15:49: note: directive argument in the range [-2147483644, 2147483646]
+      15 | #define CHARGER_USBPD_DIR_NAME                  "CROS_USBPD_CHARGER%d"
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/cros_usbpd-charger.c:656:45: note: in expansion of macro 'CHARGER_USBPD_DIR_NAME'
+     656 |                         sprintf(port->name, CHARGER_USBPD_DIR_NAME, i);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/cros_usbpd-charger.c:656:25: note: 'sprintf' output between 20 and 30 bytes into a destination of size 23
+     656 |                         sprintf(port->name, CHARGER_USBPD_DIR_NAME, i);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/_dev_warn +66 drivers/pps/clients/pps-gpio.c
+vim +15 drivers/power/supply/cros_usbpd-charger.c
 
-    39	
-    40	/*
-    41	 * Report the PPS event
-    42	 */
-    43	
-    44	static irqreturn_t pps_gpio_irq_handler(int irq, void *data)
-    45	{
-    46		const struct pps_gpio_device_data *info;
-    47		struct pps_event_time ts;
-    48		int rising_edge;
-    49	
-    50		/* Get the time stamp first */
-    51		pps_get_ts(&ts);
-    52	
-    53		info = data;
-    54	
-    55		/* Small trick to bypass the check on edge's direction when capture_clear is unset */
-    56		rising_edge = info->capture_clear ?
-    57			      gpiod_get_value(info->gpio_pin) : !info->assert_falling_edge;
-    58		if ((rising_edge && !info->assert_falling_edge) ||
-    59				(!rising_edge && info->assert_falling_edge))
-    60			pps_event(info->pps, &ts, PPS_CAPTUREASSERT, data);
-    61		else if (info->capture_clear &&
-    62				((rising_edge && info->assert_falling_edge) ||
-    63				(!rising_edge && !info->assert_falling_edge)))
-    64			pps_event(info->pps, &ts, PPS_CAPTURECLEAR, data);
-    65		else
-  > 66			dev_warn_ratelimited(info->pps->dev, "IRQ did not trigger any PPS event\n");
-    67	
-    68		return IRQ_HANDLED;
-    69	}
-    70	
+f68b883e8fad23 Sameer Nanda  2018-05-02  14  
+3af15cfacd1eef Fabien Parent 2018-08-10 @15  #define CHARGER_USBPD_DIR_NAME			"CROS_USBPD_CHARGER%d"
+3af15cfacd1eef Fabien Parent 2018-08-10  16  #define CHARGER_DEDICATED_DIR_NAME		"CROS_DEDICATED_CHARGER"
+3af15cfacd1eef Fabien Parent 2018-08-10  17  #define CHARGER_DIR_NAME_LENGTH		(sizeof(CHARGER_USBPD_DIR_NAME) >= \
+3af15cfacd1eef Fabien Parent 2018-08-10  18  					 sizeof(CHARGER_DEDICATED_DIR_NAME) ? \
+3af15cfacd1eef Fabien Parent 2018-08-10  19  					 sizeof(CHARGER_USBPD_DIR_NAME) : \
+3af15cfacd1eef Fabien Parent 2018-08-10  20  					 sizeof(CHARGER_DEDICATED_DIR_NAME))
+f68b883e8fad23 Sameer Nanda  2018-05-02  21  #define CHARGER_CACHE_UPDATE_DELAY		msecs_to_jiffies(500)
+f68b883e8fad23 Sameer Nanda  2018-05-02  22  #define CHARGER_MANUFACTURER_MODEL_LENGTH	32
+f68b883e8fad23 Sameer Nanda  2018-05-02  23  
+
+:::::: The code at line 15 was first introduced by commit
+:::::: 3af15cfacd1eef7f223802d49a88cae23c509183 power: supply: cros: add support for dedicated port
+
+:::::: TO: Fabien Parent <fparent@baylibre.com>
+:::::: CC: Sebastian Reichel <sre@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
