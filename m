@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E2513C914
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 14:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27223259499;
+	Tue,  7 Jan 2025 14:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736261936; cv=none; b=GQ5njTEQMhgBxgToKT/uc/e6JmxpZ1qSSfj41PgSFDpZELgjoR1DDjYQxQO3l/76/8IJkowu8qcpcqd8RCC/rzAfYYX3FCjaJBdF9eEaKe+LOn9HHyEBrH/iyY/EzV4PeidVaQ1ddPJlBZztN+XtwNT4+vZqgMx8l7dXmryQ3iE=
+	t=1736261936; cv=none; b=paSpUkfaq8J16p6DmJyJnrUssMTowCJdmwljhZB3xjahtSfeAQMOnReM1r/N/fPS39vAnENW00whLf88V9zMq+qj9TC9u30xhtr69BXdRBiqSR7UbGgJpodELregMvaS0SM0dGMmYYd9Fvo00KrymAQxNv/LGa/B6d05gVMdeCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736261936; c=relaxed/simple;
-	bh=9nwOcyHXvtE65qvsD3PuHDq9fcFA8ZLW2xs+8b3oWqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZYkbSkUu62YQRSPSb/pdK52HEuD6IjOLwjwJnhJP+qoj5wK1iUsKt9SXb94175U5d8SxAuUL63CZa01m+2x6INj7lKW8VawPfRr3D97cJrfQKBzzETA1IqsiFrOHF/X6CXCI+ILnsl9jSX2Aq5Fvz8Eq9JSOua33W2R9WDRZYJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awQ61BzQ; arc=none smtp.client-ip=192.198.163.8
+	bh=Fdd/qXxUOKyLEbfLqRWJaHAiGNUfNCVPGjChUerDnn8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OdEB1Nth4VAVnH3jDUE8KzFRpXWgAtoqT1GgaH/ZGHEU4vwwLgPRqNrTEleDh5J2XqL8ubpACmeBuWM4A7SXGfmIerIEp4IRY52juTtGIZRqs8aqCp/p6CwFL2h+6iU1i9+7GNvizzuKvByLf/OOlHdieYz6P9riPdVH4mPzNdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bt7rzF2h; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awQ61BzQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bt7rzF2h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736261932; x=1767797932;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9nwOcyHXvtE65qvsD3PuHDq9fcFA8ZLW2xs+8b3oWqI=;
-  b=awQ61BzQ33jLrB7UCa9jzfemsRTPs1TKbOTJJrOT05qgurIPhHhOEiFj
-   6Uj/uOSj5Jln/nVe6zaNc4zrNMfvN3Ogv8V/nYWz12sP89oDHtEZRTFR1
-   MYAXcCZuovaBWmwPb1YasQ3J/lgXB9WIaS64piv07Tf8JKs+HTNTMteQW
-   /4MfMgBCZtPoh9ZTDDGCjBFDmj/ET9gTDkLvzKyowGSoaOr90WMa0RoEl
-   WmhYrTVq8H+YqQIWdAhK+ykdZoTkenjSvIKeOa4WQgerUIO6qbO8ewu4+
-   Vqh8PxWvWFN9NO9Ni2r3ZJkrzT/Dr5nnGj64gXdCIEJ/BG9Z9SuCkwkFx
-   A==;
-X-CSE-ConnectionGUID: H7zMdjnEROuug5xaRkgisw==
-X-CSE-MsgGUID: tKE1KsbuTu2fa0W+ZGQAUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="53986224"
+  t=1736261933; x=1767797933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fdd/qXxUOKyLEbfLqRWJaHAiGNUfNCVPGjChUerDnn8=;
+  b=bt7rzF2hU27PBzyKl/v7hqE3Ym6PciaUqelcngndUq7iGn1P8idnEm5e
+   4dksPjDv7kEdEPQ710H0GKMy2d1UrdD9MvM9F8wMxLHBmHC5lgZs7o4Vm
+   MA8qHk88gIp0AAgyEt3eIYaIUh7noCnCh1byEuhec+RXC7Gfp5KtqFdH9
+   +v1359w3wEqC2YevB8szHhUzP3nBqPneRz9WtU/e65o/aGRu164J7gh4N
+   5m8FfyfCmipoOHd2TK/fv9XLevbhjDniLleZtrIGIWEHO/C4bs6VdqZt7
+   GFNS1UdvZRnbzdku2QzZPHOuIxmQxJDX79aRwL358Vdw7EvUrSgX0FYjk
+   Q==;
+X-CSE-ConnectionGUID: pZZFCAdKQ+msVXYA9/kCRg==
+X-CSE-MsgGUID: 0mbHo4j+Q9+rD2JH4VSPxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="46944098"
 X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="53986224"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 06:58:52 -0800
-X-CSE-ConnectionGUID: HRBMBh9kSdOGO4EOTi4KGA==
-X-CSE-MsgGUID: aBHVuWz2Q5CFAGoim2Lv3Q==
+   d="scan'208";a="46944098"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 06:58:52 -0800
+X-CSE-ConnectionGUID: RDvuaEXnQpa/h9OCAEyF9g==
+X-CSE-MsgGUID: cqy4g4trSk6yPYPHjwBx0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="133643641"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106811591"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 07 Jan 2025 06:58:51 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 07 Jan 2025 06:58:50 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVB2e-000ErN-0O;
+	id 1tVB2e-000ErL-0F;
 	Tue, 07 Jan 2025 14:58:48 +0000
-Date: Tue, 7 Jan 2025 22:58:34 +0800
+Date: Tue, 7 Jan 2025 22:58:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 18062/25291] mm/damon/vaddr.c:
- linux/sched/mm.h is included more than once.
-Message-ID: <202501072209.kfZIhRmr-lkp@intel.com>
+To: niravkumar.l.rabara@intel.com, Dinh Nguyen <dinguyen@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] arm64: dts: socfpga: agilex5: add NAND board file
+Message-ID: <202501072244.kNb1e8KP-lkp@intel.com>
+References: <20250107084831.2750035-2-niravkumar.l.rabara@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,35 +66,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250107084831.2750035-2-niravkumar.l.rabara@intel.com>
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
-commit: 77c2d4931d57f00759fdb5ad856e4f29d6f6dd3c [18062/25291] treewide: Add missing includes masked by cgroup -> bpf dependency
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.13-rc6 next-20250107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/niravkumar-l-rabara-intel-com/arm64-dts-socfpga-agilex5-add-NAND-board-file/20250107-165406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250107084831.2750035-2-niravkumar.l.rabara%40intel.com
+patch subject: [PATCH] arm64: dts: socfpga: agilex5: add NAND board file
+config: arm64-randconfig-002-20250107 (https://download.01.org/0day-ci/archive/20250107/202501072244.kNb1e8KP-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501072244.kNb1e8KP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501072209.kfZIhRmr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501072244.kNb1e8KP-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> mm/damon/vaddr.c: linux/sched/mm.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +17 mm/damon/vaddr.c
-
-     9	
-    10	#include <linux/damon.h>
-    11	#include <linux/hugetlb.h>
-    12	#include <linux/mm.h>
-    13	#include <linux/mmu_notifier.h>
-    14	#include <linux/highmem.h>
-    15	#include <linux/page_idle.h>
-    16	#include <linux/pagewalk.h>
-  > 17	#include <linux/sched/mm.h>
-    18	#include <linux/random.h>
-  > 19	#include <linux/sched/mm.h>
-    20	#include <linux/slab.h>
-    21	
+>> Error: arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dts:39.1-7 Label or path gpio0 not found
+   FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
