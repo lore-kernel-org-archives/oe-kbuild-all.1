@@ -1,189 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1A219AD70
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 21:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D44019DF62
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 22:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736287119; cv=none; b=MXSuhO9wUYJ04pXmGXqYCO3fN1UuX59Y5hFE0Ranu34MmUZtxi5C1eNiZlwlCXdyTmtUuhCPDUyuxX5ueHoZiUni3PN4xJZTEr+WKVzJANaeCrZql5cq3S7+1xMgHePwZxMBCVa7sCq+uMZXNUCDfHu8wLFIqxPs+V63YUncP/o=
+	t=1736288442; cv=none; b=RjTh6dxBKW8wP41v/QqKzyP4tOHhAu5Ai3pU7cPoTauYGdcNJt84LbbLrcJX6/Yjhah1FU6Ta5YRL19N5s51qykitVR9ylSnQsYnV6jJPue+EOQliAKxJXnpTZGD2CIJBImJXeY5Tn6QLojN1EloagRTcfWTPT+OzFNtiyQr6c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736287119; c=relaxed/simple;
-	bh=H7wJHh0/DSOR1TqRy/WOsvVQLNzkEuCkRTgYQay2KNo=;
+	s=arc-20240116; t=1736288442; c=relaxed/simple;
+	bh=YZ7ZOhu1ck2HWLUtA4EohE5iR6kUXkP887imQUOMm5Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D7YcFyT3EbSnVBw+lpmwgiYquvra0YnTJmSCAUdRuutZJnNDfT9pKuOjtcGeslr+HRcDdIn+Oq+N6KZu2aL0pTmjATLCrXr6z0ilzM1zaFqGk6ZUT8ZhmFQDLW6XUaFsIfM8mwSwNXHtD2fqSh6ITb5lIKRhgy1pOubfe/aWdSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHJVFzht; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=U1ZqENaOMY3wznWdegsbdWDL6glkFuDbVxxMFa4/nYuj9b6H/X/bf2oG4ASGCy/+d24bek/JW9EhyyLNyqMgbNdWDHfgA29FJPxaimbKLOueH5nRGrmHasiBTuWW2OPAoIus2f+iMqMBclN3bQVBctm7SXj1ILFy3yoshJlj58k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrjzyzLS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHJVFzht"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrjzyzLS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736287117; x=1767823117;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=H7wJHh0/DSOR1TqRy/WOsvVQLNzkEuCkRTgYQay2KNo=;
-  b=HHJVFzhtK4BNoyEWRqeLgduuaRs1QwdDlsMFhmqkPMIIx254n1fCC5Kj
-   L3iahHmCwdIRnYtUAB5b4uzUrrjGaGUvUZp2ieg+1u9ozYEhz+TSLQNy1
-   d+rJng1ZV2zuo+y9O8ul4AnfhoRiFO1Tf/eaZgteCt5F6sMWj253U5yvZ
-   F+XX0SXTM5hyk2vM/ApyE67SOKDPDg8U/laV4TJYILPdgu7+0jPwnO37R
-   fq23B+2taddUtNpMGxbVa5hWDKIwjeMnUueEhT2Kh1V3vbhEIVZyn7flW
-   oc9g84g76z+883Vuk4DUCzVRbydPmtkoApHnsN5ZhpfLuX7eDLjpJyrU+
+  t=1736288441; x=1767824441;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YZ7ZOhu1ck2HWLUtA4EohE5iR6kUXkP887imQUOMm5Y=;
+  b=UrjzyzLSPS3qk7PnNe7WuatYr7sr4kKQiAwTcaX0Pk04m9tVtlhzr7ki
+   BU0F+rf/DjhO61oCu8O6qY3XgUG9WQd7EMKqgR7CvgtCgRxbMC99FA7SX
+   WJI1N2DK+F4Bl1bi38nl7AdW62Mp9az9Y+FhbPvhAl2htdtFgmY6XiEl8
+   aCoG8rRLtzrGHiLAv7xUBQsOFd3m6WmWuBIaISegK0fJISIeh8kApw75G
+   7mXJAxSyr/Q3kTywNmDnykApjAhPVv/anK2svnlzu5FrcSvb4pUxNQi1i
+   eG+oWpBC+3rGFPojVNTGrK6/fjvIwfQcdaz7sD+vzJK2NY1YtUX8UMWp/
    Q==;
-X-CSE-ConnectionGUID: 6gjUJqWiTpuc7aTf7mVZdA==
-X-CSE-MsgGUID: bhYWGHTKRJ6nwHYg3Tcz5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47158970"
+X-CSE-ConnectionGUID: ac+xKfiLTEONeh3gT97FJA==
+X-CSE-MsgGUID: WsaXyoGSRiumfBLuUCa2Hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="46992951"
 X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="47158970"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 13:58:36 -0800
-X-CSE-ConnectionGUID: Bb7cKi4GRl6QqektFwwpPA==
-X-CSE-MsgGUID: tMTB+MgCSaWtCGUGJ40LVA==
+   d="scan'208";a="46992951"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 14:20:40 -0800
+X-CSE-ConnectionGUID: fKu6yqv7RC6/wfqjQ2DPNw==
+X-CSE-MsgGUID: 95DAbkPmQf+Er63E5P1fqQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="103105871"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107997043"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Jan 2025 13:58:35 -0800
+  by orviesa005.jf.intel.com with ESMTP; 07 Jan 2025 14:20:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVHaq-000FGB-2N;
-	Tue, 07 Jan 2025 21:58:32 +0000
-Date: Wed, 8 Jan 2025 05:58:18 +0800
+	id 1tVHwC-000FHX-1A;
+	Tue, 07 Jan 2025 22:20:36 +0000
+Date: Wed, 8 Jan 2025 06:19:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: kernel/power/snapshot.c:982: warning: Function parameter or struct
- member 'start_pfn' not described in 'register_nosave_region'
-Message-ID: <202501080538.sini0wY0-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/b4-sysfs-const-bin_attr-cb 63/64]
+ init/initramfs.c:594:31: error: initialization of 'ssize_t (*)(struct file
+ *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)'
+ {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *,
+ char *, long long int,  un...
+Message-ID: <202501080637.Tp6PzMXl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbfd64d25c7af3b8695201ebc85efe90be28c5a3
-commit: 33569ef3c754a82010f266b7b938a66a3ccf90a4 PM: hibernate: Remove register_nosave_region_late()
-date:   2 years, 11 months ago
-config: x86_64-randconfig-012-20241001 (https://download.01.org/0day-ci/archive/20250108/202501080538.sini0wY0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-bin_attr-cb
+head:   1c76e0940bd2d02a30ddaf76ef5bcb648c3fffb1
+commit: da56a14a657e9763156eeac71d74f3d73bcb11f5 [63/64] read/write
+config: i386-buildonly-randconfig-003-20250108 (https://download.01.org/0day-ci/archive/20250108/202501080637.Tp6PzMXl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501080538.sini0wY0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501080637.Tp6PzMXl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501080538.sini0wY0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501080637.Tp6PzMXl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/power/snapshot.c:330: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Data types related to memory bitmaps.
-   kernel/power/snapshot.c:438: warning: Function parameter or struct member 'gfp_mask' not described in 'alloc_rtree_node'
-   kernel/power/snapshot.c:438: warning: Function parameter or struct member 'safe_needed' not described in 'alloc_rtree_node'
-   kernel/power/snapshot.c:438: warning: Function parameter or struct member 'ca' not described in 'alloc_rtree_node'
-   kernel/power/snapshot.c:438: warning: Function parameter or struct member 'list' not described in 'alloc_rtree_node'
-   kernel/power/snapshot.c:463: warning: Function parameter or struct member 'zone' not described in 'add_rtree_block'
-   kernel/power/snapshot.c:463: warning: Function parameter or struct member 'gfp_mask' not described in 'add_rtree_block'
-   kernel/power/snapshot.c:463: warning: Function parameter or struct member 'safe_needed' not described in 'add_rtree_block'
-   kernel/power/snapshot.c:463: warning: Function parameter or struct member 'ca' not described in 'add_rtree_block'
-   kernel/power/snapshot.c:536: warning: Function parameter or struct member 'gfp_mask' not described in 'create_zone_bm_rtree'
-   kernel/power/snapshot.c:536: warning: Function parameter or struct member 'safe_needed' not described in 'create_zone_bm_rtree'
-   kernel/power/snapshot.c:536: warning: Function parameter or struct member 'ca' not described in 'create_zone_bm_rtree'
-   kernel/power/snapshot.c:536: warning: Function parameter or struct member 'start' not described in 'create_zone_bm_rtree'
-   kernel/power/snapshot.c:536: warning: Function parameter or struct member 'end' not described in 'create_zone_bm_rtree'
-   kernel/power/snapshot.c:571: warning: Function parameter or struct member 'zone' not described in 'free_zone_bm_rtree'
-   kernel/power/snapshot.c:571: warning: Function parameter or struct member 'clear_nosave_free' not described in 'free_zone_bm_rtree'
-   kernel/power/snapshot.c:678: warning: Function parameter or struct member 'bm' not described in 'memory_bm_create'
-   kernel/power/snapshot.c:678: warning: Function parameter or struct member 'gfp_mask' not described in 'memory_bm_create'
-   kernel/power/snapshot.c:678: warning: Function parameter or struct member 'safe_needed' not described in 'memory_bm_create'
-   kernel/power/snapshot.c:720: warning: Function parameter or struct member 'clear_nosave_free' not described in 'memory_bm_free'
-   kernel/power/snapshot.c:742: warning: Function parameter or struct member 'bm' not described in 'memory_bm_find_bit'
-   kernel/power/snapshot.c:742: warning: Function parameter or struct member 'pfn' not described in 'memory_bm_find_bit'
-   kernel/power/snapshot.c:742: warning: Function parameter or struct member 'addr' not described in 'memory_bm_find_bit'
-   kernel/power/snapshot.c:742: warning: Function parameter or struct member 'bit_nr' not described in 'memory_bm_find_bit'
-   kernel/power/snapshot.c:916: warning: expecting prototype for memory_bm_rtree_next_pfn(). Prototype was for memory_bm_next_pfn() instead
->> kernel/power/snapshot.c:982: warning: Function parameter or struct member 'start_pfn' not described in 'register_nosave_region'
->> kernel/power/snapshot.c:982: warning: Function parameter or struct member 'end_pfn' not described in 'register_nosave_region'
-   kernel/power/snapshot.c:1254: warning: Function parameter or struct member 'zone' not described in 'saveable_highmem_page'
-   kernel/power/snapshot.c:1254: warning: Function parameter or struct member 'pfn' not described in 'saveable_highmem_page'
-   kernel/power/snapshot.c:1318: warning: Function parameter or struct member 'zone' not described in 'saveable_page'
-   kernel/power/snapshot.c:1318: warning: Function parameter or struct member 'pfn' not described in 'saveable_page'
-   kernel/power/snapshot.c:1389: warning: Function parameter or struct member 'dst' not described in 'safe_copy_page'
-   kernel/power/snapshot.c:1389: warning: Function parameter or struct member 's_page' not described in 'safe_copy_page'
-   kernel/power/snapshot.c:1602: warning: Function parameter or struct member 'x' not described in '__fraction'
-   kernel/power/snapshot.c:1602: warning: Function parameter or struct member 'multiplier' not described in '__fraction'
-   kernel/power/snapshot.c:1602: warning: Function parameter or struct member 'base' not described in '__fraction'
-   kernel/power/snapshot.c:1893: warning: Function parameter or struct member 'nr_highmem' not described in 'count_pages_for_highmem'
-   kernel/power/snapshot.c:1911: warning: Function parameter or struct member 'nr_pages' not described in 'enough_free_mem'
-   kernel/power/snapshot.c:1911: warning: Function parameter or struct member 'nr_highmem' not described in 'enough_free_mem'
-   kernel/power/snapshot.c:1934: warning: Function parameter or struct member 'safe_needed' not described in 'get_highmem_buffer'
-   kernel/power/snapshot.c:1947: warning: Function parameter or struct member 'bm' not described in 'alloc_highmem_pages'
-   kernel/power/snapshot.c:1947: warning: Function parameter or struct member 'nr_highmem' not described in 'alloc_highmem_pages'
-   kernel/power/snapshot.c:1947: warning: expecting prototype for alloc_highmem_image_pages(). Prototype was for alloc_highmem_pages() instead
-   kernel/power/snapshot.c:1982: warning: Function parameter or struct member 'copy_bm' not described in 'swsusp_alloc'
-   kernel/power/snapshot.c:1982: warning: Function parameter or struct member 'nr_pages' not described in 'swsusp_alloc'
-   kernel/power/snapshot.c:1982: warning: Function parameter or struct member 'nr_highmem' not described in 'swsusp_alloc'
-   kernel/power/snapshot.c:2195: warning: Function parameter or struct member 'bm' not described in 'mark_unsafe_pages'
-   kernel/power/snapshot.c:2230: warning: Function parameter or struct member 'info' not described in 'load_header'
-   kernel/power/snapshot.c:2230: warning: expecting prototype for load header(). Prototype was for load_header() instead
-   kernel/power/snapshot.c:2384: warning: Function parameter or struct member 'page' not described in 'get_highmem_page_buffer'
-   kernel/power/snapshot.c:2384: warning: Function parameter or struct member 'ca' not described in 'get_highmem_page_buffer'
-   kernel/power/snapshot.c:2569: warning: Function parameter or struct member 'bm' not described in 'get_buffer'
-   kernel/power/snapshot.c:2569: warning: Function parameter or struct member 'ca' not described in 'get_buffer'
-   kernel/power/snapshot.c:2693: warning: Function parameter or struct member 'handle' not described in 'snapshot_write_finalize'
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/async.h:14,
+                    from init/initramfs.c:3:
+>> init/initramfs.c:594:31: error: initialization of 'ssize_t (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, long long int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long int,  unsigned int)'} [-Werror=incompatible-pointer-types]
+     594 | static BIN_ATTR(initrd, 0440, sysfs_bin_attr_simple_read, NULL, 0);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:338:17: note: in definition of macro '__BIN_ATTR'
+     338 |         .read = _read,                                                  \
+         |                 ^~~~~
+   init/initramfs.c:594:8: note: in expansion of macro 'BIN_ATTR'
+     594 | static BIN_ATTR(initrd, 0440, sysfs_bin_attr_simple_read, NULL, 0);
+         |        ^~~~~~~~
+   init/initramfs.c:594:31: note: (near initialization for 'bin_attr_initrd.read')
+     594 | static BIN_ATTR(initrd, 0440, sysfs_bin_attr_simple_read, NULL, 0);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:338:17: note: in definition of macro '__BIN_ATTR'
+     338 |         .read = _read,                                                  \
+         |                 ^~~~~
+   init/initramfs.c:594:8: note: in expansion of macro 'BIN_ATTR'
+     594 | static BIN_ATTR(initrd, 0440, sysfs_bin_attr_simple_read, NULL, 0);
+         |        ^~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +982 kernel/power/snapshot.c
+vim +594 init/initramfs.c
 
-307c5971c972ef Rafael J. Wysocki  2016-06-29   974  
-74dfd666de861c Rafael J. Wysocki  2007-05-06   975  /**
-ef96f639ea6634 Rafael J. Wysocki  2016-07-06   976   * register_nosave_region - Register a region of unsaveable memory.
-ef96f639ea6634 Rafael J. Wysocki  2016-07-06   977   *
-ef96f639ea6634 Rafael J. Wysocki  2016-07-06   978   * Register a range of page frames the contents of which should not be saved
-ef96f639ea6634 Rafael J. Wysocki  2016-07-06   979   * during hibernation (to be used in the early initialization code).
-74dfd666de861c Rafael J. Wysocki  2007-05-06   980   */
-33569ef3c754a8 Amadeusz Sławiński 2022-01-19   981  void __init register_nosave_region(unsigned long start_pfn, unsigned long end_pfn)
-74dfd666de861c Rafael J. Wysocki  2007-05-06  @982  {
-74dfd666de861c Rafael J. Wysocki  2007-05-06   983  	struct nosave_region *region;
-74dfd666de861c Rafael J. Wysocki  2007-05-06   984  
-74dfd666de861c Rafael J. Wysocki  2007-05-06   985  	if (start_pfn >= end_pfn)
-74dfd666de861c Rafael J. Wysocki  2007-05-06   986  		return;
-74dfd666de861c Rafael J. Wysocki  2007-05-06   987  
-74dfd666de861c Rafael J. Wysocki  2007-05-06   988  	if (!list_empty(&nosave_regions)) {
-74dfd666de861c Rafael J. Wysocki  2007-05-06   989  		/* Try to extend the previous region (they should be sorted) */
-74dfd666de861c Rafael J. Wysocki  2007-05-06   990  		region = list_entry(nosave_regions.prev,
-74dfd666de861c Rafael J. Wysocki  2007-05-06   991  					struct nosave_region, list);
-74dfd666de861c Rafael J. Wysocki  2007-05-06   992  		if (region->end_pfn == start_pfn) {
-74dfd666de861c Rafael J. Wysocki  2007-05-06   993  			region->end_pfn = end_pfn;
-74dfd666de861c Rafael J. Wysocki  2007-05-06   994  			goto Report;
-74dfd666de861c Rafael J. Wysocki  2007-05-06   995  		}
-74dfd666de861c Rafael J. Wysocki  2007-05-06   996  	}
-74dfd666de861c Rafael J. Wysocki  2007-05-06   997  	/* This allocation cannot fail */
-7e1c4e27928e5f Mike Rapoport      2018-10-30   998  	region = memblock_alloc(sizeof(struct nosave_region),
-7e1c4e27928e5f Mike Rapoport      2018-10-30   999  				SMP_CACHE_BYTES);
-8a7f97b902f4fb Mike Rapoport      2019-03-11  1000  	if (!region)
-8a7f97b902f4fb Mike Rapoport      2019-03-11  1001  		panic("%s: Failed to allocate %zu bytes\n", __func__,
-8a7f97b902f4fb Mike Rapoport      2019-03-11  1002  		      sizeof(struct nosave_region));
-74dfd666de861c Rafael J. Wysocki  2007-05-06  1003  	region->start_pfn = start_pfn;
-74dfd666de861c Rafael J. Wysocki  2007-05-06  1004  	region->end_pfn = end_pfn;
-74dfd666de861c Rafael J. Wysocki  2007-05-06  1005  	list_add_tail(&region->list, &nosave_regions);
-74dfd666de861c Rafael J. Wysocki  2007-05-06  1006   Report:
-64ec72a1ece37d Joe Perches        2017-09-27  1007  	pr_info("Registered nosave memory: [mem %#010llx-%#010llx]\n",
-cd38ca854de15b Bjorn Helgaas      2013-06-03  1008  		(unsigned long long) start_pfn << PAGE_SHIFT,
-cd38ca854de15b Bjorn Helgaas      2013-06-03  1009  		((unsigned long long) end_pfn << PAGE_SHIFT) - 1);
-74dfd666de861c Rafael J. Wysocki  2007-05-06  1010  }
-74dfd666de861c Rafael J. Wysocki  2007-05-06  1011  
+0f3d2bd54f8fb1 Jan Beulich    2005-09-13  593  
+66bc1a173328de Lukas Wunner   2024-04-06 @594  static BIN_ATTR(initrd, 0440, sysfs_bin_attr_simple_read, NULL, 0);
+2678fd2fe9ee2c Alexander Graf 2023-12-07  595  
 
-:::::: The code at line 982 was first introduced by commit
-:::::: 74dfd666de861c97d47bdbd892f6d21b801d0247 swsusp: do not use page flags
+:::::: The code at line 594 was first introduced by commit
+:::::: 66bc1a173328dec3e37c203a999f2a2914c96b56 treewide: Use sysfs_bin_attr_simple_read() helper
 
-:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+:::::: TO: Lukas Wunner <lukas@wunner.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
