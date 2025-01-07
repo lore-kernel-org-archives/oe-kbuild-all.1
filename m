@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22EE15D1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 17:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C50018C01E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jan 2025 17:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736272324; cv=none; b=nHxwf4uQUIJgaZGEC0SaYag110QirF1mInlWq+SL4GSaO0nh0ZogU6jTCebCwNf+Nlkrww38AOUpkXsp274NxjCBOlIe0KQchnYqI3emHdN1pOBOmFl0n6/tIJa4Q698AlnjYvj+TrtSdCYWlg+2JgXes3IcuZzUXCied+DLXw8=
+	t=1736272384; cv=none; b=kUKxxTVT2yT9c3BiCy9I0a97x6E5AANTgL+YXrCLpI5KbP0UkfgoPMDmbeTOrkYOygiidlYVlyE2yeTlajzpSqrr+ybdQs+aR7UyOIRLelOOlb4/M8erTnxdp8v9n7387Xz/o5vcC4eTUQGfqzn0PYKxN8nliBkhTqs9mhZzxAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736272324; c=relaxed/simple;
-	bh=9PbhL8AYb6wkGkXD9gTBjHfIv4NDkd+GiO1/fa0+vww=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PnMr7fjg2QuBEv29kbKuFZ6Brx5DYqYCj0RuAEHd6+p5dBPDDKDkdPUhIFRNxL9yAHlrK3KLmMrSiHt4Mbyt/UlVw+XFQOg1yrcopbvPGO5nwAJGMdkHwHOMmnpt/lTXYyEOEOkVm7JZTxBhCkAj0BqIZFWsSwUAGEUepz8FAu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDorbC+b; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1736272384; c=relaxed/simple;
+	bh=dhWMq+KyKXc69vopJC3ogSDKx6ryRjqvw2MDid7ehVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4CH4EkfKDNMO0erugtMuq+q+B1/ddIZXmViHbmrcEP6yvpv0sT+TCReZjWXIwdUIl9/RxTCuTr7vGXj/trTB8SJVU5YMlywoshfESgQI5s1/Oo0ZLaMnkVWzd9/547rRMm1TRv/NzHkdIcsTM/7N1/Wx2CZ+9ioRsBRtKyVklg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h13p80rc; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDorbC+b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h13p80rc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736272321; x=1767808321;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9PbhL8AYb6wkGkXD9gTBjHfIv4NDkd+GiO1/fa0+vww=;
-  b=nDorbC+bY8pSijnIQSPAX8kwhg9obzzaYZe5kzXgqpU/fxJbtxzl8CY8
-   JL5hVB5Ttdrb050tScY8+J073WDabqBpae1kgBaVtSMlQrlzf/2xey9qC
-   /w2QRFH/x7w2y63lm11rpM5eubPnnhAS8y4y4Sams/zpIO3hXpNlXHZyD
-   Y3rGYM/ARI4p78iJkQdOmWIwUybVabBGZ8Cpym7qpBwXhabMaJfbpeX9W
-   DkokiGFeMF4z6P5xM0+cjzziq4b7URnTvBpqWqm5B3SBvf1P9whmtwatQ
-   JipB3OMNCXZaMT3SAm49x/0mXpRRFccbV/7UMuTPfkbZPnOBgzLGtTE23
-   g==;
-X-CSE-ConnectionGUID: 7jlo/DB+SX2+K2eoQwsbZg==
-X-CSE-MsgGUID: P5T0jExNTzai8VCB8l1GOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36164623"
+  t=1736272382; x=1767808382;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dhWMq+KyKXc69vopJC3ogSDKx6ryRjqvw2MDid7ehVM=;
+  b=h13p80rcQYcDJsY41dWeotGMgtLaxniyVADjA28GSamk1wwCtJ2aSs52
+   XVMQdxQU9XsOvrPZz27xQbj5/o/aOLPRycJGRjoJkkYP2M3erNk0BzySx
+   nAM4+D4bd6Ys1/xvbOG/hEdudOZ1IIXK4gkaFx1im6xu83Ol841YsP1nH
+   Oxp+9vhDT4k29KCAT7H2LF8SXbm9tzq7UWyUgqIcZGzh6DXT6udrXCcm7
+   dR2zUE7hzWCa6mwo0beLAlXq2LiOk9A9GdowQNOIQCvfH07Fq2eaapgiG
+   2KMFxUkZaccKnaAImwkoQXOGOKX8A+h6SNPgc9guKcU7mp1yCZlB4aGOp
+   Q==;
+X-CSE-ConnectionGUID: 43bN3GeyQGyKYSDjI4T2ng==
+X-CSE-MsgGUID: 5BotL0OpTomw6AmBJKiXqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="40140199"
 X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="36164623"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 09:52:01 -0800
-X-CSE-ConnectionGUID: T1WKLwziT9O8DZHQOrfMbg==
-X-CSE-MsgGUID: K4JdyoKwSmaUC8JoxuMuEg==
+   d="scan'208";a="40140199"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 09:53:01 -0800
+X-CSE-ConnectionGUID: NGvOOsQ9Qseau+Yaos1cEw==
+X-CSE-MsgGUID: uQYM9jgiQPu97buUhzmAtQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="102658676"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="107888087"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Jan 2025 09:51:59 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Jan 2025 09:52:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVDkD-000F3e-0X;
-	Tue, 07 Jan 2025 17:51:57 +0000
-Date: Wed, 8 Jan 2025 01:50:55 +0800
+	id 1tVDlB-000F3j-0n;
+	Tue, 07 Jan 2025 17:52:57 +0000
+Date: Wed, 8 Jan 2025 01:52:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vasant Hegde <vasant.hegde@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Joerg Roedel <jroedel@suse.de>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: drivers/iommu/amd/iommu.c:1269 domain_flush_complete() warn:
- inconsistent indenting
-Message-ID: <202501080139.yHwH0ePx-lkp@intel.com>
+To: Charalampos Stylianopoulos <charalampos.stylianopoulos@gmail.com>,
+	bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Nick Zavaritsky <mejedi@gmail.com>,
+	Charalampos Stylianopoulos <charalampos.stylianopoulos@gmail.com>
+Subject: Re: [PATCH bpf-next 2/4] bpf: Add bpf command to get number of map
+ entries
+Message-ID: <202501080123.MlvmZO4I-lkp@intel.com>
+References: <20250106145328.399610-3-charalampos.stylianopoulos@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +67,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250106145328.399610-3-charalampos.stylianopoulos@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbfd64d25c7af3b8695201ebc85efe90be28c5a3
-commit: d16041124de1dea4389b5e6b330657f34f8c0492 iommu/amd: xarray to track protection_domain->iommu list
-date:   10 weeks ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250108/202501080139.yHwH0ePx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Charalampos,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charalampos-Stylianopoulos/bpf-Add-map_num_entries-map-op/20250106-225520
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250106145328.399610-3-charalampos.stylianopoulos%40gmail.com
+patch subject: [PATCH bpf-next 2/4] bpf: Add bpf command to get number of map entries
+config: nios2-randconfig-r072-20250107 (https://download.01.org/0day-ci/archive/20250108/202501080123.MlvmZO4I-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501080139.yHwH0ePx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501080123.MlvmZO4I-lkp@intel.com/
 
 New smatch warnings:
-drivers/iommu/amd/iommu.c:1269 domain_flush_complete() warn: inconsistent indenting
+kernel/bpf/syscall.c:5771 bpf_get_num_entries() warn: unsigned 'num_entries' is never less than zero.
 
 Old smatch warnings:
-drivers/iommu/amd/iommu.c:1269 domain_flush_complete() warn: iterator 'i' not incremented
-drivers/iommu/amd/iommu.c:1462 domain_flush_pages_v1() warn: iterator 'i' not incremented
-drivers/iommu/amd/iommu.c:1996 init_gcr3_table() warn: missing error code? 'ret'
+arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
 
-vim +1269 drivers/iommu/amd/iommu.c
+vim +/num_entries +5771 kernel/bpf/syscall.c
 
-  1257	
-  1258	static void domain_flush_complete(struct protection_domain *domain)
-  1259	{
-  1260		struct pdom_iommu_info *pdom_iommu_info;
-  1261		unsigned long i;
-  1262	
-  1263		lockdep_assert_held(&domain->lock);
-  1264	
-  1265		/*
-  1266		 * Devices of this domain are behind this IOMMU
-  1267		 * We need to wait for completion of all commands.
-  1268		 */
-> 1269		 xa_for_each(&domain->iommu_array, i, pdom_iommu_info)
-  1270			iommu_completion_wait(pdom_iommu_info->iommu);
-  1271	}
-  1272	
+  5752	
+  5753	static int bpf_get_num_entries(union bpf_attr *attr, union bpf_attr __user *uattr)
+  5754	{
+  5755		__u32 num_entries = 0;
+  5756		struct bpf_map *map;
+  5757	
+  5758		if (CHECK_ATTR(BPF_MAP_GET_NUM_ENTRIES))
+  5759			return -EINVAL;
+  5760	
+  5761	
+  5762		CLASS(fd, f)(attr->map_fd);
+  5763		map = __bpf_map_get(f);
+  5764		if (IS_ERR(map))
+  5765			return PTR_ERR(map);
+  5766	
+  5767		if (!map->ops->map_num_entries)
+  5768			return -EOPNOTSUPP;
+  5769	
+  5770		num_entries = map->ops->map_num_entries(map);
+> 5771		if (num_entries < 0)
+  5772			return num_entries;
+  5773	
+  5774		if (put_user(num_entries, &uattr->map_get_num_entries.num_entries))
+  5775			return -EFAULT;
+  5776	
+  5777		return 0;
+  5778	}
+  5779	
 
 -- 
 0-DAY CI Kernel Test Service
