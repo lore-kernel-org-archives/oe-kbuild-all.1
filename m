@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E531369A8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 03:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1A5186284
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 03:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736305457; cv=none; b=bvhX9rfss1pb/EscJwhX6UxgwoyVXrQbV5CQTg5AwI8EgYPBkLp5gD5kzaSGOaZEPwtRj90IfE+xEnbkhufFdtV1EkrQvQ3ubDq/ZTyYWzFlInFAEvk2TVzwKrmDytBk43G6vvlqcWpoS957xgalYsxgRH9JP+AY3z9M37J3fxw=
+	t=1736306074; cv=none; b=p1BHeVgc4T+y0DopRthl0cRDNcuAzY4qcgB7Oxm19fIdUMVQRA2B/FehgIhhkCDLAaXQWslVnBTthDZQNLdkaVJptrZd80rFq3XiGZsSH061AqZoJaA4q0xOHz1HHVxKLBRFUYSsuyWsNkrTne9TOsZeM/c7xTaP+B8bM+DZQVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736305457; c=relaxed/simple;
-	bh=u73Ks6qLncBhD6O5eWrJDXxgR1b3lXa+PFVq7AOXBms=;
+	s=arc-20240116; t=1736306074; c=relaxed/simple;
+	bh=4kdamdvXEvKKD+/OcGP94qtMYa3lmo8Hvo3NyhWdFmk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EkG4RmwoCOrTi5F6xEoIYXFyxYuiPKhBEpllbVX0c0H2WtcVA5dMPe1NeJp/vgQk0QfiyjowE3h2GvMrvMpYnT5WFwlLsJ8/SgeNX/7T0dFbOtW3nhm6cfDsoyRBB5CNCS9ynh2RGE1d0dkSXjZft898dnkOn+zQf6AqaGd3f7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0mBpMK8; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=LdBRNTYr+57O6sVGhi7U/WRfyy/imsY0tlI0sqFwTGb3naT0hYI3Clopluw3RhI1gbOywXQPsGiwUQ7tyZ0Sfl9cKfqfEBiBWqp6a1ns1JXZfSYHTO9VsBcnVlEUzYMOqVkIL4kVPYTuAR35QdyLGxsARWwzEs8ZsPepwqv/+js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jb0oCs0i; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0mBpMK8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jb0oCs0i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736305455; x=1767841455;
+  t=1736306071; x=1767842071;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u73Ks6qLncBhD6O5eWrJDXxgR1b3lXa+PFVq7AOXBms=;
-  b=a0mBpMK8rKmtD50bjnCnUKfHP+MFE6KF84X6SwdvY9EJ1PQncfj9xucd
-   kUcU08Z0e5ZsrXrU+t6EZSBu78tEjpUz2InDCf4SqHCdV2LHIBUfaEIJo
-   v2HiYMrZ4RB0CZ10/hPRG72X4mBGSwAfMZX54pVRYDQwtmgEjkPW7amKO
-   VWPDSrYb/o5JXMq/ANu5uIaE/4cFcDsrTLrqMnKKdRh2gu4pi3Z+SQ/LA
-   B+anoTMTWTJ2+U9j0kgRm3kh2OK3QbML7JNrCO4YvA1Ru8UVzHz2QaHZo
-   uoVQH1hsCOOyvomJVkIepfqOoTaNAySqgQoFRA1mP9h4zeYcfFbCsmmMv
+  bh=4kdamdvXEvKKD+/OcGP94qtMYa3lmo8Hvo3NyhWdFmk=;
+  b=Jb0oCs0iwdn8gHYJBu697kETODsSCqjE0c4uaEUl9PgqAeNCQfdNfo36
+   gbgtVT9xZVJJBxH9Ne6cZY6r7Q1Ufafu40ilKS2OCvLxGHbFYl5O+K90s
+   2TiaHYjZJXu2icge/gHKFbIKc6Djz00ZmOLgEisulyMheeFVv/D6OcTUi
+   dmj02XKhXVzzLmIbZYA4q550iG/opd6aKWcxo6YVwDcDJ2p4KwutrGZhm
+   4Bb9x6CZZtzW4F0Kvq6kw2HGG7drW2HCH290FK8rgMLnuySZRUgSKm1Qn
+   QXLuWMPd5K+l1CmGv79CF+iwY0nlZL75FyIJl5rx1ID/oB2XhBR/Ba8UB
    Q==;
-X-CSE-ConnectionGUID: e5RHAODaQcGydp9JIfDlJA==
-X-CSE-MsgGUID: F34dGgObTSC1sVhwzChxfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36632283"
+X-CSE-ConnectionGUID: zvYOpeF0Sf21m0J3DX+5Eg==
+X-CSE-MsgGUID: VCxpQiqUToCgh/q4UMspqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47181978"
 X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
-   d="scan'208";a="36632283"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 19:04:15 -0800
-X-CSE-ConnectionGUID: sCEF8xDzTgiY9dZjPMAnXg==
-X-CSE-MsgGUID: LUhAolPiSsKGUwXsmFuuRg==
+   d="scan'208";a="47181978"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 19:14:30 -0800
+X-CSE-ConnectionGUID: i0q39AH7ScKpbJNCdknqow==
+X-CSE-MsgGUID: 0uI7JX5bQIKyKbxmlK96Xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102822171"
+   d="scan'208";a="103803035"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Jan 2025 19:04:13 -0800
+  by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 19:14:28 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVMMc-000FXJ-2N;
-	Wed, 08 Jan 2025 03:04:10 +0000
-Date: Wed, 8 Jan 2025 11:03:19 +0800
+	id 1tVMWY-000FYJ-0F;
+	Wed, 08 Jan 2025 03:14:26 +0000
+Date: Wed, 8 Jan 2025 11:13:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Oliver O'Halloran <oohall@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lyude Paul <lyude@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nouveau_backlight.c:54:69: warning: '%d'
- directive output may be truncated writing between 1 and 10 bytes into a
- region of size 3
-Message-ID: <202501081017.ElY2NtiC-lkp@intel.com>
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: arch/powerpc/kernel/eeh_event.c:125: warning: expecting prototype
+ for eeh_send_failure_event(). Prototype was for __eeh_send_failure_event()
+ instead
+Message-ID: <202501081121.TPz5Sn81-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,64 +64,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Christophe,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   09a0fa92e5b45e99cf435b2fbf5ebcf889cf8780
-commit: ab244be47a8f111bc82496a8a20c907236e37f95 drm/nouveau: Fix a potential theorical leak in nouveau_get_backlight_name()
-date:   2 years, 8 months ago
-config: arm-randconfig-c032-20230430 (https://download.01.org/0day-ci/archive/20250108/202501081017.ElY2NtiC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081017.ElY2NtiC-lkp@intel.com/reproduce)
+commit: 954bd99435b8ba99e86665d6a2ec1baa1d128325 powerpc/eeh: Add eeh_force_recover to debugfs
+date:   6 years ago
+config: powerpc64-randconfig-002-20231105 (https://download.01.org/0day-ci/archive/20250108/202501081121.TPz5Sn81-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081121.TPz5Sn81-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501081017.ElY2NtiC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501081121.TPz5Sn81-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nouveau_backlight.c: In function 'nouveau_backlight_init':
->> drivers/gpu/drm/nouveau/nouveau_backlight.c:54:69: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 3 [-Wformat-truncation=]
-      54 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
-         |                                                                     ^~
-   In function 'nouveau_get_backlight_name',
-       inlined from 'nouveau_backlight_init' at drivers/gpu/drm/nouveau/nouveau_backlight.c:408:7:
-   drivers/gpu/drm/nouveau/nouveau_backlight.c:54:56: note: directive argument in the range [1, 2147483647]
-      54 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
-         |                                                        ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nouveau_backlight.c:54:17: note: 'snprintf' output between 14 and 23 bytes into a destination of size 15
-      54 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/kernel/eeh_event.c:52: warning: Function parameter or struct member 'dummy' not described in 'eeh_event_handler'
+>> arch/powerpc/kernel/eeh_event.c:125: warning: expecting prototype for eeh_send_failure_event(). Prototype was for __eeh_send_failure_event() instead
 
 
-vim +54 drivers/gpu/drm/nouveau/nouveau_backlight.c
+vim +125 arch/powerpc/kernel/eeh_event.c
 
-db1a0ae21461af Pierre Moreau      2016-12-08  44  
-db1a0ae21461af Pierre Moreau      2016-12-08  45  static bool
-6d757753cef8d5 Lyude Paul         2018-09-06  46  nouveau_get_backlight_name(char backlight_name[BL_NAME_SIZE],
-6d757753cef8d5 Lyude Paul         2018-09-06  47  			   struct nouveau_backlight *bl)
-db1a0ae21461af Pierre Moreau      2016-12-08  48  {
-ab244be47a8f11 Christophe JAILLET 2022-02-09  49  	const int nb = ida_alloc_max(&bl_ida, 99, GFP_KERNEL);
-ab244be47a8f11 Christophe JAILLET 2022-02-09  50  
-ab244be47a8f11 Christophe JAILLET 2022-02-09  51  	if (nb < 0)
-db1a0ae21461af Pierre Moreau      2016-12-08  52  		return false;
-db1a0ae21461af Pierre Moreau      2016-12-08  53  	if (nb > 0)
-db1a0ae21461af Pierre Moreau      2016-12-08 @54  		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
-db1a0ae21461af Pierre Moreau      2016-12-08  55  	else
-db1a0ae21461af Pierre Moreau      2016-12-08  56  		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight");
-6d757753cef8d5 Lyude Paul         2018-09-06  57  	bl->id = nb;
-db1a0ae21461af Pierre Moreau      2016-12-08  58  	return true;
-db1a0ae21461af Pierre Moreau      2016-12-08  59  }
-db1a0ae21461af Pierre Moreau      2016-12-08  60  
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  115  
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  116  /**
+29f8bf1b7f79f6 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-02-27  117   * eeh_send_failure_event - Generate a PCI error event
+c533b46cc7da58 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-09-07  118   * @pe: EEH PE
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  119   *
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  120   * This routine can be called within an interrupt context;
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  121   * the actual event will be delivered in a normal context
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  122   * (from a workqueue).
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  123   */
+954bd99435b8ba arch/powerpc/kernel/eeh_event.c            Oliver O'Halloran 2019-02-15  124  int __eeh_send_failure_event(struct eeh_pe *pe)
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03 @125  {
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  126  	unsigned long flags;
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  127  	struct eeh_event *event;
+c533b46cc7da58 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-09-07  128  
+7e4bbaf0bf13c3 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-09-07  129  	event = kzalloc(sizeof(*event), GFP_ATOMIC);
+c533b46cc7da58 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-09-07  130  	if (!event) {
+c533b46cc7da58 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-09-07  131  		pr_err("EEH: out of memory, event not handled\n");
+c533b46cc7da58 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-09-07  132  		return -ENOMEM;
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  133  	}
+c533b46cc7da58 arch/powerpc/platforms/pseries/eeh_event.c Gavin Shan        2012-09-07  134  	event->pe = pe;
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  135  
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  136  	/* We may or may not be called in an interrupt context */
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  137  	spin_lock_irqsave(&eeh_eventlist_lock, flags);
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  138  	list_add(&event->list, &eeh_eventlist);
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  139  	spin_unlock_irqrestore(&eeh_eventlist_lock, flags);
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  140  
+c86085580d5f60 arch/powerpc/kernel/eeh_event.c            Gavin Shan        2013-06-20  141  	/* For EEH deamon to knick in */
+2fea82db113e44 arch/powerpc/kernel/eeh_event.c            Arnd Bergmann     2018-12-10  142  	complete(&eeh_eventlist_event);
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  143  
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  144  	return 0;
+172ca9261800ba arch/powerpc/platforms/pseries/eeh_event.c Linas Vepstas     2005-11-03  145  }
+99866595340fa2 arch/powerpc/kernel/eeh_event.c            Gavin Shan        2013-06-20  146  
 
-:::::: The code at line 54 was first introduced by commit
-:::::: db1a0ae21461afa4bc435651a6dd55e0e6ef4a8b drm/nouveau/bl: Assign different names to interfaces
+:::::: The code at line 125 was first introduced by commit
+:::::: 172ca9261800bacbbc7d320d9924d9b482dff8de [PATCH] ppc64: PCI error event dispatcher
 
-:::::: TO: Pierre Moreau <pierre.morrow@free.fr>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
+:::::: TO: Linas Vepstas <linas@linas.org>
+:::::: CC: Paul Mackerras <paulus@samba.org>
 
 -- 
 0-DAY CI Kernel Test Service
