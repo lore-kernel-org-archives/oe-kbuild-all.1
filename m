@@ -1,216 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705921537C8;
-	Wed,  8 Jan 2025 06:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736316998; cv=fail; b=Q94osVa+aAVxvjixAObzvaAcO0PdqVRRgpXjCIo2umO0CVbhos78UpBcXJYRcki5Tcx9BE7AeeJHDwtGqlpsM40xgpOBSzp2QDpIewUmpLOeHWoZUv58/kqxTTuktAIHMG/NAe4nn/BdmiBEQxrj0lTo+MAyumgkyVq3eMwtbqU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736316998; c=relaxed/simple;
-	bh=Gj2Gh4dH7lx/XsaVLr/jVGgVVx6WbkCy0xFedjN+MFg=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=kUoHmSAmn1Wv0vbt4EFKZ9QrNMclijnL7A0HV1uIgjdZafDX/WeeqOKHGxd5pILkgEpGhgYlABhiMRXSG+LkpJDYEDpmXFiNOW/PeMjElJTs6rrRp0Eud3+rA381KM2GSJ/YGKnFXjNMIO1DS9S0Wi9fRANHwwzbfQ2jM5WZa9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCUv89gl; arc=fail smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F511A23AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 06:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736317499; cv=none; b=DDJX8qyEAdi5X4uKaLnnPH3lFRb5S9rWzMVi5f3NFmPqy5/IuiN1ukgG2XGTBMcuZ3mAzLGb+5JsYrF5Gf2yJuLC8/Qm9a2F3SomKM1Ao1Ibhy2ycAUvHQynO0VTURQ2KcD0Zc4CHKBQPyMVG5GQk/0916xomwHKznE7nKkRofs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736317499; c=relaxed/simple;
+	bh=6jOT0tXDGN9ag+uN/06bKjvJZQPabONJFf7TQF8TWs8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=S1vUnktbkKFvZwK+IvNaDpvGhqBWtgF9N5zXpdRKLxughCY4yPNeH/0VQrAQnc1Z6RYlVP44c9agtzPsPWAWzAn9qwSlCJrAg21QBhuZ6e8bIbNt1Gojj2odCbtUzOURvd1lfDGm/+H5qsH3+9RP0R4lFFWXHIipUH137BPLsWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2jI9zjj; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCUv89gl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2jI9zjj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736316997; x=1767852997;
+  t=1736317496; x=1767853496;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gj2Gh4dH7lx/XsaVLr/jVGgVVx6WbkCy0xFedjN+MFg=;
-  b=jCUv89glHYrzQLIMeP+ujmgGc64AewLNXxf7TIKasdLd3p59KgTaLieE
-   olhCrUG6ZcaMILSept3Vq16qybYIzJH+zbZeLOzNwWkMG/Ivhn+DcyGix
-   O9YYp2ML2OwnOQYRxNtvUVJDlLn8+MuN6ORZM7eXyWKdkEk7iE5Yo2mEr
-   MV8jYoxqglTbj28LRezg/IL+pzkigLsMrSjyN73FBBeaPrmYY0Yb8+Ya9
-   DolJW44ga/OohulBDPd9tP9cVbvDiifo+h641Ygm56BH1XJttYSAI2s45
-   kjqv/oAVFCaH7RApg7PhgwYl1PihTL+dTCXVdY32UjJBsjRSPW542F7S3
-   g==;
-X-CSE-ConnectionGUID: hT1L7KAiSuyHF/mj6DCobQ==
-X-CSE-MsgGUID: NqTGrT5+S4+y9078mBox7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36745468"
+  bh=6jOT0tXDGN9ag+uN/06bKjvJZQPabONJFf7TQF8TWs8=;
+  b=M2jI9zjjLvUsdLTDaz0+luJPW06TzpkKdGF5jAXrnfP3K1RraNCw4dVh
+   19lgCQv+UVPyteAwxAoMINh5NmrztowSs8xeO/7BkMl+Yf2TYCDhxAYRH
+   aIcsyDi191TRPmk/19Tg771zIsQbKIoqRSGB80JmNof7mwy9lq44mBM4U
+   AKAWVIojNISJOMceOHfp/YhPX5+fIokU6+u/XGeDdZhBXf2POCybpwMyA
+   /nSSjsLgZnvPy331T6MsPyIxwUA0TWNmVAkCHHO+I7m+PJjdCFfprkOEi
+   CKGlWGPt3/BnvZxV8yCV7vQcduwfrjUekLDsuul5kY7z5PCnrAOwN5YbO
+   A==;
+X-CSE-ConnectionGUID: GlAiLmACS2GboQ45ne5y+w==
+X-CSE-MsgGUID: SJBXK63QSh23VW7RMz87kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="54074691"
 X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
-   d="scan'208";a="36745468"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 22:16:36 -0800
-X-CSE-ConnectionGUID: I8Q4hiiiRhifuR8fTC0dNg==
-X-CSE-MsgGUID: 6ps67lcFTX2cclXMzfSzdg==
+   d="scan'208";a="54074691"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 22:24:55 -0800
+X-CSE-ConnectionGUID: CuImUJXvQ5OZTxBPFbMNoQ==
+X-CSE-MsgGUID: hKiqiAKuQbuLh8+JOgsGDQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
-   d="scan'208";a="107979650"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Jan 2025 22:16:36 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 7 Jan 2025 22:16:35 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Tue, 7 Jan 2025 22:16:35 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 7 Jan 2025 22:16:34 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v+a06tn9Xx3fRiqFkXKQwsbBQ0xypv2wp5As30W51rBuT66x4X4MlkfD+2ibNPXMtkcFuvANdzWrPpnTEZ1pyU+OjyEDN/lV+Tf0wVP/6lD0BahGdQr6FJYN+JiilJDPPFjuFU5qbuCwSun7dTH/4VSsn2qfToAV+BNM0RMWmSDZ86v0mRGOE2a20c6KNP4dpszbh0dR6oYHjGzwi1fm78yKROe8iEJvHwxYCECQAjrRe3xIewojgRCxhNjvUpNMqGU562mPPdRmip/iOC5272D6OMXpmySZDop+eL4YeaCuGGK993v9xWaa5l0J3m6wZzoQRpVsoI8x9tZQApDoSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fFcSfAIbSdUlNS1im6c7rbEVZWndknzY8tF6F1xfUvE=;
- b=pi864+xoWarMMmjvwHB5CAa29+8V2bKuwdHtGxWoRBgPFmviXLZzltJYxz4vFzkNyhHV8ZTB4mRrQCjhAHb+oTT1RNAmvg7q4SQxHO3OuCCHcVX+qv5arTSBQWbS0oIB/s4EeN2l+Qa6wk8+yBZiw7JJ1iD5txhbngJYMIaqz2ZMgKwW1lxPF0qmCHu8w/fh/UTT5VRAHzLnWWTshKjzqE+y3BEJsPjyyG5IAbdtSfKPOIti9RB2t9mMUz538ill20fnP2ho/xAcNfdgsRR+TxX4/J5/DmctxoI+DoxPxynC4Kk6cHqIOY201LGjxyv1JzNIIJWgTBF2E1jE0fuVSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by DM4PR11MB6240.namprd11.prod.outlook.com (2603:10b6:8:a6::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.11; Wed, 8 Jan 2025 06:16:14 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8335.010; Wed, 8 Jan 2025
- 06:16:14 +0000
-Date: Wed, 8 Jan 2025 14:16:05 +0800
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="108049659"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 07 Jan 2025 22:24:53 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVPUp-000Fh3-1f;
+	Wed, 08 Jan 2025 06:24:51 +0000
+Date: Wed, 8 Jan 2025 14:24:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<devel@driverdev.osuosl.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [staging:staging-linus 11/11]
- drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1507:35: warning: unused
- variable 'tnt4882_pnp_table'
-Message-ID: <Z34YJR1iwzcbAGFM@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0152.apcprd04.prod.outlook.com (2603:1096:4::14)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+To: Nicolas Pitre <npitre@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: security/keys/proc.c:211:40: warning: '%llu' directive writing
+ between 1 and 18 bytes into a region of size 16
+Message-ID: <202501081457.U670b2Xy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DM4PR11MB6240:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc715b8e-5694-4c57-8ddd-08dd2fabf465
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yvCGnkjbyiWOC5fI7YizzrfAdyST34nrHYc/xMHTmzMMYvOXYCxKV06Y7/7y?=
- =?us-ascii?Q?1/7KU+3bN36xRalFYIvEHlCPxVpHDfxWf01zvOiG7tAr26AM0VKcGuRAwj85?=
- =?us-ascii?Q?tg2PEIibmtYcBz8ca8uvBFogVHARM2IiV4Eb1Ynvy96EJjDW7tHm78xeRv/0?=
- =?us-ascii?Q?L6ECLjYPo+U/414demQL9a9qmQ+JtAbkHalbHMyr68VGPp+AaaY3CfkaQCj3?=
- =?us-ascii?Q?iXzI3dr4gLQ70w0JCbDAO1WpcT9wcYwmgvpRE13mGHr4P6iejwH+GWiQlqwv?=
- =?us-ascii?Q?VcI3BG0pjrjWt2skoT/jj6556q2CnQUwETlD3hKQZPsMgglE7zNz+ZVnfwMC?=
- =?us-ascii?Q?x5EnLsR7XOtzl3RYArQDemjeR3jIR0qrB/lk16ue/YO/rXHkZ3S2wThS7xvo?=
- =?us-ascii?Q?ER08x8/NTI+nX7s40m5mbERhmAMI7bKkyxOb65RO9ot3I6zRjeKTzDtQ2m8W?=
- =?us-ascii?Q?aCLsm6H8AHRyqZnKILEjaxnmFUjj1yXWn9L10YUZtrNooswZguZOUEO1YZXl?=
- =?us-ascii?Q?qOTkTlmYUkZxPxtuyhSqDu7qrzfz28GLMIMPh0DwKeAmcyRCff3wji9/pEUC?=
- =?us-ascii?Q?uhCUggpgovTZp8DXE+P4kee8RUKQFtQCTcuEtFcWIRjE/0blmYZqT8iMtgoh?=
- =?us-ascii?Q?Zi0dXNEp9U88AaV0kkbpNR7e9OI8hwsA9LhC2caiNFh8WnWP/MRzURNMjaPF?=
- =?us-ascii?Q?QzJNbQ4CpLb/IS93OE+y+Htbwx1XJbuo/j/67jD7sbGY8Xx+Gm9oDkaWUoBe?=
- =?us-ascii?Q?NqX8hLAzQLawczgVhioInj0dSPlkGZLK59vDW2z4Hqy/WkHNl3XL9NBPnQ+d?=
- =?us-ascii?Q?L39GB1R/HFmhgUs45+blfQ3lqYBYUC8rtGkN1bzbG041df9uhxIYpAF2b+P3?=
- =?us-ascii?Q?L+pJAaFzGrIOhgrUoETAPo5dYh1X+DTatnClHZW93Hiw4JDWZeGkFHAl/T0n?=
- =?us-ascii?Q?6rH1EFj1cOoralXmYPjHDzP2V+vhMQ0yJtHtm3yNCK0py0Ti1NJRMofHPONt?=
- =?us-ascii?Q?VCMc2mWsj7nu6H/jp0EwWGQ5E8qDqhmk0OyHUVXRQSw5haroOpBlc4SKPVwe?=
- =?us-ascii?Q?/YVrCTrKeKCxVFXUXm5YCUtW0ObofHajPlAxQ3agn8J9NoFgs1AihWIjRH92?=
- =?us-ascii?Q?O+nn6og8G7HQRYHz8HcVmpT7NW6whfeSaSCFMgE5hxhQwedXk6EkUF7hGz+8?=
- =?us-ascii?Q?fqbZkSzvM0y5fGMsG/gfQbSxI8qjxkfNr9+oH5VyUUWTB99tYypd+xg51p7y?=
- =?us-ascii?Q?enUIUBHaW9Pep3La4gbqQQvys2SSPlrrO0G/P+1AYWuumoEnT66I93gJlJc2?=
- =?us-ascii?Q?nDqrPs4PVkj3CM70cz3ODr8U6jO90iFJQBjOuE0yISahaA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TjokQnK6CucDaIfErLIvoeL58zxqlI6P04p+Sujs2o/peKO/IkknvTqwsLif?=
- =?us-ascii?Q?TyKyn2HsiWYu3sU/zH+pPkj78b9Jb+2fqYy6IWIKGjsb4xq2tU9KxRRtwJgR?=
- =?us-ascii?Q?mNquJOaCyC5E1Bk4v6CEpyHDkdFefTVvSTSoiXDGTrKqETvgtYkAU58R/zIX?=
- =?us-ascii?Q?rAhb8aJO0+wlryNarBl73RnLyZ4HnyOpmwmp8PJoDeX7KgQA1vxBAwutTsLw?=
- =?us-ascii?Q?if6FvIbRiURF7UwAjy5n8QDUgcEA0lYeY5vPuatFOOnqSHHe/tk6+g4i5/EW?=
- =?us-ascii?Q?XtFQcW+obm6CigsrWi0QntGYGL9of1ZGPHp+ymHvY92PuaSs9OQG8MKlbd8q?=
- =?us-ascii?Q?aZYPV3IypZgodnfL3Y8YWSFBUCM0CIiPW2CuphHsQOVQxjPS1HOzxyLNNhLK?=
- =?us-ascii?Q?dOuzemKzXr5oIV8WSbtT0vpkXDBGuGOMG+1wMGRirJVFQm0c66M8vilZBPov?=
- =?us-ascii?Q?kifsrKunoRIONoUCjEi+ScZIbYQ+slhz345+PPygfWwbCP5oBM68tZ+Sk2hZ?=
- =?us-ascii?Q?RJZWrY9Nt5jj190vCFQxXqS6aouMrHL1QlGgwOwhoETu6l+BdgK/hr75tdkJ?=
- =?us-ascii?Q?Z1H7GqH20hO6JUyd2y50qJnkX4+SYLyFk2qfVqWl17t503m5YZthxYNC9AT3?=
- =?us-ascii?Q?XiAnY+elcUCk/8FR0EgN9Td0P5Ac/HTFg+qui30xDVmkpdd8YOpdHY5L5EDQ?=
- =?us-ascii?Q?98lHuwErwiO5prYB0Ua6piEdVG7CWqDxpQJnI2USsbuBs8CcJ2n2Vum8/Buo?=
- =?us-ascii?Q?SNlLATdEyGNEOEEGrVkpXx2tPOkvT51mwrQk3aexIIi2CQu7lwsPEDmiHSXe?=
- =?us-ascii?Q?rgBjWsJaqumXJfjmyx6OMB93JLh5jN6xH7mYue1Aw9exe38rL4ochkuYjXxC?=
- =?us-ascii?Q?/TzV7yYvf2f3N+WQ7DRzPmdoQCBwW01nQdGy5wSWAhEBtdnA/Zjkm3XOee5X?=
- =?us-ascii?Q?uUaW7G+07uxJHY5T6r2Pf7KEhmOOehxM1DC00mrJJb63YdMOzfU7nLOXuav5?=
- =?us-ascii?Q?ZfqeEfR56+3zUtVtgPaA/KCRNSadjLBBLZSfyOpTwU7HzFg2eVY3cDGMMwzn?=
- =?us-ascii?Q?1UNQ9YcVroIeRfhHP/Yvu3Y6T2KyI/vDSn89PAZt+Z8zMHt64Vtdgso5fAJL?=
- =?us-ascii?Q?dtGpAE7oXk+6q3tLR5WLxu+ToAZb8TaCDnIvFXVB9cOhjWxwCrautkeX+zOK?=
- =?us-ascii?Q?crh31MmN9NDgdTQycE32ltAGkcJhCWZByizarPzzAdbXHGT9h/5pAnT3avMM?=
- =?us-ascii?Q?J8txZ4iyweAoioJzdSRPkBwNGmI0r2n+0V/OZcdl410dMNJAgS2+kVpczsva?=
- =?us-ascii?Q?FbUulDM6D56DahmdrhsZbHzJe2maVBZpL+KSAQJUEI80tGJgbNqZ2ZdHSwRA?=
- =?us-ascii?Q?CAYxecYCsHiCpCB7KYhfDkBCcwsd+wJ3BzUHKifbkUjUzqAVgo9IHGcJhexS?=
- =?us-ascii?Q?bN4qHk3MzKcv9KQZo7QZPrz8Qm3Jlnb/xi6kGwKYhhDrn5J9aAg5Mu0fUiU/?=
- =?us-ascii?Q?QQ+uwms1BHm9kq0UpjyzXP0aCa6sb5OtBv7PTU1q33kXDi6IQshseYdjzO/H?=
- =?us-ascii?Q?/cSjBeUm5CgM0IoX/yqlcMpvw70T/BVEXyS83+vl1+mNXDNgjMpynUuBKJpY?=
- =?us-ascii?Q?Ig=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc715b8e-5694-4c57-8ddd-08dd2fabf465
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 06:16:14.5479
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RV0vJ8KUCefxmiF8hkahYvBlTLaIlLg8mWPABfkgYD4C210yiPukJJfUEVWe1BY/BvEwI+b7fy7CFqivTVTx8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6240
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Lukas,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-linus
-head:   84b172cea4a23016dc80a44eaa7ff8b7c97b04b3
-commit: 84b172cea4a23016dc80a44eaa7ff8b7c97b04b3 [11/11] staging: gpib: refer to correct config symbol in tnt4882 Makefile
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250108/202501081213.5vHUhT8P-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081213.5vHUhT8P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   09a0fa92e5b45e99cf435b2fbf5ebcf889cf8780
+commit: 00a31dd3acea0f88f947fc71e268ebb34b59f218 asm-generic/div64: optimize/simplify __div64_const32()
+date:   2 months ago
+config: arm-randconfig-r002-20220811 (https://download.01.org/0day-ci/archive/20250108/202501081457.U670b2Xy-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081457.U670b2Xy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501081213.5vHUhT8P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501081457.U670b2Xy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:762:15: warning: variable 'retval' set but not used [-Wunused-but-set-variable]
-           unsigned int retval;
-                        ^
->> drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1507:35: warning: unused variable 'tnt4882_pnp_table' [-Wunused-const-variable]
-   static const struct pnp_device_id tnt4882_pnp_table[] = {
-                                     ^
-   2 warnings generated.
+   security/keys/proc.c: In function 'proc_keys_show':
+   security/keys/proc.c:217:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+     217 |                         sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
+         |                                             ^
+   security/keys/proc.c:217:25: note: 'sprintf' output between 3 and 17 bytes into a destination of size 16
+     217 |                         sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/keys/proc.c:215:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
+         |                                             ^
+   security/keys/proc.c:215:25: note: 'sprintf' output between 3 and 17 bytes into a destination of size 16
+     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/keys/proc.c:213:44: warning: 'h' directive writing 1 byte into a region of size between 0 and 15 [-Wformat-overflow=]
+     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
+         |                                            ^
+   security/keys/proc.c:213:25: note: 'sprintf' output between 3 and 18 bytes into a destination of size 16
+     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> security/keys/proc.c:211:40: warning: '%llu' directive writing between 1 and 18 bytes into a region of size 16 [-Wformat-overflow=]
+     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
+         |                                        ^~~~
+   security/keys/proc.c:211:39: note: directive argument in the range [0, 576460752303423487]
+     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
+         |                                       ^~~~~~~
+   security/keys/proc.c:211:25: note: 'sprintf' output between 3 and 20 bytes into a destination of size 16
+     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/tnt4882_pnp_table +1507 drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+vim +211 security/keys/proc.c
 
-0cd5b05551e022 Dave Penkler 2024-09-18  1506  
-0cd5b05551e022 Dave Penkler 2024-09-18 @1507  static const struct pnp_device_id tnt4882_pnp_table[] = {
-0cd5b05551e022 Dave Penkler 2024-09-18  1508  	{.id = "NICC601"},
-0cd5b05551e022 Dave Penkler 2024-09-18  1509  	{.id = ""}
-0cd5b05551e022 Dave Penkler 2024-09-18  1510  };
-0cd5b05551e022 Dave Penkler 2024-09-18  1511  MODULE_DEVICE_TABLE(pnp, tnt4882_pnp_table);
-0cd5b05551e022 Dave Penkler 2024-09-18  1512  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  152  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  153  static int proc_keys_show(struct seq_file *m, void *v)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  154  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  155  	struct rb_node *_p = v;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  156  	struct key *key = rb_entry(_p, struct key, serial_node);
+ab5c69f01313c8 Eric Biggers   2017-09-27  157  	unsigned long flags;
+927942aabbbe50 David Howells  2010-06-11  158  	key_ref_t key_ref, skey_ref;
+074d58989569b3 Baolin Wang    2017-11-15  159  	time64_t now, expiry;
+03dab869b7b239 David Howells  2016-10-26  160  	char xbuf[16];
+363b02dab09b32 David Howells  2017-10-04  161  	short state;
+074d58989569b3 Baolin Wang    2017-11-15  162  	u64 timo;
+06ec7be557a125 Michael LeMay  2006-06-26  163  	int rc;
+06ec7be557a125 Michael LeMay  2006-06-26  164  
+4bdf0bc3003141 David Howells  2013-09-24  165  	struct keyring_search_context ctx = {
+ede0fa98a900e6 Eric Biggers   2019-02-22  166  		.index_key		= key->index_key,
+4aa68e07d84556 Eric Biggers   2017-09-18  167  		.cred			= m->file->f_cred,
+462919591a1791 David Howells  2014-09-16  168  		.match_data.cmp		= lookup_user_key_possessed,
+462919591a1791 David Howells  2014-09-16  169  		.match_data.raw_data	= key,
+462919591a1791 David Howells  2014-09-16  170  		.match_data.lookup_type	= KEYRING_SEARCH_LOOKUP_DIRECT,
+dcf49dbc8077e2 David Howells  2019-06-26  171  		.flags			= (KEYRING_SEARCH_NO_STATE_CHECK |
+dcf49dbc8077e2 David Howells  2019-06-26  172  					   KEYRING_SEARCH_RECURSE),
+4bdf0bc3003141 David Howells  2013-09-24  173  	};
+4bdf0bc3003141 David Howells  2013-09-24  174  
+028db3e290f15a Linus Torvalds 2019-07-10  175  	key_ref = make_key_ref(key, 0);
+927942aabbbe50 David Howells  2010-06-11  176  
+927942aabbbe50 David Howells  2010-06-11  177  	/* determine if the key is possessed by this process (a test we can
+927942aabbbe50 David Howells  2010-06-11  178  	 * skip if the key does not indicate the possessor can view it
+927942aabbbe50 David Howells  2010-06-11  179  	 */
+028db3e290f15a Linus Torvalds 2019-07-10  180  	if (key->perm & KEY_POS_VIEW) {
+028db3e290f15a Linus Torvalds 2019-07-10  181  		rcu_read_lock();
+e59428f721ee09 David Howells  2019-06-19  182  		skey_ref = search_cred_keyrings_rcu(&ctx);
+028db3e290f15a Linus Torvalds 2019-07-10  183  		rcu_read_unlock();
+927942aabbbe50 David Howells  2010-06-11  184  		if (!IS_ERR(skey_ref)) {
+927942aabbbe50 David Howells  2010-06-11  185  			key_ref_put(skey_ref);
+927942aabbbe50 David Howells  2010-06-11  186  			key_ref = make_key_ref(key, 1);
+927942aabbbe50 David Howells  2010-06-11  187  		}
+927942aabbbe50 David Howells  2010-06-11  188  	}
+927942aabbbe50 David Howells  2010-06-11  189  
+4aa68e07d84556 Eric Biggers   2017-09-18  190  	/* check whether the current task is allowed to view the key */
+f5895943d91b41 David Howells  2014-03-14  191  	rc = key_task_permission(key_ref, ctx.cred, KEY_NEED_VIEW);
+06ec7be557a125 Michael LeMay  2006-06-26  192  	if (rc < 0)
+028db3e290f15a Linus Torvalds 2019-07-10  193  		return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  194  
+074d58989569b3 Baolin Wang    2017-11-15  195  	now = ktime_get_real_seconds();
+^1da177e4c3f41 Linus Torvalds 2005-04-16  196  
+028db3e290f15a Linus Torvalds 2019-07-10  197  	rcu_read_lock();
+028db3e290f15a Linus Torvalds 2019-07-10  198  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  199  	/* come up with a suitable timeout value */
+ab5c69f01313c8 Eric Biggers   2017-09-27  200  	expiry = READ_ONCE(key->expiry);
+39299bdd254668 David Howells  2023-12-09  201  	if (expiry == TIME64_MAX) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  202  		memcpy(xbuf, "perm", 5);
+074d58989569b3 Baolin Wang    2017-11-15  203  	} else if (now >= expiry) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  204  		memcpy(xbuf, "expd", 5);
+7b1b9164598286 David Howells  2009-09-02  205  	} else {
+074d58989569b3 Baolin Wang    2017-11-15  206  		timo = expiry - now;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  207  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  208  		if (timo < 60)
+074d58989569b3 Baolin Wang    2017-11-15  209  			sprintf(xbuf, "%llus", timo);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  210  		else if (timo < 60*60)
+074d58989569b3 Baolin Wang    2017-11-15 @211  			sprintf(xbuf, "%llum", div_u64(timo, 60));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  212  		else if (timo < 60*60*24)
+074d58989569b3 Baolin Wang    2017-11-15  213  			sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  214  		else if (timo < 60*60*24*7)
+074d58989569b3 Baolin Wang    2017-11-15  215  			sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  216  		else
+074d58989569b3 Baolin Wang    2017-11-15  217  			sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  218  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  219  
+363b02dab09b32 David Howells  2017-10-04  220  	state = key_read_state(key);
+363b02dab09b32 David Howells  2017-10-04  221  
 
-:::::: The code at line 1507 was first introduced by commit
-:::::: 0cd5b05551e02242f9fa15f1e87cefff9efa3080 staging: gpib: Add TNT4882 chip based GPIB driver
+:::::: The code at line 211 was first introduced by commit
+:::::: 074d58989569b39f04294c90ef36dd82b8c2cc1a security: keys: Replace time_t/timespec with time64_t
 
-:::::: TO: Dave Penkler <dpenkler@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Baolin Wang <baolin.wang@linaro.org>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
