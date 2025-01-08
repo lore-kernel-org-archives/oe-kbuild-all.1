@@ -1,123 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0FA1F76C3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 12:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C8D1F9439
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 12:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736337682; cv=none; b=XDk4W57pJpoEozZM/7T9rl9JdLHGxrrnr5nRfuMFXR8Fvmzq9Ka4EFgVQcAqREl/qBt4j1yfZZ3q2ZCpgU3dm35n5J/NtVUO/Z0Wz5adopNKOAprKju0lPor0CjpfYTIy8wy2JYBjipn3Yf8K39X/YJGbBFFiUmcqzMfq1oU8nw=
+	t=1736337765; cv=none; b=qSNU8ZBr3QaGCfGbuuIhPPItlXUfGnv6DWW8KBvxJA3KYtmXsDJtNFLIO+IkiZDgcYQx/wE6o7hIWVme9gVs0l0FdjcBrDpzL9iWsC39Uq+1DkcxXKBGDGQGmFOxZvg92o4Ew9ChUBgOqY5NUmeFGWt2M+LbXo0ElHjn4CBgSLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736337682; c=relaxed/simple;
-	bh=JJMULF85HQ+g833iIeSYXyg14/jDHEhvUM69v/uttSM=;
+	s=arc-20240116; t=1736337765; c=relaxed/simple;
+	bh=IRcFUEnTe1JCKcKtnWX/qLTSGUTw9/fWw8tLCIvzbDU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mx2TEBd+/X148QjAlJBn+om+8nRowhTjSkrqR/pPZL3XW6g4Ax6RsSPX1n5MAaKCU7rCPnyM7w44FdQbuIdUuPRlyS1ah5g12Vsqj79Z+Ly4tZxvtL4xYFwXSSijvQP7xJ+W6icGDORWtNUv7mk96w+8kpfwV7yg4uXr9jRe1mU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SEPd46E8; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type:Content-Disposition; b=DeV2C1xHuhzBK3qHgBe+o5VPDDOi+t/1ky6uzxaZ5SMBZIc+NgqEWYbV715Qf5qg5Smn/yja+aPq91XfpbxGkO2K8CwOA0zheUJe48A8HWi8TTBAkHYP8mtV84pgG2UCjWxP6mIowM+1Rz9Ewlw6LAQ6aGtFTaBN4KtX1LiH/hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bAzd69tB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SEPd46E8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736337676; x=1767873676;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JJMULF85HQ+g833iIeSYXyg14/jDHEhvUM69v/uttSM=;
-  b=SEPd46E8OuNxQX9ZHmV3ZeZSCP9VsrzJdkqi5mTLktAtkHxB5DUGKFEM
-   6yedIN7YQ4/E5t9IiMacd4yUNaIMGdKFYJaz9wLJlEOZg3VrTt25PvrQ0
-   6gAfesYwxxJnYFmnaqpL4Ya0Em7f125QQsUoa+BZ0RzhPbbEPTZxpJ2ke
-   J4gAlcEU5SgO1RSg2IHkurYTWJIhw+NMaVG7Q4ByKXnN5p+QaUChDW+tf
-   51Kwjuxr+RJJu/A/VKic9gSGcRd9y0UX1E1GyJ/rkyridy3kyzRhPZ76T
-   hZ6bSFGvFSnraDY3H+sVprxJopDG8HTpwrgFgHqE5PanMEPBnlh7uTNV+
-   A==;
-X-CSE-ConnectionGUID: 0nTrS5oeSEq2EfPWGRigvA==
-X-CSE-MsgGUID: YJZJ1q3aSHOOYebZ00LWRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="47225471"
-X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
-   d="scan'208";a="47225471"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 04:01:10 -0800
-X-CSE-ConnectionGUID: 8wdzcdjyT+G/yW4LXQ+AOg==
-X-CSE-MsgGUID: 6uSQIH9bQKeVAvtkN/wkCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133975515"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Jan 2025 04:01:07 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tVUkD-000G1z-0k;
-	Wed, 08 Jan 2025 12:01:05 +0000
-Date: Wed, 8 Jan 2025 20:00:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ram Kumar Dwivedi <quic_rdwivedi@quicinc.com>,
-	manivannan.sadhasivam@linaro.org,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	andersson@kernel.org, bvanassche@acm.org, ebiggers@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Naveen Kumar Goud Arepalli <quic_narepall@quicinc.com>,
-	Nitin Rawat <quic_nitirawa@quicinc.com>
-Subject: Re: [PATCH V9] scsi: ufs: qcom: Enable UFS Shared ICE Feature
-Message-ID: <202501081935.NGoKgB9p-lkp@intel.com>
-References: <20250107135624.7628-1-quic_rdwivedi@quicinc.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bAzd69tB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736337762;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YLqYtIizfpzeEDN0YbG2hxxynEcPRAfxOqYGH5kCnXM=;
+	b=bAzd69tBQLTMcryyJdGebVgj7FgnRZoP+l2YYpYiCTSXUGXBaGSQbJtB+xNQYie2Vtnqq+
+	FWjFGTukhXsLW9OLo1J28agJd8Mx4kcgNKBAK+ayr6JP3LfUNJ0jhl/ZYkpv5X7q2mjIoU
+	71i4VX0DJSpCNdf0+7yQyhnbjK34H4I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-284-RO9NQ8MpOG6JplqRgRJmBg-1; Wed, 08 Jan 2025 07:02:40 -0500
+X-MC-Unique: RO9NQ8MpOG6JplqRgRJmBg-1
+X-Mimecast-MFC-AGG-ID: RO9NQ8MpOG6JplqRgRJmBg
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-436723db6c4so96226215e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jan 2025 04:02:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736337759; x=1736942559;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YLqYtIizfpzeEDN0YbG2hxxynEcPRAfxOqYGH5kCnXM=;
+        b=PQjzI7Aos8HGPmAG/bMldB7Kpw9S84rzlJTntqD+UfWy2/Uy+l0tSMHPa3hL2xLZrx
+         aSqtPAwVuFBV2YRTSSo5b+T1dx+jYXo7jj6oO7k9McADss/WprfNZW0Ix5xbDxsjilhO
+         iDNKBd+zR5iArqAj3FL3/6ePp5KQuQpzqONm4GAA0rvMTpxIN8hiiXDtRDSYN/cFTwk7
+         zvaKwNCgLbcIIQaHwYl1C+HEjUm4tDz7e9KF4OPQ6ny5EEWfix9dAuuMEzRbAPoI4Csb
+         NhyvvSzydRULPyrfx2wZk/U8l8Ba7bTILs85t2KLI30LrJh5C4AHSfkKsRGTqwOSv6xt
+         Hohg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUz9mPugKSqHRqK63cEUEdxoA04i6WkNDbzKDBkFNRs+G7v2hTlrWk9crA7MhsK+f/GUNcNBqn+AJWzmoV@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEh7UgPVwYh1P9Pu3xCVGZrVSWtJn5vUyt7j3nhMtt1x1GHK0r
+	eCDP+j9h0MS74c+181EYBUAcuPL+BhtRpbg3ZISX11m5B3gW8ZSDMJh7OLIqbYBX9+KrD5hiwiZ
+	iFxqjDwjV1M9ucfq133Rn7g/PQxC66GRQWHIq8CnLkU6zcBzJ6oE9X7PW0FmEC2k=
+X-Gm-Gg: ASbGncsumrunqv6zcrugazNjv1aFyCobcuNP5wlx2+6jIe7g4GE0Xa0o9SQTSNpnhHC
+	liP61XpoWXcM9x0CRqPVp3BDqN24eTAwHYJYEr6o3op30szr1oIptyuRuuGwz5kpvkpbWF7KeoQ
+	eeQlOAvAc10DXkQSXxEm5930/JvRdYU8R1kwJgp9+Mee097wpLVgYchjdJkLJQs8XlZeHoqk4uz
+	HO2Tcq4D7q+5c9UAZLvOGhv+O8a0aLWiIeKaBgPT0+Gk4lDbKw=
+X-Received: by 2002:a05:600c:46ce:b0:436:6ddf:7a27 with SMTP id 5b1f17b1804b1-436e27072a7mr17628605e9.23.1736337759391;
+        Wed, 08 Jan 2025 04:02:39 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGScykllzbh31utZyOyhyPCeqeJOHfUUx2k3Z8hq3BxWlAiscDN3qnY2p23jYlKYf6YnAI+gQ==
+X-Received: by 2002:a05:600c:46ce:b0:436:6ddf:7a27 with SMTP id 5b1f17b1804b1-436e27072a7mr17628305e9.23.1736337758928;
+        Wed, 08 Jan 2025 04:02:38 -0800 (PST)
+Received: from redhat.com ([2a02:14f:175:d62d:93ef:d7e2:e7da:ed72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2ddcf38sm18472675e9.20.2025.01.08.04.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 04:02:38 -0800 (PST)
+Date: Wed, 8 Jan 2025 07:02:33 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Yuxue Liu yuxue.liu@jaguarmicro.com" <yuxue.liu@jaguarmicro.com>
+Cc: jasowang@redhat.com, lkp@intel.com, angus.chen@jaguarmicro.com,
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	xuanzhuo@linux.alibaba.com, oe-kbuild-all@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2] vdpa/vp_vdpa: implement kick_vq_with_data callback
+Message-ID: <20250108070206-mutt-send-email-mst@kernel.org>
+References: <CACGkMEvf9TS6c9PTiwWn3POr33m7m1shNfHOkviZpk-Pkbf79Q@mail.gmail.com>
+ <20241203023743.1757-1-yuxue.liu@jaguarmicro.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20241203023743.1757-1-yuxue.liu@jaguarmicro.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: GvdPqzeuWjmEJzJqbEU8NROj6zdvQDJjS_wrcARID2Q_1736337759
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250107135624.7628-1-quic_rdwivedi@quicinc.com>
 
-Hi Ram,
+On Tue, Dec 03, 2024 at 10:37:43AM +0800, Yuxue Liu yuxue.liu@jaguarmicro.com wrote:
+> From: Yuxue Liu <yuxue.liu@jaguarmicro.com>
+> 
+> Implement the kick_vq_with_data vDPA callback.
+> On kick, we pass the next available data to the hardware by writing it in
+> the kick offset.
+> 
+> Signed-off-by: Yuxue Liu <yuxue.liu@jaguarmicro.com>
 
-kernel test robot noticed the following build errors:
+Pls do not send v2 as reply to v1.
+I am not sure all tools test the patch if you do.
 
-[auto build test ERROR on jejb-scsi/for-next]
-[also build test ERROR on mkp-scsi/for-next mani-mhi/mhi-next linus/master v6.13-rc6 next-20250107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> ---
+> v2: fix build error for kernel test robot
+> 
+>  drivers/vdpa/virtio_pci/vp_vdpa.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/vdpa/virtio_pci/vp_vdpa.c b/drivers/vdpa/virtio_pci/vp_vdpa.c
+> index 16380764275e..8787407f75b0 100644
+> --- a/drivers/vdpa/virtio_pci/vp_vdpa.c
+> +++ b/drivers/vdpa/virtio_pci/vp_vdpa.c
+> @@ -367,6 +367,14 @@ static void vp_vdpa_kick_vq(struct vdpa_device *vdpa, u16 qid)
+>  	vp_iowrite16(qid, vp_vdpa->vring[qid].notify);
+>  }
+>  
+> +static void vp_vdpa_kick_vq_with_data(struct vdpa_device *vdpa, u32 data)
+> +{
+> +	struct vp_vdpa *vp_vdpa = vdpa_to_vp(vdpa);
+> +	u16 qid = data & 0xFFFF;
+> +
+> +	vp_iowrite32(data, vp_vdpa->vring[qid].notify);
+> +}
+> +
+>  static u32 vp_vdpa_get_generation(struct vdpa_device *vdpa)
+>  {
+>  	struct virtio_pci_modern_device *mdev = vdpa_to_mdev(vdpa);
+> @@ -472,6 +480,7 @@ static const struct vdpa_config_ops vp_vdpa_ops = {
+>  	.get_vq_size	= vp_vdpa_get_vq_size,
+>  	.set_vq_address	= vp_vdpa_set_vq_address,
+>  	.kick_vq	= vp_vdpa_kick_vq,
+> +	.kick_vq_with_data      = vp_vdpa_kick_vq_with_data,
+>  	.get_generation	= vp_vdpa_get_generation,
+>  	.get_device_id	= vp_vdpa_get_device_id,
+>  	.get_vendor_id	= vp_vdpa_get_vendor_id,
+> -- 
+> 2.34.1
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ram-Kumar-Dwivedi/scsi-ufs-qcom-Enable-UFS-Shared-ICE-Feature/20250107-220209
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20250107135624.7628-1-quic_rdwivedi%40quicinc.com
-patch subject: [PATCH V9] scsi: ufs: qcom: Enable UFS Shared ICE Feature
-config: arm64-randconfig-001-20250108 (https://download.01.org/0day-ci/archive/20250108/202501081935.NGoKgB9p-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081935.NGoKgB9p-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501081935.NGoKgB9p-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/ufs/host/ufs-qcom.c: In function 'ufs_qcom_set_host_caps':
->> drivers/ufs/host/ufs-qcom.c:968:31: error: 'UFS_QCOM_CAP_ICE_CONFIG' undeclared (first use in this function)
-     968 |                 host->caps |= UFS_QCOM_CAP_ICE_CONFIG;
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/host/ufs-qcom.c:968:31: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/ufs/host/ufs-qcom.c: At top level:
->> drivers/ufs/host/ufs-qcom.c:223:13: warning: 'ufs_qcom_config_ice_allocator' defined but not used [-Wunused-function]
-     223 | static void ufs_qcom_config_ice_allocator(struct ufs_qcom_host *host)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/UFS_QCOM_CAP_ICE_CONFIG +968 drivers/ufs/host/ufs-qcom.c
-
-   962	
-   963	static void ufs_qcom_set_host_caps(struct ufs_hba *hba)
-   964	{
-   965		struct ufs_qcom_host *host = ufshcd_get_variant(hba);
-   966	
-   967		if (host->hw_ver.major >= 0x5)
- > 968			host->caps |= UFS_QCOM_CAP_ICE_CONFIG;
-   969	}
-   970	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
