@@ -1,264 +1,166 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410861EBFF0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 08:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61801E3DF2
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 08:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736325910; cv=none; b=EawSSHnMsWe8KmsE1LAVtFInqxIlyJ6jvRj4KTH1ZC8ztmKS3ZaBwNGtUXnBq4l1nrnBOTbrN9u/YcDWAOjCC71WnWuYlWH5j4P4BsjtQsuSLitHNDJ0oVZAPnFoGIHgOZda+pBJ2yOqmPgXnHF040ioXSGMxUJZpYPcGEWQgxU=
+	t=1736326066; cv=none; b=L2gotO791Jy0U3Rx3cRRvp5h801TJC8YW8ciSb4QRcc5T2PWHM9fdwWRFjyutax6uCF7p18pVv61dF9l07XukUL1ph56Tt+FRsqZ8RA6wY6gFmpnOqw9ScmpT2zvTUqY44X8z1f9P5r349w72eamQrGgjd3QUaSh87ngUo6ubMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736325910; c=relaxed/simple;
-	bh=wLrkWM2VDzynXIKEbQ26rFC3DCBtFv30FVgRq2NIkQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rh+KtT4XKKmznSwQLRRbW9gwj/YjpMiQ1+HAsPd78Ubab9flRDhvFnh0XbY3Bo+NC2o+dZzlL/QbWTC5Uk8H+m8JLy96Qeau/iKNehKEEJorv50HdxWWaozhii697gHZGBNWxvjo/57eBjO243oiOpjWbBU1ITPaz0jFF+y9ONI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Cv2VErzX; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1736326066; c=relaxed/simple;
+	bh=ym4giNOjD5KBSuDq2VZlC/UuCgby3GS27YW5CKAyKtc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9t+0b+NoeUnHsnHlucg/cXnIlUA7yCecImV5T5oUCC/dWcY/GH0P6ZvNX1c9AQHi4tDyz4kQUtPqyFtyaYaCYV1aLLJT3OMElMbxdiIsa6IL+Xoj34npSPJuWzNPt8nwDVusdu0SeKDA2wLvfGLagUd2oiJ3/pWjMry5tdjKB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LMTmD2UE; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Cv2VErzX"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4363ae65100so168905135e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jan 2025 00:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736325906; x=1736930706; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JP018VLwPV0hK3cOGPTiHoAVwa0YSAd3lxx+6rxQn8c=;
-        b=Cv2VErzXJfWCpUE1mif9upA8qg6HGWOcneFVntc5f0vMdsMhTczNsJfUHoVLf/Q2Bf
-         5H1RmmxAd3y8fN4EiTrNTI/kD17JFY3cy5bXwG3YJ2QqGmRXqDsm4XIvmomcFequM8F+
-         ZglyPj7NXRQBIQwRYHXtyET92LEQ64fGOtle267NUwoj3SLZDTT7AXRheRs9q2cJ5l2A
-         72BLxKo2KWoP5w4RVqIwprG+Jq64PN+hlLSZCg4bOlSAr93TRyDwaMMAMhAUct3oGi29
-         Zov8zM9EOxZlM6zot3yHOLm4mLADgTEDYDy/PsNyBV1rEoFjGNT+rEZCsoZM/VuRZ76k
-         SXeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736325906; x=1736930706;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JP018VLwPV0hK3cOGPTiHoAVwa0YSAd3lxx+6rxQn8c=;
-        b=DS9enG83HWpbc8iAeJgFCewO98U3Nvj020G0PLuMePtawWrRqrmGka2K8DPwuyRXcn
-         tkx+Yidp2FUhcHMhsI40Pm8JIbc407bPu+QvGSc+oU0WP7DeATbxG0IUymPGFyaM1Nbl
-         mju1dfNYJLrcfO5GjZlDsozDlzbdpFa2p6olW2vgEFZjVL4YzezufoCLwbVbmaKxy55B
-         f929B7Z0ynDh3hSxDU6SluSnwgx18nRM9Sk1xIc4sGyxvkmnZ3XNl7FFkvy5RI1pKGbt
-         uB33m4bPRaD4VQoAvzhM+oUTgsJkV7t6amyQHXyhPQUG8PjiYSyaqvPSmT3uPKra9wIT
-         gKzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXSIVUTfkKHdlRPUOaHfZPP6hVQht5OBwuWPzmu5ftKYkCsTCNjirHAV/nrDimu1ffQYZUMeZ2wWFvKk8AD@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGqBMmkUGKltc3ylod2+tq0nHR2RnQf9LA/H+VqXBw3oDVrMuw
-	ua1eh68wsF1gLLm8E2wJbfiQk2rvdICVQiFoSDaIgk9d0ueSX5S7YZ0k29m4sBW2YZRZGJex/HO
-	/
-X-Gm-Gg: ASbGnctLu0nt89MsEmKOH/lNFzC6PPzPAnqutP0WPt9SWHNCCgDWXOiXnMOZlhDlLK1
-	AxpZjJHrg7hlFrTmABowJJxHau04XxKv0pxl0BWM2K0FARH8xuDBNEw+5IcyGe6QlBtWKMsGFFm
-	HMgq43RoFXD5kc5SmsrEftzsnaDu3AI/g2AgiILvqbW3B6bjtkA67yZJy14hApKoLpqJzur8YkN
-	PKY+JjxKq6by2K2exIt4qKK2ibq6QZZ8XQll2tzvMFyJu+JOjSRX1Nf+yJr6A==
-X-Google-Smtp-Source: AGHT+IHIqqZOLSIy8nKlU099+xiY1TE/M8WEOwgqMg2Q+R1j5urlOdP028lHRQ6DNFXejmLw9S7jkw==
-X-Received: by 2002:a05:600c:3506:b0:434:f4fa:83c4 with SMTP id 5b1f17b1804b1-436e26f137dmr12310595e9.29.1736325906293;
-        Wed, 08 Jan 2025 00:45:06 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2dc0babsm13161145e9.14.2025.01.08.00.45.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 00:45:05 -0800 (PST)
-Date: Wed, 8 Jan 2025 11:45:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
-	jani.nikula@intel.com
-Subject: Re: [PATCH v3 3/5] drm/i915/scaler: Compute scaling factors for pipe
- scaler
-Message-ID: <9b0fef6f-9bb9-492d-a984-da825858df47@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LMTmD2UE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736326065; x=1767862065;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ym4giNOjD5KBSuDq2VZlC/UuCgby3GS27YW5CKAyKtc=;
+  b=LMTmD2UEuZzf4hH2+LOD/1TU0PzbwllwHS/Dw45g102yerON01p2ClMo
+   rx2s891D+Z/Z0QdFHxC1ubcWGZxOMvkPnjlyGwrCELUZKrXqM5lw1zgLq
+   J+2emmNoZz+KasbIbz1CCupfpY1K4p/XOi7kuV9jZ+2wiC2HyoO9Z6D+o
+   fnBm6/3QaRSYTlJlxdy7V+1f6aeW2TuQ0AWQhIbABBC7w6+6Zb98xMDkj
+   x+7htQEFITZDV0uEWgRYI5sYD6zvXuVmu189L2y1+0ABfgPtl1boTqrJ9
+   qrwToV9TiodJdJy1s4uRZpAIPLtNWdUxx/jltWFObsVvYtwfntrwAb5lC
+   Q==;
+X-CSE-ConnectionGUID: 4QfyLphYQG+guRoXHrgmzg==
+X-CSE-MsgGUID: A+aA3mZDQuuKF/v0h2ie0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36425848"
+X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
+   d="scan'208";a="36425848"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 00:47:44 -0800
+X-CSE-ConnectionGUID: k7REskNVTzykR9OfCBOYYA==
+X-CSE-MsgGUID: pGyOrzrGT92CCT5aj16bOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
+   d="scan'208";a="103533675"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 08 Jan 2025 00:47:42 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVRj2-000FpD-1Y;
+	Wed, 08 Jan 2025 08:47:40 +0000
+Date: Wed, 8 Jan 2025 16:46:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chengen Du <chengen.du@canonical.com>, pjones@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, konrad@kernel.org,
+	linux-kernel@vger.kernel.org, Chengen Du <chengen.du@canonical.com>
+Subject: Re: [PATCH RESEND] iscsi_ibft: Fix UBSAN shift-out-of-bounds warning
+ in ibft_attr_show_nic()
+Message-ID: <202501081604.SgFiMXxU-lkp@intel.com>
+References: <20250106043415.1966355-1-chengen.du@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250106165111.1672722-4-mitulkumar.ajitkumar.golani@intel.com>
+In-Reply-To: <20250106043415.1966355-1-chengen.du@canonical.com>
 
-Hi Mitul,
+Hi Chengen,
 
 kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.13-rc6 next-20250107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/drm-i915-scaler-Add-and-compute-scaling-factors/20250107-005708
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20250106165111.1672722-4-mitulkumar.ajitkumar.golani%40intel.com
-patch subject: [PATCH v3 3/5] drm/i915/scaler: Compute scaling factors for pipe scaler
-config: x86_64-randconfig-161-20250107 (https://download.01.org/0day-ci/archive/20250108/202501080440.Cxe0ZHXJ-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chengen-Du/iscsi_ibft-Fix-UBSAN-shift-out-of-bounds-warning-in-ibft_attr_show_nic/20250106-123816
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250106043415.1966355-1-chengen.du%40canonical.com
+patch subject: [PATCH RESEND] iscsi_ibft: Fix UBSAN shift-out-of-bounds warning in ibft_attr_show_nic()
+config: i386-randconfig-061-20250108 (https://download.01.org/0day-ci/archive/20250108/202501081604.SgFiMXxU-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081604.SgFiMXxU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501080440.Cxe0ZHXJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501081604.SgFiMXxU-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/i915/display/skl_scaler.c:451 intel_atomic_setup_scaler() error: uninitialized symbol 'hscale'.
-drivers/gpu/drm/i915/display/skl_scaler.c:452 intel_atomic_setup_scaler() error: uninitialized symbol 'vscale'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/iscsi_ibft.c:314:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] val @@     got int @@
+   drivers/firmware/iscsi_ibft.c:314:29: sparse:     expected restricted __be32 [usertype] val
+   drivers/firmware/iscsi_ibft.c:314:29: sparse:     got int
 
-vim +/hscale +451 drivers/gpu/drm/i915/display/skl_scaler.c
+vim +314 drivers/firmware/iscsi_ibft.c
 
-61e24d4de0edbc Mitul Golani  2025-01-06  312  static int intel_atomic_setup_scaler(struct intel_crtc_state *crtc_state,
-7488f64e89b02f Ville Syrjälä 2024-11-07  313  				     int num_scalers_need, struct intel_crtc *crtc,
-8976b18249407d Ville Syrjälä 2023-04-18  314  				     const char *name, int idx,
-8976b18249407d Ville Syrjälä 2023-04-18  315  				     struct intel_plane_state *plane_state,
-8976b18249407d Ville Syrjälä 2023-04-18  316  				     int *scaler_id)
-8976b18249407d Ville Syrjälä 2023-04-18  317  {
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  318  	struct intel_display *display = to_intel_display(crtc);
-61e24d4de0edbc Mitul Golani  2025-01-06  319  	struct intel_crtc_scaler_state *scaler_state =
-61e24d4de0edbc Mitul Golani  2025-01-06  320  					&crtc_state->scaler_state;
-7488f64e89b02f Ville Syrjälä 2024-11-07  321  	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-8976b18249407d Ville Syrjälä 2023-04-18  322  	u32 mode;
-7c369018e87617 Mitul Golani  2025-01-06  323  	int hscale, vscale;
-8976b18249407d Ville Syrjälä 2023-04-18  324  
-ecf2afc59c1ea3 Ville Syrjälä 2024-11-07  325  	if (*scaler_id < 0)
-ecf2afc59c1ea3 Ville Syrjälä 2024-11-07  326  		*scaler_id = intel_allocate_scaler(scaler_state, crtc);
-8976b18249407d Ville Syrjälä 2023-04-18  327  
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  328  	if (drm_WARN(display->drm, *scaler_id < 0,
-8976b18249407d Ville Syrjälä 2023-04-18  329  		     "Cannot find scaler for %s:%d\n", name, idx))
-8976b18249407d Ville Syrjälä 2023-04-18  330  		return -EINVAL;
-8976b18249407d Ville Syrjälä 2023-04-18  331  
-8976b18249407d Ville Syrjälä 2023-04-18  332  	/* set scaler mode */
-8976b18249407d Ville Syrjälä 2023-04-18  333  	if (plane_state && plane_state->hw.fb &&
-8976b18249407d Ville Syrjälä 2023-04-18  334  	    plane_state->hw.fb->format->is_yuv &&
-8976b18249407d Ville Syrjälä 2023-04-18  335  	    plane_state->hw.fb->format->num_planes > 1) {
-8976b18249407d Ville Syrjälä 2023-04-18  336  		struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-8976b18249407d Ville Syrjälä 2023-04-18  337  
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  338  		if (DISPLAY_VER(display) == 9) {
-8976b18249407d Ville Syrjälä 2023-04-18  339  			mode = SKL_PS_SCALER_MODE_NV12;
-8976b18249407d Ville Syrjälä 2023-04-18  340  		} else if (icl_is_hdr_plane(dev_priv, plane->id)) {
-8976b18249407d Ville Syrjälä 2023-04-18  341  			/*
-8976b18249407d Ville Syrjälä 2023-04-18  342  			 * On gen11+'s HDR planes we only use the scaler for
-8976b18249407d Ville Syrjälä 2023-04-18  343  			 * scaling. They have a dedicated chroma upsampler, so
-8976b18249407d Ville Syrjälä 2023-04-18  344  			 * we don't need the scaler to upsample the UV plane.
-8976b18249407d Ville Syrjälä 2023-04-18  345  			 */
-8976b18249407d Ville Syrjälä 2023-04-18  346  			mode = PS_SCALER_MODE_NORMAL;
-8976b18249407d Ville Syrjälä 2023-04-18  347  		} else {
-8976b18249407d Ville Syrjälä 2023-04-18  348  			struct intel_plane *linked =
-8976b18249407d Ville Syrjälä 2023-04-18  349  				plane_state->planar_linked_plane;
-8976b18249407d Ville Syrjälä 2023-04-18  350  
-8976b18249407d Ville Syrjälä 2023-04-18  351  			mode = PS_SCALER_MODE_PLANAR;
-8976b18249407d Ville Syrjälä 2023-04-18  352  
-8976b18249407d Ville Syrjälä 2023-04-18  353  			if (linked)
-ebb4e2b03acc3a Ville Syrjälä 2023-04-26  354  				mode |= PS_BINDING_Y_PLANE(linked->id);
-8976b18249407d Ville Syrjälä 2023-04-18  355  		}
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  356  	} else if (DISPLAY_VER(display) >= 10) {
-8976b18249407d Ville Syrjälä 2023-04-18  357  		mode = PS_SCALER_MODE_NORMAL;
-7488f64e89b02f Ville Syrjälä 2024-11-07  358  	} else if (num_scalers_need == 1 && crtc->num_scalers > 1) {
-8976b18249407d Ville Syrjälä 2023-04-18  359  		/*
-8976b18249407d Ville Syrjälä 2023-04-18  360  		 * when only 1 scaler is in use on a pipe with 2 scalers
-8976b18249407d Ville Syrjälä 2023-04-18  361  		 * scaler 0 operates in high quality (HQ) mode.
-8976b18249407d Ville Syrjälä 2023-04-18  362  		 * In this case use scaler 0 to take advantage of HQ mode
-8976b18249407d Ville Syrjälä 2023-04-18  363  		 */
-3de26c81e9ae4a Ville Syrjälä 2024-11-07  364  		scaler_state->scalers[*scaler_id].in_use = false;
-8976b18249407d Ville Syrjälä 2023-04-18  365  		*scaler_id = 0;
-3de26c81e9ae4a Ville Syrjälä 2024-11-07  366  		scaler_state->scalers[0].in_use = true;
-8976b18249407d Ville Syrjälä 2023-04-18  367  		mode = SKL_PS_SCALER_MODE_HQ;
-8976b18249407d Ville Syrjälä 2023-04-18  368  	} else {
-8976b18249407d Ville Syrjälä 2023-04-18  369  		mode = SKL_PS_SCALER_MODE_DYN;
-8976b18249407d Ville Syrjälä 2023-04-18  370  	}
-8976b18249407d Ville Syrjälä 2023-04-18  371  
-8976b18249407d Ville Syrjälä 2023-04-18  372  	if (plane_state && plane_state->hw.fb) {
-8976b18249407d Ville Syrjälä 2023-04-18  373  		const struct drm_framebuffer *fb = plane_state->hw.fb;
-8976b18249407d Ville Syrjälä 2023-04-18  374  		const struct drm_rect *src = &plane_state->uapi.src;
-8976b18249407d Ville Syrjälä 2023-04-18  375  		const struct drm_rect *dst = &plane_state->uapi.dst;
-7c369018e87617 Mitul Golani  2025-01-06  376  		int max_vscale, max_hscale;
-8976b18249407d Ville Syrjälä 2023-04-18  377  
-8976b18249407d Ville Syrjälä 2023-04-18  378  		/*
-8976b18249407d Ville Syrjälä 2023-04-18  379  		 * FIXME: When two scalers are needed, but only one of
-8976b18249407d Ville Syrjälä 2023-04-18  380  		 * them needs to downscale, we should make sure that
-8976b18249407d Ville Syrjälä 2023-04-18  381  		 * the one that needs downscaling support is assigned
-8976b18249407d Ville Syrjälä 2023-04-18  382  		 * as the first scaler, so we don't reject downscaling
-8976b18249407d Ville Syrjälä 2023-04-18  383  		 * unnecessarily.
-8976b18249407d Ville Syrjälä 2023-04-18  384  		 */
-8976b18249407d Ville Syrjälä 2023-04-18  385  
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  386  		if (DISPLAY_VER(display) >= 14) {
-8976b18249407d Ville Syrjälä 2023-04-18  387  			/*
-8976b18249407d Ville Syrjälä 2023-04-18  388  			 * On versions 14 and up, only the first
-8976b18249407d Ville Syrjälä 2023-04-18  389  			 * scaler supports a vertical scaling factor
-8976b18249407d Ville Syrjälä 2023-04-18  390  			 * of more than 1.0, while a horizontal
-8976b18249407d Ville Syrjälä 2023-04-18  391  			 * scaling factor of 3.0 is supported.
-8976b18249407d Ville Syrjälä 2023-04-18  392  			 */
-8976b18249407d Ville Syrjälä 2023-04-18  393  			max_hscale = 0x30000 - 1;
-8976b18249407d Ville Syrjälä 2023-04-18  394  			if (*scaler_id == 0)
-8976b18249407d Ville Syrjälä 2023-04-18  395  				max_vscale = 0x30000 - 1;
-8976b18249407d Ville Syrjälä 2023-04-18  396  			else
-8976b18249407d Ville Syrjälä 2023-04-18  397  				max_vscale = 0x10000;
-8976b18249407d Ville Syrjälä 2023-04-18  398  
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  399  		} else if (DISPLAY_VER(display) >= 10 ||
-8976b18249407d Ville Syrjälä 2023-04-18  400  			   !intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier)) {
-8976b18249407d Ville Syrjälä 2023-04-18  401  			max_hscale = 0x30000 - 1;
-8976b18249407d Ville Syrjälä 2023-04-18  402  			max_vscale = 0x30000 - 1;
-8976b18249407d Ville Syrjälä 2023-04-18  403  		} else {
-8976b18249407d Ville Syrjälä 2023-04-18  404  			max_hscale = 0x20000 - 1;
-8976b18249407d Ville Syrjälä 2023-04-18  405  			max_vscale = 0x20000 - 1;
-8976b18249407d Ville Syrjälä 2023-04-18  406  		}
-8976b18249407d Ville Syrjälä 2023-04-18  407  
-8976b18249407d Ville Syrjälä 2023-04-18  408  		/*
-8976b18249407d Ville Syrjälä 2023-04-18  409  		 * FIXME: We should change the if-else block above to
-8976b18249407d Ville Syrjälä 2023-04-18  410  		 * support HQ vs dynamic scaler properly.
-8976b18249407d Ville Syrjälä 2023-04-18  411  		 */
-8976b18249407d Ville Syrjälä 2023-04-18  412  
-8976b18249407d Ville Syrjälä 2023-04-18  413  		/* Check if required scaling is within limits */
-8976b18249407d Ville Syrjälä 2023-04-18  414  		hscale = drm_rect_calc_hscale(src, dst, 1, max_hscale);
-8976b18249407d Ville Syrjälä 2023-04-18  415  		vscale = drm_rect_calc_vscale(src, dst, 1, max_vscale);
-8976b18249407d Ville Syrjälä 2023-04-18  416  
-8976b18249407d Ville Syrjälä 2023-04-18  417  		if (hscale < 0 || vscale < 0) {
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  418  			drm_dbg_kms(display->drm,
-8976b18249407d Ville Syrjälä 2023-04-18  419  				    "Scaler %d doesn't support required plane scaling\n",
-8976b18249407d Ville Syrjälä 2023-04-18  420  				    *scaler_id);
-8976b18249407d Ville Syrjälä 2023-04-18  421  			drm_rect_debug_print("src: ", src, true);
-8976b18249407d Ville Syrjälä 2023-04-18  422  			drm_rect_debug_print("dst: ", dst, false);
-8976b18249407d Ville Syrjälä 2023-04-18  423  
-8976b18249407d Ville Syrjälä 2023-04-18  424  			return -EINVAL;
-8976b18249407d Ville Syrjälä 2023-04-18  425  		}
-7c369018e87617 Mitul Golani  2025-01-06  426  	}
-7c369018e87617 Mitul Golani  2025-01-06  427  
-7c369018e87617 Mitul Golani  2025-01-06  428  	if (crtc_state->pch_pfit.enabled) {
-7c369018e87617 Mitul Golani  2025-01-06  429  		struct drm_rect src;
-7c369018e87617 Mitul Golani  2025-01-06  430  
-7c369018e87617 Mitul Golani  2025-01-06  431  		drm_rect_init(&src, 0, 0,
-7c369018e87617 Mitul Golani  2025-01-06  432  			      drm_rect_width(&crtc_state->pipe_src) << 16,
-7c369018e87617 Mitul Golani  2025-01-06  433  			      drm_rect_height(&crtc_state->pipe_src) << 16);
-7c369018e87617 Mitul Golani  2025-01-06  434  
-7c369018e87617 Mitul Golani  2025-01-06  435  		hscale = drm_rect_calc_hscale(&src, &crtc_state->pch_pfit.dst,
-7c369018e87617 Mitul Golani  2025-01-06  436  					      0, INT_MAX);
-7c369018e87617 Mitul Golani  2025-01-06  437  		vscale = drm_rect_calc_vscale(&src, &crtc_state->pch_pfit.dst,
-7c369018e87617 Mitul Golani  2025-01-06  438  					      0, INT_MAX);
-7c369018e87617 Mitul Golani  2025-01-06  439  
-7c369018e87617 Mitul Golani  2025-01-06  440  		if (hscale < 0 || vscale < 0) {
-7c369018e87617 Mitul Golani  2025-01-06  441  			drm_dbg_kms(display->drm,
-7c369018e87617 Mitul Golani  2025-01-06  442  				    "Scaler %d doesn't support required pipe scaling\n",
-7c369018e87617 Mitul Golani  2025-01-06  443  				    *scaler_id);
-7c369018e87617 Mitul Golani  2025-01-06  444  			drm_rect_debug_print("src: ", &src, true);
-7c369018e87617 Mitul Golani  2025-01-06  445  			drm_rect_debug_print("dst: ", &crtc_state->pch_pfit.dst, false);
-7c369018e87617 Mitul Golani  2025-01-06  446  
-7c369018e87617 Mitul Golani  2025-01-06  447  			return -EINVAL;
-7c369018e87617 Mitul Golani  2025-01-06  448  		}
-7c369018e87617 Mitul Golani  2025-01-06  449  	}
-0641adb4624b5e Mitul Golani  2025-01-06  450  
-0641adb4624b5e Mitul Golani  2025-01-06 @451  	scaler_state->scalers[*scaler_id].hscale = hscale;
-0641adb4624b5e Mitul Golani  2025-01-06 @452  	scaler_state->scalers[*scaler_id].vscale = vscale;
-
-vscale and hscale are initialized if crtc_state->pch_pfit.enabled or
-plane_state->hw.fb is true, but otherwise they aren't.
-
-
-8976b18249407d Ville Syrjälä 2023-04-18  453  
-3360d4d6d42ab3 Ville Syrjälä 2024-11-07  454  	drm_dbg_kms(display->drm, "Attached scaler id %u.%u to %s:%d\n",
-7488f64e89b02f Ville Syrjälä 2024-11-07  455  		    crtc->pipe, *scaler_id, name, idx);
-8976b18249407d Ville Syrjälä 2023-04-18  456  	scaler_state->scalers[*scaler_id].mode = mode;
-8976b18249407d Ville Syrjälä 2023-04-18  457  
-8976b18249407d Ville Syrjälä 2023-04-18  458  	return 0;
-8976b18249407d Ville Syrjälä 2023-04-18  459  }
+   290	
+   291	static ssize_t ibft_attr_show_nic(void *data, int type, char *buf)
+   292	{
+   293		struct ibft_kobject *entry = data;
+   294		struct ibft_nic *nic = entry->nic;
+   295		void *ibft_loc = entry->header;
+   296		char *str = buf;
+   297		__be32 val;
+   298	
+   299		if (!nic)
+   300			return 0;
+   301	
+   302		switch (type) {
+   303		case ISCSI_BOOT_ETH_INDEX:
+   304			str += sprintf(str, "%d\n", nic->hdr.index);
+   305			break;
+   306		case ISCSI_BOOT_ETH_FLAGS:
+   307			str += sprintf(str, "%d\n", nic->hdr.flags);
+   308			break;
+   309		case ISCSI_BOOT_ETH_IP_ADDR:
+   310			str += sprintf_ipaddr(str, nic->ip_addr);
+   311			break;
+   312		case ISCSI_BOOT_ETH_SUBNET_MASK:
+   313			if (nic->subnet_mask_prefix > 32)
+ > 314				val = ~0;
+   315			else
+   316				val = cpu_to_be32(~((1 << (32-nic->subnet_mask_prefix))-1));
+   317			str += sprintf(str, "%pI4", &val);
+   318			break;
+   319		case ISCSI_BOOT_ETH_PREFIX_LEN:
+   320			str += sprintf(str, "%d\n", nic->subnet_mask_prefix);
+   321			break;
+   322		case ISCSI_BOOT_ETH_ORIGIN:
+   323			str += sprintf(str, "%d\n", nic->origin);
+   324			break;
+   325		case ISCSI_BOOT_ETH_GATEWAY:
+   326			str += sprintf_ipaddr(str, nic->gateway);
+   327			break;
+   328		case ISCSI_BOOT_ETH_PRIMARY_DNS:
+   329			str += sprintf_ipaddr(str, nic->primary_dns);
+   330			break;
+   331		case ISCSI_BOOT_ETH_SECONDARY_DNS:
+   332			str += sprintf_ipaddr(str, nic->secondary_dns);
+   333			break;
+   334		case ISCSI_BOOT_ETH_DHCP:
+   335			str += sprintf_ipaddr(str, nic->dhcp);
+   336			break;
+   337		case ISCSI_BOOT_ETH_VLAN:
+   338			str += sprintf(str, "%d\n", nic->vlan);
+   339			break;
+   340		case ISCSI_BOOT_ETH_MAC:
+   341			str += sprintf(str, "%pM\n", nic->mac);
+   342			break;
+   343		case ISCSI_BOOT_ETH_HOSTNAME:
+   344			str += sprintf_string(str, nic->hostname_len,
+   345					      (char *)ibft_loc + nic->hostname_off);
+   346			break;
+   347		default:
+   348			break;
+   349		}
+   350	
+   351		return str - buf;
+   352	};
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
