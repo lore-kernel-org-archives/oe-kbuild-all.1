@@ -1,39 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C0D1FAC23
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 13:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021D81F2C50
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 13:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736342327; cv=none; b=EuhEpQxM2yxs/sZOIhxto5kRBzMmrZ6kJba1i8kIp+wiiOgbri4OpiQFM5Gc/v0FmvrhtbBsVA29fbAYXIlSKV4ACBKhJfy9msHIQqQg7XTRya8TaElVmnoywOy0M4vUsONWTMwHMxI89VwV96jPzcEKzjQX7R+PX4sZBo+6ORY=
+	t=1736343206; cv=none; b=pnxLW1DYAzBPqPsQEOyTbJT2oqhOSjm6p+dWT+ptY0oXL8DEmNaZxGZ/twbe+usQuBFGu9HFqsCnqXeTXYrW4PeIpi5JAMaxJ9SDPPJAuduTzGjW0oQ5v3rDJQbUdAPcsYsfw2mObc2q3reF3nDdKOZuniOa0tyuAde3n3S66ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736342327; c=relaxed/simple;
-	bh=I4QsM+kznaDtxMoE73PPOUcd+7IPG3Z2QjUVV5wwEJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlY8GpvZkC6BKJccvZfkiYVR764gAiWvf/aZ97kpnRonXuOvS/FzROnxa+sbjm0Aa/M6MMtjOQI040Og4xdG2HfWe5nMx5mhsff8fxheQa+bXJRdnKVJ7OW22ubPbizmCJrdKgnCtO/wDTWuLfXaR/B7Mum9VEMBYevpKVUf3zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=THqnL6PS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736343206; c=relaxed/simple;
+	bh=CeBwB9EZxq4kDC/7ilkI0KINFN3La3DgrWyqaVfjT78=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Oafr0GffUtPGIP0Pf+JT8IXHVtKBv1e4JLJHn9bZYdmGfxkBEtpsLqBnIdeWP8GX8YJD0lg8u8CiE+JFth0OPOSvqAE9iiKrSyG0lzFCKRT6vgIGV/F4HhtvIQU/FNWuF0697gpcuJEAvPKiJnui1dSG83IhwvMhWGXWOhddvvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SFcdPAZS; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="THqnL6PS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB2FC4CEDF;
-	Wed,  8 Jan 2025 13:18:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1736342327;
-	bh=I4QsM+kznaDtxMoE73PPOUcd+7IPG3Z2QjUVV5wwEJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=THqnL6PSET/zgmSS0ptMFE9oBAIPM5L3q4nj3Vu4LLBEVGW4Lc9rkuA4NjISo7kMs
-	 OckMM1joHBY9rZBcL6iO89++Nnr0p/uEt9qxm1VCuO5cnf1ikxn4OPKPM4aE5/I1VN
-	 TcjyUhK92rARVFF+HViJYqLyr4dwoez6qYgeSlzM=
-Date: Wed, 8 Jan 2025 14:18:44 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [char-misc:char-misc-testing 34/74]
- drivers/pps/clients/pps-gpio.c:66:47: error: incompatible type for argument
- 1 of '_dev_warn'
-Message-ID: <2025010834-recycled-blinked-37c4@gregkh>
-References: <202501080313.MmWpjmSe-lkp@intel.com>
- <2025010849-muster-cathouse-6b47@gregkh>
- <da411c8f-719b-4bd6-8314-4200b115a405@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFcdPAZS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736343203; x=1767879203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CeBwB9EZxq4kDC/7ilkI0KINFN3La3DgrWyqaVfjT78=;
+  b=SFcdPAZSTr14xUoV0VNUfqhRq7opUHf5mor4loiphNaCnCKJjbLEiTb9
+   QDWDyKE/RteV5+ngW+r62vtfnq0wEXCpFaRjY4NPEQTJRivMI58mbN1gw
+   MAcvWskG4n9f+ZR8Abfl7eCMkwtUT60smdpMmCgvnD68rBpq2TWkzZmAo
+   DfwdOdio27xqmURwCh/wx0cHQ3ttpL5z5KxKIUK0725O8J0Ma58JSL4f8
+   gEzhCifRxnHJ3GnImRBpfYi6dranmaFCu9hq+K00MeIASyCxJ9976kMqk
+   yDWzkpkrPo774YD98m3kDClfAvj1DY9MfNVkcK3kv3m161YlzdtxMhDPz
+   w==;
+X-CSE-ConnectionGUID: 7sHktZo4QOS49ApbPrvgOA==
+X-CSE-MsgGUID: Wxemc9R1R3WUJnOr1vdIqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="40335428"
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="40335428"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 05:33:19 -0800
+X-CSE-ConnectionGUID: VFFig5c+QhGiDPREbCrr5A==
+X-CSE-MsgGUID: 66/XR/42QMaKZJC0EdauxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="133997825"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 08 Jan 2025 05:33:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVWBP-000G8X-2y;
+	Wed, 08 Jan 2025 13:33:15 +0000
+Date: Wed, 8 Jan 2025 21:32:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [djiang:cxl/extended-linear 4/4] ERROR: modpost: "memory_failure"
+ [drivers/cxl/core/cxl_core.ko] undefined!
+Message-ID: <202501082134.hNJiJCPv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,29 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <da411c8f-719b-4bd6-8314-4200b115a405@bootlin.com>
 
-On Wed, Jan 08, 2025 at 01:44:25PM +0100, Bastien Curutchet wrote:
-> Hi Greg,
-> 
-> On 1/8/25 1:19 PM, Greg Kroah-Hartman wrote:
-> > On Wed, Jan 08, 2025 at 03:37:10AM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
-> > > head:   daec45916d68bc14406f20f547a8c39a3eab88b3
-> > > commit: 8aa0545f419e5bffbb27354e0221997cb6e87cbd [34/74] pps: clients: gpio: Bypass edge's direction check when not needed
-> > 
-> > Bastien, I've now dropped this commit from my branches, please fix it up
-> > and resend (after at least test-building it...)
-> > 
-> 
-> I've investigated it, it's a conflict with commit c79a39dc8d060 ("pps: Fix a
-> use-after-free") that changes the struct pps_device. This commit isn't
-> present in v6.13-rc3.
-> 
-> Do you want me to send a new patch based on char-misc-testing ?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/extended-linear
+head:   2cd4cea23c873047dabad1e6d800cfc9c81fb397
+commit: 2cd4cea23c873047dabad1e6d800cfc9c81fb397 [4/4] cxl: Add mce notifier to emit aliased address for extended linear cache
+config: x86_64-randconfig-104-20250108 (https://download.01.org/0day-ci/archive/20250108/202501082134.hNJiJCPv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501082134.hNJiJCPv-lkp@intel.com/reproduce)
 
-Please do.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501082134.hNJiJCPv-lkp@intel.com/
 
-thanks,
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-greg k-h
+>> ERROR: modpost: "memory_failure" [drivers/cxl/core/cxl_core.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
