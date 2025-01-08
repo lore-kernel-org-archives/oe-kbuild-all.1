@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870651A7264
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 07:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B9D198E92
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 07:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736320568; cv=none; b=HuiSGqpA12gRNPUMRDN5aGyjYiZ4K8oYQAa7zuRC3KaWXkkOf+sTR90b0P/kMKBLr0Eu9jd4oIGLWBdSt3i+Y27XDBb0AmKVedJi25f+AAmxzvvsuL9Yo06I/aRSE8mippGLhDLf8OT1/H7Wfvmw16yOCOmwmoWgSTuaHaOHB14=
+	t=1736322699; cv=none; b=AAydQ0RYC6vvAdG3wQ1Ds0YMok1dVhorlpTM6ss/OPfnVyn7xR4VxIi4CQ6h9c9OLzwv/eyps3shK/aMUFULjPpyGYGQh+BRyF7Q5EE0ElOtYJS5TocPBeMixAsc8KzshmxwmRPOGIQ0VOav7lGUudE3gFMhgeqMBzWmhF1JqWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736320568; c=relaxed/simple;
-	bh=c9T875ncUpZ6czw5ekRUJMfTxujR/cwO7+BRgh310Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sKFBfKxxpTgBa326gfJmKF0/CIYpL44obMEnauvOGu5IxmGKI+yXBoKbspftg7RV4kcUZvd5BuSEpXzE3bGsLthLnyLVTIZeoQ5kehAk+TWHjXUSQe6PLcn/dvfEi5sxkT4blBcEGLrte8IIOymcPWpDmra34TI4MakWNAWEUTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JJO9fysL; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1736322699; c=relaxed/simple;
+	bh=XKcVd49/uvGb0OKmJJtY0h5H+0P4HfbGJQ3dWY12yfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Rq9b1+f19CAWIsPRUjihIi3RQrlWGDgxLLSRStWzbuIgS7gOYl2RMd/1+61BkMFvDZIOPmPHpi/Qp0DLmc3fSliozKa/k8+xFlwRQbnjYSkyPMed6LSwK++PhgbFgc6zUck/FbWqJB6daL0IsISZu5C6uYncWIAUNHm4mq5YLJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfIu/7Qt; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JJO9fysL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfIu/7Qt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736320566; x=1767856566;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c9T875ncUpZ6czw5ekRUJMfTxujR/cwO7+BRgh310Zs=;
-  b=JJO9fysLfuGL8UXWWw8XO0JF5rUYwYReNQExDUn6Xk8F9d0xxfw1Gxfz
-   4S251aDvYT4lxP2sxEXyjLTt9hsd1N7/d0/XJf1pT6mWGL8q5FOCmFKmF
-   VRj5ziOVTAuqxrzPBtv8rx/7/JhE1uc1Ewr9W8t84Hz9CQQ4gE8Rq+ATR
-   nwb1iiWJGfHcc3ryUt0/ReDzFs1LaatYFfJ0zz6ok+BA5h5wLVqMe4dkz
-   SpSZAaJRgGekofU1X9LRHFSMAW9Mkk0vadm5gZng3cW0Xn0bnEusZsNwX
-   24RezH9CSCZfT+9LzvbHEY8rdUQMuQYXdXeQswVYFkW8y7rxAtYz2scFi
+  t=1736322698; x=1767858698;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XKcVd49/uvGb0OKmJJtY0h5H+0P4HfbGJQ3dWY12yfU=;
+  b=TfIu/7QtkzGABIzNk3o8jWWzIVZIaZOuVyEm5PLmDwf8927rNLwEqzYl
+   LU7UcbXm/T49cdEQCBl9taB/5tH2hXjT7r08zEVp1+bkLzGyFPErX/yIw
+   brLrGryrA+aa68rFR3gDRUJwk0tQICxtgPg40pRldVUf1sJCailV9fCMR
+   WyOtM2qGcaqmWvrP2lSlHS6zIXLRmtsjb9Csn7pzI6kn7aQnZpqTaMZGM
+   aHx+0dTQ1uOW04C/7904nimU0MGC5hC2JUSjTDELXymA6zCNxHhuHsyz8
+   x5zbbD3ioYSEPTm3le5tN3uB/TdRqC+IMsJHpZzaXkOao1GiuUC+ZvQb/
    g==;
-X-CSE-ConnectionGUID: ViZbnA5TS9iujua3xIWamw==
-X-CSE-MsgGUID: i/w+HFR1Ra6QgDHLRFguVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36649083"
+X-CSE-ConnectionGUID: Cadd61JBQmeQC0+ztknpRg==
+X-CSE-MsgGUID: FONUAOVuQ8GSLYg75YfKKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36418243"
 X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
-   d="scan'208";a="36649083"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 23:16:03 -0800
-X-CSE-ConnectionGUID: Cu2e8+KERYivh65/qlfFVA==
-X-CSE-MsgGUID: uLNKOvLDSESPyDTfCHI+9A==
+   d="scan'208";a="36418243"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 23:51:37 -0800
+X-CSE-ConnectionGUID: nQ1ZyJLjSG65gXPewkbbKw==
+X-CSE-MsgGUID: COghrSz7QzGzIQMi6ayEcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
-   d="scan'208";a="102924538"
+   d="scan'208";a="103079738"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Jan 2025 23:15:59 -0800
+  by orviesa006.jf.intel.com with ESMTP; 07 Jan 2025 23:51:36 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVQIH-000FkB-1X;
-	Wed, 08 Jan 2025 07:15:57 +0000
-Date: Wed, 8 Jan 2025 15:15:30 +0800
+	id 1tVQqj-000Flu-2C;
+	Wed, 08 Jan 2025 07:51:33 +0000
+Date: Wed, 8 Jan 2025 15:51:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suleiman Souhlal <suleiman@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Chao Gao <chao.gao@intel.com>,
-	David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ssouhlal@freebsd.org,
-	Suleiman Souhlal <suleiman@google.com>
-Subject: Re: [PATCH v3 1/3] kvm: Introduce kvm_total_suspend_ns().
-Message-ID: <202501081504.AE4wDCL9-lkp@intel.com>
-References: <20250107042202.2554063-2-suleiman@google.com>
+To: Vikas Gupta <vikas.gupta@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Sheetal Tigadoli <sheetal.tigadoli@broadcom.com>
+Subject: drivers/firmware/broadcom/tee_bnxt_fw.c:62: warning: Function
+ parameter or struct member 'fw_shm_pool' not described in
+ 'tee_bnxt_fw_private'
+Message-ID: <202501081535.XpNcCyyG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,45 +63,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250107042202.2554063-2-suleiman@google.com>
 
-Hi Suleiman,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvm/next linus/master v6.13-rc6 next-20250107]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suleiman-Souhlal/kvm-Introduce-kvm_total_suspend_ns/20250107-122819
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20250107042202.2554063-2-suleiman%40google.com
-patch subject: [PATCH v3 1/3] kvm: Introduce kvm_total_suspend_ns().
-config: s390-randconfig-001-20250108 (https://download.01.org/0day-ci/archive/20250108/202501081504.AE4wDCL9-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081504.AE4wDCL9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   09a0fa92e5b45e99cf435b2fbf5ebcf889cf8780
+commit: 246880958ac93989c97c73ae1e60b78b4c4c88c5 firmware: broadcom: add OP-TEE based BNXT f/w manager
+date:   5 years ago
+config: mips-randconfig-r015-20230807 (https://download.01.org/0day-ci/archive/20250108/202501081535.XpNcCyyG-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081535.XpNcCyyG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501081504.AE4wDCL9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501081535.XpNcCyyG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/s390/kvm/../../../virt/kvm/kvm_main.c:897:12: warning: 'last_suspend' defined but not used [-Wunused-variable]
-     897 | static u64 last_suspend;
-         |            ^~~~~~~~~~~~
+>> drivers/firmware/broadcom/tee_bnxt_fw.c:62: warning: Function parameter or struct member 'fw_shm_pool' not described in 'tee_bnxt_fw_private'
 
 
-vim +/last_suspend +897 arch/s390/kvm/../../../virt/kvm/kvm_main.c
+vim +62 drivers/firmware/broadcom/tee_bnxt_fw.c
 
-   896	
- > 897	static u64 last_suspend;
-   898	static u64 total_suspend_ns;
-   899	
+    50	
+    51	/**
+    52	 * struct tee_bnxt_fw_private - OP-TEE bnxt private data
+    53	 * @dev:		OP-TEE based bnxt device.
+    54	 * @ctx:		OP-TEE context handler.
+    55	 * @session_id:		TA session identifier.
+    56	 */
+    57	struct tee_bnxt_fw_private {
+    58		struct device *dev;
+    59		struct tee_context *ctx;
+    60		u32 session_id;
+    61		struct tee_shm *fw_shm_pool;
+  > 62	};
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
