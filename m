@@ -1,61 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9040F1A0BE0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8291ACDE7
 	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 08:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736325407; cv=none; b=KASbxlzuGb5wvE8Z+Ezm436TF4ypGbjSRav7gSVcFaC/6zqw/qL6U7Nu1xWnEGUhPRohDQCAd/kqTVfkBHQxKp5mp6TsuF5NXPOUr9dTuMZ9MQ6yGKWnuwU/eQbJWfEvfsiYBkKcn0gpADZ/3TP3fH3ySW56SeafzU1WT5OQAhg=
+	t=1736325407; cv=none; b=JOD4HisKps8JpYK9GiWLQJINBeupIIDrQFKT0GLHgqr+hKW8DNKfX83QLFFQOy5Ty3PoEhVlKxzNDkWUuq9sQVV1pq4HE4aLAAOyma5yrs+IeeJcCYx3fzrvLkP2WHhk0SJr9SlZrsQB/dg9FiCe11x6ozUexPLyAycdTnkyPNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736325407; c=relaxed/simple;
-	bh=83/vH/mgiwTZhXw6wkYujJEHjHwL2O4w6I9en1b5M9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lCvLdUis6lYGdNlcnRK2sOblsBeI+okD0qaEkShzkJdyksM62ngrc8ZLpnLLfKpktN2tftVFx+weceL2XrOmLLi//xnJq6KWY1fGaqV3RYY3yBgP0ej0GH7VuTKw8dU4Y7fTuI+NU1wjwNj5/qsbQlnIBwUcpfaqnxXDTOSHAHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4Uv7P2h; arc=none smtp.client-ip=192.198.163.11
+	bh=ppwSquoPBMt0mFVLcF4X+BM+cS6CBGNTiWIvdb6F32o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZTyhCZj4GzUKunhVuJOghZubR5pjqADg+irBlGiDkFCaEccuVlwX9F26+IOAA9iLIHKZSl+20jsrq9og3UYto5z7K1BvaiB8hoU4fpwWdspblR4YwuFR3rRmKCUtycy2eUydent/CCe/KOwqVTNJy5O/ASVxVuvtfIchocd0CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YVr67yj4; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4Uv7P2h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVr67yj4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1736325404; x=1767861404;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=83/vH/mgiwTZhXw6wkYujJEHjHwL2O4w6I9en1b5M9s=;
-  b=L4Uv7P2hFPP7NbtHzOlLGG1rG9cFPrZuz//rwpvPqdpsW786iGaUERh2
-   lHR7HIbzys/f506qFYComC2FdmQq/j+RfbXZ1DG5ej6B0wAFnn5s/WV+G
-   EFW55LaV0u4RnVOr3OXi7HSk0VuoAcDDsHPiGdivAi1je6gI41ih8vAJd
-   XC0xU2KKGmRIfgsEqwK035cJKaDFDU02fXhreEqvN+wx0zivza6DOxjm+
-   LTW7XnGaHLtfKPlvbDPwFAwHz0a8v4nb+rFiclZC9uKsEdMfMTdWWIbap
-   hlcQQYPAlvi6Hr2pQOkEW3GBmPdtyxd2p/nVRc+EhPaL8law/LZaF3NML
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ppwSquoPBMt0mFVLcF4X+BM+cS6CBGNTiWIvdb6F32o=;
+  b=YVr67yj4cC/EJyz0Hpd+p/E+GZExGhxYJZZ8JIUtwnA/kLJwfZzYYqxY
+   eRO7canemTIlMzXhAQ+rl8LL2G1zxSXfHJ2zwLZAkunp2II4lrv5xTKCX
+   WEoEC+wWZVS7WEnwTqN2e4BWg+p+pUgSdkn5RjzzqL7o6yy3vWENZvz3N
+   PGeUiYhbTewJnMuxB1ZyjZIjgVYfw+J6h+yMLI+C8EZeyQP5kvxbzkMOS
+   RwZvS2pD5X0cUApEO5mQ0AXLjGUHS1CV3c9nhY6yEBNIwtcmh8UtBp8M+
+   i8U+wgrA1ugi1rb6qMJotG6+FsAqa99d44CzaNUFHOBObVpMkn91eHkGP
    Q==;
-X-CSE-ConnectionGUID: jfBI9lrGTbu535sJYeh5Sw==
-X-CSE-MsgGUID: pWIRPc9ITQK59Pm1j+VBNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47114967"
+X-CSE-ConnectionGUID: Xmkm0Fl1RyqdhmkBOH4dhw==
+X-CSE-MsgGUID: ZcNzLVaCSyujix/7SKnN6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47114970"
 X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
-   d="scan'208";a="47114967"
+   d="scan'208";a="47114970"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 00:36:42 -0800
-X-CSE-ConnectionGUID: mSHwWa2nS9Wte7+9TCKKlQ==
-X-CSE-MsgGUID: wykaXV0eSc+DIHuiNlahjA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 00:36:43 -0800
+X-CSE-ConnectionGUID: 2wLHOkeyQuuNC8Wjr+BocA==
+X-CSE-MsgGUID: TMrDP3FDT3OseqODoG1T1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
-   d="scan'208";a="108010343"
+   d="scan'208";a="108010364"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 08 Jan 2025 00:36:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVRYL-000Fo4-2x;
+	id 1tVRYL-000Fnz-2f;
 	Wed, 08 Jan 2025 08:36:37 +0000
-Date: Wed, 8 Jan 2025 16:36:09 +0800
+Date: Wed, 8 Jan 2025 16:36:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Austin Zheng <Austin.Zheng@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Dillon Varone <dillon.varone@amd.com>,
-	Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Subject: [linux-next:master 3442/6768]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:5690
- CalculatePrefetchSchedule() warn: inconsistent indenting
-Message-ID: <202501081642.I9VLeMNH-lkp@intel.com>
+To: Suleiman Souhlal <suleiman@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Chao Gao <chao.gao@intel.com>,
+	David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ssouhlal@freebsd.org,
+	Suleiman Souhlal <suleiman@google.com>
+Subject: Re: [PATCH v3 1/3] kvm: Introduce kvm_total_suspend_ns().
+Message-ID: <202501081616.nFwj9jxx-lkp@intel.com>
+References: <20250107042202.2554063-2-suleiman@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,42 +70,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250107042202.2554063-2-suleiman@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7b4b9bf203da94fbeac75ed3116c84aa03e74578
-commit: be4e3509314af751f08677f428f93c306aaa2f8e [3442/6768] drm/amd/display: DML21 Reintegration For Various Fixes
-config: x86_64-randconfig-161-20250107 (https://download.01.org/0day-ci/archive/20250108/202501081642.I9VLeMNH-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Suleiman,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next linus/master v6.13-rc6 next-20250107]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suleiman-Souhlal/kvm-Introduce-kvm_total_suspend_ns/20250107-122819
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20250107042202.2554063-2-suleiman%40google.com
+patch subject: [PATCH v3 1/3] kvm: Introduce kvm_total_suspend_ns().
+config: loongarch-randconfig-002-20250108 (https://download.01.org/0day-ci/archive/20250108/202501081616.nFwj9jxx-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501081616.nFwj9jxx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501081642.I9VLeMNH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501081616.nFwj9jxx-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:5690 CalculatePrefetchSchedule() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +5690 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+>> arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:897:12: warning: 'last_suspend' defined but not used [-Wunused-variable]
+     897 | static u64 last_suspend;
+         |            ^~~~~~~~~~~~
 
-be4e3509314af7 Austin Zheng     2024-11-25  5680  
-70839da6360500 Aurabindo Pillai 2024-04-19  5681  		} else {
-70839da6360500 Aurabindo Pillai 2024-04-19  5682  			*p->dst_y_prefetch = s->dst_y_prefetch_equ;
-be4e3509314af7 Austin Zheng     2024-11-25  5683  
-be4e3509314af7 Austin Zheng     2024-11-25  5684  			if (s->dst_y_prefetch_equ < s->dst_y_prefetch_equ_impacted)
-be4e3509314af7 Austin Zheng     2024-11-25  5685  				*p->dst_y_prefetch = s->dst_y_prefetch_equ_impacted;
-be4e3509314af7 Austin Zheng     2024-11-25  5686  
-70839da6360500 Aurabindo Pillai 2024-04-19  5687  			s->TimeForFetchingVM = s->Tvm_equ;
-70839da6360500 Aurabindo Pillai 2024-04-19  5688  			s->TimeForFetchingRowInVBlank = s->Tr0_equ;
-70839da6360500 Aurabindo Pillai 2024-04-19  5689  
-70839da6360500 Aurabindo Pillai 2024-04-19 @5690  		*p->dst_y_per_vm_vblank = math_ceil2(4.0 * s->TimeForFetchingVM / s->LineTime, 1.0) / 4.0;
-70839da6360500 Aurabindo Pillai 2024-04-19  5691  		*p->dst_y_per_row_vblank = math_ceil2(4.0 * s->TimeForFetchingRowInVBlank / s->LineTime, 1.0) / 4.0;
-d07722e1fc749f Austin Zheng     2024-08-15  5692  
 
-:::::: The code at line 5690 was first introduced by commit
-:::::: 70839da6360500a82e4d5f78499284474cbed7c1 drm/amd/display: Add new DCN401 sources
+vim +/last_suspend +897 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
 
-:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   896	
+ > 897	static u64 last_suspend;
+   898	static u64 total_suspend_ns;
+   899	
 
 -- 
 0-DAY CI Kernel Test Service
