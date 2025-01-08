@@ -1,114 +1,214 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F681FF1A5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 18:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB3202C50
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 18:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736359869; cv=none; b=buyjq7zpwcNbbGkL6V+sKBFO2nOhpRkI4Z7ADJWs5Qx5L1lfMZH99pkbmw101LUOylEZVFBpm/lM0L2Xq2H/YFWN5QHX76wYtArzBcRA8WPcIFLhkT+A3XKd7dXTnkM4DB4v4dqassnWOJIAq9kmX1Z1MnpR9KFS1wWMDdjPAIo=
+	t=1736361790; cv=none; b=B3PtYO5YmXclJ91BvWBiTHLgCgJBcIgkK0AxtpxLU6xbudH0Hk1X3CJeUgmvdfVFPc/TcITrSqAJRL9pY3iCm3u8TQm4U/HNc8W1nVu4p8n/PJS5tjHnvXb8oHEUrxiCGZa3ZpV1XioIICgkMn9cX76hhQmf2MTUX/oQ1fhoHZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736359869; c=relaxed/simple;
-	bh=yRlykbKSn5jYsW8wxQz5WQX3Mpwcq2FfRltURMyGjwo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JbIZif3r8uccQD3TDbp+p6Qf3p/pJJciTSRyc5kr0sF6abAyXWgABhmzsHfdkjxVsfws5lSijdJK4zqbCvum+pK3xe0qL3drA6yU4UxlL0Gu6emByRcrLIglgHUS4wPsRTiLR/eE22oOB04+HVEiz0i5zRsLupz5fvPps6iUCA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TLIoViLX; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1736361790; c=relaxed/simple;
+	bh=jrsjnJYMkuIqTo4F0z5Pcx+6SqO9OW2qdaxiIfAD/Ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UpluW5YZUqeIMPTIpjxLRynTmplZoKaV4d+5lGTESeKk7Yn0rE9s9TuSfS8VDpsdMVKKi5s6b0mB1dHiaMSVkyFRXtxpqNpZbEsyz1gOroydcHMawZpfW5yLJgdg4uzM92QaXzb/ELO791novRH7nJn145gHmZy0z/8hLtExx00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDBLbe4k; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TLIoViLX"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aaeec07b705so21553866b.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jan 2025 10:11:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1736359866; x=1736964666; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=g4L1kpXD4CvIKxF3DPmBbxJe2C0jfudiA06dORui5cI=;
-        b=TLIoViLXs80PvL/6sp5EAmajOqYCQ059LoDbaHL1+MRoWUEgC3U9uBtBXBn6wxrDZ5
-         VmLlRjNRhna3JxXP0QQV9zbhTgilJsUla52br6nSEXHMQ8xf1XYJBTwTEswGDRGCtYCW
-         ObvoBwkJJuT3gqyarpOh5KYv8QV1VZkSK5hug=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736359866; x=1736964666;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g4L1kpXD4CvIKxF3DPmBbxJe2C0jfudiA06dORui5cI=;
-        b=VZiGvANEf7/SAljJdgYeSiFwyBRhk+pJpRzjvu50yJKVioJvz/FtALOUGC+1Z1MDQB
-         ImQYvDpuPl5WHYN2WUq6tTMe7WXo25Fp04qAq6bwi43pKaLUX0wYBG9iYJotGTA4Jsf+
-         FuP68nd1lIQzSFvezjVBqm1YTYHiuKR9YMte6IDLNonbGLNkjDDo+ON75Sjaky4Gcv6W
-         eR3DPmGfsKDLUEOobu6xgh8N3mZMSGkPG93yNazObYGPGoCmHF5/BuE/MaRPycHOfxab
-         fshIRccxZV9fO19x8PSMDvfGYKnG3AxI0gcL7P9LTJ8/bwAa222e85IZJfndNNcprjn3
-         WEQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXus03KeYWsZeo2cZtRO1nfX3hpnvJ1nKzYXTPrdw3je9+kjpo+u0qKvOvfKYMDQdT7F1m2SLqYe2ExB/eS@lists.linux.dev
-X-Gm-Message-State: AOJu0YwaZR/XiAhBDwS6oJBMMzRkY+xZ4KwzrsP23zhnnw184wkZCpFQ
-	8Jd/f1IgifM4t5lXCvV2lO2Jcm+45EgLKQMXp+Yo31ct2qSj4k2cD4ufxlStHhLGKqbPbho0fap
-	Nt9VnoA==
-X-Gm-Gg: ASbGncvFQnxZNWYjwGYcJ0aROBmRP1fwdn7bysY5UCBUPxzWRvrkYMico+76oyKLtL1
-	TcQZ/PO1coaVPRHIhEG9l7hQgqSPJ9vQvOqTeRSdqcMTeg1efZ3RwHa6GeCoxowgJpL+9XoioPK
-	8N5NN9HBho4oxfRxdNQluuW5XDYA2xGwOpr9jljE+e0zuT/a/3fM9SKDWsHqvUE1HHWrDL3jE9u
-	lZijRgG83nOIlpSKUtzrgCe+aB/bynuYogi6/jD7AC54h7HCqF6BoLCoOSga3VOyQeDuL8H13z+
-	harNSRsEa3+VjDuqIB8UQxlsevUP41s=
-X-Google-Smtp-Source: AGHT+IEOp3dDhwspkhw39Z2/QaS15NokVR8NNOFKboDFB4NIDureiuZrJdjDoDIeCy9RSZnb1J4SNQ==
-X-Received: by 2002:a17:907:d8e:b0:aae:ea52:3a5 with SMTP id a640c23a62f3a-ab2abdc0bc4mr378961066b.44.1736359866098;
-        Wed, 08 Jan 2025 10:11:06 -0800 (PST)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e830b47sm2550853266b.26.2025.01.08.10.11.05
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jan 2025 10:11:05 -0800 (PST)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a9e44654ae3so19768766b.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jan 2025 10:11:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXGmfsnPD4mFSV228PRnOdOAj1zKEydxIePMpU9J8v9sfWTAUSEfupiV6Jvat/gVI95orabYoeBMF6zQ8Id@lists.linux.dev
-X-Received: by 2002:a17:907:1c93:b0:aae:8692:902b with SMTP id
- a640c23a62f3a-ab2ab748eeamr327286666b.31.1736359864937; Wed, 08 Jan 2025
- 10:11:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDBLbe4k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736361789; x=1767897789;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jrsjnJYMkuIqTo4F0z5Pcx+6SqO9OW2qdaxiIfAD/Ss=;
+  b=MDBLbe4k5UZFtD0tVOVN92CCARoR4fnDUSmfmMxSimUI6KAyF7dmkra/
+   lb25BqPNbRwe0H/SEFKtsr+gehMmWNrV8joBMofhIw0ELKiE6Qq0XVdJF
+   Px8mqaKTSlLU8wfCg8s5D6RmW0lkCVCvcfq9GFIOkEFdB+xT/Ua887JkN
+   ZQH+sC339A43nnq4b3Tja36zkfEF0T+wqqzZ4Y4Gxbx9D9WtNReU2/OLR
+   tMaqA7SJd+kz5V0YhIJyMoDF9Lid5OpxcHUoueYWBV3jqxDWciIZGxQT5
+   oF3irV1zD8S51dobxrIHIPhZmfhsdaA1ROXXW3BXuC35N9c3BMz+eTo5g
+   A==;
+X-CSE-ConnectionGUID: VyHNtXWGTLi/KSBHH72MdQ==
+X-CSE-MsgGUID: C3F8uvdcRW2I/5h9DrXneg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="54021050"
+X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
+   d="scan'208";a="54021050"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 10:43:09 -0800
+X-CSE-ConnectionGUID: 3Y4RiqsSTeyD3N3YeSSLNQ==
+X-CSE-MsgGUID: ni2sANAwQ4m8HpJY1PYq+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="103684981"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 08 Jan 2025 10:43:06 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVb1E-000GWS-1U;
+	Wed, 08 Jan 2025 18:43:04 +0000
+Date: Thu, 9 Jan 2025 02:42:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c:1355:47: warning:
+ '%d' directive output may be truncated writing between 1 and 5 bytes into a
+ region of size between 1 and 16
+Message-ID: <202501090237.e05wLSQD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501030516.uZrwnuQQ-lkp@intel.com> <CAMuHMdW-DYPp_2nAaBdvgoa6Yr9et2cNS_260H-9H_CT4yEasw@mail.gmail.com>
- <CAHk-=wj4tYCytRshQGkWSNmZS=59PtKEUpG7f4Sy_46n+WYtXw@mail.gmail.com> <CAMuHMdVLQ2z=U1YJ18GsnJcej2mwGg02GVtKQLQKr0yNtA-7Hg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVLQ2z=U1YJ18GsnJcej2mwGg02GVtKQLQKr0yNtA-7Hg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 8 Jan 2025 10:10:48 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whmhoFfty4GoAnN6u1K2EsjhWkoS767fa-+Lsf1Ya6A+w@mail.gmail.com>
-X-Gm-Features: AbW1kvaDHAgFTamUSR1ieUMfa_7UpkwDHNwGJjelV-I2cxYJy3aNc-RISQlIhjU
-Message-ID: <CAHk-=whmhoFfty4GoAnN6u1K2EsjhWkoS767fa-+Lsf1Ya6A+w@mail.gmail.com>
-Subject: Re: [geert-m68k:master 2/2] lib/muldi3.c:53:28: sparse: sparse: asm
- output is not an lvalue
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, Greg Ungerer <gerg@linux-m68k.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-m68k@lists.linux-m68k.org, Arnd Bergmann <arnd@arndb.de>, 
-	linux-sparse@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 8 Jan 2025 at 06:19, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> That leaves us with the "not addressable" sparse error.
+Hi Rahul,
 
-Hmm. That one is actually a sparse mis-feature.
+FYI, the error/warning still remains.
 
-Sparse sees that
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   09a0fa92e5b45e99cf435b2fbf5ebcf889cf8780
+commit: 2b465ed00f7db9c5b2aca95a91671f86282b1822 cxgb4: add support for mirror Rxqs
+date:   4 years, 6 months ago
+config: x86_64-randconfig-a013-20230508 (https://download.01.org/0day-ci/archive/20250109/202501090237.e05wLSQD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090237.e05wLSQD-lkp@intel.com/reproduce)
 
-          "dmi" ((USItype)(v))
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501090237.e05wLSQD-lkp@intel.com/
 
-input, and the 'm' makes it go "it's a memory location" and that makes
-sparse go "it must be addressable".
+All warnings (new ones prefixed by >>):
 
-But for asm inputs, it just means that the compiler should *put* the
-thing in memory to be an input.
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c: In function 'cxgb4_port_mirror_alloc_queues':
+>> drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c:1355:47: warning: '%d' directive output may be truncated writing between 1 and 5 bytes into a region of size between 1 and 16 [-Wformat-truncation=]
+    1355 |                                  "%s-mirrorrxq%d", dev->name, i);
+         |                                               ^~
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c:1355:34: note: directive argument in the range [0, 65534]
+    1355 |                                  "%s-mirrorrxq%d", dev->name, i);
+         |                                  ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c:1353:25: note: 'snprintf' output between 12 and 31 bytes into a destination of size 26
+    1353 |                         snprintf(mirror_rxq->msix->desc,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1354 |                                  sizeof(mirror_rxq->msix->desc),
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1355 |                                  "%s-mirrorrxq%d", dev->name, i);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-And this is hidden on x86, because sparse recognizes "r" for register,
-and says "if it can be either a register or memory, I don't require
-memory". So there's various x86 inline asm that does something like
 
-        "rm" (0)
+vim +1355 drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
 
-and sparse won't complain about the zero not being addressable.
+  1315	
+  1316	static int cxgb4_port_mirror_alloc_queues(struct net_device *dev)
+  1317	{
+  1318		struct port_info *pi = netdev2pinfo(dev);
+  1319		struct adapter *adap = netdev2adap(dev);
+  1320		struct sge_eth_rxq *mirror_rxq;
+  1321		struct sge *s = &adap->sge;
+  1322		int ret = 0, msix = 0;
+  1323		u16 i, rxqid;
+  1324		u16 *rss;
+  1325	
+  1326		if (!pi->vi_mirror_count)
+  1327			return 0;
+  1328	
+  1329		if (s->mirror_rxq[pi->port_id])
+  1330			return 0;
+  1331	
+  1332		mirror_rxq = kcalloc(pi->nmirrorqsets, sizeof(*mirror_rxq), GFP_KERNEL);
+  1333		if (!mirror_rxq)
+  1334			return -ENOMEM;
+  1335	
+  1336		s->mirror_rxq[pi->port_id] = mirror_rxq;
+  1337	
+  1338		if (!(adap->flags & CXGB4_USING_MSIX))
+  1339			msix = -((int)adap->sge.intrq.abs_id + 1);
+  1340	
+  1341		for (i = 0, rxqid = 0; i < pi->nmirrorqsets; i++, rxqid++) {
+  1342			mirror_rxq = &s->mirror_rxq[pi->port_id][i];
+  1343	
+  1344			/* Allocate Mirror Rxqs */
+  1345			if (msix >= 0) {
+  1346				msix = cxgb4_get_msix_idx_from_bmap(adap);
+  1347				if (msix < 0) {
+  1348					ret = msix;
+  1349					goto out_free_queues;
+  1350				}
+  1351	
+  1352				mirror_rxq->msix = &adap->msix_info[msix];
+  1353				snprintf(mirror_rxq->msix->desc,
+  1354					 sizeof(mirror_rxq->msix->desc),
+> 1355					 "%s-mirrorrxq%d", dev->name, i);
+  1356			}
+  1357	
+  1358			init_rspq(adap, &mirror_rxq->rspq,
+  1359				  CXGB4_MIRROR_RXQ_DEFAULT_INTR_USEC,
+  1360				  CXGB4_MIRROR_RXQ_DEFAULT_PKT_CNT,
+  1361				  CXGB4_MIRROR_RXQ_DEFAULT_DESC_NUM,
+  1362				  CXGB4_MIRROR_RXQ_DEFAULT_DESC_SIZE);
+  1363	
+  1364			mirror_rxq->fl.size = CXGB4_MIRROR_FLQ_DEFAULT_DESC_NUM;
+  1365	
+  1366			ret = t4_sge_alloc_rxq(adap, &mirror_rxq->rspq, false,
+  1367					       dev, msix, &mirror_rxq->fl,
+  1368					       t4_ethrx_handler, NULL, 0);
+  1369			if (ret)
+  1370				goto out_free_msix_idx;
+  1371	
+  1372			/* Setup MSI-X vectors for Mirror Rxqs */
+  1373			if (adap->flags & CXGB4_USING_MSIX) {
+  1374				ret = request_irq(mirror_rxq->msix->vec,
+  1375						  t4_sge_intr_msix, 0,
+  1376						  mirror_rxq->msix->desc,
+  1377						  &mirror_rxq->rspq);
+  1378				if (ret)
+  1379					goto out_free_rxq;
+  1380	
+  1381				cxgb4_set_msix_aff(adap, mirror_rxq->msix->vec,
+  1382						   &mirror_rxq->msix->aff_mask, i);
+  1383			}
+  1384	
+  1385			/* Start NAPI for Mirror Rxqs */
+  1386			cxgb4_enable_rx(adap, &mirror_rxq->rspq);
+  1387		}
+  1388	
+  1389		/* Setup RSS for Mirror Rxqs */
+  1390		rss = kcalloc(pi->rss_size, sizeof(u16), GFP_KERNEL);
+  1391		if (!rss) {
+  1392			ret = -ENOMEM;
+  1393			goto out_free_queues;
+  1394		}
+  1395	
+  1396		mirror_rxq = &s->mirror_rxq[pi->port_id][0];
+  1397		for (i = 0; i < pi->rss_size; i++)
+  1398			rss[i] = mirror_rxq[i % pi->nmirrorqsets].rspq.abs_id;
+  1399	
+  1400		ret = cxgb4_config_rss(pi, rss, pi->rss_size, pi->viid_mirror);
+  1401		kfree(rss);
+  1402		if (ret)
+  1403			goto out_free_queues;
+  1404	
+  1405		return 0;
+  1406	
+  1407	out_free_rxq:
+  1408		free_rspq_fl(adap, &mirror_rxq->rspq, &mirror_rxq->fl);
+  1409	
+  1410	out_free_msix_idx:
+  1411		cxgb4_free_msix_idx_in_bmap(adap, mirror_rxq->msix->idx);
+  1412	
+  1413	out_free_queues:
+  1414		while (rxqid-- > 0)
+  1415			cxgb4_port_mirror_free_rxq(adap,
+  1416						   &s->mirror_rxq[pi->port_id][rxqid]);
+  1417	
+  1418		kfree(s->mirror_rxq[pi->port_id]);
+  1419		s->mirror_rxq[pi->port_id] = NULL;
+  1420		return ret;
+  1421	}
+  1422	
 
-But in your case, just making the inputs lvalues will fix the sparse
-problem, so I guess that's the right thing to do. I sadly don't see
-sparse being fixed because we don't have a maintainer..
-
-                 Linus
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
