@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FEE1AAC9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 04:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C8321422C;
+	Thu,  9 Jan 2025 05:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736398409; cv=none; b=qPozzX+8CnTopbX1v6nivGIc5BnzsfFaJ3wh1+/K6g5bZ3i1/xH3UGtb5aX/roKStvH3Zt7S3vN5QP794eQVeBHfE6AD1MkNHqkfN64QNjVWuSyc7F5cJZAMQuX1cBwhfQ6dDXbtC0UJitJdiUNhZSa9YlSqnkKm46TFhxgQb/A=
+	t=1736399140; cv=none; b=Ua/QbIU9RYZy6kvaODiBvOvMqgOeLMZYLd6PXHIwxvT12S9MtjuJaILBcbgBI3GeglNHBl1+jGEjkPyPkLdGfXsXypG9j4HohygwwF/zb3b7EMDHOFPpRlgGoVoZhfsdlsnrWAa9t9kfkYTQ2+kQ11fdOfAgE/movAu5HCrBLas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736398409; c=relaxed/simple;
-	bh=f6O4sI2usc2deNxHx9dEcvw0zHBq/Swr+zgF1vzuLDs=;
+	s=arc-20240116; t=1736399140; c=relaxed/simple;
+	bh=icHa+z701R0gciadam6t0R2syIFwZSsfhqdtDeITtXI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eFHMvpHWQ1PixW63fbaPKvM4JTcDdDvNbZGkVDArFgrmDsHvoleT3RIYh+Q/LJ6X/AchidYXCEMpTd6qtJ7lZpn+CJpeUKbd6D9KZlcNJSnzb7oPLyJu2dREhX/Q5GbuIfX3zCVEk58twRtAT+akmlfkf2TpoGB1xwJhSw/AS6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF9yILZI; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=hUgyzQieyOaVG62y55ffXQO/Mtws08URnuQbkh5ygH2ME5yStppQROtuneL61A57FA28W9/kwIg3r1ngvRNTJIUba8E1gAvgSBdTvm7l4/NkSq3LwYDSprxFq2tXd83TW8Wttyet/mQ0hn8DJ1fVCZUkn/JyIEsurNyFjFdBezs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKWqfz0e; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF9yILZI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKWqfz0e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736398407; x=1767934407;
+  t=1736399140; x=1767935140;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f6O4sI2usc2deNxHx9dEcvw0zHBq/Swr+zgF1vzuLDs=;
-  b=LF9yILZIEgwkBrG0YZss1mRg+pkeDFt/27/yHHfzkebODIZEL61yX8M+
-   UBJ6UCH0nC17OCehdz6CRVeT5S1aGWDJw8MWmaldduRk+gY24NQQP3PRq
-   2vnWmKvCMR+ADhQcgKEFcQqn4lIuYep086w95YfD5jYbBYAcF6hA3Q0Wo
-   5KHUmGvdYnTiCyh3OMtTvl4FVyIJqjWT8ih2zeRVKX/kRuPYxXtP5EmSN
-   ofo8+I80dbzwxNDhw1XqAAzKWrNt7IOruzmI18LU3jk4SR7L9jIjdX9Ui
-   bsoHKhrwqBCTjcHBQQkX/zKrIMWZ2KAHipTXAul54byatYyqa09V+0Coc
-   A==;
-X-CSE-ConnectionGUID: bBT4zCbEQ5ag3QwRULyOHw==
-X-CSE-MsgGUID: JkRyjzz4SZawqjAnh+94nA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="59113476"
+  bh=icHa+z701R0gciadam6t0R2syIFwZSsfhqdtDeITtXI=;
+  b=OKWqfz0elTPZwLL2gtUu0FQ/CmWwJWI8xzKTarSlqzSMEvvXFZe8MUqG
+   S5pEaIDeWT/21+c/joQM4dBM64KuWPiG1Z9gtAHUpeTvWOc+kAGCUGm7X
+   6Y2agejmQ8etbA+ZG6OC31IKIl0lyrJAp2Qgf2eE7+dioEzyIkvxMMyRz
+   gyjaLLK1Tbq0GF5QgXY0vbHogjY8wg0ET8YpoM1qcqXkVhnDsX/QEeFzb
+   esS4kEnUaQw72Zv1zgeNPaPWqCIEsj/sII78s6xK15clMzkR0H7McVf+f
+   bDJq7/AU+YxrlXIp/o4y36cc8vEpa/Riqnfu917mfJgnDPWgPvByjai/h
+   g==;
+X-CSE-ConnectionGUID: 6Tpl9aZYRveQVKiwTEdiJA==
+X-CSE-MsgGUID: URY7N9s0ReKXyl4ity52jA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="54063565"
 X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
-   d="scan'208";a="59113476"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 20:53:27 -0800
-X-CSE-ConnectionGUID: 7p5FtlpERpexyEwqLNWS8Q==
-X-CSE-MsgGUID: Kgm/mLtKQi6QxMdjR3i4eg==
+   d="scan'208";a="54063565"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 21:05:38 -0800
+X-CSE-ConnectionGUID: ba3H0r7PQ6+U3X1SRLkbkg==
+X-CSE-MsgGUID: lhaVkVYPQrOmroobyHtgQQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108402886"
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
+   d="scan'208";a="103104711"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Jan 2025 20:53:25 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 08 Jan 2025 21:05:36 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVkXq-000H3r-33;
-	Thu, 09 Jan 2025 04:53:22 +0000
-Date: Thu, 9 Jan 2025 12:53:17 +0800
+	id 1tVkjc-000H47-2L;
+	Thu, 09 Jan 2025 05:05:32 +0000
+Date: Thu, 9 Jan 2025 13:05:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhang Zhenghao <zhangzhenghao9@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1799/1799]
- drivers/net/ethernet/huawei/hibifur/bifur_main.c:175:5: warning: no previous
- prototype for function 'bifur_enable_disable_vf_all'
-Message-ID: <202501091220.UhgFHZVc-lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-6.14 2/36] drivers/nvme/host/tcp.c:1594:13:
+ warning: variable 'mq_map' is used uninitialized whenever 'if' condition is
+ false
+Message-ID: <202501091328.r4kJ6xhy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,216 +65,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   89cbe2e2a9d5402e079b95f36d33d4669614e0dc
-commit: a544f0ba62857476ae73fd4305dbe293b7ee7532 [1799/1799] Add Huawei Intelligent Network Card Driver:hibifur
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250109/202501091220.UhgFHZVc-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501091220.UhgFHZVc-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/nvme.git nvme-6.14
+head:   b9973aa4d0507c4969ad87763b535edb77b7dceb
+commit: bd0f5c10310122f4f1d9468467a59a6f69e46f92 [2/36] nvme-tcp: Fix I/O queue cpu spreading for multiple controllers
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250109/202501091328.r4kJ6xhy-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501091328.r4kJ6xhy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501091220.UhgFHZVc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501091328.r4kJ6xhy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/huawei/hibifur/bifur_main.c:175:5: warning: no previous prototype for function 'bifur_enable_disable_vf_all' [-Wmissing-prototypes]
-     175 | int bifur_enable_disable_vf_all(bool enable)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_main.c:175:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     175 | int bifur_enable_disable_vf_all(bool enable)
-         | ^
-         | static 
-   1 warning generated.
---
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:88:6: warning: no previous prototype for function 'bifur_vf_info_hold' [-Wmissing-prototypes]
-      88 | void bifur_vf_info_hold(struct bifur_vf_info *dev)
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:88:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      88 | void bifur_vf_info_hold(struct bifur_vf_info *dev)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:93:6: warning: no previous prototype for function 'bifur_vf_info_put' [-Wmissing-prototypes]
-      93 | void bifur_vf_info_put(struct bifur_vf_info *dev)
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:93:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      93 | void bifur_vf_info_put(struct bifur_vf_info *dev)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:99:6: warning: no previous prototype for function 'bifur_dev_file_add' [-Wmissing-prototypes]
-      99 | void bifur_dev_file_add(struct bifur_dev_file_t *dev_file)
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:99:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      99 | void bifur_dev_file_add(struct bifur_dev_file_t *dev_file)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:106:6: warning: no previous prototype for function 'bifur_dev_file_del' [-Wmissing-prototypes]
-     106 | void bifur_dev_file_del(struct bifur_dev_file_t *dev_file)
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:106:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     106 | void bifur_dev_file_del(struct bifur_dev_file_t *dev_file)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:113:5: warning: no previous prototype for function 'bifur_proc_open' [-Wmissing-prototypes]
-     113 | int bifur_proc_open(struct inode *inode, struct file *filp)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:113:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     113 | int bifur_proc_open(struct inode *inode, struct file *filp)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:133:5: warning: no previous prototype for function 'bifur_proc_close' [-Wmissing-prototypes]
-     133 | int bifur_proc_close(struct inode *inode, struct file *filp)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:133:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     133 | int bifur_proc_close(struct inode *inode, struct file *filp)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:171:5: warning: no previous prototype for function 'bifur_dev_proc_build' [-Wmissing-prototypes]
-     171 | int bifur_dev_proc_build(struct bifur_vf_info *dev)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:171:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     171 | int bifur_dev_proc_build(struct bifur_vf_info *dev)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:204:5: warning: no previous prototype for function 'bifur_dev_proc_destroy' [-Wmissing-prototypes]
-     204 | int bifur_dev_proc_destroy(struct bifur_vf_info *dev)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_vf_mgr.c:204:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     204 | int bifur_dev_proc_destroy(struct bifur_vf_info *dev)
-         | ^
-         | static 
-   8 warnings generated.
---
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:43:6: warning: no previous prototype for function 'bifur_global_file_del' [-Wmissing-prototypes]
-      43 | void bifur_global_file_del(struct bifur_proc_file_t *proc_file)
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:43:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      43 | void bifur_global_file_del(struct bifur_proc_file_t *proc_file)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:50:5: warning: no previous prototype for function 'bifur_global_dev_close' [-Wmissing-prototypes]
-      50 | int bifur_global_dev_close(struct inode *inode, struct file *filp)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:50:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      50 | int bifur_global_dev_close(struct inode *inode, struct file *filp)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:62:5: warning: no previous prototype for function 'bifur_global_file_add' [-Wmissing-prototypes]
-      62 | int bifur_global_file_add(struct bifur_proc_file_t *add_proc_file)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:62:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      62 | int bifur_global_file_add(struct bifur_proc_file_t *add_proc_file)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:83:27: warning: no previous prototype for function 'bifur_alloc_proc_file' [-Wmissing-prototypes]
-      83 | struct bifur_proc_file_t *bifur_alloc_proc_file(void)
-         |                           ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:83:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      83 | struct bifur_proc_file_t *bifur_alloc_proc_file(void)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:95:5: warning: no previous prototype for function 'bifur_global_dev_open' [-Wmissing-prototypes]
-      95 | int bifur_global_dev_open(struct inode *inode, struct file *filp)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:95:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      95 | int bifur_global_dev_open(struct inode *inode, struct file *filp)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:370:5: warning: no previous prototype for function 'bifur_cmd_exec' [-Wmissing-prototypes]
-     370 | int bifur_cmd_exec(struct file *file, struct bifur_msg *msg)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:370:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     370 | int bifur_cmd_exec(struct file *file, struct bifur_msg *msg)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:383:5: warning: no previous prototype for function 'bifur_msg_copy_from_usr' [-Wmissing-prototypes]
-     383 | int bifur_msg_copy_from_usr(const char __user *ubuf, size_t size, struct bifur_msg *usr,
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:383:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     383 | int bifur_msg_copy_from_usr(const char __user *ubuf, size_t size, struct bifur_msg *usr,
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:431:6: warning: no previous prototype for function 'bifur_free_knl_msg_buf' [-Wmissing-prototypes]
-     431 | void bifur_free_knl_msg_buf(struct bifur_msg *msg)
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:431:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     431 | void bifur_free_knl_msg_buf(struct bifur_msg *msg)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:437:5: warning: no previous prototype for function 'bifur_msg_copy_to_usr' [-Wmissing-prototypes]
-     437 | int bifur_msg_copy_to_usr(struct bifur_msg *usr, struct bifur_msg *knl)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:437:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     437 | int bifur_msg_copy_to_usr(struct bifur_msg *usr, struct bifur_msg *knl)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:457:9: warning: no previous prototype for function 'bifur_file_write' [-Wmissing-prototypes]
-     457 | ssize_t bifur_file_write(struct file *file, const char __user *ubuf, size_t size, loff_t *pos)
-         |         ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:457:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     457 | ssize_t bifur_file_write(struct file *file, const char __user *ubuf, size_t size, loff_t *pos)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:488:9: warning: no previous prototype for function 'bifur_proc_write' [-Wmissing-prototypes]
-     488 | ssize_t bifur_proc_write(struct file *file, const char __user *ubuf, size_t size, loff_t *pos)
-         |         ^
-   drivers/net/ethernet/huawei/hibifur/bifur_pfile.c:488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     488 | ssize_t bifur_proc_write(struct file *file, const char __user *ubuf, size_t size, loff_t *pos)
-         | ^
-         | static 
-   11 warnings generated.
---
->> drivers/net/ethernet/huawei/hibifur/bifur_event.c:257:6: warning: no previous prototype for function 'bifur_notify_vf_link_status' [-Wmissing-prototypes]
-     257 | void bifur_notify_vf_link_status(struct hinic3_lld_dev *lld_dev, u8 port_id, u16 vf_id,
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_event.c:257:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     257 | void bifur_notify_vf_link_status(struct hinic3_lld_dev *lld_dev, u8 port_id, u16 vf_id,
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_event.c:282:6: warning: no previous prototype for function 'bifur_notify_all_vfs_link_changed' [-Wmissing-prototypes]
-     282 | void bifur_notify_all_vfs_link_changed(struct hinic3_lld_dev *lld_dev, u32 dbdf, u8 link_status)
-         |      ^
-   drivers/net/ethernet/huawei/hibifur/bifur_event.c:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     282 | void bifur_notify_all_vfs_link_changed(struct hinic3_lld_dev *lld_dev, u32 dbdf, u8 link_status)
-         | ^
-         | static 
->> drivers/net/ethernet/huawei/hibifur/bifur_event.c:341:5: warning: no previous prototype for function 'bifur_net_event_callback' [-Wmissing-prototypes]
-     341 | int bifur_net_event_callback(struct notifier_block *nb, unsigned long event, void *ptr)
-         |     ^
-   drivers/net/ethernet/huawei/hibifur/bifur_event.c:341:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     341 | int bifur_net_event_callback(struct notifier_block *nb, unsigned long event, void *ptr)
-         | ^
-         | static 
-   3 warnings generated.
+   In file included from drivers/nvme/host/tcp.c:7:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1583:11: warning: variable 'n' set but not used [-Wunused-but-set-variable]
+    1583 |         int cpu, n = 0, min_queues = INT_MAX, io_cpu;
+         |                  ^
+>> drivers/nvme/host/tcp.c:1594:13: warning: variable 'mq_map' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1594 |         } else if (nvme_tcp_poll_queue(queue)) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1599:15: note: uninitialized use occurs here
+    1599 |         if (WARN_ON(!mq_map))
+         |                      ^~~~~~
+   arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
+      54 |         int __ret_warn_on = !!(x);                      \
+         |                                ^
+   drivers/nvme/host/tcp.c:1594:9: note: remove the 'if' if its condition is always true
+    1594 |         } else if (nvme_tcp_poll_queue(queue)) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1582:22: note: initialize the variable 'mq_map' to silence this warning
+    1582 |         unsigned int *mq_map;
+         |                             ^
+         |                              = NULL
+   5 warnings generated.
 
 
-vim +/bifur_enable_disable_vf_all +175 drivers/net/ethernet/huawei/hibifur/bifur_main.c
+vim +1594 drivers/nvme/host/tcp.c
 
-   174	
- > 175	int bifur_enable_disable_vf_all(bool enable)
-   176	{
-   177		int err = 0;
-   178		int num_vfs = enable ? BIFUR_VF_NUM : 0;
-   179		struct bifur_lld_dev *bifur_dev = NULL;
-   180		struct bifur_lld_dev *tmp_dev = NULL;
-   181		struct bifur_adapter *adp = bifur_get_adp();
-   182		struct list_head *head = &adp->lld_dev_head;
-   183	
-   184		list_for_each_entry_safe(bifur_dev, tmp_dev, head, list) {
-   185			if (bifur_dev->pf_type != BIFUR_RESOURCE_PF)
-   186				continue;
-   187	
-   188			bifur_dev_hold(bifur_dev);
-   189			err = bifur_enable_disable_vfs(bifur_dev, num_vfs);
-   190			bifur_dev_put(bifur_dev);
-   191			if (err)
-   192				return err;
-   193		}
-   194	
-   195		return 0;
-   196	}
-   197	
+  1567	
+  1568	/**
+  1569	 * Track the number of queues assigned to each cpu using a global per-cpu
+  1570	 * counter and select the least used cpu from the mq_map. Our goal is to spread
+  1571	 * different controllers I/O threads across different cpu cores.
+  1572	 *
+  1573	 * Note that the accounting is not 100% perfect, but we don't need to be, we're
+  1574	 * simply putting our best effort to select the best candidate cpu core that we
+  1575	 * find at any given point.
+  1576	 */
+  1577	static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+  1578	{
+  1579		struct nvme_tcp_ctrl *ctrl = queue->ctrl;
+  1580		struct blk_mq_tag_set *set = &ctrl->tag_set;
+  1581		int qid = nvme_tcp_queue_id(queue) - 1;
+  1582		unsigned int *mq_map;
+  1583		int cpu, n = 0, min_queues = INT_MAX, io_cpu;
+  1584	
+  1585		if (wq_unbound)
+  1586			goto out;
+  1587	
+  1588		if (nvme_tcp_default_queue(queue)) {
+  1589			mq_map = set->map[HCTX_TYPE_DEFAULT].mq_map;
+  1590			n = qid;
+  1591		} else if (nvme_tcp_read_queue(queue)) {
+  1592			mq_map = set->map[HCTX_TYPE_READ].mq_map;
+  1593			n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> 1594		} else if (nvme_tcp_poll_queue(queue)) {
+  1595			mq_map = set->map[HCTX_TYPE_POLL].mq_map;
+  1596			n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
+  1597					ctrl->io_queues[HCTX_TYPE_READ];
+  1598		}
+  1599		if (WARN_ON(!mq_map))
+  1600			goto out;
+  1601	
+  1602		/* Search for the least used cpu from the mq_map */
+  1603		io_cpu = WORK_CPU_UNBOUND;
+  1604		for_each_online_cpu(cpu) {
+  1605			int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
+  1606	
+  1607			if (mq_map[cpu] != qid)
+  1608				continue;
+  1609			if (num_queues < min_queues) {
+  1610				io_cpu = cpu;
+  1611				min_queues = num_queues;
+  1612			}
+  1613		}
+  1614		if (io_cpu != WORK_CPU_UNBOUND) {
+  1615			queue->io_cpu = io_cpu;
+  1616			atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
+  1617			set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
+  1618		}
+  1619	out:
+  1620		dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
+  1621			qid, queue->io_cpu);
+  1622	}
+  1623	
 
 -- 
 0-DAY CI Kernel Test Service
