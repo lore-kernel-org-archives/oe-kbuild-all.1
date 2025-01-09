@@ -1,71 +1,46 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646291F63CC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 07:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA8310A3E;
+	Thu,  9 Jan 2025 08:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736408688; cv=none; b=KbK1Yl6HIOM1yNmvBDJgT6xzqXcPH+0JSEgWpDG8l+CZBNM5i6F0vnZvsr6rax+VM/djvtMgCKthLxGoaNOfwO73rDp8SVpXumtlZFSRqudDk6oeQaoZnQgskuex12Hg1ImFmwgDFrMe04CyqJx18ki1cV4Dm8BswjQWSCX4Ss0=
+	t=1736410069; cv=none; b=JsTzVSodFSUVckY+ZBUbSX/onmBez4nfDg0DnEICAlTqnbEfPGyqECEwPdidqwV+5GM1WTY4YznQohraklL+mSuAp9kOuvjufCojpUw7iGnnmtR8EiyL1ok2B6dt7MXQBeLi2R9NOIzuvJOCybcnQBpf6IdjsDNvhOyPfW7oZkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736408688; c=relaxed/simple;
-	bh=6onrqQYcmrJKr3OUWZOpc+b8eSH0n4nhHqUMyG9mHQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=nG+LVBqSFMu9KLko56sAyxMqkzk+zwauh7rM7PGvv+KvMBXIFvmw1LeArNHsJLd+4rSg5PNPrczcBlBMDaUubzTL1ecLj6+HcZJJdehXOvVIlIIma/gtGtHOdp+Tljg1I9MlgwVWYmZhjKrQIr+u9LeIEsllWVfAJiyih+123KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wZRExO+P; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1736410069; c=relaxed/simple;
+	bh=B2yoJq6pKJpHj/MqGKeZtQFZAWjREci13lLhyUBacuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OO5ae0PcpiH7WfvUDdsIQneSBwh66H+zfwrY5LbAdOEEib0m5/VCARfnIbGgB3dQ+TV41C3nNRFNFhIGh4uNoDFwsIF0eQ8iWtzhTlovDvwuQdrdO8ZwD1bB0/tLpvEziW5+JD2FSVvU7N3QLlec4YrAkbYN/0FkL+4ctV1quOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mB+C8Sz2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wZRExO+P"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso6722335e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jan 2025 23:44:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736408685; x=1737013485; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hh1x7j7lWYWudfhLYOjBc9jNq9Ri5N5BbraB/aTanEc=;
-        b=wZRExO+PDbnmlbn5Z0tW9OSW4sJx4qQ1a6LvexFsc2lV+O2UUjlcMA8vibiq6EGIiN
-         hy1103hiijK3bHSvJ3iQMQ5OvkbgMEyhF40S4pwuD8+Dc4yKd85fFzfAbPuXOPfPOnAO
-         sECrpCFJoGlOJiXArVGi/iiAHhQMbNq/rL9vVkc7UQMlL6K24pEQoIlL2XCTJWiTaxfD
-         E0DfBHp9IUYKGgfLgv0Qjq/N7C7HU8lzkScTXU8aMlQ9mG6pNiDUZRIOqd7deLwhGbWh
-         y+vbRGASJp3k6DUfYOk65UXlJWvnRKEKz1xBxC0FycGKeF6GisHNQ0JvrZl220MPIXAv
-         7hlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736408685; x=1737013485;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hh1x7j7lWYWudfhLYOjBc9jNq9Ri5N5BbraB/aTanEc=;
-        b=oHMx2X6J64XpeFve5L4tUxZClczYNI/m6D+WeA2RD1nT6llfu/iT0oMxPuNRxsJ9nG
-         zbszU7Alw3jmpn3zhG5uyviuAj0hlDmEC7tcHICc6AUB8C/akIpjqk3Ip7Lxs60KvWYT
-         /6lwoMrdW0Qow3BilKOn5saa6pZSUaeIzTMnINzJsIF0t+f1YEp/xEqif4FrHyxvfKmb
-         TeTyF+nctwtWdmIXMnZ7glke0mVCA4FNPj0ofbcZSVVAQAknppp/Jh0TpirphSJ5zXmW
-         N9NxiX7HQtfTeNNcb+BhXWqrcE8qYWIAXgjLLVdL6/EKQkNQAjNfAYlwozETArzA9riO
-         1dQw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpIrJSaP0unSi5L++BiCoGejf3d43nlG/vERH0oy1EaW5FOerHDG62tkuPkuBEjXmX3xToNzj8/njceVqd@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLhGVrNu2wlLnmRwENKVcKW0SdRvPRz7Lyd6+uDkdobJauLs8V
-	4WNSoqXid/kVFxv/R3IgPuPfFpW+1TqPP6SK18ek7xqVFtKI2azIvKpQCY5Oy1U=
-X-Gm-Gg: ASbGncsVxvN8QNrOBJ3KQqFW3fcuuLLQmzJuwjpgobLL1tq+Sb5NwVp6YWfB56Led/T
-	2El30/QoG52Q7PcyZeatmUaLKreS1CARE3ngHtZJGk9U8aY9WwInBorqNFhw+GeDaY6ttmktdnf
-	cqrDptq7BHQWPJpIbV0SmBm7vo33DzL2MfEhgI481m2Lqf5vdfu+K0Cc4e9w8DBBtv4GbpELGdH
-	7HtvtuOCqjJWTESgnsgnvuwRGbrD01CqCMiJoWYTwcpI6Gt4Aq7zXwO/Zk/FQ==
-X-Google-Smtp-Source: AGHT+IHEZyaIVzclqxdjP4ZOdG6lan/GRGVy2gb2M3EakOZNST5naAVRXF+JitBOxJ6aEWygbw7++A==
-X-Received: by 2002:a05:600c:4f52:b0:436:4708:9fb6 with SMTP id 5b1f17b1804b1-436e26e259emr49159755e9.20.1736408684620;
-        Wed, 08 Jan 2025 23:44:44 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm46146425e9.2.2025.01.08.23.44.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 23:44:43 -0800 (PST)
-Date: Thu, 9 Jan 2025 10:44:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Haren Myneni <haren@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, npiggin@gmail.com, msuchanek@suse.de,
-	mahesh@linux.ibm.com, tyreld@linux.ibm.com, hbabu@us.ibm.com,
-	haren@linux.ibm.com
-Subject: Re: [PATCH 5/6] powerpc/pseries: Add ibm,get-dynamic-sensor-state
- RTAS call support
-Message-ID: <b4313bdb-29ba-42c1-9011-4bb558d056ba@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mB+C8Sz2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD2BC4CEDF;
+	Thu,  9 Jan 2025 08:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736410068;
+	bh=B2yoJq6pKJpHj/MqGKeZtQFZAWjREci13lLhyUBacuo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mB+C8Sz2tSXvTKvPfuJsGUFL7ArL6jt7VRSWoyZFLnro5PLQcdE2l5JJXVF+6ZLBD
+	 xsApdJBRyArxWyvL6IB5BFv2dry33odbPDPqid2mL7bh50cZ/zbCRCm9DWLAP5XXkK
+	 q5xsW8uxL8Av4CRJSdHca2OAPLXnxPKCUAEEyzzkMG/AIWCfQ+V+TVuC5pV5w7V5Ax
+	 vgwVV4RljpUyqnmBn9EiqZ4sLKwmr5qG7UuaeCrhBA6EElIb07j2HKUddlLDGa/kkz
+	 fMA0m6/K+DlY3KlJ5BFEWRvVcdFtGUbVaAWCTCapTBh9CPTQCA1aaGuW2vEcTXInxb
+	 WrXd69qmsYkoQ==
+Date: Thu, 9 Jan 2025 09:07:43 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 3/6] PCI: dwc: endpoint: Add support for BAR type
+ BAR_RESIZABLE
+Message-ID: <Z3-Dz42s7uYoNCuV@ryzen>
+References: <20250107181450.3182430-11-cassel@kernel.org>
+ <202501090927.zMSzHORM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,86 +49,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250104204652.388720-6-haren@linux.ibm.com>
+In-Reply-To: <202501090927.zMSzHORM-lkp@intel.com>
 
-Hi Haren,
+On Thu, Jan 09, 2025 at 10:22:07AM +0800, kernel test robot wrote:
+> Hi Niklas,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on pci/next]
+> [also build test WARNING on next-20250108]
+> [cannot apply to pci/for-linus linus/master v6.13-rc6]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/PCI-endpoint-Add-BAR-type-BAR_RESIZABLE/20250108-021844
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> patch link:    https://lore.kernel.org/r/20250107181450.3182430-11-cassel%40kernel.org
+> patch subject: [PATCH 3/6] PCI: dwc: endpoint: Add support for BAR type BAR_RESIZABLE
+> config: arm-randconfig-003-20250109 (https://download.01.org/0day-ci/archive/20250109/202501090927.zMSzHORM-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090927.zMSzHORM-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501090927.zMSzHORM-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from drivers/pci/controller/dwc/pcie-designware-ep.c:14:
+>    In file included from drivers/pci/controller/dwc/pcie-designware.h:17:
+>    In file included from include/linux/dma-mapping.h:8:
+>    In file included from include/linux/scatterlist.h:8:
+>    In file included from include/linux/mm.h:2223:
+>    include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>      518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+>          |                               ~~~~~~~~~~~ ^ ~~~
+> >> drivers/pci/controller/dwc/pcie-designware-ep.c:259:27: warning: result of comparison of constant 140737488355328 with expression of type 'size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+>      259 |         if (size < SZ_1M || size > (SZ_128G * 1024))
+>          |                             ~~~~ ^ ~~~~~~~~~~~~~~~~
+>    2 warnings generated.
+>
 
-kernel test robot noticed the following build warnings:
+The compiler is correct that this condition can never happen on 32-bit,
+but the code is correct, and the compiler will be able to optimize the
+check away on 32-bit, so I will simply add a cast to shut up the warning.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-common-functions-for-RTAS-sequence-HCALLs/20250105-045010
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20250104204652.388720-6-haren%40linux.ibm.com
-patch subject: [PATCH 5/6] powerpc/pseries: Add ibm,get-dynamic-sensor-state RTAS call support
-config: powerpc64-randconfig-r071-20250108 (https://download.01.org/0day-ci/archive/20250109/202501090552.UzEfb4QU-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+Kind regards,
+Niklas
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501090552.UzEfb4QU-lkp@intel.com/
-
-New smatch warnings:
-arch/powerpc/platforms/pseries/papr-indices.c:496 papr_dynamic_sensor_ioc_get() warn: inconsistent returns 'global &rtas_ibm_get_dynamic_sensor_state_lock'.
-
-Old smatch warnings:
-arch/powerpc/platforms/pseries/papr-indices.c:438 papr_dynamic_indicator_ioc_set() warn: inconsistent returns 'global &rtas_ibm_set_dynamic_indicator_lock'.
-
-vim +496 arch/powerpc/platforms/pseries/papr-indices.c
-
-e44fb25ad9fa03 Haren Myneni 2025-01-04  452  static long papr_dynamic_sensor_ioc_get(struct papr_indices_io_block __user *ubuf)
-e44fb25ad9fa03 Haren Myneni 2025-01-04  453  {
-e44fb25ad9fa03 Haren Myneni 2025-01-04  454  	struct papr_indices_io_block kbuf;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  455  	struct rtas_work_area *work_area;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  456  	s32 fwrc, token, ret;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  457  	u32 rets;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  458  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  459  	token = rtas_function_token(RTAS_FN_IBM_GET_DYNAMIC_SENSOR_STATE);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  460  	if (token == RTAS_UNKNOWN_SERVICE)
-e44fb25ad9fa03 Haren Myneni 2025-01-04  461  		return -ENOENT;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  462  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  463  	mutex_lock(&rtas_ibm_get_dynamic_sensor_state_lock);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  464  	work_area = papr_dynamic_indice_buf_from_user(ubuf, &kbuf);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  465  	if (IS_ERR(work_area))
-e44fb25ad9fa03 Haren Myneni 2025-01-04  466  		return PTR_ERR(work_area);
-
-Add an unlock, same as with the _set() function.
-
-e44fb25ad9fa03 Haren Myneni 2025-01-04  467  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  468  	do {
-e44fb25ad9fa03 Haren Myneni 2025-01-04  469  		fwrc = rtas_call(token, 2, 2, &rets,
-e44fb25ad9fa03 Haren Myneni 2025-01-04  470  				kbuf.dynamic_param.token,
-e44fb25ad9fa03 Haren Myneni 2025-01-04  471  				rtas_work_area_phys(work_area));
-e44fb25ad9fa03 Haren Myneni 2025-01-04  472  	} while (rtas_busy_delay(fwrc));
-e44fb25ad9fa03 Haren Myneni 2025-01-04  473  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  474  	rtas_work_area_free(work_area);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  475  	mutex_unlock(&rtas_ibm_get_dynamic_sensor_state_lock);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  476  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  477  	switch (fwrc) {
-e44fb25ad9fa03 Haren Myneni 2025-01-04  478  	case RTAS_IBM_DYNAMIC_INDICE_SUCCESS:
-e44fb25ad9fa03 Haren Myneni 2025-01-04  479  		if (put_user(rets, &ubuf->dynamic_param.state))
-e44fb25ad9fa03 Haren Myneni 2025-01-04  480  			ret = -EFAULT;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  481  		else
-e44fb25ad9fa03 Haren Myneni 2025-01-04  482  			ret = 0;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  483  		break;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  484  	case RTAS_IBM_DYNAMIC_INDICE_NO_INDICATOR:	/* No such indicator */
-e44fb25ad9fa03 Haren Myneni 2025-01-04  485  		ret = -EOPNOTSUPP;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  486  		break;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  487  	default:
-e44fb25ad9fa03 Haren Myneni 2025-01-04  488  		pr_err("unexpected ibm,get-dynamic-sensor result %d\n",
-e44fb25ad9fa03 Haren Myneni 2025-01-04  489  				fwrc);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  490  		fallthrough;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  491  	case RTAS_IBM_DYNAMIC_INDICE_HW_ERROR:	/* Hardware/platform error */
-e44fb25ad9fa03 Haren Myneni 2025-01-04  492  		ret = -EIO;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  493  		break;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  494  	}
-e44fb25ad9fa03 Haren Myneni 2025-01-04  495  
-e44fb25ad9fa03 Haren Myneni 2025-01-04 @496  	return ret;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  497  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> 
+> vim +259 drivers/pci/controller/dwc/pcie-designware-ep.c
+> 
+>    249	
+>    250	static u32 dw_pcie_ep_bar_size_to_rebar_cap(size_t size)
+>    251	{
+>    252		u32 val;
+>    253	
+>    254		/*
+>    255		 * According to PCIe base spec, min size for a resizable BAR is 1 MB,
+>    256		 * thus disallow a requested BAR size smaller than 1 MB.
+>    257		 * Disallow a requested BAR size larger than 128 TB.
+>    258		 */
+>  > 259		if (size < SZ_1M || size > (SZ_128G * 1024))
+>    260			return 0;
+>    261	
+>    262		val = ilog2(size);
+>    263		val -= 20;
+>    264	
+>    265		/* Sizes in REBAR_CAP start at BIT(4). */
+>    266		return BIT(val + 4);
+>    267	}
+>    268	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
