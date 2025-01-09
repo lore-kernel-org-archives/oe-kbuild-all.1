@@ -1,64 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041BA1B0416
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 17:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B97D1A23A2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 17:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736444567; cv=none; b=BHTZJQwjNvmiZy5R5V7eHtsUekar2JW6c+OblWWavqoQPYJF8pi47B2Qw64PlPx1HiuFLDxTCmCb20AUcCG7TIF6dopxWhyKVkyUTGg+Uqv6oIk1bK8M2EQJ/KYgGoJbcmJtLKPwEoHr6au9I6ifiDY2RX0OYiXjYdJMG6lOj/k=
+	t=1736444569; cv=none; b=hCTGmFd/5592wrMVb9lUX8JKaQfc3XaQ1+U7s/kTTj1f32f8bIF3mv04dnniKWhBdjF/8UTRz3dOgTl3p5D6tBFbKduheoMa07TGrH0AmuENsKxnBKml9nqjYkNkOZjelmQzDEzwTmPaDS4+32TRSqv917xL3O41EaC3peP1fRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736444567; c=relaxed/simple;
-	bh=TPi1jWgepqP30sAUxR/sHKQYrWqP6iP8Nn9Nr2Bpx28=;
+	s=arc-20240116; t=1736444569; c=relaxed/simple;
+	bh=dgToOXb8BvN4dra1Kh0zNZ6JczMXJPb/z/Obr2XcVuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ozXqZs9O2thKSspUAKGdY8GQI12K0Bf0Fc6fekWFh52CUPQQMAeRG5hWdiGzRsduHsbo3YJCaoATgt8LaQCXzdEjHbhwWeHxRHQE+gMYur9U+e+sgX9S5jem6P47Ihfjnfb9fgCp68wgatawUnGZ4Q84m6TQGJjyzaQ+iXlvC5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gJX8iyrc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=MxW1SgPMlj+rCBLOEaiV9nhP9xoWll8u6LxtIflYCoz2VlxYGG7aczYxaAe8+q9BP9thiBpUoXXeW4SvyBknTGkMw3rvvE+lGIf/9CIrymzTSviAa22FnIvvaZhfgf3jU7NUQraIOYwYRbyyotjeG2oTEuwlbNObGxrmxR5esAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxWUW9gU; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gJX8iyrc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxWUW9gU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736444566; x=1767980566;
+  t=1736444567; x=1767980567;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TPi1jWgepqP30sAUxR/sHKQYrWqP6iP8Nn9Nr2Bpx28=;
-  b=gJX8iyrc9Bm4vCi7HPQTviMMNLEnHi4NZeQP3nzkYOqLZwXp8+S7QL74
-   PltALxFpgJ6ArIBVzo7xRZqAPkTgw4ScNV0BiR3BTnSy3oBmoagNLC+0d
-   1s25QkhScC2jWWJRO5mvAAhA6hn/FbHRZ7qJnVSAFCtdVAhAol75c2m9s
-   WdIUwk5Bw/Cxhh7MTkbD0rngskwNOttH0qzhGVSNqTn1YhkdmPgV4SQFq
-   8CXXREoO9BZ4movPtjHkWIqKrw49VSjQvj9xaB69BFV6JFNCgntrS7lgv
-   +MBGb2RIMidhbncTAhr04uWXxWOwh03KgayMzKOgiCsnjiL6jAKvrZ1Zb
-   g==;
-X-CSE-ConnectionGUID: iXH7E/PwQPezsG/+DR5b5w==
-X-CSE-MsgGUID: oPExPlYqR8OSc0CEDjPyRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36602370"
+  bh=dgToOXb8BvN4dra1Kh0zNZ6JczMXJPb/z/Obr2XcVuo=;
+  b=bxWUW9gUn4Q3H3cNa7LGSfTsm6cZ6vesi4focjJ8Sl0f/W9TWKIFGPnS
+   jTUcOO2eiaaj51LTI/kao4wSd7vj5O/6j4rtNnJKLSF8o6gFEIGTOErxy
+   dKdYERlUvJ7pqW01ZjKCC3jxbuNsZP6D/k7Doa5JxsBhwuOTmuarNigUh
+   ruYemTIBpoQ3Wh7p8ElNuHDSKi85v6YNWlVawAnT8r8H0/QLNcfVD/uXi
+   WvdpX5UmXcWOlTI5H40Jpt4mS9oqPO67C3mEgj2CYY/6xqH7Ir6faqYV/
+   SlOSCyZbN1CkrFruOepFdUi9/WP1C2gM8KBWL5KE60UvoL3sYHCu/s4mE
+   Q==;
+X-CSE-ConnectionGUID: jcZx+MnAS1iO1+Uk8fuX9A==
+X-CSE-MsgGUID: Ab3S2Om8QiWShKlRO9Zo5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36602373"
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="36602370"
+   d="scan'208";a="36602373"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 09:42:46 -0800
-X-CSE-ConnectionGUID: weaQC6DFSMajJlFHvc8ucg==
-X-CSE-MsgGUID: 9lzX1tdbTlKV9fM1+9bZIQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 09:42:47 -0800
+X-CSE-ConnectionGUID: k1Q/oHnYS2u8SlDT98Hsog==
+X-CSE-MsgGUID: pQYon3DlSXaJlOBIOZEk9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="126759246"
+   d="scan'208";a="126759244"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2025 09:42:43 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVwYL-000HwV-10;
+	id 1tVwYL-000HwX-16;
 	Thu, 09 Jan 2025 17:42:41 +0000
-Date: Fri, 10 Jan 2025 01:42:01 +0800
+Date: Fri, 10 Jan 2025 01:42:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>, eric.dumazet@gmail.com,
-	Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next 3/4] net: expedite synchronize_net() for
- cleanup_net()
-Message-ID: <202501100127.LhRwhYMs-lkp@intel.com>
-References: <20250107173838.1130187-4-edumazet@google.com>
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org,
+	frankja@linux.ibm.com, borntraeger@de.ibm.com,
+	schlameuss@linux.ibm.com, david@redhat.com, willy@infradead.org,
+	hca@linux.ibm.com, svens@linux.ibm.com, agordeev@linux.ibm.com,
+	gor@linux.ibm.com, nrb@linux.ibm.com, nsg@linux.ibm.com
+Subject: Re: [PATCH v1 04/13] KVM: s390: move pv gmap functions into kvm
+Message-ID: <202501100045.U1NGK9qJ-lkp@intel.com>
+References: <20250108181451.74383-5-imbrenda@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +66,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250107173838.1130187-4-edumazet@google.com>
+In-Reply-To: <20250108181451.74383-5-imbrenda@linux.ibm.com>
 
-Hi Eric,
+Hi Claudio,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on s390/features]
+[also build test WARNING on kvm/queue kvm/next mst-vhost/linux-next linus/master v6.13-rc6 next-20250109]
+[cannot apply to kvms390/next kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-no-longer-assume-RTNL-is-held-in-flush_all_backlogs/20250108-014049
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250107173838.1130187-4-edumazet%40google.com
-patch subject: [PATCH net-next 3/4] net: expedite synchronize_net() for cleanup_net()
-config: mips-bmips_be_defconfig (https://download.01.org/0day-ci/archive/20250110/202501100127.LhRwhYMs-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100127.LhRwhYMs-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Claudio-Imbrenda/KVM-s390-wrapper-for-KVM_BUG/20250109-021808
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/20250108181451.74383-5-imbrenda%40linux.ibm.com
+patch subject: [PATCH v1 04/13] KVM: s390: move pv gmap functions into kvm
+config: s390-randconfig-001-20250109 (https://download.01.org/0day-ci/archive/20250110/202501100045.U1NGK9qJ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100045.U1NGK9qJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501100127.LhRwhYMs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501100045.U1NGK9qJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mips-linux-ld: net/core/dev.o: in function `synchronize_net':
-   dev.c:(.text+0x2250): undefined reference to `cleanup_net_task'
->> mips-linux-ld: dev.c:(.text+0x225c): undefined reference to `cleanup_net_task'
-   mips-linux-ld: net/core/dev.o: in function `free_netdev':
-   dev.c:(.text+0x5824): undefined reference to `cleanup_net_task'
-   mips-linux-ld: net/core/dev.o: in function `netdev_rx_handler_unregister':
-   dev.c:(.text+0x6204): undefined reference to `cleanup_net_task'
-   mips-linux-ld: dev.c:(.text+0x620c): undefined reference to `cleanup_net_task'
-   mips-linux-ld: net/core/dev.o:dev.c:(.text+0x6764): more undefined references to `cleanup_net_task' follow
+>> arch/s390/kvm/gmap.c:144: warning: Function parameter or struct member 'page' not described in '__gmap_destroy_page'
+>> arch/s390/kvm/gmap.c:144: warning: expecting prototype for gmap_destroy_page(). Prototype was for __gmap_destroy_page() instead
+
+
+vim +144 arch/s390/kvm/gmap.c
+
+   133	
+   134	/**
+   135	 * gmap_destroy_page - Destroy a guest page.
+   136	 * @gmap: the gmap of the guest
+   137	 * @gaddr: the guest address to destroy
+   138	 *
+   139	 * An attempt will be made to destroy the given guest page. If the attempt
+   140	 * fails, an attempt is made to export the page. If both attempts fail, an
+   141	 * appropriate error is returned.
+   142	 */
+   143	static int __gmap_destroy_page(struct gmap *gmap, struct page *page)
+ > 144	{
+   145		struct folio *folio = page_folio(page);
+   146		int rc;
+   147	
+   148		/*
+   149		 * See gmap_make_secure(): large folios cannot be secure. Small
+   150		 * folio implies FW_LEVEL_PTE.
+   151		 */
+   152		if (folio_test_large(folio))
+   153			return -EFAULT;
+   154	
+   155		rc = uv_destroy_folio(folio);
+   156		/*
+   157		 * Fault handlers can race; it is possible that two CPUs will fault
+   158		 * on the same secure page. One CPU can destroy the page, reboot,
+   159		 * re-enter secure mode and import it, while the second CPU was
+   160		 * stuck at the beginning of the handler. At some point the second
+   161		 * CPU will be able to progress, and it will not be able to destroy
+   162		 * the page. In that case we do not want to terminate the process,
+   163		 * we instead try to export the page.
+   164		 */
+   165		if (rc)
+   166			rc = uv_convert_from_secure_folio(folio);
+   167	
+   168		return rc;
+   169	}
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
