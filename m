@@ -1,147 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2069.outbound.protection.outlook.com [40.107.100.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA7D214235;
-	Thu,  9 Jan 2025 05:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736399200; cv=none; b=LlMeL3JSHaPwucYi2YvPIfG4G2Ubg0uaCZ7qv6kVMPCEfteCtL+mlLmPMjE950vVI1N+Q5TW9NKWm3MpCPTHvONxXFRbn5rBzIM3XlePShcrA329cwxGdq8LX1Pr0jZIejYfWyBEbk/hwYl7W4zCaVv9PE6TqjweH+qvpHKnbvY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736399200; c=relaxed/simple;
-	bh=CtGctgHU9yLvubsT9bMm0yStuOWITuMnMgbPCQ9TtW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LtbyEtPJyaOkR6QRcSF5ua2fj/Ho2eFfBCFU2qX/j4EK4wxhjZMzwCiDRz/r4Oj3zajduVeiXkP11ufgoAptzvBhp7qm0dLBrko8yW+KrjGb0U7ZvAGWHOCajrgZAch9QyLC01ZAuuENw163liKPMc66Gb7tbf1zGv9u4iY8HY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T9fqrVSg; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C9414EC77
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 05:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736400209; cv=fail; b=ei2rcCqMET4sfGrVg4NCg54pIHz7x1AEiqwm13por842SFS8F0hxCFmL32I7zwEWZkaEt03GU3el9CvtFlKS540dL+oA3QMDDx9klzL/twzlu4ee1zEuQE1qvogYcpDraNK6Vceq5thBJ1yl1iAeKZuMRyOVNLRi/ecihhMcedI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736400209; c=relaxed/simple;
+	bh=6BWbpzkbRP2uFXACh96S1IU5KJ/gORpDP9NIVsLyDdI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=OEO3v8zNJorvZWQGO3qudgKTzmHAPPilbFRutR5rKPbRnJCaQy5dbOmjwBGNPAwZQD5W2BN0enSl7hCMj1eurljyals5kQWDdurLjOWp2v6FlW+08aBVadxTsAlDJOpUTryFmnQSYPqhh5rpC75v6ESWoLrJmjy3ML+u/JwsYgY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rz8MGsGN; arc=fail smtp.client-ip=40.107.100.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9fqrVSg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736399200; x=1767935200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CtGctgHU9yLvubsT9bMm0yStuOWITuMnMgbPCQ9TtW8=;
-  b=T9fqrVSgBbGMKPExY/l9LWsVufqMHGeND0TeYG3atbguAl43g+P3ApyN
-   5wnXj36eeJS2+gpRGFwL416EUqr6PwbxG1PEhOJSRSCRP4x80Ih/2QtJQ
-   gaEIIEZ6x6skW8p87Wh05h373E8OyOO2BtcmMTPlcx7J0o+Ijt3APJDKT
-   WZSOcUbyqHuNnnxots1k+wshPtCS4qqffQSdpDo5bNOamAnQ1OJFJKc6Y
-   +YSE/OZCpGu8LnnP88lH08G3yqzw3YPVWmijXfmW6T9/DL94Tc40UhDHw
-   N2ilFa4pGLMdKcG0h9rGd+KfZPP3Z7YKuMy2H19n+Pk7Lmq89TJ7J9rJh
-   A==;
-X-CSE-ConnectionGUID: rI7BNWM8R0Wf38nCmrl6YA==
-X-CSE-MsgGUID: 5TWu/eusTeCx4A3uRYp9nQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36340335"
-X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
-   d="scan'208";a="36340335"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 21:06:39 -0800
-X-CSE-ConnectionGUID: h4Hq8411SWS6j/HUs6rxIQ==
-X-CSE-MsgGUID: xTEzb9jUT/u/CW+2t7y7KA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
-   d="scan'208";a="103801982"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Jan 2025 21:06:35 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tVkkb-000H4J-0s;
-	Thu, 09 Jan 2025 05:06:33 +0000
-Date: Thu, 9 Jan 2025 13:05:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>,
-	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 1/3] hwmon: (max31827) refactor enum chips to chip info
-Message-ID: <202501091228.9APcsnSs-lkp@intel.com>
-References: <20250108082531.15467-2-johnerasmusmari.geronimo@analog.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rz8MGsGN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GO6PXIF9v+2ICPeXjrT3C96YYSRB+TDgaGt2JFnAZ+tJ8r/Q5WDQUtlCZTFUYd8H0D8ctQrpo8qiZUcFxE5DOBufOhIh+GkTxx8n8RGW92A2mPU5HBqBirFun0vaMx8UzOgLdXe2h/z43zVK1lnCyalJh3JEm+f7gV3DWYS2JlNAfBtx2boxPop8ixaLOxrwyEJeDd2LxciG2oGrT0/JqapfnfU/AUuYSq/DFuX8wd4ThaAGlxnK4JXJM97V3ZO4y7bWilzOyRm8TynFVxvdLM3GFY+BuEn3GZZIaFs7NEu6QnVIwmvrRokfmDM2Pq4+HG1qklzp2RJE7DpHWaq0uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6BWbpzkbRP2uFXACh96S1IU5KJ/gORpDP9NIVsLyDdI=;
+ b=fyQEHXgz+H1QDFtJJAbEjJn72JoXqp6jrGhPuooFHjpiik9mTEtGj/Em/n0kCcKRSGA8nXtryk8rwnrdGzy5qp0ibe608X4JJL8b09xRq5QUpVn52aBOdDQysZIV2xy2EVLK2X/dr+2N11lfO/CuqnM3ZiUALneBi8qERNPr2ymXKEr9kWy7cqpLw+6pnosRf/+qoSBI/xmv7TzPOGSyRa0FxCOea2hTP6RG7JvmdLThDlAVY5vY2U8nh37IDt+wMfoS0pUG3mQjma5CEy2H3KhqwPwPgAd2KOnRy0A/bU7bahv69nxTiE070qOFXXfRP73vSKvDDypMnslcL3FHsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6BWbpzkbRP2uFXACh96S1IU5KJ/gORpDP9NIVsLyDdI=;
+ b=rz8MGsGNGNRM2Mj0foxql4GEi1yVoPCrQPJN3Y5Ww6BP3eloHhil9YQKf58Vb+rpz4bP8ZGZWEYo2LkjY1an7ie6eXse/PoS5jX5AkOhHmhRvOehpZzzu4Ben9EzDKTTkDs0gRcVW03YC2hkVK1ZrjS6pfri38mUk2iGRyiDm3M2FGV+UhHlInQQfX8BOvhB0BJC/IEV7GF7ffgfmw1BqZtOD6SCfygweT4nnNg2TSEIgh/oPnqUZEwj+mwDp1xNR8IokzBNRf4b8Vw48OAELz880X3wKuoAj/n3/VytVIiNRRW+X9fs9fp4fIUUFA+YD4CCkN/FriXCumufylaFEw==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by CYYPR12MB8921.namprd12.prod.outlook.com (2603:10b6:930:c7::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Thu, 9 Jan
+ 2025 05:23:24 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%6]) with mapi id 15.20.8314.015; Thu, 9 Jan 2025
+ 05:23:24 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith
+ Busch <kbusch@kernel.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>
+Subject: Re: [linux-nvme:nvme-6.14 2/36] drivers/nvme/host/tcp.c:1583:18:
+ warning: variable 'n' set but not used
+Thread-Topic: [linux-nvme:nvme-6.14 2/36] drivers/nvme/host/tcp.c:1583:18:
+ warning: variable 'n' set but not used
+Thread-Index: AQHbYjcJXg+0/OeeZEmj/J/+VHgtA7MN6MaA
+Date: Thu, 9 Jan 2025 05:23:24 +0000
+Message-ID: <ce33fcfd-654d-4608-a686-3bf2b4d8d221@nvidia.com>
+References: <202501090934.Dhw69M6j-lkp@intel.com>
+In-Reply-To: <202501090934.Dhw69M6j-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|CYYPR12MB8921:EE_
+x-ms-office365-filtering-correlation-id: 17b30302-0b84-4f2c-cc14-08dd306dbd69
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|10070799003|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?eU03WUxBczRnUEplSkdSbXBCc09pQ1piTDlFZlRGTlpLYnBFYWQzSUZHcjBZ?=
+ =?utf-8?B?bEkzdElGcHNaNExxREE4bnp5QzBqZ2RBZmUzY21BQ0U5N1BCakF5aFZzdUhD?=
+ =?utf-8?B?NmhBa3pPSG5yaS9SemhZRDFzK1doem14TXFSelgrNnprNzBmVkRDQzZQcjg1?=
+ =?utf-8?B?M1JGbzljdHZCclFwWlZRa2c3d0d1U3ZVS1hVZ1Y3TURmSlpBZEtUL3dDa1Vu?=
+ =?utf-8?B?enBsOVpQYnhwZHVaWWlhaFJUVEoyYXFRa0t6S3MwMWxpdVpmbTFFN1NnbVVK?=
+ =?utf-8?B?UVVnK2NzSFo0bjh5bmRFeTdwVFVHaEJpRENXOTlwc2I3aEMyVkNGWXhsclR1?=
+ =?utf-8?B?UVd3T1dpZHVlYzNpU1NpOEpjYWVMNTluL2c1empXa2tyWkxZVWVVVDRDamJD?=
+ =?utf-8?B?aCtXQmhnaHo5RGJQL253SDMza3hWNm9jejc5RllnWEJrRG11akRGSmZmdmNo?=
+ =?utf-8?B?RlFsaHRraXU0cnVyY1IyQmtJaERFTVpOQ2dwb1JNaEVmU05jeGNSNVhZb05o?=
+ =?utf-8?B?QzZQUXJ0eDVOWFFnakxaN2toMGxMNVZyejUraENLMGtMVmZxTEtmMWsxVXF3?=
+ =?utf-8?B?Wk9VaHNrNmZ4b2JiY2F5b0hrb2l6WUN6b21wZzlNNm5ENVpVZXNKVTRidHBX?=
+ =?utf-8?B?Z0Z0RzlLcEU1SmNoSDg5dW1mNXkremREQmMzQ1N1Tjh5bzI4U3RZQmMyR3BZ?=
+ =?utf-8?B?WTJQZCtzanZRQUUwcGh4NGxvYVJwcndmOWphOWc3ZFBVQ1Z0aHA1bkpBZ0ZT?=
+ =?utf-8?B?NUpDd2dDOTM5MURzUUIxdVlwamU0VTVZSk0reEVsSjJOZjBuMUdQTEdCT3N0?=
+ =?utf-8?B?L0NENVJpQWhwUEJrTSthOFZrSE5NV0hweUVPVEkzM3ExOVR1V1hxa3RJVHBG?=
+ =?utf-8?B?QVQ4OG1rQldHbXdDQWZqM29nUWFtSFNFWGVOQTdQUXBHZUtSdWFXY3NGdWpa?=
+ =?utf-8?B?Uld5dWpOdmpRMWU3bTcrOW9HRzFQNGViY3Z2R3BpeGo0bnhxNmFSTFg4RDdl?=
+ =?utf-8?B?QnExMVVLTm9TYUNqaCtIZ2ZIMEpGVnhlRlJxdXRsRmptQ0cwQmRFcEM3d3o3?=
+ =?utf-8?B?NDFQMGNVUFFoVXpBUTBMY0szTGNETUFFRmpFdVhubDRnNHFNMGFDWkZQSjM3?=
+ =?utf-8?B?dUo5cVVNYWpQblVib1JXN3kvekZWZVZ3UUppUkFtd0Z0NVpyaHJIWEp1VDFp?=
+ =?utf-8?B?NmVqTnVyVmp3MVd2Zld5ZlIvWVNMSTM4Nm9XcDg4V0ZIMWFBQUxZek1Nd3hN?=
+ =?utf-8?B?b21aRU1tU1hwclZJdDRMamRHZnkzbnhCaHNQZHZheGIxdGpYdjZSRjVxWktI?=
+ =?utf-8?B?ODl0OHg2ekdNRktEYkRkUkZYZk55c0dqTHRyZFVPUjZweEd0d3lkUEdBT0pw?=
+ =?utf-8?B?MUVaamJLQVlYRkExb0RDSXRjUlBNN2FIQ21JNzRmSEtxRHlwNzNpdWt1UDNF?=
+ =?utf-8?B?Y2phd0N2TG9VckEyNlNMTVhDU3NMNGE3YStyUExIcFMwK2JEYTBXd0JjOUhZ?=
+ =?utf-8?B?VWNkUzlQd3JHWWxxcXVYeG83VUNJd0JhUld2ZDcwNWVlMmVXbUoyd0xleGFX?=
+ =?utf-8?B?QXpVRFg4WTJMcDkyaUcrN0tpZjVHdXQzT3hMTXBSK1JKNXpmeXNmbkdzaU9Q?=
+ =?utf-8?B?R0ZnMVNDc2g3VERVQVNnYzJKQUw5M3Jsc1pvZUlkbnc3TUhDeFU4b1M3anFj?=
+ =?utf-8?B?Z0ZROEV1VHV6SkFINExQczd4cG5YS3RyVjZaRVZhdktzT1pyeUVGazdieHh1?=
+ =?utf-8?B?ck05ZVJyeXJQM2U4N3VGWktRWVhLTHczWGVSK3UxMGRTcnZyOGYwamlhV1Qy?=
+ =?utf-8?B?WXBpZEFPZUpPZ2NRK2pmZUF2M1NaTGxBUlBFU0tkdk1PTEdheFZqMnhDRDNU?=
+ =?utf-8?B?UWZueHEyeXJaOE5SdWY2K25MajJiNTlJWnpkR21RK2FQcEw5WjU4NnIyVEYz?=
+ =?utf-8?Q?kYVdN67i6qvnZeXxSvksZGqfty5yXfr4?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(10070799003)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?SzBpeG55ck9uZ0NsQXRGcyt1cFJTNXpNOGN6OG1lSEZLaHZZeXBDbE1KSVV2?=
+ =?utf-8?B?c2N5M01XNnEweWJXY1ZwM0pKVVNrTTE4LytucXE2Y1Nwb0hIL21uZXFzNjY1?=
+ =?utf-8?B?OVB1OVRLOWZhT0s4ZnlONysyYVhuc3BIdVhmU3FiSGEwMlc2RTREcDNzNm0r?=
+ =?utf-8?B?RVlyTjBOYnRYYmpZRlB6WHFxeXRmSDN2WFNWeVBhWEFKQnB0ZjJvWm12Z2ky?=
+ =?utf-8?B?QVJKbmZ4WndVSkxMWlVLa0Z5MStuejcwSnY2N1BzWGxza0dCUEdrTGhGSzdL?=
+ =?utf-8?B?QkJCamh5anRpYXFHMXVqeTUzMTJ1T2E3YzdNaU0xTTNhZktMZmtGK1YrTERO?=
+ =?utf-8?B?eFV3a2tSK3AzdUxFbnl2RHBpcWZwaFNaRlJwWnRFQkZwSjVBc1hLZ1NCOVJ2?=
+ =?utf-8?B?ckZFa09hM3FHemlxUEM0a3FudEV4d2NsMEtlTk1yQXJ6bWtxWW5DR0JTSkhR?=
+ =?utf-8?B?ejVlZjhzcm1JWVZKaWxrakVlVWhDQWxGeXNLOVU5UHp6TmtnN0FxbWlGS0Zl?=
+ =?utf-8?B?MUFQQnpRb00vMFJBOHlDRUcybzBKZkY0ZWRMNFRwU2s4UEo3M2dORUlwVjlJ?=
+ =?utf-8?B?SU51ZUE4NXhHSnFNTXFOZUNkUXF1N1NBS09Xdy90cUFtblRLb3hobGhRZWZO?=
+ =?utf-8?B?S0RIMlkzek5vRlFvbEhBM0ZMNDFaNWpFc0hPb2UxZkdPWldZbHhJeDhIUE9C?=
+ =?utf-8?B?WCs3RGpBOGV6SVQyTU16c2t6S1l4OGdvUXR3OWx0UVprRlRMNm5RNXdlRDJq?=
+ =?utf-8?B?azJKRHNzRkEzTWZPMC8yN0VMcmE1UFA3RDJRd2RGV01ZV0JhcVB5eGI1aXdv?=
+ =?utf-8?B?b2l2YkpVbk9NKzR4MjZkRHhEb2REM3AyaWNMUUZqbDA0ekliYkZqb2ZHTmxl?=
+ =?utf-8?B?Rm5nT01EeUFnY2wvNExwejZYaU95V296Q0cydXRSV2NYc0c1TmtWZ043WTdZ?=
+ =?utf-8?B?TmdaNkNISGlRaGNKUXlWSHg5V1REQ01KaGlwb0lyYlJvRCt4dHVuQjcxdkkz?=
+ =?utf-8?B?Y0l4WDZQWkd6T0ZnU3ZlYzkrM3pSTjFTejRjSUY3VVdTQ0RkUkEzeEQzbEZk?=
+ =?utf-8?B?QXhsd2VUcThEWDI1OTNURUFCYzdVeHRzMHIxZDlmbzlJUWtnZzg5a0IzL0Mv?=
+ =?utf-8?B?MW9wenB2VG81UWxCUmZCdFZBQ0htcmc1NFV1Mkk0MUhiZ0F3WjBieTViK1RC?=
+ =?utf-8?B?czBoUzRnbmsxc29CbGlaUUpWSFExRG9SMTRqbU85NFhHdVZYbjVlSkpvNkI0?=
+ =?utf-8?B?WEVMWVNQdUZhc2dCRWVDald1RG4ydUNJYnpYVXBRYm5sVHp4bGp4d3U5SDMr?=
+ =?utf-8?B?YzBpZysxdHVvM2RhamRmaDNmL3NNVEM1MnQ2MGREZm5HTGlVY0wrMFhsZkFs?=
+ =?utf-8?B?ZmFKY21rbENSMUw0VEtwaEpMYkJkL3RzelZaM1ZHSk02TW5HUXR3TWEwck9U?=
+ =?utf-8?B?MExZV0xMemxSNzhPMDNtVy8zamFmZ09YQ2xWZnFJR3lMWlNwVUt4aU9GYnVq?=
+ =?utf-8?B?VG1QQzRFNGw2blNOWGZCd25VSHhjMjVkOEtDV1VoMUx3aHoyNjk3TzNXeUVs?=
+ =?utf-8?B?NjdEbXdEWDNRRXNoUHB2cjFqOVh0Z2ZnWStCL0trOHVwMTFjd3ZDRk1IM2lJ?=
+ =?utf-8?B?WXhLSngvUDUrTkNJSVM4bTZRQ0RQWDlVZ3NSekp5ckhQOE00VCttOVdJaW9G?=
+ =?utf-8?B?M0ZoM3JiVlplWDlQdEtOdzY0ZUREZC9pV2IxRWk1R05MWnM0VEFOQS9NcTZU?=
+ =?utf-8?B?VXpWTHh5V2JuWTJqdzFnQk1BRkFweGM3akhFcmoyVWJUNGgwT05DMTFYS2JG?=
+ =?utf-8?B?YUFnVHpYWld1TEZaa0NRRHp3ejZjaCtFbUxubXEvcVgzNXorOTZUZ29mSTND?=
+ =?utf-8?B?WWpPUzJDRzdVV0NsRnI0V3AxR1BrQmJFeW9JK2l4d2Z6UzFxTHdEdmNvQnpJ?=
+ =?utf-8?B?bndVbjJtODFqTEhTUEI2eWNBMlpha0xoRE91YVBoN0dGSXhnM1MrM24vT29u?=
+ =?utf-8?B?MkZvbWd5NkJxanVUUmV5TmNMOWs1R0xsRjVRVVJEeUt0ampnS0J1ZElkdld1?=
+ =?utf-8?B?WmRReHROYlpub08vd2dJdTM1aFBJSVppNGtQZXh3ekM1Q2N6RVd4eDZYYTFK?=
+ =?utf-8?B?SjhHeVpUeDZVQjhEWG1LeWJDV1ZmdGVIVDlDbEJpSnlsb2RPTEZLU25NN2Ew?=
+ =?utf-8?Q?+BmKeEwWw6QlRUaaTTd7AuNAXBbXyGNdGwD9qqZ+NiKZ?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3748C4B007F4A24FB6F9788F59256220@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108082531.15467-2-johnerasmusmari.geronimo@analog.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17b30302-0b84-4f2c-cc14-08dd306dbd69
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2025 05:23:24.3247
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iVhbAmEO3az9KkCkRqA8iyanIXjvju9pEuLCI1zEdSHi2IcEn8rkRGQE+qJx8Eh83nZ1JVnumcoRe0e1Gv41wQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8921
 
-Hi John,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on adc52dd4078067fabf1431036ba180eafd8a7eee]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Erasmus-Mari-Geronimo/hwmon-max31827-refactor-enum-chips-to-chip-info/20250108-162739
-base:   adc52dd4078067fabf1431036ba180eafd8a7eee
-patch link:    https://lore.kernel.org/r/20250108082531.15467-2-johnerasmusmari.geronimo%40analog.com
-patch subject: [PATCH 1/3] hwmon: (max31827) refactor enum chips to chip info
-config: hexagon-randconfig-001-20250109 (https://download.01.org/0day-ci/archive/20250109/202501091228.9APcsnSs-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501091228.9APcsnSs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501091228.9APcsnSs-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hwmon/max31827.c:93:40: warning: tentative definition of variable with internal linkage has incomplete non-array type 'const struct max31827_chip_info' [-Wtentative-definition-incomplete-type]
-   static const struct max31827_chip_info max31827;
-                                          ^
-   drivers/hwmon/max31827.c:93:21: note: forward declaration of 'struct max31827_chip_info'
-   static const struct max31827_chip_info max31827;
-                       ^
-   drivers/hwmon/max31827.c:94:40: warning: tentative definition of variable with internal linkage has incomplete non-array type 'const struct max31827_chip_info' [-Wtentative-definition-incomplete-type]
-   static const struct max31827_chip_info max31828;
-                                          ^
-   drivers/hwmon/max31827.c:93:21: note: forward declaration of 'struct max31827_chip_info'
-   static const struct max31827_chip_info max31827;
-                       ^
-   drivers/hwmon/max31827.c:95:40: warning: tentative definition of variable with internal linkage has incomplete non-array type 'const struct max31827_chip_info' [-Wtentative-definition-incomplete-type]
-   static const struct max31827_chip_info max31829;
-                                          ^
-   drivers/hwmon/max31827.c:93:21: note: forward declaration of 'struct max31827_chip_info'
-   static const struct max31827_chip_info max31827;
-                       ^
-   drivers/hwmon/max31827.c:96:40: warning: tentative definition of variable with internal linkage has incomplete non-array type 'const struct max31827_chip_info' [-Wtentative-definition-incomplete-type]
-   static const struct max31827_chip_info max31875;
-                                          ^
-   drivers/hwmon/max31827.c:93:21: note: forward declaration of 'struct max31827_chip_info'
-   static const struct max31827_chip_info max31827;
-                       ^
-   drivers/hwmon/max31827.c:602:1: error: expected expression
-   static const struct max31827_chip_info max31829 = {
-   ^
-   drivers/hwmon/max31827.c:677:23: error: expected '}'
-   MODULE_LICENSE("GPL");
-                         ^
-   drivers/hwmon/max31827.c:598:51: note: to match this '{'
-   static const struct max31827_chip_info max31828 = {
-                                                     ^
-   drivers/hwmon/max31827.c:677:23: error: expected ';' after top level declarator
-   MODULE_LICENSE("GPL");
-                         ^
-                         ;
-   4 warnings and 3 errors generated.
-
-
-vim +93 drivers/hwmon/max31827.c
-
-    91	
-    92	struct max31827_state;
-  > 93	static const struct max31827_chip_info max31827;
-    94	static const struct max31827_chip_info max31828;
-    95	static const struct max31827_chip_info max31829;
-    96	static const struct max31827_chip_info max31875;
-    97	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+U2FnaSwNCg0KT24gMS84LzI1IDE3OjM2LCBrZXJuZWwgdGVzdCByb2JvdCB3cm90ZToNCj4gQWxs
+IHdhcm5pbmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQo+DQo+ICAgICBkcml2ZXJzL252
+bWUvaG9zdC90Y3AuYzogSW4gZnVuY3Rpb24gJ252bWVfdGNwX3NldF9xdWV1ZV9pb19jcHUnOg0K
+Pj4+IGRyaXZlcnMvbnZtZS9ob3N0L3RjcC5jOjE1ODM6MTg6IHdhcm5pbmc6IHZhcmlhYmxlICdu
+JyBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQ0KPiAgICAgIDE1
+ODMgfCAgICAgICAgIGludCBjcHUsIG4gPSAwLCBtaW5fcXVldWVzID0gSU5UX01BWCwgaW9fY3B1
+Ow0KPiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgIF4NCj4gLS0NCj4+PiBkcml2ZXJzL252
+bWUvaG9zdC90Y3AuYzoxNTc4OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3Igc3RydWN0
+IG1lbWJlciAncXVldWUnIG5vdCBkZXNjcmliZWQgaW4gJ252bWVfdGNwX3NldF9xdWV1ZV9pb19j
+cHUnDQo+Pj4gZHJpdmVycy9udm1lL2hvc3QvdGNwLmM6MTU3ODogd2FybmluZzogZXhwZWN0aW5n
+IHByb3RvdHlwZSBmb3IgVHJhY2sgdGhlIG51bWJlciBvZiBxdWV1ZXMgYXNzaWduZWQgdG8gZWFj
+aCBjcHUgdXNpbmcgYSBnbG9iYWwgcGVyKCkuIFByb3RvdHlwZSB3YXMgZm9yIG52bWVfdGNwX3Nl
+dF9xdWV1ZV9pb19jcHUoKSBpbnN0ZWFkDQoNCkhvdyBhYm91dCBzb21ldGhpbmcgbGlrZSB0aGlz
+ID8NCg0KIEZyb20gOGZhMjNmZDg2ZTgyNjY0NTI2ODY1YzYyODUyOWI4YmNlM2M0MTNiZSBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDENCkZyb206IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRp
+YS5jb20+DQpEYXRlOiBXZWQsIDggSmFuIDIwMjUgMjA6NTI6NTIgLTA4MDANClN1YmplY3Q6IFtQ
+QVRDSF0gbnZtZS10Y3A6IHJlbW92ZSB1bnVzZWQgdmFyaWFibGUNCg0KVGhlIHZhcmlhYmxlIG4g
+ZGVjbGFyZWQgaW4gbnZtZV90Y3Bfc2V0X3F1ZXVlX2lvX2NwdSgpIHdhcyB1c2VkIGluIHRoZQ0K
+b3JpZ2luYWwgY2FsY3VsYXRpb24gd2hlbiB0Y3AgdGFyZ2V0IHdhcyBjcmVhdGVkLg0KDQpXaXRo
+IGFkZHRpb24gb2YgY29tbWl0IGJkMGY1YzEwMzEwMSAoIm52bWUtdGNwOiBGaXggSS9PIHF1ZXVl
+IGNwdQ0Kc3ByZWFkaW5nIGZvciBtdWx0aXBsZSBjb250cm9sbGVycyIpIG5vdyBhbGwgdGhlIGNh
+bGN1bGF0aW9uIGlzIGJhc2VkDQpvbiBpb19jcHUgYW5kIG1xX21hcCBsb2NhbCB2YXJpYWJsZSBp
+cyBuIGlzIG5vdCB1c2VkLg0KDQpSZW1vdmUgdGhlIGxvY2FsIHZhcmlhYmxlIGFuZCByZXNwZWN0
+aXZlIGNhbGN1bGF0aW9ucy4NCg0KU2lnbmVkLW9mZi1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxr
+Y2hAbnZpZGlhLmNvbT4NCi0tLQ0KICBkcml2ZXJzL252bWUvaG9zdC90Y3AuYyB8IDE0ICsrKysr
+LS0tLS0tLS0tDQogIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25z
+KC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC90Y3AuYyBiL2RyaXZlcnMvbnZt
+ZS9ob3N0L3RjcC5jDQppbmRleCA1NDRkNmFhMDBjYzMuLjhmMjE4MDNhNWE2MCAxMDA2NDQNCi0t
+LSBhL2RyaXZlcnMvbnZtZS9ob3N0L3RjcC5jDQorKysgYi9kcml2ZXJzL252bWUvaG9zdC90Y3Au
+Yw0KQEAgLTE1NzksMjIgKzE1NzksMTggQEAgc3RhdGljIHZvaWQgbnZtZV90Y3Bfc2V0X3F1ZXVl
+X2lvX2NwdShzdHJ1Y3QgbnZtZV90Y3BfcXVldWUgKnF1ZXVlKQ0KICAJc3RydWN0IGJsa19tcV90
+YWdfc2V0ICpzZXQgPSAmY3RybC0+dGFnX3NldDsNCiAgCWludCBxaWQgPSBudm1lX3RjcF9xdWV1
+ZV9pZChxdWV1ZSkgLSAxOw0KICAJdW5zaWduZWQgaW50ICptcV9tYXA7DQotCWludCBjcHUsIG4g
+PSAwLCBtaW5fcXVldWVzID0gSU5UX01BWCwgaW9fY3B1Ow0KKwlpbnQgY3B1LCBtaW5fcXVldWVz
+ID0gSU5UX01BWCwgaW9fY3B1Ow0KICANCiAgCWlmICh3cV91bmJvdW5kKQ0KICAJCWdvdG8gb3V0
+Ow0KICANCi0JaWYgKG52bWVfdGNwX2RlZmF1bHRfcXVldWUocXVldWUpKSB7DQorCWlmIChudm1l
+X3RjcF9kZWZhdWx0X3F1ZXVlKHF1ZXVlKSkNCiAgCQltcV9tYXAgPSBzZXQtPm1hcFtIQ1RYX1RZ
+UEVfREVGQVVMVF0ubXFfbWFwOw0KLQkJbiA9IHFpZDsNCi0JfSBlbHNlIGlmIChudm1lX3RjcF9y
+ZWFkX3F1ZXVlKHF1ZXVlKSkgew0KKwllbHNlIGlmIChudm1lX3RjcF9yZWFkX3F1ZXVlKHF1ZXVl
+KSkNCiAgCQltcV9tYXAgPSBzZXQtPm1hcFtIQ1RYX1RZUEVfUkVBRF0ubXFfbWFwOw0KLQkJbiA9
+IHFpZCAtIGN0cmwtPmlvX3F1ZXVlc1tIQ1RYX1RZUEVfREVGQVVMVF07DQotCX0gZWxzZSBpZiAo
+bnZtZV90Y3BfcG9sbF9xdWV1ZShxdWV1ZSkpIHsNCisJZWxzZSBpZiAobnZtZV90Y3BfcG9sbF9x
+dWV1ZShxdWV1ZSkpDQogIAkJbXFfbWFwID0gc2V0LT5tYXBbSENUWF9UWVBFX1BPTExdLm1xX21h
+cDsNCi0JCW4gPSBxaWQgLSBjdHJsLT5pb19xdWV1ZXNbSENUWF9UWVBFX0RFRkFVTFRdIC0NCi0J
+CQkJY3RybC0+aW9fcXVldWVzW0hDVFhfVFlQRV9SRUFEXTsNCi0JfQ0KKw0KICAJaWYgKFdBUk5f
+T04oIW1xX21hcCkpDQogIAkJZ290byBvdXQ7DQogIA0KLS0gDQoyLjQwLjANCg0KDQotY2sNCg0K
+DQo=
