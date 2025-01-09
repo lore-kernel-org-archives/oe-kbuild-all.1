@@ -1,61 +1,61 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F94B2144D7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 07:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646291F63CC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 07:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736408319; cv=none; b=OIS1WFhyJamnUhoQqqRto5vyA4S/Xb4U8eCAABtbRtcvmy67tjvsEsmm4YueqGM2ktJ/97aqNIx6GEXEc7B7b2Sw6jK1nOyAIOlATe6H8o3l4p2GHIhOFWT2qFltFbBRMkpYkR/t+l1u/mAM5vQ4ukB0H1R01H2NsWihU90Ia70=
+	t=1736408688; cv=none; b=KbK1Yl6HIOM1yNmvBDJgT6xzqXcPH+0JSEgWpDG8l+CZBNM5i6F0vnZvsr6rax+VM/djvtMgCKthLxGoaNOfwO73rDp8SVpXumtlZFSRqudDk6oeQaoZnQgskuex12Hg1ImFmwgDFrMe04CyqJx18ki1cV4Dm8BswjQWSCX4Ss0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736408319; c=relaxed/simple;
-	bh=R/9JapthRpqoHPqUXT2JyMzeSIS7hh40soMKCeKB8Eo=;
+	s=arc-20240116; t=1736408688; c=relaxed/simple;
+	bh=6onrqQYcmrJKr3OUWZOpc+b8eSH0n4nhHqUMyG9mHQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=n+vcJ1kfUuvpfXnsx4fOVhU5DY5dbHqia5YvgQ17He3pRpmWC30YrPJLeI6D6hDL4oo43++nG5hZp5V42ZF3dVoLTsLxS+Q6d66an1mFYI/4gukYGpwR5IgG6g1yS5jr2lELAKpy37peBy8LbfcCSeHNt8BxbeFQVoY4YC+qanE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V10JbC14; arc=none smtp.client-ip=209.85.128.51
+	 Content-Disposition:In-Reply-To; b=nG+LVBqSFMu9KLko56sAyxMqkzk+zwauh7rM7PGvv+KvMBXIFvmw1LeArNHsJLd+4rSg5PNPrczcBlBMDaUubzTL1ecLj6+HcZJJdehXOvVIlIIma/gtGtHOdp+Tljg1I9MlgwVWYmZhjKrQIr+u9LeIEsllWVfAJiyih+123KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wZRExO+P; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V10JbC14"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-436637e8c8dso6759775e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jan 2025 23:38:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wZRExO+P"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso6722335e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jan 2025 23:44:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736408316; x=1737013116; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1736408685; x=1737013485; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=X93jbPO9s9V42go7vMKQgdNYSnFvxLbdUzVEdu/5BwA=;
-        b=V10JbC14e6CkpwO+DSGM1Ny1YSnaKa9N7Y8t7QVQnP6ZcdvKvr8tGh9gLWJkgpJWwa
-         vWsfAqXTjYJBzXexyMXJP4PyQfLXymCLVb3cBMakDamev5kSDgm0hAkdOwv7Zh8TZBEO
-         M2jaIl25BGMKYiuk6Tpk5hOTdCWhcE46iXs7cYqBB9soVR8HPYe/vVnd9ikm14IZwjlD
-         UxiHaHzmqm+sN/j23z2qLnvn08RajGwQBhWYUXcv+NN0gNrHDlEttrlw8e5AaTWCA/+L
-         lH3HDliaj3zoMTVjLkhFn8ZWrCYNiXpv8W5WiBluq7SoWJfhYs022UniRqHEtZ92LsgN
-         STig==
+        bh=hh1x7j7lWYWudfhLYOjBc9jNq9Ri5N5BbraB/aTanEc=;
+        b=wZRExO+PDbnmlbn5Z0tW9OSW4sJx4qQ1a6LvexFsc2lV+O2UUjlcMA8vibiq6EGIiN
+         hy1103hiijK3bHSvJ3iQMQ5OvkbgMEyhF40S4pwuD8+Dc4yKd85fFzfAbPuXOPfPOnAO
+         sECrpCFJoGlOJiXArVGi/iiAHhQMbNq/rL9vVkc7UQMlL6K24pEQoIlL2XCTJWiTaxfD
+         E0DfBHp9IUYKGgfLgv0Qjq/N7C7HU8lzkScTXU8aMlQ9mG6pNiDUZRIOqd7deLwhGbWh
+         y+vbRGASJp3k6DUfYOk65UXlJWvnRKEKz1xBxC0FycGKeF6GisHNQ0JvrZl220MPIXAv
+         7hlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736408316; x=1737013116;
+        d=1e100.net; s=20230601; t=1736408685; x=1737013485;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X93jbPO9s9V42go7vMKQgdNYSnFvxLbdUzVEdu/5BwA=;
-        b=mxNiDVAycECvJXycjvGZpOfIOm5A+KHO7M6j0+C+H41OiCnVVyU7WB6UJW9U9rhKoH
-         7Hj2UIZQvaN5Yq8bN3xKEoco1XAT0sXQ0HFa8YaRwOKLJ092+XYsLjJmFiGWw4ssK9zR
-         eCPv0lLttjAp6neROBly+RRaZvo2p5K59OS6OdQ6465lSyTT0lhd5Hk+WluLktEQ2UdC
-         3eALOnNTgUccMRY35xGp9MW/fi5PpY4ohzU9EboKHHrmYSDY2T64LbqbEOZxqpDDX6ye
-         SsvIm2BLCqZsN+IwctskU+REIvA/6EFb46JJOLGRGi3rh+bOtx24+qxjkLg23dQsR0lq
-         sVvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVy+86tRj2u2tsvEgc93raKu98TQo92N/mRplMQJJaKBjrjXeZB4uapdHRS0z5oRRGW9Fa+AnsjXTlGejUD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVJhdRAh+sKDaf1gYEuxOfP0Hz3TAKKApmy75jM7EI+zqCy7j/
-	kAXLWpl5WQ5jq8ASVjFiVMMJly0wCLKvm9UBU2wrkHLfRzV8d/xMha6dR5l9y4Q=
-X-Gm-Gg: ASbGnctimDoaqyOaLOGZbBq+PWUaYZYIbCj6ZAEfQ7Umpvl04XsbbvEKvXSPiELr5dW
-	3kBptfAe5QUIuAt7+vWHkyIBxJxy+q7Fy6eUgCbUcPxs0xn2c3p7MOK+joX2DUgILxfVNpH+yy0
-	vVosA4F3VvW31gpRjRwU9bCv9xa1XQUgu79R9AxCQiIN3ebvsyVBu2ijy6GZpcquJ2i+RjjaRDO
-	4sKOMMGWn1DSqSbzsFhoD5VMnBMPLAWTAfTSInKjocse2XOZWORu4UqrvKqtw==
-X-Google-Smtp-Source: AGHT+IFZVE7PKtub/8dmtCqgw9t04MhMon8Rmhxb6fK46usK/fl3/ujRm1Jma4kd7cHZ1WBV4iESeQ==
-X-Received: by 2002:a05:6000:402a:b0:38a:418e:1171 with SMTP id ffacd0b85a97d-38a8733063dmr4221734f8f.37.1736408315506;
-        Wed, 08 Jan 2025 23:38:35 -0800 (PST)
+        bh=hh1x7j7lWYWudfhLYOjBc9jNq9Ri5N5BbraB/aTanEc=;
+        b=oHMx2X6J64XpeFve5L4tUxZClczYNI/m6D+WeA2RD1nT6llfu/iT0oMxPuNRxsJ9nG
+         zbszU7Alw3jmpn3zhG5uyviuAj0hlDmEC7tcHICc6AUB8C/akIpjqk3Ip7Lxs60KvWYT
+         /6lwoMrdW0Qow3BilKOn5saa6pZSUaeIzTMnINzJsIF0t+f1YEp/xEqif4FrHyxvfKmb
+         TeTyF+nctwtWdmIXMnZ7glke0mVCA4FNPj0ofbcZSVVAQAknppp/Jh0TpirphSJ5zXmW
+         N9NxiX7HQtfTeNNcb+BhXWqrcE8qYWIAXgjLLVdL6/EKQkNQAjNfAYlwozETArzA9riO
+         1dQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWpIrJSaP0unSi5L++BiCoGejf3d43nlG/vERH0oy1EaW5FOerHDG62tkuPkuBEjXmX3xToNzj8/njceVqd@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLhGVrNu2wlLnmRwENKVcKW0SdRvPRz7Lyd6+uDkdobJauLs8V
+	4WNSoqXid/kVFxv/R3IgPuPfFpW+1TqPP6SK18ek7xqVFtKI2azIvKpQCY5Oy1U=
+X-Gm-Gg: ASbGncsVxvN8QNrOBJ3KQqFW3fcuuLLQmzJuwjpgobLL1tq+Sb5NwVp6YWfB56Led/T
+	2El30/QoG52Q7PcyZeatmUaLKreS1CARE3ngHtZJGk9U8aY9WwInBorqNFhw+GeDaY6ttmktdnf
+	cqrDptq7BHQWPJpIbV0SmBm7vo33DzL2MfEhgI481m2Lqf5vdfu+K0Cc4e9w8DBBtv4GbpELGdH
+	7HtvtuOCqjJWTESgnsgnvuwRGbrD01CqCMiJoWYTwcpI6Gt4Aq7zXwO/Zk/FQ==
+X-Google-Smtp-Source: AGHT+IHEZyaIVzclqxdjP4ZOdG6lan/GRGVy2gb2M3EakOZNST5naAVRXF+JitBOxJ6aEWygbw7++A==
+X-Received: by 2002:a05:600c:4f52:b0:436:4708:9fb6 with SMTP id 5b1f17b1804b1-436e26e259emr49159755e9.20.1736408684620;
+        Wed, 08 Jan 2025 23:44:44 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e38c76esm996791f8f.47.2025.01.08.23.38.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da6401sm46146425e9.2.2025.01.08.23.44.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 23:38:35 -0800 (PST)
-Date: Thu, 9 Jan 2025 10:38:31 +0300
+        Wed, 08 Jan 2025 23:44:43 -0800 (PST)
+Date: Thu, 9 Jan 2025 10:44:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, Haren Myneni <haren@linux.ibm.com>,
 	linuxppc-dev@lists.ozlabs.org
@@ -63,9 +63,9 @@ Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, maddy@linux.ibm.com,
 	mpe@ellerman.id.au, npiggin@gmail.com, msuchanek@suse.de,
 	mahesh@linux.ibm.com, tyreld@linux.ibm.com, hbabu@us.ibm.com,
 	haren@linux.ibm.com
-Subject: Re: [PATCH 4/6] powerpc/pseries: Add ibm,set-dynamic-indicator RTAS
- call support
-Message-ID: <dbbe27ff-c9e8-4956-a63e-d2db2ec624a7@stanley.mountain>
+Subject: Re: [PATCH 5/6] powerpc/pseries: Add ibm,get-dynamic-sensor-state
+ RTAS call support
+Message-ID: <b4313bdb-29ba-42c1-9011-4bb558d056ba@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250104204652.388720-5-haren@linux.ibm.com>
+In-Reply-To: <20250104204652.388720-6-haren@linux.ibm.com>
 
 Hi Haren,
 
@@ -84,68 +84,74 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-common-functions-for-RTAS-sequence-HCALLs/20250105-045010
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20250104204652.388720-5-haren%40linux.ibm.com
-patch subject: [PATCH 4/6] powerpc/pseries: Add ibm,set-dynamic-indicator RTAS call support
-config: powerpc64-randconfig-r071-20250108 (https://download.01.org/0day-ci/archive/20250109/202501090337.xKCGrblc-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20250104204652.388720-6-haren%40linux.ibm.com
+patch subject: [PATCH 5/6] powerpc/pseries: Add ibm,get-dynamic-sensor-state RTAS call support
+config: powerpc64-randconfig-r071-20250108 (https://download.01.org/0day-ci/archive/20250109/202501090552.UzEfb4QU-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501090337.xKCGrblc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501090552.UzEfb4QU-lkp@intel.com/
 
-smatch warnings:
+New smatch warnings:
+arch/powerpc/platforms/pseries/papr-indices.c:496 papr_dynamic_sensor_ioc_get() warn: inconsistent returns 'global &rtas_ibm_get_dynamic_sensor_state_lock'.
+
+Old smatch warnings:
 arch/powerpc/platforms/pseries/papr-indices.c:438 papr_dynamic_indicator_ioc_set() warn: inconsistent returns 'global &rtas_ibm_set_dynamic_indicator_lock'.
 
-vim +438 arch/powerpc/platforms/pseries/papr-indices.c
+vim +496 arch/powerpc/platforms/pseries/papr-indices.c
 
-3f48afd07934e4 Haren Myneni 2025-01-04  397  static long papr_dynamic_indicator_ioc_set(struct papr_indices_io_block __user *ubuf)
-3f48afd07934e4 Haren Myneni 2025-01-04  398  {
-3f48afd07934e4 Haren Myneni 2025-01-04  399  	struct papr_indices_io_block kbuf;
-3f48afd07934e4 Haren Myneni 2025-01-04  400  	struct rtas_work_area *work_area;
-3f48afd07934e4 Haren Myneni 2025-01-04  401  	s32 fwrc, token, ret;
-3f48afd07934e4 Haren Myneni 2025-01-04  402  
-3f48afd07934e4 Haren Myneni 2025-01-04  403  	token = rtas_function_token(RTAS_FN_IBM_SET_DYNAMIC_INDICATOR);
-3f48afd07934e4 Haren Myneni 2025-01-04  404  	if (token == RTAS_UNKNOWN_SERVICE)
-3f48afd07934e4 Haren Myneni 2025-01-04  405  		return -ENOENT;
-3f48afd07934e4 Haren Myneni 2025-01-04  406  
-3f48afd07934e4 Haren Myneni 2025-01-04  407  	mutex_lock(&rtas_ibm_set_dynamic_indicator_lock);
-3f48afd07934e4 Haren Myneni 2025-01-04  408  	work_area = papr_dynamic_indice_buf_from_user(ubuf, &kbuf);
-3f48afd07934e4 Haren Myneni 2025-01-04  409  	if (IS_ERR(work_area))
-3f48afd07934e4 Haren Myneni 2025-01-04  410  		return PTR_ERR(work_area);
+e44fb25ad9fa03 Haren Myneni 2025-01-04  452  static long papr_dynamic_sensor_ioc_get(struct papr_indices_io_block __user *ubuf)
+e44fb25ad9fa03 Haren Myneni 2025-01-04  453  {
+e44fb25ad9fa03 Haren Myneni 2025-01-04  454  	struct papr_indices_io_block kbuf;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  455  	struct rtas_work_area *work_area;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  456  	s32 fwrc, token, ret;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  457  	u32 rets;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  458  
+e44fb25ad9fa03 Haren Myneni 2025-01-04  459  	token = rtas_function_token(RTAS_FN_IBM_GET_DYNAMIC_SENSOR_STATE);
+e44fb25ad9fa03 Haren Myneni 2025-01-04  460  	if (token == RTAS_UNKNOWN_SERVICE)
+e44fb25ad9fa03 Haren Myneni 2025-01-04  461  		return -ENOENT;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  462  
+e44fb25ad9fa03 Haren Myneni 2025-01-04  463  	mutex_lock(&rtas_ibm_get_dynamic_sensor_state_lock);
+e44fb25ad9fa03 Haren Myneni 2025-01-04  464  	work_area = papr_dynamic_indice_buf_from_user(ubuf, &kbuf);
+e44fb25ad9fa03 Haren Myneni 2025-01-04  465  	if (IS_ERR(work_area))
+e44fb25ad9fa03 Haren Myneni 2025-01-04  466  		return PTR_ERR(work_area);
 
-mutex_unlock(&rtas_ibm_set_dynamic_indicator_lock); before returning
+Add an unlock, same as with the _set() function.
 
-3f48afd07934e4 Haren Myneni 2025-01-04  411  
-3f48afd07934e4 Haren Myneni 2025-01-04  412  	do {
-3f48afd07934e4 Haren Myneni 2025-01-04  413  		fwrc = rtas_call(token, 3, 1, NULL,
-3f48afd07934e4 Haren Myneni 2025-01-04  414  				kbuf.dynamic_param.token,
-3f48afd07934e4 Haren Myneni 2025-01-04  415  				kbuf.dynamic_param.state,
-3f48afd07934e4 Haren Myneni 2025-01-04  416  				rtas_work_area_phys(work_area));
-3f48afd07934e4 Haren Myneni 2025-01-04  417  	} while (rtas_busy_delay(fwrc));
-3f48afd07934e4 Haren Myneni 2025-01-04  418  
-3f48afd07934e4 Haren Myneni 2025-01-04  419  	rtas_work_area_free(work_area);
-3f48afd07934e4 Haren Myneni 2025-01-04  420  	mutex_unlock(&rtas_ibm_set_dynamic_indicator_lock);
-3f48afd07934e4 Haren Myneni 2025-01-04  421  
-3f48afd07934e4 Haren Myneni 2025-01-04  422  	switch (fwrc) {
-3f48afd07934e4 Haren Myneni 2025-01-04  423  	case RTAS_IBM_DYNAMIC_INDICE_SUCCESS:
-3f48afd07934e4 Haren Myneni 2025-01-04  424  		ret = 0;
-3f48afd07934e4 Haren Myneni 2025-01-04  425  		break;
-3f48afd07934e4 Haren Myneni 2025-01-04  426  	case RTAS_IBM_DYNAMIC_INDICE_NO_INDICATOR:	/* No such indicator */
-3f48afd07934e4 Haren Myneni 2025-01-04  427  		ret = -EOPNOTSUPP;
-3f48afd07934e4 Haren Myneni 2025-01-04  428  		break;
-3f48afd07934e4 Haren Myneni 2025-01-04  429  	default:
-3f48afd07934e4 Haren Myneni 2025-01-04  430  		pr_err("unexpected ibm,set-dynamic-indicator result %d\n",
-3f48afd07934e4 Haren Myneni 2025-01-04  431  			fwrc);
-3f48afd07934e4 Haren Myneni 2025-01-04  432  		fallthrough;
-3f48afd07934e4 Haren Myneni 2025-01-04  433  	case RTAS_IBM_DYNAMIC_INDICE_HW_ERROR:	/* Hardware/platform error */
-3f48afd07934e4 Haren Myneni 2025-01-04  434  		ret = -EIO;
-3f48afd07934e4 Haren Myneni 2025-01-04  435  		break;
-3f48afd07934e4 Haren Myneni 2025-01-04  436  	}
-3f48afd07934e4 Haren Myneni 2025-01-04  437  
-3f48afd07934e4 Haren Myneni 2025-01-04 @438  	return ret;
-3f48afd07934e4 Haren Myneni 2025-01-04  439  }
+e44fb25ad9fa03 Haren Myneni 2025-01-04  467  
+e44fb25ad9fa03 Haren Myneni 2025-01-04  468  	do {
+e44fb25ad9fa03 Haren Myneni 2025-01-04  469  		fwrc = rtas_call(token, 2, 2, &rets,
+e44fb25ad9fa03 Haren Myneni 2025-01-04  470  				kbuf.dynamic_param.token,
+e44fb25ad9fa03 Haren Myneni 2025-01-04  471  				rtas_work_area_phys(work_area));
+e44fb25ad9fa03 Haren Myneni 2025-01-04  472  	} while (rtas_busy_delay(fwrc));
+e44fb25ad9fa03 Haren Myneni 2025-01-04  473  
+e44fb25ad9fa03 Haren Myneni 2025-01-04  474  	rtas_work_area_free(work_area);
+e44fb25ad9fa03 Haren Myneni 2025-01-04  475  	mutex_unlock(&rtas_ibm_get_dynamic_sensor_state_lock);
+e44fb25ad9fa03 Haren Myneni 2025-01-04  476  
+e44fb25ad9fa03 Haren Myneni 2025-01-04  477  	switch (fwrc) {
+e44fb25ad9fa03 Haren Myneni 2025-01-04  478  	case RTAS_IBM_DYNAMIC_INDICE_SUCCESS:
+e44fb25ad9fa03 Haren Myneni 2025-01-04  479  		if (put_user(rets, &ubuf->dynamic_param.state))
+e44fb25ad9fa03 Haren Myneni 2025-01-04  480  			ret = -EFAULT;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  481  		else
+e44fb25ad9fa03 Haren Myneni 2025-01-04  482  			ret = 0;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  483  		break;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  484  	case RTAS_IBM_DYNAMIC_INDICE_NO_INDICATOR:	/* No such indicator */
+e44fb25ad9fa03 Haren Myneni 2025-01-04  485  		ret = -EOPNOTSUPP;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  486  		break;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  487  	default:
+e44fb25ad9fa03 Haren Myneni 2025-01-04  488  		pr_err("unexpected ibm,get-dynamic-sensor result %d\n",
+e44fb25ad9fa03 Haren Myneni 2025-01-04  489  				fwrc);
+e44fb25ad9fa03 Haren Myneni 2025-01-04  490  		fallthrough;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  491  	case RTAS_IBM_DYNAMIC_INDICE_HW_ERROR:	/* Hardware/platform error */
+e44fb25ad9fa03 Haren Myneni 2025-01-04  492  		ret = -EIO;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  493  		break;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  494  	}
+e44fb25ad9fa03 Haren Myneni 2025-01-04  495  
+e44fb25ad9fa03 Haren Myneni 2025-01-04 @496  	return ret;
+e44fb25ad9fa03 Haren Myneni 2025-01-04  497  }
 
 -- 
 0-DAY CI Kernel Test Service
