@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F70718A959
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DBE1ACEAE
 	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 21:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736458645; cv=none; b=K5TtYlqVci82SafgFd501J6+BFbgw2iIdLL6ryDn92tipvRKuLdAcYhQ0dIWHIRR001X+PwrsVvCZuDyyZMMkv9L3XLau87k6VxPTQsFdUjphEImkUVbtFwOolJWPYb6frgrSDqb5ZTpihOH0+YHJ29c8xBQDxrtM8NkoGG4py0=
+	t=1736458646; cv=none; b=jEVi9al/RrCeK3jh5izl+u861Jd5uNza+SKchtpXuHk2Z3Zb38UifIbdlWVmpUXHvFUuPzLilv2kA+ONQ8TJteuWe8w0Xtyl4xLfcmaZ6CbtIvR6COBmQzfOkk0AFojd/rQwkXCgy4NMOvUvQpjF4HHCecd64yzwLQ9+YMPnz5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736458645; c=relaxed/simple;
-	bh=UVo+AVoQqUF0DJD+vV0sTcGmEMtDrSbggPciZF/8lZ0=;
+	s=arc-20240116; t=1736458646; c=relaxed/simple;
+	bh=ZZ8948fs6kMk7hgsRyDKWO3p0cogZYkQ5uu9jMe6TKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZNFeF4dZJ59PRwtKJsxZzlIIrFQDMO/nnMP/1hOC7NmZEfKXZWsBtgicOtmrIpXkJTcPm4XhM7O0i/fuzA5u19SRmm3RvjrFXyqwpiAcqb44REx+2YtMecjd3ul28+gR3f5OuAzzoX5qUc4tFPCZnwlRxIa3SocMkZEGynQgVLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYxbFG4D; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=eIYQLwmZKmZ4GXifhAPe2FKXesfccYtLlnPDKxGw90dMPdJWqA1MHCwVwfhgk1yGEUWg0C7pfNjvoa/89MnhKvYADUrs6PETa/HfDZjXvPux0pxutjzES3M7MFj9Xaux7dna8XN8LBJ9z3lAcjrEE9729fbm36D0M6lu/D9dMw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHYWtywF; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYxbFG4D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHYWtywF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736458643; x=1767994643;
+  t=1736458644; x=1767994644;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UVo+AVoQqUF0DJD+vV0sTcGmEMtDrSbggPciZF/8lZ0=;
-  b=cYxbFG4DGeEdn+Rd4A45iNGELLq/bcinEf587vajdYCWcfzaI6I+RJmg
-   P6mrod1hh0WfAwzVK/vPcMMst+BAB2LXs0f5hRXsk2rt7VEftBNe7jog8
-   tVTQUT0B+K84I5JxA6jTlphTMWyNo8BEtCgmD05WpzVCblk3uylxNCq9b
-   zxfDiB4wSMA2taUn/f+BspjYyeInNw62OJ5gxEzOsbpXSEwxzEJZ6/Bwf
-   XX+kbnvodKf2jt/VBqV4qt7IKJLuEAr6m3hSKAqcOF82QXCExtMYhRABT
-   8/6pcWgeO3ayY9hc9gSzRBHQ5F9q0a+5SbosXwfXLHyhQDnrz6U/qTHQ3
+  bh=ZZ8948fs6kMk7hgsRyDKWO3p0cogZYkQ5uu9jMe6TKo=;
+  b=GHYWtywFxUKB+Gi9ggvkoqkVgO4lXn29x0JKQXSZyxCBgwJ9uBt9ekjl
+   aI6jD7VwLtIKwe+f+k732Uo35gr+E54+gebUCyDGCp3GsiuLt8Vohl4jm
+   SjycfupeRS7cczofnPIB7d2bWB80Joux+Iss/oolORJ0m62/a4xGfpsAt
+   YuikHOA4vvrhxyipNJ4kPuciyr7vf5B4D2qH4EYcbpTRXgYM4kp406u9I
+   lvUczE2so2aHbCYT8qD0G3tz05fW5Ytq4lu3a3MI2q6HhoRgPXULGhLMG
+   +H1ym6ZUhWA6VE4V/hTjTSbg88r4FgG2vm88xVVLdPnAEOL4GimyfpCT1
    w==;
-X-CSE-ConnectionGUID: 3/UfuKKnSf+pNRSnf/bg0A==
-X-CSE-MsgGUID: 7owTNOHORECQG6HtNX5ttA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="59216192"
+X-CSE-ConnectionGUID: qnV5D16EQyG4uAn3+NGZzg==
+X-CSE-MsgGUID: GLKvNZjsTNO3EYhBahiNOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36028217"
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="59216192"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 13:37:23 -0800
-X-CSE-ConnectionGUID: rYdqmHcbSe2u6KBx7pji/A==
-X-CSE-MsgGUID: y3oFqDwxSnmxgn3v8iYfFw==
+   d="scan'208";a="36028217"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 13:37:23 -0800
+X-CSE-ConnectionGUID: DtpK8l8yTYWx+gVY7z3Vyg==
+X-CSE-MsgGUID: BiPWgdHNR9+Ym9nNunD04w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="108444345"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="108582910"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Jan 2025 13:37:21 -0800
+  by orviesa003.jf.intel.com with ESMTP; 09 Jan 2025 13:37:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tW0DP-000IAJ-2p;
+	id 1tW0DP-000IAL-2t;
 	Thu, 09 Jan 2025 21:37:19 +0000
-Date: Fri, 10 Jan 2025 05:36:53 +0800
+Date: Fri, 10 Jan 2025 05:36:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
+To: Michal Simek <monstr@monstr.eu>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/fixes 3/3]
- include/asm-generic/rwonce.h:55:39: error: incompatible types when assigning
- to type 'struct tmigr_group' from type 'struct tmigr_group *'
-Message-ID: <202501100546.OwNn5Ufr-lkp@intel.com>
+Subject: [linux-next:master 5774/7509]
+ arch/arm/boot/dts/xilinx/zynq-parallella.dtb: ethernet@e000b000:
+ ethernet-phy@0: Unevaluated properties are not allowed ('marvell,reg-init'
+ was unexpected)
+Message-ID: <202501100532.fwtSMb6p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +64,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/fixes
-head:   b825dd98da4f6861a12aa88cda4cf28ffb51d151
-commit: b825dd98da4f6861a12aa88cda4cf28ffb51d151 [3/3] The following commit:
-config: arc-randconfig-002-20250110 (https://download.01.org/0day-ci/archive/20250110/202501100546.OwNn5Ufr-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100546.OwNn5Ufr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+commit: 1058ffd774df1cfe28a870dceb74411749ad481f [5774/7509] ARM: zynq: Remove deprecated device_type property
+config: arm-randconfig-052-20250107 (https://download.01.org/0day-ci/archive/20250110/202501100532.fwtSMb6p-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100532.fwtSMb6p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501100546.OwNn5Ufr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501100532.fwtSMb6p-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from ./arch/arc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:339,
-                    from include/linux/build_bug.h:5,
-                    from arch/arc/include/asm/cache.h:28,
-                    from include/linux/cache.h:6,
-                    from include/linux/slab.h:15,
-                    from kernel/time/timer_migration.c:8:
-   kernel/time/timer_migration.c: In function 'tmigr_connect_child_parent':
->> include/asm-generic/rwonce.h:55:39: error: incompatible types when assigning to type 'struct tmigr_group' from type 'struct tmigr_group *'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                       ^
-   include/asm-generic/rwonce.h:61:9: note: in expansion of macro '__WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |         ^~~~~~~~~~~~
-   include/asm-generic/barrier.h:143:9: note: in expansion of macro 'WRITE_ONCE'
-     143 |         WRITE_ONCE(*p, v);                                              \
-         |         ^~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   kernel/time/timer_migration.c:1586:9: note: in expansion of macro 'smp_store_release'
-    1586 |         smp_store_release(child->parent, parent);
-         |         ^~~~~~~~~~~~~~~~~
-
-
-vim +55 include/asm-generic/rwonce.h
-
-e506ea451254ab Will Deacon 2019-10-15  52  
-e506ea451254ab Will Deacon 2019-10-15  53  #define __WRITE_ONCE(x, val)						\
-e506ea451254ab Will Deacon 2019-10-15  54  do {									\
-e506ea451254ab Will Deacon 2019-10-15 @55  	*(volatile typeof(x) *)&(x) = (val);				\
-e506ea451254ab Will Deacon 2019-10-15  56  } while (0)
-e506ea451254ab Will Deacon 2019-10-15  57  
-
-:::::: The code at line 55 was first introduced by commit
-:::::: e506ea451254ab17e0bf918ca36232fec2a9b10c compiler.h: Split {READ,WRITE}_ONCE definitions out into rwonce.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/i2c@e0004000/isl9305@68: failed to match any schema with compatible: ['isil,isl9305']
+>> arch/arm/boot/dts/xilinx/zynq-parallella.dtb: ethernet@e000b000: ethernet-phy@0: Unevaluated properties are not allowed ('marvell,reg-init' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
