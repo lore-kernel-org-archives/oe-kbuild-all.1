@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B071F0E35
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jan 2025 22:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3274A06
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 00:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736377086; cv=none; b=O8PIE9WH5Lm9rZGAGzhjYTjEAKeTJKYOlfsB6BFviUb0F95q1Esrh+M+IqvDiGShByxBO/LTFp63ty84fiaY+fojJ9g+JXF9rSyyxVDbxjE1rQgAF7LaNJg0ujMFN7mY+PoOygt0DdCHnfeDUCaILuJnzmEFO0kQmVuk1UjTrpo=
+	t=1736382017; cv=none; b=PiBPg/xAaH31reodhUuRVj/gGt6DcSd5JbFd3iuHTFw6W1CIhGq2W1u7J1QfJKZOoMLmg3cfvFzlcpAAtR9t+gitUNCZpeVOsUvtWPKtMPVvlyOxwHxRzTLufuZTn8DQxScLK8PdC8smO8NZfycDUq70sO/IVSoTIYiG5TYvqGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736377086; c=relaxed/simple;
-	bh=WNtFObcvPQkzMocftHkSLmpCXZedYBkUMa+w/iypTJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LpBN8YSoRwD2QrdvL30TBXxVGD0RU8qf/SbMP9n1Dp/dvlsTeZERe1urUy9xIAqCFRsstTWNlRBgrfW7Jj8xg2QSzmzQ/OtrLPyo9nYx+4Kr01HcnWcjayLcP68jvMwSPLe1FnBThmly07y1AKQKpfaXhk65DR5LGN4OtV3HJaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYXnTXme; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1736382017; c=relaxed/simple;
+	bh=6LKfl1lbkyOYXs1GcNtGlQnWT5y8adn1oZ2UfE80ZbY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mg9d7gn4ATSb91qy7t0bZOgJwhErCVVxV/WIR5hUVcMIdCMDZam9azgWXXJiLSyAwzMUAwk0vnt8Fm5pHhwEIeJgfdpW4eAuQDJphyT8xUNfZATt6qyIKnXbyeLV01vcTvQmWgAWc5jNf31pHuWIpsnwbnGbIEnubGbHzNTkiQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dOc9nj7Z; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYXnTXme"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dOc9nj7Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736377085; x=1767913085;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WNtFObcvPQkzMocftHkSLmpCXZedYBkUMa+w/iypTJ8=;
-  b=PYXnTXmewsJBT2AwOKX2bwlUbQiyJDxgT47/Jk14iWMpcdmOvPaoy6mR
-   AafmpSNHBQYwi+wbZSDMjmB6Tingz3/nWHrEkow/2xnedS2vdCBNLVRDU
-   DTQzO1EXeDMZPme2BtnLyS5uTdMtjvo1K2tK3k/eSDRXDOoWFmLZYH4iz
-   53+uLNOx46Hk+FrU10nRQ7vMqeCjN3SUVLjZ+oADdS8UuDVyj3xAY+H6h
-   kHo0VClGL99DB0dYdD/Y+OA4op0+sYZF4E6/GgU1JtDi4giSK1Lhlpgd/
-   LacAfuyUoeej7vSbSAietiaW7mvht9cnRs68rm+3z6Noyj03PiN1zcSQW
-   Q==;
-X-CSE-ConnectionGUID: lb79itpPTMa7JsAv21R7uA==
-X-CSE-MsgGUID: Mtf4g002TPKUj/eDJeMH7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36317605"
+  t=1736382014; x=1767918014;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6LKfl1lbkyOYXs1GcNtGlQnWT5y8adn1oZ2UfE80ZbY=;
+  b=dOc9nj7ZEshcA0yCmC79qg09m5v2g62FvovglG5APHlEiuC/cb3BfSWK
+   CjsGS7akgdOkPx03tngl0r7u959DDZ2iR6+v+q14pSrXAzGMxz66X4mSU
+   cW8Bh7+XiIiVKLFBQhcNhaxym3qO0RLH+KtjAdI1KNa8mo0XqRvv6MAi8
+   ebqTDiCxo80wEik2icPIITI/AO7QW8TIVQwRDlQT19uXIrdvCWb42rG4b
+   ByWr5OjEJWznUOcWDknGQ6xFaWzAcVDyNCJ+39FQSMfUF5xYi3lXITg5u
+   GAuM7kwjkA/pA8pCcpM/rW33yxz7ai/FfunXHDYuO8HhO9B0av3QbCWxT
+   A==;
+X-CSE-ConnectionGUID: LtjyaHBcSJClAqAaXRxSHg==
+X-CSE-MsgGUID: MuWOMjW3Qyat/xPsaIip5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="40392956"
 X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
-   d="scan'208";a="36317605"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 14:58:05 -0800
-X-CSE-ConnectionGUID: v4TajwUQQ+m0Ubw3YW5MPw==
-X-CSE-MsgGUID: /El8CJmlRFyXgDT6I81row==
+   d="scan'208";a="40392956"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 16:20:14 -0800
+X-CSE-ConnectionGUID: Dnf46OJAR6q5/zUXZhvsTg==
+X-CSE-MsgGUID: yAJk0mtVRmSzCgP4jwkJng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
-   d="scan'208";a="103185493"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="140564346"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Jan 2025 14:58:03 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Jan 2025 16:20:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVezx-000Glz-03;
-	Wed, 08 Jan 2025 22:58:01 +0000
-Date: Thu, 9 Jan 2025 06:57:28 +0800
+	id 1tVgHR-000GqJ-2j;
+	Thu, 09 Jan 2025 00:20:09 +0000
+Date: Thu, 9 Jan 2025 08:19:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Divya Koppera <divya.koppera@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: [linux-next:master 4576/7110] microchip_t1.c:undefined reference to
- `mchp_rds_ptp_handle_interrupt'
-Message-ID: <202501090604.YEoJXCXi-lkp@intel.com>
+To: Hao Ge <hao.ge@linux.dev>, akpm@linux-foundation.org, surenb@google.com,
+	kent.overstreet@linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, hao.ge@linux.dev, Hao Ge <gehao@kylinos.cn>
+Subject: Re: [PATCH] tools/mm: Introduce a tool to handle entries in allocinfo
+Message-ID: <202501090823.W7WjUFM1-lkp@intel.com>
+References: <20250106112103.25401-1-hao.ge@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,27 +64,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250106112103.25401-1-hao.ge@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4b90165c7d1173e0f65538d25aa718ec7ecdd5d6
-commit: 9fc3d6fe802923b026ecac16e59c0acdd6744d5d [4576/7110] net: phy: microchip_t1 : Add initialization of ptp for lan887x
-config: i386-buildonly-randconfig-006-20250109 (https://download.01.org/0day-ci/archive/20250109/202501090604.YEoJXCXi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090604.YEoJXCXi-lkp@intel.com/reproduce)
+Hi Hao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.13-rc6 next-20250108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Ge/tools-mm-Introduce-a-tool-to-handle-entries-in-allocinfo/20250106-192419
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250106112103.25401-1-hao.ge%40linux.dev
+patch subject: [PATCH] tools/mm: Introduce a tool to handle entries in allocinfo
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090823.W7WjUFM1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501090604.YEoJXCXi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501090823.W7WjUFM1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/net/phy/microchip_t1.o: in function `lan887x_handle_interrupt':
->> microchip_t1.c:(.text+0x335): undefined reference to `mchp_rds_ptp_handle_interrupt'
-   ld: drivers/net/phy/microchip_t1.o: in function `lan887x_config_intr':
->> microchip_t1.c:(.text+0x3c9): undefined reference to `mchp_rds_ptp_top_config_intr'
-   ld: drivers/net/phy/microchip_t1.o: in function `lan887x_phy_init':
->> microchip_t1.c:(.text+0x7d2): undefined reference to `mchp_rds_ptp_probe'
+>> allocinfo_tool.c:126:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+     126 | }
+         | ^
+   1 warning generated.
+   page-types.c:1003:28: warning: operator '?:' has lower precedence than '+'; '+' will be evaluated first [-Wparentheses]
+    1003 |                         end = off + sigbus_addr ? sigbus_addr - ptr : 0;
+         |                               ~~~~~~~~~~~~~~~~~ ^
+   page-types.c:1003:28: note: place parentheses around the '+' expression to silence this warning
+    1003 |                         end = off + sigbus_addr ? sigbus_addr - ptr : 0;
+         |                                                 ^
+         |                               (                )
+   page-types.c:1003:28: note: place parentheses around the '?:' expression to evaluate it first
+    1003 |                         end = off + sigbus_addr ? sigbus_addr - ptr : 0;
+         |                                                 ^                      
+         |                                     (                                  )
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
