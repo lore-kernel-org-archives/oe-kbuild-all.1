@@ -1,64 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E3E219A74
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 14:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5C1218EB8;
+	Thu,  9 Jan 2025 14:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736431443; cv=none; b=QorFf515ARQc0/eBe1IEo2RlUHvf0idIPi8gOS6XyQ07pPpEhTHnoKmi/Obt4egrkVSlZUGnZJG5l8Ax/y9SXCraf93miVWns8wPionF6wxp4EKh8qj4iree3He8yCZcVssH2sENe+86zZF48USXII6NeFAhnU7/Wssxcr/miN8=
+	t=1736432164; cv=none; b=mLPA1WNQS0RmDVIsv6Fo8WvcYslRt3fit5fFdzUHY2Bo7GZCaPNrVeKHdl13PEQpJ+ii+SHxTmqHvkzRRTQfHDcfkI1GrwNir2v18oqLCkN0N/N08C+uJq02KyEr5lKUjKe/MXp0+6MCUmewSfLWlH8LrCy7/JcM0tgmTiv1K8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736431443; c=relaxed/simple;
-	bh=UWB6doJdaiwZrEW0sfpO/DyKw7haphGlV4KhtLkvTJs=;
+	s=arc-20240116; t=1736432164; c=relaxed/simple;
+	bh=sdeQGCyr/6RBTBZSYkpvRmADjOTqsbaOlHnGzWZq1Kg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N+lIsy/io9Hq0Y76d6Ed64ge12aljXh51oehvgbUmon0NASb6wgPzwMENSXkQ0bFcOwt78MPZAs+jo851Cf8QvLOYFX24mteFAlbKHxrvrIStl6/f2ylhG4iauwoVeKQF45vf0Yr02yfAYC3zdbC1kZAOTCeMhtS94GqYLbEN58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k652eWZW; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=L1tFfvIIspd6iwUhd8hyMH5Cu3/Z+8lYiqrtSkcSqQMNtMMRefSn3Mv1bcUOCS9jlYSXk4cgTt5aaTHwPwI/jcuZ6FjKWL4OpXuGzQvxQiiB7SXhZ3w6C+6s89hTEGExCCBoeHoxTbkhuVPALc3d9ySdwIQczwkkc4yJeL6LDq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hm4A7MNb; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k652eWZW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hm4A7MNb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736431441; x=1767967441;
+  t=1736432163; x=1767968163;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UWB6doJdaiwZrEW0sfpO/DyKw7haphGlV4KhtLkvTJs=;
-  b=k652eWZWuR/HQ0hRcwhAM/Fm+lZvF/iUsyENRZWccFsMY1RBMtJHmEM6
-   TPBNLnt6IEZSO+0AAAgKR9CjYZxiV7gwpbCLeeQSGUggHnIWr5qJ0wCZb
-   7mcBSzvpE9Mqbu+Tp3188cC9ZVRfKuNMhpDxGbBLrapSB6/6vA9ht9LbQ
-   5lblx8rZrsl0PHOrIo68X1R3epITIPb1uxJQE1cdmwO/w2mcpvHJ23bho
-   Pj7zKqjCkt9JmgM4YEw/htKw0ZYiAPjNkZaq2cvJsG6/GEYFF29tn5vig
-   UTLHBi9D3QKd+S4ZgqDxjpyt4UWF1Q3Es2plqhFZM0kxW2BZLwBOSznvn
+  bh=sdeQGCyr/6RBTBZSYkpvRmADjOTqsbaOlHnGzWZq1Kg=;
+  b=hm4A7MNbcrV33itTVyWgE/+JyhUPfSS6dT/baRx0Zs49hNw7OAgsrHVl
+   q1qzq7IMwvnFcB5Pkvmkpyw67HywnmC8gGqkcQtpCxk7364Q0DJ1kjOdk
+   UI7QEKQCwNU5P8nF24FSJTsz4qKGLgd0cx12bouy77VeqYzbrsYyKPql2
+   YLYRc634BxKI9z7J94KETAi9zPPLvqKk/+v2E0ULx8WYH9ZLDFKhyH/U5
+   Ac/fR9A5chp58p5o3cG8wPWa1EE9ydwW88TloFFJCOWUHRQfhAG/wRbNZ
+   8rR6NmZokanMLWCtgUfMQgAEm1rPITzBYNbrsz/lVHJEirnDpb10AMLG4
    Q==;
-X-CSE-ConnectionGUID: X9Ooq+leT6GzwyVLOyum6A==
-X-CSE-MsgGUID: +tKDQR0SSyuVmZ28/2j5SQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="48054843"
+X-CSE-ConnectionGUID: gswvldUAR+C/Kyk9s5VO8A==
+X-CSE-MsgGUID: uZMA6kkJR96ldxikJl/iwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="48056737"
 X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="48054843"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 06:04:00 -0800
-X-CSE-ConnectionGUID: Oc/aELuVQbOzsuzoC/izoA==
-X-CSE-MsgGUID: OwtKc+KCSxeAkV7Sdk3Jzw==
+   d="scan'208";a="48056737"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 06:16:02 -0800
+X-CSE-ConnectionGUID: L+gnH5aWTuaDbJXjzZ8Dnw==
+X-CSE-MsgGUID: yBX6xaFBTq6yqYI26GrCcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="103219228"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104293021"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Jan 2025 06:03:56 -0800
+  by orviesa008.jf.intel.com with ESMTP; 09 Jan 2025 06:15:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVt8c-000Hdb-0Z;
-	Thu, 09 Jan 2025 14:03:54 +0000
-Date: Thu, 9 Jan 2025 22:03:21 +0800
+	id 1tVtKF-000Hel-1g;
+	Thu, 09 Jan 2025 14:15:55 +0000
+Date: Thu, 9 Jan 2025 22:14:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Dmitry V. Levin" <ldv@strace.io>, Oleg Nesterov <oleg@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Eugene Syromyatnikov <evgsyr@gmail.com>,
-	Mike Frysinger <vapier@gentoo.org>,
-	Renzo Davoli <renzo@cs.unibo.it>,
-	Davide Berardi <berardi.dav@gmail.com>,
-	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH 5/6] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-Message-ID: <202501092150.9BH2s9AO-lkp@intel.com>
-References: <20250107230456.GE30633@strace.io>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Laight <david.laight@aculab.com>,
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: Re: [PATCH] fortify: turn strlen() into an inline function using
+ __builtin_constant_p()
+Message-ID: <202501092158.Gp5vNOZy-lkp@intel.com>
+References: <20250108-strlen_use_builtin_constant_p-v1-1-611b52e80a9f@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,144 +70,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250107230456.GE30633@strace.io>
+In-Reply-To: <20250108-strlen_use_builtin_constant_p-v1-1-611b52e80a9f@wanadoo.fr>
 
-Hi Dmitry,
+Hi Vincent,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on openrisc/for-next]
-[also build test WARNING on powerpc/next powerpc/fixes s390/features uml/next jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master vgupta-arc/for-curr arm64/for-next/core linus/master uml/fixes tip/x86/core vgupta-arc/for-next v6.13-rc6 next-20250109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 9d89551994a430b50c4fffcb1e617a057fa76e20]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-V-Levin/Revert-arch-remove-unused-function-syscall_set_arguments/20250108-070658
-base:   https://github.com/openrisc/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250107230456.GE30633%40strace.io
-patch subject: [PATCH 5/6] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-config: mips-randconfig-r122-20250109 (https://download.01.org/0day-ci/archive/20250109/202501092150.9BH2s9AO-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250109/202501092150.9BH2s9AO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/fortify-turn-strlen-into-an-inline-function-using-__builtin_constant_p/20250108-223159
+base:   9d89551994a430b50c4fffcb1e617a057fa76e20
+patch link:    https://lore.kernel.org/r/20250108-strlen_use_builtin_constant_p-v1-1-611b52e80a9f%40wanadoo.fr
+patch subject: [PATCH] fortify: turn strlen() into an inline function using __builtin_constant_p()
+config: x86_64-randconfig-001-20250109 (https://download.01.org/0day-ci/archive/20250109/202501092158.Gp5vNOZy-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501092158.Gp5vNOZy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501092150.9BH2s9AO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501092158.Gp5vNOZy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/ptrace.c:55:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/ptrace.c:55:22: sparse:    struct task_struct *
-   kernel/ptrace.c:55:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/ptrace.c:74:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *parent @@     got struct task_struct *new_parent @@
-   kernel/ptrace.c:74:23: sparse:     expected struct task_struct [noderef] __rcu *parent
-   kernel/ptrace.c:74:23: sparse:     got struct task_struct *new_parent
-   kernel/ptrace.c:75:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const [noderef] __rcu *ptracer_cred @@     got struct cred const * @@
-   kernel/ptrace.c:75:29: sparse:     expected struct cred const [noderef] __rcu *ptracer_cred
-   kernel/ptrace.c:75:29: sparse:     got struct cred const *
-   kernel/ptrace.c:129:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const *old_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
-   kernel/ptrace.c:129:18: sparse:     expected struct cred const *old_cred
-   kernel/ptrace.c:129:18: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
-   kernel/ptrace.c:133:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:133:25: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:133:25: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:160:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:160:27: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:160:27: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:192:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:192:28: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:192:28: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:198:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:198:30: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:198:30: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:251:44: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/ptrace.c:251:44: sparse:    struct task_struct [noderef] __rcu *
-   kernel/ptrace.c:251:44: sparse:    struct task_struct *
-   kernel/ptrace.c:494:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
-   kernel/ptrace.c:494:54: sparse:     expected struct task_struct *parent
-   kernel/ptrace.c:494:54: sparse:     got struct task_struct [noderef] __rcu *parent
-   kernel/ptrace.c:502:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/ptrace.c:502:53: sparse:     expected struct task_struct *new_parent
-   kernel/ptrace.c:502:53: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/ptrace.c:550:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/ptrace.c:550:41: sparse:     expected struct task_struct *p1
-   kernel/ptrace.c:550:41: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/ptrace.c:552:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sigh @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   kernel/ptrace.c:552:50: sparse:     expected struct sighand_struct *sigh
-   kernel/ptrace.c:552:50: sparse:     got struct sighand_struct [noderef] __rcu *sighand
-   kernel/ptrace.c:743:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:743:37: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:743:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:751:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:751:39: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:751:39: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:862:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:862:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:862:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:866:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:866:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:866:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:1206:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:1206:37: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:1206:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:1208:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:1208:39: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:1208:39: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c: note: in included file (through include/linux/fwnode.h, include/linux/logic_pio.h, include/asm-generic/io.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   kernel/ptrace.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:751:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:751:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:751:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:380:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *l @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:380:30: sparse:     expected struct spinlock [usertype] *l
-   kernel/ptrace.c:380:30: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:409:12: sparse: sparse: context imbalance in 'ptrace_attach' - different lock contexts for basic block
-   kernel/ptrace.c:500:38: sparse: sparse: dereference of noderef expression
-   kernel/ptrace.c: note: in included file (through include/linux/fwnode.h, include/linux/logic_pio.h, include/asm-generic/io.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   kernel/ptrace.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:751:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:751:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:751:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:690:9: sparse: sparse: context imbalance in 'ptrace_getsiginfo' - different lock contexts for basic block
-   include/linux/sched/signal.h:751:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:751:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:751:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:706:9: sparse: sparse: context imbalance in 'ptrace_setsiginfo' - different lock contexts for basic block
-   kernel/ptrace.c: note: in included file:
-   arch/mips/include/asm/syscall.h:85:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int const [noderef] __user *__p @@     got int * @@
-   arch/mips/include/asm/syscall.h:85:25: sparse:     expected int const [noderef] __user *__p
-   arch/mips/include/asm/syscall.h:85:25: sparse:     got int *
->> arch/mips/include/asm/syscall.h:121:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int [noderef] __user *__p @@     got int * @@
-   arch/mips/include/asm/syscall.h:121:25: sparse:     expected int [noderef] __user *__p
-   arch/mips/include/asm/syscall.h:121:25: sparse:     got int *
-   kernel/ptrace.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:751:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:751:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:751:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:751:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:751:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:751:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:1369:9: sparse: sparse: context imbalance in 'ptrace_request' - different lock contexts for basic block
+All errors (new ones prefixed by >>):
 
-vim +121 arch/mips/include/asm/syscall.h
+   In file included from scripts/mod/devicetable-offsets.c:3:
+   In file included from include/linux/mod_devicetable.h:14:
+   In file included from include/linux/uuid.h:11:
+   In file included from include/linux/string.h:389:
+>> include/linux/fortify-string.h:272:17: error: redeclaration of 'strlen' must not have the 'overloadable' attribute
+     272 | __kernel_size_t strlen(const char *p)
+         |                 ^
+   include/linux/string.h:200:24: note: previous unmarked overload of function is here
+     200 | extern __kernel_size_t strlen(const char *);
+         |                        ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:102: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1556232066
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1262: prepare0] Error 2 shuffle=1556232066
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1556232066
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1556232066
+   make: Target 'prepare' not remade because of errors.
 
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  116  
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  117  #ifdef CONFIG_64BIT
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  118  	case 4: case 5: case 6: case 7:
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  119  #ifdef CONFIG_MIPS32_O32
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  120  		if (test_tsk_thread_flag(task, TIF_32BIT_REGS))
-307e4cb2957c2f Dmitry V. Levin 2025-01-08 @121  			put_user(*arg, (int *)usp + n);
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  122  		else
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  123  #endif
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  124  			regs->regs[4 + n] = *arg;
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  125  
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  126  		return;
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  127  #endif
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  128  	}
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  129  }
-307e4cb2957c2f Dmitry V. Levin 2025-01-08  130  
+
+vim +272 include/linux/fortify-string.h
+
+   257	
+   258	/**
+   259	 * strlen - Return count of characters in a NUL-terminated string
+   260	 *
+   261	 * @p: pointer to NUL-terminated string to count.
+   262	 *
+   263	 * Do not use this function unless the string length is known at
+   264	 * compile-time. When @p is unterminated, this function may crash
+   265	 * or return unexpected counts that could lead to memory content
+   266	 * exposures. Prefer strnlen().
+   267	 *
+   268	 * Returns number of characters in @p (NOT including the final NUL).
+   269	 *
+   270	 */
+   271	__FORTIFY_INLINE __diagnose_as(__builtin_strlen, 1)
+ > 272	__kernel_size_t strlen(const char *p)
+   273	{
+   274		if (__builtin_constant_p(__builtin_strlen(p)))
+   275			return __builtin_strlen(p);
+   276		return __fortify_strlen(p);
+   277	}
+   278	
 
 -- 
 0-DAY CI Kernel Test Service
