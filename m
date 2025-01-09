@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000CF84039
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 20:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5892E19A28D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 21:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736455880; cv=none; b=JcmTuKBm62o6gnDSlDMDBRZavKF6Ql6hM6eTJr/Wij01pD0QUx4dNNUJ7iT3HdFhBdAdTB8cBkRpiAOgJUSfJG4AffNlwFiyIMKQNM5h60iIkBAY+0meZUHcUdd5oL+XHJ/l0xFjhM2iUelVsLWNLy9zq2Cv4Ck9S4mCWJuIaWI=
+	t=1736456602; cv=none; b=gNBJdoGeSKiWi0JRvafk0DSUh4P8fKwbeUAoyVcmhwy+QnugLNElbHebzV1OctA9s3akHYY7skhu0l1dBYAdpaTTuE23k8ghHZWeBeJ4eg2OqQj6AkIEPEKJfPZNz/EtzrLH1BjbBWlYdMFdOwoKU3ACfygguL+iQgR1wg6cySI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736455880; c=relaxed/simple;
-	bh=sZXkGALJC0H+43H4OY+2xnU3UV+VsfhSliLnrZjfJgs=;
+	s=arc-20240116; t=1736456602; c=relaxed/simple;
+	bh=ULjB5IbcbiHpA9dXjd720m4BZQpOPc5nrJKVP3ppMQs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Yi9QzzdTB/8DkIzO4QXjz5Ki5PkRKOY/qXUd9Ary68+jeivIQdFxVd0abvRbMmTCHfQchqveNuWXiihR2sVkkFOys2kJ7B32BiJeHk+DKwVS13snjomvsAl25UViPNesvjTcCRgIqZkNhIwLwO/YfMW5BBcHj/6iVMcJuOV+jtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkeccRmQ; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=rEQg6rwRoffVWjjGl+15kbwT9ED2XAg26KLYb+u58GB1EvvMGaBM5gTLDW9JWKnJ8/cIkpB4265cj/lLFGRdwrCU4WSYHAy14wf/IfYeWDrh0SfL05v1cJ996wdRTR96rI0YigtfFE+5UFXMKqioqbSAudzwxtxqFmUAQKmJ4Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhxgPZGl; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkeccRmQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhxgPZGl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736455878; x=1767991878;
+  t=1736456601; x=1767992601;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sZXkGALJC0H+43H4OY+2xnU3UV+VsfhSliLnrZjfJgs=;
-  b=RkeccRmQrbBiiefNEtsqx/sRSOmuys3GNoDuPJam/R1aOe2aJPjEos56
-   CCSDSlirMWh+TF7QTYcPGP48Y+3B/oGJiTe4TDOCC7uKo1R8bsDJm9Gkb
-   9VInxFjtN62B9/7QZO+tsXeBMJqes+FpoqjUxQN3lqOAF22ZHoePTQ8d3
-   wrQZ0eaZJHPMHowPdIaPMXFV7CiGjPr606DaXd8hemv5QlXX769lPSbmz
-   F7YRs98Cvza9HmlYBKrC8oKh3B0E7/d/mwS4KgEkbb4A+D8hAYetcdxZD
-   DABWHYpy9xGM3ZkFFgRv7wtRaIonwPu6NmgutZ46oxffqYM1/8ktO6Ebf
+  bh=ULjB5IbcbiHpA9dXjd720m4BZQpOPc5nrJKVP3ppMQs=;
+  b=GhxgPZGlIIbZg8btMj50b6SbUtCL2BMWllReYfsu0Ly8IHb61CoikRLh
+   OPUGi3urpUll7kvC3logQxbQ0THqx4VmPDB/ki8zrX0Rvlib48FBR1/2i
+   B5FhUMqMvt9QuoDY6OLkRedqms6wpilOFlNEs/Xs0BoF5frhLAvHgZUYS
+   hoK3uWcJnEU2SB+qR3lYy7RZ3PCzCIMB289lAvI+wxsD8Lv0DsClcaTbm
+   DqwglriypxzahzFrkysW/wGS3OoSed6MS2Rrk6g2PQTGNZAwGiiqJtFH7
+   Uv71paqYjXIiuEfK6PAnmTmi4kCiBJgjzryQ9d2abYq+hRjWJCzjvOOCt
    A==;
-X-CSE-ConnectionGUID: HHdJPQT8RpeOefBB2axjdA==
-X-CSE-MsgGUID: ZnO+eGvYTEGuufge0AmtwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36758384"
+X-CSE-ConnectionGUID: 42Y6DYpaR6eg+vLyOEuVUg==
+X-CSE-MsgGUID: 3bi94lwvTZmOEI7g/zaO6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36623883"
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="36758384"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 12:51:18 -0800
-X-CSE-ConnectionGUID: u/H2dQ8qSGWFuHPgZspacA==
-X-CSE-MsgGUID: UTXhJtqgSi+YnxZvpC2j+w==
+   d="scan'208";a="36623883"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 13:03:20 -0800
+X-CSE-ConnectionGUID: sLBhDsNsQ3WHERvcExZ3Zg==
+X-CSE-MsgGUID: VGnp6A2cSXOvnjU/Sqqleg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108620197"
+X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
+   d="scan'208";a="103490727"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Jan 2025 12:51:16 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jan 2025 13:03:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVzUo-000I7v-0s;
-	Thu, 09 Jan 2025 20:51:14 +0000
-Date: Fri, 10 Jan 2025 04:50:59 +0800
+	id 1tVzgR-000I8d-30;
+	Thu, 09 Jan 2025 21:03:15 +0000
+Date: Fri, 10 Jan 2025 05:02:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1402/1402] block/blk-mq-sched.c:219:5:
- warning: no previous prototype for '__blk_mq_sched_dispatch_requests'
-Message-ID: <202501100428.rcoZkFtm-lkp@intel.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>
+Subject: fs/efivarfs/vars.c:375: warning: Function parameter or struct member
+ 'duplicate_check' not described in 'efivar_init'
+Message-ID: <202501100429.RSwlJMm0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +63,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   97f98c391a1fd153ae010a2faf73f9e03270da6e
-commit: c1ea82c0ddde70d5998c2f547520afbee10bea2a [1402/1402] block: Limit number of items taken from the I/O scheduler in one go
-config: x86_64-buildonly-randconfig-006-20250109 (https://download.01.org/0day-ci/archive/20250110/202501100428.rcoZkFtm-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+head:   5e948d5cefebebe2315faf356d7b5180144b17b0
+commit: 43039cdd1a14ed12c7b506a2d78c7fa708444b06 efivarfs: add variable resync after hibernation
+date:   11 hours ago
+config: x86_64-buildonly-randconfig-002-20250109 (https://download.01.org/0day-ci/archive/20250110/202501100429.RSwlJMm0-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100428.rcoZkFtm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100429.RSwlJMm0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501100428.rcoZkFtm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501100429.RSwlJMm0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/blk-mq-sched.c:219:5: warning: no previous prototype for '__blk_mq_sched_dispatch_requests' [-Wmissing-prototypes]
-     219 | int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/efivarfs/vars.c:375: warning: Function parameter or struct member 'duplicate_check' not described in 'efivar_init'
 
 
-vim +/__blk_mq_sched_dispatch_requests +219 block/blk-mq-sched.c
+vim +375 fs/efivarfs/vars.c
 
-   218	
- > 219	int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
-   220	{
-   221		struct request_queue *q = hctx->queue;
-   222		struct elevator_queue *e = q->elevator;
-   223		const bool has_sched_dispatch = e && e->type->ops.mq.dispatch_request;
-   224		int ret = 0;
-   225		LIST_HEAD(rq_list);
-   226	
-   227		/*
-   228		 * If we have previous entries on our dispatch list, grab them first for
-   229		 * more fair dispatch.
-   230		 */
-   231		if (!list_empty_careful(&hctx->dispatch)) {
-   232			spin_lock(&hctx->lock);
-   233			if (!list_empty(&hctx->dispatch))
-   234				list_splice_init(&hctx->dispatch, &rq_list);
-   235			spin_unlock(&hctx->lock);
-   236		}
-   237	
-   238		/*
-   239		 * Only ask the scheduler for requests, if we didn't have residual
-   240		 * requests from the dispatch list. This is to avoid the case where
-   241		 * we only ever dispatch a fraction of the requests available because
-   242		 * of low device queue depth. Once we pull requests out of the IO
-   243		 * scheduler, we can no longer merge or sort them. So it's best to
-   244		 * leave them there for as long as we can. Mark the hw queue as
-   245		 * needing a restart in that case.
-   246		 *
-   247		 * We want to dispatch from the scheduler if there was nothing
-   248		 * on the dispatch list or we were able to dispatch from the
-   249		 * dispatch list.
-   250		 */
-   251		if (!list_empty(&rq_list)) {
-   252			blk_mq_sched_mark_restart_hctx(hctx);
-   253			if (blk_mq_dispatch_rq_list(q, &rq_list, false)) {
-   254				if (has_sched_dispatch)
-   255					ret = blk_mq_do_dispatch_sched(hctx);
-   256				else
-   257					ret = blk_mq_do_dispatch_ctx(hctx);
-   258			}
-   259		} else if (has_sched_dispatch) {
-   260			ret = blk_mq_do_dispatch_sched(hctx);
-   261		} else if (hctx->dispatch_busy) {
-   262			/* dequeue request one by one from sw queue if queue is busy */
-   263			ret = blk_mq_do_dispatch_ctx(hctx);
-   264		} else {
-   265			blk_mq_flush_busy_ctxs(hctx, &rq_list);
-   266			blk_mq_dispatch_rq_list(q, &rq_list, false);
-   267		}
-   268	
-   269		return ret;
-   270	}
-   271	
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  362  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  363  /**
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  364   * efivar_init - build the initial list of EFI variables
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  365   * @func: callback function to invoke for every variable
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  366   * @data: function-specific data to pass to @func
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  367   *
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  368   * Get every EFI variable from the firmware and invoke @func. @func
+b538f1e229e58c James Bottomley 2025-01-06  369   * should populate the initial dentry and inode tree.
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  370   *
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  371   * Returns 0 on success, or a kernel error code on failure.
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  372   */
+b538f1e229e58c James Bottomley 2025-01-06  373  int efivar_init(int (*func)(efi_char16_t *, efi_guid_t, unsigned long, void *),
+43039cdd1a14ed James Bottomley 2025-01-07  374  		void *data, bool duplicate_check)
+2d82e6227ea189 Ard Biesheuvel  2022-06-20 @375  {
+f45812cc23fb74 Tim Schumacher  2024-01-26  376  	unsigned long variable_name_size = 512;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  377  	efi_char16_t *variable_name;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  378  	efi_status_t status;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  379  	efi_guid_t vendor_guid;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  380  	int err = 0;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  381  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  382  	variable_name = kzalloc(variable_name_size, GFP_KERNEL);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  383  	if (!variable_name) {
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  384  		printk(KERN_ERR "efivars: Memory allocation failed.\n");
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  385  		return -ENOMEM;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  386  	}
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  387  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  388  	err = efivar_lock();
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  389  	if (err)
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  390  		goto free;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  391  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  392  	/*
+f45812cc23fb74 Tim Schumacher  2024-01-26  393  	 * A small set of old UEFI implementations reject sizes
+f45812cc23fb74 Tim Schumacher  2024-01-26  394  	 * above a certain threshold, the lowest seen in the wild
+f45812cc23fb74 Tim Schumacher  2024-01-26  395  	 * is 512.
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  396  	 */
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  397  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  398  	do {
+f45812cc23fb74 Tim Schumacher  2024-01-26  399  		variable_name_size = 512;
+cda30c6542c8bb Tim Schumacher  2024-03-28  400  		BUILD_BUG_ON(EFI_VAR_NAME_LEN < 512);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  401  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  402  		status = efivar_get_next_variable(&variable_name_size,
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  403  						  variable_name,
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  404  						  &vendor_guid);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  405  		switch (status) {
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  406  		case EFI_SUCCESS:
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  407  			variable_name_size = var_name_strnsize(variable_name,
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  408  							       variable_name_size);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  409  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  410  			/*
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  411  			 * Some firmware implementations return the
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  412  			 * same variable name on multiple calls to
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  413  			 * get_next_variable(). Terminate the loop
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  414  			 * immediately as there is no guarantee that
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  415  			 * we'll ever see a different variable name,
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  416  			 * and may end up looping here forever.
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  417  			 */
+43039cdd1a14ed James Bottomley 2025-01-07  418  			if (duplicate_check &&
+43039cdd1a14ed James Bottomley 2025-01-07  419  			    efivarfs_variable_is_present(variable_name,
+4ec7bd5db9a1f6 James Bottomley 2025-01-06  420  							 &vendor_guid, data)) {
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  421  				dup_variable_bug(variable_name, &vendor_guid,
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  422  						 variable_name_size);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  423  				status = EFI_NOT_FOUND;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  424  			} else {
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  425  				err = func(variable_name, vendor_guid,
+b538f1e229e58c James Bottomley 2025-01-06  426  					   variable_name_size, data);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  427  				if (err)
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  428  					status = EFI_NOT_FOUND;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  429  			}
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  430  			break;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  431  		case EFI_UNSUPPORTED:
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  432  			err = -EOPNOTSUPP;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  433  			status = EFI_NOT_FOUND;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  434  			break;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  435  		case EFI_NOT_FOUND:
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  436  			break;
+f45812cc23fb74 Tim Schumacher  2024-01-26  437  		case EFI_BUFFER_TOO_SMALL:
+f45812cc23fb74 Tim Schumacher  2024-01-26  438  			pr_warn("efivars: Variable name size exceeds maximum (%lu > 512)\n",
+f45812cc23fb74 Tim Schumacher  2024-01-26  439  				variable_name_size);
+f45812cc23fb74 Tim Schumacher  2024-01-26  440  			status = EFI_NOT_FOUND;
+f45812cc23fb74 Tim Schumacher  2024-01-26  441  			break;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  442  		default:
+f45812cc23fb74 Tim Schumacher  2024-01-26  443  			pr_warn("efivars: get_next_variable: status=%lx\n", status);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  444  			status = EFI_NOT_FOUND;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  445  			break;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  446  		}
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  447  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  448  	} while (status != EFI_NOT_FOUND);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  449  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  450  	efivar_unlock();
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  451  free:
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  452  	kfree(variable_name);
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  453  
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  454  	return err;
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  455  }
+2d82e6227ea189 Ard Biesheuvel  2022-06-20  456  
+
+:::::: The code at line 375 was first introduced by commit
+:::::: 2d82e6227ea189c0589e7383a36616ac2a2d248c efi: vars: Move efivar caching layer into efivarfs
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
