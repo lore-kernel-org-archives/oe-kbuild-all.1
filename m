@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00435220689
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jan 2025 16:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6082206B6;
+	Thu,  9 Jan 2025 16:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736439089; cv=none; b=QDINjsGgfK83JT7lyvlIx4qI5i0ooWq9rcYeTYPCmV8JieXV/Oqi0IbxkTMORYVJG594TEfmhk7UEopf0BmYuG35x0kCnGNYp/xkLwIx7mto5w8/x9mFY3uw4dBWmq3jHuKnExpXux4fe7KIZYdyTwrUo4ha2QDbpr4G9K6scfY=
+	t=1736439093; cv=none; b=rEX9JJrY2qLeDfG/IJHJHKqNwRjhqovJLiRHNF+rtxnA6D4QNbqB3qZJmTmpZDCt5qkTPRfW6Es+POsLoIe3m0fX5BCei6Hd8r1QoqrrUOm85buzMUlwqTj0iiafpWbRfQ7K9u7+rYRJbu7PpNVAsj3e2e6+xA8hZWd//R9TlSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736439089; c=relaxed/simple;
-	bh=4g9kAem5pxXiW36ntgW2Y2R69oEKqwCsbvaxmhdkX+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V9gWsGJMfGUH3MFhRmXYY23RUjsle0wVSlnwX8nMe93dGJy6yJ1aMM4rlUsgNlAh38mUgIOpGtlzRX5Y7mc1dpQppovDF/mw8v7R8XV8aS/CLafwbYFduT1zvSCoFaPrExBxPprh4qp9h2mXdb414KtoWDAakZuKQ4KNpdtGIFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eAkaLvcn; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1736439093; c=relaxed/simple;
+	bh=Emqtas35W+tRsMR+yz4iHAA5AcQzA9KyA6DL+J/Iba0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dhCkE8pyiGvzeCVDiuFEcu7Nr7/XFQIFCJeDgMApEP4KjPhKMvZak/KqkK4Vbt7bzsONwDKlS0MVFXWhjgv+gYh+MfzJ0o6lKtCV+8ek0Imfx5Y63sejfjd8TBrX7bg1d+wSLR++JOU5czM27QnJgJtqL4hDwEoUVsZR6nsnHNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P57MYNCT; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eAkaLvcn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P57MYNCT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736439088; x=1767975088;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4g9kAem5pxXiW36ntgW2Y2R69oEKqwCsbvaxmhdkX+U=;
-  b=eAkaLvcnI5CRajEtrahBBNdBYKPHZRzYLvPolmji2zIsvp1OfGkUcBB1
-   LxRej2K6N7Sh1MyVdcXJwAWKQVghfgwXnE6DCA/CFHW2ZRODnw05JNlcm
-   uqdI3P8lhGUKWf6eZm+VGxdM7I2kWz+GdHmXyyj5LN5vLQqNsrPnyts+G
-   dDn19Fjbo7HrgI76dYuvUxBkf2sGRd//3Qpgc7lQt9FgmzZnOmhUSxqLF
-   xgZeZUWciKqRqcomQ4BQXqwf3vw4LzS4c+KNEUnZ6h6Rd9HHWIvjLZT6G
-   tHeVC0SnLDdclT5I3GSHz8EAt/UlA9yuD397RhWIWj7ctfr/t677muUKL
-   Q==;
-X-CSE-ConnectionGUID: GFSJ2v6GQ7G/ebiXCduzeg==
-X-CSE-MsgGUID: b8xV9sGuTbaN5bK2e1sJvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="40388654"
+  t=1736439092; x=1767975092;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Emqtas35W+tRsMR+yz4iHAA5AcQzA9KyA6DL+J/Iba0=;
+  b=P57MYNCT0nJ/zTTiukr5+JMnSzp4yrjFDY/b2maum3RzCtjrHHQBTpnQ
+   C3nn26s+3yxDxXfsLMUq1LzCuiaKc4BgapHx1peKrpghem+yplRcnH0NX
+   j110dFJhfB/YGcaU0J3CIMYP/zhAjfIAvsbVAe1HQIB3Xwz7Pp8IRMHKr
+   YxAqvD2KB310aIjOp7cnQnrRN6nmCRvh7qw4Oz1OCz6To/MLzUEQx0H/r
+   Dkghqq6g26SBFXO+hdNHJhX83hlYQrukhGw0840REU9ffVUtN1Br/NONc
+   jNEdwf247h2nSDuDh6KxOKINEDjCA5hogwQim3swrS0kheb2/CvMcg6Ke
+   w==;
+X-CSE-ConnectionGUID: SxZ4Fk19Rf2YpZqMi5fLrA==
+X-CSE-MsgGUID: FxuOATJES7iK4q+na0iAZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="47286541"
 X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="40388654"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 08:11:27 -0800
-X-CSE-ConnectionGUID: IqtHXgF3TXOVupFk6WRq5g==
-X-CSE-MsgGUID: vh9VmKmnRG2GyFk3r7sjgg==
+   d="scan'208";a="47286541"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 08:11:29 -0800
+X-CSE-ConnectionGUID: t7AQ2IhHQ4ifJgb5sRam5A==
+X-CSE-MsgGUID: 40E7aMoRT8+QB5GezzapYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103328857"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="103257370"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Jan 2025 08:11:26 -0800
+  by orviesa009.jf.intel.com with ESMTP; 09 Jan 2025 08:11:27 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVv80-000Hnn-0C;
+	id 1tVv80-000Hnf-00;
 	Thu, 09 Jan 2025 16:11:24 +0000
-Date: Fri, 10 Jan 2025 00:10:26 +0800
+Date: Fri, 10 Jan 2025 00:10:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1402/1402] block/bio-integrity.c:41:6:
- warning: no previous prototype for '__bio_integrity_free'
-Message-ID: <202501100043.2OiyDpsd-lkp@intel.com>
+To: Toshiyuki Sato <fj6611ie@aa.jp.fujitsu.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, fj6611ie@aa.jp.fujitsu.com
+Subject: Re: [PATCH] serial: amba-pl011: Implement nbcon console
+Message-ID: <202501092316.bZPuAcFC-lkp@intel.com>
+References: <20250108004730.2302996-1-fj6611ie@aa.jp.fujitsu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,41 +67,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250108004730.2302996-1-fj6611ie@aa.jp.fujitsu.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   97f98c391a1fd153ae010a2faf73f9e03270da6e
-commit: f9c4e7b09f7d51f9256fe51b9c40657cd7302530 [1402/1402] block: release bip in a right way in error path
-config: x86_64-buildonly-randconfig-006-20250109 (https://download.01.org/0day-ci/archive/20250110/202501100043.2OiyDpsd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100043.2OiyDpsd-lkp@intel.com/reproduce)
+Hi Toshiyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tty/tty-linus]
+[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.13-rc6]
+[cannot apply to tty/tty-testing tty/tty-next next-20250109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Toshiyuki-Sato/serial-amba-pl011-Implement-nbcon-console/20250108-085122
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-linus
+patch link:    https://lore.kernel.org/r/20250108004730.2302996-1-fj6611ie%40aa.jp.fujitsu.com
+patch subject: [PATCH] serial: amba-pl011: Implement nbcon console
+config: arm64-randconfig-002-20250109 (https://download.01.org/0day-ci/archive/20250109/202501092316.bZPuAcFC-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501092316.bZPuAcFC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501100043.2OiyDpsd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501092316.bZPuAcFC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> block/bio-integrity.c:41:6: warning: no previous prototype for '__bio_integrity_free' [-Wmissing-prototypes]
-      41 | void __bio_integrity_free(struct bio_set *bs, struct bio_integrity_payload *bip)
-         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/tty/serial/amba-pl011.c:30:
+   In file included from include/linux/amba/bus.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/tty/serial/amba-pl011.c:2851:4: error: call to undeclared function 'pl011_console_switch_to_nbcon'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2851 |                         pl011_console_switch_to_nbcon(amba_reg.cons);
+         |                         ^
+   3 warnings and 1 error generated.
 
 
-vim +/__bio_integrity_free +41 block/bio-integrity.c
+vim +/pl011_console_switch_to_nbcon +2851 drivers/tty/serial/amba-pl011.c
 
-    40	
-  > 41	void __bio_integrity_free(struct bio_set *bs, struct bio_integrity_payload *bip)
-    42	{
-    43		if (bs && mempool_initialized(&bs->bio_integrity_pool)) {
-    44			if (bip->bip_vec)
-    45				bvec_free(&bs->bvec_integrity_pool, bip->bip_vec,
-    46					  bip->bip_slab);
-    47			mempool_free(bip, &bs->bio_integrity_pool);
-    48		} else {
-    49			kfree(bip);
-    50		}
-    51	}
-    52	
+  2839	
+  2840	static int pl011_register_port(struct uart_amba_port *uap)
+  2841	{
+  2842		int ret, i;
+  2843	
+  2844		/* Ensure interrupts from this UART are masked and cleared */
+  2845		pl011_write(0, uap, REG_IMSC);
+  2846		pl011_write(0xffff, uap, REG_ICR);
+  2847	
+  2848		if (!amba_reg.state) {
+  2849			/* Replaces the console descriptor if NBCON is selected. */
+  2850			if (amba_reg.cons && use_nbcon)
+> 2851				pl011_console_switch_to_nbcon(amba_reg.cons);
+  2852	
+  2853			ret = uart_register_driver(&amba_reg);
+  2854			if (ret < 0) {
+  2855				dev_err(uap->port.dev,
+  2856					"Failed to register AMBA-PL011 driver\n");
+  2857				for (i = 0; i < ARRAY_SIZE(amba_ports); i++)
+  2858					if (amba_ports[i] == uap)
+  2859						amba_ports[i] = NULL;
+  2860				return ret;
+  2861			}
+  2862		}
+  2863	
+  2864		ret = uart_add_one_port(&amba_reg, &uap->port);
+  2865		if (ret)
+  2866			pl011_unregister_port(uap);
+  2867	
+  2868		return ret;
+  2869	}
+  2870	
 
 -- 
 0-DAY CI Kernel Test Service
