@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9942066D4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 08:31:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60E5207DFD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 08:31:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736497890; cv=none; b=toLM4MsadZm1Jk+mHKhWSyKw4IsMwekqek3nYetQV1a02BNjm0/13q8wQfJmXLAMRHT53EW+NCAeawtsU6oMc/oI8bcOy/hbPdGTOt0MheQRRGXJIbNQcINwYlxok+2+SaBKTvLN/57oSso0CAzAbQiCRtxQEHyFw/ORanuGVo0=
+	t=1736497895; cv=none; b=bBBmKPuk6Fec0Dtme2Jn8vEUoqV62Vm8jNBTlZRUfRI6i5hOue1wfpHrOnqJsrKOjH5I7DnxwSaQ6Hgn68F2iAna+4RwP2VCK6tZnmHsY7G2IIXI0EGTAx802S5laxUmSQMfagJ21q1koa87jV5Hyey1KFoFZsqmYrpMzVAmvg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736497890; c=relaxed/simple;
-	bh=BiUnRWHBstg3E5fAXh8X+SvUmEMGVakBlCbn3kJOkzA=;
+	s=arc-20240116; t=1736497895; c=relaxed/simple;
+	bh=KPK6MLaM35zhiey2xmmBuWdkjZ06WauKuc83OcEcYPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gfG7GFW52qFTX6+fMMUoM/B7uSLvTrlmg0KWpVhn7sKshzCsw7wPev0BdMf0Umh8XAMb2KszZx+OtEap79yb1Azu0dBiIuvOgP6qzyWaZ6Zk4Fs9l636VCirE7jRvtD8m38ZES1jqVlNEE9ongO7nPS6ljxySv/YSOFsXX874sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFDE62ed; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=DgF3Fp9lVqViHOb4B2zcGmXVtY2jIdDkMUgekTvtDUp1TZ6/Xfkz00dE4lokIn5lSSafF9d/QiFBHP0j7i7jMs342gwfHD/9yQXFuF/oIP4Z1hwtrmE69rqzHhNDsY/b/0+4z5Qh6m2k+7kuaVKmGLs/eLxgct4ipl1NaQciSlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bdTobqUS; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFDE62ed"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bdTobqUS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736497887; x=1768033887;
+  t=1736497890; x=1768033890;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BiUnRWHBstg3E5fAXh8X+SvUmEMGVakBlCbn3kJOkzA=;
-  b=KFDE62ed7Fo2azAnNRrgkSnzG0N/Efd4Y9TmPT60swz96XZG51jVYjgO
-   +vn4PkIFFUWiB1k1Mj+p8W3nehhFKlMpqKeg34uV9RwJC5i5Y2o4GipC7
-   +QCjn2ArZbeu2DJW41s9gktd9Q9mRv3DNUT3Wj5hDNJBMUASasthfOjlw
-   itdMA0KJHtgJLtVntQ7GUNL6bpRnMLwW9lv6RmoEmUDjAMcMWcOQ31R3w
-   hmTQiErTTWe3qtkljVjaMhbcvyoOMlPCxFNfAQYeQML3OcdmRcDRQqmkY
-   +qGJuZrnQlRpayg2uvbCj40g6LeT7ebDwcibH81vgL10ytNOpp8qhoIPg
-   g==;
-X-CSE-ConnectionGUID: 5Ba30BgUTlSbztLeafxf9g==
-X-CSE-MsgGUID: jr8aP4GPSb+JomeDRP1TSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="59262852"
+  bh=KPK6MLaM35zhiey2xmmBuWdkjZ06WauKuc83OcEcYPk=;
+  b=bdTobqUSVEajXpSp/Z6hqVndwXZUEDJeKd0OUhdSAiov7GI13nqABW19
+   wBHriAQsQLYapbbnnnJX3Zx5txsFHRV4s1a9hVaoSJiaARy9947K1pIiZ
+   +PEthqCoHu331+VANbRoThgU0rwGcXOg8ifb0TQaaz3YvqjhYnfAljNLl
+   FIm7+3syEmZzHhLFtC48v9BOyxOhj3AtXMEvn5XqXvKqRLtkESks76gUc
+   afFSN26XGSYTCl8W0Gk3IWaDygtp1TH9uyxxja7oBDsS0TIomZKNezXnW
+   SR0La7TpPGHgrtYg9zJXZQQQ4Vr5/NU8VLnneAcdO/3dliiJUs+N/czau
+   Q==;
+X-CSE-ConnectionGUID: W+uLK0nST4SMk0y8+hlNyA==
+X-CSE-MsgGUID: +yi2ZJhqRReiCwAZWTWjJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="59262854"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="59262852"
+   d="scan'208";a="59262854"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 00:31:25 -0800
-X-CSE-ConnectionGUID: uuyaWQS9REi/yxwmBAoQHw==
-X-CSE-MsgGUID: kGm5Cz0FSTmZkzWkLLzAxw==
+X-CSE-ConnectionGUID: 0f7mvuFSTEy4jDN+o6Z3Jg==
+X-CSE-MsgGUID: 04C1Tg6pRSKLf8wJqhfLSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="103623516"
+   d="scan'208";a="103623514"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 10 Jan 2025 00:31:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWAQL-000IrT-3B;
+	id 1tWAQL-000IrP-32;
 	Fri, 10 Jan 2025 08:31:21 +0000
-Date: Fri, 10 Jan 2025 16:30:56 +0800
+Date: Fri, 10 Jan 2025 16:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1359/1359]
- drivers/scsi/spraid/spraid_main.o: warning: objtool: missing symbol for
- section .init.text
-Message-ID: <202501101652.3vzOXHJz-lkp@intel.com>
+To: Vishnu Sankar <vishnuocv@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>
+Subject: [hid:for-6.14/lenovo 1/1] drivers/hid/hid-lenovo.c:727:73: sparse:
+ sparse: incompatible types in conditional expression (different base types):
+Message-ID: <202501101635.qJrwAOwf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,27 +63,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   97f98c391a1fd153ae010a2faf73f9e03270da6e
-commit: bb9f019c483389f48183be55d92dbb21769fa55a [1359/1359] scsi:spraid: support Ramaxel's spraid driver
-config: x86_64-buildonly-randconfig-003-20241231 (https://download.01.org/0day-ci/archive/20250110/202501101652.3vzOXHJz-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.14/lenovo
+head:   84c9d2a968c8276f1ceddaa1526c803263eae2b4
+commit: 84c9d2a968c8276f1ceddaa1526c803263eae2b4 [1/1] HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd Fn keys
+config: i386-randconfig-062-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101635.qJrwAOwf-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101652.3vzOXHJz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101635.qJrwAOwf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501101652.3vzOXHJz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501101635.qJrwAOwf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-lenovo.c:727:73: sparse: sparse: incompatible types in conditional expression (different base types):
+   drivers/hid/hid-lenovo.c:727:73: sparse:    void
+   drivers/hid/hid-lenovo.c:727:73: sparse:    int
+>> drivers/hid/hid-lenovo.c:776:58: sparse: sparse: cast to restricted __le32
+   drivers/hid/hid-lenovo.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from drivers/scsi/spraid/spraid_main.c:25:
-   In file included from include/linux/blkdev.h:16:
-   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
-     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
->> drivers/scsi/spraid/spraid_main.o: warning: objtool: missing symbol for section .init.text
+vim +727 drivers/hid/hid-lenovo.c
+
+   702	
+   703	/* Function to handle Lenovo Thinkpad TAB X12's HID raw inputs for fn keys*/
+   704	static int lenovo_raw_event_TP_X12_tab(struct hid_device *hdev, u32 raw_data)
+   705	{
+   706		struct hid_input *hidinput;
+   707		struct input_dev *input = NULL;
+   708	
+   709		/* Iterate through all associated input devices */
+   710		list_for_each_entry(hidinput, &hdev->inputs, list) {
+   711			input = hidinput->input;
+   712			if (!input)
+   713				continue;
+   714	
+   715			switch (raw_data) {
+   716				/* fn-F20 being used here for MIC mute*/
+   717			case TP_X12_RAW_HOTKEY_FN_F4:
+   718				report_key_event(input, LENOVO_KEY_MICMUTE);
+   719				return 1;
+   720			/* Power-mode or Airplane mode will be called based on the device*/
+   721			case TP_X12_RAW_HOTKEY_FN_F8:
+   722				/*
+   723				 * TP X12 TAB uses Fn-F8 calls Airplanemode
+   724				 * Whereas TP X12 TAB2 uses Fn-F8 for toggling
+   725				 * Power modes
+   726				 */
+ > 727				(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
+   728					report_key_event(input, KEY_RFKILL) :
+   729					platform_profile_cycle();
+   730				return 1;
+   731			case TP_X12_RAW_HOTKEY_FN_F10:
+   732				/* TAB1 has PICKUP Phone and TAB2 use Snipping tool*/
+   733				(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
+   734				report_key_event(input, KEY_PICKUP_PHONE) :
+   735				report_key_event(input, KEY_SELECTIVE_SCREENSHOT);
+   736				return 1;
+   737			case TP_X12_RAW_HOTKEY_FN_F12:
+   738				/* BookMarks/STAR key*/
+   739				report_key_event(input, KEY_BOOKMARKS);
+   740				return 1;
+   741			case TP_X12_RAW_HOTKEY_FN_SPACE:
+   742				/* Keyboard LED backlight toggle*/
+   743				report_key_event(input, KEY_KBDILLUMTOGGLE);
+   744				return 1;
+   745			default:
+   746				break;
+   747			}
+   748		}
+   749		return 0;
+   750	}
+   751	
+   752	static int lenovo_raw_event(struct hid_device *hdev,
+   753				struct hid_report *report, u8 *data, int size)
+   754	{
+   755		/*
+   756		 * Compact USB keyboard's Fn-F12 report holds down many other keys, and
+   757		 * its own key is outside the usage page range. Remove extra
+   758		 * keypresses and remap to inside usage page.
+   759		 */
+   760		if (unlikely(hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD
+   761				&& size == 3
+   762				&& data[0] == 0x15
+   763				&& data[1] == 0x94
+   764				&& data[2] == 0x01)) {
+   765			data[1] = 0x00;
+   766			data[2] = 0x01;
+   767		}
+   768	
+   769		/*
+   770		 * Lenovo TP X12 Tab KBD's Fn+XX is HID raw data defined. Report ID is 0x03
+   771		 * e.g.: Raw data received for MIC mute is 0x00020003.
+   772		 */
+   773		if (unlikely((hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB
+   774				|| hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB2)
+   775				&& size >= 3 && report->id == 0x03))
+ > 776			return lenovo_raw_event_TP_X12_tab(hdev, le32_to_cpu(*(u32 *)data));
+   777	
+   778		return 0;
+   779	}
+   780	
 
 -- 
 0-DAY CI Kernel Test Service
