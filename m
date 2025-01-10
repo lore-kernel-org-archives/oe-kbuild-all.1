@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0369211A14
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 16:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05AF1FC114
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 16:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736525554; cv=none; b=lL+ST6y4yWZehbyRW51NByp7fx1JlbDvKoymWrS021B6TEEHCTHpcFeI+PPa+nPWN+2vHdkE/Q1/DeZIgv6XVXBzra8eiia3kaD4/kbeDuBKF9eGRpWym8LaWyrARq7Og82QUSnrhsucyLELGVyyvwYbo+cHAvfkZ/90glje0NI=
+	t=1736526816; cv=none; b=f+NxmWNQFf70O+D8o3Jd4kGILZsIdfe0SG+s9a2VoUNSiB/qKVs2MkAmUI5YcEaCdWdZe0vF7Ek6njHuZj+p/NSf4RR+tWI/yx2JXCPkD9IB6CzhoWB3HTs+zL+srHV61TZvaKBDLhubSqJrb89ofXvk9Hg/PjZb40gJ3h7mXNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736525554; c=relaxed/simple;
-	bh=QGkGx2LycFp/+RKZ2Mq6fbLRS75jFLGusMbPo3qaIGE=;
+	s=arc-20240116; t=1736526816; c=relaxed/simple;
+	bh=6eQNJW0dOh7uDnz7+gL0fk6Bp/PMjY1Y1MT+U/Q+6dc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M7fMI9ww8Diw7CMSF0t3vLlX/X+KVtVyhwgis0bY3XRkq14Hzj8CYhs4WczOCSmMFMP3szHN//18RFfEK5K8xn0wgON9YATT6itFoVFxFwbqyf5hf1v1nHRHZ7aADh7Lju4s5slT0fKpih+Ypqh0w60xtUo+GKzD4f8cVH3IatU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gjagC6V4; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Xes2PDUrcrITblxMOE1ncp8EpgSGqiRdvxJo/tuVeh8VqsrNFlIORr+G4v3Nw7sWNHhTJyVX6hHuQqOXL6cn16FeYSpnC2oIAMrAXawDInctHyCRkDpy7xuXcf6fT3YOHMeGJQuKdGxWkZxm9T+vWBK/ZZ7j0Uqk7pDsnDYSCM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YiVCqft1; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjagC6V4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YiVCqft1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736525553; x=1768061553;
+  t=1736526815; x=1768062815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QGkGx2LycFp/+RKZ2Mq6fbLRS75jFLGusMbPo3qaIGE=;
-  b=gjagC6V4YtCTuaFcPMIMu9myBX7D3Xic2Jf535GsQfI7pk0H5wDK5f84
-   ERWyhf7JW2idHrEJGHYVqbRF3lZyvesZbgtaY26wyd2mEDiN7Snq4eYza
-   m2fhDV5WOj3BonqhjCGf1FTkBspz+UPc86yEfGqBa6OozPY2HAiCfNn2v
-   x0bRp4Dy0c5E4M+OdrFSlJZfEhzB+yES6Pz/8MDTaioSmPn7GRmveyktR
-   KAF5YyOhL7OtSF6654QXSy7nISC9X6FORt8EmiWPQAubCiSy9PuqXPfnh
-   5GUUtRET8M/TgDpmCw0g1hyHG3NQL9nJvIDAFtifaM2UT1mW6Z3j0D7kE
-   g==;
-X-CSE-ConnectionGUID: VTskg5SeSgK7XKpf/YiVcQ==
-X-CSE-MsgGUID: n3lfMzJaTXemTb1voUzZLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="54364052"
+  bh=6eQNJW0dOh7uDnz7+gL0fk6Bp/PMjY1Y1MT+U/Q+6dc=;
+  b=YiVCqft1knqwLpNTTjeEejqAhjnDu4NUL+ixg2LifltrHHpIAWODZQJE
+   uVdSCSIQ/rzTLaYrKLpQTWVcFkoRh1FN52zd4Afd2udspeS2OBakN/Sqg
+   O1+H9JgpnLWv+WkSRNrkeSEVv0BBizLQp/ewUVWZSMjF+173CQxZ8KXlt
+   lNkQeIhgiDxT1aSV9jQ6cZ+gHKLcObhThj+LEOygICab7d9jjZw3okpOK
+   qCzKodr4fmVna5yCYDxv8ukVwRYbghlmXIQl4KQX4UhHMyYeh5Y+rmiE7
+   Lnec8bybI7EI5PKMmVW7WwGKqAHi9DIfCFTALJhM7EIVRwpApdJVZ4Lec
+   A==;
+X-CSE-ConnectionGUID: DJ+hVbr2RQyglS2Lr3x56Q==
+X-CSE-MsgGUID: oDfSZ6WGTASlbWiIDc3hyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="59304960"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="54364052"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 08:12:32 -0800
-X-CSE-ConnectionGUID: 6fZ1RQG3T0+nZBRcsEgpxw==
-X-CSE-MsgGUID: 9i0/kjQMStyA3rlTC6HPXg==
+   d="scan'208";a="59304960"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 08:33:34 -0800
+X-CSE-ConnectionGUID: W8j4MKw8SBKJa2LjInxXIw==
+X-CSE-MsgGUID: vDwGgJJrQvWG/W9bc1Llfw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108870775"
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="108687178"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jan 2025 08:12:31 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 10 Jan 2025 08:33:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWHca-000JSN-0o;
-	Fri, 10 Jan 2025 16:12:28 +0000
-Date: Sat, 11 Jan 2025 00:11:42 +0800
+	id 1tWHww-000JTv-1A;
+	Fri, 10 Jan 2025 16:33:30 +0000
+Date: Sat, 11 Jan 2025 00:33:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anirudha Sarangi <anirudha.sarangi@xilinx.com>
+To: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
 	Michal Simek <monstr@monstr.eu>,
-	Mubin Usman Sayyed <mubin.usman.sayyed@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:lkp_test 59/504]
- drivers/irqchip/irq-imx-mu-msi.c:440:61: error: macro
- "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
-Message-ID: <202501110057.NkVGrw5j-lkp@intel.com>
+	Radhey Shyam Pandey <radheys@xilinx.com>
+Subject: [xilinx-xlnx:lkp_test 70/504] drivers/dma/xilinx/vdmatest.c:89:
+ warning: expecting prototype for struct vdmatest_slave_thread. Prototype was
+ for struct xilinx_vdmatest_slave_thread instead
+Message-ID: <202501110054.HJmq2XdY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,101 +67,58 @@ Content-Disposition: inline
 
 tree:   https://github.com/Xilinx/linux-xlnx lkp_test
 head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
-commit: 14781d6a50ec5c5d2152f30447ccfc139e849d79 [59/504] irqchip: xilinx: Avoid __init macro usage for xilinx_intc_of_init
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250111/202501110057.NkVGrw5j-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110057.NkVGrw5j-lkp@intel.com/reproduce)
+commit: 4a3c6908ff0fc31948a14581241be863a4d2d876 [70/504] dmaengine: xilinx: Add vdmatest test client code
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250111/202501110054.HJmq2XdY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110054.HJmq2XdY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110057.NkVGrw5j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110054.HJmq2XdY-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/irqchip/irq-imx-mu-msi.c:440:61: error: macro "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
-     440 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-         |                                                             ^
-   In file included from drivers/irqchip/irq-imx-mu-msi.c:15:
-   include/linux/irqchip.h:68:9: note: macro "IRQCHIP_PLATFORM_DRIVER_END" defined here
-      68 | #define IRQCHIP_PLATFORM_DRIVER_END(drv_name)                           \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-imx-mu-msi.c:440:1: error: 'IRQCHIP_PLATFORM_DRIVER_END' undeclared here (not in a function)
-     440 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/module.h:22,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/acpi.h:14,
-                    from include/linux/irqchip.h:14:
->> include/linux/moduleparam.h:24:9: error: expected '}' before 'static'
-      24 |         static const char __UNIQUE_ID(name)[]                             \
-         |         ^~~~~~
-   include/linux/module.h:166:32: note: in expansion of macro '__MODULE_INFO'
-     166 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
-         |                                ^~~~~~~~~~~~~
-   include/linux/module.h:242:32: note: in expansion of macro 'MODULE_INFO'
-     242 | #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
-         |                                ^~~~~~~~~~~
-   drivers/irqchip/irq-imx-mu-msi.c:443:1: note: in expansion of macro 'MODULE_AUTHOR'
-     443 | MODULE_AUTHOR("Frank Li <Frank.Li@nxp.com>");
-         | ^~~~~~~~~~~~~
-   include/linux/irqchip.h:45:69: note: to match this '{'
-      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
-         |                                                                     ^
-   drivers/irqchip/irq-imx-mu-msi.c:436:1: note: in expansion of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
-     436 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-imx-mu-msi.c:436:31: warning: 'imx_mu_msi_irqchip_match_table' defined but not used [-Wunused-const-variable=]
-     436 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-         |                               ^~~~~~~~~~
-   include/linux/irqchip.h:45:34: note: in definition of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
-      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
-         |                                  ^~~~~~~~
->> drivers/irqchip/irq-imx-mu-msi.c:413:32: warning: 'imx_mu_pm_ops' defined but not used [-Wunused-const-variable=]
-     413 | static const struct dev_pm_ops imx_mu_pm_ops = {
-         |                                ^~~~~~~~~~~~~
+>> drivers/dma/xilinx/vdmatest.c:89: warning: expecting prototype for struct vdmatest_slave_thread. Prototype was for struct xilinx_vdmatest_slave_thread instead
+>> drivers/dma/xilinx/vdmatest.c:101: warning: expecting prototype for struct vdmatest_chan. Prototype was for struct xilinx_vdmatest_chan instead
 
 
-vim +/IRQCHIP_PLATFORM_DRIVER_END +440 drivers/irqchip/irq-imx-mu-msi.c
+vim +89 drivers/dma/xilinx/vdmatest.c
 
-70afdab904d2d1 Frank Li 2022-09-22  412  
-70afdab904d2d1 Frank Li 2022-09-22 @413  static const struct dev_pm_ops imx_mu_pm_ops = {
-70afdab904d2d1 Frank Li 2022-09-22  414  	SET_RUNTIME_PM_OPS(imx_mu_runtime_suspend,
-70afdab904d2d1 Frank Li 2022-09-22  415  			   imx_mu_runtime_resume, NULL)
-70afdab904d2d1 Frank Li 2022-09-22  416  };
-70afdab904d2d1 Frank Li 2022-09-22  417  
-70afdab904d2d1 Frank Li 2022-09-22  418  static int __init imx_mu_imx7ulp_of_init(struct device_node *dn,
-70afdab904d2d1 Frank Li 2022-09-22  419  					 struct device_node *parent)
-70afdab904d2d1 Frank Li 2022-09-22  420  {
-70afdab904d2d1 Frank Li 2022-09-22  421  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx7ulp);
-70afdab904d2d1 Frank Li 2022-09-22  422  }
-70afdab904d2d1 Frank Li 2022-09-22  423  
-70afdab904d2d1 Frank Li 2022-09-22  424  static int __init imx_mu_imx6sx_of_init(struct device_node *dn,
-70afdab904d2d1 Frank Li 2022-09-22  425  					struct device_node *parent)
-70afdab904d2d1 Frank Li 2022-09-22  426  {
-70afdab904d2d1 Frank Li 2022-09-22  427  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx6sx);
-70afdab904d2d1 Frank Li 2022-09-22  428  }
-70afdab904d2d1 Frank Li 2022-09-22  429  
-70afdab904d2d1 Frank Li 2022-09-22  430  static int __init imx_mu_imx8ulp_of_init(struct device_node *dn,
-70afdab904d2d1 Frank Li 2022-09-22  431  					 struct device_node *parent)
-70afdab904d2d1 Frank Li 2022-09-22  432  {
-70afdab904d2d1 Frank Li 2022-09-22  433  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx8ulp);
-70afdab904d2d1 Frank Li 2022-09-22  434  }
-70afdab904d2d1 Frank Li 2022-09-22  435  
-70afdab904d2d1 Frank Li 2022-09-22 @436  IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-70afdab904d2d1 Frank Li 2022-09-22  437  IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
-70afdab904d2d1 Frank Li 2022-09-22  438  IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
-70afdab904d2d1 Frank Li 2022-09-22  439  IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
-70afdab904d2d1 Frank Li 2022-09-22 @440  IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-70afdab904d2d1 Frank Li 2022-09-22  441  
-70afdab904d2d1 Frank Li 2022-09-22  442  
-
-:::::: The code at line 440 was first introduced by commit
-:::::: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
-
-:::::: TO: Frank Li <Frank.Li@nxp.com>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+    69	
+    70	/**
+    71	 * struct vdmatest_slave_thread - VDMA test thread
+    72	 * @node: Thread node
+    73	 * @task: Task structure pointer
+    74	 * @tx_chan: Tx channel pointer
+    75	 * @rx_chan: Rx Channel pointer
+    76	 * @srcs: Source buffer
+    77	 * @dsts: Destination buffer
+    78	 * @type: DMA transaction type
+    79	 */
+    80	struct xilinx_vdmatest_slave_thread {
+    81		struct list_head node;
+    82		struct task_struct *task;
+    83		struct dma_chan *tx_chan;
+    84		struct dma_chan *rx_chan;
+    85		u8 **srcs;
+    86		u8 **dsts;
+    87		enum dma_transaction_type type;
+    88		bool done;
+  > 89	};
+    90	
+    91	/**
+    92	 * struct vdmatest_chan - VDMA Test channel
+    93	 * @node: Channel node
+    94	 * @chan: DMA channel pointer
+    95	 * @threads: List of VDMA test threads
+    96	 */
+    97	struct xilinx_vdmatest_chan {
+    98		struct list_head node;
+    99		struct dma_chan *chan;
+   100		struct list_head threads;
+ > 101	};
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
