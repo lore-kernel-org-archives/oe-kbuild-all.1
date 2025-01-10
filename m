@@ -1,89 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB8A205512
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 10:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CAD18787A;
+	Fri, 10 Jan 2025 11:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736506127; cv=none; b=R0OVfrT4UtwYfHhuK7PEaH8hZWmVmi4Vrf+TER5v4pbXwg3L/sNDuJU9in6P44JzW8hBJsaHS7jnxVu+GDaHS99URJNPZS/bu7wX3bH4G3fGW4frPUa0aNI6HG87LkSyzwJwm9e4DYbLg0lurhvvbOpSRpMpO1XBD61stdzmCsg=
+	t=1736507811; cv=none; b=gdXcIjjNU104mmA3wP9L8QaphBIwzbMOunxEQAmpMHqjzsu4RRvklj8211gQMReJAAfLGfBG38MDa/MSAHq088ROmyad4i0FdGfMk5KKDCRn7js8x85ddch0orj5jw6XrqtQrJRYjh+2YaGoPwlpDOmcDnB2L5HKi/vlsQfXdmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736506127; c=relaxed/simple;
-	bh=8UbyxEGzxGrKmnEXKWU5X0EhBYyltwhOR+qZ7CYftFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jfu07JP5WRWsreqUIY8syJZEqNt3JPLEwlkwRLio6slGndgZiBy3DiQc55t3NaM0xKwJifxrHZbYSAwyJHhK+TPV1V2CRLHUWQ6UXVgFoFNke4p43kMeXM7VEJYigvl76yZN4H03QYFJVRmAzETLRWLO89R+p89544+IjHIw/4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiM0FBOo; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736507811; c=relaxed/simple;
+	bh=n8qQb0zR1hYN5wtZf7LW+CHfwc3NWyAOaCCpLXVYVFI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O8e5BXBcdYEP8ksyAy7NfhPDRLwJlNzO3ftCpVHyVUtJGmS+Nup6LWoEjGywSsw2CNx/MUtyiteIpTQ8V/bUnTWBuZtetfEm3GcnUv5mS0AlFWXO+xvq/CHAwvUGos8TD4tG5PB8iK0xR16XpsX4US+npDsHEIS8XD5+tZeo4GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VaQ8J13U; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiM0FBOo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736506126; x=1768042126;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8UbyxEGzxGrKmnEXKWU5X0EhBYyltwhOR+qZ7CYftFg=;
-  b=ZiM0FBOoW7F6YUgvYWtracUNMDX2vNGmoY5Kvpqyu7+qou4AKLgSH4La
-   vw317I7sAj1TwDrkRFd5NSc53H5eJ2Oi8J5HNBh2nRYRaY4CMIJnr7XeU
-   qoZ1I3PY1PhFj2ikxJyJ1HsUthPI3JfEXXNJtqkS7bPDQ99+JiDWAXb7d
-   x7SZ2AAn6JejBrabWGLmVkfayq0BhFlaK/v75M0TX3UypEuf+EwRUm1dp
-   uSIEu/3zXJ7q0DXml82lp8QOHbLt85Sx+kA45U75C2PZWaP+kNHwcVopG
-   Z/hvPC2BnRd9m7kJPtmgbHqlsTFDKnKQwFtZVFW1oWyiQOMHXvVc5ZbTx
-   A==;
-X-CSE-ConnectionGUID: 7j9fHDRUQd2o/JpWyuqQfQ==
-X-CSE-MsgGUID: h1R7IbqHR/iSkjXUdwcGCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36822294"
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="36822294"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 02:48:45 -0800
-X-CSE-ConnectionGUID: spHEIs6AQlyHZL7vcpKk+w==
-X-CSE-MsgGUID: oJ2dw3KXR16Bt05Kl5GySw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103587558"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Jan 2025 02:48:44 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tWCZE-000J4Z-2Z;
-	Fri, 10 Jan 2025 10:48:40 +0000
-Date: Fri, 10 Jan 2025 18:48:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dhanunjanrao Katta <katta.dhanunjanrao@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>, linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:lkp_test 117/504] htmldocs: Warning:
- Documentation/devicetree/bindings/sound/xlnx,v-uhdsdi-audio.txt references a
- file that doesn't exist:
- Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
-Message-ID: <202501101859.GVxw5yM2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VaQ8J13U"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ef6ee55225so393167a91.0;
+        Fri, 10 Jan 2025 03:16:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736507809; x=1737112609; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m2xATKuzby+pI+lcil7Erl5IxGsbheqxq50Sx1NALsI=;
+        b=VaQ8J13Un9SKFG5SMZ9EB2rZNuCAqo6/8B0MIUhAunl/i1lFiun060GySwnwxr1Egd
+         2wbRB41HkZJKCVfgbbRZgmRI0yKB5CWnDQk5noqjNHnuMYQNGpBSLzwNMVCISH8DWXmF
+         qUWUm7wrrIQxAk0jwvHwGrN72a6IIByq4z2pm611nPtbnZwu7ZKpo9i70OZV2Dqk7nTs
+         61uQ9FS3joDDne0rZ7Eav7B3NvGvFepuqyTG6UsaUxeOtxdMgFPkPuIDMhXErHtgBkCo
+         SRFRZf9mpKxqwZnsc/DmvI2xfyV2JqxiaOxw88KZS4kIon85M797BddSTUq6hHdOHrMu
+         deOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736507809; x=1737112609;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m2xATKuzby+pI+lcil7Erl5IxGsbheqxq50Sx1NALsI=;
+        b=ZqL+7Bx21kTCIbOjVBcUY+o72AF5ZH/b975LAl214WvnGpzbY5in9456VKI4iRNDcG
+         pPOfTrILIDdyv+jryZpSIodXHiYUlSiZzn4iSay534u8tezhxRv27UWuLSW11tKhvdIx
+         DqxX2E2XpPQ8mda1ZkpckcTVUwVaS2g9iZUh1pDhJ0iCHOGiXLm0UBmPIlsBClASembt
+         zKwlq0CdiBIwkIFDqWw2YO6njyvWa1h8Y2lT6JjPFnNAEvd7J1N2A/MdV9EbVXSBS5Lx
+         fcDSczfGzPaRtgsP6AVRrQ/soCCUimkWiHO7eR3kQMd12LOMfngFGXGwHy3ppoBUuhJD
+         s56w==
+X-Forwarded-Encrypted: i=1; AJvYcCULrHbcejP4WHa8ZgKCSQtFsX4p/rdQyMAZHCzp15LEu8fupSMZWdR7DIKvOHhjPvG71wS6@lists.linux.dev, AJvYcCWOxZ4PW5CKq5WL8YqEG+yOc06FZ6wetWkO65/rlJYSDVYr2xERLm6e0dhsQP12q8fkNIS+WPaiGREsCUVHwQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwPqzjBddC7WCwHlUrg9TgsLmHCUtTvptBCUlv+ytYbbuLogkQ
+	bZnwSxFcKcKQwod77gJ/E3AAiYe1IXfHo7yx/Z2V9wdoGIP2k48n5g0z/jmuDOinjGZpnz4IT2L
+	yNuH8UT7uzpYs0haB5lfbqRDQIu4=
+X-Gm-Gg: ASbGnctviuiPnc69ayreEF+YUUrJ66R7NgpLk7HKkh8c2VErHL6CF+rbVtTt5D05Wor
+	IutJLJbmy9x17qxROZTL4orUmgM4OtrAFZLLo+w==
+X-Google-Smtp-Source: AGHT+IEZ3LiCgaKM2pt11/adB6e7hLinDuLKOXwdC38XEzNoaeZ8cYtzlq3RtjyBIypMRgvoZ1kBEzAbvnGfmX2hTRc=
+X-Received: by 2002:a17:90b:2709:b0:2ee:d372:91bd with SMTP id
+ 98e67ed59e1d1-2f548f1a252mr5717385a91.2.1736507809112; Fri, 10 Jan 2025
+ 03:16:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202501101527.4qvP3A25-lkp@intel.com> <1481889.1736497282@warthog.procyon.org.uk>
+In-Reply-To: <1481889.1736497282@warthog.procyon.org.uk>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 10 Jan 2025 12:16:37 +0100
+X-Gm-Features: AbW1kvasfCYeen7KuyPlceWOHfpbIBco9f861jrTpVr5UMbMZS19ak8eAF_HwNg
+Message-ID: <CANiq72mGE_UQsXpP38XVdzGS5MO_=Reist+drLfQOqpQ816z2g@mail.gmail.com>
+Subject: Re: [dhowells-fs:crypto-krb5 7/8] net/rxrpc/rxgk.c:273:6: warning:
+ variable 'ret' is used uninitialized whenever 'if' condition is true
+To: David Howells <dhowells@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
-commit: f719101fc152b7713d99c9ef08f619032856d71a [117/504] ASoC: dt-bindings: xlnx,audio-formatter: Update binding to yaml
-reproduce: (https://download.01.org/0day-ci/archive/20250110/202501101859.GVxw5yM2-lkp@intel.com/reproduce)
+On Fri, Jan 10, 2025 at 9:21=E2=80=AFAM David Howells <dhowells@redhat.com>=
+ wrote:
+>
+> I think this is a clang bug.  The lines prior to that:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501101859.GVxw5yM2-lkp@intel.com/
+> show req being initialised directly above the if-statement that is being
+> flagged.  Did "sizeof(*req)" cause the issue?
 
-All warnings (new ones prefixed by >>):
+Note `ret` vs. `req`, i.e. it is complaining about `ret` (the former)
+being used uninitialized when `req` (the latter) is true.
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/xlnx,v-uhdsdi-audio.txt references a file that doesn't exist: Documentation/devicetree/bindings/display/xlnx/xlnx,sdi-tx.txt
->> Warning: Documentation/devicetree/bindings/sound/xlnx,v-uhdsdi-audio.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
