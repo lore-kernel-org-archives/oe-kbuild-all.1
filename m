@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A16214A61
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 19:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352C021516E;
+	Fri, 10 Jan 2025 19:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736539142; cv=none; b=bPgGG462kxkXeO75UIzZruh9Jnonniz7S/m6oOtRGjV8dDqEc68C7GS8YrAYOqmWhJqVOHFeRgiTCFcIDwKcH0sEswKrkXONNT1ftjoL0oMQp5VKL+mtjUoS5QJOhKi6f+LOj1fNyDc0S4PKwxTk3voTWkaFqK4Hsl8jkt7GiQ4=
+	t=1736539143; cv=none; b=dSKKYYttxpHnkZGcM0gtHXauQ1EK6wBRC1aBn7+422unkXMDn8w/t34xOx0FLgw5x2vgEzJlHp+NzBYWF9AxNnUpTnZqEO1gsNJ9vwTXgAI9Tz5nzDL0rS3BuU+4Cl0ohSieCuXbaYXYBBomuzmYLvlQ6NcAhlgHg4PGqQX/zDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736539142; c=relaxed/simple;
-	bh=G0dHKPfeRk5xsRBTrO/JDKGg+CYDX1OSeL+busfN+gg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k0NUCt1cJ8Q5CO6Hx57VRXhHdJMshNO4jyOb8KT7nrQPT6PdVBHt4p0J5D+yuErUylxIIAuo7R+jNKtnSRzDF1Y5blhd9wzTG6wVYi6Smx/9cvlJVYivEl7I3i9hdnm6nGnpSVd1b9l25b56Vzq6pdhK7fAAwtH1QEwkd2iH/HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeWokR5T; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1736539143; c=relaxed/simple;
+	bh=l1whIIccZw9RwJGfk2f/RPM4K5voCB9m0pojCebFulc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XZhP/tLLUTeXs3QjtYloCkwjmJijdF5PDkfM4QN4nt61X9ZdMfKkltHNFg8JmxnDipb89JXb9rkYHsH7qQ1P6nIemdsznCk8Wgpe7+zHr18JeGYxGj7I+sbWgJGp/bx9Gbb1hhjpUUG9yh31M61E+Wuo3/OphAWZVa5BR0ZbYJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rf2cdt2K; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeWokR5T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rf2cdt2K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736539141; x=1768075141;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G0dHKPfeRk5xsRBTrO/JDKGg+CYDX1OSeL+busfN+gg=;
-  b=JeWokR5TJcF/KzWzzQas09cSDMZD5FkSYgMVYgV3XPnDE/6NZMGHq2kn
-   XxgiGYsGKAG2JnbjaAijbDFCr81fLtrrSNRw5QyUWJU+fpmVgjuXTer5k
-   WGjSSjOEkO8oErDRceQkYq9AbGbxpRw7nfKAs8S0I5VY32z7K3T1JAPzV
-   XnTe7zzjNqAWIh7FVjkV9ce9R+FAXQQJemyhyaw8hIysRu6MREhvM5y2S
-   hV/mxbwp3Lf78yPwk5ij5R5awEkeEBfOfPaM0q+nfl0wHhjvn04aCQYyK
-   GKjMesbICu6tvLsxAeUfUnEMXN3EEtEtz6SDz4ln5fUJWUkoj7FZkCoji
-   Q==;
-X-CSE-ConnectionGUID: W7MYMHr/S6+XtaZgFijtAQ==
-X-CSE-MsgGUID: nIrbi1c9SRCmOwqr06My5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="37006194"
+  t=1736539142; x=1768075142;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l1whIIccZw9RwJGfk2f/RPM4K5voCB9m0pojCebFulc=;
+  b=Rf2cdt2K4iBzNUnjBrpn5ww6pMypjvXMCVLo9nXMBSHzZcc8vrSDceAL
+   tOMmikaQG56z1vG3Ed3Hx/yPxN2Rtb1zTdjraOwRPBr2o01UwFjH89kdB
+   iV2f37OkWPvlVIuRmqjV/PNjjaYZs14iiGXxVDXqTksVuvXntyyIvc+5o
+   WwQh5HMD6SptMby2J4z8qPhkmX7y2gDTGQavkQvAMWZN+4nZxd8Wj7+sG
+   +huaBpN4nSYyIiTzoQW+pUY5Vo0DsFopsNfN6hNqEWO3n/quuwiTTbFwt
+   tg1pG9gsW+U0Zu0PROaEow3J1VN0EmKtFpnMChXfFvbvXWYaWdcMHl/S3
+   w==;
+X-CSE-ConnectionGUID: OKFayTtKRUqLrFoE71kOKw==
+X-CSE-MsgGUID: UCkuUYbhTQScKdss7NnzCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="36531274"
 X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="37006194"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 11:59:00 -0800
-X-CSE-ConnectionGUID: LK79aDqTTSqf9UXk28PFOQ==
-X-CSE-MsgGUID: epb9r/43R76hFu8os3XYVQ==
+   d="scan'208";a="36531274"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 11:59:01 -0800
+X-CSE-ConnectionGUID: hAQkn7a3TJK27gieJiGP3g==
+X-CSE-MsgGUID: RGjG7ftrRTyWalftZf6LFA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108925133"
+X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
+   d="scan'208";a="103634248"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jan 2025 11:58:58 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 10 Jan 2025 11:58:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWL9k-000Jgr-0g;
+	id 1tWL9k-000Jgh-0P;
 	Fri, 10 Jan 2025 19:58:56 +0000
-Date: Sat, 11 Jan 2025 03:57:56 +0800
+Date: Sat, 11 Jan 2025 03:57:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vishal Sagar <vishal.sagar@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>, Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: [xilinx-xlnx:lkp_test 180/504]
- drivers/media/platform/xilinx/xilinx-sdirxss.c:1869: warning: expecting
- prototype for xsdirxss_g_frame_interval(). Prototype was for
- xsdirxss_get_frame_interval() instead
-Message-ID: <202501110321.7sjMORxs-lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	jochensp@jochen.sprickerhof.de
+Subject: Re: [PATCH] ftrace: Implement :mod: cache filtering on kernel
+ command line
+Message-ID: <202501110314.8tTxSS0N-lkp@intel.com>
+References: <20250109174639.32e6f43a@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,66 +69,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250109174639.32e6f43a@gandalf.local.home>
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
-commit: 17fa7c7a64b12cc18a87428721e4a65034240d11 [180/504] v4l: xilinx: Driver support for Xilinx UHDSDI Rx subsystem
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250111/202501110321.7sjMORxs-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110321.7sjMORxs-lkp@intel.com/reproduce)
+Hi Steven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.13-rc6 next-20250110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/ftrace-Implement-mod-cache-filtering-on-kernel-command-line/20250110-064649
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250109174639.32e6f43a%40gandalf.local.home
+patch subject: [PATCH] ftrace: Implement :mod: cache filtering on kernel command line
+config: i386-randconfig-013-20250111 (https://download.01.org/0day-ci/archive/20250111/202501110314.8tTxSS0N-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110314.8tTxSS0N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110321.7sjMORxs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110314.8tTxSS0N-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/xilinx/xilinx-sdirxss.c:1869: warning: expecting prototype for xsdirxss_g_frame_interval(). Prototype was for xsdirxss_get_frame_interval() instead
-   drivers/media/platform/xilinx/xilinx-sdirxss.c:1987: warning: Function parameter or struct member 'sd_state' not described in 'xsdirxss_get_format'
-   drivers/media/platform/xilinx/xilinx-sdirxss.c:1987: warning: Excess function parameter 'cfg' description in 'xsdirxss_get_format'
-   drivers/media/platform/xilinx/xilinx-sdirxss.c:2025: warning: Function parameter or struct member 'sd_state' not described in 'xsdirxss_set_format'
-   drivers/media/platform/xilinx/xilinx-sdirxss.c:2025: warning: Excess function parameter 'cfg' description in 'xsdirxss_set_format'
-   drivers/media/platform/xilinx/xilinx-sdirxss.c:2058: warning: Function parameter or struct member 'sd_state' not described in 'xsdirxss_enum_mbus_code'
-   drivers/media/platform/xilinx/xilinx-sdirxss.c:2058: warning: Excess function parameter 'cfg' description in 'xsdirxss_enum_mbus_code'
+>> kernel/trace/ftrace.c:6232:6: warning: variable 'mod' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    6232 |         if (next) {
+         |             ^~~~
+   kernel/trace/ftrace.c:6246:67: note: uninitialized use occurs here
+    6246 |         ret = ftrace_set_hash(ops, func, len, NULL, 0, 0, reset, enable, mod);
+         |                                                                          ^~~
+   kernel/trace/ftrace.c:6232:2: note: remove the 'if' if its condition is always true
+    6232 |         if (next) {
+         |         ^~~~~~~~~
+   kernel/trace/ftrace.c:6224:11: note: initialize the variable 'mod' to silence this warning
+    6224 |         char *mod, *func, *command, *next = buf;
+         |                  ^
+         |                   = NULL
+   1 warning generated.
 
 
-vim +1869 drivers/media/platform/xilinx/xilinx-sdirxss.c
+vim +6232 kernel/trace/ftrace.c
 
-  1852	
-  1853	/**
-  1854	 * xsdirxss_g_frame_interval - Get the frame interval
-  1855	 * @sd: V4L2 Sub device
-  1856	 * @sd_state: V4L2 subdev state
-  1857	 * @fi: Pointer to V4l2 Sub device frame interval structure
-  1858	 *
-  1859	 * This function is used to get the frame interval.
-  1860	 * The frame rate can be integral or fractional.
-  1861	 * Integral frame rate e.g. numerator = 1000, denominator = 24000 => 24 fps
-  1862	 * Fractional frame rate e.g. numerator = 1001, denominator = 24000 => 23.97 fps
-  1863	 *
-  1864	 * Return: 0 on success
-  1865	 */
-  1866	static int xsdirxss_get_frame_interval(struct v4l2_subdev *sd,
-  1867					       struct v4l2_subdev_state *sd_state,
-  1868					       struct v4l2_subdev_frame_interval *fi)
-> 1869	{
-  1870		struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-  1871		struct xsdirxss_core *core = &xsdirxss->core;
-  1872	
-  1873		if (!xsdirxss->vidlocked) {
-  1874			dev_err(core->dev, "Video not locked!\n");
-  1875			return -EINVAL;
-  1876		}
-  1877	
-  1878		fi->interval = xsdirxss->frame_interval;
-  1879	
-  1880		dev_dbg(core->dev, "frame rate numerator = %d denominator = %d\n",
-  1881			xsdirxss->frame_interval.numerator,
-  1882			xsdirxss->frame_interval.denominator);
-  1883		return 0;
-  1884	}
-  1885	
+  6219	
+  6220	static int
+  6221	ftrace_set_regex(struct ftrace_ops *ops, unsigned char *buf, int len,
+  6222			 int reset, int enable)
+  6223	{
+  6224		char *mod, *func, *command, *next = buf;
+  6225		char *tmp __free(kfree) = NULL;
+  6226		struct trace_array *tr = ops->private;
+  6227		int ret;
+  6228	
+  6229		func = strsep(&next, ":");
+  6230	
+  6231		/* This can also handle :mod: parsing */
+> 6232		if (next) {
+  6233			if (!tr)
+  6234				return -EINVAL;
+  6235	
+  6236			command = strsep(&next, ":");
+  6237			if (strcmp(command, "mod") != 0)
+  6238				return -EINVAL;
+  6239	
+  6240			mod = next;
+  6241			len = command - func;
+  6242			/* Save the original func as ftrace_set_hash() can modify it */
+  6243			tmp = kstrdup(func, GFP_KERNEL);
+  6244		}
+  6245	
+  6246		ret = ftrace_set_hash(ops, func, len, NULL, 0, 0, reset, enable, mod);
+  6247	
+  6248		if (tr && mod && ret < 0) {
+  6249			/* Did tmp fail to allocate? */
+  6250			if (!tmp)
+  6251				return -ENOMEM;
+  6252			ret = cache_mod(tr, tmp, mod, enable);
+  6253		}
+  6254	
+  6255		return ret;
+  6256	}
+  6257	
 
 -- 
 0-DAY CI Kernel Test Service
