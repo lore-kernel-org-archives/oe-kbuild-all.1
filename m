@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9AF38DE0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 01:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F5C539A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 01:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736470824; cv=none; b=SYmcgaDjrVFdOB/3Pu7iDXXNl5uN3YvSKCjtnX5JlXpq+Z5OIVo95r9EBFS2TMoDI2CgJHOpDWlVNG3S++nnBTqueDGKx0kjHCZkMMobLUge7d6hDQShse2754N1PTSNeZACtuJGUcLsG9Cih4U5nV73eChRrnG33aJDZzqzOLA=
+	t=1736470826; cv=none; b=FeHxiL1b19b38vy7N47Q4H/JAL6YV900E7Njqc2lKx66hma9Icmp6QSQJjfOXUkT2vGql/zozwOU9x1/02eG12OnKC9mUGDM10cz0FonM439AshJ5a39Pi1qCtFzptynHS2Xij2wjQ2fbe5geq4DSTuFOnWs6buHoHdsaLrZePc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736470824; c=relaxed/simple;
-	bh=Mtlz8q5qjjhAmy0K+Gam+N84pVqKs57GIfmRQOhDxyg=;
+	s=arc-20240116; t=1736470826; c=relaxed/simple;
+	bh=hXQqFxxhjNWBpWcu6OVSgtL6JpOQKw20jgLId9jkvuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jvs+4dPo4Pxc4JiRfyuhBDJ+d5lP30Ax2+0qdI4EOhkICTtQETNBHJYByn5qneOMXdlc/yXOxyBdqlAejqr5dUIq/gQdmlnLyedlUfurd7wHIWBhX21vMtiINJXOaFKzXWS21ufF7hSwydp0k8Ves30HBtBFDtf8kEJ7MAksJj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFGPh2Gp; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=R5xjWnwg8igSc8OZvKsLaPVIIvZXBHNJP6DAgSbqP/UYkkmtuMviAi9b2wPcGLJx6K07dasoMQ0V6lmbZ1bXmuCaWNsrcUh0JC3ct1OnWuEr2vV3M8aRAbpHeEYgo2vOAKdWUOBpemahO0lEdfBRdtbxvy4n6sjut4c6+7lfSFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LGXjMaX6; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFGPh2Gp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LGXjMaX6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736470823; x=1768006823;
+  t=1736470825; x=1768006825;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mtlz8q5qjjhAmy0K+Gam+N84pVqKs57GIfmRQOhDxyg=;
-  b=JFGPh2GpH41ko4fojNA62jJcRIa7qcE/wOt3iFdcJKI3cxYIXIoUx1Rd
-   PlK+SVqpdWKAj+HAsKuc5QR7DhY1FtShA2PNrpm5vpiJZC0wnSYYSgdlG
-   CTgohqudJ5zzkW/4PiqKJPvrMOZVBG1iGLpJhNog0YCf5gCdEXkJAR8Jp
-   BWBQYBwEAr+Q7uTBq4uqo9Qhws2lKoFrJGVTgyU9RWtrCIPECWbDytu02
-   KqjiILaPXhX8+0wVjF8D4IoyeLzkKUi2nouslLQ/3jw+bqLm47yenXdNT
-   QJzciyxnIAiua4xlXXj0ZcLmRdexl0zwfrEHFEO6ANPFK5wx0fm6ac0um
-   g==;
-X-CSE-ConnectionGUID: uxFCsfJuQkWFTLQ4CxcR7Q==
-X-CSE-MsgGUID: PUAjCKWLSsGAFKz9ZWFZOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="54299966"
+  bh=hXQqFxxhjNWBpWcu6OVSgtL6JpOQKw20jgLId9jkvuQ=;
+  b=LGXjMaX6HZHQibSCTHANYcx84wXR0hW831WY32dJSIXpp3txJYpINzfc
+   OiqQHHm7ceoheWhvR3Hau2aH7ZGqp5p37TCGAjfn8smR1lsfGZj0WG+LO
+   8dPSBVjObmsCBsAA2DEGNXtYk2NDgRocvwx1Ra/Cq920NXTPsLxRp23Kp
+   UIWI6G9z65Fvto72/dFbp/pupO4Zf/RKSfn3EGNB4fK/5YTtOdh9o33nS
+   t6yLmZLjerHH2Dt9gQxIHWNs3dr/cIqnurcp7EY/za0bXPpvypMgd3FdT
+   2C/mp/j9YWv6bwj6bYVlLaCLlgcnBjZOGumWHNG1TNJAr0VXFpCgHtJEL
+   A==;
+X-CSE-ConnectionGUID: WK8Lc4N8SOOXzZB16934Cw==
+X-CSE-MsgGUID: 2xjC4FBBQmuUZoLEUjMNqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="54299971"
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="54299966"
+   d="scan'208";a="54299971"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 17:00:22 -0800
-X-CSE-ConnectionGUID: ILbMzveyTS+6P/LH8ul0aA==
-X-CSE-MsgGUID: wjPluLnAQHeWyXdk4hPG2g==
+X-CSE-ConnectionGUID: hGl0oSH4Rb6DsKWqOe1dkg==
+X-CSE-MsgGUID: IcP2DE2pStaUPlzfe3DKMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104102435"
+   d="scan'208";a="104102436"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 09 Jan 2025 17:00:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tW3Nq-000IM6-2F;
+	id 1tW3Nq-000IM3-26;
 	Fri, 10 Jan 2025 01:00:18 +0000
-Date: Fri, 10 Jan 2025 09:00:10 +0800
+Date: Fri, 10 Jan 2025 09:00:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1402/1402]
- block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for
- '__bio_stage_hierarchy_start'
-Message-ID: <202501100811.yzRNoGB1-lkp@intel.com>
+To: Romain Sioen <romain.sioen@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Varshini Rajendran <varshini.rajendran@microchip.com>,
+	Ryan Wanner <Ryan.Wanner@microchip.com>
+Subject: [linux-next:master 6812/7110]
+ arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb:
+ /soc/pinctrl@e0014000: failed to match any schema with compatible:
+ ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+Message-ID: <202501100800.kVvTZiBU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,89 +67,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   97f98c391a1fd153ae010a2faf73f9e03270da6e
-commit: ac91631e9ef7b530c02e40d10085072c08fb4a0a [1402/1402] blk-io-hierarchy: support new stage for bio lifetime
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250110/202501100811.yzRNoGB1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100811.yzRNoGB1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4b90165c7d1173e0f65538d25aa718ec7ecdd5d6
+commit: deaa14ab6b0610d052597c3f6114c3d9f0dc4c6c [6812/7110] ARM: dts: microchip: add support for sama7d65_curiosity board
+config: arm-randconfig-052-20250108 (https://download.01.org/0day-ci/archive/20250110/202501100800.kVvTZiBU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100800.kVvTZiBU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501100811.yzRNoGB1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501100800.kVvTZiBU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for '__bio_stage_hierarchy_start' [-Wmissing-prototypes]
-     571 | void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
-         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/preempt.h:5,
-                    from ./arch/arm64/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:81,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from include/linux/seq_file.h:11,
-                    from block/blk-io-hierarchy/iodump.c:14:
-   In function 'check_object_size',
-       inlined from 'check_copy_size' at include/linux/thread_info.h:90:2,
-       inlined from 'copy_from_user' at include/linux/uaccess.h:143:6,
-       inlined from 'threshold_store' at block/blk-io-hierarchy/iodump.c:273:6:
-   include/linux/thread_info.h:59:17: warning: 'b' may be used uninitialized [-Wmaybe-uninitialized]
-      59 |                 __check_object_size(ptr, n, to_user);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/thread_info.h: In function 'threshold_store':
-   include/linux/thread_info.h:52:13: note: by argument 1 of type 'const void *' to '__check_object_size' declared here
-      52 | extern void __check_object_size(const void *ptr, unsigned long n,
-         |             ^~~~~~~~~~~~~~~~~~~
-   block/blk-io-hierarchy/iodump.c:267:14: note: 'b' declared here
-     267 |         char b[MAX_BUF_LEN + 1];
-         |              ^
-
-
-vim +/__bio_stage_hierarchy_start +571 block/blk-io-hierarchy/iodump.c
-
-   570	
- > 571	void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
-   572					 loff_t *pos)
-   573	{
-   574		struct pos_data *pdata = &bstage_ddata->pdata;
-   575		struct rq_dump_data *rq_ddata = &bstage_ddata->rq_ddata;
-   576	
-   577	retry:
-   578		if (stage_is_bio(pdata->stage)) {
-   579			struct list_head *list;
-   580			struct bio_dump_data *bio_ddata =
-   581				get_bio_stage_ddata(rq_ddata->q, pdata->stage);
-   582	
-   583			if (!bio_ddata) {
-   584				bio_stage_start_next_stage(bstage_ddata, pos);
-   585				goto retry;
-   586			}
-   587	
-   588			spin_lock_irq(&bio_ddata->lock);
-   589			list = seq_list_start(&bio_ddata->head, pdata->count);
-   590			if (list)
-   591				return list;
-   592	
-   593			spin_unlock_irq(&bio_ddata->lock);
-   594			bio_stage_start_next_stage(bstage_ddata, pos);
-   595			goto retry;
-   596		}
-   597	
-   598		if (pdata->stage == STAGE_BIO &&
-   599		    __rq_hierarchy_start(rq_ddata, pdata->count))
-   600			return bstage_ddata;
-   601	
-   602		return NULL;
-   603	}
-   604	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/clock-controller@e0018000: failed to match any schema with compatible: ['microchip,sama7d65-pmc', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: clock-controller@e001d500: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-sckc', 'microchip,sam9x60-sckc'] is too long
+   	'microchip,sama7d65-sckc' is not one of ['atmel,at91sam9x5-sckc', 'atmel,sama5d3-sckc', 'atmel,sama5d4-sckc', 'microchip,sam9x60-sckc']
+   	'microchip,sama7d65-sckc' is not one of ['microchip,sam9x7-sckc', 'microchip,sama7g5-sckc']
+   	from schema $id: http://devicetree.org/schemas/clock/atmel,at91sam9x5-sckc.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/clock-controller@e001d500: failed to match any schema with compatible: ['microchip,sama7d65-sckc', 'microchip,sam9x60-sckc']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: mmc@e1208000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-sdhci', 'microchip,sam9x60-sdhci'] is too long
+   	'microchip,sama7d65-sdhci' is not one of ['atmel,sama5d2-sdhci', 'microchip,sam9x60-sdhci']
+   	'microchip,sama7d65-sdhci' is not one of ['microchip,sam9x7-sdhci', 'microchip,sama7g5-sdhci']
+   	from schema $id: http://devicetree.org/schemas/mmc/atmel,sama5d2-sdhci.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: mmc@e1208000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/atmel,sama5d2-sdhci.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/mmc@e1208000: failed to match any schema with compatible: ['microchip,sama7d65-sdhci', 'microchip,sam9x60-sdhci']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: flexcom@e2020000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-flexcom', 'atmel,sama5d2-flexcom'] is too long
+   	'atmel,sama5d2-flexcom' was expected
+   	'microchip,sam9x7-flexcom' was expected
+   	'microchip,sama7g5-flexcom' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/atmel,sama5d2-flexcom.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/flexcom@e2020000: failed to match any schema with compatible: ['microchip,sama7d65-flexcom', 'atmel,sama5d2-flexcom']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: serial@200: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-usart', 'atmel,at91sam9260-usart'] is too long
+   	['microchip,sama7d65-usart', 'atmel,at91sam9260-usart'] is too short
+   	'microchip,sama7d65-usart' is not one of ['atmel,at91rm9200-usart', 'atmel,at91sam9260-usart']
+   	'atmel,at91rm9200-dbgu' was expected
+   	'atmel,at91sam9260-dbgu' was expected
+   	'microchip,sama7d65-usart' is not one of ['microchip,sam9x60-usart', 'microchip,sam9x7-usart']
+   	'microchip,sam9x60-dbgu' was expected
+   	'microchip,sam9x7-dbgu' was expected
+   	'atmel,at91rm9200-usart' was expected
+   	'microchip,sam9x60-usart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: serial@200: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/flexcom@e2020000/serial@200: failed to match any schema with compatible: ['microchip,sama7d65-usart', 'atmel,at91sam9260-usart']
 
 -- 
 0-DAY CI Kernel Test Service
