@@ -1,58 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D585E213E66
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 17:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF2D205AA2;
+	Fri, 10 Jan 2025 18:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736530741; cv=none; b=TSX2uDANHWS9FYvw86UOfzg+s4iTAheSrnSaOBbdmJFXB55g3LBBlAxuwjTAmvR+oyxHOs0zGMf/I9QpAMj4AvH/71mbT5qZVdxdX+3b8KmvfGOMcR9Ne35qqGhdJf0X9rB/OpvZcWo0ja6uTOhTq6T9vXdEWLMPK6n5PIOIatA=
+	t=1736532162; cv=none; b=AiDyGb4yZtOpFHBoLe+TG6lwNnpDzr7RFo3X71YlaNs56HZKgtQld9x+2MsVJdPdVJr9v4dkoI4+iQuybf3qolNkeRH3nHblj2KCG5RQitdLujzDMdW8khfN++JRyDmW7ynahsQ73Yjcj45Nhd0ehBK29WsKD8+U7Kp3HNYCzqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736530741; c=relaxed/simple;
-	bh=jtFQ6GF9AMhANPu2yc6bKdQiG0gDT/hOYOe+pWqU1zk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qJHIpYgBjm339Rp2aN5QfsYsd4RTUq/dRaydmL6f9lHPocQgZAgtnDMzxrV6M0p2nBQT0VoFOyZJLWvMV/sgiRDSmFqdxJnnJ8utO29VzdV2zKLb3c8FrNwYOsh6B+EQfxXlU0/sBx/7SZfSYsC6jtSBLZXCBRDyK0OKpb+9It4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4iBd6fB; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736532162; c=relaxed/simple;
+	bh=wWTI+J+GqDlibzTHylOSVS60+DoqiT0ax232mSj9/3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WtZWraQFf3SEyGK82W3pPjDz3SHaP879l49kCtUd5agUUl8sJMlIRQzorzaUlldJvjbC7AzYpQKHlBB2lNRkyPcOdo5WwAldigjPk6/6W8QxrHA1tteuavRX0nsDQSjXRsz6q4OW3sBolUthyyptiKAjcgouK3vKPVawHp6NqCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n5NOaEgn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4iBd6fB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736530739; x=1768066739;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jtFQ6GF9AMhANPu2yc6bKdQiG0gDT/hOYOe+pWqU1zk=;
-  b=S4iBd6fBVp4A+xghAuxKHVmMHO/UfQS2R6mZUh1xkhic+VOY1gWlZ8kX
-   y/0GDKaobKSIFj5sTZ3lDTYuIg4yhS8r0nvboSbAwjUJw6jEeFEdxl/hf
-   Z6TDStw/6S8ZgeR7fI1Z8uAlSwlkdOpaOxV4VNG0pZ61GarQuwixO8ETM
-   7QP49n0Lv95IArwZnf0vt2QQrq2U8++82w70kAR9SoqwDXUqOoRTN92YU
-   Kz4SK1MtT2ect+Wde19iuEx5j+JTv0YoKOKxhQ/5bPuTkHjeHGMuljJkO
-   TV2gfFLINMEW1FPiv/d5Z/fD6X0GWoDbdgPkIyBVvN0LwzB39D3sqWDGZ
-   g==;
-X-CSE-ConnectionGUID: 0DtUyHXySiyQozhnWvddWA==
-X-CSE-MsgGUID: u5LLjCaOQRGHwgVH3vuOJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="47823714"
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="47823714"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 09:38:59 -0800
-X-CSE-ConnectionGUID: orckjJYgQGWfbXZfhXPCmA==
-X-CSE-MsgGUID: xuQIEPMQQC+5rR7eAMqmqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108894361"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jan 2025 09:38:48 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tWIy3-000JYd-0I;
-	Fri, 10 Jan 2025 17:38:43 +0000
-Date: Sat, 11 Jan 2025 01:38:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/usb/gadget/function/rndis.c:60:23: warning: '%03d' directive
- writing between 3 and 10 bytes into a region of size 7
-Message-ID: <202501110148.c1kVuj6t-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n5NOaEgn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A2CC4CED6;
+	Fri, 10 Jan 2025 18:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736532161;
+	bh=wWTI+J+GqDlibzTHylOSVS60+DoqiT0ax232mSj9/3c=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=n5NOaEgnGVoHONmajKOFuSFe01v8pG56uh7Jz59jYpvELG6xDVGEJvoIdY6IKXilg
+	 GeRnF7gPxt4qZQ81A11NvJpAcdhh5XR+qvp1R9+Dt0+4d14sZSKAjVwAZ1IZy5v6zb
+	 4gZZj+le5m6UHdgH3odJqiEftJXeqMATXaM9+aDVpu6GZ05D9qEV932dj0Jgci3ju5
+	 PfS6iSPtl1wEeMNv6a+4V7ldw1xM2IOUkQFXYhWsrWI9oXeB06JN9lAQXHrOQ9qkmA
+	 iKkD4RQjf/jTkMabkHLE0tX8XYvVipA8dROYLkEMbxUxK7zN/5EHA0UAohNg8Vbx/n
+	 k0BARd93xUXXQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 18827CE0D99; Fri, 10 Jan 2025 10:02:41 -0800 (PST)
+Date: Fri, 10 Jan 2025 10:02:41 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:dev.2025.01.07a 46/56] kernel/rcu/srcutree.c:800:18:
+ error: passing 'atomic_long_t' (aka 'atomic64_t') to parameter of
+ incompatible type 'atomic_long_t *' (aka 'atomic64_t *'); take the address
+ with &
+Message-ID: <8dfa30fb-03a6-4851-aeda-4e2701840209@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202501101426.H4VxxBgO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,61 +47,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202501101426.H4VxxBgO-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2144da25584eb10b84252230319b5783f6a83041
-commit: df8df5e4bc37e39010cfdf5d50cf726fe08aae5b usb: get rid of 'choice' for legacy gadget drivers
-date:   4 years, 10 months ago
-config: powerpc64-randconfig-002-20231105 (https://download.01.org/0day-ci/archive/20250111/202501110148.c1kVuj6t-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110148.c1kVuj6t-lkp@intel.com/reproduce)
+On Fri, Jan 10, 2025 at 02:56:39PM +0800, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux dev.2025.01.07a
+> head:   88e44a908bff076d1e7f47634f06a8a4560c19e9
+> commit: 88b0a38dd85e2d8a633c78ad39dd82168b9b4e94 [46/56] srcu: Pull integer-to-pointer conversion into __srcu_ctr_to_ptr()
+> config: powerpc64-randconfig-001-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101426.H4VxxBgO-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101426.H4VxxBgO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501101426.H4VxxBgO-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> kernel/rcu/srcutree.c:800:18: error: passing 'atomic_long_t' (aka 'atomic64_t') to parameter of incompatible type 'atomic_long_t *' (aka 'atomic64_t *'); take the address with &
+>      800 |         atomic_long_inc(__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>          |                         &
+>    include/linux/atomic/atomic-instrumented.h:3589:32: note: passing argument to parameter 'v' here
+>     3589 | atomic_long_inc(atomic_long_t *v)
+>          |                                ^
+>    1 error generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110148.c1kVuj6t-lkp@intel.com/
+Good catch!  Does the diff below fix this?
 
-All warnings (new ones prefixed by >>):
+And yes, I am adding a Kconfig option to allow me to easily test this
+code on x86 systems.  Why do you ask?  ;-)
 
-   drivers/usb/gadget/function/rndis.c: In function 'rndis_register':
->> drivers/usb/gadget/function/rndis.c:60:23: warning: '%03d' directive writing between 3 and 10 bytes into a region of size 7 [-Wformat-overflow=]
-      60 | #define NAME_TEMPLATE "driver/rndis-%03d"
-         |                       ^~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/rndis.c:903:31: note: in expansion of macro 'NAME_TEMPLATE'
-     903 |                 sprintf(name, NAME_TEMPLATE, i);
-         |                               ^~~~~~~~~~~~~
-   drivers/usb/gadget/function/rndis.c:60:37: note: format string is defined here
-      60 | #define NAME_TEMPLATE "driver/rndis-%03d"
-         |                                     ^~~~
-   drivers/usb/gadget/function/rndis.c:60:23: note: directive argument in the range [0, 2147483647]
-      60 | #define NAME_TEMPLATE "driver/rndis-%03d"
-         |                       ^~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/rndis.c:903:31: note: in expansion of macro 'NAME_TEMPLATE'
-     903 |                 sprintf(name, NAME_TEMPLATE, i);
-         |                               ^~~~~~~~~~~~~
-   drivers/usb/gadget/function/rndis.c:903:17: note: 'sprintf' output between 17 and 24 bytes into a destination of size 20
-     903 |                 sprintf(name, NAME_TEMPLATE, i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+							Thanx, Paul
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_PCI_POWERNV
-   Depends on [n]: PCI [=y] && HOTPLUG_PCI [=n] && PPC_POWERNV [=y] && EEH [=y]
-   Selected by [y]:
-   - OCXL [=y] && PPC_POWERNV [=y] && PCI [=y] && EEH [=y]
+------------------------------------------------------------------------
 
-
-vim +60 drivers/usb/gadget/function/rndis.c
-
-d6d22922d9070b drivers/usb/gadget/function/rndis.c Andrzej Pietrasiewicz 2015-02-06  59  
-d6d22922d9070b drivers/usb/gadget/function/rndis.c Andrzej Pietrasiewicz 2015-02-06 @60  #define	NAME_TEMPLATE "driver/rndis-%03d"
-^1da177e4c3f41 drivers/usb/gadget/rndis.c          Linus Torvalds        2005-04-16  61  
-
-:::::: The code at line 60 was first introduced by commit
-:::::: d6d22922d9070b660e3dce0a87a94f0b581e803e usb: gadget: rndis: remove the limit of available rndis connections
-
-:::::: TO: Andrzej Pietrasiewicz <andrzej.p@samsung.com>
-:::::: CC: Felipe Balbi <balbi@ti.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index ec4232b0a72f5..1e75b35bf7550 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -797,7 +797,7 @@ void __srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx)
+ 	struct srcu_data *sdp = raw_cpu_ptr(ssp->sda);
+ 
+ 	smp_mb__before_atomic(); /* C */  /* Avoid leaking the critical section. */
+-	atomic_long_inc(__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
++	atomic_long_inc(&__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
+ }
+ EXPORT_SYMBOL_GPL(__srcu_read_unlock_nmisafe);
+ 
