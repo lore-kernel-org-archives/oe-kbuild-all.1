@@ -1,64 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F7720B7E4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 21:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B57420ADC7;
+	Fri, 10 Jan 2025 21:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736545517; cv=none; b=CtpENq4MhPsT5mZI94ZPH7UWuKjjxSqvAlMANkJODlmC1RCutNa1/lLyJFzdctuY1PFTgov/7DY1XHiG/aMZJjyROY2s+NNVBhPJSSnfuJ8gs0Ddn42cMjcvPRw9IR3Xq8Uc67fZBmw6Rh/TxZn1UreEKGvqUygKn6kHUO2zLEY=
+	t=1736545744; cv=none; b=q9ag7fr3p8PB5NF6lGM6szi56byfSNdONmBLJ9g8JYkvBI2Hok0b7yuQ3S+emUg4xyNXo26yinL50DnIU6fRvMrz4UToLgi+2axZx5Rb9Aef0nD0HRvnAt+KIYzOOeNJq7mAezEAC1G32cppdVEWOKIbc20DuSJmkmseEwFXjBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736545517; c=relaxed/simple;
-	bh=xJ9ceeeueJluSqw8A81wHH2lzb+kbQCceW1Q4h1ZH1Y=;
+	s=arc-20240116; t=1736545744; c=relaxed/simple;
+	bh=icEOyTJjkLLVGBhMAIYra7Jx7ECj+q28nka3Flf7EMU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vw7aXA9+fngT7dBY77GZbDsP1KnJcQtOxkESvmcVpUP1widLqsy1wxZuU9DyQaijo1EFKrddTKnpkjWz6cYyAHC5gf+x1g4AdovWNOY/RZ3SzkTURCa2+1FRqyb2Xlu5Sp6FiiUR2hq6ZFNhu2GBd3rNuDIGaF1w/ObaT4nvqN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oikqqchk; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PRpudchQCiT4yD9kyMoBuXs3iK2rGKXGCrdURAhHISQ+ycxLaDoAU8CN+HF02iJAnsywH2IHKFq34M8Mx6zrJDNeKX9/UU2oZLCuJdSLS2+50FznNrtfFEqFsbmihrn0UXqETi7ZcEtYC94/PAgrO6gq3KsLqxWyvsxoRYRTPGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SQfjCfCB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oikqqchk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736545514; x=1768081514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xJ9ceeeueJluSqw8A81wHH2lzb+kbQCceW1Q4h1ZH1Y=;
-  b=Oikqqchkp0dBvJzb/j+r+ilMkNq/eH/Km0zyCi/wFOx529S8RD5/01LA
-   dv1MmfizACoPnHzz72IEjqP/uo0GaoYuSlCDmFMG396aIEWPjOfbSmOZR
-   0bfbtoA7Iee6omvNsbRhI1vjBzHtaGqBX1FWM/VHj7QdQZczxGp3pQXPt
-   m5NBktuwcW6lgdoaPLhdns+FlRz2WRWNTXFN4Vz5Gk4EsJApYVnNgQJvl
-   z8pYj2QzmzFgRSqRcnU2zHCmI8mRLNr32XiUfdkjl7n4zrxJwuYOn2a85
-   yweaAx5zX8eKs3/X3whFI0Ga3nAX0ccK8r+RduaWC+wz1H7GabtEYZfXi
-   g==;
-X-CSE-ConnectionGUID: CwtCyoeQRYWZshKDPoDoIQ==
-X-CSE-MsgGUID: Uy7KE2c5R1GukHX2ZQqe4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="24460191"
-X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="24460191"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 13:45:13 -0800
-X-CSE-ConnectionGUID: HramPdvaShmQkYBvamrh9Q==
-X-CSE-MsgGUID: ZRGQhrpJRAWJ07uqz520og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="127134376"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Jan 2025 13:45:11 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tWMoX-000JmR-0N;
-	Fri, 10 Jan 2025 21:45:09 +0000
-Date: Sat, 11 Jan 2025 05:44:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joshua Grisham <josh@joshuagrisham.com>, W_Armin@gmx.de,
-	thomas@t-8ch.de, kuurtb@gmail.com, ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com, platform-driver-x86@vger.kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Joshua Grisham <josh@joshuagrisham.com>
-Subject: Re: [PATCH v5] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-Message-ID: <202501110509.FukyduTN-lkp@intel.com>
-References: <20250109220745.69977-1-josh@joshuagrisham.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQfjCfCB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231C4C4CED6;
+	Fri, 10 Jan 2025 21:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736545744;
+	bh=icEOyTJjkLLVGBhMAIYra7Jx7ECj+q28nka3Flf7EMU=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=SQfjCfCBPS4pjFtyIYZpTUQjD0tj0P4PBxkqGO+hqdGZI5Lbxg7sxBWGS9BpLM9YZ
+	 rAS4o6CaKkfzKbcBH9Ku5p0OHFzejFWkqXayMgy+YdwpixH1fCWct38b1jD5Yat4tf
+	 L57PgFIborKYFK3zUPXRNdXp4E5pb6JhWSGdYmSnOyk20L9PNp2e4I9PU8AoGsOMZR
+	 6ZJTdzmi+fLyqRa//3nekUkxInn8VA2bsP0BBT0HC3igw9oNmoDuxTzwqmOZABDX+w
+	 20hHqPMmBQ9szrQHSgaEI57V7PpX1l+vybaGYyBA8lMtT2cmH2XPPpeYW4IlMbzsIi
+	 9g9nVdHa7cXfw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id BDACDCE37C9; Fri, 10 Jan 2025 13:49:03 -0800 (PST)
+Date: Fri, 10 Jan 2025 13:49:03 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:dev.2025.01.07a 46/56] kernel/rcu/srcutree.c:800:18:
+ error: passing 'atomic_long_t' (aka 'atomic64_t') to parameter of
+ incompatible type 'atomic_long_t *' (aka 'atomic64_t *'); take the address
+ with &
+Message-ID: <2529df6f-27d3-401e-994c-fc2a591ede96@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202501101426.H4VxxBgO-lkp@intel.com>
+ <8dfa30fb-03a6-4851-aeda-4e2701840209@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,124 +48,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250109220745.69977-1-josh@joshuagrisham.com>
+In-Reply-To: <8dfa30fb-03a6-4851-aeda-4e2701840209@paulmck-laptop>
 
-Hi Joshua,
+On Fri, Jan 10, 2025 at 10:02:41AM -0800, Paul E. McKenney wrote:
+> On Fri, Jan 10, 2025 at 02:56:39PM +0800, kernel test robot wrote:
+> > tree:   https://github.com/paulmckrcu/linux dev.2025.01.07a
+> > head:   88e44a908bff076d1e7f47634f06a8a4560c19e9
+> > commit: 88b0a38dd85e2d8a633c78ad39dd82168b9b4e94 [46/56] srcu: Pull integer-to-pointer conversion into __srcu_ctr_to_ptr()
+> > config: powerpc64-randconfig-001-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101426.H4VxxBgO-lkp@intel.com/config)
+> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101426.H4VxxBgO-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501101426.H4VxxBgO-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > >> kernel/rcu/srcutree.c:800:18: error: passing 'atomic_long_t' (aka 'atomic64_t') to parameter of incompatible type 'atomic_long_t *' (aka 'atomic64_t *'); take the address with &
+> >      800 |         atomic_long_inc(__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
+> >          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >          |                         &
+> >    include/linux/atomic/atomic-instrumented.h:3589:32: note: passing argument to parameter 'v' here
+> >     3589 | atomic_long_inc(atomic_long_t *v)
+> >          |                                ^
+> >    1 error generated.
+> 
+> Good catch!  Does the diff below fix this?
+> 
+> And yes, I am adding a Kconfig option to allow me to easily test this
+> code on x86 systems.  Why do you ask?  ;-)
 
-kernel test robot noticed the following build errors:
+And this turned up three additional bugs.  Please see below for a patch
+that causes this to pass short tests, and please let me know if this
+works for your setup.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Huh.  Four bugs in three lines of code...  :-/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Grisham/platform-x86-samsung-galaxybook-Add-samsung-galaxybook-driver/20250110-061059
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250109220745.69977-1-josh%40joshuagrisham.com
-patch subject: [PATCH v5] platform/x86: samsung-galaxybook: Add samsung-galaxybook driver
-config: x86_64-randconfig-077-20250111 (https://download.01.org/0day-ci/archive/20250111/202501110509.FukyduTN-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110509.FukyduTN-lkp@intel.com/reproduce)
+							Thanx, Paul
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110509.FukyduTN-lkp@intel.com/
+------------------------------------------------------------------------
 
-All errors (new ones prefixed by >>):
-
-   drivers/platform/x86/samsung-galaxybook.c: In function 'galaxybook_profile_init':
-   drivers/platform/x86/samsung-galaxybook.c:759:36: error: 'struct platform_profile_handler' has no member named 'name'
-     759 |         galaxybook->profile_handler.name = DRIVER_NAME;
-         |                                    ^
-   drivers/platform/x86/samsung-galaxybook.c:760:36: error: 'struct platform_profile_handler' has no member named 'dev'
-     760 |         galaxybook->profile_handler.dev = &galaxybook->platform->dev;
-         |                                    ^
-   drivers/platform/x86/samsung-galaxybook.c:764:15: error: implicit declaration of function 'devm_platform_profile_register'; did you mean 'platform_profile_register'? [-Werror=implicit-function-declaration]
-     764 |         err = devm_platform_profile_register(&galaxybook->profile_handler);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               platform_profile_register
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from include/linux/acpi.h:14,
-                    from drivers/platform/x86/samsung-galaxybook.c:14:
-   drivers/platform/x86/samsung-galaxybook.c: In function 'galaxybook_fw_attr_init':
->> drivers/platform/x86/samsung-galaxybook.c:1057:33: error: 'fw_attr' is a pointer; did you mean to use '->'?
-    1057 |         sysfs_attr_init(&fw_attr.display_name);
-         |                                 ^
-   include/linux/sysfs.h:55:10: note: in definition of macro 'sysfs_attr_init'
-      55 |         (attr)->key = &__key;                           \
-         |          ^~~~
-   drivers/platform/x86/samsung-galaxybook.c:1063:33: error: 'fw_attr' is a pointer; did you mean to use '->'?
-    1063 |         sysfs_attr_init(&fw_attr.current_value);
-         |                                 ^
-   include/linux/sysfs.h:55:10: note: in definition of macro 'sysfs_attr_init'
-      55 |         (attr)->key = &__key;                           \
-         |          ^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +1057 drivers/platform/x86/samsung-galaxybook.c
-
-  1031	
-  1032	static int galaxybook_fw_attr_init(struct samsung_galaxybook *galaxybook,
-  1033					   const enum galaxybook_fw_attr_id fw_attr_id,
-  1034					   int (*get_value)(struct samsung_galaxybook *galaxybook,
-  1035							    bool *value),
-  1036					   int (*set_value)(struct samsung_galaxybook *galaxybook,
-  1037							    const bool value))
-  1038	{
-  1039		struct galaxybook_fw_attr *fw_attr;
-  1040		struct attribute **attrs;
-  1041		int err;
-  1042	
-  1043		fw_attr = devm_kzalloc(&galaxybook->platform->dev, sizeof(*fw_attr), GFP_KERNEL);
-  1044		if (!fw_attr)
-  1045			return -ENOMEM;
-  1046	
-  1047		attrs = devm_kcalloc(&galaxybook->platform->dev, NUM_FW_ATTR_ENUM_ATTRS + 1,
-  1048				     sizeof(*attrs), GFP_KERNEL);
-  1049		if (!attrs)
-  1050			return -ENOMEM;
-  1051	
-  1052		attrs[0] = &fw_attr_type.attr;
-  1053		attrs[1] = &fw_attr_default_value.attr;
-  1054		attrs[2] = &fw_attr_possible_values.attr;
-  1055		attrs[3] = &fw_attr_display_name_language_code.attr;
-  1056	
-> 1057		sysfs_attr_init(&fw_attr.display_name);
-  1058		fw_attr->display_name.attr.name = "display_name";
-  1059		fw_attr->display_name.attr.mode = 0444;
-  1060		fw_attr->display_name.show = display_name_show;
-  1061		attrs[4] = &fw_attr->display_name.attr;
-  1062	
-  1063		sysfs_attr_init(&fw_attr.current_value);
-  1064		fw_attr->current_value.attr.name = "current_value";
-  1065		fw_attr->current_value.attr.mode = 0644;
-  1066		fw_attr->current_value.show = current_value_show;
-  1067		fw_attr->current_value.store = current_value_store;
-  1068		attrs[5] = &fw_attr->current_value.attr;
-  1069	
-  1070		attrs[6] = NULL;
-  1071	
-  1072		fw_attr->galaxybook = galaxybook;
-  1073		fw_attr->fw_attr_id = fw_attr_id;
-  1074		fw_attr->attr_group.name = galaxybook_fw_attr_name[fw_attr_id];
-  1075		fw_attr->attr_group.attrs = attrs;
-  1076		fw_attr->get_value = get_value;
-  1077		fw_attr->set_value = set_value;
-  1078	
-  1079		err = sysfs_create_group(&galaxybook->fw_attrs_kset->kobj, &fw_attr->attr_group);
-  1080		if (err)
-  1081			return err;
-  1082	
-  1083		return devm_add_action_or_reset(&galaxybook->platform->dev,
-  1084						galaxybook_fw_attr_remove, fw_attr);
-  1085	}
-  1086	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index ec4232b0a72f5..d2a6949445538 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -783,7 +783,7 @@ int __srcu_read_lock_nmisafe(struct srcu_struct *ssp)
+ 
+ 	atomic_long_inc(&scp->srcu_locks);
+ 	smp_mb__after_atomic(); /* B */  /* Avoid leaking the critical section. */
+-	return __srcu_ptr_to_ctr(ssp, scp);
++	return __srcu_ptr_to_ctr(ssp, scpp);
+ }
+ EXPORT_SYMBOL_GPL(__srcu_read_lock_nmisafe);
+ 
+@@ -794,10 +794,8 @@ EXPORT_SYMBOL_GPL(__srcu_read_lock_nmisafe);
+  */
+ void __srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx)
+ {
+-	struct srcu_data *sdp = raw_cpu_ptr(ssp->sda);
+-
+ 	smp_mb__before_atomic(); /* C */  /* Avoid leaking the critical section. */
+-	atomic_long_inc(__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
++	atomic_long_inc(&raw_cpu_ptr(__srcu_ctr_to_ptr(ssp, idx))->srcu_unlocks);
+ }
+ EXPORT_SYMBOL_GPL(__srcu_read_unlock_nmisafe);
+ 
