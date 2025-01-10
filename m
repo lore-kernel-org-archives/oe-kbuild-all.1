@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0548518C31;
-	Fri, 10 Jan 2025 01:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9C818027
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 02:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736474166; cv=none; b=polaB+xTm85w/gAgA1ekOQb8aACmmz4W+q3H2WUvzpzKP7rOkw1ONLyV9Qnm/WSEv9jTtNcF28sz036FeH+EJBCiQc3XCkfemW39f9cMqP5f7xq2oMdiI+X6U9GytpeaHQRjoQ0FbX6OKDfZYJbM4T9E64XkYNoE6kc1cyCF3eM=
+	t=1736474778; cv=none; b=OJeumUTVrZbERrAfjUwb/tWPRcoudvyVW+qJ7pQZo1rtaaaxqGWmmU3cuJ1+AgF+nCokKJuKyYynrJyQilc+5S54s5DCoZbiUAIDl2myt/TTXIk9mZZxFge/3UgmLWOMOwReq6UyhlgD/izqBOuMYuACH6a2g8G2glev6jmb1dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736474166; c=relaxed/simple;
-	bh=/vhXZxXTzvPd+Wg0OLOvoeaTcUTggp5+NH1URcQG+xU=;
+	s=arc-20240116; t=1736474778; c=relaxed/simple;
+	bh=YwsuP+1eRRJ2neZJuIoX7oR7CINDOxRr04VWXRiaAo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lsb+A3PC3zpHGtYcR57yIMlr4jF48w4N3oxfhFBu6GCH1gC48RJikB2WQhEojwQ+oyoDb147qPk2aDhD+K2jdF3Pw/A6o/FMZyz1r/IuF5PXBcPPBVw8MEFQdj90+8II2HllNxw0T+3oAWOG2NwVIK/W3rYKIzDu0BJ3nRjwxko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIICz/0U; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=HxtniFOsJg+u5xEuyaRk1qeVfhJnTkqXwrJv7frCvrEYvxCj1MMXI3uuKDK3gC3+6IANqzEhXdKItsdTz90I1UFppgmS7cKzqLUpv7IGw3QFMZfvtW3g7BQWgpOy+vo88c1O82mS2vbz9k+OusBuG01uhT+P7FNPoC00UaIYTV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T4LzngNy; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIICz/0U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T4LzngNy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736474164; x=1768010164;
+  t=1736474776; x=1768010776;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/vhXZxXTzvPd+Wg0OLOvoeaTcUTggp5+NH1URcQG+xU=;
-  b=MIICz/0UCSHkKYU1EcEFuxIb7W1SEN+/Y4TQVtw81vGV6iaHvej372vx
-   edlLJR0yERZGb5wsH/vR3IxgpT4GNoo9MWwMVujZET9l8DoTipQT/D+CB
-   XKp78VXCVAgFqSnSHFjrlIwSC/g5eZFDA3mI99n/FhDU/KyMvqjnywnrf
-   MNgCZnfxcwwY3fJ05WvWFZvuMCZvMQM0otXlqBGpngqhXCGwus7ouhVFX
-   R9ZP5NFbpEsjl2f7S4jrGcwYjCMrfFEmdp1EGrPGvzKxen2SE4Zpmc7Ha
-   wIQB3FAChCweUIHpB8gs8cgR2goV2tO00TDtvujFdhB8X+3PkIoJHmmWp
+  bh=YwsuP+1eRRJ2neZJuIoX7oR7CINDOxRr04VWXRiaAo4=;
+  b=T4LzngNyQuvIEMezxwGfO9/E1MBY5wsgnCl6ONrUKlVP3EHTm+iU41UV
+   viQM5QirERWlQltGJ3Gml/j/j23mAs/RwKvEA+PTWhrIdpZUTHNh3uDuj
+   DOj+YCsHODuUUSiOhDhIzAwpvCJJhI8NXcyWDnFGHsZ/bIuCIFNTJaymP
+   EIC1vPqLzmZfe1W7EqgfloRCekV+9TlgbBZeTz5FaAQRAJ2vIYtfQ+XZt
+   if+scRx1ePFvIQKFM2ZsqdGV7VnepA18HVlwYjg3NPByvDnAVancmIYLY
+   CW0nL3wzJ2ogSJSY/B9HerCCP+qoB8Nbd5ZR0yLzqdfRHOFD8udtcA+cY
    A==;
-X-CSE-ConnectionGUID: ltognxQSRb2VekcqEKtG7A==
-X-CSE-MsgGUID: m0MVqyqkTP2M7F5jx/AZTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="62131481"
+X-CSE-ConnectionGUID: t0I6/A7xTdCv95mZt6CnDQ==
+X-CSE-MsgGUID: FuQgi3+PQFWRZpvAA4LvBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="47256419"
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="62131481"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 17:56:03 -0800
-X-CSE-ConnectionGUID: QMd4Ov4gRQKmgyoN7MHtLQ==
-X-CSE-MsgGUID: I6S3i7unR5iZ3auqRmGeZQ==
+   d="scan'208";a="47256419"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 18:06:15 -0800
+X-CSE-ConnectionGUID: AJyN1sv0RiqxIH62hUPTNA==
+X-CSE-MsgGUID: tjdlySDdR1CBgZakrDbXUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108691728"
+   d="scan'208";a="126888422"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Jan 2025 17:56:02 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2025 18:06:14 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tW4Fj-000IPP-1e;
-	Fri, 10 Jan 2025 01:55:59 +0000
-Date: Fri, 10 Jan 2025 09:55:14 +0800
+	id 1tW4Pc-000IPi-0D;
+	Fri, 10 Jan 2025 02:06:12 +0000
+Date: Fri, 10 Jan 2025 10:06:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Steven Rostedt <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [rostedt-trace:sframe/josh 1/1] kernel/trace/trace.c:9729:2: error:
- call to undeclared function 'unwind_user_register'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202501100952.PrN7aQmE-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rostedt-trace:sframe/josh 1/1] kernel/trace/trace.c:9729:9: error:
+ implicit declaration of function 'unwind_user_register'; did you mean
+ 'unwind_user_next'?
+Message-ID: <202501100916.oJL6Q7WN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,46 +66,41 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git sframe/josh
 head:   098b2bb73e6a68bb68bcae4bd2df7880860634aa
 commit: 098b2bb73e6a68bb68bcae4bd2df7880860634aa [1/1] tracing: POC on top of sframe
-config: um-randconfig-001-20250110 (https://download.01.org/0day-ci/archive/20250110/202501100952.PrN7aQmE-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100952.PrN7aQmE-lkp@intel.com/reproduce)
+config: um-randconfig-002-20250110 (https://download.01.org/0day-ci/archive/20250110/202501100916.oJL6Q7WN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100916.oJL6Q7WN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501100952.PrN7aQmE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501100916.oJL6Q7WN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/trace/trace.c:15:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/trace/trace.c:9729:2: error: call to undeclared function 'unwind_user_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   kernel/trace/trace.c: In function 'trace_array_create_systems':
+>> kernel/trace/trace.c:9729:9: error: implicit declaration of function 'unwind_user_register'; did you mean 'unwind_user_next'? [-Werror=implicit-function-declaration]
     9729 |         unwind_user_register(&tr->unwinder, trace_user_unwind_callback);
-         |         ^
->> kernel/trace/trace.c:9729:38: error: use of undeclared identifier 'trace_user_unwind_callback'
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         unwind_user_next
+>> kernel/trace/trace.c:9729:45: error: 'trace_user_unwind_callback' undeclared (first use in this function); did you mean 'trace_osnoise_callback'?
     9729 |         unwind_user_register(&tr->unwinder, trace_user_unwind_callback);
-         |                                             ^
->> kernel/trace/trace.c:9850:2: error: call to undeclared function 'unwind_user_unregister'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                             trace_osnoise_callback
+   kernel/trace/trace.c:9729:45: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/trace/trace.c: In function '__remove_instance':
+>> kernel/trace/trace.c:9850:9: error: implicit declaration of function 'unwind_user_unregister'; did you mean 'unwind_user_next'? [-Werror=implicit-function-declaration]
     9850 |         unwind_user_unregister(&tr->unwinder);
-         |         ^
-   kernel/trace/trace.c:9850:2: note: did you mean 'unwind_user_next'?
-   include/linux/unwind_user.h:8:5: note: 'unwind_user_next' declared here
-       8 | int unwind_user_next(struct unwind_user_state *state);
-         |     ^
-   kernel/trace/trace.c:10889:2: error: call to undeclared function 'unwind_user_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    10889 |         unwind_user_register(&global_trace.unwinder, trace_user_unwind_callback);
-          |         ^
-   kernel/trace/trace.c:10889:47: error: use of undeclared identifier 'trace_user_unwind_callback'
-    10889 |         unwind_user_register(&global_trace.unwinder, trace_user_unwind_callback);
-          |                                                      ^
-   1 warning and 5 errors generated.
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         unwind_user_next
+   kernel/trace/trace.c: In function 'tracer_alloc_buffers':
+   kernel/trace/trace.c:10889:54: error: 'trace_user_unwind_callback' undeclared (first use in this function); did you mean 'trace_osnoise_callback'?
+   10889 |         unwind_user_register(&global_trace.unwinder, trace_user_unwind_callback);
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                      trace_osnoise_callback
+   cc1: some warnings being treated as errors
 
 
-vim +/unwind_user_register +9729 kernel/trace/trace.c
+vim +9729 kernel/trace/trace.c
 
   9656	
   9657	static struct trace_array *
