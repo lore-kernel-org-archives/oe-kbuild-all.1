@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD06205E31;
-	Fri, 10 Jan 2025 14:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7508E20E709
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 14:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736518775; cv=none; b=FZPxIyBsC3MHE72Np0+JwmNHngVaoP6gsc1YUFEnwECj6yzdeopvTpSagKEoUaHuPiIzjNELBrj/lB/ebPdf9TqATI9zvFQ86B5WDjcfW8122uDRJQ4dBXzNCIMkX85ZKzBMddxHwGoQbegg/QM6JUKtCQOwHwtKV5KkbLE50Dw=
+	t=1736520083; cv=none; b=MXnAeqPkIW7ic24I43NJmakjBzsZKZfT3fc9ismJdLlCRwF0EuZ/gzXuk6iIc2Je7R9rfvQoWKTMqUzQGIHYlOInaMcp52e1g/evVWf+/Gd66D2RZ2VjiffhrKlzHUvN6SETMWjx5uDlDoMS+MQLEC7m/nH27TJ7W5NLwjz+VlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736518775; c=relaxed/simple;
-	bh=O+/fUgorR4ralt72sR1rLQz5c9YDH4R8PLzV21B4ZQE=;
+	s=arc-20240116; t=1736520083; c=relaxed/simple;
+	bh=2tEdH1TKv+6wlG899JUe4DcoMdhmc56tDOGupvtWSq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rvkklAz+5GqG+z+pfgmm3pot+GdUEdQY2MAL0FaG9r46FM5S1SklGMDyrLEY5TSdl3GYiq8phzLweAU2CXl91RIG0sPFq0rHQdlcJe0d2BYLNHHa0qTA+yN1GmU3LdZERdPlkX/bPxKeNqkEyjVP5OScmarDMeSIyCpTo3HurPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JByV1v1f; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=d7JrVz/EZPwbonE5ngmcRUSAu6L1ClHpozXFd57wn2JpGWKC8YKoCpwlgPQ4AGe8CI4hLGsDTCZfjwXo1EaTnQDMLJo5gHt9MKTpYVQOkbfod9T/HPWEQ+23eDiV7gohC2RNyIFUSneGBkHInQaULciSEoQOuUm2146QoVjQlZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gM31FfHG; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JByV1v1f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gM31FfHG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736518772; x=1768054772;
+  t=1736520081; x=1768056081;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O+/fUgorR4ralt72sR1rLQz5c9YDH4R8PLzV21B4ZQE=;
-  b=JByV1v1fmes4jf8HSYZ5Q+x5UetoCUlgCwH6qKSllIUW74/nj63Me4wa
-   2FFXqbWDXY2C3Hz27R2AOxAXqZqFOeJR8/blfMvn13pA6IJYftxVr0+WK
-   DOb23xepN5SenL/uGBHbPevJyvU9b30g6JiqaaLOgS8UYqma/IuZ8OV0D
-   zO+3/EXnfg5TEEwQjlECQZ/rTX3vrnvuzRQc8Q/AZL/GkowmgiZVGQUQD
-   q1XwLzAmztN6+1NkhzaW7d494jcPN2Zp5yACb3lPY68OqdVKyMBOlIODL
-   /UXr+UcLhb2afTsiXoGgKM9ltyeFbFkqR2i1LYizbkm9cUVWdI3WjoShL
-   g==;
-X-CSE-ConnectionGUID: 8LktqwlPRbSSLbMCEBRSpQ==
-X-CSE-MsgGUID: Y5jOogmKQmaVGD/OMTk5tA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="62184243"
+  bh=2tEdH1TKv+6wlG899JUe4DcoMdhmc56tDOGupvtWSq8=;
+  b=gM31FfHG6TM/5TUSgKf1i8qHoe3Yx+Q7OvpjVuKs3MQutWGuuQp7IhHa
+   Z/LTYHga3oVoJYwEeE4UZ8QkrMI+xaULgHJCQH9EHsdWAhGnD8kgMsUWG
+   giQh/UMjDzfUs4rloCDfszXdl7Szd9e9gv3kYmJ7867pxT1ZbacJv6UQe
+   zUjPqm4atC6X93w/YsQ1mraDQAlsrsTQkBz4JGQ878V/MwAlG3iJBbgXp
+   +eogpS4d0Aj9e/GDgdS8RAlb80kRfZ7oLAEaFkCcZrCgJs4vdWwJ1r9uM
+   FAS9pyc6upjFHwxpqUAqRVyTP0eqOwX684WIbiHNha87hz9H3bvvCtwvY
+   Q==;
+X-CSE-ConnectionGUID: V8v7L4+tS4m8c9ENQKbWZw==
+X-CSE-MsgGUID: mVhRQOP6Q62KmEakOtBrsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="36032091"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="62184243"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 06:19:19 -0800
-X-CSE-ConnectionGUID: Q4QAwxSBQeCZM1WThWQW8A==
-X-CSE-MsgGUID: ZMg2kWveT56ZFv+rwsdsKQ==
+   d="scan'208";a="36032091"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 06:41:20 -0800
+X-CSE-ConnectionGUID: wji+fQAxQb6rEngnzYExjw==
+X-CSE-MsgGUID: 6lnKgSmxRduWR5ZyCEKHvg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="108786324"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104633563"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Jan 2025 06:19:18 -0800
+  by orviesa008.jf.intel.com with ESMTP; 10 Jan 2025 06:41:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWFr0-000JLv-1Y;
-	Fri, 10 Jan 2025 14:19:14 +0000
-Date: Fri, 10 Jan 2025 22:19:07 +0800
+	id 1tWGCK-000JN1-2O;
+	Fri, 10 Jan 2025 14:41:16 +0000
+Date: Fri, 10 Jan 2025 22:41:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charles Han <hanchunchao@inspur.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-bluetooth@vger.kernel.org,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-Subject: [bluetooth-next:master 78/83] drivers/bluetooth/btbcm.c:557:10:
- error: incompatible integer to pointer conversion returning 'int' from a
- function with result type 'const char *'
-Message-ID: <202501102245.kuCKXaOP-lkp@intel.com>
+To: Pranjal Shrivastava <praan@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: [linux-next:master 6635/7860]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1910:25: error: implicit
+ declaration of function 'str_read_write'; did you mean 'sb_end_write'?
+Message-ID: <202501102231.TJlY4Vzu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +64,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-head:   a5d2ee08adc1d98647679c4e4c73223464d5d936
-commit: 52d2af10759262ab95162ddc1a56faa8fe3aabde [78/83] Bluetooth: btbcm: Fix NULL deref in btbcm_get_board_name()
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250110/202501102245.kuCKXaOP-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501102245.kuCKXaOP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2b88851f583d3c4e40bcd40cfe1965241ec229dd
+commit: f2c77f6e41e68e1b24c165acbf6d4da6b3117e23 [6635/7860] iommu/arm-smmu-v3: Use str_read_write helper w/ logs
+config: arm64-randconfig-002-20250110 (https://download.01.org/0day-ci/archive/20250110/202501102231.TJlY4Vzu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501102231.TJlY4Vzu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501102245.kuCKXaOP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501102231.TJlY4Vzu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/bluetooth/btbcm.c:557:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'const char *' [-Wint-conversion]
-                   return -ENOMEM;
-                          ^~~~~~~
-   1 error generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:12:
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function 'arm_smmu_dump_event':
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1910:25: error: implicit declaration of function 'str_read_write'; did you mean 'sb_end_write'? [-Wimplicit-function-declaration]
+    1910 |                         str_read_write(evt->read),
+         |                         ^~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1907:17: note: in expansion of macro 'dev_err'
+    1907 |                 dev_err(smmu->dev, "%s %s %s %s \"%s\"%s%s stag: %#x",
+         |                 ^~~~~~~
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1907:36: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'int' [-Wformat=]
+    1907 |                 dev_err(smmu->dev, "%s %s %s %s \"%s\"%s%s stag: %#x",
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1907:17: note: in expansion of macro 'dev_err'
+    1907 |                 dev_err(smmu->dev, "%s %s %s %s \"%s\"%s%s stag: %#x",
+         |                 ^~~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1907:44: note: format string is defined here
+    1907 |                 dev_err(smmu->dev, "%s %s %s %s \"%s\"%s%s stag: %#x",
+         |                                           ~^
+         |                                            |
+         |                                            char *
+         |                                           %d
 
 
-vim +557 drivers/bluetooth/btbcm.c
+vim +1910 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-   536	
-   537	/*
-   538	 * This currently only looks up the device tree board appendix,
-   539	 * but can be expanded to other mechanisms.
-   540	 */
-   541	static const char *btbcm_get_board_name(struct device *dev)
-   542	{
-   543	#ifdef CONFIG_OF
-   544		struct device_node *root __free(device_node) = of_find_node_by_path("/");
-   545		char *board_type;
-   546		const char *tmp;
-   547	
-   548		if (!root)
-   549			return NULL;
-   550	
-   551		if (of_property_read_string_index(root, "compatible", 0, &tmp))
-   552			return NULL;
-   553	
-   554		/* get rid of any '/' in the compatible string */
-   555		board_type = devm_kstrdup(dev, tmp, GFP_KERNEL);
-   556		if (!board_type)
- > 557			return -ENOMEM;
-   558	
-   559		strreplace(board_type, '/', '-');
-   560	
-   561		return board_type;
-   562	#else
-   563		return NULL;
-   564	#endif
-   565	}
-   566	
+  1888	
+  1889	static void arm_smmu_dump_event(struct arm_smmu_device *smmu, u64 *raw,
+  1890					struct arm_smmu_event *evt,
+  1891					struct ratelimit_state *rs)
+  1892	{
+  1893		if (!__ratelimit(rs))
+  1894			return;
+  1895	
+  1896		arm_smmu_dump_raw_event(smmu, raw, evt);
+  1897	
+  1898		switch (evt->id) {
+  1899		case EVT_ID_TRANSLATION_FAULT:
+  1900		case EVT_ID_ADDR_SIZE_FAULT:
+  1901		case EVT_ID_ACCESS_FAULT:
+  1902		case EVT_ID_PERMISSION_FAULT:
+  1903			dev_err(smmu->dev, "event: %s client: %s sid: %#x ssid: %#x iova: %#llx ipa: %#llx",
+  1904				ARM_SMMU_LOG_EVT_STR(evt), ARM_SMMU_LOG_CLIENT(evt),
+  1905				evt->sid, evt->ssid, evt->iova, evt->ipa);
+  1906	
+> 1907			dev_err(smmu->dev, "%s %s %s %s \"%s\"%s%s stag: %#x",
+  1908				evt->privileged ? "priv" : "unpriv",
+  1909				evt->instruction ? "inst" : "data",
+> 1910				str_read_write(evt->read),
+  1911				evt->s2 ? "s2" : "s1", event_class_str[evt->class],
+  1912				evt->class_tt ? (evt->ttrnw ? " ttd_read" : " ttd_write") : "",
+  1913				evt->stall ? " stall" : "", evt->stag);
+  1914	
+  1915			break;
+  1916	
+  1917		case EVT_ID_STE_FETCH_FAULT:
+  1918		case EVT_ID_CD_FETCH_FAULT:
+  1919		case EVT_ID_VMS_FETCH_FAULT:
+  1920			dev_err(smmu->dev, "event: %s client: %s sid: %#x ssid: %#x fetch_addr: %#llx",
+  1921				ARM_SMMU_LOG_EVT_STR(evt), ARM_SMMU_LOG_CLIENT(evt),
+  1922				evt->sid, evt->ssid, evt->fetch_addr);
+  1923	
+  1924			break;
+  1925	
+  1926		default:
+  1927			dev_err(smmu->dev, "event: %s client: %s sid: %#x ssid: %#x",
+  1928				ARM_SMMU_LOG_EVT_STR(evt), ARM_SMMU_LOG_CLIENT(evt),
+  1929				evt->sid, evt->ssid);
+  1930		}
+  1931	}
+  1932	
 
 -- 
 0-DAY CI Kernel Test Service
