@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF2320C487
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 09:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D7820B217
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 10:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736500535; cv=none; b=rCekuhAukCFbOlu1aLk72cjfQXWMFBt5Qvkd1cmSncZgkN5wUQwVLYLqyvOQv7QGyRlIsvnyTV2Qbw87hjEIIUBa61uP6FS8i55TRh8smaGOWdfURyIeKJF04f8rDIZS5XBVEerpMGcuKgDZ31pXFZbWhgRCFzIuqhONmvWIu00=
+	t=1736505464; cv=none; b=oPXOaN6S056V4Oeue7UbQgAoVBz8K5up9GmM6yXc/WrJJm9mZEExGv22h2xUuGIiRidlTSmM1FOmi5fbdOZFxte8j/HfNenCWHHapdyLbgvlNv4mo+OaHuoxEiKoA+h+VQMmh4lgOp014c0v4wspYZaBIvS62YhtxwWIofIxUUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736500535; c=relaxed/simple;
-	bh=yMuEvX/0U7rOLFcEb9brDgo1VAoZ4vuXu+wSia6WGk4=;
+	s=arc-20240116; t=1736505464; c=relaxed/simple;
+	bh=xJdA3RvMpjGkAhyH/0QV1D89tdv+dVvy/TNS7gGNDaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BT/iFVjMB4LTbGrXp6gBTMkyE/19CYa2EEM+5oLPy218koZJp2F7+X1mf3dz0Yy+XEzcwsdScNiM2oMhNzoLRJgBul/Nt6L5+mULwWoArwg4NhvMNFv0zA/VlN/72OUeP4xBtmcGR6sePBF3pGuSkPy34IuiMlOrJrYlithnxkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lLN3yYhg; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=pnTxkJqZWEpn+sOKRVlMLPERVIOc6PKgfoBoUTynmfAPD6XGpT2rFG02Zpk2yIV05EAixFwfyC71vdCQNyXV7MR82Ir/JMBBL9PLjtdq0w4xlT36WkM1bjQCEy1DuzB+vwi6TT/l1eAh/5SoN22aIXnAw685/uhKymyhY/7BLgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnVrES+C; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lLN3yYhg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnVrES+C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736500533; x=1768036533;
+  t=1736505462; x=1768041462;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yMuEvX/0U7rOLFcEb9brDgo1VAoZ4vuXu+wSia6WGk4=;
-  b=lLN3yYhgVDTRvnH/1NpzOkPaVTAGAnPtvD4SwT/SozaWfk6X9PFIkIQE
-   n4I1jdjFm71GJJPH79nEJbVks9ecKiaBWjPNBizeEUYpsb2puI1Kvf07r
-   0fIEpEumLxN8+NePCeAViKL4xByxuxJq7k6iagBIdSY+CMpIYrGZXIbjn
-   D82nDQ21xonILNzFdjr/Z+Xoy8XPcxHb3O2LNZOTUeDqiS6T8llGklHp1
-   p04jQY/vUFm2J1BkAuFyQzdd3wgz1qYHaTI84F/gXJcWYP/pnvO6g1IKc
-   6elazwvbQZcsoe/1c+DGEMv1hBEmUK2BKz4zu7lOmt7guPDjbJZB99+wN
+  bh=xJdA3RvMpjGkAhyH/0QV1D89tdv+dVvy/TNS7gGNDaA=;
+  b=VnVrES+CDMonqj8UsCvJG/2Y4OrRBpyLZR9jVmSBohQt9zWGZYu5gbK5
+   IYnEWVN+JpSgB194vOhqH5apCyVU2gBKVMxWAUIvzblFWWgHKD6Uni8LQ
+   viL+7v79EvPD0RONDj8Tqa8Q62AJGiaccPN5pV2mKrqH5jAv9ZAg1bT6Y
+   pFjDZKeQZGMrQXCE4HhzlU4nMxIIzUjX8nHLoaQWtRYVq6ZpBekZCyrGb
+   fVK33ZhY9GiN6LYuo1TKLyxSSSKfs+A7g3EQ+i+M/G5bNv4FHKVVM3C82
+   fooOkJjTHzYOZDgYcuXlnX+D92x+EVq7DXr7uQua3Ub0ESTiEUamFp5eG
    A==;
-X-CSE-ConnectionGUID: 3k5N6sbQSxSHJm7dyN2WmQ==
-X-CSE-MsgGUID: hZm+ac6FRQm7zb3iTIPfeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="54329486"
+X-CSE-ConnectionGUID: UC7bBoapQqOlzlMOMurwew==
+X-CSE-MsgGUID: LpW3dyxOShmVowg1DBbgBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36011799"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="54329486"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 01:15:33 -0800
-X-CSE-ConnectionGUID: nXeOA/HsSjCgwUAhzL1AzQ==
-X-CSE-MsgGUID: aI6o95PbSoGAda90UPR43Q==
+   d="scan'208";a="36011799"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 02:37:42 -0800
+X-CSE-ConnectionGUID: kHZdEC/eTvSoieqZ7prrkQ==
+X-CSE-MsgGUID: WHsEzLhTSZWae0q0VigZoQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="103862509"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="134600421"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Jan 2025 01:15:28 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jan 2025 02:37:41 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWB70-000IuB-24;
-	Fri, 10 Jan 2025 09:15:26 +0000
-Date: Fri, 10 Jan 2025 17:14:43 +0800
+	id 1tWCOZ-000J2J-0g;
+	Fri, 10 Jan 2025 10:37:39 +0000
+Date: Fri, 10 Jan 2025 18:37:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antoni Pokusinski <apokusinski01@gmail.com>, jic23@kernel.org,
-	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, andrej.skvortzov@gmail.com,
-	neil.armstrong@linaro.org, icenowy@aosc.io, megi@xff.cz,
-	danila@jiaxyga.com, javier.carrasco.cruz@gmail.com, and@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, apokusinski01@gmail.com,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] iio: magnetometer: si7210: add driver for Si7210
-Message-ID: <202501101656.F268NchW-lkp@intel.com>
-References: <20250108234411.882768-3-apokusinski01@gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 2/2] media: i2c: ds90ub953: Add TPG support
+Message-ID: <202501101823.2pdM9LEe-lkp@intel.com>
+References: <20250109-ub953-tpg-v1-2-d7392375c243@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,121 +62,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250108234411.882768-3-apokusinski01@gmail.com>
+In-Reply-To: <20250109-ub953-tpg-v1-2-d7392375c243@ideasonboard.com>
 
-Hi Antoni,
+Hi Tomi,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 40ed9e9b2808beeb835bd0ed971fb364c285d39c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antoni-Pokusinski/dt-bindings-iio-magnetometer-add-binding-for-Si7210/20250109-074641
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250108234411.882768-3-apokusinski01%40gmail.com
-patch subject: [PATCH v2 2/2] iio: magnetometer: si7210: add driver for Si7210
-config: openrisc-randconfig-r123-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101656.F268NchW-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250110/202501101656.F268NchW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/media-mc-Add-INTERNAL-pad-flag/20250109-181850
+base:   40ed9e9b2808beeb835bd0ed971fb364c285d39c
+patch link:    https://lore.kernel.org/r/20250109-ub953-tpg-v1-2-d7392375c243%40ideasonboard.com
+patch subject: [PATCH RFC 2/2] media: i2c: ds90ub953: Add TPG support
+config: csky-randconfig-001-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101823.2pdM9LEe-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101823.2pdM9LEe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501101656.F268NchW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501101823.2pdM9LEe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/magnetometer/si7210.c:169:16: sparse: sparse: cast from restricted __be16
->> drivers/iio/magnetometer/si7210.c:189:24: sparse: sparse: restricted __be16 degrades to integer
->> drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: cast to restricted __be16
-   drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: restricted __be16 degrades to integer
-   drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: restricted __be16 degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +169 drivers/iio/magnetometer/si7210.c
+   drivers/media/i2c/ds90ub953.c: In function 'ub953_enable_tpg':
+>> drivers/media/i2c/ds90ub953.c:978:25: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     978 |                         FIELD_PREP(UB953_IND_PGEN_CFG_NUM_CBARS_MASK, 0) |
+         |                         ^~~~~~~~~~
 
-   143	
-   144	static int si7210_fetch_measurement(struct si7210_data *data,
-   145					    struct iio_chan_spec const *chan,
-   146					    __be16 *buf)
-   147	{
-   148		u8 dspsigsel = chan->type == IIO_MAGN ? 0 : 1;
-   149		int ret;
-   150	
-   151		guard(mutex)(&data->fetch_lock);
-   152	
-   153		ret = regmap_update_bits(data->regmap, SI7210_REG_DSPSIGSEL,
-   154					 SI7210_MASK_DSPSIGSEL, dspsigsel);
-   155		if (ret < 0)
-   156			return ret;
-   157	
-   158		ret = regmap_update_bits(data->regmap, SI7210_REG_POWER_CTRL,
-   159					 SI7210_MASK_ONEBURST | SI7210_MASK_STOP,
-   160					 SI7210_MASK_ONEBURST & ~SI7210_MASK_STOP);
-   161		if (ret < 0)
-   162			return ret;
-   163	
-   164		/* Read the contents of the registers containing the result: DSPSIGM, DSPSIGL */
-   165		ret = regmap_bulk_read(data->regmap, SI7210_REG_DSPSIGM, buf, 2);
-   166		if (ret < 0)
-   167			return ret;
-   168	
- > 169		*buf = cpu_to_be16(*buf);
-   170	
-   171		return 0;
-   172	}
-   173	
-   174	static int si7210_read_raw(struct iio_dev *indio_dev,
-   175				   struct iio_chan_spec const *chan,
-   176				   int *val, int *val2, long mask)
-   177	{
-   178		struct si7210_data *data = iio_priv(indio_dev);
-   179		long long tmp;
-   180		__be16 dspsig;
-   181		int ret;
-   182	
-   183		switch (mask) {
-   184		case IIO_CHAN_INFO_RAW:
-   185			ret = si7210_fetch_measurement(data, chan, &dspsig);
-   186			if (ret < 0)
-   187				return ret;
-   188	
- > 189			*val = dspsig & GENMASK(14, 0);
-   190			return IIO_VAL_INT;
-   191		case IIO_CHAN_INFO_SCALE:
-   192			*val = 0;
-   193			if (data->curr_scale == 20)
-   194				*val2 = 1250;
-   195			else /* data->curr_scale == 200 */
-   196				*val2 = 12500;
-   197			return IIO_VAL_INT_PLUS_MICRO;
-   198		case IIO_CHAN_INFO_OFFSET:
-   199			*val = -16384;
-   200			return IIO_VAL_INT;
-   201		case IIO_CHAN_INFO_PROCESSED:
-   202			ret = si7210_fetch_measurement(data, chan, &dspsig);
-   203			if (ret < 0)
-   204				return ret;
-   205	
- > 206			tmp = FIELD_GET(GENMASK(14, 3), dspsig);
-   207			tmp = (div_s64(-383 * tmp * tmp, 100) + (160940 * tmp - 279800000));
-   208			tmp = (1 + (data->temp_gain >> 11)) * tmp + 62500 * data->temp_offset;
-   209	
-   210			ret = regulator_get_voltage(data->vdd);
-   211			if (ret < 0)
-   212				return ret;
-   213	
-   214			tmp -= 222 * div_s64(ret, 1000);
-   215	
-   216			*val = div_s64(tmp, 1000);
-   217	
-   218			return IIO_VAL_INT;
-   219		default:
-   220			return -EINVAL;
-   221		}
-   222	}
-   223	
+
+vim +/FIELD_PREP +978 drivers/media/i2c/ds90ub953.c
+
+   896	
+   897	static int ub953_enable_tpg(struct ub953_data *priv,
+   898				    enum ub953_tpg_pattern pattern)
+   899	{
+   900		const struct ub953_format_info *fmt_info;
+   901		struct device *dev = &priv->client->dev;
+   902		struct v4l2_subdev *sd = &priv->sd;
+   903		struct v4l2_subdev_state *state;
+   904		struct v4l2_mbus_framefmt *fmt;
+   905		struct v4l2_fract *ival;
+   906		const u8 num_cbars = 8;
+   907		const u8 vc = 0; /* Always VC 0 for now */
+   908		const u8 vbp = 33;
+   909		const u8 vfp = 10;
+   910		const u16 tot_blanking = vbp + vfp + 2;
+   911		u16 line_size; /* in bytes */
+   912		u16 bar_size; /* in bytes */
+   913		u16 act_lpf; /* active lines/frame */
+   914		u16 tot_lpf; /* tot lines/frame */
+   915		u64 line_pd; /* Line period in 10-ns units */
+   916	
+   917		state = v4l2_subdev_get_locked_active_state(sd);
+   918	
+   919		fmt = v4l2_subdev_state_get_format(state, UB953_PAD_TPG, 0);
+   920		if (!fmt)
+   921			return -EINVAL;
+   922	
+   923		ival = v4l2_subdev_state_get_interval(state, UB953_PAD_TPG, 0);
+   924		if (!ival)
+   925			return -EINVAL;
+   926	
+   927		fmt_info = ub953_find_format(fmt->code);
+   928		if (!fmt_info) {
+   929			dev_err(dev, "unsupported TPG format %#x\n", fmt->code);
+   930			return -EINVAL;
+   931		}
+   932	
+   933		line_size = fmt->width * fmt_info->bitspp / 8;
+   934		bar_size = rounddown(line_size / num_cbars, fmt_info->block_size);
+   935		act_lpf = fmt->height;
+   936		tot_lpf = act_lpf + tot_blanking;
+   937		line_pd = div_u64((u64)NANO / 10 * ival->numerator,
+   938				  ival->denominator * tot_lpf);
+   939	
+   940		if (line_pd > 0xffff) {
+   941			dev_err(dev, "Line period over the limit: %llu\n", line_pd);
+   942			return -EINVAL;
+   943		}
+   944	
+   945		if (fmt->width * fmt_info->bitspp % 8 != 0) {
+   946			dev_err(dev, "Invalid TPG width\n");
+   947			return -EINVAL;
+   948		}
+   949	
+   950		if (line_size % fmt_info->block_size != 0) {
+   951			dev_err(dev, "Invalid TPG line size\n");
+   952			return -EINVAL;
+   953		}
+   954	
+   955		ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN, UB953_IND_PGEN_CSI_DI,
+   956				(vc << 6) | (fmt_info->dt << 0));
+   957		ub953_write_ind16(priv, UB953_IND_TARGET_PAT_GEN,
+   958				  UB953_IND_PGEN_LINE_SIZE1, line_size);
+   959		ub953_write_ind16(priv, UB953_IND_TARGET_PAT_GEN,
+   960				  UB953_IND_PGEN_BAR_SIZE1, bar_size);
+   961		ub953_write_ind16(priv, UB953_IND_TARGET_PAT_GEN,
+   962				  UB953_IND_PGEN_ACT_LPF1, act_lpf);
+   963		ub953_write_ind16(priv, UB953_IND_TARGET_PAT_GEN,
+   964				  UB953_IND_PGEN_TOT_LPF1, tot_lpf);
+   965		ub953_write_ind16(priv, UB953_IND_TARGET_PAT_GEN,
+   966				  UB953_IND_PGEN_LINE_PD1, line_pd);
+   967		ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN, UB953_IND_PGEN_VBP,
+   968				vbp);
+   969		ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN, UB953_IND_PGEN_VFP,
+   970				vfp);
+   971	
+   972		for (unsigned int i = 0; i < 3; ++i)
+   973			ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN,
+   974					UB953_IND_PGEN_COLOR(i), 0x0);
+   975	
+   976		ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN, UB953_IND_PGEN_CFG,
+   977				UB953_IND_PGEN_CFG_FIXED_COLOR_MODE |
+ > 978				FIELD_PREP(UB953_IND_PGEN_CFG_NUM_CBARS_MASK, 0) |
+   979				FIELD_PREP(UB953_IND_PGEN_CFG_BLOCK_SIZE_MASK,
+   980					   fmt_info->block_size));
+   981	
+   982		switch (pattern) {
+   983		case UB953_TPG_RED:
+   984			ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN,
+   985					UB953_IND_PGEN_COLOR(2), 0xff);
+   986			break;
+   987		case UB953_TPG_GREEN:
+   988			ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN,
+   989					UB953_IND_PGEN_COLOR(1), 0xff);
+   990			break;
+   991		case UB953_TPG_BLUE:
+   992			ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN,
+   993					UB953_IND_PGEN_COLOR(0), 0xff);
+   994			break;
+   995		default:
+   996			break;
+   997		}
+   998	
+   999		ub953_write_ind(priv, UB953_IND_TARGET_PAT_GEN, UB953_IND_PGEN_CTL,
+  1000				UB953_IND_PGEN_CTL_PGEN_ENABLE);
+  1001	
+  1002		return 0;
+  1003	}
+  1004	
 
 -- 
 0-DAY CI Kernel Test Service
