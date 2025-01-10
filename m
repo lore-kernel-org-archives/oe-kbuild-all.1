@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60E5207DFD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 08:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF2320C487
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 09:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736497895; cv=none; b=bBBmKPuk6Fec0Dtme2Jn8vEUoqV62Vm8jNBTlZRUfRI6i5hOue1wfpHrOnqJsrKOjH5I7DnxwSaQ6Hgn68F2iAna+4RwP2VCK6tZnmHsY7G2IIXI0EGTAx802S5laxUmSQMfagJ21q1koa87jV5Hyey1KFoFZsqmYrpMzVAmvg4=
+	t=1736500535; cv=none; b=rCekuhAukCFbOlu1aLk72cjfQXWMFBt5Qvkd1cmSncZgkN5wUQwVLYLqyvOQv7QGyRlIsvnyTV2Qbw87hjEIIUBa61uP6FS8i55TRh8smaGOWdfURyIeKJF04f8rDIZS5XBVEerpMGcuKgDZ31pXFZbWhgRCFzIuqhONmvWIu00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736497895; c=relaxed/simple;
-	bh=KPK6MLaM35zhiey2xmmBuWdkjZ06WauKuc83OcEcYPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DgF3Fp9lVqViHOb4B2zcGmXVtY2jIdDkMUgekTvtDUp1TZ6/Xfkz00dE4lokIn5lSSafF9d/QiFBHP0j7i7jMs342gwfHD/9yQXFuF/oIP4Z1hwtrmE69rqzHhNDsY/b/0+4z5Qh6m2k+7kuaVKmGLs/eLxgct4ipl1NaQciSlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bdTobqUS; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1736500535; c=relaxed/simple;
+	bh=yMuEvX/0U7rOLFcEb9brDgo1VAoZ4vuXu+wSia6WGk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BT/iFVjMB4LTbGrXp6gBTMkyE/19CYa2EEM+5oLPy218koZJp2F7+X1mf3dz0Yy+XEzcwsdScNiM2oMhNzoLRJgBul/Nt6L5+mULwWoArwg4NhvMNFv0zA/VlN/72OUeP4xBtmcGR6sePBF3pGuSkPy34IuiMlOrJrYlithnxkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lLN3yYhg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bdTobqUS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lLN3yYhg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736497890; x=1768033890;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KPK6MLaM35zhiey2xmmBuWdkjZ06WauKuc83OcEcYPk=;
-  b=bdTobqUSVEajXpSp/Z6hqVndwXZUEDJeKd0OUhdSAiov7GI13nqABW19
-   wBHriAQsQLYapbbnnnJX3Zx5txsFHRV4s1a9hVaoSJiaARy9947K1pIiZ
-   +PEthqCoHu331+VANbRoThgU0rwGcXOg8ifb0TQaaz3YvqjhYnfAljNLl
-   FIm7+3syEmZzHhLFtC48v9BOyxOhj3AtXMEvn5XqXvKqRLtkESks76gUc
-   afFSN26XGSYTCl8W0Gk3IWaDygtp1TH9uyxxja7oBDsS0TIomZKNezXnW
-   SR0La7TpPGHgrtYg9zJXZQQQ4Vr5/NU8VLnneAcdO/3dliiJUs+N/czau
-   Q==;
-X-CSE-ConnectionGUID: W+uLK0nST4SMk0y8+hlNyA==
-X-CSE-MsgGUID: +yi2ZJhqRReiCwAZWTWjJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="59262854"
+  t=1736500533; x=1768036533;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yMuEvX/0U7rOLFcEb9brDgo1VAoZ4vuXu+wSia6WGk4=;
+  b=lLN3yYhgVDTRvnH/1NpzOkPaVTAGAnPtvD4SwT/SozaWfk6X9PFIkIQE
+   n4I1jdjFm71GJJPH79nEJbVks9ecKiaBWjPNBizeEUYpsb2puI1Kvf07r
+   0fIEpEumLxN8+NePCeAViKL4xByxuxJq7k6iagBIdSY+CMpIYrGZXIbjn
+   D82nDQ21xonILNzFdjr/Z+Xoy8XPcxHb3O2LNZOTUeDqiS6T8llGklHp1
+   p04jQY/vUFm2J1BkAuFyQzdd3wgz1qYHaTI84F/gXJcWYP/pnvO6g1IKc
+   6elazwvbQZcsoe/1c+DGEMv1hBEmUK2BKz4zu7lOmt7guPDjbJZB99+wN
+   A==;
+X-CSE-ConnectionGUID: 3k5N6sbQSxSHJm7dyN2WmQ==
+X-CSE-MsgGUID: hZm+ac6FRQm7zb3iTIPfeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="54329486"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="59262854"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 00:31:25 -0800
-X-CSE-ConnectionGUID: 0f7mvuFSTEy4jDN+o6Z3Jg==
-X-CSE-MsgGUID: 04C1Tg6pRSKLf8wJqhfLSQ==
+   d="scan'208";a="54329486"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 01:15:33 -0800
+X-CSE-ConnectionGUID: nXeOA/HsSjCgwUAhzL1AzQ==
+X-CSE-MsgGUID: aI6o95PbSoGAda90UPR43Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="103623514"
+   d="scan'208";a="103862509"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Jan 2025 00:31:24 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 10 Jan 2025 01:15:28 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWAQL-000IrP-32;
-	Fri, 10 Jan 2025 08:31:21 +0000
-Date: Fri, 10 Jan 2025 16:31:15 +0800
+	id 1tWB70-000IuB-24;
+	Fri, 10 Jan 2025 09:15:26 +0000
+Date: Fri, 10 Jan 2025 17:14:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vishnu Sankar <vishnuocv@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>
-Subject: [hid:for-6.14/lenovo 1/1] drivers/hid/hid-lenovo.c:727:73: sparse:
- sparse: incompatible types in conditional expression (different base types):
-Message-ID: <202501101635.qJrwAOwf-lkp@intel.com>
+To: Antoni Pokusinski <apokusinski01@gmail.com>, jic23@kernel.org,
+	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, andrej.skvortzov@gmail.com,
+	neil.armstrong@linaro.org, icenowy@aosc.io, megi@xff.cz,
+	danila@jiaxyga.com, javier.carrasco.cruz@gmail.com, and@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, apokusinski01@gmail.com,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] iio: magnetometer: si7210: add driver for Si7210
+Message-ID: <202501101656.F268NchW-lkp@intel.com>
+References: <20250108234411.882768-3-apokusinski01@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,109 +68,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250108234411.882768-3-apokusinski01@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.14/lenovo
-head:   84c9d2a968c8276f1ceddaa1526c803263eae2b4
-commit: 84c9d2a968c8276f1ceddaa1526c803263eae2b4 [1/1] HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd Fn keys
-config: i386-randconfig-062-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101635.qJrwAOwf-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101635.qJrwAOwf-lkp@intel.com/reproduce)
+Hi Antoni,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.13-rc6 next-20250110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoni-Pokusinski/dt-bindings-iio-magnetometer-add-binding-for-Si7210/20250109-074641
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250108234411.882768-3-apokusinski01%40gmail.com
+patch subject: [PATCH v2 2/2] iio: magnetometer: si7210: add driver for Si7210
+config: openrisc-randconfig-r123-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101656.F268NchW-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250110/202501101656.F268NchW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501101635.qJrwAOwf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501101656.F268NchW-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/hid/hid-lenovo.c:727:73: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/hid/hid-lenovo.c:727:73: sparse:    void
-   drivers/hid/hid-lenovo.c:727:73: sparse:    int
->> drivers/hid/hid-lenovo.c:776:58: sparse: sparse: cast to restricted __le32
-   drivers/hid/hid-lenovo.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/iio/magnetometer/si7210.c:169:16: sparse: sparse: cast from restricted __be16
+>> drivers/iio/magnetometer/si7210.c:189:24: sparse: sparse: restricted __be16 degrades to integer
+>> drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: cast to restricted __be16
+   drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: restricted __be16 degrades to integer
+   drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: restricted __be16 degrades to integer
 
-vim +727 drivers/hid/hid-lenovo.c
+vim +169 drivers/iio/magnetometer/si7210.c
 
-   702	
-   703	/* Function to handle Lenovo Thinkpad TAB X12's HID raw inputs for fn keys*/
-   704	static int lenovo_raw_event_TP_X12_tab(struct hid_device *hdev, u32 raw_data)
-   705	{
-   706		struct hid_input *hidinput;
-   707		struct input_dev *input = NULL;
-   708	
-   709		/* Iterate through all associated input devices */
-   710		list_for_each_entry(hidinput, &hdev->inputs, list) {
-   711			input = hidinput->input;
-   712			if (!input)
-   713				continue;
-   714	
-   715			switch (raw_data) {
-   716				/* fn-F20 being used here for MIC mute*/
-   717			case TP_X12_RAW_HOTKEY_FN_F4:
-   718				report_key_event(input, LENOVO_KEY_MICMUTE);
-   719				return 1;
-   720			/* Power-mode or Airplane mode will be called based on the device*/
-   721			case TP_X12_RAW_HOTKEY_FN_F8:
-   722				/*
-   723				 * TP X12 TAB uses Fn-F8 calls Airplanemode
-   724				 * Whereas TP X12 TAB2 uses Fn-F8 for toggling
-   725				 * Power modes
-   726				 */
- > 727				(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
-   728					report_key_event(input, KEY_RFKILL) :
-   729					platform_profile_cycle();
-   730				return 1;
-   731			case TP_X12_RAW_HOTKEY_FN_F10:
-   732				/* TAB1 has PICKUP Phone and TAB2 use Snipping tool*/
-   733				(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
-   734				report_key_event(input, KEY_PICKUP_PHONE) :
-   735				report_key_event(input, KEY_SELECTIVE_SCREENSHOT);
-   736				return 1;
-   737			case TP_X12_RAW_HOTKEY_FN_F12:
-   738				/* BookMarks/STAR key*/
-   739				report_key_event(input, KEY_BOOKMARKS);
-   740				return 1;
-   741			case TP_X12_RAW_HOTKEY_FN_SPACE:
-   742				/* Keyboard LED backlight toggle*/
-   743				report_key_event(input, KEY_KBDILLUMTOGGLE);
-   744				return 1;
-   745			default:
-   746				break;
-   747			}
-   748		}
-   749		return 0;
-   750	}
-   751	
-   752	static int lenovo_raw_event(struct hid_device *hdev,
-   753				struct hid_report *report, u8 *data, int size)
-   754	{
-   755		/*
-   756		 * Compact USB keyboard's Fn-F12 report holds down many other keys, and
-   757		 * its own key is outside the usage page range. Remove extra
-   758		 * keypresses and remap to inside usage page.
-   759		 */
-   760		if (unlikely(hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD
-   761				&& size == 3
-   762				&& data[0] == 0x15
-   763				&& data[1] == 0x94
-   764				&& data[2] == 0x01)) {
-   765			data[1] = 0x00;
-   766			data[2] = 0x01;
-   767		}
-   768	
-   769		/*
-   770		 * Lenovo TP X12 Tab KBD's Fn+XX is HID raw data defined. Report ID is 0x03
-   771		 * e.g.: Raw data received for MIC mute is 0x00020003.
-   772		 */
-   773		if (unlikely((hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB
-   774				|| hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB2)
-   775				&& size >= 3 && report->id == 0x03))
- > 776			return lenovo_raw_event_TP_X12_tab(hdev, le32_to_cpu(*(u32 *)data));
-   777	
-   778		return 0;
-   779	}
-   780	
+   143	
+   144	static int si7210_fetch_measurement(struct si7210_data *data,
+   145					    struct iio_chan_spec const *chan,
+   146					    __be16 *buf)
+   147	{
+   148		u8 dspsigsel = chan->type == IIO_MAGN ? 0 : 1;
+   149		int ret;
+   150	
+   151		guard(mutex)(&data->fetch_lock);
+   152	
+   153		ret = regmap_update_bits(data->regmap, SI7210_REG_DSPSIGSEL,
+   154					 SI7210_MASK_DSPSIGSEL, dspsigsel);
+   155		if (ret < 0)
+   156			return ret;
+   157	
+   158		ret = regmap_update_bits(data->regmap, SI7210_REG_POWER_CTRL,
+   159					 SI7210_MASK_ONEBURST | SI7210_MASK_STOP,
+   160					 SI7210_MASK_ONEBURST & ~SI7210_MASK_STOP);
+   161		if (ret < 0)
+   162			return ret;
+   163	
+   164		/* Read the contents of the registers containing the result: DSPSIGM, DSPSIGL */
+   165		ret = regmap_bulk_read(data->regmap, SI7210_REG_DSPSIGM, buf, 2);
+   166		if (ret < 0)
+   167			return ret;
+   168	
+ > 169		*buf = cpu_to_be16(*buf);
+   170	
+   171		return 0;
+   172	}
+   173	
+   174	static int si7210_read_raw(struct iio_dev *indio_dev,
+   175				   struct iio_chan_spec const *chan,
+   176				   int *val, int *val2, long mask)
+   177	{
+   178		struct si7210_data *data = iio_priv(indio_dev);
+   179		long long tmp;
+   180		__be16 dspsig;
+   181		int ret;
+   182	
+   183		switch (mask) {
+   184		case IIO_CHAN_INFO_RAW:
+   185			ret = si7210_fetch_measurement(data, chan, &dspsig);
+   186			if (ret < 0)
+   187				return ret;
+   188	
+ > 189			*val = dspsig & GENMASK(14, 0);
+   190			return IIO_VAL_INT;
+   191		case IIO_CHAN_INFO_SCALE:
+   192			*val = 0;
+   193			if (data->curr_scale == 20)
+   194				*val2 = 1250;
+   195			else /* data->curr_scale == 200 */
+   196				*val2 = 12500;
+   197			return IIO_VAL_INT_PLUS_MICRO;
+   198		case IIO_CHAN_INFO_OFFSET:
+   199			*val = -16384;
+   200			return IIO_VAL_INT;
+   201		case IIO_CHAN_INFO_PROCESSED:
+   202			ret = si7210_fetch_measurement(data, chan, &dspsig);
+   203			if (ret < 0)
+   204				return ret;
+   205	
+ > 206			tmp = FIELD_GET(GENMASK(14, 3), dspsig);
+   207			tmp = (div_s64(-383 * tmp * tmp, 100) + (160940 * tmp - 279800000));
+   208			tmp = (1 + (data->temp_gain >> 11)) * tmp + 62500 * data->temp_offset;
+   209	
+   210			ret = regulator_get_voltage(data->vdd);
+   211			if (ret < 0)
+   212				return ret;
+   213	
+   214			tmp -= 222 * div_s64(ret, 1000);
+   215	
+   216			*val = div_s64(tmp, 1000);
+   217	
+   218			return IIO_VAL_INT;
+   219		default:
+   220			return -EINVAL;
+   221		}
+   222	}
+   223	
 
 -- 
 0-DAY CI Kernel Test Service
