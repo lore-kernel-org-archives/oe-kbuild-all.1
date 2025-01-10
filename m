@@ -1,44 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF2D205AA2;
-	Fri, 10 Jan 2025 18:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28BC1E25E3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 18:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736532162; cv=none; b=AiDyGb4yZtOpFHBoLe+TG6lwNnpDzr7RFo3X71YlaNs56HZKgtQld9x+2MsVJdPdVJr9v4dkoI4+iQuybf3qolNkeRH3nHblj2KCG5RQitdLujzDMdW8khfN++JRyDmW7ynahsQ73Yjcj45Nhd0ehBK29WsKD8+U7Kp3HNYCzqM=
+	t=1736533277; cv=none; b=ecrbXcVWHRzUnkl91NHoI1loG987W4mqiwE/YzyZ5RZC+QpKItmTpXOkUolpQYtJSY7tVMdB37PPPj8B1+rlSHDKcQlLo5+ThiMfcOI9tIu3Dc1AQ8FEa0dVHN5sG6mEIhIPL2GYjPq5BnubZjQG/hkYlsLRU7s+VfkpRE5vhQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736532162; c=relaxed/simple;
-	bh=wWTI+J+GqDlibzTHylOSVS60+DoqiT0ax232mSj9/3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WtZWraQFf3SEyGK82W3pPjDz3SHaP879l49kCtUd5agUUl8sJMlIRQzorzaUlldJvjbC7AzYpQKHlBB2lNRkyPcOdo5WwAldigjPk6/6W8QxrHA1tteuavRX0nsDQSjXRsz6q4OW3sBolUthyyptiKAjcgouK3vKPVawHp6NqCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n5NOaEgn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736533277; c=relaxed/simple;
+	bh=1kY0FUsM3UoO5siladM8BDVtBaZCHTWsvV1B/3/PGwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZADYbQc/IKbTbUVHlhK/FPkYPMqkJPyDZu+peOT+NUD3UXHgnw4MUxY/+2bkZfTVfROoOBopeT/uD7ZuVw2K/vSf1IoGTI3eU0ZZ1cAm8/dpNtOaNapYm6JwVnPagrspPfBlaZDaXCbVcYd3Mv028dPp070y9hxsLDYKxvx0Als=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eh4Fq8Gh; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n5NOaEgn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A2CC4CED6;
-	Fri, 10 Jan 2025 18:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736532161;
-	bh=wWTI+J+GqDlibzTHylOSVS60+DoqiT0ax232mSj9/3c=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=n5NOaEgnGVoHONmajKOFuSFe01v8pG56uh7Jz59jYpvELG6xDVGEJvoIdY6IKXilg
-	 GeRnF7gPxt4qZQ81A11NvJpAcdhh5XR+qvp1R9+Dt0+4d14sZSKAjVwAZ1IZy5v6zb
-	 4gZZj+le5m6UHdgH3odJqiEftJXeqMATXaM9+aDVpu6GZ05D9qEV932dj0Jgci3ju5
-	 PfS6iSPtl1wEeMNv6a+4V7ldw1xM2IOUkQFXYhWsrWI9oXeB06JN9lAQXHrOQ9qkmA
-	 iKkD4RQjf/jTkMabkHLE0tX8XYvVipA8dROYLkEMbxUxK7zN/5EHA0UAohNg8Vbx/n
-	 k0BARd93xUXXQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 18827CE0D99; Fri, 10 Jan 2025 10:02:41 -0800 (PST)
-Date: Fri, 10 Jan 2025 10:02:41 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2025.01.07a 46/56] kernel/rcu/srcutree.c:800:18:
- error: passing 'atomic_long_t' (aka 'atomic64_t') to parameter of
- incompatible type 'atomic_long_t *' (aka 'atomic64_t *'); take the address
- with &
-Message-ID: <8dfa30fb-03a6-4851-aeda-4e2701840209@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202501101426.H4VxxBgO-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eh4Fq8Gh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736533276; x=1768069276;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1kY0FUsM3UoO5siladM8BDVtBaZCHTWsvV1B/3/PGwQ=;
+  b=eh4Fq8GhARBgMObFiYat/6Ba3GH6Tj8aTkTNaRqzmI4qGkDcwFD/7dpM
+   J0DTdWoCwg5oxdxaRig7Z/8+USVdYUHzS9PpDENFsNCM/2wtKVyfwiE0q
+   htrBPJ5Elyc9fkbCMCg51XmT604MnjtNFmDacdF/H+XT/lez3ZCYZQHAs
+   y3J+lk53G7T0WqzEMLUXa22ZZCjqPpWN0ZhEzZS46vM9nklIPioYyhhbq
+   OBT3OgnKX1JjLGKqvf6DTWNbtD/c42O0TOertq8mSQAUxdSoKySbFNTpl
+   6hMg+PEURPg0AEV6ledtfpM38Cmkx8L+hsBUuQhXDOESRC0cIf4D2C292
+   g==;
+X-CSE-ConnectionGUID: kTT6ffuzRL2JI3xwRguA9g==
+X-CSE-MsgGUID: jxMRBZGUTEaFwMacQjqnpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="36053394"
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="36053394"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 10:21:15 -0800
+X-CSE-ConnectionGUID: 00rpC4zdRbqgcO/trMtJiQ==
+X-CSE-MsgGUID: pGGcNtzJQ56ZHvGkoKG2Bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104318574"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Jan 2025 10:21:13 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tWJd8-000Jaj-07;
+	Fri, 10 Jan 2025 18:21:10 +0000
+Date: Sat, 11 Jan 2025 02:20:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pranavi Somisetty <pranavi.somisetty@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Harini Katakam <harini.katakam@xilinx.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [xilinx-xlnx:lkp_test 111/504]
+ drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c:286:47: warning: 'sprintf' may
+ write a terminating nul past the end of the destination
+Message-ID: <202501110213.1Jk9pYQs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,51 +65,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202501101426.H4VxxBgO-lkp@intel.com>
 
-On Fri, Jan 10, 2025 at 02:56:39PM +0800, kernel test robot wrote:
-> tree:   https://github.com/paulmckrcu/linux dev.2025.01.07a
-> head:   88e44a908bff076d1e7f47634f06a8a4560c19e9
-> commit: 88b0a38dd85e2d8a633c78ad39dd82168b9b4e94 [46/56] srcu: Pull integer-to-pointer conversion into __srcu_ctr_to_ptr()
-> config: powerpc64-randconfig-001-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101426.H4VxxBgO-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101426.H4VxxBgO-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501101426.H4VxxBgO-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> kernel/rcu/srcutree.c:800:18: error: passing 'atomic_long_t' (aka 'atomic64_t') to parameter of incompatible type 'atomic_long_t *' (aka 'atomic64_t *'); take the address with &
->      800 |         atomic_long_inc(__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
->          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->          |                         &
->    include/linux/atomic/atomic-instrumented.h:3589:32: note: passing argument to parameter 'v' here
->     3589 | atomic_long_inc(atomic_long_t *v)
->          |                                ^
->    1 error generated.
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: 79569a88d904a3efdb6a5f054e40344b688ed82e [111/504] staging: net: xilinx: add Xilinx TSN driver
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250111/202501110213.1Jk9pYQs-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110213.1Jk9pYQs-lkp@intel.com/reproduce)
 
-Good catch!  Does the diff below fix this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110213.1Jk9pYQs-lkp@intel.com/
 
-And yes, I am adding a Kconfig option to allow me to easily test this
-code on x86 systems.  Why do you ask?  ;-)
+All warnings (new ones prefixed by >>):
 
-							Thanx, Paul
+   drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c: In function 'axienet_tadma_open':
+>> drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c:286:47: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+     286 |                 sprintf(irq_name, "%s_tadma_tx", ndev->name);
+         |                                               ^
+   drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c:286:17: note: 'sprintf' output between 10 and 25 bytes into a destination of size 24
+     286 |                 sprintf(irq_name, "%s_tadma_tx", ndev->name);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-------------------------------------------------------------------------
 
-diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-index ec4232b0a72f5..1e75b35bf7550 100644
---- a/kernel/rcu/srcutree.c
-+++ b/kernel/rcu/srcutree.c
-@@ -797,7 +797,7 @@ void __srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx)
- 	struct srcu_data *sdp = raw_cpu_ptr(ssp->sda);
- 
- 	smp_mb__before_atomic(); /* C */  /* Avoid leaking the critical section. */
--	atomic_long_inc(__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
-+	atomic_long_inc(&__srcu_ctr_to_ptr(ssp, idx)->srcu_unlocks);
- }
- EXPORT_SYMBOL_GPL(__srcu_read_unlock_nmisafe);
- 
+vim +/sprintf +286 drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c
+
+   276	
+   277	int axienet_tadma_open(struct net_device *ndev)
+   278	{
+   279		struct axienet_local *lp = netdev_priv(ndev);
+   280		u32 cr;
+   281		u8 i = 0;
+   282		int ret;
+   283		static char irq_name[24];
+   284	
+   285		if (lp->tadma_irq) {
+ > 286			sprintf(irq_name, "%s_tadma_tx", ndev->name);
+   287			ret = request_irq(lp->tadma_irq, tadma_irq, IRQF_SHARED,
+   288					  irq_name, ndev);
+   289			if (ret)
+   290				return ret;
+   291		}
+   292		pr_debug("%s TADMA irq %d\n", __func__, lp->tadma_irq);
+   293	
+   294		/* enable all interrupts */
+   295		tadma_iow(lp, XTADMA_INT_EN_OFFSET, XTADMA_FFI_INT_EN |
+   296			  XTADMA_IE_INT_EN);
+   297	
+   298		tadma_sfm_init(ndev);
+   299		tadma_sfm_hash_init(ndev);
+   300		cr = XTADMA_CFG_DONE;
+   301		tadma_iow(lp, XTADMA_CR_OFFSET, cr);
+   302	
+   303		lp->tx_bd = kmalloc_array(lp->num_streams, sizeof(struct axitadma_bd *),
+   304					  GFP_KERNEL);
+   305		if (!lp->tx_bd)
+   306			ret = -ENOMEM;
+   307	
+   308		for (i = 0; i < lp->num_streams ; i++) {
+   309			lp->tx_bd_head[i] = 0;
+   310			lp->tx_bd_tail[i] = 0;
+   311			lp->tx_bd_rd[i] = 0;
+   312			lp->tx_bd[i] = kmalloc_array(lp->num_tadma_buffers,
+   313						     sizeof(*lp->tx_bd[i]), GFP_KERNEL);
+   314			if (!lp->tx_bd[i])
+   315				return -ENOMEM;
+   316		}
+   317	
+   318		return ret;
+   319	}
+   320	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
