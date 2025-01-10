@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01C920A5FC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 22:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7FC21A43A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 22:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736549508; cv=none; b=jdtSTfRO1Qimyv+WgOFd2D4heYjNkEhvCMlfcbUYLwvWHR2r8iZVaxBhu4rfEkTfsXWKZfgyhMV66CD1jYtCiypAZm7yvjzPYq1J2y50k51qRtsvliZ3c8dYuloGJu9/ozALdB4zMWS3sWWHKGiB3XpK9IIGtyRRNymbz4C2sQs=
+	t=1736549990; cv=none; b=Q0I7G6uSjITP49DgPVj5cUtkqkXfYEjTzCMUzMao/UlMgwfNR5hiOtqJghj7+fQX80RkoJGu2fmNPtaGkL8r1QPOs2inXPizoXlq8q5imp/fvKNtVTa+gG177EHu+N7ye78o2DD0Y9P1oAbpwushXHwT/DiL1v2CZ/jqe0XmWEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736549508; c=relaxed/simple;
-	bh=HIlURnE0nRCK3UATcsv+lxBjbZaQ9GHcOJpoRbi91lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rEkGCX91yC1TNVeCgWsR3zAE5jcW6t93cv/hXDSS/S4P9rt5g0TP1mEAjmBpi/3fv5O3IYIzAPGtU1z4epGsTbLxRHMveTYjlVc2VQPOTHfAeZkkXypdlSn9792wVsN3qo5iR7cPrKQlU2WbyH/GA7Q1zH2kj9rFqTewqX3Tp9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oC5K3xTI; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1736549990; c=relaxed/simple;
+	bh=nVnzOhXVxo5NY0Tbh2J8lLq6IqbelsVBafE+WVKXFeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Vh7AyryzHCdSrfrfKN2oK1jMkYNjPi/Ik9Lc14ZtNT0SuEf/YjLzRpwncCIHox3MB15nADRBd1rmJH7Vl+y2tYglagPH1ea7yB+bO5SyZdSa8JQ8Wl+TDyjiv0b0q2Ws8+fXrcwKnawsOiOP+bd4THH+P+aT0WEPwmcxXZpEs/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/v/hzIA; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oC5K3xTI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/v/hzIA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736549506; x=1768085506;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HIlURnE0nRCK3UATcsv+lxBjbZaQ9GHcOJpoRbi91lk=;
-  b=oC5K3xTI73I0FM9laSLQXvkzVZmV3AVgRbSV9twt1Ej9by9/OrJ8BqJ2
-   4ba4NTGVit8EqQj6pi44L9xdcCxD3vF8GUAR7RzA5sbsAO0Uan4pWroxU
-   SQ2+MOSBfQhfGD8m/fCjjKepHY8z8uEZsQAVBzmesLjG4q/fzzVlFK9OE
-   VpeDC7XKPGwTQi48ciVFCLgMznpJ5ih8nD+/Yj/IQ3Dsf7ASpu6mTGLBa
-   oGVvzUCrfBj6YiQPbGuSb/xtDEULf+X4BzRj1qsoAoleZOM2XNWnYGhIO
-   3ucRFwSkBMkPnMpj7dSUMAyGoHcbWMspK02o9u7uRYVKFTlTdW8MeKQlv
+  t=1736549989; x=1768085989;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=nVnzOhXVxo5NY0Tbh2J8lLq6IqbelsVBafE+WVKXFeE=;
+  b=H/v/hzIAm8hb5Qby4/LdYR0H+mLHjgGcFyszLyAqUuMQqpnX6fD52Gtb
+   hqTq8klZlcgza1YcUpX4L6ZA5W7brtZJhLuLq6XxR1PJsvu0SO7V7n3af
+   UxfDLTyzSMZS44I2+l3aMIzpGSSMfpihTZ9sjC1u0CXjdqhg5HGX9CI8l
+   lNjNLpH2/FMLsYGbQLWApEcZRWaf+THHb9x+0qisK6JW1rcx8y20J2pYu
+   WIEbJ7ulPe1nj5wbAfqEw8CckKkCmf2UyP9/dqwADhST1z2kP98q1WLb0
+   9w5Aa+213ZRb0AjryeaQq6jvn71fcMtSVSIjAmd2RidbSgyDXLBTr0x+9
    A==;
-X-CSE-ConnectionGUID: aGAfQsrZS6+pJwBa2mOJ+A==
-X-CSE-MsgGUID: zlCbPjQVRbGmS3XxZcXDog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="62228173"
+X-CSE-ConnectionGUID: WY3ezGj/THqzphmKO36/OA==
+X-CSE-MsgGUID: +z4ljIHXRfuXo+Uru3k/+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="36543518"
 X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="62228173"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 14:51:46 -0800
-X-CSE-ConnectionGUID: wtq/LuD/SseJPQf4BgTzaQ==
-X-CSE-MsgGUID: 5MIOti9ISqSoK7iJ+S3q3A==
+   d="scan'208";a="36543518"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 14:59:45 -0800
+X-CSE-ConnectionGUID: mAfceRBjTyaUb6PIA/DHaQ==
+X-CSE-MsgGUID: jyU2u2GLRYiQbsX9BHhDMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="108870400"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="141154240"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 Jan 2025 14:51:42 -0800
+  by orviesa001.jf.intel.com with ESMTP; 10 Jan 2025 14:59:45 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWNqt-000Jr5-1m;
-	Fri, 10 Jan 2025 22:51:39 +0000
-Date: Sat, 11 Jan 2025 06:51:12 +0800
+	id 1tWNyf-000Jrf-3D;
+	Fri, 10 Jan 2025 22:59:42 +0000
+Date: Sat, 11 Jan 2025 06:59:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antoni Pokusinski <apokusinski01@gmail.com>, jic23@kernel.org,
-	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, andrej.skvortzov@gmail.com,
-	neil.armstrong@linaro.org, icenowy@aosc.io, megi@xff.cz,
-	danila@jiaxyga.com, javier.carrasco.cruz@gmail.com, and@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, apokusinski01@gmail.com,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] iio: magnetometer: si7210: add driver for Si7210
-Message-ID: <202501110655.qR09D59T-lkp@intel.com>
-References: <20250108234411.882768-3-apokusinski01@gmail.com>
+To: Dominique Martinet <dominique.martinet@atmark-techno.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.15 2/3] zram: check comp is non-NULL before calling
+ comp_destroy
+Message-ID: <Z4GmTf885lHCvj0F@244b91683e12>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,76 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250108234411.882768-3-apokusinski01@gmail.com>
+In-Reply-To: <20250110075844.1173719-3-dominique.martinet@atmark-techno.com>
 
-Hi Antoni,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antoni-Pokusinski/dt-bindings-iio-magnetometer-add-binding-for-Si7210/20250109-074641
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250108234411.882768-3-apokusinski01%40gmail.com
-patch subject: [PATCH v2 2/2] iio: magnetometer: si7210: add driver for Si7210
-config: arc-randconfig-r111-20250111 (https://download.01.org/0day-ci/archive/20250111/202501110655.qR09D59T-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250111/202501110655.qR09D59T-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110655.qR09D59T-lkp@intel.com/
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 5.15 2/3] zram: check comp is non-NULL before calling comp_destroy
+Link: https://lore.kernel.org/stable/20250110075844.1173719-3-dominique.martinet%40atmark-techno.com
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/magnetometer/si7210.c:169:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __be16 [usertype] @@
-   drivers/iio/magnetometer/si7210.c:169:16: sparse:     expected unsigned short [usertype] val
-   drivers/iio/magnetometer/si7210.c:169:16: sparse:     got restricted __be16 [usertype]
-   drivers/iio/magnetometer/si7210.c:169:16: sparse: sparse: cast from restricted __be16
-   drivers/iio/magnetometer/si7210.c:169:16: sparse: sparse: cast from restricted __be16
-   drivers/iio/magnetometer/si7210.c:189:24: sparse: sparse: restricted __be16 degrades to integer
-   drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: cast to restricted __be16
-   drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: restricted __be16 degrades to integer
-   drivers/iio/magnetometer/si7210.c:206:23: sparse: sparse: restricted __be16 degrades to integer
-
-vim +169 drivers/iio/magnetometer/si7210.c
-
-   143	
-   144	static int si7210_fetch_measurement(struct si7210_data *data,
-   145					    struct iio_chan_spec const *chan,
-   146					    __be16 *buf)
-   147	{
-   148		u8 dspsigsel = chan->type == IIO_MAGN ? 0 : 1;
-   149		int ret;
-   150	
-   151		guard(mutex)(&data->fetch_lock);
-   152	
-   153		ret = regmap_update_bits(data->regmap, SI7210_REG_DSPSIGSEL,
-   154					 SI7210_MASK_DSPSIGSEL, dspsigsel);
-   155		if (ret < 0)
-   156			return ret;
-   157	
-   158		ret = regmap_update_bits(data->regmap, SI7210_REG_POWER_CTRL,
-   159					 SI7210_MASK_ONEBURST | SI7210_MASK_STOP,
-   160					 SI7210_MASK_ONEBURST & ~SI7210_MASK_STOP);
-   161		if (ret < 0)
-   162			return ret;
-   163	
-   164		/* Read the contents of the registers containing the result: DSPSIGM, DSPSIGL */
-   165		ret = regmap_bulk_read(data->regmap, SI7210_REG_DSPSIGM, buf, 2);
-   166		if (ret < 0)
-   167			return ret;
-   168	
- > 169		*buf = cpu_to_be16(*buf);
-   170	
-   171		return 0;
-   172	}
-   173	
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
