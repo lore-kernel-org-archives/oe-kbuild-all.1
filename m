@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B67215163;
-	Fri, 10 Jan 2025 20:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EAB1A23B0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 21:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736541787; cv=none; b=S9s9NvOcytwO+9BR1YyQ5M9xXFOaxHJ7ROpMxC3c4N9Skht/ThEzss8enCAHHH6DFNfLQM9hODt6T2nBRsoKM6QhVKl5b2HcRw18eeqyliNVT7vsio4wQkxDq0QeSva6oLUFSAN2CdGp2OgW2QW3z1FUd2VX22MB8LnsSJbxwAk=
+	t=1736544253; cv=none; b=pwycs5RL18uyrgxJ2trtjsvo0nyTqgEjWx4Hbn9rypBP6Vec0VXC2RBXCSht2l0hmcE5iqd22AKeLeBRy3M0kW4nkVVQMORnqeIcUxXm69DL010YgCV8lFfJSyktyf8Yo4lA2OQHudcRZO+mfPEPjVHPkTGQtnZKOo0MA0TJyX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736541787; c=relaxed/simple;
-	bh=eoMb759lMsHU4qiDIwAXnTe/hPKHvmThchZu3cqiNpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C7xSe45Mg0zwb5PvVUYqjwlQGJJ7sliZENWlYO0bVwottynI+bzy7468B76QlOfjZOfC0aJmNMkYHZ1tpBZeAEB5ghap1MhskCh233S4v7tFQlbd+Jgo/i/InU6WXngpLpGWM8hBFauk7KSwk2PMDjPqP1Ddu4kDkt+eS4nm9d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dt4AdDML; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1736544253; c=relaxed/simple;
+	bh=u3uCEKB2hEMLb9qmBehdk1NrgVFbQ/ABpuqv7fni/1o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KzPvn4moH+IvJ3JeX2BOS1r6v89ZU2L8Apv+1IBC91wpFzzvf0HBS+3GnDMPhGwzZBVv6LnB80vs/0DQGG4816rMOsW1sdESyERtvSh64ZKBMdf+NPguxa+NJvWD8GiSBbU6r7Edl8RE2I9BeHuuM5NtjcuTmMzXEJ+FcPGNU9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqM3O0df; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dt4AdDML"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqM3O0df"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736541785; x=1768077785;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eoMb759lMsHU4qiDIwAXnTe/hPKHvmThchZu3cqiNpE=;
-  b=Dt4AdDMLQ08dzDT3UQl7VPxEM+JPuEysJmjD9vNCjN1CfX3aJjfHhs8p
-   erMoPOYlXjESLoe9dNOjvKSbP8beWvzh9eTyrmi9J15vruvITDEVHd7wG
-   D394tstby/d6V+sRjK0mcAruhDqoqJb7JIjSxghi4iKv5SX/i9kivd0Ok
-   Y+OJfJizTfPcIh4/FuOG2UBefFVXqPOwux7QLu5R8dIarVeDWGBq7LIKw
-   VUG14ZbSwzoEiiL8oWRDEArX7iosWR1lATPOF5yqBHoP+aYgmn9nJ1yWc
-   +qY6DS4G7kAx9L/Ree71tUIBLFIcv4WNhnzhvdNyutvYqf2aqBDgEKept
-   w==;
-X-CSE-ConnectionGUID: Fv7jWw8WTQS1nqTlOX4gYA==
-X-CSE-MsgGUID: CmAs8wrFROW2+bV1GnOq2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="24456078"
+  t=1736544251; x=1768080251;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u3uCEKB2hEMLb9qmBehdk1NrgVFbQ/ABpuqv7fni/1o=;
+  b=PqM3O0dfRDoIgXWEMLzqQ+eh8l87hPfkAAY/5YieYlh+tCkBbByeCeaF
+   32u6fbL+v4aweSfm8IZ9lOObJowCJIT8r42V+2qpRosOJTOEo2Ku20CL8
+   k/vNC83C0CgnD4Wddlf48Mbvxvzq+NN4ARPJWGHnXCueGq+rZ9CHSWiO1
+   NR8VPLymAm+lDUgTAStZxFxU3Leqxx9RojTAvi7vlxpaoK5v8S+3bv+Rw
+   jVN/UTZfK8WxHdDOkwwF6WEI7jA9wLscbVvpydwYeAeTHmcm3gYV0/scS
+   WZQGo6eiTRGRd2Oq2GSDz2Zmh/smVRNUBAF/QsRFgrnDcZJZabKn3ElH7
+   A==;
+X-CSE-ConnectionGUID: e2Dpf9uFQtKgSkKyeboe+w==
+X-CSE-MsgGUID: IGGC5NgfT9aVajJFKTKf1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="24458689"
 X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="24456078"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 12:43:05 -0800
-X-CSE-ConnectionGUID: y2dTQQ/2Q0+Y27szFEISwQ==
-X-CSE-MsgGUID: IYQBZWR4ShOgRZhDHUOkYA==
+   d="scan'208";a="24458689"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 13:24:11 -0800
+X-CSE-ConnectionGUID: hn9gn/xeTwGoKmMWusqUdA==
+X-CSE-MsgGUID: YY8ATLEHRPCsVvQPMXtkZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="103617509"
+   d="scan'208";a="134677234"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Jan 2025 12:43:03 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Jan 2025 13:24:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWLqO-000JjF-1F;
-	Fri, 10 Jan 2025 20:43:00 +0000
-Date: Sat, 11 Jan 2025 04:41:58 +0800
+	id 1tWMUA-000Jkz-2j;
+	Fri, 10 Jan 2025 21:24:06 +0000
+Date: Sat, 11 Jan 2025 05:23:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexandre.belloni@bootlin.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rtc: pcf2127: add BSM support
-Message-ID: <202501110440.4RhjFZZA-lkp@intel.com>
-References: <20250109134253.827796-1-alexandre.belloni@bootlin.com>
+To: Saurabh Sengar <saurabh.singh@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:lkp_test 196/504]
+ drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member
+ 'vid_fmt' description in 'xlnx_mix_layer_data'
+Message-ID: <202501110552.F65vrtu9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,195 +63,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250109134253.827796-1-alexandre.belloni@bootlin.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on abelloni/rtc-next]
-[also build test ERROR on linus/master v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alexandre-belloni-bootlin-com/rtc-pcf2127-add-BSM-support/20250109-214654
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20250109134253.827796-1-alexandre.belloni%40bootlin.com
-patch subject: [PATCH] rtc: pcf2127: add BSM support
-config: hexagon-randconfig-002-20250111 (https://download.01.org/0day-ci/archive/20250111/202501110440.4RhjFZZA-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110440.4RhjFZZA-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: 770fded1d319c14802870279b6e8734a3bfddd8d [196/504] drm: xlnx: mixer: Initial video mixer driver
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250111/202501110552.F65vrtu9-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110552.F65vrtu9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110440.4RhjFZZA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110552.F65vrtu9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/rtc/rtc-pcf2127.c:20:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/rtc/rtc-pcf2127.c:20:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/rtc/rtc-pcf2127.c:20:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/rtc/rtc-pcf2127.c:347:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   value = FIELD_GET(PCF2127_CTRL3_PM, value);
-                           ^
-   drivers/rtc/rtc-pcf2127.c:378:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   value = FIELD_GET(PCF2127_CTRL3_PM, value);
-                           ^
->> drivers/rtc/rtc-pcf2127.c:402:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                                             FIELD_PREP(PCF2127_CTRL3_PM, mode + value));
-                                             ^
-   6 warnings and 3 errors generated.
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'vid_fmt' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'can_alpha' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'can_scale' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'is_streaming' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'max_width' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'max_height' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'min_width' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'min_height' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'buff_addr' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'x_pos' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'y_pos' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'width' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'height' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'stride' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'alpha' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'is_active' description in 'xlnx_mix_layer_data'
+>> drivers/gpu/drm/xlnx/xlnx_mixer.c:360: warning: Excess struct member 'scale_fact' description in 'xlnx_mix_layer_data'
 
 
-vim +/FIELD_GET +347 drivers/rtc/rtc-pcf2127.c
+vim +360 drivers/gpu/drm/xlnx/xlnx_mixer.c
 
-   334	
-   335	static int pcf2127_param_get(struct device *dev, struct rtc_param *param)
-   336	{
-   337		struct pcf2127 *pcf2127 = dev_get_drvdata(dev);
-   338		u32 value;
-   339		int ret;
-   340	
-   341		switch (param->param) {
-   342		case RTC_PARAM_BACKUP_SWITCH_MODE:
-   343			ret = regmap_read(pcf2127->regmap, PCF2127_REG_CTRL3, &value);
-   344			if (ret < 0)
-   345				return ret;
-   346	
- > 347			value = FIELD_GET(PCF2127_CTRL3_PM, value);
-   348	
-   349			if (value < 0x3)
-   350				param->uvalue = RTC_BSM_LEVEL;
-   351			else if (value < 0x6)
-   352				param->uvalue = RTC_BSM_DIRECT;
-   353			else
-   354				param->uvalue = RTC_BSM_DISABLED;
-   355	
-   356			break;
-   357	
-   358		default:
-   359			return -EINVAL;
-   360		}
+   296	
+   297	/**
+   298	 * struct xlnx_mix_layer_data - Describes the hardware configuration of a given
+   299	 * mixer layer
+   300	 * @hw_config: struct specifying the IP hardware constraints for this layer
+   301	 * @vid_fmt: DRM format for this layer
+   302	 * @can_alpha: Indicates that layer alpha is enabled for this layer
+   303	 * @can_scale: Indicates that layer scaling is enabled for this layer
+   304	 * @is_streaming: Indicates layer is not using mixer DMA but streaming from
+   305	 *  external DMA
+   306	 * @max_width: Max possible pixel width
+   307	 * @max_height: Max possible pixel height
+   308	 * @min_width: Min possible pixel width
+   309	 * @min_height: Min possible pixel height
+   310	 * @layer_regs: struct containing current cached register values
+   311	 * @buff_addr: Current physical address of image buffer
+   312	 * @x_pos: Current CRTC x offset
+   313	 * @y_pos: Current CRTC y offset
+   314	 * @width: Current width in pixels
+   315	 * @height: Current hight in pixels
+   316	 * @stride: Current stride (when Mixer is performing DMA)
+   317	 * @alpha: Current alpha setting
+   318	 * @is_active: Logical flag indicating layer in use.  If false, calls to
+   319	 *  enable layer will be ignored.
+   320	 * @scale_fact: Current scaling factor applied to layer
+   321	 * @id: The logical layer id identifies which layer this struct describes
+   322	 *  (e.g. 0 = master, 1-15 = overlay).
+   323	 *
+   324	 * All mixer layers are reprsented by an instance of this struct:
+   325	 * output streaming, overlay, logo.
+   326	 * Current layer-specific register state is stored in the layer_regs struct.
+   327	 * The hardware configuration is stored in struct hw_config.
+   328	 *
+   329	 * Note:
+   330	 * Some properties of the logo layer are unique and not described in this
+   331	 * struct.  Those properites are part of the xlnx_mix struct as global
+   332	 * properties.
+   333	 */
+   334	struct xlnx_mix_layer_data {
+   335		struct {
+   336			u32     vid_fmt;
+   337			bool    can_alpha;
+   338			bool    can_scale;
+   339			bool    is_streaming;
+   340			u32     max_width;
+   341			u32     max_height;
+   342			u32     min_width;
+   343			u32     min_height;
+   344		} hw_config;
+   345	
+   346		struct {
+   347			u64     buff_addr1;
+   348			u64     buff_addr2;
+   349			u32     x_pos;
+   350			u32     y_pos;
+   351			u32     width;
+   352			u32     height;
+   353			u32     stride;
+   354			u32     alpha;
+   355			bool	is_active;
+   356			u32	scale_fact;
+   357		} layer_regs;
+   358	
+   359		enum xlnx_mix_layer_id id;
+ > 360	};
    361	
-   362		return 0;
-   363	}
-   364	
-   365	static int pcf2127_param_set(struct device *dev, struct rtc_param *param)
-   366	{
-   367		struct pcf2127 *pcf2127 = dev_get_drvdata(dev);
-   368		u8 mode = 0;
-   369		u32 value;
-   370		int ret;
-   371	
-   372		switch (param->param) {
-   373		case RTC_PARAM_BACKUP_SWITCH_MODE:
-   374			ret = regmap_read(pcf2127->regmap, PCF2127_REG_CTRL3, &value);
-   375			if (ret < 0)
-   376				return ret;
-   377	
-   378			value = FIELD_GET(PCF2127_CTRL3_PM, value);
-   379	
-   380			if (value > 5)
-   381				value -= 5;
-   382			else if (value > 2)
-   383				value -= 3;
-   384	
-   385			switch (param->uvalue) {
-   386			case RTC_BSM_LEVEL:
-   387				break;
-   388			case RTC_BSM_DIRECT:
-   389				mode = 3;
-   390				break;
-   391			case RTC_BSM_DISABLED:
-   392				if (value == 0)
-   393					value = 1;
-   394				mode = 5;
-   395				break;
-   396			default:
-   397				return -EINVAL;
-   398			}
-   399	
-   400			return regmap_update_bits(pcf2127->regmap, PCF2127_REG_CTRL3,
-   401						  PCF2127_CTRL3_PM,
- > 402						  FIELD_PREP(PCF2127_CTRL3_PM, mode + value));
-   403	
-   404			break;
-   405	
-   406		default:
-   407			return -EINVAL;
-   408		}
-   409	
-   410		return 0;
-   411	}
-   412	
 
 -- 
 0-DAY CI Kernel Test Service
