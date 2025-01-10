@@ -1,60 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA213FB31
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 02:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383791C5F3F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 02:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736476164; cv=none; b=nB4JXoGHgUDN/UmA9tNxUbU7TpuFeKJ0wL/Go4j0JDvKFHXvyV+RYhffyn1k+oZ0GU15iluNmuchtb0Qhxa9CHy/LztaomzKQLMpb2MxZ7aJ6ZnmAtacUkFB0LhHAYqkIV/7xS9kzz3QNpNnABe+z2689QTDgaYpLg8BjOJrvuY=
+	t=1736476166; cv=none; b=jbJE1pohlO4MmS0/LRKNWS+7i3+pnoTlwVSDKm+tC+WldoQqDwdk4xwsZ3BF6K6pSxAjMxAp5hzDS3oASlac9DnWDl7wmroeDWjIFFFtBuqOuQqBbYL6B6moCXylpu/kC4a9ttSxcYRyAQdos0vxlcUnpih8nkGCloauICaGJSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736476164; c=relaxed/simple;
-	bh=2e4NUqNMR+8tCxvxRNqVHQBg8ursswlcpfpui8hI55Y=;
+	s=arc-20240116; t=1736476166; c=relaxed/simple;
+	bh=53O0v/6qejdpBVF+3FIeafCJY4tJv/lAdq4JfToWPw4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cb0l9OumP8TUE6ivAEfkCvF8aexkdQDOMHo/EufBPIRNcKI+5q25THdQjXym++s7+mHRLtcXWvb1bJGt//U224NmigJ0ALJDJFaowP0kFWfHPvFy81X6rVQtg8WWIIjHbOgvH3pxhpeHjAWrSgxqQt+rS52lKSjTjnr9wcwlN0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ll/mYVIU; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=RyJF5fGcF+tqS/+PNqHPvKEMfR5aKFhm1X2icyW/9s5rHzAZeB13MK0Bd99DYwI8/Fpl3YHGbcDzPZYz6Jn2hFDs7fsmfO/PnFWkksiEZVa7p56QnNzJ/jmCbbsNbiABCtXcrb8VzgI9+nap61jhJfH2zaNQkcKtUPLzt+VsB7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVHHKyhX; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ll/mYVIU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVHHKyhX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736476162; x=1768012162;
+  t=1736476164; x=1768012164;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2e4NUqNMR+8tCxvxRNqVHQBg8ursswlcpfpui8hI55Y=;
-  b=ll/mYVIUwe2dw9+y5X4ZEjWb8Aqe3k/L8dswbDgY+VW/b9+A+w79ZYhV
-   zERMVUp+sw91kTNvPDETgeHf1g803AI9rRWSHGQ+5ZSH1eTUX2ldFbMpk
-   JtXHujF0qEfDQ+yz00KekzaD/H6L+R+WfsMYBq1a6PWW9/OyTwX/AejRY
-   p9r8Am4fTFfsSy2O5FeUQHaMDaVW1ZBWH/eWQ683ZTHRWvE36KpwamP+N
-   2Le3r3r7Xk1oHzZccoSmVgYodb8cFL8bhfG2vmszjqqK7CrsoQJd9X0lR
-   kWpRor5ul1hbohQ+U18o5H0d58PKpGXli40DtqZ8rXjU9NJ7mb+Deu++F
-   Q==;
-X-CSE-ConnectionGUID: FSUZTcsGQDa7lvYiENgdlA==
-X-CSE-MsgGUID: nteN9NDVT6Kw01HfdPxn0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36048679"
+  bh=53O0v/6qejdpBVF+3FIeafCJY4tJv/lAdq4JfToWPw4=;
+  b=iVHHKyhXa/bq7d1C2Vz1WlFePTNCz02KLC5WeWE1T9lG0spLknh26bU8
+   H+QiELUEuFylNRgrrjVKSsP9//QbfiZo54nMhvRYi4GAS3z9gFBaXRUyQ
+   SEzz7wyA0HmO7OFIUnbcVgVmi1sBUNJpD9xBjerTypycCjfSNnMX9QRec
+   EX6LHeOd02BNFpBHjBKFF4FScLPH5s369TUmD8fKWSPKQqpZ9E2Vqiu0X
+   /Si/Fo1MEpTBBEhOBZskN2D00K7vybp+MFo7100kBFclgU0MOnbR8orWO
+   anapP/fJUrzuPIQemFcnzeaF69RCyWuoLk6oUnD74zJpW0T0rkIu1jnzU
+   w==;
+X-CSE-ConnectionGUID: swiUQPXFS/WtipD1QgXt5Q==
+X-CSE-MsgGUID: x5+WkT4iRAuxgrg3UJHvNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36048683"
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="36048679"
+   d="scan'208";a="36048683"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 18:29:21 -0800
-X-CSE-ConnectionGUID: EkNBlxT7TLyDNjhJQz77lw==
-X-CSE-MsgGUID: SYhPZIY+Rfa6UT2NCmfu3w==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 18:29:24 -0800
+X-CSE-ConnectionGUID: 75nkWsI4S6GSS86GMaQbDg==
+X-CSE-MsgGUID: sV965HSQSt6WBRS13i6CXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="103405332"
+   d="scan'208";a="103405340"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 09 Jan 2025 18:29:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tW4lx-000IQL-2K;
+	id 1tW4lx-000IQJ-2G;
 	Fri, 10 Jan 2025 02:29:17 +0000
-Date: Fri, 10 Jan 2025 10:28:22 +0800
+Date: Fri, 10 Jan 2025 10:28:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
-	dakr@kernel.org
-Subject: Re: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
-Message-ID: <202501101033.wlEjeZwK-lkp@intel.com>
-References: <20250109005553.623947-1-airlied@gmail.com>
+To: Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
+	andrew+netdev@lunn.ch, edumazet@google.com, kuba@kernel.org,
+	horms@kernel.org, pabeni@redhat.com, davem@davemloft.net,
+	michael.chan@broadcom.com, tariqt@nvidia.com,
+	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+	jdamato@fastly.com, shayd@nvidia.com, akpm@linux-foundation.org,
+	shayagr@amazon.com, kalesh-anakkur.purayil@broadcom.com,
+	Ahmed Zaki <ahmed.zaki@intel.com>
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 3/6] net: napi: add CPU
+ affinity to napi_config
+Message-ID: <202501101042.2q2geY9c-lkp@intel.com>
+References: <20250109233107.17519-4-ahmed.zaki@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +70,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250109005553.623947-1-airlied@gmail.com>
+In-Reply-To: <20250109233107.17519-4-ahmed.zaki@intel.com>
 
-Hi Dave,
+Hi Ahmed,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on drm-misc/drm-misc-next drm-tip/drm-tip v6.13-rc6 next-20250109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-fence-handle-cross-device-fences-properly-v3/20250109-085805
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250109005553.623947-1-airlied%40gmail.com
-patch subject: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
-config: loongarch-randconfig-002-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101033.wlEjeZwK-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101033.wlEjeZwK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Zaki/net-move-ARFS-rmap-management-to-core/20250110-073339
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250109233107.17519-4-ahmed.zaki%40intel.com
+patch subject: [Intel-wired-lan] [PATCH net-next v4 3/6] net: napi: add CPU affinity to napi_config
+config: s390-randconfig-001-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101042.2q2geY9c-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101042.2q2geY9c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501101033.wlEjeZwK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501101042.2q2geY9c-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nouveau_fence.c: In function 'nouveau_fence_sync':
->> drivers/gpu/drm/nouveau/nouveau_fence.c:394:53: error: 'struct nouveau_channel' has no member named 'drm'
-     394 |                                 local = prev && prev->drm == chan->drm;
-         |                                                     ^~
-   drivers/gpu/drm/nouveau/nouveau_fence.c:394:66: error: 'struct nouveau_channel' has no member named 'drm'
-     394 |                                 local = prev && prev->drm == chan->drm;
-         |                                                                  ^~
+   net/core/dev.c: In function 'netif_napi_affinity_release':
+>> net/core/dev.c:6795:42: error: 'struct net_device' has no member named 'rx_cpu_rmap'
+    6795 |         struct cpu_rmap *rmap = napi->dev->rx_cpu_rmap;
+         |                                          ^~
+>> net/core/dev.c:6797:23: error: 'struct napi_struct' has no member named 'napi_rmap_idx'
+    6797 |         rmap->obj[napi->napi_rmap_idx] = NULL;
+         |                       ^~
 
 
-vim +394 drivers/gpu/drm/nouveau/nouveau_fence.c
+vim +6795 net/core/dev.c
 
-   356	
-   357	int
-   358	nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
-   359			   bool exclusive, bool intr)
-   360	{
-   361		struct nouveau_fence_chan *fctx = chan->fence;
-   362		struct dma_resv *resv = nvbo->bo.base.resv;
-   363		int i, ret;
-   364	
-   365		ret = dma_resv_reserve_fences(resv, 1);
-   366		if (ret)
-   367			return ret;
-   368	
-   369		/* Waiting for the writes first causes performance regressions
-   370		 * under some circumstances. So manually wait for the reads first.
-   371		 */
-   372		for (i = 0; i < 2; ++i) {
-   373			struct dma_resv_iter cursor;
-   374			struct dma_fence *fence;
-   375	
-   376			dma_resv_for_each_fence(&cursor, resv,
-   377						dma_resv_usage_rw(exclusive),
-   378						fence) {
-   379				enum dma_resv_usage usage;
-   380				struct nouveau_fence *f;
-   381	
-   382				usage = dma_resv_iter_usage(&cursor);
-   383				if (i == 0 && usage == DMA_RESV_USAGE_WRITE)
-   384					continue;
-   385	
-   386				f = nouveau_local_fence(fence, chan->cli->drm);
-   387				if (f) {
-   388					struct nouveau_channel *prev;
-   389					bool must_wait = true;
-   390					bool local;
-   391	
-   392					rcu_read_lock();
-   393					prev = rcu_dereference(f->channel);
- > 394					local = prev && prev->drm == chan->drm;
-   395					if (local && (prev == chan ||
-   396						      fctx->sync(f, prev, chan) == 0))
-   397						must_wait = false;
-   398					rcu_read_unlock();
-   399					if (!must_wait)
-   400						continue;
-   401				}
-   402	
-   403				ret = dma_fence_wait(fence, intr);
-   404				if (ret)
-   405					return ret;
-   406			}
-   407		}
-   408	
-   409		return 0;
-   410	}
-   411	
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6789  
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6790  static void
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6791  netif_napi_affinity_release(struct kref *ref)
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6792  {
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6793  	struct napi_struct *napi =
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6794  		container_of(ref, struct napi_struct, notify.kref);
+064d6072cac4f49 Ahmed Zaki 2025-01-09 @6795  	struct cpu_rmap *rmap = napi->dev->rx_cpu_rmap;
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6796  
+064d6072cac4f49 Ahmed Zaki 2025-01-09 @6797  	rmap->obj[napi->napi_rmap_idx] = NULL;
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6798  	cpu_rmap_put(rmap);
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6799  }
+064d6072cac4f49 Ahmed Zaki 2025-01-09  6800  
 
 -- 
 0-DAY CI Kernel Test Service
