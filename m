@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E83213E72
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 17:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D585E213E66
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 17:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736530069; cv=none; b=hROw1Ofg8rfVXlAV+hbLOfqNSsXOYWPIhGT9Ws8+i4JuZobsCyG0OXf7cCitauV2fufln0TvpNXzLuK7hPtkvpPTxriEZidNyp+feYJIoA0qfrl8L5YI2ATRy4OzFjaQsEtKgeqM3urhplXx8L0f1wn4wqAKjF5gEZENxagUJXs=
+	t=1736530741; cv=none; b=TSX2uDANHWS9FYvw86UOfzg+s4iTAheSrnSaOBbdmJFXB55g3LBBlAxuwjTAmvR+oyxHOs0zGMf/I9QpAMj4AvH/71mbT5qZVdxdX+3b8KmvfGOMcR9Ne35qqGhdJf0X9rB/OpvZcWo0ja6uTOhTq6T9vXdEWLMPK6n5PIOIatA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736530069; c=relaxed/simple;
-	bh=duc6O0kU5K+Ri0ciMTCmprVaetI90EDjSGPBvt5Rxsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=igsyFLuoVaP/ddtC0LONjVJFnDNJ4sKjkTlfWNDFXNH11/SODP6s4jOccfpl3H4ziSxpImI0feOl5GtV/8GZ0xskWXltne8vBQbZVk1QngxNpR1z6UIw5BCK7SoevTKOKlXQdVxApKzG0YMJiglzVtxC+0WQCazwiPc/x6LGLg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0jD0c9p; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1736530741; c=relaxed/simple;
+	bh=jtFQ6GF9AMhANPu2yc6bKdQiG0gDT/hOYOe+pWqU1zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qJHIpYgBjm339Rp2aN5QfsYsd4RTUq/dRaydmL6f9lHPocQgZAgtnDMzxrV6M0p2nBQT0VoFOyZJLWvMV/sgiRDSmFqdxJnnJ8utO29VzdV2zKLb3c8FrNwYOsh6B+EQfxXlU0/sBx/7SZfSYsC6jtSBLZXCBRDyK0OKpb+9It4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4iBd6fB; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0jD0c9p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4iBd6fB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736530068; x=1768066068;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=duc6O0kU5K+Ri0ciMTCmprVaetI90EDjSGPBvt5Rxsw=;
-  b=K0jD0c9pcHeLez/Mrobc9J0dswpKwJdqAetevHKdwiQIh+8kaU5kVHBw
-   O6PccwIhyGqvh08iVjWwVz5aiXmBYicb3OsP+Oha8PnloeV2YZ46RW/Ln
-   OAerf9mh3Vrnlmc2+8CJktFbQQbnTT7s5J1dsDkGP2aAEkgVaspitRqM2
-   r/QlUSvkCmoKZHnGVmRuAmBNA0Tc46azRcVaNbFNLaTb7to+v/NHcLqVk
-   LI6FEdbFJIsayjUXRBavBBul0Qf27ne9fgoB1aXjiFiQaLqcNZqM3Qj/l
-   6Q5vBwZgHyvFVmBNO7bZDLE6cpRuVwliG+mF5jHE0t6HPc0Qg84I60r9h
-   A==;
-X-CSE-ConnectionGUID: dfU2g5cPRCGDmVNyoiMyaA==
-X-CSE-MsgGUID: qms31fmKQI6KH8574TZaTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="24437168"
+  t=1736530739; x=1768066739;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jtFQ6GF9AMhANPu2yc6bKdQiG0gDT/hOYOe+pWqU1zk=;
+  b=S4iBd6fBVp4A+xghAuxKHVmMHO/UfQS2R6mZUh1xkhic+VOY1gWlZ8kX
+   y/0GDKaobKSIFj5sTZ3lDTYuIg4yhS8r0nvboSbAwjUJw6jEeFEdxl/hf
+   Z6TDStw/6S8ZgeR7fI1Z8uAlSwlkdOpaOxV4VNG0pZ61GarQuwixO8ETM
+   7QP49n0Lv95IArwZnf0vt2QQrq2U8++82w70kAR9SoqwDXUqOoRTN92YU
+   Kz4SK1MtT2ect+Wde19iuEx5j+JTv0YoKOKxhQ/5bPuTkHjeHGMuljJkO
+   TV2gfFLINMEW1FPiv/d5Z/fD6X0GWoDbdgPkIyBVvN0LwzB39D3sqWDGZ
+   g==;
+X-CSE-ConnectionGUID: 0DtUyHXySiyQozhnWvddWA==
+X-CSE-MsgGUID: u5LLjCaOQRGHwgVH3vuOJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="47823714"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="24437168"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 09:27:45 -0800
-X-CSE-ConnectionGUID: jYcVV6BHSryH97oAPhVvKQ==
-X-CSE-MsgGUID: pd2XVPFSTBGddQJ8BKz50w==
+   d="scan'208";a="47823714"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 09:38:59 -0800
+X-CSE-ConnectionGUID: orckjJYgQGWfbXZfhXPCmA==
+X-CSE-MsgGUID: xuQIEPMQQC+5rR7eAMqmqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="141084704"
+   d="scan'208";a="108894361"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Jan 2025 09:27:43 -0800
+  by orviesa005.jf.intel.com with ESMTP; 10 Jan 2025 09:38:48 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWInM-000JXP-2e;
-	Fri, 10 Jan 2025 17:27:40 +0000
-Date: Sat, 11 Jan 2025 01:27:23 +0800
+	id 1tWIy3-000JYd-0I;
+	Fri, 10 Jan 2025 17:38:43 +0000
+Date: Sat, 11 Jan 2025 01:38:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, anshuman.gupta@intel.com,
-	rodrigo.vivi@intel.com, andrzej.hajda@intel.com,
-	andi.shyti@intel.com
-Subject: Re: [PATCH 1/2] drm/i915/mtl: Disable render power-gating during
- selftest only
-Message-ID: <202501110110.QpyfeXt4-lkp@intel.com>
-References: <20250110140947.3471824-2-badal.nilawar@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/usb/gadget/function/rndis.c:60:23: warning: '%03d' directive
+ writing between 3 and 10 bytes into a region of size 7
+Message-ID: <202501110148.c1kVuj6t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,133 +61,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110140947.3471824-2-badal.nilawar@intel.com>
 
-Hi Badal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/drm-i915-mtl-Disable-render-power-gating-during-selftest-only/20250110-214933
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250110140947.3471824-2-badal.nilawar%40intel.com
-patch subject: [PATCH 1/2] drm/i915/mtl: Disable render power-gating during selftest only
-config: x86_64-buildonly-randconfig-004-20250110 (https://download.01.org/0day-ci/archive/20250111/202501110110.QpyfeXt4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110110.QpyfeXt4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2144da25584eb10b84252230319b5783f6a83041
+commit: df8df5e4bc37e39010cfdf5d50cf726fe08aae5b usb: get rid of 'choice' for legacy gadget drivers
+date:   4 years, 10 months ago
+config: powerpc64-randconfig-002-20231105 (https://download.01.org/0day-ci/archive/20250111/202501110148.c1kVuj6t-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110148.c1kVuj6t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110110.QpyfeXt4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110148.c1kVuj6t-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/gt/intel_rc6.c: In function 'gen11_rc6_enable':
->> drivers/gpu/drm/i915/gt/intel_rc6.c:126:13: error: 'i915_selftest' undeclared (first use in this function)
-     126 |         if (i915_selftest.live && IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)))
-         |             ^~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/intel_rc6.c:126:13: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/usb/gadget/function/rndis.c: In function 'rndis_register':
+>> drivers/usb/gadget/function/rndis.c:60:23: warning: '%03d' directive writing between 3 and 10 bytes into a region of size 7 [-Wformat-overflow=]
+      60 | #define NAME_TEMPLATE "driver/rndis-%03d"
+         |                       ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/rndis.c:903:31: note: in expansion of macro 'NAME_TEMPLATE'
+     903 |                 sprintf(name, NAME_TEMPLATE, i);
+         |                               ^~~~~~~~~~~~~
+   drivers/usb/gadget/function/rndis.c:60:37: note: format string is defined here
+      60 | #define NAME_TEMPLATE "driver/rndis-%03d"
+         |                                     ^~~~
+   drivers/usb/gadget/function/rndis.c:60:23: note: directive argument in the range [0, 2147483647]
+      60 | #define NAME_TEMPLATE "driver/rndis-%03d"
+         |                       ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/rndis.c:903:31: note: in expansion of macro 'NAME_TEMPLATE'
+     903 |                 sprintf(name, NAME_TEMPLATE, i);
+         |                               ^~~~~~~~~~~~~
+   drivers/usb/gadget/function/rndis.c:903:17: note: 'sprintf' output between 17 and 24 bytes into a destination of size 20
+     903 |                 sprintf(name, NAME_TEMPLATE, i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_PCI_POWERNV
+   Depends on [n]: PCI [=y] && HOTPLUG_PCI [=n] && PPC_POWERNV [=y] && EEH [=y]
+   Selected by [y]:
+   - OCXL [=y] && PPC_POWERNV [=y] && PCI [=y] && EEH [=y]
 
 
-vim +/i915_selftest +126 drivers/gpu/drm/i915/gt/intel_rc6.c
+vim +60 drivers/usb/gadget/function/rndis.c
 
-    55	
-    56	static void gen11_rc6_enable(struct intel_rc6 *rc6)
-    57	{
-    58		struct intel_gt *gt = rc6_to_gt(rc6);
-    59		struct intel_uncore *uncore = gt->uncore;
-    60		struct intel_engine_cs *engine;
-    61		enum intel_engine_id id;
-    62		u32 pg_enable;
-    63		int i;
-    64	
-    65		/*
-    66		 * With GuCRC, these parameters are set by GuC
-    67		 */
-    68		if (!intel_uc_uses_guc_rc(&gt->uc)) {
-    69			/* 2b: Program RC6 thresholds.*/
-    70			intel_uncore_write_fw(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
-    71			intel_uncore_write_fw(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
-    72	
-    73			intel_uncore_write_fw(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
-    74			intel_uncore_write_fw(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
-    75			for_each_engine(engine, rc6_to_gt(rc6), id)
-    76				intel_uncore_write_fw(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
-    77	
-    78			intel_uncore_write_fw(uncore, GUC_MAX_IDLE_COUNT, 0xA);
-    79	
-    80			intel_uncore_write_fw(uncore, GEN6_RC_SLEEP, 0);
-    81	
-    82			intel_uncore_write_fw(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
-    83		}
-    84	
-    85		/*
-    86		 * 2c: Program Coarse Power Gating Policies.
-    87		 *
-    88		 * Bspec's guidance is to use 25us (really 25 * 1280ns) here. What we
-    89		 * use instead is a more conservative estimate for the maximum time
-    90		 * it takes us to service a CS interrupt and submit a new ELSP - that
-    91		 * is the time which the GPU is idle waiting for the CPU to select the
-    92		 * next request to execute. If the idle hysteresis is less than that
-    93		 * interrupt service latency, the hardware will automatically gate
-    94		 * the power well and we will then incur the wake up cost on top of
-    95		 * the service latency. A similar guide from plane_state is that we
-    96		 * do not want the enable hysteresis to less than the wakeup latency.
-    97		 *
-    98		 * igt/gem_exec_nop/sequential provides a rough estimate for the
-    99		 * service latency, and puts it under 10us for Icelake, similar to
-   100		 * Broadwell+, To be conservative, we want to factor in a context
-   101		 * switch on top (due to ksoftirqd).
-   102		 */
-   103		intel_uncore_write_fw(uncore, GEN9_MEDIA_PG_IDLE_HYSTERESIS, 60);
-   104		intel_uncore_write_fw(uncore, GEN9_RENDER_PG_IDLE_HYSTERESIS, 60);
-   105	
-   106		/* 3a: Enable RC6
-   107		 *
-   108		 * With GuCRC, we do not enable bit 31 of RC_CTL,
-   109		 * thus allowing GuC to control RC6 entry/exit fully instead.
-   110		 * We will not set the HW ENABLE and EI bits
-   111		 */
-   112		if (!intel_guc_rc_enable(gt_to_guc(gt)))
-   113			rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
-   114		else
-   115			rc6->ctl_enable =
-   116				GEN6_RC_CTL_HW_ENABLE |
-   117				GEN6_RC_CTL_RC6_ENABLE |
-   118				GEN6_RC_CTL_EI_MODE(1);
-   119	
-   120		/*
-   121		 * BSpec 52698 - Render powergating must be off.
-   122		 * FIXME BSpec is outdated, disabling powergating for MTL is just
-   123		 * temporary wa and should be removed after fixing real cause
-   124		 * of forcewake timeouts.
-   125		 */
- > 126		if (i915_selftest.live && IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)))
-   127			pg_enable =
-   128				GEN9_MEDIA_PG_ENABLE |
-   129				GEN11_MEDIA_SAMPLER_PG_ENABLE;
-   130		else
-   131			pg_enable =
-   132				GEN9_RENDER_PG_ENABLE |
-   133				GEN9_MEDIA_PG_ENABLE |
-   134				GEN11_MEDIA_SAMPLER_PG_ENABLE;
-   135	
-   136		if (GRAPHICS_VER(gt->i915) >= 12 && !IS_DG1(gt->i915)) {
-   137			for (i = 0; i < I915_MAX_VCS; i++)
-   138				if (HAS_ENGINE(gt, _VCS(i)))
-   139					pg_enable |= (VDN_HCP_POWERGATE_ENABLE(i) |
-   140						      VDN_MFX_POWERGATE_ENABLE(i));
-   141		}
-   142	
-   143		intel_uncore_write_fw(uncore, GEN9_PG_ENABLE, pg_enable);
-   144	}
-   145	
+d6d22922d9070b drivers/usb/gadget/function/rndis.c Andrzej Pietrasiewicz 2015-02-06  59  
+d6d22922d9070b drivers/usb/gadget/function/rndis.c Andrzej Pietrasiewicz 2015-02-06 @60  #define	NAME_TEMPLATE "driver/rndis-%03d"
+^1da177e4c3f41 drivers/usb/gadget/rndis.c          Linus Torvalds        2005-04-16  61  
+
+:::::: The code at line 60 was first introduced by commit
+:::::: d6d22922d9070b660e3dce0a87a94f0b581e803e usb: gadget: rndis: remove the limit of available rndis connections
+
+:::::: TO: Andrzej Pietrasiewicz <andrzej.p@samsung.com>
+:::::: CC: Felipe Balbi <balbi@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
