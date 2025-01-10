@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131D220764C;
-	Fri, 10 Jan 2025 23:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E924E223320
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 23:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736552151; cv=none; b=D7jmoSaL9mvqHOBYrJhCGuobrQXVd8L6lhzQRjuBXMIKDLVXUUKCtg2Zhy2gQ+89eFU2zZ5U9gdaATRFmvbBmUIyKrWIfwUOZTzqKYDdtduLwah/nIaRuJgNiAjS5JnBOEGTwhLvyqMtb0lQc7wpIUSaDM5QsgPX8kjJm6p79cQ=
+	t=1736552874; cv=none; b=DRXzP0vydQhM0rpdCwBrI/1A0Lg62eV3DigDOedUav5RqvJ2w9u24W35lpmvG1m/QVXUKGME2+WOKVLbrkEnVdDffUS0aZFAgUD3laL7tFnlnZq7Z2kXpwaKt8mA5shEX3MR+/W15Lo++eGZ2pP8sb/RAOl0gPgzSk7qOwsSHhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736552151; c=relaxed/simple;
-	bh=gk1ii41uDS6rbYGxwNhSgkuPVl96zUiN/YbbqoElL0c=;
+	s=arc-20240116; t=1736552874; c=relaxed/simple;
+	bh=zUxGPM+URMQTRm5xL4DE68Fmf4zsfkQik5+NCQ7HBLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ES7PKuMWzQ/BsNUM13v8g4FvDCG9TeME2+19KU9fa9LvmrePd8j8ATIZMIuhgzXsYDadE1orTa7jaQf/By91B3YflIc4YIAKlTI+Sy2/pQR2ZAXPLfDNjR8osRgY4f/KkNU7Woeo6NRKHzIT3KApHQxTj5Bc8rUBBRI8lV+DGmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xn4ygbd6; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=LKhau95Byv4ADoZtXLCKasaMmZ8NKR6QUfgT251LncPvHA7YGE4QpUbtondgLYu0VgVzRJ+g6qaPhiODTfWC1eCky5SSN7ZIuDpE3TwY10rPEQgEOn+ZC6pskts0IEFk76Nn08aGPRQ16yGwduUnns92AWetPU92Lw1E+jSAPwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQjIF8C7; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xn4ygbd6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQjIF8C7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736552149; x=1768088149;
+  t=1736552873; x=1768088873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gk1ii41uDS6rbYGxwNhSgkuPVl96zUiN/YbbqoElL0c=;
-  b=Xn4ygbd62Lnrdlbz/L+xXe6U8I6jeMXnxAKkNh9uWN0SUsA+XMLmej93
-   hCiM1ee7mH/lfKt34jbubteEJBOrhuwNR3aj3bju6y45PQld34XLobmbX
-   o6BlMpAFcMrOA0POZStUy84KcTQBj4q1Iefd/cXSKH8l6GRSlEXz4+g+a
-   wbGsxjL4Y/RZvtswwXmumpw5WudBI6c4iKRDZyh9M5DobfSE8to+ytLyn
-   HSleuYeqnpmgOhiIZFrdsIl0WamvdNu1PB+OP0MellHVRVWnUDjZ6GBdX
-   ripI70boE9Ib1ZtEtA2cEAh3W1EeR9UwJkAjpd1Z4HTKAGJqSN69eUhAR
-   Q==;
-X-CSE-ConnectionGUID: L7jaPNVGQWGD0WPrw+ijSw==
-X-CSE-MsgGUID: aLrz6CyTRvKyup5R8sAX2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="54279289"
+  bh=zUxGPM+URMQTRm5xL4DE68Fmf4zsfkQik5+NCQ7HBLY=;
+  b=hQjIF8C7RJIdgMbBrXeew3cSLv96Pwxt3Qk81yMAjurMeo6ULBFewk5M
+   8XUH4KR4GP8zHTl1h5PoewGkFs/NWDoW1LHI3pjB66qEN87e7glqCxEFM
+   MZxha6IZjH5Fkwzhdmr1aDKUEPLJyjQ8D9H7al0g2dHH/tnL06Eo7til1
+   K5Ylk3r0OPw3YewP0+MZK1p5MM81/6mSyZ3Jo6HEkUX1RfLNRMHlHprsW
+   HVbApY60Rs/lTpGQ8NjmyFelkVkwEkCVq5HNXtN1TcGgPdR/NOGPq1R4K
+   hKm7cCCqIcuExgtmALBpvb0SYvlyeuyFvbi8aU67SqNeihP2cY8c8J3/Z
+   A==;
+X-CSE-ConnectionGUID: G3cgXXvYTtC5kVuIUH9UTQ==
+X-CSE-MsgGUID: uQje+TeyRIy3phK33223AA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="36762569"
 X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="54279289"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 15:35:48 -0800
-X-CSE-ConnectionGUID: P/tBW3wxSSSWm5Cj4ygqTQ==
-X-CSE-MsgGUID: apulpcyhR46c9Cb2dYrCTg==
+   d="scan'208";a="36762569"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 15:47:52 -0800
+X-CSE-ConnectionGUID: Ffw3DjGGQWCcamUxUHTx6w==
+X-CSE-MsgGUID: 90z+NIJYRcW+yXsbB5/5/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="108779070"
+   d="scan'208";a="103811186"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Jan 2025 15:35:47 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 10 Jan 2025 15:47:51 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWOXZ-000Jt9-0H;
-	Fri, 10 Jan 2025 23:35:45 +0000
-Date: Sat, 11 Jan 2025 07:35:17 +0800
+	id 1tWOjE-000JuB-2Q;
+	Fri, 10 Jan 2025 23:47:48 +0000
+Date: Sat, 11 Jan 2025 07:47:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:v2_20241224_miquel_raynal_spi_nand_spi_mem_dtr_support
- 20/20] drivers/spi/spi-mem.c:580:5: error: conflicting types for
- 'spi_mem_calc_op_duration'
-Message-ID: <202501110755.JT9rdfyf-lkp@intel.com>
+To: Min Li <min.li.xe@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:lkp_test 371/504] drivers/misc/rsmu_cm.c:172:13:
+ warning: variable 'err' set but not used
+Message-ID: <202501110703.AqVudeRO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,62 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20241224_miquel_raynal_spi_nand_spi_mem_dtr_support
-head:   136b0c14632e8cff0003f63d0555ce73eaed5220
-commit: 136b0c14632e8cff0003f63d0555ce73eaed5220 [20/20] spi: spi-mem: Estimate the time taken by operations
-config: i386-buildonly-randconfig-006-20250111 (https://download.01.org/0day-ci/archive/20250111/202501110755.JT9rdfyf-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110755.JT9rdfyf-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: b77497260b398a80cfe434aec5106a46dcc21456 [371/504] misc: rsmu: add rsmu cdev driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250111/202501110703.AqVudeRO-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110703.AqVudeRO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110755.JT9rdfyf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110703.AqVudeRO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-mem.c:580:5: error: conflicting types for 'spi_mem_calc_op_duration'
-     580 | u64 spi_mem_calc_op_duration(struct spi_mem_op *op)
-         |     ^
-   include/linux/spi/spi-mem.h:427:5: note: previous declaration is here
-     427 | u64 spi_mem_calc_op_duration(struct spi_mem *mem, struct spi_mem_op *op);
-         |     ^
-   1 error generated.
+   drivers/misc/rsmu_cm.c: In function 'rsmu_cm_set_output_tdc_go':
+>> drivers/misc/rsmu_cm.c:172:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+     172 |         int err;
+         |             ^~~
 
 
-vim +/spi_mem_calc_op_duration +580 drivers/spi/spi-mem.c
+vim +/err +172 drivers/misc/rsmu_cm.c
 
-   564	
-   565	/**
-   566	 * spi_mem_calc_op_duration() - Derives the theoretical length (in ns) of an
-   567	 *			        operation. This helps finding the best variant
-   568	 *			        among a list of possible choices.
-   569	 * @op: the operation to benchmark
-   570	 *
-   571	 * Some chips have per-op frequency limitations, PCBs usually have their own
-   572	 * limitations as well, and controllers can support dual, quad or even octal
-   573	 * modes, sometimes in DTR. All these combinations make it impossible to
-   574	 * statically list the best combination for all situations. If we want something
-   575	 * accurate, all these combinations should be rated (eg. with a time estimate)
-   576	 * and the best pick should be taken based on these calculations.
-   577	 *
-   578	 * Returns a ns estimate for the time this op would take.
-   579	 */
- > 580	u64 spi_mem_calc_op_duration(struct spi_mem_op *op)
-   581	{
-   582		u64 ncycles = 0;
-   583		u32 ns_per_cycles;
-   584	
-   585		ns_per_cycles = 1000000000 / op->max_freq;
-   586		ncycles += ((op->cmd.nbytes * 8) / op->cmd.buswidth) / (op->cmd.dtr ? 2 : 1);
-   587		ncycles += ((op->addr.nbytes * 8) / op->addr.buswidth) / (op->addr.dtr ? 2 : 1);
-   588		ncycles += ((op->dummy.nbytes * 8) / op->dummy.buswidth) / (op->dummy.dtr ? 2 : 1);
-   589		ncycles += ((op->data.nbytes * 8) / op->data.buswidth) / (op->data.dtr ? 2 : 1);
-   590	
-   591		return ncycles * ns_per_cycles;
-   592	}
-   593	EXPORT_SYMBOL_GPL(spi_mem_calc_op_duration);
-   594	
+   165	
+   166	static int rsmu_cm_set_output_tdc_go(struct rsmu_cdev *rsmu, u8 tdc, u8 enable)
+   167	{
+   168		/* This function enables or disables output tdc alignment. */
+   169		u8 tdc_ctrl4_offset;
+   170		u32 tdc_n;
+   171		u8 reg;
+ > 172		int err;
+   173	
+   174		tdc_ctrl4_offset = IDTCM_FW_REG(rsmu->fw_version, V520, OUTPUT_TDC_CTRL_4);
+   175	
+   176		switch (tdc) {
+   177		case 0:
+   178			tdc_n = OUTPUT_TDC_0;
+   179			break;
+   180		case 1:
+   181			tdc_n = OUTPUT_TDC_1;
+   182			break;
+   183		case 2:
+   184			tdc_n = OUTPUT_TDC_2;
+   185			break;
+   186		case 3:
+   187			tdc_n = OUTPUT_TDC_3;
+   188			break;
+   189		default:
+   190			return -EINVAL;
+   191		}
+   192	
+   193		err = regmap_bulk_read(rsmu->regmap, tdc_n + tdc_ctrl4_offset,
+   194				       &reg, sizeof(reg));
+   195	
+   196		if (enable)
+   197			reg |= 0x01;
+   198		else
+   199			reg &= ~0x01;
+   200	
+   201		return regmap_bulk_write(rsmu->regmap, tdc_n + tdc_ctrl4_offset,
+   202					 &reg, sizeof(reg));
+   203	}
+   204	
 
 -- 
 0-DAY CI Kernel Test Service
