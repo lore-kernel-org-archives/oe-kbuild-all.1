@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF587214A61
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 19:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27281BA50
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jan 2025 20:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736539144; cv=none; b=NZpuckSFdP3Gv/88pk1RO2EWtK1xwVHkno8xiE1RZw98tCL1EsXlKHZl5zWG0ByM6F7kRZX0tJIGQCCy2zeES9vfbJ1O4ZzI9NCmK5fCoWLURxkEUGuxRzc0FL8GI6mViKnqpCwPEKt1au1H3HGdE3Lj6RodtErJHPxn1Qsi1/0=
+	t=1736539803; cv=none; b=o839Zx1Lpanpy+/XQP2eyK0NdujrqjWDvslKIiRCp4prc4q8GdReujlAYgsaw64PIUnAL7WGA6CVIqW4Tj++usv3TQGGFKuUVhTn63mxdk2+MUO8dg91jQQBB+FgYCMoFr0J9M4f6ESkgvnbieivqFL9om8BiW6mnr7oxO/1CM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736539144; c=relaxed/simple;
-	bh=mk15RZNWAF2ECEPWbT+E8DEIfOf83ugHhd6HthDC4Aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ECYriVhbeP9YfVM1UOAYUYDIffblARP6yi+oJCw8YFyNAgUwrsEAAs091iA4w1iBYGBRdRGTyTolEuRiNkqZdcMXfX8y7GnGTJ9QKOwrSovH/TA3qrighE3FnKS5Y1/DmrUKKTqxao7XDJf3CdXmB4lfaEPh58gzxBisZEvdxs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQy8B2Lr; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1736539803; c=relaxed/simple;
+	bh=swUya38COzE+ldBnWP9OHJ3sEm+97Z4EIyRrFklKBNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=N9+LPPpqvPymMgtnJzlPQGdTb5rooRBR+Njf1lg+RqMTutUlE9HfrdN2rUzlhoHrQ40nGL7JwRnkGpuT9ZlOfE2mmstNAcZ5ECpUEzqjGRcNHRuOkRa6zh9KOpe24WCtrYEgIN8A8SnBYUCoH+tV2WcP1qSwWCEoZpMGpVm7aBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2Towey/; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQy8B2Lr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2Towey/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736539143; x=1768075143;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mk15RZNWAF2ECEPWbT+E8DEIfOf83ugHhd6HthDC4Aw=;
-  b=LQy8B2Lr9py3aq2HYMu5AZ6zncacElKwO3pF7h0We5DuN2tQ4ov3Z0EO
-   /KNfAk+WZGQwqVcvFK3V4EdAskghu4YuBrwt04+Q629SeMpSgmhxf1+ks
-   5ciSliS62W/XLES0S6g34c4LKv5a1REAvrMgNxC12oOEFnAIDrPhuQLIU
-   PWBVlUZ2S75WljoTaYISAYJmVtLcU4M8X22IYY+la5VvdPLylig4WmNmR
-   vXGjm3fJ3f26SwTtoc+t67qgtPYePodIqC5pfTfxCy40MtzAixMFdza5I
-   5wRcE5Dp6/sst34ze5WFtWjfvS4xAocmjVYV1o6ST8i+M+KyR39oqSgum
-   A==;
-X-CSE-ConnectionGUID: 5beI55/mSWinFHynHMEeYg==
-X-CSE-MsgGUID: ll0PPNwwTf2tmGAPqzZJXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="37006200"
+  t=1736539801; x=1768075801;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=swUya38COzE+ldBnWP9OHJ3sEm+97Z4EIyRrFklKBNg=;
+  b=k2Towey/ACpIzalWU1tH312tGCXQNrxGdKa3wzmOeXwPXc4SJYQr/tuI
+   sI2rLmlWkVCaYdYhZgsaLtLKGo9k//2yEoHsH1dmFkX+l1NXsij2mpECY
+   VhLj5xu/75MgxDGWRRpEM+HE8rr01dlyK0c4mo1YOHGvHei/CbPtlC38E
+   lx/4VlHkLL/VP3dHFkWKi3/TU9FoBUfGR7AgaiB6PNL276/2cA3lQKhro
+   OxHN64Xb2eTPyiCZY64uqi9oXwzFo5nWBbmj9nlOqdphD1Ltx3r7C8Uub
+   xyIxyaqBi3rKyLLtWpSopeNItZVQGsWmh9/h1VJ/Zz3xozCacbmd6IHI2
+   Q==;
+X-CSE-ConnectionGUID: XSw1qsOAQ0uVP1+UsP84Nw==
+X-CSE-MsgGUID: JuQTEJQyTL2WWFiAJfz+qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="36749473"
 X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
-   d="scan'208";a="37006200"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 11:59:03 -0800
-X-CSE-ConnectionGUID: +Z8uqQABTBq/wH4kneekfQ==
-X-CSE-MsgGUID: eVg+bAurQ9egclFQDZjquA==
+   d="scan'208";a="36749473"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 12:10:00 -0800
+X-CSE-ConnectionGUID: kNJT4tPUTaqqKBX6Zzf7Yw==
+X-CSE-MsgGUID: a/7qBSk7RAWhXjcuoyflaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108925131"
+   d="scan'208";a="134736416"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jan 2025 11:58:58 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jan 2025 12:09:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWL9k-000Jgj-0U;
-	Fri, 10 Jan 2025 19:58:56 +0000
-Date: Sat, 11 Jan 2025 03:57:58 +0800
+	id 1tWLKP-000Jho-1C;
+	Fri, 10 Jan 2025 20:09:57 +0000
+Date: Sat, 11 Jan 2025 04:09:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Kisel <romank@linux.microsoft.com>, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com,
-	ilpo.jarvinen@linux.intel.com, mingo@redhat.com, robh@kernel.org,
-	sboyd@kernel.org, ssengar@linux.microsoft.com, tglx@linutronix.de,
-	usamaarif642@gmail.com, x86@kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, apais@microsoft.com,
-	benhill@microsoft.com, ssengar@microsoft.com,
-	sunilmut@microsoft.com, vdso@hexbites.dev
-Subject: Re: [PATCH] x86/of: Don't log error on the missing IO-APIC
- unconditionally
-Message-ID: <202501110358.e3qQDC6q-lkp@intel.com>
-References: <20250109184015.1674388-1-romank@linux.microsoft.com>
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
+	Phil Auld <pauld@redhat.com>
+Subject: [peterz-queue:sched/core 44/45] build_policy.c:undefined reference
+ to `__setparam_fair'
+Message-ID: <202501110427.EB45CCCm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,46 +62,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250109184015.1674388-1-romank@linux.microsoft.com>
 
-Hi Roman,
+Hi Vincent,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on eea6e4b4dfb8859446177c32961c96726d0117be]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/x86-of-Don-t-log-error-on-the-missing-IO-APIC-unconditionally/20250110-024320
-base:   eea6e4b4dfb8859446177c32961c96726d0117be
-patch link:    https://lore.kernel.org/r/20250109184015.1674388-1-romank%40linux.microsoft.com
-patch subject: [PATCH] x86/of: Don't log error on the missing IO-APIC unconditionally
-config: i386-randconfig-004-20250111 (https://download.01.org/0day-ci/archive/20250111/202501110358.e3qQDC6q-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+head:   82563deef777b32ef169230d5cdf4e37ba9e9bde
+commit: 12ef9ed8faba2301620ce093e2f5b5e3ca886ae0 [44/45] sched/fair: Encapsulate set custom slice in a __setparam_fair() function
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20250111/202501110427.EB45CCCm-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110358.e3qQDC6q-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110427.EB45CCCm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501110358.e3qQDC6q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110427.EB45CCCm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/devicetree.c:50:13: warning: 'falconfalls_compatible' defined but not used [-Wunused-function]
-      50 | static bool falconfalls_compatible(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/falconfalls_compatible +50 arch/x86/kernel/devicetree.c
-
-    49	
-  > 50	static bool falconfalls_compatible(void)
-    51	{
-    52		if (!of_have_populated_dt())
-    53			return false;
-    54	
-    55		return of_flat_dt_is_compatible(
-    56				of_get_flat_dt_root(), "intel,falconfalls");
-    57	}
-    58	
+   ld: kernel/sched/build_policy.o: in function `__sched_setscheduler':
+>> build_policy.c:(.text+0x48e5): undefined reference to `__setparam_fair'
 
 -- 
 0-DAY CI Kernel Test Service
