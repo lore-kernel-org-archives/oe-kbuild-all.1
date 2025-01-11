@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBDC372
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 15:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB9D82899;
+	Sat, 11 Jan 2025 16:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736610456; cv=none; b=hUlLJ8PbH1sT+hWcqYTaMhKduJaZGznpRQJWWtAOEQkTRC9BX4jxfyjl+m+WaRSkpbMQ+MMFI3KLNXZVGH8jnoTIFWqfZEwaTk+w+CN9Dk5Qz/ugmsND4CVaifMNSdZJFYskX32gkCooLNcASkIxdVoOVHP2XgKxwp+ObtbYliQ=
+	t=1736611778; cv=none; b=sBOn5oZl0KpfsIh/RmClE+oO30FJZMJIqeB+MQeWYllulAAp7DRokrOXUH4iFHNg4JdS2yxysE1ICACLPIFoLcJwbCOxcuNeYTF+Y3hlS5UjvYBF/m2A6DJocat1lsjiCJEgMLfxCJP0aWadPb8zPF4YDawMzGJ7DtTjYFf/4oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736610456; c=relaxed/simple;
-	bh=b3P6KNSNfX8VCZ+6tJgRB2tHLM4xz/W71xYZ7MASfBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WFvXRgIy9utZg4QjwU+ibr5RhK39k9ht03g924TSZtAYyRQIyQrr1PTNfuVbSIsoYyhj3MfauhpqQNUDNRhdozf3HlCunqJI3tNWxPPeQE5Vz5aQRcTHd5UQyFyDjKdapq4cA45jyJZKdMDB4pN4SqR/5QOvAjD8f7snYKc4fCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ADxHocu4; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1736611778; c=relaxed/simple;
+	bh=NtquL0H1tlaj8sg6C9RoGCOsvvzWQ2j8p8kSloTeyRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dsfxLfJhNf4w3/M5i0OPT1BCDM3daMIzVl8mREi4Iyw+JzH+4JKPpxBQs4SZAocVQbbADBO10YyA45LTzAsTjXdq9J+lf2vxOaPNsvOrV0foaI6bW3z2d9ISwJZibMXzqWgV/0t2xm7jxbtuA6gPlP+UGMKVyBm5SASeNqSCG9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MwZuO9Hi; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ADxHocu4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MwZuO9Hi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736610455; x=1768146455;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b3P6KNSNfX8VCZ+6tJgRB2tHLM4xz/W71xYZ7MASfBg=;
-  b=ADxHocu4/xMoRGMQnOlvShon3ycmoiig3CEqC36RseC8Ykf3lY4NHwXx
-   ohgAslHCtofdegM1dcdiTJESrApoIb6ZPd+P5vIf+sZM6/H0OTPWxo9WY
-   LnWpN+oymM59kk+pcOK5yOL5XQzlhAkecG6NlGZq3pQMQJwbLKHZiK+n0
-   UOo7y/hSODz1fYaW5Ehbi+0gtDAxEWeSL/gF87a76FMVfYz7icXR6Iyh5
-   adVtbIBpr2KfkQNdejybeGjDdHngH7ylVdtTfUdPGEkNbCFARHbp2y01f
-   Boo135jW30QFHNtaJsvji0U9c6dgkXS6yYN8uVHrO/q2YiHKPjbK6LbUJ
-   w==;
-X-CSE-ConnectionGUID: xA14xz9MSNeybpg9uTEUlw==
-X-CSE-MsgGUID: KmDVS+FlRP6yz5ZGMauSGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36105392"
+  t=1736611776; x=1768147776;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NtquL0H1tlaj8sg6C9RoGCOsvvzWQ2j8p8kSloTeyRw=;
+  b=MwZuO9HiiMMo4JtLCvCEpElt3ai1LBcoSIsWaYR4BFT04Rvr/LW4+nwI
+   h0Wke3FHbulvvhnADLJycVyzembhHhCkesG3eh2IvALt3h+BuMYYGkSwL
+   N/2qL2QJ1+oi6nJP+6+YN6guf0EstnuVkRPoUFiWpqoUAcOqFLI2j54QT
+   4iz7fcoj6QBuYePKfwHmBknsZATwQZZq7NMvHaOlfVolY62bjXabsg2NI
+   euFvL1oUnXUMxe5vTEtDFyt/ZeEgRxCfumZimWaFtSjwr2dCmid/XsN9D
+   NVj3/vY020Kad9Hz1LUKaW8sxbuGmnQHtHQKDQd9Eo+ldiSssozJ0oZWA
+   g==;
+X-CSE-ConnectionGUID: 3l0X6m24TvuZYTBQt//ygw==
+X-CSE-MsgGUID: Vk99rX+VTFKnbhI4wUZDLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47550632"
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="36105392"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 07:47:33 -0800
-X-CSE-ConnectionGUID: TrK7FUPAQ9a6FiuyaSBJlA==
-X-CSE-MsgGUID: H2dRrx1jSreuGV87yZ9ZVQ==
+   d="scan'208";a="47550632"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 08:09:35 -0800
+X-CSE-ConnectionGUID: fjaPA+9sQ4S8NJMwvbh0zg==
+X-CSE-MsgGUID: JRDKHizWTimPSGxTu/gzng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="127290445"
+X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
+   d="scan'208";a="103817800"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2025 07:47:27 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jan 2025 08:09:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWdhs-000Kqd-2f;
-	Sat, 11 Jan 2025 15:47:24 +0000
-Date: Sat, 11 Jan 2025 23:47:21 +0800
+	id 1tWe3H-000Kvd-2m;
+	Sat, 11 Jan 2025 16:09:31 +0000
+Date: Sun, 12 Jan 2025 00:08:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrey Albershteyn <aalbersh@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Andrey Albershteyn <aalbersh@redhat.com>,
-	linux-api@vger.kernel.org, monstr@monstr.eu, mpe@ellerman.id.au,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
-	maddy@linux.ibm.com, luto@kernel.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	arnd@arndb.de, linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org
-Subject: Re: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
-Message-ID: <202501112305.EPQr5jnx-lkp@intel.com>
-References: <20250109174540.893098-1-aalbersh@kernel.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: [broonie-spi:for-next 4/22] drivers/spi/spi-amd.c:695:9: warning:
+ variable 'ret' is uninitialized when used here
+Message-ID: <202501112315.ugYQ7Ce7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,117 +62,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250109174540.893098-1-aalbersh@kernel.org>
 
-Hi Andrey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on geert-m68k/for-next powerpc/next powerpc/fixes s390/features linus/master v6.13-rc6 next-20250110]
-[cannot apply to geert-m68k/for-linus deller-parisc/for-next jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master tip/x86/asm]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/fs-introduce-getfsxattrat-and-setfsxattrat-syscalls/20250110-014739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250109174540.893098-1-aalbersh%40kernel.org
-patch subject: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
-config: s390-randconfig-r133-20250111 (https://download.01.org/0day-ci/archive/20250111/202501112305.EPQr5jnx-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250111/202501112305.EPQr5jnx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+head:   fd85b6b7bc53409d0be82763419bdcdaa48f2c91
+commit: e6204f39fe3a7b4538815a2d778b601bd543649e [4/22] spi: amd: Drop redundant check
+config: i386-randconfig-005-20250111 (https://download.01.org/0day-ci/archive/20250111/202501112315.ugYQ7Ce7-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501112315.ugYQ7Ce7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501112305.EPQr5jnx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501112315.ugYQ7Ce7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/inode.c:605:28: sparse: sparse: context imbalance in 'inode_wait_for_lru_isolating' - unexpected unlock
-   fs/inode.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   fs/inode.c:999:28: sparse: sparse: context imbalance in 'inode_lru_isolate' - unexpected unlock
-   fs/inode.c:1058:9: sparse: sparse: context imbalance in 'find_inode' - different lock contexts for basic block
-   fs/inode.c:1099:9: sparse: sparse: context imbalance in 'find_inode_fast' - different lock contexts for basic block
-   fs/inode.c:1829:5: sparse: sparse: context imbalance in 'insert_inode_locked' - wrong count at exit
-   fs/inode.c:1947:20: sparse: sparse: context imbalance in 'iput_final' - unexpected unlock
-   fs/inode.c:1961:6: sparse: sparse: context imbalance in 'iput' - wrong count at exit
-   fs/inode.c:2494:17: sparse: sparse: context imbalance in '__wait_on_freeing_inode' - unexpected unlock
->> fs/inode.c:2960:1: sparse: sparse: Using plain integer as NULL pointer
->> fs/inode.c:2960:1: sparse: sparse: Using plain integer as NULL pointer
->> fs/inode.c:2960:1: sparse: sparse: Using plain integer as NULL pointer
->> fs/inode.c:2960:1: sparse: sparse: Using plain integer as NULL pointer
-   fs/inode.c:2998:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct fsxattr [noderef] __user *ufa @@     got struct fsxattr *fsx @@
-   fs/inode.c:2998:39: sparse:     expected struct fsxattr [noderef] __user *ufa
-   fs/inode.c:2998:39: sparse:     got struct fsxattr *fsx
-   fs/inode.c:2998:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct fsxattr [noderef] __user *ufa @@     got struct fsxattr *fsx @@
-   fs/inode.c:2998:39: sparse:     expected struct fsxattr [noderef] __user *ufa
-   fs/inode.c:2998:39: sparse:     got struct fsxattr *fsx
-   fs/inode.c:3008:1: sparse: sparse: Using plain integer as NULL pointer
-   fs/inode.c:3008:1: sparse: sparse: Using plain integer as NULL pointer
-   fs/inode.c:3008:1: sparse: sparse: Using plain integer as NULL pointer
-   fs/inode.c:3008:1: sparse: sparse: Using plain integer as NULL pointer
-   fs/inode.c:3032:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct fsxattr [noderef] __user *ufa @@     got struct fsxattr *fsx @@
-   fs/inode.c:3032:41: sparse:     expected struct fsxattr [noderef] __user *ufa
-   fs/inode.c:3032:41: sparse:     got struct fsxattr *fsx
-   fs/inode.c:3032:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct fsxattr [noderef] __user *ufa @@     got struct fsxattr *fsx @@
-   fs/inode.c:3032:41: sparse:     expected struct fsxattr [noderef] __user *ufa
-   fs/inode.c:3032:41: sparse:     got struct fsxattr *fsx
+All warnings (new ones prefixed by >>):
 
-vim +2960 fs/inode.c
+>> drivers/spi/spi-amd.c:695:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     695 |         return ret;
+         |                ^~~
+   drivers/spi/spi-amd.c:673:9: note: initialize the variable 'ret' to silence this warning
+     673 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-  2959	
-> 2960	SYSCALL_DEFINE4(getfsxattrat, int, dfd, const char __user *, filename,
-  2961			struct fsxattr *, fsx, int, at_flags)
-  2962	{
-  2963		struct fd dir;
-  2964		struct fileattr fa;
-  2965		struct path filepath;
-  2966		struct inode *inode;
-  2967		int error;
-  2968	
-  2969		if (at_flags)
-  2970			return -EINVAL;
-  2971	
-  2972		if (!capable(CAP_FOWNER))
-  2973			return -EPERM;
-  2974	
-  2975		dir = fdget(dfd);
-  2976		if (!fd_file(dir))
-  2977			return -EBADF;
-  2978	
-  2979		if (!S_ISDIR(file_inode(fd_file(dir))->i_mode)) {
-  2980			error = -EBADF;
-  2981			goto out;
-  2982		}
-  2983	
-  2984		error = user_path_at(dfd, filename, at_flags, &filepath);
-  2985		if (error)
-  2986			goto out;
-  2987	
-  2988		inode = filepath.dentry->d_inode;
-  2989		if (file_inode(fd_file(dir))->i_sb->s_magic != inode->i_sb->s_magic) {
-  2990			error = -EBADF;
-  2991			goto out_path;
-  2992		}
-  2993	
-  2994		error = vfs_fileattr_get(filepath.dentry, &fa);
-  2995		if (error)
-  2996			goto out_path;
-  2997	
-  2998		if (copy_fsxattr_to_user(&fa, fsx))
-  2999			error = -EFAULT;
-  3000	
-  3001	out_path:
-  3002		path_put(&filepath);
-  3003	out:
-  3004		fdput(dir);
-  3005		return error;
-  3006	}
-  3007	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
+
+
+vim +/ret +695 drivers/spi/spi-amd.c
+
+9674f1694e644a Raju Rangoju  2024-09-25  668  
+6defadbe6cbc3a Raju Rangoju  2024-02-29  669  static int amd_spi_exec_mem_op(struct spi_mem *mem,
+6defadbe6cbc3a Raju Rangoju  2024-02-29  670  			       const struct spi_mem_op *op)
+6defadbe6cbc3a Raju Rangoju  2024-02-29  671  {
+6defadbe6cbc3a Raju Rangoju  2024-02-29  672  	struct amd_spi *amd_spi;
+6defadbe6cbc3a Raju Rangoju  2024-02-29  673  	int ret;
+6defadbe6cbc3a Raju Rangoju  2024-02-29  674  
+6defadbe6cbc3a Raju Rangoju  2024-02-29  675  	amd_spi = spi_controller_get_devdata(mem->spi->controller);
+6defadbe6cbc3a Raju Rangoju  2024-02-29  676  
+e6204f39fe3a7b Miquel Raynal 2024-12-24  677  	amd_set_spi_freq(amd_spi, op->max_freq);
+6defadbe6cbc3a Raju Rangoju  2024-02-29  678  
+9674f1694e644a Raju Rangoju  2024-09-25  679  	if (amd_spi->version == AMD_SPI_V2)
+9674f1694e644a Raju Rangoju  2024-09-25  680  		amd_set_spi_addr_mode(amd_spi, op);
+9674f1694e644a Raju Rangoju  2024-09-25  681  
+6defadbe6cbc3a Raju Rangoju  2024-02-29  682  	switch (op->data.dir) {
+6defadbe6cbc3a Raju Rangoju  2024-02-29  683  	case SPI_MEM_DATA_IN:
+6defadbe6cbc3a Raju Rangoju  2024-02-29  684  		amd_spi_mem_data_in(amd_spi, op);
+6defadbe6cbc3a Raju Rangoju  2024-02-29  685  		break;
+6defadbe6cbc3a Raju Rangoju  2024-02-29  686  	case SPI_MEM_DATA_OUT:
+6defadbe6cbc3a Raju Rangoju  2024-02-29  687  		fallthrough;
+6defadbe6cbc3a Raju Rangoju  2024-02-29  688  	case SPI_MEM_NO_DATA:
+6defadbe6cbc3a Raju Rangoju  2024-02-29  689  		amd_spi_mem_data_out(amd_spi, op);
+6defadbe6cbc3a Raju Rangoju  2024-02-29  690  		break;
+6defadbe6cbc3a Raju Rangoju  2024-02-29  691  	default:
+6defadbe6cbc3a Raju Rangoju  2024-02-29  692  		ret = -EOPNOTSUPP;
+6defadbe6cbc3a Raju Rangoju  2024-02-29  693  	}
+6defadbe6cbc3a Raju Rangoju  2024-02-29  694  
+6defadbe6cbc3a Raju Rangoju  2024-02-29 @695  	return ret;
+6defadbe6cbc3a Raju Rangoju  2024-02-29  696  }
+6defadbe6cbc3a Raju Rangoju  2024-02-29  697  
+
+:::::: The code at line 695 was first introduced by commit
+:::::: 6defadbe6cbc3a87dc39c119a6748d19bfba0544 spi: spi_amd: Add support for SPI MEM framework
+
+:::::: TO: Raju Rangoju <Raju.Rangoju@amd.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
