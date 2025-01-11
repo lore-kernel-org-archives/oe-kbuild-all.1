@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10E610F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 16:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5047155C8C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 17:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736614520; cv=none; b=jYml1Q3Db18uRNgU67B7BXOXA4M9ov6VDhRJ8zmiCcoarkaPKzNhTviRAvVVjQo3EqpA8u/U1G3+VS82iFAWqaLKDnNDJbhrG40UNf+ADkQBPNxZfeMDF7GTVMRiyRV1mlBbHaGyORoD9QjcZJeSTDZxZf5tDsv+QkUYPQAEQ+E=
+	t=1736616447; cv=none; b=RJgsrVEMQHJ6L3GOcOuccwpAjck4XnR/nK0Yi1Z4mpYZlCCGqPa7jVxWda0aIbHogAyOFoL0pmV9+kagEycOFpXzbqZ9Oy+prstENS6jbv9mrwu+/QTpIYTs/p8r+jHgqT8myJZXPQTvUnnFwo0YfXLbPAM2zHqOXpKiK2Tvqa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736614520; c=relaxed/simple;
-	bh=7v7y4qwk6zLr+kDXFpIYJ0VuNSmi5PA9nVYZUhjA6kg=;
+	s=arc-20240116; t=1736616447; c=relaxed/simple;
+	bh=WVn6ADH+qE0/Bp3dg5VVmnVkSUe0rzKPS1hanGMDybc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G+OGsmajxCUiz6uLf78rIo8W9TJyyGWx5w16gN11itaW6MHpeP8zWZmFbN1R5kthfWjDL8lxtjjOgr1I4sdC7vR8HOfTMgpWjkBoJpUwD44wHz7zJGZwU10f94s1ZlNBM3ug+gqKXmvGt7oaz9eYkDZ8mbNJ5+2rPx11B9+n+mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVSXwQ70; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=QPM3UipaSxTpgfnVwmdxlooZBA8xt6o9vF6/0SDCD1X23ptuFsENngVmJi6L0MtipsO5A+dklbgF4H2bXCmMaPBHjQEL+XOcyw5kmwEkzQqVGhoim5NTT/zkIemJm7awMQILQDdEriN+vySyp5bN3BrQ+vep9NnYk9KmWJfg/ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcWBqzwu; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVSXwQ70"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcWBqzwu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736614519; x=1768150519;
+  t=1736616445; x=1768152445;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7v7y4qwk6zLr+kDXFpIYJ0VuNSmi5PA9nVYZUhjA6kg=;
-  b=lVSXwQ70vnb8sqnIVramQYwBh2VAG1R9q2M8GDHNJxs1blejQJHHRPpL
-   DLj0eDaKS2DovPSlUbuQzMVtKiJOvITrPqg/lk0ifFJO0glt+5uu8280O
-   CUNSXhh0dKM51W/WZpWqxnQt4rpZb+xWBEXrELnuPwXYNESOL/V3Sgzo+
-   c1zxVaJx1llxQt40W4VxgZuTPJPMt/xJqHt8ubz1UlE5Fk9UEuNIFj2Cm
-   dazqE6RE3S4WoTK306LemWwrPXTmL0GKN8vohpCCGT+ckIyY0OLfG4qSw
-   usxqlfUvL9wzzS2mDRnBRmvvh0+o6nUA8zNr4MKzFCD7vnJZ/ww2xQBrO
-   Q==;
-X-CSE-ConnectionGUID: 14u6+FppR/eadrKJxxSj2Q==
-X-CSE-MsgGUID: 2QRw96yqSACNE+ekbL3W+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="37121875"
+  bh=WVn6ADH+qE0/Bp3dg5VVmnVkSUe0rzKPS1hanGMDybc=;
+  b=fcWBqzwuZ6NQ3pbFQWPMA4vEVfV8A769P+UXG2HEB1u7j6Fmj7fwct2h
+   am1hZ04uvbgiil/eQjVkbOCYHV23IDN9ezmg+lZQfM0WlqDQFRBGnPvbS
+   5C+yqI+63/tpDoFZoDvf5UnsykPMY7nFEIcz++0kirH+Qu34DQmW74SKh
+   NEqPRcOB6t9vb4iNQLaWmv7eyLVdXOfvtkSpAwB1hPtJeb1GMiLtzG2m6
+   fQ+PthCNR4Wd3daRKnVbe/BAeLbjRISVEzVej8VwJNFqoQiu8e0hAH4KB
+   /kTd4g9vJGRCzA3p+Y/98VeimOXj1tjrfcHnKoSUK0trYkvycKkgiGMOb
+   A==;
+X-CSE-ConnectionGUID: NhsiIGs2R+OJew4wI/zKLA==
+X-CSE-MsgGUID: hCZAV4ulSPWv/5RG0PKKbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36781037"
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="37121875"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 08:55:18 -0800
-X-CSE-ConnectionGUID: jV1tAylnQ3uGwBWt3YqVkA==
-X-CSE-MsgGUID: g0ckZVREQ6G+kfdmUuSZog==
+   d="scan'208";a="36781037"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 09:27:24 -0800
+X-CSE-ConnectionGUID: JPd57AQCRESd1akKUHuIVg==
+X-CSE-MsgGUID: OMK3Y4AUR9WvG5nHbsFmMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="103823076"
+   d="scan'208";a="134849232"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jan 2025 08:55:16 -0800
+  by orviesa002.jf.intel.com with ESMTP; 11 Jan 2025 09:27:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWelW-000L0Z-1w;
-	Sat, 11 Jan 2025 16:55:14 +0000
-Date: Sun, 12 Jan 2025 00:54:34 +0800
+	id 1tWfGa-000L32-0L;
+	Sat, 11 Jan 2025 17:27:20 +0000
+Date: Sun, 12 Jan 2025 01:26:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, git@amd.com,
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
 	Michal Simek <monstr@monstr.eu>,
-	Wendy Liang <wendy.liang@xilinx.com>
-Subject: [xilinx-xlnx:lkp_test 81/504] kismet: WARNING: unmet direct
- dependencies detected for UIO_DMEM_GENIRQ when selected by
- UIO_XILINX_AI_ENGINE
-Message-ID: <202501120045.lLbvf5oA-lkp@intel.com>
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:lkp_test 433/504] drivers/mtd/spi-nor/swp.c:587
+ spi_nor_try_unlock_all() warn: inconsistent indenting
+Message-ID: <202501120103.MM777YTJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,21 +66,64 @@ Content-Disposition: inline
 
 tree:   https://github.com/Xilinx/linux-xlnx lkp_test
 head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
-commit: cd372c3a80a456f03a51cba384833d3b99fecba1 [81/504] uio: Add the UIO driver for AI engine
-config: m68k-kismet-CONFIG_UIO_DMEM_GENIRQ-CONFIG_UIO_XILINX_AI_ENGINE-0-0 (https://download.01.org/0day-ci/archive/20250112/202501120045.lLbvf5oA-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250112/202501120045.lLbvf5oA-lkp@intel.com/reproduce)
+commit: 813cccfd34b37a250ae9b3857b11c77a2a0de203 [433/504] mtd: spi-nor: Avoid locking/unlocking unrequested memory blocks
+config: i386-randconfig-141-20250111 (https://download.01.org/0day-ci/archive/20250112/202501120103.MM777YTJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501120045.lLbvf5oA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501120103.MM777YTJ-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for UIO_DMEM_GENIRQ when selected by UIO_XILINX_AI_ENGINE
-   WARNING: unmet direct dependencies detected for UIO_DMEM_GENIRQ
-     Depends on [n]: UIO [=y] && HAS_DMA [=n]
-     Selected by [y]:
-     - UIO_XILINX_AI_ENGINE [=y] && UIO [=y]
+smatch warnings:
+drivers/mtd/spi-nor/swp.c:587 spi_nor_try_unlock_all() warn: inconsistent indenting
+
+vim +587 drivers/mtd/spi-nor/swp.c
+
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  555  
+c4c795105f2924 Tudor Ambarus        2021-03-22  556  /**
+c4c795105f2924 Tudor Ambarus        2021-03-22  557   * spi_nor_try_unlock_all() - Tries to unlock the entire flash memory array.
+c4c795105f2924 Tudor Ambarus        2021-03-22  558   * @nor:	pointer to a 'struct spi_nor'.
+c4c795105f2924 Tudor Ambarus        2021-03-22  559   *
+c4c795105f2924 Tudor Ambarus        2021-03-22  560   * Some SPI NOR flashes are write protected by default after a power-on reset
+c4c795105f2924 Tudor Ambarus        2021-03-22  561   * cycle, in order to avoid inadvertent writes during power-up. Backward
+c4c795105f2924 Tudor Ambarus        2021-03-22  562   * compatibility imposes to unlock the entire flash memory array at power-up
+c4c795105f2924 Tudor Ambarus        2021-03-22  563   * by default.
+c4c795105f2924 Tudor Ambarus        2021-03-22  564   *
+c4c795105f2924 Tudor Ambarus        2021-03-22  565   * Unprotecting the entire flash array will fail for boards which are hardware
+c4c795105f2924 Tudor Ambarus        2021-03-22  566   * write-protected. Thus any errors are ignored.
+c4c795105f2924 Tudor Ambarus        2021-03-22  567   */
+c4c795105f2924 Tudor Ambarus        2021-03-22  568  void spi_nor_try_unlock_all(struct spi_nor *nor)
+c4c795105f2924 Tudor Ambarus        2021-03-22  569  {
+e0a3141aff2ef7 Amit Kumar Mahapatra 2024-12-05  570  	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
+c4c795105f2924 Tudor Ambarus        2021-03-22  571  	int ret;
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  572  	const struct flash_info *info = nor->info;
+c4c795105f2924 Tudor Ambarus        2021-03-22  573  
+c4c795105f2924 Tudor Ambarus        2021-03-22  574  	if (!(nor->flags & SNOR_F_HAS_LOCK))
+c4c795105f2924 Tudor Ambarus        2021-03-22  575  		return;
+c4c795105f2924 Tudor Ambarus        2021-03-22  576  
+c4c795105f2924 Tudor Ambarus        2021-03-22  577  	dev_dbg(nor->dev, "Unprotecting entire flash array\n");
+c4c795105f2924 Tudor Ambarus        2021-03-22  578  
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  579  	if (nor->info->id->bytes[0] == CFI_MFR_ATMEL ||
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  580  	    nor->info->id->bytes[0] == CFI_MFR_INTEL ||
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  581  	    nor->info->id->bytes[0] == CFI_MFR_SST ||
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  582  	    nor->flags & SNOR_F_HAS_LOCK) {
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  583  		if (info->flags & SST_GLOBAL_PROT_UNLK) {
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  584  			spi_nor_prot_unlock(nor);
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  585  		} else {
+e0a3141aff2ef7 Amit Kumar Mahapatra 2024-12-05  586  			ret = spi_nor_unlock(&nor->mtd, 0, params->size);
+c4c795105f2924 Tudor Ambarus        2021-03-22 @587  				if (ret)
+c4c795105f2924 Tudor Ambarus        2021-03-22  588  					dev_dbg(nor->dev, "Failed to unlock the entire flash memory array\n");
+c4c795105f2924 Tudor Ambarus        2021-03-22  589  		}
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  590  	}
+813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  591  }
+c4c795105f2924 Tudor Ambarus        2021-03-22  592  
+
+:::::: The code at line 587 was first introduced by commit
+:::::: c4c795105f2924c80752c30ffd3c7029a8e0ef28 mtd: spi-nor: Move Software Write Protection logic out of the core
+
+:::::: TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+:::::: CC: Tudor Ambarus <tudor.ambarus@microchip.com>
 
 -- 
 0-DAY CI Kernel Test Service
