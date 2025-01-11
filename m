@@ -1,70 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C021B6CEF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 21:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5A02BAF9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 21:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736629568; cv=none; b=oa9h8BxZr6bEfbwyVTfEKQPWgMkZm7WKCGmmkHaOcEGMYeHizKjrXNSpOHyZ5JWpMr5lbzzjksbhKunPM7WIAmpPkE2H8T6COnlMi8NmL+kONEJQqmKKH555/wQhEZ/4XILc0jVoMU5S1yDVHYz68y45jOOsBGcN/9FCWHMjHvw=
+	t=1736631431; cv=none; b=bxxCo7KMX8MNiyZJjSn0CqDkb8mX+fjfYLzEhleLzFTpoLxHsTLFsg9KaCrLKFBLeHMjKF7NfB7bRUZ1S+vRaZLNnm/fnOyKi/fu9VC/mmCD8XBas1FKpPfquE8G2bsbT0O45uqIuL+pq36BiENUBLDqWVrudrgr/eWf6FgI1rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736629568; c=relaxed/simple;
-	bh=KIyVo7rhDv5U9a2m9uUPF1sHWPaMkt6MToDHXgzY2SQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=duZrWc2qoc0RvqR92kMEov5Da23/6KxIrAfraVgLSscraET+/8UCRCd4nuHtWw9Sdxl03aUop85svYEe6Kdo7rvNRBwUpI7T7qJ8I0G4P7AAdSp3pAmG2quZ38EnnJ2b+xu0JKNttUlrcDuK4yZQcWyUzQnJqAjB9dyrQrkWXa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VpQjtE4n; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1736631431; c=relaxed/simple;
+	bh=FSTZmUZitM+j/cV0eWBfmTGW0RpRtbZOM9JPrsIBc7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ut/h/j2joZuC6bugLL6U/D/vvHs7YCt5NNetzJl5pzQ7PZzzoQrxYrxmVzgIAGa2MKmHcSY0RGFQZ/RPVf2xeVmsLcr1IlMFpGaYnaXUH09aY4BIjnaPWE2R3RawsfIOZwkoC0G/yUpotMkeJVdw/ULyZ28EUmOpnTDbUtUN04E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llWmZ9+Z; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VpQjtE4n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llWmZ9+Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736629566; x=1768165566;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KIyVo7rhDv5U9a2m9uUPF1sHWPaMkt6MToDHXgzY2SQ=;
-  b=VpQjtE4nf2cXjIMmZszRL1EOr7mJ+4GIXSLWeLF2qWtuZ+nItWhjkCZp
-   SkH7086HkXntiCyl+TVBWKosFLvKUQFFpCcOTBm6+vf1V7i+SeuH+aBqb
-   RMI4evC2PYGZmPZ52TRqj307jx9w6sHI0jiPltcoi0RvlT4U9+wgawAw3
-   c7UcAbWWGJCC2nYBiY1d4jjQVyPCkcu417dVD/MBwsjc2cHYMSrfA6q1R
-   Q8ybU4vhOFzslSurb/sJHRUvtiXu1NcZ4B1/ZYEuzWAY4tK5t3zOkjH73
-   lIDR8g1/03hoAp/9bJFK1jvxtv9oD7oN4jcR7OfswioscGSLofurD6DMf
-   Q==;
-X-CSE-ConnectionGUID: IZ3QaCCZQGir+r/D183YjQ==
-X-CSE-MsgGUID: dwVM66Z+TKmZiLiFNuUhog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47391054"
+  t=1736631429; x=1768167429;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FSTZmUZitM+j/cV0eWBfmTGW0RpRtbZOM9JPrsIBc7g=;
+  b=llWmZ9+Zo5rjeIBMMGRn2t6H6y4UC7OshKvZLsJBea7arFFziYOGyIxz
+   spo8/tDXQquPHLWqF3Ohh6VVE+IrAhOIkSmqWYJ/ZQZ9Sm7vwch493hgh
+   dCKa8FU5ZY9bii/kiLnQbtvlApSm+HUzjtBxrCRHIjOrKpOwN+xIMgcmn
+   YsJevd14ScmgkqeLh0KTlaYo9fV9qAKUMrC8F6u9twGWtouHlSKdW+yZv
+   CqyBJsw96unt4qo67ZC1RQpA/jQLCOuDT2wtS+VjO5yzqhXYnczNCZT03
+   vwdd2Iz0UgMbNfundOyNr3KYY+K1xszjPK5wVS+AkRmhDNDK1VyDWHi3N
+   w==;
+X-CSE-ConnectionGUID: IJ+WVu3JS1iWuc8v0W8abw==
+X-CSE-MsgGUID: Ygcrq+4gRsyuBIqh6mHaYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36583492"
 X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="47391054"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 13:06:05 -0800
-X-CSE-ConnectionGUID: USUZh5MxQrKqMrvcO7TRsQ==
-X-CSE-MsgGUID: v47+EjcAR0GF9DNRbLx7iw==
+   d="scan'208";a="36583492"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 13:37:08 -0800
+X-CSE-ConnectionGUID: XI+ig2tQTWuDBayDi73bxA==
+X-CSE-MsgGUID: wwihb9SxR6OtCAG/GVwrDQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="109054185"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="109088594"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Jan 2025 13:05:58 -0800
+  by orviesa003.jf.intel.com with ESMTP; 11 Jan 2025 13:37:06 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWig7-000LCn-2U;
-	Sat, 11 Jan 2025 21:05:55 +0000
-Date: Sun, 12 Jan 2025 05:05:19 +0800
+	id 1tWjAF-000LFP-20;
+	Sat, 11 Jan 2025 21:37:03 +0000
+Date: Sun, 12 Jan 2025 05:36:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrey Albershteyn <aalbersh@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Andrey Albershteyn <aalbersh@redhat.com>,
-	linux-api@vger.kernel.org, monstr@monstr.eu, mpe@ellerman.id.au,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
-	maddy@linux.ibm.com, luto@kernel.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	arnd@arndb.de, linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org
-Subject: Re: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
-Message-ID: <202501120410.3ZwwYXqY-lkp@intel.com>
-References: <20250109174540.893098-1-aalbersh@kernel.org>
+To: Pranavi Somisetty <pranavi.somisetty@xilinx.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Harini Katakam <harini.katakam@xilinx.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [xilinx-xlnx:lkp_test 111/504] kismet: WARNING: unmet direct
+ dependencies detected for NET_SWITCHDEV when selected by XILINX_TSN_SWITCH
+Message-ID: <202501120714.G2Kwncuo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,42 +66,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250109174540.893098-1-aalbersh@kernel.org>
 
-Hi Andrey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on geert-m68k/for-next powerpc/next powerpc/fixes s390/features linus/master v6.13-rc6 next-20250110]
-[cannot apply to geert-m68k/for-linus deller-parisc/for-next jcmvbkbc-xtensa/xtensa-for-next tip/x86/asm]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/fs-introduce-getfsxattrat-and-setfsxattrat-syscalls/20250110-014739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250109174540.893098-1-aalbersh%40kernel.org
-patch subject: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
-config: riscv-randconfig-002-20250111 (https://download.01.org/0day-ci/archive/20250112/202501120410.3ZwwYXqY-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501120410.3ZwwYXqY-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: 79569a88d904a3efdb6a5f054e40344b688ed82e [111/504] staging: net: xilinx: add Xilinx TSN driver
+config: nios2-kismet-CONFIG_NET_SWITCHDEV-CONFIG_XILINX_TSN_SWITCH-0-0 (https://download.01.org/0day-ci/archive/20250112/202501120714.G2Kwncuo-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250112/202501120714.G2Kwncuo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501120410.3ZwwYXqY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501120714.G2Kwncuo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> <stdin>:1615:2: warning: #warning syscall getfsxattrat not implemented [-Wcpp]
->> <stdin>:1618:2: warning: #warning syscall setfsxattrat not implemented [-Wcpp]
---
->> <stdin>:1615:2: warning: #warning syscall getfsxattrat not implemented [-Wcpp]
->> <stdin>:1618:2: warning: #warning syscall setfsxattrat not implemented [-Wcpp]
---
->> <stdin>:1615:2: warning: #warning syscall getfsxattrat not implemented [-Wcpp]
->> <stdin>:1618:2: warning: #warning syscall setfsxattrat not implemented [-Wcpp]
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for NET_SWITCHDEV when selected by XILINX_TSN_SWITCH
+   WARNING: unmet direct dependencies detected for NET_SWITCHDEV
+     Depends on [n]: NET [=y] && INET [=n]
+     Selected by [y]:
+     - XILINX_TSN_SWITCH [=y] && STAGING [=y] && NET_VENDOR_XILINX [=y] && XILINX_TSN [=y]
 
 -- 
 0-DAY CI Kernel Test Service
