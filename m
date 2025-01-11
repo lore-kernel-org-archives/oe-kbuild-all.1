@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0397E28370
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 16:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10E610F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 16:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736613076; cv=none; b=LLCOmMfFDlqW+hOr/VSNeqLJ/roADWUMXIzHpoEtc4VCILdnengLKNs25M7D5154a5ou/fUWG6Al2NH8jX17h2hjMeB2EqF7jrrDBi/hZ5SV6P08sCqGMOYE1SXjgj1FwVIVmib/Za4n5HA8MLMuR6fxBDeTRqYrDC8BcN3a5z0=
+	t=1736614520; cv=none; b=jYml1Q3Db18uRNgU67B7BXOXA4M9ov6VDhRJ8zmiCcoarkaPKzNhTviRAvVVjQo3EqpA8u/U1G3+VS82iFAWqaLKDnNDJbhrG40UNf+ADkQBPNxZfeMDF7GTVMRiyRV1mlBbHaGyORoD9QjcZJeSTDZxZf5tDsv+QkUYPQAEQ+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736613076; c=relaxed/simple;
-	bh=Ya2yq985c5694d6ZwIELjjWrsELbYs1heJ9zvIPc6WQ=;
+	s=arc-20240116; t=1736614520; c=relaxed/simple;
+	bh=7v7y4qwk6zLr+kDXFpIYJ0VuNSmi5PA9nVYZUhjA6kg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hLsVK+UvOemhb+HM6740OZ23Ezr1B5bxRSvxQ6v+0Bd6TBP50dbBMuCy9Pgw9x2f8ThZg2CBE79vO8khuZzDQCGcygZThTt9AjLv84YDf7P/DCDK1yrhYUnGGV4RhWxwqjFPpCIQCQM7BkvVFXpBrIaM+0dhG41Qa7hA/Mw1fDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lahKcJgt; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=G+OGsmajxCUiz6uLf78rIo8W9TJyyGWx5w16gN11itaW6MHpeP8zWZmFbN1R5kthfWjDL8lxtjjOgr1I4sdC7vR8HOfTMgpWjkBoJpUwD44wHz7zJGZwU10f94s1ZlNBM3ug+gqKXmvGt7oaz9eYkDZ8mbNJ5+2rPx11B9+n+mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVSXwQ70; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lahKcJgt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVSXwQ70"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736613074; x=1768149074;
+  t=1736614519; x=1768150519;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ya2yq985c5694d6ZwIELjjWrsELbYs1heJ9zvIPc6WQ=;
-  b=lahKcJgtRwDwbmd6aUwP7qzK13D6bT21ZlioEAuh9x5OamnnvsifC0ln
-   SIvtoqUuq0z225B/VbZB2damhRkN7AZxK07uKQYIamethqxmOJ2q5VUkI
-   1jJlkpf4+ZxJYY1PWtLcDnQLdkaS5KL+wA+19SRlCJEn7I4Jhj3rAQrbp
-   /SY7liMnUy2aJrRnJKqW2M+f9ag7MnQYbhSr3d8VNqtIJrivcd5eBmyXF
-   mDt//nb+eHjdZqTGzhh7+1k9r4CSYdJJh4pNkEVrrCw7BuY6KVbgVyifz
-   gyX4YfgX/KInNrUauBKxFjZHhaDbgTgn9Vd9p0sH5Wad+Q2RKpXY2G84X
-   g==;
-X-CSE-ConnectionGUID: gdFsV8qnRs6S9X/sp5XZMQ==
-X-CSE-MsgGUID: Npjd/2PnQneuO1yOSasRtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47551446"
+  bh=7v7y4qwk6zLr+kDXFpIYJ0VuNSmi5PA9nVYZUhjA6kg=;
+  b=lVSXwQ70vnb8sqnIVramQYwBh2VAG1R9q2M8GDHNJxs1blejQJHHRPpL
+   DLj0eDaKS2DovPSlUbuQzMVtKiJOvITrPqg/lk0ifFJO0glt+5uu8280O
+   CUNSXhh0dKM51W/WZpWqxnQt4rpZb+xWBEXrELnuPwXYNESOL/V3Sgzo+
+   c1zxVaJx1llxQt40W4VxgZuTPJPMt/xJqHt8ubz1UlE5Fk9UEuNIFj2Cm
+   dazqE6RE3S4WoTK306LemWwrPXTmL0GKN8vohpCCGT+ckIyY0OLfG4qSw
+   usxqlfUvL9wzzS2mDRnBRmvvh0+o6nUA8zNr4MKzFCD7vnJZ/ww2xQBrO
+   Q==;
+X-CSE-ConnectionGUID: 14u6+FppR/eadrKJxxSj2Q==
+X-CSE-MsgGUID: 2QRw96yqSACNE+ekbL3W+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="37121875"
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="47551446"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 08:31:13 -0800
-X-CSE-ConnectionGUID: j+dZBbs/RsyzhQnPJIGL/g==
-X-CSE-MsgGUID: RrxpL27rSDurLK9oRZ8JIg==
+   d="scan'208";a="37121875"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 08:55:18 -0800
+X-CSE-ConnectionGUID: jV1tAylnQ3uGwBWt3YqVkA==
+X-CSE-MsgGUID: g0ckZVREQ6G+kfdmUuSZog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="104527112"
+   d="scan'208";a="103823076"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Jan 2025 08:31:12 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jan 2025 08:55:16 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWeOD-000Kwt-1u;
-	Sat, 11 Jan 2025 16:31:09 +0000
-Date: Sun, 12 Jan 2025 00:30:58 +0800
+	id 1tWelW-000L0Z-1w;
+	Sat, 11 Jan 2025 16:55:14 +0000
+Date: Sun, 12 Jan 2025 00:54:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Imran Shaik <quic_imrashai@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 6498/7860]
- arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/clock-controller@3d90000:
- failed to match any schema with compatible: ['qcom,qcs8300-gpucc']
-Message-ID: <202501120049.KPbtWhvh-lkp@intel.com>
+To: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Wendy Liang <wendy.liang@xilinx.com>
+Subject: [xilinx-xlnx:lkp_test 81/504] kismet: WARNING: unmet direct
+ dependencies detected for UIO_DMEM_GENIRQ when selected by
+ UIO_XILINX_AI_ENGINE
+Message-ID: <202501120045.lLbvf5oA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,43 +67,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2b88851f583d3c4e40bcd40cfe1965241ec229dd
-commit: 795255cb4cd4388cac930e3bb3524e1ca84dd0bf [6498/7860] arm64: dts: qcom: qcs8300: Add support for clock controllers
-config: arm64-randconfig-052-20250109 (https://download.01.org/0day-ci/archive/20250112/202501120049.KPbtWhvh-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501120049.KPbtWhvh-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: cd372c3a80a456f03a51cba384833d3b99fecba1 [81/504] uio: Add the UIO driver for AI engine
+config: m68k-kismet-CONFIG_UIO_DMEM_GENIRQ-CONFIG_UIO_XILINX_AI_ENGINE-0-0 (https://download.01.org/0day-ci/archive/20250112/202501120045.lLbvf5oA-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250112/202501120045.lLbvf5oA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501120049.KPbtWhvh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501120045.lLbvf5oA-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: crypto@1d88000: compatible:0: 'qcom,qcs8300-inline-crypto-engine' is not one of ['qcom,sa8775p-inline-crypto-engine', 'qcom,sc7180-inline-crypto-engine', 'qcom,sc7280-inline-crypto-engine', 'qcom,sm8450-inline-crypto-engine', 'qcom,sm8550-inline-crypto-engine', 'qcom,sm8650-inline-crypto-engine']
-   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/crypto@1d88000: failed to match any schema with compatible: ['qcom,qcs8300-inline-crypto-engine', 'qcom,inline-crypto-engine']
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: remoteproc@3000000: compatible:0: 'qcom,qcs8300-adsp-pas' is not one of ['qcom,sa8775p-adsp-pas', 'qcom,sa8775p-cdsp0-pas', 'qcom,sa8775p-cdsp1-pas', 'qcom,sa8775p-gpdsp0-pas', 'qcom,sa8775p-gpdsp1-pas']
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: remoteproc@3000000: compatible: ['qcom,qcs8300-adsp-pas', 'qcom,sa8775p-adsp-pas'] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: remoteproc@3000000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/remoteproc@3000000: failed to match any schema with compatible: ['qcom,qcs8300-adsp-pas', 'qcom,sa8775p-adsp-pas']
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/clock-controller@3d90000: failed to match any schema with compatible: ['qcom,qcs8300-gpucc']
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/clock-controller@abf0000: failed to match any schema with compatible: ['qcom,qcs8300-videocc']
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/clock-controller@ade0000: failed to match any schema with compatible: ['qcom,qcs8300-camcc']
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: interrupt-controller@b220000: compatible:0: 'qcom,qcs8300-pdc' is not one of ['qcom,qdu1000-pdc', 'qcom,sa8255p-pdc', 'qcom,sa8775p-pdc', 'qcom,sar2130p-pdc', 'qcom,sc7180-pdc', 'qcom,sc7280-pdc', 'qcom,sc8180x-pdc', 'qcom,sc8280xp-pdc', 'qcom,sdm670-pdc', 'qcom,sdm845-pdc', 'qcom,sdx55-pdc', 'qcom,sdx65-pdc', 'qcom,sdx75-pdc', 'qcom,sm4450-pdc', 'qcom,sm6350-pdc', 'qcom,sm8150-pdc', 'qcom,sm8250-pdc', 'qcom,sm8350-pdc', 'qcom,sm8450-pdc', 'qcom,sm8550-pdc', 'qcom,sm8650-pdc', 'qcom,x1e80100-pdc']
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,pdc.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/interrupt-controller@b220000: failed to match any schema with compatible: ['qcom,qcs8300-pdc', 'qcom,pdc']
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: watchdog@17c10000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,apss-wdt-qcs8300', 'qcom,kpss-wdt'] is too long
-   	['qcom,apss-wdt-qcs8300', 'qcom,kpss-wdt'] is too short
-   	'qcom,apss-wdt-qcs8300' is not one of ['qcom,kpss-wdt-ipq4019', 'qcom,apss-wdt-ipq5018', 'qcom,apss-wdt-ipq5332', 'qcom,apss-wdt-ipq9574', 'qcom,apss-wdt-msm8226', 'qcom,apss-wdt-msm8974', 'qcom,apss-wdt-msm8994', 'qcom,apss-wdt-qcm2290', 'qcom,apss-wdt-qcs404', 'qcom,apss-wdt-sa8255p', 'qcom,apss-wdt-sa8775p', 'qcom,apss-wdt-sc7180', 'qcom,apss-wdt-sc7280', 'qcom,apss-wdt-sc8180x', 'qcom,apss-wdt-sc8280xp', 'qcom,apss-wdt-sdm845', 'qcom,apss-wdt-sdx55', 'qcom,apss-wdt-sdx65', 'qcom,apss-wdt-sm6115', 'qcom,apss-wdt-sm6350', 'qcom,apss-wdt-sm8150', 'qcom,apss-wdt-sm8250']
-   	'qcom,kpss-wdt' was expected
-   	'qcom,scss-timer' was expected
-   	'qcom,apss-wdt-qcs8300' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for UIO_DMEM_GENIRQ when selected by UIO_XILINX_AI_ENGINE
+   WARNING: unmet direct dependencies detected for UIO_DMEM_GENIRQ
+     Depends on [n]: UIO [=y] && HAS_DMA [=n]
+     Selected by [y]:
+     - UIO_XILINX_AI_ENGINE [=y] && UIO [=y]
 
 -- 
 0-DAY CI Kernel Test Service
