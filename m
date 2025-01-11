@@ -1,64 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFADA24B256
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 12:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C27195985;
+	Sat, 11 Jan 2025 12:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736598302; cv=none; b=CIgRzWVVp6V8ESm/Dq4Xs0gBwMzVNTpngqSJzI3dHGdF0zGGls4wg95xgEUpVcwxKmnxdtvivxCBEDlPg+RjYku6t6QBPpGMqeEGctVJ+ol8QP+UnrEdrsLI8GaLCenoUF6ZqZebyfZPbNT2Qhy7X1/9/P/103v++HVWGlw8Fgs=
+	t=1736598307; cv=none; b=JpmJCkpHhSBMIiFaQ39u9eG60BRFDYIt5VF4690iFrugUNS5xww0cbhXu93Tpy+dMUFRk/Py8iMWNiqMeZhH6KXnC3czhJ8BnQVzYLh5daK5wX4ylGiDrJYM5EstRiXCWMgtP8FE/q7fOX7G3j/76y3XFhgoigEziiofSa6gHLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736598302; c=relaxed/simple;
-	bh=QC0tsVxw1Vrc3UHfBFtZ8WSU48G7CiyQT5R64hxeu8g=;
+	s=arc-20240116; t=1736598307; c=relaxed/simple;
+	bh=A/8dZvb4PodA5W5f8//xP4ydt9geI9IEAZNNNqDbBBk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2bOdL1XL81QNa7QRl84xrU/Da9T/+7ladBFZGRcxOIO/sL46rsRS++twTjoVhn+nROpBHUJ83eJwumk7VAy8Oz+OXeRvIfrQXkuPle8zo+hj6p1pVLxbBf9Y5UwSQPl2gv5dVk/hYbOPGH5+3397NpGqoYriUK0OMbJg4yGoKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhEHnU+D; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=DSXWSqu5lA8AQFEwDL5CyEyk707pObBSrTVGAQu+8MzhbMWeXh3h3Zen5FA5ZVycUyvotziBcEAwm1W25G4/3ZTkRpwOhP07tWlLp0fu7WHtD+Isctkax+eJIDY2A1731MoaFyvFyRD4CjRIbwtAvIR7J5AtzaRSEY4SVTuElLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLDrIcO+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhEHnU+D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLDrIcO+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736598299; x=1768134299;
+  t=1736598302; x=1768134302;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QC0tsVxw1Vrc3UHfBFtZ8WSU48G7CiyQT5R64hxeu8g=;
-  b=YhEHnU+DyhVHI0G9LT7KlrEgrzD+i+75iO+YhMdv352aI5gRgQdKK5Kr
-   UHtY/BhrWDkdYiOqJIn6jjPe1puwyyxLVpdsyqe5kJezUDxMh1tNujY3I
-   H+9CcJGm+pu69YDx8j1TX8xeVn6SrZJmfVLfdZ2yrmBvKPENhxOVIBNP1
-   gO33kd490lTSD4G8rfrNFWXzgTEr3TD0spUZT0U2/IDjt3g+5raBcQk20
-   Ii0qwaf0EsQ873JlCU++BvC8zF1TazdGBjItGOiDd36iQJd9FFKxgl0+y
-   mlYgPJPSuwwvmp3tEWzN6m3O6grIhX7IL0U4/L36SHDBnyRIXcNupbGT2
-   A==;
-X-CSE-ConnectionGUID: q6XOXsX9RWm2aiQqblvmlw==
-X-CSE-MsgGUID: BB+6ARejRyO6/8/h2h/jhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36568760"
+  bh=A/8dZvb4PodA5W5f8//xP4ydt9geI9IEAZNNNqDbBBk=;
+  b=XLDrIcO+Jf85iOgzD/1XOTwSQ9F4LxWjpu4wUfCQYYeZSxLoo+rL3Nm1
+   SbPmBZBApAIa4yMk6WEpY7pqA/LxW1gR8yP7R5NjgHUJEaGLMGdH7qf1V
+   przaWUD/qYD4zpFM7fTxRuVYM3taK/4f75wsW2oY/J5nWcJH8ZT+K+laI
+   rRaR9xyV/YPDuZJIc+KAyAWCfnEbmbiSHx5673r+USleYsqFiZb/h/q2n
+   Da0PGMuirPAZD7QJYAo8uxZlsTRIwc2Mp0E/96M74gAiKVCYrSrcn3yLq
+   KRekvhEVasKLAaQUjvc9tUxYpPuCitkGMJnfwXCKUCQ6Mij7V0bEUwszF
+   g==;
+X-CSE-ConnectionGUID: tTJZAmvfTHyDdat0c7i9Cg==
+X-CSE-MsgGUID: nnLHwAJuTYaiaokXEKjElQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36568763"
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="36568760"
+   d="scan'208";a="36568763"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 04:24:59 -0800
-X-CSE-ConnectionGUID: hEWcBoU8Sxe7LxTjjy17eA==
-X-CSE-MsgGUID: sAC3gbaPTLS0G6Yg8p6oKg==
+X-CSE-ConnectionGUID: s7uiThp/StuhE0Qw+ZroYg==
+X-CSE-MsgGUID: wIRlLujDR0CozHf5o3+rzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="127260896"
+   d="scan'208";a="127260895"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2025 04:24:56 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWaXu-000Kcr-09;
+	id 1tWaXu-000Kcp-06;
 	Sat, 11 Jan 2025 12:24:54 +0000
-Date: Sat, 11 Jan 2025 20:24:09 +0800
+Date: Sat, 11 Jan 2025 20:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charles Han <hanchunchao@inspur.com>, kees@kernel.org,
-	joel.granados@kernel.org, logang@deltatee.com, mcgrof@kernel.org,
-	yzaikin@google.com, gregkh@linuxfoundation.org,
-	brendan.higgins@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Charles Han <hanchunchao@inspur.com>
-Subject: Re: [PATCH] kernel/sysctl-test: Fix potential null dereference in
- sysctl-test
-Message-ID: <202501112024.fU1FgDDE-lkp@intel.com>
-References: <20250110100748.63470-1-hanchunchao@inspur.com>
+To: Roger Pau Monne <roger.pau@citrix.com>, linux-kernel@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-pci@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	Juergen Gross <jgross@suse.com>, Bjorn Helgaas <helgaas@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH 3/3] pci/msi: remove pci_msi_ignore_mask
+Message-ID: <202501112048.6yCFh2ma-lkp@intel.com>
+References: <20250110140152.27624-4-roger.pau@citrix.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,176 +69,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110100748.63470-1-hanchunchao@inspur.com>
+In-Reply-To: <20250110140152.27624-4-roger.pau@citrix.com>
 
-Hi Charles,
+Hi Roger,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on mcgrof/sysctl-next sysctl/sysctl-next v6.13-rc6 next-20250110]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus xen-tip/linux-next tip/irq/core linus/master v6.13-rc6 next-20250110]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Han/kernel-sysctl-test-Fix-potential-null-dereference-in-sysctl-test/20250110-181004
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250110100748.63470-1-hanchunchao%40inspur.com
-patch subject: [PATCH] kernel/sysctl-test: Fix potential null dereference in sysctl-test
-config: i386-randconfig-063-20250111 (https://download.01.org/0day-ci/archive/20250111/202501112024.fU1FgDDE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501112024.fU1FgDDE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Roger-Pau-Monne/xen-pci-do-not-register-devices-outside-of-PCI-segment-scope/20250110-220331
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250110140152.27624-4-roger.pau%40citrix.com
+patch subject: [PATCH 3/3] pci/msi: remove pci_msi_ignore_mask
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20250111/202501112048.6yCFh2ma-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501112048.6yCFh2ma-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501112024.fU1FgDDE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501112048.6yCFh2ma-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sysctl-test.c:38:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const *value @@     got void [noderef] __user *const __ptr @@
-   kernel/sysctl-test.c:38:9: sparse:     expected void const *value
-   kernel/sysctl-test.c:38:9: sparse:     got void [noderef] __user *const __ptr
-   kernel/sysctl-test.c:47:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:47:9: sparse:     expected void *
-   kernel/sysctl-test.c:47:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:47:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:47:9: sparse:     expected void *
-   kernel/sysctl-test.c:47:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:56:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:56:9: sparse:     expected void *
-   kernel/sysctl-test.c:56:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:56:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:56:9: sparse:     expected void *
-   kernel/sysctl-test.c:56:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:85:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const *value @@     got void [noderef] __user *const __ptr @@
-   kernel/sysctl-test.c:85:9: sparse:     expected void const *value
-   kernel/sysctl-test.c:85:9: sparse:     got void [noderef] __user *const __ptr
-   kernel/sysctl-test.c:94:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:94:9: sparse:     expected void *
-   kernel/sysctl-test.c:94:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:94:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:94:9: sparse:     expected void *
-   kernel/sysctl-test.c:94:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:103:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:103:9: sparse:     expected void *
-   kernel/sysctl-test.c:103:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:103:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:103:9: sparse:     expected void *
-   kernel/sysctl-test.c:103:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:129:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const *value @@     got void [noderef] __user *const __ptr @@
-   kernel/sysctl-test.c:129:9: sparse:     expected void const *value
-   kernel/sysctl-test.c:129:9: sparse:     got void [noderef] __user *const __ptr
-   kernel/sysctl-test.c:136:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:136:9: sparse:     expected void *
-   kernel/sysctl-test.c:136:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:136:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:136:9: sparse:     expected void *
-   kernel/sysctl-test.c:136:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:140:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:140:9: sparse:     expected void *
-   kernel/sysctl-test.c:140:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:140:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:140:9: sparse:     expected void *
-   kernel/sysctl-test.c:140:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:164:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const *value @@     got void [noderef] __user *const __ptr @@
-   kernel/sysctl-test.c:164:9: sparse:     expected void const *value
-   kernel/sysctl-test.c:164:9: sparse:     got void [noderef] __user *const __ptr
-   kernel/sysctl-test.c:176:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:176:9: sparse:     expected void *
-   kernel/sysctl-test.c:176:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:176:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/sysctl-test.c:176:9: sparse:     expected void *
-   kernel/sysctl-test.c:176:9: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl-test.c:206:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:206:9: sparse:     expected void *
-   kernel/sysctl-test.c:206:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:206:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:206:9: sparse:     expected void *
-   kernel/sysctl-test.c:206:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:237:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:237:9: sparse:     expected void *
-   kernel/sysctl-test.c:237:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:237:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:237:9: sparse:     expected void *
-   kernel/sysctl-test.c:237:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:269:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:269:9: sparse:     expected void *
-   kernel/sysctl-test.c:269:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:269:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:269:9: sparse:     expected void *
-   kernel/sysctl-test.c:269:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:300:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:300:9: sparse:     expected void *
-   kernel/sysctl-test.c:300:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:300:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:300:9: sparse:     expected void *
-   kernel/sysctl-test.c:300:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:341:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:341:9: sparse:     expected void *
-   kernel/sysctl-test.c:341:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:341:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:341:9: sparse:     expected void *
-   kernel/sysctl-test.c:341:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:374:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:374:9: sparse:     expected void *
-   kernel/sysctl-test.c:374:9: sparse:     got char [noderef] __user *user_buffer
-   kernel/sysctl-test.c:374:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got char [noderef] __user *user_buffer @@
-   kernel/sysctl-test.c:374:9: sparse:     expected void *
-   kernel/sysctl-test.c:374:9: sparse:     got char [noderef] __user *user_buffer
+All errors (new ones prefixed by >>):
 
-vim +38 kernel/sysctl-test.c
+   In file included from drivers/pci/msi/msi.c:12:
+   In file included from include/linux/irq.h:23:
+   In file included from arch/riscv/include/asm/irq.h:10:
+   In file included from include/linux/interrupt.h:22:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/pci/msi/msi.c:288:40: error: incomplete definition of type 'const struct irq_domain'
+     288 |         const struct msi_domain_info *info = d->host_data;
+         |                                              ~^
+   include/linux/irq.h:130:8: note: forward declaration of 'struct irq_domain'
+     130 | struct irq_domain;
+         |        ^
+   drivers/pci/msi/msi.c:604:40: error: incomplete definition of type 'const struct irq_domain'
+     604 |         const struct msi_domain_info *info = d->host_data;
+         |                                              ~^
+   include/linux/irq.h:130:8: note: forward declaration of 'struct irq_domain'
+     130 | struct irq_domain;
+         |        ^
+   drivers/pci/msi/msi.c:714:40: error: incomplete definition of type 'const struct irq_domain'
+     714 |         const struct msi_domain_info *info = d->host_data;
+         |                                              ~^
+   include/linux/irq.h:130:8: note: forward declaration of 'struct irq_domain'
+     130 | struct irq_domain;
+         |        ^
+   1 warning and 3 errors generated.
 
-    11	
-    12	/*
-    13	 * Test that proc_dointvec will not try to use a NULL .data field even when the
-    14	 * length is non-zero.
-    15	 */
-    16	static void sysctl_test_api_dointvec_null_tbl_data(struct kunit *test)
-    17	{
-    18		struct ctl_table null_data_table = {
-    19			.procname = "foo",
-    20			/*
-    21			 * Here we are testing that proc_dointvec behaves correctly when
-    22			 * we give it a NULL .data field. Normally this would point to a
-    23			 * piece of memory where the value would be stored.
-    24			 */
-    25			.data		= NULL,
-    26			.maxlen		= sizeof(int),
-    27			.mode		= 0644,
-    28			.proc_handler	= proc_dointvec,
-    29			.extra1		= SYSCTL_ZERO,
-    30			.extra2         = SYSCTL_ONE_HUNDRED,
-    31		};
-    32		/*
-    33		 * proc_dointvec expects a buffer in user space, so we allocate one. We
-    34		 * also need to cast it to __user so sparse doesn't get mad.
-    35		 */
-    36		void __user *buffer = (void __user *)kunit_kzalloc(test, sizeof(int),
-    37								   GFP_USER);
-  > 38		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buffer);
-    39		size_t len;
-    40		loff_t pos;
-    41	
-    42		/*
-    43		 * We don't care what the starting length is since proc_dointvec should
-    44		 * not try to read because .data is NULL.
-    45		 */
-    46		len = 1234;
-    47		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&null_data_table,
-    48						       KUNIT_PROC_READ, buffer, &len,
-    49						       &pos));
-    50		KUNIT_EXPECT_EQ(test, 0, len);
-    51	
-    52		/*
-    53		 * See above.
-    54		 */
-    55		len = 1234;
-    56		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&null_data_table,
-    57						       KUNIT_PROC_WRITE, buffer, &len,
-    58						       &pos));
-    59		KUNIT_EXPECT_EQ(test, 0, len);
-    60	}
-    61	
+
+vim +288 drivers/pci/msi/msi.c
+
+   283	
+   284	static int msi_setup_msi_desc(struct pci_dev *dev, int nvec,
+   285				      struct irq_affinity_desc *masks)
+   286	{
+   287		const struct irq_domain *d = dev_get_msi_domain(&dev->dev);
+ > 288		const struct msi_domain_info *info = d->host_data;
+   289		struct msi_desc desc;
+   290		u16 control;
+   291	
+   292		/* MSI Entry Initialization */
+   293		memset(&desc, 0, sizeof(desc));
+   294	
+   295		pci_read_config_word(dev, dev->msi_cap + PCI_MSI_FLAGS, &control);
+   296		/* Lies, damned lies, and MSIs */
+   297		if (dev->dev_flags & PCI_DEV_FLAGS_HAS_MSI_MASKING)
+   298			control |= PCI_MSI_FLAGS_MASKBIT;
+   299		if (info->flags & MSI_FLAG_NO_MASK)
+   300			control &= ~PCI_MSI_FLAGS_MASKBIT;
+   301	
+   302		desc.nvec_used			= nvec;
+   303		desc.pci.msi_attrib.is_64	= !!(control & PCI_MSI_FLAGS_64BIT);
+   304		desc.pci.msi_attrib.can_mask	= !!(control & PCI_MSI_FLAGS_MASKBIT);
+   305		desc.pci.msi_attrib.default_irq	= dev->irq;
+   306		desc.pci.msi_attrib.multi_cap	= FIELD_GET(PCI_MSI_FLAGS_QMASK, control);
+   307		desc.pci.msi_attrib.multiple	= ilog2(__roundup_pow_of_two(nvec));
+   308		desc.affinity			= masks;
+   309	
+   310		if (control & PCI_MSI_FLAGS_64BIT)
+   311			desc.pci.mask_pos = dev->msi_cap + PCI_MSI_MASK_64;
+   312		else
+   313			desc.pci.mask_pos = dev->msi_cap + PCI_MSI_MASK_32;
+   314	
+   315		/* Save the initial mask status */
+   316		if (desc.pci.msi_attrib.can_mask)
+   317			pci_read_config_dword(dev, desc.pci.mask_pos, &desc.pci.msi_mask);
+   318	
+   319		return msi_insert_msi_desc(&dev->dev, &desc);
+   320	}
+   321	
 
 -- 
 0-DAY CI Kernel Test Service
