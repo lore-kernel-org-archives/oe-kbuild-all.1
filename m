@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F5C191F8C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 10:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB39191F92;
+	Sat, 11 Jan 2025 10:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736592997; cv=none; b=giPB06pWGvU05N2eX5cUnNVzcR/qxU5BdK8a+NlZlXRqHSMMJANLT5IJEXKMDAxvS6w/OZ3QgI3wKuNGlh1fD7j52FAMd/CbBRADBPVPozP8gzKDy+2egeV9X6KT7DmqihzFjFGJJVQNZ9M6nWyXzfX8QawWSQOKxgcJ9gR8XYI=
+	t=1736592998; cv=none; b=vAZXo2ta0RBgxeUFQIHZQfAZ2hfM+Ok9q7WlSfpHT7OeaVLSqr40zgq3jeWxWqwCZKFQ1/BSebhJh9t2MocJRYTatwlBG8ycB1FaUkrrFRvpjh8sCUbmddXe79d4NmQwIbo1VfCO3zxQcPtEOh2I5hrGp+AooQKj3VDdvkY2EOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736592997; c=relaxed/simple;
-	bh=WKbUa1vAgEvnQ3+Vl6ZDQmifpWjdbZtnhZZ6KhrO1zA=;
+	s=arc-20240116; t=1736592998; c=relaxed/simple;
+	bh=0Z+ddtiqDHNlGgWEjjrzLld3Ky+lgoFXWRejQisWuYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JhhkPJHdix2RYFq1Nrq66JFBYtFGT4LsXRksTQzh0IRJj2Bf0ePIgQ83U9EK1BPd608F3dMZHQ8+xydd+yBlTGma8JWNZcWwOuu0wddOIPo7OhmBS2HLlj4+RAmfH88JMfeAlc7XdW2VBQy8F8Ty48giGUXVcKwOZ2MorxkMfp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EtDYcnss; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=cKj9ndz1aDmk3VlKBqZ66dqI+zps2w3Zi7BlZ/JYkj0b0sgArc5xL0Z6S7WT4W6VMKmKnK8pqHXe3ryU2LbTDdRrbGLHKbCxHWlcWNtOeD7b6pAqdfCHkfy/MQRqAZQiVxF7kSZIuLwbrpSeTyOiGc+lw/WFFoqc6pEa2oVQrqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jA84OdH8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtDYcnss"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jA84OdH8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736592995; x=1768128995;
+  t=1736592997; x=1768128997;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WKbUa1vAgEvnQ3+Vl6ZDQmifpWjdbZtnhZZ6KhrO1zA=;
-  b=EtDYcnssJ31wJydOXmf6glosb0BqDUeqMj+z++EeofGmCNS7M5WUfYwX
-   rebqtTZaskfkvXIfed2+rWeEicL/jOrtuljtH3oWb2zyZ1oknOuVxGRgr
-   yzozDuBe5QZBK6KjeDVh/gvAZT7t01fIbQSDCuPQsriTa6+RdDD780lLA
-   9oHdCQ0r/VNCjWlshp0pkOBEKTT+VK3+LX6avyrT9ORBG2F791JKkRfH1
-   q6voGTKoaSROCUATRLb/s3+z7T34BmmEsyU0lJCSpntU8HEVmHI37qO57
-   nEbcey6R1DCBUdnnhCAQlnulhPbb+tNXFhgNhrcG/NkTG3wMbyHQJSq2J
-   w==;
-X-CSE-ConnectionGUID: zkzy7BuOT3OjLL8TfHyD4w==
-X-CSE-MsgGUID: /ljat8n7RzCd2nprt8I2fQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="62257747"
+  bh=0Z+ddtiqDHNlGgWEjjrzLld3Ky+lgoFXWRejQisWuYM=;
+  b=jA84OdH8WqAQRMBoq4mQtVDY+9FT9QtKYyHOYjxTcjsUejJ3llmSCMXi
+   hAVPip4DDSi+mhQxsx15Nf/2gUZJQKb4+/LrIkvMT3jIDzVv/1ePsX2C6
+   u6/988wBm/Om14KNV+71p8KUXkhqmTJ9qqAg/IoHCsRoXthw5KfcQ7Nb9
+   i45RIeTx2dHR82Nxnz6kqUtG5E806SE0cGjLJGeDHNyJoSxmXSxENr1Gc
+   1CA6x6mGQvxxvbTpL9D6IF0vX9mg51UPFscoqNUuTBafFtCXQps2C+2PM
+   exuEC6L4+1xYdMdz9grrmJJug67exBCO1TV43gRyjP+mn70f0PUXWQB8G
+   A==;
+X-CSE-ConnectionGUID: JsOlOLs0RiGFiqOcjxF+AQ==
+X-CSE-MsgGUID: tVrv3yzWQvSmQoyvd2BzXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="47457736"
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="62257747"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 02:56:35 -0800
-X-CSE-ConnectionGUID: aUtWuB7HTy6z/KIoMDp2DQ==
-X-CSE-MsgGUID: F4zPwhduSeKPAAZZBSn+4g==
+   d="scan'208";a="47457736"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 02:56:36 -0800
+X-CSE-ConnectionGUID: WHhWcZfQQzusnBMqPEiJZQ==
+X-CSE-MsgGUID: 3AQNwkH/SxGZlxIrnCl7uA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="103775542"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="127249660"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jan 2025 02:56:34 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2025 02:56:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWZAN-000KVx-31;
+	id 1tWZAN-000KVv-2x;
 	Sat, 11 Jan 2025 10:56:31 +0000
-Date: Sat, 11 Jan 2025 18:55:44 +0800
+Date: Sat, 11 Jan 2025 18:55:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oxana Kharitonova <oxana@cloudflare.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH resend] hung_task: add task->flags, blocked by coredump
- to log
-Message-ID: <202501111846.weNpjZRv-lkp@intel.com>
-References: <20250110160328.64947-1-oxana@cloudflare.com>
+To: Badal Nilawar <badal.nilawar@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
+	andrzej.hajda@intel.com, andi.shyti@intel.com
+Subject: Re: [PATCH 1/2] drm/i915/mtl: Disable render power-gating during
+ selftest only
+Message-ID: <202501111817.Kz3T41my-lkp@intel.com>
+References: <20250110140947.3471824-2-badal.nilawar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +66,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110160328.64947-1-oxana@cloudflare.com>
+In-Reply-To: <20250110140947.3471824-2-badal.nilawar@intel.com>
 
-Hi Oxana,
+Hi Badal,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tip/sched/core brauner-vfs/vfs.all linus/master v6.13-rc6 next-20250110]
+[auto build test ERROR on linus/master]
+[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.13-rc6 next-20250110]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oxana-Kharitonova/hung_task-add-task-flags-blocked-by-coredump-to-log/20250111-000505
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250110160328.64947-1-oxana%40cloudflare.com
-patch subject: [PATCH resend] hung_task: add task->flags, blocked by coredump to log
-config: riscv-randconfig-002-20250111 (https://download.01.org/0day-ci/archive/20250111/202501111846.weNpjZRv-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501111846.weNpjZRv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/drm-i915-mtl-Disable-render-power-gating-during-selftest-only/20250110-214933
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250110140947.3471824-2-badal.nilawar%40intel.com
+patch subject: [PATCH 1/2] drm/i915/mtl: Disable render power-gating during selftest only
+config: i386-randconfig-014-20250111 (https://download.01.org/0day-ci/archive/20250111/202501111817.Kz3T41my-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501111817.Kz3T41my-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501111846.weNpjZRv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501111817.Kz3T41my-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/riscv/include/asm/bug.h:83,
-                    from include/linux/bug.h:5,
-                    from arch/riscv/include/asm/cmpxchg.h:9,
-                    from arch/riscv/include/asm/barrier.h:14,
-                    from include/linux/list.h:11,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:10:
-   kernel/sched/core.c: In function 'sched_show_task':
->> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 6 has type 'unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:473:25: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:586:9: note: in expansion of macro 'printk'
-     586 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:24:25: note: in expansion of macro 'KERN_SOH'
-      24 | #define KERN_CONT       KERN_SOH "c"
-         |                         ^~~~~~~~
-   include/linux/printk.h:586:16: note: in expansion of macro 'KERN_CONT'
-     586 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   kernel/sched/core.c:7704:9: note: in expansion of macro 'pr_cont'
-    7704 |         pr_cont(" stack:%-5lu pid:%-5d tgid:%-5d ppid:%-6d task_flags:0x%08lx flags:0x%08lx\n",
-         |         ^~~~~~~
+>> drivers/gpu/drm/i915/gt/intel_rc6.c:126:6: error: use of undeclared identifier 'i915_selftest'
+     126 |         if (i915_selftest.live && IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)))
+         |             ^
+   1 error generated.
 
 
-vim +5 include/linux/kern_levels.h
+vim +/i915_selftest +126 drivers/gpu/drm/i915/gt/intel_rc6.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+    55	
+    56	static void gen11_rc6_enable(struct intel_rc6 *rc6)
+    57	{
+    58		struct intel_gt *gt = rc6_to_gt(rc6);
+    59		struct intel_uncore *uncore = gt->uncore;
+    60		struct intel_engine_cs *engine;
+    61		enum intel_engine_id id;
+    62		u32 pg_enable;
+    63		int i;
+    64	
+    65		/*
+    66		 * With GuCRC, these parameters are set by GuC
+    67		 */
+    68		if (!intel_uc_uses_guc_rc(&gt->uc)) {
+    69			/* 2b: Program RC6 thresholds.*/
+    70			intel_uncore_write_fw(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
+    71			intel_uncore_write_fw(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
+    72	
+    73			intel_uncore_write_fw(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
+    74			intel_uncore_write_fw(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
+    75			for_each_engine(engine, rc6_to_gt(rc6), id)
+    76				intel_uncore_write_fw(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
+    77	
+    78			intel_uncore_write_fw(uncore, GUC_MAX_IDLE_COUNT, 0xA);
+    79	
+    80			intel_uncore_write_fw(uncore, GEN6_RC_SLEEP, 0);
+    81	
+    82			intel_uncore_write_fw(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
+    83		}
+    84	
+    85		/*
+    86		 * 2c: Program Coarse Power Gating Policies.
+    87		 *
+    88		 * Bspec's guidance is to use 25us (really 25 * 1280ns) here. What we
+    89		 * use instead is a more conservative estimate for the maximum time
+    90		 * it takes us to service a CS interrupt and submit a new ELSP - that
+    91		 * is the time which the GPU is idle waiting for the CPU to select the
+    92		 * next request to execute. If the idle hysteresis is less than that
+    93		 * interrupt service latency, the hardware will automatically gate
+    94		 * the power well and we will then incur the wake up cost on top of
+    95		 * the service latency. A similar guide from plane_state is that we
+    96		 * do not want the enable hysteresis to less than the wakeup latency.
+    97		 *
+    98		 * igt/gem_exec_nop/sequential provides a rough estimate for the
+    99		 * service latency, and puts it under 10us for Icelake, similar to
+   100		 * Broadwell+, To be conservative, we want to factor in a context
+   101		 * switch on top (due to ksoftirqd).
+   102		 */
+   103		intel_uncore_write_fw(uncore, GEN9_MEDIA_PG_IDLE_HYSTERESIS, 60);
+   104		intel_uncore_write_fw(uncore, GEN9_RENDER_PG_IDLE_HYSTERESIS, 60);
+   105	
+   106		/* 3a: Enable RC6
+   107		 *
+   108		 * With GuCRC, we do not enable bit 31 of RC_CTL,
+   109		 * thus allowing GuC to control RC6 entry/exit fully instead.
+   110		 * We will not set the HW ENABLE and EI bits
+   111		 */
+   112		if (!intel_guc_rc_enable(gt_to_guc(gt)))
+   113			rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
+   114		else
+   115			rc6->ctl_enable =
+   116				GEN6_RC_CTL_HW_ENABLE |
+   117				GEN6_RC_CTL_RC6_ENABLE |
+   118				GEN6_RC_CTL_EI_MODE(1);
+   119	
+   120		/*
+   121		 * BSpec 52698 - Render powergating must be off.
+   122		 * FIXME BSpec is outdated, disabling powergating for MTL is just
+   123		 * temporary wa and should be removed after fixing real cause
+   124		 * of forcewake timeouts.
+   125		 */
+ > 126		if (i915_selftest.live && IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)))
+   127			pg_enable =
+   128				GEN9_MEDIA_PG_ENABLE |
+   129				GEN11_MEDIA_SAMPLER_PG_ENABLE;
+   130		else
+   131			pg_enable =
+   132				GEN9_RENDER_PG_ENABLE |
+   133				GEN9_MEDIA_PG_ENABLE |
+   134				GEN11_MEDIA_SAMPLER_PG_ENABLE;
+   135	
+   136		if (GRAPHICS_VER(gt->i915) >= 12 && !IS_DG1(gt->i915)) {
+   137			for (i = 0; i < I915_MAX_VCS; i++)
+   138				if (HAS_ENGINE(gt, _VCS(i)))
+   139					pg_enable |= (VDN_HCP_POWERGATE_ENABLE(i) |
+   140						      VDN_MFX_POWERGATE_ENABLE(i));
+   141		}
+   142	
+   143		intel_uncore_write_fw(uncore, GEN9_PG_ENABLE, pg_enable);
+   144	}
+   145	
 
 -- 
 0-DAY CI Kernel Test Service
