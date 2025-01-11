@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4CA17C68
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 20:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0361494CC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 20:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736625899; cv=none; b=uZRjIC5e6bHJt9zNmpvrQonuAm8dF8d8ZJpc/OHH9mIscNM81GjkKEt+d/iq8jkYrySYcKZbYGp7PcHYa6dDeep067C+iXGEkIiSJtwJTqtkC8bWuC61MwJUZSyGpaHp8MT+I1TFbnMWbN9BXu3eS5Fqi37NduI7B716Kc6J1jE=
+	t=1736627165; cv=none; b=ktvp3y1vcVIXydzpNCCfIhtE9r0oHZUmxWS6JPeBsJPirUzD9oidieS6Ghg8tnxWKxxHbn5byobhmUCuwmBH13rSVXBH21+f54wCQMfaPaYLiZP1Sfi/nx570HaJy+sHoZjCLhWVjyf0EyQsGJ5XXqktlVaKsX7qWiCRPRp4aUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736625899; c=relaxed/simple;
-	bh=4vYu4E+ttvGVIh9JWZ3ocuZHOJWZboTcTtdL9yBw1Kk=;
+	s=arc-20240116; t=1736627165; c=relaxed/simple;
+	bh=uX/ZZt0Z5c3PrvnGT2vqWCr+st7jGgkv6hqxL577+p4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EZqy67JcFVSuyUkVUxnruEs6lKvlbjrfYH/DGUNJy388Xl5GuCiw6UytvC0XZ7JVxk+G8RIN3keRqhrXFmbSABYiilKVSM2JI+BAmGPTFldCvN7y7chogQlB5ONwwjdiK+yg6xQDOL4Z5bKYmavEz7S3q0C7D12nLlCqFl+9esg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m3AR7f+c; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=hBlfHmlsTQjas3jZi6r2HicucbaIzNs5291DFMWocOZaHnqMy+xgDj5nXnExKK3d/BzF+26OAvTOeOMrQKrwntTEhVXlE6c7tiGklCA7kYKBVQGiLqto2JmrDEolHOVtxGmVU2xVawsclb3PJeYuqcQHcjHR8Abz5K3tMhjKE/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3L3KLbG; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m3AR7f+c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3L3KLbG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736625898; x=1768161898;
+  t=1736627162; x=1768163162;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4vYu4E+ttvGVIh9JWZ3ocuZHOJWZboTcTtdL9yBw1Kk=;
-  b=m3AR7f+cz+uvTfbtFwDZkXfe5rvJr1gK43CYol63K+iMpl7nu/lrpbNh
-   uLUExpCU5jw/m9JOcWG0ySnOn+ZFYGlymCKM/EWkChIstdp+LQFxQuWwy
-   A5ilECsg13lLFJLwThCzLnkle1dX/Zf+zpVEbltQJMTlHArmccg9hJBKm
-   7YUGE0IT6i/M9TrNpgHMxs1POYo/HwHz5Zu6l1/xb2Ur5L/aMZmVsmTM6
-   piaIgoz1v11E+Kgdc4KOsUej2DEhZeqL6gM8UjDgj4GQHDfDphWZXbuUb
-   /5u6rgeV776odGTqAMHxCD4I74VBlQBJbIkMzmZbUaFfc4A1wy5IKUv5M
-   Q==;
-X-CSE-ConnectionGUID: gxJYmH/kR2CFKkjq2l/N/w==
-X-CSE-MsgGUID: CHCI23LLS1urEGZ7nlN51w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47557220"
+  bh=uX/ZZt0Z5c3PrvnGT2vqWCr+st7jGgkv6hqxL577+p4=;
+  b=Q3L3KLbGbEp1DPureadJF9YkFAz5bXUkh+frTUuo7Ryc1WYZrBRVPX+L
+   K2zrLB1alR3UZVpFvj9amZHNCb3gFmNO5+GbhRkuiX8NPK+BRCMxgpcjl
+   70JdBQSWgSp10xwnEtU6jR1h9s1MwZLtRrzcboD7/Uw67mcnoZjWgLL3/
+   DVyTs70uldT0Dra7NZRG9IlcVRvBMNv6CVzWjC6u8ShYisizBgdQVQPDr
+   pYmZHNgEGClQDsKhU+IYFFTrhbH81Qq8escBbcgRhiDV2PivEzV3ohPmJ
+   XyWh6NiejsddPCMzeFOn+8efqfcpZwhSe7DpzZwU7VDiRhYVtyChQJRIq
+   g==;
+X-CSE-ConnectionGUID: AX97/UgNT6Oe+eaT+CLcrw==
+X-CSE-MsgGUID: UH2/sCX4QxKF3qzuiU3qww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36918040"
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="47557220"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 12:04:57 -0800
-X-CSE-ConnectionGUID: 09vEO/N6QyCj2fUQGprmCw==
-X-CSE-MsgGUID: U8DosWYYR9yUPbKNoJr+Iw==
+   d="scan'208";a="36918040"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 12:26:02 -0800
+X-CSE-ConnectionGUID: 34J3CqdfTB2Ponb7rpPayA==
+X-CSE-MsgGUID: BUGwc1ncRa+sZSy9+FWgVQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134933611"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="109078665"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Jan 2025 12:04:55 -0800
+  by orviesa003.jf.intel.com with ESMTP; 11 Jan 2025 12:26:00 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWhj3-000LA3-2J;
-	Sat, 11 Jan 2025 20:04:53 +0000
-Date: Sun, 12 Jan 2025 04:04:00 +0800
+	id 1tWi3S-000LAx-0T;
+	Sat, 11 Jan 2025 20:25:58 +0000
+Date: Sun, 12 Jan 2025 04:25:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Even Xu <even.xu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jiri Kosina <jikos@kernel.org>,
-	Xinpeng Sun <xinpeng.sun@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>
-Subject: [linux-next:master 7316/7860]
- drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c:63:30: error:
- implicit declaration of function 'acpi_device_handle'; did you mean
- 'acpi_fwnode_handle'?
-Message-ID: <202501120441.YpejrHzj-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1402/1402] block/bio-integrity.c:41:6:
+ warning: no previous prototype for function '__bio_integrity_free'
+Message-ID: <202501120402.JKRrtYy6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,93 +62,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2b88851f583d3c4e40bcd40cfe1965241ec229dd
-commit: 7cb06f08ef13499105d6fe85706baf34467b43a8 [7316/7860] HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250112/202501120441.YpejrHzj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501120441.YpejrHzj-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   97f98c391a1fd153ae010a2faf73f9e03270da6e
+commit: f9c4e7b09f7d51f9256fe51b9c40657cd7302530 [1402/1402] block: release bip in a right way in error path
+config: x86_64-buildonly-randconfig-004-20250109 (https://download.01.org/0day-ci/archive/20250112/202501120402.JKRrtYy6-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501120402.JKRrtYy6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501120441.YpejrHzj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501120402.JKRrtYy6-lkp@intel.com/
 
-Note: the linux-next/master HEAD 2b88851f583d3c4e40bcd40cfe1965241ec229dd builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   In file included from block/bio-integrity.c:23:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/bio-integrity.c:41:6: warning: no previous prototype for function '__bio_integrity_free' [-Wmissing-prototypes]
+      41 | void __bio_integrity_free(struct bio_set *bs, struct bio_integrity_payload *bip)
+         |      ^
+   block/bio-integrity.c:41:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      41 | void __bio_integrity_free(struct bio_set *bs, struct bio_integrity_payload *bip)
+         | ^
+         | static 
+   2 warnings generated.
+   block/bio-integrity.o: warning: objtool: missing symbol for section .init.text
 
-   drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c: In function 'thc_acpi_get_property':
->> drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c:63:30: error: implicit declaration of function 'acpi_device_handle'; did you mean 'acpi_fwnode_handle'? [-Werror=implicit-function-declaration]
-      63 |         acpi_handle handle = acpi_device_handle(adev);
-         |                              ^~~~~~~~~~~~~~~~~~
-         |                              acpi_fwnode_handle
-   drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c:63:30: warning: initialization of 'acpi_handle' {aka 'void *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c: In function 'quickspi_irq_thread_handler':
-   drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c:242:13: warning: variable 'int_mask' set but not used [-Wunused-but-set-variable]
-     242 |         int int_mask;
-         |             ^~~~~~~~
-   cc1: some warnings being treated as errors
 
+vim +/__bio_integrity_free +41 block/bio-integrity.c
 
-vim +63 drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-
-    29	
-    30	/* THC QuickSPI ACPI method to get device properties */
-    31	/* HIDSPI Method: {6e2ac436-0fcf-41af-a265-b32a220dcfab} */
-    32	static guid_t hidspi_guid =
-    33		GUID_INIT(0x6e2ac436, 0x0fcf, 0x41af, 0xa2, 0x65, 0xb3, 0x2a,
-    34			  0x22, 0x0d, 0xcf, 0xab);
-    35	
-    36	/* QuickSpi Method: {300D35b7-ac20-413e-8e9c-92e4dafd0afe} */
-    37	static guid_t thc_quickspi_guid =
-    38		GUID_INIT(0x300d35b7, 0xac20, 0x413e, 0x8e, 0x9c, 0x92, 0xe4,
-    39			  0xda, 0xfd, 0x0a, 0xfe);
     40	
-    41	/* Platform Method: {84005682-5b71-41a4-0x8d668130f787a138} */
-    42	static guid_t thc_platform_guid =
-    43		GUID_INIT(0x84005682, 0x5b71, 0x41a4, 0x8d, 0x66, 0x81, 0x30,
-    44			  0xf7, 0x87, 0xa1, 0x38);
-    45	
-    46	/**
-    47	 * thc_acpi_get_property - Query device ACPI parameter
-    48	 *
-    49	 * @adev: point to ACPI device
-    50	 * @guid: ACPI method's guid
-    51	 * @rev: ACPI method's revision
-    52	 * @func: ACPI method's function number
-    53	 * @type: ACPI parameter's data type
-    54	 * @prop_buf: point to return buffer
-    55	 *
-    56	 * This is a helper function for device to query its ACPI parameters.
-    57	 *
-    58	 * Return: 0 if successful or ENODEV on failed.
-    59	 */
-    60	static int thc_acpi_get_property(struct acpi_device *adev, const guid_t *guid,
-    61					 u64 rev, u64 func, acpi_object_type type, void *prop_buf)
-    62	{
-  > 63		acpi_handle handle = acpi_device_handle(adev);
-    64		union acpi_object *obj;
-    65	
-    66		obj = acpi_evaluate_dsm_typed(handle, guid, rev, func, NULL, type);
-    67		if (!obj) {
-    68			acpi_handle_err(handle,
-    69					"Error _DSM call failed, rev: %llu, func: %llu, type: %u\n",
-    70					rev, func, type);
-    71			return -ENODEV;
-    72		}
-    73	
-    74		if (type == ACPI_TYPE_INTEGER)
-    75			*(u32 *)prop_buf = (u32)obj->integer.value;
-    76		else if (type == ACPI_TYPE_BUFFER)
-    77			memcpy(prop_buf, obj->buffer.pointer, obj->buffer.length);
-    78	
-    79		ACPI_FREE(obj);
-    80	
-    81		return 0;
-    82	}
-    83	
+  > 41	void __bio_integrity_free(struct bio_set *bs, struct bio_integrity_payload *bip)
+    42	{
+    43		if (bs && mempool_initialized(&bs->bio_integrity_pool)) {
+    44			if (bip->bip_vec)
+    45				bvec_free(&bs->bvec_integrity_pool, bip->bip_vec,
+    46					  bip->bip_slab);
+    47			mempool_free(bip, &bs->bio_integrity_pool);
+    48		} else {
+    49			kfree(bip);
+    50		}
+    51	}
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
