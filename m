@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D5D24B226
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 09:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9433F17BED0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 09:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736586211; cv=none; b=kmxRO6lF8y/8U6WUd8fWQB9E7gu4F3z0sPLhQvQO5Zq/DsZqCf0/k4aCYbzMJC7Te5P5o+o8V45CFpridn8kDqUA8tseQLiwFwkAl3DpGd/SuqdaDcXEDe+01BJ3j6U68Az0MInpnoYgFXGQXKZnZg+bQILvzL0VONEfosmEe+U=
+	t=1736586926; cv=none; b=SrrEECT3p8QV2noSan8hfFiRXNSP2wq6KiX9K3VouazRz3I1GxY5hpDJTo/Nh0Tsd5ovI5bm+jmZsC5g7MYy5LEiMjLNmYlVnP8daB5weLZzkcMy0WWfGtda1FtnRhNBYrAcpOuSi9t2YOBYT1MYenNKYwQMe3PBOPpDY4giVIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736586211; c=relaxed/simple;
-	bh=fe8hQbhSrHnKQLa6hQ32uMJjjGqU82F+/eHC/K7EVqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z7x4r5qpkulqHdHAag26P3AAM5eVCdDUca8kOeXfs5/N4iNKeQPJGXFymZOoyVJgfn04+YbigOqgrcmmtHIbpA1BuhjdrHFOZYaZdFMnjNeK0YjaN8I9R5d69SDGbbskJYXFF6eu6GrlpxJQsyAZxlViO5cbovv2mxHH+M9xNqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DzD2q+fB; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1736586926; c=relaxed/simple;
+	bh=sswMfUSB5763PmHdr7TPsKKr7qSMy2w9D2hz8XEW6oA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sNYWP5FHrC+Q9JkIwNsD/urLswv9uL90jkGCWGYpnaJrAuH1ByP+Ni6oWe6yo82nft+bbPZm65tnqLvq+c2JVXLHUd1+D5Ud1/1NJXS1xf47i7V5NyrnJhzJ/k3/kX2cxIuxmw+f98A1OBe2XNrhw3Li+XnVxaOVWmXfSU3zXSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=akXDStQU; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DzD2q+fB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="akXDStQU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736586210; x=1768122210;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fe8hQbhSrHnKQLa6hQ32uMJjjGqU82F+/eHC/K7EVqY=;
-  b=DzD2q+fBZBSZnyOpsPSr2BTQO9fNXHgxGDmOPbVJheITcvC4uHdpDgSY
-   PIzAJRZjM1u2Oqe5unjVNBydtAnhNb2Xg5nqCJnLKrH5ZJ9ivXbk+XDPp
-   Ra6LcQff3RkilivQV5Ys7LKDiE8tpKI4b5mV/7h3G00LmpLK4+fFKrmdF
-   8MDqwSQIRbHZ1MOlAF7kjqAlUjfJCZIFJSz/H9sE/cC1cl57Nf/2B+iME
-   qprL0oYeQ3zkE1ErV5ohukw+Zef1JDtkgucSt4YXYGbgFGeQx6QULuMkf
-   qe63uAqRj8efRrUHeQ5jbwfoiztDx3KLbTaEma0S0QWis0wwXyUS6j9Vy
-   A==;
-X-CSE-ConnectionGUID: BhcrmYtKRbmDwXkcENKVEQ==
-X-CSE-MsgGUID: 3saUzz9kTOih5feejAJvPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="47539403"
+  t=1736586925; x=1768122925;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sswMfUSB5763PmHdr7TPsKKr7qSMy2w9D2hz8XEW6oA=;
+  b=akXDStQU5KRMbXi3d9612McCTK0bAy7lR1VgowXvtghTG6jwRpl+24g8
+   YnTAHLt/+yJKiCC5LDFR/yeMe+5+cmbeOgflqyNSsfyUf5XQ0vmnuJ22h
+   +X7xZpJINHFyDFNX05rnVqM1E1K2gHepOk7X994Oywk12Ge0zVpcp8YRm
+   JWu1qYMcj8tOWsdhksXz/JdrkEBsUiNnAvfx9a5nD7E6LvffcSRrCI7zb
+   vxtRKCK5KkS+xVJaZ79wiDMDS9Zbl85jErjRHfviNSAjzr945hmfVX0Hy
+   8GpRCovKBMIDwP21W8yD0NjGGri4FfrnMP5MH07ONupjiqfoQQQhw1ncu
+   w==;
+X-CSE-ConnectionGUID: L2Qjb327TZSJKuqP1jtMtQ==
+X-CSE-MsgGUID: PydwAWckQDG3MHwiWVxjnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="24486920"
 X-IronPort-AV: E=Sophos;i="6.12,306,1728975600"; 
-   d="scan'208";a="47539403"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 01:03:29 -0800
-X-CSE-ConnectionGUID: oCQrinvrTZCo4PAjo8jItw==
-X-CSE-MsgGUID: wYkb33BGSESFvAVOOYwQgw==
+   d="scan'208";a="24486920"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 01:15:24 -0800
+X-CSE-ConnectionGUID: NffpYoqGR5+jOcwQ2rR5VQ==
+X-CSE-MsgGUID: dyx8dzuTRSOJTEG35asptw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104829956"
+X-IronPort-AV: E=Sophos;i="6.12,306,1728975600"; 
+   d="scan'208";a="104509070"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Jan 2025 01:03:22 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 11 Jan 2025 01:15:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWXOo-000KPn-2r;
-	Sat, 11 Jan 2025 09:03:18 +0000
-Date: Sat, 11 Jan 2025 17:02:40 +0800
+	id 1tWXaS-000KQX-2b;
+	Sat, 11 Jan 2025 09:15:20 +0000
+Date: Sat, 11 Jan 2025 17:15:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joey Jiao <quic_jiangenj@quicinc.com>, dvyukov@google.com,
-	andreyknvl@gmail.com, corbet@lwn.net, akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org, nogikh@google.com, elver@google.com,
-	pierre.gondois@arm.com, cmllamas@google.com,
-	quic_zijuhu@quicinc.com, richard.weiyang@gmail.com,
-	tglx@linutronix.de, arnd@arndb.de, catalin.marinas@arm.com,
-	will@kernel.org, dennis@kernel.org, tj@kernel.org, cl@linux.com,
-	ruanjinjie@huawei.com, colyli@suse.de,
-	andriy.shevchenko@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, kernel@quicinc.com,
-	quic_likaid@quicinc.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
-Message-ID: <202501111600.ojBvC1LF-lkp@intel.com>
-References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
+To: Michal Simek <monstr@monstr.eu>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com
+Subject: [xilinx-xlnx:lkp_test 497/504]
+ arch/arm64/boot/dts/xilinx/zynqmp-sc-vn-p-b2197-00-revA.dtso:180:2: warning:
+ '/*' within block comment
+Message-ID: <202501111756.IcKlG6rs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,122 +62,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
 
-Hi Joey,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Jiao/kcov-add-unique-cover-edge-and-cmp-modes/20250110-153559
-base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-patch link:    https://lore.kernel.org/r/20250110073056.2594638-1-quic_jiangenj%40quicinc.com
-patch subject: [PATCH] kcov: add unique cover, edge, and cmp modes
-config: arm-randconfig-002-20250111 (https://download.01.org/0day-ci/archive/20250111/202501111600.ojBvC1LF-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501111600.ojBvC1LF-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: c55a45b8733c05d614ac84dd252c0dbebc4a99f5 [497/504] arm64: zynqmp: Add/Update/Sync DTs for xilinx platforms
+config: arm64-randconfig-052-20250111 (https://download.01.org/0day-ci/archive/20250111/202501111756.IcKlG6rs-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501111756.IcKlG6rs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501111600.ojBvC1LF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501111756.IcKlG6rs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/kcov.c: In function 'kcov_map_add':
->> kernel/kcov.c:309:60: error: 'struct kcov_entry' has no member named 'type'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                            ^~
-   kernel/kcov.c:309:73: error: 'struct kcov_entry' has no member named 'type'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                                         ^~
->> kernel/kcov.c:310:34: error: 'struct kcov_entry' has no member named 'arg1'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                  ^~
-   kernel/kcov.c:310:47: error: 'struct kcov_entry' has no member named 'arg1'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                               ^~
->> kernel/kcov.c:310:62: error: 'struct kcov_entry' has no member named 'arg2'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                              ^~
-   kernel/kcov.c:310:75: error: 'struct kcov_entry' has no member named 'arg2'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                                           ^~
-   kernel/kcov.c:343:48: error: 'struct kcov_entry' has no member named 'type'
-     343 |                         area[start_index] = ent->type;
-         |                                                ^~
-   kernel/kcov.c:344:52: error: 'struct kcov_entry' has no member named 'arg1'
-     344 |                         area[start_index + 1] = ent->arg1;
-         |                                                    ^~
-   kernel/kcov.c:345:52: error: 'struct kcov_entry' has no member named 'arg2'
-     345 |                         area[start_index + 2] = ent->arg2;
-         |                                                    ^~
+>> arch/arm64/boot/dts/xilinx/zynqmp-sc-vn-p-b2197-00-revA.dtso:180:2: warning: '/*' within block comment [-Wcomment]
+           /* i2c_main_1 - u147 - j157 - disable translation, add 8 */
+           ^
+   1 warning generated.
 
 
-vim +309 kernel/kcov.c
+vim +180 arch/arm64/boot/dts/xilinx/zynqmp-sc-vn-p-b2197-00-revA.dtso
 
-   290	
-   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
-   292						struct task_struct *t, unsigned int mode)
-   293	{
-   294		struct kcov *kcov;
-   295		struct kcov_entry *entry;
-   296		unsigned int key = hash_key(ent);
-   297		unsigned long pos, start_index, end_pos, max_pos, *area;
-   298	
-   299		kcov = t->kcov;
-   300	
-   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
-   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
-   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
-   304				if (entry->ent == ent->ent)
-   305					return;
-   306			}
-   307		else
-   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
- > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
- > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-   311					return;
-   312				}
-   313			}
-   314	
-   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
-   316		if (unlikely(!entry))
-   317			return;
-   318	
-   319		barrier();
-   320		memcpy(entry, ent, sizeof(*entry));
-   321		hash_add_rcu(map->buckets, &entry->node, key);
-   322	
-   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
-   324			area = t->kcov_area;
-   325		else
-   326			area = kcov->map_edge->area;
-   327	
-   328		pos = READ_ONCE(area[0]) + 1;
-   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
-   330			if (likely(pos < t->kcov_size)) {
-   331				WRITE_ONCE(area[0], pos);
-   332				barrier();
-   333				area[pos] = ent->ent;
-   334			}
-   335		} else {
-   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
-   337			max_pos = t->kcov_size * sizeof(unsigned long);
-   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
-   339			if (likely(end_pos <= max_pos)) {
-   340				/* See comment in __sanitizer_cov_trace_pc(). */
-   341				WRITE_ONCE(area[0], pos);
-   342				barrier();
-   343				area[start_index] = ent->type;
-   344				area[start_index + 1] = ent->arg1;
-   345				area[start_index + 2] = ent->arg2;
-   346				area[start_index + 3] = ent->ent;
-   347			}
-   348		}
-   349	}
-   350	
+   131	
+   132	&i2c1 {
+   133		#address-cells = <1>;
+   134		#size-cells = <0>;
+   135	
+   136		/* u97 eeprom at 0x54 described in sc-revB - WP protection via BOARD_EEPROM_WP - J1801 */
+   137		/* DC/SE eeprom at 0x52 */
+   138		x_prc_eeprom: eeprom@52 { /* u4 - DC card identification - possible WP */
+   139			compatible = "atmel,24c02";
+   140			reg = <0x52>;
+   141			bootph-all;
+   142		};
+   143	
+   144		x_prc_tca9534: gpio@22 { /* u5 */
+   145			compatible = "nxp,pca9534";
+   146			reg = <0x22>;
+   147			gpio-controller; /* IRQ not connected */
+   148			#gpio-cells = <2>;
+   149			gpio-line-names = "xprc_sw_1", "xprc_sw_2", "xprc_sw_3", "xprc_sw_4",
+   150						"", "", "", "";
+   151			gtr-sel0-hog {
+   152				gpio-hog;
+   153				gpios = <0 0>;
+   154				input; /* FIXME add meaning */
+   155				line-name = "xprc_sw_1";
+   156			};
+   157			gtr-sel1-hog {
+   158				gpio-hog;
+   159				gpios = <1 0>;
+   160				input; /* FIXME add meaning */
+   161				line-name = "xprc_sw_1";
+   162			};
+   163			gtr-sel2-hog {
+   164				gpio-hog;
+   165				gpios = <2 0>;
+   166				input; /* FIXME add meaning */
+   167				line-name = "xprc_sw_1";
+   168			};
+   169			gtr-sel3-hog {
+   170				gpio-hog;
+   171				gpios = <3 0>;
+   172				input; /* FIXME add meaning */
+   173				line-name = "xprc_sw_1";
+   174			};
+   175		};
+   176	
+   177		/* FMC eeproms at 0x50/0x51 */
+   178		/* via j3/j5 to 0x68 to u32/9FGV1006C
+   179	
+ > 180		/* i2c_main_1 - u147 - j157 - disable translation, add 8 */
+   181		/* J1 - OE for u43@55 + 8 - 161,132813MHz - QSFP56G_0 */
+   182		qsfp56g_0_clk: clock-controller@5d {
+   183			compatible = "renesas,proxo-xp";
+   184			reg = <0x5d>;
+   185			#clock-cells = <0>;
+   186			clock-output-names = "qsfp56g_0_clk";
+   187		};
+   188	
+   189		/* J2 - OE for u41@57 + 8 - 322,265625MHz - QSFP56G_1 */
+   190		qsfp56g_1_clk: clock-controller@5f {
+   191			compatible = "renesas,proxo-xp";
+   192			reg = <0x5f>;
+   193			#clock-cells = <0>;
+   194			clock-output-names = "qsfp56g_1_clk";
+   195		};
+   196	
+   197		/* J81 - OE for u115@50 + 8 - 320MHz - LPDDR5_C0 */
+   198		lpddr5_c0_clk: clock-controller@58 {
+   199			compatible = "renesas,proxo-xp";
+   200			reg = <0x58>;
+   201			#clock-cells = <0>;
+   202			clock-output-names = "lpddr5_c0_clk";
+   203		};
+   204	
+   205		/* i2c_main_2 - u148 - j122 - disable translation, add 9 */
+   206		/* J112 - OE for u63@50 + 9 - 320MHz - LPDDR5_C2 */
+   207		lpddr5_c2_clk: clock-controller@59 {
+   208			compatible = "renesas,proxo-xp";
+   209			reg = <0x59>;
+   210			#clock-cells = <0>;
+   211			clock-output-names = "lpddr5_c2_clk";
+   212		};
+   213	
+   214		/* i2c_main_3 - u149 - j154 - disable translation, add 6 */
+   215		/* J78 - OE for u116@50 + 6  - 320MHz - DDR5_UDIMM */
+   216		ddr5_udimm_clk: clock-controller@56 {
+   217			compatible = "renesas,proxo-xp";
+   218			reg = <0x56>;
+   219			#clock-cells = <0>;
+   220			clock-output-names = "ddr5_udimm_clk";
+   221		};
+   222	
+   223		/* i2c_main_4 - u150 - j146 - disable translation, add 5 */
+   224		/* J107 - OE for u39@50 + 5 - 33,3333MHz - PS_REFCLK */
+   225		ps_refclk: clock-controller@55 {
+   226			compatible = "renesas,proxo-xp";
+   227			reg = <0x55>;
+   228			#clock-cells = <0>;
+   229			clock-output-names = "ps_refclk";
+   230		};
+   231	
+   232		/* i2c_main_5 - u1782 - j1798 - disable translation, add 7 */
+   233		/* J77 - OE for u1783@50 + 7 - 320MHz - DDR4 */
+   234		ddr4_clk: clock-controller@57 {
+   235			compatible = "renesas,proxo-xp";
+   236			reg = <0x57>;
+   237			#clock-cells = <0>;
+   238			clock-output-names = "ddr4_clk";
+   239		};
+   240	
+   241		/* LTC4316 - not wired XORH/XORL - FIXME */
+   242		/* J3 gate - FIXME should be connected for SW handling */
+   243		/* i2c_main_1 bus */
+   244		i2c1_u32: clock-controller@68 {
+   245			compatible = "renesas,9fgv1006";
+   246			reg = <0x68>;
+   247		};
+   248	
+   249		/* J71 - selection to LP_I2C_SCL_J or LP_I2C_PMC_SCL_J */
+   250		/* J70 - selection to LP_I2C_SDA_J or LP_I2C_PMC_SDA_J */
+   251		/* this should be SW controlable too */
+   252	};
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
