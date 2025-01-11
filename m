@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C27195985;
-	Sat, 11 Jan 2025 12:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D29519DFB4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 12:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736598307; cv=none; b=JpmJCkpHhSBMIiFaQ39u9eG60BRFDYIt5VF4690iFrugUNS5xww0cbhXu93Tpy+dMUFRk/Py8iMWNiqMeZhH6KXnC3czhJ8BnQVzYLh5daK5wX4ylGiDrJYM5EstRiXCWMgtP8FE/q7fOX7G3j/76y3XFhgoigEziiofSa6gHLY=
+	t=1736599623; cv=none; b=IGvDoq/wOm3x1ILznj0t1L15iK//JdIXq7mt1q2itF1HG8kbcWHlZ0E5Bo7FcaPPpW7DZrSUYRVASWqP8g9oNl6QhR00cnp9RBMMgyFH1nRg5j6+N7ts2FlAAVhqpJv2VXXzaoO5U0YM3FOwCO41FhqZ7NMWzt6uV4DqpcmD3uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736598307; c=relaxed/simple;
-	bh=A/8dZvb4PodA5W5f8//xP4ydt9geI9IEAZNNNqDbBBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DSXWSqu5lA8AQFEwDL5CyEyk707pObBSrTVGAQu+8MzhbMWeXh3h3Zen5FA5ZVycUyvotziBcEAwm1W25G4/3ZTkRpwOhP07tWlLp0fu7WHtD+Isctkax+eJIDY2A1731MoaFyvFyRD4CjRIbwtAvIR7J5AtzaRSEY4SVTuElLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLDrIcO+; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1736599623; c=relaxed/simple;
+	bh=Wqh0vJ9zU/lOGvNr/+zZ5v9fFShIiZ2WIJ1CBFisLgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k+F15YMrQseayXRlgMrlxKK03rtFswyuRt6y/TrgXwrrbt8xFekw48ZKFi03NW+dvGnegpIjQyi7GOt1ZXulL5OLdtM/3dRLHDy2ydwv/IBvTpr2i2EyIksTSQy59ZlaXykHXngimBEC/yaqwW3UyqDBZJMiicx8mdFuD6tlq2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOd3+ATP; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLDrIcO+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOd3+ATP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736598302; x=1768134302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A/8dZvb4PodA5W5f8//xP4ydt9geI9IEAZNNNqDbBBk=;
-  b=XLDrIcO+Jf85iOgzD/1XOTwSQ9F4LxWjpu4wUfCQYYeZSxLoo+rL3Nm1
-   SbPmBZBApAIa4yMk6WEpY7pqA/LxW1gR8yP7R5NjgHUJEaGLMGdH7qf1V
-   przaWUD/qYD4zpFM7fTxRuVYM3taK/4f75wsW2oY/J5nWcJH8ZT+K+laI
-   rRaR9xyV/YPDuZJIc+KAyAWCfnEbmbiSHx5673r+USleYsqFiZb/h/q2n
-   Da0PGMuirPAZD7QJYAo8uxZlsTRIwc2Mp0E/96M74gAiKVCYrSrcn3yLq
-   KRekvhEVasKLAaQUjvc9tUxYpPuCitkGMJnfwXCKUCQ6Mij7V0bEUwszF
-   g==;
-X-CSE-ConnectionGUID: tTJZAmvfTHyDdat0c7i9Cg==
-X-CSE-MsgGUID: nnLHwAJuTYaiaokXEKjElQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36568763"
+  t=1736599621; x=1768135621;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Wqh0vJ9zU/lOGvNr/+zZ5v9fFShIiZ2WIJ1CBFisLgM=;
+  b=YOd3+ATPhgSHSOBYmm6Us3eQk4cJhImF4rX0vyUsFEr4JSeLN/LM0Jw7
+   GeXDBNIRsJ2tPYOLhkFAU9zi7Hd1izSKtuN/rZm5yU3cryxfGLa8qsgAy
+   Bp+PvB2dlakw4ZbMyhXyvPMTGptKk1vPNIGp2TaCSf72PoFhVpine8hho
+   eJIgfKJiffkS+10skah9hHCBEm9kl7ThyouGDCTPfdio6Y2JIZlgVDhlr
+   ftBI7sMirDNzwS0RGhBX+7AMXous+ZCCf6o0Wq2H0Vihu1M8O0iV+xNQN
+   kQqtQekLq4IUFwGZqFWmMS2sTsIjx462PPwN3XiiK1Xddb2HnrC++6EA6
+   A==;
+X-CSE-ConnectionGUID: ZnczFGXOSxWr+0Yl+BDVog==
+X-CSE-MsgGUID: weilck3vRZy5mwr5qFJ63w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47460249"
 X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
-   d="scan'208";a="36568763"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 04:24:59 -0800
-X-CSE-ConnectionGUID: s7uiThp/StuhE0Qw+ZroYg==
-X-CSE-MsgGUID: wIRlLujDR0CozHf5o3+rzQ==
+   d="scan'208";a="47460249"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 04:47:00 -0800
+X-CSE-ConnectionGUID: zh6TSGQDRDaws9vtFp8www==
+X-CSE-MsgGUID: JvCOZARTRTezN61BUZI1bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="127260895"
+   d="scan'208";a="104501263"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2025 04:24:56 -0800
+  by orviesa007.jf.intel.com with ESMTP; 11 Jan 2025 04:46:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWaXu-000Kcp-06;
-	Sat, 11 Jan 2025 12:24:54 +0000
-Date: Sat, 11 Jan 2025 20:24:15 +0800
+	id 1tWatE-000KeP-1n;
+	Sat, 11 Jan 2025 12:46:56 +0000
+Date: Sat, 11 Jan 2025 20:46:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roger Pau Monne <roger.pau@citrix.com>, linux-kernel@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-pci@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	Juergen Gross <jgross@suse.com>, Bjorn Helgaas <helgaas@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH 3/3] pci/msi: remove pci_msi_ignore_mask
-Message-ID: <202501112048.6yCFh2ma-lkp@intel.com>
-References: <20250110140152.27624-4-roger.pau@citrix.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1395/1395] arch/x86/kvm/vmx.o: warning:
+ objtool: copy_shadow_to_vmcs12()+0x13e: unreachable instruction
+Message-ID: <202501112054.wCj5DExm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,104 +61,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110140152.27624-4-roger.pau@citrix.com>
 
-Hi Roger,
+Hi Paolo,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus xen-tip/linux-next tip/irq/core linus/master v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Roger-Pau-Monne/xen-pci-do-not-register-devices-outside-of-PCI-segment-scope/20250110-220331
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250110140152.27624-4-roger.pau%40citrix.com
-patch subject: [PATCH 3/3] pci/msi: remove pci_msi_ignore_mask
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20250111/202501112048.6yCFh2ma-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   97f98c391a1fd153ae010a2faf73f9e03270da6e
+commit: f98a0954a8ca618f8d94da7f6d52c1a93e6717bb [1395/1395] KVM: nVMX: do not use dangling shadow VMCS after guest reset
+config: x86_64-buildonly-randconfig-003-20250108 (https://download.01.org/0day-ci/archive/20250111/202501112054.wCj5DExm-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501112048.6yCFh2ma-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501112054.wCj5DExm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501112048.6yCFh2ma-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501112054.wCj5DExm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pci/msi/msi.c:12:
-   In file included from include/linux/irq.h:23:
-   In file included from arch/riscv/include/asm/irq.h:10:
-   In file included from include/linux/interrupt.h:22:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/pci/msi/msi.c:288:40: error: incomplete definition of type 'const struct irq_domain'
-     288 |         const struct msi_domain_info *info = d->host_data;
-         |                                              ~^
-   include/linux/irq.h:130:8: note: forward declaration of 'struct irq_domain'
-     130 | struct irq_domain;
-         |        ^
-   drivers/pci/msi/msi.c:604:40: error: incomplete definition of type 'const struct irq_domain'
-     604 |         const struct msi_domain_info *info = d->host_data;
-         |                                              ~^
-   include/linux/irq.h:130:8: note: forward declaration of 'struct irq_domain'
-     130 | struct irq_domain;
-         |        ^
-   drivers/pci/msi/msi.c:714:40: error: incomplete definition of type 'const struct irq_domain'
-     714 |         const struct msi_domain_info *info = d->host_data;
-         |                                              ~^
-   include/linux/irq.h:130:8: note: forward declaration of 'struct irq_domain'
-     130 | struct irq_domain;
-         |        ^
-   1 warning and 3 errors generated.
-
-
-vim +288 drivers/pci/msi/msi.c
-
-   283	
-   284	static int msi_setup_msi_desc(struct pci_dev *dev, int nvec,
-   285				      struct irq_affinity_desc *masks)
-   286	{
-   287		const struct irq_domain *d = dev_get_msi_domain(&dev->dev);
- > 288		const struct msi_domain_info *info = d->host_data;
-   289		struct msi_desc desc;
-   290		u16 control;
-   291	
-   292		/* MSI Entry Initialization */
-   293		memset(&desc, 0, sizeof(desc));
-   294	
-   295		pci_read_config_word(dev, dev->msi_cap + PCI_MSI_FLAGS, &control);
-   296		/* Lies, damned lies, and MSIs */
-   297		if (dev->dev_flags & PCI_DEV_FLAGS_HAS_MSI_MASKING)
-   298			control |= PCI_MSI_FLAGS_MASKBIT;
-   299		if (info->flags & MSI_FLAG_NO_MASK)
-   300			control &= ~PCI_MSI_FLAGS_MASKBIT;
-   301	
-   302		desc.nvec_used			= nvec;
-   303		desc.pci.msi_attrib.is_64	= !!(control & PCI_MSI_FLAGS_64BIT);
-   304		desc.pci.msi_attrib.can_mask	= !!(control & PCI_MSI_FLAGS_MASKBIT);
-   305		desc.pci.msi_attrib.default_irq	= dev->irq;
-   306		desc.pci.msi_attrib.multi_cap	= FIELD_GET(PCI_MSI_FLAGS_QMASK, control);
-   307		desc.pci.msi_attrib.multiple	= ilog2(__roundup_pow_of_two(nvec));
-   308		desc.affinity			= masks;
-   309	
-   310		if (control & PCI_MSI_FLAGS_64BIT)
-   311			desc.pci.mask_pos = dev->msi_cap + PCI_MSI_MASK_64;
-   312		else
-   313			desc.pci.mask_pos = dev->msi_cap + PCI_MSI_MASK_32;
-   314	
-   315		/* Save the initial mask status */
-   316		if (desc.pci.msi_attrib.can_mask)
-   317			pci_read_config_dword(dev, desc.pci.mask_pos, &desc.pci.msi_mask);
-   318	
-   319		return msi_insert_msi_desc(&dev->dev, &desc);
-   320	}
-   321	
+   In file included from arch/x86/kvm/vmx.c:55:
+   In file included from arch/x86/include/asm/mmu_context.h:12:
+   In file included from arch/x86/include/asm/pgalloc.h:7:
+   include/linux/pagemap.h:401:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     401 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx.c:4508:6: warning: variable 'vmx_msr_low' set but not used [-Wunused-but-set-variable]
+    4508 |         u32 vmx_msr_low, vmx_msr_high;
+         |             ^
+   arch/x86/kvm/vmx.c:70:32: warning: unused variable 'vmx_cpu_id' [-Wunused-const-variable]
+      70 | static const struct x86_cpu_id vmx_cpu_id[] = {
+         |                                ^~~~~~~~~~
+   3 warnings generated.
+>> arch/x86/kvm/vmx.o: warning: objtool: copy_shadow_to_vmcs12()+0x13e: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
