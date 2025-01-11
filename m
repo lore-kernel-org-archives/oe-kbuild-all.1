@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA48114A0B3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 20:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E771B6D10
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jan 2025 20:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736627827; cv=none; b=APZ4Dd+rK1Bai4RdG2ElbripDSn5wcfukzK2m2InZhAitrQZ91vsSdvYnHYV5U1Il+IU/VkDsrrgmvMJFPUHhYcUl9O1Gxgfs/WFit1Z3FrTUq6L6ZNGi6lxMaxrku18J+UbL2AQRTJ72UONk7v83A53QxwqqdS6EGmUWUoJgL0=
+	t=1736628493; cv=none; b=FGAd/RuZJi/a0wsVXWOf6SYgSD4/MIQDJym2ktKgqrQn5np8cl4GECkE7BcfdsbpJTUTXHRvrtHbywjJwZ9qagIgG/OyoD06bDTztDn54jMbpjnpR91VIcUkVzJwDsIo2BHrWVKIgvysCELiUNWxcP8sA2h2tUaFdwThCzgHpiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736627827; c=relaxed/simple;
-	bh=tFoOzFejJPVTuMWb7Me08C1iUbA+SDSgp5uRJcgmAWs=;
+	s=arc-20240116; t=1736628493; c=relaxed/simple;
+	bh=Qg39SVQQ9w3iRX85lYdRhx8Td5BbMvSfPqhPK9YOi9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Oogw9+5leSjPM5oLBCmT/bP7KYmWtDD4/HaJD+YX/O4ReFyuBpHVr0VxWa4tv2vXjvATZWHTbP/VkpsScx5oSQ9c8Pc6lv4Gglt5AJR0tSkZdCmveTMfmPIgAMVbtk7LIap1uPo1ZtnQCTWY6ofxf80ZlVojPwGFiUHQGhamxxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTEwB+2H; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=fXIc70Q0uQOCEM7UsM7Qa0dDxQQUpj+32aCP7KctWmXikZFJpwH1JKagK+02QnNQ7pI0tzUZ0gw4bhq8y2KNuOZ/VjSzTUYAKhcw4SqtjCn9H/yUcdivqmTC1iTsA7+uzbKFmznTuVLACWKCVz/YwR63uNGWfWvNhFsrtjhMotk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SLW+BXvO; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTEwB+2H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SLW+BXvO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736627825; x=1768163825;
+  t=1736628491; x=1768164491;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tFoOzFejJPVTuMWb7Me08C1iUbA+SDSgp5uRJcgmAWs=;
-  b=fTEwB+2HxlIjTmomyz13U3IuY8psF0WR/oi+MhB7/enLy70ZMPEhDoZ5
-   24sPMuCmfpsEVcpamFrAkVeEcO3YPbcZh2xsmLLE1JXzHLLufWdhxKhA8
-   wTJSR3neW1Qg1OysWzcLKevS8BAXIB/KXc8xlziwl9k4yVblaNRbm2zFI
-   yNF2LmHByFSKFDbEO8KLoxNUpnheEZASQ4VMHDWOCPYux9+ZBtMY9bsIT
-   l1/gRsXITZ1Ht66Y+KFYRDTGv4gphLoHqw1k0pCiqh8T2/g5E0g426+56
-   Nyim2y2sfrko96/Ad8ochXOjFs+dQZaDPrrzxbOxlTctlDiL7kEuQmlvi
-   A==;
-X-CSE-ConnectionGUID: 6/rKJL5WTSK8tVGyXCB5oQ==
-X-CSE-MsgGUID: uY/5ZKtuQqWCBNGE+bOS0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="48315787"
+  bh=Qg39SVQQ9w3iRX85lYdRhx8Td5BbMvSfPqhPK9YOi9A=;
+  b=SLW+BXvOlDvTQwagDVzVnO8OUX4N6qSE+F2qoaGl419/Cuj1es54AKZH
+   I4LQ0V2+gKmR4sLU2J+XRhC7EfhMmc0UYjcFTBE+DyK3NxwmdcnGsbnwm
+   zbDPQ3ISgELmDZvMtZdnC1MicLyVXVRVrQU7lg4bhiB2M7WLC181zTCs1
+   GBlf7IActMTwI77q64FO8qRmRWMMq3sIJkIgDvMj+k5iKt31lKQRGS1jc
+   Y2O0LbRHNeCS6tqRnlCXTZm4bNHuDVaAJb088unvN/e13NxDQPPYioKe6
+   dJKydfpwhWSs0WlKLy8XE948L5XTw+i4Z/HtajFPpGOAyZxJsobi3X4Ou
+   Q==;
+X-CSE-ConnectionGUID: tREdvLM8SMeT2TIfz5KEgQ==
+X-CSE-MsgGUID: KG/ftMSvQNScYPD7rSktUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="39712751"
 X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="48315787"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 12:37:04 -0800
-X-CSE-ConnectionGUID: SKgtN/+jSy64ljEhHKAXwQ==
-X-CSE-MsgGUID: DtUCO+RMRv6a3GTT3vOC0g==
+   d="scan'208";a="39712751"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 12:48:08 -0800
+X-CSE-ConnectionGUID: tXrKrL6MSCqrmKKHPxDKBw==
+X-CSE-MsgGUID: cyQ5FFPETzmtUb9yurkb8g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108101373"
+X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
+   d="scan'208";a="104223322"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Jan 2025 12:37:02 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 11 Jan 2025 12:48:07 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWiE8-000LBj-2o;
-	Sat, 11 Jan 2025 20:37:00 +0000
-Date: Sun, 12 Jan 2025 04:36:08 +0800
+	id 1tWiOq-000LCL-1T;
+	Sat, 11 Jan 2025 20:48:04 +0000
+Date: Sun, 12 Jan 2025 04:47:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dhaval Shah <dhaval.r.shah@amd.com>
+To: Srinivas Neeli <srinivas.neeli@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
+	Michal Simek <monstr@monstr.eu>, Suraj Gupta <suraj.gupta2@amd.com>,
 	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:lkp_test 325/504] algif_aead.c:undefined reference to
- `af_alg_async_cb'
-Message-ID: <202501120431.HpzaQNAI-lkp@intel.com>
+Subject: [xilinx-xlnx:lkp_test 478/504]
+ drivers/net/ethernet/xilinx/xilinx_axienet.h:1179:9: error: implicit
+ declaration of function 'writeq'; did you mean 'writel'?
+Message-ID: <202501120449.n5ZjK816-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,89 +67,156 @@ Content-Disposition: inline
 
 tree:   https://github.com/Xilinx/linux-xlnx lkp_test
 head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
-commit: 262c5273ae76cc1369917d11a74ff5c9587be208 [325/504] crypto: xilinx: select AES GCM fallback and userspace kernel config
-config: m68k-randconfig-r064-20250111 (https://download.01.org/0day-ci/archive/20250112/202501120431.HpzaQNAI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501120431.HpzaQNAI-lkp@intel.com/reproduce)
+commit: 8512a3fbb60d8910d671a191f738295edc596a74 [478/504] net: axienet: added multichannel DMA support
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20250112/202501120449.n5ZjK816-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501120449.n5ZjK816-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501120431.HpzaQNAI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501120449.n5ZjK816-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   m68k-linux-ld: crypto/algif_aead.o: in function `_aead_recvmsg.isra.0':
->> algif_aead.c:(.text+0x4b2): undefined reference to `af_alg_async_cb'
-   m68k-linux-ld: crypto/algif_aead.o: in function `aead_sendmsg':
-   algif_aead.c:(.text+0x8c): undefined reference to `af_alg_sendmsg'
-   m68k-linux-ld: crypto/algif_aead.o: in function `aead_sock_destruct':
-   algif_aead.c:(.text+0xd2): undefined reference to `af_alg_pull_tsgl'
->> m68k-linux-ld: algif_aead.c:(.text+0xe0): undefined reference to `sock_kzfree_s'
->> m68k-linux-ld: algif_aead.c:(.text+0xee): undefined reference to `sock_kfree_s'
->> m68k-linux-ld: algif_aead.c:(.text+0x100): undefined reference to `af_alg_release_parent'
-   m68k-linux-ld: crypto/algif_aead.o: in function `aead_accept_parent_nokey':
-   algif_aead.c:(.text+0x126): undefined reference to `sock_kmalloc'
-   m68k-linux-ld: algif_aead.c:(.text+0x1c4): undefined reference to `sock_kfree_s'
-   m68k-linux-ld: crypto/algif_aead.o: in function `aead_check_key.isra.0':
-   algif_aead.c:(.text+0x234): undefined reference to `lock_sock_nested'
->> m68k-linux-ld: algif_aead.c:(.text+0x244): undefined reference to `release_sock'
-   m68k-linux-ld: algif_aead.c:(.text+0x284): undefined reference to `release_sock'
-   m68k-linux-ld: algif_aead.c:(.text+0x2a2): undefined reference to `release_sock'
-   m68k-linux-ld: crypto/algif_aead.o: in function `_aead_recvmsg.isra.0':
-   algif_aead.c:(.text+0x2ea): undefined reference to `af_alg_wait_for_data'
->> m68k-linux-ld: algif_aead.c:(.text+0x340): undefined reference to `af_alg_alloc_areq'
->> m68k-linux-ld: algif_aead.c:(.text+0x368): undefined reference to `af_alg_get_rsgl'
->> m68k-linux-ld: algif_aead.c:(.text+0x3d6): undefined reference to `af_alg_free_resources'
->> m68k-linux-ld: algif_aead.c:(.text+0x434): undefined reference to `af_alg_pull_tsgl'
->> m68k-linux-ld: algif_aead.c:(.text+0x506): undefined reference to `sk_free'
-   m68k-linux-ld: algif_aead.c:(.text+0x51a): undefined reference to `af_alg_free_resources'
->> m68k-linux-ld: algif_aead.c:(.text+0x56c): undefined reference to `af_alg_count_tsgl'
->> m68k-linux-ld: algif_aead.c:(.text+0x598): undefined reference to `sock_kmalloc'
-   m68k-linux-ld: algif_aead.c:(.text+0x5c8): undefined reference to `af_alg_pull_tsgl'
-   m68k-linux-ld: algif_aead.c:(.text+0x618): undefined reference to `af_alg_free_resources'
-   m68k-linux-ld: algif_aead.c:(.text+0x6ca): undefined reference to `af_alg_free_resources'
-   m68k-linux-ld: algif_aead.c:(.text+0x706): undefined reference to `af_alg_free_resources'
-   m68k-linux-ld: crypto/algif_aead.o: in function `aead_recvmsg':
-   algif_aead.c:(.text+0x768): undefined reference to `lock_sock_nested'
->> m68k-linux-ld: algif_aead.c:(.text+0x798): undefined reference to `af_alg_wmem_wakeup'
-   m68k-linux-ld: algif_aead.c:(.text+0x7a0): undefined reference to `release_sock'
-   m68k-linux-ld: algif_aead.c:(.text+0x7c8): undefined reference to `af_alg_wmem_wakeup'
-   m68k-linux-ld: algif_aead.c:(.text+0x7d0): undefined reference to `release_sock'
-   m68k-linux-ld: algif_aead.c:(.text+0x7e6): undefined reference to `af_alg_wmem_wakeup'
-   m68k-linux-ld: algif_aead.c:(.text+0x7ee): undefined reference to `release_sock'
-   m68k-linux-ld: crypto/algif_aead.o: in function `aead_sendmsg_nokey':
-   algif_aead.c:(.text+0x98e): undefined reference to `af_alg_sendmsg'
->> m68k-linux-ld: crypto/algif_aead.o:(.data+0x8): undefined reference to `af_alg_release'
->> m68k-linux-ld: crypto/algif_aead.o:(.data+0xc): undefined reference to `sock_no_bind'
->> m68k-linux-ld: crypto/algif_aead.o:(.data+0x10): undefined reference to `sock_no_connect'
->> m68k-linux-ld: crypto/algif_aead.o:(.data+0x14): undefined reference to `sock_no_socketpair'
->> m68k-linux-ld: crypto/algif_aead.o:(.data+0x18): undefined reference to `sock_no_accept'
->> m68k-linux-ld: crypto/algif_aead.o:(.data+0x1c): undefined reference to `sock_no_getname'
->> m68k-linux-ld: crypto/algif_aead.o:(.data+0x20): undefined reference to `af_alg_poll'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x24): undefined reference to `sock_no_ioctl'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x2c): undefined reference to `sock_no_listen'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x30): undefined reference to `sock_no_shutdown'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x48): undefined reference to `sock_no_mmap'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x74): undefined reference to `af_alg_release'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x78): undefined reference to `sock_no_bind'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x7c): undefined reference to `sock_no_connect'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x80): undefined reference to `sock_no_socketpair'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x84): undefined reference to `sock_no_accept'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x88): undefined reference to `sock_no_getname'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x8c): undefined reference to `af_alg_poll'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x90): undefined reference to `sock_no_ioctl'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x98): undefined reference to `sock_no_listen'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0x9c): undefined reference to `sock_no_shutdown'
-   m68k-linux-ld: crypto/algif_aead.o:(.data+0xb4): undefined reference to `sock_no_mmap'
-   m68k-linux-ld: crypto/algif_aead.o: in function `algif_aead_init':
-   algif_aead.c:(.init.text+0x8): undefined reference to `af_alg_register_type'
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:25:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1179:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1179 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   In file included from include/linux/if_ether.h:19,
+                    from include/linux/ethtool.h:18,
+                    from include/linux/phy.h:16,
+                    from include/linux/of_mdio.h:12,
+                    from drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:18:
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_rx_bd_free':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:151:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     151 |                 dev_kfree_skb((struct sk_buff *)
+         |                               ^
+   include/linux/skbuff.h:1417:45: note: in definition of macro 'dev_kfree_skb'
+    1417 | #define dev_kfree_skb(a)        consume_skb(a)
+         |                                             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_rx_q_init':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:288:47: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     288 |                 q->rxq_bd_v[i].sw_id_offset = (phys_addr_t)skb;
+         |                                               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_err_handler':
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:640:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     640 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_main.c:55:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1179:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1179 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_tx_hwtstamp':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:783:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     783 |                 skb_hwtstamps((struct sk_buff *)cur_p->ptp_tx_skb);
+         |                               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:845:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     845 |                 skb_pull((struct sk_buff *)cur_p->ptp_tx_skb,
+         |                          ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:848:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     848 |         skb_tstamp_tx((struct sk_buff *)cur_p->ptp_tx_skb, shhwtstamps);
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:849:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     849 |         dev_kfree_skb_any((struct sk_buff *)cur_p->ptp_tx_skb);
+         |                           ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_free_tx_chain':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:967:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     967 |                         napi_consume_skb((struct sk_buff *)cur_p->tx_skb, budget);
+         |                                          ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_skb_tstsmp':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1347:53: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1347 |                                 cur_p->ptp_tx_skb = (phys_addr_t)skb_get(skb);
+         |                                                     ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_queue_xmit':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1451:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1451 |             (((phys_addr_t)skb->data & 0x3) || num_frag > 0)) {
+         |               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1521:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1521 |         cur_p->tx_skb = (phys_addr_t)skb;
+         |                         ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_recv':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1654:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1654 |                 skb = (struct sk_buff *)(cur_p->sw_id_offset);
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1754:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1754 |                 cur_p->sw_id_offset = (phys_addr_t)new_skb;
+         |                                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_poll_controller':
+   drivers/net/ethernet/xilinx/xilinx_axienet.h:41:9: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+      41 |         for ((var) = 0; (var) < (lp)->num_rx_queues; (var)++)
+         |         ^~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2316:9: note: in expansion of macro 'for_each_rx_dma_queue'
+    2316 |         for_each_rx_dma_queue(lp, i)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2319:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+    2319 |                 axienet_mcdma_tx_irq(lp->dq[i]->tx_irq, ndev);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_mdio.c:18:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1179:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1179 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:17:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:1179:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+    1179 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writel
+   In file included from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/ethernet/xilinx/xilinx_axienet.h:13:
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function 'axienet_bd_free':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:39:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      39 |                 dev_kfree_skb((struct sk_buff *)
+         |                               ^
+   include/linux/skbuff.h:1417:45: note: in definition of macro 'dev_kfree_skb'
+    1417 | #define dev_kfree_skb(a)        consume_skb(a)
+         |                                             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function '__dma_rxq_init':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:155:46: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     155 |                 q->rx_bd_v[i].sw_id_offset = (phys_addr_t)skb;
+         |                                              ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function 'axienet_dma_err_handler':
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:388:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     388 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_USER_API_AEAD
-   Depends on [n]: CRYPTO [=y] && NET [=n]
-   Selected by [y]:
-   - CRYPTO_DEV_ZYNQMP_AES [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && (ZYNQMP_FIRMWARE [=n] || COMPILE_TEST [=y])
+
+vim +1179 drivers/net/ethernet/xilinx/xilinx_axienet.h
+
+  1165	
+  1166	/**
+  1167	 * axienet_dma_bdout - Memory mapped Axi DMA register Buffer Descriptor write.
+  1168	 * @q:		Pointer to DMA queue structure
+  1169	 * @reg:	Address offset from the base address of the Axi DMA core
+  1170	 * @value:	Value to be written into the Axi DMA register
+  1171	 *
+  1172	 * This function writes the desired value into the corresponding Axi DMA
+  1173	 * register.
+  1174	 */
+  1175	static inline void axienet_dma_bdout(struct axienet_dma_q *q,
+  1176					     off_t reg, dma_addr_t value)
+  1177	{
+  1178	#if defined(CONFIG_PHYS_ADDR_T_64BIT)
+> 1179		writeq(value, (q->dma_regs + reg));
+  1180	#else
+  1181		writel(value, (q->dma_regs + reg));
+  1182	#endif
+  1183	}
+  1184	
 
 -- 
 0-DAY CI Kernel Test Service
