@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8889B1B372C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 12:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA2C1ADFE0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 13:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736685845; cv=none; b=G77N74isWEwfBjTV04Xp5Wix+lNkrhPd7HrA3EqdgQgarevhj10mZP8zMopDPsTRKSQrn5nRoqv+9R4iL7tIdhojV70QbxzKN7WCVq4+NDLeRNjUag8ESoC4VzgkPIdYeeLjm7kDYRSeDoxszH7cJ6hu7IAWTTDVaT7KZHnwSZQ=
+	t=1736687054; cv=none; b=E5hwKA19s825UfhWHL457wh/wfiQGviU5BV8SvUj2LJk05zaaCdpjyEeZkvu9ZO18mX5xkfhemAx/KerSTqRwxpx8ssHJs6ePHWg4yD1xbUA2Ov8Ja5s4Isl9Oq9E9dV8N1dCgIeZnbcc81NvOzbRuU+Gy6IL6lmnEmsLBFJggY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736685845; c=relaxed/simple;
-	bh=fmc3FWSJV9HURTfZRkV0j5Nkeo8ZUM5IM3jPQxX+8XA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/R0XWVmTbbPc6EjsPCi39SCvBrYZvxrDWzxbH3z0iC+ComzQci6l2AhH122fsM407MDj+9J5toMA4iAquHX7hihUo3PUNuwVsPQNGL7eeo5PW7Nt8Re1wzpteoZFIYZ3XSQJ9GmRtNwnqkrj01p/AFxsTBAIzxvX2/hfJesYjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGp9Av4b; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1736687054; c=relaxed/simple;
+	bh=TMkm2zxGueRFIS9BupB4tsol89co3hXv34uSZwtIwLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mwE4lBeuPP07oMGpVgFjVrnwrpRTmrFOnmiifOnVbO752WbXpdy2UWdXnQuL0b3SCqtVhOMFIYvOA1vhLRa8sbeCIfTLRxNP82nSteKAmgVSC57eyziwp9PLc0vC4sH31bCPQ8ARlfuPwj6Kx3pEQZlDamT+gzuT6zUW2TIZNwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cy8CLTFl; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGp9Av4b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cy8CLTFl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736685844; x=1768221844;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fmc3FWSJV9HURTfZRkV0j5Nkeo8ZUM5IM3jPQxX+8XA=;
-  b=ZGp9Av4bAIn5DeQWiv9jJ4RAJy3+L8ebRfk8ivO6QIgCTBsM83fvNMTW
-   pqJTG9sohTwZ+nC9HJ6EfM3rSNp/4XOU0RINHMQyvLl5aXU5FpY0zZnAS
-   sE8YVKU0T4yyFbN/Lk24BmtppeWHUCUyPgSroTM8UnVUhYw45uw8vAUei
-   0UyJabMNbCkKYmz8HVs3WYQQ/tLNbrrGcrC8ipSPxgr+sX2Z0Xhlk0EzD
-   Ml7VVATRyIkfLbNCJOfVYawOhnJxHO5onCJ438Sg7rM5w4CRPIdqi8B8S
-   fgsL//vCX04HZwh+EsmBfg7b3kmUbWYjGMC5BVmZDG9+N5h5cRZj33dfU
-   g==;
-X-CSE-ConnectionGUID: QSECk3hWSsS+/SQVu9DYEg==
-X-CSE-MsgGUID: JJsleBLAQNuJKQ9DJttfwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="54469086"
+  t=1736687052; x=1768223052;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TMkm2zxGueRFIS9BupB4tsol89co3hXv34uSZwtIwLc=;
+  b=Cy8CLTFl9bm/4JbJgsWEoFTbmch0z27dsFolyDgMBSuq7yrmuFTBAT34
+   sAy+JlGC0GfkDnyc1P3J+HpYkDqNlEEp0EoJsdmyA3oC9jQYNVzgk+ZLh
+   4XrbjZBIIMZkfMZgFpQ3wKsrjojsn6tbLXzJkgX/M2IfaVHAjiw1Pwf3g
+   yNL6D7zXtH9oyknyJZwq5fxL/iNVNjjW27wh6Qaxxj4/jx0UXnyKfjWJ2
+   oBzeFUKc6jaNpR81Gln4JexFVCIv75zEgbwU2DSSB0wS+pfha4f/h3J3I
+   h6iPLNcmA7REid156AjQ+oLI8lj9LZTZoWlCrgD6V0ERS1CDWEgImlubH
+   Q==;
+X-CSE-ConnectionGUID: nXTOt5uQQyiFRupiQWKcgg==
+X-CSE-MsgGUID: sS4GERSdT5Sc+pdGDijLnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="62297121"
 X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
-   d="scan'208";a="54469086"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 04:44:03 -0800
-X-CSE-ConnectionGUID: 0bwufGByQBWXluj5i8aNfg==
-X-CSE-MsgGUID: r57qug4hRK2G3QM5AYMeCA==
+   d="scan'208";a="62297121"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 05:04:12 -0800
+X-CSE-ConnectionGUID: H5B/2eXDQnOO9GzjTiI4Bw==
+X-CSE-MsgGUID: hskPrPSHT1q6XzPBRaYJRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="135060251"
+X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
+   d="scan'208";a="103989660"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Jan 2025 04:44:01 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 12 Jan 2025 05:04:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWxJu-000Lx5-2t;
-	Sun, 12 Jan 2025 12:43:58 +0000
-Date: Sun, 12 Jan 2025 20:43:24 +0800
+	id 1tWxdP-000LyD-2u;
+	Sun, 12 Jan 2025 13:04:07 +0000
+Date: Sun, 12 Jan 2025 21:04:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Reaver <me@davidreaver.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Reaver <me@davidreaver.com>,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH] pm: Replace deprecated kmap_atomic() with
- kmap_local_page()
-Message-ID: <202501122002.vD4o8M9T-lkp@intel.com>
-References: <20250112015535.191527-1-me@davidreaver.com>
+To: Rajesh Gugulothu <gugulothu.rajesh@xilinx.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>, Hyun Kwon <hyun.kwon@xilinx.com>,
+	Vishal Sagar <vishal.sagar@xilinx.com>
+Subject: [xilinx-xlnx:lkp_test 258/504] kismet: WARNING: unmet direct
+ dependencies detected for XLNX_HDCP1X_CIPHER when selected by
+ VIDEO_XILINX_HDCP1X_RX
+Message-ID: <202501122353.jpoPvzMg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,65 +66,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250112015535.191527-1-me@davidreaver.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on amd-pstate/linux-next]
-[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Reaver/pm-Replace-deprecated-kmap_atomic-with-kmap_local_page/20250112-100253
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20250112015535.191527-1-me%40davidreaver.com
-patch subject: [PATCH] pm: Replace deprecated kmap_atomic() with kmap_local_page()
-config: i386-buildonly-randconfig-005-20250112 (https://download.01.org/0day-ci/archive/20250112/202501122002.vD4o8M9T-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501122002.vD4o8M9T-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: a76e9bb15d68490da1eed3472ee1f554447a4a00 [258/504] v4l: xilinx: Driver support for Xilinx DP Rx subsystem
+config: nios2-kismet-CONFIG_XLNX_HDCP1X_CIPHER-CONFIG_VIDEO_XILINX_HDCP1X_RX-0-0 (https://download.01.org/0day-ci/archive/20250112/202501122353.jpoPvzMg-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250112/202501122353.jpoPvzMg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501122002.vD4o8M9T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501122353.jpoPvzMg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   kernel/power/snapshot.c: In function 'copy_last_highmem_page':
-   kernel/power/snapshot.c:2567:23: error: implicit declaration of function 'kmap_page_local' [-Werror=implicit-function-declaration]
-    2567 |                 dst = kmap_page_local(last_highmem_page);
-         |                       ^~~~~~~~~~~~~~~
->> kernel/power/snapshot.c:2567:21: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2567 |                 dst = kmap_page_local(last_highmem_page);
-         |                     ^
-   cc1: some warnings being treated as errors
-
-
-vim +2567 kernel/power/snapshot.c
-
-  2554	
-  2555	/**
-  2556	 * copy_last_highmem_page - Copy most the most recent highmem image page.
-  2557	 *
-  2558	 * Copy the contents of a highmem image from @buffer, where the caller of
-  2559	 * snapshot_write_next() has stored them, to the right location represented by
-  2560	 * @last_highmem_page .
-  2561	 */
-  2562	static void copy_last_highmem_page(void)
-  2563	{
-  2564		if (last_highmem_page) {
-  2565			void *dst;
-  2566	
-> 2567			dst = kmap_page_local(last_highmem_page);
-  2568			copy_page(dst, buffer);
-  2569			kunmap_local(dst);
-  2570			last_highmem_page = NULL;
-  2571		}
-  2572	}
-  2573	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for XLNX_HDCP1X_CIPHER when selected by VIDEO_XILINX_HDCP1X_RX
+   WARNING: unmet direct dependencies detected for XLNX_HDCP1X_CIPHER
+     Depends on [n]: STAGING [=n]
+     Selected by [y]:
+     - VIDEO_XILINX_HDCP1X_RX [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HELPER
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+     Selected by [y]:
+     - VIDEO_XILINX_DPRXSS [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && VIDEO_XILINX [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DP_HELPER
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && DRM_DISPLAY_HELPER [=y]
+     Selected by [y]:
+     - VIDEO_XILINX_DPRXSS [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && VIDEO_XILINX [=y]
 
 -- 
 0-DAY CI Kernel Test Service
