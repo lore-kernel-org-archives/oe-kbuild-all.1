@@ -1,97 +1,157 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BED7182
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 18:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F250D3232
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 18:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736706117; cv=none; b=YSv9TJzXDOq/8pUN9+hf4zmjBKNkcHUuUa/455TaHL13T4qPgJRZ6RMUPMG8ISdgXRLySMs3FHTOVVdfm4KJF8PUIGQAy/Wl9TSfIe2Pf9mvMRmWMQ8CjgIRycClAApVawO4VwUFXSk+CidV+NKJyrNbOKars4YAjwXAM26vTw4=
+	t=1736707106; cv=none; b=fN/2d+BPDV8k7SVLgD8TQBz01R6o9t5OR2k2SP5i/XmcujTWrp2Qp+8tcPdiUZ0OpTvy17EOSehT0mMRgqNpGyTXrr4J6oUcQ0OiJpfmhIHMiWbYIrS7iGoJ9eAtayO7uyovs5KbX6TdPM7bla+Z4RjO9Yr4zRlqLyIuz7v6D2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736706117; c=relaxed/simple;
-	bh=qW24WMccB9zigiQg0u5u43yc6yr+GlwS0YnJLQPA+BY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LT+QUrLkxGoQtRE8vxQZ5pAsH0L+OFo+jdbc74+RUaG5XiNzDcxE6k6DwATIL3ULec19NXdgvC88B9GKFmtsEYJxgnjqe+vTM4g4WhDaQJMZdF9g/olCKwSn5lxFGTqTA15fqPXtpMUHiiow/JnqU50l+OzLcGiTd4INDB33d5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QNQfzPcm; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1736707106; c=relaxed/simple;
+	bh=sjZJyk5LgloMm2Ge4uUxvN4ij09uuLMvJZrvllQZTYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BNUy3uMvUgX+3fY4nTAqM8cn8z1oSQNcNSQgmIvuK8yYbkMf0PFl8Jv/VpdNvJwwoxbvDN86SSJuhMVmMY2yTlVM2e1ZZ4exiGALChY67Ab0nUjMP8zzS2jIH5GAdVCovvkGgXfd99i9iPFogbcStXZpj2vKyc+jtgCT6bucSBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCubYY8z; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QNQfzPcm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=Y0GlpNGwESrOUIDqccJdoetIilt7yJuQvqEv1xDZHu8=; b=QNQfzPcmXZOlRnSBu8BB/Nf8qR
-	ZyNarJA7b0Q0tUcOSTWqBfQV/Azv44zpmtyGe9ZdqRIoi8RqV3jkCdCOYPGw76K0FMiymHzE1b/BY
-	KxusYGN7AifzxNGDHHejQnQ8RvNtwVIdYGY0i3RfNqJUj1XC5xzaiEzuCciUDD+Sj//qlLvu1x9jC
-	90wxBKfQjYEdXXuO2LBm74Ip1xxoyfitNO0rQcK9aheJa6VS1suIel7g/hr7Fo87b9ToVwgmgpFzZ
-	WkLlgHySvfwAnF6BP16Hr8zH6rgHbftaYC74z6atAirEJuP/etuaLwEDj+p0se+VM6MOQDAg3WUOV
-	cM7q2YYw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tX2an-0000000Gv13-1eQr;
-	Sun, 12 Jan 2025 18:21:45 +0000
-Message-ID: <c883110c-6baf-410e-8a77-4c2501060375@infradead.org>
-Date: Sun, 12 Jan 2025 10:21:40 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCubYY8z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736707105; x=1768243105;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sjZJyk5LgloMm2Ge4uUxvN4ij09uuLMvJZrvllQZTYs=;
+  b=mCubYY8zUKBTXIyk+htGTK7JJOOEuKP+SpNLarHb72vRpaXsZ8wQGhYa
+   8GpKXWfLEmy3nfc9z+uus/wtWYt1XYpiIZEE80t2xNpqytyMdNNeDK5Lv
+   fS+hLb4ze5cX2JXpuEHDI9xQFe56wF3/eDYE9eUBWFbIQxgVZTsvtzQ10
+   mqBd0fS7DxcTM9htpG7JghFtnKe6RB71440Jy812BGSbX4jVUG82/XdbE
+   MZbW1X0H9CocX65TLcOsBO1A0nKnSokN8W9b3nWuuq3zeWXp/LatyBwpt
+   DTMOVp+Y5Pi5xYi1iz1ci1v/o8UVyTC0+9JCaYjc9a8QVsVLQm8qqw4DR
+   A==;
+X-CSE-ConnectionGUID: 4q8cJy61TXqvf2dRA2vL0A==
+X-CSE-MsgGUID: YlGHvOmhS1eiNGBfWNbxnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="48304844"
+X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
+   d="scan'208";a="48304844"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 10:38:25 -0800
+X-CSE-ConnectionGUID: XoTw71GMS0KhqdGTBA4NUQ==
+X-CSE-MsgGUID: x+nhBctyTHCMSgQehIqn5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
+   d="scan'208";a="104019145"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 12 Jan 2025 10:38:23 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tX2qq-000MHD-22;
+	Sun, 12 Jan 2025 18:38:20 +0000
+Date: Mon, 13 Jan 2025 02:38:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ye Yang <ye.yang@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:lkp_test 77/504] drivers/misc/xlnx_dpu.h:21:9: warning:
+ "in_range" redefined
+Message-ID: <202501130240.R48qupR8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-nonmm-unstable 171/173] kernel/kthread.c:913:
- warning: expecting prototype for kthread_create_worker_on_node(). Prototype
- was for kthread_create_worker() instead
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202501122249.upmy4970-lkp@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202501122249.upmy4970-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi ktr, Andrew,
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: ea6276221dc185d33dccff6e834c440e3d9c53dc [77/504] misc: xlnx_dpu: Add Xilinx DPU IP driver for Vivado tool flow
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20250113/202501130240.R48qupR8-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130240.R48qupR8-lkp@intel.com/reproduce)
 
-On 1/12/25 6:37 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-> head:   dfbe2aeb5ed491cb9f0a2de5a7ad9a9d4d477a8f
-> commit: 1bc3c5db9becd0171108c2dcfaf7ef5ef10c1e03 [171/173] kthread: modify kernel-doc function name to match code
-> config: i386-buildonly-randconfig-001-20250112 (https://download.01.org/0day-ci/archive/20250112/202501122249.upmy4970-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501122249.upmy4970-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501122249.upmy4970-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> kernel/kthread.c:913: warning: expecting prototype for kthread_create_worker_on_node(). Prototype was for kthread_create_worker() instead
-> 
-> 
-> vim +913 kernel/kthread.c
-> 
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  901  
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  902  /**
-> 1bc3c5db9becd0 Randy Dunlap 2025-01-10  903   * kthread_create_worker_on_node - create a kthread worker
-> dbf52682cb0286 Petr Mladek  2016-10-11  904   * @flags: flags modifying the default behavior of the worker
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  905   * @namefmt: printf-style name for the kthread worker (task).
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  906   *
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  907   * Returns a pointer to the allocated worker on success, ERR_PTR(-ENOMEM)
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  908   * when the needed structures could not get allocated, and ERR_PTR(-EINTR)
-> d25c83c6606ffc Petr Mladek  2022-03-15  909   * when the caller was killed by a fatal signal.
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  910   */
-> fbae2d44aa1df7 Petr Mladek  2016-10-11  911  struct kthread_worker *
-> dbf52682cb0286 Petr Mladek  2016-10-11  912  kthread_create_worker(unsigned int flags, const char namefmt[], ...)
-> fbae2d44aa1df7 Petr Mladek  2016-10-11 @913  {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501130240.R48qupR8-lkp@intel.com/
 
-@Andrew: I don't know how to handle this. My patch applies correctly to linux-next
-where this function name has been changed. It looks like 0day is applying it
-to mainline linux + your tree(s?) for testing.
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/misc/xlnx_dpu.c:29:
+>> drivers/misc/xlnx_dpu.h:21:9: warning: "in_range" redefined
+      21 | #define in_range(b, start, len) (               \
+         |         ^~~~~~~~
+   In file included from include/linux/kernel.h:28,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/misc/xlnx_dpu.c:14:
+   include/linux/minmax.h:313:9: note: this is the location of the previous definition
+     313 | #define in_range(val, start, len)                                       \
+         |         ^~~~~~~~
+   drivers/misc/xlnx_dpu.c: In function 'dump_show':
+>> drivers/misc/xlnx_dpu.c:1294:61: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+    1294 |                                 seq_printf(seq, "   0x%010llx-0x%010llx\t\t",
+         |                                                       ~~~~~~^
+         |                                                             |
+         |                                                             long long unsigned int
+         |                                                       %010x
+    1295 |                                            h->phy_addr,
+         |                                            ~~~~~~~~~~~       
+         |                                             |
+         |                                             phys_addr_t {aka unsigned int}
+   drivers/misc/xlnx_dpu.c:1294:71: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+    1294 |                                 seq_printf(seq, "   0x%010llx-0x%010llx\t\t",
+         |                                                                 ~~~~~~^
+         |                                                                       |
+         |                                                                       long long unsigned int
+         |                                                                 %010x
+    1295 |                                            h->phy_addr,
+    1296 |                                            h->phy_addr + h->size);
+         |                                            ~~~~~~~~~~~~~~~~~~~~~       
+         |                                                        |
+         |                                                        phys_addr_t {aka unsigned int}
+>> drivers/misc/xlnx_dpu.c:1297:58: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+    1297 |                                 seq_printf(seq, "0x%010llx-0x%010llx\n",
+         |                                                    ~~~~~~^
+         |                                                          |
+         |                                                          long long unsigned int
+         |                                                    %010x
+    1298 |                                            h->dma_addr,
+         |                                            ~~~~~~~~~~~    
+         |                                             |
+         |                                             dma_addr_t {aka unsigned int}
+   drivers/misc/xlnx_dpu.c:1297:68: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+    1297 |                                 seq_printf(seq, "0x%010llx-0x%010llx\n",
+         |                                                              ~~~~~~^
+         |                                                                    |
+         |                                                                    long long unsigned int
+         |                                                              %010x
+    1298 |                                            h->dma_addr,
+    1299 |                                            (h->dma_addr + h->size));
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~  
+         |                                                         |
+         |                                                         dma_addr_t {aka unsigned int}
+
+
+vim +/in_range +21 drivers/misc/xlnx_dpu.h
+
+    20	
+  > 21	#define in_range(b, start, len) (		\
+    22	{						\
+    23	typeof(b) b_ = (b);				\
+    24	typeof(start) start_ = (start);			\
+    25	((b_) >= (start_) && (b_) < (start_) + (len));	\
+    26	}						\
+    27	)
+    28	
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
