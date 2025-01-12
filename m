@@ -1,166 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB816FBF;
-	Sun, 12 Jan 2025 02:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9CC881E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 02:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736648167; cv=none; b=eArxzUGJCyesHREfjie8q0NnDoF4xTw2btpzRnScEwOiqo4GmbwRUb6w4QtgSFl4pECSmwIjBnoiE2wmt/QOPowUAuH2gzfcJ7a7n62B+uImtqhobZESlVoz+HjxvhCfFFL7g/UlPXXCw2bamO7iyyznY03EYIimwFat1vh3Hww=
+	t=1736648826; cv=none; b=u03ZJMfxWQj/WcVLGjNd7vMLku/5+ybWB4+TB92gGJm20kZKk01oLgTR7zJztJQlvSCzY+xGsYbPm7fZV1iNo+ulIcZVYMZ2cEKCEhEhLBz3B6cBEvDdcRgh/1wkc19U4NkZf3YJh5XtUKSZdUUalf6v6P6FKDUmnH/ZT5lxkak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736648167; c=relaxed/simple;
-	bh=xThfaOQ5NPBFtsgGQYrL1KmCNXu9iReCohV0Y+PByZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RemKKu/UCgaff7dY0xIU8Q60FPg0+CSzZ97BL12k0LzBhBPaum512jrcmDp5FmIWcy6RqJMDfTZ55rgoBgFA/ydKNGpb1EV6wO1vlmQHgZ0wUdmoYviQMqslxQG2G0l84f7LBK048uCGspyLeNwMLbWXQB9uvxZP75QMSXPnX9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7DUIaot; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1736648826; c=relaxed/simple;
+	bh=hgLRpLIOo76iyhXHD+lkSY+eW6h1hjsR8m+HN8XjnFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iKfhRA3M5OOS6P82D2MKWaaT6zcOcsIAv41mC2udNupDsmaV+9X2a8ZpFQzLhdaGPpYPH5fODhHzBngg3P6C3tVgYX5yg1XCqbdna67DGCvZxd1hRf4mDZz69sPg5JM0ewzc6TVkJ7PXJzMbAqihifCFSgJqWLG6TQ4QjNQ+TKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YasN5EmQ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7DUIaot"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YasN5EmQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736648162; x=1768184162;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xThfaOQ5NPBFtsgGQYrL1KmCNXu9iReCohV0Y+PByZk=;
-  b=n7DUIaotuKZqAJo3NyzkFGZ8Tg+YiKobXl8N7wHdVjN2+jfN9uHVQ3eZ
-   2CImdjpuL2ZPmmQ5y5k+c3REvgOvsD0Rk0YPR5xaLDrH2Th0xpjAKCxc+
-   IBWYW91M3PXBGWyb15tACu2O637tNkIczBJVg/aF0jpjn2NXOjCiuhS5H
-   MHcDYfZnmhrzxfmwxZwmRHrm0gXFS6JNeLWVwWExg455YqlljCoLGlKyP
-   XcEM7nVQcqWaP2FxvnN6iTfjFXqQBZpC4yN+53nKfSQq8p1CiqHUH8M5W
-   f+co6WYJ9dTMFPf37EyXybh4mChMS5SBimn7Nfkb+ZJo/E3Kw60G+KU1p
-   g==;
-X-CSE-ConnectionGUID: T33qRMzuRoCx4Vzd/35t2Q==
-X-CSE-MsgGUID: Wtt5i3ULTCW50GdT1G/opw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="37066727"
+  t=1736648824; x=1768184824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=hgLRpLIOo76iyhXHD+lkSY+eW6h1hjsR8m+HN8XjnFU=;
+  b=YasN5EmQXslDNh+UdH5B9k0TOt46+nY7S7V1IoxqHfA381ZyqNM1I3Ui
+   iJrFd1ELgXTKNBKLcMW9U/gpqld/JY+Ffo/8GbX2S6ZHZulOc+Gtw6Zpg
+   eX7zfsCdGtfAO/83ocQdOr4gDcRx2Sy5hXtZpphuTq9ip66DmRFlu8OZl
+   PeTovVVuxY+NxCQmHK+5VurXqOM2RiBajIjcxd1FX71Ki6d3xpJeS9Pps
+   Hhiiz6QquND5eDXC8gqhO+2aCBrkyUvU81m3IvLpemcb0RBraANB4PbyG
+   +PP9TkpMLFSCQZOibTV4cTWxTNO5ym7JSm0Gl7dmS+C1NOThuxCyoDmlF
+   w==;
+X-CSE-ConnectionGUID: 8QdPG0txRdOm0uJ61isNqw==
+X-CSE-MsgGUID: 1KV2LUVqSyii8M9nA0D89Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36788368"
 X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="37066727"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 18:16:01 -0800
-X-CSE-ConnectionGUID: Q7DONXmkRCGJDygU04dCEw==
-X-CSE-MsgGUID: zFaIhtS8ThGz8UM9RMp//Q==
+   d="scan'208";a="36788368"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 18:27:04 -0800
+X-CSE-ConnectionGUID: qb9fM7S8RfWZccCdY8GxBg==
+X-CSE-MsgGUID: E3ulPa8URgiQb+vefNFbiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="134912452"
+   d="scan'208";a="104143333"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Jan 2025 18:15:59 -0800
+  by orviesa006.jf.intel.com with ESMTP; 11 Jan 2025 18:27:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWnW9-000LTH-0c;
-	Sun, 12 Jan 2025 02:15:57 +0000
-Date: Sun, 12 Jan 2025 10:15:43 +0800
+	id 1tWngo-000LTr-2m;
+	Sun, 12 Jan 2025 02:26:58 +0000
+Date: Sun, 12 Jan 2025 10:26:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	mptcp@lists.linux.dev, matthieu.baerts@tessares.net,
-	Jakub Kicinski <kuba@kernel.org>,
-	Matthieu Baerts <matttbe@kernel.org>
-Subject: net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but not
- used
-Message-ID: <202501121007.2GofXmh5-lkp@intel.com>
+To: Konrad Dybcio <konradybcio@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Abel Vesa <abel.vesa@linaro.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH] spmi: Fix controller->node != parent->node breakage
+Message-ID: <202501121029.AZEll6tS-lkp@intel.com>
+References: <20250111-topic-spmi_node_breakage-v1-1-3f60111a1d19@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250111-topic-spmi_node_breakage-v1-1-3f60111a1d19@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b62cef9a5c673f1b8083159f5dc03c1c5daced2f
-commit: 010b430d5df556d5d232e3751ac691ba9e88c041 mptcp: MPTCP_IPV6 should depend on IPV6 instead of selecting it
-date:   4 years, 3 months ago
-config: csky-randconfig-p001-20220406 (https://download.01.org/0day-ci/archive/20250112/202501121007.2GofXmh5-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501121007.2GofXmh5-lkp@intel.com/reproduce)
+Hi Konrad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 2b88851f583d3c4e40bcd40cfe1965241ec229dd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/spmi-Fix-controller-node-parent-node-breakage/20250111-192215
+base:   2b88851f583d3c4e40bcd40cfe1965241ec229dd
+patch link:    https://lore.kernel.org/r/20250111-topic-spmi_node_breakage-v1-1-3f60111a1d19%40oss.qualcomm.com
+patch subject: [PATCH] spmi: Fix controller->node != parent->node breakage
+config: i386-buildonly-randconfig-001-20250112 (https://download.01.org/0day-ci/archive/20250112/202501121029.AZEll6tS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501121029.AZEll6tS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501121007.2GofXmh5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501121029.AZEll6tS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   net/ipv4/ip_gre.c: In function 'ipgre_err':
->> net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but not used [-Wunused-but-set-variable]
-     141 |         unsigned int data_len = 0;
-         |                      ^~~~~~~~
+   drivers/spmi/spmi-mtk-pmif.c: In function 'mtk_spmi_probe':
+>> drivers/spmi/spmi-mtk-pmif.c:456:55: warning: passing argument 2 of 'devm_spmi_controller_alloc' makes pointer from integer without a cast [-Wint-conversion]
+     456 |         ctrl = devm_spmi_controller_alloc(&pdev->dev, sizeof(*arb));
+         |                                                       ^~~~~~~~~~~~
+         |                                                       |
+         |                                                       unsigned int
+   In file included from drivers/spmi/spmi-mtk-pmif.c:11:
+   include/linux/spmi.h:125:72: note: expected 'struct device_node *' but argument is of type 'unsigned int'
+     125 |                                                    struct device_node *node,
+         |                                                    ~~~~~~~~~~~~~~~~~~~~^~~~
+>> drivers/spmi/spmi-mtk-pmif.c:456:16: error: too few arguments to function 'devm_spmi_controller_alloc'
+     456 |         ctrl = devm_spmi_controller_alloc(&pdev->dev, sizeof(*arb));
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spmi.h:124:25: note: declared here
+     124 | struct spmi_controller *devm_spmi_controller_alloc(struct device *parent,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/spmi/hisi-spmi-controller.c: In function 'spmi_controller_probe':
+>> drivers/spmi/hisi-spmi-controller.c:271:60: error: expected ')' before 'sizeof'
+     271 |                                           pdev->dev.of_node
+         |                                                            ^
+         |                                                            )
+     272 |                                           sizeof(*spmi_controller));
+         |                                           ~~~~~~            
+   drivers/spmi/hisi-spmi-controller.c:270:42: note: to match this '('
+     270 |         ctrl = devm_spmi_controller_alloc(&pdev->dev,
+         |                                          ^
+>> drivers/spmi/hisi-spmi-controller.c:270:16: error: too few arguments to function 'devm_spmi_controller_alloc'
+     270 |         ctrl = devm_spmi_controller_alloc(&pdev->dev,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/spmi/hisi-spmi-controller.c:13:
+   include/linux/spmi.h:124:25: note: declared here
+     124 | struct spmi_controller *devm_spmi_controller_alloc(struct device *parent,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/data_len +141 net/ipv4/ip_gre.c
+vim +/devm_spmi_controller_alloc +456 drivers/spmi/spmi-mtk-pmif.c
 
-^1da177e4c3f415 Linus Torvalds           2005-04-16  122  
-071f92d05967a0c Rami Rosen               2008-05-21  123  	/* All the routers (except for Linux) return only
-^1da177e4c3f415 Linus Torvalds           2005-04-16  124  	   8 bytes of packet payload. It means, that precise relaying of
-^1da177e4c3f415 Linus Torvalds           2005-04-16  125  	   ICMP in the real Internet is absolutely infeasible.
-^1da177e4c3f415 Linus Torvalds           2005-04-16  126  
-^1da177e4c3f415 Linus Torvalds           2005-04-16  127  	   Moreover, Cisco "wise men" put GRE key to the third word
-c54419321455631 Pravin B Shelar          2013-03-25  128  	   in GRE header. It makes impossible maintaining even soft
-c54419321455631 Pravin B Shelar          2013-03-25  129  	   state for keyed GRE tunnels with enabled checksum. Tell
-c54419321455631 Pravin B Shelar          2013-03-25  130  	   them "thank you".
-^1da177e4c3f415 Linus Torvalds           2005-04-16  131  
-^1da177e4c3f415 Linus Torvalds           2005-04-16  132  	   Well, I wonder, rfc1812 was written by Cisco employee,
-bff528578fc3c4a stephen hemminger        2012-02-24  133  	   what the hell these idiots break standards established
-bff528578fc3c4a stephen hemminger        2012-02-24  134  	   by themselves???
-^1da177e4c3f415 Linus Torvalds           2005-04-16  135  	   */
-c54419321455631 Pravin B Shelar          2013-03-25  136  	struct net *net = dev_net(skb->dev);
-c54419321455631 Pravin B Shelar          2013-03-25  137  	struct ip_tunnel_net *itn;
-96f5a846bdd6098 Eric Dumazet             2013-05-18  138  	const struct iphdr *iph;
-88c7664f13bd1a3 Arnaldo Carvalho de Melo 2007-03-13  139  	const int type = icmp_hdr(skb)->type;
-88c7664f13bd1a3 Arnaldo Carvalho de Melo 2007-03-13  140  	const int code = icmp_hdr(skb)->code;
-20e1954fe238dbe Eric Dumazet             2016-06-18 @141  	unsigned int data_len = 0;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  142  	struct ip_tunnel *t;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  143  
-32bbd8793f24b0d Stefano Brivio           2018-11-08  144  	if (tpi->proto == htons(ETH_P_TEB))
-32bbd8793f24b0d Stefano Brivio           2018-11-08  145  		itn = net_generic(net, gre_tap_net_id);
-32bbd8793f24b0d Stefano Brivio           2018-11-08  146  	else if (tpi->proto == htons(ETH_P_ERSPAN) ||
-32bbd8793f24b0d Stefano Brivio           2018-11-08  147  		 tpi->proto == htons(ETH_P_ERSPAN2))
-32bbd8793f24b0d Stefano Brivio           2018-11-08  148  		itn = net_generic(net, erspan_net_id);
-32bbd8793f24b0d Stefano Brivio           2018-11-08  149  	else
-32bbd8793f24b0d Stefano Brivio           2018-11-08  150  		itn = net_generic(net, ipgre_net_id);
-32bbd8793f24b0d Stefano Brivio           2018-11-08  151  
-32bbd8793f24b0d Stefano Brivio           2018-11-08  152  	iph = (const struct iphdr *)(icmp_hdr(skb) + 1);
-32bbd8793f24b0d Stefano Brivio           2018-11-08  153  	t = ip_tunnel_lookup(itn, skb->dev->ifindex, tpi->flags,
-32bbd8793f24b0d Stefano Brivio           2018-11-08  154  			     iph->daddr, iph->saddr, tpi->key);
-32bbd8793f24b0d Stefano Brivio           2018-11-08  155  
-32bbd8793f24b0d Stefano Brivio           2018-11-08  156  	if (!t)
-32bbd8793f24b0d Stefano Brivio           2018-11-08  157  		return -ENOENT;
-32bbd8793f24b0d Stefano Brivio           2018-11-08  158  
-^1da177e4c3f415 Linus Torvalds           2005-04-16  159  	switch (type) {
-^1da177e4c3f415 Linus Torvalds           2005-04-16  160  	default:
-^1da177e4c3f415 Linus Torvalds           2005-04-16  161  	case ICMP_PARAMETERPROB:
-32bbd8793f24b0d Stefano Brivio           2018-11-08  162  		return 0;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  163  
-^1da177e4c3f415 Linus Torvalds           2005-04-16  164  	case ICMP_DEST_UNREACH:
-^1da177e4c3f415 Linus Torvalds           2005-04-16  165  		switch (code) {
-^1da177e4c3f415 Linus Torvalds           2005-04-16  166  		case ICMP_SR_FAILED:
-^1da177e4c3f415 Linus Torvalds           2005-04-16  167  		case ICMP_PORT_UNREACH:
-^1da177e4c3f415 Linus Torvalds           2005-04-16  168  			/* Impossible event. */
-32bbd8793f24b0d Stefano Brivio           2018-11-08  169  			return 0;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  170  		default:
-^1da177e4c3f415 Linus Torvalds           2005-04-16  171  			/* All others are translated to HOST_UNREACH.
-^1da177e4c3f415 Linus Torvalds           2005-04-16  172  			   rfc2003 contains "deep thoughts" about NET_UNREACH,
-^1da177e4c3f415 Linus Torvalds           2005-04-16  173  			   I believe they are just ether pollution. --ANK
-^1da177e4c3f415 Linus Torvalds           2005-04-16  174  			 */
-^1da177e4c3f415 Linus Torvalds           2005-04-16  175  			break;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  176  		}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  177  		break;
-9f57c67c379d88a Pravin B Shelar          2015-08-07  178  
-^1da177e4c3f415 Linus Torvalds           2005-04-16  179  	case ICMP_TIME_EXCEEDED:
-^1da177e4c3f415 Linus Torvalds           2005-04-16  180  		if (code != ICMP_EXC_TTL)
-32bbd8793f24b0d Stefano Brivio           2018-11-08  181  			return 0;
-20e1954fe238dbe Eric Dumazet             2016-06-18  182  		data_len = icmp_hdr(skb)->un.reserved[1] * 4; /* RFC 4884 4.1 */
-^1da177e4c3f415 Linus Torvalds           2005-04-16  183  		break;
-55be7a9c6074f74 David S. Miller          2012-07-11  184  
-55be7a9c6074f74 David S. Miller          2012-07-11  185  	case ICMP_REDIRECT:
-55be7a9c6074f74 David S. Miller          2012-07-11  186  		break;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  187  	}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  188  
-
-:::::: The code at line 141 was first introduced by commit
-:::::: 20e1954fe238dbe5f8d3a979e593fe352bd703cf ipv6: RFC 4884 partial support for SIT/GRE tunnels
-
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+504eb71e4717ddf James Lo               2021-12-16  448  
+b45b3ccef8c063d James Lo               2021-12-16  449  static int mtk_spmi_probe(struct platform_device *pdev)
+b45b3ccef8c063d James Lo               2021-12-16  450  {
+b45b3ccef8c063d James Lo               2021-12-16  451  	struct pmif *arb;
+b45b3ccef8c063d James Lo               2021-12-16  452  	struct spmi_controller *ctrl;
+b45b3ccef8c063d James Lo               2021-12-16  453  	int err, i;
+b45b3ccef8c063d James Lo               2021-12-16  454  	u32 chan_offset;
+b45b3ccef8c063d James Lo               2021-12-16  455  
+ffdfbafdc4f46a9 Fei Shao               2023-12-06 @456  	ctrl = devm_spmi_controller_alloc(&pdev->dev, sizeof(*arb));
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  457  	if (IS_ERR(ctrl))
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  458  		return PTR_ERR(ctrl);
+b45b3ccef8c063d James Lo               2021-12-16  459  
+b45b3ccef8c063d James Lo               2021-12-16  460  	arb = spmi_controller_get_drvdata(ctrl);
+b45b3ccef8c063d James Lo               2021-12-16  461  	arb->data = device_get_match_data(&pdev->dev);
+b45b3ccef8c063d James Lo               2021-12-16  462  	if (!arb->data) {
+b45b3ccef8c063d James Lo               2021-12-16  463  		dev_err(&pdev->dev, "Cannot get drv_data\n");
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  464  		return -EINVAL;
+b45b3ccef8c063d James Lo               2021-12-16  465  	}
+b45b3ccef8c063d James Lo               2021-12-16  466  
+b45b3ccef8c063d James Lo               2021-12-16  467  	arb->base = devm_platform_ioremap_resource_byname(pdev, "pmif");
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  468  	if (IS_ERR(arb->base))
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  469  		return PTR_ERR(arb->base);
+b45b3ccef8c063d James Lo               2021-12-16  470  
+b45b3ccef8c063d James Lo               2021-12-16  471  	arb->spmimst_base = devm_platform_ioremap_resource_byname(pdev, "spmimst");
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  472  	if (IS_ERR(arb->spmimst_base))
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  473  		return PTR_ERR(arb->spmimst_base);
+b45b3ccef8c063d James Lo               2021-12-16  474  
+b45b3ccef8c063d James Lo               2021-12-16  475  	arb->nclks = ARRAY_SIZE(pmif_clock_names);
+b45b3ccef8c063d James Lo               2021-12-16  476  	for (i = 0; i < arb->nclks; i++)
+b45b3ccef8c063d James Lo               2021-12-16  477  		arb->clks[i].id = pmif_clock_names[i];
+b45b3ccef8c063d James Lo               2021-12-16  478  
+e821d50ab5b956e Yu-Che Cheng           2023-12-06  479  	err = clk_bulk_get(&pdev->dev, arb->nclks, arb->clks);
+b45b3ccef8c063d James Lo               2021-12-16  480  	if (err) {
+b45b3ccef8c063d James Lo               2021-12-16  481  		dev_err(&pdev->dev, "Failed to get clocks: %d\n", err);
+ffdfbafdc4f46a9 Fei Shao               2023-12-06  482  		return err;
+b45b3ccef8c063d James Lo               2021-12-16  483  	}
+b45b3ccef8c063d James Lo               2021-12-16  484  
+b45b3ccef8c063d James Lo               2021-12-16  485  	err = clk_bulk_prepare_enable(arb->nclks, arb->clks);
+b45b3ccef8c063d James Lo               2021-12-16  486  	if (err) {
+b45b3ccef8c063d James Lo               2021-12-16  487  		dev_err(&pdev->dev, "Failed to enable clocks: %d\n", err);
+e821d50ab5b956e Yu-Che Cheng           2023-12-06  488  		goto err_put_clks;
+b45b3ccef8c063d James Lo               2021-12-16  489  	}
+b45b3ccef8c063d James Lo               2021-12-16  490  
+b45b3ccef8c063d James Lo               2021-12-16  491  	ctrl->cmd = pmif_arb_cmd;
+b45b3ccef8c063d James Lo               2021-12-16  492  	ctrl->read_cmd = pmif_spmi_read_cmd;
+b45b3ccef8c063d James Lo               2021-12-16  493  	ctrl->write_cmd = pmif_spmi_write_cmd;
+b45b3ccef8c063d James Lo               2021-12-16  494  
+b45b3ccef8c063d James Lo               2021-12-16  495  	chan_offset = PMIF_CHAN_OFFSET * arb->data->soc_chan;
+b45b3ccef8c063d James Lo               2021-12-16  496  	arb->chan.ch_sta = PMIF_SWINF_0_STA + chan_offset;
+b45b3ccef8c063d James Lo               2021-12-16  497  	arb->chan.wdata = PMIF_SWINF_0_WDATA_31_0 + chan_offset;
+b45b3ccef8c063d James Lo               2021-12-16  498  	arb->chan.rdata = PMIF_SWINF_0_RDATA_31_0 + chan_offset;
+b45b3ccef8c063d James Lo               2021-12-16  499  	arb->chan.ch_send = PMIF_SWINF_0_ACC + chan_offset;
+b45b3ccef8c063d James Lo               2021-12-16  500  	arb->chan.ch_rdy = PMIF_SWINF_0_VLD_CLR + chan_offset;
+b45b3ccef8c063d James Lo               2021-12-16  501  
+f200fff8d019f27 Nícolas F. R. A. Prado 2023-12-06  502  	raw_spin_lock_init(&arb->lock);
+f200fff8d019f27 Nícolas F. R. A. Prado 2023-12-06  503  
+b45b3ccef8c063d James Lo               2021-12-16  504  	platform_set_drvdata(pdev, ctrl);
+b45b3ccef8c063d James Lo               2021-12-16  505  
+b45b3ccef8c063d James Lo               2021-12-16  506  	err = spmi_controller_add(ctrl);
+b45b3ccef8c063d James Lo               2021-12-16  507  	if (err)
+b45b3ccef8c063d James Lo               2021-12-16  508  		goto err_domain_remove;
+b45b3ccef8c063d James Lo               2021-12-16  509  
+b45b3ccef8c063d James Lo               2021-12-16  510  	return 0;
+b45b3ccef8c063d James Lo               2021-12-16  511  
+b45b3ccef8c063d James Lo               2021-12-16  512  err_domain_remove:
+b45b3ccef8c063d James Lo               2021-12-16  513  	clk_bulk_disable_unprepare(arb->nclks, arb->clks);
+e821d50ab5b956e Yu-Che Cheng           2023-12-06  514  err_put_clks:
+e821d50ab5b956e Yu-Che Cheng           2023-12-06  515  	clk_bulk_put(arb->nclks, arb->clks);
+b45b3ccef8c063d James Lo               2021-12-16  516  	return err;
+b45b3ccef8c063d James Lo               2021-12-16  517  }
+b45b3ccef8c063d James Lo               2021-12-16  518  
 
 -- 
 0-DAY CI Kernel Test Service
