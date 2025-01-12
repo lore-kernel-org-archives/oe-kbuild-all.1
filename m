@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FF41BC07A;
-	Sun, 12 Jan 2025 19:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04A815278E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 19:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736708987; cv=none; b=odMoORywudjYRe4wnfk7cunNLfchdc8tY3ddwKMxEAfWlyTVrg2dQPk39fgip5MXIUWpCaW+AB2Jmm/X4shoBhefc7qmROsubHyRXTETzJqo/fBxAZuSJIvWmvNyy8C3/fK4F8eQ72BHeoesZjAgiG94BpK0+wn2Z76jZcaD0SM=
+	t=1736710841; cv=none; b=cxuO7zIbeCbPFgK2IDveOKbQnFu//5qkmg7Ab1TO+NYBNlbEy336ps/tSPWIW0Vd54oK3DNSvIN4QZ7pgfzF1IIJH8WVJYxx3sjVVNJ5XHpIcp347fPkUa3YjLt9bH0S/+ZDRIwEnSCPtK/fObw9noxWRLLYq/RKPL9hjqyOSFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736708987; c=relaxed/simple;
-	bh=Rx1Fy27kCBKMjZWzp+zVIMF2xAVqRtIeOI1XX5qPS/8=;
+	s=arc-20240116; t=1736710841; c=relaxed/simple;
+	bh=QmxaaU7j+wgINjt89Qxa0hewTyYsU9tufLrFrisYXaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eWMrnY9eNJojeEbUuLMY9Pz+tc0Vclzo2FlyquIcrmEZkOdFvKoMh1khzK9J/rowwcPk2MjiXrFTE1BkM9NDNIF891D1I4iglwnW8xQ7QTvokCJsWHAx7DKNNjpKqmrxkNuRIadWnvgUGAL4Rkgntn5PX/87o/D6RHaS8ZnDK10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHy1OsLo; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=J17UtAle5cqLJupiQRxugoLhEvcYVst8ylXZMZEhEk2Nln0LVtGh4f/79TfHX9SFjiBzVVT9uTA6pVAi/rt+rP1U9Y0F1yX+EABiMOY/awYwTrpE38TeKlN53miP/mroSn6T9y14D102zchXSSOqFqqM2RE6qytIxhs0gWlqv4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4F3xd/2; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHy1OsLo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4F3xd/2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736708985; x=1768244985;
+  t=1736710839; x=1768246839;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rx1Fy27kCBKMjZWzp+zVIMF2xAVqRtIeOI1XX5qPS/8=;
-  b=SHy1OsLoo2V01isS3/yD0PObNc5jt1ap5u103pKcG9W3EmuvqbSZNw8X
-   4AGEwdWEmg+Sa9FCAd9WuVYbbov206p3WeErY1CjcdCWaXSLgNaXSv3uT
-   Se1lFjRAoeYp/q5CeD63Aps76sHWVzER8wt/oMlhLOk8i2d3v1Qj2C/zP
-   KDLTsdya6BowoihUNOR6ISe9WzpTmxrKPy4aCkIYAaXz3Ybgu18tqIbSy
-   vfgzot42gpAm9e75261SVsxecaHXXWuYReL9chUwMAJWFDkYneSRUkVAk
-   Nhm54L/Qs11zR97Ho49P32JqCrVcVGtjTVqbhjvCMLfa+RGLHN+vEfUG1
-   Q==;
-X-CSE-ConnectionGUID: 1GoVgRXvShaQPuq4l2pDxA==
-X-CSE-MsgGUID: dqOMuq9dTe+RDzhUWg0EJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="62308181"
+  bh=QmxaaU7j+wgINjt89Qxa0hewTyYsU9tufLrFrisYXaQ=;
+  b=O4F3xd/2psba9mhlCbjKXXLfhTkki1g/9DmfVqEhvQeUoa2xHa3ndHX0
+   Y4LiKieTOveHQo7xjVGDGblJ1CD22wahV/9zcDc0W67tE6YTK7KepzCP8
+   0GsKolI0440d+AIcZuvyLZL+IOZJdNI8wtfyfOPiMGUEIjX5wS6sw7GOt
+   VqYudz1VgjcikiVCrvotPkQpoJoxBBK97MNt2BZLOCM/wvLsN1PZpHemY
+   KDJPIOrcYqDSaZ6IQmFdMfplWr8ay8k8ihj/hXa2oJdFkWWpaEAVPcaVg
+   FgNV34bBXloCM/UxfJ3lMEazNiyJnWEM2I4FxZdJ6yiL/iV2N/Xd+E6zT
+   g==;
+X-CSE-ConnectionGUID: 0WNSIfEzQ9qDQ6H8FJvC5g==
+X-CSE-MsgGUID: qboek47sSbWRNj84Sl5CLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="48351721"
 X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
-   d="scan'208";a="62308181"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 11:09:44 -0800
-X-CSE-ConnectionGUID: P+KuwwAnT8edxLnk+5+NxQ==
-X-CSE-MsgGUID: MeHLz79+Ssq+00jc6OGRUw==
+   d="scan'208";a="48351721"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 11:40:38 -0800
+X-CSE-ConnectionGUID: meavDUFSTHuxjoMyDct5Mg==
+X-CSE-MsgGUID: rzzfmzJmQTKcBwxLnGzYKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104735954"
+X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
+   d="scan'208";a="104737280"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Jan 2025 11:09:42 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 12 Jan 2025 11:40:33 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tX3L9-000MJr-2S;
-	Sun, 12 Jan 2025 19:09:39 +0000
-Date: Mon, 13 Jan 2025 03:08:53 +0800
+	id 1tX3p1-000MLH-1l;
+	Sun, 12 Jan 2025 19:40:31 +0000
+Date: Mon, 13 Jan 2025 03:40:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rajesh Gugulothu <gugulothu.rajesh@xilinx.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:lkp_test 270/504]
- drivers/phy/xilinx/xhdmiphy_mmcm.c:1234:9: warning: variable 'clkout_div' is
- used uninitialized whenever 'if' condition is false
-Message-ID: <202501130221.1S9vuudT-lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+Subject: [linux-nvme:nvme-6.14 29/35] drivers/nvme/host/auth.c:742:2-3:
+ Unneeded semicolon
+Message-ID: <202501130310.A2dr9hU5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,149 +63,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
-commit: b5577f1129b810e73c625bf02ca243cfd85543ca [270/504] phy: xilinx-xhdmiphy: initial driver support for xilinx HDMI PHY 2.1 IP
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250113/202501130221.1S9vuudT-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130221.1S9vuudT-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/nvme.git nvme-6.14
+head:   6d84dae9af94be43bb71d24353aef102fd0744da
+commit: b68527338ba3882e43bae078c1bd4de0f55c6ce3 [29/35] nvme-tcp: request secure channel concatenation
+config: arc-randconfig-r054-20250112 (https://download.01.org/0day-ci/archive/20250113/202501130310.A2dr9hU5-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501130221.1S9vuudT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501130310.A2dr9hU5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/auth.c:742:2-3: Unneeded semicolon
+   drivers/nvme/host/auth.c:751:2-3: Unneeded semicolon
 
->> drivers/phy/xilinx/xhdmiphy_mmcm.c:1234:9: warning: variable 'clkout_div' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1234 |                                 if ((mult_div % 2) == 0) {
-         |                                     ^~~~~~~~~~~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1268:9: note: uninitialized use occurs here
-    1268 |         return clkout_div;
-         |                ^~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1234:5: note: remove the 'if' if its condition is always true
-    1234 |                                 if ((mult_div % 2) == 0) {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1211:8: warning: variable 'clkout_div' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1211 |                         if ((mult_div % 4) == 0) {
-         |                             ^~~~~~~~~~~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1268:9: note: uninitialized use occurs here
-    1268 |         return clkout_div;
-         |                ^~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1211:4: note: remove the 'if' if its condition is always true
-    1211 |                         if ((mult_div % 4) == 0) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1198:8: warning: variable 'clkout_div' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1198 |                         if ((mult_div % 2) == 0) {
-         |                             ^~~~~~~~~~~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1268:9: note: uninitialized use occurs here
-    1268 |         return clkout_div;
-         |                ^~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1198:4: note: remove the 'if' if its condition is always true
-    1198 |                         if ((mult_div % 2) == 0) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/phy/xilinx/xhdmiphy_mmcm.c:1183:16: note: initialize the variable 'clkout_div' to silence this warning
-    1183 |         u16 clkout_div;
-         |                       ^
-         |                        = 0
-   3 warnings generated.
+vim +742 drivers/nvme/host/auth.c
 
-
-vim +1234 drivers/phy/xilinx/xhdmiphy_mmcm.c
-
-  1178	
-  1179	static u16 xhdmiphy_set_videoclk_outdiv(struct xhdmiphy_dev *inst,
-  1180						enum color_depth bpc, enum ppc ppc,
-  1181						enum dir dir, u16 mult_div)
-  1182	{
-  1183		u16 clkout_div;
-  1184	
-  1185		switch (bpc) {
-  1186		case XVIDC_BPC_10:
-  1187			if (ppc == XVIDC_PPC_4) {
-  1188				clkout_div = (mult_div * 5 * ((dir == XHDMIPHY_DIR_TX) ?
-  1189					      inst->tx_samplerate : 1));
-  1190			} else if (ppc == XVIDC_PPC_2) {
-  1191				/*
-  1192				 * The clock ratio is 2.5. The PLL only
-  1193				 * supports integer value. The mult_div
-  1194				 * must be dividable by two
-  1195				 * (2 * 2.5 = 5) to get an integer
-  1196				 * number
-  1197				 */
-  1198				if ((mult_div % 2) == 0) {
-  1199					clkout_div = (mult_div * 5 / 2 *
-  1200								 ((dir == XHDMIPHY_DIR_TX) ?
-  1201								 inst->tx_samplerate : 1));
-  1202				}
-  1203			} else {
-  1204				/*
-  1205				 * The clock ratio is 1.25. The pll only
-  1206				 * supports integer values The multDiv
-  1207				 * must be dividable by four
-  1208				 * (4 * 1.25 = 5) to get an integer
-  1209				 * number
-  1210				 */
-  1211				if ((mult_div % 4) == 0) {
-  1212					clkout_div = (mult_div * 5 / 4 *
-  1213								 ((dir == XHDMIPHY_DIR_TX) ?
-  1214								 inst->tx_samplerate : 1));
-  1215				}
-  1216			}
-  1217				break;
-  1218		case XVIDC_BPC_12:
-  1219			if (ppc == XVIDC_PPC_4) {
-  1220				clkout_div = (mult_div * 6 *
-  1221								 ((dir == XHDMIPHY_DIR_TX) ?
-  1222								 inst->tx_samplerate : 1));
-  1223				} else if (ppc == XVIDC_PPC_2) {
-  1224					clkout_div = (mult_div * 3 *
-  1225								 ((dir == XHDMIPHY_DIR_TX) ?
-  1226								 inst->tx_samplerate : 1));
-  1227				} else {
-  1228					/*
-  1229					 * The clock ratio is 1.5. The PLL only
-  1230					 * supports integer values. The mult_div
-  1231					 * must be dividable by two (2 * 1.5 = 3)
-  1232					 * to get an integer number
-  1233					 */
-> 1234					if ((mult_div % 2) == 0) {
-  1235						clkout_div = (mult_div * 3 / 2 *
-  1236									 ((dir == XHDMIPHY_DIR_TX) ?
-  1237									 inst->tx_samplerate : 1));
-  1238					}
-  1239				}
-  1240				break;
-  1241		case XVIDC_BPC_16:
-  1242			if (ppc == XVIDC_PPC_4) {
-  1243				clkout_div = (mult_div * 8 * ((dir == XHDMIPHY_DIR_TX) ?
-  1244					      inst->tx_samplerate : 1));
-  1245			} else if (ppc == XVIDC_PPC_2) {
-  1246				clkout_div = (mult_div * 4 * ((dir == XHDMIPHY_DIR_TX) ?
-  1247					      inst->tx_samplerate : 1));
-  1248			} else {
-  1249				clkout_div = (mult_div * 2 * ((dir == XHDMIPHY_DIR_TX) ?
-  1250					      inst->tx_samplerate : 1));
-  1251			}
-  1252			break;
-  1253		case XVIDC_BPC_8:
-  1254			fallthrough;
-  1255		default:
-  1256			if (ppc == XVIDC_PPC_4) {
-  1257				clkout_div = (mult_div * 4 * ((dir == XHDMIPHY_DIR_TX) ?
-  1258					      inst->tx_samplerate : 1));
-  1259			} else if (ppc == XVIDC_PPC_2) {
-  1260				clkout_div = (mult_div * 2 * ((dir == XHDMIPHY_DIR_TX) ?
-  1261					      inst->tx_samplerate : 1));
-  1262			} else {
-  1263				clkout_div = (mult_div * ((dir == XHDMIPHY_DIR_TX) ?
-  1264					      inst->tx_samplerate : 1));
-  1265			}
-  1266			break;
-  1267		}
-  1268		return clkout_div;
-  1269	}
-  1270	
+   699	
+   700	static int nvme_auth_secure_concat(struct nvme_ctrl *ctrl,
+   701					   struct nvme_dhchap_queue_context *chap)
+   702	{
+   703		u8 *psk, *digest, *tls_psk;
+   704		struct key *tls_key;
+   705		size_t psk_len;
+   706		int ret = 0;
+   707	
+   708		if (!chap->sess_key) {
+   709			dev_warn(ctrl->device,
+   710				 "%s: qid %d no session key negotiated\n",
+   711				 __func__, chap->qid);
+   712			return -ENOKEY;
+   713		}
+   714	
+   715		if (chap->qid) {
+   716			dev_warn(ctrl->device,
+   717				 "qid %d: secure concatenation not supported on I/O queues\n",
+   718				 chap->qid);
+   719			return -EINVAL;
+   720		}
+   721		ret = nvme_auth_generate_psk(chap->hash_id, chap->sess_key,
+   722					     chap->sess_key_len,
+   723					     chap->c1, chap->c2,
+   724					     chap->hash_len, &psk, &psk_len);
+   725		if (ret) {
+   726			dev_warn(ctrl->device,
+   727				 "%s: qid %d failed to generate PSK, error %d\n",
+   728				 __func__, chap->qid, ret);
+   729			return ret;
+   730		}
+   731		dev_dbg(ctrl->device,
+   732			  "%s: generated psk %*ph\n", __func__, (int)psk_len, psk);
+   733	
+   734		ret = nvme_auth_generate_digest(chap->hash_id, psk, psk_len,
+   735						ctrl->opts->subsysnqn,
+   736						ctrl->opts->host->nqn, &digest);
+   737		if (ret) {
+   738			dev_warn(ctrl->device,
+   739				 "%s: qid %d failed to generate digest, error %d\n",
+   740				 __func__, chap->qid, ret);
+   741			goto out_free_psk;
+ > 742		};
+   743		dev_dbg(ctrl->device, "%s: generated digest %s\n",
+   744			 __func__, digest);
+   745		ret = nvme_auth_derive_tls_psk(chap->hash_id, psk, psk_len, digest, &tls_psk);
+   746		if (ret) {
+   747			dev_warn(ctrl->device,
+   748				 "%s: qid %d failed to derive TLS psk, error %d\n",
+   749				 __func__, chap->qid, ret);
+   750			goto out_free_digest;
+   751		};
+   752	
+   753		tls_key = nvme_tls_psk_refresh(ctrl->opts->keyring, ctrl->opts->host->nqn,
+   754					       ctrl->opts->subsysnqn, chap->hash_id,
+   755					       tls_psk, psk_len, digest);
+   756		if (IS_ERR(tls_key)) {
+   757			ret = PTR_ERR(tls_key);
+   758			dev_warn(ctrl->device,
+   759				 "%s: qid %d failed to insert generated key, error %d\n",
+   760				 __func__, chap->qid, ret);
+   761			tls_key = NULL;
+   762		}
+   763		kfree_sensitive(tls_psk);
+   764		if (ctrl->opts->tls_key)
+   765			nvme_auth_revoke_tls_key(ctrl);
+   766		ctrl->opts->tls_key = tls_key;
+   767	out_free_digest:
+   768		kfree_sensitive(digest);
+   769	out_free_psk:
+   770		kfree_sensitive(psk);
+   771		return ret;
+   772	}
+   773	
 
 -- 
 0-DAY CI Kernel Test Service
