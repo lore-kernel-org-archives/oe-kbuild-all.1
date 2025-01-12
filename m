@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653551B6D0D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 14:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AB71B85D3;
+	Sun, 12 Jan 2025 15:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736693409; cv=none; b=FVZWLhV6dvD2BzR9+wR5RMAxi+AavkWc4aMGkZz5MeQZKquRwLCE9eOKNDDALvTnQMFsoJhB92gZNpTADwqOAyOj8O8FT6Hst3M1wjY2n+bgjq6tnBgjmwVNeWcetOaWyBRKc2xz6oo6mgpcPA2MwnMe/6IJnyIbKD1LMfxatbI=
+	t=1736695951; cv=none; b=lR5EBSz9ExfAH3AN3g9p7dBDcqyLABpItBkf2hZCh6ZINnbp7p6YWtqfdf7cDW7rWhrjkv8B6+fK1/Ri61wc9vbMYrqaDttHCpuN5Ek9feN+kiUl8qFIxcrL+wEKMVGi/a2RfRCC/5NrprgwgDBsnQA2mGsE6tin87xGu4xInFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736693409; c=relaxed/simple;
-	bh=gACOLiFzWNipPffLJ3/zC+4pRSURndVKKZ+ih0PxkbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RCRnwZyf1K9eDuanOvxbPpSrjruuTGF30Xkp46gscm5Tucc02gWeEs+juS8uyqm8OzgQQez20VUnHJ+Omtr2SvRiMw/cGZXKlV/09g8b6GlGQaLCkdlFIN1Wq9nXQpdhDXUOPSmiutq431ALoVDE5+Gm2WYQWVz89i3Q/kqDsIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhXhiDgS; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1736695951; c=relaxed/simple;
+	bh=hg4DXiTJpBUVredNxwLSzv1MQW1zIm866XZZeOfJ0wc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jorin/Bo9kToqOSiSLs164onxgCgt74TYBWR61iKNJZKtmSQPdi1BT0rzFipfBeo+xBii/p9y/Ay2WADY8Uk56/Pxu9nXq7LlqpRSx2WerE3//NkRDrNDtBVQyqlNxAE6QShDqU0LfQgIzHrAxPhIUnyUAM6vYT1sViyWCWlrzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtgJFQo0; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhXhiDgS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtgJFQo0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736693408; x=1768229408;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gACOLiFzWNipPffLJ3/zC+4pRSURndVKKZ+ih0PxkbU=;
-  b=mhXhiDgSPDNgUPCJ17y2rvWG3EhHAkOw5xbeudVjz3FldcaS/XgzYJmP
-   kbnQoI3BFA+UkHx8AafufGsjZcD+ovYO7Q2RLhB6xPGNgIHbLtkd3LOKp
-   Z3SsiU5vhwk219pNugVWraDFpicxmGfaQhqNPGW4WD9xvL2pIwDo/3jJ3
-   GdVEyBfGir0PGEhBLe+G95P81v712BmIAajB0yTcMIty+3myIy/xHLejO
-   LmaG/Y3Fm4zs7z5fR6tP34LvXjhBhugu4w7/6O+VqBcO9ohKZWCmrgE6h
-   gI029qLzzj/r9EStfW6k4JN0IHjTh5RP+/WLKYW35WCgNp7o2OoYx2uGJ
+  t=1736695949; x=1768231949;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hg4DXiTJpBUVredNxwLSzv1MQW1zIm866XZZeOfJ0wc=;
+  b=OtgJFQo0h95IJnwpEpPuw+nZtduckVb0L0p+ZVyxwLJvti5TAVWETRQp
+   Xa4r4b/owzye8RfC+cVL17++4I2YDdmpHtiIW1qpox8Zuj9+nsfNmG3Cu
+   oRY9Ihh0E0JlQw6ZXe02ivfZ/RA3Hh7K+s+5VCvr+lpoiOXbCJgQBXC/P
+   AUdjBBTaLEfOTZFw+eIwVyqyVqisvygYwag8m9Lgx+fbvccY7CCOsmYlL
+   gnTMt9AN+NXsfIwaMNVdF6ijFGnh80MYRAXi71tbghPnmKzKZXKZnq/vk
+   JgY+nBuNhF8EyzwA1OyXBXYGFOF7HUMEXGRHKeTfiR1NbCyC20q1DrFF/
    w==;
-X-CSE-ConnectionGUID: 283C0XCOTR62DA6D4vOgUw==
-X-CSE-MsgGUID: FFGvUd06QmCpZZmOA4wHhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="37086277"
+X-CSE-ConnectionGUID: rsyCiPs0Rea4Y7/jwUC+yg==
+X-CSE-MsgGUID: WuINb1xkRWWi4CDVvHDiJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="39742762"
 X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
-   d="scan'208";a="37086277"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 06:50:07 -0800
-X-CSE-ConnectionGUID: KfxVYOCsRtGAnd6zFd1ZiA==
-X-CSE-MsgGUID: 9i2r6u3cQqCHAJM2xUlBcg==
+   d="scan'208";a="39742762"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 07:32:26 -0800
+X-CSE-ConnectionGUID: mH3ZYRx+R6KsiloUHpEhJQ==
+X-CSE-MsgGUID: +FMNmEsGQ56kNIePNsHJNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
-   d="scan'208";a="135012395"
+   d="scan'208";a="104256726"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 12 Jan 2025 06:50:02 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Jan 2025 07:32:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWzHr-000M4V-2Q;
-	Sun, 12 Jan 2025 14:49:59 +0000
-Date: Sun, 12 Jan 2025 22:49:26 +0800
+	id 1tWzws-000M6J-23;
+	Sun, 12 Jan 2025 15:32:22 +0000
+Date: Sun, 12 Jan 2025 23:31:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
-	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
-	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, Jason Xing <kerneljasonxing@gmail.com>
-Subject: Re: [PATCH net-next v5 01/15] net-timestamp: add support for
- bpf_setsockopt()
-Message-ID: <202501122252.dqEPb1Wd-lkp@intel.com>
-References: <20250112113748.73504-2-kerneljasonxing@gmail.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linyunsheng:page_frag_cache_part2_v3_250105 6/8]
+ net/core/sock.c:3061:13: error: call to undeclared function
+ 'page_frag_refill_prepare'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202501122323.Kry5FqX4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,59 +63,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250112113748.73504-2-kerneljasonxing@gmail.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-add-support-for-bpf_setsockopt/20250112-194115
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250112113748.73504-2-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next v5 01/15] net-timestamp: add support for bpf_setsockopt()
-config: i386-buildonly-randconfig-005-20250112 (https://download.01.org/0day-ci/archive/20250112/202501122252.dqEPb1Wd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501122252.dqEPb1Wd-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_cache_part2_v3_250105
+head:   c94404d3ba31c8322393ffbabf85a5c98e965b4f
+commit: a31c4d10239e1fde1560478359630ca9bdeb4a95 [6/8] net: replace page_frag with page_frag_cache
+config: x86_64-randconfig-122-20250111 (https://download.01.org/0day-ci/archive/20250112/202501122323.Kry5FqX4-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501122323.Kry5FqX4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501122252.dqEPb1Wd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501122323.Kry5FqX4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linyunsheng/page_frag_cache_part2_v3_250105 HEAD c94404d3ba31c8322393ffbabf85a5c98e965b4f builds fine.
+      It only hurts bisectability.
 
-   net/core/filter.c: In function 'sk_bpf_set_cb_flags':
-   net/core/filter.c:5237:11: error: 'struct sock' has no member named 'sk_bpf_cb_flags'
-    5237 |         sk->sk_bpf_cb_flags = sk_bpf_cb_flags;
-         |           ^~
-   net/core/filter.c: At top level:
->> net/core/filter.c:5225:12: warning: 'sk_bpf_set_cb_flags' defined but not used [-Wunused-function]
-    5225 | static int sk_bpf_set_cb_flags(struct sock *sk, char *optval, bool getopt)
-         |            ^~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
+
+>> net/core/sock.c:3061:13: error: call to undeclared function 'page_frag_refill_prepare'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3061 |         if (likely(page_frag_refill_prepare(nc, 32U, pfrag, sk->sk_allocation)))
+         |                    ^
+   net/core/sock.c:3061:13: note: did you mean 'sk_page_frag_refill_prepare'?
+   net/core/sock.c:3058:6: note: 'sk_page_frag_refill_prepare' declared here
+    3058 | bool sk_page_frag_refill_prepare(struct sock *sk, struct page_frag_cache *nc,
+         |      ^
+    3059 |                                  struct page_frag *pfrag)
+    3060 | {
+    3061 |         if (likely(page_frag_refill_prepare(nc, 32U, pfrag, sk->sk_allocation)))
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~
+         |                    sk_page_frag_refill_prepare
+>> net/core/sock.c:3076:7: error: call to undeclared function 'page_frag_alloc_refill_prepare'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3076 |         va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, sk->sk_allocation);
+         |              ^
+   net/core/sock.c:3076:7: note: did you mean 'sk_page_frag_alloc_refill_prepare'?
+   net/core/sock.c:3070:7: note: 'sk_page_frag_alloc_refill_prepare' declared here
+    3070 | void *sk_page_frag_alloc_refill_prepare(struct sock *sk,
+         |       ^
+    3071 |                                         struct page_frag_cache *nc,
+    3072 |                                         struct page_frag *pfrag)
+    3073 | {
+    3074 |         void *va;
+    3075 | 
+    3076 |         va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, sk->sk_allocation);
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |              sk_page_frag_alloc_refill_prepare
+>> net/core/sock.c:3076:5: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+    3076 |         va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, sk->sk_allocation);
+         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
+--
+>> net/core/skbuff.c:3093:3: error: call to undeclared function 'page_frag_refill_commit_noref'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3093 |                 page_frag_refill_commit_noref(nc, pfrag, *len);
+         |                 ^
+>> net/core/skbuff.c:3097:2: error: call to undeclared function 'page_frag_refill_commit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3097 |         page_frag_refill_commit(nc, pfrag, *len);
+         |         ^
+   2 errors generated.
+--
+>> net/core/skmsg.c:62:4: error: call to undeclared function 'page_frag_refill_commit_noref'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      62 |                         page_frag_refill_commit_noref(nc, pfrag, use);
+         |                         ^
+>> net/core/skmsg.c:72:4: error: call to undeclared function 'page_frag_refill_commit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      72 |                         page_frag_refill_commit(nc, pfrag, use);
+         |                         ^
+   2 errors generated.
+--
+>> net/ipv4/ip_output.c:1254:5: error: call to undeclared function 'page_frag_refill_commit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1254 |                                 page_frag_refill_commit(nc, pfrag, copy);
+         |                                 ^
+>> net/ipv4/ip_output.c:1258:5: error: call to undeclared function 'page_frag_refill_commit_noref'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1258 |                                 page_frag_refill_commit_noref(nc, pfrag, copy);
+         |                                 ^
+   2 errors generated.
+--
+>> net/ipv4/tcp.c:1234:5: error: call to undeclared function 'page_frag_refill_commit_noref'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1234 |                                 page_frag_refill_commit_noref(nc, pfrag, copy);
+         |                                 ^
+>> net/ipv4/tcp.c:1238:5: error: call to undeclared function 'page_frag_refill_commit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1238 |                                 page_frag_refill_commit(nc, pfrag, copy);
+         |                                 ^
+   2 errors generated.
+--
+>> net/ipv4/tcp_output.c:3998:8: error: call to undeclared function 'page_frag_alloc_refill_prepare'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3998 |                 va = page_frag_alloc_refill_prepare(nc,
+         |                      ^
+   net/ipv4/tcp_output.c:3998:8: note: did you mean 'sk_page_frag_alloc_refill_prepare'?
+   include/net/sock.h:2529:7: note: 'sk_page_frag_alloc_refill_prepare' declared here
+    2529 | void *sk_page_frag_alloc_refill_prepare(struct sock *sk,
+         |       ^
+>> net/ipv4/tcp_output.c:3998:6: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+    3998 |                 va = page_frag_alloc_refill_prepare(nc,
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3999 |                                                     min_t(size_t, space, PAGE_SIZE),
+         |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    4000 |                                                     pfrag, sk->sk_allocation);
+         |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/ipv4/tcp_output.c:4022:3: error: call to undeclared function 'page_frag_refill_commit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4022 |                 page_frag_refill_commit(nc, pfrag, space);
+         |                 ^
+   3 errors generated.
+--
+>> net/ipv6/ip6_output.c:1790:5: error: call to undeclared function 'page_frag_refill_commit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1790 |                                 page_frag_refill_commit(nc, pfrag, copy);
+         |                                 ^
+>> net/ipv6/ip6_output.c:1794:5: error: call to undeclared function 'page_frag_refill_commit_noref'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1794 |                                 page_frag_refill_commit_noref(nc, pfrag, copy);
+         |                                 ^
+   2 errors generated.
 
 
-vim +/sk_bpf_set_cb_flags +5225 net/core/filter.c
+vim +/page_frag_refill_prepare +3061 net/core/sock.c
 
-  5224	
-> 5225	static int sk_bpf_set_cb_flags(struct sock *sk, char *optval, bool getopt)
-  5226	{
-  5227		u32 sk_bpf_cb_flags;
-  5228	
-  5229		if (getopt)
-  5230			return -EINVAL;
-  5231	
-  5232		sk_bpf_cb_flags = *(u32 *)optval;
-  5233	
-  5234		if (sk_bpf_cb_flags & ~SK_BPF_CB_MASK)
-  5235			return -EINVAL;
-  5236	
-> 5237		sk->sk_bpf_cb_flags = sk_bpf_cb_flags;
-  5238	
-  5239		return 0;
-  5240	}
-  5241	
+  3057	
+  3058	bool sk_page_frag_refill_prepare(struct sock *sk, struct page_frag_cache *nc,
+  3059					 struct page_frag *pfrag)
+  3060	{
+> 3061		if (likely(page_frag_refill_prepare(nc, 32U, pfrag, sk->sk_allocation)))
+  3062			return true;
+  3063	
+  3064		sk_enter_memory_pressure(sk);
+  3065		sk_stream_moderate_sndbuf(sk);
+  3066		return false;
+  3067	}
+  3068	EXPORT_SYMBOL(sk_page_frag_refill_prepare);
+  3069	
+  3070	void *sk_page_frag_alloc_refill_prepare(struct sock *sk,
+  3071						struct page_frag_cache *nc,
+  3072						struct page_frag *pfrag)
+  3073	{
+  3074		void *va;
+  3075	
+> 3076		va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, sk->sk_allocation);
+  3077		if (likely(va))
+  3078			return va;
+  3079	
+  3080		sk_enter_memory_pressure(sk);
+  3081		sk_stream_moderate_sndbuf(sk);
+  3082		return NULL;
+  3083	}
+  3084	EXPORT_SYMBOL(sk_page_frag_alloc_refill_prepare);
+  3085	
 
 -- 
 0-DAY CI Kernel Test Service
