@@ -1,61 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BF51E4B2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 14:38:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92A21E4B2;
+	Sun, 12 Jan 2025 14:39:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736692738; cv=none; b=EgHBbkYg8OstmpVXZ5h5C7eel0y/wCJ6W+mbAR4OEq+KPVCSP9MDq6kC5Lfp/5qrMRwptw7W7xrJ764ZZPC5bMvlt7pMlyAl5EP2DO9OR3D7iP3Yh1/WP5V4q3AdpkeJc8Cu21uw6THoCuatvPQqcH26FoYJIflJ+eKoXHfVHn0=
+	t=1736692742; cv=none; b=LaMJdSHl/0fZ3kYy3gRrwWornM7V1PDpDmkfHi/33He7yEg87hyfJD91k8B0+O+Zw8teP9dLjPxQ975GaJ4tHTFciYD4N3OBREvBQJwcBNpTImlmIMTz+VA7F6klGURgPiBXGjI6cZxgHk9/iz77GLKBqABxxe6v6kV6Mo8xIPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736692738; c=relaxed/simple;
-	bh=Wtw82ugLQf8t2/9vA4n9bX2ossXN2pf0pWBe64ecD+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lo9rPodm2ctQB6+vEsucERcSPqNiOulPqTl5tZyv95J2JYSWbcBIo4ehKNGeZ/Yt6u7VeA2P+/gf5f4B0euw4vHE9dZttXrScF8V3nRbaqZziFPKNUZWual4BoNJtpA1pmXZiBU5TJLR6nBOGlotfvtsCwYG5rbVVYLum4qt+cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L58mQlK1; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1736692742; c=relaxed/simple;
+	bh=ExbjmQENANvuVNro49QEPjcEWrJdZJVKQIi+5LhICr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ot2yHXs0Ah7WXNJYyUXAquMxDwlVTkB9FDzyY9ft2MjIqi6TsW72f7u4s/o8DZHZS2c4yishVZpW16eBYgDVuMznPpnVD1I61XdYFoAImMOq6wZchyt4LkWkpHyCSDJxUNETIWDzfPVFSFIkUAxBn2txzjif0D0ioyg5UbN5Vnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdQ1UcDB; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L58mQlK1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdQ1UcDB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736692737; x=1768228737;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wtw82ugLQf8t2/9vA4n9bX2ossXN2pf0pWBe64ecD+M=;
-  b=L58mQlK18N4npQtRLlHqotwr85xSmhzPnJZoidOrDarVWSUWSXsg9qwe
-   hnSXwJWC9jWZsln+RbQ5l8wNMfCTmfP7dlMAr93KYg0aLLehm8kpBt47v
-   JTOnmxDTVBa0XBWZdBeHdz1ZUBE6aL+3czhPxMGC+WOrBI1P1W2FQnFRd
-   jDoAUywFO4QOWB1ylP/M9Uu5T6baDkOf4/W+PL9xpuuGEEjcCyiVApgRQ
-   0t9WkaP7r2xtS1OJQ6owoHp6hrUR+GBy6zix/NJDRbwmULHk60K4Lrol5
-   85ZRVm0Pkq0VUMljCpICXJCX24j/4h8KBN+kcCAqoQpWlIAFeSIq5XWKw
-   A==;
-X-CSE-ConnectionGUID: adFdw0PGQHuqBuP/EkCFZg==
-X-CSE-MsgGUID: X5uR23f0QBWtLxNeXgBPOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="40604055"
+  t=1736692741; x=1768228741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ExbjmQENANvuVNro49QEPjcEWrJdZJVKQIi+5LhICr8=;
+  b=FdQ1UcDB52997jNtqORBp4zaPMv3pjOJgvER12enBQIUtvBhiYbhuXwd
+   mcpkV0ckoqB5W8WdUE4fvurUuc0g7yUZBJGuTXFopUTQY6gpFLqKIz1Hr
+   Cz+FaUkmW7WFZsE9LrB0HbjboNZ6lbrQnmm9FnvufLN4Rb7YS405Yp8cm
+   YvzE81H/NqF7KFagYKFOr12LChCVVfHM0x1wCSCgDM6rrZMOIkX6O9T8v
+   PYLk2YshzoMAcRPiz2AS3lwur9TrTHk8WbBpK32+UazX60+ViUi1kcMuQ
+   c2QP4Vz44WHe5f0oh5no1h4tHdvq788KoEeRRZ34p9ZqFkZfJF3r7Cf2L
+   Q==;
+X-CSE-ConnectionGUID: z1r3gJToQMCxsoUhrwxQcg==
+X-CSE-MsgGUID: G9mlNDXDTYSDn2SZbyzThA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="40604056"
 X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
-   d="scan'208";a="40604055"
+   d="scan'208";a="40604056"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 06:38:56 -0800
-X-CSE-ConnectionGUID: BARbluybQ0GcY7k1tutxGA==
-X-CSE-MsgGUID: ccUeTvceRw20g9nx0kBbgg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 06:39:01 -0800
+X-CSE-ConnectionGUID: k3+zY7qARc+zroenPr4pnA==
+X-CSE-MsgGUID: M4wP4h83Sf+99iRg88GYJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
-   d="scan'208";a="104249845"
+   d="scan'208";a="104249844"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 12 Jan 2025 06:38:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWz76-000M2X-1e;
+	id 1tWz76-000M2V-1S;
 	Sun, 12 Jan 2025 14:38:52 +0000
-Date: Sun, 12 Jan 2025 22:37:53 +0800
+Date: Sun, 12 Jan 2025 22:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-nonmm-unstable 171/173] kernel/kthread.c:913: warning:
- expecting prototype for kthread_create_worker_on_node(). Prototype was for
- kthread_create_worker() instead
-Message-ID: <202501122249.upmy4970-lkp@intel.com>
+To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
+	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, horms@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bpf@vger.kernel.org, netdev@vger.kernel.org,
+	Jason Xing <kerneljasonxing@gmail.com>
+Subject: Re: [PATCH net-next v5 05/15] net-timestamp: add strict check in
+ some BPF calls
+Message-ID: <202501122251.7G2Wsbzx-lkp@intel.com>
+References: <20250112113748.73504-6-kerneljasonxing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,56 +72,212 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250112113748.73504-6-kerneljasonxing@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   dfbe2aeb5ed491cb9f0a2de5a7ad9a9d4d477a8f
-commit: 1bc3c5db9becd0171108c2dcfaf7ef5ef10c1e03 [171/173] kthread: modify kernel-doc function name to match code
-config: i386-buildonly-randconfig-001-20250112 (https://download.01.org/0day-ci/archive/20250112/202501122249.upmy4970-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501122249.upmy4970-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-add-support-for-bpf_setsockopt/20250112-194115
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250112113748.73504-6-kerneljasonxing%40gmail.com
+patch subject: [PATCH net-next v5 05/15] net-timestamp: add strict check in some BPF calls
+config: i386-buildonly-randconfig-006-20250112 (https://download.01.org/0day-ci/archive/20250112/202501122251.7G2Wsbzx-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501122251.7G2Wsbzx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501122249.upmy4970-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501122251.7G2Wsbzx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/kthread.c:913: warning: expecting prototype for kthread_create_worker_on_node(). Prototype was for kthread_create_worker() instead
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:4863:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4863 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:4891:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4891 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5063:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5063 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5077:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5077 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5126:45: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5126 |         .arg1_type      = ARG_PTR_TO_BTF_ID_SOCK_COMMON | PTR_MAYBE_NULL,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   net/core/filter.c:5592:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5592 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5626:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5626 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5660:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5660 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5703:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5703 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5880:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5880 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6417:46: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6417 |         .arg3_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_WRITE | MEM_ALIGNED,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
+   net/core/filter.c:6429:46: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6429 |         .arg3_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_WRITE | MEM_ALIGNED,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
+   net/core/filter.c:6515:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6515 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6525:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6525 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6569:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6569 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6658:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6658 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6902:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6902 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6921:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6921 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6940:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6940 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6964:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6964 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6988:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6988 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7012:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7012 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7029:45: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7029 |         .arg1_type      = ARG_PTR_TO_BTF_ID_SOCK_COMMON | OBJ_RELEASE,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   net/core/filter.c:7050:35: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7050 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7074:35: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7074 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7098:35: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7098 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7118:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7118 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7137:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7137 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7156:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7156 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7474:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7474 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7476:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7476 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7543:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7543 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:7545:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7545 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+>> net/core/filter.c:7631:19: warning: result of comparison of constant 'SK_BPF_CB_FLAGS' (1009) with expression of type 'u8' (aka 'unsigned char') is always true [-Wtautological-constant-out-of-range-compare]
+    7631 |         if (bpf_sock->op != SK_BPF_CB_FLAGS)
+         |             ~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+   net/core/filter.c:7777:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7777 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   41 warnings generated.
 
 
-vim +913 kernel/kthread.c
+vim +7631 net/core/filter.c
 
-fbae2d44aa1df7 Petr Mladek  2016-10-11  901  
-fbae2d44aa1df7 Petr Mladek  2016-10-11  902  /**
-1bc3c5db9becd0 Randy Dunlap 2025-01-10  903   * kthread_create_worker_on_node - create a kthread worker
-dbf52682cb0286 Petr Mladek  2016-10-11  904   * @flags: flags modifying the default behavior of the worker
-fbae2d44aa1df7 Petr Mladek  2016-10-11  905   * @namefmt: printf-style name for the kthread worker (task).
-fbae2d44aa1df7 Petr Mladek  2016-10-11  906   *
-fbae2d44aa1df7 Petr Mladek  2016-10-11  907   * Returns a pointer to the allocated worker on success, ERR_PTR(-ENOMEM)
-fbae2d44aa1df7 Petr Mladek  2016-10-11  908   * when the needed structures could not get allocated, and ERR_PTR(-EINTR)
-d25c83c6606ffc Petr Mladek  2022-03-15  909   * when the caller was killed by a fatal signal.
-fbae2d44aa1df7 Petr Mladek  2016-10-11  910   */
-fbae2d44aa1df7 Petr Mladek  2016-10-11  911  struct kthread_worker *
-dbf52682cb0286 Petr Mladek  2016-10-11  912  kthread_create_worker(unsigned int flags, const char namefmt[], ...)
-fbae2d44aa1df7 Petr Mladek  2016-10-11 @913  {
-fbae2d44aa1df7 Petr Mladek  2016-10-11  914  	struct kthread_worker *worker;
-fbae2d44aa1df7 Petr Mladek  2016-10-11  915  	va_list args;
-fbae2d44aa1df7 Petr Mladek  2016-10-11  916  
-fbae2d44aa1df7 Petr Mladek  2016-10-11  917  	va_start(args, namefmt);
-dbf52682cb0286 Petr Mladek  2016-10-11  918  	worker = __kthread_create_worker(-1, flags, namefmt, args);
-fbae2d44aa1df7 Petr Mladek  2016-10-11  919  	va_end(args);
-fbae2d44aa1df7 Petr Mladek  2016-10-11  920  
-fbae2d44aa1df7 Petr Mladek  2016-10-11  921  	return worker;
-fbae2d44aa1df7 Petr Mladek  2016-10-11  922  }
-fbae2d44aa1df7 Petr Mladek  2016-10-11  923  EXPORT_SYMBOL(kthread_create_worker);
-fbae2d44aa1df7 Petr Mladek  2016-10-11  924  
-
-:::::: The code at line 913 was first introduced by commit
-:::::: fbae2d44aa1df72d0154be77eb4d71e1e34c0f8f kthread: add kthread_create_worker*()
-
-:::::: TO: Petr Mladek <pmladek@suse.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  7622	
+  7623	BPF_CALL_4(bpf_sock_ops_load_hdr_opt, struct bpf_sock_ops_kern *, bpf_sock,
+  7624		   void *, search_res, u32, len, u64, flags)
+  7625	{
+  7626		bool eol, load_syn = flags & BPF_LOAD_HDR_OPT_TCP_SYN;
+  7627		const u8 *op, *opend, *magic, *search = search_res;
+  7628		u8 search_kind, search_len, copy_len, magic_len;
+  7629		int ret;
+  7630	
+> 7631		if (bpf_sock->op != SK_BPF_CB_FLAGS)
+  7632			return -EINVAL;
+  7633	
+  7634		/* 2 byte is the minimal option len except TCPOPT_NOP and
+  7635		 * TCPOPT_EOL which are useless for the bpf prog to learn
+  7636		 * and this helper disallow loading them also.
+  7637		 */
+  7638		if (len < 2 || flags & ~BPF_LOAD_HDR_OPT_TCP_SYN)
+  7639			return -EINVAL;
+  7640	
+  7641		search_kind = search[0];
+  7642		search_len = search[1];
+  7643	
+  7644		if (search_len > len || search_kind == TCPOPT_NOP ||
+  7645		    search_kind == TCPOPT_EOL)
+  7646			return -EINVAL;
+  7647	
+  7648		if (search_kind == TCPOPT_EXP || search_kind == 253) {
+  7649			/* 16 or 32 bit magic.  +2 for kind and kind length */
+  7650			if (search_len != 4 && search_len != 6)
+  7651				return -EINVAL;
+  7652			magic = &search[2];
+  7653			magic_len = search_len - 2;
+  7654		} else {
+  7655			if (search_len)
+  7656				return -EINVAL;
+  7657			magic = NULL;
+  7658			magic_len = 0;
+  7659		}
+  7660	
+  7661		if (load_syn) {
+  7662			ret = bpf_sock_ops_get_syn(bpf_sock, TCP_BPF_SYN, &op);
+  7663			if (ret < 0)
+  7664				return ret;
+  7665	
+  7666			opend = op + ret;
+  7667			op += sizeof(struct tcphdr);
+  7668		} else {
+  7669			if (!bpf_sock->skb ||
+  7670			    bpf_sock->op == BPF_SOCK_OPS_HDR_OPT_LEN_CB)
+  7671				/* This bpf_sock->op cannot call this helper */
+  7672				return -EPERM;
+  7673	
+  7674			opend = bpf_sock->skb_data_end;
+  7675			op = bpf_sock->skb->data + sizeof(struct tcphdr);
+  7676		}
+  7677	
+  7678		op = bpf_search_tcp_opt(op, opend, search_kind, magic, magic_len,
+  7679					&eol);
+  7680		if (IS_ERR(op))
+  7681			return PTR_ERR(op);
+  7682	
+  7683		copy_len = op[1];
+  7684		ret = copy_len;
+  7685		if (copy_len > len) {
+  7686			ret = -ENOSPC;
+  7687			copy_len = len;
+  7688		}
+  7689	
+  7690		memcpy(search_res, op, copy_len);
+  7691		return ret;
+  7692	}
+  7693	
 
 -- 
 0-DAY CI Kernel Test Service
