@@ -1,232 +1,163 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5176C8F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 00:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B0A18E20
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 01:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736729802; cv=none; b=lKSmgaJqEWFrZcQc2H+fARh1um9Vp39c8a/VXcKNAdoogfwapTghk6kHnVJkERNxRmcqb3bDF4+MjweG4g8FTmMIsA5ChDOOgmYfxEi5bV/fbDhSDxEthkVCFva2FQQvktB4E8Ucx7ydu1pLpSEsvqXZhgxogy/gIYYD6Svd1AQ=
+	t=1736731329; cv=none; b=KteF3GXMJ7NImMdniIMOzM9EmgYiak4mvUQn9QRPHIrcH61g0+0pg9Lyfgsz0xj5jKHFURIMTPE70BAjfRc5UHtpnO3dJL+90uOJ+bDELlIYSGiPorimzB6aMREsQuS8EFUaxt+8nfx/qSLdTJBkXLCj7kwze2YyTs5lebSN1Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736729802; c=relaxed/simple;
-	bh=yFdu13TPr6VNxPPYt5rhOWGeVPl9YcsHduFHWKozF2k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mj/uIIZhBsxLCttI6rEgf3X9aQg33SoHQOVB2FXAgB6T/z27p77Kxpa52iqfpQltvtrxCWXa4WeUlP0ZyDDnlBltcbeVGTcvcZ7EzXuUkIu4UE3iWnIcvS2f65jo+S/6e9QeD55k+Rmy9VB3Rrdeg3m1PFjG7qG3fVRXEC8sOn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwD17Klq; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736731329; c=relaxed/simple;
+	bh=P+DqSZ4y3qMvR5GaGBJYnKhNpb5oFyiTf6seggEe6s0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cZSkLBpiaoFm2u9vEwhX+Yr0yyXtnXk8e2z/Lnkx/M7BjFmvhpc+opASN/BTaKYAKCyWybTC7kx8EQpXCCowG+vU5kFzeH9pbVCDsO2kcB/QLvSiIfG7YScG1S4gwpSVwlJusGhl6FTq7IJD7ptAcOXnecPI3MYdp+VPiSu5hx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVxosxj3; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwD17Klq"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2156e078563so54172425ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 16:56:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736729800; x=1737334600; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0V56Sb7sqNGix6HQ1QvO1EkN6QyGEMwBCv4yPDzPp8o=;
-        b=NwD17KlqetQTOoZLb133D4OCCBWHJu4DTTd6DeiV527NQXPw4DEt5T3keQlEbesKaZ
-         QqX8vWzqZFHyizmIphzDhqG+GrRKOW5ADnii5/yj3BsmZJo/2goaPZiD9QQxEpDFhSTt
-         dfbMW+cWFr4YSTq9AcL44Hb53XD8knuTtP5c5fj0Id5CsjPf/Elp47QED6c0kFfh3Ure
-         wVO9k68E9EBb2O/IkwS+XC7mUGIPW+QZBuh6rk3nwNloaBarU2i/mHZts8b4cKh37kya
-         hEdqJnMRBrUQQq4L9LHo2inDk4IfkW8IiYplN+lU/KDM5a/1JSv8eYT1Hp0b5VFCyhm9
-         6e4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736729800; x=1737334600;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0V56Sb7sqNGix6HQ1QvO1EkN6QyGEMwBCv4yPDzPp8o=;
-        b=RTWiXQA5fWBf/wsVovFolhcSc768QkGQJazElCRXcPrI/z+JIsUc89LtBhEkBu4Cpn
-         iAEZ165/D23hMNb5HEBPe+MW44V/u99oyZ+M6s6DkZa+Kc8vSz4ICtHRqnkqtBp4qG6T
-         rOP4VmGhQ7QyqKuxF9yXqtGQ0WPELUiMDAaGJVZEDnIvgri0LFPA4IXYwsNeQXS3AF4G
-         dbxzu3SKgF0ve56ucLXs9tTlPy1vaUAYE3iPlARlusU4dJIzaQXZO8zdnyHSv1DExUqx
-         1SBPsG30XUC5K8sDWxZtc255+sCkRgynHrsUPUIdNJJyIKTrdyK3s06keFvNYv7xOXdX
-         D/sg==
-X-Forwarded-Encrypted: i=1; AJvYcCVscdlko4S2PUwbBsENoAi7vY69+Q0M+sHDBVPk2G/dZnQJZzR1bCx5gm6wbAAgq8Svt/3hy8FMXySk43Pc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9/MJM/BwyN2kkQ+9w5PvmoSuiJuhLlIPM4OCR1w7XOMgq2HDP
-	R1yKCSdZuV6WIaM9w9TLqc41ip9hiGjygX2ClHdaWO7cKu7/U3H8
-X-Gm-Gg: ASbGncsnczO9+scUo0HCns98+7fBOo2GFHwrjJesN0Ydlyt7xXzAfrQBjvKrjBSSY3D
-	9vt5QAPybxQ1TK/3YwV9pwGvzkxfvZpWDdriKq2WcXe5fTyQTuBm56zQFCRBgyIivem1xmOsfKl
-	BY/nnWI3x0qGrpzUabSE0ZN5GPMqZA40aYjUj7aJJWpOCx3EOsFnqoEpDAQeSn/iyq4H3kP+aEO
-	+KIwyd9n6sJxxBXCw0r6k6SQadhGK3tznGdmlH0AsAREPtby9mI3j2vDKMzh9MUNVQ=
-X-Google-Smtp-Source: AGHT+IGzxYWm0tbkwANQHKte1ZrD6ajm4Ul4JqKrWyhZ4nm01na6Fa/9M40NPrsrME9FDL8oyW0k+A==
-X-Received: by 2002:a17:902:cecd:b0:215:6995:1ef3 with SMTP id d9443c01a7336-21a83f3469cmr255885615ad.3.1736729800033;
-        Sun, 12 Jan 2025 16:56:40 -0800 (PST)
-Received: from Barrys-MBP.hub ([118.92.30.135])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f22d134sm43087125ad.187.2025.01.12.16.56.30
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 12 Jan 2025 16:56:39 -0800 (PST)
-From: Barry Song <21cnbao@gmail.com>
-To: lkp@intel.com
-Cc: 21cnbao@gmail.com,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	baolin.wang@linux.alibaba.com,
-	bp@alien8.de,
-	catalin.marinas@arm.com,
-	chrisl@kernel.org,
-	dave.hansen@linux.intel.com,
-	david@redhat.com,
-	gshan@redhat.com,
-	hpa@zytor.com,
-	ioworker0@gmail.com,
-	kasong@tencent.com,
-	kirill.shutemov@linux.intel.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mark.rutland@arm.com,
-	mingo@redhat.com,
-	oe-kbuild-all@lists.linux.dev,
-	ryan.roberts@arm.com,
-	shahuang@redhat.com,
-	tglx@linutronix.de,
-	v-songbaohua@oppo.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	x86@kernel.org,
-	ying.huang@intel.com,
-	yosryahmed@google.com,
-	zhengtangquan@oppo.com
-Subject: Re: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-Date: Mon, 13 Jan 2025 13:56:26 +1300
-Message-Id: <20250113005626.2290-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <202501061736.FoHcInHJ-lkp@intel.com>
-References: <202501061736.FoHcInHJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVxosxj3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736731327; x=1768267327;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P+DqSZ4y3qMvR5GaGBJYnKhNpb5oFyiTf6seggEe6s0=;
+  b=LVxosxj3zQL7nbBvU5/hAjXte7w/WzOHG6BuIw8mgjs4xeidWzMXKwtH
+   tyohtkxH2klV7k01DMfSSZ5iNr5nDtv49JrtLXia+v6oQLy8FsYU4TuJo
+   0y4fYwR6RLkZiHFK8pbarehz3bk4fSo4Bpyae5+Gw9DSo5jQhozAntzqf
+   mi6bi2tJGBOhLT0F9P4pVtelw2oclCjXGjvmn5QQrSXsBAHwWnVQjgZmX
+   JdbIHM0ff6iPDTf3vYZiFfmfy2fGEwC39BzK8N4PDsbelsMc2U3BYjQQQ
+   yc+7LZycPVDeOpZeQDGHC6rlUUCqHRL5r5/0xtWGjzIHq/c8yNsPDhIrB
+   w==;
+X-CSE-ConnectionGUID: fkynVhTqTCyyFQnUD7sj+A==
+X-CSE-MsgGUID: O5WQfVWkQMWx67lUBwU3Vg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="37134891"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="37134891"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 17:22:06 -0800
+X-CSE-ConnectionGUID: BNFbgP4bQBSMO1siJz4vPg==
+X-CSE-MsgGUID: bbQqTUb6Tr+dWT3ZBBu2/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105170542"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 12 Jan 2025 17:22:06 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tX99X-000Mb0-0W;
+	Mon, 13 Jan 2025 01:22:03 +0000
+Date: Mon, 13 Jan 2025 09:21:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lizhi Hou <lizhi.hou@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [linux-next:master 5495/7860]
+ drivers/accel/amdxdna/amdxdna_mailbox.c:334:52: sparse: sparse: cast removes
+ address space '__iomem' of expression
+Message-ID: <202501130921.ktqwsMLH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jan 6, 2025 at 11:08 PM kernel test robot <lkp@intel.com> wrote:
->
-> Hi Barry,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on akpm-mm/mm-everything]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-set-folio-swapbacked-iff-folios-are-dirty-in-try_to_unmap_one/20250106-112638
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20250106031711.82855-3-21cnbao%40gmail.com
-> patch subject: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-> config: riscv-randconfig-001-20250106 (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501061736.FoHcInHJ-lkp@intel.com/
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2b88851f583d3c4e40bcd40cfe1965241ec229dd
+commit: 3c8cfec3fcc4fe53f2bd87ec91ef31df4fa6dc0d [5495/7860] accel/amdxdna: Declare mailbox register base as __iomem pointer
+config: x86_64-randconfig-121-20250113 (https://download.01.org/0day-ci/archive/20250113/202501130921.ktqwsMLH-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130921.ktqwsMLH-lkp@intel.com/reproduce)
 
-Sorry. My bad, does the below diff fix the build?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501130921.ktqwsMLH-lkp@intel.com/
 
-diff --git a/arch/riscv/include/asm/tlbflush.h b/arch/riscv/include/asm/tlbflush.h
-index 72e559934952..7f3ea687ce33 100644
---- a/arch/riscv/include/asm/tlbflush.h
-+++ b/arch/riscv/include/asm/tlbflush.h
-@@ -61,7 +61,8 @@ void flush_pmd_tlb_range(struct vm_area_struct *vma, unsigned long start,
- bool arch_tlbbatch_should_defer(struct mm_struct *mm);
- void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
- 			       struct mm_struct *mm,
--			       unsigned long uaddr);
-+			       unsigned long uaddr,
-+			       unsigned long size);
- void arch_flush_tlb_batched_pending(struct mm_struct *mm);
- void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch);
- 
-diff --git a/arch/riscv/mm/tlbflush.c b/arch/riscv/mm/tlbflush.c
-index 9b6e86ce3867..aeda64a36d50 100644
---- a/arch/riscv/mm/tlbflush.c
-+++ b/arch/riscv/mm/tlbflush.c
-@@ -187,7 +187,8 @@ bool arch_tlbbatch_should_defer(struct mm_struct *mm)
- 
- void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
- 			       struct mm_struct *mm,
--			       unsigned long uaddr)
-+			       unsigned long uaddr,
-+			       unsigned long size)
- {
- 	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
- }
+sparse warnings: (new ones prefixed by >>)
+>> drivers/accel/amdxdna/amdxdna_mailbox.c:334:52: sparse: sparse: cast removes address space '__iomem' of expression
 
-> All errors (new ones prefixed by >>):
->
->    mm/rmap.c: In function 'set_tlb_ubc_flush_pending':
-> >> mm/rmap.c:685:9: error: too many arguments to function 'arch_tlbbatch_add_pending'
->      685 |         arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->    In file included from arch/riscv/include/asm/pgtable.h:113,
->                     from include/linux/pgtable.h:6,
->                     from include/linux/mm.h:30,
->                     from mm/rmap.c:55:
->    arch/riscv/include/asm/tlbflush.h:62:6: note: declared here
->       62 | void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->
->
-> vim +/arch_tlbbatch_add_pending +685 mm/rmap.c
->
->    663 
->    664  /*
->    665   * Bits 0-14 of mm->tlb_flush_batched record pending generations.
->    666   * Bits 16-30 of mm->tlb_flush_batched bit record flushed generations.
->    667   */
->    668  #define TLB_FLUSH_BATCH_FLUSHED_SHIFT   16
->    669  #define TLB_FLUSH_BATCH_PENDING_MASK                    \
->    670          ((1 << (TLB_FLUSH_BATCH_FLUSHED_SHIFT - 1)) - 1)
->    671  #define TLB_FLUSH_BATCH_PENDING_LARGE                   \
->    672          (TLB_FLUSH_BATCH_PENDING_MASK / 2)
->    673 
->    674  static void set_tlb_ubc_flush_pending(struct mm_struct *mm, pte_t pteval,
->    675                                        unsigned long uaddr,
->    676                                        unsigned long size)
->    677  {
->    678          struct tlbflush_unmap_batch *tlb_ubc = &current->tlb_ubc;
->    679          int batch;
->    680          bool writable = pte_dirty(pteval);
->    681 
->    682          if (!pte_accessible(mm, pteval))
->    683                  return;
->    684 
->  > 685          arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
->    686          tlb_ubc->flush_required = true;
->    687 
->    688          /*
->    689           * Ensure compiler does not re-order the setting of tlb_flush_batched
->    690           * before the PTE is cleared.
->    691           */
->    692          barrier();
->    693          batch = atomic_read(&mm->tlb_flush_batched);
->    694  retry:
->    695          if ((batch & TLB_FLUSH_BATCH_PENDING_MASK) > TLB_FLUSH_BATCH_PENDING_LARGE) {
->    696                  /*
->    697                   * Prevent `pending' from catching up with `flushed' because of
->    698                   * overflow.  Reset `pending' and `flushed' to be 1 and 0 if
->    699                   * `pending' becomes large.
->    700                   */
->    701                  if (!atomic_try_cmpxchg(&mm->tlb_flush_batched, &batch, 1))
->    702                          goto retry;
->    703          } else {
->    704                  atomic_inc(&mm->tlb_flush_batched);
->    705          }
->    706 
->    707          /*
->    708           * If the PTE was dirty then it's best to assume it's writable. The
->    709           * caller must use try_to_unmap_flush_dirty() or try_to_unmap_flush()
->    710           * before the page is queued for IO.
->    711           */
->    712          if (writable)
->    713                  tlb_ubc->writable = true;
->    714  }
->    715 
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +/__iomem +334 drivers/accel/amdxdna/amdxdna_mailbox.c
+
+b87f920b934426 Lizhi Hou 2024-11-18  274  
+b87f920b934426 Lizhi Hou 2024-11-18  275  static int mailbox_get_msg(struct mailbox_channel *mb_chann)
+b87f920b934426 Lizhi Hou 2024-11-18  276  {
+b87f920b934426 Lizhi Hou 2024-11-18  277  	struct xdna_msg_header header;
+3c8cfec3fcc4fe Lizhi Hou 2025-01-02  278  	void __iomem *read_addr;
+b87f920b934426 Lizhi Hou 2024-11-18  279  	u32 msg_size, rest;
+b87f920b934426 Lizhi Hou 2024-11-18  280  	u32 ringbuf_size;
+b87f920b934426 Lizhi Hou 2024-11-18  281  	u32 head, tail;
+b87f920b934426 Lizhi Hou 2024-11-18  282  	u32 start_addr;
+b87f920b934426 Lizhi Hou 2024-11-18  283  	int ret;
+b87f920b934426 Lizhi Hou 2024-11-18  284  
+b87f920b934426 Lizhi Hou 2024-11-18  285  	if (mailbox_reg_read_non_zero(mb_chann, mb_chann->res[CHAN_RES_I2X].mb_tail_ptr_reg, &tail))
+b87f920b934426 Lizhi Hou 2024-11-18  286  		return -EINVAL;
+b87f920b934426 Lizhi Hou 2024-11-18  287  	head = mb_chann->i2x_head;
+b87f920b934426 Lizhi Hou 2024-11-18  288  	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_I2X);
+b87f920b934426 Lizhi Hou 2024-11-18  289  	start_addr = mb_chann->res[CHAN_RES_I2X].rb_start_addr;
+b87f920b934426 Lizhi Hou 2024-11-18  290  
+b87f920b934426 Lizhi Hou 2024-11-18  291  	if (unlikely(tail > ringbuf_size || !IS_ALIGNED(tail, 4))) {
+b87f920b934426 Lizhi Hou 2024-11-18  292  		MB_WARN_ONCE(mb_chann, "Invalid tail 0x%x", tail);
+b87f920b934426 Lizhi Hou 2024-11-18  293  		return -EINVAL;
+b87f920b934426 Lizhi Hou 2024-11-18  294  	}
+b87f920b934426 Lizhi Hou 2024-11-18  295  
+b87f920b934426 Lizhi Hou 2024-11-18  296  	/* ringbuf empty */
+b87f920b934426 Lizhi Hou 2024-11-18  297  	if (head == tail)
+b87f920b934426 Lizhi Hou 2024-11-18  298  		return -ENOENT;
+b87f920b934426 Lizhi Hou 2024-11-18  299  
+b87f920b934426 Lizhi Hou 2024-11-18  300  	if (head == ringbuf_size)
+b87f920b934426 Lizhi Hou 2024-11-18  301  		head = 0;
+b87f920b934426 Lizhi Hou 2024-11-18  302  
+b87f920b934426 Lizhi Hou 2024-11-18  303  	/* Peek size of the message or TOMBSTONE */
+b87f920b934426 Lizhi Hou 2024-11-18  304  	read_addr = mb_chann->mb->res.ringbuf_base + start_addr + head;
+3c8cfec3fcc4fe Lizhi Hou 2025-01-02  305  	header.total_size = readl(read_addr);
+b87f920b934426 Lizhi Hou 2024-11-18  306  	/* size is TOMBSTONE, set next read from 0 */
+b87f920b934426 Lizhi Hou 2024-11-18  307  	if (header.total_size == TOMBSTONE) {
+b87f920b934426 Lizhi Hou 2024-11-18  308  		if (head < tail) {
+b87f920b934426 Lizhi Hou 2024-11-18  309  			MB_WARN_ONCE(mb_chann, "Tombstone, head 0x%x tail 0x%x",
+b87f920b934426 Lizhi Hou 2024-11-18  310  				     head, tail);
+b87f920b934426 Lizhi Hou 2024-11-18  311  			return -EINVAL;
+b87f920b934426 Lizhi Hou 2024-11-18  312  		}
+b87f920b934426 Lizhi Hou 2024-11-18  313  		mailbox_set_headptr(mb_chann, 0);
+b87f920b934426 Lizhi Hou 2024-11-18  314  		return 0;
+b87f920b934426 Lizhi Hou 2024-11-18  315  	}
+b87f920b934426 Lizhi Hou 2024-11-18  316  
+b87f920b934426 Lizhi Hou 2024-11-18  317  	if (unlikely(!header.total_size || !IS_ALIGNED(header.total_size, 4))) {
+b87f920b934426 Lizhi Hou 2024-11-18  318  		MB_WARN_ONCE(mb_chann, "Invalid total size 0x%x", header.total_size);
+b87f920b934426 Lizhi Hou 2024-11-18  319  		return -EINVAL;
+b87f920b934426 Lizhi Hou 2024-11-18  320  	}
+b87f920b934426 Lizhi Hou 2024-11-18  321  	msg_size = sizeof(header) + header.total_size;
+b87f920b934426 Lizhi Hou 2024-11-18  322  
+b87f920b934426 Lizhi Hou 2024-11-18  323  	if (msg_size > ringbuf_size - head || msg_size > tail - head) {
+b87f920b934426 Lizhi Hou 2024-11-18  324  		MB_WARN_ONCE(mb_chann, "Invalid message size %d, tail %d, head %d",
+b87f920b934426 Lizhi Hou 2024-11-18  325  			     msg_size, tail, head);
+b87f920b934426 Lizhi Hou 2024-11-18  326  		return -EINVAL;
+b87f920b934426 Lizhi Hou 2024-11-18  327  	}
+b87f920b934426 Lizhi Hou 2024-11-18  328  
+b87f920b934426 Lizhi Hou 2024-11-18  329  	rest = sizeof(header) - sizeof(u32);
+b87f920b934426 Lizhi Hou 2024-11-18  330  	read_addr += sizeof(u32);
+3c8cfec3fcc4fe Lizhi Hou 2025-01-02  331  	memcpy_fromio((u32 *)&header + 1, read_addr, rest);
+b87f920b934426 Lizhi Hou 2024-11-18  332  	read_addr += rest;
+b87f920b934426 Lizhi Hou 2024-11-18  333  
+b87f920b934426 Lizhi Hou 2024-11-18 @334  	ret = mailbox_get_resp(mb_chann, &header, (u32 *)read_addr);
+b87f920b934426 Lizhi Hou 2024-11-18  335  
+b87f920b934426 Lizhi Hou 2024-11-18  336  	mailbox_set_headptr(mb_chann, head + msg_size);
+b87f920b934426 Lizhi Hou 2024-11-18  337  	/* After update head, it can equal to ringbuf_size. This is expected. */
+b87f920b934426 Lizhi Hou 2024-11-18  338  	trace_mbox_set_head(MAILBOX_NAME, mb_chann->msix_irq,
+b87f920b934426 Lizhi Hou 2024-11-18  339  			    header.opcode, header.id);
+b87f920b934426 Lizhi Hou 2024-11-18  340  
+b87f920b934426 Lizhi Hou 2024-11-18  341  	return ret;
+b87f920b934426 Lizhi Hou 2024-11-18  342  }
+b87f920b934426 Lizhi Hou 2024-11-18  343  
+
+:::::: The code at line 334 was first introduced by commit
+:::::: b87f920b934426a24d54613f12ed67c03ae05024 accel/amdxdna: Support hardware mailbox
+
+:::::: TO: Lizhi Hou <lizhi.hou@amd.com>
+:::::: CC: Jeffrey Hugo <quic_jhugo@quicinc.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
