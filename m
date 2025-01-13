@@ -1,173 +1,137 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2059.outbound.protection.outlook.com [40.107.212.59])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE2B1B86D5;
-	Mon, 13 Jan 2025 19:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736795904; cv=fail; b=vBFYAOtYRdcBSLzVFRWqVpacEg9x5OXuic26U1v/GBkIk2HYEFJ6qEZIPxiaD7OwpRvli3eP2xX9CGwvAB+uNh9WIbkPxZnRvPPvUehZFfOjmRQl2fTEjwTop0LKR1FS5U2G/XIKKDKBA/onkU8w67/3HEMMmTzgznOp0a/aVzA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736795904; c=relaxed/simple;
-	bh=y1a22GJjB6Y1eNJsNdVKRQolyhdf5jml+Has+KKul6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LGAoOxpUfN1yI5lJwc5iUJASGIA38DzA4SUtGxEvTvitzxevc2Ts9WWuKwKbQnY0dJgsGAZTKyldkl8nDK5vcyG3ejxyTx6iNLnNKlKiSVlKNBKSsKhA0FMwojZ3rY6sGv6TO1N441eyNbhhefdmsv0nFcrpuEwWf9hiMUlG8EY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jwUM2wZF; arc=fail smtp.client-ip=40.107.212.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA711D31AE;
+	Mon, 13 Jan 2025 20:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736798612; cv=none; b=DBU3LTBBLly1hZo8vlDOuwvX7+hwttQMXnuCbCbQ6Y9bjbg2eUp9Zwkt0CPTZELjMkD+FRKQwNIy6WGkOH2AswwGpEopzU6QJIzccgnVV5Awu01IVfqZXp33C4NMCM8qcRu7Wy1v17GeCfyDZIT2QM3/Rij2u5o1jxcmD1/FHlk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736798612; c=relaxed/simple;
+	bh=hqdjc1GTXUq+T5Og+6kyD9Iv9P+Q+l446xb4UmX2GbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ql9DXeWRS2NzwFgEOIC7NC12dPPgx3qKTTvKc7vMruZfHBwK7Oj42sPNthkMOoE8ktuN7cvgYA+mNB5YkU3bnN9GC7/FqhnkASmAb2fNqOadTjvvyVnzfSD6CGtSQQJbbvSbo4hc+K4JNgrvKm4CdjDa/SQzoUlDEF5TXudmSmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=neCUkHIe; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jwUM2wZF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lzx4T/h9s31pOk2qRiRoWA1F2QVUAlWLQ69nRG+j7klgN/haCDMJKVNglZAaMtBo+62mwp2G6qMhzO8xaQmEY/t682wyHAXUOIz1rVkSJnCx5PMp0vqEh2VqVEb+cTy7EQkvAcT+TWVK4iKIFypTEpbLTJpmUM0skORP/VxLiNRC55P5lwXh/ImDnKd3OPAFutLg0+FLKUu6ow86RPniJ1WL9VAgCgBe6FMmkOgy4+11X9BwIgKM1Exu++MroudV698hkIFCvvx/GWcmI3hJqZQ9/CQD6/HY+lZ8qpWc5ASsv7L8+/jfOqZynUtqNZkZhAjiOYyAbRiAODivsSsVVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gkkx2oy1c+EKwRUASgngzGic2tqFWtNxseH28JSlWQQ=;
- b=im3R7e/ArltkJCCYLk2M2L0wW34DTw+OXJUZRbil1M40R4hIVoqP2DvksVqE2rJdm4ju9sENt3LvcqFd+oxwM3f9SnSRfJmgc2VI3Hs034L89sNQSFsLD/Dlqlm2izgIBL2XSExiZv4ywjMLJ6LM3Nl0Wuc8GANCQid5ZlhQScyCPGYEKBw7ZUuOW3rB+s26aVWMnb7AmHy+xLD+NJyaDnPjBrr+h37CW2N7dMM1e0jp5vCYZqIUo0pqFOJkckVj5ZUwzFN9BM3cZvnVHFa3VUdEJu2usEMDgTLFw50glxdr8v6mctWgJ+W+w2ZPa6T36koi8x6KpigAOJcPqTau7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gkkx2oy1c+EKwRUASgngzGic2tqFWtNxseH28JSlWQQ=;
- b=jwUM2wZF51MBkTOoAcP8CC3ubNR7fkD5wkK4UZYAz2EJQjXOufLOROSATWY0dum0WffDq51URrcIE9OevIePS/YrYTFamIZCbOE8CtMlFZlFWYwbrdL+20lTQcboI+3iv1Q+IiyUw5Lhc16u/SvQxFf33aGg/8Pyhc4/FWbMb1s5xz4A05H1A02TII6V4Jss4SYUrVFm+mx7PCMIWRVSR3Kp2zGLJN+wrkpccxty6f7lo9+cxz5RXGHK9uYPVr4jk8VtzRQM1UQNbyQ6AbjPQ/pWvL01bvIJOkl7MgWVuLNqZrkXdjjS2DN/qKlLreCE/QbNN7S0sFNBL2ypnpVyVg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by IA1PR12MB6091.namprd12.prod.outlook.com (2603:10b6:208:3ed::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Mon, 13 Jan
- 2025 19:18:19 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8314.022; Mon, 13 Jan 2025
- 19:18:19 +0000
-Date: Mon, 13 Jan 2025 15:18:17 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: will@kernel.org, kevin.tian@intel.com, corbet@lwn.net,
-	oe-kbuild-all@lists.linux.dev, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v5 14/14] iommu/arm-smmu-v3: Report events that belong to
- devices attached to vIOMMU
-Message-ID: <20250113191817.GA540878@nvidia.com>
-References: <03c01be90e53f743a91b6c1376c408404b891867.1736237481.git.nicolinc@nvidia.com>
- <202501091822.4ocbIobQ-lkp@intel.com>
- <Z4Vi9raM/lOot/SQ@Asurada-Nvidia>
- <20250113190641.GQ5556@nvidia.com>
- <Z4VmST8xyAluL858@Asurada-Nvidia>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z4VmST8xyAluL858@Asurada-Nvidia>
-X-ClientProxiedBy: MN2PR10CA0020.namprd10.prod.outlook.com
- (2603:10b6:208:120::33) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="neCUkHIe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736798612; x=1768334612;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hqdjc1GTXUq+T5Og+6kyD9Iv9P+Q+l446xb4UmX2GbM=;
+  b=neCUkHIe8zg1OMahwhZXcZtI+Wo9UIFI1oIPqEFcGEj5r62mP6JrLRcg
+   jMH/pxUaBFbPrkF+KTGDLMhJhy/puJftZ/jOgPfOXE2TYuSOdnQdxaoAS
+   udh6jlRCSqiOu4BMglr5MAIM2xDaBYG3kd5ZkNIUMVxoBloVx+FqjKa4J
+   eCdxWOvHDdgzwo2ITbOP9izT8tHfPNoVug+u8MVAvfoiTL9O2/9tLonfv
+   0DUCYtE54idANVXiyCTq6F7Ag9xvXuKxid9AbObuLaDx/wSYa2MWkuziG
+   mnEtSMONM4PnuQSyslUNqr2lZYoWXKipC4Kpb87F0VowS1r5YjOPSzp9B
+   g==;
+X-CSE-ConnectionGUID: BS0iEbnQQ4qDq1IDKyiTfw==
+X-CSE-MsgGUID: puB4j6V0TGSFaGnq0c4Y5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="36967590"
+X-IronPort-AV: E=Sophos;i="6.12,312,1728975600"; 
+   d="scan'208";a="36967590"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 12:03:31 -0800
+X-CSE-ConnectionGUID: iZtqQERbRXuuMVMIi2ukZA==
+X-CSE-MsgGUID: cz5NYTVTRYmF4154sROGOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105090563"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 Jan 2025 12:03:28 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tXQej-000NbT-1r;
+	Mon, 13 Jan 2025 20:03:25 +0000
+Date: Tue, 14 Jan 2025 04:02:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Atharva Tiwari <evepolonium@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	evepolonium@gmail.com, Aun-Ali Zaidi <admin@kodeit.net>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v3] hwmon: Add T2 Mac fan control support in applesmc
+ driver
+Message-ID: <202501140359.tA17RgoT-lkp@intel.com>
+References: <20250113084503.228037-1-evepolonium@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|IA1PR12MB6091:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e26ff1f-bfd7-469a-09ca-08dd340709dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?rCzmnPmIX8Bh+lH2MsvMuHIXsyQfmVsb5vZLn+c7OLAB8Jkstt/5b2HqIAk0?=
- =?us-ascii?Q?1pg9cx4WZIVtk1MKIJVaKJPIlM3DjbHq3KgwSFOdwYI5+uw/Lb179XheGVL1?=
- =?us-ascii?Q?Gv0dkSfRBvsFo5yrbBXqQegptXx0oobmTKhmWuJaClWJMAvG1gdzwjagt1k1?=
- =?us-ascii?Q?vc1nVy/7vovI0n6IsdZQK9QEPy28qRPin/a9xPMEeofxeT5gtgB+/AXhRNlg?=
- =?us-ascii?Q?NtFH/NIu8TZxZfLOLA251kcF3ZNYshf/lNKrt98n4OaiaG31VDKSCL8ayHqk?=
- =?us-ascii?Q?KE/58PZfjZGtiD6dwjSFXKBEdpXoLWfVNCFymCnJ1xlQID4wxQ4lpxhHYBoh?=
- =?us-ascii?Q?6yMV7wYXVlNysdrkD6aotREQGqoajvosL/hfWYy52uPJyLyxsZtSfcMpVVYK?=
- =?us-ascii?Q?DTEnNPaDJVST99skNuOf9QSxvsZ8j2FRUgGwf4tH0sASv31Em467pqdM+Kmj?=
- =?us-ascii?Q?GASsK3TXrNp8SERgP06uvMgw2LUpeLA2V2UctoscFh+qWvppGHajbLXx2QBz?=
- =?us-ascii?Q?wUmTuYFwDuHQ9rQ14QFIfw8a1GZrAid585FjmNQfK4PkpwoSTGOeBHWczuf7?=
- =?us-ascii?Q?9CPLciDNOi+CfazbY0CsV7GEJPmU7ESURJDjMPm9V3p6+xKISq5pns/IgGcB?=
- =?us-ascii?Q?rWPKTWedgg2szcAmnoZDhm9tOSORDsYqcodxA+jQT0PYmVsG3/mdFdwUe4IZ?=
- =?us-ascii?Q?iPFvRZ07mM7B33vREDewUw+sphpCUDFYdCtlFei5QPvWgWcymE308z/7hg2X?=
- =?us-ascii?Q?gWSqQpifDl2msXRVHfTkkgAgXoU3Fyf8OOpiOr4SoFjCtJFQgI27A8uEpC9r?=
- =?us-ascii?Q?rqQCOkZggyWa8iMYM+DHEeDK5/VlBujBP+cQrJCnsJuuMgjrzqmko32IBRJE?=
- =?us-ascii?Q?Em4PvM/qmf5KwBKsEI81gWYf08YkjKJNOsKrs0E+MhmC2PmnXTR8Cj7k+sF7?=
- =?us-ascii?Q?SpCsdOoFdz+SzulZlOO6UMt1CZU21RGTv5npFbfNY71LLLaUmoaeUlxKGPVq?=
- =?us-ascii?Q?jwJM1OP3RZV3Ar/KCrka869eJFxrUZBbP/4YM9Pl0k1+OQc1QwnDJVfXJSHq?=
- =?us-ascii?Q?oRP/plWYjtDhWUrP2XyZsvzrjRlDxw/57v1uR3d/5ch1n/JMfIEeKfBaHVlQ?=
- =?us-ascii?Q?gyB7Bvwbtq+JS14YsqlAsOy8omcfdaqJLyAFVKe1tga4DSmRQQesxvuQ9qp5?=
- =?us-ascii?Q?rksp4jK+xfVVdlrlSELcQRKXGYYt2HTD7O8UtdEqJzLQccTZcG+N8Pv1nP8e?=
- =?us-ascii?Q?+pinQF6kJsTO+P6IAJ4kMRyqNy8S3f20os0csI9KgTbW7SUn1+tkYOeSQVbv?=
- =?us-ascii?Q?f6VDScRlME2I64JIEEIevzKFodXPhd52f/dUyCaBbpbC/Ktc2FDExbcr7Il7?=
- =?us-ascii?Q?GdV6M3iNIgs7Q/ectETrz7eqmfuh?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jGOrOmnBJq2aPWWeKB2/TlWk5WBOs9D7PvJkHU1YEpZwrPPPXGKWSFSevkdC?=
- =?us-ascii?Q?lv+7lQ49duZG9UPCtQ7VOGnBtFYXLbnkf/zAX+1nmvV5gVp3QaqKNOw/HCu8?=
- =?us-ascii?Q?nBE9Xlqqhvjfj4U2yFMO8KdVY50d5R0Uh6ke9xWV7vgXMl9SGqmO3khqs/Z/?=
- =?us-ascii?Q?F6oY5w8yqVyLtikdTtpgiKpu95HIQ01dwH2RmNKsemSUwqLjbdO3e354LgGB?=
- =?us-ascii?Q?ePQmd8UWLbqdfJwbq+nOxJ4yeit1ThOAD/TtyNX9JzX1G/mWmpHhec6CZGqa?=
- =?us-ascii?Q?otYfwWGisyRvW/X6PR5nI1vmJbiwohEcmHPX5/jJZK6vFjnM7gWWnon+LJb/?=
- =?us-ascii?Q?zjkRUcWowRtp1CZjgVDxMExHoWMDYCX7rOVRsnYyhgOhaiWjBNPrM8ybu6Wy?=
- =?us-ascii?Q?PoDGIJz1r6Bo6fSWIGkYLBN1Fk+47RDCBu/o4FiaZbCN2sJF0uqVdEUHe5AP?=
- =?us-ascii?Q?rwW2Ot0hySiLRLZjNLG5wzNAU8YJTjD+IExfcdKPJzMhlQ5xlYxsblILVYad?=
- =?us-ascii?Q?bsCMVAB70l0Q0Q7OuOD9lnRM0apZ806J5khBQRkQYjcZ/wWEtZXuhDTlLOHT?=
- =?us-ascii?Q?OqLgXQASyyWPHZTZyOzM9a3u5rSOzaDb+uqva+j/la6VkpRkD3GicljN1p3E?=
- =?us-ascii?Q?+8pEJ+brWczpd97pq8PdnJY3TpjVM5H++cZGKkZihCTEieCazx68jadWo3dH?=
- =?us-ascii?Q?bSb0h05Kk1AFWS04Ko5r2kyobQFkEqV2LeQpRSZ76ho+PiMvLSVKPVq1bMXY?=
- =?us-ascii?Q?SEVT5Eq7TjYyXAITbIZ+NL0DfiHVT5QCf6rm0Z/Oyjc2n7JsDadPycmrVsY/?=
- =?us-ascii?Q?hPC+ndv9O/rlJRMz/+sqE18NwAn+um9jY67PYie9EX6emezTXjgKI0lx239q?=
- =?us-ascii?Q?EvpH9VB0YG8tx4t3sij38K+YS3OSdpEsz+hjkz8OjguhvFYNc/6lJlHWwFut?=
- =?us-ascii?Q?Kv9SU8bXN8NLegmh2j6sIR++dZ+S/61AytIgfwVkOxkClbPxuQZ5chWt7cy2?=
- =?us-ascii?Q?sqhCQwFRP9opoLw9JKXYUNKfoLm41bubzYIKhsOVi0USjn0fND+/S10Wu37n?=
- =?us-ascii?Q?y6ewhm2rTZRMaMzVgMA5Y3YKJ8ZmLxzYgNXi9rjZ2rQ1dITY8vK8wMSdDUAc?=
- =?us-ascii?Q?a95mecUxrgnGNH9rnkq0K7SiLKfoB2NxjgN7nkIHqJqexfGlo5EqNKHAzJPq?=
- =?us-ascii?Q?mgHjHOULnIaKss8GAIZXx10qVjgZ7omC/1XnGTDmdnDXKF4K99ojSPUMNyX8?=
- =?us-ascii?Q?AWQckiR9kdRvaiPhlrpHKYuI/LaqeM+Pe9gOTmHarXLX2W8qQlqf+uHk1HWm?=
- =?us-ascii?Q?xqX//iqpDc2sDpw19yzjOuFKlO0QsmOLAresFzNLhrUwjst5xGTNMlsSQRnf?=
- =?us-ascii?Q?ku6WRELQQEj8kL5rze4XMRY/56CfMgY1oehilR+1El1c1RDMbN3LkmN5zh3Z?=
- =?us-ascii?Q?IzKMTi8hXqhWndSnEYgwQ15VBToWwXl7tcQIky3j4KtlXZW9virEfku3DmbY?=
- =?us-ascii?Q?1XaH2AaAES1G8KFIkY59Qn2M5OMZmCrZA3mZXVKSmlhtx+2Xobq+W7gj5iVn?=
- =?us-ascii?Q?0ivafjoRPIjdwlAN3JTuT2lW0g3BEnJARLITFZRj?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e26ff1f-bfd7-469a-09ca-08dd340709dd
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 19:18:19.2661
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xe0eYyHTPxzV7n5zAfz1dU1NDQhtZdAdX9qZFsv48VGM+mJV9/yfEJYNqsdHkiiI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6091
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250113084503.228037-1-evepolonium@gmail.com>
 
-On Mon, Jan 13, 2025 at 11:15:21AM -0800, Nicolin Chen wrote:
-> On Mon, Jan 13, 2025 at 03:06:41PM -0400, Jason Gunthorpe wrote:
-> > On Mon, Jan 13, 2025 at 11:01:10AM -0800, Nicolin Chen wrote:
-> > 
-> > > +/* This is basically iommu_vevent_arm_smmuv3 in u64 for conversion */
-> > > +struct arm_vsmmu_evt {
-> > > +	union {
-> > > +		u64 evt[EVTQ_ENT_DWORDS];
-> > > +		struct iommu_vevent_arm_smmuv3 uevt;
-> > > +	};
-> > > +};
-> > 
-> > This doesn't seem right, don't make unions like this
-> 
-> This is copied from the invalidate union though... Any reason why
-> this is no longer good for evt v.s. cmd?
+Hi Atharva,
 
-In that case it was trying to be really optimal and copy in place,
-here we don't care so much..
+kernel test robot noticed the following build errors:
 
-Jason
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.13-rc7 next-20250113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Atharva-Tiwari/hwmon-Add-T2-Mac-fan-control-support-in-applesmc-driver/20250113-164741
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250113084503.228037-1-evepolonium%40gmail.com
+patch subject: [PATCH v3] hwmon: Add T2 Mac fan control support in applesmc driver
+config: i386-buildonly-randconfig-002-20250114 (https://download.01.org/0day-ci/archive/20250114/202501140359.tA17RgoT-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501140359.tA17RgoT-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501140359.tA17RgoT-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hwmon/applesmc.c:517:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     517 |         u8 sign = FIELD_GET(BIT(31), d);
+         |                   ^
+>> drivers/hwmon/applesmc.c:536:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     536 |         return FIELD_PREP(BIT_MASK(8) << 23, exp) |
+         |                ^
+   2 errors generated.
+
+
+vim +/FIELD_GET +517 drivers/hwmon/applesmc.c
+
+   514	
+   515	static inline u32 applesmc_float_to_u32(u32 d)
+   516	{
+ > 517		u8 sign = FIELD_GET(BIT(31), d);
+   518		s32 exp = FIELD_GET(BIT_MASK(8) << 23, d) - 0x7F;
+   519		u32 fr = d & ((1u << 23) - 1);
+   520	
+   521		if (sign || exp < 0)
+   522			return 0;
+   523	
+   524		return BIT(exp) + (fr >> (23 - exp));
+   525	}
+   526	
+   527	static inline u32 applesmc_u32_to_float(u32 d)
+   528	{
+   529		u32 dc = d, bc = 0, exp;
+   530	
+   531		if (!d)
+   532			return 0;
+   533		while (dc >>= 1)
+   534			++bc;
+   535		exp = 0x7F + bc;
+ > 536		return FIELD_PREP(BIT_MASK(8) << 23, exp) |
+   537				(d << (23 - (exp - 0x7F)) & BIT_MASK(23));
+   538	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
