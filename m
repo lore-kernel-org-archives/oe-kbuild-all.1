@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34EF1BDCF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 22:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CEC1CAA9F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 22:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736805672; cv=none; b=PtrCsEi9nP90HyovCJAn/aPdZY25ATvEExaTAZpVFMZhVZ+AMAIneCxdqx+rtiS9c0qiuheq5V9Op0weLQFCHP6GWrwRn1+G2TBitqpFsYYkVbnfLQujq3YIps44tY4I3xbdSlvsa9xKHsTdgTFOF6tEsZc0Fjpt3V4aye+ZCU4=
+	t=1736808810; cv=none; b=Aa9UmMvsoNJD1LDvLXyxdfjKC1INCqc6sbQXG7nLLP/4SuoaMnFi7ZXwvf+ra6djcSyUn2P7k33jcfhlrB4u3rTVIvLC9SpO7HO3x1Dfw1jtFDHfYa6QWhGrUAEOG5dekPVQUQixVqPOVlVopjs7yxnJ9aj4ZX8k0nGe2eHt4Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736805672; c=relaxed/simple;
-	bh=moY9TlEl+wOsN+EtTp06fWc0zut0Hfa8HsbnqNmI+tc=;
+	s=arc-20240116; t=1736808810; c=relaxed/simple;
+	bh=ZwN2LXS9kIGC3iCz3z9a7MIDX97m5qk4PcYBccWGdHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qzQ7V/9TLkAEVezpf60FYMhU+5AXf4JBDJPV3/09/v1VXtMaxehOItk8o1TwUqHNQABg5K/lahDJnwbBiIe1YGty88gHczSljt9pgCgj4PzIDH48cQNH5M1xh9OQr37rGF0Uf5cFTKPesRBmoDF5PndHUIKqSGhkWHUZ7qMks18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KT9N0X0V; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=CIjNwlevUGCExsa0t4sm00O6Mu0W9cDLCgEsbEFOT0+2QUAIvnIUP5Ns7kACl8nV6q5m4FpdH/9m6DJZSRGEKHb/5UPcHh5T6tJYIs3SmIoxOGf3hagI+I0rcJRz44sAgzH0DpX3mZ6aDMIjAJcacV7ssRpRckAuvJQe33W0lyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQBLMViW; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KT9N0X0V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQBLMViW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736805670; x=1768341670;
+  t=1736808808; x=1768344808;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=moY9TlEl+wOsN+EtTp06fWc0zut0Hfa8HsbnqNmI+tc=;
-  b=KT9N0X0VY+vZaeBUy/GF6abM5F+w8N3Yt82iaU5En1b4MvMPVU+miuYl
-   JWB2y01t74LpRYmas6lmtq9FE4MGxADHFYyVYhBiYUbVpY+wjlYLDLc5q
-   hOvgLXA3OOCljNu2f/2iam/Op17+iKzpozBWAByznYBqt1NX3AoktQMCL
-   TfSalRmOMaOkWMfD54fPJFKK47ZZOfbsIOecyvJywKJSNYpIdPWhnqE3t
-   OUaV8lFKlDyoLGvg7JKvlWNHx+MmjreY0VNx/r5h+pGXrCmlsZsOkW3Qh
-   BsrzO9XAZSGyjPE9eR8ewjvdX5vOMX75zPd/LeYYKbLri6a9OCGzl0p61
-   g==;
-X-CSE-ConnectionGUID: WnJcHFVzS5i4dv2yGaJF/A==
-X-CSE-MsgGUID: eZQ1CONXQ/+HtozzMwIZrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37202684"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="37202684"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 14:01:10 -0800
-X-CSE-ConnectionGUID: 0S/zfiizRVil/UnnrwpIpw==
-X-CSE-MsgGUID: ySjUptFyQ8WfAUNTvTuIHw==
+  bh=ZwN2LXS9kIGC3iCz3z9a7MIDX97m5qk4PcYBccWGdHM=;
+  b=fQBLMViWPBTPx2MF8N++BreIRFjPYQSEKehFdQm3W3xIDXtbQ8m2B+f3
+   IvZFzpFi69PNKo1fGtCKvDNIJ6/ac2HW/++VeFHo10DimwcAcZ5foBE5m
+   Q7YenY+3P27gQ0GUnHH2Dc+KSGcbzuurHZF8Lr8wTa2DBGkMJXvxRLuNW
+   PkjufWmVu0J8Yg43NJBSwfwQVR7Y+gZJeDCuZNRz+j++YhlBBhTXkckQ0
+   LV3Ub3+MPtFRhjyNYUscXSrWqDdoO1Nd9n8MvhejvTVBYVBssehz40Zny
+   CBW8II0fahNWDUAiHBglTXLOe+lITOvZXXfbgBRZOMn9mvum2MqRC1hu+
+   w==;
+X-CSE-ConnectionGUID: ry4TDH4gRWW+7UezFX0/Gg==
+X-CSE-MsgGUID: ZPo89l8MQk2HtGBwdi8wEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="36304158"
+X-IronPort-AV: E=Sophos;i="6.12,312,1728975600"; 
+   d="scan'208";a="36304158"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 14:53:27 -0800
+X-CSE-ConnectionGUID: 9n8tNJsSR9q/Ab+czMfv5Q==
+X-CSE-MsgGUID: JrtqyQxmRPCeX5bo7GByjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,312,1728975600"; 
-   d="scan'208";a="104438016"
+   d="scan'208";a="109604059"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2025 14:01:07 -0800
+  by orviesa004.jf.intel.com with ESMTP; 13 Jan 2025 14:53:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXSUb-000Njn-2V;
-	Mon, 13 Jan 2025 22:01:05 +0000
-Date: Tue, 14 Jan 2025 06:00:21 +0800
+	id 1tXTJD-000Nnb-16;
+	Mon, 13 Jan 2025 22:53:23 +0000
+Date: Tue, 14 Jan 2025 06:52:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yangxiangkai <yangxiangkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1823/1823]
- include/../drivers/pci/msi/msi.h:113:57: warning: declaration of 'struct
- msix_entry' will not be visible outside of this function
-Message-ID: <202501140558.Dz2Pe9bS-lkp@intel.com>
+To: Petlozu Pravareshwar <petlozup@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thierry Reding <treding@nvidia.com>,
+	Stefan Kristiansson <stefank@nvidia.com>
+Subject: drivers/soc/tegra/pmc.c:467: warning: Function parameter or struct
+ member 'syscore' not described in 'tegra_pmc'
+Message-ID: <202501140603.IQ8IFrQC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +64,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4fbc633527d173d6e350da6be39009c6a449a802
-commit: ad540a13eb8292fc92651b3bf281088a502a85f9 [1823/1823] virtcca feature: fix msi iova map
-config: arm64-randconfig-004-20250114 (https://download.01.org/0day-ci/archive/20250114/202501140558.Dz2Pe9bS-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501140558.Dz2Pe9bS-lkp@intel.com/reproduce)
+Hi Petlozu,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c45323b7560ec87c37c729b703c86ee65f136d75
+commit: 1ddb8f6d44ff482c9953a06f800453bc372cfead soc/tegra: pmc: Fix dual edge triggered wakes
+date:   2 years, 2 months ago
+config: arm-randconfig-004-20250102 (https://download.01.org/0day-ci/archive/20250114/202501140603.IQ8IFrQC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501140603.IQ8IFrQC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501140558.Dz2Pe9bS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501140603.IQ8IFrQC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/coda/coda_pci.c:5:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2243:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/coda/coda_pci.c:8:
->> include/../drivers/pci/msi/msi.h:113:57: warning: declaration of 'struct msix_entry' will not be visible outside of this function [-Wvisibility]
-     113 | int __pci_enable_msix_range(struct pci_dev *dev, struct msix_entry *entries, int minvec,
-         |                                                         ^
-   6 warnings generated.
+>> drivers/soc/tegra/pmc.c:467: warning: Function parameter or struct member 'syscore' not described in 'tegra_pmc'
 
 
-vim +113 include/../drivers/pci/msi/msi.h
+vim +467 drivers/soc/tegra/pmc.c
 
-897a0b6aa8c7ee Ahmed S. Darwish 2022-11-11  107  
-b12d0bec385b7a Ahmed S. Darwish 2022-11-11  108  /* MSI internal functions invoked from the public APIs */
-b12d0bec385b7a Ahmed S. Darwish 2022-11-11  109  void pci_msi_shutdown(struct pci_dev *dev);
-18e1926b8c8b7c Ahmed S. Darwish 2022-11-11  110  void pci_msix_shutdown(struct pci_dev *dev);
-b12d0bec385b7a Ahmed S. Darwish 2022-11-11  111  void pci_free_msi_irqs(struct pci_dev *dev);
-bbda3407982211 Ahmed S. Darwish 2022-11-11  112  int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec, struct irq_affinity *affd);
-be7496c1ef47e1 Ahmed S. Darwish 2022-11-11 @113  int __pci_enable_msix_range(struct pci_dev *dev, struct msix_entry *entries, int minvec,
-be7496c1ef47e1 Ahmed S. Darwish 2022-11-11  114  			    int maxvec,  struct irq_affinity *affd, int flags);
-57127da98bc876 Ahmed S. Darwish 2022-11-11  115  void __pci_restore_msi_state(struct pci_dev *dev);
-57127da98bc876 Ahmed S. Darwish 2022-11-11  116  void __pci_restore_msix_state(struct pci_dev *dev);
-b12d0bec385b7a Ahmed S. Darwish 2022-11-11  117  
+5f84bb1a4099e2 Sandipan Patra       2018-10-24  383  
+7232398abc6a71 Thierry Reding       2014-07-11  384  /**
+7232398abc6a71 Thierry Reding       2014-07-11  385   * struct tegra_pmc - NVIDIA Tegra PMC
+35b67291b4a85d Jon Hunter           2015-12-04  386   * @dev: pointer to PMC device structure
+7232398abc6a71 Thierry Reding       2014-07-11  387   * @base: pointer to I/O remapped register region
+bbe5af60041cae Thierry Reding       2019-01-25  388   * @wake: pointer to I/O remapped region for WAKE registers
+bbe5af60041cae Thierry Reding       2019-01-25  389   * @aotag: pointer to I/O remapped region for AOTAG registers
+bbe5af60041cae Thierry Reding       2019-01-25  390   * @scratch: pointer to I/O remapped region for scratch registers
+7232398abc6a71 Thierry Reding       2014-07-11  391   * @clk: pointer to pclk clock
+35b67291b4a85d Jon Hunter           2015-12-04  392   * @soc: pointer to SoC data structure
+e247deae1a5508 Mikko Perttunen      2019-01-25  393   * @tz_only: flag specifying if the PMC can only be accessed via TrustZone
+3195ac6d9cbeef Jon Hunter           2015-12-04  394   * @debugfs: pointer to debugfs entry
+7232398abc6a71 Thierry Reding       2014-07-11  395   * @rate: currently configured rate of pclk
+7232398abc6a71 Thierry Reding       2014-07-11  396   * @suspend_mode: lowest suspend mode available
+7232398abc6a71 Thierry Reding       2014-07-11  397   * @cpu_good_time: CPU power good time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  398   * @cpu_off_time: CPU power off time (in microsecends)
+7232398abc6a71 Thierry Reding       2014-07-11  399   * @core_osc_time: core power good OSC time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  400   * @core_pmu_time: core power good PMU time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  401   * @core_off_time: core power off time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  402   * @corereq_high: core power request is active-high
+7232398abc6a71 Thierry Reding       2014-07-11  403   * @sysclkreq_high: system clock request is active-high
+7232398abc6a71 Thierry Reding       2014-07-11  404   * @combined_req: combined power request for CPU & core
+7232398abc6a71 Thierry Reding       2014-07-11  405   * @cpu_pwr_good_en: CPU power good signal is enabled
+7232398abc6a71 Thierry Reding       2014-07-11  406   * @lp0_vec_phys: physical base address of the LP0 warm boot code
+7232398abc6a71 Thierry Reding       2014-07-11  407   * @lp0_vec_size: size of the LP0 warm boot code
+a38045121bf421 Jon Hunter           2016-03-30  408   * @powergates_available: Bitmap of available power gates
+7232398abc6a71 Thierry Reding       2014-07-11  409   * @powergates_lock: mutex for power gate register access
+bbe5af60041cae Thierry Reding       2019-01-25  410   * @pctl_dev: pin controller exposed by the PMC
+bbe5af60041cae Thierry Reding       2019-01-25  411   * @domain: IRQ domain provided by the PMC
+bbe5af60041cae Thierry Reding       2019-01-25  412   * @irq: chip implementation for the IRQ domain
+e57a243f5d896f Dmitry Osipenko      2019-09-26  413   * @clk_nb: pclk clock changes handler
+d3a20dcbca4880 Thierry Reding       2022-05-06  414   * @core_domain_state_synced: flag marking the core domain's state as synced
+d3a20dcbca4880 Thierry Reding       2022-05-06  415   * @core_domain_registered: flag marking the core domain as registered
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  416   * @wake_type_level_map: Bitmap indicating level type for non-dual edge wakes
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  417   * @wake_type_dual_edge_map: Bitmap indicating if a wake is dual-edge or not
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  418   * @wake_sw_status_map: Bitmap to hold raw status of wakes without mask
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  419   * @wake_cntrl_level_map: Bitmap to hold wake levels to be programmed in
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  420   *     cntrl register associated with each wake during system suspend.
+7232398abc6a71 Thierry Reding       2014-07-11  421   */
+7232398abc6a71 Thierry Reding       2014-07-11  422  struct tegra_pmc {
+3568df3d31d62b Mikko Perttunen      2015-01-06  423  	struct device *dev;
+7232398abc6a71 Thierry Reding       2014-07-11  424  	void __iomem *base;
+c641ec6eab8587 Thierry Reding       2017-08-30  425  	void __iomem *wake;
+c641ec6eab8587 Thierry Reding       2017-08-30  426  	void __iomem *aotag;
+5be2255676bf2b Thierry Reding       2017-08-30  427  	void __iomem *scratch;
+7232398abc6a71 Thierry Reding       2014-07-11  428  	struct clk *clk;
+3195ac6d9cbeef Jon Hunter           2015-12-04  429  	struct dentry *debugfs;
+7232398abc6a71 Thierry Reding       2014-07-11  430  
+7232398abc6a71 Thierry Reding       2014-07-11  431  	const struct tegra_pmc_soc *soc;
+e247deae1a5508 Mikko Perttunen      2019-01-25  432  	bool tz_only;
+7232398abc6a71 Thierry Reding       2014-07-11  433  
+7232398abc6a71 Thierry Reding       2014-07-11  434  	unsigned long rate;
+7232398abc6a71 Thierry Reding       2014-07-11  435  
+7232398abc6a71 Thierry Reding       2014-07-11  436  	enum tegra_suspend_mode suspend_mode;
+7232398abc6a71 Thierry Reding       2014-07-11  437  	u32 cpu_good_time;
+7232398abc6a71 Thierry Reding       2014-07-11  438  	u32 cpu_off_time;
+7232398abc6a71 Thierry Reding       2014-07-11  439  	u32 core_osc_time;
+7232398abc6a71 Thierry Reding       2014-07-11  440  	u32 core_pmu_time;
+7232398abc6a71 Thierry Reding       2014-07-11  441  	u32 core_off_time;
+7232398abc6a71 Thierry Reding       2014-07-11  442  	bool corereq_high;
+7232398abc6a71 Thierry Reding       2014-07-11  443  	bool sysclkreq_high;
+7232398abc6a71 Thierry Reding       2014-07-11  444  	bool combined_req;
+7232398abc6a71 Thierry Reding       2014-07-11  445  	bool cpu_pwr_good_en;
+7232398abc6a71 Thierry Reding       2014-07-11  446  	u32 lp0_vec_phys;
+7232398abc6a71 Thierry Reding       2014-07-11  447  	u32 lp0_vec_size;
+a38045121bf421 Jon Hunter           2016-03-30  448  	DECLARE_BITMAP(powergates_available, TEGRA_POWERGATE_MAX);
+7232398abc6a71 Thierry Reding       2014-07-11  449  
+7232398abc6a71 Thierry Reding       2014-07-11  450  	struct mutex powergates_lock;
+4a37f11c8f57ff Aapo Vienamo         2018-08-10  451  
+4a37f11c8f57ff Aapo Vienamo         2018-08-10  452  	struct pinctrl_dev *pctl_dev;
+19906e6b166721 Thierry Reding       2018-09-17  453  
+19906e6b166721 Thierry Reding       2018-09-17  454  	struct irq_domain *domain;
+19906e6b166721 Thierry Reding       2018-09-17  455  	struct irq_chip irq;
+e57a243f5d896f Dmitry Osipenko      2019-09-26  456  
+e57a243f5d896f Dmitry Osipenko      2019-09-26  457  	struct notifier_block clk_nb;
+41bafa698ddd07 Dmitry Osipenko      2021-06-01  458  
+41bafa698ddd07 Dmitry Osipenko      2021-06-01  459  	bool core_domain_state_synced;
+41bafa698ddd07 Dmitry Osipenko      2021-06-01  460  	bool core_domain_registered;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  461  
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  462  	unsigned long *wake_type_level_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  463  	unsigned long *wake_type_dual_edge_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  464  	unsigned long *wake_sw_status_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  465  	unsigned long *wake_cntrl_level_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  466  	struct syscore_ops syscore;
+7232398abc6a71 Thierry Reding       2014-07-11 @467  };
+7232398abc6a71 Thierry Reding       2014-07-11  468  
 
-:::::: The code at line 113 was first introduced by commit
-:::::: be7496c1ef47e1ba8c4b389ee23178fcf066cc4e PCI/MSI: Move pci_enable_msix_range() to api.c
+:::::: The code at line 467 was first introduced by commit
+:::::: 7232398abc6a7186e315425638c367d50c674718 ARM: tegra: Convert PMC to a driver
 
-:::::: TO: Ahmed S. Darwish <darwi@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
