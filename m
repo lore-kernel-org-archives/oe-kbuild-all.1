@@ -1,328 +1,334 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1C8230D0B;
-	Mon, 13 Jan 2025 06:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736751202; cv=none; b=lL07IOevKHAKS68RFqQP/aglxjxggehqy+hikG215UCzXpCcWG/Zy2h2sJgVWy1WvVlxtkMAUpFXZ82EQWabdXMUoB7C3AxCGlViqtRSIYkzerlBFnR6aLILkzy+xsVMtkzUufT02MwFs6NXjTPIuBaC+6oARzxaN7HpeGtVpnI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736751202; c=relaxed/simple;
-	bh=ElOFKS/oFvpY9RMb8FNc82vYKk4BTq/9KyQTg2M/45o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mETzEq1wboEaIWuJndfA/ixHeKBzzIOzLkvpRjSlG65ghDI6p0wZHEpqfwXrO5jhUw0RnAQQe5BlfjXUqPjp/RyKwn3Bbxmo43/NAt2Y3Y1tu7eW1k+9Axo1Jz5LS5PxhS0eFIiwenqhP5NUqo3Ewx8K5cpS28YTkE96R+hf4j0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRKVWuN/; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAEF23312F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 07:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736753476; cv=fail; b=h+eH0hR93EkEu1scHzu+iXceebONvCLgNIZ52uI4l6aq+MY4sibgHk262u66r3z5/Uclts10ZSgwZk9oksP82JT57YgcQ2nW8YR2bxVWbfyiPbH6ZAFlPmcijwK3o5Qnxd39C3iPSZqaORs0TFNzranRasKMYS9aORZ2ey0b3yk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736753476; c=relaxed/simple;
+	bh=dU4XPyxc4fu48Sg0z6QTLS57BV8G9oslU2Hx6V1Y6sg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=t66ldLoJg3TSpcpoQZibw+Q1j7VSSnDm6ctD3nogW8GTDukPW4ON2ZlP1UFddMWUnyhRnGA6265KZ3lArjgWbAmYkucBY9CZhY36d0ZKmC/te8pUd6HSrs8FuFgfsjkq48UAlbAt/Pqp7br4fptYdBkJw26PbzcVvVGEupKNqhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ne/9qRsa; arc=fail smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRKVWuN/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ne/9qRsa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736751200; x=1768287200;
+  t=1736753474; x=1768289474;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ElOFKS/oFvpY9RMb8FNc82vYKk4BTq/9KyQTg2M/45o=;
-  b=jRKVWuN/6byds76xJIWSeow4Oi9hQBaOVjWCw6LTSbWtU0d7MPQe/I+m
-   8Ri+7LOdQJbtIyFvt2tsLK960hAdeFw2ZD9C2obNYPAR+lIh1UBdBQJyc
-   t/0MYym1lPa1hLbWEgWqRwmniqaqcNlxIHvCs/3uNtn4yhM4S637WcSOo
-   O1YxH5T4Y9bawZCIhL7QuIShwhV2WlCO0F3RmdrFtUjSaZoDZeruRo6QC
-   k8H1SChgl+Xqv5PU85TbXf3Uz7I+76fZPzl6+Z/ybPoN1pNTc5lGzf0pE
-   8vSz5EC6f2uLPR3+BaJTcU8FQSmjr7BZcrypP68F8NL/YRak3jJFt5YgJ
-   g==;
-X-CSE-ConnectionGUID: yZvM0vDPTmO8g6j9rLHsGg==
-X-CSE-MsgGUID: JaNNru4jQAmR9DnEQev7oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="36278959"
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=dU4XPyxc4fu48Sg0z6QTLS57BV8G9oslU2Hx6V1Y6sg=;
+  b=Ne/9qRsasdqR6iodmObtWNvWl2NzvyXaY5XxApKEMBfFQRALeKI0Fa0s
+   74mot4WaokGkVP8ENNpLe9pBTQpqVxc7vucAvCZVcZFF6HDofnuWybG+y
+   nNQECcRl5Orwg6pEdRBN/Vxov0xOyBmuLHrCLSHGqmpEjVoFy2x485tUm
+   5sGV8fnd36oDS2UKby+79yauAHSVK3ZO+fYVyAv8bAC/VN97DZ2/PCJBU
+   NBhGwNVxylNR3mAkdzffHn0KxIr+FUsfuqhIj2XWDL4iCfEtvk0vL9J5z
+   f2g5bpluLd0cLE9Q/eQ+YGavueDn59ZHI50nR4MA1WpiKaOYkz7dHkf3d
+   Q==;
+X-CSE-ConnectionGUID: lvwvyDznQVSBZCWaJb8Y2w==
+X-CSE-MsgGUID: j2EF78zISQOxPoICMYYO9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="24597666"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="36278959"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 22:53:19 -0800
-X-CSE-ConnectionGUID: S09VXZZlQym3XWivhV2RiQ==
-X-CSE-MsgGUID: sW9YO4M8Q0mRFxY5PIpqSg==
+   d="scan'208";a="24597666"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 23:31:13 -0800
+X-CSE-ConnectionGUID: no57AUL7RV+Hd+2mgAapgQ==
+X-CSE-MsgGUID: Cp5oqT+yS52QPn9k9dPPQg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="109364775"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2025 22:53:16 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tXEK2-000MpH-04;
-	Mon, 13 Jan 2025 06:53:14 +0000
-Date: Mon, 13 Jan 2025 14:52:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wenliang Yan <wenliang202407@163.com>, linux@roeck-us.net,
-	Jean Delvare <jdelvare@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Wenliang Yan <wenliang202407@163.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] hwmon:(ina238)Add support for SQ52206
-Message-ID: <202501131420.UQWnurXD-lkp@intel.com>
-References: <20250113035023.365697-3-wenliang202407@163.com>
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105252923"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Jan 2025 23:31:14 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Sun, 12 Jan 2025 23:31:12 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Sun, 12 Jan 2025 23:31:12 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.47) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Sun, 12 Jan 2025 23:31:12 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UJUJ1V5OiBWn3jYEetSQLvBhLFdVbQkSt/uS1hogKLv+sejjgiNmmshWsmK6dgX9lTQeQxElW8A+/ETK656QyzAaCZfh416/It1MnnHU5Xefb5invmYgcCR1KRbMW00JyLeuZFTPTS26UTjOLTdzmdZ0n1bkPujGWB/azOfOHSiROYFDwTCeumtDSwx2sqqPPL/4p2gWvCkZQ4EJo3Hzz7cMapgz6q+es6D77KPEbHwYx495JvlIcbtDciyzgQIqoIaLzq9md66ebvzkrCz7A/jwXOyuop2A4D0X1XmODhH8IDgtdTjYyvnwvOKHiU2bM49cgVMEHXE9iF+7gtHciA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DSAHmbT5TgNlLyQhTAsrWyQLVkCTeDjvhmbr+pqws/0=;
+ b=epMVh9DjKU3ETigg77/HvJV7JwJbPeW9KsHgxxdtYlKq57fmn7PrJfRRnJXSYAKWyPsX85e2O/E6jfeqD9wNlFdfkVH9dLhPXn9UvKpOi4xK/kMEBGr2t37r3PYSySH8JC3amOC8LbWNar26mk8v3TopGt/rAzVKoF1fVUrU4+/NJ4jRhVup0XL3thJaaILvdmBrTFmIfVbgH396LR6sKq6fHlTGcSHGwwqKTHWIO2UPdWm+ukk2IRbKqBwLIVQy6J4qGiGiu1PudyEHEqxY+k3M9aaUgf+rYvIEnZECheu0hFlHBI/g5gvflHl4W2+IVturYJEsVpBvRWTf/YbLMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by PH7PR11MB7430.namprd11.prod.outlook.com (2603:10b6:510:274::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.17; Mon, 13 Jan
+ 2025 07:31:10 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%3]) with mapi id 15.20.8335.015; Mon, 13 Jan 2025
+ 07:31:10 +0000
+Date: Mon, 13 Jan 2025 15:30:54 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Barry Song <21cnbao@gmail.com>
+CC: <lkp@intel.com>, <akpm@linux-foundation.org>, <anshuman.khandual@arm.com>,
+	<baolin.wang@linux.alibaba.com>, <bp@alien8.de>, <catalin.marinas@arm.com>,
+	<chrisl@kernel.org>, <dave.hansen@linux.intel.com>, <david@redhat.com>,
+	<gshan@redhat.com>, <hpa@zytor.com>, <ioworker0@gmail.com>,
+	<kasong@tencent.com>, <kirill.shutemov@linux.intel.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+	<oe-kbuild-all@lists.linux.dev>, <ryan.roberts@arm.com>,
+	<shahuang@redhat.com>, <tglx@linutronix.de>, <v-songbaohua@oppo.com>,
+	<wangkefeng.wang@huawei.com>, <will@kernel.org>, <x86@kernel.org>,
+	<ying.huang@intel.com>, <yosryahmed@google.com>, <zhengtangquan@oppo.com>,
+	<oliver.sang@intel.com>
+Subject: Re: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
+Message-ID: <Z4TBLhxvV6llCcWb@xsang-OptiPlex-9020>
+References: <202501061736.FoHcInHJ-lkp@intel.com>
+ <20250113005626.2290-1-21cnbao@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250113005626.2290-1-21cnbao@gmail.com>
+X-ClientProxiedBy: SG2PR02CA0083.apcprd02.prod.outlook.com
+ (2603:1096:4:90::23) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250113035023.365697-3-wenliang202407@163.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|PH7PR11MB7430:EE_
+X-MS-Office365-Filtering-Correlation-Id: f15f0ab6-73b8-4beb-7114-08dd33a44052
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QTJMb21kVzA5NkZqNkRuYUpDNnBIZFpSdG1SRklXV3ZCZjBjbVhqUGUxdzNO?=
+ =?utf-8?B?a1oxVlhaLzluVGt2dnExbStzRnJGTUdISDRRNFR5OEZoUTAxVE95V1NteGdw?=
+ =?utf-8?B?MFJSNEs5QldiWkU4dVdQU01aeWhiODhGYiswYnc5aStETEV2ajJDM2s1ZGRj?=
+ =?utf-8?B?NTRnTlFrbENEMUxxejZmVXEvMW9VZDNYbzVkQUdUWnZCN2pjWkVYVUtkWHZs?=
+ =?utf-8?B?dTZQOFhDRWlrclQxOWRBTTZLa0ErblZjR25BR3dJNVBqMzRCMDFyY3VDaHN0?=
+ =?utf-8?B?dDVkMGRzUTBBbno2aUpKRzRodjI3MDBTM0RmY2RBZkpxTUErSWpjQ0MzUkpn?=
+ =?utf-8?B?ZnhsajEydkxPQzJ6NEI4SW9XbUxKQ3ZHZmV5c21ubXJQRUl2NzJqWFMvR1JC?=
+ =?utf-8?B?c1RydWNscGYrNTVUVGhwZkt6aEg3RWI4NWUrT3VtRlVmaFo5UWUzdjlWTDV1?=
+ =?utf-8?B?ODFkKzl5STdvVEp4VmQ5amhMNTMzYll6TGlYcS9FVkZsNUtBOG9CQlRiN0ll?=
+ =?utf-8?B?TUl0ampyZjNyd3lnSjhEMTlqcXdqZjA0bGpYZExYQ2YvUURselBXanFOL0po?=
+ =?utf-8?B?TjNGeU1nSisyQ3NDbHNydStEa254WG9zUGNBdmNTd0NKTTJsV0xucERpc2Q0?=
+ =?utf-8?B?NjA2dXBoMWgzL3lSb2hXSHRWalMxM1p0ZTRnRVJSMWFrK2xqZnltRGxWU0Nu?=
+ =?utf-8?B?ZndOQVJ2NVU3b01zVGJGc29URlNDRkhMeHN1a0Q3UEFzMUlpcklFY0VBSUJX?=
+ =?utf-8?B?NjAyYTVuTXkrSlVOSUZjcVhYRm5uZTltYmRJTS9MR2VzOHJxNTVMUHQxcDR3?=
+ =?utf-8?B?SXNSbjdOeXhrWU9hRTlueXZHb2ZnTjhuWGJmUUZDWnhWNndlQ1c2NytvdGtm?=
+ =?utf-8?B?dlBNdHRHRlI3QUhFNHZ6THNHd3VSWTBlK2ZhMzlTbm02NzBZajJ4T2lVMUZI?=
+ =?utf-8?B?c2JYODhDa3ArNGNOemhOQW1ERHIvV1BPTlJxSis4VjZ4dHJJaU0rVGRnNWcw?=
+ =?utf-8?B?VGpiYm5kTGZ2NDVrMHgzdFN4a085UlNQZTQ5NnJ3djhyVE5jZnJSWlREdEpU?=
+ =?utf-8?B?Y0UrK0tNNExQWFpUdVFXVGg1U2Vra2FZK0pqSmd6Ymp3RktCVDNra3dzRUE2?=
+ =?utf-8?B?dXVaSDRJN2ZPbWJXaUJzNVRXTEllVWZ6cktYK0FUenh1N2NhM1gyb2VGcUI3?=
+ =?utf-8?B?N1FIdVR3ZkNoamRwSTJLRVBnMjlJcml0dmp1RGJMUWZnaktUOXZobEZ4eVFw?=
+ =?utf-8?B?YXljV3NhRzh4RHp6eWkrR3U1MG5iWlJ3N1luY2JhUm1NMjZxc3BFSWdTajEx?=
+ =?utf-8?B?VXdCckhIMktCTkVlbmEvL05oaWJ1WUw4ZTljSEpRbzZtSmxZUEZUZ21zUm92?=
+ =?utf-8?B?eG5QQjFrRXBkOXlrcStDaEl3ZHQrbEFCQ01ZWmpHdUhvVmhvOHB2ZlR5T3ky?=
+ =?utf-8?B?LzJrcHNITWtGWk8wL0srV0NZaVNDUUNIYXhUcWw1WWVWZ0F0NlM0YUFuSGtz?=
+ =?utf-8?B?K3U0TjVSVmZ2cnBHZ21UTjBLNnI5c291amxwVTJXbThscmdnRXhudDduRlBY?=
+ =?utf-8?B?L2lsbG1yQWtRckxNM2ZPamd5T3NwWW1VUGhVb0ttcHpJSTdIc1ArUXFLVzl5?=
+ =?utf-8?B?TE1lSTlrSDMrRXRBVHJJZld6QVNMYWJjTTZISXhRSisvU2xhQzlnU2FadjRV?=
+ =?utf-8?B?TitSeFVYV3daZFFRVXp1UnN4aExzcXE5THlwQWRnOUV3NzJKeEhhVFlYWHQ1?=
+ =?utf-8?B?TllxajJTYThWTm5kbTBSWnZQY1VaODk3aER3SVVMRkpFMFc0ejRnU3duWmRQ?=
+ =?utf-8?B?aWp3eWxEdWZ4WjRrSUV1UT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVpXYjlUTmFzMUNoZVJzTGN4SG5Kbzh1ZHRlZWlrQ0h3bWxpaFkrV0d5Sk15?=
+ =?utf-8?B?ZnVxbDVLdUl5c1ZMdk5DL1Vid2l6THlKZHhKRHU5azh6K2VCOE5YNU5QRmtr?=
+ =?utf-8?B?WmdsLy9YbVlZU3lCcE1SMW5KcXNkcnhpOUQvYkdPbG9vcnJPV1pkUVFSUTBY?=
+ =?utf-8?B?SmU3UjkzVkpkSWJPTjNpYWs5TGdBMEVOOEZCUDh4RndlSW4vUXFtcUl5enIz?=
+ =?utf-8?B?dk4zOE5FWTUzcGRmak9BZ1poRGplZHNhbU8waVRIelI5RDZhUSt1cWFwZkQy?=
+ =?utf-8?B?OEhMdDNXbEtjZ2NpRlNJNlRKdVZaMWk0UFRrTlh1Q3krcDNMZkx6UnFCL1RW?=
+ =?utf-8?B?Ujg1WkxBaU95R1NHWWE0UXk2cWc0VDNiS0Z3NzI5VzcwSEpJTTBKRFkveUhk?=
+ =?utf-8?B?WmNOQzViUDVlZEpxdVAwQzJ1dzYrRklzTlRYZE0xYmlGdHhFU0crZ2l1UFhP?=
+ =?utf-8?B?WkhRT1A5cWNXNERTQ1o3WVRVUUgrZ1dYY25SMWpjRVVNWU5pVmZPVHRLT3h2?=
+ =?utf-8?B?aUNWQlVRaGZiYVB4aGl3Y1crRndzTkJjRXA0Q3cvN3hJdEhBK0FKeWhlaGtq?=
+ =?utf-8?B?Q1hOVEtmc25YTklKY1NxZGxjQWgwaFFHK2Nyb3U0elJlVk9Dd0xHMkxlR09R?=
+ =?utf-8?B?OGVvc1VsdEhWZFA4MmE5MmNvck9xRTZ5R3FqTFI3US9CeEhMeWQ0Z0lHV2Vw?=
+ =?utf-8?B?N0FTdmJGUmlLWVNiWkFmc2lFUlIrcTV0Zy92Z3poaDJHTzlaTUQ0WFAzRSt0?=
+ =?utf-8?B?QnJXQWRoZ2ZXMmNLWWh4aDJiL3hzbTFvRkFPYmpRZFRJbFNUZS80VDNhVzBI?=
+ =?utf-8?B?K3B3TVI0WE13UlZjRk9IRFhrc1VNejU0SXhydXFjVDA0ckNySWZ2c0F2Y2hm?=
+ =?utf-8?B?VERwZjZKM0NPWWwxdzdxWk4wQmxJWUowdDRGeGVmK3ZKeWF3WmVKNVJXMlhh?=
+ =?utf-8?B?NXRuT081M283VjVkMmhSS0czK2JJRVRiTUROQzRWY1plOXpxRkFxVnc0N2dY?=
+ =?utf-8?B?eTVlOWNVZnRCNVAvdGJUZTFjRmowVnQ2eUFVbWdtYkF3MzJvMGE5K2R0ZzVU?=
+ =?utf-8?B?ait2emIrazM1T3dwTkFHdmF3Y0tNZUlYY2lQSDVkZTAvd1R0V2luWEJlUmQw?=
+ =?utf-8?B?OTZDckxTNmZ0UkQ2bjZuL2F6VkxpbDhxWUx6SDVjaEhyR1Q3SWU5UWNyNHRG?=
+ =?utf-8?B?KzRGZjAvKzB3VEdFY0Rid09zYitqbFViM3VPRG9CVWxycWNNVFVhRjBPNlor?=
+ =?utf-8?B?K05VYStOSGRoREZkRzdFRXlkNG9BN2FXcCtndFZ1WVcrT0kxZTI3YXl3MVQv?=
+ =?utf-8?B?UUdLVTVnb29lUkNsaHBiRVNPUFRiWUNOYjFsU25qTCszOHlQYmFDdkxzOG4v?=
+ =?utf-8?B?RHVLelVOWEYvSVhJRnI3MWtobTk0OU1lNHdiNXFRZVZiYzZleXFvVDJaT2NP?=
+ =?utf-8?B?Q2gwVHdiSEVvcDNWdm5WN2xKc2dKWUVyTEUzcDBJOXlNKzhUZVdKSlRZMVlQ?=
+ =?utf-8?B?V3REY2FJTTNNRnYzYXpzVDB6dGVYU0hHVFB4YWMrdXVXYVNvdXU5dnJOVDRL?=
+ =?utf-8?B?MzVNdXduNS9iV2dGajl1Q2ZRWUFSc08xSmlPNXdNaG9Yei9zM0pCT2xjbGJw?=
+ =?utf-8?B?VXpYUXNXdlRQVmpWNWNLUmh6aXJwR1hVNTc2aTZ0U0lHRUhvZG1hdDh5T053?=
+ =?utf-8?B?b0FNL1I2Q1czVHdtOGIxMzNBSHBnVlR2cFoxdTB4aFkrd3JJMkpyMFVNU3Rp?=
+ =?utf-8?B?aVNtN21IWGY4d1JjR1R6alN5SmExMjVqS3N6TXpkS3BOMkxEVDdPc1M5NCta?=
+ =?utf-8?B?TUsxNnI5anVGRUwzMWRvaFBGcW40dWpoazU3eG5FY2g4NjJkTjRBMk40RFVZ?=
+ =?utf-8?B?M2JFcHQ2SGNTeDhPUnJPa1hlR2RNTTA2U3BoTXJsL3d1cExJK0gxZVIzRXRD?=
+ =?utf-8?B?dXUraXVCZXRBdDRZWGdHZEVRYWhnTFQ3aENOeEhtcDdpRkplcGRvaDdidTNT?=
+ =?utf-8?B?N24rMnZ6YktPdnozRmx0dUkxY3pKRDhITGtZa2s3MW4rOXM0TVcrLzJ1Y1Uz?=
+ =?utf-8?B?RWVoNHRPZTREbCtiUkd5N2kvcXArUUZubnBwakRadkZ0VjdiNlMvN0o0Z3Vs?=
+ =?utf-8?B?cDNTSHVCdUNsUUVQWHZiWTdsM01BOUJ0NDZvTWZ1Z1Bzc2xoVUExczg3dmZQ?=
+ =?utf-8?B?NlE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f15f0ab6-73b8-4beb-7114-08dd33a44052
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 07:31:10.4365
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Azngqi0JDGtd2uorWJgJOBV4t+4eIDY+dU1rFhRYUAdiD2Sw6DyXpLbuaAJNkKi51ndZ6eevrCk5V8xdY6+enw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7430
+X-OriginatorOrg: intel.com
 
-Hi Wenliang,
+hi, Barry,
 
-kernel test robot noticed the following build warnings:
+On Mon, Jan 13, 2025 at 01:56:26PM +1300, Barry Song wrote:
+> On Mon, Jan 6, 2025 at 11:08 PM kernel test robot <lkp@intel.com> wrote:
+> >
+> > Hi Barry,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on akpm-mm/mm-everything]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-set-folio-swapbacked-iff-folios-are-dirty-in-try_to_unmap_one/20250106-112638
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> > patch link:    https://lore.kernel.org/r/20250106031711.82855-3-21cnbao%40gmail.com
+> > patch subject: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
+> > config: riscv-randconfig-001-20250106 (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/config)
+> > compiler: riscv64-linux-gcc (GCC) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501061736.FoHcInHJ-lkp@intel.com/
+> >
+> 
+> Sorry. My bad, does the below diff fix the build?
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.13-rc7 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+yes, below diff fixes the build. thanks
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenliang-Yan/dt-bindings-Add-SQ52206-to-ina2xx-devicetree-bindings/20250113-115457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250113035023.365697-3-wenliang202407%40163.com
-patch subject: [PATCH v2 2/2] hwmon:(ina238)Add support for SQ52206
-config: i386-buildonly-randconfig-004-20250113 (https://download.01.org/0day-ci/archive/20250113/202501131420.UQWnurXD-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501131420.UQWnurXD-lkp@intel.com/reproduce)
+Tested-by: kernel test robot <oliver.sang@intel.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501131420.UQWnurXD-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/hwmon/ina238.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hwmon/ina238.c:594:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     594 |         case hwmon_temp:
-         |         ^
-   drivers/hwmon/ina238.c:594:2: note: insert '__attribute__((fallthrough));' to silence this warning
-     594 |         case hwmon_temp:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   drivers/hwmon/ina238.c:594:2: note: insert 'break;' to avoid fall-through
-     594 |         case hwmon_temp:
-         |         ^
-         |         break; 
->> drivers/hwmon/ina238.c:702:3: warning: add explicit braces to avoid dangling else [-Wdangling-else]
-     702 |                 else if (data->gain == 2)
-         |                 ^
-   3 warnings generated.
-
-
-vim +594 drivers/hwmon/ina238.c
-
-eacb52f010a807 Nathan Rossi        2021-11-02  552  
-eacb52f010a807 Nathan Rossi        2021-11-02  553  static umode_t ina238_is_visible(const void *drvdata,
-eacb52f010a807 Nathan Rossi        2021-11-02  554  				 enum hwmon_sensor_types type,
-eacb52f010a807 Nathan Rossi        2021-11-02  555  				 u32 attr, int channel)
-eacb52f010a807 Nathan Rossi        2021-11-02  556  {
-f08436905922ae Wenliang Yan        2025-01-13  557  	const struct ina238_data *data = drvdata;
-f08436905922ae Wenliang Yan        2025-01-13  558  	bool has_power_highest = data->config->has_power_highest;
-f08436905922ae Wenliang Yan        2025-01-13  559  
-eacb52f010a807 Nathan Rossi        2021-11-02  560  	switch (type) {
-eacb52f010a807 Nathan Rossi        2021-11-02  561  	case hwmon_in:
-eacb52f010a807 Nathan Rossi        2021-11-02  562  		switch (attr) {
-eacb52f010a807 Nathan Rossi        2021-11-02  563  		case hwmon_in_input:
-eacb52f010a807 Nathan Rossi        2021-11-02  564  		case hwmon_in_max_alarm:
-eacb52f010a807 Nathan Rossi        2021-11-02  565  		case hwmon_in_min_alarm:
-eacb52f010a807 Nathan Rossi        2021-11-02  566  			return 0444;
-eacb52f010a807 Nathan Rossi        2021-11-02  567  		case hwmon_in_max:
-eacb52f010a807 Nathan Rossi        2021-11-02  568  		case hwmon_in_min:
-eacb52f010a807 Nathan Rossi        2021-11-02  569  			return 0644;
-eacb52f010a807 Nathan Rossi        2021-11-02  570  		default:
-eacb52f010a807 Nathan Rossi        2021-11-02  571  			return 0;
-eacb52f010a807 Nathan Rossi        2021-11-02  572  		}
-eacb52f010a807 Nathan Rossi        2021-11-02  573  	case hwmon_curr:
-eacb52f010a807 Nathan Rossi        2021-11-02  574  		switch (attr) {
-eacb52f010a807 Nathan Rossi        2021-11-02  575  		case hwmon_curr_input:
-eacb52f010a807 Nathan Rossi        2021-11-02  576  			return 0444;
-eacb52f010a807 Nathan Rossi        2021-11-02  577  		default:
-eacb52f010a807 Nathan Rossi        2021-11-02  578  			return 0;
-eacb52f010a807 Nathan Rossi        2021-11-02  579  		}
-eacb52f010a807 Nathan Rossi        2021-11-02  580  	case hwmon_power:
-eacb52f010a807 Nathan Rossi        2021-11-02  581  		switch (attr) {
-eacb52f010a807 Nathan Rossi        2021-11-02  582  		case hwmon_power_input:
-eacb52f010a807 Nathan Rossi        2021-11-02  583  		case hwmon_power_max_alarm:
-eacb52f010a807 Nathan Rossi        2021-11-02  584  			return 0444;
-eacb52f010a807 Nathan Rossi        2021-11-02  585  		case hwmon_power_max:
-eacb52f010a807 Nathan Rossi        2021-11-02  586  			return 0644;
-f08436905922ae Wenliang Yan        2025-01-13  587  		case hwmon_power_input_highest:
-f08436905922ae Wenliang Yan        2025-01-13  588  			if (has_power_highest)
-f08436905922ae Wenliang Yan        2025-01-13  589  				return 0444;
-f08436905922ae Wenliang Yan        2025-01-13  590  			break;
-eacb52f010a807 Nathan Rossi        2021-11-02  591  		default:
-eacb52f010a807 Nathan Rossi        2021-11-02  592  			return 0;
-eacb52f010a807 Nathan Rossi        2021-11-02  593  		}
-eacb52f010a807 Nathan Rossi        2021-11-02 @594  	case hwmon_temp:
-eacb52f010a807 Nathan Rossi        2021-11-02  595  		switch (attr) {
-eacb52f010a807 Nathan Rossi        2021-11-02  596  		case hwmon_temp_input:
-eacb52f010a807 Nathan Rossi        2021-11-02  597  		case hwmon_temp_max_alarm:
-eacb52f010a807 Nathan Rossi        2021-11-02  598  			return 0444;
-eacb52f010a807 Nathan Rossi        2021-11-02  599  		case hwmon_temp_max:
-eacb52f010a807 Nathan Rossi        2021-11-02  600  			return 0644;
-eacb52f010a807 Nathan Rossi        2021-11-02  601  		default:
-eacb52f010a807 Nathan Rossi        2021-11-02  602  			return 0;
-eacb52f010a807 Nathan Rossi        2021-11-02  603  		}
-eacb52f010a807 Nathan Rossi        2021-11-02  604  	default:
-eacb52f010a807 Nathan Rossi        2021-11-02  605  		return 0;
-eacb52f010a807 Nathan Rossi        2021-11-02  606  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  607  }
-eacb52f010a807 Nathan Rossi        2021-11-02  608  
-eacb52f010a807 Nathan Rossi        2021-11-02  609  #define INA238_HWMON_IN_CONFIG (HWMON_I_INPUT | \
-eacb52f010a807 Nathan Rossi        2021-11-02  610  				HWMON_I_MAX | HWMON_I_MAX_ALARM | \
-eacb52f010a807 Nathan Rossi        2021-11-02  611  				HWMON_I_MIN | HWMON_I_MIN_ALARM)
-eacb52f010a807 Nathan Rossi        2021-11-02  612  
-bf9b7f92df7376 Krzysztof Kozlowski 2023-04-06  613  static const struct hwmon_channel_info * const ina238_info[] = {
-eacb52f010a807 Nathan Rossi        2021-11-02  614  	HWMON_CHANNEL_INFO(in,
-eacb52f010a807 Nathan Rossi        2021-11-02  615  			   /* 0: shunt voltage */
-eacb52f010a807 Nathan Rossi        2021-11-02  616  			   INA238_HWMON_IN_CONFIG,
-eacb52f010a807 Nathan Rossi        2021-11-02  617  			   /* 1: bus voltage */
-eacb52f010a807 Nathan Rossi        2021-11-02  618  			   INA238_HWMON_IN_CONFIG),
-eacb52f010a807 Nathan Rossi        2021-11-02  619  	HWMON_CHANNEL_INFO(curr,
-eacb52f010a807 Nathan Rossi        2021-11-02  620  			   /* 0: current through shunt */
-eacb52f010a807 Nathan Rossi        2021-11-02  621  			   HWMON_C_INPUT),
-eacb52f010a807 Nathan Rossi        2021-11-02  622  	HWMON_CHANNEL_INFO(power,
-eacb52f010a807 Nathan Rossi        2021-11-02  623  			   /* 0: power */
-f08436905922ae Wenliang Yan        2025-01-13  624  			   HWMON_P_INPUT | HWMON_P_MAX |
-f08436905922ae Wenliang Yan        2025-01-13  625  			   HWMON_P_MAX_ALARM | HWMON_P_INPUT_HIGHEST),
-eacb52f010a807 Nathan Rossi        2021-11-02  626  	HWMON_CHANNEL_INFO(temp,
-eacb52f010a807 Nathan Rossi        2021-11-02  627  			   /* 0: die temperature */
-eacb52f010a807 Nathan Rossi        2021-11-02  628  			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_ALARM),
-eacb52f010a807 Nathan Rossi        2021-11-02  629  	NULL
-eacb52f010a807 Nathan Rossi        2021-11-02  630  };
-eacb52f010a807 Nathan Rossi        2021-11-02  631  
-eacb52f010a807 Nathan Rossi        2021-11-02  632  static const struct hwmon_ops ina238_hwmon_ops = {
-eacb52f010a807 Nathan Rossi        2021-11-02  633  	.is_visible = ina238_is_visible,
-eacb52f010a807 Nathan Rossi        2021-11-02  634  	.read = ina238_read,
-eacb52f010a807 Nathan Rossi        2021-11-02  635  	.write = ina238_write,
-eacb52f010a807 Nathan Rossi        2021-11-02  636  };
-eacb52f010a807 Nathan Rossi        2021-11-02  637  
-eacb52f010a807 Nathan Rossi        2021-11-02  638  static const struct hwmon_chip_info ina238_chip_info = {
-eacb52f010a807 Nathan Rossi        2021-11-02  639  	.ops = &ina238_hwmon_ops,
-eacb52f010a807 Nathan Rossi        2021-11-02  640  	.info = ina238_info,
-eacb52f010a807 Nathan Rossi        2021-11-02  641  };
-eacb52f010a807 Nathan Rossi        2021-11-02  642  
-f08436905922ae Wenliang Yan        2025-01-13  643  /* energy attributes are 5bytes wide so we need u64 */
-f08436905922ae Wenliang Yan        2025-01-13  644  static DEVICE_ATTR_RO(energy1_input);
-f08436905922ae Wenliang Yan        2025-01-13  645  
-f08436905922ae Wenliang Yan        2025-01-13  646  static struct attribute *ina238_attrs[] = {
-f08436905922ae Wenliang Yan        2025-01-13  647  	&dev_attr_energy1_input.attr,
-f08436905922ae Wenliang Yan        2025-01-13  648  	NULL,
-f08436905922ae Wenliang Yan        2025-01-13  649  };
-f08436905922ae Wenliang Yan        2025-01-13  650  ATTRIBUTE_GROUPS(ina238);
-f08436905922ae Wenliang Yan        2025-01-13  651  
-eacb52f010a807 Nathan Rossi        2021-11-02  652  static int ina238_probe(struct i2c_client *client)
-eacb52f010a807 Nathan Rossi        2021-11-02  653  {
-eacb52f010a807 Nathan Rossi        2021-11-02  654  	struct ina2xx_platform_data *pdata = dev_get_platdata(&client->dev);
-eacb52f010a807 Nathan Rossi        2021-11-02  655  	struct device *dev = &client->dev;
-eacb52f010a807 Nathan Rossi        2021-11-02  656  	struct device *hwmon_dev;
-eacb52f010a807 Nathan Rossi        2021-11-02  657  	struct ina238_data *data;
-eacb52f010a807 Nathan Rossi        2021-11-02  658  	int config;
-f08436905922ae Wenliang Yan        2025-01-13  659  	enum ina238_ids chip;
-eacb52f010a807 Nathan Rossi        2021-11-02  660  	int ret;
-eacb52f010a807 Nathan Rossi        2021-11-02  661  
-f08436905922ae Wenliang Yan        2025-01-13  662  	chip = (uintptr_t)i2c_get_match_data(client);
-f08436905922ae Wenliang Yan        2025-01-13  663  
-eacb52f010a807 Nathan Rossi        2021-11-02  664  	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-eacb52f010a807 Nathan Rossi        2021-11-02  665  	if (!data)
-eacb52f010a807 Nathan Rossi        2021-11-02  666  		return -ENOMEM;
-eacb52f010a807 Nathan Rossi        2021-11-02  667  
-eacb52f010a807 Nathan Rossi        2021-11-02  668  	data->client = client;
-f08436905922ae Wenliang Yan        2025-01-13  669  	/* set the device type */
-f08436905922ae Wenliang Yan        2025-01-13  670  	data->config = &ina238_config[chip];
-f08436905922ae Wenliang Yan        2025-01-13  671  
-eacb52f010a807 Nathan Rossi        2021-11-02  672  	mutex_init(&data->config_lock);
-eacb52f010a807 Nathan Rossi        2021-11-02  673  
-eacb52f010a807 Nathan Rossi        2021-11-02  674  	data->regmap = devm_regmap_init_i2c(client, &ina238_regmap_config);
-eacb52f010a807 Nathan Rossi        2021-11-02  675  	if (IS_ERR(data->regmap)) {
-eacb52f010a807 Nathan Rossi        2021-11-02  676  		dev_err(dev, "failed to allocate register map\n");
-eacb52f010a807 Nathan Rossi        2021-11-02  677  		return PTR_ERR(data->regmap);
-eacb52f010a807 Nathan Rossi        2021-11-02  678  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  679  
-eacb52f010a807 Nathan Rossi        2021-11-02  680  	/* load shunt value */
-eacb52f010a807 Nathan Rossi        2021-11-02  681  	data->rshunt = INA238_RSHUNT_DEFAULT;
-eacb52f010a807 Nathan Rossi        2021-11-02  682  	if (device_property_read_u32(dev, "shunt-resistor", &data->rshunt) < 0 && pdata)
-eacb52f010a807 Nathan Rossi        2021-11-02  683  		data->rshunt = pdata->shunt_uohms;
-eacb52f010a807 Nathan Rossi        2021-11-02  684  	if (data->rshunt == 0) {
-eacb52f010a807 Nathan Rossi        2021-11-02  685  		dev_err(dev, "invalid shunt resister value %u\n", data->rshunt);
-eacb52f010a807 Nathan Rossi        2021-11-02  686  		return -EINVAL;
-eacb52f010a807 Nathan Rossi        2021-11-02  687  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  688  
-eacb52f010a807 Nathan Rossi        2021-11-02  689  	/* load shunt gain value */
-eacb52f010a807 Nathan Rossi        2021-11-02  690  	if (device_property_read_u32(dev, "ti,shunt-gain", &data->gain) < 0)
-eacb52f010a807 Nathan Rossi        2021-11-02  691  		data->gain = 4; /* Default of ADCRANGE = 0 */
-f08436905922ae Wenliang Yan        2025-01-13  692  	if (data->gain != 1 && data->gain != 2 && data->gain != 4) {
-eacb52f010a807 Nathan Rossi        2021-11-02  693  		dev_err(dev, "invalid shunt gain value %u\n", data->gain);
-eacb52f010a807 Nathan Rossi        2021-11-02  694  		return -EINVAL;
-eacb52f010a807 Nathan Rossi        2021-11-02  695  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  696  
-eacb52f010a807 Nathan Rossi        2021-11-02  697  	/* Setup CONFIG register */
-f08436905922ae Wenliang Yan        2025-01-13  698  	config = data->config->config_default;
-f08436905922ae Wenliang Yan        2025-01-13  699  	if (chip == sq52206)
-eacb52f010a807 Nathan Rossi        2021-11-02  700  		if (data->gain == 1)
-f08436905922ae Wenliang Yan        2025-01-13  701  			config |= SQ52206_CONFIG_ADCRANGE_HIGH; /* ADCRANGE = 10/11 is /1 */
-f08436905922ae Wenliang Yan        2025-01-13 @702  		else if (data->gain == 2)
-f08436905922ae Wenliang Yan        2025-01-13  703  			config |= SQ52206_CONFIG_ADCRANGE_LOW; /* ADCRANGE = 01 is /2 */
-f08436905922ae Wenliang Yan        2025-01-13  704  	else if (data->gain == 1)
-eacb52f010a807 Nathan Rossi        2021-11-02  705  		config |= INA238_CONFIG_ADCRANGE; /* ADCRANGE = 1 is /1 */
-eacb52f010a807 Nathan Rossi        2021-11-02  706  	ret = regmap_write(data->regmap, INA238_CONFIG, config);
-eacb52f010a807 Nathan Rossi        2021-11-02  707  	if (ret < 0) {
-eacb52f010a807 Nathan Rossi        2021-11-02  708  		dev_err(dev, "error configuring the device: %d\n", ret);
-eacb52f010a807 Nathan Rossi        2021-11-02  709  		return -ENODEV;
-eacb52f010a807 Nathan Rossi        2021-11-02  710  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  711  
-eacb52f010a807 Nathan Rossi        2021-11-02  712  	/* Setup ADC_CONFIG register */
-eacb52f010a807 Nathan Rossi        2021-11-02  713  	ret = regmap_write(data->regmap, INA238_ADC_CONFIG,
-eacb52f010a807 Nathan Rossi        2021-11-02  714  			   INA238_ADC_CONFIG_DEFAULT);
-eacb52f010a807 Nathan Rossi        2021-11-02  715  	if (ret < 0) {
-eacb52f010a807 Nathan Rossi        2021-11-02  716  		dev_err(dev, "error configuring the device: %d\n", ret);
-eacb52f010a807 Nathan Rossi        2021-11-02  717  		return -ENODEV;
-eacb52f010a807 Nathan Rossi        2021-11-02  718  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  719  
-eacb52f010a807 Nathan Rossi        2021-11-02  720  	/* Setup SHUNT_CALIBRATION register with fixed value */
-eacb52f010a807 Nathan Rossi        2021-11-02  721  	ret = regmap_write(data->regmap, INA238_SHUNT_CALIBRATION,
-eacb52f010a807 Nathan Rossi        2021-11-02  722  			   INA238_CALIBRATION_VALUE);
-eacb52f010a807 Nathan Rossi        2021-11-02  723  	if (ret < 0) {
-eacb52f010a807 Nathan Rossi        2021-11-02  724  		dev_err(dev, "error configuring the device: %d\n", ret);
-eacb52f010a807 Nathan Rossi        2021-11-02  725  		return -ENODEV;
-eacb52f010a807 Nathan Rossi        2021-11-02  726  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  727  
-eacb52f010a807 Nathan Rossi        2021-11-02  728  	/* Setup alert/alarm configuration */
-eacb52f010a807 Nathan Rossi        2021-11-02  729  	ret = regmap_write(data->regmap, INA238_DIAG_ALERT,
-eacb52f010a807 Nathan Rossi        2021-11-02  730  			   INA238_DIAG_ALERT_DEFAULT);
-eacb52f010a807 Nathan Rossi        2021-11-02  731  	if (ret < 0) {
-eacb52f010a807 Nathan Rossi        2021-11-02  732  		dev_err(dev, "error configuring the device: %d\n", ret);
-eacb52f010a807 Nathan Rossi        2021-11-02  733  		return -ENODEV;
-eacb52f010a807 Nathan Rossi        2021-11-02  734  	}
-eacb52f010a807 Nathan Rossi        2021-11-02  735  
-eacb52f010a807 Nathan Rossi        2021-11-02  736  	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, data,
-eacb52f010a807 Nathan Rossi        2021-11-02  737  							 &ina238_chip_info,
-f08436905922ae Wenliang Yan        2025-01-13  738  							 data->config->has_energy ?
-f08436905922ae Wenliang Yan        2025-01-13  739  								NULL : ina238_groups);
-eacb52f010a807 Nathan Rossi        2021-11-02  740  	if (IS_ERR(hwmon_dev))
-eacb52f010a807 Nathan Rossi        2021-11-02  741  		return PTR_ERR(hwmon_dev);
-eacb52f010a807 Nathan Rossi        2021-11-02  742  
-eacb52f010a807 Nathan Rossi        2021-11-02  743  	dev_info(dev, "power monitor %s (Rshunt = %u uOhm, gain = %u)\n",
-eacb52f010a807 Nathan Rossi        2021-11-02  744  		 client->name, data->rshunt, data->gain);
-eacb52f010a807 Nathan Rossi        2021-11-02  745  
-eacb52f010a807 Nathan Rossi        2021-11-02  746  	return 0;
-eacb52f010a807 Nathan Rossi        2021-11-02  747  }
-eacb52f010a807 Nathan Rossi        2021-11-02  748  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> diff --git a/arch/riscv/include/asm/tlbflush.h b/arch/riscv/include/asm/tlbflush.h
+> index 72e559934952..7f3ea687ce33 100644
+> --- a/arch/riscv/include/asm/tlbflush.h
+> +++ b/arch/riscv/include/asm/tlbflush.h
+> @@ -61,7 +61,8 @@ void flush_pmd_tlb_range(struct vm_area_struct *vma, unsigned long start,
+>  bool arch_tlbbatch_should_defer(struct mm_struct *mm);
+>  void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
+>  			       struct mm_struct *mm,
+> -			       unsigned long uaddr);
+> +			       unsigned long uaddr,
+> +			       unsigned long size);
+>  void arch_flush_tlb_batched_pending(struct mm_struct *mm);
+>  void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch);
+>  
+> diff --git a/arch/riscv/mm/tlbflush.c b/arch/riscv/mm/tlbflush.c
+> index 9b6e86ce3867..aeda64a36d50 100644
+> --- a/arch/riscv/mm/tlbflush.c
+> +++ b/arch/riscv/mm/tlbflush.c
+> @@ -187,7 +187,8 @@ bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+>  
+>  void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
+>  			       struct mm_struct *mm,
+> -			       unsigned long uaddr)
+> +			       unsigned long uaddr,
+> +			       unsigned long size)
+>  {
+>  	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
+>  }
+> 
+> > All errors (new ones prefixed by >>):
+> >
+> >    mm/rmap.c: In function 'set_tlb_ubc_flush_pending':
+> > >> mm/rmap.c:685:9: error: too many arguments to function 'arch_tlbbatch_add_pending'
+> >      685 |         arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
+> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from arch/riscv/include/asm/pgtable.h:113,
+> >                     from include/linux/pgtable.h:6,
+> >                     from include/linux/mm.h:30,
+> >                     from mm/rmap.c:55:
+> >    arch/riscv/include/asm/tlbflush.h:62:6: note: declared here
+> >       62 | void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> >
+> > vim +/arch_tlbbatch_add_pending +685 mm/rmap.c
+> >
+> >    663 
+> >    664  /*
+> >    665   * Bits 0-14 of mm->tlb_flush_batched record pending generations.
+> >    666   * Bits 16-30 of mm->tlb_flush_batched bit record flushed generations.
+> >    667   */
+> >    668  #define TLB_FLUSH_BATCH_FLUSHED_SHIFT   16
+> >    669  #define TLB_FLUSH_BATCH_PENDING_MASK                    \
+> >    670          ((1 << (TLB_FLUSH_BATCH_FLUSHED_SHIFT - 1)) - 1)
+> >    671  #define TLB_FLUSH_BATCH_PENDING_LARGE                   \
+> >    672          (TLB_FLUSH_BATCH_PENDING_MASK / 2)
+> >    673 
+> >    674  static void set_tlb_ubc_flush_pending(struct mm_struct *mm, pte_t pteval,
+> >    675                                        unsigned long uaddr,
+> >    676                                        unsigned long size)
+> >    677  {
+> >    678          struct tlbflush_unmap_batch *tlb_ubc = &current->tlb_ubc;
+> >    679          int batch;
+> >    680          bool writable = pte_dirty(pteval);
+> >    681 
+> >    682          if (!pte_accessible(mm, pteval))
+> >    683                  return;
+> >    684 
+> >  > 685          arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
+> >    686          tlb_ubc->flush_required = true;
+> >    687 
+> >    688          /*
+> >    689           * Ensure compiler does not re-order the setting of tlb_flush_batched
+> >    690           * before the PTE is cleared.
+> >    691           */
+> >    692          barrier();
+> >    693          batch = atomic_read(&mm->tlb_flush_batched);
+> >    694  retry:
+> >    695          if ((batch & TLB_FLUSH_BATCH_PENDING_MASK) > TLB_FLUSH_BATCH_PENDING_LARGE) {
+> >    696                  /*
+> >    697                   * Prevent `pending' from catching up with `flushed' because of
+> >    698                   * overflow.  Reset `pending' and `flushed' to be 1 and 0 if
+> >    699                   * `pending' becomes large.
+> >    700                   */
+> >    701                  if (!atomic_try_cmpxchg(&mm->tlb_flush_batched, &batch, 1))
+> >    702                          goto retry;
+> >    703          } else {
+> >    704                  atomic_inc(&mm->tlb_flush_batched);
+> >    705          }
+> >    706 
+> >    707          /*
+> >    708           * If the PTE was dirty then it's best to assume it's writable. The
+> >    709           * caller must use try_to_unmap_flush_dirty() or try_to_unmap_flush()
+> >    710           * before the page is queued for IO.
+> >    711           */
+> >    712          if (writable)
+> >    713                  tlb_ubc->writable = true;
+> >    714  }
+> >    715 
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> 
