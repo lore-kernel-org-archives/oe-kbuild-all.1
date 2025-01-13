@@ -1,103 +1,247 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217264315A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 02:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904BE14AA9;
+	Mon, 13 Jan 2025 02:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736735620; cv=none; b=guM62J9yTRnSFpbgqjR1cE0B/W48KnF/QGGZky2O8cTEpKpOthcIoIQFhgdqK+nP7V1VK6YeC0GRiH/WJRT0Vft2CN2GTBdKTHtatQLRSe1JB9uo++H9ANS7pgEtkNbWFkEdzr136bnsboFZTIXYCQPU6IU4BPytcWPPaAv9Yz4=
+	t=1736736327; cv=none; b=YNIg3Z2CY+/NtUECyV8MlJTblsjDs+CV3luEz2BsWwhQWprz1L711OdOcBNd9zOL1KoUWY6zube0f5ftdni1D2/qVxG3Q868EsE8Oc3jAUE2aq00UJJJfKK92x3IUgfQ/ntnYQioy77weBqenQaJUPJ+siWFZmnzkwXVS4K35EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736735620; c=relaxed/simple;
-	bh=KbF0qP1vSxTPlYtBDXYKvVDalbRHDTGiPiqpYchnszQ=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=HW9SJaP7I6ch6pFsrrY/nfHtbl1B+pcIaMabnaPwuqBAU7v3Qo5b+aYtb9IcaNZs8kMSdNOh6BXqu6R4gxeBBNwInF1S5LGyBoVvc5nuK7gMZ1S12jn4JCYwFGvQ3CTCcS/rRUQeGljY5jj5TiVfKd06ldBcypYoot1dSJ2By/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=dnOWtYc4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736736327; c=relaxed/simple;
+	bh=rwuymBKNC1xJJb3cN3Hxy1sDdE03AL/DPwsrMP6BJ7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kzRpz5zIWwqFx4b60T6QPkkdS6+y9GpgK6CEk0SFUNBMOd+h/OT7EokMSoqWTvQ2TdwcoDaJtt+c4d+RQMEkJa3LjLk/HpACtsq+hNeoBYzNIUSs8WiK2+1wQW8iNIn70RoFmyiovstXwDHgxW3pMWFygT0l6W7Y8HhN3GD6DFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gJdCCf/Y; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="dnOWtYc4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60AA5C4CEDF;
-	Mon, 13 Jan 2025 02:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1736735619;
-	bh=KbF0qP1vSxTPlYtBDXYKvVDalbRHDTGiPiqpYchnszQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dnOWtYc4TziA7MoLTdmdSwg6qD3dSEVeWyvWxz2Mwi3lekmVcCtr5WyyEVBj2R8K+
-	 I0T3x22YDhK5/F0bwgokYtm53Spbui6sM6E7MWsLf0BRCnn2AXrCaGASE1OZHoS/ri
-	 Q+/S/7BHMzssSIWJoSjq0QMAVI22lJmb4PWq8dkg=
-Date: Sun, 12 Jan 2025 18:33:38 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
- Memory Management List <linux-mm@kvack.org>, Frederic Weisbecker
- <frederic@kernel.org>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 171/173] kernel/kthread.c:913:
- warning: expecting prototype for kthread_create_worker_on_node(). Prototype
- was for kthread_create_worker() instead
-Message-Id: <20250112183338.0ac4e721a48829afffd16073@linux-foundation.org>
-In-Reply-To: <c883110c-6baf-410e-8a77-4c2501060375@infradead.org>
-References: <202501122249.upmy4970-lkp@intel.com>
-	<c883110c-6baf-410e-8a77-4c2501060375@infradead.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gJdCCf/Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736736326; x=1768272326;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rwuymBKNC1xJJb3cN3Hxy1sDdE03AL/DPwsrMP6BJ7U=;
+  b=gJdCCf/YWZ1g7+KDk1SvNr+4S7wijdBXZYKJS+L986VONn1IbaoKiyqV
+   qDCCDbfjBmyamsrq3mO9SxOYLQB/SEDqySsvHWkYmRgCOChZeSvdYBuFC
+   +AUFdWlaQzEVusfShRX8VP98RL6dAi7T5txyWFwaInXGNitaOW6dMsCwI
+   CVRNlKYLvucDNXHMgajT3srcw6RnGul0KQNRslH9trHyHD8c6/IcEOz6R
+   uzACe5A/EgGl1GxYUWsVvlqdq0DfOcx346oayynyICE5v7f7sVH+5Q73G
+   x8/cmfQcjMrYkCPCzGdlmEkaMfW6ejV1op5SNsIQHoJB09MlFUh9khdSC
+   w==;
+X-CSE-ConnectionGUID: OeCgmteMTtWQrQS/W0rHUg==
+X-CSE-MsgGUID: UYlGyO/HQze8XqVKYopaZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="48353268"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="48353268"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 18:45:26 -0800
+X-CSE-ConnectionGUID: q9sIMqf2QLSJSfxy1e8QBw==
+X-CSE-MsgGUID: c32pmQqcRt+inXnJwG/Qng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104847338"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 12 Jan 2025 18:45:23 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tXAS8-000Mdp-2H;
+	Mon, 13 Jan 2025 02:45:20 +0000
+Date: Mon, 13 Jan 2025 10:44:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Garrett <mjg59@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+	Bartosz Szczepanek <bsz@semihalf.com>
+Subject: include/linux/tpm_eventlog.h:165:6: warning: variable 'mapping_size'
+ set but not used
+Message-ID: <202501131033.emEdcL5L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 12 Jan 2025 10:21:40 -0800 Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi Matthew,
 
-> > 
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  901  
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  902  /**
-> > 1bc3c5db9becd0 Randy Dunlap 2025-01-10  903   * kthread_create_worker_on_node - create a kthread worker
-> > dbf52682cb0286 Petr Mladek  2016-10-11  904   * @flags: flags modifying the default behavior of the worker
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  905   * @namefmt: printf-style name for the kthread worker (task).
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  906   *
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  907   * Returns a pointer to the allocated worker on success, ERR_PTR(-ENOMEM)
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  908   * when the needed structures could not get allocated, and ERR_PTR(-EINTR)
-> > d25c83c6606ffc Petr Mladek  2022-03-15  909   * when the caller was killed by a fatal signal.
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  910   */
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11  911  struct kthread_worker *
-> > dbf52682cb0286 Petr Mladek  2016-10-11  912  kthread_create_worker(unsigned int flags, const char namefmt[], ...)
-> > fbae2d44aa1df7 Petr Mladek  2016-10-11 @913  {
-> 
-> @Andrew: I don't know how to handle this. My patch applies correctly to linux-next
-> where this function name has been changed. It looks like 0day is applying it
-> to mainline linux + your tree(s?) for testing.
+FYI, the error/warning still remains.
 
-It appears to be a fix against Frederic's b1e125dcbcea ("kthread: Unify
-kthread_create_on_cpu() and kthread_create_worker_on_cpu() automatic
-format") so it would best be carried in whatever tree holds
-b1e125dcbcea.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   be548645527a131a097fdc884b7fca40c8b86231
+commit: c46f3405692de1ac82240d927b9c7a0f9d6a4a36 tpm: Reserve the TPM final events table
+date:   6 years ago
+config: x86_64-randconfig-071-20241231 (https://download.01.org/0day-ci/archive/20250113/202501131033.emEdcL5L-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501131033.emEdcL5L-lkp@intel.com/reproduce)
 
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: kthread: modify kernel-doc function name to match code
-Date: Fri, 10 Jan 2025 22:30:08 -0800
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501131033.emEdcL5L-lkp@intel.com/
 
-kthread.c:1073: warning: expecting prototype for kthread_create_worker(). Prototype was for kthread_create_worker_on_node() instead
+All warnings (new ones prefixed by >>):
 
-Link: https://lkml.kernel.org/r/20250111063008.910712-1-rdunlap@infradead.org
-Fixes: b1e125dcbcea ("kthread: Unify kthread_create_on_cpu() and kthread_create_worker_on_cpu() automatic format")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
+   In file included from drivers/char/tpm/tpm-chip.c:24:
+>> include/linux/tpm_eventlog.h:165:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
+     165 |         int mapping_size;
+         |             ^
+   drivers/char/tpm/tpm-chip.c:422:11: warning: cast from 'void (*)(struct device *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
+     422 |                                       (void (*)(void *)) put_device,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+--
+   In file included from drivers/char/tpm/tpm-dev-common.c:19:
+   In file included from drivers/char/tpm/tpm.h:29:
+>> include/linux/tpm_eventlog.h:165:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
+     165 |         int mapping_size;
+         |             ^
+   1 warning generated.
+--
+   In file included from drivers/char/tpm/eventlog/tpm1.c:24:
+>> include/linux/tpm_eventlog.h:165:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
+     165 |         int mapping_size;
+         |             ^
+   drivers/char/tpm/eventlog/tpm1.c:253:6: warning: variable 'len' set but not used [-Wunused-but-set-variable]
+     253 |         int len = 0;
+         |             ^
+   2 warnings generated.
 
- kernel/kthread.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/kernel/kthread.c~kthread-modify-kernel-doc-function-name-to-match-code
-+++ a/kernel/kthread.c
-@@ -900,7 +900,7 @@ fail_task:
- }
- 
- /**
-- * kthread_create_worker - create a kthread worker
-+ * kthread_create_worker_on_node - create a kthread worker
-  * @flags: flags modifying the default behavior of the worker
-  * @namefmt: printf-style name for the kthread worker (task).
-  *
-_
+vim +/mapping_size +165 include/linux/tpm_eventlog.h
 
+   138	
+   139	/**
+   140	 * __calc_tpm2_event_size - calculate the size of a TPM2 event log entry
+   141	 * @event:        Pointer to the event whose size should be calculated
+   142	 * @event_header: Pointer to the initial event containing the digest lengths
+   143	 * @do_mapping:   Whether or not the event needs to be mapped
+   144	 *
+   145	 * The TPM2 event log format can contain multiple digests corresponding to
+   146	 * separate PCR banks, and also contains a variable length of the data that
+   147	 * was measured. This requires knowledge of how long each digest type is,
+   148	 * and this information is contained within the first event in the log.
+   149	 *
+   150	 * We calculate the length by examining the number of events, and then looking
+   151	 * at each event in turn to determine how much space is used for events in
+   152	 * total. Once we've done this we know the offset of the data length field,
+   153	 * and can calculate the total size of the event.
+   154	 *
+   155	 * Return: size of the event on success, <0 on failure
+   156	 */
+   157	
+   158	static inline int __calc_tpm2_event_size(struct tcg_pcr_event2_head *event,
+   159						 struct tcg_pcr_event *event_header,
+   160						 bool do_mapping)
+   161	{
+   162		struct tcg_efi_specid_event_head *efispecid;
+   163		struct tcg_event_field *event_field;
+   164		void *mapping = NULL;
+ > 165		int mapping_size;
+   166		void *marker;
+   167		void *marker_start;
+   168		u32 halg_size;
+   169		size_t size;
+   170		u16 halg;
+   171		int i;
+   172		int j;
+   173	
+   174		marker = event;
+   175		marker_start = marker;
+   176		marker = marker + sizeof(event->pcr_idx) + sizeof(event->event_type)
+   177			+ sizeof(event->count);
+   178	
+   179		/* Map the event header */
+   180		if (do_mapping) {
+   181			mapping_size = marker - marker_start;
+   182			mapping = TPM_MEMREMAP((unsigned long)marker_start,
+   183					       mapping_size);
+   184			if (!mapping) {
+   185				size = 0;
+   186				goto out;
+   187			}
+   188		} else {
+   189			mapping = marker_start;
+   190		}
+   191	
+   192		event = (struct tcg_pcr_event2_head *)mapping;
+   193	
+   194		efispecid = (struct tcg_efi_specid_event_head *)event_header->event;
+   195	
+   196		/* Check if event is malformed. */
+   197		if (event->count > efispecid->num_algs) {
+   198			size = 0;
+   199			goto out;
+   200		}
+   201	
+   202		for (i = 0; i < event->count; i++) {
+   203			halg_size = sizeof(event->digests[i].alg_id);
+   204	
+   205			/* Map the digest's algorithm identifier */
+   206			if (do_mapping) {
+   207				TPM_MEMUNMAP(mapping, mapping_size);
+   208				mapping_size = halg_size;
+   209				mapping = TPM_MEMREMAP((unsigned long)marker,
+   210						     mapping_size);
+   211				if (!mapping) {
+   212					size = 0;
+   213					goto out;
+   214				}
+   215			} else {
+   216				mapping = marker;
+   217			}
+   218	
+   219			memcpy(&halg, mapping, halg_size);
+   220			marker = marker + halg_size;
+   221	
+   222			for (j = 0; j < efispecid->num_algs; j++) {
+   223				if (halg == efispecid->digest_sizes[j].alg_id) {
+   224					marker +=
+   225						efispecid->digest_sizes[j].digest_size;
+   226					break;
+   227				}
+   228			}
+   229			/* Algorithm without known length. Such event is unparseable. */
+   230			if (j == efispecid->num_algs) {
+   231				size = 0;
+   232				goto out;
+   233			}
+   234		}
+   235	
+   236		/*
+   237		 * Map the event size - we don't read from the event itself, so
+   238		 * we don't need to map it
+   239		 */
+   240		if (do_mapping) {
+   241			TPM_MEMUNMAP(mapping, mapping_size);
+   242			mapping_size += sizeof(event_field->event_size);
+   243			mapping = TPM_MEMREMAP((unsigned long)marker,
+   244					       mapping_size);
+   245			if (!mapping) {
+   246				size = 0;
+   247				goto out;
+   248			}
+   249		} else {
+   250			mapping = marker;
+   251		}
+   252	
+   253		event_field = (struct tcg_event_field *)mapping;
+   254	
+   255		marker = marker + sizeof(event_field->event_size)
+   256			+ event_field->event_size;
+   257		size = marker - marker_start;
+   258	
+   259		if ((event->event_type == 0) && (event_field->event_size == 0))
+   260			size = 0;
+   261	out:
+   262		if (do_mapping)
+   263			TPM_MEMUNMAP(mapping, mapping_size);
+   264		return size;
+   265	}
+   266	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
