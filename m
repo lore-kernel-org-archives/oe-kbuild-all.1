@@ -1,156 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB22EED8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 01:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D129A3A8D0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 01:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736731391; cv=none; b=szSdDVNzpSfeoPDLZxdodJWrzrz478tX2+Knsyd175XkOAAa440wudg4BsN0p4gQ72KV7zaUpMs3p6EvwJOENIU7y56iEHVg2H2fS4uEyQPqcYEb7n0SOzgpVAqvplLr1YwDCfY+lIVW8oZB9UdjdFcFg0H4KVthv/acm0EfCXo=
+	t=1736732340; cv=none; b=tnB2BVNte/V6Lxoouk1RNj8BpeuGvajuXFkPQLezjeeBqFEB943IaLJAhJCijw3yRGL3O7qdU+EXyi29W2+3zG79aRaffti8t8ked6EhmTVV0MzyF+qnQoR98mPfiV6Xvu45uegxoTU/IQYivqWc2TEEVZ1IWp+NItyuAaERALk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736731391; c=relaxed/simple;
-	bh=BVO/fZ2Yhu3QFbmZBCziSfAerOvw7xcrhjdqoKLej1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ldG7ObnsCymaZRAwalL66rHs1BkOzoMDcbs2PyrkoqDliFd3AfVLPxKVf1JKWjIPyeAOLB7acXh3tKkoxPwQswSLHlnBPZv/CxKoLcsfqit7nQNKuCa1uMAYF+cst4SywqQhaRLF/A8mBeLQjs5TY1DMooEpGpEDW5Eq/5zEvTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDP2VLyT; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736732340; c=relaxed/simple;
+	bh=GO8INwrhZUpsn0XT14ZsY6oIhHAggjsgF+AOFlDDshE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=g4LRQ1AQlPrh29Hl8VxluwOmLCB6XQUkoHGcUODx8VrdGyc5gRzM+L+i8AZAs115r5ZQTprJFLv0o13qW+4DdP3xaRFFNVWoU9YXPZuqxW/Dq1Q7uOVLYOal3bO6FUu/IkZ3bU0bjmsEQ0sF5Y57wkOEL70spO31/4uoSJGrQmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pxu1soI0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDP2VLyT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736731389; x=1768267389;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BVO/fZ2Yhu3QFbmZBCziSfAerOvw7xcrhjdqoKLej1c=;
-  b=mDP2VLyTPaxjg4UiuD2HiEA+dV0MWoLLvPk5UQ+ju3UmuQb0rHEDkL75
-   oDTSwjJ/9JR1hIgS7XS90QaZIu/bxt3fHcnT8P/aPZKpsMQ20NhLgc5ld
-   /Tew9D1ehbTglod2edQL2hSeliDUqGlIOkEJvN4bXNICZfue6stiKtm6s
-   /LlMdTk8RyUYHl5b1OuGPCJFtgN4sMAviNrcSaHYAB6fCZn4QDsK4T9Pz
-   3w4WwvSZZ0J+y6wRhBevKOJs/BUmQXRrGJnYAgT/c1tczCYx9c1r8wYjP
-   8Jmjl7uUFVAT4qa4pM6AHawkCg/kZABiJg7uxIttydjX24sHpHB/nQkg6
-   Q==;
-X-CSE-ConnectionGUID: WDSmygewSKOl4EeSmCaQiA==
-X-CSE-MsgGUID: GT+8MMeFQyOVpmWyTMYm3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="40652414"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="40652414"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 17:23:09 -0800
-X-CSE-ConnectionGUID: rYtsSJy+RYy/y5TqYTfO+A==
-X-CSE-MsgGUID: ON5l/0XaT+qeq2WrJ3t/YQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="104885612"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Jan 2025 17:23:05 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tX9AV-000Mb5-0n;
-	Mon, 13 Jan 2025 01:23:03 +0000
-Date: Mon, 13 Jan 2025 09:22:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nihar Chaithanya <niharchaithanya@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [staging:staging-testing 13/26] riscv64-linux-ld:
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1731:undefined reference to
- `gpib_unregister_driver'
-Message-ID: <202501130949.llN3pNb1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pxu1soI0"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50D0FxpN002414;
+	Mon, 13 Jan 2025 01:38:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BB2pJXFCJM3hZXl4qevDtnhGzde/TcBJ62PwojNoakc=; b=pxu1soI0pDNjXQ1L
+	Ohe0SnQHYcVLpPsyFMXlqgoPCLJ5v63haG2mSkwkk0s4SYI/zs0biO+pJ2CShlcm
+	pro7bpGuwVChcx18HlQRWnzygEmxLuNITNI0ofzmgvqpxU/NudMXkg8JcDIdp5cl
+	Fv9pbkx9yZlFDRBiE3q+ARzXB5ppcj73SmOJTGAQhwXBTenLPqhGil4nVkiwnLwR
+	Ldp5SNHCUaQeSwc6CpX1oc3lasPIBW1PPObFEjb8ErL/yEfWFW12nCmv0o5eG9yl
+	IAJF3EFA0MnC26NocagwtoT/vd09idD7HE2FR8tqInUm0ahXLl7uuIOiKQb9jRY7
+	WhY8oA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 443hkfjubk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 01:38:51 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50D1coKq007617
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 01:38:51 GMT
+Received: from [10.64.68.72] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 12 Jan
+ 2025 17:38:48 -0800
+Message-ID: <04aba594-0d94-4736-b0ab-8e329a24f6ba@quicinc.com>
+Date: Mon, 13 Jan 2025 09:38:46 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 6465/7860]
+ arch/arm64/boot/dts/qcom/qcs615-ride.dtb: ufshc@1d84000: Unevaluated
+ properties are not allowed ('compatible' was unexpected)
+To: kernel test robot <lkp@intel.com>,
+        Sayali Lokhande
+	<quic_sayalil@quicinc.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <202501110205.ajKauAd7-lkp@intel.com>
+From: Xin Liu <quic_liuxin@quicinc.com>
+In-Reply-To: <202501110205.ajKauAd7-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Jj6-_ekLvGnedX1EH0tdmqRtGY1bOD-A
+X-Proofpoint-ORIG-GUID: Jj6-_ekLvGnedX1EH0tdmqRtGY1bOD-A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 mlxscore=0 adultscore=0 clxscore=1011 bulkscore=0
+ mlxlogscore=999 impostorscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2501130012
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
-head:   76c63651bb6d5274d9e517f1367dc13defd228c8
-commit: 10ca8c3b51f7ad557fdd1953eaad8b5a91774ecd [13/26] staging: gpib: fmh: Handle gpib_register_driver() errors
-config: riscv-randconfig-001-20250113 (https://download.01.org/0day-ci/archive/20250113/202501130949.llN3pNb1-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130949.llN3pNb1-lkp@intel.com/reproduce)
+Hi, all
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501130949.llN3pNb1-lkp@intel.com/
+The patch below has been reviewed-by, but it is not applied now. So it 
+caused this problem.
 
-All errors (new ones prefixed by >>):
+https://lore.kernel.org/linux-arm-msm/20241216095439.531357-2-quic_liuxin@quicinc.com/
 
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_t1_delay':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:257:(.text+0x196): undefined reference to `nec7210_t1_delay'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:271:(.text+0x1de): undefined reference to `nec7210_serial_poll_status'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_serial_poll_status':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:212:(.text+0x1fe): undefined reference to `nec7210_secondary_address'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_secondary_address':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:133:(.text+0x21c): undefined reference to `nec7210_primary_address'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_primary_address':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:126:(.text+0x23a): undefined reference to `nec7210_update_status'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_update_status':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:119:(.text+0x258): undefined reference to `nec7210_parallel_poll_response'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_response':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:154:(.text+0x276): undefined reference to `nec7210_parallel_poll'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:140:(.text+0x294): undefined reference to `nec7210_parallel_poll_configure'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_configure':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:147:(.text+0x2b0): undefined reference to `nec7210_disable_eos'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_disable_eos':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:113:(.text+0x2d0): undefined reference to `nec7210_enable_eos'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_enable_eos':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:105:(.text+0x2ee): undefined reference to `nec7210_remote_enable'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_remote_enable':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:98:(.text+0x30c): undefined reference to `nec7210_interface_clear'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_interface_clear':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:91:(.text+0x32a): undefined reference to `nec7210_request_system_control'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_request_system_control':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:84:(.text+0x346): undefined reference to `nec7210_go_to_standby'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_go_to_standby':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:76:(.text+0x364): undefined reference to `nec7210_take_control'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_take_control':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:70:(.text+0x386): undefined reference to `nec7210_command'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_command':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:63:(.text+0x3aa): undefined reference to `nec7210_write'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_write':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:55:(.text+0x3ce): undefined reference to `nec7210_read'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_detach':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1508:(.text+0x564): undefined reference to `nec7210_board_reset'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1526:(.text+0x5d2): undefined reference to `gpib_match_device_path'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_pci_detach':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1631:(.text+0x65c): undefined reference to `nec7210_board_reset'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `spin_unlock_irqrestore':
-   include/linux/spinlock.h:406:(.text+0xe32): undefined reference to `push_gpib_event'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_release_rfd_holdoff':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:867:(.text+0xe4a): undefined reference to `nec7210_interrupt_have_status'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_internal_interrupt':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1239:(.text+0xfd4): undefined reference to `nec7210_set_reg_bits'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `wait_for_rx_fifo_half_full_or_end':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:313:(.text+0x14c4): undefined reference to `nec7210_set_reg_bits'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:313:(.text+0x14d4): undefined reference to `nec7210_set_reg_bits'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_fifo_read_countable':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:932:(.text+0x1546): undefined reference to `nec7210_set_reg_bits'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:968:(.text+0x162a): undefined reference to `nec7210_set_reg_bits'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o:drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1032: more undefined references to `nec7210_set_reg_bits' follow
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_dma_read':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:822:(.text+0x25a0): undefined reference to `gpib_pci_get_device'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_exit_module':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1746:(.exit.text+0x10): undefined reference to `gpib_unregister_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1747:(.exit.text+0x20): undefined reference to `gpib_unregister_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1748:(.exit.text+0x30): undefined reference to `gpib_unregister_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1749:(.exit.text+0x40): undefined reference to `gpib_unregister_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init_module':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1704:(.init.text+0x70): undefined reference to `gpib_register_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1710:(.init.text+0x9a): undefined reference to `gpib_register_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1716:(.init.text+0xc4): undefined reference to `gpib_register_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1722:(.init.text+0xee): undefined reference to `gpib_register_driver'
->> riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1731:(.init.text+0x114): undefined reference to `gpib_unregister_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1733:(.init.text+0x124): undefined reference to `gpib_unregister_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1735:(.init.text+0x134): undefined reference to `gpib_unregister_driver'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init':
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1342:(.text.unlikely+0x26): undefined reference to `nec7210_board_reset'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1344:(.text.unlikely+0x44): undefined reference to `nec7210_set_handshake_mode'
-   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1351:(.text.unlikely+0x70): undefined reference to `nec7210_board_online'
+在 2025/1/11 2:41, kernel test robot 写道:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   2b88851f583d3c4e40bcd40cfe1965241ec229dd
+> commit: 4b120ef62ed653f4bc05e5f68832d2d2ac548b60 [6465/7860] arm64: dts: qcom: qcs615-ride: Enable UFS node
+> config: arm64-randconfig-052-20250109 (https://download.01.org/0day-ci/archive/20250111/202501110205.ajKauAd7-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> dtschema version: 2024.12.dev6+gc4da38d
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110205.ajKauAd7-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501110205.ajKauAd7-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: dma-controller@a00000: compatible: 'oneOf' conditional failed, one must be fixed:
+>     	['qcom,qcs615-gpi-dma', 'qcom,sdm845-gpi-dma'] is too long
+>     	'qcom,qcs615-gpi-dma' is not one of ['qcom,sdm845-gpi-dma', 'qcom,sm6350-gpi-dma']
+>     	'qcom,qcs615-gpi-dma' is not one of ['qcom,qcm2290-gpi-dma', 'qcom,qdu1000-gpi-dma', 'qcom,sar2130p-gpi-dma', 'qcom,sc7280-gpi-dma', 'qcom,sdx75-gpi-dma', 'qcom,sm6115-gpi-dma', 'qcom,sm6375-gpi-dma', 'qcom,sm8350-gpi-dma', 'qcom,sm8450-gpi-dma', 'qcom,sm8550-gpi-dma', 'qcom,sm8650-gpi-dma', 'qcom,x1e80100-gpi-dma']
+>     	'qcom,qcs615-gpi-dma' is not one of ['qcom,sdm670-gpi-dma', 'qcom,sm6125-gpi-dma', 'qcom,sm8150-gpi-dma', 'qcom,sm8250-gpi-dma']
+>     	'qcom,sm6350-gpi-dma' was expected
+>     	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/dma-controller@a00000: failed to match any schema with compatible: ['qcom,qcs615-gpi-dma', 'qcom,sdm845-gpi-dma']
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: ufshc@1d84000: compatible:0: 'qcom,qcs615-ufshc' is not one of ['qcom,msm8994-ufshc', 'qcom,msm8996-ufshc', 'qcom,msm8998-ufshc', 'qcom,qcs8300-ufshc', 'qcom,sa8775p-ufshc', 'qcom,sc7180-ufshc', 'qcom,sc7280-ufshc', 'qcom,sc8180x-ufshc', 'qcom,sc8280xp-ufshc', 'qcom,sdm845-ufshc', 'qcom,sm6115-ufshc', 'qcom,sm6125-ufshc', 'qcom,sm6350-ufshc', 'qcom,sm8150-ufshc', 'qcom,sm8250-ufshc', 'qcom,sm8350-ufshc', 'qcom,sm8450-ufshc', 'qcom,sm8550-ufshc', 'qcom,sm8650-ufshc']
+>     	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
+>>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('compatible' was unexpected)
+>     	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/ufshc@1d84000: failed to match any schema with compatible: ['qcom,qcs615-ufshc', 'qcom,ufshc', 'jedec,ufs-2.0']
+>     arch/arm64/boot/dts/qcom/qcs615-ride.dtb: pmu@90b6300: compatible: 'oneOf' conditional failed, one must be fixed:
+>     	['qcom,qcs615-cpu-bwmon', 'qcom,sdm845-bwmon'] is too long
+>     	'qcom,msm8998-bwmon' was expected
+>     	'qcom,qcs615-cpu-bwmon' is not one of ['qcom,qcm2290-cpu-bwmon', 'qcom,qcs8300-cpu-bwmon', 'qcom,sa8775p-cpu-bwmon', 'qcom,sc7180-cpu-bwmon', 'qcom,sc7280-cpu-bwmon', 'qcom,sc8280xp-cpu-bwmon', 'qcom,sdm845-cpu-bwmon', 'qcom,sm6115-cpu-bwmon', 'qcom,sm6350-llcc-bwmon', 'qcom,sm8250-cpu-bwmon', 'qcom,sm8550-cpu-bwmon', 'qcom,sm8650-cpu-bwmon', 'qcom,x1e80100-cpu-bwmon']
+>     	'qcom,qcs615-cpu-bwmon' is not one of ['qcom,qcs8300-llcc-bwmon', 'qcom,sa8775p-llcc-bwmon', 'qcom,sc7180-llcc-bwmon', 'qcom,sc8280xp-llcc-bwmon', 'qcom,sm6350-cpu-bwmon', 'qcom,sm8250-llcc-bwmon', 'qcom,sm8550-llcc-bwmon', 'qcom,sm8650-llcc-bwmon', 'qcom,x1e80100-llcc-bwmon']
+>     	'qcom,sc7280-llcc-bwmon' was expected
+>     	'qcom,sdm845-llcc-bwmon' was expected
+>     	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
