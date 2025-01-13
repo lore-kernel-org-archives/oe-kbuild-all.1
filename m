@@ -1,334 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAEF23312F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 07:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736753476; cv=fail; b=h+eH0hR93EkEu1scHzu+iXceebONvCLgNIZ52uI4l6aq+MY4sibgHk262u66r3z5/Uclts10ZSgwZk9oksP82JT57YgcQ2nW8YR2bxVWbfyiPbH6ZAFlPmcijwK3o5Qnxd39C3iPSZqaORs0TFNzranRasKMYS9aORZ2ey0b3yk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736753476; c=relaxed/simple;
-	bh=dU4XPyxc4fu48Sg0z6QTLS57BV8G9oslU2Hx6V1Y6sg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=t66ldLoJg3TSpcpoQZibw+Q1j7VSSnDm6ctD3nogW8GTDukPW4ON2ZlP1UFddMWUnyhRnGA6265KZ3lArjgWbAmYkucBY9CZhY36d0ZKmC/te8pUd6HSrs8FuFgfsjkq48UAlbAt/Pqp7br4fptYdBkJw26PbzcVvVGEupKNqhw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ne/9qRsa; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9675D166F0C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 07:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736753584; cv=none; b=EPbJDXeIxnInf1fogGEyFHXwGM6Ip1scFQmVl/u2eZf6wEbUJHRHW2C53Bdn3Nwc+MoJu2Cv2llC3CEM6xyFo1SQTO9JT3vGfpMIaf91TRxtRwulMn95CFYMccUPWGAa9SHQjLM4zRad175sIb6yJfre1yVNuGFgn7MD5Ip3IgQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736753584; c=relaxed/simple;
+	bh=Ge9TQil3ArmbLEzK2INJ9sl90M8s9I7H7IASo1Au5qE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WbPOo0WG8qyeod01hYmcFTF3jQbdBlmKzWJzTHTufDxyQZ2uGZeK2g2YKwkp+xMKGK/iGejM+/giTb4VvFvvNbk/uWRPrJ1zNrPiPub9pZ0XW2AsfHeX9Ne1z/SUyfxUm1QL+W+6dwqsHfXs0dqTd8sjakt+/5X/zBsLFcpoz/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C6kJuQVp; arc=none smtp.client-ip=209.85.166.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ne/9qRsa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736753474; x=1768289474;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=dU4XPyxc4fu48Sg0z6QTLS57BV8G9oslU2Hx6V1Y6sg=;
-  b=Ne/9qRsasdqR6iodmObtWNvWl2NzvyXaY5XxApKEMBfFQRALeKI0Fa0s
-   74mot4WaokGkVP8ENNpLe9pBTQpqVxc7vucAvCZVcZFF6HDofnuWybG+y
-   nNQECcRl5Orwg6pEdRBN/Vxov0xOyBmuLHrCLSHGqmpEjVoFy2x485tUm
-   5sGV8fnd36oDS2UKby+79yauAHSVK3ZO+fYVyAv8bAC/VN97DZ2/PCJBU
-   NBhGwNVxylNR3mAkdzffHn0KxIr+FUsfuqhIj2XWDL4iCfEtvk0vL9J5z
-   f2g5bpluLd0cLE9Q/eQ+YGavueDn59ZHI50nR4MA1WpiKaOYkz7dHkf3d
-   Q==;
-X-CSE-ConnectionGUID: lvwvyDznQVSBZCWaJb8Y2w==
-X-CSE-MsgGUID: j2EF78zISQOxPoICMYYO9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="24597666"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="24597666"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 23:31:13 -0800
-X-CSE-ConnectionGUID: no57AUL7RV+Hd+2mgAapgQ==
-X-CSE-MsgGUID: Cp5oqT+yS52QPn9k9dPPQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105252923"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Jan 2025 23:31:14 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Sun, 12 Jan 2025 23:31:12 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Sun, 12 Jan 2025 23:31:12 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.47) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Sun, 12 Jan 2025 23:31:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UJUJ1V5OiBWn3jYEetSQLvBhLFdVbQkSt/uS1hogKLv+sejjgiNmmshWsmK6dgX9lTQeQxElW8A+/ETK656QyzAaCZfh416/It1MnnHU5Xefb5invmYgcCR1KRbMW00JyLeuZFTPTS26UTjOLTdzmdZ0n1bkPujGWB/azOfOHSiROYFDwTCeumtDSwx2sqqPPL/4p2gWvCkZQ4EJo3Hzz7cMapgz6q+es6D77KPEbHwYx495JvlIcbtDciyzgQIqoIaLzq9md66ebvzkrCz7A/jwXOyuop2A4D0X1XmODhH8IDgtdTjYyvnwvOKHiU2bM49cgVMEHXE9iF+7gtHciA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DSAHmbT5TgNlLyQhTAsrWyQLVkCTeDjvhmbr+pqws/0=;
- b=epMVh9DjKU3ETigg77/HvJV7JwJbPeW9KsHgxxdtYlKq57fmn7PrJfRRnJXSYAKWyPsX85e2O/E6jfeqD9wNlFdfkVH9dLhPXn9UvKpOi4xK/kMEBGr2t37r3PYSySH8JC3amOC8LbWNar26mk8v3TopGt/rAzVKoF1fVUrU4+/NJ4jRhVup0XL3thJaaILvdmBrTFmIfVbgH396LR6sKq6fHlTGcSHGwwqKTHWIO2UPdWm+ukk2IRbKqBwLIVQy6J4qGiGiu1PudyEHEqxY+k3M9aaUgf+rYvIEnZECheu0hFlHBI/g5gvflHl4W2+IVturYJEsVpBvRWTf/YbLMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by PH7PR11MB7430.namprd11.prod.outlook.com (2603:10b6:510:274::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.17; Mon, 13 Jan
- 2025 07:31:10 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%3]) with mapi id 15.20.8335.015; Mon, 13 Jan 2025
- 07:31:10 +0000
-Date: Mon, 13 Jan 2025 15:30:54 +0800
-From: Oliver Sang <oliver.sang@intel.com>
-To: Barry Song <21cnbao@gmail.com>
-CC: <lkp@intel.com>, <akpm@linux-foundation.org>, <anshuman.khandual@arm.com>,
-	<baolin.wang@linux.alibaba.com>, <bp@alien8.de>, <catalin.marinas@arm.com>,
-	<chrisl@kernel.org>, <dave.hansen@linux.intel.com>, <david@redhat.com>,
-	<gshan@redhat.com>, <hpa@zytor.com>, <ioworker0@gmail.com>,
-	<kasong@tencent.com>, <kirill.shutemov@linux.intel.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-	<oe-kbuild-all@lists.linux.dev>, <ryan.roberts@arm.com>,
-	<shahuang@redhat.com>, <tglx@linutronix.de>, <v-songbaohua@oppo.com>,
-	<wangkefeng.wang@huawei.com>, <will@kernel.org>, <x86@kernel.org>,
-	<ying.huang@intel.com>, <yosryahmed@google.com>, <zhengtangquan@oppo.com>,
-	<oliver.sang@intel.com>
-Subject: Re: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-Message-ID: <Z4TBLhxvV6llCcWb@xsang-OptiPlex-9020>
-References: <202501061736.FoHcInHJ-lkp@intel.com>
- <20250113005626.2290-1-21cnbao@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250113005626.2290-1-21cnbao@gmail.com>
-X-ClientProxiedBy: SG2PR02CA0083.apcprd02.prod.outlook.com
- (2603:1096:4:90::23) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C6kJuQVp"
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-844eb33827eso137029539f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jan 2025 23:33:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736753582; x=1737358382; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=arj+ofbfvLi3WuyU/a3nyYwlbHlastVq5NJMCKrVWwg=;
+        b=C6kJuQVpvVDquo6ze9PVAQ3epy5UiS1CghU9iNfWwGVHCE2dgqLxkmSgd2575B+NFY
+         1CteNQdEEbAH02YHuazIyYSoI5iV5W3lHetdmM1Y87c+fn0lLtZHA8OjiOvhZQrp2JJ8
+         4jDIs++5cvCvRFu7VwtDBwjXV49AHojcpi5i9+HHoeN4zGP+g7ARZ3W+RtPtwm71oTtc
+         vdoXAc6TA0D9fT3LrZBj0xNWhyfgJrMsVBwWi8Pk+uZ8MKC1/tmtl/vR/nkvaKQK1KOL
+         dxpTYK1BFH+0kiJoZrrsawEXn4vtFKA0nkTl99OiITb5ibNoLsetsUQXoI/yu75IBhxm
+         VmdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736753582; x=1737358382;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=arj+ofbfvLi3WuyU/a3nyYwlbHlastVq5NJMCKrVWwg=;
+        b=B/Rf4qVV6L2Jq0etjxnmJuTobG8uCQA4rYcdwz43tcV50N1gQ08TlwfECeq96fMvTV
+         1iRbJ+Vc271PF+uPoLHADt0aySbqt1Sf1QehLlW9Stx+uj/QyGgBNRMH1eUEfD+TBnOb
+         hO2zBHVZsWnq/vLSA9CYr/kQ5p15g/mcRRY45ahxanHdKyvbMXCdTEtANutNHwVAstHb
+         SSKRcOh7urbqEGA++iLHAmSLVCnJduDLdRZ7Agwg+/0lyprizuge2t6WOPqKubD7Ws5E
+         QPGzBNDjngTi39gYBEy7aWp1R3c1OWwxYFSPyYaHH+9c+grQsXcAe9CsyXKUGKgHE+aS
+         Z5yg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMzxYqGVJEgFwKsYywib5Ib7rc8LSjtkl7LkX8lBw02yOMcJ23E4eJuodmCmq0R04QcIo0GA8WhWT9Kmap@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvoXQbP+73/qp2/HAoyQXlVWSd7C/w7Otx/oJlVqeevoJTdY4n
+	Jd4bFKHHmsyNIx96b+Rh+Qh6te1AS/a6l8gFi2frb40x+uW1tI5d4S94pnWPWCdTw3HCZ5iWiZs
+	kfvUgNacB+lvy43x+EnlXdTkW2jw=
+X-Gm-Gg: ASbGncsyyKS7EbpPmwRWemFbUHkSmqOLjCcmcGYNbIAstQKCwOgLcLGOYYhCYQPOmbs
+	sQauTJbUBsOjoeW9E0GJ91JxiXPDtRz675Kkg2Q==
+X-Google-Smtp-Source: AGHT+IFXhkXK5r5EvkPMzbE0zcn8NMoLy/WtF0Yy+V0yYASPieWue1Uuk4AcZscypNNxroDOUAi2uekyOpa+qD2R+OU=
+X-Received: by 2002:a05:6e02:160e:b0:3a7:d7dd:e709 with SMTP id
+ e9e14a558f8ab-3ce3a878004mr148298155ab.7.1736753581731; Sun, 12 Jan 2025
+ 23:33:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|PH7PR11MB7430:EE_
-X-MS-Office365-Filtering-Correlation-Id: f15f0ab6-73b8-4beb-7114-08dd33a44052
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QTJMb21kVzA5NkZqNkRuYUpDNnBIZFpSdG1SRklXV3ZCZjBjbVhqUGUxdzNO?=
- =?utf-8?B?a1oxVlhaLzluVGt2dnExbStzRnJGTUdISDRRNFR5OEZoUTAxVE95V1NteGdw?=
- =?utf-8?B?MFJSNEs5QldiWkU4dVdQU01aeWhiODhGYiswYnc5aStETEV2ajJDM2s1ZGRj?=
- =?utf-8?B?NTRnTlFrbENEMUxxejZmVXEvMW9VZDNYbzVkQUdUWnZCN2pjWkVYVUtkWHZs?=
- =?utf-8?B?dTZQOFhDRWlrclQxOWRBTTZLa0ErblZjR25BR3dJNVBqMzRCMDFyY3VDaHN0?=
- =?utf-8?B?dDVkMGRzUTBBbno2aUpKRzRodjI3MDBTM0RmY2RBZkpxTUErSWpjQ0MzUkpn?=
- =?utf-8?B?ZnhsajEydkxPQzJ6NEI4SW9XbUxKQ3ZHZmV5c21ubXJQRUl2NzJqWFMvR1JC?=
- =?utf-8?B?c1RydWNscGYrNTVUVGhwZkt6aEg3RWI4NWUrT3VtRlVmaFo5UWUzdjlWTDV1?=
- =?utf-8?B?ODFkKzl5STdvVEp4VmQ5amhMNTMzYll6TGlYcS9FVkZsNUtBOG9CQlRiN0ll?=
- =?utf-8?B?TUl0ampyZjNyd3lnSjhEMTlqcXdqZjA0bGpYZExYQ2YvUURselBXanFOL0po?=
- =?utf-8?B?TjNGeU1nSisyQ3NDbHNydStEa254WG9zUGNBdmNTd0NKTTJsV0xucERpc2Q0?=
- =?utf-8?B?NjA2dXBoMWgzL3lSb2hXSHRWalMxM1p0ZTRnRVJSMWFrK2xqZnltRGxWU0Nu?=
- =?utf-8?B?ZndOQVJ2NVU3b01zVGJGc29URlNDRkhMeHN1a0Q3UEFzMUlpcklFY0VBSUJX?=
- =?utf-8?B?NjAyYTVuTXkrSlVOSUZjcVhYRm5uZTltYmRJTS9MR2VzOHJxNTVMUHQxcDR3?=
- =?utf-8?B?SXNSbjdOeXhrWU9hRTlueXZHb2ZnTjhuWGJmUUZDWnhWNndlQ1c2NytvdGtm?=
- =?utf-8?B?dlBNdHRHRlI3QUhFNHZ6THNHd3VSWTBlK2ZhMzlTbm02NzBZajJ4T2lVMUZI?=
- =?utf-8?B?c2JYODhDa3ArNGNOemhOQW1ERHIvV1BPTlJxSis4VjZ4dHJJaU0rVGRnNWcw?=
- =?utf-8?B?VGpiYm5kTGZ2NDVrMHgzdFN4a085UlNQZTQ5NnJ3djhyVE5jZnJSWlREdEpU?=
- =?utf-8?B?Y0UrK0tNNExQWFpUdVFXVGg1U2Vra2FZK0pqSmd6Ymp3RktCVDNra3dzRUE2?=
- =?utf-8?B?dXVaSDRJN2ZPbWJXaUJzNVRXTEllVWZ6cktYK0FUenh1N2NhM1gyb2VGcUI3?=
- =?utf-8?B?N1FIdVR3ZkNoamRwSTJLRVBnMjlJcml0dmp1RGJMUWZnaktUOXZobEZ4eVFw?=
- =?utf-8?B?YXljV3NhRzh4RHp6eWkrR3U1MG5iWlJ3N1luY2JhUm1NMjZxc3BFSWdTajEx?=
- =?utf-8?B?VXdCckhIMktCTkVlbmEvL05oaWJ1WUw4ZTljSEpRbzZtSmxZUEZUZ21zUm92?=
- =?utf-8?B?eG5QQjFrRXBkOXlrcStDaEl3ZHQrbEFCQ01ZWmpHdUhvVmhvOHB2ZlR5T3ky?=
- =?utf-8?B?LzJrcHNITWtGWk8wL0srV0NZaVNDUUNIYXhUcWw1WWVWZ0F0NlM0YUFuSGtz?=
- =?utf-8?B?K3U0TjVSVmZ2cnBHZ21UTjBLNnI5c291amxwVTJXbThscmdnRXhudDduRlBY?=
- =?utf-8?B?L2lsbG1yQWtRckxNM2ZPamd5T3NwWW1VUGhVb0ttcHpJSTdIc1ArUXFLVzl5?=
- =?utf-8?B?TE1lSTlrSDMrRXRBVHJJZld6QVNMYWJjTTZISXhRSisvU2xhQzlnU2FadjRV?=
- =?utf-8?B?TitSeFVYV3daZFFRVXp1UnN4aExzcXE5THlwQWRnOUV3NzJKeEhhVFlYWHQ1?=
- =?utf-8?B?TllxajJTYThWTm5kbTBSWnZQY1VaODk3aER3SVVMRkpFMFc0ejRnU3duWmRQ?=
- =?utf-8?B?aWp3eWxEdWZ4WjRrSUV1UT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVpXYjlUTmFzMUNoZVJzTGN4SG5Kbzh1ZHRlZWlrQ0h3bWxpaFkrV0d5Sk15?=
- =?utf-8?B?ZnVxbDVLdUl5c1ZMdk5DL1Vid2l6THlKZHhKRHU5azh6K2VCOE5YNU5QRmtr?=
- =?utf-8?B?WmdsLy9YbVlZU3lCcE1SMW5KcXNkcnhpOUQvYkdPbG9vcnJPV1pkUVFSUTBY?=
- =?utf-8?B?SmU3UjkzVkpkSWJPTjNpYWs5TGdBMEVOOEZCUDh4RndlSW4vUXFtcUl5enIz?=
- =?utf-8?B?dk4zOE5FWTUzcGRmak9BZ1poRGplZHNhbU8waVRIelI5RDZhUSt1cWFwZkQy?=
- =?utf-8?B?OEhMdDNXbEtjZ2NpRlNJNlRKdVZaMWk0UFRrTlh1Q3krcDNMZkx6UnFCL1RW?=
- =?utf-8?B?Ujg1WkxBaU95R1NHWWE0UXk2cWc0VDNiS0Z3NzI5VzcwSEpJTTBKRFkveUhk?=
- =?utf-8?B?WmNOQzViUDVlZEpxdVAwQzJ1dzYrRklzTlRYZE0xYmlGdHhFU0crZ2l1UFhP?=
- =?utf-8?B?WkhRT1A5cWNXNERTQ1o3WVRVUUgrZ1dYY25SMWpjRVVNWU5pVmZPVHRLT3h2?=
- =?utf-8?B?aUNWQlVRaGZiYVB4aGl3Y1crRndzTkJjRXA0Q3cvN3hJdEhBK0FKeWhlaGtq?=
- =?utf-8?B?Q1hOVEtmc25YTklKY1NxZGxjQWgwaFFHK2Nyb3U0elJlVk9Dd0xHMkxlR09R?=
- =?utf-8?B?OGVvc1VsdEhWZFA4MmE5MmNvck9xRTZ5R3FqTFI3US9CeEhMeWQ0Z0lHV2Vw?=
- =?utf-8?B?N0FTdmJGUmlLWVNiWkFmc2lFUlIrcTV0Zy92Z3poaDJHTzlaTUQ0WFAzRSt0?=
- =?utf-8?B?QnJXQWRoZ2ZXMmNLWWh4aDJiL3hzbTFvRkFPYmpRZFRJbFNUZS80VDNhVzBI?=
- =?utf-8?B?K3B3TVI0WE13UlZjRk9IRFhrc1VNejU0SXhydXFjVDA0ckNySWZ2c0F2Y2hm?=
- =?utf-8?B?VERwZjZKM0NPWWwxdzdxWk4wQmxJWUowdDRGeGVmK3ZKeWF3WmVKNVJXMlhh?=
- =?utf-8?B?NXRuT081M283VjVkMmhSS0czK2JJRVRiTUROQzRWY1plOXpxRkFxVnc0N2dY?=
- =?utf-8?B?eTVlOWNVZnRCNVAvdGJUZTFjRmowVnQ2eUFVbWdtYkF3MzJvMGE5K2R0ZzVU?=
- =?utf-8?B?ait2emIrazM1T3dwTkFHdmF3Y0tNZUlYY2lQSDVkZTAvd1R0V2luWEJlUmQw?=
- =?utf-8?B?OTZDckxTNmZ0UkQ2bjZuL2F6VkxpbDhxWUx6SDVjaEhyR1Q3SWU5UWNyNHRG?=
- =?utf-8?B?KzRGZjAvKzB3VEdFY0Rid09zYitqbFViM3VPRG9CVWxycWNNVFVhRjBPNlor?=
- =?utf-8?B?K05VYStOSGRoREZkRzdFRXlkNG9BN2FXcCtndFZ1WVcrT0kxZTI3YXl3MVQv?=
- =?utf-8?B?UUdLVTVnb29lUkNsaHBiRVNPUFRiWUNOYjFsU25qTCszOHlQYmFDdkxzOG4v?=
- =?utf-8?B?RHVLelVOWEYvSVhJRnI3MWtobTk0OU1lNHdiNXFRZVZiYzZleXFvVDJaT2NP?=
- =?utf-8?B?Q2gwVHdiSEVvcDNWdm5WN2xKc2dKWUVyTEUzcDBJOXlNKzhUZVdKSlRZMVlQ?=
- =?utf-8?B?V3REY2FJTTNNRnYzYXpzVDB6dGVYU0hHVFB4YWMrdXVXYVNvdXU5dnJOVDRL?=
- =?utf-8?B?MzVNdXduNS9iV2dGajl1Q2ZRWUFSc08xSmlPNXdNaG9Yei9zM0pCT2xjbGJw?=
- =?utf-8?B?VXpYUXNXdlRQVmpWNWNLUmh6aXJwR1hVNTc2aTZ0U0lHRUhvZG1hdDh5T053?=
- =?utf-8?B?b0FNL1I2Q1czVHdtOGIxMzNBSHBnVlR2cFoxdTB4aFkrd3JJMkpyMFVNU3Rp?=
- =?utf-8?B?aVNtN21IWGY4d1JjR1R6alN5SmExMjVqS3N6TXpkS3BOMkxEVDdPc1M5NCta?=
- =?utf-8?B?TUsxNnI5anVGRUwzMWRvaFBGcW40dWpoazU3eG5FY2g4NjJkTjRBMk40RFVZ?=
- =?utf-8?B?M2JFcHQ2SGNTeDhPUnJPa1hlR2RNTTA2U3BoTXJsL3d1cExJK0gxZVIzRXRD?=
- =?utf-8?B?dXUraXVCZXRBdDRZWGdHZEVRYWhnTFQ3aENOeEhtcDdpRkplcGRvaDdidTNT?=
- =?utf-8?B?N24rMnZ6YktPdnozRmx0dUkxY3pKRDhITGtZa2s3MW4rOXM0TVcrLzJ1Y1Uz?=
- =?utf-8?B?RWVoNHRPZTREbCtiUkd5N2kvcXArUUZubnBwakRadkZ0VjdiNlMvN0o0Z3Vs?=
- =?utf-8?B?cDNTSHVCdUNsUUVQWHZiWTdsM01BOUJ0NDZvTWZ1Z1Bzc2xoVUExczg3dmZQ?=
- =?utf-8?B?NlE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f15f0ab6-73b8-4beb-7114-08dd33a44052
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 07:31:10.4365
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Azngqi0JDGtd2uorWJgJOBV4t+4eIDY+dU1rFhRYUAdiD2Sw6DyXpLbuaAJNkKi51ndZ6eevrCk5V8xdY6+enw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7430
-X-OriginatorOrg: intel.com
+References: <20250112113748.73504-2-kerneljasonxing@gmail.com>
+ <202501122252.dqEPb1Wd-lkp@intel.com> <CAL+tcoCvO8xapF55_TKj-rs8jJvSRRQ=EQHiZZvrwSPYoVFc_w@mail.gmail.com>
+In-Reply-To: <CAL+tcoCvO8xapF55_TKj-rs8jJvSRRQ=EQHiZZvrwSPYoVFc_w@mail.gmail.com>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Mon, 13 Jan 2025 15:32:25 +0800
+X-Gm-Features: AbW1kvaE9itCTzXOypNRU44YXj2F2bc0OlU5qI2bwo9NzvpoqYhcRdZZ9tFKiRY
+Message-ID: <CAL+tcoDajZCtWSb74AJ=w6fVLAQRBbAFtU683PV7sqo3uHaDaQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 01/15] net-timestamp: add support for bpf_setsockopt()
+To: kernel test robot <lkp@intel.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, dsahern@kernel.org, willemdebruijn.kernel@gmail.com, 
+	willemb@google.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, horms@kernel.org, 
+	oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-hi, Barry,
-
-On Mon, Jan 13, 2025 at 01:56:26PM +1300, Barry Song wrote:
-> On Mon, Jan 6, 2025 at 11:08 PM kernel test robot <lkp@intel.com> wrote:
+On Mon, Jan 13, 2025 at 8:11=E2=80=AFAM Jason Xing <kerneljasonxing@gmail.c=
+om> wrote:
+>
+> Thanks for the report.
+>
+> On Sun, Jan 12, 2025 at 10:50=E2=80=AFPM kernel test robot <lkp@intel.com=
+> wrote:
 > >
-> > Hi Barry,
+> > Hi Jason,
 > >
-> > kernel test robot noticed the following build errors:
+> > kernel test robot noticed the following build warnings:
 > >
-> > [auto build test ERROR on akpm-mm/mm-everything]
+> > [auto build test WARNING on net-next/main]
 > >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-set-folio-swapbacked-iff-folios-are-dirty-in-try_to_unmap_one/20250106-112638
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > patch link:    https://lore.kernel.org/r/20250106031711.82855-3-21cnbao%40gmail.com
-> > patch subject: [PATCH 2/3] mm: Support tlbbatch flush for a range of PTEs
-> > config: riscv-randconfig-001-20250106 (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/config)
-> > compiler: riscv64-linux-gcc (GCC) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061736.FoHcInHJ-lkp@intel.com/reproduce)
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-t=
+imestamp-add-support-for-bpf_setsockopt/20250112-194115
+> > base:   net-next/main
+> > patch link:    https://lore.kernel.org/r/20250112113748.73504-2-kernelj=
+asonxing%40gmail.com
+> > patch subject: [PATCH net-next v5 01/15] net-timestamp: add support for=
+ bpf_setsockopt()
+> > config: i386-buildonly-randconfig-005-20250112 (https://download.01.org=
+/0day-ci/archive/20250112/202501122252.dqEPb1Wd-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250112/202501122252.dqEPb1Wd-lkp@intel.com/reproduce)
 > >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
 > > the same patch/commit), kindly add following tags
 > > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501061736.FoHcInHJ-lkp@intel.com/
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501122252.dqEPb1Wd-l=
+kp@intel.com/
 > >
-> 
-> Sorry. My bad, does the below diff fix the build?
+> > All warnings (new ones prefixed by >>):
+> >
+> >    net/core/filter.c: In function 'sk_bpf_set_cb_flags':
+> >    net/core/filter.c:5237:11: error: 'struct sock' has no member named =
+'sk_bpf_cb_flags'
+> >     5237 |         sk->sk_bpf_cb_flags =3D sk_bpf_cb_flags;
+> >          |           ^~
+>
+> Strange. In this series, I've already ensured that the caller of
+> sk_bpf_set_cb_flags is protected under CONFIG_BPF_SYSCALL, which is
+> the same as sk_bpf_cb_flags.
+>
+> I wonder how it accesses the sk_bpf_cb_flags field if the function it
+> belongs to is not used, see more details as below (like "defined but
+> not used").
 
-yes, below diff fixes the build. thanks
+Well, I still can't figure out how it happened. In the next respin, I
+will try "#ifdef CONFIG_BPF" which bpf_sock_ops_cb_flags uses.
 
-Tested-by: kernel test robot <oliver.sang@intel.com>
-
-> 
-> diff --git a/arch/riscv/include/asm/tlbflush.h b/arch/riscv/include/asm/tlbflush.h
-> index 72e559934952..7f3ea687ce33 100644
-> --- a/arch/riscv/include/asm/tlbflush.h
-> +++ b/arch/riscv/include/asm/tlbflush.h
-> @@ -61,7 +61,8 @@ void flush_pmd_tlb_range(struct vm_area_struct *vma, unsigned long start,
->  bool arch_tlbbatch_should_defer(struct mm_struct *mm);
->  void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
->  			       struct mm_struct *mm,
-> -			       unsigned long uaddr);
-> +			       unsigned long uaddr,
-> +			       unsigned long size);
->  void arch_flush_tlb_batched_pending(struct mm_struct *mm);
->  void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch);
->  
-> diff --git a/arch/riscv/mm/tlbflush.c b/arch/riscv/mm/tlbflush.c
-> index 9b6e86ce3867..aeda64a36d50 100644
-> --- a/arch/riscv/mm/tlbflush.c
-> +++ b/arch/riscv/mm/tlbflush.c
-> @@ -187,7 +187,8 @@ bool arch_tlbbatch_should_defer(struct mm_struct *mm)
->  
->  void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
->  			       struct mm_struct *mm,
-> -			       unsigned long uaddr)
-> +			       unsigned long uaddr,
-> +			       unsigned long size)
->  {
->  	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
->  }
-> 
-> > All errors (new ones prefixed by >>):
-> >
-> >    mm/rmap.c: In function 'set_tlb_ubc_flush_pending':
-> > >> mm/rmap.c:685:9: error: too many arguments to function 'arch_tlbbatch_add_pending'
-> >      685 |         arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-> >    In file included from arch/riscv/include/asm/pgtable.h:113,
-> >                     from include/linux/pgtable.h:6,
-> >                     from include/linux/mm.h:30,
-> >                     from mm/rmap.c:55:
-> >    arch/riscv/include/asm/tlbflush.h:62:6: note: declared here
-> >       62 | void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
-> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> >
-> > vim +/arch_tlbbatch_add_pending +685 mm/rmap.c
-> >
-> >    663 
-> >    664  /*
-> >    665   * Bits 0-14 of mm->tlb_flush_batched record pending generations.
-> >    666   * Bits 16-30 of mm->tlb_flush_batched bit record flushed generations.
-> >    667   */
-> >    668  #define TLB_FLUSH_BATCH_FLUSHED_SHIFT   16
-> >    669  #define TLB_FLUSH_BATCH_PENDING_MASK                    \
-> >    670          ((1 << (TLB_FLUSH_BATCH_FLUSHED_SHIFT - 1)) - 1)
-> >    671  #define TLB_FLUSH_BATCH_PENDING_LARGE                   \
-> >    672          (TLB_FLUSH_BATCH_PENDING_MASK / 2)
-> >    673 
-> >    674  static void set_tlb_ubc_flush_pending(struct mm_struct *mm, pte_t pteval,
-> >    675                                        unsigned long uaddr,
-> >    676                                        unsigned long size)
-> >    677  {
-> >    678          struct tlbflush_unmap_batch *tlb_ubc = &current->tlb_ubc;
-> >    679          int batch;
-> >    680          bool writable = pte_dirty(pteval);
-> >    681 
-> >    682          if (!pte_accessible(mm, pteval))
-> >    683                  return;
-> >    684 
-> >  > 685          arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr, size);
-> >    686          tlb_ubc->flush_required = true;
-> >    687 
-> >    688          /*
-> >    689           * Ensure compiler does not re-order the setting of tlb_flush_batched
-> >    690           * before the PTE is cleared.
-> >    691           */
-> >    692          barrier();
-> >    693          batch = atomic_read(&mm->tlb_flush_batched);
-> >    694  retry:
-> >    695          if ((batch & TLB_FLUSH_BATCH_PENDING_MASK) > TLB_FLUSH_BATCH_PENDING_LARGE) {
-> >    696                  /*
-> >    697                   * Prevent `pending' from catching up with `flushed' because of
-> >    698                   * overflow.  Reset `pending' and `flushed' to be 1 and 0 if
-> >    699                   * `pending' becomes large.
-> >    700                   */
-> >    701                  if (!atomic_try_cmpxchg(&mm->tlb_flush_batched, &batch, 1))
-> >    702                          goto retry;
-> >    703          } else {
-> >    704                  atomic_inc(&mm->tlb_flush_batched);
-> >    705          }
-> >    706 
-> >    707          /*
-> >    708           * If the PTE was dirty then it's best to assume it's writable. The
-> >    709           * caller must use try_to_unmap_flush_dirty() or try_to_unmap_flush()
-> >    710           * before the page is queued for IO.
-> >    711           */
-> >    712          if (writable)
-> >    713                  tlb_ubc->writable = true;
-> >    714  }
-> >    715 
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
+Thanks,
+Jason
