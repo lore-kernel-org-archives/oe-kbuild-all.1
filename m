@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7CB235BF4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 09:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DA5235BF5;
+	Mon, 13 Jan 2025 09:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736761584; cv=none; b=jfwE9ZmxVjzGOBRbg819hcF7OpwBjbQE+h/exJDE1tCJ5pytR1zudQTltlbJq7XpYqqUsmyRCWUXRLmq9IVqD+n/blgDs1IzahO4qNCGHGTwyQKrudDm0CTDorPb4qQqurHp6XJEx3/NQU+ERx6lJQJqUbDxc+It7QVETdtSiUM=
+	t=1736761585; cv=none; b=rkwkdtsipTQa1o1h4thubDqe8sjSNQzrwhw35NQ0Cxr9xs5rzlvnEwsDy6RDkGGHRZ9eY1Az7ZgAiqExUAQ63UCuXQ94GM2RwweGicCGNW3BXCIQgeWodGw+n4/xJzWC98XFx15yPooBio9uMfxVM+jdJ7PInqhII9wjdMSuVog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736761584; c=relaxed/simple;
-	bh=QnUy8FgJKbQpdYO/TeQfbe4CM9tjYs+hN0rNTpQ0MiY=;
+	s=arc-20240116; t=1736761585; c=relaxed/simple;
+	bh=FDkhtEmu4sK9PKqGIFanAodedTF9nXkHJEJ8tLAR2Ew=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Il4lGLljdoORIFUmNdnhxP97FYzneX2PQ/dhZHrv7QGsu2HQboLwXpecuqF0dtYhuw65J2YvW7NnQ8+GZjDXHDW5nDFS+/iSNlSS3Rqz/FWZuV7TfHVW6nAzS4thhoeKrKtaEAWWEmsK070nFn/xsd5LUrRP1oYrQi4h4qMLkUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhFj6ktD; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=iGhkcHrkEDEC5QpIL0REKhHZ/j0cybubK8bOWDexRpGU5NF608KLobw/Ivr8OcFKqGuqvZFoy0CYRM9D+nKW6ngCj6R4YUe/FHFLUZED7z9in3oNkeT5IfmhbD4o8Z/oerMjIGbAx2WMyH88vC9UGZda6yASwBIIX6N9aMhY/2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hMJ9Y40J; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhFj6ktD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMJ9Y40J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736761582; x=1768297582;
+  t=1736761583; x=1768297583;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QnUy8FgJKbQpdYO/TeQfbe4CM9tjYs+hN0rNTpQ0MiY=;
-  b=YhFj6ktDSWw0RPK3LdxmQuPob6mHcysSQJHxN1j6wzC8e7guMVxfRMcG
-   M8sX26r/2OdpIHZNvO8sPWqBklJf8qwmSuV1z2jfpN2R+FX0OUImQKbrp
-   fAtgejFiSdghS6DQMHjavhb+eeSoHMBAvIVQ2eVUU/xe6sYFuA9QJpIl4
-   LjhjrtFp1wiv6yLcSkSO/D8hZg42jXyvNba0xqFRLdopMFCTqiTKBCYvz
-   022IMYXNaLgzTQslpgaZCXNCAvu7o5Ce0nsA0cTRqRGaTgyv/52iE41TH
-   OEH3PuQW/iJuOHxkccFMcPSeb3qV/cB9P5mCXSASFszjv66Hyn8vUrhHX
-   w==;
-X-CSE-ConnectionGUID: IU4JLjLHQrOuOOBYFU4LQA==
-X-CSE-MsgGUID: 521+2YDCT6qFYlTL0L0LlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="36895772"
+  bh=FDkhtEmu4sK9PKqGIFanAodedTF9nXkHJEJ8tLAR2Ew=;
+  b=hMJ9Y40JtCSPB3Mx5MOAzzbhxgCO4pY2j87iLeMoe5zDckrh4h6V1bHV
+   DWWVnyacLZKlT+uEQBRWuxFOvQQL+SNwgdkrq/mLg3BM+YPzo5i0N/QA2
+   ZVzIDLpBpN/utfbURvUn9ltYuZhuydbxcTT4q/P5cz4U6gXzSuOuYOHp4
+   YHz15pkwZlCDjhnISQqY+jS0P0M3O41wdcojyquSKJpGqflfNo2MU5mEs
+   ByYI7x0iPttK1zXkafWGrTkbft/3salyHkAAXcV7YIFvE64JfgBVMOxL/
+   /5YLfrjARGRS8HRA6+/Ce/twg+u/RIuzI1kaYA3HsIxxPtLbCS0xt5eeP
+   A==;
+X-CSE-ConnectionGUID: TvozRTzZTuy2SAsFZt5XLg==
+X-CSE-MsgGUID: IqlAsxDhS9ORafCoubw+lA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="39828267"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="36895772"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 01:46:22 -0800
-X-CSE-ConnectionGUID: AMhkiDkERU6DiDPPB5E7UQ==
-X-CSE-MsgGUID: srGZI3elQCWQK4Qlv9/Z4w==
+   d="scan'208";a="39828267"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 01:46:22 -0800
+X-CSE-ConnectionGUID: ujf3P+vVTeu5cbC9n3bvMw==
+X-CSE-MsgGUID: fSOZWjVpQ0yD0KZzpXhfbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104933148"
+   d="scan'208";a="105290145"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Jan 2025 01:46:20 -0800
+  by orviesa008.jf.intel.com with ESMTP; 13 Jan 2025 01:46:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXH1W-000MyR-0m;
+	id 1tXH1W-000MyU-0x;
 	Mon, 13 Jan 2025 09:46:18 +0000
-Date: Mon, 13 Jan 2025 17:45:21 +0800
+Date: Mon, 13 Jan 2025 17:45:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: I Hsin Cheng <richard120310@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH] cpumask: Implement "random" version of
  cpumask_any_but()
-Message-ID: <202501131732.I9VU5v0r-lkp@intel.com>
+Message-ID: <202501131709.T02YI6Rr-lkp@intel.com>
 References: <20250113061839.22131-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,72 +80,159 @@ url:    https://github.com/intel-lab-lkp/linux/commits/I-Hsin-Cheng/cpumask-Impl
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20250113061839.22131-1-richard120310%40gmail.com
 patch subject: [RFC PATCH] cpumask: Implement "random" version of cpumask_any_but()
-config: i386-buildonly-randconfig-002-20250113 (https://download.01.org/0day-ci/archive/20250113/202501131732.I9VU5v0r-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501131732.I9VU5v0r-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-001-20250113 (https://download.01.org/0day-ci/archive/20250113/202501131709.T02YI6Rr-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501131709.T02YI6Rr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501131732.I9VU5v0r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501131709.T02YI6Rr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   include/linux/cpumask.h: In function 'cpumask_any_but':
->> include/linux/cpumask.h:407:18: error: implicit declaration of function 'cpumask_weight'; did you mean 'cpumask_next'? [-Werror=implicit-function-declaration]
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:63:
+   In file included from include/linux/lockdep.h:14:
+   In file included from include/linux/smp.h:13:
+>> include/linux/cpumask.h:407:11: error: call to undeclared function 'cpumask_weight'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      407 |         weight = cpumask_weight(mask);
-         |                  ^~~~~~~~~~~~~~
-         |                  cpumask_next
->> include/linux/cpumask.h:408:13: error: implicit declaration of function 'get_random_u32' [-Werror=implicit-function-declaration]
+         |                  ^
+>> include/linux/cpumask.h:408:6: error: call to undeclared function 'get_random_u32'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      408 |         n = get_random_u32() % weight;
-         |             ^~~~~~~~~~~~~~
->> include/linux/cpumask.h:415:13: error: implicit declaration of function 'cpumask_nth'; did you mean 'cpumask_next'? [-Werror=implicit-function-declaration]
+         |             ^
+>> include/linux/cpumask.h:415:6: error: call to undeclared function 'cpumask_nth'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      415 |         i = cpumask_nth(n, mask);
-         |             ^~~~~~~~~~~
-         |             cpumask_next
-   include/linux/cpumask.h: At top level:
->> include/linux/cpumask.h:450:14: error: conflicting types for 'cpumask_nth'; have 'unsigned int(unsigned int,  const struct cpumask *)'
+         |             ^
+   include/linux/cpumask.h:415:6: note: did you mean 'cpumask_next'?
+   include/linux/cpumask.h:217:14: note: 'cpumask_next' declared here
+     217 | unsigned int cpumask_next(int n, const struct cpumask *srcp)
+         |              ^
+>> include/linux/cpumask.h:450:14: error: static declaration of 'cpumask_nth' follows non-static declaration
      450 | unsigned int cpumask_nth(unsigned int cpu, const struct cpumask *srcp)
-         |              ^~~~~~~~~~~
-   include/linux/cpumask.h:415:13: note: previous implicit declaration of 'cpumask_nth' with type 'int()'
+         |              ^
+   include/linux/cpumask.h:415:6: note: previous implicit declaration is here
      415 |         i = cpumask_nth(n, mask);
-         |             ^~~~~~~~~~~
->> include/linux/cpumask.h:779:37: error: conflicting types for 'cpumask_weight'; have 'unsigned int(const struct cpumask *)'
+         |             ^
+>> include/linux/cpumask.h:779:37: error: static declaration of 'cpumask_weight' follows non-static declaration
      779 | static __always_inline unsigned int cpumask_weight(const struct cpumask *srcp)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/cpumask.h:407:18: note: previous implicit declaration of 'cpumask_weight' with type 'int()'
+         |                                     ^
+   include/linux/cpumask.h:407:11: note: previous implicit declaration is here
      407 |         weight = cpumask_weight(mask);
-         |                  ^~~~~~~~~~~~~~
-   In file included from include/linux/nodemask.h:98,
-                    from include/linux/mmzone.h:18,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/crypto.h:17:
->> include/linux/random.h:42:5: error: conflicting types for 'get_random_u32'; have 'u32(void)' {aka 'unsigned int(void)'}
+         |                  ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:18:
+   In file included from include/linux/nodemask.h:98:
+>> include/linux/random.h:42:5: error: conflicting types for 'get_random_u32'
       42 | u32 get_random_u32(void);
-         |     ^~~~~~~~~~~~~~
-   include/linux/cpumask.h:408:13: note: previous implicit declaration of 'get_random_u32' with type 'int()'
+         |     ^
+   include/linux/cpumask.h:408:6: note: previous implicit declaration is here
      408 |         n = get_random_u32() % weight;
-         |             ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=3780167214
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1263: prepare0] Error 2 shuffle=3780167214
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=3780167214
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=3780167214
-   make: Target 'prepare' not remade because of errors.
+         |             ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
 
 
-vim +407 include/linux/cpumask.h
+vim +/cpumask_weight +407 include/linux/cpumask.h
 
    317	
    318	/**
