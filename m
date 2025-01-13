@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B0A18E20
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 01:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB22EED8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jan 2025 01:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736731329; cv=none; b=KteF3GXMJ7NImMdniIMOzM9EmgYiak4mvUQn9QRPHIrcH61g0+0pg9Lyfgsz0xj5jKHFURIMTPE70BAjfRc5UHtpnO3dJL+90uOJ+bDELlIYSGiPorimzB6aMREsQuS8EFUaxt+8nfx/qSLdTJBkXLCj7kwze2YyTs5lebSN1Zo=
+	t=1736731391; cv=none; b=szSdDVNzpSfeoPDLZxdodJWrzrz478tX2+Knsyd175XkOAAa440wudg4BsN0p4gQ72KV7zaUpMs3p6EvwJOENIU7y56iEHVg2H2fS4uEyQPqcYEb7n0SOzgpVAqvplLr1YwDCfY+lIVW8oZB9UdjdFcFg0H4KVthv/acm0EfCXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736731329; c=relaxed/simple;
-	bh=P+DqSZ4y3qMvR5GaGBJYnKhNpb5oFyiTf6seggEe6s0=;
+	s=arc-20240116; t=1736731391; c=relaxed/simple;
+	bh=BVO/fZ2Yhu3QFbmZBCziSfAerOvw7xcrhjdqoKLej1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cZSkLBpiaoFm2u9vEwhX+Yr0yyXtnXk8e2z/Lnkx/M7BjFmvhpc+opASN/BTaKYAKCyWybTC7kx8EQpXCCowG+vU5kFzeH9pbVCDsO2kcB/QLvSiIfG7YScG1S4gwpSVwlJusGhl6FTq7IJD7ptAcOXnecPI3MYdp+VPiSu5hx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVxosxj3; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ldG7ObnsCymaZRAwalL66rHs1BkOzoMDcbs2PyrkoqDliFd3AfVLPxKVf1JKWjIPyeAOLB7acXh3tKkoxPwQswSLHlnBPZv/CxKoLcsfqit7nQNKuCa1uMAYF+cst4SywqQhaRLF/A8mBeLQjs5TY1DMooEpGpEDW5Eq/5zEvTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDP2VLyT; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVxosxj3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDP2VLyT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736731327; x=1768267327;
+  t=1736731389; x=1768267389;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P+DqSZ4y3qMvR5GaGBJYnKhNpb5oFyiTf6seggEe6s0=;
-  b=LVxosxj3zQL7nbBvU5/hAjXte7w/WzOHG6BuIw8mgjs4xeidWzMXKwtH
-   tyohtkxH2klV7k01DMfSSZ5iNr5nDtv49JrtLXia+v6oQLy8FsYU4TuJo
-   0y4fYwR6RLkZiHFK8pbarehz3bk4fSo4Bpyae5+Gw9DSo5jQhozAntzqf
-   mi6bi2tJGBOhLT0F9P4pVtelw2oclCjXGjvmn5QQrSXsBAHwWnVQjgZmX
-   JdbIHM0ff6iPDTf3vYZiFfmfy2fGEwC39BzK8N4PDsbelsMc2U3BYjQQQ
-   yc+7LZycPVDeOpZeQDGHC6rlUUCqHRL5r5/0xtWGjzIHq/c8yNsPDhIrB
-   w==;
-X-CSE-ConnectionGUID: fkynVhTqTCyyFQnUD7sj+A==
-X-CSE-MsgGUID: O5WQfVWkQMWx67lUBwU3Vg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="37134891"
+  bh=BVO/fZ2Yhu3QFbmZBCziSfAerOvw7xcrhjdqoKLej1c=;
+  b=mDP2VLyTPaxjg4UiuD2HiEA+dV0MWoLLvPk5UQ+ju3UmuQb0rHEDkL75
+   oDTSwjJ/9JR1hIgS7XS90QaZIu/bxt3fHcnT8P/aPZKpsMQ20NhLgc5ld
+   /Tew9D1ehbTglod2edQL2hSeliDUqGlIOkEJvN4bXNICZfue6stiKtm6s
+   /LlMdTk8RyUYHl5b1OuGPCJFtgN4sMAviNrcSaHYAB6fCZn4QDsK4T9Pz
+   3w4WwvSZZ0J+y6wRhBevKOJs/BUmQXRrGJnYAgT/c1tczCYx9c1r8wYjP
+   8Jmjl7uUFVAT4qa4pM6AHawkCg/kZABiJg7uxIttydjX24sHpHB/nQkg6
+   Q==;
+X-CSE-ConnectionGUID: WDSmygewSKOl4EeSmCaQiA==
+X-CSE-MsgGUID: GT+8MMeFQyOVpmWyTMYm3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="40652414"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="37134891"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 17:22:06 -0800
-X-CSE-ConnectionGUID: BNFbgP4bQBSMO1siJz4vPg==
-X-CSE-MsgGUID: bbQqTUb6Tr+dWT3ZBBu2/g==
+   d="scan'208";a="40652414"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 17:23:09 -0800
+X-CSE-ConnectionGUID: rYtsSJy+RYy/y5TqYTfO+A==
+X-CSE-MsgGUID: ON5l/0XaT+qeq2WrJ3t/YQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105170542"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="104885612"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 12 Jan 2025 17:22:06 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 12 Jan 2025 17:23:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tX99X-000Mb0-0W;
-	Mon, 13 Jan 2025 01:22:03 +0000
-Date: Mon, 13 Jan 2025 09:21:55 +0800
+	id 1tX9AV-000Mb5-0n;
+	Mon, 13 Jan 2025 01:23:03 +0000
+Date: Mon, 13 Jan 2025 09:22:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhi Hou <lizhi.hou@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [linux-next:master 5495/7860]
- drivers/accel/amdxdna/amdxdna_mailbox.c:334:52: sparse: sparse: cast removes
- address space '__iomem' of expression
-Message-ID: <202501130921.ktqwsMLH-lkp@intel.com>
+To: Nihar Chaithanya <niharchaithanya@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [staging:staging-testing 13/26] riscv64-linux-ld:
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1731:undefined reference to
+ `gpib_unregister_driver'
+Message-ID: <202501130949.llN3pNb1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,99 +64,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2b88851f583d3c4e40bcd40cfe1965241ec229dd
-commit: 3c8cfec3fcc4fe53f2bd87ec91ef31df4fa6dc0d [5495/7860] accel/amdxdna: Declare mailbox register base as __iomem pointer
-config: x86_64-randconfig-121-20250113 (https://download.01.org/0day-ci/archive/20250113/202501130921.ktqwsMLH-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130921.ktqwsMLH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
+head:   76c63651bb6d5274d9e517f1367dc13defd228c8
+commit: 10ca8c3b51f7ad557fdd1953eaad8b5a91774ecd [13/26] staging: gpib: fmh: Handle gpib_register_driver() errors
+config: riscv-randconfig-001-20250113 (https://download.01.org/0day-ci/archive/20250113/202501130949.llN3pNb1-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130949.llN3pNb1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501130921.ktqwsMLH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501130949.llN3pNb1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/accel/amdxdna/amdxdna_mailbox.c:334:52: sparse: sparse: cast removes address space '__iomem' of expression
+All errors (new ones prefixed by >>):
 
-vim +/__iomem +334 drivers/accel/amdxdna/amdxdna_mailbox.c
-
-b87f920b934426 Lizhi Hou 2024-11-18  274  
-b87f920b934426 Lizhi Hou 2024-11-18  275  static int mailbox_get_msg(struct mailbox_channel *mb_chann)
-b87f920b934426 Lizhi Hou 2024-11-18  276  {
-b87f920b934426 Lizhi Hou 2024-11-18  277  	struct xdna_msg_header header;
-3c8cfec3fcc4fe Lizhi Hou 2025-01-02  278  	void __iomem *read_addr;
-b87f920b934426 Lizhi Hou 2024-11-18  279  	u32 msg_size, rest;
-b87f920b934426 Lizhi Hou 2024-11-18  280  	u32 ringbuf_size;
-b87f920b934426 Lizhi Hou 2024-11-18  281  	u32 head, tail;
-b87f920b934426 Lizhi Hou 2024-11-18  282  	u32 start_addr;
-b87f920b934426 Lizhi Hou 2024-11-18  283  	int ret;
-b87f920b934426 Lizhi Hou 2024-11-18  284  
-b87f920b934426 Lizhi Hou 2024-11-18  285  	if (mailbox_reg_read_non_zero(mb_chann, mb_chann->res[CHAN_RES_I2X].mb_tail_ptr_reg, &tail))
-b87f920b934426 Lizhi Hou 2024-11-18  286  		return -EINVAL;
-b87f920b934426 Lizhi Hou 2024-11-18  287  	head = mb_chann->i2x_head;
-b87f920b934426 Lizhi Hou 2024-11-18  288  	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_I2X);
-b87f920b934426 Lizhi Hou 2024-11-18  289  	start_addr = mb_chann->res[CHAN_RES_I2X].rb_start_addr;
-b87f920b934426 Lizhi Hou 2024-11-18  290  
-b87f920b934426 Lizhi Hou 2024-11-18  291  	if (unlikely(tail > ringbuf_size || !IS_ALIGNED(tail, 4))) {
-b87f920b934426 Lizhi Hou 2024-11-18  292  		MB_WARN_ONCE(mb_chann, "Invalid tail 0x%x", tail);
-b87f920b934426 Lizhi Hou 2024-11-18  293  		return -EINVAL;
-b87f920b934426 Lizhi Hou 2024-11-18  294  	}
-b87f920b934426 Lizhi Hou 2024-11-18  295  
-b87f920b934426 Lizhi Hou 2024-11-18  296  	/* ringbuf empty */
-b87f920b934426 Lizhi Hou 2024-11-18  297  	if (head == tail)
-b87f920b934426 Lizhi Hou 2024-11-18  298  		return -ENOENT;
-b87f920b934426 Lizhi Hou 2024-11-18  299  
-b87f920b934426 Lizhi Hou 2024-11-18  300  	if (head == ringbuf_size)
-b87f920b934426 Lizhi Hou 2024-11-18  301  		head = 0;
-b87f920b934426 Lizhi Hou 2024-11-18  302  
-b87f920b934426 Lizhi Hou 2024-11-18  303  	/* Peek size of the message or TOMBSTONE */
-b87f920b934426 Lizhi Hou 2024-11-18  304  	read_addr = mb_chann->mb->res.ringbuf_base + start_addr + head;
-3c8cfec3fcc4fe Lizhi Hou 2025-01-02  305  	header.total_size = readl(read_addr);
-b87f920b934426 Lizhi Hou 2024-11-18  306  	/* size is TOMBSTONE, set next read from 0 */
-b87f920b934426 Lizhi Hou 2024-11-18  307  	if (header.total_size == TOMBSTONE) {
-b87f920b934426 Lizhi Hou 2024-11-18  308  		if (head < tail) {
-b87f920b934426 Lizhi Hou 2024-11-18  309  			MB_WARN_ONCE(mb_chann, "Tombstone, head 0x%x tail 0x%x",
-b87f920b934426 Lizhi Hou 2024-11-18  310  				     head, tail);
-b87f920b934426 Lizhi Hou 2024-11-18  311  			return -EINVAL;
-b87f920b934426 Lizhi Hou 2024-11-18  312  		}
-b87f920b934426 Lizhi Hou 2024-11-18  313  		mailbox_set_headptr(mb_chann, 0);
-b87f920b934426 Lizhi Hou 2024-11-18  314  		return 0;
-b87f920b934426 Lizhi Hou 2024-11-18  315  	}
-b87f920b934426 Lizhi Hou 2024-11-18  316  
-b87f920b934426 Lizhi Hou 2024-11-18  317  	if (unlikely(!header.total_size || !IS_ALIGNED(header.total_size, 4))) {
-b87f920b934426 Lizhi Hou 2024-11-18  318  		MB_WARN_ONCE(mb_chann, "Invalid total size 0x%x", header.total_size);
-b87f920b934426 Lizhi Hou 2024-11-18  319  		return -EINVAL;
-b87f920b934426 Lizhi Hou 2024-11-18  320  	}
-b87f920b934426 Lizhi Hou 2024-11-18  321  	msg_size = sizeof(header) + header.total_size;
-b87f920b934426 Lizhi Hou 2024-11-18  322  
-b87f920b934426 Lizhi Hou 2024-11-18  323  	if (msg_size > ringbuf_size - head || msg_size > tail - head) {
-b87f920b934426 Lizhi Hou 2024-11-18  324  		MB_WARN_ONCE(mb_chann, "Invalid message size %d, tail %d, head %d",
-b87f920b934426 Lizhi Hou 2024-11-18  325  			     msg_size, tail, head);
-b87f920b934426 Lizhi Hou 2024-11-18  326  		return -EINVAL;
-b87f920b934426 Lizhi Hou 2024-11-18  327  	}
-b87f920b934426 Lizhi Hou 2024-11-18  328  
-b87f920b934426 Lizhi Hou 2024-11-18  329  	rest = sizeof(header) - sizeof(u32);
-b87f920b934426 Lizhi Hou 2024-11-18  330  	read_addr += sizeof(u32);
-3c8cfec3fcc4fe Lizhi Hou 2025-01-02  331  	memcpy_fromio((u32 *)&header + 1, read_addr, rest);
-b87f920b934426 Lizhi Hou 2024-11-18  332  	read_addr += rest;
-b87f920b934426 Lizhi Hou 2024-11-18  333  
-b87f920b934426 Lizhi Hou 2024-11-18 @334  	ret = mailbox_get_resp(mb_chann, &header, (u32 *)read_addr);
-b87f920b934426 Lizhi Hou 2024-11-18  335  
-b87f920b934426 Lizhi Hou 2024-11-18  336  	mailbox_set_headptr(mb_chann, head + msg_size);
-b87f920b934426 Lizhi Hou 2024-11-18  337  	/* After update head, it can equal to ringbuf_size. This is expected. */
-b87f920b934426 Lizhi Hou 2024-11-18  338  	trace_mbox_set_head(MAILBOX_NAME, mb_chann->msix_irq,
-b87f920b934426 Lizhi Hou 2024-11-18  339  			    header.opcode, header.id);
-b87f920b934426 Lizhi Hou 2024-11-18  340  
-b87f920b934426 Lizhi Hou 2024-11-18  341  	return ret;
-b87f920b934426 Lizhi Hou 2024-11-18  342  }
-b87f920b934426 Lizhi Hou 2024-11-18  343  
-
-:::::: The code at line 334 was first introduced by commit
-:::::: b87f920b934426a24d54613f12ed67c03ae05024 accel/amdxdna: Support hardware mailbox
-
-:::::: TO: Lizhi Hou <lizhi.hou@amd.com>
-:::::: CC: Jeffrey Hugo <quic_jhugo@quicinc.com>
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_t1_delay':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:257:(.text+0x196): undefined reference to `nec7210_t1_delay'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:271:(.text+0x1de): undefined reference to `nec7210_serial_poll_status'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_serial_poll_status':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:212:(.text+0x1fe): undefined reference to `nec7210_secondary_address'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_secondary_address':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:133:(.text+0x21c): undefined reference to `nec7210_primary_address'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_primary_address':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:126:(.text+0x23a): undefined reference to `nec7210_update_status'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_update_status':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:119:(.text+0x258): undefined reference to `nec7210_parallel_poll_response'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_response':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:154:(.text+0x276): undefined reference to `nec7210_parallel_poll'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:140:(.text+0x294): undefined reference to `nec7210_parallel_poll_configure'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_parallel_poll_configure':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:147:(.text+0x2b0): undefined reference to `nec7210_disable_eos'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_disable_eos':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:113:(.text+0x2d0): undefined reference to `nec7210_enable_eos'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_enable_eos':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:105:(.text+0x2ee): undefined reference to `nec7210_remote_enable'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_remote_enable':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:98:(.text+0x30c): undefined reference to `nec7210_interface_clear'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_interface_clear':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:91:(.text+0x32a): undefined reference to `nec7210_request_system_control'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_request_system_control':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:84:(.text+0x346): undefined reference to `nec7210_go_to_standby'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_go_to_standby':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:76:(.text+0x364): undefined reference to `nec7210_take_control'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_take_control':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:70:(.text+0x386): undefined reference to `nec7210_command'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_command':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:63:(.text+0x3aa): undefined reference to `nec7210_write'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_write':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:55:(.text+0x3ce): undefined reference to `nec7210_read'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_detach':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1508:(.text+0x564): undefined reference to `nec7210_board_reset'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1526:(.text+0x5d2): undefined reference to `gpib_match_device_path'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_pci_detach':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1631:(.text+0x65c): undefined reference to `nec7210_board_reset'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `spin_unlock_irqrestore':
+   include/linux/spinlock.h:406:(.text+0xe32): undefined reference to `push_gpib_event'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_release_rfd_holdoff':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:867:(.text+0xe4a): undefined reference to `nec7210_interrupt_have_status'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_internal_interrupt':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1239:(.text+0xfd4): undefined reference to `nec7210_set_reg_bits'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `wait_for_rx_fifo_half_full_or_end':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:313:(.text+0x14c4): undefined reference to `nec7210_set_reg_bits'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:313:(.text+0x14d4): undefined reference to `nec7210_set_reg_bits'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_fifo_read_countable':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:932:(.text+0x1546): undefined reference to `nec7210_set_reg_bits'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:968:(.text+0x162a): undefined reference to `nec7210_set_reg_bits'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o:drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1032: more undefined references to `nec7210_set_reg_bits' follow
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_dma_read':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:822:(.text+0x25a0): undefined reference to `gpib_pci_get_device'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_exit_module':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1746:(.exit.text+0x10): undefined reference to `gpib_unregister_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1747:(.exit.text+0x20): undefined reference to `gpib_unregister_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1748:(.exit.text+0x30): undefined reference to `gpib_unregister_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1749:(.exit.text+0x40): undefined reference to `gpib_unregister_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init_module':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1704:(.init.text+0x70): undefined reference to `gpib_register_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1710:(.init.text+0x9a): undefined reference to `gpib_register_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1716:(.init.text+0xc4): undefined reference to `gpib_register_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1722:(.init.text+0xee): undefined reference to `gpib_register_driver'
+>> riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1731:(.init.text+0x114): undefined reference to `gpib_unregister_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1733:(.init.text+0x124): undefined reference to `gpib_unregister_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1735:(.init.text+0x134): undefined reference to `gpib_unregister_driver'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_init':
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1342:(.text.unlikely+0x26): undefined reference to `nec7210_board_reset'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1344:(.text.unlikely+0x44): undefined reference to `nec7210_set_handshake_mode'
+   riscv64-linux-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1351:(.text.unlikely+0x70): undefined reference to `nec7210_board_online'
 
 -- 
 0-DAY CI Kernel Test Service
