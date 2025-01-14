@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E513B2063C1;
-	Tue, 14 Jan 2025 19:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25362204590
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jan 2025 19:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736881892; cv=none; b=tjWUYQvEHB7soX14lVNl7+l18xfr9rmHB1BRF18la8FVNFCMHV8IhqGV/qy11e5yLVD0Ry+ezQ8bYoc7IJVb8QfPKAp3Bw3mGUQj94tJtiCp7i7bDjqtxVViRiY4FiykyUzga1CakLJOG2cAly/yIkVUQJc2wzfs2Zggsk43S54=
+	t=1736883819; cv=none; b=ilkoBDmLD7aBK+pqJw0JaXpphImKUZvrYOO+lSwTb6gshG9hQMw4v5HnwTTBQkW/GQYNj93T1uIe8lnDGv3kS+Xw2tZUsdL1Uh1cfyazUksJvtx+JzCs3ncYPd8/U4IgqUyn2jce2Rw5uWmGUxlxMVYwe6YgW4J+B+JhyhzgLWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736881892; c=relaxed/simple;
-	bh=Il35CpZAIVyUMgf6RBmtKGRBAz4DG0oW253pWUlglSo=;
+	s=arc-20240116; t=1736883819; c=relaxed/simple;
+	bh=uIUwG3CrFkBTVFpejmHgHbVEEsIfyRZQW1auvriNR3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uHN9nf4eBPWqWHE1uQrFPzjZqvizzRIv690r7NctcEGC4FmGzZpIXOLsTsvaP4UkX2uE4IPV6RaarWCVx4mAGC9ppeAfu69PxdrcVywsCzD0Xp8Zy1P8b9x4xFh/aJnrOPTPYXkYEL2ErI/GN3xWiu/SrIsisx32cBp91Yc16I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MKBo4s6y; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=YaHXl+ZTzqx+85XBDXP3A2aOYttYhbFgDCcJonZou3LZzNpEZkiTQxV0aqj7eAu/WrtSLTlrO2JwHqJRVbelje1mr037QgSfH8ERMEFvdj8EWA1kn01W2zL0+wEYCRYFUuDjeaaYFV3IDV1ks+s3GbtBUJJrBWQDqn7B9mccBWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lhi4JzGi; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MKBo4s6y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lhi4JzGi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736881891; x=1768417891;
+  t=1736883816; x=1768419816;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Il35CpZAIVyUMgf6RBmtKGRBAz4DG0oW253pWUlglSo=;
-  b=MKBo4s6yayukAoGH781URY3D3YWUIk7/NmSWt40ubSR3kCWREzhEuzw1
-   S1U6aqYw2N/ICj1TlQjroiCZ3E2ZdTdHyqWKwKMEYxI2VrI7bxgrz/uI0
-   Ouh1TFrg0VfX6VFtX4BUIteU7k0V2e4YuQQi3FgRrQ0cIaZatcMT21Zme
-   pzPXCBatpAuv5avH5X5mwyB573cVECoALCxu42pjYchPFiqRvVy16oQxm
-   71+gQRua8SzOiafDxlRzAU8L7AwCrq7/8YWG0OD1qWlM8DBMyRAPw/xo6
-   gvH9pb2R5B+GmZUefSUNJSDvGYrwjiFiGwzdz9g1HwvIdv4oq+R0iZA1I
-   Q==;
-X-CSE-ConnectionGUID: 2Oc5LirFQT6sSAQ8Df++Fw==
-X-CSE-MsgGUID: zzhm//4LSVWM5g1tctKDpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="48196286"
+  bh=uIUwG3CrFkBTVFpejmHgHbVEEsIfyRZQW1auvriNR3w=;
+  b=Lhi4JzGiURS38YR34ECfx6A5g0IcfTmcFcjdZ5jYFOVDVKYkY/DVTv8E
+   HTrzqGW8cOPQIq7lWgLLGxjkAzWvPHwrJyo1dgA0+BcSIz1mpM2A3QtQg
+   myRkyG8nNc4UtxgI2OAuNChVN3fxv0CILxFVru+ng+hhbQ3/2loeHAMRn
+   xNdrvowIe0+xRzAXduI2/p9CV6vI0W1MbWesYnUWKVb6V6I0vHDtHmizW
+   TZQ0AJOve1UtA1SmkMQvTbhVmWt6YMdlILRt9zU3IKwJ3Vu5ryQPeSK2h
+   YFjIUtRobEaYb8wLmMz/uQZXUAczU/gtqY9In5vwW3gh1q/2oeLM4MQNR
+   A==;
+X-CSE-ConnectionGUID: CDvA+r2CSBO3sEqkNCIWiQ==
+X-CSE-MsgGUID: eTt4zUAHT4i4br//fCx9kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="24801872"
 X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
-   d="scan'208";a="48196286"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 11:11:31 -0800
-X-CSE-ConnectionGUID: gwku4mClQdSpHMbhRldPAA==
-X-CSE-MsgGUID: x0Tqi6QBRs+u3JawYJbpoQ==
+   d="scan'208";a="24801872"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 11:43:35 -0800
+X-CSE-ConnectionGUID: sja9soYQT4eDpSenusGOyQ==
+X-CSE-MsgGUID: lTE7NKRWQPaCoIor1CALyg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
-   d="scan'208";a="105072038"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105396506"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Jan 2025 11:11:29 -0800
+  by orviesa007.jf.intel.com with ESMTP; 14 Jan 2025 11:43:33 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXmJz-000OvP-0h;
-	Tue, 14 Jan 2025 19:11:27 +0000
-Date: Wed, 15 Jan 2025 03:11:20 +0800
+	id 1tXmp1-000OxL-1W;
+	Tue, 14 Jan 2025 19:43:31 +0000
+Date: Wed, 15 Jan 2025 03:43:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 2/2] f2fs: add a sysfs entry to request donate
  file-backed pages
-Message-ID: <202501150239.3M7Ho3di-lkp@intel.com>
+Message-ID: <202501150319.8pSlgSSX-lkp@intel.com>
 References: <20250113183933.1268282-2-jaegeuk@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,81 +80,720 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jaegeuk-Kim/f2fs-add-a-sy
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev
 patch link:    https://lore.kernel.org/r/20250113183933.1268282-2-jaegeuk%40kernel.org
 patch subject: [PATCH 2/2] f2fs: add a sysfs entry to request donate file-backed pages
-config: i386-buildonly-randconfig-003-20250114 (https://download.01.org/0day-ci/archive/20250115/202501150239.3M7Ho3di-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150239.3M7Ho3di-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-004-20250114 (https://download.01.org/0day-ci/archive/20250115/202501150319.8pSlgSSX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150319.8pSlgSSX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501150239.3M7Ho3di-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501150319.8pSlgSSX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/f2fs/sysfs.c:11:
-   In file included from include/linux/f2fs_fs.h:11:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/f2fs/sysfs.c:815:36: error: no member named 'ndirty_inode' in 'struct f2fs_sb_info'
+   In file included from include/linux/kernel.h:28,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/proc_fs.h:10,
+                    from fs/f2fs/sysfs.c:10:
+   fs/f2fs/sysfs.c: In function '__sbi_store':
+>> fs/f2fs/sysfs.c:815:48: error: 'struct f2fs_sb_info' has no member named 'ndirty_inode'
      815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
-         |                                             ~~~  ^
-   include/linux/minmax.h:129:41: note: expanded from macro 'min'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                                               ^
-   include/linux/minmax.h:105:28: note: expanded from macro '__careful_cmp'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                   ^
-   include/linux/minmax.h:99:42: note: expanded from macro '__careful_cmp_once'
+         |                                                ^~
+   include/linux/minmax.h:99:49: note: in definition of macro '__careful_cmp_once'
       99 |         __auto_type ux = (x); __auto_type uy = (y);     \
          |                                                 ^
->> fs/f2fs/sysfs.c:815:36: error: no member named 'ndirty_inode' in 'struct f2fs_sb_info'
-     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
-         |                                             ~~~  ^
-   include/linux/minmax.h:129:41: note: expanded from macro 'min'
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
      129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                                               ^
-   include/linux/minmax.h:105:28: note: expanded from macro '__careful_cmp'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                   ^
-   include/linux/minmax.h:100:33: note: expanded from macro '__careful_cmp_once'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                                        ^
-   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
-     530 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
-     522 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> fs/f2fs/sysfs.c:815:36: error: no member named 'ndirty_inode' in 'struct f2fs_sb_info'
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
      815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
-         |                                             ~~~  ^
-   include/linux/minmax.h:129:41: note: expanded from macro 'min'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                                               ^
-   include/linux/minmax.h:105:28: note: expanded from macro '__careful_cmp'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                   ^
-   include/linux/minmax.h:100:33: note: expanded from macro '__careful_cmp_once'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                                        ^
-   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
-     530 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+         |                                      ^~~
+   In file included from fs/f2fs/sysfs.c:9:
+>> include/linux/compiler.h:189:45: error: '__UNIQUE_ID_y_948' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_947'?
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
      522 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   1 warning and 3 errors generated.
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:29: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:37: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+   include/linux/compiler.h:189:45: note: each undeclared identifier is reported only once for each function it appears in
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:29: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:37: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:44: note: in expansion of macro '__signed_type'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                                            ^~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> fs/f2fs/sysfs.c:815:48: error: 'struct f2fs_sb_info' has no member named 'ndirty_inode'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                                ^~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:44: note: in expansion of macro '__signed_type'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                                            ^~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> fs/f2fs/sysfs.c:815:48: error: 'struct f2fs_sb_info' has no member named 'ndirty_inode'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                                ^~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:44: note: in expansion of macro '__signed_type'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                                            ^~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> fs/f2fs/sysfs.c:815:48: error: 'struct f2fs_sb_info' has no member named 'ndirty_inode'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                                ^~
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:44: note: in expansion of macro '__signed_type'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                                            ^~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> fs/f2fs/sysfs.c:815:48: error: 'struct f2fs_sb_info' has no member named 'ndirty_inode'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                                ^~
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:44: note: in expansion of macro '__signed_type'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                                            ^~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> fs/f2fs/sysfs.c:815:48: error: 'struct f2fs_sb_info' has no member named 'ndirty_inode'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                                ^~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:44: note: in expansion of macro '__signed_type'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                                            ^~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+>> fs/f2fs/sysfs.c:815:48: error: 'struct f2fs_sb_info' has no member named 'ndirty_inode'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                                ^~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:522:17: note: in expansion of macro 'if'
+     522 |                 if (!(condition))                                       \
+         |                 ^~
+   include/linux/compiler_types.h:530:9: note: in expansion of macro '__compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+      79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+      54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+         |                                    ^~~~~~~~~~~
+   include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+      57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:815:38: note: in expansion of macro 'min'
+     815 |                 sbi->donate_caches = min(t, sbi->ndirty_inode[DONATE_INODE]);
+         |                                      ^~~
+..
 
 
 vim +815 fs/f2fs/sysfs.c
