@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D54204583
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jan 2025 18:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5967B1D54E2;
+	Tue, 14 Jan 2025 18:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736879958; cv=none; b=TwAQx1mzqym6RZmuVM6TPqsBD+QXrZNEvmssnqy8eyIr1w1zlX8UWZ4jkhGCw5RTPxL6oJ2r1nFpOMymTAMzJHgachUbSymUKBZ0pcVQklNAxHYVjzSHwHqETMv6GAVNCphCgPhFkcjdxfWqD2AaHFVnZYIhF+doLojHG1yG154=
+	t=1736880017; cv=none; b=dACAfkA0hK2NC3tfdCamxPW6JSIbs/tWO90IRm8KakGSu5N8tEQE+47WYp0Hc8pI1xg0SD+12aGKrFmL3I8ZIpoEclOtrKZAKH+gNRkgQ/HRAmAjlQMplKYLf6CdoaRWAPlr0EBrj6SE8eTGR3AS2J2mcSOM192DqcghPkHhnj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736879958; c=relaxed/simple;
-	bh=ebjhKORfidptn+R4o8l2wKMfgri13jwYFshVAaCDWw4=;
+	s=arc-20240116; t=1736880017; c=relaxed/simple;
+	bh=AgcyMOKi7zfKXDbbKMWInKpXMA1JqjVX+2HyK22qEVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cO9Bd2jQgXuib5tyQfSPFN79/mQjmVuQqk30pf91yNb59HnbDO3J0HF/zvpcLB3P7F9MKWUX77odHoOdvEl4uXwKyzzAPbhEoH+TTGZWKatUrVERPI3+A4OjGZrNIuD1X4vDPVPSDGTEVqw47IhKZkzC/RP4eTSh0dlFdxqZOhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKvEFxaE; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=U8on31s/Q61rcFF1m8JXHy60IyfjggffdPJvNA8gcmfiXbM17FDKp6UDbcaNLPLgStKsMG19Qe5GhFIgsaQ92MsVQgFpFPl5KgiLVYH8cagHW/0ChcprrIhVZ5Loc0rXgfYu/UTXZ6a1fT4DgfUu7duCeltnWs4uMC8OQHRDa7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F9NVx+j1; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKvEFxaE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9NVx+j1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736879956; x=1768415956;
+  t=1736880015; x=1768416015;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ebjhKORfidptn+R4o8l2wKMfgri13jwYFshVAaCDWw4=;
-  b=UKvEFxaEpdxYSuAH4UHxhSCjIeE0dPvg+dKrKMDouQFpy1uPmF1VbSO6
-   EqmL7O+TjlY+3yDF9i+2qzKvdJHy6xiXFq6AUk0UmICcZndlcxs9TGwWp
-   A4rSD79XovMWH/6W0Efi34jJQdy8bJ1iMRdFI8qkNB4kUz92mOJWTcsjL
-   qOsbW/l2hDVwFNPyJ9UR2jSZqM/SqnVvvYAgdsGO+Lzu9zkZvhB+kXJAR
-   QDDIEnb1JhTCTcIUKBEhTXPVvnxmhLzZUm0cmgMBzjlZ+QU1O8t44EENq
-   J/CYa+2U3YjTiYj3Fq+xeXXf18BlC0oq1X1sC2SuJaMq3h1uUokOdX42b
-   A==;
-X-CSE-ConnectionGUID: +eXY+6LLQrWkn9w/Ctjfvw==
-X-CSE-MsgGUID: KDtymD4nTiydKlZhtMpqLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37420292"
+  bh=AgcyMOKi7zfKXDbbKMWInKpXMA1JqjVX+2HyK22qEVE=;
+  b=F9NVx+j1JvoFjaAf/uCBdlORStq/RRleoR7TiSW0UxMf2TvFNNf5F8ZS
+   8r3dryJFCXfzju/MuUZ8xbeiD9iKKaCbZ4x3k0lYEa0mmqCiwmb+vgdnH
+   CoyyqJ5EScFJuIsRiGBPDuuLLhCvKwhy8VCpji+i1bNoOgk8ICJ09J4Dg
+   iHL65Nz9XlbysHRUQboT7WkdimjHiMNXUoaBk5Kj2mEnhmX6qKGbGxK0d
+   LJXfB6iVECZAWauSxcEwWB31/+f/jRvCfsF5JU3cAaXxc4sD+SNve0oOh
+   C9PXu/mV840tuAy81ExXVmGnfzvPGjgBzI7V/9DKTWk+trHixtPURNACl
+   Q==;
+X-CSE-ConnectionGUID: s5EJbhqKRwS3NZZoPUIWAA==
+X-CSE-MsgGUID: U0z1iua3ScK/3AH61Tyr/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37348428"
 X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
-   d="scan'208";a="37420292"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 10:39:15 -0800
-X-CSE-ConnectionGUID: q9fDWhW0R1SXT6vq8xW5Kw==
-X-CSE-MsgGUID: eqPStlzHRcyR3cSDak8MRQ==
+   d="scan'208";a="37348428"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 10:40:15 -0800
+X-CSE-ConnectionGUID: 28SrnblaTUmylWJ/7j3R9Q==
+X-CSE-MsgGUID: SOPI95WvTAi0DXuQwnZq1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
-   d="scan'208";a="135717318"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104754032"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Jan 2025 10:39:13 -0800
+  by orviesa010.jf.intel.com with ESMTP; 14 Jan 2025 10:40:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXlok-000OtL-2A;
-	Tue, 14 Jan 2025 18:39:10 +0000
-Date: Wed, 15 Jan 2025 02:39:10 +0800
+	id 1tXlpi-000OtU-2T;
+	Tue, 14 Jan 2025 18:40:10 +0000
+Date: Wed, 15 Jan 2025 02:39:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 921/8513] phy-mtk-hdmi.c:(.text.unlikely+0x64):
- relocation truncated to fit: R_NIOS2_CALL26 against
- `devm_regulator_register'
-Message-ID: <202501150252.VrJHoSEm-lkp@intel.com>
+To: Kaixiong Yu <yukaixiong@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Joel Granados <joel.granados@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: [sysctl:sysctl-testing 8/16] mm/nommu.c:394:12: error: static
+ declaration of 'sysctl_nr_trim_pages' follows non-static declaration
+Message-ID: <202501150216.3RVz44uS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +64,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   dab2734f8e9ecba609d66d1dd087a392a7774c04
-commit: 49393b2da1cd5b0a6859693369b4fb27df59d3e2 [921/8513] phy: mediatek: phy-mtk-hdmi: Register PHY provided regulator
-config: nios2-randconfig-001-20250114 (https://download.01.org/0day-ci/archive/20250115/202501150252.VrJHoSEm-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150252.VrJHoSEm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git sysctl-testing
+head:   2fc99f285719e0cce8df1fe21479cb9e6626c2fe
+commit: 0450345eca3ca45264db9ab09d31281e001236b7 [8/16] mm: nommu: move sysctl to mm/nommu.c
+config: arm-randconfig-001-20250115 (https://download.01.org/0day-ci/archive/20250115/202501150216.3RVz44uS-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150216.3RVz44uS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501150252.VrJHoSEm-lkp@intel.com/
-
-Note: the linux-next/master HEAD dab2734f8e9ecba609d66d1dd087a392a7774c04 builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501150216.3RVz44uS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   nios2-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi.o: in function `mtk_hdmi_phy_register_regulators':
-   phy-mtk-hdmi.c:(.text.unlikely+0x64): undefined reference to `devm_regulator_register'
->> phy-mtk-hdmi.c:(.text.unlikely+0x64): relocation truncated to fit: R_NIOS2_CALL26 against `devm_regulator_register'
-   nios2-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.o: in function `mtk_hdmi_phy_pwr5v_is_enabled':
-   phy-mtk-hdmi-mt8195.c:(.text+0x230): undefined reference to `rdev_get_drvdata'
->> phy-mtk-hdmi-mt8195.c:(.text+0x230): relocation truncated to fit: R_NIOS2_CALL26 against `rdev_get_drvdata'
-   nios2-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.o: in function `mtk_hdmi_phy_pwr5v_disable':
-   phy-mtk-hdmi-mt8195.c:(.text+0x25c): undefined reference to `rdev_get_drvdata'
-   phy-mtk-hdmi-mt8195.c:(.text+0x25c): relocation truncated to fit: R_NIOS2_CALL26 against `rdev_get_drvdata'
-   nios2-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.o: in function `mtk_hdmi_phy_pwr5v_enable':
-   phy-mtk-hdmi-mt8195.c:(.text+0x290): undefined reference to `rdev_get_drvdata'
-   phy-mtk-hdmi-mt8195.c:(.text+0x290): relocation truncated to fit: R_NIOS2_CALL26 against `rdev_get_drvdata'
+>> mm/nommu.c:394:12: error: static declaration of 'sysctl_nr_trim_pages' follows non-static declaration
+   static int sysctl_nr_trim_pages = CONFIG_NOMMU_INITIAL_TRIM_EXCESS;
+              ^
+   include/linux/mm.h:4082:12: note: previous declaration is here
+   extern int sysctl_nr_trim_pages;
+              ^
+   1 error generated.
+
+
+vim +/sysctl_nr_trim_pages +394 mm/nommu.c
+
+   393	
+ > 394	static int sysctl_nr_trim_pages = CONFIG_NOMMU_INITIAL_TRIM_EXCESS;
+   395	
 
 -- 
 0-DAY CI Kernel Test Service
