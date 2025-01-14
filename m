@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F8D1B2199
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jan 2025 17:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFCE23245A;
+	Tue, 14 Jan 2025 17:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736874447; cv=none; b=T9dHIK+3CsOMrcAWmkD5/TiU3oHaI27BcT4mZIRhAM7emeSlZonyx79ONMZRcsl1hVC782ztTmK2q6YGcq4GfwL1CBVKDN63NtDKjJtFmJSELNHALmbQykw+bVpT3sfTrA+8sdUytQ1zNAjPsRwgE7TuaQxYhASrCv4FZovjGZQ=
+	t=1736875049; cv=none; b=qlUobXteuIRsNrhTYWaercbE2+BsGqDzOwZGDvreqTRnLhHeS0rsGeT3RG6O1ErKv9SZG7Fn4qCLs06kPZrxY2Je0QgKElkx/NkBWq/No+WwrrsEkzJ3X1iVk6uYwyWlRc0iLnTnMbA4n/763RcyoHV6EMirap+Ie9bo5udZJxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736874447; c=relaxed/simple;
-	bh=PnXeLqUdisPMiUvtJK29ZfDryrcT0j50INGh5N22yL4=;
+	s=arc-20240116; t=1736875049; c=relaxed/simple;
+	bh=U5JjmE7PtmCm8nJEk9tVTmqsXLSCNFXiXPuKAm5dVuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gAtxGVs1IE8SWvXH4I36eR0EJTu3g9dz7YiC6k5DFr8mh0m3v5jtcgUBOJjxu9EUfeBRcIhBoaDXlFgE3bQtcXuMuH92WfBTqDae8jgxn610ZEHMgvVuJEszr0VrFX3EYIeHFMRU6sUY6RyKZjpDcxh/D5NuXdHlIlncTgwsQqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjYWUmc1; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=NmvIdvppCJoU5DFah8R/BOll1nGC03BPJk7iM1HzcW1P9lHSzdEHSi5ryHYHrcKhjoVTQjmcMTzh331oMjtEcnkofEsdNW3iDIZN4ImGXdaE+lqlNF15cpbYS34yGvguREyvEbTZ4zDkcFFXsj5mVm2cDwS1MTjdIROI7OaB0Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ht63IOGl; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjYWUmc1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ht63IOGl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736874445; x=1768410445;
+  t=1736875048; x=1768411048;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PnXeLqUdisPMiUvtJK29ZfDryrcT0j50INGh5N22yL4=;
-  b=LjYWUmc13DFKobp2qh35/+KutcTnV0MCwS26aXhoLx1X0A2pGNAl7YCj
-   5C/GOuN6/SIKSUSgCqI4UHrvhuEIzHX0tq2Yb34EjcxpcBjq4VENhVc9q
-   Ltp+SokhK4CeKVsegJxUfnH8lFen1UCAZqGB3sKIn6hhC7W8MJOmSSpAf
-   q0QHr/HEaBWfem8Edrgrq1CXlTHrw9FJ4hmo32CxE7krjtkGzbgrzjxd0
-   we+F6dS6qIK7bnNAJP602zx8/l5RLHbrYQeKPJaUNOiMEXXsknuejFxLr
-   xAiXxLhoPGkDua5b5GlLa3ExSROxfemKBVXC/ix2z/z3pRwrf/5HjAwMW
-   g==;
-X-CSE-ConnectionGUID: rU6dERlBS7C8Z4gW3LFFFg==
-X-CSE-MsgGUID: 9xgIeZJDSwaYMxXbD+H6cA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="24783251"
+  bh=U5JjmE7PtmCm8nJEk9tVTmqsXLSCNFXiXPuKAm5dVuU=;
+  b=Ht63IOGl77VkDp9+sAaIbYTDtv79mxBB3TaKqmvwLzVRfPRh0E2zSvDC
+   7FuJfiYN6rsWkWztvGgyH/q4rxnB5/SMjltE3MpXCWP9BBiGrVsEI0Qd+
+   D1y9+jb3vsDGe1LuL4sYzPb14mirKGGK424Lxjs4+st8PXWTv8q+jsLbY
+   uvpeKota2BO3hAyffJc69TI/+wA3jyCaibU8vQhhG6xI8za0AtwklUhK8
+   w75Ko1Rp/PnIgybfDLKFsM76TdlixkIH6hh2ZqLlSnktu/sb6dQRbb32B
+   JoQ0vI7/fV5b1fRn9zcfmS9Ulxg0kdJWs34fdaGrJgul0UHPFCxUj/yNn
+   w==;
+X-CSE-ConnectionGUID: aJK0xPS/T3SOY9/wgmWUOQ==
+X-CSE-MsgGUID: GK+sxXrYStCTm1RXM2idlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37338568"
 X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="24783251"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 09:07:25 -0800
-X-CSE-ConnectionGUID: Jo+qxxn/TQeubswEiLU6lQ==
-X-CSE-MsgGUID: m/pLrimzQlujdWYd3OxPeQ==
+   d="scan'208";a="37338568"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 09:17:27 -0800
+X-CSE-ConnectionGUID: GaB4D4N5TsyoBtOwLpxvcA==
+X-CSE-MsgGUID: 0sjUhexdSkq9xK5YWneOeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="105376998"
+   d="scan'208";a="104699422"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jan 2025 09:07:21 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 14 Jan 2025 09:17:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXkNr-000Oml-12;
-	Tue, 14 Jan 2025 17:07:19 +0000
-Date: Wed, 15 Jan 2025 01:06:26 +0800
+	id 1tXkXZ-000Onj-1K;
+	Tue, 14 Jan 2025 17:17:21 +0000
+Date: Wed, 15 Jan 2025 01:17:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, kuba@kernel.org,
 	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
 	Jamal Hadi Salim <jhs@mojatatu.com>,
 	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
@@ -58,7 +59,7 @@ Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
 	ast@fiberby.net, Shuang Li <shuali@redhat.com>
 Subject: Re: [PATCHv2 net] net: sched: refine software bypass handling in
  tc_run
-Message-ID: <202501150051.z1HfVwib-lkp@intel.com>
+Message-ID: <202501150119.PO2Xlm4u-lkp@intel.com>
 References: <17d459487b61c5d0276a01a3bc1254c6432b5d12.1736793775.git.lucien.xin@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,53 +81,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Long/net-sched-refine
 base:   net/main
 patch link:    https://lore.kernel.org/r/17d459487b61c5d0276a01a3bc1254c6432b5d12.1736793775.git.lucien.xin%40gmail.com
 patch subject: [PATCHv2 net] net: sched: refine software bypass handling in tc_run
-config: i386-buildonly-randconfig-004-20250114 (https://download.01.org/0day-ci/archive/20250115/202501150051.z1HfVwib-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150051.z1HfVwib-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-005-20250114 (https://download.01.org/0day-ci/archive/20250115/202501150119.PO2Xlm4u-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150119.PO2Xlm4u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501150051.z1HfVwib-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501150119.PO2Xlm4u-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/static_key.h:1,
-                    from arch/x86/include/asm/nospec-branch.h:6,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:18,
-                    from arch/x86/include/asm/special_insns.h:10,
-                    from arch/x86/include/asm/processor.h:25,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from net/sched/cls_api.c:12:
-   net/sched/cls_api.c: In function 'tcf_proto_destroy':
->> net/sched/cls_api.c:422:44: error: 'tcf_bypass_check_needed_key' undeclared (first use in this function)
+>> net/sched/cls_api.c:422:23: error: use of undeclared identifier 'tcf_bypass_check_needed_key'
      422 |                         static_branch_dec(&tcf_bypass_check_needed_key);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:525:63: note: in definition of macro 'static_branch_dec'
-     525 | #define static_branch_dec(x)            static_key_slow_dec(&(x)->key)
-         |                                                               ^
-   net/sched/cls_api.c:422:44: note: each undeclared identifier is reported only once for each function it appears in
-     422 |                         static_branch_dec(&tcf_bypass_check_needed_key);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:525:63: note: in definition of macro 'static_branch_dec'
-     525 | #define static_branch_dec(x)            static_key_slow_dec(&(x)->key)
-         |                                                               ^
-   net/sched/cls_api.c: In function 'tc_new_tfilter':
-   net/sched/cls_api.c:2385:52: error: 'tcf_bypass_check_needed_key' undeclared (first use in this function)
+         |                                            ^
+   net/sched/cls_api.c:2385:24: error: use of undeclared identifier 'tcf_bypass_check_needed_key'
     2385 |                                 static_branch_inc(&tcf_bypass_check_needed_key);
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:301:74: note: in definition of macro 'static_key_slow_inc'
-     301 | #define static_key_slow_inc(key)        static_key_fast_inc_not_disabled(key)
-         |                                                                          ^~~
-   net/sched/cls_api.c:2385:33: note: in expansion of macro 'static_branch_inc'
-    2385 |                                 static_branch_inc(&tcf_bypass_check_needed_key);
-         |                                 ^~~~~~~~~~~~~~~~~
+         |                                                    ^
+   2 errors generated.
 
 
 vim +/tcf_bypass_check_needed_key +422 net/sched/cls_api.c
