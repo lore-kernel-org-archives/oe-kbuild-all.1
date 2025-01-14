@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EE514AD38
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jan 2025 15:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564981ACE12
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jan 2025 16:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736867051; cv=none; b=E5oZYi9oU+mywfcFCw+7+xFqoBNcKOuLaie9R5c066lulmfvQALRONpWem8Cm75WfO4xf2PFE7FyWAoblScsD8OH6ENbi6D0Kvq2AtESe3uhLke7SfRanF+AVYgMIDHXV4wLnnapTVTMmxgISxqiVVZzU3ocqe7LH0HmKdmq0q4=
+	t=1736871920; cv=none; b=OArIqdR95cf4BXK0hHyCLC1ahyQ01N8q0rMLgE0aIUixgWcV3Nn1h7RpQtb/bCTHc3RBuF0K2QGeE8YjdP8tThsw7cXkGP18D0vFIQQK5yPi6fba83opVQmeSI8BDESrKqcJY43cmYS3kKu4+FNuHzwGQ988qxYI2I5HgB2HQP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736867051; c=relaxed/simple;
-	bh=tfILLtWeqqECk70OUTxBNI4PM4mhfz8zOAEA3KLj1Hs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GscMzXPMnca184v8F03FDh5objtfL9EhW+ZPP7OfJKbUhO772JB/jxYqLrczM7CXmDLfyAR03Hs6u3pF/5NL8+fcs2fBAZdvJIpFfH/1xPCs0tSF7Is2i9NHtf0yVeUZ0/UizNYTNP7sPle65pu/G1vRoOzSbp6ZeDVI2n3NsnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPWqHuka; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1736871920; c=relaxed/simple;
+	bh=ENaTye1Us0K+SKIh7ouZI5Mj+hrcxNdyS4GOYYvtQ4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UEYHov2dfz4+GutkN4ddCh9/D/6gkJiosBkMuZDjrYXnFNWNwVaIb60bIITC9jgyq4Cb1QtAGfXoUy/uvmZwxCDwpVUpRU5jO9FB6860DACQky1YP+0xhw2kExBjLCRM8EU24eRf6me5ofE+uHGgsHQmWqEI4zK7w6M3cV+7ha4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ozp4ygv2; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPWqHuka"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ozp4ygv2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736867049; x=1768403049;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tfILLtWeqqECk70OUTxBNI4PM4mhfz8zOAEA3KLj1Hs=;
-  b=dPWqHukaG2kmRjTotblfiIOFkPx6a4g4Vku/jDufPTs/AQDlMi9jBKMb
-   z3ZIzTKIKvLbFgo7aZuOmV0IIffoNDrb8xi/QHsWD6WevTfB9/STTjiow
-   zrE2YVwyChQw80BtChL2Sh0kq16p/NPvAqDDSHYV52NpNILYaY15bAkTx
-   2IIBd6bZfkqb6xf68/MI5U2KllsdTpqABy8WBTmrrD1HZXA9OD2nwTbeH
-   /z50n2LYSIFGjiaNt23SCm/y5eXwDUK8dLU+HthIzw4wpmCZ1+GWSH9eI
-   uY0dFw5BTMzdsyDxxfGanh7FP6ulyEdahdZI+iFieyw21H5EptpYPj2sb
-   Q==;
-X-CSE-ConnectionGUID: REp98741T1OjsmtBWWvw7w==
-X-CSE-MsgGUID: Sze9nSoPRz6WqfGAb8KR7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="36860437"
+  t=1736871919; x=1768407919;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ENaTye1Us0K+SKIh7ouZI5Mj+hrcxNdyS4GOYYvtQ4w=;
+  b=Ozp4ygv2TvMy89tuA0O2+GBQtY8JIQB0rmtkbNr1qoa1LVZg6bossBxI
+   dhzfMvvad8lJxnm31qVKV7hcC10tlmUCkSCduwi6ozAFcUBVEnE9P7mDs
+   Q69Lg1BQfMObUqX1vmUcd3x3g8ius0rnwvKUTWwhclJ3q23WGMFd83uDK
+   5NTOWi+r4ZrG2Mxromak6dAWZ61TGygNN1FVCz/bvNMI4RxD799A5bM9g
+   T2T/JOojHYDExgaQcVMLgXtogfvbp0lnX/nb2GxiHBxRlWMl3356/faua
+   awz1oTm8rpOFKu5gyIQvb6yzp3sQp6JLC+ZtFezqTyN5id7tnuRm+U6Z/
+   g==;
+X-CSE-ConnectionGUID: Aw+YfOEKRaCqLoUZDXKHVA==
+X-CSE-MsgGUID: 1hp2YLYrREudlZnQCUFZDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="40855026"
 X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="36860437"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:04:08 -0800
-X-CSE-ConnectionGUID: 8tgsbuSVTr6YwOqbo3go8w==
-X-CSE-MsgGUID: oAJus1taRBKU9deDEbdGZg==
+   d="scan'208";a="40855026"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 08:25:19 -0800
+X-CSE-ConnectionGUID: 4c9SnNH9SKiglSE47yehjw==
+X-CSE-MsgGUID: rQiH1xeARFaoI2/ShRyN6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104687776"
+X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
+   d="scan'208";a="105433913"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Jan 2025 07:04:05 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2025 08:25:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXiSY-000OgF-2r;
-	Tue, 14 Jan 2025 15:04:02 +0000
-Date: Tue, 14 Jan 2025 23:03:17 +0800
+	id 1tXjj7-000Okd-2u;
+	Tue, 14 Jan 2025 16:25:13 +0000
+Date: Wed, 15 Jan 2025 00:24:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huaisheng Ye <huaisheng.ye@intel.com>, Jonathan.Cameron@huawei.com,
-	dan.j.williams@intel.com, dave.jiang@intel.com,
-	ming.li@zohomail.com
-Cc: oe-kbuild-all@lists.linux.dev, pei.p.jia@intel.com,
-	linux-cxl@vger.kernel.org, Huaisheng Ye <huaisheng.ye@intel.com>
-Subject: Re: [PATCH v4 1/1] cxl/core/regs: Refactor out functions to count
- regblocks of given type
-Message-ID: <202501142243.PmkW84KY-lkp@intel.com>
-References: <20250114131041.17512-2-huaisheng.ye@intel.com>
+To: Raviteja Narayanam <raviteja.narayanam@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>,
+	linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:lkp_test 62/504] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/iio/adc/ti,ina260.yaml
+Message-ID: <202501150010.ns6hQ1Mk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,98 +65,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250114131041.17512-2-huaisheng.ye@intel.com>
 
-Hi Huaisheng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cxl/next]
-[also build test WARNING on linus/master v6.13-rc7 next-20250114]
-[cannot apply to cxl/pending]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Huaisheng-Ye/cxl-core-regs-Refactor-out-functions-to-count-regblocks-of-given-type/20250114-212025
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20250114131041.17512-2-huaisheng.ye%40intel.com
-patch subject: [PATCH v4 1/1] cxl/core/regs: Refactor out functions to count regblocks of given type
-config: i386-buildonly-randconfig-001-20250114 (https://download.01.org/0day-ci/archive/20250114/202501142243.PmkW84KY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501142243.PmkW84KY-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   283bb161d159afe488329f6d2d8dc2c08e91fa9c
+commit: 4622f09ec0ade3749e2465c6a31b2bc7b2c31fad [62/504] drivers: iio: Add support for TI INA260 power monitors
+reproduce: (https://download.01.org/0day-ci/archive/20250115/202501150010.ns6hQ1Mk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501142243.PmkW84KY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501150010.ns6hQ1Mk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'pdev' not described in '__cxl_find_regblock_instance'
->> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'type' not described in '__cxl_find_regblock_instance'
->> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'map' not described in '__cxl_find_regblock_instance'
->> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'index' not described in '__cxl_find_regblock_instance'
-
-
-vim +303 drivers/cxl/core/regs.c
-
-303ebc1b1741b6 Ben Widawsky     2022-01-23  291  
-303ebc1b1741b6 Ben Widawsky     2022-01-23  292  /**
-7167af677c5aa1 Huaisheng Ye     2025-01-14  293   * __cxl_find_regblock_instance() - Locate a register block or count instances by type / index
-7167af677c5aa1 Huaisheng Ye     2025-01-14  294   * Use CXL_INSTANCES_COUNT for @index if counting instances.
-303ebc1b1741b6 Ben Widawsky     2022-01-23  295   *
-7167af677c5aa1 Huaisheng Ye     2025-01-14  296   * __cxl_find_regblock_instance() may return:
-7167af677c5aa1 Huaisheng Ye     2025-01-14  297   * 0 - if register block enumerated.
-7167af677c5aa1 Huaisheng Ye     2025-01-14  298   * >= 0 - if counting instances.
-7167af677c5aa1 Huaisheng Ye     2025-01-14  299   * < 0 - error code otherwise.
-303ebc1b1741b6 Ben Widawsky     2022-01-23  300   */
-7167af677c5aa1 Huaisheng Ye     2025-01-14  301  static int __cxl_find_regblock_instance(struct pci_dev *pdev, enum cxl_regloc_type type,
-d717d7f3df1849 Jonathan Cameron 2023-05-26  302  			       struct cxl_register_map *map, int index)
-303ebc1b1741b6 Ben Widawsky     2022-01-23 @303  {
-303ebc1b1741b6 Ben Widawsky     2022-01-23  304  	u32 regloc_size, regblocks;
-d717d7f3df1849 Jonathan Cameron 2023-05-26  305  	int instance = 0;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  306  	int regloc, i;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  307  
-573408049b7598 Robert Richter   2023-06-22  308  	*map = (struct cxl_register_map) {
-dd22581f895371 Robert Richter   2023-10-18  309  		.host = &pdev->dev,
-573408049b7598 Robert Richter   2023-06-22  310  		.resource = CXL_RESOURCE_NONE,
-573408049b7598 Robert Richter   2023-06-22  311  	};
-573408049b7598 Robert Richter   2023-06-22  312  
-962f1e79e7acfb Dave Jiang       2024-05-02  313  	regloc = pci_find_dvsec_capability(pdev, PCI_VENDOR_ID_CXL,
-303ebc1b1741b6 Ben Widawsky     2022-01-23  314  					   CXL_DVSEC_REG_LOCATOR);
-303ebc1b1741b6 Ben Widawsky     2022-01-23  315  	if (!regloc)
-303ebc1b1741b6 Ben Widawsky     2022-01-23  316  		return -ENXIO;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  317  
-303ebc1b1741b6 Ben Widawsky     2022-01-23  318  	pci_read_config_dword(pdev, regloc + PCI_DVSEC_HEADER1, &regloc_size);
-303ebc1b1741b6 Ben Widawsky     2022-01-23  319  	regloc_size = FIELD_GET(PCI_DVSEC_HEADER1_LENGTH_MASK, regloc_size);
-303ebc1b1741b6 Ben Widawsky     2022-01-23  320  
-303ebc1b1741b6 Ben Widawsky     2022-01-23  321  	regloc += CXL_DVSEC_REG_LOCATOR_BLOCK1_OFFSET;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  322  	regblocks = (regloc_size - CXL_DVSEC_REG_LOCATOR_BLOCK1_OFFSET) / 8;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  323  
-303ebc1b1741b6 Ben Widawsky     2022-01-23  324  	for (i = 0; i < regblocks; i++, regloc += 8) {
-303ebc1b1741b6 Ben Widawsky     2022-01-23  325  		u32 reg_lo, reg_hi;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  326  
-303ebc1b1741b6 Ben Widawsky     2022-01-23  327  		pci_read_config_dword(pdev, regloc, &reg_lo);
-303ebc1b1741b6 Ben Widawsky     2022-01-23  328  		pci_read_config_dword(pdev, regloc + 4, &reg_hi);
-303ebc1b1741b6 Ben Widawsky     2022-01-23  329  
-6c7f4f1e51c2a2 Dan Williams     2022-11-29  330  		if (!cxl_decode_regblock(pdev, reg_lo, reg_hi, map))
-6c7f4f1e51c2a2 Dan Williams     2022-11-29  331  			continue;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  332  
-d717d7f3df1849 Jonathan Cameron 2023-05-26  333  		if (map->reg_type == type) {
-d717d7f3df1849 Jonathan Cameron 2023-05-26  334  			if (index == instance)
-303ebc1b1741b6 Ben Widawsky     2022-01-23  335  				return 0;
-d717d7f3df1849 Jonathan Cameron 2023-05-26  336  			instance++;
-d717d7f3df1849 Jonathan Cameron 2023-05-26  337  		}
-303ebc1b1741b6 Ben Widawsky     2022-01-23  338  	}
-303ebc1b1741b6 Ben Widawsky     2022-01-23  339  
-6c7f4f1e51c2a2 Dan Williams     2022-11-29  340  	map->resource = CXL_RESOURCE_NONE;
-7167af677c5aa1 Huaisheng Ye     2025-01-14  341  	if (index == CXL_INSTANCES_COUNT)
-7167af677c5aa1 Huaisheng Ye     2025-01-14  342  		return instance;
-7167af677c5aa1 Huaisheng Ye     2025-01-14  343  
-303ebc1b1741b6 Ben Widawsky     2022-01-23  344  	return -ENODEV;
-303ebc1b1741b6 Ben Widawsky     2022-01-23  345  }
-7167af677c5aa1 Huaisheng Ye     2025-01-14  346  
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/ti,ina260.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
