@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCAC2139C4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jan 2025 23:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EF8219EAB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jan 2025 23:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736896898; cv=none; b=ZBghoXa23tvBhcK3DSTsCB/RbUyPZAdhNmhIeyi813caOAqjIlInszFnM0DV0PMI7pHTQa7Ga7IMXmLyvamLsw61fVioymogCs7oew95NJnM4OCDEil7Y6ADPooLRbJvWSNJRcTltsDg53o3d4+iSJnJCL+k3Xev7gt08MSxNaU=
+	t=1736897637; cv=none; b=G+d3bk2VgwuMD0s+mXuF+xZVe09IEo0F+wTP1Fw56VKu8HGYIm4B5tTQa23Ay/Ab2hCw17JCeMKKl+oAhN20OPWkiUWsoA2l0iRhI7WL9Ypdvd7efCpHOUxhr/U1Jz8mylx0AfDUV5L2BTVojs5zLKhJPOqiitG8vSCdy08pVqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736896898; c=relaxed/simple;
-	bh=rwy7mG8ol2mIq6LMw79tlMtl20ZoFAT/d9CoC4dphJ8=;
+	s=arc-20240116; t=1736897637; c=relaxed/simple;
+	bh=WZ4XqUqNZ7y3Xzhwx01oEEVtpkqeiyHl74AE1NZFhkI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P606afc+BNc49Ck0SnkGlgcAPvD0d1Y+DLq7t4eIh85UMwsgM/YmXc8O+6ZyqPKQSv1QnfVkpo/STSMkoWWKTX9Sy3yUdPOLpH49Uuzk3dX2MvZSrI/xnLVTgMzKagDrfjCWG68p5C0R7p4CHfqJDyx79VJDREbZRP9qVIMaA4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PhlXa55j; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=LZrqEuOMwtLjmRq/SmWBRg2vSUSwwBBzPY2Ycxn97FUrccO51Kaej6VYAexdp1jpEqBuqlOvATPkFyS2ujKKHN3g8YiMpwYQ8+tpMuE4VXAuj93Ne94R+Z/KJWWYE0QzI+qydAoykTR/27WD220PEMxlSuXdhrjQaHGKC4pCuEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6DmRwyg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PhlXa55j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6DmRwyg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736896897; x=1768432897;
+  t=1736897636; x=1768433636;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rwy7mG8ol2mIq6LMw79tlMtl20ZoFAT/d9CoC4dphJ8=;
-  b=PhlXa55jFG0Fw/ZzbXSrV2OFgGzRqbtM1FQIVKBQiAkupnvEJgshuK+n
-   yKWjF9RUTYMfOBUkcGmEuRS0grdT1tThgohplZoBZ7TJWKtCxrWSego/d
-   B2KqGYq3kLIUCXmZP7e4nG83mnTSoFMHPQiidCitsb66Eb8l3kD7p/bVq
-   wkEyGvS3+c9uTI61FvIe/+i81CQHpbgnc00MfZcnU4U1U4hSa7fZaiyEC
-   BDmm5qeas7oTBQjRM2uldMP0bTDxC0NyfF9eeeh7JrV86TtYFhGl2ZibB
-   cX3e9cNC6bMdx37iTxWM6SHwl2k4FIw9W6w7Q5h7lHGmVkOuB6d8iJ6MM
-   Q==;
-X-CSE-ConnectionGUID: I4miwR+aRZKEBvGPVTXqZA==
-X-CSE-MsgGUID: c6kY0XRuTwGNZkN0ni59eg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="36911441"
+  bh=WZ4XqUqNZ7y3Xzhwx01oEEVtpkqeiyHl74AE1NZFhkI=;
+  b=b6DmRwygb2UmivBZy0ACSR+/ySExMxy2PQS5F1rLWpNZGZZKsTY+kleY
+   Ea+nyuLshbPumlpO2oDAYuznE8J1Oeq4O6tMVUvc8HPn4CTr4qhv2e3bX
+   D6eWzmVbjeBoOIl7plNLc2eGgOUE9t+f+s2KQeESDiVJVlk9DHA5Fjl44
+   HSPQFbSSz5F+R1gkjtRTeQ0JqPS4YxgNJIwP/JzIemvEo/mDWbnqVxfg7
+   FWNDzabwOQd2xxrdaWfGPSoOZX3d3CCo3ZjYFd8fQaVo3UG2UvaqUcm4i
+   nyzFnhj68ZQGYvEryQdVkBi7e8slfCgMctBZ3BwDyiZQLxTpgcmOc363b
+   w==;
+X-CSE-ConnectionGUID: FwDIcRPLSQ2Ml5zxJLdqpw==
+X-CSE-MsgGUID: QosvRgZrQMC3mzAfXVyVgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="54757418"
 X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
-   d="scan'208";a="36911441"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 15:21:37 -0800
-X-CSE-ConnectionGUID: 1SeHuPQJRdCTonr4clZIVQ==
-X-CSE-MsgGUID: vUwXZZNjQnylrSQKS4NZ0w==
+   d="scan'208";a="54757418"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 15:33:55 -0800
+X-CSE-ConnectionGUID: M1cZRop6RP+9pSWkcyvS/A==
+X-CSE-MsgGUID: Jh8x3lqyT6e6YbQd4kJwGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104820980"
+   d="scan'208";a="135824448"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Jan 2025 15:21:35 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 14 Jan 2025 15:33:53 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXqE0-000P9j-0z;
-	Tue, 14 Jan 2025 23:21:32 +0000
-Date: Wed, 15 Jan 2025 07:20:52 +0800
+	id 1tXqPv-000PAZ-1B;
+	Tue, 14 Jan 2025 23:33:51 +0000
+Date: Wed, 15 Jan 2025 07:33:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:master 17/54]
- drivers/gpu/drm/bridge/lontium-lt9611.c:1147:15: error: 'struct lt9611' has
- no member named 'audio_pdev'
-Message-ID: <202501150734.lfH7WaHA-lkp@intel.com>
+To: Quinn Tran <qutran@marvell.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Nilesh Javali <njavali@marvell.com>
+Subject: drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or
+ struct member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
+Message-ID: <202501150712.6zuTydBv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,74 +65,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   d088502a519fb7834bf6e34cb4e531c1e8113bd1
-commit: b49bbb5dbe7654f0d7996206f543d91bbed33569 [17/54] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
-config: i386-buildonly-randconfig-002-20250115 (https://download.01.org/0day-ci/archive/20250115/202501150734.lfH7WaHA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150734.lfH7WaHA-lkp@intel.com/reproduce)
+Hi Quinn,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7f5b6a8ec18e3add4c74682f60b90c31bdf849f2
+commit: c019cd656e717349ff22d0c41d6fbfc773f48c52 scsi: qla2xxx: edif: Fix dropped IKE message
+date:   2 years, 6 months ago
+config: mips-randconfig-r015-20230807 (https://download.01.org/0day-ci/archive/20250115/202501150712.6zuTydBv-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150712.6zuTydBv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501150734.lfH7WaHA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501150712.6zuTydBv-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/bridge/lontium-lt9611.c: In function 'lt9611_audio_init':
->> drivers/gpu/drm/bridge/lontium-lt9611.c:1147:15: error: 'struct lt9611' has no member named 'audio_pdev'
-    1147 |         lt9611->audio_pdev =
-         |               ^~
-   drivers/gpu/drm/bridge/lontium-lt9611.c:1152:38: error: 'struct lt9611' has no member named 'audio_pdev'
-    1152 |         return PTR_ERR_OR_ZERO(lt9611->audio_pdev);
-         |                                      ^~
-   drivers/gpu/drm/bridge/lontium-lt9611.c: In function 'lt9611_audio_exit':
-   drivers/gpu/drm/bridge/lontium-lt9611.c:1157:19: error: 'struct lt9611' has no member named 'audio_pdev'
-    1157 |         if (lt9611->audio_pdev) {
-         |                   ^~
-   drivers/gpu/drm/bridge/lontium-lt9611.c:1158:50: error: 'struct lt9611' has no member named 'audio_pdev'
-    1158 |                 platform_device_unregister(lt9611->audio_pdev);
-         |                                                  ^~
-   drivers/gpu/drm/bridge/lontium-lt9611.c:1159:23: error: 'struct lt9611' has no member named 'audio_pdev'
-    1159 |                 lt9611->audio_pdev = NULL;
-         |                       ^~
-   drivers/gpu/drm/bridge/lontium-lt9611.c: At top level:
->> drivers/gpu/drm/bridge/lontium-lt9611.c:1155:13: warning: 'lt9611_audio_exit' defined but not used [-Wunused-function]
-    1155 | static void lt9611_audio_exit(struct lt9611 *lt9611)
-         |             ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/bridge/lontium-lt9611.c:1144:12: warning: 'lt9611_audio_init' defined but not used [-Wunused-function]
-    1144 | static int lt9611_audio_init(struct device *dev, struct lt9611 *lt9611)
-         |            ^~~~~~~~~~~~~~~~~
+>> drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or struct member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
 
 
-vim +1147 drivers/gpu/drm/bridge/lontium-lt9611.c
+vim +3724 drivers/scsi/qla2xxx/qla_isr.c
 
-23278bf54afe180 Vinod Koul 2020-07-23  1143  
-23278bf54afe180 Vinod Koul 2020-07-23 @1144  static int lt9611_audio_init(struct device *dev, struct lt9611 *lt9611)
-23278bf54afe180 Vinod Koul 2020-07-23  1145  {
-23278bf54afe180 Vinod Koul 2020-07-23  1146  	codec_data.data = lt9611;
-23278bf54afe180 Vinod Koul 2020-07-23 @1147  	lt9611->audio_pdev =
-23278bf54afe180 Vinod Koul 2020-07-23  1148  		platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
-23278bf54afe180 Vinod Koul 2020-07-23  1149  					      PLATFORM_DEVID_AUTO,
-23278bf54afe180 Vinod Koul 2020-07-23  1150  					      &codec_data, sizeof(codec_data));
-23278bf54afe180 Vinod Koul 2020-07-23  1151  
-23278bf54afe180 Vinod Koul 2020-07-23  1152  	return PTR_ERR_OR_ZERO(lt9611->audio_pdev);
-23278bf54afe180 Vinod Koul 2020-07-23  1153  }
-23278bf54afe180 Vinod Koul 2020-07-23  1154  
-23278bf54afe180 Vinod Koul 2020-07-23 @1155  static void lt9611_audio_exit(struct lt9611 *lt9611)
-23278bf54afe180 Vinod Koul 2020-07-23  1156  {
-23278bf54afe180 Vinod Koul 2020-07-23  1157  	if (lt9611->audio_pdev) {
-23278bf54afe180 Vinod Koul 2020-07-23 @1158  		platform_device_unregister(lt9611->audio_pdev);
-23278bf54afe180 Vinod Koul 2020-07-23 @1159  		lt9611->audio_pdev = NULL;
-23278bf54afe180 Vinod Koul 2020-07-23  1160  	}
-23278bf54afe180 Vinod Koul 2020-07-23  1161  }
-23278bf54afe180 Vinod Koul 2020-07-23  1162  
+e84067d7430107 Duane Grigsby 2017-06-21  3713  
+fac2807946c10b Quinn Tran    2021-06-23  3714  /**
+fac2807946c10b Quinn Tran    2021-06-23  3715   * qla_chk_cont_iocb_avail - check for all continuation iocbs are available
+fac2807946c10b Quinn Tran    2021-06-23  3716   *   before iocb processing can start.
+fac2807946c10b Quinn Tran    2021-06-23  3717   * @vha: host adapter pointer
+fac2807946c10b Quinn Tran    2021-06-23  3718   * @rsp: respond queue
+fac2807946c10b Quinn Tran    2021-06-23  3719   * @pkt: head iocb describing how many continuation iocb
+fac2807946c10b Quinn Tran    2021-06-23  3720   * Return: 0 all iocbs has arrived, xx- all iocbs have not arrived.
+fac2807946c10b Quinn Tran    2021-06-23  3721   */
+fac2807946c10b Quinn Tran    2021-06-23  3722  static int qla_chk_cont_iocb_avail(struct scsi_qla_host *vha,
+c019cd656e7173 Quinn Tran    2022-07-12  3723  	struct rsp_que *rsp, response_t *pkt, u32 rsp_q_in)
+fac2807946c10b Quinn Tran    2021-06-23 @3724  {
+c019cd656e7173 Quinn Tran    2022-07-12  3725  	int start_pkt_ring_index;
+c019cd656e7173 Quinn Tran    2022-07-12  3726  	u32 iocb_cnt = 0;
+fac2807946c10b Quinn Tran    2021-06-23  3727  	int rc = 0;
+fac2807946c10b Quinn Tran    2021-06-23  3728  
+fac2807946c10b Quinn Tran    2021-06-23  3729  	if (pkt->entry_count == 1)
+fac2807946c10b Quinn Tran    2021-06-23  3730  		return rc;
+fac2807946c10b Quinn Tran    2021-06-23  3731  
+fac2807946c10b Quinn Tran    2021-06-23  3732  	/* ring_index was pre-increment. set it back to current pkt */
+fac2807946c10b Quinn Tran    2021-06-23  3733  	if (rsp->ring_index == 0)
+fac2807946c10b Quinn Tran    2021-06-23  3734  		start_pkt_ring_index = rsp->length - 1;
+fac2807946c10b Quinn Tran    2021-06-23  3735  	else
+fac2807946c10b Quinn Tran    2021-06-23  3736  		start_pkt_ring_index = rsp->ring_index - 1;
+fac2807946c10b Quinn Tran    2021-06-23  3737  
+c019cd656e7173 Quinn Tran    2022-07-12  3738  	if (rsp_q_in < start_pkt_ring_index)
+c019cd656e7173 Quinn Tran    2022-07-12  3739  		/* q in ptr is wrapped */
+c019cd656e7173 Quinn Tran    2022-07-12  3740  		iocb_cnt = rsp->length - start_pkt_ring_index + rsp_q_in;
+fac2807946c10b Quinn Tran    2021-06-23  3741  	else
+c019cd656e7173 Quinn Tran    2022-07-12  3742  		iocb_cnt = rsp_q_in - start_pkt_ring_index;
+fac2807946c10b Quinn Tran    2021-06-23  3743  
+c019cd656e7173 Quinn Tran    2022-07-12  3744  	if (iocb_cnt < pkt->entry_count)
+fac2807946c10b Quinn Tran    2021-06-23  3745  		rc = -EIO;
+fac2807946c10b Quinn Tran    2021-06-23  3746  
+c019cd656e7173 Quinn Tran    2022-07-12  3747  	ql_dbg(ql_dbg_init, vha, 0x5091,
+c019cd656e7173 Quinn Tran    2022-07-12  3748  	       "%s - ring %p pkt %p entry count %d iocb_cnt %d rsp_q_in %d rc %d\n",
+c019cd656e7173 Quinn Tran    2022-07-12  3749  	       __func__, rsp->ring, pkt, pkt->entry_count, iocb_cnt, rsp_q_in, rc);
+fac2807946c10b Quinn Tran    2021-06-23  3750  
+fac2807946c10b Quinn Tran    2021-06-23  3751  	return rc;
+fac2807946c10b Quinn Tran    2021-06-23  3752  }
+fac2807946c10b Quinn Tran    2021-06-23  3753  
 
-:::::: The code at line 1147 was first introduced by commit
-:::::: 23278bf54afe180967069bdc8c0f1c7a365fc63e drm/bridge: Introduce LT9611 DSI to HDMI bridge
+:::::: The code at line 3724 was first introduced by commit
+:::::: fac2807946c10b9a509b9c348afd442fa823c5f7 scsi: qla2xxx: edif: Add extraction of auth_els from the wire
 
-:::::: TO: Vinod Koul <vkoul@kernel.org>
-:::::: CC: Sam Ravnborg <sam@ravnborg.org>
+:::::: TO: Quinn Tran <qutran@marvell.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
