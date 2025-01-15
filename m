@@ -1,94 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4491C1EEA38
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 10:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE6C248BD1;
+	Wed, 15 Jan 2025 10:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736936151; cv=none; b=bM9z3J0V54vrXpI+3rTMpAl+aqF3Hz+GBHHyddXotYYoW4oXO+SOUcJlrs3COp1azsOXmCpNBseet9WQTRaX6zMR1vKaz0y+8Uj6XW/0WwKDqfNNuHoL6X3EbWMnWXJOxrsKF3x2Q0xPhb+M51LQjPaJ9y+113YZw9J8sJPlNME=
+	t=1736938517; cv=none; b=Gm9qIKbLshkDQy1V8ODVWt9EoM5w02CePrD59+0lY2GRDxiwRfA3gNPLbFhde/CEVnL6e212piHxR4EAS1hCxi/rWiC5jSRAY2Jt+wxSER4Ln1Az5atKXuWWE8YmA5ZqyWS4R07krB+6+JQLhp8OEpm74+4MqoRXO3F+XChSXhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736936151; c=relaxed/simple;
-	bh=xaRTfp+AZ3gJ6rEbt+v+MMqSkt2s1LFuEGLRYMl5RTo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rUW3s8XJXbsbAFeNib3g5eQ3kb4NJE9G8vT+NdCwxcRbevxrm5BCdtq3/onr+Noj7a4iP7xYyJV6dweXoucQnpj1QMOD31ybYBH8A8DhVHetJKVZZE3Q1P3Dr6PvCY6v8KOJR3xkE8Ru/uyCxG/wx4GpEjj1fE/bgkaLSgKpAV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S0YaqZ73; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736938517; c=relaxed/simple;
+	bh=lyd7zEr33mWz8zrx+UHujuU6H7PLeHkzFRXn0brnSdM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sHiDL3vphq3jgcsxby1qC5Dd5O65yQCqOtqq2LLimMHvFqz7Jw7WYKeZITCtY9a21L2QA9KFh5UBA6gtSusdpGMQGQg4lmpfMPF5JmaoStXTcXz9FFucoplS7VCv40yrrandOaRCB1JQ/Ht5C3lyiXhR97kyxjAyNuTF+4dK23k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=au99P/xe; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S0YaqZ73"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736936149; x=1768472149;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xaRTfp+AZ3gJ6rEbt+v+MMqSkt2s1LFuEGLRYMl5RTo=;
-  b=S0YaqZ733f/3Irq9eQDANQDpMaWs7KlWA70p9md7uoUy3iZQZ72HjyUW
-   fLHIMDpYKBtolGlpdu9s1jFTaDi47x9E69zooXybJRmhXh1uGAuHRHzIj
-   3L/atRsCHqigsYwQ1Dej0DRSFUfCGhnj8jJ5rs3zEg5UI9nAqlCP3SJ8V
-   N+sI8egv/5jx2wdv20sM82syJ5a3L1orqyAS+3ROPFK8wYdwSuRGU5ums
-   R7HwM0prThh1SxqP95Z6vhAzHjcvrtbLqUk8Q0aer484rCgAN9dplUv8U
-   ZBdoLRV7KWetOeYazl5tJd1UcGDnOsaGZPDa6tDIYxpkYdBysCjOnjk3Z
-   w==;
-X-CSE-ConnectionGUID: TnNJ8cAkRdmKiz4slRpbtw==
-X-CSE-MsgGUID: wa88lOh6Sh+/VGPXry6L2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="48648359"
-X-IronPort-AV: E=Sophos;i="6.12,317,1728975600"; 
-   d="scan'208";a="48648359"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 02:15:49 -0800
-X-CSE-ConnectionGUID: OJUWZueqRxm/b0sGwSlQZA==
-X-CSE-MsgGUID: 6q3nL+gjTl6L1jFxW66JHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110229741"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Jan 2025 02:15:48 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tY0R7-000Pm7-2Y;
-	Wed, 15 Jan 2025 10:15:45 +0000
-Date: Wed, 15 Jan 2025 18:15:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 258/258] drivers/memory/mtk-smi.c:856:41:
- warning: 'mtk_smi_common_mt8196' defined but not used
-Message-ID: <202501151806.TiUUKm9F-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="au99P/xe"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2166db59927so11412645ad.0;
+        Wed, 15 Jan 2025 02:55:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736938515; x=1737543315; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GHfvlbvA+NRQ/YtCOxD4S8ER62bPooKhwLbssU4Sj9I=;
+        b=au99P/xeFWmE7whya71hfPyB27o4EP9fFI52wbc8aVFYzVe2eqBGQnTteXtda2pVkw
+         mGCEwNUwv/IPnFaq82hwtpLxYltxGqorteYTWHwGLo5IuZzDX9sgm5KodZet0FtClS8Y
+         cacKF4Cval9CcBSqImaOOqwvJhUh3dQND+TCAUCHwpoj2tJ3NHwjwqWxqzKYYvZ3/A+y
+         ImQjFKzSGq92qZjYU/MYDLPmVe9Yu66HpjkyuaroqQ60zqBsdNF1d1zZU9IkQ7dgc3xp
+         nI+QCnvPyhe2mf1T3poVoLJeRBDNsluD/ZnADXIvKTnCNgu2EOGr/L8mIv2mkseTmfKt
+         tX9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736938515; x=1737543315;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GHfvlbvA+NRQ/YtCOxD4S8ER62bPooKhwLbssU4Sj9I=;
+        b=AbXjqezIv28St3gCs6nsA3ajkZuKu07u0cbO9EJLh1DFgGpIpoRBX7YId9ZbohlaK2
+         SMgvbBSXZtosEbUo1pmqDD/f/tK94DAeOD568cQyYqIfLPpwjAUY1+wOj9TPl8hsOc74
+         wXwKZb30d0akdPfBv/K/1CAyNYY23WGmM8d4vb9/baQR9Jt28GDge1VbnbPDw6jUktFP
+         7FXygzXwplyWdbPecZLYC3ALKbL3ZUfHRtAKhSCgz7+8Ez8++W4oaoEPgi4gEfsbiX9M
+         XmtcRasbnlcXEk22TsTEgv54Qx/QU9vIhHm16hsKxR7svv2qwMLIGDV/bXWEKXqsdk16
+         qBsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVct9akwAOIi/2hCyZvHLs1rcVTf5rhyo+D9kK4OAtgOfMgTU3KiibB5uctmQFjaVjn4PDY@lists.linux.dev, AJvYcCXQSZywsR7jEFIoIqC26Oq9Mq2TO9XERYeFMdlzvyZI01R5OIPYTF8ThZFdUHbuDQOOMsOvmjfFeVpiDpnZdA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfvSAWDFG8I5BBwhr7KqtsDcr373PmuF7sBNCdayO/N/Ep2qhU
+	MTRWJfRuqSFt408N2BEJiT+F1wNA9C8sGYBuhg1WIaleUqK2zF8x9q4Nuk0BVRufwCKiJdvwaPw
+	Ig6ArjBQa1/kTx7pVgWBalwFegH8=
+X-Gm-Gg: ASbGncvSMlJgRT5B4t1/n/YqlEoRq9f/5RJJ5iYdRc3vNg9otmhc3cbdrTE42mCMsWz
+	KCQ49u1Li6yBRSShAtR7XRcFhsonueoSTcTXjVQ==
+X-Google-Smtp-Source: AGHT+IGFodW2OuJJDnW0zLMl1WF8rCBkDNMDqlgzq7tQ9GajbnzMlXfvVBJn937G24nnTBsxSCh/kYV/jLqnvTWnJY0=
+X-Received: by 2002:a17:902:dacd:b0:215:a3fd:61f8 with SMTP id
+ d9443c01a7336-21a83face65mr171789125ad.10.1736938515308; Wed, 15 Jan 2025
+ 02:55:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202501150216.3RVz44uS-lkp@intel.com> <34e7c573-8af8-dab9-d435-ffa50e9efea2@huawei.com>
+In-Reply-To: <34e7c573-8af8-dab9-d435-ffa50e9efea2@huawei.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 15 Jan 2025 11:55:02 +0100
+X-Gm-Features: AbW1kva4fgu_HpB69Vlu4M5GjirHHd_wyfbjW8BRRRNhO6ACBVwFtfou9JOufmc
+Message-ID: <CANiq72n6jb62PzgP-3T6sBQRZCDb4Mi1wq6X8vEwRDT-2OvKrg@mail.gmail.com>
+Subject: Re: [sysctl:sysctl-testing 8/16] mm/nommu.c:394:12: error: static
+ declaration of 'sysctl_nr_trim_pages' follows non-static declaration
+To: yukaixiong <yukaixiong@huawei.com>
+Cc: Joel Granados <joel.granados@kernel.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   68c161ca42a79e2be7efa175b36a54f66c647862
-commit: fb50c7382cab5ae14ad2a9f6aa465230af1b252c [258/258] CHROMIUM: memory: mtk-smi: Add mt8196 support
-config: i386-buildonly-randconfig-002-20250115 (https://download.01.org/0day-ci/archive/20250115/202501151806.TiUUKm9F-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501151806.TiUUKm9F-lkp@intel.com/reproduce)
+On Wed, Jan 15, 2025 at 9:14=E2=80=AFAM yukaixiong <yukaixiong@huawei.com> =
+wrote:
+>
+>          I have deleted the line : "extern int sysctl_nr_trim_pages;" in
+> patch8 of v5. Why still produce this error? I don't understand!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501151806.TiUUKm9F-lkp@intel.com/
+As far as I understand, the report is against the tree mentioned in
+the report, not against a patch series. So I would recommend checking
+the tree to see what it contains (e.g. what version).
 
-All warnings (new ones prefixed by >>):
+> The compile steps as below:
+>
+> 1. export ARCH=3Darm;export CROSS_COMPILE=3Darm-linux-gnueabihf-
+> 2. cp ../stm32_config.log ./.config
+> 3. make ARCH=3Darm olddefconfig
+> 4. make -j200
 
->> drivers/memory/mtk-smi.c:856:41: warning: 'mtk_smi_common_mt8196' defined but not used [-Wunused-const-variable=]
-     856 | static const struct mtk_smi_common_plat mtk_smi_common_mt8196 = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
+Are you using Clang (ideally the same version) and `W=3D1` to match the rep=
+ort?
 
+I hope that helps.
 
-vim +/mtk_smi_common_mt8196 +856 drivers/memory/mtk-smi.c
-
-   855	
- > 856	static const struct mtk_smi_common_plat mtk_smi_common_mt8196 = {
-   857		.type     = MTK_SMI_GEN2,
-   858	};
-   859	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
