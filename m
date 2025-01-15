@@ -1,153 +1,210 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92BB2416BC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 13:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736948084; cv=none; b=MXZ18rkzAjFDGtXkPa9EhUxgoLc7dcIr3IUEz9CVZy6S0w1WMTXwcasvpyLjxLfUWmLCzr8dvY+alqiXvypT7CrLCHsMKS09U6B4KZUjRFp7fE9DmkZr8yUjvt59TccaXM74UoEKJmbJiWHtBoVt+NxIjPSf0VwnQbJLc/HvmwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736948084; c=relaxed/simple;
-	bh=UTmEPbF/laTtPmzFr2BNQEsdiaGFe1O+kj74kGFo+W4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OWi5rRJRsh4mv+axyFnCIfvx9y+U0rlmJWkPrJtz7a2GDXbiTGQck9ZPX5GmlLVwA5LuuEPDPE9EiISivWwQAgzZkzXAvwxCKjL19bc2biPhZamd4aDTnRI2yNHPJXsDtpNqWPBIayVzQ4QWwk6oED+p8E+xjq2TVUq6vctVRVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YY6Pd5Tpnz6LD4C;
-	Wed, 15 Jan 2025 21:32:53 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id E4BED140A35;
-	Wed, 15 Jan 2025 21:34:38 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 15 Jan
- 2025 14:34:38 +0100
-Date: Wed, 15 Jan 2025 13:34:37 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: kernel test robot <lkp@intel.com>
-CC: Huaisheng Ye <huaisheng.ye@intel.com>, <dan.j.williams@intel.com>,
-	<dave.jiang@intel.com>, <ming.li@zohomail.com>,
-	<oe-kbuild-all@lists.linux.dev>, <pei.p.jia@intel.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D923977F10
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 14:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736950623; cv=fail; b=eSbK3KnGg+ZB5AYf1UJd/FfTPQIpt7FWYPOYiObtIwbTf+5jkkblLoIjawPBXV6Kfjk3J6VGjlJLv9jvZUZkwDpSWDBpch1NIVd+UpSRt7yXslqPR9P0Ip6DVdOvsXrjhEe+tSyekoPpfzI2yz+at+h5t/S8DGhbFK/jArytv5Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736950623; c=relaxed/simple;
+	bh=QbZjfuKTOerYQsNDVEmejg/U/RG3f/eLGNf1PsZROD0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=eyePKUA5kzqydAv+pWSW9iLfX9ZGV7jd8ARqW7yGUwyfGm7AMW1V2JmxFqwdzPlupFurgxVQAUAjYYTefkTj0zoMAuHKBFsVgDPRkPRaAnnvBQnAnUuZN2ujLreEflk9SV38dB9uWHklVyYuh46oEvexbdEPatlE2o3+g5X2nWE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAmMKAtu; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAmMKAtu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736950622; x=1768486622;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=QbZjfuKTOerYQsNDVEmejg/U/RG3f/eLGNf1PsZROD0=;
+  b=GAmMKAtuOJZ767MpJS8HcNjD/ZbyZVmqb3EuGT+BQQqj+HViOnMDICtH
+   rlbg6geZqDkkdPqYYEtBBMACPwlQu121Bx0K0Iqk/oJrPUJrQ0xRJ3Kp6
+   8GR/jT4Fq0hxl33+gHHU5NJZxt/tApznTsSL5f28TCZEanu3gY9GTsUJe
+   ow3F4eOJoeVevdDmzAlUX6RnwbOm1q7u9ploFe7ThElY1wf7N+gygUCQ/
+   QgMDcQnVP+h0vXf2PQha7JysoGVPuGkggW7lhd0nY0qPgos7r6Nq+3Gmn
+   jBCHtVbVeF854oND9NiZg3dmYFnjUM9sxyD6KQJSdYxIud9J7fzWNxn5y
+   Q==;
+X-CSE-ConnectionGUID: MAyFoz93TASJPc9V6cPJ1g==
+X-CSE-MsgGUID: o444BLxjTtCg4IpCkG6Png==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="41050642"
+X-IronPort-AV: E=Sophos;i="6.13,206,1732608000"; 
+   d="scan'208";a="41050642"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:17:01 -0800
+X-CSE-ConnectionGUID: I1mJ0mn4Q4O+mk+6ZBx/sg==
+X-CSE-MsgGUID: r0FPY8nZRqaec4OvI/u0Pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,206,1732608000"; 
+   d="scan'208";a="105106467"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Jan 2025 06:17:01 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 15 Jan 2025 06:17:00 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 15 Jan 2025 06:17:00 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.42) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 15 Jan 2025 06:16:56 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gg14tO429Wy4VBJkz/PcWZ2f0trSc3vDSzb/cWESbykjv8XMkLpPOZ8VntRwFeDJfCldbEolhtg01eRxKY7XZ8xE2UurpJtgudpwtNw7xdXHg8ToNkQglVT9Ny9CzmLsjX+b6nG8csO2Tc8wjPfU5GgazNi9FswJhTyrRtME5WzYjuGBxaJ50GbcVMQncn3iQPsmhCAcba38GA1XWSxo0tFxsIcVK366fIZiTSyRMG9SzNXlrXwpU/mqpyWYfT+rNcvTI8qRxXC3EAnAJqCM+jPJrmAzTKZjjWTZpJCXRNPJDntkoiPPZll3NeS99l+H0/pX9jLBu+m7WTtYKfOzRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iu5CoEPZnCoQ9+SojY0o9DPCFBJTwAkMb+FBq9LUqyk=;
+ b=TIWaEMEOOkrSUc62CCXHe8oAMBlrUppJc7gGHY1zXyWa2AUNb5u003RHECdEzQceVtSB0ruliYjO9ZvcRGOmw8ocefKO8xi0F61UsTO7UrsJ2aQk2+steum7XBkGqCJ3fFDfHACE/gYcxeZMbVQVSRIE4GlDLMogwM7cJImWESoyl4CwrwC921PIqLMy5uq72vPiUT0xo68gqUzbDWJbjaFJLd3YRsqdhPdc/8OUWwJJ8wYJabPQ6PhMSDTvK380hmzaez/x/AjPPUhuyLRfuP0QpnZbDGSj9HqELwxz4vw7fZHox6LxBD7+GtxHYC13itTaF2a9cCM9yqIVlmT7Gw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA3PR11MB7461.namprd11.prod.outlook.com (2603:10b6:806:319::17)
+ by MN2PR11MB4582.namprd11.prod.outlook.com (2603:10b6:208:265::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
+ 2025 14:16:41 +0000
+Received: from SA3PR11MB7461.namprd11.prod.outlook.com
+ ([fe80::4ec0:56bc:1ceb:7c06]) by SA3PR11MB7461.namprd11.prod.outlook.com
+ ([fe80::4ec0:56bc:1ceb:7c06%3]) with mapi id 15.20.8335.017; Wed, 15 Jan 2025
+ 14:16:41 +0000
+From: "Ye, Huaisheng" <huaisheng.ye@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, lkp <lkp@intel.com>
+CC: "Williams, Dan J" <dan.j.williams@intel.com>, "Jiang, Dave"
+	<dave.jiang@intel.com>, "ming.li@zohomail.com" <ming.li@zohomail.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Jia, Pei P"
+	<pei.p.jia@intel.com>, "linux-cxl@vger.kernel.org"
 	<linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH v4 1/1] cxl/core/regs: Refactor out functions to count
+Subject: RE: [PATCH v4 1/1] cxl/core/regs: Refactor out functions to count
  regblocks of given type
-Message-ID: <20250115133437.00003240@huawei.com>
-In-Reply-To: <202501142243.PmkW84KY-lkp@intel.com>
+Thread-Topic: [PATCH v4 1/1] cxl/core/regs: Refactor out functions to count
+ regblocks of given type
+Thread-Index: AQHbZoXIyKgYJRxE0Ei1SB2ksk5agrMWXdaAgAF5j4CAAAeOIA==
+Date: Wed, 15 Jan 2025 14:16:40 +0000
+Message-ID: <SA3PR11MB7461B51E81106B648060C70C9F192@SA3PR11MB7461.namprd11.prod.outlook.com>
 References: <20250114131041.17512-2-huaisheng.ye@intel.com>
-	<202501142243.PmkW84KY-lkp@intel.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	<202501142243.PmkW84KY-lkp@intel.com> <20250115133437.00003240@huawei.com>
+In-Reply-To: <20250115133437.00003240@huawei.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR11MB7461:EE_|MN2PR11MB4582:EE_
+x-ms-office365-filtering-correlation-id: 022bc6e9-3ad5-42b5-2a82-08dd356f3b5b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?3MvXOoNXGAtB3ozy51Lckwvu+maGyMMxnZPgYUrE3FmYB99T1WY9ntlLp3nO?=
+ =?us-ascii?Q?8C0RgrUuNX4gItVA3qn7xMi/NGUF72EY/Qb7inQrRLHvYRBZaM3CC2hlFku9?=
+ =?us-ascii?Q?D3KON0izkbxM3mMeEkvM1DJ+072c53KXUsNI72CKKy3d/D4uPli0suBD4TCQ?=
+ =?us-ascii?Q?1g/ImmQPGgpsa0olJPatZhSjAwCkk7GocfYyFywWOxP47023T3L8sEQD19O8?=
+ =?us-ascii?Q?f9DiS3mcTjNMlsYwQpQ7PyX0IdJTHHXw53QsU/2F/yIqUCwRKx+W9Sk7lRfE?=
+ =?us-ascii?Q?FyjIM64NaDYWLp8Bg6dp9hisG1sVSdZaHSaUQfNHWMooju3nk62xJs0Umha1?=
+ =?us-ascii?Q?UWcbu10PkdNlAr+xBkoJxX7oJxkME3DnvmtQ3BlwT1MShgQbtpm2TMzJFY0l?=
+ =?us-ascii?Q?rwUNYNeTtu5jDkImOkJqA59daG8r/Eb+f51g7/xJza8TEUhdyI4X4iwWQFJ/?=
+ =?us-ascii?Q?f2zXJ5/gESEWNbRHahihqQV2xTT/s1n1nzzAG7uflzw5xf85X9fRnXv2Hozo?=
+ =?us-ascii?Q?boJcAIW8UHq4QtWEWyv4o8hOt88APo+PkjplCwXrb9zq052TQ2njItP9HfXD?=
+ =?us-ascii?Q?VGp4Xku4X7T1NsZK/x15q220z3A2+L04bIs+X4G8NuV9kfLuOOmVwJID5V6F?=
+ =?us-ascii?Q?pAzdROpVn+Wjrfe/hrIdZPAL4ywnXzx+giy+fGoCUeqB1aDXJTTH6XTeb1kL?=
+ =?us-ascii?Q?/J03ezyjoY2bCV1XhvY0Tl8gE5hKdrjwV5GhH7XhsYTEqtPEbXTgjhcWr1Pu?=
+ =?us-ascii?Q?iOO7DmpTiG1hYvW1EbhvaOnvGLwuzVTvxuRWY8wckPZrs5gHASQUjRLVTZWh?=
+ =?us-ascii?Q?hE5VK6JuBn8dD2Oc5+VqSRcH5/yI8VoZj1mwpIeFTHRbF/VnHPlfWTXmWKAS?=
+ =?us-ascii?Q?JSRBTJOBhXuYu5T65bzQzIE6cYbkhd/4G0Ego5BUCFLIeuKInuebXtQONzuM?=
+ =?us-ascii?Q?bm4qeHXrB7cgZPZZsi47V9Or9KXwUQlfTFDDJeq9fgq39NQPEj12iXwZ5p0Q?=
+ =?us-ascii?Q?n+WIdGB+Nal2iSfa7kbz7H8MBKg+UwzsdgxfJoJ9skicXSeSaIrsrPm17YoD?=
+ =?us-ascii?Q?/324QAydN77+DVjkluPpfZScDzSSSjCVbUxm/FbImRPYMDD/m6FK1pORclrZ?=
+ =?us-ascii?Q?Sph1hw2vwqrhUIbckvfExF9DKbS9vR1bWb4mGa92nMlG4G+tyF7hPdPGER4D?=
+ =?us-ascii?Q?BIXXizb2HQHwfExetO+Spi+ccTsqcPusKx49mogMfZOAo3LAe3szZ550Y+z3?=
+ =?us-ascii?Q?X/DpUKcZQYdwLLL2HFUZBMjG3WJWFdaLthktqk0gF/WASM8keUduIWPpIXTx?=
+ =?us-ascii?Q?BI31AxmoXWBqBnqHd63A8TxCt1UsLbMf8e1sktNBSjQrXajRDWtE3+k/5UB9?=
+ =?us-ascii?Q?VPzZbbWaOnAJ3pNbVkurbZiOv4VcYUKnmWH640PmL1+V2Xb5SJ32pn2dzu+B?=
+ =?us-ascii?Q?aqvO6+kJr27r35uCShJZFZgI47tyPNEB?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR11MB7461.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xfSV8D08ZxtsOuMo9HYdHyNABUfx+75biOalGfjGrTHUJlhYj/oXDdSO6RJU?=
+ =?us-ascii?Q?FauIcKvIVfGzerE/gQLG1l9TuP4IRlj2ow0K2fDjlNYTUky+O8aNpgOpfWNH?=
+ =?us-ascii?Q?a/X8uPpeci7R91xSaCk1YDbCmqE+50cGuHCJTQDlUAEBh7WMa7JVHYH4bqMX?=
+ =?us-ascii?Q?LvFb3vbjfBD5zmVA5XksDS8+oVUCn31o+AYWgTg1fQnXpp4cqPl2OoMFbg1A?=
+ =?us-ascii?Q?o9L0PwxM/3rE06DtQNBf/E69mPHB6uKRr0PXHYAMQCnno6pcb/lMIQP7OPLZ?=
+ =?us-ascii?Q?y1GwpNbyi6id8nUn2nEmZgOzNA/9v3nnHYpOvglpb9L5bw6Lx5GM4PwP3R8S?=
+ =?us-ascii?Q?RljTzdduqLE0OXlijmAAscH+WjXgHgQ0jTzLENQ0+bWssDrDP+6SZZkUe+7p?=
+ =?us-ascii?Q?ZkURHGuSSoUspIlQrSBnPYOYcJntAZ/X8dxT37BqczPJbSpgIW4lj/6rF4iS?=
+ =?us-ascii?Q?hHv6uReFEIO9Ry52cVCh8Fi3Z3+hAXfX3UvI4/nflvYBQbdsjBjMJQsfFYly?=
+ =?us-ascii?Q?PkkkaGoxgKOl9NzkwBAaplmSAnr0O97B2p3vFLnJkhD/udFIBH6EEaNpI70p?=
+ =?us-ascii?Q?PrbL2PO2gB6JuzOZmknqnSvGeecx500w6MKOmKecASLJAN1gPZzaV5ycFTxi?=
+ =?us-ascii?Q?ODSQHHPeBGy2ZKiqOnry78rjrgPcAkwK58K8RUxPowzFHob9FwVDGWdJdzkN?=
+ =?us-ascii?Q?LNO0Z9j6JnIjDE6/PkUVlmgTy9QNDrxXoQWCdUEQhoCKUXZS2JWof7eKCJMj?=
+ =?us-ascii?Q?Qn/MTnjwjaDvk/NLt0jz11UMRpj9YE8Csb18xUfOdg3FYxmif9Dim8pPp6KF?=
+ =?us-ascii?Q?s+JHp8DpYIrX+E7kNDrqETpUIFtV2450Ow+YRy1fiVtKaq6UozJ2vdfIrG+B?=
+ =?us-ascii?Q?YSU/uTR/xl1V3MTKyuz7sFVXJ4tpxasAtk7e1pL0ja3/oU4BvEgh+6Fvj+NI?=
+ =?us-ascii?Q?p5FffN5RVYCocjZq9fo02UqMLHNqhjrliYisGIqMZjeqppQtvbOKcAKcjdO5?=
+ =?us-ascii?Q?sozYh220h3clvUKWcWEdIpdKFweBNNzp9vUDxVY8vbp2pT52dcHyoz3ZWS6z?=
+ =?us-ascii?Q?v7HPbMSlBJ5R+sl5tS2sbeu+fgInPcES7iT6efYb2HWRK34Cjgn45kyS/yqo?=
+ =?us-ascii?Q?EZ89kw7iT4TS5IRh8aWKQRIwN2oMbYkRg9rbpNtFhrDy4U6KcPK91DHG983/?=
+ =?us-ascii?Q?1s0esjPqb4iXJn7l4PZuryRh+F6wIsLFi7Jf26avmKm92tn4uGcFzO2ZhmOc?=
+ =?us-ascii?Q?Hy9j9Ly67rmMvKNGTUIQBm5RARC2iObzCd54kGsqatC6v9jJzWX/4b9vjzn6?=
+ =?us-ascii?Q?6QWtVCoshtOhlI/DFohEx3alFtZWxuSt6c1BI5RGnI/epwnt7p9iefnvZ1xG?=
+ =?us-ascii?Q?dp3bgMapJUNWlGyHnEwFySe4CEkiYiJ3QO+HDzuo7O/LMo5pM2vxfbuxxTGa?=
+ =?us-ascii?Q?tojxhEhUozVnZpTShqCPvJj1iTNvqhW7UQwjOdibdQL/DBc3Fxkh18YVAyk5?=
+ =?us-ascii?Q?CHEQTS3XJBinHny4TaIcfnSOeKM818DonzDKGODyY0+IHMMIJ75WuIUT9GbO?=
+ =?us-ascii?Q?RolwscuMH3dmdQO4dalFQk2XnBd0pWkpfAkNXlI8?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- frapeml500008.china.huawei.com (7.182.85.71)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR11MB7461.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 022bc6e9-3ad5-42b5-2a82-08dd356f3b5b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 14:16:40.9348
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aSJMTPOpJig9uAAz+L5O5bf5SgVSWTjmOtF8iFK3dJMpsxMgc51+yXrey1P7Ai+eipNV6HHnE5Bloe0bf03zZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4582
+X-OriginatorOrg: intel.com
 
-On Tue, 14 Jan 2025 23:03:17 +0800
-kernel test robot <lkp@intel.com> wrote:
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Sent: Wednesday, January 15, 2025 9:35 PM
+=20
+[snip]
 
-> Hi Huaisheng,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on cxl/next]
-> [also build test WARNING on linus/master v6.13-rc7 next-20250114]
-> [cannot apply to cxl/pending]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Huaisheng-Ye/cxl-core-regs-Refactor-out-functions-to-count-regblocks-of-given-type/20250114-212025
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-> patch link:    https://lore.kernel.org/r/20250114131041.17512-2-huaisheng.ye%40intel.com
-> patch subject: [PATCH v4 1/1] cxl/core/regs: Refactor out functions to count regblocks of given type
-> config: i386-buildonly-randconfig-001-20250114 (https://download.01.org/0day-ci/archive/20250114/202501142243.PmkW84KY-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501142243.PmkW84KY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501142243.PmkW84KY-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'pdev' not described in '__cxl_find_regblock_instance'
-> >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'type' not described in '__cxl_find_regblock_instance'
-> >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'map' not described in '__cxl_find_regblock_instance'
-> >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct member 'index' not described in '__cxl_find_regblock_instance'  
-> 
-As you've probably gathered from this, kernel-doc needs to be complete.
-I'd just drop the extra *. This isn't stuff we need outside of someone
-reading the actual code.
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct
+> member 'pdev' not described in '__cxl_find_regblock_instance'
+> > >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct
+> member 'type' not described in '__cxl_find_regblock_instance'
+> > >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct
+> member 'map' not described in '__cxl_find_regblock_instance'
+> > >> drivers/cxl/core/regs.c:303: warning: Function parameter or struct
+> member 'index' not described in '__cxl_find_regblock_instance'
+> >
+> As you've probably gathered from this, kernel-doc needs to be complete.
+> I'd just drop the extra *. This isn't stuff we need outside of someone
+> reading the actual code.
+>=20
+> /*
+>  * __cxl_find_....
+>=20
 
-/*
- * __cxl_find_....
+oh, whoops, my mistake. Thank you for your patience and correction.
+I should run scripts/kernel-doc firstly before 'git send-email'.
 
-> 
-> vim +303 drivers/cxl/core/regs.c
-> 
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  291  
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  292  /**
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  293   * __cxl_find_regblock_instance() - Locate a register block or count instances by type / index
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  294   * Use CXL_INSTANCES_COUNT for @index if counting instances.
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  295   *
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  296   * __cxl_find_regblock_instance() may return:
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  297   * 0 - if register block enumerated.
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  298   * >= 0 - if counting instances.
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  299   * < 0 - error code otherwise.
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  300   */
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  301  static int __cxl_find_regblock_instance(struct pci_dev *pdev, enum cxl_regloc_type type,
-> d717d7f3df1849 Jonathan Cameron 2023-05-26  302  			       struct cxl_register_map *map, int index)
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23 @303  {
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  304  	u32 regloc_size, regblocks;
-> d717d7f3df1849 Jonathan Cameron 2023-05-26  305  	int instance = 0;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  306  	int regloc, i;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  307  
-> 573408049b7598 Robert Richter   2023-06-22  308  	*map = (struct cxl_register_map) {
-> dd22581f895371 Robert Richter   2023-10-18  309  		.host = &pdev->dev,
-> 573408049b7598 Robert Richter   2023-06-22  310  		.resource = CXL_RESOURCE_NONE,
-> 573408049b7598 Robert Richter   2023-06-22  311  	};
-> 573408049b7598 Robert Richter   2023-06-22  312  
-> 962f1e79e7acfb Dave Jiang       2024-05-02  313  	regloc = pci_find_dvsec_capability(pdev, PCI_VENDOR_ID_CXL,
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  314  					   CXL_DVSEC_REG_LOCATOR);
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  315  	if (!regloc)
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  316  		return -ENXIO;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  317  
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  318  	pci_read_config_dword(pdev, regloc + PCI_DVSEC_HEADER1, &regloc_size);
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  319  	regloc_size = FIELD_GET(PCI_DVSEC_HEADER1_LENGTH_MASK, regloc_size);
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  320  
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  321  	regloc += CXL_DVSEC_REG_LOCATOR_BLOCK1_OFFSET;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  322  	regblocks = (regloc_size - CXL_DVSEC_REG_LOCATOR_BLOCK1_OFFSET) / 8;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  323  
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  324  	for (i = 0; i < regblocks; i++, regloc += 8) {
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  325  		u32 reg_lo, reg_hi;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  326  
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  327  		pci_read_config_dword(pdev, regloc, &reg_lo);
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  328  		pci_read_config_dword(pdev, regloc + 4, &reg_hi);
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  329  
-> 6c7f4f1e51c2a2 Dan Williams     2022-11-29  330  		if (!cxl_decode_regblock(pdev, reg_lo, reg_hi, map))
-> 6c7f4f1e51c2a2 Dan Williams     2022-11-29  331  			continue;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  332  
-> d717d7f3df1849 Jonathan Cameron 2023-05-26  333  		if (map->reg_type == type) {
-> d717d7f3df1849 Jonathan Cameron 2023-05-26  334  			if (index == instance)
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  335  				return 0;
-> d717d7f3df1849 Jonathan Cameron 2023-05-26  336  			instance++;
-> d717d7f3df1849 Jonathan Cameron 2023-05-26  337  		}
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  338  	}
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  339  
-> 6c7f4f1e51c2a2 Dan Williams     2022-11-29  340  	map->resource = CXL_RESOURCE_NONE;
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  341  	if (index == CXL_INSTANCES_COUNT)
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  342  		return instance;
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  343  
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  344  	return -ENODEV;
-> 303ebc1b1741b6 Ben Widawsky     2022-01-23  345  }
-> 7167af677c5aa1 Huaisheng Ye     2025-01-14  346  
-> 
+Best Regards,
+Huaisheng Ye
 
