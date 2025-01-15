@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD94422E3E1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 04:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17092156F3B;
+	Wed, 15 Jan 2025 05:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736916765; cv=none; b=GojArSFJNTbtdEZM9fT5TcblTry/R628137Z4BIFYotn62LWH19EWJqQlTl7Rhyw+AONQuuc4MfmOaFc7Myd7hz/eNaEqK0YIIrMiDX4yy9AIKYIRVHN8xj+69rhnMvuQE6cB0OuSQtPEMWQO3sW9zUVVENIUc+6rHrj9u8yYqg=
+	t=1736919335; cv=none; b=BlOuED/u2sbhsM7pa6cWoHK+u5ElIcohaYZow5xMzJmUCl5SxvV2AuajalGH7kiZkDAIH3YqCsiCqAoKvk1JakaFsgVmEO6JhkaOWbXoLFEabo58lLlkqVQTwUEm8PqvtWcgr9l9PteLWjCNpIAlL0Q2lAOllNdErSvH05CU8sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736916765; c=relaxed/simple;
-	bh=KqQUNNRDJWa9wlxm6Z8/KXg+D3oeD6DyFjoCIqPr9B8=;
+	s=arc-20240116; t=1736919335; c=relaxed/simple;
+	bh=b5LfSnKrjdbtlZ0eonODC+gXQg4sAqYMilNpGP0/teg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gFuQLNsz3TA/WG92er8Cl+PwBQkV8G3pzfUU31kYuyhPL24liDHlLHn9SZwejZSZ4s4Kww06CbeBdm9C9Ybu3MCdju1J+X4DPGGc9ODsdjto++wfgL8XKJpKYF6MBeh6EexCs02H43UDfLSW8mP+DCvQ8+Jxha2zEYpxjUJ9cPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l1g1lPMb; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=eos0OyD0xIR/v+2QbWuot2+/iWA1BePth8VuIVjvK0a37n57yfY79LrhKiNjme2PkJx4PqPeVlQpSW7UIWppo9sB7sN5RO5gWTAui1EMF8Tu7mu5cGr6c+99bZAh/+vDIyZ2oinGaNPmmEUTegM6GUDuOBShCyL1/039UpIkk90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJtIBWVP; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l1g1lPMb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJtIBWVP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736916763; x=1768452763;
+  t=1736919333; x=1768455333;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KqQUNNRDJWa9wlxm6Z8/KXg+D3oeD6DyFjoCIqPr9B8=;
-  b=l1g1lPMbKGF1uHr+oVKMhIHDBenBRLssT3iJytidW5EQRE4HgGEGXKuf
-   LDYIZxgcZ48DhkPcDDbhSRl4VDXKTnV8JrsEHTpL+ywduC6QAdRbQq0sO
-   V9rllUlmfbblvnT3aPqKR7t/zqNiB/cPI5bedCR03vmUwoz19cxZlVN3v
-   Sip6RyVX4w90VTMngWUy06r01VUtztDHZHsf50USErg7+urBb1VHMZFqC
-   aDYevEo/McY6i04tgGRLSQswKs68UE9YGs5baOqZjEbi/4Z84CodY/fdb
-   zfuKcpYdVQZWkxcBTGxqCmWKEcAYV2ExqyrUU2iLaL0I6qAKt7qV0wAH/
-   w==;
-X-CSE-ConnectionGUID: 7B2Q/ttrRiGNt4wrW2XRbA==
-X-CSE-MsgGUID: U/5EHdadSS2hHstkANo/1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="48236221"
+  bh=b5LfSnKrjdbtlZ0eonODC+gXQg4sAqYMilNpGP0/teg=;
+  b=kJtIBWVPbmCvkUJaV3nDXzjDciyW4m2nUbH6TC5e9FU7BLCfvDv9YJtR
+   ywDS7x2aS1w3zPt7zrlvMFcbEclZ9Of4k4k0Hpz7yky6njlkp1Q5DZew7
+   XI7NySh/JF4YW1emHf1wgiVT1WehIq3Z9MP7kAU1ivU+a+iar56Lrm6kg
+   jwXHWs5V3kCtyI4UBM5FDdFgGHTpdDD+mAOFHy5+Pg0M038CO0cL2a62O
+   lJvpj/1HSO1R0s8nrZ+AYfprPPIXJia3sKhKfvb0vUtcQEBRvCDDswXKU
+   NS+67HGkIaDtotByYEoyPVuY1uY97LBMW/x15HizdmT5AW4zFf+Ux2CR6
+   A==;
+X-CSE-ConnectionGUID: 4y06fzjYSyGrrDy7yeVn4A==
+X-CSE-MsgGUID: ANVN0x97RYyW9Lpn8XKQPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="47823691"
 X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
-   d="scan'208";a="48236221"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 20:52:41 -0800
-X-CSE-ConnectionGUID: ZjRErHfEQQGSwFOxUU6YCg==
-X-CSE-MsgGUID: QwKV3wSDS4qQsOLrebHuGA==
+   d="scan'208";a="47823691"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 21:34:47 -0800
+X-CSE-ConnectionGUID: ZU/vxDkITzyVcGv1e6AbMA==
+X-CSE-MsgGUID: dmS5p3icQvSGOedjnbPmDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
-   d="scan'208";a="105613377"
+   d="scan'208";a="105210166"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2025 20:52:39 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 14 Jan 2025 21:34:45 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXvOO-000PTY-2t;
-	Wed, 15 Jan 2025 04:52:36 +0000
-Date: Wed, 15 Jan 2025 12:51:43 +0800
+	id 1tXw39-000PVX-09;
+	Wed, 15 Jan 2025 05:34:43 +0000
+Date: Wed, 15 Jan 2025 13:34:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: drivers/gpu/drm/i915/gem/i915_gem_context.c:2162:9-16: WARNING
- opportunity for memdup_user
-Message-ID: <202501151212.S309qHCR-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool/break-stuff 5/5] arch/x86/kernel/head_64.o: error:
+ objtool: xen_hypercall_hvm+0x30: sibling call from callable instruction with
+ modified stack frame
+Message-ID: <202501151354.4Rtqe3L2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,113 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   619f0b6fad524f08d493a98d55bac9ab8895e3a6
-commit: 0f1bb41bf39695c84c83ce6f69e125b562d1d7ab drm/i915: Support replaying GPU hangs with captured context image
-date:   8 months ago
-config: x86_64-randconfig-101-20250115 (https://download.01.org/0day-ci/archive/20250115/202501151212.S309qHCR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Josh,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool/break-stuff
+head:   5daebdfce36d5b286c19eafeb6a44bb73d7f721c
+commit: 5daebdfce36d5b286c19eafeb6a44bb73d7f721c [5/5] objtool: Change "warning:" to "error:" for CONFIG_OBJTOOL_WERROR
+config: x86_64-buildonly-randconfig-003-20250115 (https://download.01.org/0day-ci/archive/20250115/202501151354.4Rtqe3L2-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501151354.4Rtqe3L2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501151212.S309qHCR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501151354.4Rtqe3L2-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gem/i915_gem_context.c:2162:9-16: WARNING opportunity for memdup_user
+All errors (new ones prefixed by >>):
 
-vim +2162 drivers/gpu/drm/i915/gem/i915_gem_context.c
-
-  2108	
-  2109	static int set_context_image(struct i915_gem_context *ctx,
-  2110				     struct drm_i915_gem_context_param *args)
-  2111	{
-  2112		struct i915_gem_context_param_context_image user;
-  2113		struct intel_context *ce;
-  2114		struct file *shmem_state;
-  2115		unsigned long lookup;
-  2116		void *state;
-  2117		int ret = 0;
-  2118	
-  2119		if (!IS_ENABLED(CONFIG_DRM_I915_REPLAY_GPU_HANGS_API))
-  2120			return -EINVAL;
-  2121	
-  2122		if (!ctx->i915->params.enable_debug_only_api)
-  2123			return -EINVAL;
-  2124	
-  2125		if (args->size < sizeof(user))
-  2126			return -EINVAL;
-  2127	
-  2128		if (copy_from_user(&user, u64_to_user_ptr(args->value), sizeof(user)))
-  2129			return -EFAULT;
-  2130	
-  2131		if (user.mbz)
-  2132			return -EINVAL;
-  2133	
-  2134		if (user.flags & ~(I915_CONTEXT_IMAGE_FLAG_ENGINE_INDEX))
-  2135			return -EINVAL;
-  2136	
-  2137		lookup = 0;
-  2138		if (user.flags & I915_CONTEXT_IMAGE_FLAG_ENGINE_INDEX)
-  2139			lookup |= LOOKUP_USER_INDEX;
-  2140	
-  2141		ce = lookup_user_engine(ctx, lookup, &user.engine);
-  2142		if (IS_ERR(ce))
-  2143			return PTR_ERR(ce);
-  2144	
-  2145		if (user.size < ce->engine->context_size) {
-  2146			ret = -EINVAL;
-  2147			goto out_ce;
-  2148		}
-  2149	
-  2150		if (drm_WARN_ON_ONCE(&ctx->i915->drm,
-  2151				     test_bit(CONTEXT_ALLOC_BIT, &ce->flags))) {
-  2152			/*
-  2153			 * This is racy but for a debug only API, if userspace is keen
-  2154			 * to create and configure contexts, while simultaneously using
-  2155			 * them from a second thread, let them suffer by potentially not
-  2156			 * executing with the context image they just raced to apply.
-  2157			 */
-  2158			ret = -EBUSY;
-  2159			goto out_ce;
-  2160		}
-  2161	
-> 2162		state = kmalloc(ce->engine->context_size, GFP_KERNEL);
-  2163		if (!state) {
-  2164			ret = -ENOMEM;
-  2165			goto out_ce;
-  2166		}
-  2167	
-  2168		if (copy_from_user(state, u64_to_user_ptr(user.image),
-  2169				   ce->engine->context_size)) {
-  2170			ret = -EFAULT;
-  2171			goto out_state;
-  2172		}
-  2173	
-  2174		shmem_state = shmem_create_from_data(ce->engine->name,
-  2175						     state, ce->engine->context_size);
-  2176		if (IS_ERR(shmem_state)) {
-  2177			ret = PTR_ERR(shmem_state);
-  2178			goto out_state;
-  2179		}
-  2180	
-  2181		if (intel_context_set_own_state(ce)) {
-  2182			ret = -EBUSY;
-  2183			fput(shmem_state);
-  2184			goto out_state;
-  2185		}
-  2186	
-  2187		ce->default_state = shmem_state;
-  2188	
-  2189		args->size = sizeof(user);
-  2190	
-  2191	out_state:
-  2192		kfree(state);
-  2193	out_ce:
-  2194		intel_context_put(ce);
-  2195		return ret;
-  2196	}
-  2197	
+>> arch/x86/kernel/head_64.o: error: objtool: xen_hypercall_hvm+0x30: sibling call from callable instruction with modified stack frame
+>> arch/x86/kernel/head_64.o: error: objtool:   xen_hypercall_hvm+0x0: <=== (sym)
+   0000 0000000000000000 <xen_hypercall_hvm>:
+   0000    0:	55                   	push   %rbp
+   0001    1:	48 89 e5             	mov    %rsp,%rbp
+   0004    4:	50                   	push   %rax
+   0005    5:	51                   	push   %rcx
+   0006    6:	52                   	push   %rdx
+   0007    7:	57                   	push   %rdi
+   0008    8:	56                   	push   %rsi
+   0009    9:	41 53                	push   %r11
+   000b    b:	41 52                	push   %r10
+   000d    d:	41 51                	push   %r9
+   000f    f:	41 50                	push   %r8
+   0011   11:	6a 00                	push   $0x0
+   0013   13:	e8 00 00 00 00       	call   18 <xen_hypercall_hvm+0x18>	14: R_X86_64_PLT32	__xen_hypercall_setfunc-0x4
+   0018   18:	48 8d 1d 00 00 00 00 	lea    0x0(%rip),%rbx        # 1f <xen_hypercall_hvm+0x1f>	1b: R_X86_64_PC32	xen_hypercall_amd-0x4
+   001f   1f:	48 39 c3             	cmp    %rax,%rbx
+   0022   22:	58                   	pop    %rax
+   0023   23:	41 58                	pop    %r8
+   0025   25:	41 59                	pop    %r9
+   0027   27:	41 5a                	pop    %r10
+   0029   29:	41 5b                	pop    %r11
+   002b   2b:	5e                   	pop    %rsi
+   002c   2c:	5f                   	pop    %rdi
+   002d   2d:	5a                   	pop    %rdx
+   002e   2e:	59                   	pop    %rcx
+   002f   2f:	58                   	pop    %rax
+   0030   30:	0f 84 00 00 00 00    	je     36 <xen_hypercall_hvm+0x36>	32: R_X86_64_PLT32	xen_hypercall_amd-0x4
+   0036   36:	e9 00 00 00 00       	jmp    3b <xen_hypercall_hvm+0x3b>	37: R_X86_64_PLT32	xen_hypercall_intel-0x4
+   003b   3b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
 
 -- 
 0-DAY CI Kernel Test Service
