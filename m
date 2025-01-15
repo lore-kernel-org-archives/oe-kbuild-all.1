@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF78014A4F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 04:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF50D18952C;
+	Wed, 15 Jan 2025 04:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736916643; cv=none; b=QFE5A5ppjmHQYxbIlTkOyUUxmopnBzaVktRButY2G7n9nxMsAj187LmRjn09xbHh8iI9Agx0UNzS5KAPtfzMqkop7uDbHoTV1ifpfhQQWkD1GY+Ruki6xMXa53/L89Q0mwyJxDZUU1U0vEwWsulPyJ0Pf4wMHtemS5d65IVoMrE=
+	t=1736916702; cv=none; b=fs1syaPUAMDcxiZzegBX5B8/C/z0bHs72fi9N2YZp+fhMt4cpQjw8RDYbKQkn4Ddl8DhKAV3QcxYXZQE18ucCfX0Ixtk8/cNC67EbxluwZdKEzd+u9EZi/Dhh3xgTzJ0LNql9r4C/Ky0cUXQfYVKICGS0ODwMXw7dAIgVoDsGOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736916643; c=relaxed/simple;
-	bh=ii4GC+t4Bfzd6eEnsHZqT6Cixs9nyqhjentCa0f7TF8=;
+	s=arc-20240116; t=1736916702; c=relaxed/simple;
+	bh=9HBzUj0X0wISih8W8ZGrS3+vPUSFmfs9Nwttw+XmPQ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CDJrWoT+gC0dUAFcHVYqTFdXnmKTAqNDqRMew/lucO+OwW65zeHjgmAV4826DLzc9f0OuGGbaa333QL1QD7LgYbtT5bGH5/JUncnvTSS6gchBsY/zW2auC+Qtltf8LIrDAVgO8BXT4MSqg54VIuw0FCZk53GfABlMnlcVPcu63Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lEsbFgiE; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=LcLa97nnYhj5ixhd8cP3E9W290UCKybY3uUZ6E+62k5Z0tBKMDXckqWzj63iAjTOZv5z818OOpy4wWgIc0ZiIjZIHM38UhasbVbxw6HPh6n9bBLlEVzHEwuCFZLaZTpaq7xgbPAKr4p4Eur9xmSMrh7LNTBjnRaRzTeod6/50Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKA81bnN; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEsbFgiE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKA81bnN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736916641; x=1768452641;
+  t=1736916701; x=1768452701;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=ii4GC+t4Bfzd6eEnsHZqT6Cixs9nyqhjentCa0f7TF8=;
-  b=lEsbFgiEl0zhGTOh+GITs/vivXoK8gmCGXvGBoUUvwClH6wooYg8c3BP
-   b/Jn4Sso7ad6Cd9ki36u2AC8rRvUorJDadzhZ26eu3rRTmyP7ojs+AXW7
-   Rt3hw/CLNDpekRX2WndcNyE4ztuyrXm9Bh7n3E2fvcxADkol2kifRD1Mg
-   bovUzV/c4WfSZOWd0ihgOssTw4efHMSQdYV5va2SAPtJtIa3l0xL+1sq1
-   f8H2LFa3DKWM0C9ckUQCG5zzO1a/DPtiW16JvfUzKT3IDt8LQt48TBiP5
-   0d7HgyNfYO5M2VUBLy6Usnvf2k8MlAC/nfK6ov+6FT80qhRTMmoUcoes3
-   w==;
-X-CSE-ConnectionGUID: GVTbU+r1QS2QwyXUBdSJ5Q==
-X-CSE-MsgGUID: tdznXxDrTuCa7IW6Bdx7Yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="36449280"
+  bh=9HBzUj0X0wISih8W8ZGrS3+vPUSFmfs9Nwttw+XmPQ8=;
+  b=JKA81bnNFR+9l95yqDFWHLKjj0Y59hfQ5lYi/vhm9rssNsBOfanWdt0C
+   xWHEdhOr7sXoBCOiM4HKEuLuikq9KYJdNuYnw1PByQbKSt++VqzfIF63Z
+   D7ruKNDyikw/GnvqgPoUiFazZbowzihOjCzMkLibANkx+SBta4cQb59Ca
+   SlMoYcp5ykX4g5HThQ/HXKgoTMTocLRBsJDn+RZijontJjp0J9LZqu4c8
+   DX9NUgP2VIT+vAzD9SubvnFJib7Lwy7ZndZS9nIVK4Qh9mW45bXtV517u
+   uw9oBQZ7FDyhSc9u1Nj/LueyDRsKDsuqUCSKgXinu928t9QdunrFGYewc
+   A==;
+X-CSE-ConnectionGUID: 9twMvgdpQuWwytT9+ujzeQ==
+X-CSE-MsgGUID: S/N9lpbYTIWWIqLheX33cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="48622561"
 X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
-   d="scan'208";a="36449280"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 20:50:40 -0800
-X-CSE-ConnectionGUID: Uquz0HWhTHmPq6RsmuOaNw==
-X-CSE-MsgGUID: sODfZkkeTXWi8mBS9Lddfg==
+   d="scan'208";a="48622561"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 20:51:40 -0800
+X-CSE-ConnectionGUID: oPBfk0suQN+S21vdB/Mu+Q==
+X-CSE-MsgGUID: 2S0sqoeCTRyBuMSiAEfsxA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="109636086"
+X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
+   d="scan'208";a="105100231"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Jan 2025 20:50:38 -0800
+  by orviesa006.jf.intel.com with ESMTP; 14 Jan 2025 20:51:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXvMS-000PTL-2D;
-	Wed, 15 Jan 2025 04:50:36 +0000
-Date: Wed, 15 Jan 2025 12:50:14 +0800
+	id 1tXvNQ-000PTP-2T;
+	Wed, 15 Jan 2025 04:51:36 +0000
+Date: Wed, 15 Jan 2025 12:50:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [sean-jc:x86/suspend_notifier_lockdep 7/9]
- arch/x86/kvm/xen.c:176:23: error: 'struct kvm_vcpu_arch' has no member named
- 'hv_clock'
-Message-ID: <202501151235.zb8W7D89-lkp@intel.com>
+ arch/x86/kvm/xen.c:176:17: error: no member named 'hv_clock' in 'struct
+ kvm_vcpu_arch'
+Message-ID: <202501151207.roAIKdBg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,31 +68,64 @@ Content-Transfer-Encoding: 8bit
 tree:   https://github.com/sean-jc/linux x86/suspend_notifier_lockdep
 head:   a3037d5fb8b4d3cdf1b29ac3eddbe45c3cdfb396
 commit: fc7f5d6f4ee5e5dcbf10dd9087ebaa22ae330447 [7/9] KVM: x86: Remove per-vCPU "cache" of its reference pvclock
-config: x86_64-randconfig-074-20250115 (https://download.01.org/0day-ci/archive/20250115/202501151235.zb8W7D89-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501151235.zb8W7D89-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-003-20250115 (https://download.01.org/0day-ci/archive/20250115/202501151207.roAIKdBg-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501151207.roAIKdBg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501151235.zb8W7D89-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501151207.roAIKdBg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/xen.c: In function 'kvm_xen_start_timer':
->> arch/x86/kvm/xen.c:176:23: error: 'struct kvm_vcpu_arch' has no member named 'hv_clock'
+   In file included from arch/x86/kvm/xen.c:10:
+   In file included from arch/x86/kvm/x86.h:5:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/x86/kvm/xen.c:176:17: error: no member named 'hv_clock' in 'struct kvm_vcpu_arch'
      176 |         if (vcpu->arch.hv_clock.version && vcpu->kvm->arch.use_master_clock &&
-         |                       ^
-   arch/x86/kvm/xen.c:200:62: error: 'struct kvm_vcpu_arch' has no member named 'hv_clock'
+         |             ~~~~~~~~~~ ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> arch/x86/kvm/xen.c:176:17: error: no member named 'hv_clock' in 'struct kvm_vcpu_arch'
+     176 |         if (vcpu->arch.hv_clock.version && vcpu->kvm->arch.use_master_clock &&
+         |             ~~~~~~~~~~ ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> arch/x86/kvm/xen.c:176:17: error: no member named 'hv_clock' in 'struct kvm_vcpu_arch'
+     176 |         if (vcpu->arch.hv_clock.version && vcpu->kvm->arch.use_master_clock &&
+         |             ~~~~~~~~~~ ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   arch/x86/kvm/xen.c:200:49: error: no member named 'hv_clock' in 'struct kvm_vcpu_arch'
      200 |                 guest_now = __pvclock_read_cycles(&vcpu->arch.hv_clock,
-         |                                                              ^
-   arch/x86/kvm/xen.c: In function 'kvm_xen_update_tsc_info':
-   arch/x86/kvm/xen.c:2264:40: error: 'struct kvm_vcpu_arch' has no member named 'hv_clock'
+         |                                                    ~~~~~~~~~~ ^
+   arch/x86/kvm/xen.c:2264:27: error: no member named 'hv_clock' in 'struct kvm_vcpu_arch'
     2264 |                 entry->ecx = vcpu->arch.hv_clock.tsc_to_system_mul;
-         |                                        ^
-   arch/x86/kvm/xen.c:2265:40: error: 'struct kvm_vcpu_arch' has no member named 'hv_clock'
+         |                              ~~~~~~~~~~ ^
+   arch/x86/kvm/xen.c:2265:27: error: no member named 'hv_clock' in 'struct kvm_vcpu_arch'
     2265 |                 entry->edx = vcpu->arch.hv_clock.tsc_shift;
-         |                                        ^
+         |                              ~~~~~~~~~~ ^
+   1 warning and 6 errors generated.
 
 
 vim +176 arch/x86/kvm/xen.c
