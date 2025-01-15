@@ -1,116 +1,138 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D307714A60C;
-	Wed, 15 Jan 2025 22:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C97F1DAC80;
+	Wed, 15 Jan 2025 23:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736981717; cv=none; b=tJh9FNOGF6FUGfDGoKJZvVMCnwfGvqui2SYpUawp6F+HD+f5en6aw0a4+6kbnSD95aL5h/06LTTE9SBWJgEL1axPasEyW3mJHklrYVfPM1OWx7DZBOSjMbTZ8UUmZeTFTuq7/XLMXiWzGOZ8OBWo5hfAyBPMNHHxG8g6gfbYBak=
+	t=1736983059; cv=none; b=recsyP+RpfSXHjKg71oUwWgulgjyiOtvk0l7zm30tE+KWlzeTK/1mR3jZi7KqaHBVlOeNwj+N9RfSKHAid7N3YxxlSPHU3m7TNfRR6Cba4p8VNzmTqUUNHNbBALnNvTURRc2AzvOF9juaKv0oAgao0nB3G04FUvx0TWEQIwJll4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736981717; c=relaxed/simple;
-	bh=JohlN4E1yXsmy23P1MUAbCbnTFZIxwtY3hn7f4zOJKQ=;
+	s=arc-20240116; t=1736983059; c=relaxed/simple;
+	bh=KpiWwHPBU8cn7bfIaWcZtYTJFTB9Ri7oDlqiBOCgGzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gRffGRkx+qXbDVQF+ZeACYhDunIRYCtldR0X7n9u7NbFPR/HiZQHGNmjY4ECQN89GGmG7uQNaP/XkjYUckOYmrccGX7ZRAuSjZs7WcNCMkYkSBtaMCXd/bDmd5zcqzxSdCkxZcjaz0wAZYpHZmPHP9Kz6Fq5MLMGnRQavL7k5WA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=Vn9o7fcZ; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=XiuiU/k6HJSYPDx8OToHZ4KOiUw96tzFRjfx44PDtFV4SaphNCLY2b5jbfMZFyXFXM3Y7ZlPuyJp++CohAVElZbswixLWB00O8s39LpgCYJATvC1aLP1HsiaaMA1j7jSbwv2NhcyYHVjkwGIRdsmcfZmD2DgYfD7pw4iH0EjR7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwzcOaNf; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="Vn9o7fcZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=i35gEgCbUs27Y0a+WQCSQBKJo82ExVKVQFHbZyysc7w=; b=Vn9o7fcZey0pNdf8
-	qSAYWT1nhC+4MVn3xR8gn/92KGCV26Gi4kHxb0V4b0MpIvh2EigBIxH69EVdCmta5hIy5NKtj5pTO
-	ap7l8kh03TmNUCtlRPIcJWi3myrlNbFmeWwoHk8nE7hh+JigT5ULc7XRs3qvBs+aGJWzmNQIj1XbX
-	7KQVY7In/5XR65+P0/Kr4u8EiOQf2j+Q7OVwNVgPSl0/mQ7WuUgCK2XDfDYHfRpX8LPQAGVUQQQAS
-	imNOxXhSy9yEYc5XXQuFbNV43AfhleU8O2q/NSxgYtNZLfgKxzthqbd1nQ5I3oq8/qEHYcHzgxvNR
-	sh3MefOozokf4huarw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1tYCI2-00AVTO-2M;
-	Wed, 15 Jan 2025 22:55:10 +0000
-Date: Wed, 15 Jan 2025 22:55:10 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [tip:irq/core 6/17] ERROR: modpost:
- "irq_gc_mask_disable_and_ack_set" [drivers/irqchip/irq-brcmstb-l2.ko]
- undefined!
-Message-ID: <Z4g8znXQElHT2Urj@gallifrey>
-References: <202501160501.6r9pNtBg-lkp@intel.com>
- <Z4gubTOiYm-_H1uW@gallifrey>
- <4e7c06d7-665e-430c-8317-0f3a10a58762@broadcom.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwzcOaNf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736983057; x=1768519057;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KpiWwHPBU8cn7bfIaWcZtYTJFTB9Ri7oDlqiBOCgGzY=;
+  b=CwzcOaNflH9hThBhlWwxC9v+KLi2LGs4WSbgPh4K+vck9Id3D7My2UCD
+   gAYpuWOL2q9yfmE1M87KyRaFogjXu5U8WZWFGR7lrKWLqMBA5M/7LkBsj
+   9F9UbIPpr/DYBaf5W9WNDlm8Z7M1DECb11p5AFoaLCWaeUUNo2r6xFQQu
+   aaeMU3O+/JcB4K234pdogbXb7DQZMqoHuF33e3JMhTTCdIbrV65yDYdlM
+   08sYqncpTXAacEllVrRawdKGPhEgtvZsuli8u1A3DAno5F7M16QEZoaPl
+   VPWGtGhF57njMNsHKxUC3DPY77UYexU78Bcw5UtvdXi8fRfs5LpuUkcFu
+   w==;
+X-CSE-ConnectionGUID: aruG+SlaQCWPvLBD4WteFg==
+X-CSE-MsgGUID: SUoVqfCASk6Qpo/TfljlQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="48734521"
+X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
+   d="scan'208";a="48734521"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 15:17:37 -0800
+X-CSE-ConnectionGUID: kgZIbBxjQdGjPvS6DawAcQ==
+X-CSE-MsgGUID: TS12OjrKSU+x5+ILfGs6PA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
+   d="scan'208";a="110266871"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 15 Jan 2025 15:17:36 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tYCdg-000QzP-2Y;
+	Wed, 15 Jan 2025 23:17:32 +0000
+Date: Thu, 16 Jan 2025 07:16:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aloka Dixit <quic_alokad@quicinc.com>, ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org, linux-wireless@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aloka Dixit <quic_alokad@quicinc.com>
+Subject: Re: [PATCH 1/5] wifi: ath11k: refactor transmitted arvif retrieval
+Message-ID: <202501160626.Jbb3GHnk-lkp@intel.com>
+References: <20250114223612.2979310-2-quic_alokad@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4e7c06d7-665e-430c-8317-0f3a10a58762@broadcom.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 22:54:39 up 252 days, 10:08,  1 user,  load average: 0.04, 0.05,
- 0.01
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <20250114223612.2979310-2-quic_alokad@quicinc.com>
 
-* Florian Fainelli (florian.fainelli@broadcom.com) wrote:
-> On 1/15/25 13:53, Dr. David Alan Gilbert wrote:
-> > * kernel test robot (lkp@intel.com) wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-> > > head:   12cbdcb9f05559ff72eb8a04df829852804c0276
-> > > commit: dd1f17a9faf5359d76644236cde4cc1720f1184d [6/17] irqchip/irq-brcmstb-l2: Replace brcmstb_l2_mask_and_ack() by generic function
-> > > config: arm64-randconfig-002-20250115 (https://download.01.org/0day-ci/archive/20250116/202501160501.6r9pNtBg-lkp@intel.com/config)
-> > > compiler: aarch64-linux-gcc (GCC) 14.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160501.6r9pNtBg-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202501160501.6r9pNtBg-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > > 
-> > > > > ERROR: modpost: "irq_gc_mask_disable_and_ack_set" [drivers/irqchip/irq-brcmstb-l2.ko] undefined!
-> > 
-> > Hmm, that's not happy is it - I'll have a look.
-> 
-> We should be amending your original patch with the following:
-> 
-> diff --git a/kernel/irq/generic-chip.c b/kernel/irq/generic-chip.c
-> index 32ffcbb87fa1..c4a8bca5f2b0 100644
-> --- a/kernel/irq/generic-chip.c
-> +++ b/kernel/irq/generic-chip.c
-> @@ -162,6 +162,7 @@ void irq_gc_mask_disable_and_ack_set(struct irq_data *d)
->         irq_reg_writel(gc, mask, ct->regs.ack);
->         irq_gc_unlock(gc);
->  }
-> +EXPORT_SYMBOL_GPL(irq_gc_mask_disable_and_ack_set);
-> 
->  /**
->   * irq_gc_eoi - EOI interrupt
-> 
-> 
-> This was not going to be a problem back when Doug's commit was accepted, but
-> later on, irq-brcmsbtb-l2 was allowed to become modular with
-> 51d9db5c8fbbed160081d4cb5c193abdf67ded05 ("irqchip/irq-brcmstb-l2: Switch to
-> IRQCHIP_PLATFORM_DRIVER").
-> 
-> This totally escaped me when I acked your patch making use of the generic
-> irq_gc_mask_disable_and_ack_set implementation.
+Hi Aloka,
 
-Thanks for spotting that; I'll give it a build test and post a v2 in
-a little while.
+kernel test robot noticed the following build warnings:
 
-Dave
+[auto build test WARNING on 0c5fcd9069dd5f984e39820629acbfbe0f1b4256]
 
-> -- 
-> Florian
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Aloka-Dixit/wifi-ath11k-refactor-transmitted-arvif-retrieval/20250115-063922
+base:   0c5fcd9069dd5f984e39820629acbfbe0f1b4256
+patch link:    https://lore.kernel.org/r/20250114223612.2979310-2-quic_alokad%40quicinc.com
+patch subject: [PATCH 1/5] wifi: ath11k: refactor transmitted arvif retrieval
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250116/202501160626.Jbb3GHnk-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160626.Jbb3GHnk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501160626.Jbb3GHnk-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/wireless/ath/ath11k/mac.c:6349:46: warning: variable 'tx_vif' is uninitialized when used here [-Wuninitialized]
+    6349 |                 if (ar->hw->wiphy != ieee80211_vif_to_wdev(tx_vif)->wiphy)
+         |                                                            ^~~~~~
+   drivers/net/wireless/ath/ath11k/mac.c:6339:30: note: initialize the variable 'tx_vif' to silence this warning
+    6339 |         struct ieee80211_vif *tx_vif;
+         |                                     ^
+         |                                      = NULL
+   1 warning generated.
+
+
+vim +/tx_vif +6349 drivers/net/wireless/ath/ath11k/mac.c
+
+d5c65159f28953 Kalle Valo  2019-11-23  6333  
+5a81610acf66c4 Aloka Dixit 2023-05-05  6334  static int ath11k_mac_setup_vdev_params_mbssid(struct ath11k_vif *arvif,
+5a81610acf66c4 Aloka Dixit 2023-05-05  6335  					       u32 *flags, u32 *tx_vdev_id)
+5a81610acf66c4 Aloka Dixit 2023-05-05  6336  {
+5a81610acf66c4 Aloka Dixit 2023-05-05  6337  	struct ath11k *ar = arvif->ar;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6338  	struct ath11k_vif *tx_arvif;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6339  	struct ieee80211_vif *tx_vif;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6340  
+5a81610acf66c4 Aloka Dixit 2023-05-05  6341  	*tx_vdev_id = 0;
+72f88bc503a76c Aloka Dixit 2025-01-14  6342  	tx_arvif = ath11k_mac_get_tx_arvif(arvif);
+72f88bc503a76c Aloka Dixit 2025-01-14  6343  	if (!tx_arvif) {
+5a81610acf66c4 Aloka Dixit 2023-05-05  6344  		*flags = WMI_HOST_VDEV_FLAGS_NON_MBSSID_AP;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6345  		return 0;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6346  	}
+5a81610acf66c4 Aloka Dixit 2023-05-05  6347  
+5a81610acf66c4 Aloka Dixit 2023-05-05  6348  	if (arvif->vif->bss_conf.nontransmitted) {
+5a81610acf66c4 Aloka Dixit 2023-05-05 @6349  		if (ar->hw->wiphy != ieee80211_vif_to_wdev(tx_vif)->wiphy)
+5a81610acf66c4 Aloka Dixit 2023-05-05  6350  			return -EINVAL;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6351  
+5a81610acf66c4 Aloka Dixit 2023-05-05  6352  		*flags = WMI_HOST_VDEV_FLAGS_NON_TRANSMIT_AP;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6353  		*tx_vdev_id = ath11k_vif_to_arvif(tx_vif)->vdev_id;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6354  	} else if (tx_arvif == arvif) {
+5a81610acf66c4 Aloka Dixit 2023-05-05  6355  		*flags = WMI_HOST_VDEV_FLAGS_TRANSMIT_AP;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6356  	} else {
+5a81610acf66c4 Aloka Dixit 2023-05-05  6357  		return -EINVAL;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6358  	}
+5a81610acf66c4 Aloka Dixit 2023-05-05  6359  
+5a81610acf66c4 Aloka Dixit 2023-05-05  6360  	if (arvif->vif->bss_conf.ema_ap)
+5a81610acf66c4 Aloka Dixit 2023-05-05  6361  		*flags |= WMI_HOST_VDEV_FLAGS_EMA_MODE;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6362  
+5a81610acf66c4 Aloka Dixit 2023-05-05  6363  	return 0;
+5a81610acf66c4 Aloka Dixit 2023-05-05  6364  }
+5a81610acf66c4 Aloka Dixit 2023-05-05  6365  
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
