@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17092156F3B;
-	Wed, 15 Jan 2025 05:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F18B8BE7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 06:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736919335; cv=none; b=BlOuED/u2sbhsM7pa6cWoHK+u5ElIcohaYZow5xMzJmUCl5SxvV2AuajalGH7kiZkDAIH3YqCsiCqAoKvk1JakaFsgVmEO6JhkaOWbXoLFEabo58lLlkqVQTwUEm8PqvtWcgr9l9PteLWjCNpIAlL0Q2lAOllNdErSvH05CU8sM=
+	t=1736922359; cv=none; b=k1RfccrIAEdsoVQUmHKUMgXl3sVnaCVjdVBoeBHUkpepnhUGq55kO1sC+XRgBP/7p1FKtoZkWIF240/2DGbzmtgKFBJvc3cbQ3u8sxDNLzHT5LeIA8iE7HT7XIdVEvZFHVdfuDHtaPL/HMKGbkITJlHqfx88X4zxTyM9U4ppPm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736919335; c=relaxed/simple;
-	bh=b5LfSnKrjdbtlZ0eonODC+gXQg4sAqYMilNpGP0/teg=;
+	s=arc-20240116; t=1736922359; c=relaxed/simple;
+	bh=OlwI7kdhIh2IN4S4Yo3pOgpEab6j0W2XkdvEqYsoJWg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eos0OyD0xIR/v+2QbWuot2+/iWA1BePth8VuIVjvK0a37n57yfY79LrhKiNjme2PkJx4PqPeVlQpSW7UIWppo9sB7sN5RO5gWTAui1EMF8Tu7mu5cGr6c+99bZAh/+vDIyZ2oinGaNPmmEUTegM6GUDuOBShCyL1/039UpIkk90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJtIBWVP; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=cOA+9rcsq2+W9fD7OetfAxUaG0Gtvo1YuCMONtJEtEAM4xRMCoH83dIttSGN3SAqi+mXTHoKzChj788TLxXz6A8dHi59mLMZYGO2zxK/jVyMIbnYwgiQZ/+mne3WnnjJ5CQAotmNqDR+7ECCuPbqtERjwNgjxFfW9LUt7RwhZ40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HqC63S4D; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJtIBWVP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HqC63S4D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736919333; x=1768455333;
+  t=1736922357; x=1768458357;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b5LfSnKrjdbtlZ0eonODC+gXQg4sAqYMilNpGP0/teg=;
-  b=kJtIBWVPbmCvkUJaV3nDXzjDciyW4m2nUbH6TC5e9FU7BLCfvDv9YJtR
-   ywDS7x2aS1w3zPt7zrlvMFcbEclZ9Of4k4k0Hpz7yky6njlkp1Q5DZew7
-   XI7NySh/JF4YW1emHf1wgiVT1WehIq3Z9MP7kAU1ivU+a+iar56Lrm6kg
-   jwXHWs5V3kCtyI4UBM5FDdFgGHTpdDD+mAOFHy5+Pg0M038CO0cL2a62O
-   lJvpj/1HSO1R0s8nrZ+AYfprPPIXJia3sKhKfvb0vUtcQEBRvCDDswXKU
-   NS+67HGkIaDtotByYEoyPVuY1uY97LBMW/x15HizdmT5AW4zFf+Ux2CR6
-   A==;
-X-CSE-ConnectionGUID: 4y06fzjYSyGrrDy7yeVn4A==
-X-CSE-MsgGUID: ANVN0x97RYyW9Lpn8XKQPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="47823691"
+  bh=OlwI7kdhIh2IN4S4Yo3pOgpEab6j0W2XkdvEqYsoJWg=;
+  b=HqC63S4Du5A7qRm1vfScoLPkoEpf/AC2aMJgufvuEL7JFwzbFUzTX9xS
+   tw+pWaBnp4gLkkj/mEIVeqqQtJgk8Sud4ISNFM8qsyVdKiwgmOMXUdG03
+   X3jSvz1wwSGMzLPUIoEwSBzP0pJyD5+/cosklz6hG8f8sWIxxCUq4lfTh
+   O5f1wXS3mNwlnrgtQ2DGa40AMIaDBSwQAS+xAzIXrKUXWI2jeiCXSgDOR
+   gAD9Y1LvlDF+KAjdUUV1d1KVuOwc/WH0gE3gDHhpXXChKQaBRqvLOqgKR
+   z9Ex5Al26WmwxQOovaTjCnseWKUtfgNX5D6lyRyrqeattt9oD2BZhr+06
+   g==;
+X-CSE-ConnectionGUID: 5vxe4QG+T1OGQ/sj7rMXLw==
+X-CSE-MsgGUID: 3WpjRiZHTxG3iLzzCEqlfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37473249"
 X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
-   d="scan'208";a="47823691"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 21:34:47 -0800
-X-CSE-ConnectionGUID: ZU/vxDkITzyVcGv1e6AbMA==
-X-CSE-MsgGUID: dmS5p3icQvSGOedjnbPmDA==
+   d="scan'208";a="37473249"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 22:25:56 -0800
+X-CSE-ConnectionGUID: HcbqSGbpQcWqhSPHRDTWFA==
+X-CSE-MsgGUID: lG2QYt0WQaS2s3vEATC5Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
-   d="scan'208";a="105210166"
+   d="scan'208";a="104792112"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Jan 2025 21:34:45 -0800
+  by orviesa009.jf.intel.com with ESMTP; 14 Jan 2025 22:25:56 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXw39-000PVX-09;
-	Wed, 15 Jan 2025 05:34:43 +0000
-Date: Wed, 15 Jan 2025 13:34:06 +0800
+	id 1tXwqf-000PYP-0c;
+	Wed, 15 Jan 2025 06:25:53 +0000
+Date: Wed, 15 Jan 2025 14:25:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool/break-stuff 5/5] arch/x86/kernel/head_64.o: error:
- objtool: xen_hypercall_hvm+0x30: sibling call from callable instruction with
- modified stack frame
-Message-ID: <202501151354.4Rtqe3L2-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 258/258] drivers/spi/spi-mt65xx.c:176:
+ warning: Function parameter or member 'spi_qos_request' not described in
+ 'mtk_spi'
+Message-ID: <202501151409.036ZcRA3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +63,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Josh,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool/break-stuff
-head:   5daebdfce36d5b286c19eafeb6a44bb73d7f721c
-commit: 5daebdfce36d5b286c19eafeb6a44bb73d7f721c [5/5] objtool: Change "warning:" to "error:" for CONFIG_OBJTOOL_WERROR
-config: x86_64-buildonly-randconfig-003-20250115 (https://download.01.org/0day-ci/archive/20250115/202501151354.4Rtqe3L2-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501151354.4Rtqe3L2-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   fb50c7382cab5ae14ad2a9f6aa465230af1b252c
+commit: 2604d15348363ecd2b8b940f17eebdde20d5d7e6 [258/258] CHROMIUM: spi: mediatek: fix spi transfer timeout
+config: i386-buildonly-randconfig-002-20250115 (https://download.01.org/0day-ci/archive/20250115/202501151409.036ZcRA3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501151409.036ZcRA3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501151354.4Rtqe3L2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501151409.036ZcRA3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/head_64.o: error: objtool: xen_hypercall_hvm+0x30: sibling call from callable instruction with modified stack frame
->> arch/x86/kernel/head_64.o: error: objtool:   xen_hypercall_hvm+0x0: <=== (sym)
-   0000 0000000000000000 <xen_hypercall_hvm>:
-   0000    0:	55                   	push   %rbp
-   0001    1:	48 89 e5             	mov    %rsp,%rbp
-   0004    4:	50                   	push   %rax
-   0005    5:	51                   	push   %rcx
-   0006    6:	52                   	push   %rdx
-   0007    7:	57                   	push   %rdi
-   0008    8:	56                   	push   %rsi
-   0009    9:	41 53                	push   %r11
-   000b    b:	41 52                	push   %r10
-   000d    d:	41 51                	push   %r9
-   000f    f:	41 50                	push   %r8
-   0011   11:	6a 00                	push   $0x0
-   0013   13:	e8 00 00 00 00       	call   18 <xen_hypercall_hvm+0x18>	14: R_X86_64_PLT32	__xen_hypercall_setfunc-0x4
-   0018   18:	48 8d 1d 00 00 00 00 	lea    0x0(%rip),%rbx        # 1f <xen_hypercall_hvm+0x1f>	1b: R_X86_64_PC32	xen_hypercall_amd-0x4
-   001f   1f:	48 39 c3             	cmp    %rax,%rbx
-   0022   22:	58                   	pop    %rax
-   0023   23:	41 58                	pop    %r8
-   0025   25:	41 59                	pop    %r9
-   0027   27:	41 5a                	pop    %r10
-   0029   29:	41 5b                	pop    %r11
-   002b   2b:	5e                   	pop    %rsi
-   002c   2c:	5f                   	pop    %rdi
-   002d   2d:	5a                   	pop    %rdx
-   002e   2e:	59                   	pop    %rcx
-   002f   2f:	58                   	pop    %rax
-   0030   30:	0f 84 00 00 00 00    	je     36 <xen_hypercall_hvm+0x36>	32: R_X86_64_PLT32	xen_hypercall_amd-0x4
-   0036   36:	e9 00 00 00 00       	jmp    3b <xen_hypercall_hvm+0x3b>	37: R_X86_64_PLT32	xen_hypercall_intel-0x4
-   003b   3b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+>> drivers/spi/spi-mt65xx.c:176: warning: Function parameter or member 'spi_qos_request' not described in 'mtk_spi'
+
+
+vim +176 drivers/spi/spi-mt65xx.c
+
+a568231f463225 Leilk Liu                  2015-08-07  131  
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  132  /**
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  133   * struct mtk_spi - SPI driver instance
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  134   * @base:		Start address of the SPI controller registers
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  135   * @state:		SPI controller state
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  136   * @pad_num:		Number of pad_sel entries
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  137   * @pad_sel:		Groups of pins to select
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  138   * @parent_clk:		Parent of sel_clk
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  139   * @sel_clk:		SPI master mux clock
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  140   * @spi_clk:		Peripheral clock
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  141   * @spi_hclk:		AHB bus clock
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  142   * @cur_transfer:	Currently processed SPI transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  143   * @xfer_len:		Number of bytes to transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  144   * @num_xfered:		Number of transferred bytes
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  145   * @tx_sgl:		TX transfer scatterlist
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  146   * @rx_sgl:		RX transfer scatterlist
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  147   * @tx_sgl_len:		Size of TX DMA transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  148   * @rx_sgl_len:		Size of RX DMA transfer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  149   * @dev_comp:		Device data structure
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  150   * @spi_clk_hz:		Current SPI clock in Hz
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  151   * @spimem_done:	SPI-MEM operation completion
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  152   * @use_spimem:		Enables SPI-MEM
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  153   * @dev:		Device pointer
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  154   * @tx_dma:		DMA start for SPI-MEM TX
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  155   * @rx_dma:		DMA start for SPI-MEM RX
+3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  156   */
+a568231f463225 Leilk Liu                  2015-08-07  157  struct mtk_spi {
+a568231f463225 Leilk Liu                  2015-08-07  158  	void __iomem *base;
+a568231f463225 Leilk Liu                  2015-08-07  159  	u32 state;
+37457607ecaffe Leilk Liu                  2015-10-26  160  	int pad_num;
+37457607ecaffe Leilk Liu                  2015-10-26  161  	u32 *pad_sel;
+a740f4e684c020 Leilk Liu                  2022-03-21  162  	struct clk *parent_clk, *sel_clk, *spi_clk, *spi_hclk;
+a568231f463225 Leilk Liu                  2015-08-07  163  	struct spi_transfer *cur_transfer;
+a568231f463225 Leilk Liu                  2015-08-07  164  	u32 xfer_len;
+00bca73bfca4fb Peter Shih                 2018-09-10  165  	u32 num_xfered;
+a568231f463225 Leilk Liu                  2015-08-07  166  	struct scatterlist *tx_sgl, *rx_sgl;
+a568231f463225 Leilk Liu                  2015-08-07  167  	u32 tx_sgl_len, rx_sgl_len;
+a568231f463225 Leilk Liu                  2015-08-07  168  	const struct mtk_spi_compatible *dev_comp;
+2604d15348363e Jia Xue                    2024-12-06  169  	struct pm_qos_request spi_qos_request;
+162a31effc4182 Mason Zhang                2021-06-29  170  	u32 spi_clk_hz;
+9f763fd20da7d8 Leilk Liu                  2022-03-21  171  	struct completion spimem_done;
+9f763fd20da7d8 Leilk Liu                  2022-03-21  172  	bool use_spimem;
+9f763fd20da7d8 Leilk Liu                  2022-03-21  173  	struct device *dev;
+9f763fd20da7d8 Leilk Liu                  2022-03-21  174  	dma_addr_t tx_dma;
+9f763fd20da7d8 Leilk Liu                  2022-03-21  175  	dma_addr_t rx_dma;
+a568231f463225 Leilk Liu                  2015-08-07 @176  };
+a568231f463225 Leilk Liu                  2015-08-07  177  
+
+:::::: The code at line 176 was first introduced by commit
+:::::: a568231f463225eb31593f71446a267a03ae0528 spi: mediatek: Add spi bus for Mediatek MT8173
+
+:::::: TO: Leilk Liu <leilk.liu@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
