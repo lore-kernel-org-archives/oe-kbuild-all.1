@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0F61991B4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 19:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F9241C79
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 19:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736969086; cv=none; b=uK2U0tNu+vnKJYgxX7/JDiLV5lligavIdnki6rtI9GkJ3+wlHXB60f16rKBrNWdqJo7To/d71AxYQoYtBmWWsu200WhSjuI2SECCmIDFOa7CWs2FQX/fvBacWJhGVIFmiDJ8BDhhPgkW2uEOipPfuX2wIJ7ozpcbbcEseNCEufk=
+	t=1736970352; cv=none; b=MibXc/GjSbhfwW0fvuLQBxOBYWn7yAUsPo7EouBoURPOJ/LnTwhjCZKz3gkjGV6BZ0+iuEEJUzuuq1OxkO1U/Y9dTP6DvyoJshlRAke6yZnHtvSzrI7fwInXeDh7enRuHZcVUqkuyCbsPhtQ4GFd+bbiYLfCm347twVBzO/m/EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736969086; c=relaxed/simple;
-	bh=H6xUj7nnrVMTbud0sZ3tqjo4aygmlDBeA4scog+cQNk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jOxPoDuvmtf0o404C76HinQNZVoxOBzbWUYc0m5NF+ZxgnCY/O2jxVIN18+guq5/dt7w5z7VrVdYWPwFuTbovbMxOtQeBV2yMH6X2jnEQI4FAioXPemj2OZiScJupdlbIUoguSNRl+6BYyU531ZUCb9bP3ezAeLVL/I5p+E+FD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOpXFj+K; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1736970352; c=relaxed/simple;
+	bh=nJNs4DtnimvoTU3qtzohKzecutGkBG66VbnYL8iKSQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tAqKBKZEY9YuukDoo18AdN3zB5ev0Ts3bSVPTR2/8QHE0nEXK8SXNKFM3iFKuMIAoMXhOFL6cfFbdbSWD4jwGQMf7SbUh0fvQ5U2jgmZBr/FpNzheSFrrqBIx293YgwqmF14t0l3au9i3H14aKpPPMI4Fa82OB/4WCQJsJNdUrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fb8mGfhT; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOpXFj+K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fb8mGfhT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736969084; x=1768505084;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H6xUj7nnrVMTbud0sZ3tqjo4aygmlDBeA4scog+cQNk=;
-  b=UOpXFj+KL/caCtB3YZg1AENTIPAYWqUb6xpLmaR+soyT64Fn2QlDGgHH
-   IJTwt0LE3pcIbQ+eY5VY43I3T3/7g7eYr+BrQcoO5gjWeGksY658LEC/d
-   /CwATnHEl5ds71fxymlJjw7NJp6sXhA3Bl1nH7SqcsU0ZPm+cB4/E5w1X
-   Da0bpLCwCandyUZpdQYLkNkFp52MwBbH89M2smZuu1EwhxqsJVxypkNUL
-   iv76f/lIkeZHW2ZY2XZ/aCppm9F98tMSnbmbpmbKJlsu8pGEdv8FEh1Os
-   G0ViiGZly1Rclt2nXcrQvsR9DmWW4x49s33ZuVNTsbiQvJnubmqKtDe6p
-   Q==;
-X-CSE-ConnectionGUID: pKEUCviBT6ywPVHIfciRxw==
-X-CSE-MsgGUID: lPbO5Ge4TaW3z/mJTzJfAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="48715361"
+  t=1736970350; x=1768506350;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nJNs4DtnimvoTU3qtzohKzecutGkBG66VbnYL8iKSQE=;
+  b=Fb8mGfhT8T5TFzRj+8dqogr3fXqW4JHTlQbnPguJ2C+ZTW7Hi9EQqN2e
+   MqLtCye5Y3tYG70jC7nPPscreHcN3WnYfOOUdo3YhixPP4iCvEnGiN0p1
+   R7S/0GDtjIyQBIcwfOYmrtEpTo8PHdqxg+uZTn9lQwopllseVO7+fdpdr
+   HZrSn+WvWCAPshwxD1xhilA6LMfffdWn7BeVZV0FjcghjmRhqHJTg5j1Q
+   9LnKY+/CCNjssoCGKiMrJHe9pUQT7fqT8TD7AV6HDbYj/WLwV5KwTUHJj
+   CTPXdd1VkMbPrXHZnVrRgoy+YCiRSwj98DvSupNu6mPCZXI15P821Sswk
+   g==;
+X-CSE-ConnectionGUID: y4o14hR5QA6+wwcUYIRaqA==
+X-CSE-MsgGUID: QZEWJ1ncTkCdJ9YXRtxiHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="41260717"
 X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="48715361"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 11:24:44 -0800
-X-CSE-ConnectionGUID: ILBdaIorRuy9DY60njFqjA==
-X-CSE-MsgGUID: OObBibV6SGW6uoIp23/BxA==
+   d="scan'208";a="41260717"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 11:45:49 -0800
+X-CSE-ConnectionGUID: e8uQRh9CS4KDLGRInb65Uw==
+X-CSE-MsgGUID: 5IAEEZ/CR1K3LnUoWm/L0A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105083260"
+X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
+   d="scan'208";a="110213744"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jan 2025 11:24:42 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2025 11:45:46 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tY90J-000QkZ-1d;
-	Wed, 15 Jan 2025 19:24:39 +0000
-Date: Thu, 16 Jan 2025 03:24:00 +0800
+	id 1tY9Ki-000QlT-0x;
+	Wed, 15 Jan 2025 19:45:44 +0000
+Date: Thu, 16 Jan 2025 03:45:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	Lee Jones <lee@kernel.org>, linux-doc@vger.kernel.org
-Subject: [lee-leds:for-leds-next 26/28] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-Message-ID: <202501160322.jk8PObOP-lkp@intel.com>
+To: Yenchia Chen <yenchia.chen@mediatek.com>, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, yenchia.chen@mediatek.com,
+	yj.chiang@mediatek.com, tbergstrom@nvidia.com, yujiaoliang@vivo.com,
+	u.kleine-koenig@baylibre.com, treapking@chromium.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] serial: 8250_mtk: Add ACPI support
+Message-ID: <202501160328.DUMWkTOc-lkp@intel.com>
+References: <20250114033324.3533292-1-yenchia.chen@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,27 +69,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250114033324.3533292-1-yenchia.chen@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   daefd7fbd544671ad0b9c2a815d7f5e3d2f0365c
-commit: e14d879292b0f7755c0d51b82a19b30859bb080a [26/28] leds: lp8864: Add support for Texas Instruments LP8864, LP8864S, LP8866 LED-backlights
-reproduce: (https://download.01.org/0day-ci/archive/20250116/202501160322.jk8PObOP-lkp@intel.com/reproduce)
+Hi Yenchia,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.13-rc7 next-20250115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yenchia-Chen/serial-8250_mtk-Add-ACPI-support/20250114-113715
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20250114033324.3533292-1-yenchia.chen%40mediatek.com
+patch subject: [PATCH] serial: 8250_mtk: Add ACPI support
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250116/202501160328.DUMWkTOc-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160328.DUMWkTOc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501160322.jk8PObOP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501160328.DUMWkTOc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
-   Using alabaster theme
+>> drivers/tty/serial/8250/8250_mtk.c:662:36: warning: 'mtk8250_acpi_match' defined but not used [-Wunused-const-variable=]
+     662 | static const struct acpi_device_id mtk8250_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~
+
+
+vim +/mtk8250_acpi_match +662 drivers/tty/serial/8250/8250_mtk.c
+
+   661	
+ > 662	static const struct acpi_device_id mtk8250_acpi_match[] = {
+   663		{ "MTKI0511", 0 },
+   664		{},
+   665	};
+   666	MODULE_DEVICE_TABLE(acpi, mtk8250_acpi_match);
+   667	
 
 -- 
 0-DAY CI Kernel Test Service
