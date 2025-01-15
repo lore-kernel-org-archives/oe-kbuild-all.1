@@ -1,229 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068441D8DEE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 20:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABDA1547C5;
+	Wed, 15 Jan 2025 21:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736974150; cv=none; b=t3/XAXrRUbXuUyRjEv/6A9eteUJgRnOUsQenuWZ01zj67i14EQz2GM6fy70SXrmBdIPuN+cG8VjPlH6/vO20jaE9pe2DEdADA1Ue21cEM5H7iOw69kRo5lEiZsKcgZXzIQVieYMyb/y91jWIjxhTo6h+RrTYxbsq8jlPzd0fK7g=
+	t=1736975032; cv=none; b=V6IfNzaZKfIzq60PUecAAWpQIS5QJh1zIfG+lXaEdlQRaaZF02EK+YN6oTR9GPTi8RuoeoYcTG6odBkZaTZVgDDg+CvgeE/ulRIi3oJDL1GdIgTo4erzCEmE2nd+LC6RaGpjG1SrD2WUKMUhH8HzxgeOrpA4O/WG7Eusx0SUYDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736974150; c=relaxed/simple;
-	bh=45KRq1ghj31ossxRv9yggknnbXx+95S1ihlvmgWJjnM=;
+	s=arc-20240116; t=1736975032; c=relaxed/simple;
+	bh=lMRKm7H0y6lM7MZXaueOaWtWjQJWX5IPdelZRkGqKgQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aoMMg9298pDI4fbjbaTLDlZNHg2r+av/GFITHQSLPMvdt71apiQJZwBE5VWF+E8pAp/ux6eP7Qox8e7DSDIDqLS9u2Ky4C9IvttAXjJwjxHCm2zcPmwYLmOc51hm7aA22Xg1+l9yTfQY+CCWEf8EqROff84X6ky1MqNwi7iOTYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FNropGjL; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=YhU7N9/OgI7Bt5HC7xUaYsypeJt74UnOIz7sb8rEO/ASqskdZnk4SBkEbJuvsGmvKE9HW9Pt1CRMd/wR1cGH7QhGIeoglFu7EnyMnE8jUi+M7AfIzKrmPS/UciB9j3D4+6RFg0kCw7xJWW6ZypfVNb4iVnGyDNbVQe42HdrPMzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0PId+TQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FNropGjL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736974149; x=1768510149;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=45KRq1ghj31ossxRv9yggknnbXx+95S1ihlvmgWJjnM=;
-  b=FNropGjLTInaFn6QkHqCOM/kpfzCszQYZxvX5LMId42xNA+DoCF/ND9R
-   yGzt5emGqDeXNFlZHFb0tafktOuoaRUmsWpgSlM26Ae9/qRKD66I2YEHE
-   Llqa0FoZZ+zHxKALJ+TuE/w5FsD5Qhpf6J58ioUANVokgZEdiLZ5w4iLX
-   oJw1bPKtXDdRuovM1nS+Em6gyZNEOJHXRcTNpn5Ryi1tBE7dMkYajl0Ut
-   NhE2D7JEm8qqrITSFZE+ai6JRKuyn0CuX+zcfgVFcRZKwvQuhGLLHCcAL
-   RuRZtzgBjTgl0/CLMpLoG+7GMAAf7q+ae6CuzM6uS7aWABX5pRSwxdE9H
-   Q==;
-X-CSE-ConnectionGUID: 0LqfuW13Q86pMLZKq097pQ==
-X-CSE-MsgGUID: ZR1iYNzFSge+TVLwen8+7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="24926735"
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="24926735"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 12:49:08 -0800
-X-CSE-ConnectionGUID: wv68XJrvTJmJYdJS9qfpCw==
-X-CSE-MsgGUID: g4HzVZixTMuQvfaTeXWwow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="136101546"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Jan 2025 12:49:07 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tYAK0-000Qpz-2A;
-	Wed, 15 Jan 2025 20:49:04 +0000
-Date: Thu, 16 Jan 2025 04:48:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 278/278]
- drivers/pmdomain/mediatek/mtk-scpsys.c:943:13: warning: no previous
- prototype for function 'init_scp'
-Message-ID: <202501160421.8q0cJQQr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0PId+TQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2121DC4CED1;
+	Wed, 15 Jan 2025 21:03:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736975032;
+	bh=lMRKm7H0y6lM7MZXaueOaWtWjQJWX5IPdelZRkGqKgQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=N0PId+TQjhUpdjhpfczwSij15PMiHrRf+5BLv7sVKxRrFlxIip1LtuZYwPDZhBE8o
+	 ePXKBTp79CsJw+l/K4PRpaXKUbnDVEcOd8rveMlmmni8HRnALQdBfZ4cXzY06xxxxq
+	 85hdesUoKWGVvioMoCW5WSy0eA6ZWRuoe/M3+3SVInq0uyvEmBGkn1Jf5vpn3WLGBK
+	 9LK/Ri+GRZKkZ9lNKdgjlExkcQbj+gr0Qpxsl0/FoMWjyLpw5MOPQa8yO+uoeIE5kX
+	 +EhHL7htroPfiydUoQTWzv8qqIYE6KRX1MPrnr4beJbSdmq3w0Kt8CE8ApUwj9Gzkf
+	 xe6kF9EWddhdQ==
+Date: Wed, 15 Jan 2025 15:03:50 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Frank Li <Frank.Li@nxp.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: Re: [pci:controller/imx6 2/2]
+ drivers/pci/controller/dwc/pci-imx6.c:1116:11: warning: variable 'sid' is
+ used uninitialized whenever 'if' condition is false
+Message-ID: <20250115210350.GA552349@bhelgaas>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202501151501.d4MgHDRq-lkp@intel.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   48b50213e678679ceae03f9a6b223e7f5827df88
-commit: 5c7b16c63a5bb549975112a6402d06e91c0a5aea [278/278] CHROMIUM: pmdomain: mediatek: add mt8196 power domain driver
-config: x86_64-buildonly-randconfig-005-20250116 (https://download.01.org/0day-ci/archive/20250116/202501160421.8q0cJQQr-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160421.8q0cJQQr-lkp@intel.com/reproduce)
+On Wed, Jan 15, 2025 at 03:19:09PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/imx6
+> head:   bc92494deb1c40f7336ca645c3815f19a5d0e2af
+> commit: d02f7572cb39c962d0e432f57a267a844d164b4f [2/2] PCI: imx6: Add IOMMU and ITS MSI support for i.MX95
+> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250115/202501151501.d4MgHDRq-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501151501.d4MgHDRq-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501160421.8q0cJQQr-lkp@intel.com/
+Resolved as below (I also renamed this branch from pci/controller/imx6
+to pci/controller/iommu-map because I added Marc's pcie-apple patches
+on top):
 
-All warnings (new ones prefixed by >>):
+> vim +1116 drivers/pci/controller/dwc/pci-imx6.c
+> 
+>   1035	
+>   1036	static int imx_pcie_enable_device(struct pci_host_bridge *bridge,
+>   1037					  struct pci_dev *pdev)
+>   1038	{
+>   1039		struct imx_pcie *imx_pcie = to_imx_pcie(to_dw_pcie_from_pp(bridge->sysdata));
+>   1040		u32 sid_i, sid_m, rid = pci_dev_id(pdev);
+>   1041		struct device_node *target;
+>   1042		struct device *dev;
+>   1043		int err_i, err_m;
+>   1044		u32 sid;
 
-   In file included from drivers/pmdomain/mediatek/mtk-scpsys.c:14:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:20:
-   In file included from include/linux/mm.h:2194:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/pmdomain/mediatek/mtk-scpsys.c:943:13: warning: no previous prototype for function 'init_scp' [-Wmissing-prototypes]
-     943 | struct scp *init_scp(struct platform_device *pdev, const struct scp_soc_data *soc)
-         |             ^
-   drivers/pmdomain/mediatek/mtk-scpsys.c:943:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     943 | struct scp *init_scp(struct platform_device *pdev, const struct scp_soc_data *soc)
-         | ^
-         | static 
-   2 warnings generated.
+I made this "u32 sid = 0;" to resolve this warning.
 
-
-vim +/init_scp +943 drivers/pmdomain/mediatek/mtk-scpsys.c
-
-   942	
- > 943	struct scp *init_scp(struct platform_device *pdev, const struct scp_soc_data *soc)
-   944	{
-   945		struct genpd_onecell_data *pd_data;
-   946		struct resource *res;
-   947		int i, j;
-   948		struct scp *scp;
-   949		struct clk *clk[CLK_MAX];
-   950		int ret;
-   951	
-   952		scp = devm_kzalloc(&pdev->dev, sizeof(*scp), GFP_KERNEL);
-   953		if (!scp)
-   954			return ERR_PTR(-ENOMEM);
-   955	
-   956		scp->ctrl_reg.pwr_sta_offs = soc->regs.pwr_sta_offs;
-   957		scp->ctrl_reg.pwr_sta2nd_offs = soc->regs.pwr_sta2nd_offs;
-   958	
-   959		scp->bus_prot_reg_update = soc->bus_prot_reg_update;
-   960	
-   961		scp->dev = &pdev->dev;
-   962	
-   963		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   964		scp->base = devm_ioremap_resource(&pdev->dev, res);
-   965		if (IS_ERR(scp->base))
-   966			return ERR_CAST(scp->base);
-   967	
-   968		scp->domains = devm_kcalloc(&pdev->dev,
-   969					soc->num_domains, sizeof(*scp->domains), GFP_KERNEL);
-   970		if (!scp->domains)
-   971			return ERR_PTR(-ENOMEM);
-   972	
-   973		pd_data = &scp->pd_data;
-   974	
-   975		pd_data->domains = devm_kcalloc(&pdev->dev,
-   976				soc->num_domains, sizeof(*pd_data->domains), GFP_KERNEL);
-   977		if (!pd_data->domains)
-   978			return ERR_PTR(-ENOMEM);
-   979	
-   980		if (soc->bp_list && soc->num_bp > 0) {
-   981			scp->num_bp = soc->num_bp;
-   982			scp->bp_regmap = devm_kcalloc(&pdev->dev,
-   983					scp->num_bp, sizeof(*scp->bp_regmap), GFP_KERNEL);
-   984			if (!scp->bp_regmap)
-   985				return ERR_PTR(-ENOMEM);
-   986	
-   987			/* get bus prot regmap from dts node, 0 means invalid bus type */
-   988			for (i = 1; i < scp->num_bp; i++) {
-   989				ret = mtk_pd_get_regmap(pdev, &scp->bp_regmap[i], soc->bp_list[i]);
-   990				if (ret)
-   991					return ERR_PTR(ret);
-   992			}
-   993		} else {
-   994			scp->infracfg = syscon_regmap_lookup_by_phandle(pdev->dev.of_node,
-   995					"infracfg");
-   996			if (IS_ERR(scp->infracfg)) {
-   997				dev_err(&pdev->dev, "Cannot find infracfg controller: %ld\n",
-   998						PTR_ERR(scp->infracfg));
-   999				return ERR_CAST(scp->infracfg);
-  1000			}
-  1001		}
-  1002	
-  1003		for (i = 0; i < soc->num_domains; i++) {
-  1004			struct scp_domain *scpd = &scp->domains[i];
-  1005			const struct scp_domain_data *data = &soc->domains[i];
-  1006	
-  1007			scpd->supply = devm_regulator_get_optional(&pdev->dev, data->name);
-  1008			if (IS_ERR(scpd->supply)) {
-  1009				if (PTR_ERR(scpd->supply) == -ENODEV)
-  1010					scpd->supply = NULL;
-  1011				else
-  1012					return ERR_CAST(scpd->supply);
-  1013			}
-  1014		}
-  1015	
-  1016		pd_data->num_domains = soc->num_domains;
-  1017	
-  1018		init_clks(pdev, clk);
-  1019	
-  1020		for (i = 0; i < soc->num_domains; i++) {
-  1021			struct scp_domain *scpd = &scp->domains[i];
-  1022			struct generic_pm_domain *genpd = &scpd->genpd;
-  1023			const struct scp_domain_data *data = &soc->domains[i];
-  1024	
-  1025			pd_data->domains[i] = genpd;
-  1026			scpd->scp = scp;
-  1027	
-  1028			scpd->data = data;
-  1029	
-  1030			for (j = 0; j < MAX_CLKS && data->clk_id[j]; j++) {
-  1031				struct clk *c = clk[data->clk_id[j]];
-  1032	
-  1033				if (IS_ERR(c)) {
-  1034					dev_err(&pdev->dev, "%s: clk unavailable\n",
-  1035						data->name);
-  1036					return ERR_CAST(c);
-  1037				}
-  1038	
-  1039				scpd->clk[j] = c;
-  1040			}
-  1041	
-  1042			if (data->hwv_comp) {
-  1043				ret = mtk_pd_get_regmap(pdev, &scpd->hwv_regmap, data->hwv_comp);
-  1044				if (ret)
-  1045					return ERR_PTR(ret);
-  1046			}
-  1047	
-  1048			genpd->name = data->name;
-  1049			if (MTK_SCPD_CAPS(scpd, MTK_SCPD_HWV_OPS)) {
-  1050				genpd->power_on = scpsys_hwv_power_on;
-  1051				genpd->power_off = scpsys_hwv_power_off;
-  1052			} else {
-  1053				genpd->power_off = scpsys_power_off;
-  1054				genpd->power_on = scpsys_power_on;
-  1055			}
-  1056			if (MTK_SCPD_CAPS(scpd, MTK_SCPD_ACTIVE_WAKEUP))
-  1057				genpd->flags |= GENPD_FLAG_ACTIVE_WAKEUP;
-  1058			if (MTK_SCPD_CAPS(scpd, MTK_SCPD_IRQ_SAVE))
-  1059				genpd->flags |= GENPD_FLAG_IRQ_SAFE;
-  1060			if (MTK_SCPD_CAPS(scpd, MTK_SCPD_ALWAYS_ON))
-  1061				genpd->flags |= GENPD_FLAG_ALWAYS_ON;
-  1062		}
-  1063	
-  1064		return scp;
-  1065	}
-  1066	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>   1046		dev = imx_pcie->pci->dev;
+>   1047	
+>   1048		target = NULL;
+>   1049		err_i = of_map_id(dev->of_node, rid, "iommu-map", "iommu-map-mask",
+>   1050				  &target, &sid_i);
+>   1051		if (target) {
+>   1052			of_node_put(target);
+>   1053		} else {
+>   1054			/*
+>   1055			 * "target == NULL && err_i == 0" means RID out of map range.
+>   1056			 * Use 1:1 map RID to streamID. Hardware can't support this
+>   1057			 * because the streamID is only 6 bits
+>   1058			 */
+>   1059			err_i = -EINVAL;
+>   1060		}
+>   1061	
+>   1062		target = NULL;
+>   1063		err_m = of_map_id(dev->of_node, rid, "msi-map", "msi-map-mask",
+>   1064				  &target, &sid_m);
+>   1065	
+>   1066		/*
+>   1067		 *   err_m      target
+>   1068		 *	0	NULL		RID out of range. Use 1:1 map RID to
+>   1069		 *				streamID, Current hardware can't
+>   1070		 *				support it, so return -EINVAL.
+>   1071		 *      != 0    NULL		msi-map does not exist, use built-in MSI
+>   1072		 *	0	!= NULL		Get correct streamID from RID
+>   1073		 *	!= 0	!= NULL		Invalid combination
+>   1074		 */
+>   1075		if (!err_m && !target)
+>   1076			return -EINVAL;
+>   1077		else if (target)
+>   1078			of_node_put(target); /* Find streamID map entry for RID in msi-map */
+>   1079	
+>   1080		/*
+>   1081		 * msi-map        iommu-map
+>   1082		 *   N                N            DWC MSI Ctrl
+>   1083		 *   Y                Y            ITS + SMMU, require the same SID
+>   1084		 *   Y                N            ITS
+>   1085		 *   N                Y            DWC MSI Ctrl + SMMU
+>   1086		 */
+>   1087		if (err_i && err_m)
+>   1088			return 0;
+>   1089	
+>   1090		if (!err_i && !err_m) {
+>   1091			/*
+>   1092			 *	    Glue Layer
+>   1093			 *          <==========>
+>   1094			 * ┌─────┐                  ┌──────────┐
+>   1095			 * │ LUT │ 6-bit streamID   │          │
+>   1096			 * │     │─────────────────►│  MSI     │
+>   1097			 * └─────┘   2-bit ctrl ID  │          │
+>   1098			 *             ┌───────────►│          │
+>   1099			 *  (i.MX95)   │            │          │
+>   1100			 *  00 PCIe0   │            │          │
+>   1101			 *  01 ENETC   │            │          │
+>   1102			 *  10 PCIe1   │            │          │
+>   1103			 *             │            └──────────┘
+>   1104			 * The MSI glue layer auto adds 2 bits controller ID ahead of
+>   1105			 * streamID, so mask these 2 bits to get streamID. The
+>   1106			 * IOMMU glue layer doesn't do that.
+>   1107			 */
+>   1108			if (sid_i != (sid_m & IMX95_SID_MASK)) {
+>   1109				dev_err(dev, "iommu-map and msi-map entries mismatch!\n");
+>   1110				return -EINVAL;
+>   1111			}
+>   1112		}
+>   1113	
+>   1114		if (!err_i)
+>   1115			sid = sid_i;
+> > 1116		else if (!err_m)
+>   1117			sid = sid_m & IMX95_SID_MASK;
+>   1118	
+>   1119		return imx_pcie_add_lut(imx_pcie, rid, sid);
+>   1120	}
+>   1121	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
