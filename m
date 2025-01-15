@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FB81ADC6D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 18:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AB01D5ADD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jan 2025 19:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736966966; cv=none; b=cKXvIoPRveUvHUkMUjDNFr4EGLpfiggoQbe6yyhsL5T3LAkrulpH/kWOjqY+qT0kMf05gf5JlJmoYQQOLGrjwxTl9a8L93qtaGnPtgG4Rha+J1lruh94GYAXcEg/EiU5ij6V3kIEzotj2wg4859S/C+Dkhw+LLUriQh67OnsR4c=
+	t=1736967696; cv=none; b=Bh0X/Xp8XegwnSsGu390AM777kroj3D2EYDfsXg1nVOIrbgPdnRKQcr89YG2ytWM9N/U9ofGnOHGUeFE4L+HDrNysicK2PLeCYmKgU3QdQQoTECSSPGY6m5zRGuOe6zyPgRDNcCfKfRiNK+U4atZ7SNnvK5pJwy8Tv3k9g6ZlCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736966966; c=relaxed/simple;
-	bh=80zTGhCXpzfaQMCPn1/s5Zfeg+EFmGbaXUW/rcACpbk=;
+	s=arc-20240116; t=1736967696; c=relaxed/simple;
+	bh=COSoahmhXFhF5pb/vKsqw0yCcArFBTiBRi43a3IDW64=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VvvkVqjyWuCXzjDUXrARLHpeo+EGEi/fdBkUcuiDf/sS7OKcRiX0pCEN1ted3hIEdnXqlL4dYVxbbypF3whsF8tX9NdyJDmEbd8isYj1MKSYATpcKzOXFoxq9+2rNSaEQS3hdsoVek5ZZT6nroFZehRJWlLI+mx7XaMAOJQEVXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnqvlsT/; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=esVcgpLm9v94vpQuU9dbgNeD3vRwUFtJ04TU7hmPDeVlKesKAGgXZS3VPWqoRsyImSUxEgbG3Hd7a2fZIEHCN9ZphriwqthlkZzwLncW7+wbp2YyXDzNUzyTBi9z5jMsCcY8Wfs0mGcwuaewIyN2xQxaVHfNG3lTM80ptziFVsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Chv0mNeX; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnqvlsT/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Chv0mNeX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736966964; x=1768502964;
+  t=1736967695; x=1768503695;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=80zTGhCXpzfaQMCPn1/s5Zfeg+EFmGbaXUW/rcACpbk=;
-  b=lnqvlsT/YcxQQe1a+47tbtrcWrAFxqTcFFhwZy25S9f8xfYYdMk0hRnb
-   9gpyMulL+VqpXrmLkHaHT7qax2zoOvEf5mglTQE0IudigFiGBH+pF1QR9
-   orr8cxoARQ/MNr2vs3Fk/ulGth7n6lmcuPTzYATmfDoNL0752ol5MBHiy
-   qi8T9C9WuB0Fcl8dTrkqFfogaLsxrS3mAwtYO1eXsbq3ydntXETd8gItd
-   wDoiOvo/tXQEf9+9sqchZkvaop+zHQGmryppIpmCuUZImld72Sd8h0kwI
-   s7mIcWRE0AE8f3BtafmjSeiBw9/drFUcC+1u6h48sZ9jb044KTY7YE1eo
+  bh=COSoahmhXFhF5pb/vKsqw0yCcArFBTiBRi43a3IDW64=;
+  b=Chv0mNeXM2G1QX05YKok62Rw9byuL5kPv5Bux7mE9bkyVVabWvF9E3Aq
+   P0cNuhguXQzFVjIlCor7V4haxIx4QoLGdwUPgMPx4M4uoFShLzsXbivPg
+   vh3Tl9KDc6wX090NamqHiIi+6NMo/cj10URr422z+10xbpS8PJQqCEoI2
+   AbjEBc0YC6Gt/NLVkXXJG8GIunVIGk/8TefK3ETfP75wdMZMk9ADLI36t
+   OCiQn0ddsHvlHZ2QZGZZSsp0yEM6ogW1kMoetoNdKOKxHMdo+XaxcKdgg
+   HOGZvKE6y1fOb9xYzoS1NEGgjAxCTSAtB1zb6Ij9J9/FmIOr1N2X9qdMl
    g==;
-X-CSE-ConnectionGUID: QkjgkSRGTyeFfhqzGPDwCg==
-X-CSE-MsgGUID: QTHdhTd0Toy/QqBUp8S6Sg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="41253867"
+X-CSE-ConnectionGUID: VET86EKdRFGOQ2eCEfck8A==
+X-CSE-MsgGUID: +MgUNu71Q0KXM9IweQkGng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="40132731"
 X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="41253867"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 10:49:23 -0800
-X-CSE-ConnectionGUID: iamRWszPT42aTWZTMyc1gA==
-X-CSE-MsgGUID: hrzRMzRiQu+Ic1lrcK/BOQ==
+   d="scan'208";a="40132731"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 11:01:34 -0800
+X-CSE-ConnectionGUID: LqP7aD95Rai0X4QtnSwVzA==
+X-CSE-MsgGUID: NqiEhzpxRE2ZjpLNQdwbXw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="142493046"
+X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
+   d="scan'208";a="105059272"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2025 10:49:22 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 15 Jan 2025 11:01:33 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tY8S7-000Qi3-1A;
-	Wed, 15 Jan 2025 18:49:19 +0000
-Date: Thu, 16 Jan 2025 02:49:04 +0800
+	id 1tY8du-000QiV-2W;
+	Wed, 15 Jan 2025 19:01:30 +0000
+Date: Thu, 16 Jan 2025 03:01:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: drivers/net/can/usb/etas_es58x/es58x_devlink.c:201:55: warning:
- '%02u' directive output may be truncated writing between 2 and 3 bytes into
- a region of size between 1 and 3
-Message-ID: <202501160236.YSb9NcEp-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 278/278]
+ drivers/phy/mediatek/phy-mtk-pcie.c:235: warning: Function parameter or
+ member 'phy_init' not described in 'mtk_pcie_phy_data'
+Message-ID: <202501160205.plHbaajB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,119 +63,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vincent,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   619f0b6fad524f08d493a98d55bac9ab8895e3a6
-commit: 9f06631c3f1f0f298536443df85a6837ba4c5f5c can: etas_es58x: export product information through devlink_ops::info_get()
-date:   2 years, 1 month ago
-config: powerpc-buildonly-randconfig-r001-20230115 (https://download.01.org/0day-ci/archive/20250116/202501160236.YSb9NcEp-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160236.YSb9NcEp-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   0014573e8c8416a944ddeb1015b257d2bf148222
+commit: 0014573e8c8416a944ddeb1015b257d2bf148222 [278/278] CHROMIUM: phy: mediatek: pcie: Add PCIe phy support for MT8196
+config: arm-randconfig-001-20250116 (https://download.01.org/0day-ci/archive/20250116/202501160205.plHbaajB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160205.plHbaajB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501160236.YSb9NcEp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501160205.plHbaajB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c: In function 'es58x_devlink_info_get':
->> drivers/net/can/usb/etas_es58x/es58x_devlink.c:201:55: warning: '%02u' directive output may be truncated writing between 2 and 3 bytes into a region of size between 1 and 3 [-Wformat-truncation=]
-     201 |                 snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-         |                                                       ^~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:201:44: note: directive argument in the range [0, 255]
-     201 |                 snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-         |                                            ^~~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:201:17: note: 'snprintf' output between 9 and 12 bytes into a destination of size 9
-     201 |                 snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     202 |                          fw_ver->major, fw_ver->minor, fw_ver->revision);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:211:55: warning: '%02u' directive output may be truncated writing between 2 and 3 bytes into a region of size between 1 and 3 [-Wformat-truncation=]
-     211 |                 snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-         |                                                       ^~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:211:44: note: directive argument in the range [0, 255]
-     211 |                 snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-         |                                            ^~~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:211:17: note: 'snprintf' output between 9 and 12 bytes into a destination of size 9
-     211 |                 snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     212 |                          bl_ver->major, bl_ver->minor, bl_ver->revision);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:221:52: warning: '%03u' directive output may be truncated writing between 3 and 5 bytes into a region of size between 2 and 4 [-Wformat-truncation=]
-     221 |                 snprintf(buf, sizeof(buf), "%c%03u/%03u",
-         |                                                    ^~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:221:44: note: directive argument in the range [0, 65535]
-     221 |                 snprintf(buf, sizeof(buf), "%c%03u/%03u",
-         |                                            ^~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_devlink.c:221:17: note: 'snprintf' output between 9 and 13 bytes into a destination of size 9
-     221 |                 snprintf(buf, sizeof(buf), "%c%03u/%03u",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     222 |                          hw_rev->letter, hw_rev->major, hw_rev->minor);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/phy/mediatek/phy-mtk-pcie.c:235: warning: Function parameter or member 'phy_init' not described in 'mtk_pcie_phy_data'
+>> drivers/phy/mediatek/phy-mtk-pcie.c:265: warning: Function parameter or member 'ckm_base' not described in 'mtk_pcie_phy'
+>> drivers/phy/mediatek/phy-mtk-pcie.c:265: warning: Function parameter or member 'efuse_info' not described in 'mtk_pcie_phy'
+>> drivers/phy/mediatek/phy-mtk-pcie.c:265: warning: Function parameter or member 'efuse_info_len' not described in 'mtk_pcie_phy'
 
 
-vim +201 drivers/net/can/usb/etas_es58x/es58x_devlink.c
+vim +235 drivers/phy/mediatek/phy-mtk-pcie.c
 
-   177	
-   178	/**
-   179	 * es58x_devlink_info_get() - Report the product information.
-   180	 * @devlink: Devlink.
-   181	 * @req: skb wrapper where to put requested information.
-   182	 * @extack: Unused.
-   183	 *
-   184	 * Report the firmware version, the bootloader version, the hardware
-   185	 * revision and the serial number through netlink.
-   186	 *
-   187	 * Return: zero on success, errno when any error occurs.
-   188	 */
-   189	static int es58x_devlink_info_get(struct devlink *devlink,
-   190					  struct devlink_info_req *req,
-   191					  struct netlink_ext_ack *extack)
-   192	{
-   193		struct es58x_device *es58x_dev = devlink_priv(devlink);
-   194		struct es58x_sw_version *fw_ver = &es58x_dev->firmware_version;
-   195		struct es58x_sw_version *bl_ver = &es58x_dev->bootloader_version;
-   196		struct es58x_hw_revision *hw_rev = &es58x_dev->hardware_revision;
-   197		char buf[max(sizeof("xx.xx.xx"), sizeof("axxx/xxx"))];
-   198		int ret = 0;
-   199	
-   200		if (es58x_sw_version_is_set(fw_ver)) {
- > 201			snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-   202				 fw_ver->major, fw_ver->minor, fw_ver->revision);
-   203			ret = devlink_info_version_running_put(req,
-   204							       DEVLINK_INFO_VERSION_GENERIC_FW,
-   205							       buf);
-   206			if (ret)
-   207				return ret;
-   208		}
-   209	
-   210		if (es58x_sw_version_is_set(bl_ver)) {
-   211			snprintf(buf, sizeof(buf), "%02u.%02u.%02u",
-   212				 bl_ver->major, bl_ver->minor, bl_ver->revision);
-   213			ret = devlink_info_version_running_put(req,
-   214							       DEVLINK_INFO_VERSION_GENERIC_FW_BOOTLOADER,
-   215							       buf);
-   216			if (ret)
-   217				return ret;
-   218		}
-   219	
-   220		if (es58x_hw_revision_is_set(hw_rev)) {
-   221			snprintf(buf, sizeof(buf), "%c%03u/%03u",
-   222				 hw_rev->letter, hw_rev->major, hw_rev->minor);
-   223			ret = devlink_info_version_fixed_put(req,
-   224							     DEVLINK_INFO_VERSION_GENERIC_BOARD_REV,
-   225							     buf);
-   226			if (ret)
-   227				return ret;
-   228		}
-   229	
-   230		return devlink_info_serial_number_put(req, es58x_dev->udev->serial);
-   231	}
-   232	
+e4e46bc71c1840 Jianjun Wang 2022-06-17  225  
+e4e46bc71c1840 Jianjun Wang 2022-06-17  226  /**
+e4e46bc71c1840 Jianjun Wang 2022-06-17  227   * struct mtk_pcie_phy_data - phy data for each SoC
+e4e46bc71c1840 Jianjun Wang 2022-06-17  228   * @num_lanes: supported lane numbers
+e4e46bc71c1840 Jianjun Wang 2022-06-17  229   * @sw_efuse_supported: support software to load eFuse data
+e4e46bc71c1840 Jianjun Wang 2022-06-17  230   */
+e4e46bc71c1840 Jianjun Wang 2022-06-17  231  struct mtk_pcie_phy_data {
+e4e46bc71c1840 Jianjun Wang 2022-06-17  232  	int num_lanes;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  233  	bool sw_efuse_supported;
+0014573e8c8416 Jianjun Wang 2024-03-07  234  	int (*phy_init)(struct phy *phy);
+e4e46bc71c1840 Jianjun Wang 2022-06-17 @235  };
+e4e46bc71c1840 Jianjun Wang 2022-06-17  236  
+e4e46bc71c1840 Jianjun Wang 2022-06-17  237  /**
+e4e46bc71c1840 Jianjun Wang 2022-06-17  238   * struct mtk_pcie_phy - PCIe phy driver main structure
+e4e46bc71c1840 Jianjun Wang 2022-06-17  239   * @dev: pointer to device
+e4e46bc71c1840 Jianjun Wang 2022-06-17  240   * @phy: pointer to generic phy
+e4e46bc71c1840 Jianjun Wang 2022-06-17  241   * @sif_base: IO mapped register base address of system interface
+e4e46bc71c1840 Jianjun Wang 2022-06-17  242   * @data: pointer to SoC dependent data
+0014573e8c8416 Jianjun Wang 2024-03-07  243   * @num_lanes: supported lane numbers
+0014573e8c8416 Jianjun Wang 2024-03-07  244   * @num_clks: PCIe PHY clocks count
+0014573e8c8416 Jianjun Wang 2024-03-07  245   * @clks: PCIe PHY clocks
+e4e46bc71c1840 Jianjun Wang 2022-06-17  246   * @sw_efuse_en: software eFuse enable status
+e4e46bc71c1840 Jianjun Wang 2022-06-17  247   * @efuse_glb_intr: internal resistor selection of TX bias current data
+e4e46bc71c1840 Jianjun Wang 2022-06-17  248   * @efuse: pointer to eFuse data for each lane
+e4e46bc71c1840 Jianjun Wang 2022-06-17  249   */
+e4e46bc71c1840 Jianjun Wang 2022-06-17  250  struct mtk_pcie_phy {
+e4e46bc71c1840 Jianjun Wang 2022-06-17  251  	struct device *dev;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  252  	struct phy *phy;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  253  	void __iomem *sif_base;
+0014573e8c8416 Jianjun Wang 2024-03-07  254  	void __iomem *ckm_base;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  255  	const struct mtk_pcie_phy_data *data;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  256  
+0014573e8c8416 Jianjun Wang 2024-03-07  257  	int num_lanes;
+0014573e8c8416 Jianjun Wang 2024-03-07  258  	int num_clks;
+0014573e8c8416 Jianjun Wang 2024-03-07  259  	struct clk_bulk_data *clks;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  260  	bool sw_efuse_en;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  261  	u32 efuse_glb_intr;
+0014573e8c8416 Jianjun Wang 2024-03-07  262  	u32 *efuse_info;
+0014573e8c8416 Jianjun Wang 2024-03-07  263  	size_t efuse_info_len;
+e4e46bc71c1840 Jianjun Wang 2022-06-17  264  	struct mtk_pcie_lane_efuse *efuse;
+e4e46bc71c1840 Jianjun Wang 2022-06-17 @265  };
+e4e46bc71c1840 Jianjun Wang 2022-06-17  266  
+
+:::::: The code at line 235 was first introduced by commit
+:::::: e4e46bc71c18407c087bbade3c92d4554207be21 phy: mediatek: Add PCIe PHY driver
+
+:::::: TO: Jianjun Wang <jianjun.wang@mediatek.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
