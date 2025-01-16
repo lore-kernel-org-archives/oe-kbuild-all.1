@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF191E48A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jan 2025 02:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106DD24A7C6;
+	Thu, 16 Jan 2025 03:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736995433; cv=none; b=NQZJ4jo6PGm3pu/3ifs/M/zhd8yJf7huqhDPA1tBdPZapnO35m7tXdJR+ti8OFuaImd168wLb0Byebk+eQOASMJw/AqcX2sdCR+sYbJZ1R4fEbIeH1t2I0ZOGR7ysZrPMDKyyjQS2Siba6GO7rD/5AvKx+R2FWHXTamOZvfvpEo=
+	t=1736999789; cv=none; b=paEK5BXhKS5fFzhgh4u8Q+gE5JYgl5cCUgZ4XpMX0163hVSD0h4GIattX38MsVSjYQb7CixwOF7fVCX+h0dXlXPk+9fcosU5iOYw6dshs2SKJj/EAZvn3PsvlD+UF2BdlN68PcWJT9/Hm7aDkXhtok42x9d0l3NGctv+vXw0kS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736995433; c=relaxed/simple;
-	bh=YO5FLAPyFo/F2H6YT30AG0WPrFiYGcjwxHGYAlTNMRg=;
+	s=arc-20240116; t=1736999789; c=relaxed/simple;
+	bh=J54ktpIytbVtRYBWw4uQZbiTxH1lTOakVyVF8WeVoGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k0DE8nHg+g31b47UJwM1yx76J4T5t72a+fK0WG0iKEX9ZC6145cvCyp9vR9x68bPYJIZgsahggqD+AToS/XMy6/FZE0vapbSX26omSp5tntdgyBXD/HId96r3jq98T8GnzZZ3DWD/svF01nlBFFwjMzw7sK6IXhV3BjYwZSbqRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VszRyH5N; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=G9EQXM+mGZXNm9qc0r5BpxiHJbLqizxw8lOCBvsPv+h/4nLP/CbhqNQmpiUbtQNbKcyJQaTpom1r2Acdu2a9kdMBmps1HPweLeZu6yatBqDksLI4vUGXdU712gyGDknhfChcn84MJZXBEV8NWzMwgBIH2bf5GQxQk8GruT1p/TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKrns3mQ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VszRyH5N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKrns3mQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736995431; x=1768531431;
+  t=1736999788; x=1768535788;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YO5FLAPyFo/F2H6YT30AG0WPrFiYGcjwxHGYAlTNMRg=;
-  b=VszRyH5NuQDBnLzMoa4AKmzU6ncHPKV9i//WaTqO9wihHwUTOWtRP5nb
-   QOc2wVkWLRAa3aM+icHwpbyrXp3LZBapnDwhVyCdUffOqJNgO5Fs1rR2V
-   1BdEvn7q/xIp8Fl89n9q+nlGPrn6R4lwxwtzu+OF/PYKJGMKQVxx4xSr7
-   haXgRIOvnt6hbkCpYveaNgG6sv4c4m+QP7sOpcNL1C3VqB01xgNZRvzAs
-   4TnNmgJqDc2aywfnvOhN8Jk2ev69y3y1JoGQaGP3B1SPjyxeyNEskBb6k
-   ns+vKewC+s8ni/cCOhbN7VWzYViSuMlw5azG2ZQeKrCrztXUrFEPFH1MB
-   A==;
-X-CSE-ConnectionGUID: UsuEiEEDTvKZvCUOoZKdTA==
-X-CSE-MsgGUID: YTo7EhB3Q/mCvq0DpiSMEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="59836511"
+  bh=J54ktpIytbVtRYBWw4uQZbiTxH1lTOakVyVF8WeVoGU=;
+  b=SKrns3mQgrrck1Ch6chhivP7lKNKQRmj9t2DnLyd3s8pGj7E0Rq8JND2
+   p9t5jiOkf8C86skDYPcQRpIPd33vW26YQO9IfIpvmKS4Si0KeB3BylyKx
+   P58KVUjH98D7LQFOL308sqtvYra51AE/4yWZeah9BlHPyD1pu3j4V1HkX
+   fU0umWJI7q9cxyziOwBLBOi4dVo5wdJUe/hmFp5vJjDNpuwTzG124XgkK
+   g5hTSj1dbbBrRyqrHx+Yk4MmxeMMFy7/5TDZkXtaCiepJFhZqfR1YClVK
+   u5glQHBpp6BQD80Cye6Z7vL5XNmgbwc/AITRj7RfHX7uiHDMZ9xV3AAD+
+   Q==;
+X-CSE-ConnectionGUID: 8/IN3o4cQyqgKeF3m2Iivg==
+X-CSE-MsgGUID: utHZ4w0UR9m8D60SglVGVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="37281736"
 X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; 
-   d="scan'208";a="59836511"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 18:42:26 -0800
-X-CSE-ConnectionGUID: pW8e6GYqRxuzDOH5waClkQ==
-X-CSE-MsgGUID: /GvSJrn6QC2MftGKFZX+Ew==
+   d="scan'208";a="37281736"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 19:56:27 -0800
+X-CSE-ConnectionGUID: b5hGilBFQLmkcFwkJ0DfNg==
+X-CSE-MsgGUID: o9OfaMX0R4OIlIQEKeyFMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106205477"
+   d="scan'208";a="105804492"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jan 2025 18:42:24 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Jan 2025 19:56:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYFpu-000RAN-1q;
-	Thu, 16 Jan 2025 02:42:22 +0000
-Date: Thu, 16 Jan 2025 10:41:57 +0800
+	id 1tYGzX-000RDo-04;
+	Thu, 16 Jan 2025 03:56:23 +0000
+Date: Thu, 16 Jan 2025 11:55:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 413/413] WARNING:
- vmlinux.o(__ex_table+0x1230): Section mismatch in reference from the
- (unknown reference) (unknown) to the function
- .irqentry.text:smp_spurious_interrupt()
-Message-ID: <202501161054.8civpP18-lkp@intel.com>
+To: Juergen Gross <jgross@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jan Beulich <jbeulich@suse.com>
+Subject: vmlinux.o: warning: objtool: __ubsan_handle_out_of_bounds+0x3f: RET
+ before UNTRAIN
+Message-ID: <202501161128.VLM1VkvF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,36 +63,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   9e34736090b5b2efb9a6c4308dff8c03668842a5
-commit: 4aa8948673dc395262301386aecda9f9b11af8f0 [413/413] x86/apic: Always explicitly disarm TSC-deadline timer
-config: x86_64-buildonly-randconfig-006-20250116 (https://download.01.org/0day-ci/archive/20250116/202501161054.8civpP18-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   619f0b6fad524f08d493a98d55bac9ab8895e3a6
+commit: a2796dff62d6c6bfc5fbebdf2bee0d5ac0438906 x86/xen: don't do PV iret hypercall through hypercall page
+date:   5 weeks ago
+config: x86_64-buildonly-randconfig-005-20250116 (https://download.01.org/0day-ci/archive/20250116/202501161128.VLM1VkvF-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501161054.8civpP18-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501161128.VLM1VkvF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501161054.8civpP18-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501161128.VLM1VkvF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> WARNING: vmlinux.o(__ex_table+0x1230): Section mismatch in reference from the (unknown reference) (unknown) to the function .irqentry.text:smp_spurious_interrupt()
-   The relocation at __ex_table+0x1230 references
-   section ".irqentry.text" which is not in the list of
-   authorized sections.  If you're adding a new section
-   and/or if this reference is valid, add ".irqentry.text" to the
-   list of authorized sections to jump to on fault.
-   This can be achieved by adding ".irqentry.text" to 
-   OTHER_TEXT_SECTIONS in scripts/mod/modpost.c.
-   WARNING: vmlinux.o(__ex_table+0x1234): Section mismatch in reference from the (unknown reference) (unknown) to the function .irqentry.text:smp_spurious_interrupt()
-   The relocation at __ex_table+0x1234 references
-   section ".irqentry.text" which is not in the list of
-   authorized sections.  If you're adding a new section
-   and/or if this reference is valid, add ".irqentry.text" to the
-   list of authorized sections to jump to on fault.
-   This can be achieved by adding ".irqentry.text" to 
-   OTHER_TEXT_SECTIONS in scripts/mod/modpost.c.
+   vmlinux.o: warning: objtool: __static_call_update_early+0x33: call to serialize() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: __ubsan_handle_out_of_bounds+0x3f: RET before UNTRAIN
 
 -- 
 0-DAY CI Kernel Test Service
