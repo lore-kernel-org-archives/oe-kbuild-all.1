@@ -1,96 +1,100 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38051DC1A7;
-	Thu, 16 Jan 2025 11:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751061DDA18
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jan 2025 12:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737028276; cv=none; b=gyf8FdWF76BsYP8gpME/W3XrGE1yOG/J9zkyXiy/8+NVN5TKUBJBu8/thck1GVgiZlgCRbPefLMBWI36cfP2xlLYMSuomxT9kAkO758lXT2VLCCQQzuWemyJMBO3+2UFWbSzmC7uXPpjMMKeE7kzE/2BccTRTlLvT/dKBk2kq+8=
+	t=1737029782; cv=none; b=a1WdTZbvsDwSntRcKMnRXMJZAVa91atGTNRxkJOOOQ2bOf9wh04L/gyabZcGqWlBqH+j3D6pMzexOobQ/gIX5ExXovEtHFVwJiNK6/Op++/Bb/TwY6Hnm3Racc5mtufFq0RGaMgT0SeHm6d1habuLK6oXdxdIqh0DJvhdL+DdVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737028276; c=relaxed/simple;
-	bh=/kFKOJL+hGoYTr5uFvzkOXah/nGKmj9qoWXRpZWZGeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OH6ESpBFvkMxpv4WsWCe4YNKyc4sCiI9ShClm+NNpuHa6MTR0lLr1u9KaVDPvQLn7XeNLi1iHPFQpRjpdpc/fSCtzDQHoejluZK4XHIpRFXqFE/29RW5mgs+Y0msqnA5RXsk3v2gRPHlpygvNElCKIrm2UzPEdr01mKmaKZSQvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=Atzo783H; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="Atzo783H"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=qP0CwaiMm1sOrPWnRedLx8q0TZjAnzqhqLimuXuGChc=; b=Atzo783Haw3JAfjQ
-	+si3tt+zPq1mu1gFN0tKcCpoaHM8o5EF437BNZc36bpVo/pUHMeI+hixoK/cef7P+V2ZP2WgO14LH
-	+aBznzVU0GxIt2UitE2r112aljQ4FlBoix54SnsngxLQRpqRZ+0rL8TD+R0otUWvE8eiDh6sfOQYa
-	51cXMtm0wybOB8E5zY8YBsWCNFBVGDFnhGrUhJispmn3RkRW+Q+IjrpbmRi1voyAuVaYjnujjDUug
-	uJGDyD2D3MQo09WQkkcTFjDCXLrXyMzu0oZgd3YYhva6YBRWYFrjr7GZhyXVJTE2pxW3oUazTc1vf
-	50dsgqPNBvvBZkbYHA==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1tYOOx-00Ab3B-0S;
-	Thu, 16 Jan 2025 11:51:07 +0000
-Date: Thu, 16 Jan 2025 11:51:07 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	x86@kernel.org, oe-kbuild-all@lists.linux.dev,
-	linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] irqchip/irq-brcmstb-l2: Replace
- brcmstb_l2_mask_and_ack() by generic function
-Message-ID: <Z4jyq3xwlkPVrtts@gallifrey>
-References: <20250116005920.626822-1-linux@treblig.org>
- <87ed13b2jv.ffs@tglx>
+	s=arc-20240116; t=1737029782; c=relaxed/simple;
+	bh=Q5FlTYD68SP9dk1w6IoFfxIabCPHc4WAOL9ydDd2Ywo=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PNs/b2D+T/yrdfqdeSCTcX1V/nKQxDbMIFbZtd2MbQ36zneN56Sf0NCoMVZI5y1PI7I8hK8XVRq5TtwPWLPIlJoajKBsiotikaILFIPMAF4VtURy0h/rgebJ7FMIsj1MtGghMXYlxv+KgngY8M7KKRcAtx8b/btb9++vUTRnR/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YYhcv2l5nz67nqN;
+	Thu, 16 Jan 2025 20:14:39 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 97C9D1409EA;
+	Thu, 16 Jan 2025 20:16:12 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 16 Jan
+ 2025 13:16:11 +0100
+Date: Thu, 16 Jan 2025 12:16:10 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: kernel test robot <lkp@intel.com>
+CC: Yenchia Chen <yenchia.chen@mediatek.com>, <gregkh@linuxfoundation.org>,
+	<jirislaby@kernel.org>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <oe-kbuild-all@lists.linux.dev>,
+	<yj.chiang@mediatek.com>, <tbergstrom@nvidia.com>, <yujiaoliang@vivo.com>,
+	<u.kleine-koenig@baylibre.com>, <treapking@chromium.org>,
+	<linux-kernel@vger.kernel.org>, <linux-serial@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH] serial: 8250_mtk: Add ACPI support
+Message-ID: <20250116121610.00004052@huawei.com>
+In-Reply-To: <202501160328.DUMWkTOc-lkp@intel.com>
+References: <20250114033324.3533292-1-yenchia.chen@mediatek.com>
+	<202501160328.DUMWkTOc-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <87ed13b2jv.ffs@tglx>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 11:50:50 up 252 days, 23:04,  1 user,  load average: 0.05, 0.01,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-* Thomas Gleixner (tglx@linutronix.de) wrote:
-> David!
+On Thu, 16 Jan 2025 03:45:33 +0800
+kernel test robot <lkp@intel.com> wrote:
+
+> Hi Yenchia,
 > 
-> On Thu, Jan 16 2025 at 00:59, linux@treblig.org wrote:
-> > Replace brcmstb_l2_mask_and_ack() by the generic
-> > irq_gc_mask_disable_and_ack_set().
-> >
-> > brcmstb_l2_mask_and_ack() was added in commit 49aa6ef0b439
-> > ("irqchip/brcmstb-l2: Remove some processing from the handler") in
-> > September 2017 with a comment saying it was actually generic and someone
-> > should add it to the generic code.
-> >
-> > commit 20608924cc2e ("genirq: generic chip: Add
-> > irq_gc_mask_disable_and_ack_set()") did that a few weeks later, however no
-> > one went back and took the brcmstb variant out.
+> kernel test robot noticed the following build warnings:
 > 
-> That's too late. The original patch is already applied and I'm not going
-> to redo the whole branch for this minor hickup. I've converted it to a
-> delta fix.
-
-Thanks.
-
-> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> [auto build test WARNING on tty/tty-testing]
+> [also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.13-rc7 next-20250115]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> You cannot add my Signed-off-by to a new submission.
-
-Apologies.
-
-Dave
-
-> Thanks,
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yenchia-Chen/serial-8250_mtk-Add-ACPI-support/20250114-113715
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+> patch link:    https://lore.kernel.org/r/20250114033324.3533292-1-yenchia.chen%40mediatek.com
+> patch subject: [PATCH] serial: 8250_mtk: Add ACPI support
+> config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250116/202501160328.DUMWkTOc-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160328.DUMWkTOc-lkp@intel.com/reproduce)
 > 
->         tglx
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501160328.DUMWkTOc-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/tty/serial/8250/8250_mtk.c:662:36: warning: 'mtk8250_acpi_match' defined but not used [-Wunused-const-variable=]  
+>      662 | static const struct acpi_device_id mtk8250_acpi_match[] = {
+>          |                                    ^~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/mtk8250_acpi_match +662 drivers/tty/serial/8250/8250_mtk.c
+> 
+>    661	
+>  > 662	static const struct acpi_device_id mtk8250_acpi_match[] = {  
+>    663		{ "MTKI0511", 0 },
+>    664		{},
+>    665	};
+I'd drop the ACPI_PTR() use and just set it unconditionally.  This table
+is tiny so not worth complexity of doing anything else.
+
+>    666	MODULE_DEVICE_TABLE(acpi, mtk8250_acpi_match);
+>    667	
+> 
+
