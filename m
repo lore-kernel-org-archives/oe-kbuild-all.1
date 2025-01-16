@@ -1,140 +1,129 @@
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D901225D6;
-	Thu, 16 Jan 2025 00:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB94215A8;
+	Thu, 16 Jan 2025 01:01:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736989170; cv=none; b=Hich0HBBPVffGmaXcio5rRJFNYpKHsgcWLqr1QZ87QTsn5g6m0bUxDl9EVVGveRj+F7TkmnCyeXuUOwTCSBoXDzcvGIUJ0aE//EnOnp1ahsLTyuiqsyMBKPxhPcm1yoQ+3qRP/Qg2ceMCLKQcyEaE6omtnKDBmiX2wFHgKkIY60=
+	t=1736989271; cv=none; b=bTbeWJ/VsUzT0sEknpLBASQzq6a6WRp5woJZU/lC86azmhRyqXHCTKuRsr8/He+a6YTiDTW+8MlvJgz5HIaLIj/8PuB3z9ZZW95VIFUUdKFPhMsOclE8p8CBpy5rOKCxW1C14iHTCgSmwEuqbWbju/hN+P4r/duepVj3+q1bmCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736989170; c=relaxed/simple;
-	bh=l2HgDA7kBX50g9pVYPNylwgOrBf5kFs5bC6jRmtcVAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qCMvyRR9K2bL44KSx62wgBHg2IkSfWtOXDe9wXFUxeV2I/8VK9SWbyqz37l7MqocjzSeDwjMJGtWPVcvJn05Qr8LXQ+JBIrShYnxibMe2C4cVMUO4Bkjsbd6PCwsRwsIvUHt4IY+/RN8dBIK3MmMTW+/yO66V1t9REfVDz2Vyi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=RJsCC+H5; arc=none smtp.client-ip=46.235.229.95
+	s=arc-20240116; t=1736989271; c=relaxed/simple;
+	bh=Gbu9FnlKq7TkHt68gC8PnGL5GJKGTfnCcXtXkQa+cVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=coWMBj2oQrplQKiFItxCr/gmIO2EEOGEOmCNn3yucDoAMLE/UNlc19RoiXlmsUuupMB67FfsgUePT9kLl70lqhvnfpGONWOwrwzPvp8uVVk/iRQ1s8Z8U5svjzrWXj/kQqz79RFYIbcgWzRvphQegPp/UnexrtoUL5rbe+A0OMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=AZ15Q+9j; arc=none smtp.client-ip=46.235.229.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="RJsCC+H5"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="AZ15Q+9j"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=NEACNtD9AMp/3i2ugMhnbog8OjzcHTOvl7Vh5dzlVDI=; b=RJsCC+H5frD2Hp4K
-	TA87oddvahGe8umxGnJwA6ynYtUBNhlH2N95io5HfSDqv27GcwOvQFeUoDAopPUCV3QEbn8mpdru6
-	Es7RzQ2mPYA2KEzO4XjhtwQOjBul1D4KfgEHGKher0vcGM/f3mM5zqoCR9DhOhXxZ5C1iEgkyjkk8
-	z45q7CQ6E3VHCWpC57ilJAlqupB8dxYVkyY/zNu9lqF5qN+BqLyvFAjdiQT6gKpjktMSssb5IDX1L
-	hRnYSdIwWqDYyvubBYpe/8XXFdFjMxeM+CygU/hsvDevZEa3phSmGXscYFTONTZG4ktHWIjnbmuLo
-	2wqvaP6St3GXbUTi4w==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1tYEEC-00AW4x-31;
-	Thu, 16 Jan 2025 00:59:20 +0000
-From: linux@treblig.org
-To: florian.fainelli@broadcom.com,
-	tglx@linutronix.de
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	x86@kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH v2] irqchip/irq-brcmstb-l2: Replace brcmstb_l2_mask_and_ack() by generic function
-Date: Thu, 16 Jan 2025 00:59:20 +0000
-Message-ID: <20250116005920.626822-1-linux@treblig.org>
-X-Mailer: git-send-email 2.48.0
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=oVlMuv9kB9e8a0JN+dfYuuz3cQ4oafMBT25lYbl5SeY=; b=AZ15Q+9jv+4QjhOX
+	CQ6lLBuOjy/KPcJggj+7nDrmaAhp70Ya9C/m8XvFRzpS492uAl2UVf2DtRfIjie/Ig7kvMB8yohES
+	Ofi96AySjtibsHl7ynT9VP2YEJJpG87EzwVyS2gFeOZ9md7Y69dGyBRxE1KQUP9GBnKASmQWKl6RH
+	/rZZ+IBmbhnVwddritHHG9mJgwFMw0TuKjdX99UMsmb1dZY6vjZfLEPfOROQP7thvIOlz/OpQ8zya
+	iQetg7MnPWzA50pRY3UgF8uGrCOe+v9NoV/zvlb3t2OHg0Y2IQuQS86Op8aY0e4ldhZO99Ys12J7a
+	874WfxYcubezFzkxKQ==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1tYEFu-00AW60-2A;
+	Thu, 16 Jan 2025 01:01:06 +0000
+Date: Thu, 16 Jan 2025 01:01:06 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [tip:irq/core 6/17] ERROR: modpost:
+ "irq_gc_mask_disable_and_ack_set" [drivers/irqchip/irq-brcmstb-l2.ko]
+ undefined!
+Message-ID: <Z4haUhJICEpzBcL8@gallifrey>
+References: <202501160501.6r9pNtBg-lkp@intel.com>
+ <Z4gubTOiYm-_H1uW@gallifrey>
+ <4e7c06d7-665e-430c-8317-0f3a10a58762@broadcom.com>
+ <Z4g8znXQElHT2Urj@gallifrey>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <Z4g8znXQElHT2Urj@gallifrey>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 01:00:47 up 252 days, 12:14,  1 user,  load average: 0.02, 0.01,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+* Dr. David Alan Gilbert (linux@treblig.org) wrote:
+> * Florian Fainelli (florian.fainelli@broadcom.com) wrote:
+> > On 1/15/25 13:53, Dr. David Alan Gilbert wrote:
+> > > * kernel test robot (lkp@intel.com) wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
+> > > > head:   12cbdcb9f05559ff72eb8a04df829852804c0276
+> > > > commit: dd1f17a9faf5359d76644236cde4cc1720f1184d [6/17] irqchip/irq-brcmstb-l2: Replace brcmstb_l2_mask_and_ack() by generic function
+> > > > config: arm64-randconfig-002-20250115 (https://download.01.org/0day-ci/archive/20250116/202501160501.6r9pNtBg-lkp@intel.com/config)
+> > > > compiler: aarch64-linux-gcc (GCC) 14.2.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160501.6r9pNtBg-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202501160501.6r9pNtBg-lkp@intel.com/
+> > > > 
+> > > > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > > > 
+> > > > > > ERROR: modpost: "irq_gc_mask_disable_and_ack_set" [drivers/irqchip/irq-brcmstb-l2.ko] undefined!
+> > > 
+> > > Hmm, that's not happy is it - I'll have a look.
+> > 
+> > We should be amending your original patch with the following:
+> > 
+> > diff --git a/kernel/irq/generic-chip.c b/kernel/irq/generic-chip.c
+> > index 32ffcbb87fa1..c4a8bca5f2b0 100644
+> > --- a/kernel/irq/generic-chip.c
+> > +++ b/kernel/irq/generic-chip.c
+> > @@ -162,6 +162,7 @@ void irq_gc_mask_disable_and_ack_set(struct irq_data *d)
+> >         irq_reg_writel(gc, mask, ct->regs.ack);
+> >         irq_gc_unlock(gc);
+> >  }
+> > +EXPORT_SYMBOL_GPL(irq_gc_mask_disable_and_ack_set);
+> > 
+> >  /**
+> >   * irq_gc_eoi - EOI interrupt
+> > 
+> > 
+> > This was not going to be a problem back when Doug's commit was accepted, but
+> > later on, irq-brcmsbtb-l2 was allowed to become modular with
+> > 51d9db5c8fbbed160081d4cb5c193abdf67ded05 ("irqchip/irq-brcmstb-l2: Switch to
+> > IRQCHIP_PLATFORM_DRIVER").
+> > 
+> > This totally escaped me when I acked your patch making use of the generic
+> > irq_gc_mask_disable_and_ack_set implementation.
+> 
+> Thanks for spotting that; I'll give it a build test and post a v2 in
+> a little while.
 
-Replace brcmstb_l2_mask_and_ack() by the generic
-irq_gc_mask_disable_and_ack_set().
+V2 sent:
+Subject: [PATCH v2] irqchip/irq-brcmstb-l2: Replace brcmstb_l2_mask_and_ack() by generic function
+Date: Thu, 16 Jan 2025 00:59:20 +0000
+Message-ID: <20250116005920.626822-1-linux@treblig.org>
 
-brcmstb_l2_mask_and_ack() was added in commit 49aa6ef0b439
-("irqchip/brcmstb-l2: Remove some processing from the handler") in
-September 2017 with a comment saying it was actually generic and someone
-should add it to the generic code.
-
-commit 20608924cc2e ("genirq: generic chip: Add
-irq_gc_mask_disable_and_ack_set()") did that a few weeks later, however no
-one went back and took the brcmstb variant out.
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
-Link: https://lore.kernel.org/all/20241224001727.149337-1-linux@treblig.org
----
-v2
-  Add EXPORT_SYMBOL_GPL as spotted by kernel test robot and
-  fix suggested by Florian
-
- drivers/irqchip/irq-brcmstb-l2.c | 28 +---------------------------
- kernel/irq/generic-chip.c        |  1 +
- 2 files changed, 2 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/irqchip/irq-brcmstb-l2.c b/drivers/irqchip/irq-brcmstb-l2.c
-index c988886917f7..db4c9721fcf2 100644
---- a/drivers/irqchip/irq-brcmstb-l2.c
-+++ b/drivers/irqchip/irq-brcmstb-l2.c
-@@ -61,32 +61,6 @@ struct brcmstb_l2_intc_data {
- 	u32 saved_mask; /* for suspend/resume */
- };
- 
--/**
-- * brcmstb_l2_mask_and_ack - Mask and ack pending interrupt
-- * @d: irq_data
-- *
-- * Chip has separate enable/disable registers instead of a single mask
-- * register and pending interrupt is acknowledged by setting a bit.
-- *
-- * Note: This function is generic and could easily be added to the
-- * generic irqchip implementation if there ever becomes a will to do so.
-- * Perhaps with a name like irq_gc_mask_disable_and_ack_set().
-- *
-- * e.g.: https://patchwork.kernel.org/patch/9831047/
-- */
--static void brcmstb_l2_mask_and_ack(struct irq_data *d)
--{
--	struct irq_chip_generic *gc = irq_data_get_irq_chip_data(d);
--	struct irq_chip_type *ct = irq_data_get_chip_type(d);
--	u32 mask = d->mask;
--
--	irq_gc_lock(gc);
--	irq_reg_writel(gc, mask, ct->regs.disable);
--	*ct->mask_cache &= ~mask;
--	irq_reg_writel(gc, mask, ct->regs.ack);
--	irq_gc_unlock(gc);
--}
--
- static void brcmstb_l2_intc_irq_handle(struct irq_desc *desc)
- {
- 	struct brcmstb_l2_intc_data *b = irq_desc_get_handler_data(desc);
-@@ -248,7 +222,7 @@ static int __init brcmstb_l2_intc_of_init(struct device_node *np,
- 	if (init_params->cpu_clear >= 0) {
- 		ct->regs.ack = init_params->cpu_clear;
- 		ct->chip.irq_ack = irq_gc_ack_set_bit;
--		ct->chip.irq_mask_ack = brcmstb_l2_mask_and_ack;
-+		ct->chip.irq_mask_ack = irq_gc_mask_disable_and_ack_set;
- 	} else {
- 		/* No Ack - but still slightly more efficient to define this */
- 		ct->chip.irq_mask_ack = irq_gc_mask_disable_reg;
-diff --git a/kernel/irq/generic-chip.c b/kernel/irq/generic-chip.c
-index 32ffcbb87fa1..c4a8bca5f2b0 100644
---- a/kernel/irq/generic-chip.c
-+++ b/kernel/irq/generic-chip.c
-@@ -162,6 +162,7 @@ void irq_gc_mask_disable_and_ack_set(struct irq_data *d)
- 	irq_reg_writel(gc, mask, ct->regs.ack);
- 	irq_gc_unlock(gc);
- }
-+EXPORT_SYMBOL_GPL(irq_gc_mask_disable_and_ack_set);
- 
- /**
-  * irq_gc_eoi - EOI interrupt
+> Dave
+> 
+> > -- 
+> > Florian
+> > 
+> -- 
+>  -----Open up your eyes, open up your mind, open up your code -------   
+> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+> \        dave @ treblig.org |                               | In Hex /
+>  \ _________________________|_____ http://www.treblig.org   |_______/
+> 
 -- 
-2.48.0
-
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
