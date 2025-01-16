@@ -1,138 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C97F1DAC80;
-	Wed, 15 Jan 2025 23:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D901225D6;
+	Thu, 16 Jan 2025 00:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736983059; cv=none; b=recsyP+RpfSXHjKg71oUwWgulgjyiOtvk0l7zm30tE+KWlzeTK/1mR3jZi7KqaHBVlOeNwj+N9RfSKHAid7N3YxxlSPHU3m7TNfRR6Cba4p8VNzmTqUUNHNbBALnNvTURRc2AzvOF9juaKv0oAgao0nB3G04FUvx0TWEQIwJll4=
+	t=1736989170; cv=none; b=Hich0HBBPVffGmaXcio5rRJFNYpKHsgcWLqr1QZ87QTsn5g6m0bUxDl9EVVGveRj+F7TkmnCyeXuUOwTCSBoXDzcvGIUJ0aE//EnOnp1ahsLTyuiqsyMBKPxhPcm1yoQ+3qRP/Qg2ceMCLKQcyEaE6omtnKDBmiX2wFHgKkIY60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736983059; c=relaxed/simple;
-	bh=KpiWwHPBU8cn7bfIaWcZtYTJFTB9Ri7oDlqiBOCgGzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XiuiU/k6HJSYPDx8OToHZ4KOiUw96tzFRjfx44PDtFV4SaphNCLY2b5jbfMZFyXFXM3Y7ZlPuyJp++CohAVElZbswixLWB00O8s39LpgCYJATvC1aLP1HsiaaMA1j7jSbwv2NhcyYHVjkwGIRdsmcfZmD2DgYfD7pw4iH0EjR7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwzcOaNf; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736989170; c=relaxed/simple;
+	bh=l2HgDA7kBX50g9pVYPNylwgOrBf5kFs5bC6jRmtcVAw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qCMvyRR9K2bL44KSx62wgBHg2IkSfWtOXDe9wXFUxeV2I/8VK9SWbyqz37l7MqocjzSeDwjMJGtWPVcvJn05Qr8LXQ+JBIrShYnxibMe2C4cVMUO4Bkjsbd6PCwsRwsIvUHt4IY+/RN8dBIK3MmMTW+/yO66V1t9REfVDz2Vyi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=RJsCC+H5; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwzcOaNf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736983057; x=1768519057;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KpiWwHPBU8cn7bfIaWcZtYTJFTB9Ri7oDlqiBOCgGzY=;
-  b=CwzcOaNflH9hThBhlWwxC9v+KLi2LGs4WSbgPh4K+vck9Id3D7My2UCD
-   gAYpuWOL2q9yfmE1M87KyRaFogjXu5U8WZWFGR7lrKWLqMBA5M/7LkBsj
-   9F9UbIPpr/DYBaf5W9WNDlm8Z7M1DECb11p5AFoaLCWaeUUNo2r6xFQQu
-   aaeMU3O+/JcB4K234pdogbXb7DQZMqoHuF33e3JMhTTCdIbrV65yDYdlM
-   08sYqncpTXAacEllVrRawdKGPhEgtvZsuli8u1A3DAno5F7M16QEZoaPl
-   VPWGtGhF57njMNsHKxUC3DPY77UYexU78Bcw5UtvdXi8fRfs5LpuUkcFu
-   w==;
-X-CSE-ConnectionGUID: aruG+SlaQCWPvLBD4WteFg==
-X-CSE-MsgGUID: SUoVqfCASk6Qpo/TfljlQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="48734521"
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="48734521"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 15:17:37 -0800
-X-CSE-ConnectionGUID: kgZIbBxjQdGjPvS6DawAcQ==
-X-CSE-MsgGUID: TS12OjrKSU+x5+ILfGs6PA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="110266871"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jan 2025 15:17:36 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tYCdg-000QzP-2Y;
-	Wed, 15 Jan 2025 23:17:32 +0000
-Date: Thu, 16 Jan 2025 07:16:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aloka Dixit <quic_alokad@quicinc.com>, ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org, linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Aloka Dixit <quic_alokad@quicinc.com>
-Subject: Re: [PATCH 1/5] wifi: ath11k: refactor transmitted arvif retrieval
-Message-ID: <202501160626.Jbb3GHnk-lkp@intel.com>
-References: <20250114223612.2979310-2-quic_alokad@quicinc.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="RJsCC+H5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=NEACNtD9AMp/3i2ugMhnbog8OjzcHTOvl7Vh5dzlVDI=; b=RJsCC+H5frD2Hp4K
+	TA87oddvahGe8umxGnJwA6ynYtUBNhlH2N95io5HfSDqv27GcwOvQFeUoDAopPUCV3QEbn8mpdru6
+	Es7RzQ2mPYA2KEzO4XjhtwQOjBul1D4KfgEHGKher0vcGM/f3mM5zqoCR9DhOhXxZ5C1iEgkyjkk8
+	z45q7CQ6E3VHCWpC57ilJAlqupB8dxYVkyY/zNu9lqF5qN+BqLyvFAjdiQT6gKpjktMSssb5IDX1L
+	hRnYSdIwWqDYyvubBYpe/8XXFdFjMxeM+CygU/hsvDevZEa3phSmGXscYFTONTZG4ktHWIjnbmuLo
+	2wqvaP6St3GXbUTi4w==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1tYEEC-00AW4x-31;
+	Thu, 16 Jan 2025 00:59:20 +0000
+From: linux@treblig.org
+To: florian.fainelli@broadcom.com,
+	tglx@linutronix.de
+Cc: bcm-kernel-feedback-list@broadcom.com,
+	x86@kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH v2] irqchip/irq-brcmstb-l2: Replace brcmstb_l2_mask_and_ack() by generic function
+Date: Thu, 16 Jan 2025 00:59:20 +0000
+Message-ID: <20250116005920.626822-1-linux@treblig.org>
+X-Mailer: git-send-email 2.48.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250114223612.2979310-2-quic_alokad@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Aloka,
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-kernel test robot noticed the following build warnings:
+Replace brcmstb_l2_mask_and_ack() by the generic
+irq_gc_mask_disable_and_ack_set().
 
-[auto build test WARNING on 0c5fcd9069dd5f984e39820629acbfbe0f1b4256]
+brcmstb_l2_mask_and_ack() was added in commit 49aa6ef0b439
+("irqchip/brcmstb-l2: Remove some processing from the handler") in
+September 2017 with a comment saying it was actually generic and someone
+should add it to the generic code.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aloka-Dixit/wifi-ath11k-refactor-transmitted-arvif-retrieval/20250115-063922
-base:   0c5fcd9069dd5f984e39820629acbfbe0f1b4256
-patch link:    https://lore.kernel.org/r/20250114223612.2979310-2-quic_alokad%40quicinc.com
-patch subject: [PATCH 1/5] wifi: ath11k: refactor transmitted arvif retrieval
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250116/202501160626.Jbb3GHnk-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501160626.Jbb3GHnk-lkp@intel.com/reproduce)
+commit 20608924cc2e ("genirq: generic chip: Add
+irq_gc_mask_disable_and_ack_set()") did that a few weeks later, however no
+one went back and took the brcmstb variant out.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501160626.Jbb3GHnk-lkp@intel.com/
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+Link: https://lore.kernel.org/all/20241224001727.149337-1-linux@treblig.org
+---
+v2
+  Add EXPORT_SYMBOL_GPL as spotted by kernel test robot and
+  fix suggested by Florian
 
-All warnings (new ones prefixed by >>):
+ drivers/irqchip/irq-brcmstb-l2.c | 28 +---------------------------
+ kernel/irq/generic-chip.c        |  1 +
+ 2 files changed, 2 insertions(+), 27 deletions(-)
 
->> drivers/net/wireless/ath/ath11k/mac.c:6349:46: warning: variable 'tx_vif' is uninitialized when used here [-Wuninitialized]
-    6349 |                 if (ar->hw->wiphy != ieee80211_vif_to_wdev(tx_vif)->wiphy)
-         |                                                            ^~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:6339:30: note: initialize the variable 'tx_vif' to silence this warning
-    6339 |         struct ieee80211_vif *tx_vif;
-         |                                     ^
-         |                                      = NULL
-   1 warning generated.
-
-
-vim +/tx_vif +6349 drivers/net/wireless/ath/ath11k/mac.c
-
-d5c65159f28953 Kalle Valo  2019-11-23  6333  
-5a81610acf66c4 Aloka Dixit 2023-05-05  6334  static int ath11k_mac_setup_vdev_params_mbssid(struct ath11k_vif *arvif,
-5a81610acf66c4 Aloka Dixit 2023-05-05  6335  					       u32 *flags, u32 *tx_vdev_id)
-5a81610acf66c4 Aloka Dixit 2023-05-05  6336  {
-5a81610acf66c4 Aloka Dixit 2023-05-05  6337  	struct ath11k *ar = arvif->ar;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6338  	struct ath11k_vif *tx_arvif;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6339  	struct ieee80211_vif *tx_vif;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6340  
-5a81610acf66c4 Aloka Dixit 2023-05-05  6341  	*tx_vdev_id = 0;
-72f88bc503a76c Aloka Dixit 2025-01-14  6342  	tx_arvif = ath11k_mac_get_tx_arvif(arvif);
-72f88bc503a76c Aloka Dixit 2025-01-14  6343  	if (!tx_arvif) {
-5a81610acf66c4 Aloka Dixit 2023-05-05  6344  		*flags = WMI_HOST_VDEV_FLAGS_NON_MBSSID_AP;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6345  		return 0;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6346  	}
-5a81610acf66c4 Aloka Dixit 2023-05-05  6347  
-5a81610acf66c4 Aloka Dixit 2023-05-05  6348  	if (arvif->vif->bss_conf.nontransmitted) {
-5a81610acf66c4 Aloka Dixit 2023-05-05 @6349  		if (ar->hw->wiphy != ieee80211_vif_to_wdev(tx_vif)->wiphy)
-5a81610acf66c4 Aloka Dixit 2023-05-05  6350  			return -EINVAL;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6351  
-5a81610acf66c4 Aloka Dixit 2023-05-05  6352  		*flags = WMI_HOST_VDEV_FLAGS_NON_TRANSMIT_AP;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6353  		*tx_vdev_id = ath11k_vif_to_arvif(tx_vif)->vdev_id;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6354  	} else if (tx_arvif == arvif) {
-5a81610acf66c4 Aloka Dixit 2023-05-05  6355  		*flags = WMI_HOST_VDEV_FLAGS_TRANSMIT_AP;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6356  	} else {
-5a81610acf66c4 Aloka Dixit 2023-05-05  6357  		return -EINVAL;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6358  	}
-5a81610acf66c4 Aloka Dixit 2023-05-05  6359  
-5a81610acf66c4 Aloka Dixit 2023-05-05  6360  	if (arvif->vif->bss_conf.ema_ap)
-5a81610acf66c4 Aloka Dixit 2023-05-05  6361  		*flags |= WMI_HOST_VDEV_FLAGS_EMA_MODE;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6362  
-5a81610acf66c4 Aloka Dixit 2023-05-05  6363  	return 0;
-5a81610acf66c4 Aloka Dixit 2023-05-05  6364  }
-5a81610acf66c4 Aloka Dixit 2023-05-05  6365  
-
+diff --git a/drivers/irqchip/irq-brcmstb-l2.c b/drivers/irqchip/irq-brcmstb-l2.c
+index c988886917f7..db4c9721fcf2 100644
+--- a/drivers/irqchip/irq-brcmstb-l2.c
++++ b/drivers/irqchip/irq-brcmstb-l2.c
+@@ -61,32 +61,6 @@ struct brcmstb_l2_intc_data {
+ 	u32 saved_mask; /* for suspend/resume */
+ };
+ 
+-/**
+- * brcmstb_l2_mask_and_ack - Mask and ack pending interrupt
+- * @d: irq_data
+- *
+- * Chip has separate enable/disable registers instead of a single mask
+- * register and pending interrupt is acknowledged by setting a bit.
+- *
+- * Note: This function is generic and could easily be added to the
+- * generic irqchip implementation if there ever becomes a will to do so.
+- * Perhaps with a name like irq_gc_mask_disable_and_ack_set().
+- *
+- * e.g.: https://patchwork.kernel.org/patch/9831047/
+- */
+-static void brcmstb_l2_mask_and_ack(struct irq_data *d)
+-{
+-	struct irq_chip_generic *gc = irq_data_get_irq_chip_data(d);
+-	struct irq_chip_type *ct = irq_data_get_chip_type(d);
+-	u32 mask = d->mask;
+-
+-	irq_gc_lock(gc);
+-	irq_reg_writel(gc, mask, ct->regs.disable);
+-	*ct->mask_cache &= ~mask;
+-	irq_reg_writel(gc, mask, ct->regs.ack);
+-	irq_gc_unlock(gc);
+-}
+-
+ static void brcmstb_l2_intc_irq_handle(struct irq_desc *desc)
+ {
+ 	struct brcmstb_l2_intc_data *b = irq_desc_get_handler_data(desc);
+@@ -248,7 +222,7 @@ static int __init brcmstb_l2_intc_of_init(struct device_node *np,
+ 	if (init_params->cpu_clear >= 0) {
+ 		ct->regs.ack = init_params->cpu_clear;
+ 		ct->chip.irq_ack = irq_gc_ack_set_bit;
+-		ct->chip.irq_mask_ack = brcmstb_l2_mask_and_ack;
++		ct->chip.irq_mask_ack = irq_gc_mask_disable_and_ack_set;
+ 	} else {
+ 		/* No Ack - but still slightly more efficient to define this */
+ 		ct->chip.irq_mask_ack = irq_gc_mask_disable_reg;
+diff --git a/kernel/irq/generic-chip.c b/kernel/irq/generic-chip.c
+index 32ffcbb87fa1..c4a8bca5f2b0 100644
+--- a/kernel/irq/generic-chip.c
++++ b/kernel/irq/generic-chip.c
+@@ -162,6 +162,7 @@ void irq_gc_mask_disable_and_ack_set(struct irq_data *d)
+ 	irq_reg_writel(gc, mask, ct->regs.ack);
+ 	irq_gc_unlock(gc);
+ }
++EXPORT_SYMBOL_GPL(irq_gc_mask_disable_and_ack_set);
+ 
+ /**
+  * irq_gc_eoi - EOI interrupt
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.48.0
+
