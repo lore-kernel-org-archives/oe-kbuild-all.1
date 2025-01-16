@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A534622BACD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jan 2025 16:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0189B7081E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jan 2025 17:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737043648; cv=none; b=Uwk7OEUrbHmzWEoAUL6MRdusn1Og+okU/lAWjK0Je6LwA3vqFvmp9AIbmktypI0+CnafCeyP1aFquiWpQRIvg+GN+dvJqWru+ZW9Vu1cdK4g42V86RjqXaPInqoR5rSYcUk6sP+6Lu7SMYlNT6csqC43WmeFeqTuLu1HtCARTBo=
+	t=1737047376; cv=none; b=fMHNA3zMpz7rEF9FE4LYXtdlO82okaxNrqu23TBjEiCYZqY+qMs3GdKlMeOkiRBMKp8eQiUuSlWr0HNDBNiRTxL+aHqSMtKpeHoaYKJPGkcHTzV4F1igdD0hIatfdb+raLzit77FiadCswlCMk6dAcufiVFfOrkrdm5tC2nLCFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737043648; c=relaxed/simple;
-	bh=WpgGgfXm3efQ7xGbxj/c2xieYurixeIifC3uLpYpdMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=esHld3neHCe0v3hC6wjvG7DxSfDPHnilus+zPBNHo4no4AVRNGHya37qzNvQ1E7PelNkVU2bX1Z2vlxDjKdft5y2BbD0Y+fesqPYTjGZJwQz4CkW3tQVLlCfMqhHYbHAMtx2PBbJXgzd/LxfZbB4GaB7dPWjjWvjfB1CZXfpuN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTprhpmB; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1737047376; c=relaxed/simple;
+	bh=kSq3uFLMK3E334ktq1xOfy8FwRtEdmscoiOLBzbhkFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IqP7cesi6rIR38YOrKrhOQQazGDllONWiQBv8JLpUjW+mG2jRtJnDeeOYpBBemzlohbazBwSdxj1h5aCMR1IXnQCs2VzXcGr895YUScsirqadgbUlDC74ZTvw158dkiHhrJzJ38haUpplxHA3U/xYxB9nbtwAcmO7F96rUcvBfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcxJoC1x; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTprhpmB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcxJoC1x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737043646; x=1768579646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WpgGgfXm3efQ7xGbxj/c2xieYurixeIifC3uLpYpdMI=;
-  b=TTprhpmB5/LRv41I7WxvIzjgq0tWqOCe+yqRBOxREdo/CdcsOOHE4DhR
-   y3487Uo9xTxs+XslK2vrWxooVGRgATIzi80broAepmrvi9va58oYG6hoI
-   gNp6y+AT1ZxcEROOcGni9dkliP9xtLBYbpvX9UaxHoVdD4HipOFelGNN5
-   Z66SNjVlk0TsXLz9TfFjUafXIZ/WGrFosDQV+oxi4td5ippCKp019DP3d
-   EG2EdgdxRtoB/Bwo7NwVBZSY9y1umKmiJlAE3aw4A2V1DcoQxOJG5nYdW
-   V3mmcB5F0hdwglSGagRNsVEPY7fUMK7/tRp4IqCLlJVhiY5QVorpriXV4
-   w==;
-X-CSE-ConnectionGUID: s0XHJfDYSB6hAOqLA5qrpg==
-X-CSE-MsgGUID: cuBzs4a+Q26mM+fVX5UjTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="48102520"
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="48102520"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 08:07:26 -0800
-X-CSE-ConnectionGUID: LERfybiqQyGb9C59OGLCtw==
-X-CSE-MsgGUID: ijevmV4fQUiOVYWXAEWjFw==
+  t=1737047374; x=1768583374;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kSq3uFLMK3E334ktq1xOfy8FwRtEdmscoiOLBzbhkFQ=;
+  b=mcxJoC1xxWvNy/l1tnL8e2yJyU9PH9zEqY0PiugB+GWmtwga7ZNtMrtm
+   4GdTPSpRMfP+IpdinQvU3SA3YpEsWsttH+Zfj1Tl+iQhD449tODR6etus
+   fOyWcg+i6kyHNne0HQI3BZlqr1pFZdF4xDprCE/VdtdSHo9riOmn/1eoL
+   +Dj4mox8fJaiRy7jpunA742P3YcjpUFBzhFM7x37+xEYy7cXc7W+OJ0er
+   x8UWExjzz5VT/TPkMzZZNhVSBGNml0hqTI7mw2JnWRucGJ7L6HTR3zreg
+   m7Qu8Mg40X/JOp1VM66mxrAtcgmaHUGOfjoFxnOKkM8dILZ1uVB4XGqkO
+   Q==;
+X-CSE-ConnectionGUID: vnFB6jk7SBugts9xJ7PvkA==
+X-CSE-MsgGUID: WeM0DiLITgi1ObgQonDMDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="37332601"
+X-IronPort-AV: E=Sophos;i="6.13,210,1732608000"; 
+   d="scan'208";a="37332601"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 09:09:34 -0800
+X-CSE-ConnectionGUID: SQ0mSVV8QZ63m/14yNUYPA==
+X-CSE-MsgGUID: bb0hXDjVSFyBg3Tmo7lmKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="105585192"
+X-IronPort-AV: E=Sophos;i="6.13,210,1732608000"; 
+   d="scan'208";a="105514503"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Jan 2025 08:07:24 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 16 Jan 2025 09:09:31 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYSOv-000S7P-2D;
-	Thu, 16 Jan 2025 16:07:21 +0000
-Date: Fri, 17 Jan 2025 00:07:09 +0800
+	id 1tYTN3-000SBo-1n;
+	Thu, 16 Jan 2025 17:09:29 +0000
+Date: Fri, 17 Jan 2025 01:09:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: oe-kbuild-all@lists.linux.dev, wim@linux-watchdog.org,
-	linux@roeck-us.net, dober@lenovo.com,
-	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] watchdog: lenovo_se30_wdt: Watchdog driver for Lenovo
- SE30 platform
-Message-ID: <202501162358.vgAIFntg-lkp@intel.com>
-References: <20250115140510.2017-1-mpearson-lenovo@squebb.ca>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2707/2707] include/linux/backing-dev.h:418:49:
+ warning: declaration of 'struct cgroup_subsys' will not be visible outside
+ of this function
+Message-ID: <202501170155.aI4YWysc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,107 +62,217 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115140510.2017-1-mpearson-lenovo@squebb.ca>
 
-Hi Mark,
+Hi wangyigen,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.13-rc7 next-20250116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Pearson/watchdog-lenovo_se30_wdt-Watchdog-driver-for-Lenovo-SE30-platform/20250115-220703
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250115140510.2017-1-mpearson-lenovo%40squebb.ca
-patch subject: [PATCH] watchdog: lenovo_se30_wdt: Watchdog driver for Lenovo SE30 platform
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250116/202501162358.vgAIFntg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501162358.vgAIFntg-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   08e54ea5e4a4948874ca30d91be3e5cca4ecbeec
+commit: 13e5c52d7cec7621f78bce452b78785e689ed0b2 [2707/2707] cgroup_writeback: bind blkcg and memcg
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250117/202501170155.aI4YWysc-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501170155.aI4YWysc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501162358.vgAIFntg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501170155.aI4YWysc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/watchdog/lenovo_se30_wdt.c: In function 'lenovo_se30_wdt_probe':
-   drivers/watchdog/lenovo_se30_wdt.c:314:31: error: implicit declaration of function 'ioremap_cache'; did you mean 'ioremap_uc'? [-Werror=implicit-function-declaration]
-     314 |         priv->shm.base_addr = ioremap_cache(priv->shm.base_phys, SHM_WIN_SIZE);
-         |                               ^~~~~~~~~~~~~
-         |                               ioremap_uc
->> drivers/watchdog/lenovo_se30_wdt.c:314:29: warning: assignment to 'unsigned char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     314 |         priv->shm.base_addr = ioremap_cache(priv->shm.base_phys, SHM_WIN_SIZE);
-         |                             ^
-   cc1: some warnings being treated as errors
+   In file included from mm/filemap.c:15:
+   In file included from include/linux/dax.h:6:
+   In file included from include/linux/mm.h:1581:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/filemap.c:32:
+>> include/linux/backing-dev.h:418:49: warning: declaration of 'struct cgroup_subsys' will not be visible outside of this function [-Wvisibility]
+     418 | static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+         |                                                 ^
+   mm/filemap.c:823:14: warning: no previous prototype for function '__add_to_page_cache_locked' [-Wmissing-prototypes]
+     823 | noinline int __add_to_page_cache_locked(struct page *page,
+         |              ^
+   mm/filemap.c:823:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     823 | noinline int __add_to_page_cache_locked(struct page *page,
+         |          ^
+         |          static 
+   3 warnings generated.
+--
+   In file included from mm/fadvise.c:14:
+   In file included from include/linux/mm.h:1581:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/fadvise.c:16:
+>> include/linux/backing-dev.h:418:49: warning: declaration of 'struct cgroup_subsys' will not be visible outside of this function [-Wvisibility]
+     418 | static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+         |                                                 ^
+   2 warnings generated.
+--
+   In file included from mm/page-writeback.c:19:
+   In file included from include/linux/mm.h:1581:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page-writeback.c:25:
+>> include/linux/backing-dev.h:418:49: warning: declaration of 'struct cgroup_subsys' will not be visible outside of this function [-Wvisibility]
+     418 | static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+         |                                                 ^
+   In file included from mm/page-writeback.c:40:
+   include/linux/mm_inline.h:34:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      34 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:36:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      36 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   4 warnings generated.
+--
+   In file included from mm/swap.c:17:
+   In file included from include/linux/mm.h:1581:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/swap.c:26:
+   include/linux/mm_inline.h:34:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      34 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:36:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      36 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/swap.c:32:
+>> include/linux/backing-dev.h:418:49: warning: declaration of 'struct cgroup_subsys' will not be visible outside of this function [-Wvisibility]
+     418 | static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+         |                                                 ^
+   4 warnings generated.
+--
+   In file included from mm/vmscan.c:17:
+   In file included from include/linux/mm.h:1581:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:33:
+   include/linux/mm_inline.h:34:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      34 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:36:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      36 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:34:
+>> include/linux/backing-dev.h:418:49: warning: declaration of 'struct cgroup_subsys' will not be visible outside of this function [-Wvisibility]
+     418 | static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+         |                                                 ^
+   mm/vmscan.c:569:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     569 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
+         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:1936:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    1936 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/vmscan.c:2430:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2430 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
+         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
+   mm/vmscan.c:2431:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2431 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
+         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
+   mm/vmscan.c:3263:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3263 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   9 warnings generated.
+--
+   In file included from mm/page_alloc.c:19:
+   In file included from include/linux/mm.h:1581:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page_alloc.c:50:
+>> include/linux/backing-dev.h:418:49: warning: declaration of 'struct cgroup_subsys' will not be visible outside of this function [-Wvisibility]
+     418 | static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+         |                                                 ^
+   In file included from mm/page_alloc.c:59:
+   include/linux/mm_inline.h:34:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      34 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:36:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      36 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/page_alloc.c:2609:5: warning: no previous prototype for function 'find_suitable_fallback' [-Wmissing-prototypes]
+    2609 | int find_suitable_fallback(struct free_area *area, unsigned int order,
+         |     ^
+   mm/page_alloc.c:2609:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2609 | int find_suitable_fallback(struct free_area *area, unsigned int order,
+         | ^
+         | static 
+   mm/page_alloc.c:3040:6: warning: no previous prototype for function '__drain_all_pages' [-Wmissing-prototypes]
+    3040 | void __drain_all_pages(struct zone *zone, bool force_all_cpus)
+         |      ^
+   mm/page_alloc.c:3040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3040 | void __drain_all_pages(struct zone *zone, bool force_all_cpus)
+         | ^
+         | static 
+   mm/page_alloc.c:3449:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3449 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:3510:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3510 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:3603:15: warning: no previous prototype for function 'should_fail_alloc_page' [-Wmissing-prototypes]
+    3603 | noinline bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order)
+         |               ^
+   mm/page_alloc.c:3603:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3603 | noinline bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order)
+         |          ^
+         |          static 
+   mm/page_alloc.c:5221:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    5221 |                 __count_zid_vm_events(PGALLOC, zone_idx(zone), 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:6753:20: warning: no previous prototype for function 'memmap_init' [-Wmissing-prototypes]
+    6753 | void __init __weak memmap_init(void)
+         |                    ^
+   mm/page_alloc.c:6753:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    6753 | void __init __weak memmap_init(void)
+         | ^
+         | static 
+   mm/page_alloc.c:6791:23: warning: no previous prototype for function 'arch_memmap_init' [-Wmissing-prototypes]
+    6791 | void __meminit __weak arch_memmap_init(unsigned long size, int nid,
+         |                       ^
+   mm/page_alloc.c:6791:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    6791 | void __meminit __weak arch_memmap_init(unsigned long size, int nid,
+         | ^
+         | static 
+   mm/page_alloc.c:6909:6: warning: no previous prototype for function '__zone_set_pageset_high_and_batch' [-Wmissing-prototypes]
+    6909 | void __zone_set_pageset_high_and_batch(struct zone *zone, unsigned long high,
+         |      ^
+   mm/page_alloc.c:6909:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    6909 | void __zone_set_pageset_high_and_batch(struct zone *zone, unsigned long high,
+         | ^
+         | static 
+   13 warnings generated.
 
 
-vim +314 drivers/watchdog/lenovo_se30_wdt.c
+vim +418 include/linux/backing-dev.h
 
-   276	
-   277	static int lenovo_se30_wdt_probe(struct platform_device *pdev)
-   278	{
-   279		struct device *dev = &pdev->dev;
-   280		struct lenovo_se30_wdt *priv;
-   281		unsigned long base_phys;
-   282		unsigned short val;
-   283		int err;
-   284	
-   285		err = superio_enter(UNLOCK_KEY, SIO_REG, LNV_SE30_NAME);
-   286		if (err)
-   287			return err;
-   288	
-   289		val = superio_inb(SIO_REG, CHIPID_REG) << 8;
-   290		val |= superio_inb(SIO_REG, CHIPID_REG + 1);
-   291	
-   292		if ((val & CHIPID_MASK) != LNV_SE30_ID) {
-   293			superio_exit(LOCK_KEY, SIO_REG);
-   294			return -ENODEV;
-   295		}
-   296	
-   297		superio_outb(SIO_REG, LDN_REG, LD_NUM_SHM);
-   298		base_phys = (superio_inb(SIO_REG, LD_BASE_ADDR) |
-   299				 (superio_inb(SIO_REG, LD_BASE_ADDR + 1) << 8) |
-   300				 (superio_inb(SIO_REG, LD_BASE_ADDR + 2) << 16) |
-   301				 (superio_inb(SIO_REG, LD_BASE_ADDR + 3) << 24)) &
-   302				0xFFFFFFFF;
-   303	
-   304		superio_exit(LOCK_KEY, SIO_REG);
-   305		if (base_phys == 0xFFFFFFFF || base_phys == 0)
-   306			return -ENODEV;
-   307	
-   308		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   309		if (!priv)
-   310			return -ENOMEM;
-   311	
-   312		priv->sio.base_phys = base_phys;
-   313		priv->shm.base_phys = base_phys;
- > 314		priv->shm.base_addr = ioremap_cache(priv->shm.base_phys, SHM_WIN_SIZE);
-   315	
-   316		priv->wdt_cfg.mod = WDT_MODULE;
-   317		priv->wdt_cfg.idx = WDT_CFG_INDEX;
-   318		priv->wdt_cnt.mod = WDT_MODULE;
-   319		priv->wdt_cnt.idx = WDT_CNT_INDEX;
-   320	
-   321		priv->wdt.ops = &lenovo_se30_wdt_ops;
-   322		priv->wdt.info = &lenovo_se30_wdt_info;
-   323		priv->wdt.timeout = WATCHDOG_TIMEOUT; /* Set default timeout */
-   324		priv->wdt.min_timeout = MIN_TIMEOUT;
-   325		priv->wdt.max_timeout = MAX_TIMEOUT;
-   326		priv->wdt.parent = dev;
-   327	
-   328		watchdog_init_timeout(&priv->wdt, timeout, dev);
-   329		watchdog_set_drvdata(&priv->wdt, priv);
-   330		watchdog_set_nowayout(&priv->wdt, nowayout);
-   331		watchdog_stop_on_reboot(&priv->wdt);
-   332		watchdog_stop_on_unregister(&priv->wdt);
-   333	
-   334		return devm_watchdog_register_device(dev, &priv->wdt);
-   335	}
-   336	
+   417	
+ > 418	static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+   419						   struct css_set *cset)
+   420	{
+   421	}
+   422	
 
 -- 
 0-DAY CI Kernel Test Service
