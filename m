@@ -1,84 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37521D9346
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jan 2025 06:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE13198E63
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jan 2025 08:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737010761; cv=none; b=DnousFLoSI1V9ETiekhQyp+qs8TNuEaFVQaTLqBBwZ214zapOuAztDG5iKm1DWGwUqHF12jZH67WvjprgWZADW346RKuUji3TvMnWdqy8l2OkZEBFqZDv4psLtA4CDAkTgpS9HcSvhbdfDewdwD6Iroi1P2g+h0w7n9MHYR8mh0=
+	t=1737015128; cv=none; b=U84NlSaqA5kR9jidkRi1/TEIRXiFZEH5TgV+nQrSvM4gDT8Q0sWItta30xdGLIHYl7hUKwpqDJPHXnhb4nQEDXdva7ZiNZLT1dhoUdmZQWesfOinl6bmtmIrO6qTdDqNjj4NI87Jaqs4OufsfgKRUHOt4P0CkTA4G/IbRv0jWJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737010761; c=relaxed/simple;
-	bh=IiZEnuHLgcsEuqA7jZRn+5UMwq+yL/TGc8SgEVdR5mI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=cu4zTFyzHmsGiyoIzxWC8X0UTACDFnATiqSYVGVvezCOaDC85Y2aG8sCCUGRFJojNAoBy13cTCF/+ClhQokuUpcvwosw0yf/N4bLpQZCFDrv6p6LJrMyvPV/8NgPM69pbPjD/Nd6RnbY2PhJdmeKKq9GbGYibz9YjfnczjKDXYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMGz46Gt; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737015128; c=relaxed/simple;
+	bh=87DUQAkMQtP6wu7zVv3R8Q8EM514dyATOSBIijElrdQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ErTczWH3tKLqbDdfB7TBlCTPHJcDs4QuHoCjVN4CHqmWuhKCMyP9cqq/yXTfkdauTx8IqUFSS3JvwkFNgcFCNF1/MkRFxMNApZXYQGmJAWv3Uj3ornbq2IXE+9F56VYVy2ZssUXcYbvlDfeStOhxDBQVZo/A0vRH+RYWVtHQXc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cVzLE1Hh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cYfU2YjK; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMGz46Gt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737010759; x=1768546759;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=IiZEnuHLgcsEuqA7jZRn+5UMwq+yL/TGc8SgEVdR5mI=;
-  b=cMGz46GtpS0/B9ZrobKnboXFzI+WCrP4hG61Y/V1w+LIJf7mu3Tv+xJe
-   6bkD6lkWRyY/Wj8Y8wKbUo0rnoMY6mK/N3ZeuNyH1zuIofuBOB3tTsknS
-   n6o0hT0PyNy6EuItl2Ttiwexu7T7vQ47tKlP9VcVz39leuV52CCheJZLP
-   nUD1xeJe2hq2veIq3FQVSF6pQj6bS9VQbNndw8hGEOFftxwQNHJ0XrYna
-   J4+1r8M5t+hon98zz7+aJavrGUMrvOEsbcJm6FzY+bC+RMwGL0laDaN8M
-   ai37lgOt+nEm3XALLl2T2ouVy6euSsJcs0fjgKHdtp3PENUJFslrwUjIw
-   g==;
-X-CSE-ConnectionGUID: M7wqihw9Suq1BVH9njCI1g==
-X-CSE-MsgGUID: wUxEe+gxQ8G/b6vwHIr1Qg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="48382669"
-X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; 
-   d="scan'208";a="48382669"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 22:59:19 -0800
-X-CSE-ConnectionGUID: 77fmqFYwSKOviU4tTo76Kw==
-X-CSE-MsgGUID: oJc9YAHoS8Kqukc9zQrjmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; 
-   d="scan'208";a="105440745"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 15 Jan 2025 22:59:18 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tYJqW-000RVD-0W;
-	Thu, 16 Jan 2025 06:59:16 +0000
-Date: Thu, 16 Jan 2025 14:59:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ethan Zhao <haifeng.zhao@linux.intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] x86/fred: Optimize the FRED entry by prioritizing
- high-probability event dispatching
-Message-ID: <Z4iuO6OJeuR2pmln@971a9ca124d8>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cVzLE1Hh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cYfU2YjK"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1737015125;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AP5V8h9bz4N4y+UufT2Bd637DqN1KpVRAX/7F9z8sMc=;
+	b=cVzLE1Hh6gWDZEJ7GeazV4QKljmFr7aSPP1ZM5v2l6SfYH6z48oOEjlHGWqaLrN7BHeAS4
+	vUhSk8ki3zrxFCgsEjPooHv/kIZwjFfwHlCFDI71QvugzHY6HH5i5CtcIaf/POze3oemPX
+	ImnbtU/x2dabRN4rlhJgKeiQaImkJYnZt+2MdlWO6vnMSiSCaSTLCFP7T9VoqnMKs7dV/T
+	HxP0BJWxw/uBeLFnrEX44l40SsbhE2gqqgF38HopjjGGTbX9P490pEAWNwhLwW1AR42mgl
+	3NYxBgbBsrjlA/LuwKMrXCJKm3dKDIb9m/uZtYmSr3FRAVz6D5pkEcolPIEMPw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1737015125;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AP5V8h9bz4N4y+UufT2Bd637DqN1KpVRAX/7F9z8sMc=;
+	b=cYfU2YjK4EiPkUKB+SIf376TOC73FmI4Kkle9mwlGMroMpmlm56SN+vz9tPQPXmpZbUgG+
+	sXN9CdZYeD3u4TBQ==
+To: linux@treblig.org, florian.fainelli@broadcom.com
+Cc: bcm-kernel-feedback-list@broadcom.com, x86@kernel.org,
+ oe-kbuild-all@lists.linux.dev, linux-mips@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, "Dr.
+ David Alan Gilbert" <linux@treblig.org>
+Subject: Re: [PATCH v2] irqchip/irq-brcmstb-l2: Replace
+ brcmstb_l2_mask_and_ack() by generic function
+In-Reply-To: <20250116005920.626822-1-linux@treblig.org>
+References: <20250116005920.626822-1-linux@treblig.org>
+Date: Thu, 16 Jan 2025 09:12:04 +0100
+Message-ID: <87ed13b2jv.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250116065145.2747960-1-haifeng.zhao@linux.intel.com>
+Content-Type: text/plain
 
-Hi,
+David!
 
-Thanks for your patch.
+On Thu, Jan 16 2025 at 00:59, linux@treblig.org wrote:
+> Replace brcmstb_l2_mask_and_ack() by the generic
+> irq_gc_mask_disable_and_ack_set().
+>
+> brcmstb_l2_mask_and_ack() was added in commit 49aa6ef0b439
+> ("irqchip/brcmstb-l2: Remove some processing from the handler") in
+> September 2017 with a comment saying it was actually generic and someone
+> should add it to the generic code.
+>
+> commit 20608924cc2e ("genirq: generic chip: Add
+> irq_gc_mask_disable_and_ack_set()") did that a few weeks later, however no
+> one went back and took the brcmstb variant out.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+That's too late. The original patch is already applied and I'm not going
+to redo the whole branch for this minor hickup. I've converted it to a
+delta fix.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] x86/fred: Optimize the FRED entry by prioritizing high-probability event dispatching
-Link: https://lore.kernel.org/stable/20250116065145.2747960-1-haifeng.zhao%40linux.intel.com
+You cannot add my Signed-off-by to a new submission.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
 
-
-
+        tglx
