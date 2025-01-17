@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C565278F38
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 04:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB0A25A626
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 05:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737089451; cv=none; b=oiFzzALylD0XJNUbgnigtYH4LmR2xBZF3lFFqvlPUYvd3ztPkFJQO5NExY0vNFrfGiZJJtNRvuGirhmeLLtRrpAOiKqrQDqPRRPkKfBK+6YD1C3HsTNpAKkZOkLVxEFJ9OKo1hpPkvheJrqRNxPNiuI+hL0hXO640mkLSsudx2c=
+	t=1737091915; cv=none; b=SMxNmqMH7PIgc+PQe1TqB9qIlqmzQSA/Ggjkl60PpUnOQW6CHANHFcXPSDjLTBMydV6OI2spxhs27w6a7kEm7CdW/Zn8dnZuYLUVgEx4sQ4+lV6VuCPopfKyknrJxqWqBrUtoUS4KmmVpRUJKwbbb17GA+eOMYRTT9TFs9f/FO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737089451; c=relaxed/simple;
-	bh=Fvh3WDBnY6UCmjokkpJR14akqAI9CO6TH5jU4q1uk+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZVXqKtrm2904rr2P0yucKXc4+iV1sPCjaQ9WW6sYJorJk4iSOq7CVbLW/gb+45ejgq1XUgE4oXst4X8qnTJxWg0ezkiHBzz2Z645VDi9SwTC6/43nUaJ2q0MRrwuZSiAMXwkYQcfxpcOe9leK8YNxeDAAxGIUvmmxe+et+KAGfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dATs46Wr; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1737091915; c=relaxed/simple;
+	bh=3aHuRSeAQMA/XCNKVnQmLjn5xWamNMKNkzKwZPhqwZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Cb5gAyubU7YffuvH0GKQG0AO8iWZuPngwQzxzA2V+/lhTQYtZnhGPaafNyv4fhBhzPEQD8vgNkOzPOafaj7Xh7x1FOeeChomloJIz85ei1fNzi/DL6j2Pd5oYs8aZDfEOT/pdob5sTsE89/g6tiAw/F94eiYOYy12xJBUVJoxGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6LtuElb; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dATs46Wr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6LtuElb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737089450; x=1768625450;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fvh3WDBnY6UCmjokkpJR14akqAI9CO6TH5jU4q1uk+0=;
-  b=dATs46Wr2PBoQS6kyKdOnhbukHQqkrQNXg5QoFR1GLiufbAH35We2HMp
-   BlYqvtZw7//BKadVytjbfQNxhMP38pvEsyYwlQfZXSmhZwXHmlQ2/d/ZL
-   CNZ/o2IHMv1d8J+wN/XaFlWD/J/ML6EuJKQOAlt0KIk6WoOqcvlsIpXZ8
-   5+VCp7EPVZqp6t4KgGUPdNU7s2uljJZ0hKDif5qSwl+sGCorOujCVNoBF
-   WczlsT6xqAi6k4uzbe5dCjsLNgJfkWpiJO746jMX/cJAOH0wTjbBbAFjS
-   hkyAgI7PuA7tPWzpYT/9FEiLilIYTx8hLWHhZLUOObcbMaxyx+i5g2FFs
-   A==;
-X-CSE-ConnectionGUID: AO2Pn5yDTrCVAJXidvrJ6A==
-X-CSE-MsgGUID: HavZNrriQreDTOsxs7nzng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="41187882"
+  t=1737091913; x=1768627913;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3aHuRSeAQMA/XCNKVnQmLjn5xWamNMKNkzKwZPhqwZQ=;
+  b=f6LtuElb9MazZlXS6BbIC8rAbZwCp24G3v+hwy1P52r51Z4iNTC70OMP
+   EiXVkOJlbgrEGTwLPIjcA/7D2UqPYqhns/t54tBg3zbkUAZkoJLOqZlM2
+   X1N/zhXRe9g8MSrfFjHf0f34G/5xps5gJWBaQni1l0KsuGJHjkLzS9ltE
+   10A2rgGZ3I17VJ+Q3x7o53u0clmKZlTYKJ7rT06E/0HuD4F5+UZ9dtGzd
+   /PHyLTasEFdfZ7ydQdxxQKQOqDRdexov0zyqE8+nG9uvqFJilQfGsMe3V
+   uUmmbyR8rSkl7y2+4e7mAx4ccd32hAcULMTho/rpc12irMhuDC/acfkSs
+   g==;
+X-CSE-ConnectionGUID: LYcX07UCQr+WDEKAHSbK9w==
+X-CSE-MsgGUID: e9xhLtosRpq3WJrhAs6Mcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="40322983"
 X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="41187882"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 20:50:49 -0800
-X-CSE-ConnectionGUID: WvNriTUQTRCEq3Eq+lwzyQ==
-X-CSE-MsgGUID: 4EFHZX5WSHC8Y1pJbfp8Gg==
+   d="scan'208";a="40322983"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 21:31:53 -0800
+X-CSE-ConnectionGUID: AedmW9y5Qe6WKDgsuP/Iaw==
+X-CSE-MsgGUID: lrhMVfsaR2KI2gn1TShkWg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="105660377"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110818135"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Jan 2025 20:50:46 -0800
+  by orviesa005.jf.intel.com with ESMTP; 16 Jan 2025 21:31:51 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYeJg-000SlP-2N;
-	Fri, 17 Jan 2025 04:50:44 +0000
-Date: Fri, 17 Jan 2025 12:49:50 +0800
+	id 1tYexR-000SoF-29;
+	Fri, 17 Jan 2025 05:31:49 +0000
+Date: Fri, 17 Jan 2025 13:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wupeng Ma <mawupeng1@huawei.com>, akpm@linux-foundation.org,
-	david@redhat.com, osalvador@suse.de, nao.horiguchi@gmail.com,
-	linmiaohe@huawei.com, mhocko@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, mawupeng1@huawei.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] mm: memory-failure: update ttu flag inside
- unmap_poisoned_folio
-Message-ID: <202501171215.KLa8VDaS-lkp@intel.com>
-References: <20250116061657.227027-2-mawupeng1@huawei.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:sframe 27/36] include/linux/entry-common.h:366:9: error:
+ implicit declaration of function 'unwind_exit_to_user_mode'; did you mean
+ 'arch_exit_to_user_mode'?
+Message-ID: <202501171325.sGMekuaZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,66 +62,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250116061657.227027-2-mawupeng1@huawei.com>
 
-Hi Wupeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wupeng-Ma/mm-memory-failure-update-ttu-flag-inside-unmap_poisoned_folio/20250116-142614
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250116061657.227027-2-mawupeng1%40huawei.com
-patch subject: [PATCH v2 1/3] mm: memory-failure: update ttu flag inside unmap_poisoned_folio
-config: x86_64-buildonly-randconfig-002-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171215.KLa8VDaS-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
+head:   dc92bc7c1009e5d80cd83d21ead7228bc6887c23
+commit: 0b9c279e2f1ea50bbb9d78c3a3744e2d4df4a441 [27/36] unwind: Add deferred userspace unwinding API
+config: i386-buildonly-randconfig-004-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171325.sGMekuaZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171215.KLa8VDaS-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171325.sGMekuaZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501171215.KLa8VDaS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501171325.sGMekuaZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from mm/memory_hotplug.c:41:
-   mm/internal.h:1142:1: error: expected identifier or '(' before '{' token
-    1142 | {
-         | ^
->> mm/internal.h:1141:19: warning: 'unmap_poisoned_folio' used but never defined
-    1141 | static inline int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, bool must_kill);
-         |                   ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/entry-common.h:15,
+                    from arch/x86/include/asm/idtentry.h:11,
+                    from arch/x86/include/asm/traps.h:9,
+                    from arch/x86/kernel/traps.c:53:
+>> include/linux/unwind_deferred.h:49:6: warning: no previous prototype for 'unwind_deferred_cancel' [-Wmissing-prototypes]
+      49 | bool unwind_deferred_cancel(struct task_struct *task, struct unwind_work *work) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/entry-common.h: In function 'exit_to_user_mode':
+>> include/linux/entry-common.h:366:9: error: implicit declaration of function 'unwind_exit_to_user_mode'; did you mean 'arch_exit_to_user_mode'? [-Werror=implicit-function-declaration]
+     366 |         unwind_exit_to_user_mode();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         arch_exit_to_user_mode
+   cc1: some warnings being treated as errors
 
 
-vim +/unmap_poisoned_folio +1141 mm/internal.h
+vim +366 include/linux/entry-common.h
 
-  1121	
-  1122	extern u32 hwpoison_filter_dev_major;
-  1123	extern u32 hwpoison_filter_dev_minor;
-  1124	extern u64 hwpoison_filter_flags_mask;
-  1125	extern u64 hwpoison_filter_flags_value;
-  1126	extern u64 hwpoison_filter_memcg;
-  1127	extern u32 hwpoison_filter_enable;
-  1128	#define MAGIC_HWPOISON	0x48575053U	/* HWPS */
-  1129	void SetPageHWPoisonTakenOff(struct page *page);
-  1130	void ClearPageHWPoisonTakenOff(struct page *page);
-  1131	bool take_page_off_buddy(struct page *page);
-  1132	bool put_page_back_buddy(struct page *page);
-  1133	struct task_struct *task_early_kill(struct task_struct *tsk, int force_early);
-  1134	void add_to_kill_ksm(struct task_struct *tsk, const struct page *p,
-  1135			     struct vm_area_struct *vma, struct list_head *to_kill,
-  1136			     unsigned long ksm_addr);
-  1137	unsigned long page_mapped_in_vma(const struct page *page,
-  1138			struct vm_area_struct *vma);
-  1139	
-  1140	#else
-> 1141	static inline int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, bool must_kill);
-  1142	{
-  1143		return -EBUSY;
-  1144	}
-  1145	#endif
-  1146	
+   340	
+   341	/**
+   342	 * exit_to_user_mode - Fixup state when exiting to user mode
+   343	 *
+   344	 * Syscall/interrupt exit enables interrupts, but the kernel state is
+   345	 * interrupts disabled when this is invoked. Also tell RCU about it.
+   346	 *
+   347	 * 1) Trace interrupts on state
+   348	 * 2) Invoke context tracking if enabled to adjust RCU state
+   349	 * 3) Invoke architecture specific last minute exit code, e.g. speculation
+   350	 *    mitigations, etc.: arch_exit_to_user_mode()
+   351	 * 4) Tell lockdep that interrupts are enabled
+   352	 *
+   353	 * Invoked from architecture specific code when syscall_exit_to_user_mode()
+   354	 * is not suitable as the last step before returning to userspace. Must be
+   355	 * invoked with interrupts disabled and the caller must be
+   356	 * non-instrumentable.
+   357	 * The caller has to invoke syscall_exit_to_user_mode_work() before this.
+   358	 */
+   359	static __always_inline void exit_to_user_mode(void)
+   360	{
+   361		instrumentation_begin();
+   362		trace_hardirqs_on_prepare();
+   363		lockdep_hardirqs_on_prepare();
+   364		instrumentation_end();
+   365	
+ > 366		unwind_exit_to_user_mode();
+   367		user_enter_irqoff();
+   368		arch_exit_to_user_mode();
+   369		lockdep_hardirqs_on(CALLER_ADDR0);
+   370	}
+   371	
 
 -- 
 0-DAY CI Kernel Test Service
