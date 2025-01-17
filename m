@@ -1,156 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1887915B984
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 15:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4B714830C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 15:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737128585; cv=none; b=YXZZIRD6CkSTu4J/e/4GkTXQSD440Ii3zbxD+6tJ92rqObaIRFbcaRi/+K7gNxtMvLR2ngvWKhusq8PvnhXjsIOGMgIGEdhNUjCPl0VVfxFatFvN1pzfiHQNyQCYiFSON6r6uq7KLjGZWDAj/0w5HE8AKJYt7YuyflnBQ7eosLk=
+	t=1737128771; cv=none; b=LJ6E0O94V8CKunejqlqj5OtARjvKmsSFJzYIUDbyuy/R1524OtF3p8BEsQIgwIIbs4n/Zxfjy3YE1w0wei1hhVlJ2vmALy0oZS3Bidd9dpcLCw5dalgmEwtDXt8h3B5qdgEEI+N6X8gTCINC6edaOUGXFiXHUg2ksAU6HF9eYdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737128585; c=relaxed/simple;
-	bh=16FO5eoD288qhs6HYei6RkA4gDxzMJLMzXdhmm+VMcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KrwIjnClZ+XBAvU6girv8fLuZiFEykgzMhozzkR8to9Ey3e1YlNeaamrfjBersY6CHNNFa5upGdwi/A3tHyFX18nVaEUOq/S46eenBWxF8u4GUSzPchte/gK6WlLnXIBE8boviv0iqk2hBbh/k4z2gTtwHmzc88d4SoG2MPWGx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIUBmaMa; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737128771; c=relaxed/simple;
+	bh=YZkmvvsyrZR/u00rbPGWdwgCLQCF+tb7pj8Rw7J+ZAQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gDQ/xvCTGqYIR4zud4iMYXZuT/3EjJxG0pAKHBrWYzDqrLrsFXDHsagKi2sOptzUIRjHDmWXR1OYjHR0SP+jm76dCirjUeaArmwJGDSol1CAZG/qVhAuiO2HRxb8g58UyJRfI0pnbljEG6kk5cWBGoXmmxOS7Io0IFg0BMqIAqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Lsgx64qm; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIUBmaMa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737128583; x=1768664583;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=16FO5eoD288qhs6HYei6RkA4gDxzMJLMzXdhmm+VMcs=;
-  b=RIUBmaMaHor81zMwwJWwyh8LgjG5Kmrt4ttTmhxK/5CIe2yaCE0igsKM
-   w19NCJVHWuTYUQiC+wJ4NLq8w9am36StoZrR8O4IMIaiA18i++h2YbJJZ
-   xRyq4TOBBklTmufq1+ZE98ttnzfRTBufJdKzoN6UxyALhxcL6VDmX2cQW
-   UlQbwQtn9L1kWMlxa1Jy+osKYBikJdK/pQWD5c4Ry3XEaFBR63OrVEk5z
-   8fQCWOcjO9+iXk+M9doOmHDn7lIbvRH/zhdUzqp1MJpL4ABxEj1WXXmGW
-   xffBoQ+8AlCgTbAKThzxJ6rDnvVlLzdNxrH4vyM/3B71bWqJlcClniU9i
-   w==;
-X-CSE-ConnectionGUID: UaMdsTOGTAiShZQpO4ELeQ==
-X-CSE-MsgGUID: 6E/ICmUlRCOfBF6MqmGYcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37444995"
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
-   d="scan'208";a="37444995"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 07:43:03 -0800
-X-CSE-ConnectionGUID: O/+aIf2pSta1kQ82Xa+ynQ==
-X-CSE-MsgGUID: fxpTd7QrSA+qpdykVXZp6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106294804"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Jan 2025 07:43:00 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tYoUs-000TPr-1C;
-	Fri, 17 Jan 2025 15:42:58 +0000
-Date: Fri, 17 Jan 2025 23:42:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>, Takashi Iwai <tiwai@suse.de>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>
-Subject: include/asm-generic/io.h:596:15: error: call to '_outb' declared
- with attribute error: outb() requires CONFIG_HAS_IOPORT
-Message-ID: <202501172323.oAy8qQdF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Lsgx64qm"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H8600r001111;
+	Fri, 17 Jan 2025 15:45:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=A7Ty/9NQyE3CfKlPT2iaAh4gNzSw5K
+	mkJP28VJu35dQ=; b=Lsgx64qmAA+JVg2PGUe4GeXSdj6YT1PZUtmyM5ZQtN81W4
+	3UlY5SLrBiForFkCUS3+zBzzlAxYfWYEzWjZ+0UIz71rAe3A5PLeHg0e2c+DHRFD
+	1B6u3LcxOsSQdoQ1mC+CHboF4DMoJiMCz00j4PXxFLruAdF0KUXKq3hHMi03Vw1D
+	IerBEiILFMuUhjpFvK5O3SN/WuolGFoUAUOlypQhxBQJ4QTwEqGjlTlMQyGQNdGm
+	TKUHnApyEVv7GNOUHLJqXhSnXAHYO0i29/1EFOrVj3MXweRSm+7EMOdAZjjSy4zk
+	e1v7jgj2AI4EaJdOdMhJ6guVWs9hUZ01F9Vw5zVQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 447kd3j0xq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 Jan 2025 15:45:59 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50HFjwAO031312;
+	Fri, 17 Jan 2025 15:45:58 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 447kd3j0xn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 Jan 2025 15:45:58 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50HDrCGa004540;
+	Fri, 17 Jan 2025 15:45:57 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4442yt3qbd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 Jan 2025 15:45:57 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50HFjsJm56885592
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 17 Jan 2025 15:45:54 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4017720040;
+	Fri, 17 Jan 2025 15:45:54 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 93C082004D;
+	Fri, 17 Jan 2025 15:45:50 +0000 (GMT)
+Received: from vaibhav?linux.ibm.com (unknown [9.124.213.54])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with SMTP;
+	Fri, 17 Jan 2025 15:45:50 +0000 (GMT)
+Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Fri, 17 Jan 2025 21:15:49 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: kernel test robot <lkp@intel.com>, linuxppc-dev@lists.ozlabs.org,
+        kvm@vger.kernel.org, kvm-ppc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Madhavan Srinivasan
+ <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas
+ Piggin <npiggin@gmail.com>,
+        Vaidyanathan Srinivasan
+ <svaidy@linux.vnet.ibm.com>,
+        sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
+        amachhiw@linux.ibm.com
+Subject: Re: [PATCH v2 4/6] kvm powerpc/book3s-apiv2: Introduce kvm-hv
+ specific PMU
+In-Reply-To: <202501171030.3x0gqW8G-lkp@intel.com>
+References: <20250115143948.369379-5-vaibhav@linux.ibm.com>
+ <202501171030.3x0gqW8G-lkp@intel.com>
+Date: Fri, 17 Jan 2025 21:15:49 +0530
+Message-ID: <87zfjpfnpu.fsf@vajain21.in.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9bffa1ad25b8b3b95d8f463e5c24dabe3c87d54d
-commit: 6f043e75744596968b6547c4bd43e4d30bbb6d6e asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
-date:   3 months ago
-config: m68k-randconfig-r063-20250117 (https://download.01.org/0day-ci/archive/20250117/202501172323.oAy8qQdF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501172323.oAy8qQdF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501172323.oAy8qQdF-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/net/ethernet/8390/mcf8390.c:59:6: warning: no previous prototype for 'ei_outb' [-Wmissing-prototypes]
-      59 | void ei_outb(u32 val, u32 addr)
-         |      ^~~~~~~
-   drivers/net/ethernet/8390/mcf8390.c:67:17: warning: no previous prototype for 'ei_inb' [-Wmissing-prototypes]
-      67 | #define ei_inb  ei_inb
-         |                 ^~~~~~
-   drivers/net/ethernet/8390/mcf8390.c:68:4: note: in expansion of macro 'ei_inb'
-      68 | u8 ei_inb(u32 addr)
-         |    ^~~~~~
-   drivers/net/ethernet/8390/mcf8390.c:77:6: warning: no previous prototype for 'ei_insb' [-Wmissing-prototypes]
-      77 | void ei_insb(u32 addr, void *vbuf, int len)
-         |      ^~~~~~~
-   drivers/net/ethernet/8390/mcf8390.c:90:6: warning: no previous prototype for 'ei_insw' [-Wmissing-prototypes]
-      90 | void ei_insw(u32 addr, void *vbuf, int len)
-         |      ^~~~~~~
-   drivers/net/ethernet/8390/mcf8390.c:103:6: warning: no previous prototype for 'ei_outsb' [-Wmissing-prototypes]
-     103 | void ei_outsb(u32 addr, const void *vbuf, int len)
-         |      ^~~~~~~~
-   drivers/net/ethernet/8390/mcf8390.c:116:6: warning: no previous prototype for 'ei_outsw' [-Wmissing-prototypes]
-     116 | void ei_outsw(u32 addr, const void *vbuf, int len)
-         |      ^~~~~~~~
-   In file included from arch/m68k/include/asm/io.h:14,
-                    from arch/m68k/include/asm/pgtable_no.h:14,
-                    from arch/m68k/include/asm/pgtable.h:8,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from arch/m68k/include/asm/cacheflush_no.h:8,
-                    from arch/m68k/include/asm/cacheflush.h:3,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from drivers/net/ethernet/8390/mcf8390.c:15:
-   drivers/net/ethernet/8390/mcf8390.c: In function 'mcf8390_get_8390_hdr':
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-     596 | #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-     655 | #define outb _outb
-         |              ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:211:9: note: in expansion of macro 'outb'
-     211 |         outb(ENISR_RDC, addr + NE_EN0_ISR);     /* Ack intr */
-         |         ^~~~
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _iqpKkcXATZ7EQwhnF6QjJJQQHuLyUaA
+X-Proofpoint-GUID: ntbkbz3ndUoZhF4YF4PHpDcoQgNI3bXQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ spamscore=0 impostorscore=0 clxscore=1011 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501170122
 
 
-vim +/_outb +596 include/asm-generic/io.h
+Thanks for catching this build warning kernel-test-robot. I will
+spin-off a v3 fixing this.
 
-9216efafc52ff99 Thierry Reding  2014-10-01  594  
-f009c89df79abea John Garry      2020-03-28  595  #if !defined(outb) && !defined(_outb)
-f009c89df79abea John Garry      2020-03-28 @596  #define _outb _outb
-6f043e757445969 Niklas Schnelle 2024-10-24  597  #ifdef CONFIG_HAS_IOPORT
-f009c89df79abea John Garry      2020-03-28  598  static inline void _outb(u8 value, unsigned long addr)
-9216efafc52ff99 Thierry Reding  2014-10-01  599  {
-a7851aa54c0cdd2 Sinan Kaya      2018-04-05  600  	__io_pbw();
-a7851aa54c0cdd2 Sinan Kaya      2018-04-05  601  	__raw_writeb(value, PCI_IOBASE + addr);
-a7851aa54c0cdd2 Sinan Kaya      2018-04-05  602  	__io_paw();
-9216efafc52ff99 Thierry Reding  2014-10-01  603  }
-6f043e757445969 Niklas Schnelle 2024-10-24  604  #else
-6f043e757445969 Niklas Schnelle 2024-10-24  605  void _outb(u8 value, unsigned long addr)
-6f043e757445969 Niklas Schnelle 2024-10-24  606  	__compiletime_error("outb() requires CONFIG_HAS_IOPORT");
-6f043e757445969 Niklas Schnelle 2024-10-24  607  #endif
-9216efafc52ff99 Thierry Reding  2014-10-01  608  #endif
-9216efafc52ff99 Thierry Reding  2014-10-01  609  
+kernel test robot <lkp@intel.com> writes:
 
-:::::: The code at line 596 was first introduced by commit
-:::::: f009c89df79abea5f5244b8135a205f7d4352f86 io: Provide _inX() and _outX()
-
-:::::: TO: John Garry <john.garry@huawei.com>
-:::::: CC: Wei Xu <xuwei5@hisilicon.com>
+> Hi Vaibhav,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on powerpc/topic/ppc-kvm]
+> [also build test WARNING on powerpc/next powerpc/fixes kvm/queue kvm/next mst-vhost/linux-next linus/master v6.13-rc7 next-20250116]
+> [cannot apply to kvm/linux-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Vaibhav-Jain/powerpc-Document-APIv2-KVM-hcall-spec-for-Hostwide-counters/20250116-024240
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
+> patch link:    https://lore.kernel.org/r/20250115143948.369379-5-vaibhav%40linux.ibm.com
+> patch subject: [PATCH v2 4/6] kvm powerpc/book3s-apiv2: Introduce kvm-hv specific PMU
+> config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20250117/202501171030.3x0gqW8G-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171030.3x0gqW8G-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501171030.3x0gqW8G-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from arch/powerpc/include/asm/kvm_ppc.h:22,
+>                     from arch/powerpc/include/asm/dbell.h:17,
+>                     from arch/powerpc/kernel/asm-offsets.c:36:
+>>> arch/powerpc/include/asm/kvm_book3s.h:357:13: warning: 'kvmppc_unregister_pmu' defined but not used [-Wunused-function]
+>      357 | static void kvmppc_unregister_pmu(void)
+>          |             ^~~~~~~~~~~~~~~~~~~~~
+>>> arch/powerpc/include/asm/kvm_book3s.h:352:12: warning: 'kvmppc_register_pmu' defined but not used [-Wunused-function]
+>      352 | static int kvmppc_register_pmu(void)
+>          |            ^~~~~~~~~~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/kvm_ppc.h:22,
+>                     from arch/powerpc/include/asm/dbell.h:17,
+>                     from arch/powerpc/kernel/asm-offsets.c:36:
+>>> arch/powerpc/include/asm/kvm_book3s.h:357:13: warning: 'kvmppc_unregister_pmu' defined but not used [-Wunused-function]
+>      357 | static void kvmppc_unregister_pmu(void)
+>          |             ^~~~~~~~~~~~~~~~~~~~~
+>>> arch/powerpc/include/asm/kvm_book3s.h:352:12: warning: 'kvmppc_register_pmu' defined but not used [-Wunused-function]
+>      352 | static int kvmppc_register_pmu(void)
+>          |            ^~~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/kvmppc_unregister_pmu +357 arch/powerpc/include/asm/kvm_book3s.h
+>
+>    351	
+>  > 352	static int kvmppc_register_pmu(void)
+>    353	{
+>    354		return 0;
+>    355	}
+>    356	
+>  > 357	static void kvmppc_unregister_pmu(void)
+>    358	{
+>    359	}
+>    360	
+>
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers
+~ Vaibhav
