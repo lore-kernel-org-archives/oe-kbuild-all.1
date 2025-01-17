@@ -1,66 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50BA1D5ACD;
-	Fri, 17 Jan 2025 23:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5449E13B2A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 23:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737155272; cv=none; b=UsQ+zcJfeGkToD+KcaCztqAlQBnpCpSK5OKpuXmzLnr/Yrj0mGtS303DL6GiJ9ILzXIYt8zSoo93D9ZCumuIbT66y2wUxCSh0OwnFv4DCyGz4wE+dZ4PmCEYAEns691dOO5sYRyxLd87blSeLCpEp6PBgMWqG6i4DY0vPychp/c=
+	t=1737155871; cv=none; b=dWTc2WPFTkghJPhPbTaclgJzCe/O9jO5ppCjNoxIR/zm/QtxJfkHuVOIr2F/1+dCOEcKYZX3kvw12a6bsJKAZMEGu2GCv1jA6VGJJErQnP+rShtnNWujCvYoQ9QeMzWKZ8v1eKkIGUr/YJnoBwK8cbcsKUul2D7dWwN6SOnKO8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737155272; c=relaxed/simple;
-	bh=ZSC1mkGXnt6s6z6IiVGuAN4/We6rPMRT7Oe1ciDb+hk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=As5UbQdIPLZ7yS5c9DQn/bjUn5qkxkyq8ZPzYlJo+Rz9ONiHsSejTYeBNhhOnkRC0MxzFXQztphbcR6gS5sbg9+cbW8QBeeCoLEBg5MpfuQpFM5XdSg2QI8pLKhDY8jPeaGs9xEFWDdSmM1gPPgjFhFk0bZPnvlnV/uda0sySOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vi/eBf+z; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1737155871; c=relaxed/simple;
+	bh=Emo9gCD05l0LTy7VpzGtj+YnGZZAMnrsdwPP95lFshU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZTE9mWbXVVt35kHvX8Q4E43SNxGPFdagSICLc9xRY4QyB6o0pjLFmjSHhCBGRhUiV4ALiIWavCTlelU96yXPtKomNkGEQp/k2vyGVofxYb/4QvB7WNCb2bmqt1iuaLmTNGOqye/Vi7OywGfbjc+ZGu4y2I5Q0LWF57WxxDtZZjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsv71+yT; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vi/eBf+z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsv71+yT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737155271; x=1768691271;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZSC1mkGXnt6s6z6IiVGuAN4/We6rPMRT7Oe1ciDb+hk=;
-  b=Vi/eBf+z+N675Y2r8yxroohF8TJlrSIKULi3+le+0Nk7bk03lPNy8MH2
-   hJcbEZ0dsb4vwOiX+FaCdzvZbpL+UyDnK2R2SBq3dB8olzPgtM7V0Jwq0
-   weyPucA2Xgfb9ObKK4G2B/9UAGG6UPmclIwY/8Qgai11ng1CJQBYQG2lQ
-   Tj1b2J5txQqfPIZJf/gnUg4E8X1VuWh3OMoyfX8vYXIdtXYx98qIReLhS
-   G6AyVzWp9Fr+75JN0GVAOuHvbTs1HhHVhlcAOZGmO7AghX/wsPyLTjpYX
-   Nrviw9RMowbqz/3Q9m8r/27VXPC8PaSPxqSQeFNLSklmp2Xa46JTtkYqY
-   Q==;
-X-CSE-ConnectionGUID: vYhtepBuThyo6jm0aew9Xg==
-X-CSE-MsgGUID: Wiq880B1Qvi5Vkh9FrpFIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37296344"
+  t=1737155870; x=1768691870;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Emo9gCD05l0LTy7VpzGtj+YnGZZAMnrsdwPP95lFshU=;
+  b=hsv71+yTBFQOYIvWuv5bKmLnc4xf9Y5FfsgyPZUU9ByDCuCP72fozj+s
+   WTAubWq+Ylr3jirgFBPg6FkAMlc+vydiOrhaKdxxvJzZPeiBdggGBirN6
+   baeKHtaFCk8NwblU74WEadploSRQvsHltWVXVQgUaLSUHKcO/z6ik5B7O
+   S8gK9OMQfCfU3LOeHECPlORW4lSEBtWgBXQymnCLeXBnaLEVcWPpfQW0Z
+   1WNq23nVqcruuTgylQXcWBASCOa6QuU/xj/pX3t1/mpDQxAs60jHht59V
+   fbDSOqoQRDFsSM9ejMrk7iYXYWGmWsNxG2P5wfLjFBSVDaeFjLT4JIRA3
+   A==;
+X-CSE-ConnectionGUID: rWYL/EhxTHmyNQECBmx83Q==
+X-CSE-MsgGUID: Va01HRI6TYq2bghH2SXgLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37296946"
 X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
-   d="scan'208";a="37296344"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 15:07:51 -0800
-X-CSE-ConnectionGUID: PkYA1xqxRfOWyuB+92QB6g==
-X-CSE-MsgGUID: 3Xr87cIPRbuQ+GtNfl7iTg==
+   d="scan'208";a="37296946"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 15:17:49 -0800
+X-CSE-ConnectionGUID: kDmC99fhSieEuHius7pFJQ==
+X-CSE-MsgGUID: cvR0DU7rQ1i5C1jpZ73/MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
-   d="scan'208";a="105966793"
+   d="scan'208";a="106490142"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Jan 2025 15:07:47 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jan 2025 15:17:47 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYvRI-000ToF-1Q;
-	Fri, 17 Jan 2025 23:07:44 +0000
-Date: Sat, 18 Jan 2025 07:07:16 +0800
+	id 1tYvaz-000Toh-2J;
+	Fri, 17 Jan 2025 23:17:45 +0000
+Date: Sat, 18 Jan 2025 07:17:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leo Yang <leo.yang.sy0@gmail.com>, jdelvare@suse.com,
-	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net,
-	Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Leo Yang <leo.yang.sy0@gmail.com>
-Subject: Re: [PATCH v3 2/2] hwmon: Add driver for TI INA233 Current and Power
- Monitor
-Message-ID: <202501180656.96daAp3W-lkp@intel.com>
-References: <20250115015519.950795-3-leo.yang.sy0@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1] mm/vmscan.c:4621:5:
+ warning: no previous prototype for 'print_node_mglru'
+Message-ID: <202501180721.CIMoSk0Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,198 +61,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115015519.950795-3-leo.yang.sy0@gmail.com>
 
-Hi Leo,
+Hi Bryan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.13-rc7 next-20250117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Yang/dt-bindings-hwmon-ti-ina2xx-Add-INA233-device/20250115-095801
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250115015519.950795-3-leo.yang.sy0%40gmail.com
-patch subject: [PATCH v3 2/2] hwmon: Add driver for TI INA233 Current and Power Monitor
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250118/202501180656.96daAp3W-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180656.96daAp3W-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   354b0c4c1ebb89a4198fdec59a447bc102320bac
+commit: 2038834ed810ff10b875445a030663d659c69500 [1/1] CHROMIUM: Reland of add implementation of MGLRU in sysfs
+config: arm64-randconfig-002-20250116 (https://download.01.org/0day-ci/archive/20250118/202501180721.CIMoSk0Y-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180721.CIMoSk0Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501180656.96daAp3W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501180721.CIMoSk0Y-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/hwmon/pmbus/ina233.c:9:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hwmon/pmbus/ina233.c:147:10: warning: format specifies type 'unsigned long' but the argument has type 'u32' (aka 'unsigned int') [-Wformat]
-     146 |                                      "The product of Current_LSB %lu and shunt resistor %lu exceed MFR_CALIBRATION register limit.\n",
-         |                                                                  ~~~
-         |                                                                  %u
-     147 |                                      current_lsb, rshunt);
-         |                                      ^~~~~~~~~~~
-   drivers/hwmon/pmbus/ina233.c:147:23: warning: format specifies type 'unsigned long' but the argument has type 'u32' (aka 'unsigned int') [-Wformat]
-     146 |                                      "The product of Current_LSB %lu and shunt resistor %lu exceed MFR_CALIBRATION register limit.\n",
-         |                                                                                         ~~~
-         |                                                                                         %u
-     147 |                                      current_lsb, rshunt);
-         |                                                   ^~~~~~
-   drivers/hwmon/pmbus/ina233.c:153:17: warning: format specifies type 'unsigned long' but the argument has type 'u32' (aka 'unsigned int') [-Wformat]
-     152 |         dev_dbg(dev, "power monitor %s (Rshunt = %lu uOhm, Current_LSB = %lu uA/bit)\n",
-         |                                                  ~~~
-         |                                                  %u
-     153 |                 client->name, rshunt, current_lsb);
-         |                               ^~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   drivers/hwmon/pmbus/ina233.c:153:25: warning: format specifies type 'unsigned long' but the argument has type 'u32' (aka 'unsigned int') [-Wformat]
-     152 |         dev_dbg(dev, "power monitor %s (Rshunt = %lu uOhm, Current_LSB = %lu uA/bit)\n",
-         |                                                                          ~~~
-         |                                                                          %u
-     153 |                 client->name, rshunt, current_lsb);
-         |                                       ^~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   8 warnings generated.
+   mm/vmscan.c:678:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+     678 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
+>> mm/vmscan.c:4621:5: warning: no previous prototype for 'print_node_mglru' [-Wmissing-prototypes]
+    4621 | int print_node_mglru(struct lruvec *lruvec, char *buf, int orig_pos)
+         |     ^~~~~~~~~~~~~~~~
+   mm/vmscan.c: In function 'show_lru_gen_admin':
+   mm/vmscan.c:4691:62: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'void *' [-Wformat=]
+    4691 |                                                 "memcg %5hu %s\n", mem_cgroup_id(memcg), path);
+         |                                                             ~^                           ~~~~
+         |                                                              |                           |
+         |                                                              char *                      void *
+         |                                                             %p
+   mm/vmscan.c:4702:21: warning: assignment to 'char *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+    4702 |                 buf = PAGE_SIZE - 1;
+         |                     ^
 
 
-vim +147 drivers/hwmon/pmbus/ina233.c
+vim +/print_node_mglru +4621 mm/vmscan.c
 
-    81	
-    82	static int ina233_probe(struct i2c_client *client)
-    83	{
-    84		struct device *dev = &client->dev;
-    85		int ret, m, R;
-    86		u32 rshunt;
-    87		u32 current_lsb;
-    88		u16 calibration;
-    89		struct pmbus_driver_info *info;
-    90	
-    91		info = devm_kzalloc(dev, sizeof(struct pmbus_driver_info),
-    92				    GFP_KERNEL);
-    93		if (!info)
-    94			return -ENOMEM;
-    95	
-    96		info->pages = 1;
-    97		info->format[PSC_VOLTAGE_IN] = direct;
-    98		info->format[PSC_VOLTAGE_OUT] = direct;
-    99		info->format[PSC_CURRENT_OUT] = direct;
-   100		info->format[PSC_POWER] = direct;
-   101		info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_INPUT
-   102			| PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-   103			| PMBUS_HAVE_POUT
-   104			| PMBUS_HAVE_VMON | PMBUS_HAVE_STATUS_VMON;
-   105		info->m[PSC_VOLTAGE_IN] = 8;
-   106		info->R[PSC_VOLTAGE_IN] = 2;
-   107		info->m[PSC_VOLTAGE_OUT] = 8;
-   108		info->R[PSC_VOLTAGE_OUT] = 2;
-   109		info->read_word_data = ina233_read_word_data;
-   110	
-   111		/* If INA233 skips current/power, shunt-resistor and current-lsb aren't needed.	*/
-   112		/* read rshunt value (uOhm) */
-   113		ret = device_property_read_u32(dev, "shunt-resistor", &rshunt);
-   114		if (ret) {
-   115			if (ret != -EINVAL)
-   116				return dev_err_probe(dev, ret, "Shunt resistor property read fail.\n");
-   117			rshunt = INA233_RSHUNT_DEFAULT;
-   118		}
-   119	
-   120		/* read current_lsb value (uA) */
-   121		ret = device_property_read_u32(dev, "ti,current-lsb-microamp", &current_lsb);
-   122		if (ret) {
-   123			if (ret != -EINVAL)
-   124				return dev_err_probe(dev, ret, "Current_LSB property read fail.\n");
-   125			current_lsb = INA233_CURRENT_LSB_DEFAULT;
-   126		}
-   127	
-   128		if (!rshunt || !current_lsb)
-   129			return dev_err_probe(dev, -EINVAL,
-   130					     "Shunt resistor and Current_LSB cannot be zero.\n");
-   131	
-   132		/* calculate current coefficient */
-   133		calculate_coef(&m, &R, current_lsb, 1);
-   134		info->m[PSC_CURRENT_OUT] = m;
-   135		info->R[PSC_CURRENT_OUT] = R;
-   136	
-   137		/* calculate power coefficient */
-   138		calculate_coef(&m, &R, current_lsb, 25);
-   139		info->m[PSC_POWER] = m;
-   140		info->R[PSC_POWER] = R;
-   141	
-   142		/* write MFR_CALIBRATION register, Apply formula from spec with unit scaling. */
-   143		calibration = div64_u64(5120000000ULL, (u64)rshunt * current_lsb);
-   144		if (calibration > 0x7FFF)
-   145			return dev_err_probe(dev, -EINVAL,
-   146					     "The product of Current_LSB %lu and shunt resistor %lu exceed MFR_CALIBRATION register limit.\n",
- > 147					     current_lsb, rshunt);
-   148		ret = i2c_smbus_write_word_data(client, MFR_CALIBRATION, calibration);
-   149		if (ret < 0)
-   150			return dev_err_probe(dev, ret, "Unable to write calibration.\n");
-   151	
-   152		dev_dbg(dev, "power monitor %s (Rshunt = %lu uOhm, Current_LSB = %lu uA/bit)\n",
-   153			client->name, rshunt, current_lsb);
-   154	
-   155		return pmbus_do_probe(client, info);
-   156	}
-   157	
+  4620	
+> 4621	int print_node_mglru(struct lruvec *lruvec, char *buf, int orig_pos)
+  4622	{
+  4623		unsigned long seq;
+  4624		struct lrugen *lrugen = &lruvec->evictable;
+  4625	
+  4626		DEFINE_MAX_SEQ(lruvec);
+  4627		DEFINE_MIN_SEQ(lruvec);
+  4628	
+  4629		int print_pos = orig_pos;
+  4630	
+  4631		seq = min(min_seq[0], min_seq[1]);
+  4632	
+  4633		for (; seq <= max_seq; seq++) {
+  4634			int gen, type, zone;
+  4635			unsigned int msecs;
+  4636	
+  4637			gen = lru_gen_from_seq(seq);
+  4638			msecs = jiffies_to_msecs(jiffies - READ_ONCE(lrugen->timestamps[gen]));
+  4639	
+  4640			print_pos += snprintf(buf + print_pos, PAGE_SIZE - print_pos,
+  4641				" %10lu %10u", seq, msecs);
+  4642	
+  4643			for (type = 0; type < ANON_AND_FILE; type++) {
+  4644				long size = 0;
+  4645	
+  4646				if (seq < min_seq[type]) {
+  4647					print_pos += snprintf(buf + print_pos,
+  4648						PAGE_SIZE - print_pos, "         -0 ");
+  4649					continue;
+  4650				}
+  4651	
+  4652				for (zone = 0; zone < MAX_NR_ZONES; zone++)
+  4653					size += READ_ONCE(lrugen->sizes[gen][type][zone]);
+  4654	
+  4655				print_pos += snprintf(buf + print_pos,
+  4656					PAGE_SIZE - print_pos, " %10lu ", max(size, 0L));
+  4657			}
+  4658	
+  4659			print_pos += snprintf(buf + print_pos, PAGE_SIZE - print_pos, "\n");
+  4660	
+  4661		}
+  4662	
+  4663		return print_pos - orig_pos;
+  4664	}
+  4665	
 
 -- 
 0-DAY CI Kernel Test Service
