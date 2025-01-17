@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DAC71750;
-	Fri, 17 Jan 2025 15:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1887915B984
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 15:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737127864; cv=none; b=GSlggoF2gnYZDeVU04dd5gFVzbCYEiGJuZ/V4sTI1wxHvTqURpVB1e3i1w7XoCu4dHGAxxZUzc0vrBThxomkaefBkWUpKjpd2vgfbIm8ZzzWbbJGeJvJiBAiYDNcLRL2MHDsr1L9UWMttv4xvWKzi4DtH5+oUUHedhIN7Il6gJo=
+	t=1737128585; cv=none; b=YXZZIRD6CkSTu4J/e/4GkTXQSD440Ii3zbxD+6tJ92rqObaIRFbcaRi/+K7gNxtMvLR2ngvWKhusq8PvnhXjsIOGMgIGEdhNUjCPl0VVfxFatFvN1pzfiHQNyQCYiFSON6r6uq7KLjGZWDAj/0w5HE8AKJYt7YuyflnBQ7eosLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737127864; c=relaxed/simple;
-	bh=Ct2LBolJssi12orV1vqNr8g5NmfBpVvpwl8vuoKzVU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fv1cS8EL6Ewr0um8ONqzYpJgIHMuN7s0XdGnkVBzkbiR0J5Ej0pLhmUvq6Jpm32E64hbRRB5RnvCDTTP1rlONmwKjXXSgCyn1+fYaKHnAFhv0ZXPYmhu/tpoZfvDe+eMxKZfUiXEcPripQL/hUEmrTmcsAhbuhVWUH+EyKTcyeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgb9GYza; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1737128585; c=relaxed/simple;
+	bh=16FO5eoD288qhs6HYei6RkA4gDxzMJLMzXdhmm+VMcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KrwIjnClZ+XBAvU6girv8fLuZiFEykgzMhozzkR8to9Ey3e1YlNeaamrfjBersY6CHNNFa5upGdwi/A3tHyFX18nVaEUOq/S46eenBWxF8u4GUSzPchte/gK6WlLnXIBE8boviv0iqk2hBbh/k4z2gTtwHmzc88d4SoG2MPWGx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIUBmaMa; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgb9GYza"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIUBmaMa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737127862; x=1768663862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ct2LBolJssi12orV1vqNr8g5NmfBpVvpwl8vuoKzVU8=;
-  b=dgb9GYzatESFgYI9fNbO8knXHQtfSPerDUwqKzofZzkqIbK9R1fN5qBD
-   oCev0fa4q9AEW0ZazyvydMxyF78QsXPVWZKiVZxOTedg/gLfjIAOM2yth
-   R/PfHzSBIm0wou+afHc2RmQj5NAOM0qP0IlLfFopD4OC+6D9dBkknWqB5
-   pjO83+JIsdwRPw6olCi7cLOkL3QRszqIttvf0lOm5/290qncp2YHjT/mM
-   s3hHMRWcMU9BtkczlMjLBbG6+7C+JSMNc+CHElJqF7jUJ51ROAjhTZBK8
-   GlkcyJP1WNQspuvmy4W9nU85intD5Dj1p2xLTYsGeWPcLx4vwGEwmwTcr
-   Q==;
-X-CSE-ConnectionGUID: n9Xqj+1cSl200wJ0eGiIhA==
-X-CSE-MsgGUID: MV8yFoNYRNWNEAVLrEHINg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37584361"
+  t=1737128583; x=1768664583;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=16FO5eoD288qhs6HYei6RkA4gDxzMJLMzXdhmm+VMcs=;
+  b=RIUBmaMaHor81zMwwJWwyh8LgjG5Kmrt4ttTmhxK/5CIe2yaCE0igsKM
+   w19NCJVHWuTYUQiC+wJ4NLq8w9am36StoZrR8O4IMIaiA18i++h2YbJJZ
+   xRyq4TOBBklTmufq1+ZE98ttnzfRTBufJdKzoN6UxyALhxcL6VDmX2cQW
+   UlQbwQtn9L1kWMlxa1Jy+osKYBikJdK/pQWD5c4Ry3XEaFBR63OrVEk5z
+   8fQCWOcjO9+iXk+M9doOmHDn7lIbvRH/zhdUzqp1MJpL4ABxEj1WXXmGW
+   xffBoQ+8AlCgTbAKThzxJ6rDnvVlLzdNxrH4vyM/3B71bWqJlcClniU9i
+   w==;
+X-CSE-ConnectionGUID: UaMdsTOGTAiShZQpO4ELeQ==
+X-CSE-MsgGUID: 6E/ICmUlRCOfBF6MqmGYcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37444995"
 X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
-   d="scan'208";a="37584361"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 07:31:02 -0800
-X-CSE-ConnectionGUID: leJajOJ/RsS1s8BvVNvDSw==
-X-CSE-MsgGUID: WvXFisaaTFKfscJp/ddSng==
+   d="scan'208";a="37444995"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 07:43:03 -0800
+X-CSE-ConnectionGUID: O/+aIf2pSta1kQ82Xa+ynQ==
+X-CSE-MsgGUID: fxpTd7QrSA+qpdykVXZp6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110940513"
+   d="scan'208";a="106294804"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 17 Jan 2025 07:30:56 -0800
+  by orviesa007.jf.intel.com with ESMTP; 17 Jan 2025 07:43:00 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYoJE-000TP5-0d;
-	Fri, 17 Jan 2025 15:30:56 +0000
-Date: Fri, 17 Jan 2025 23:30:47 +0800
+	id 1tYoUs-000TPr-1C;
+	Fri, 17 Jan 2025 15:42:58 +0000
+Date: Fri, 17 Jan 2025 23:42:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>,
-	wei.fang@nxp.com, shenwei.wang@nxp.com, xiaoning.wang@nxp.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, imx@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
-Subject: Re: [PATCH net-next] net: fec: implement TSO descriptor cleanup
-Message-ID: <202501172328.IoOTB8n0-lkp@intel.com>
-References: <20250116130920.30984-1-dheeraj.linuxdev@gmail.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>, Takashi Iwai <tiwai@suse.de>,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>
+Subject: include/asm-generic/io.h:596:15: error: call to '_outb' declared
+ with attribute error: outb() requires CONFIG_HAS_IOPORT
+Message-ID: <202501172323.oAy8qQdF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,155 +64,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250116130920.30984-1-dheeraj.linuxdev@gmail.com>
 
-Hi Dheeraj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dheeraj-Reddy-Jonnalagadda/net-fec-implement-TSO-descriptor-cleanup/20250116-211046
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250116130920.30984-1-dheeraj.linuxdev%40gmail.com
-patch subject: [PATCH net-next] net: fec: implement TSO descriptor cleanup
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250117/202501172328.IoOTB8n0-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501172328.IoOTB8n0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9bffa1ad25b8b3b95d8f463e5c24dabe3c87d54d
+commit: 6f043e75744596968b6547c4bd43e4d30bbb6d6e asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
+date:   3 months ago
+config: m68k-randconfig-r063-20250117 (https://download.01.org/0day-ci/archive/20250117/202501172323.oAy8qQdF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501172323.oAy8qQdF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501172328.IoOTB8n0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501172323.oAy8qQdF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/freescale/fec_main.c:25:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/freescale/fec_main.c:917:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     917 |         struct bufdesc *tmp_bdp = txq->bd.cur;
-         |         ^
-   4 warnings generated.
+   drivers/net/ethernet/8390/mcf8390.c:59:6: warning: no previous prototype for 'ei_outb' [-Wmissing-prototypes]
+      59 | void ei_outb(u32 val, u32 addr)
+         |      ^~~~~~~
+   drivers/net/ethernet/8390/mcf8390.c:67:17: warning: no previous prototype for 'ei_inb' [-Wmissing-prototypes]
+      67 | #define ei_inb  ei_inb
+         |                 ^~~~~~
+   drivers/net/ethernet/8390/mcf8390.c:68:4: note: in expansion of macro 'ei_inb'
+      68 | u8 ei_inb(u32 addr)
+         |    ^~~~~~
+   drivers/net/ethernet/8390/mcf8390.c:77:6: warning: no previous prototype for 'ei_insb' [-Wmissing-prototypes]
+      77 | void ei_insb(u32 addr, void *vbuf, int len)
+         |      ^~~~~~~
+   drivers/net/ethernet/8390/mcf8390.c:90:6: warning: no previous prototype for 'ei_insw' [-Wmissing-prototypes]
+      90 | void ei_insw(u32 addr, void *vbuf, int len)
+         |      ^~~~~~~
+   drivers/net/ethernet/8390/mcf8390.c:103:6: warning: no previous prototype for 'ei_outsb' [-Wmissing-prototypes]
+     103 | void ei_outsb(u32 addr, const void *vbuf, int len)
+         |      ^~~~~~~~
+   drivers/net/ethernet/8390/mcf8390.c:116:6: warning: no previous prototype for 'ei_outsw' [-Wmissing-prototypes]
+     116 | void ei_outsw(u32 addr, const void *vbuf, int len)
+         |      ^~~~~~~~
+   In file included from arch/m68k/include/asm/io.h:14,
+                    from arch/m68k/include/asm/pgtable_no.h:14,
+                    from arch/m68k/include/asm/pgtable.h:8,
+                    from include/linux/pgtable.h:6,
+                    from include/linux/mm.h:30,
+                    from arch/m68k/include/asm/cacheflush_no.h:8,
+                    from arch/m68k/include/asm/cacheflush.h:3,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/ethernet/8390/mcf8390.c:15:
+   drivers/net/ethernet/8390/mcf8390.c: In function 'mcf8390_get_8390_hdr':
+>> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   drivers/net/ethernet/8390/mcf8390.c:211:9: note: in expansion of macro 'outb'
+     211 |         outb(ENISR_RDC, addr + NE_EN0_ISR);     /* Ack intr */
+         |         ^~~~
 
 
-vim +917 drivers/net/ethernet/freescale/fec_main.c
+vim +/_outb +596 include/asm-generic/io.h
 
-   835	
-   836	static int fec_enet_txq_submit_tso(struct fec_enet_priv_tx_q *txq,
-   837					   struct sk_buff *skb,
-   838					   struct net_device *ndev)
-   839	{
-   840		struct fec_enet_private *fep = netdev_priv(ndev);
-   841		int hdr_len, total_len, data_left;
-   842		struct bufdesc *bdp = txq->bd.cur;
-   843		struct tso_t tso;
-   844		unsigned int index = 0;
-   845		int ret;
-   846	
-   847		if (tso_count_descs(skb) >= fec_enet_get_free_txdesc_num(txq)) {
-   848			dev_kfree_skb_any(skb);
-   849			if (net_ratelimit())
-   850				netdev_err(ndev, "NOT enough BD for TSO!\n");
-   851			return NETDEV_TX_OK;
-   852		}
-   853	
-   854		/* Protocol checksum off-load for TCP and UDP. */
-   855		if (fec_enet_clear_csum(skb, ndev)) {
-   856			dev_kfree_skb_any(skb);
-   857			return NETDEV_TX_OK;
-   858		}
-   859	
-   860		/* Initialize the TSO handler, and prepare the first payload */
-   861		hdr_len = tso_start(skb, &tso);
-   862	
-   863		total_len = skb->len - hdr_len;
-   864		while (total_len > 0) {
-   865			char *hdr;
-   866	
-   867			index = fec_enet_get_bd_index(bdp, &txq->bd);
-   868			data_left = min_t(int, skb_shinfo(skb)->gso_size, total_len);
-   869			total_len -= data_left;
-   870	
-   871			/* prepare packet headers: MAC + IP + TCP */
-   872			hdr = txq->tso_hdrs + index * TSO_HEADER_SIZE;
-   873			tso_build_hdr(skb, hdr, &tso, data_left, total_len == 0);
-   874			ret = fec_enet_txq_put_hdr_tso(txq, skb, ndev, bdp, index);
-   875			if (ret)
-   876				goto err_release;
-   877	
-   878			while (data_left > 0) {
-   879				int size;
-   880	
-   881				size = min_t(int, tso.size, data_left);
-   882				bdp = fec_enet_get_nextdesc(bdp, &txq->bd);
-   883				index = fec_enet_get_bd_index(bdp, &txq->bd);
-   884				ret = fec_enet_txq_put_data_tso(txq, skb, ndev,
-   885								bdp, index,
-   886								tso.data, size,
-   887								size == data_left,
-   888								total_len == 0);
-   889				if (ret)
-   890					goto err_release;
-   891	
-   892				data_left -= size;
-   893				tso_build_data(skb, &tso, size);
-   894			}
-   895	
-   896			bdp = fec_enet_get_nextdesc(bdp, &txq->bd);
-   897		}
-   898	
-   899		/* Save skb pointer */
-   900		txq->tx_buf[index].buf_p = skb;
-   901	
-   902		skb_tx_timestamp(skb);
-   903		txq->bd.cur = bdp;
-   904	
-   905		/* Trigger transmission start */
-   906		if (!(fep->quirks & FEC_QUIRK_ERR007885) ||
-   907		    !readl(txq->bd.reg_desc_active) ||
-   908		    !readl(txq->bd.reg_desc_active) ||
-   909		    !readl(txq->bd.reg_desc_active) ||
-   910		    !readl(txq->bd.reg_desc_active))
-   911			writel(0, txq->bd.reg_desc_active);
-   912	
-   913		return 0;
-   914	
-   915	err_release:
-   916		/* Release all used data descriptors for TSO */
- > 917		struct bufdesc *tmp_bdp = txq->bd.cur;
-   918	
-   919		while (tmp_bdp != bdp) {
-   920			tmp_bdp->cbd_sc = 0;
-   921			tmp_bdp->cbd_bufaddr = 0;
-   922			tmp_bdp->cbd_datlen = 0;
-   923			tmp_bdp = fec_enet_get_nextdesc(tmp_bdp, &txq->bd);
-   924		}
-   925	
-   926		dev_kfree_skb_any(skb);
-   927	
-   928		return ret;
-   929	}
-   930	
+9216efafc52ff99 Thierry Reding  2014-10-01  594  
+f009c89df79abea John Garry      2020-03-28  595  #if !defined(outb) && !defined(_outb)
+f009c89df79abea John Garry      2020-03-28 @596  #define _outb _outb
+6f043e757445969 Niklas Schnelle 2024-10-24  597  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abea John Garry      2020-03-28  598  static inline void _outb(u8 value, unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  599  {
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  600  	__io_pbw();
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  601  	__raw_writeb(value, PCI_IOBASE + addr);
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  602  	__io_paw();
+9216efafc52ff99 Thierry Reding  2014-10-01  603  }
+6f043e757445969 Niklas Schnelle 2024-10-24  604  #else
+6f043e757445969 Niklas Schnelle 2024-10-24  605  void _outb(u8 value, unsigned long addr)
+6f043e757445969 Niklas Schnelle 2024-10-24  606  	__compiletime_error("outb() requires CONFIG_HAS_IOPORT");
+6f043e757445969 Niklas Schnelle 2024-10-24  607  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  608  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  609  
+
+:::::: The code at line 596 was first introduced by commit
+:::::: f009c89df79abea5f5244b8135a205f7d4352f86 io: Provide _inX() and _outX()
+
+:::::: TO: John Garry <john.garry@huawei.com>
+:::::: CC: Wei Xu <xuwei5@hisilicon.com>
 
 -- 
 0-DAY CI Kernel Test Service
