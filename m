@@ -1,73 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DBC15855E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 22:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3B51ABED9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 22:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737151488; cv=none; b=O1YA2HL/r1rN11elwHjo62MlT93degakwaJ0uJk4WHSyrHST+AWvxJeUGoSyEP9SJFg2HEoRXEl7oEeZlBCDsDrRSR/rLKTFmp2B7JTefY3LWLvB8/P96+ZDt/OQ8664r3lwGNWmrsXqBlXdkG3OTRwxkUx26gTSuA0HjlQxn9g=
+	t=1737152204; cv=none; b=GATDiKpu8YX/AkqwVpaBY/hKzzZxjcM4s2FaKbbMYq36jwLWmsUI8tPoJk0MtQv+20IeMRm/CacFrI1rOLPrwCQTny/i7ufOBvlcLCgQwUfkm1R/sgzKs6eAu8azoyFKWGVCUe4XfmxKy/agURl8hd7oulweIPnGzqizM1crdnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737151488; c=relaxed/simple;
-	bh=0XZfrcqbblf6skoLJGR4rVZli6Qmk9tbEtvNmO1ngbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YG5zqn9QeJg6e4K29uRFNpEWImPSJ21LN1bZ45FUrqK5dEjfdkYpSyYl33uL88q3F6MC+BzTkRqdmRjRgpN9sXRJuEMkj8aTN+26V1zTxVvbRERlvUmsxw3KYpRqoQ39AVktcU5r5keDtahkzj7QfJTpe3U20/6DitqUoc9LhT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3SwKIvI; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1737152204; c=relaxed/simple;
+	bh=q0uag4saSSepKbCuspi2MRKZX9SlhJpj6FurMqo4Q4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tw/eRHWrt/HxuhAGYlmRkM01jc0+9CySzU6PEkGZWx6F1OhltuQunFo2PilRD1wV875ANRyji57pneu2VIX/NTJIsBgkUkSaRAOOxD71nlrGFexOk0uHmgobWd9K6kSlNQG14lYMjMuAsZxB3UwybNenTh0nkdv3DIG4ujsPbY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqHHnefE; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3SwKIvI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqHHnefE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737151486; x=1768687486;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0XZfrcqbblf6skoLJGR4rVZli6Qmk9tbEtvNmO1ngbw=;
-  b=I3SwKIvIY/bUstUlc5KCMSVp/n5F/SYWNY+eL4NYyRNxuA26ZorpLkSp
-   oKKkFZ1DjQbyuPXezH/z2VIQfG2Aq1bNHhVwm4gmi3BRjCjwL6P0rm1+L
-   TtZ/2cItQ0pCLrpDRViY2X7S9nDklu5l0/Xkqo1lfKdq0hkztc6IrUZCq
-   tktDQEP69uO/PXXLhwxKGlHpDkHm61HHZh85KhKeMfb8K8H2VKYieT+1k
-   1lW3IFiyxRx6ik0pRCrqdg3LNtL7NVdJE+IgS+EhC4kb+fSBD4fUS3Efk
-   Fk4qQZMNwe6E1w7BZ51uvggNEqM2jRAF+PtH0oPdQ6uX1r4OUlDy02Alo
-   g==;
-X-CSE-ConnectionGUID: w7RYUM8qSGuw7UsBtcyYlw==
-X-CSE-MsgGUID: 6Tlx6PJWT22T0ciPJM/vzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49014981"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="49014981"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 14:04:45 -0800
-X-CSE-ConnectionGUID: UbYDsmjDQEOkdHMv79hGow==
-X-CSE-MsgGUID: sMqe5D/qQliPcMUqQsuFKw==
+  t=1737152203; x=1768688203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=q0uag4saSSepKbCuspi2MRKZX9SlhJpj6FurMqo4Q4Q=;
+  b=aqHHnefEI25+MD1F4gT8w/VtagvE15wAZ1h/N4qcs0QpkQZ0+2RqL2Cp
+   Exhd6ANE8ucJc/CqZLJVPw0b/Kkw0sWdt1I2VFhA5ujuY/s9GT8JEI5pd
+   3riCuBtUMJ2WqFhUVWEAISXL4nqdiNH9LAn6/Khym3rNy6c0nWDs3bDp9
+   a+26//Do0v6fYIwdPz2ysYTh+1YgrXqU2taSGzOyQV7ungVEDXtNncq4r
+   ycs6FLb8pRUZwB5t/DUOwQqZsJRRZWd1VSc2XoG1zEdJTyKk3WehujVd8
+   46nNFXTrrqfhtEu/FeGLKdPQrRM0qjN3/gPgKs6IP0L5cbTq2kQsM+SRW
+   A==;
+X-CSE-ConnectionGUID: 7xQ3A2IJQbG2nE2jPJXu9A==
+X-CSE-MsgGUID: lJJzxxRjS7ug/zv5ogWzdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37509520"
+X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
+   d="scan'208";a="37509520"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 14:16:42 -0800
+X-CSE-ConnectionGUID: VJPHOl46QzClIUDeeqdo/g==
+X-CSE-MsgGUID: 2WOrK2LqTseh4YtXcMps3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
-   d="scan'208";a="105774286"
+   d="scan'208";a="110922519"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Jan 2025 14:04:40 -0800
+  by orviesa004.jf.intel.com with ESMTP; 17 Jan 2025 14:16:41 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYuSD-000Tkx-20;
-	Fri, 17 Jan 2025 22:04:37 +0000
-Date: Sat, 18 Jan 2025 06:04:18 +0800
+	id 1tYudq-000Tm1-2h;
+	Fri, 17 Jan 2025 22:16:38 +0000
+Date: Sat, 18 Jan 2025 06:15:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chunkuang.hu@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de,
-	airlied@gmail.com, simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
-	jitao.shi@mediatek.com, jie.qiu@mediatek.com,
-	junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel@collabora.com, dmitry.baryshkov@linaro.org,
-	lewis.liao@mediatek.com, ives.chenjh@mediatek.com,
-	tommyyl.chen@mediatek.com, jason-jh.lin@mediatek.com
-Subject: Re: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-Message-ID: <202501180524.qKnNpITh-lkp@intel.com>
-References: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1826/1826] mm/mem_reliable.c:131:52: sparse:
+ sparse: incorrect type in argument 3 (different address spaces)
+Message-ID: <202501180645.GOqTUifa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,106 +61,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
 
-Hi AngeloGioacchino,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20250113]
-[cannot apply to robh/for-next pza/reset/next linus/master pza/imx-drm/next drm-misc/drm-misc-next v6.13-rc7 v6.13-rc6 v6.13-rc5 v6.13-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20250113-225554
-base:   next-20250113
-patch link:    https://lore.kernel.org/r/20250113145232.227674-33-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250118/202501180524.qKnNpITh-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180524.qKnNpITh-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a5cbe5b715d9cac271b2c6175e728f0c4167f675
+commit: 200321e8a69ef82350d070de35ac4a666ab79ba6 [1826/1826] mm: mem_reliable: Add limiting the usage of reliable memory
+config: arm64-randconfig-r123-20250118 (https://download.01.org/0day-ci/archive/20250118/202501180645.GOqTUifa-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20250118/202501180645.GOqTUifa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501180524.qKnNpITh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501180645.GOqTUifa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/mem_reliable.c:131:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   mm/mem_reliable.c:131:52: sparse:     expected void *
+   mm/mem_reliable.c:131:52: sparse:     got void [noderef] __user *buffer
+   mm/mem_reliable.c:150:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   mm/mem_reliable.c:150:52: sparse:     expected void *
+   mm/mem_reliable.c:150:52: sparse:     got void [noderef] __user *buffer
+   mm/mem_reliable.c:172:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   mm/mem_reliable.c:172:52: sparse:     expected void *
+   mm/mem_reliable.c:172:52: sparse:     got void [noderef] __user *buffer
+>> mm/mem_reliable.c:190:33: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   mm/mem_reliable.c:190:33: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   mm/mem_reliable.c:190:33: sparse:     got int ( * )( ... )
+   mm/mem_reliable.c:197:33: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   mm/mem_reliable.c:197:33: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   mm/mem_reliable.c:197:33: sparse:     got int ( * )( ... )
+   mm/mem_reliable.c:205:33: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   mm/mem_reliable.c:205:33: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   mm/mem_reliable.c:205:33: sparse:     got int ( * )( ... )
 
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddc_check_and_rise_low_bus':
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:59:36: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      59 |                                    FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLOCK_SCL));
-         |                                    ^~~~~~~~~~
-   In file included from ./arch/openrisc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/kernel.h:27,
-                    from include/linux/clk.h:13,
-                    from drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:11:
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddcm_read_hdmi':
->> include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
-     139 |                 rem = do_div(loop_counter, temp_length);
-         |                       ^~~~~~
-   In file included from include/linux/err.h:5,
-                    from include/linux/clk.h:12:
->> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
-     195 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
-     139 |                 rem = do_div(loop_counter, temp_length);
-         |                       ^~~~~~
-   include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
-     199 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-         |                                    |
-         |                                    u16 * {aka short unsigned int *}
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
-     139 |                 rem = do_div(loop_counter, temp_length);
-         |                       ^~~~~~
-   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'u16 *' {aka 'short unsigned int *'}
-     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                            ~~~~~~~~~~^~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:207:47: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     207 |                         puc_value[read_idx] = FIELD_GET(DDC_DATA_OUT, val);
-         |                                               ^~~~~~~~~
+vim +131 mm/mem_reliable.c
 
-
-vim +183 include/asm-generic/div64.h
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  176  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
-^1da177e4c3f41 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  179   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
-461a5e51060c93 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
-461a5e51060c93 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
-461a5e51060c93 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02 @195  	} else if (likely(((n) >> 32) == 0)) {		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  198  	} else {					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  199  		__rem = __div64_32(&(n), __base);	\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  200  	}						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  201  	__rem;						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  202   })
-^1da177e4c3f41 Linus Torvalds     2005-04-16  203  
+   123	
+   124	static int reliable_pagecache_max_bytes_write(struct ctl_table *table,
+   125						      int write, void __user *buffer,
+   126						      size_t *length, loff_t *ppos)
+   127	{
+   128		unsigned long old_value = pagecache_reliable_limit;
+   129		int ret;
+   130	
+ > 131		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   132		if (!ret && write) {
+   133			if (pagecache_reliable_limit >
+   134			    PAGES_TO_B(total_reliable_pages())) {
+   135				pagecache_reliable_limit = old_value;
+   136				return -EINVAL;
+   137			}
+   138		}
+   139	
+   140		return ret;
+   141	}
+   142	
+   143	static int reliable_limit_handler(struct ctl_table *table, int write,
+   144					  void __user *buffer, size_t *length,
+   145					  loff_t *ppos)
+   146	{
+   147		unsigned long old = task_reliable_limit;
+   148		int ret;
+   149	
+   150		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   151		if (!ret && write) {
+   152			if (task_reliable_limit > PAGES_TO_B(total_reliable_pages()) ||
+   153			    task_reliable_limit <
+   154				    (task_reliable_used_pages() << PAGE_SHIFT)) {
+   155				task_reliable_limit = old;
+   156				return -EINVAL;
+   157			}
+   158		}
+   159	
+   160		return ret;
+   161	}
+   162	
+   163	#ifdef CONFIG_SHMEM
+   164	static int reliable_shmem_bytes_limit_handler(struct ctl_table *table,
+   165						      int write, void __user *buffer,
+   166						      size_t *length, loff_t *ppos)
+   167	{
+   168		unsigned long *data_ptr = (unsigned long *)(table->data);
+   169		unsigned long old = *data_ptr;
+   170		int ret;
+   171	
+   172		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   173		if (!ret && write) {
+   174			if (*data_ptr > PAGES_TO_B(total_reliable_pages())) {
+   175				*data_ptr = old;
+   176				return -EINVAL;
+   177			}
+   178		}
+   179	
+   180		return ret;
+   181	}
+   182	#endif
+   183	
+   184	static struct ctl_table reliable_ctl_table[] = {
+   185		{
+   186			.procname = "reliable_pagecache_max_bytes",
+   187			.data = &pagecache_reliable_limit,
+   188			.maxlen = sizeof(pagecache_reliable_limit),
+   189			.mode = 0644,
+ > 190			.proc_handler = reliable_pagecache_max_bytes_write,
+   191		},
+   192		{
+   193			.procname = "task_reliable_limit",
+   194			.data = &task_reliable_limit,
+   195			.maxlen = sizeof(task_reliable_limit),
+   196			.mode = 0644,
+   197			.proc_handler = reliable_limit_handler,
+   198		},
+   199	#ifdef CONFIG_SHMEM
+   200		{
+   201			.procname = "shmem_reliable_bytes_limit",
+   202			.data = &shmem_reliable_limit,
+   203			.maxlen = sizeof(shmem_reliable_limit),
+   204			.mode = 0644,
+   205			.proc_handler = reliable_shmem_bytes_limit_handler,
+   206		},
+   207	#endif
+   208		{}
+   209	};
+   210	
 
 -- 
 0-DAY CI Kernel Test Service
