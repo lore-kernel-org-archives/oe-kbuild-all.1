@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB1613541B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 19:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F2C1AAA2C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 19:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737141207; cv=none; b=TjIcO/tMPmAXwuLEligKW6ln/v2hJDm7riFsBmwOIGm+7uv/D3j+cq2phw9J7INf7JQRNr2To9uupfAGYfNjyZjOtd0AAS8hIX/qqwEV6rA6qlukHe+hhmpECfnTCF/O/Tmjl+Ofz3bP3XzvrHPIw+CQFe8T9gmPM2z1rqPFy9s=
+	t=1737142471; cv=none; b=U/xFHbi5xq79+rKFAPp5KnCZjiPLFCkL1jXnTLdOrxLo3Ikx/0fGg2k3CjS9QOG0696sJmEyQHe3qu1jDNdoT98q/oL7dKrDp+dsGaD6AcCwna5d4IEXlWZu3mqyzgcJJzpXgsBil+XWYr6CaCDQY40Gfi3Y+9pzH3MkhQfz9xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737141207; c=relaxed/simple;
-	bh=ddpyV1NvdnMYrzmcPOCMcnO+O64kPtUCLv8toSJpQE4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cZeNw8+78YOEgpnEEZTjHTIAtkyVwwm4h4JIPoaFp07cAm0d2WQMFfBfTkbTYa8OW5Jny61A+Snwt6V+3AtmwHfmcwq9/R5FaPgRTjdDTXbc23IcI87WPdWvncfXFAMjXGerdMi6JjeUm7J4+8KxWWUJuh9zkLa0YfHcRM9EJOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIDBTmTr; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1737142471; c=relaxed/simple;
+	bh=n+/OHPmRLN21PihqBJ+hUFaJAnWXHROp8BjPm/D69iM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tDdhn1A1fEfhksxs+TKv7IiAqT6Dobu1QlIFe0wKimeZu2k7WDyXRPQPtJy7sa65hqmDmH5boiMmFt7BzhpJ+U/8OQJncRKH14FysMTeV5JL6WQsGhmYbmsSVpC2x381WSYeAyOD4ZkcZ7DgfgtDuq0CqFAc6hAU67AJN+JaKus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MurSWKUa; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIDBTmTr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MurSWKUa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737141206; x=1768677206;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ddpyV1NvdnMYrzmcPOCMcnO+O64kPtUCLv8toSJpQE4=;
-  b=FIDBTmTrWNWOnG3LJeTlN/T2bjSL0aEr4OVzaH85Ktmmd55KkwebU72S
-   QgqTPPwgV9aeLhNLkeh/LomNsu4R3UwlxBfNkJIwASrSdeSFyBtC3OEzO
-   vSjc2PImN2+oFuH+5l4cdBiWw09s1kR27Z/Pfw9aeDTm+Mlz7wgtuZ4eu
-   2/yH5oI72BpIyWRkBfHBuIzZMSHqMM5myIuofDk0thzsWQ0CS70YjX+ZY
-   0hkCqPKi0EU2xnStQZjOZW+UM5CtGDhbxcWU33nfGhvucIGMyyjuDYUPY
-   AqsU8OTFXwB4FHRvLbkGzJ/W9IGupAqMSv1ZxS1XHLOVwDfbu109N2Z8P
-   g==;
-X-CSE-ConnectionGUID: 5Q77HGgZTY2biv6eVlVNeg==
-X-CSE-MsgGUID: vRdzUGlMRXqNSPA1ceZSQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="36861452"
+  t=1737142469; x=1768678469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n+/OHPmRLN21PihqBJ+hUFaJAnWXHROp8BjPm/D69iM=;
+  b=MurSWKUacfabHgwaklC8OYwsoFygKKQQ7e0xrdWup2j8+weHomkVsY+r
+   WLl3u8nMof5Wd8osU6tApwuq4K+GRoHP9mCik6uyOH8YpEtWyQb8ewizD
+   D6zkcEjvmoElnFrx/D/NUP+c+avbSKIYg+ljNL4VBs77t0bBEtTUadvso
+   YPqa71fagGztDuVAX/NwuG4v8YZ8O4I3aVC2WY14TLo0LEN91YHb6L4JO
+   RWxRjGBJrLxJ8kYkDoV3cvHrfDUtoay8CWHtGYdPwNeTTTFkEXp6vWdx5
+   TVPQy2R2i5Np5w1EhQMapC3RNKOq+Uj9hjG2cmYECq1L6s53MqbIG8DJ1
+   w==;
+X-CSE-ConnectionGUID: SRRwUIi8QhS1WarI6bf/9g==
+X-CSE-MsgGUID: HKNnJvCwSPGjXmTgk8dRSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="41353043"
 X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
-   d="scan'208";a="36861452"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 11:13:25 -0800
-X-CSE-ConnectionGUID: 102OrQOXRcav8fL2z61iKg==
-X-CSE-MsgGUID: Diyk5fI3SPayS1qtOaWHHA==
+   d="scan'208";a="41353043"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 11:34:29 -0800
+X-CSE-ConnectionGUID: sjWWNsuLSrGGNs6u0AvOFQ==
+X-CSE-MsgGUID: CRGtKOHtSMOukZSu7eNUZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105722240"
+   d="scan'208";a="106777938"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Jan 2025 11:13:23 -0800
+  by orviesa008.jf.intel.com with ESMTP; 17 Jan 2025 11:34:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYrmT-000Tax-03;
-	Fri, 17 Jan 2025 19:13:21 +0000
-Date: Sat, 18 Jan 2025 03:12:49 +0800
+	id 1tYs6p-000TdT-24;
+	Fri, 17 Jan 2025 19:34:23 +0000
+Date: Sat, 18 Jan 2025 03:33:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 1/1] kernel/trace/blktrace.c:348:12:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202501180359.p8CjtqlF-lkp@intel.com>
+To: Shree Ramamoorthy <s-ramamoorthy@ti.com>, aaro.koskinen@iki.fi,
+	andreas@kemnade.info, khilman@baylibre.com, rogerq@kernel.org,
+	tony@atomide.com, linus.walleij@linaro.org, brgl@bgdev.pl,
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, m-leonard@ti.com, praneeth@ti.com,
+	christophe.jaillet@wanadoo.fr
+Subject: Re: [PATCH v3 1/3] gpio: tps65215: Add TPS65215 to
+ platform_device_id table
+Message-ID: <202501180342.Bi6C2Axf-lkp@intel.com>
+References: <20250113225530.124213-2-s-ramamoorthy@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,91 +68,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250113225530.124213-2-s-ramamoorthy@ti.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   bf5b85fe246873efa65a9dc0631ad70c59eece6c
-commit: 6f9cff84dde800b4d9eab071810fbe284686601e [1/1] blktrace: Protect q->blk_trace with RCU
-config: arm64-randconfig-r122-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180359.p8CjtqlF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250118/202501180359.p8CjtqlF-lkp@intel.com/reproduce)
+Hi Shree,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20250113]
+[also build test ERROR on linus/master v6.13-rc7]
+[cannot apply to tmlind-omap/for-next v6.13-rc7 v6.13-rc6 v6.13-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shree-Ramamoorthy/gpio-tps65215-Add-TPS65215-to-platform_device_id-table/20250114-065813
+base:   next-20250113
+patch link:    https://lore.kernel.org/r/20250113225530.124213-2-s-ramamoorthy%40ti.com
+patch subject: [PATCH v3 1/3] gpio: tps65215: Add TPS65215 to platform_device_id table
+config: i386-randconfig-003-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180342.Bi6C2Axf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180342.Bi6C2Axf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501180359.p8CjtqlF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501180342.Bi6C2Axf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/trace/blktrace.c:348:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_trace *bt @@     got struct blk_trace [noderef] __rcu *[assigned] __ret @@
-   kernel/trace/blktrace.c:348:12: sparse:     expected struct blk_trace *bt
-   kernel/trace/blktrace.c:348:12: sparse:     got struct blk_trace [noderef] __rcu *[assigned] __ret
-   kernel/trace/blktrace.c:1002:50: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int error @@     got restricted blk_status_t [usertype] bi_status @@
-   kernel/trace/blktrace.c:1002:50: sparse:     expected int error
-   kernel/trace/blktrace.c:1002:50: sparse:     got restricted blk_status_t [usertype] bi_status
-   kernel/trace/blktrace.c:1040:68: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int error @@     got restricted blk_status_t [usertype] bi_status @@
-   kernel/trace/blktrace.c:1040:68: sparse:     expected int error
-   kernel/trace/blktrace.c:1040:68: sparse:     got restricted blk_status_t [usertype] bi_status
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1270:32: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long long [usertype] sector_from @@     got restricted __be64 const [usertype] sector_from @@
-   kernel/trace/blktrace.c:1270:32: sparse:     expected unsigned long long [usertype] sector_from
-   kernel/trace/blktrace.c:1270:32: sparse:     got restricted __be64 const [usertype] sector_from
-   kernel/trace/blktrace.c:1272:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] device_from @@     got unsigned int @@
-   kernel/trace/blktrace.c:1272:24: sparse:     expected restricted __be32 [usertype] device_from
-   kernel/trace/blktrace.c:1272:24: sparse:     got unsigned int
-   kernel/trace/blktrace.c:1273:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] device_to @@     got unsigned int @@
-   kernel/trace/blktrace.c:1273:24: sparse:     expected restricted __be32 [usertype] device_to
-   kernel/trace/blktrace.c:1273:24: sparse:     got unsigned int
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
-   kernel/trace/blktrace.c:1274:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] sector_from @@     got unsigned long long @@
-   kernel/trace/blktrace.c:1274:24: sparse:     expected restricted __be64 [usertype] sector_from
-   kernel/trace/blktrace.c:1274:24: sparse:     got unsigned long long
-   kernel/trace/blktrace.c:1407:26: sparse: sparse: restricted __be32 degrades to integer
-   kernel/trace/blktrace.c:1407:48: sparse: sparse: restricted __be32 degrades to integer
-   kernel/trace/blktrace.c:1408:27: sparse: sparse: cast from restricted __be64
-   kernel/trace/blktrace.c:1632:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_trace *bt @@     got struct blk_trace [noderef] __rcu *[assigned] __ret @@
-   kernel/trace/blktrace.c:1632:12: sparse:     expected struct blk_trace *bt
-   kernel/trace/blktrace.c:1632:12: sparse:     got struct blk_trace [noderef] __rcu *[assigned] __ret
+All errors (new ones prefixed by >>):
 
-vim +348 kernel/trace/blktrace.c
+>> drivers/gpio/gpio-tps65219.c:173:28: error: 'TPS65215' undeclared here (not in a function); did you mean 'TPS65219'?
+     173 |         { "tps65215-gpio", TPS65215 },
+         |                            ^~~~~~~~
+         |                            TPS65219
 
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  343  
-1f2cac107c591c2 kernel/trace/blktrace.c Jens Axboe 2017-11-05  344  static int __blk_trace_remove(struct request_queue *q)
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  345  {
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  346  	struct blk_trace *bt;
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  347  
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23 @348  	bt = xchg(&q->blk_trace, NULL);
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  349  	if (!bt)
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  350  		return -EINVAL;
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  351  
-5554720482a6317 kernel/trace/blktrace.c Li Zefan   2009-03-25  352  	if (bt->trace_state != Blktrace_running)
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  353  		blk_trace_cleanup(bt);
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  354  
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  355  	return 0;
-2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  356  }
-1f2cac107c591c2 kernel/trace/blktrace.c Jens Axboe 2017-11-05  357  
 
-:::::: The code at line 348 was first introduced by commit
-:::::: 2056a782f8e7e65fd4bfd027506b4ce1c5e9ccd4 [PATCH] Block queue IO tracing support (blktrace) as of 2006-03-23
+vim +173 drivers/gpio/gpio-tps65219.c
 
-:::::: TO: Jens Axboe <axboe@suse.de>
-:::::: CC: Jens Axboe <axboe@suse.de>
+   171	
+   172	static const struct platform_device_id tps6521x_gpio_id_table[] = {
+ > 173		{ "tps65215-gpio", TPS65215 },
+   174		{ "tps65219-gpio", TPS65219 },
+   175		{ }
+   176	};
+   177	MODULE_DEVICE_TABLE(platform, tps6521x_gpio_id_table);
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
