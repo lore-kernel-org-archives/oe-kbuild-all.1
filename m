@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905C91FA254
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 10:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1F41F76C2;
+	Fri, 17 Jan 2025 10:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737109170; cv=none; b=qF2sTausOr8ZWoy0R+9qsyNIxMVR/0JWFMOe53CzLfg7wcxg+Lfgru562bofc2BR5p9+/hnrzVSAJhtFkZYobF3PFDkZ26sKQC1+W/xAkGInmYU+iFzAXNlbLhnBL/G9Zi2ulsZ1YRwREQnqngHV3KDrzLIGb/nElATHyi4/FSw=
+	t=1737109888; cv=none; b=oahJRyYybblHJJPgsp9uRWcDqTNTfRlaHK5cz2IFXpYnG3nbg1Idbr2kC8pBA1ndX0eJIgVS3t+VDpx3+18jlw92ZJEILuaabvsclQeYW9bvS2iOdrNGRq1rZnQ2DflHcbp/WNpRw0gskjETSLGMf36D00cMkUlJHsrA8DqzLmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737109170; c=relaxed/simple;
-	bh=trBebw4L+wNpFVxLvcQsr5wqD59SAiHduvT3EkoHqPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AzRMAzpnOUsQnkEzlO2MeX5pCDA3bjBwP1wS1ncMO85fBh3UGv7TvZcAtRfyRuRtjxcPj1dkiQmgDk+uVQy8/FBk8+RuldeR9WfJBtNann7c9SNRWfAFvTfDItroEZr7GSrTtCjWsJ7iIx98IKAKveYKlt4zCNmWbDsAKJfs0fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HddmvI2T; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1737109888; c=relaxed/simple;
+	bh=DZOM3HZgs6PTS7mom2SnNPsK0a/bjhq53HE4sUbtxw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p1ZfR8dk5x7TFP9PANSCvWddpfyxG3mT1OsKGtlBnOTQhnq/+3aLJH0lM+9GWXp0F/5C4OY1P6VzE8Xzs49dde3Oa1sMN39b+rpCMu/RGLUcPUO0PW05hIkZB4x6+YwAzY0XDSa8s+cyECZncwVEqHcVgfztyEDrzdwxYtQkDOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P4faAvjf; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HddmvI2T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4faAvjf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737109169; x=1768645169;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=trBebw4L+wNpFVxLvcQsr5wqD59SAiHduvT3EkoHqPM=;
-  b=HddmvI2TVH6kumqGxF+4uHEFN80YBt9ZgPTg/qj+IInvPejsJyebvjuW
-   aHu29Y5B+SB7TiGBiDW5vMU/fH9218Y5RqRRdCJm8w5w22J10CffRs/0Q
-   z5Jv0rZMoI48Ub2sgRPSOaHodLd5+25uEDtfYTH5aCr2+z2S+BBUoiidC
-   vpd5bbauQYXvxJb0pFF2Quy7aNe+7nCvrOfM4VaZexoejAlNHZ2Z9dsSj
-   1dTKsHAbJVfsGjCzVsvOnK2ptZnn++FjGYUR1kUYx86koKtLU7cVzv4HH
-   992hFnO4loCqJko4uolV9k9SxCWsqroIKDX0xGS4hSyJdQoNTJO0SHgDu
-   g==;
-X-CSE-ConnectionGUID: KitM1glsS4Kurbn0Pf29ow==
-X-CSE-MsgGUID: LHqtZzGBR6CYoJdf+VK0kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="36746385"
-X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="36746385"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 02:19:28 -0800
-X-CSE-ConnectionGUID: UZprYXwuTHyYRjiGhNSEpw==
-X-CSE-MsgGUID: qd9KN/6WS+mbUq2ieYCq9Q==
+  t=1737109887; x=1768645887;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DZOM3HZgs6PTS7mom2SnNPsK0a/bjhq53HE4sUbtxw0=;
+  b=P4faAvjfdJhbr5SKFa7PYAKa52YOneHUIR3qltwHzFUZC0eHY+PnnlS9
+   HErZkSSfKY/OWM/XlDjB9EtXGCTltUIzhjoPccxpJGHb1VlLpiPFlzgvl
+   NgJuubPG1YV+STD7SN99tt+4M9srQ6nQtUeHe5+mZjmeY96m1Pq7/CdIm
+   VpssE62HLZ6eXUymWUptOcztcZ02MozCW9CvZ/fRbOzlL0D/rcan5q9gO
+   tvEgo58peAw4AK+HP2haKZNyZSC1vHzuSKStfDxzsNqq9QVBcGhtMgjsQ
+   4gzIKuokXV5wIq5PqikTTG860OdtFFwib5GqLWqr+Mj9RXySHofWCELyL
+   A==;
+X-CSE-ConnectionGUID: /1h1T6hETTyVdrc2lWs7QA==
+X-CSE-MsgGUID: 7qy0mB2LQrmvtVV2tdkr8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37655127"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="37655127"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 02:31:24 -0800
+X-CSE-ConnectionGUID: 8/t4W8mnTf+k6t27im6cOg==
+X-CSE-MsgGUID: CJfscxrtSiC+89BznowzMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="105827619"
+   d="scan'208";a="106359930"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Jan 2025 02:19:23 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 17 Jan 2025 02:31:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYjRf-000T3r-2A;
-	Fri, 17 Jan 2025 10:19:19 +0000
-Date: Fri, 17 Jan 2025 18:18:51 +0800
+	id 1tYjdJ-000T4L-0n;
+	Fri, 17 Jan 2025 10:31:21 +0000
+Date: Fri, 17 Jan 2025 18:30:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
-	willemb@google.com, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
-	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, Jason Xing <kerneljasonxing@gmail.com>
-Subject: Re: [PATCH net-next v5 05/15] net-timestamp: add strict check in
- some BPF calls
-Message-ID: <202501171802.CSquHTL3-lkp@intel.com>
-References: <20250112113748.73504-6-kerneljasonxing@gmail.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:ipsec-fixes 11/11] net/xfrm/xfrm_output.c:837:5: error:
+ redefinition of 'xfrm6_tunnel_check_size'
+Message-ID: <202501171817.JV1YopmX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,103 +61,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250112113748.73504-6-kerneljasonxing@gmail.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-timestamp-add-support-for-bpf_setsockopt/20250112-194115
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250112113748.73504-6-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next v5 05/15] net-timestamp: add strict check in some BPF calls
-config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171802.CSquHTL3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git ipsec-fixes
+head:   3bbb0d5d23db82d8493191fc103c4c2b26decc13
+commit: 3bbb0d5d23db82d8493191fc103c4c2b26decc13 [11/11] xfrm: check for PMTU in tunnel mode for packet offload
+config: powerpc64-randconfig-001-20250116 (https://download.01.org/0day-ci/archive/20250117/202501171817.JV1YopmX-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171817.JV1YopmX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501171802.CSquHTL3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501171817.JV1YopmX-lkp@intel.com/
 
-smatch warnings:
-net/core/filter.c:7631 ____bpf_sock_ops_load_hdr_opt() warn: always true condition '(bpf_sock->op != 1009) => (0-255 != 1009)'
+All errors (new ones prefixed by >>):
 
-vim +7631 net/core/filter.c
+   In file included from net/xfrm/xfrm_output.c:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/powerpc/include/asm/cacheflush.h:7:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> net/xfrm/xfrm_output.c:837:5: error: redefinition of 'xfrm6_tunnel_check_size'
+     837 | int xfrm6_tunnel_check_size(struct sk_buff *skb)
+         |     ^
+   include/net/xfrm.h:1789:19: note: previous definition is here
+    1789 | static inline int xfrm6_tunnel_check_size(struct sk_buff *skb)
+         |                   ^
+>> net/xfrm/xfrm_output.c:851:42: error: call to undeclared function 'ip6_skb_dst_mtu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     851 |              !skb_gso_validate_network_len(skb, ip6_skb_dst_mtu(skb)))) {
+         |                                                 ^
+   net/xfrm/xfrm_output.c:851:42: note: did you mean 'ip_skb_dst_mtu'?
+   include/net/ip.h:503:28: note: 'ip_skb_dst_mtu' declared here
+     503 | static inline unsigned int ip_skb_dst_mtu(struct sock *sk,
+         |                            ^
+>> net/xfrm/xfrm_output.c:855:7: error: call to undeclared function 'xfrm6_local_dontfrag'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     855 |                 if (xfrm6_local_dontfrag(skb->sk))
+         |                     ^
+   3 warnings and 3 errors generated.
 
-  7622	
-  7623	BPF_CALL_4(bpf_sock_ops_load_hdr_opt, struct bpf_sock_ops_kern *, bpf_sock,
-  7624		   void *, search_res, u32, len, u64, flags)
-  7625	{
-  7626		bool eol, load_syn = flags & BPF_LOAD_HDR_OPT_TCP_SYN;
-  7627		const u8 *op, *opend, *magic, *search = search_res;
-  7628		u8 search_kind, search_len, copy_len, magic_len;
-  7629		int ret;
-  7630	
-> 7631		if (bpf_sock->op != SK_BPF_CB_FLAGS)
-  7632			return -EINVAL;
-  7633	
-  7634		/* 2 byte is the minimal option len except TCPOPT_NOP and
-  7635		 * TCPOPT_EOL which are useless for the bpf prog to learn
-  7636		 * and this helper disallow loading them also.
-  7637		 */
-  7638		if (len < 2 || flags & ~BPF_LOAD_HDR_OPT_TCP_SYN)
-  7639			return -EINVAL;
-  7640	
-  7641		search_kind = search[0];
-  7642		search_len = search[1];
-  7643	
-  7644		if (search_len > len || search_kind == TCPOPT_NOP ||
-  7645		    search_kind == TCPOPT_EOL)
-  7646			return -EINVAL;
-  7647	
-  7648		if (search_kind == TCPOPT_EXP || search_kind == 253) {
-  7649			/* 16 or 32 bit magic.  +2 for kind and kind length */
-  7650			if (search_len != 4 && search_len != 6)
-  7651				return -EINVAL;
-  7652			magic = &search[2];
-  7653			magic_len = search_len - 2;
-  7654		} else {
-  7655			if (search_len)
-  7656				return -EINVAL;
-  7657			magic = NULL;
-  7658			magic_len = 0;
-  7659		}
-  7660	
-  7661		if (load_syn) {
-  7662			ret = bpf_sock_ops_get_syn(bpf_sock, TCP_BPF_SYN, &op);
-  7663			if (ret < 0)
-  7664				return ret;
-  7665	
-  7666			opend = op + ret;
-  7667			op += sizeof(struct tcphdr);
-  7668		} else {
-  7669			if (!bpf_sock->skb ||
-  7670			    bpf_sock->op == BPF_SOCK_OPS_HDR_OPT_LEN_CB)
-  7671				/* This bpf_sock->op cannot call this helper */
-  7672				return -EPERM;
-  7673	
-  7674			opend = bpf_sock->skb_data_end;
-  7675			op = bpf_sock->skb->data + sizeof(struct tcphdr);
-  7676		}
-  7677	
-  7678		op = bpf_search_tcp_opt(op, opend, search_kind, magic, magic_len,
-  7679					&eol);
-  7680		if (IS_ERR(op))
-  7681			return PTR_ERR(op);
-  7682	
-  7683		copy_len = op[1];
-  7684		ret = copy_len;
-  7685		if (copy_len > len) {
-  7686			ret = -ENOSPC;
-  7687			copy_len = len;
-  7688		}
-  7689	
-  7690		memcpy(search_res, op, copy_len);
-  7691		return ret;
-  7692	}
-  7693	
+
+vim +/xfrm6_tunnel_check_size +837 net/xfrm/xfrm_output.c
+
+   836	
+ > 837	int xfrm6_tunnel_check_size(struct sk_buff *skb)
+   838	{
+   839		int mtu, ret = 0;
+   840		struct dst_entry *dst = skb_dst(skb);
+   841	
+   842		if (skb->ignore_df)
+   843			goto out;
+   844	
+   845		mtu = dst_mtu(dst);
+   846		if (mtu < IPV6_MIN_MTU)
+   847			mtu = IPV6_MIN_MTU;
+   848	
+   849		if ((!skb_is_gso(skb) && skb->len > mtu) ||
+   850		    (skb_is_gso(skb) &&
+ > 851		     !skb_gso_validate_network_len(skb, ip6_skb_dst_mtu(skb)))) {
+   852			skb->dev = dst->dev;
+   853			skb->protocol = htons(ETH_P_IPV6);
+   854	
+ > 855			if (xfrm6_local_dontfrag(skb->sk))
+   856				ipv6_stub->xfrm6_local_rxpmtu(skb, mtu);
+   857			else if (skb->sk)
+   858				xfrm_local_error(skb, mtu);
+   859			else
+   860				icmpv6_send(skb, ICMPV6_PKT_TOOBIG, 0, mtu);
+   861			ret = -EMSGSIZE;
+   862		}
+   863	out:
+   864		return ret;
+   865	}
+   866	EXPORT_SYMBOL_GPL(xfrm6_tunnel_check_size);
+   867	
 
 -- 
 0-DAY CI Kernel Test Service
