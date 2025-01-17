@@ -1,73 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAF81EE00B;
-	Fri, 17 Jan 2025 18:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB1613541B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 19:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737139349; cv=none; b=eGTSv+tuhPCOIAvlasyxRq03UXhneLA1sNjchDFtVFfeLUo0glV/JQTVm9zBnbq6fLxEbTML5V73Li4fgBx203XxLkJBBxM9Wh1StCVAl/C1eRPCnKwXIrKvG3MOmBuA8sMukyqRNvzPlhhMLdy23YlsKPizEcPQyGFlnundjdY=
+	t=1737141207; cv=none; b=TjIcO/tMPmAXwuLEligKW6ln/v2hJDm7riFsBmwOIGm+7uv/D3j+cq2phw9J7INf7JQRNr2To9uupfAGYfNjyZjOtd0AAS8hIX/qqwEV6rA6qlukHe+hhmpECfnTCF/O/Tmjl+Ofz3bP3XzvrHPIw+CQFe8T9gmPM2z1rqPFy9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737139349; c=relaxed/simple;
-	bh=+2nmW2NKMU28nyZzdx1UxlGMW1MKoytc0yORwfK08tI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOezf/vzhOBUgTimvp1yBSmingy7cwefL4O/LppKsB21NPQ0ivRVHze9BHjnS4ney3VAu6UVG9+eIfVkrZJcAatzPbtEs7pvc/iE3bD9wPsVJ+/XCFPA5YlV63Swd3bXrbnl2v+yQwidSU0kbQZ8l6XaZ5Z7t0B3mUPAeve7+tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOo5Ogzw; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1737141207; c=relaxed/simple;
+	bh=ddpyV1NvdnMYrzmcPOCMcnO+O64kPtUCLv8toSJpQE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cZeNw8+78YOEgpnEEZTjHTIAtkyVwwm4h4JIPoaFp07cAm0d2WQMFfBfTkbTYa8OW5Jny61A+Snwt6V+3AtmwHfmcwq9/R5FaPgRTjdDTXbc23IcI87WPdWvncfXFAMjXGerdMi6JjeUm7J4+8KxWWUJuh9zkLa0YfHcRM9EJOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIDBTmTr; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOo5Ogzw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIDBTmTr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737139348; x=1768675348;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+2nmW2NKMU28nyZzdx1UxlGMW1MKoytc0yORwfK08tI=;
-  b=YOo5OgzwMVkBRAVTpGwsbu+gnw6kXUAMdSXlZ9zdhdieKQb6g74qoUfw
-   csWN0bFgS49KLcgq5QGSiWBuVeMilM4cwDwff/kvPXeKPlhvJnmwZE1xg
-   VxopNovbANy1z/Q9g4NGsAsp90htnOcD7bJ18L5xpMgPkwJ6V241l6qpI
-   ITF+RmAD2k4H9tiPeu+FdHrFzwz+z8uywro0b3VDYMb+CeRFf2daUZ/Du
-   o7BizAKwcZ365KSzEj9zF6PjmFen9AZhog+bpQhMQLIxzp4+SFgqAuodP
-   wYotYHl5jejPT61I2k2DkxWyUTnV5p9HK5/FlA97uA8jRcKNkTGmyWMx8
+  t=1737141206; x=1768677206;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ddpyV1NvdnMYrzmcPOCMcnO+O64kPtUCLv8toSJpQE4=;
+  b=FIDBTmTrWNWOnG3LJeTlN/T2bjSL0aEr4OVzaH85Ktmmd55KkwebU72S
+   QgqTPPwgV9aeLhNLkeh/LomNsu4R3UwlxBfNkJIwASrSdeSFyBtC3OEzO
+   vSjc2PImN2+oFuH+5l4cdBiWw09s1kR27Z/Pfw9aeDTm+Mlz7wgtuZ4eu
+   2/yH5oI72BpIyWRkBfHBuIzZMSHqMM5myIuofDk0thzsWQ0CS70YjX+ZY
+   0hkCqPKi0EU2xnStQZjOZW+UM5CtGDhbxcWU33nfGhvucIGMyyjuDYUPY
+   AqsU8OTFXwB4FHRvLbkGzJ/W9IGupAqMSv1ZxS1XHLOVwDfbu109N2Z8P
    g==;
-X-CSE-ConnectionGUID: AQ2sVmCTSrqSuY8mcNOiqQ==
-X-CSE-MsgGUID: tw4YcpdMQOS3jHISnBM5yQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="48244882"
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
-   d="scan'208";a="48244882"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 10:42:27 -0800
-X-CSE-ConnectionGUID: DFlZGaCrRF+VTsoFUySQWw==
-X-CSE-MsgGUID: sC6n3vS5Tt2eoHcile/hHA==
+X-CSE-ConnectionGUID: 5Q77HGgZTY2biv6eVlVNeg==
+X-CSE-MsgGUID: vRdzUGlMRXqNSPA1ceZSQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="36861452"
+X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
+   d="scan'208";a="36861452"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 11:13:25 -0800
+X-CSE-ConnectionGUID: 102OrQOXRcav8fL2z61iKg==
+X-CSE-MsgGUID: Diyk5fI3SPayS1qtOaWHHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
-   d="scan'208";a="110871489"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105722240"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Jan 2025 10:42:21 -0800
+  by orviesa010.jf.intel.com with ESMTP; 17 Jan 2025 11:13:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYrIQ-000TaB-2o;
-	Fri, 17 Jan 2025 18:42:18 +0000
-Date: Sat, 18 Jan 2025 02:41:24 +0800
+	id 1tYrmT-000Tax-03;
+	Fri, 17 Jan 2025 19:13:21 +0000
+Date: Sat, 18 Jan 2025 03:12:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chunkuang.hu@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
-	jitao.shi@mediatek.com, jie.qiu@mediatek.com,
-	junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel@collabora.com, dmitry.baryshkov@linaro.org,
-	lewis.liao@mediatek.com, ives.chenjh@mediatek.com,
-	tommyyl.chen@mediatek.com, jason-jh.lin@mediatek.com
-Subject: Re: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-Message-ID: <202501180257.A2Og8gLK-lkp@intel.com>
-References: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 1/1] kernel/trace/blktrace.c:348:12:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202501180359.p8CjtqlF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,120 +61,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
 
-Hi AngeloGioacchino,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250113]
-[cannot apply to robh/for-next pza/reset/next linus/master pza/imx-drm/next drm-misc/drm-misc-next v6.13-rc7 v6.13-rc6 v6.13-rc5 v6.13-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20250113-225554
-base:   next-20250113
-patch link:    https://lore.kernel.org/r/20250113145232.227674-33-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250118/202501180257.A2Og8gLK-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180257.A2Og8gLK-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   bf5b85fe246873efa65a9dc0631ad70c59eece6c
+commit: 6f9cff84dde800b4d9eab071810fbe284686601e [1/1] blktrace: Protect q->blk_trace with RCU
+config: arm64-randconfig-r122-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180359.p8CjtqlF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250118/202501180359.p8CjtqlF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501180257.A2Og8gLK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501180359.p8CjtqlF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/blktrace.c:348:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_trace *bt @@     got struct blk_trace [noderef] __rcu *[assigned] __ret @@
+   kernel/trace/blktrace.c:348:12: sparse:     expected struct blk_trace *bt
+   kernel/trace/blktrace.c:348:12: sparse:     got struct blk_trace [noderef] __rcu *[assigned] __ret
+   kernel/trace/blktrace.c:1002:50: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int error @@     got restricted blk_status_t [usertype] bi_status @@
+   kernel/trace/blktrace.c:1002:50: sparse:     expected int error
+   kernel/trace/blktrace.c:1002:50: sparse:     got restricted blk_status_t [usertype] bi_status
+   kernel/trace/blktrace.c:1040:68: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int error @@     got restricted blk_status_t [usertype] bi_status @@
+   kernel/trace/blktrace.c:1040:68: sparse:     expected int error
+   kernel/trace/blktrace.c:1040:68: sparse:     got restricted blk_status_t [usertype] bi_status
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1263:16: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1270:32: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long long [usertype] sector_from @@     got restricted __be64 const [usertype] sector_from @@
+   kernel/trace/blktrace.c:1270:32: sparse:     expected unsigned long long [usertype] sector_from
+   kernel/trace/blktrace.c:1270:32: sparse:     got restricted __be64 const [usertype] sector_from
+   kernel/trace/blktrace.c:1272:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] device_from @@     got unsigned int @@
+   kernel/trace/blktrace.c:1272:24: sparse:     expected restricted __be32 [usertype] device_from
+   kernel/trace/blktrace.c:1272:24: sparse:     got unsigned int
+   kernel/trace/blktrace.c:1273:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] device_to @@     got unsigned int @@
+   kernel/trace/blktrace.c:1273:24: sparse:     expected restricted __be32 [usertype] device_to
+   kernel/trace/blktrace.c:1273:24: sparse:     got unsigned int
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:26: sparse: sparse: cast to restricted __be64
+   kernel/trace/blktrace.c:1274:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] sector_from @@     got unsigned long long @@
+   kernel/trace/blktrace.c:1274:24: sparse:     expected restricted __be64 [usertype] sector_from
+   kernel/trace/blktrace.c:1274:24: sparse:     got unsigned long long
+   kernel/trace/blktrace.c:1407:26: sparse: sparse: restricted __be32 degrades to integer
+   kernel/trace/blktrace.c:1407:48: sparse: sparse: restricted __be32 degrades to integer
+   kernel/trace/blktrace.c:1408:27: sparse: sparse: cast from restricted __be64
+   kernel/trace/blktrace.c:1632:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_trace *bt @@     got struct blk_trace [noderef] __rcu *[assigned] __ret @@
+   kernel/trace/blktrace.c:1632:12: sparse:     expected struct blk_trace *bt
+   kernel/trace/blktrace.c:1632:12: sparse:     got struct blk_trace [noderef] __rcu *[assigned] __ret
 
->> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:345:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     345 |         val = FIELD_PREP(SD0_MAP, sd0) | FIELD_PREP(SD1_MAP, sd1);
-         |               ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:378:51: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     378 |         regmap_update_bits(hdmi->regs, AIP_CTRL, I2S_EN, FIELD_PREP(I2S_EN, chnum));
-         |                                                          ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:410:13: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     410 |         fifo_map = FIELD_PREP(FIFO0_MAP, 0) | FIELD_PREP(FIFO1_MAP, 1);
-         |                    ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:477:53: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     477 |         regmap_update_bits(hdmi->regs, AIP_CTRL, SPDIF_EN, FIELD_PREP(SPDIF_EN, spdif_i2s));
-         |                                                            ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:554:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     554 |                            FIELD_PREP(MAX_2UI_I2S_HI_WRITE, swapbit));
-         |                            ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:579:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     579 |                            FIELD_PREP(MAX_1UI_WRITE, 4));
-         |                            ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:715:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     715 |                            FIELD_PREP(TMDS_PACK_MODE, TMDS_PACK_MODE_8BPP));
-         |                            ^
->> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:812:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     812 |         hpd_pin_sta = FIELD_GET(HPD_PIN_STA, hpd_status);
-         |                       ^
-   8 errors generated.
---
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:59:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      59 |                                    FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLOCK_SCL));
-         |                                    ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:87:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      87 |                            FIELD_PREP(HPD_DDC_DELAY_CNT, DDC2_DLY_CNT));
-         |                            ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:133:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     133 |                            FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLEAR_FIFO));
-         |                            ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:9: warning: comparison of distinct pointer types ('typeof ((loop_counter)) *' (aka 'unsigned short *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-     139 |                 rem = do_div(loop_counter, temp_length);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:183:28: note: expanded from macro 'do_div'
-     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:9: error: incompatible pointer types passing 'u16 *' (aka 'unsigned short *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-     139 |                 rem = do_div(loop_counter, temp_length);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:199:22: note: expanded from macro 'do_div'
-     199 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:174:38: note: passing argument to parameter 'dividend' here
-     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:207:26: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     207 |                         puc_value[read_idx] = FIELD_GET(DDC_DATA_OUT, val);
-         |                                               ^
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:9: warning: shift count >= width of type [-Wshift-count-overflow]
-     139 |                 rem = do_div(loop_counter, temp_length);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:195:25: note: expanded from macro 'do_div'
-     195 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   2 warnings and 5 errors generated.
+vim +348 kernel/trace/blktrace.c
 
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  343  
+1f2cac107c591c2 kernel/trace/blktrace.c Jens Axboe 2017-11-05  344  static int __blk_trace_remove(struct request_queue *q)
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  345  {
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  346  	struct blk_trace *bt;
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  347  
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23 @348  	bt = xchg(&q->blk_trace, NULL);
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  349  	if (!bt)
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  350  		return -EINVAL;
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  351  
+5554720482a6317 kernel/trace/blktrace.c Li Zefan   2009-03-25  352  	if (bt->trace_state != Blktrace_running)
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  353  		blk_trace_cleanup(bt);
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  354  
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  355  	return 0;
+2056a782f8e7e65 block/blktrace.c        Jens Axboe 2006-03-23  356  }
+1f2cac107c591c2 kernel/trace/blktrace.c Jens Axboe 2017-11-05  357  
 
-vim +/FIELD_PREP +345 drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+:::::: The code at line 348 was first introduced by commit
+:::::: 2056a782f8e7e65fd4bfd027506b4ce1c5e9ccd4 [PATCH] Block queue IO tracing support (blktrace) as of 2006-03-23
 
-   333	
-   334	static u32 mtk_hdmi_v2_aud_output_channel_map(u8 sd0, u8 sd1, u8 sd2, u8 sd3,
-   335						      u8 sd4, u8 sd5, u8 sd6, u8 sd7)
-   336	{
-   337		u32 val;
-   338	
-   339		/*
-   340		 * Each of the Output Channels (0-7) can be mapped to get their input
-   341		 * from any of the available Input Channels (0-7): this function
-   342		 * takes input channel numbers and formats a value that must then
-   343		 * be written to the TOP_AUD_MAP hardware register by the caller.
-   344		 */
- > 345		val = FIELD_PREP(SD0_MAP, sd0) | FIELD_PREP(SD1_MAP, sd1);
-   346		val |= FIELD_PREP(SD2_MAP, sd2) | FIELD_PREP(SD3_MAP, sd3);
-   347		val |= FIELD_PREP(SD4_MAP, sd4) | FIELD_PREP(SD5_MAP, sd5);
-   348		val |= FIELD_PREP(SD6_MAP, sd6) | FIELD_PREP(SD7_MAP, sd7);
-   349	
-   350		return val;
-   351	}
-   352	
+:::::: TO: Jens Axboe <axboe@suse.de>
+:::::: CC: Jens Axboe <axboe@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
