@@ -1,67 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D261A7265
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 18:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAF81EE00B;
+	Fri, 17 Jan 2025 18:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737138625; cv=none; b=ExWlnPqkpQLYoxLc4ttkJgrS9Fr2oSVXN3dpanTFLRlZv8iozQhWgswl4R2D/yxQwrEalQtLF7Es1ASFEzDvfw85xEQjQc69nt+/6VkT89lVkKv+o+1a2rcULLKyrrE5PvvyCj4GXh9IzU5Sae3oMt9MiplvvBRcKrM9q57KY0M=
+	t=1737139349; cv=none; b=eGTSv+tuhPCOIAvlasyxRq03UXhneLA1sNjchDFtVFfeLUo0glV/JQTVm9zBnbq6fLxEbTML5V73Li4fgBx203XxLkJBBxM9Wh1StCVAl/C1eRPCnKwXIrKvG3MOmBuA8sMukyqRNvzPlhhMLdy23YlsKPizEcPQyGFlnundjdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737138625; c=relaxed/simple;
-	bh=f8cAEq+ekutiXA8y00ycva89kbJIgBSuD+TagmH4Oxo=;
+	s=arc-20240116; t=1737139349; c=relaxed/simple;
+	bh=+2nmW2NKMU28nyZzdx1UxlGMW1MKoytc0yORwfK08tI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EJ5LGV0ugVc4Ps1wa75FItl2iXSaqdOVPWIF0QByCw//i3fYODy1qKrDF5hhntYSRx0ndbXiJlfSZ2UskJ3TMffBW+ytMuOGJ3H/XzydQzIxsmEMDt2Y05az59HqOX6VuNKq/Kr3RYirbllv4ifFNt/RYXPR97lf8ndJ/Bay8Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixAvVGxr; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=lOezf/vzhOBUgTimvp1yBSmingy7cwefL4O/LppKsB21NPQ0ivRVHze9BHjnS4ney3VAu6UVG9+eIfVkrZJcAatzPbtEs7pvc/iE3bD9wPsVJ+/XCFPA5YlV63Swd3bXrbnl2v+yQwidSU0kbQZ8l6XaZ5Z7t0B3mUPAeve7+tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOo5Ogzw; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixAvVGxr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOo5Ogzw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737138623; x=1768674623;
+  t=1737139348; x=1768675348;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f8cAEq+ekutiXA8y00ycva89kbJIgBSuD+TagmH4Oxo=;
-  b=ixAvVGxrdeKA4sLMqjKKSA8DZCqEhDTi+292ed8l5vfavVwNJzmXNAd+
-   o/Gs1Q5Oa/EdSrpithMRkSOqEAV9V9syRnC8B20B8Y5jbzZI3e3N8Qr+e
-   BS0YZZ1RFzgmVhoi9RSpUNYr+zQpQ1+/IXyQNCmtBm1JOoHDV4OQ7d2o8
-   AWR/0kLZWymqXLO3eN3D3UWCE/QSPhMppHwSzagzvizpHZGIEvhSsSB0d
-   +FJc6ymk0B3SVoeZI0+61q8z7MR5/akKDvFn4J4+N4mcA8utvuyS+k33C
-   f0yF2WegRt2iSFydeitX1r6EveaV9CJbtryCoqyJGFCUQPlpEPHahAK4o
+  bh=+2nmW2NKMU28nyZzdx1UxlGMW1MKoytc0yORwfK08tI=;
+  b=YOo5OgzwMVkBRAVTpGwsbu+gnw6kXUAMdSXlZ9zdhdieKQb6g74qoUfw
+   csWN0bFgS49KLcgq5QGSiWBuVeMilM4cwDwff/kvPXeKPlhvJnmwZE1xg
+   VxopNovbANy1z/Q9g4NGsAsp90htnOcD7bJ18L5xpMgPkwJ6V241l6qpI
+   ITF+RmAD2k4H9tiPeu+FdHrFzwz+z8uywro0b3VDYMb+CeRFf2daUZ/Du
+   o7BizAKwcZ365KSzEj9zF6PjmFen9AZhog+bpQhMQLIxzp4+SFgqAuodP
+   wYotYHl5jejPT61I2k2DkxWyUTnV5p9HK5/FlA97uA8jRcKNkTGmyWMx8
    g==;
-X-CSE-ConnectionGUID: U3XwCsFxTlmcz1hi02OjhA==
-X-CSE-MsgGUID: ZFwmGRdhSkaQ+dhAKxgTgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37272519"
+X-CSE-ConnectionGUID: AQ2sVmCTSrqSuY8mcNOiqQ==
+X-CSE-MsgGUID: tw4YcpdMQOS3jHISnBM5yQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="48244882"
 X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
-   d="scan'208";a="37272519"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 10:30:22 -0800
-X-CSE-ConnectionGUID: gJ1ujV3FSOm/sXeqXFyLlg==
-X-CSE-MsgGUID: N4OI+Tr/SombvVB9vl2CzQ==
+   d="scan'208";a="48244882"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 10:42:27 -0800
+X-CSE-ConnectionGUID: DFlZGaCrRF+VTsoFUySQWw==
+X-CSE-MsgGUID: sC6n3vS5Tt2eoHcile/hHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
-   d="scan'208";a="106470713"
+   d="scan'208";a="110871489"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Jan 2025 10:30:20 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 17 Jan 2025 10:42:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYr6n-000TZX-1z;
-	Fri, 17 Jan 2025 18:30:17 +0000
-Date: Sat, 18 Jan 2025 02:29:41 +0800
+	id 1tYrIQ-000TaB-2o;
+	Fri, 17 Jan 2025 18:42:18 +0000
+Date: Sat, 18 Jan 2025 02:41:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Melody Olvera <quic_molvera@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Melody Olvera <quic_molvera@quicinc.com>
-Subject: Re: [PATCH 2/4] soc: qcom: llcc-qcom: Add support for LLCC V6
-Message-ID: <202501180248.1JzWcFb9-lkp@intel.com>
-References: <20250113-sm8750_llcc_master-v1-2-5389b92e2d7a@quicinc.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	chunkuang.hu@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
+	jitao.shi@mediatek.com, jie.qiu@mediatek.com,
+	junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kernel@collabora.com, dmitry.baryshkov@linaro.org,
+	lewis.liao@mediatek.com, ives.chenjh@mediatek.com,
+	tommyyl.chen@mediatek.com, jason-jh.lin@mediatek.com
+Subject: Re: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for
+ MT8195/MT8188
+Message-ID: <202501180257.A2Og8gLK-lkp@intel.com>
+References: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,191 +76,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250113-sm8750_llcc_master-v1-2-5389b92e2d7a@quicinc.com>
+In-Reply-To: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
 
-Hi Melody,
+Hi AngeloGioacchino,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 37136bf5c3a6f6b686d74f41837a6406bec6b7bc]
+[auto build test ERROR on next-20250113]
+[cannot apply to robh/for-next pza/reset/next linus/master pza/imx-drm/next drm-misc/drm-misc-next v6.13-rc7 v6.13-rc6 v6.13-rc5 v6.13-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Melody-Olvera/dt-bindings-cache-qcom-llcc-Document-SM8750-LLCC-block/20250114-053146
-base:   37136bf5c3a6f6b686d74f41837a6406bec6b7bc
-patch link:    https://lore.kernel.org/r/20250113-sm8750_llcc_master-v1-2-5389b92e2d7a%40quicinc.com
-patch subject: [PATCH 2/4] soc: qcom: llcc-qcom: Add support for LLCC V6
-config: mips-randconfig-r073-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180248.1JzWcFb9-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180248.1JzWcFb9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20250113-225554
+base:   next-20250113
+patch link:    https://lore.kernel.org/r/20250113145232.227674-33-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250118/202501180257.A2Og8gLK-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180257.A2Og8gLK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501180248.1JzWcFb9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501180257.A2Og8gLK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/soc/qcom/llcc-qcom.c: In function '_qcom_llcc_cfg_program_v6':
->> drivers/soc/qcom/llcc-qcom.c:3937:13: warning: variable 'sz' set but not used [-Wunused-but-set-variable]
-    3937 |         u32 sz = 0;
-         |             ^~
->> drivers/soc/qcom/llcc-qcom.c:3936:41: warning: variable 'slice_cfg' set but not used [-Wunused-but-set-variable]
-    3936 |         const struct llcc_slice_config *slice_cfg;
-         |                                         ^~~~~~~~~
-   drivers/soc/qcom/llcc-qcom.c: At top level:
-   drivers/soc/qcom/llcc-qcom.c:3223:18: warning: 'llcc_v6_reg_offset' defined but not used [-Wunused-const-variable=]
-    3223 | static const u32 llcc_v6_reg_offset[] = {
-         |                  ^~~~~~~~~~~~~~~~~~
-   drivers/soc/qcom/llcc-qcom.c:3183:42: warning: 'llcc_v6_edac_reg_offset' defined but not used [-Wunused-const-variable=]
-    3183 | static const struct llcc_edac_reg_offset llcc_v6_edac_reg_offset = {
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:345:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     345 |         val = FIELD_PREP(SD0_MAP, sd0) | FIELD_PREP(SD1_MAP, sd1);
+         |               ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:378:51: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     378 |         regmap_update_bits(hdmi->regs, AIP_CTRL, I2S_EN, FIELD_PREP(I2S_EN, chnum));
+         |                                                          ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:410:13: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     410 |         fifo_map = FIELD_PREP(FIFO0_MAP, 0) | FIELD_PREP(FIFO1_MAP, 1);
+         |                    ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:477:53: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     477 |         regmap_update_bits(hdmi->regs, AIP_CTRL, SPDIF_EN, FIELD_PREP(SPDIF_EN, spdif_i2s));
+         |                                                            ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:554:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     554 |                            FIELD_PREP(MAX_2UI_I2S_HI_WRITE, swapbit));
+         |                            ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:579:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     579 |                            FIELD_PREP(MAX_1UI_WRITE, 4));
+         |                            ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:715:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     715 |                            FIELD_PREP(TMDS_PACK_MODE, TMDS_PACK_MODE_8BPP));
+         |                            ^
+>> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:812:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     812 |         hpd_pin_sta = FIELD_GET(HPD_PIN_STA, hpd_status);
+         |                       ^
+   8 errors generated.
+--
+>> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:59:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      59 |                                    FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLOCK_SCL));
+         |                                    ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:87:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      87 |                            FIELD_PREP(HPD_DDC_DELAY_CNT, DDC2_DLY_CNT));
+         |                            ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:133:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     133 |                            FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLEAR_FIFO));
+         |                            ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:9: warning: comparison of distinct pointer types ('typeof ((loop_counter)) *' (aka 'unsigned short *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+     139 |                 rem = do_div(loop_counter, temp_length);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:183:28: note: expanded from macro 'do_div'
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:9: error: incompatible pointer types passing 'u16 *' (aka 'unsigned short *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+     139 |                 rem = do_div(loop_counter, temp_length);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:199:22: note: expanded from macro 'do_div'
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   include/asm-generic/div64.h:174:38: note: passing argument to parameter 'dividend' here
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                                      ^
+>> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:207:26: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     207 |                         puc_value[read_idx] = FIELD_GET(DDC_DATA_OUT, val);
+         |                                               ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:9: warning: shift count >= width of type [-Wshift-count-overflow]
+     139 |                 rem = do_div(loop_counter, temp_length);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:195:25: note: expanded from macro 'do_div'
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   2 warnings and 5 errors generated.
 
 
-vim +/sz +3937 drivers/soc/qcom/llcc-qcom.c
+vim +/FIELD_PREP +345 drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
 
-  3924	
-  3925	static int _qcom_llcc_cfg_program_v6(const struct llcc_slice_config *config,
-  3926					  const struct qcom_llcc_config *cfg)
-  3927	{
-  3928		int ret;
-  3929		u32 attr0_cfg, attr1_cfg, attr2_cfg, attr3_cfg;
-  3930		u32 attr0_val, attr1_val, attr2_val, attr3_val;
-  3931		u32 disable_cap_alloc, wren, wr_cache_en;
-  3932		u32 stale_en, stale_cap_en, mru_uncap_en, mru_rollover;
-  3933		u32 alloc_oneway_en, ovcap_en, ovcap_prio, vict_prio;
-  3934		u32 slice_offset, reg_offset;
-  3935		struct llcc_slice_desc *desc;
-> 3936		const struct llcc_slice_config *slice_cfg;
-> 3937		u32 sz = 0;
-  3938	
-  3939		slice_cfg = cfg->sct_data;
-  3940		sz = cfg->size;
-  3941	
-  3942		attr0_cfg = LLCC_V6_TRP_ATTR0_CFGn(config->slice_id);
-  3943		attr1_cfg = LLCC_V6_TRP_ATTR1_CFGn(config->slice_id);
-  3944		attr2_cfg = LLCC_V6_TRP_ATTR2_CFGn(config->slice_id);
-  3945		attr3_cfg = LLCC_V6_TRP_ATTR3_CFGn(config->slice_id);
-  3946	
-  3947		attr0_val = config->res_ways;
-  3948		attr1_val = config->bonus_ways;
-  3949		attr2_val = config->cache_mode;
-  3950		attr2_val |= config->probe_target_ways << ATTR2_PROBE_TARGET_WAYS_SHIFT;
-  3951		attr2_val |= config->fixed_size << ATTR2_FIXED_SIZE_SHIFT;
-  3952		attr2_val |= config->priority << ATTR2_PRIORITY_SHIFT;
-  3953	
-  3954		attr3_val = MAX_CAP_TO_BYTES(config->max_cap);
-  3955		attr3_val /= drv_data->num_banks;
-  3956		attr3_val >>= CACHE_LINE_SIZE_SHIFT;
-  3957	
-  3958		ret = regmap_write(drv_data->bcast_regmap, attr0_cfg, attr0_val);
-  3959		if (ret)
-  3960			return ret;
-  3961	
-  3962		ret = regmap_write(drv_data->bcast_regmap, attr1_cfg, attr1_val);
-  3963		if (ret)
-  3964			return ret;
-  3965	
-  3966		ret = regmap_write(drv_data->bcast_regmap, attr2_cfg, attr2_val);
-  3967		if (ret)
-  3968			return ret;
-  3969	
-  3970		ret = regmap_write(drv_data->bcast_regmap, attr3_cfg, attr3_val);
-  3971		if (ret)
-  3972			return ret;
-  3973	
-  3974		slice_offset = config->slice_id % 32;
-  3975		reg_offset = (config->slice_id / 32) * 4;
-  3976	
-  3977		if (!cfg->skip_llcc_cfg) {
-  3978			disable_cap_alloc = config->dis_cap_alloc << slice_offset;
-  3979			ret = regmap_write(drv_data->bcast_regmap,
-  3980				LLCC_V6_TRP_SCID_DIS_CAP_ALLOC + reg_offset,
-  3981				disable_cap_alloc);
-  3982	
-  3983			if (ret)
-  3984				return ret;
-  3985		}
-  3986	
-  3987		wren = config->write_scid_en << slice_offset;
-  3988		ret = regmap_update_bits(drv_data->bcast_regmap,
-  3989				LLCC_V6_TRP_WRSC_EN + reg_offset,
-  3990				BIT(slice_offset), wren);
-  3991		if (ret)
-  3992			return ret;
-  3993	
-  3994		wr_cache_en = config->write_scid_cacheable_en << slice_offset;
-  3995		ret = regmap_update_bits(drv_data->bcast_regmap,
-  3996				LLCC_V6_TRP_WRSC_CACHEABLE_EN + reg_offset,
-  3997				BIT(slice_offset), wr_cache_en);
-  3998		if (ret)
-  3999			return ret;
-  4000	
-  4001		stale_en = config->stale_en << slice_offset;
-  4002		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4003				LLCC_V6_TRP_ALGO_CFG1 + reg_offset,
-  4004				BIT(slice_offset), stale_en);
-  4005		if (ret)
-  4006			return ret;
-  4007	
-  4008		stale_cap_en = config->stale_cap_en << slice_offset;
-  4009		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4010				LLCC_V6_TRP_ALGO_CFG2 + reg_offset,
-  4011				BIT(slice_offset), stale_cap_en);
-  4012		if (ret)
-  4013			return ret;
-  4014	
-  4015		mru_uncap_en = config->mru_uncap_en << slice_offset;
-  4016		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4017				LLCC_V6_TRP_ALGO_CFG3 + reg_offset,
-  4018				BIT(slice_offset), mru_uncap_en);
-  4019		if (ret)
-  4020			return ret;
-  4021	
-  4022		mru_rollover = config->mru_rollover << slice_offset;
-  4023		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4024				LLCC_V6_TRP_ALGO_CFG4 + reg_offset,
-  4025				BIT(slice_offset), mru_rollover);
-  4026		if (ret)
-  4027			return ret;
-  4028	
-  4029		alloc_oneway_en = config->alloc_oneway_en << slice_offset;
-  4030		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4031				LLCC_V6_TRP_ALGO_CFG5 + reg_offset,
-  4032				BIT(slice_offset), alloc_oneway_en);
-  4033		if (ret)
-  4034			return ret;
-  4035	
-  4036		ovcap_en = config->ovcap_en << slice_offset;
-  4037		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4038				LLCC_V6_TRP_ALGO_CFG6 + reg_offset,
-  4039				BIT(slice_offset), ovcap_en);
-  4040		if (ret)
-  4041			return ret;
-  4042	
-  4043		ovcap_prio = config->ovcap_prio << slice_offset;
-  4044		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4045				LLCC_V6_TRP_ALGO_CFG7 + reg_offset,
-  4046				BIT(slice_offset), ovcap_prio);
-  4047		if (ret)
-  4048			return ret;
-  4049	
-  4050		vict_prio = config->vict_prio << slice_offset;
-  4051		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4052				LLCC_V6_TRP_ALGO_CFG8 + reg_offset,
-  4053				BIT(slice_offset), vict_prio);
-  4054		if (ret)
-  4055			return ret;
-  4056	
-  4057		if (config->activate_on_init) {
-  4058			desc = llcc_slice_getd(config->usecase_id);
-  4059			if (PTR_ERR_OR_ZERO(desc))
-  4060				return -EINVAL;
-  4061	
-  4062			ret = llcc_slice_activate(desc);
-  4063		}
-  4064	
-  4065		return ret;
-  4066	}
-  4067	
+   333	
+   334	static u32 mtk_hdmi_v2_aud_output_channel_map(u8 sd0, u8 sd1, u8 sd2, u8 sd3,
+   335						      u8 sd4, u8 sd5, u8 sd6, u8 sd7)
+   336	{
+   337		u32 val;
+   338	
+   339		/*
+   340		 * Each of the Output Channels (0-7) can be mapped to get their input
+   341		 * from any of the available Input Channels (0-7): this function
+   342		 * takes input channel numbers and formats a value that must then
+   343		 * be written to the TOP_AUD_MAP hardware register by the caller.
+   344		 */
+ > 345		val = FIELD_PREP(SD0_MAP, sd0) | FIELD_PREP(SD1_MAP, sd1);
+   346		val |= FIELD_PREP(SD2_MAP, sd2) | FIELD_PREP(SD3_MAP, sd3);
+   347		val |= FIELD_PREP(SD4_MAP, sd4) | FIELD_PREP(SD5_MAP, sd5);
+   348		val |= FIELD_PREP(SD6_MAP, sd6) | FIELD_PREP(SD7_MAP, sd7);
+   349	
+   350		return val;
+   351	}
+   352	
 
 -- 
 0-DAY CI Kernel Test Service
