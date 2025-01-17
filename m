@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91B325A643;
-	Fri, 17 Jan 2025 03:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C551F5618
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 03:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737085060; cv=none; b=hwjHIJA4k+204b2fdfa04WmdjPC4lWCoA/n5+sIbvfL4Dj/E6uFaer31iwZfuAQoja11TAc88vlb8ts2nILVoOs1Zku8rV9HWgNb0FcJzV2iW8SevV5cxrVWx9Bhp5LXGWJt5/cZB/FBCwfOBV1EZIk+moWGkswODwS07xDFE+8=
+	t=1737086326; cv=none; b=tta1R4dXtcm7dxnVgklGHz/PXvWFEWmh9r6wuv1WdZ+C7VAtMXETppA0JBq+xxNd+KClID/mCHCmz4rfpfGf47dlEkTLcXSpd0elu2hbgWgShBwawd4lJlUI1w9dh10GoODlSpnXlMTxGOe6Ret0XyZ4R003Be4cVKf0zD/7+dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737085060; c=relaxed/simple;
-	bh=HMUUDGxdOQTfRDHxaMnVQv2gVwyu1y0efKo/sfsIA6c=;
+	s=arc-20240116; t=1737086326; c=relaxed/simple;
+	bh=dxeKnSYadml3z1u+MI/92hG6YquGsvsFrH8igZI2su0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cbnrcMrGUyVwNz53oIq6B0/bgbIHiRe5y/pZel16Taf6AEOlL0pZUvZT5JprGaS+xhAxk0oORHylf6/EjBQsqYjHtPY9JhQe//GRHLFwErL1myW3N84oQHY8FrNAEomF23D65n1m1Mk5TUzM7JGR3yEbB20cLEhle3wzLwUEONk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFLwkiLu; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=L2pg9dYGrbfOO3BtN2NiF4YmmBxPBFA9vRb2WpgNkvRkQ72UAnF+n3cAPALGDQcfRMTgIeasCuUxGaMChjzVmCis7/iEqlmIOYC6ENhL7Gry/O0tzY9dYFSye/LZoAfreTBNHXyV8wBtZKhmxY+sjN4foj6HGHaVv58idHTYz9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dj81fLvl; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFLwkiLu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dj81fLvl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737085059; x=1768621059;
+  t=1737086323; x=1768622323;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HMUUDGxdOQTfRDHxaMnVQv2gVwyu1y0efKo/sfsIA6c=;
-  b=VFLwkiLuywngzPyKIu6XYd5EPCFDC8v2+Pw4/dvZtyvhJlLzIDagRCt2
-   ZqVpre58+FsKJskXQ+7FWX7AYBRHyZk48O+P3/NqVNRpdAFCIl6/N0CBc
-   xO8QIeNqpeptiQLoSwaSQplYgis4YJjTj14/x4EkDo4GIyAg6dI9Kw0p1
-   umL98qA9LITKoNDSxGTpE4ClrH/cK1zTG+Q0tQexNYJm1kBoPELgKbvbX
-   Kich/1UmtL2BEbeMBty2aKPfnEIunvKt6LXdb7C7cvvtIwkP5eWukMcZo
-   YnLzDLrwwkcFQIzO5xis3YYRYB5Y8KSEDdg/n7yMCF6T0NbUnK5TLwScR
-   g==;
-X-CSE-ConnectionGUID: s4sJmJCsTjqW4/o956i2Eg==
-X-CSE-MsgGUID: BX+bNfQmTVa+Va9gpUVgXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="47994674"
+  bh=dxeKnSYadml3z1u+MI/92hG6YquGsvsFrH8igZI2su0=;
+  b=Dj81fLvlHGoakM1I05/4IHScCYHq0z9Q++Ly2Lv1Vb0qxRwxXDTUMSRU
+   3cs7N0gSSRd8yQuuQ8xrnGNYvTUHWUszLdKem/R0iUWi8fTmzE+mpkbBL
+   Eyve2wXHne+lUSZO2M3D8zHG73XNpRvwF/olhcqSuMCzm4DfVouvy/uIS
+   JUp7ouW4Q2QnCw9Hvo6RzmbxKp7s0fpbT8uEThqOkhgtj1oH7u4pOjpR9
+   RhSNROC6GS1APabehCvUPUrikRBaqAVtS4/NU+sV5hO0rqc7sk/HisQMa
+   XeM0mPOSggQjTMs28uy4XYl+UdGJoQXeMnak74JPZTNjP/uGbkWLFSXSw
+   A==;
+X-CSE-ConnectionGUID: OX3yu78zT5GaDJIpG/LoMQ==
+X-CSE-MsgGUID: tAb492lJR/Wgz5LAGeuc/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="48901309"
 X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="47994674"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 19:37:38 -0800
-X-CSE-ConnectionGUID: F/uXfhJoRlGFp7QxPl5O9A==
-X-CSE-MsgGUID: SIdSKJNZR7WXAK5LqKdzWQ==
+   d="scan'208";a="48901309"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 19:58:42 -0800
+X-CSE-ConnectionGUID: f1KlbLIeQaCufMVC028g0g==
+X-CSE-MsgGUID: 5aGLNWazRc+R1lc7NsJbjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110321782"
+   d="scan'208";a="105537063"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Jan 2025 19:37:36 -0800
+  by orviesa010.jf.intel.com with ESMTP; 16 Jan 2025 19:58:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYdAs-000ShT-15;
-	Fri, 17 Jan 2025 03:37:34 +0000
-Date: Fri, 17 Jan 2025 11:37:19 +0800
+	id 1tYdVF-000SjH-2y;
+	Fri, 17 Jan 2025 03:58:37 +0000
+Date: Fri, 17 Jan 2025 11:57:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rik van Riel <riel@surriel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 05/12] x86/mm: add INVLPGB support code
-Message-ID: <202501171121.nQcwVI41-lkp@intel.com>
-References: <20250116023127.1531583-6-riel@surriel.com>
+To: Wupeng Ma <mawupeng1@huawei.com>, akpm@linux-foundation.org,
+	david@redhat.com, osalvador@suse.de, nao.horiguchi@gmail.com,
+	linmiaohe@huawei.com, mhocko@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, mawupeng1@huawei.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] mm: memory-failure: update ttu flag inside
+ unmap_poisoned_folio
+Message-ID: <202501171300.SYkofFQ6-lkp@intel.com>
+References: <20250116061657.227027-2-mawupeng1@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +66,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250116023127.1531583-6-riel@surriel.com>
+In-Reply-To: <20250116061657.227027-2-mawupeng1@huawei.com>
 
-Hi Rik,
+Hi Wupeng,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/x86/mm]
-[also build test ERROR on tip/master linus/master tip/x86/core v6.13-rc7]
-[cannot apply to tip/auto-latest next-20250116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/x86-mm-make-MMU_GATHER_RCU_TABLE_FREE-unconditional/20250116-103657
-base:   tip/x86/mm
-patch link:    https://lore.kernel.org/r/20250116023127.1531583-6-riel%40surriel.com
-patch subject: [PATCH v5 05/12] x86/mm: add INVLPGB support code
-config: i386-buildonly-randconfig-001-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171121.nQcwVI41-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171121.nQcwVI41-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wupeng-Ma/mm-memory-failure-update-ttu-flag-inside-unmap_poisoned_folio/20250116-142614
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250116061657.227027-2-mawupeng1%40huawei.com
+patch subject: [PATCH v2 1/3] mm: memory-failure: update ttu flag inside unmap_poisoned_folio
+config: s390-randconfig-001-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171300.SYkofFQ6-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171300.SYkofFQ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501171121.nQcwVI41-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501171300.SYkofFQ6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:9:
-   In file included from include/linux/sched/task.h:13:
-   In file included from include/linux/uaccess.h:12:
-   In file included from arch/x86/include/asm/uaccess.h:17:
-   In file included from arch/x86/include/asm/tlbflush.h:13:
->> arch/x86/include/asm/invlpgb.h:26:49: error: invalid input size for constraint 'a'
-      26 |         asm volatile(".byte 0x0f, 0x01, 0xfe" : : "a" (rax), "c" (ecx), "d" (edx));
-         |                                                        ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=3995685176
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1263: prepare0] Error 2 shuffle=3995685176
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=3995685176
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=3995685176
-   make: Target 'prepare' not remade because of errors.
+   In file included from mm/page_isolation.c:13:
+>> mm/internal.h:1142:1: error: expected identifier or '(' before '{' token
+    1142 | {
+         | ^
+>> mm/internal.h:1141:19: warning: 'unmap_poisoned_folio' declared 'static' but never defined [-Wunused-function]
+    1141 | static inline int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, bool must_kill);
+         |                   ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from mm/damon/paddr.c:19:
+>> mm/damon/../internal.h:1142:1: error: expected identifier or '(' before '{' token
+    1142 | {
+         | ^
+>> mm/damon/../internal.h:1141:19: warning: 'unmap_poisoned_folio' declared 'static' but never defined [-Wunused-function]
+    1141 | static inline int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, bool must_kill);
+         |                   ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/a +26 arch/x86/include/asm/invlpgb.h
+vim +1142 mm/internal.h
 
-     7	
-     8	/*
-     9	 * INVLPGB does broadcast TLB invalidation across all the CPUs in the system.
-    10	 *
-    11	 * The INVLPGB instruction is weakly ordered, and a batch of invalidations can
-    12	 * be done in a parallel fashion.
-    13	 *
-    14	 * TLBSYNC is used to ensure that pending INVLPGB invalidations initiated from
-    15	 * this CPU have completed.
-    16	 */
-    17	static inline void __invlpgb(unsigned long asid, unsigned long pcid,
-    18				     unsigned long addr, u16 extra_count,
-    19				     bool pmd_stride, unsigned long flags)
-    20	{
-    21		u32 edx = (pcid << 16) | asid;
-    22		u32 ecx = (pmd_stride << 31) | extra_count;
-    23		u64 rax = addr | flags;
-    24	
-    25		/* INVLPGB; supported in binutils >= 2.36. */
-  > 26		asm volatile(".byte 0x0f, 0x01, 0xfe" : : "a" (rax), "c" (ecx), "d" (edx));
-    27	}
-    28	
+31d3d3484f9bd2 Wu Fengguang            2009-12-16  1121  
+7c116f2b0dbac4 Wu Fengguang            2009-12-16  1122  extern u32 hwpoison_filter_dev_major;
+7c116f2b0dbac4 Wu Fengguang            2009-12-16  1123  extern u32 hwpoison_filter_dev_minor;
+478c5ffc0b5052 Wu Fengguang            2009-12-16  1124  extern u64 hwpoison_filter_flags_mask;
+478c5ffc0b5052 Wu Fengguang            2009-12-16  1125  extern u64 hwpoison_filter_flags_value;
+4fd466eb46a6a9 Andi Kleen              2009-12-16  1126  extern u64 hwpoison_filter_memcg;
+1bfe5febe34d2b Haicheng Li             2009-12-16  1127  extern u32 hwpoison_filter_enable;
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1128  #define MAGIC_HWPOISON	0x48575053U	/* HWPS */
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1129  void SetPageHWPoisonTakenOff(struct page *page);
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1130  void ClearPageHWPoisonTakenOff(struct page *page);
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1131  bool take_page_off_buddy(struct page *page);
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1132  bool put_page_back_buddy(struct page *page);
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1133  struct task_struct *task_early_kill(struct task_struct *tsk, int force_early);
+68158bfa3dbd4a Matthew Wilcox (Oracle  2024-10-05  1134) void add_to_kill_ksm(struct task_struct *tsk, const struct page *p,
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1135  		     struct vm_area_struct *vma, struct list_head *to_kill,
+3a78f77fd1fb82 Miaohe Lin              2024-06-12  1136  		     unsigned long ksm_addr);
+68158bfa3dbd4a Matthew Wilcox (Oracle  2024-10-05  1137) unsigned long page_mapped_in_vma(const struct page *page,
+68158bfa3dbd4a Matthew Wilcox (Oracle  2024-10-05  1138) 		struct vm_area_struct *vma);
+eb36c5873b96e8 Al Viro                 2012-05-30  1139  
+16038c4fffd802 Kefeng Wang             2024-08-27  1140  #else
+2b5df10a15dc74 Ma Wupeng               2025-01-16 @1141  static inline int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, bool must_kill);
+16038c4fffd802 Kefeng Wang             2024-08-27 @1142  {
+2b5df10a15dc74 Ma Wupeng               2025-01-16  1143  	return -EBUSY;
+16038c4fffd802 Kefeng Wang             2024-08-27  1144  }
+16038c4fffd802 Kefeng Wang             2024-08-27  1145  #endif
+16038c4fffd802 Kefeng Wang             2024-08-27  1146  
 
 -- 
 0-DAY CI Kernel Test Service
