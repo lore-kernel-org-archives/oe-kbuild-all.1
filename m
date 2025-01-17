@@ -1,318 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1211F91E6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 09:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D3F25A659;
+	Fri, 17 Jan 2025 09:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737105323; cv=none; b=Ntm8Jr3Dm9MUd9qWuTrEuzONh0DZRA/0g5WzTyl8VsbZb5LjNvUUNUlFZ9z3tkYtUzXxfNe9tbQjbYwW0WtN+6p+rpNa5lGZ4geLmWeh9sqmGdesY3B5zptXU8qsgryw10awQ55aRVs2NHjqXQKfv7uzKOlcNFTw153x+SdrQTI=
+	t=1737106349; cv=none; b=OR9CdPuhLhHwTrPZILJKflIXuclqlQUN3iS2UOzQdsUTZao7NqFEEnSKQK75A9+8XnvnCQAt7dJ+RPOMY/U1BF1jXeLKk7QHYU20BRBPpdq57GSdrJSe46uJ3xhm2tzWdTJm8j/bjmjT0A4etpSN8F8y0SPTIDfvF/+du6pBd0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737105323; c=relaxed/simple;
-	bh=2Do2mFCohhXnaRtt6zNtaBAFe8NgkA4WLuBTHq2Xfec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ROP7j+QbRhjFlDY5BJ8MQd9VLu5IrYQcK10JoJ0iyRyUIz4ph8bifo9gT1lCBfYlyi2nzI0DziSIZnB59fP+t7TafxdvgGWDCQaNl7eAJeTdxFp2OHE9zbHVWTD0wMXSYSuUL9rB0DungeOO+oB8p7PM60yDQH6BEACteoCLczA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B64QDBwB; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737106349; c=relaxed/simple;
+	bh=+kxq3dPoZu7QX8VTxzUaLNtxQnGuNPax55ebMyuat2g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=rUTNXVGBtRmpts+NfhzkjoCyEZql4jZFg8heqDkUSG7pgu9DovfBFxBkT3A8l2R7XCGURFN59jXGgiz43v05ACPIesIn3iVNZXc+2kLcvN4T5o1HfefAjWJMF59oEvv+EAwZC96KFp1zlH4gWdm389DiGCyfgv/F2sSGiYQ7zfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=IO0PR02t; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B64QDBwB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737105321; x=1768641321;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Do2mFCohhXnaRtt6zNtaBAFe8NgkA4WLuBTHq2Xfec=;
-  b=B64QDBwB9hBij3TFVjnOQM/cE7v82Y073iBb80Xv8ty8+Cjr2LKopfWx
-   Jx474fEF4zS5JakEl3W7R6bhUcHZ8kzsC+KiyTtfPU2AsYo03YNvVlPoO
-   ynoiUJEwk5LKeShYqqTfcPpp9D95L8Cd+edECQEbuEwhXSRAAA3+YAHaf
-   OipZzAuV0lkgRks/N6Of5vjd5iNjAFqXavsJ14yrnHVNPF8wlULpe5QQY
-   ggA76Zk/Pc1hDUa1NssSenKeIvJwPCV2Bh4NvvPjnkZ0fCzgE1xxAtHqx
-   /eXPQIL5LsdmH6JuFwB8RlAw7QV0N05TqmAvg9oIvvlyQxPelm+p8HTGg
-   A==;
-X-CSE-ConnectionGUID: 81PvXEOUTvKNa/kRTmdzYA==
-X-CSE-MsgGUID: BSaM12W9Tr2YKD2THW+FUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="40340859"
-X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="40340859"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 01:15:21 -0800
-X-CSE-ConnectionGUID: /fE1/x6TQN+liGstLxljYw==
-X-CSE-MsgGUID: JopJEqqDS0CyGiSL4oRbHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106640060"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Jan 2025 01:15:15 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tYiRd-000T0d-0f;
-	Fri, 17 Jan 2025 09:15:13 +0000
-Date: Fri, 17 Jan 2025 17:15:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shree Ramamoorthy <s-ramamoorthy@ti.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, aaro.koskinen@iki.fi, andreas@kemnade.info,
-	khilman@baylibre.com, rogerq@kernel.org, tony@atomide.com,
-	jerome.neanne@baylibre.com, linux-omap@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, m-leonard@ti.com, praneeth@ti.com,
-	christophe.jaillet@wanadoo.fr
-Subject: Re: [PATCH v3 3/4] regulator: tps65215: Add support for TPS65215
- regulator resources
-Message-ID: <202501171720.615uCClE-lkp@intel.com>
-References: <20250113231018.125426-4-s-ramamoorthy@ti.com>
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="IO0PR02t"
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H7ofrQ003450;
+	Fri, 17 Jan 2025 10:32:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	nzk3vN0PU+1PX8MuEwqsadD2DtLatqF+L56fha42moE=; b=IO0PR02t/r2eS/sG
+	FsXVSlFjKwizVS+KjMt/WsUWlrqrWfE9JF6wS74M2EgDP7rke2Cd28VuEPOArKKd
+	aFgdzVqbrbD2eZDcZ9YjT+JyTKNvj3kDieVGz7/XLfPMujC1z6B7lHG4i0odNdb3
+	xvJQ2by55TTSCqfAYGppaq91OajfsJPQu4ULjcujMmwM4IcBjnl5rJccyLTVobjQ
+	ft55oLYdVqD0W5UAK8xVHDEeFlE9a6gzlq+vJpt2ELKTzWhRDyKqm/th+Mxes/7b
+	KyHdUqKR024AuZVTZt/z/nZLFOvS17rtF6pvZ6GL3YodI4GGuV2BirCtDW91OO6M
+	efeQeQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 447k62re8c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 Jan 2025 10:32:10 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 890E040045;
+	Fri, 17 Jan 2025 10:30:45 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 503FF26E373;
+	Fri, 17 Jan 2025 10:29:55 +0100 (CET)
+Received: from [10.129.178.212] (10.129.178.212) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 17 Jan
+ 2025 10:29:54 +0100
+Message-ID: <4350969b-9e69-4943-9642-a45603b08beb@foss.st.com>
+Date: Fri, 17 Jan 2025 10:29:53 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250113231018.125426-4-s-ramamoorthy@ti.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] phy: stm32: Optimize tuning values from DT.
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+        <vkoul@kernel.org>, <kishon@kernel.org>, <mcoquelin.stm32@gmail.com>,
+        <alexandre.torgue@foss.st.com>, <p.zabel@pengutronix.de>,
+        <linux-phy@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <fabrice.gasnier@foss.st.com>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
+References: <d40db5ae-5db8-4541-8d20-e7bacef4ecf2@stanley.mountain>
+Content-Language: en-US
+From: Christian Bruel <christian.bruel@foss.st.com>
+In-Reply-To: <d40db5ae-5db8-4541-8d20-e7bacef4ecf2@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-17_03,2025-01-16_01,2024-11-22_01
 
-Hi Shree,
+Hi Dan,
 
-kernel test robot noticed the following build errors:
+Thanks for reporting. I think this error is a false positive.
 
-[auto build test ERROR on broonie-regulator/for-next]
-[also build test ERROR on next-20250117]
-[cannot apply to robh/for-next tmlind-omap/for-next linus/master v6.13-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+In this situation, the impedance values that are looked-up are ordere 
+(the compiler probably doesn't analysis this) so the imp_looup test that 
+defines the imp_of must have matched.
+Note that the boundaries was checked during probe.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shree-Ramamoorthy/regulator-tps65215-Update-struct-names/20250114-071259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250113231018.125426-4-s-ramamoorthy%40ti.com
-patch subject: [PATCH v3 3/4] regulator: tps65215: Add support for TPS65215 regulator resources
-config: x86_64-randconfig-123-20250116 (https://download.01.org/0day-ci/archive/20250117/202501171720.615uCClE-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171720.615uCClE-lkp@intel.com/reproduce)
+already discussed here:
+https://lore.kernel.org/all/ef1ea5da-4344-4c59-8d2b1b52533ef0cd@foss.st.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501171720.615uCClE-lkp@intel.com/
+I'll provide a new revision to make this code more friendly with this error
 
-All errors (new ones prefixed by >>):
+Regards
 
-   In file included from drivers/regulator/tps65219-regulator.c:21:
-   In file included from include/linux/regulator/driver.h:18:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/regulator/tps65219-regulator.c:261:37: error: use of undeclared identifier 'TPS65215_LDO_2'; did you mean 'TPS65219_LDO_2'?
-     261 |         TPS65219_REGULATOR("LDO2", "ldo2", TPS65215_LDO_2,
-         |                                            ^~~~~~~~~~~~~~
-         |                                            TPS65219_LDO_2
-   drivers/regulator/tps65219-regulator.c:99:11: note: expanded from macro 'TPS65219_REGULATOR'
-      99 |                 .id                     = _id,                          \
-         |                                           ^
-   include/linux/mfd/tps65219.h:302:2: note: 'TPS65219_LDO_2' declared here
-     302 |         TPS65219_LDO_2,
-         |         ^
->> drivers/regulator/tps65219-regulator.c:263:7: error: use of undeclared identifier 'TPS65215_REG_LDO2_VOUT'
-     263 |                            TPS65215_REG_LDO2_VOUT,
-         |                            ^
->> drivers/regulator/tps65219-regulator.c:266:7: error: use of undeclared identifier 'TPS65215_ENABLE_LDO2_EN_MASK'
-     266 |                            TPS65215_ENABLE_LDO2_EN_MASK, 0, 0, tps65215_ldo_2_range,
-         |                            ^
->> drivers/regulator/tps65219-regulator.c:263:7: error: use of undeclared identifier 'TPS65215_REG_LDO2_VOUT'
-     263 |                            TPS65215_REG_LDO2_VOUT,
-         |                            ^
->> drivers/regulator/tps65219-regulator.c:323:17: error: invalid application of 'sizeof' to an incomplete type 'const struct regulator_desc[]'
-     323 |                 .rdesc_size = ARRAY_SIZE(tps65215_regs),
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
->> drivers/regulator/tps65219-regulator.c:348:15: error: variable has incomplete type 'enum pmic_id'
-     348 |         enum pmic_id chip = platform_get_device_id(pdev)->driver_data;
-         |                      ^
-   drivers/regulator/tps65219-regulator.c:348:7: note: forward declaration of 'enum pmic_id'
-     348 |         enum pmic_id chip = platform_get_device_id(pdev)->driver_data;
-         |              ^
->> drivers/regulator/tps65219-regulator.c:406:26: error: use of undeclared identifier 'TPS65215'
-     406 |         { "tps65215-regulator", TPS65215 },
-         |                                 ^
->> drivers/regulator/tps65219-regulator.c:410:1: error: definition of variable with array type needs an explicit size or an initializer
-     410 | MODULE_DEVICE_TABLE(platform, tps65219_regulator_id_table);
-         | ^
-   include/linux/module.h:250:21: note: expanded from macro 'MODULE_DEVICE_TABLE'
-     250 | extern typeof(name) __mod_device_table__##type##__##name                \
-         |                     ^
-   <scratch space>:180:1: note: expanded from here
-     180 | __mod_device_table__platform__tps65219_regulator_id_table
-         | ^
-   drivers/regulator/tps65219-regulator.c:321:3: error: use of undeclared identifier 'TPS65215'
-     321 |         [TPS65215] = {
-         |          ^
-   1 warning and 9 errors generated.
+Christian
 
-
-vim +261 drivers/regulator/tps65219-regulator.c
-
-   258	
-   259	static const struct regulator_desc tps65215_regs[] = {
-   260		// TPS65215's LDO2 is the same as TPS65219's LDO3
- > 261		TPS65219_REGULATOR("LDO2", "ldo2", TPS65215_LDO_2,
-   262				   REGULATOR_VOLTAGE, ldos_3_4_ops, 64,
- > 263				   TPS65215_REG_LDO2_VOUT,
-   264				   TPS65219_BUCKS_LDOS_VOUT_VSET_MASK,
-   265				   TPS65219_REG_ENABLE_CTRL,
- > 266				   TPS65215_ENABLE_LDO2_EN_MASK, 0, 0, tps65215_ldo_2_range,
-   267				   3, 0, 0, NULL, 0, 0),
-   268	};
-   269	
-   270	static const struct regulator_desc tps65219_regs[] = {
-   271		TPS65219_REGULATOR("LDO2", "ldo2", TPS65219_LDO_2,
-   272				   REGULATOR_VOLTAGE, ldos_1_2_ops, 64,
-   273				   TPS65219_REG_LDO2_VOUT,
-   274				   TPS65219_BUCKS_LDOS_VOUT_VSET_MASK,
-   275				   TPS65219_REG_ENABLE_CTRL,
-   276				   TPS65219_ENABLE_LDO2_EN_MASK, 0, 0, tps65219_ldo_2_range,
-   277				   2, 0, 0, NULL, 0, TPS65219_LDOS_BYP_CONFIG_MASK),
-   278		TPS65219_REGULATOR("LDO3", "ldo3", TPS65219_LDO_3,
-   279				   REGULATOR_VOLTAGE, ldos_3_4_ops, 64,
-   280				   TPS65219_REG_LDO3_VOUT,
-   281				   TPS65219_BUCKS_LDOS_VOUT_VSET_MASK,
-   282				   TPS65219_REG_ENABLE_CTRL,
-   283				   TPS65219_ENABLE_LDO3_EN_MASK, 0, 0, tps65219_ldos_3_4_range,
-   284				   3, 0, 0, NULL, 0, 0),
-   285		TPS65219_REGULATOR("LDO4", "ldo4", TPS65219_LDO_4,
-   286				   REGULATOR_VOLTAGE, ldos_3_4_ops, 64,
-   287				   TPS65219_REG_LDO4_VOUT,
-   288				   TPS65219_BUCKS_LDOS_VOUT_VSET_MASK,
-   289				   TPS65219_REG_ENABLE_CTRL,
-   290				   TPS65219_ENABLE_LDO4_EN_MASK, 0, 0, tps65219_ldos_3_4_range,
-   291				   3, 0, 0, NULL, 0, 0),
-   292	};
-   293	
-   294	static irqreturn_t tps65219_regulator_irq_handler(int irq, void *data)
-   295	{
-   296		struct tps65219_regulator_irq_data *irq_data = data;
-   297	
-   298		if (irq_data->type->event_name[0] == '\0') {
-   299			/* This is the timeout interrupt no specific regulator */
-   300			dev_err(irq_data->dev,
-   301				"System was put in shutdown due to timeout during an active or standby transition.\n");
-   302			return IRQ_HANDLED;
-   303		}
-   304	
-   305		regulator_notifier_call_chain(irq_data->rdev,
-   306					      irq_data->type->event, NULL);
-   307	
-   308		dev_err(irq_data->dev, "Error IRQ trap %s for %s\n",
-   309			irq_data->type->event_name, irq_data->type->regulator_name);
-   310		return IRQ_HANDLED;
-   311	}
-   312	
-   313	struct tps65219_chip_data {
-   314		size_t rdesc_size;
-   315		size_t common_rdesc_size;
-   316		const struct regulator_desc *rdesc;
-   317		const struct regulator_desc *common_rdesc;
-   318	};
-   319	
-   320	static struct tps65219_chip_data chip_info_table[] = {
-   321		[TPS65215] = {
-   322			.rdesc = tps65215_regs,
- > 323			.rdesc_size = ARRAY_SIZE(tps65215_regs),
-   324			.common_rdesc = common_regs,
-   325			.common_rdesc_size = ARRAY_SIZE(common_regs),
-   326		},
-   327		[TPS65219] = {
-   328			.rdesc = tps65219_regs,
-   329			.rdesc_size = ARRAY_SIZE(tps65219_regs),
-   330			.common_rdesc = common_regs,
-   331			.common_rdesc_size = ARRAY_SIZE(common_regs),
-   332		},
-   333	};
-   334	
-   335	static int tps65219_regulator_probe(struct platform_device *pdev)
-   336	{
-   337		struct tps65219_regulator_irq_data *irq_data;
-   338		struct tps65219_regulator_irq_type *irq_type;
-   339	
-   340		struct tps65219_chip_data *pmic;
-   341		struct regulator_dev *rdev;
-   342		int error;
-   343		int irq;
-   344		int i;
-   345	
-   346		struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
-   347		struct regulator_config config = { };
- > 348		enum pmic_id chip = platform_get_device_id(pdev)->driver_data;
-   349		pmic = &chip_info_table[chip];
-   350	
-   351		config.dev = tps->dev;
-   352		config.driver_data = tps;
-   353		config.regmap = tps->regmap;
-   354	
-   355		for (i = 0; i <  pmic->common_rdesc_size; i++) {
-   356			rdev = devm_regulator_register(&pdev->dev, &pmic->common_rdesc[i],
-   357						       &config);
-   358			if (IS_ERR(rdev))
-   359				 return dev_err_probe(tps->dev, PTR_ERR(rdev),
-   360						      "Failed to register %s regulator\n",
-   361						      pmic->common_rdesc[i].name);
-   362		}
-   363	
-   364		for (i = 0; i <  pmic->rdesc_size; i++) {
-   365			rdev = devm_regulator_register(&pdev->dev, &pmic->rdesc[i],
-   366						       &config);
-   367			if (IS_ERR(rdev))
-   368				return dev_err_probe(tps->dev, PTR_ERR(rdev),
-   369						     "Failed to register %s regulator\n",
-   370						     pmic->rdesc[i].name);
-   371		}
-   372	
-   373		irq_data = devm_kmalloc(tps->dev,
-   374					ARRAY_SIZE(tps65219_regulator_irq_types) *
-   375					sizeof(struct tps65219_regulator_irq_data),
-   376					GFP_KERNEL);
-   377		if (!irq_data)
-   378			return -ENOMEM;
-   379	
-   380		for (i = 0; i < ARRAY_SIZE(tps65219_regulator_irq_types); ++i) {
-   381			irq_type = &tps65219_regulator_irq_types[i];
-   382	
-   383			irq = platform_get_irq_byname(pdev, irq_type->irq_name);
-   384			if (irq < 0)
-   385				return -EINVAL;
-   386	
-   387			irq_data[i].dev = tps->dev;
-   388			irq_data[i].type = irq_type;
-   389	
-   390			error = devm_request_threaded_irq(tps->dev, irq, NULL,
-   391							  tps65219_regulator_irq_handler,
-   392							  IRQF_ONESHOT,
-   393							  irq_type->irq_name,
-   394							  &irq_data[i]);
-   395			if (error) {
-   396				dev_err(tps->dev, "failed to request %s IRQ %d: %d\n",
-   397					irq_type->irq_name, irq, error);
-   398				return error;
-   399			}
-   400		}
-   401	
-   402		return 0;
-   403	}
-   404	
-   405	static const struct platform_device_id tps65219_regulator_id_table[] = {
- > 406		{ "tps65215-regulator", TPS65215 },
-   407		{ "tps65219-regulator", TPS65219 },
-   408		{ /* sentinel */ }
-   409	};
- > 410	MODULE_DEVICE_TABLE(platform, tps65219_regulator_id_table);
-   411	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 1/17/25 09:38, Dan Carpenter wrote:
+> Hi Christian,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Bruel/phy-stm32-Optimize-tuning-values-from-DT/20250113-172435
+> base:   v6.13-rc7
+> patch link:    https://lore.kernel.org/r/20250113092001.1344151-1-christian.bruel%40foss.st.com
+> patch subject: [PATCH v2] phy: stm32: Optimize tuning values from DT.
+> config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171619.0XDYDyBZ-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202501171619.0XDYDyBZ-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/phy/st/phy-stm32-combophy.c:147 stm32_impedance_tune() error: buffer overflow 'imp_lookup' 8 <= 8 (assuming for loop doesn't break)
+> drivers/phy/st/phy-stm32-combophy.c:564 stm32_combophy_probe() warn: passing zero to 'dev_err_probe'
+> 
+> vim +147 drivers/phy/st/phy-stm32-combophy.c
+> 
+> 31219ca5436f01 Christian Bruel 2025-01-13  119  static void stm32_impedance_tune(struct stm32_combophy *combophy)
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  120  {
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  121  	u8 imp_of, vswing_of;
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  122  	u32 regval;
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  123
+> 31219ca5436f01 Christian Bruel 2025-01-13  124  	if (combophy->microohm) {
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  125  		regval = 0;
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  126  		for (imp_of = 0; imp_of < ARRAY_SIZE(imp_lookup); imp_of++) {
+> 31219ca5436f01 Christian Bruel 2025-01-13  127  			if (imp_lookup[imp_of].microohm <= combophy->microohm) {
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  128  				regval = FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_OHM, imp_of);
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  129  				break;
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  130  			}
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  131  		}
+> 
+> If we don't hit the break sttaement above
+> 
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  132
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  133  		dev_dbg(combophy->dev, "Set %u micro-ohms output impedance\n",
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  134  			imp_lookup[imp_of].microohm);
+>                                                                                     ^^^^^^
+> Then this is an out of bounds access.
+> 
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  135
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  136  		regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  137  				   STM32MP25_PCIEPRG_IMPCTRL_OHM,
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  138  				   regval);
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  139  	} else {
+> 31219ca5436f01 Christian Bruel 2025-01-13  140  		/* default is 50 ohm */
+> 31219ca5436f01 Christian Bruel 2025-01-13  141  		imp_of = 3;
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  142  	}
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  143
+> 31219ca5436f01 Christian Bruel 2025-01-13  144  	if (combophy->microvolt) {
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  145  		regval = 0;
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  146  		for (vswing_of = 0; vswing_of < ARRAY_SIZE(imp_lookup[imp_of].vswing); vswing_of++) {
+> 31219ca5436f01 Christian Bruel 2025-01-13 @147  			if (imp_lookup[imp_of].vswing[vswing_of] >= combophy->microvolt) {
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  148  				regval = FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_VSWING, vswing_of);
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  149  				break;
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  150  			}
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  151  		}
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  152
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  153  		dev_dbg(combophy->dev, "Set %u microvolt swing\n",
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  154  			 imp_lookup[imp_of].vswing[vswing_of]);
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  155
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  156  		regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  157  				   STM32MP25_PCIEPRG_IMPCTRL_VSWING,
+> 2de679ecd724b8 Arnd Bergmann   2024-11-11  158  				   regval);
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  159  	}
+> 47e1bb6b4ba098 Christian Bruel 2024-09-30  160  }
+> 
