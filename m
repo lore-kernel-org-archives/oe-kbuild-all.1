@@ -1,173 +1,143 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4B714830C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 15:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8298E19E7D1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jan 2025 16:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737128771; cv=none; b=LJ6E0O94V8CKunejqlqj5OtARjvKmsSFJzYIUDbyuy/R1524OtF3p8BEsQIgwIIbs4n/Zxfjy3YE1w0wei1hhVlJ2vmALy0oZS3Bidd9dpcLCw5dalgmEwtDXt8h3B5qdgEEI+N6X8gTCINC6edaOUGXFiXHUg2ksAU6HF9eYdw=
+	t=1737132312; cv=none; b=kkBmS04ldDuo552gRPNycAsmAmXroEapdApxJDe1oKXvKhr5c7p5Wi6uR8vvbQzcPZMU14PoWavnpXq+gmsBG0nLN2Go2XNEViPszN0PgwvZVHah+ghur539eyQ4iQShcFKwoNWXEsSoUa14UVaFkELEDJLJo8gQkTlQmn3uYW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737128771; c=relaxed/simple;
-	bh=YZkmvvsyrZR/u00rbPGWdwgCLQCF+tb7pj8Rw7J+ZAQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gDQ/xvCTGqYIR4zud4iMYXZuT/3EjJxG0pAKHBrWYzDqrLrsFXDHsagKi2sOptzUIRjHDmWXR1OYjHR0SP+jm76dCirjUeaArmwJGDSol1CAZG/qVhAuiO2HRxb8g58UyJRfI0pnbljEG6kk5cWBGoXmmxOS7Io0IFg0BMqIAqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Lsgx64qm; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1737132312; c=relaxed/simple;
+	bh=su7JWwf00qelITxMnm9O1N2PrDW+4Exyfdu9OPQscp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ENGJkHkDW3+IdGauECGqh4xKcLlQik99AK5WgsSHsKA0fyAHGHZ3+rSquR1HurG9RDfsE0tJOhpK1HXq6MxaR2OjIWkcAMc4mxcFfzb7c6FBonpWrvJfmKZ1+ZaTOVj5znh4sTGdt1/D7j7osCd6xb5OFa9OWcv2pLvoaeSVo4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dj6yK1EZ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Lsgx64qm"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H8600r001111;
-	Fri, 17 Jan 2025 15:45:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=A7Ty/9NQyE3CfKlPT2iaAh4gNzSw5K
-	mkJP28VJu35dQ=; b=Lsgx64qmAA+JVg2PGUe4GeXSdj6YT1PZUtmyM5ZQtN81W4
-	3UlY5SLrBiForFkCUS3+zBzzlAxYfWYEzWjZ+0UIz71rAe3A5PLeHg0e2c+DHRFD
-	1B6u3LcxOsSQdoQ1mC+CHboF4DMoJiMCz00j4PXxFLruAdF0KUXKq3hHMi03Vw1D
-	IerBEiILFMuUhjpFvK5O3SN/WuolGFoUAUOlypQhxBQJ4QTwEqGjlTlMQyGQNdGm
-	TKUHnApyEVv7GNOUHLJqXhSnXAHYO0i29/1EFOrVj3MXweRSm+7EMOdAZjjSy4zk
-	e1v7jgj2AI4EaJdOdMhJ6guVWs9hUZ01F9Vw5zVQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 447kd3j0xq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 15:45:59 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50HFjwAO031312;
-	Fri, 17 Jan 2025 15:45:58 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 447kd3j0xn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 15:45:58 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50HDrCGa004540;
-	Fri, 17 Jan 2025 15:45:57 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4442yt3qbd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 15:45:57 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50HFjsJm56885592
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Jan 2025 15:45:54 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4017720040;
-	Fri, 17 Jan 2025 15:45:54 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 93C082004D;
-	Fri, 17 Jan 2025 15:45:50 +0000 (GMT)
-Received: from vaibhav?linux.ibm.com (unknown [9.124.213.54])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Fri, 17 Jan 2025 15:45:50 +0000 (GMT)
-Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Fri, 17 Jan 2025 21:15:49 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: kernel test robot <lkp@intel.com>, linuxppc-dev@lists.ozlabs.org,
-        kvm@vger.kernel.org, kvm-ppc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Madhavan Srinivasan
- <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas
- Piggin <npiggin@gmail.com>,
-        Vaidyanathan Srinivasan
- <svaidy@linux.vnet.ibm.com>,
-        sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
-        amachhiw@linux.ibm.com
-Subject: Re: [PATCH v2 4/6] kvm powerpc/book3s-apiv2: Introduce kvm-hv
- specific PMU
-In-Reply-To: <202501171030.3x0gqW8G-lkp@intel.com>
-References: <20250115143948.369379-5-vaibhav@linux.ibm.com>
- <202501171030.3x0gqW8G-lkp@intel.com>
-Date: Fri, 17 Jan 2025 21:15:49 +0530
-Message-ID: <87zfjpfnpu.fsf@vajain21.in.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dj6yK1EZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737132310; x=1768668310;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=su7JWwf00qelITxMnm9O1N2PrDW+4Exyfdu9OPQscp0=;
+  b=Dj6yK1EZUnnuAM5O7qTPBMVWr8E5BgnbJx+UwEkRQ939MJAcORfpBY2m
+   crIaTBO4BeDR1wuDj+y42RSdhlGRF7tZh3M4R0stwH3m7b7tApzkC2bXN
+   TdDMKdYdV5DX4u1vqyhbyqXd4p4fdJzhW/1Ux+9dMf0Z86gzOifhQJggk
+   edz8rnQMN2VjbxfKVcEG5tVABRruf5OMd0DeKM7q+G2ADN6Heen9/Ql9N
+   D9IwpZVeWqt2OyzjZE2LB+cnVxcM83iCa5VmfZfuULIDriNx1K65sy+hC
+   CM8cGThQUqtcTBP/T4lo0BdKf9jHxEuf0Cneaat2uIHwaOjAX1KXEn+2d
+   g==;
+X-CSE-ConnectionGUID: 3zHG6soXQcK/s1adHMsF/Q==
+X-CSE-MsgGUID: Wc9/vLVMQSeHLf1eeAYIeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="36777111"
+X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
+   d="scan'208";a="36777111"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 08:45:09 -0800
+X-CSE-ConnectionGUID: IEnp6/jARe+obg8D7pcSXg==
+X-CSE-MsgGUID: tB8+owHRRMmH79SDqMN/pA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106307577"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 17 Jan 2025 08:45:08 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tYpT0-000TTr-05;
+	Fri, 17 Jan 2025 16:45:06 +0000
+Date: Sat, 18 Jan 2025 00:44:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Laight <David.Laight@aculab.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 5931/6768] include/linux/compiler_types.h:542:45:
+ error: call to '__compiletime_assert_584' declared with attribute error:
+ clamp() low limit source_min greater than high limit source_max
+Message-ID: <202501180047.G9mux9bG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _iqpKkcXATZ7EQwhnF6QjJJQQHuLyUaA
-X-Proofpoint-GUID: ntbkbz3ndUoZhF4YF4PHpDcoQgNI3bXQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0
- spamscore=0 impostorscore=0 clxscore=1011 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501170122
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0907e7fb35756464aa34c35d6abb02998418164b
+commit: 17d67d1853e5c9a5fdfd30dc04e67e7be6069693 [5931/6768] minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+config: powerpc-randconfig-001-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180047.G9mux9bG-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180047.G9mux9bG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501180047.G9mux9bG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   drivers/gpu/drm/i915/display/intel_backlight.c: In function 'scale':
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_584' declared with attribute error: clamp() low limit source_min greater than high limit source_max
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:109:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     109 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:116:9: note: in expansion of macro '__clamp_once'
+     116 |         __clamp_once(val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
+         |         ^~~~~~~~~~~~
+   include/linux/minmax.h:192:28: note: in expansion of macro '__careful_clamp'
+     192 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_backlight.c:47:22: note: in expansion of macro 'clamp'
+      47 |         source_val = clamp(source_val, source_min, source_max);
+         |                      ^~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
 
 
-Thanks for catching this build warning kernel-test-robot. I will
-spin-off a v3 fixing this.
+vim +/__compiletime_assert_584 +542 include/linux/compiler_types.h
 
-kernel test robot <lkp@intel.com> writes:
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  528  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  531  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  532  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  536   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  539   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  540   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
 
-> Hi Vaibhav,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on powerpc/topic/ppc-kvm]
-> [also build test WARNING on powerpc/next powerpc/fixes kvm/queue kvm/next mst-vhost/linux-next linus/master v6.13-rc7 next-20250116]
-> [cannot apply to kvm/linux-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Vaibhav-Jain/powerpc-Document-APIv2-KVM-hcall-spec-for-Hostwide-counters/20250116-024240
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
-> patch link:    https://lore.kernel.org/r/20250115143948.369379-5-vaibhav%40linux.ibm.com
-> patch subject: [PATCH v2 4/6] kvm powerpc/book3s-apiv2: Introduce kvm-hv specific PMU
-> config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20250117/202501171030.3x0gqW8G-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171030.3x0gqW8G-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501171030.3x0gqW8G-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from arch/powerpc/include/asm/kvm_ppc.h:22,
->                     from arch/powerpc/include/asm/dbell.h:17,
->                     from arch/powerpc/kernel/asm-offsets.c:36:
->>> arch/powerpc/include/asm/kvm_book3s.h:357:13: warning: 'kvmppc_unregister_pmu' defined but not used [-Wunused-function]
->      357 | static void kvmppc_unregister_pmu(void)
->          |             ^~~~~~~~~~~~~~~~~~~~~
->>> arch/powerpc/include/asm/kvm_book3s.h:352:12: warning: 'kvmppc_register_pmu' defined but not used [-Wunused-function]
->      352 | static int kvmppc_register_pmu(void)
->          |            ^~~~~~~~~~~~~~~~~~~
-> --
->    In file included from arch/powerpc/include/asm/kvm_ppc.h:22,
->                     from arch/powerpc/include/asm/dbell.h:17,
->                     from arch/powerpc/kernel/asm-offsets.c:36:
->>> arch/powerpc/include/asm/kvm_book3s.h:357:13: warning: 'kvmppc_unregister_pmu' defined but not used [-Wunused-function]
->      357 | static void kvmppc_unregister_pmu(void)
->          |             ^~~~~~~~~~~~~~~~~~~~~
->>> arch/powerpc/include/asm/kvm_book3s.h:352:12: warning: 'kvmppc_register_pmu' defined but not used [-Wunused-function]
->      352 | static int kvmppc_register_pmu(void)
->          |            ^~~~~~~~~~~~~~~~~~~
->
->
-> vim +/kvmppc_unregister_pmu +357 arch/powerpc/include/asm/kvm_book3s.h
->
->    351	
->  > 352	static int kvmppc_register_pmu(void)
->    353	{
->    354		return 0;
->    355	}
->    356	
->  > 357	static void kvmppc_unregister_pmu(void)
->    358	{
->    359	}
->    360	
->
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+:::::: The code at line 542 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
-Cheers
-~ Vaibhav
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
