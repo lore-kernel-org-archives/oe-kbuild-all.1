@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCA3126C03
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 17:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE837173
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 17:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737222768; cv=none; b=f06sr6a65EJXtC5vRyUDmuz+clmrfyru3n7rP1RLTlyds8QbQ1BHJgDXmj507thNgsMM4H0L0IYxNlXM1RMTfEWfuXwbVAsu0+EUb851oe+BLQMn6z38k0v+RX/3S/e+udWzOkT909JB1FAB3EEw5fDLcgZzNGw+6n3bDeN0coQ=
+	t=1737222770; cv=none; b=Y3eUbm3bcFE/SznZvB/HKOvzAY4opcvX2Pm3wepN7YNbh4H+K0EymxVUmZkBtTPvPnaA3Y7MDDcxEySoIwHK39IOqoZv/GzAI1ASO2+18mEPK/aOSwDazMXIwPPXPsl716lEHYQV1478s8LmGCnLsHEjm49BG+CHaWQ+3jV3ACg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737222768; c=relaxed/simple;
-	bh=D6nxwbv7RsvGV2OkKqPXPYHG9Iw+FDYHUypvRaEpMhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S5rvXGHLwqYmUvy4nRwn4Lr9C0wT2Pqf8/QmkS0ZBjzzw6Dl87tSnBWzGBvjOpC5CC5KlRoeE7bOxSka8W3ZKjlVfrXUPFW5bjf9OV09MdGzx1icrQoPPbM0x/LiDYXn7bmW+tjssdufa67w2cnYL0jqrA7w0lGaeN+hN6uzQnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P49CJRAq; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1737222770; c=relaxed/simple;
+	bh=MqQa2haTPDBqjkN4qsoe8jXlHi9SBeRvVhURc5EoEiE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r6Of59vwMLTF8ktM+/0QG45EodXDElZx8leUTIFZabIpI/DaWILV84YEOos56qkHYq6RCbT++44Jyo2/qby502FUhX6IYhjkgeF369lCvBQMxM56I3zfMKZ3qTSVcCGT7/WT61lcZxLEpWCpRHIjfQTX3q3KCROFiphbr8SDfdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KeACc/+H; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P49CJRAq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KeACc/+H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737222766; x=1768758766;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D6nxwbv7RsvGV2OkKqPXPYHG9Iw+FDYHUypvRaEpMhM=;
-  b=P49CJRAqy4NdT2eLzrpoyeiZd5I672NBsbAMKipK8Lhb6CyAGxVEs4Tv
-   gwY4SbwH1nk+aWolH1SFnmf8Vov0irg4AVc3HotjvxTu/ITzp4UcjY8sD
-   ogDKhRUrhr3CxzRLxFaMj1E0ZwOpeW3B1sxGT4g8ozvrs5pcD3V5WageA
-   sewo6KmofmuAfFJng2oT2TNysXlTqg9Vdovc66QDz3DFMAPOaxKVOvA0t
-   plCJndpYzTkog7s0GT5XOJbAeqtsXDtbWI6ZDEgk6tSriDgh1p4v+igRn
-   7tPZxcIBjwqG0o2GI+quzVT9WqOr/VELkHSVHiKS5sKd9nlNuA/USOQ6n
-   w==;
-X-CSE-ConnectionGUID: 1Y9s/Er/T0qvzsh123Z7Pg==
-X-CSE-MsgGUID: p3koilyISPiW21jvghetqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="63009152"
+  t=1737222769; x=1768758769;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MqQa2haTPDBqjkN4qsoe8jXlHi9SBeRvVhURc5EoEiE=;
+  b=KeACc/+H2w7V6Oxz6H31jQQykH8kAWdxs5hKMLj1jQsjoiax5q+PCv6P
+   R7z4uX+8s/AhhDy4ci6nKI4AovrmPYC/vJRnDnO7Sz9DU3Dw0AZlaK5lb
+   CPNyBeKtRFCG3OuSnGwMdK4jPmbZOZwGl6I6xgtVkThITNw6yhCZd3qrk
+   aDlLHAYmp9KSdpwlq+2tKwL66nTMqWKTmB2fRAeHzfFeGvj3tYF96G359
+   9SJDReyUuHqc6i+FV93CydE7ExDDX595sz7o+6TyajPEbLHRQllOBQ/61
+   Xv1Xr0FmzcgzVIb6nuOJEqMzWKNKyTnAoIzyvEvCgpBihblL8i14rpUZG
+   Q==;
+X-CSE-ConnectionGUID: 5DeicGl0QhyIPrypOTSTXg==
+X-CSE-MsgGUID: Ca+dlvWiQq6vv7PqIaSVQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="41398683"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="63009152"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 09:52:45 -0800
-X-CSE-ConnectionGUID: M2WHP9WgTB2TpAzJuXms5g==
-X-CSE-MsgGUID: ZxT5asUtTjKPjjiK92VOwg==
+   d="scan'208";a="41398683"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 09:52:49 -0800
+X-CSE-ConnectionGUID: hPt2FJGlRR2pAyqTZTZbwA==
+X-CSE-MsgGUID: C+71uOlhR3KzOgpmVdqw2A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="111078955"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="111069689"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Jan 2025 09:52:44 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Jan 2025 09:52:44 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZCzy-000Ugk-0F;
-	Sat, 18 Jan 2025 17:52:42 +0000
-Date: Sun, 19 Jan 2025 01:52:34 +0800
+	id 1tZCzx-000Ugh-39;
+	Sat, 18 Jan 2025 17:52:41 +0000
+Date: Sun, 19 Jan 2025 01:52:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 292/292]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: gce@300c0000: 'mboxes',
- 'mediatek,gce-events' do not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202501190128.BO66BYiq-lkp@intel.com>
+To: Shuai Xue <xueshuai@linux.alibaba.com>, rostedt@goodmis.org,
+	lukas@wunner.de, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, helgaas@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com, tony.luck@intel.com,
+	bp@alien8.de, xueshuai@linux.alibaba.com, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, oleg@redhat.com, naveen@kernel.org,
+	davem@davemloft.net, anil.s.keshavamurthy@intel.com,
+	mark.rutland@arm.com, peterz@infradead.org,
+	tianruidong@linux.alibaba.com
+Subject: Re: [PATCH v6] PCI: hotplug: Add a generic RAS tracepoint for
+ hotplug event
+Message-ID: <202501190108.tRReJA1Z-lkp@intel.com>
+References: <20250115013753.49126-1-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +71,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250115013753.49126-1-xueshuai@linux.alibaba.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   c5c75fa9e727eeea4f1aac71a5838a1bdc76d0dd
-commit: 6918c019ec1fdd19c6bafb906b2e3a2d8f85f6d7 [292/292] CHROMIUM: arm64: dts: mt8196: Add secure mboxes to gce node
-config: arm64-randconfig-051-20250117 (https://download.01.org/0day-ci/archive/20250119/202501190128.BO66BYiq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501190128.BO66BYiq-lkp@intel.com/reproduce)
+Hi Shuai,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.13-rc7 next-20250117]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-hotplug-Add-a-generic-RAS-tracepoint-for-hotplug-event/20250115-094016
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250115013753.49126-1-xueshuai%40linux.alibaba.com
+patch subject: [PATCH v6] PCI: hotplug: Add a generic RAS tracepoint for hotplug event
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250119/202501190108.tRReJA1Z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501190108.tRReJA1Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501190128.BO66BYiq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501190108.tRReJA1Z-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1c016000: failed to match any schema with compatible: ['mediatek,mt8196-vlp-cksys', 'mediatek,mt8196-vlp_cksys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1c016000: failed to match any schema with compatible: ['mediatek,mt8196-vlp-cksys', 'mediatek,mt8196-vlp_cksys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/systimer@1c400000: failed to match any schema with compatible: ['mediatek,mt8196-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/systimer@1c400000: failed to match any schema with compatible: ['mediatek,mt8196-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-comm@30020000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-comm@30021000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: gce@300c0000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: gce@300c0000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: gce@300c0000: 'mboxes', 'mediatek,gce-events' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: gce@30140000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: gce@30140000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@30800000: compatible:0: 'arm,smmu-v3' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@30800000: compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+>> ./usr/include/linux/pci.h:22:10: fatal error: linux/tracepoint.h: No such file or directory
+      22 | #include <linux/tracepoint.h>
+         |          ^~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
