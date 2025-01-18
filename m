@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F2B155757
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 11:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67ECE189F36
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 12:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737201426; cv=none; b=gFnB4xfNylh9FyX8vkjLIzGRfjpEzIhNgc5h4huPQ6bNjtN/AERP8tyt27Pr4UCvHb/BO1ho6KXKjh50tqIuqQiFPq0ZyZud/coGZToYw0seO57DaGuWpMXLJPeREIZZ8lEjvEWaT+10RINt0BGT7bdd3LO9agdbgBi+S7rKQ3k=
+	t=1737202750; cv=none; b=D8dekBBhepISfS8K9Dh2P9CVRLun4D41i+gLNpYSjDHZJwbD7sea7hu/vCYhunK6uF/JqDjwtccqVRAz1Oeneg0NTAM4FVDJtHp8/K6GALQDq1sZo98t2W8zt6Dc98UF6x33J6erxNrxNCg7vwpI1Kld1m9CLL6o7bxBikK8RiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737201426; c=relaxed/simple;
-	bh=gnIWoOVpcdpXrLhNiSdkcUxV2PyEfdsDoxzJ1vXfx2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOCEltAlBqM2nT3A6MKZjfz/G2Y9419ofsNmDpGCDDfYH2xYxjCywm410h6G976NSEGGRkrM3WeZMq2PWdbsRUSAo7CptLaVq0Bs0QoJNTPjNBtnGY6g7Ca4O2Zc02dKmFojG9EF1grqooptTBQ+hqgyKQKhOAdsZyX4BIcVvT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfSQqQoy; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1737202750; c=relaxed/simple;
+	bh=jF7job/4IiNjKEmUPRQTPfFbzbqmdeS8TbRMvWMAIjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=pD7HnW1TOH3XQqf89pIp8RWR2Uq2vpcsGZoBS2QsPdadTPpnggy5cxpa0lRnD80Hc4b4Y+sImVee0dcQzTOvWPmGRD/GP2lior7dhstPN6Z4GPy5mPZ9+hCxft+Bkn6QCuKNibMYB2pH34UlyEswxG7ry6KWj4KlWjISUOqp2Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9sKpKXo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfSQqQoy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9sKpKXo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737201424; x=1768737424;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gnIWoOVpcdpXrLhNiSdkcUxV2PyEfdsDoxzJ1vXfx2U=;
-  b=XfSQqQoyPTtud/wXRgOUVe0WLwChJkhFqfB6I5xYVuur1A2iw2Aq8UDG
-   w2iSVTHIjTX8cHA/evF7kC8o7bU61XTBujgG9EwdqUmwmOJfMR4dAKs/8
-   NdRh28bBoZ6W75xY35q0XY4GUj4mxEg+gqA7YE94DAYiQxYo4bMGKHUgA
-   DCqJCBEHhetK6hNzHyFr+8tJtJJ/tJ8N646KS/EPcmCKF+dnUh6Up0gTu
-   wjkz/AF3GIjm1IoFgnxhdndZ2W/mnHS8qPJHnNw9W0SV/5VrUNoZW4VOi
-   sKAJMo9RLvsEkCpZVnIP8ux60YkPljJhHU5mtIqpgUtXJb1gCqDsB9aOl
-   Q==;
-X-CSE-ConnectionGUID: ZhvWmCPMS5O4DJgBh0s1hg==
-X-CSE-MsgGUID: 4NSXJkYPSZyfDzKNPfF5Vw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="48297809"
+  t=1737202748; x=1768738748;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=jF7job/4IiNjKEmUPRQTPfFbzbqmdeS8TbRMvWMAIjM=;
+  b=Y9sKpKXolR4IT7rkdLKDD++3HAqdAfokmzvcOeFuE7ZNGrc7y07tMFYU
+   0jOF/U/jmOlYYDo8WAbXXjYhasNS5nDVFLUWnUeKAIfGzJYUYc1LsslOn
+   OeRruM+6lBEGZ3G9uDkcN5tVuu5AMH1+SdjTs52zS0ASJsBkTdEAaWrP8
+   Eev/f+1CevqWIAe/8Ys6lkgfVVFnJsu/LmngnObwDABpl8joPqTh60UNJ
+   J/izLpBAwICq/Ng360zS8jglEZUBHL730LUVQBZT3p1k2cCiPY3A7wD6X
+   NB5jS8iTXN1hMt0aLDqqlQ891dafJ1sNlRf8lS0LBtYBvFio5/uktKEH8
+   g==;
+X-CSE-ConnectionGUID: 4SNje29BQNO4kPF00jJGgw==
+X-CSE-MsgGUID: lwI6Qjc5QKG1wxh3f7WiFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="60098838"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="48297809"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 03:57:03 -0800
-X-CSE-ConnectionGUID: x6mg2vD1TDSjBPhOVMgFSw==
-X-CSE-MsgGUID: EbXzLs0sSK2zyUvXeJsztQ==
+   d="scan'208";a="60098838"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 04:19:07 -0800
+X-CSE-ConnectionGUID: rGgbg5NBTbqGxrgbv4YX2g==
+X-CSE-MsgGUID: z6TH9XlGRTS2rvoFmnChQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105892802"
+   d="scan'208";a="143330131"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Jan 2025 03:57:02 -0800
+  by orviesa001.jf.intel.com with ESMTP; 18 Jan 2025 04:19:06 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZ7Rk-000UMx-28;
-	Sat, 18 Jan 2025 11:57:00 +0000
-Date: Sat, 18 Jan 2025 19:56:52 +0800
+	id 1tZ7n5-000UPP-2J;
+	Sat, 18 Jan 2025 12:19:03 +0000
+Date: Sat, 18 Jan 2025 20:18:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v5 01/15] mm: Consolidate freeing of typed folios on
- final folio_put()
-Message-ID: <202501181951.3qH7Sd3n-lkp@intel.com>
-References: <20250117163001.2326672-2-tabba@google.com>
+To: Ron Economos <re@w6rz.net>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.1] Partial revert of xhci: use pm_ptr() instead #ifdef
+ for CONFIG_PM conditionals
+Message-ID: <Z4ucKzQG2xU0EIum@9bc2624f7252>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250117163001.2326672-2-tabba@google.com>
+In-Reply-To: <20250118121505.4052080-1-re@w6rz.net>
 
-Hi Fuad,
+Hi,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on 5bc55a333a2f7316b58edc7573e8e893f7acb532]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fuad-Tabba/mm-Consolidate-freeing-of-typed-folios-on-final-folio_put/20250118-003538
-base:   5bc55a333a2f7316b58edc7573e8e893f7acb532
-patch link:    https://lore.kernel.org/r/20250117163001.2326672-2-tabba%40google.com
-patch subject: [RFC PATCH v5 01/15] mm: Consolidate freeing of typed folios on final folio_put()
-config: i386-buildonly-randconfig-004-20250118 (https://download.01.org/0day-ci/archive/20250118/202501181951.3qH7Sd3n-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501181951.3qH7Sd3n-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501181951.3qH7Sd3n-lkp@intel.com/
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 6.1] Partial revert of xhci: use pm_ptr() instead #ifdef for CONFIG_PM conditionals
+Link: https://lore.kernel.org/stable/20250118121505.4052080-1-re%40w6rz.net
 
-All errors (new ones prefixed by >>):
-
-   ld: mm/swap.o: in function `free_typed_folio':
->> swap.c:(.text+0x4f5): undefined reference to `free_huge_folio'
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
