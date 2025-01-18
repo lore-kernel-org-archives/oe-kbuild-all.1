@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8137C18CBFB;
-	Sat, 18 Jan 2025 12:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF0918FC7B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 13:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737203352; cv=none; b=IN3QxxjEj8vRPy/VdE259m3Bnt2mpQ3DmmnJ45Ube1ns1FscYY+Pl+Y2hiIlGHbxoPo/RXHpxr5B3YgMlPmo7IHv3EFspgxhkx+LwQ4QVtdrKytKlxxz2MPxCaS7ihv/r2m82SQ/IU10lzAnW7yD6YgOuMLi0SN+MO2ouM59NBQ=
+	t=1737205214; cv=none; b=en9lY2rWvgoZWTF1MZNJUwelJAL+dWT5ai+3rGxkwpgZr3ShJe1YIeBKaNN9q93Ma9kvTS2NSTov/IeYNRQOHTiRtcxVDJVGA7nLk2bbuehFtBzBc81lDLj8WRmSuX8A0PFDOsAPw90ra8KKCRbwXHO/kWU1DlHtaNdNN3je0nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737203352; c=relaxed/simple;
-	bh=vM7gZujibXks/wmu6XmRXYJpsfQVC+J/dNwYoM6F3Ho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MKfCGW98MDfBdUMV+/YvTW3NK3ZvKO9LES2PxQus9xOWEPX3wFJz9uZl9ir5T4GLP8pyE3m20FSsQdotJUnVuVgfu1GFolUqtsyzqJtuN2DAsaqhHN4qVg/pxCTT+X67k7MvlNV7Gk8fDZ10rgNkgVVQqFRds/W5zw6QqKgLrE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwhNfZf/; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1737205214; c=relaxed/simple;
+	bh=HY7QwhJJOWRd2FOYaaswJmTlocjDAjc0sJguFMvgxFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UX+iRpNbjwCb0XcZDf6IrKnGk8pMOLazjpn09a8TBzKScCpdkjt5dv/HkCoQ4FpQ4zqzKtdH4vaBPj+Z6CwclxM9RZGRcNMcN2Ka1Bmy86SWmfGKgXM7xZ4Y/ES2GCmikJyjx7ELacX8JSWzjGtDIsuT/CR8e2scqk0Fc051q1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ipgpkpZI; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwhNfZf/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ipgpkpZI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737203350; x=1768739350;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vM7gZujibXks/wmu6XmRXYJpsfQVC+J/dNwYoM6F3Ho=;
-  b=CwhNfZf/teQG1bKvT2lJRuaGKMeXcKX6zzAglNoMJgG3Y1767cCdPpsF
-   KrkTCJ17iAKTdLTMQDrLXHTYgA4T/9xwcHF9e65gXWQPUVZsnQ3ul+ZUD
-   sUDPKs1TYqPobHvzGZOsVRLd+QyZJc2KVHgt9i7qBIED0M8vwxWYnqWk7
-   lrCmZjgZNfkTR/kIIqseNxfu+/UizW5t/J4/uuR5b18LJ8nsPDtejUZsd
-   a+H9YGOZEf0EZXDqupcrc3KIdAmTkrL6sVMkuIcQeN9lrYXsFPElRzmh4
-   lXNEpGeCeSrJRKX3XqNYXYHRPJVEFCCizJS9mN49R9yigGb5NniNmVE2b
-   g==;
-X-CSE-ConnectionGUID: k1aeR4CJTUSq9qdK4WKoJA==
-X-CSE-MsgGUID: p2daWOTAT3i5HPl3PVqkJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="37538957"
+  t=1737205212; x=1768741212;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HY7QwhJJOWRd2FOYaaswJmTlocjDAjc0sJguFMvgxFQ=;
+  b=ipgpkpZIqp+rDIGSjjZB/GUiQniHUFfPhpf9iDgYG3PF5lpJRglklFJQ
+   SfJDShprm5iXwtkg9dnPoY2rX8WxMUpW92MgjZw3JhDXah29v/6p+NcZs
+   ebZCNet7E45gw+3+YrbG8b6w0uP4syUqRmLZS5yIGdOZ9DNHTEFOs3fpK
+   Lr8agrMC7HZzTQhpvLBoviCkET4hCF6UgAqolaMVElFX+/AxXUSxWRLDM
+   9gBa5z/YhrUd17wkQJL6j0uAU1u958I2KQZr7g+QTQP+iN7DpX9qZetBN
+   7H61kBTm1Zmb+gRr45iZfxdIYlMQzGlGPZ5vcEf+nA4cO9x2SRPr+Q2yD
+   A==;
+X-CSE-ConnectionGUID: 34cjA9LGRfKFB8Qv0KN0hA==
+X-CSE-MsgGUID: /iIi+GhWQ7uD0rHWUvOQfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="48299926"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="37538957"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 04:29:09 -0800
-X-CSE-ConnectionGUID: K7dsNpvfQsG2cYdsV5Ad2w==
-X-CSE-MsgGUID: STArnz2ESf2WJ8QkfQ36Qg==
+   d="scan'208";a="48299926"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 05:00:10 -0800
+X-CSE-ConnectionGUID: CTkKYS36RP6kCFnlb4+uIg==
+X-CSE-MsgGUID: 1odgP/H1Tta6Papz/heqiA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="111040540"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="143335985"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jan 2025 04:29:07 -0800
+  by orviesa001.jf.intel.com with ESMTP; 18 Jan 2025 05:00:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZ7wn-000UQx-1R;
-	Sat, 18 Jan 2025 12:29:05 +0000
-Date: Sat, 18 Jan 2025 20:28:26 +0800
+	id 1tZ8Qp-000URl-2f;
+	Sat, 18 Jan 2025 13:00:07 +0000
+Date: Sat, 18 Jan 2025 21:00:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Sperbeck <jsperbeck@google.com>,
-	Joel Granados <joel.granados@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	John Sperbeck <jsperbeck@google.com>, Kees Cook <kees@kernel.org>,
-	Wen Yang <wen.yang@linux.dev>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3] sysctl: expose sysctl_check_table for unit testing
- and use it
-Message-ID: <202501182003.Gfi63jzH-lkp@intel.com>
-References: <20250113070001.143690-1-jsperbeck@google.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vsyrjala:dsb_selftests_7 23/33]
+ drivers/gpu/drm/i915/display/intel_dsb.c: intel_color_regs.h is included
+ more than once.
+Message-ID: <202501182056.K2UPw1n7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,100 +62,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250113070001.143690-1-jsperbeck@google.com>
 
-Hi John,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kees/for-next/kspp]
-[also build test ERROR on linus/master sysctl/sysctl-next v6.13-rc7]
-[cannot apply to kees/for-next/pstore]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Sperbeck/sysctl-expose-sysctl_check_table-for-unit-testing-and-use-it/20250113-150214
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/kspp
-patch link:    https://lore.kernel.org/r/20250113070001.143690-1-jsperbeck%40google.com
-patch subject: [PATCH v3] sysctl: expose sysctl_check_table for unit testing and use it
-config: um-randconfig-002-20250118 (https://download.01.org/0day-ci/archive/20250118/202501182003.Gfi63jzH-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501182003.Gfi63jzH-lkp@intel.com/reproduce)
+tree:   https://github.com/vsyrjala/linux.git dsb_selftests_7
+head:   dcc34e0e434cc10caeeecb9f8695ca30a506e502
+commit: 417503cbd461238f279721edfc9c5c68511cdcb0 [23/33] moar
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501182003.Gfi63jzH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501182056.K2UPw1n7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_dsb.c: intel_color_regs.h is included more than once.
 
->> kernel/sysctl-test.c:414:4: error: call to undeclared function 'sysctl_check_table_test_helper'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           sysctl_check_table_test_helper("foo", table_foo));
-                           ^
-   kernel/sysctl-test.c:416:4: error: call to undeclared function 'sysctl_check_table_test_helper'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           sysctl_check_table_test_helper("foo", table_bar));
-                           ^
-   kernel/sysctl-test.c:418:4: error: call to undeclared function 'sysctl_check_table_test_helper'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           sysctl_check_table_test_helper("foo", table_qux));
-                           ^
-   3 errors generated.
+vim +14 drivers/gpu/drm/i915/display/intel_dsb.c
 
-
-vim +/sysctl_check_table_test_helper +414 kernel/sysctl-test.c
-
-   369	
-   370	/*
-   371	 * Test that registering an invalid extra value is not allowed.
-   372	 */
-   373	static void sysctl_test_register_sysctl_sz_invalid_extra_value(
-   374			struct kunit *test)
-   375	{
-   376		unsigned char data = 0;
-   377		struct ctl_table table_foo[] = {
-   378			{
-   379				.procname	= "foo",
-   380				.data		= &data,
-   381				.maxlen		= sizeof(u8),
-   382				.mode		= 0644,
-   383				.proc_handler	= proc_dou8vec_minmax,
-   384				.extra1		= SYSCTL_FOUR,
-   385				.extra2		= SYSCTL_ONE_THOUSAND,
-   386			},
-   387		};
-   388	
-   389		struct ctl_table table_bar[] = {
-   390			{
-   391				.procname	= "bar",
-   392				.data		= &data,
-   393				.maxlen		= sizeof(u8),
-   394				.mode		= 0644,
-   395				.proc_handler	= proc_dou8vec_minmax,
-   396				.extra1		= SYSCTL_NEG_ONE,
-   397				.extra2		= SYSCTL_ONE_HUNDRED,
-   398			},
-   399		};
-   400	
-   401		struct ctl_table table_qux[] = {
-   402			{
-   403				.procname	= "qux",
-   404				.data		= &data,
-   405				.maxlen		= sizeof(u8),
-   406				.mode		= 0644,
-   407				.proc_handler	= proc_dou8vec_minmax,
-   408				.extra1		= SYSCTL_ZERO,
-   409				.extra2		= SYSCTL_TWO_HUNDRED,
-   410			},
-   411		};
-   412	
-   413		KUNIT_EXPECT_EQ(test, -EINVAL,
- > 414				sysctl_check_table_test_helper("foo", table_foo));
-   415		KUNIT_EXPECT_EQ(test, -EINVAL,
-   416				sysctl_check_table_test_helper("foo", table_bar));
-   417		KUNIT_EXPECT_EQ(test, 0,
-   418				sysctl_check_table_test_helper("foo", table_qux));
-   419	}
-   420	
+     9	
+    10	#include "i915_drv.h"
+    11	#include "i915_irq.h"
+    12	#include "i915_reg.h"
+    13	#include "intel_bw.h"
+  > 14	#include "intel_color_regs.h"
+    15	#include "intel_crtc.h"
+    16	#include "intel_de.h"
+    17	#include "intel_display_types.h"
+    18	#include "intel_dsb.h"
+    19	#include "intel_dsb_buffer.h"
+    20	#include "intel_dsb_regs.h"
+    21	#include "intel_pipe_crc_regs.h"
+    22	#include "intel_vblank.h"
+    23	#include "intel_vrr.h"
+    24	#include "skl_universal_plane_regs.h"
+    25	#include "skl_watermark.h"
+    26	
+  > 27	#include "intel_color_regs.h"
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
