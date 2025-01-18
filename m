@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984E03398B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 15:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2789319D886
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 15:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737214650; cv=none; b=NLdwFuTLcwT+tedOwPs4BoFwn9XK7vwALCiSF9vMcEzDc6EoyC2aZnVnBeaMS+4yC7V0kE/Xg9XIfHWwW8IUoirSemYqlX/3UHzAJTg4Xix6riKhsVytBKRyTUDux6dQ050RTwtQvFvWquZFAK89UsAMml8XHlpVcu0dIkXu/A4=
+	t=1737215971; cv=none; b=Y5QvjzOzaZq+ugBzZUzQ268wCJJFgA09Q/eJ5iC1oxM3kM6Cx0CSxfg4BR9k8MCm8TPi/QjAQoCWeP+VGdoGGxbaCmg8Ee5UiiJAu8kVBq0WCBtgLLeOHp3YxD4bO11Vft1kycbI3hOKBiQZtUcHZszv1xz/+IAhzOrl1OiPMtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737214650; c=relaxed/simple;
-	bh=TLuWzQwc4oV42Shhchb6YIa0cLBXa8YYInIAf8aFrWc=;
+	s=arc-20240116; t=1737215971; c=relaxed/simple;
+	bh=TsVDxqWMP3I43cHbkhHxVywHGWEArwWAVKit2aYVbUA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YbK3X3sT41yh7VLBwHooyV4T7To6qpL4giFBFGZa2jIAbSk8KpuxwJDP3CJ+G87qz1QGr6tR2aqipoxwSWScWci5RTlzsWBM0AP24xQv5D1vDhSMV+9Q0Mk5MASoAR6MkBTd0QnEJvXVnursJ1KLst4bCvqKRMa6mbl1QXHrjFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aPVTM7D6; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Jnscf5g52zVF1l578iyEKRf81XXvh2Y0ybZ4rLZDvDWaTjoqCGU0iyjvg9PUvbRDv9zZe2fSENTf2RgHbr03mSllGpGMezcBtPaj/oA2/JO0pNEvXYsY1hE0wkS7jD0L73GGnFM8gwSd2S+4q4H+kDGiT+OwjjROdAVRTuF+jVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lshZcNI7; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aPVTM7D6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lshZcNI7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737214648; x=1768750648;
+  t=1737215970; x=1768751970;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TLuWzQwc4oV42Shhchb6YIa0cLBXa8YYInIAf8aFrWc=;
-  b=aPVTM7D69Ut656KrSTo0KH7x5FwpLh5ciwp0QFmSWpnxuTTNhgSJDi83
-   LoiPN/gQjpPOzN1vrc1jUzabnUCUz4QyonqmlmST6Jkq6qhC3q0xWtgh6
-   4/eU10nAu00mKTuWm3WQI6SpzrzJWNce3zyKSaoP2NiJG1iqmzFVsIhhH
-   sz7OCtgCLEU3cUbla2cBgu4gKjTQoFy2NAL/a2II+WN28Yupp9me7QnLw
-   w0pfkcltCN8UWts1cda+rd1Wa5Meml/Z0DJvzSQV2DKYo15tJju6aCpkC
-   70Bz1ttLF6dXmuX/nmVSt4v2ep2PLJpIzafMGN7MdJn93H69FfoAhfBKV
-   A==;
-X-CSE-ConnectionGUID: r0jVvaBdS0GjsbPGttJTGQ==
-X-CSE-MsgGUID: LZm8zzf+QrikOSc2CDxd4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="25232857"
+  bh=TsVDxqWMP3I43cHbkhHxVywHGWEArwWAVKit2aYVbUA=;
+  b=lshZcNI7hZiZBSz/v3M86ZmGuwlbCY+1D2zAYpbddnlrIelR/pryWHmg
+   3ud988U3iF9q4Hn5jIBwZAneg4aDFpA/xS9a0b65hfyUvHWUwUjKx50OY
+   sergDSmb9k7atnTDKI2uSdcQoqk40Mv8aBQaBkcIn1An8/h1j3SWy/qpV
+   ib5VicF8JWCQV5RY3kw6VW5im5QVGtkkubxHJRaSCOxziNnRf0JzzFoT2
+   G3IbMcXcxRGTCmhC3Qde7coa5+ZK1upmJ1cr8FcuXCu87bVcsIlXfrhmR
+   A0jpfIEsZTZJSpJiq5zUnLJ9a6HFffF/QDhGIvipY8+DYeHu5eAqhf32Y
+   Q==;
+X-CSE-ConnectionGUID: q3NTTtS+QHOP77mRjXOTig==
+X-CSE-MsgGUID: MdMiyU/7Ti2bYsS6+3cc+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="37794743"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="25232857"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 07:37:28 -0800
-X-CSE-ConnectionGUID: 13p1LCvERkOm0Y7Cw9y5eQ==
-X-CSE-MsgGUID: xGp6Gp/PSiSVfpj5vpXRBQ==
+   d="scan'208";a="37794743"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 07:59:30 -0800
+X-CSE-ConnectionGUID: x1wF/HAVQOmMEBHpuwoSDQ==
+X-CSE-MsgGUID: Z+ftTE6ZTwO3fYI3sDlD9g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="106113569"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110130343"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Jan 2025 07:37:27 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jan 2025 07:59:29 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZAt2-000UZ9-2C;
-	Sat, 18 Jan 2025 15:37:24 +0000
-Date: Sat, 18 Jan 2025 23:37:17 +0800
+	id 1tZBEM-000UaC-2N;
+	Sat, 18 Jan 2025 15:59:26 +0000
+Date: Sat, 18 Jan 2025 23:58:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1407/1407] hifc_lld.c:undefined
- reference to `rtc_time64_to_tm'
-Message-ID: <202501182334.LzPZxncS-lkp@intel.com>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/staging/gpib/eastwood/fluke_gpib.c:1145:3-8: No need to set
+ .owner here. The core will do it.
+Message-ID: <202501182304.q5PrJvhd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +62,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   52349611d09c6a9a2b558b3ce1cb1dca0d47dbe8
-commit: 7fc993d55d1b54ae40e29dfac825a18d04d644c6 [1407/1407] scsi/hifc: add hifc driver FC service module
-config: arm64-randconfig-003-20250116 (https://download.01.org/0day-ci/archive/20250118/202501182334.LzPZxncS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501182334.LzPZxncS-lkp@intel.com/reproduce)
+Hi Dave,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   595523945be0a5a2f12a1c04772383293fbc04a1
+commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
+date:   3 months ago
+config: m68k-randconfig-r053-20250118 (https://download.01.org/0day-ci/archive/20250118/202501182304.q5PrJvhd-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501182334.LzPZxncS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501182304.q5PrJvhd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/staging/gpib/eastwood/fluke_gpib.c:1145:3-8: No need to set .owner here. The core will do it.
 
-   aarch64-linux-ld: warning: -z norelro ignored
-   aarch64-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   aarch64-linux-ld: drivers/scsi/huawei/hifc/hifc_lld.o: in function `hifc_sync_time_to_fmw':
->> hifc_lld.c:(.text+0x4d4): undefined reference to `rtc_time64_to_tm'
-   aarch64-linux-ld: drivers/scsi/huawei/hifc/hifc_dbgtool_knl.o: in function `ffm_intr_msg_record':
->> hifc_dbgtool_knl.c:(.text+0x268): undefined reference to `rtc_time64_to_tm'
+vim +1145 drivers/staging/gpib/eastwood/fluke_gpib.c
+
+55936779f49612 Dave Penkler 2024-09-18  1141  
+55936779f49612 Dave Penkler 2024-09-18  1142  static struct platform_driver fluke_gpib_platform_driver = {
+55936779f49612 Dave Penkler 2024-09-18  1143  	.driver = {
+55936779f49612 Dave Penkler 2024-09-18  1144  		.name = "fluke_gpib",
+55936779f49612 Dave Penkler 2024-09-18 @1145  		.owner = THIS_MODULE,
+55936779f49612 Dave Penkler 2024-09-18  1146  		.of_match_table = fluke_gpib_of_match,
+55936779f49612 Dave Penkler 2024-09-18  1147  	},
+55936779f49612 Dave Penkler 2024-09-18  1148  	.probe = &fluke_gpib_probe
+55936779f49612 Dave Penkler 2024-09-18  1149  };
+55936779f49612 Dave Penkler 2024-09-18  1150  
+
+:::::: The code at line 1145 was first introduced by commit
+:::::: 55936779f4961299efa99a6843c8ff3b019d3858 staging: gpib: Add Fluke cda based cards GPIB driver
+
+:::::: TO: Dave Penkler <dpenkler@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
