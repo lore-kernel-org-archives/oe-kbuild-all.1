@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E65818B460
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 11:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F2B155757
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 11:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737200827; cv=none; b=sWXfwqGiSRZ+4Bby5jpvnAvXOi+61tiaF+KSxLiTZCENPWm+veH6Q+Tgdoq0WxkJgblKfsk9LGDmERmpEOW+IB8v91PPo0p8qrUQlPExqAeXK1/G8QQccgv+XnlbiPuAMcZEKScfsWdV/dg+v8v0WX9at/npdWM7YSEcJrt2ptY=
+	t=1737201426; cv=none; b=gFnB4xfNylh9FyX8vkjLIzGRfjpEzIhNgc5h4huPQ6bNjtN/AERP8tyt27Pr4UCvHb/BO1ho6KXKjh50tqIuqQiFPq0ZyZud/coGZToYw0seO57DaGuWpMXLJPeREIZZ8lEjvEWaT+10RINt0BGT7bdd3LO9agdbgBi+S7rKQ3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737200827; c=relaxed/simple;
-	bh=asTMKOdUViXdHz/dV2HpjrPBWeTGQ7fDZPewUmvujGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dYazx5LO/h10Jcsuw8LAAgL6AawRvx5Ef/rFP1HvdWU9Ud+oOmpbg8SF35LMH4jEfSL+Pf0sF3FDrNjx850mpUUlD42VMbb5dDQiehi37aveKKRuR88TrmaqCyxKIl7J3D1FxTTFoctDnXdzOI0Js+Hgmyufy2x242drsWqtpQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0OEKJyo; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1737201426; c=relaxed/simple;
+	bh=gnIWoOVpcdpXrLhNiSdkcUxV2PyEfdsDoxzJ1vXfx2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lOCEltAlBqM2nT3A6MKZjfz/G2Y9419ofsNmDpGCDDfYH2xYxjCywm410h6G976NSEGGRkrM3WeZMq2PWdbsRUSAo7CptLaVq0Bs0QoJNTPjNBtnGY6g7Ca4O2Zc02dKmFojG9EF1grqooptTBQ+hqgyKQKhOAdsZyX4BIcVvT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfSQqQoy; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0OEKJyo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfSQqQoy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737200826; x=1768736826;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=asTMKOdUViXdHz/dV2HpjrPBWeTGQ7fDZPewUmvujGQ=;
-  b=H0OEKJyoMafOz3OZ7fVMjdjKGwVwJzX5gn/+8tasAQkf/wA/Gs00WTKU
-   cFPJbqGwvWVzRTb361UtFwWY7D5hE7Bse1IFLC44TNbVwKqjFhbt783eO
-   H1zSN+zcdEFJqH41VIhdOi8T/0aIWucEWTM0L0xYtgwwX/hJWuovG4Uv+
-   K2Tj4+Tk1xso7Jpo4WnPNIqhmMCNsN1TZsf45CJ6OE45GELohzkM+cL4H
-   jY+pycaHC1cK1B551ddmQr+pG2O02KuNzBy9vYpKGusEasKWuh6XeLXPr
-   QUbz7h06ULXVs6JVtn0UaqDRqA2iZqoNrNCmureQ3YlqJ8GX7l2kUYMDH
+  t=1737201424; x=1768737424;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gnIWoOVpcdpXrLhNiSdkcUxV2PyEfdsDoxzJ1vXfx2U=;
+  b=XfSQqQoyPTtud/wXRgOUVe0WLwChJkhFqfB6I5xYVuur1A2iw2Aq8UDG
+   w2iSVTHIjTX8cHA/evF7kC8o7bU61XTBujgG9EwdqUmwmOJfMR4dAKs/8
+   NdRh28bBoZ6W75xY35q0XY4GUj4mxEg+gqA7YE94DAYiQxYo4bMGKHUgA
+   DCqJCBEHhetK6hNzHyFr+8tJtJJ/tJ8N646KS/EPcmCKF+dnUh6Up0gTu
+   wjkz/AF3GIjm1IoFgnxhdndZ2W/mnHS8qPJHnNw9W0SV/5VrUNoZW4VOi
+   sKAJMo9RLvsEkCpZVnIP8ux60YkPljJhHU5mtIqpgUtXJb1gCqDsB9aOl
    Q==;
-X-CSE-ConnectionGUID: FZq/MKJ/TP+Cvqj1HY0MaA==
-X-CSE-MsgGUID: QitQFKzxRwyXfTbUtkbhQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37788597"
+X-CSE-ConnectionGUID: ZhvWmCPMS5O4DJgBh0s1hg==
+X-CSE-MsgGUID: 4NSXJkYPSZyfDzKNPfF5Vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="48297809"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="37788597"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 03:47:03 -0800
-X-CSE-ConnectionGUID: b3sIQfZsTSSfYMqDu+yKjA==
-X-CSE-MsgGUID: cmie8LA7QJKMz4IL0R687Q==
+   d="scan'208";a="48297809"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 03:57:03 -0800
+X-CSE-ConnectionGUID: x6mg2vD1TDSjBPhOVMgFSw==
+X-CSE-MsgGUID: EbXzLs0sSK2zyUvXeJsztQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106940577"
+   d="scan'208";a="105892802"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 18 Jan 2025 03:47:01 -0800
+  by orviesa010.jf.intel.com with ESMTP; 18 Jan 2025 03:57:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZ7I3-000UMH-11;
-	Sat, 18 Jan 2025 11:46:59 +0000
-Date: Sat, 18 Jan 2025 19:46:34 +0800
+	id 1tZ7Rk-000UMx-28;
+	Sat, 18 Jan 2025 11:57:00 +0000
+Date: Sat, 18 Jan 2025 19:56:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ranjan Kumar <ranjan.kumar@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Sathya Prakash <sathya.prakash@broadcom.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_app.c:461: warning: Excess function
- parameter 'data' description in 'mpi3mr_set_trigger_data_in_hdb'
-Message-ID: <202501181924.hvKEeXDf-lkp@intel.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v5 01/15] mm: Consolidate freeing of typed folios on
+ final folio_put()
+Message-ID: <202501181951.3qH7Sd3n-lkp@intel.com>
+References: <20250117163001.2326672-2-tabba@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +63,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250117163001.2326672-2-tabba@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   595523945be0a5a2f12a1c04772383293fbc04a1
-commit: fc4444941140c80088102b39eb130d2a7a048e58 scsi: mpi3mr: HDB allocation and posting for hardware and firmware buffers
-date:   7 months ago
-config: arc-randconfig-r004-20221209 (https://download.01.org/0day-ci/archive/20250118/202501181924.hvKEeXDf-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501181924.hvKEeXDf-lkp@intel.com/reproduce)
+Hi Fuad,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 5bc55a333a2f7316b58edc7573e8e893f7acb532]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fuad-Tabba/mm-Consolidate-freeing-of-typed-folios-on-final-folio_put/20250118-003538
+base:   5bc55a333a2f7316b58edc7573e8e893f7acb532
+patch link:    https://lore.kernel.org/r/20250117163001.2326672-2-tabba%40google.com
+patch subject: [RFC PATCH v5 01/15] mm: Consolidate freeing of typed folios on final folio_put()
+config: i386-buildonly-randconfig-004-20250118 (https://download.01.org/0day-ci/archive/20250118/202501181951.3qH7Sd3n-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501181951.3qH7Sd3n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501181924.hvKEeXDf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501181951.3qH7Sd3n-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/scsi/mpi3mr/mpi3mr_app.c:461: warning: Excess function parameter 'data' description in 'mpi3mr_set_trigger_data_in_hdb'
-
-
-vim +461 drivers/scsi/mpi3mr/mpi3mr_app.c
-
-   443	
-   444	/**
-   445	 * mpi3mr_set_trigger_data_in_hdb - Updates HDB trigger type and
-   446	 * trigger data
-   447	 *
-   448	 * @hdb: HDB pointer
-   449	 * @type: Trigger type
-   450	 * @data: Trigger data
-   451	 * @force: Trigger overwrite flag
-   452	 * @trigger_data: pointer to trigger data information
-   453	 *
-   454	 * Updates trigger type and trigger data based on parameter
-   455	 * passed to this function
-   456	 *
-   457	 * Return: Nothing
-   458	 */
-   459	void mpi3mr_set_trigger_data_in_hdb(struct diag_buffer_desc *hdb,
-   460		u8 type, union mpi3mr_trigger_data *trigger_data, bool force)
- > 461	{
-   462		if ((!force) && (hdb->trigger_type != MPI3MR_HDB_TRIGGER_TYPE_UNKNOWN))
-   463			return;
-   464		hdb->trigger_type = type;
-   465		if (!trigger_data)
-   466			memset(&hdb->trigger_data, 0, sizeof(*trigger_data));
-   467		else
-   468			memcpy(&hdb->trigger_data, trigger_data, sizeof(*trigger_data));
-   469	}
-   470	
+   ld: mm/swap.o: in function `free_typed_folio':
+>> swap.c:(.text+0x4f5): undefined reference to `free_huge_folio'
 
 -- 
 0-DAY CI Kernel Test Service
