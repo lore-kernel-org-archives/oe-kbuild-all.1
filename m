@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE837173
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 17:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E278C1A707A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 21:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737222770; cv=none; b=Y3eUbm3bcFE/SznZvB/HKOvzAY4opcvX2Pm3wepN7YNbh4H+K0EymxVUmZkBtTPvPnaA3Y7MDDcxEySoIwHK39IOqoZv/GzAI1ASO2+18mEPK/aOSwDazMXIwPPXPsl716lEHYQV1478s8LmGCnLsHEjm49BG+CHaWQ+3jV3ACg=
+	t=1737234969; cv=none; b=PZisgDeQZNBNFFgXOSif3mxQSFduRbKS4qK/NJtq+vkeZc8tHs29j+EnP2v0XDJK0B7c6IOB+nJme0otU2JbrZcPcWWifD++XS0lGNHk6cit4N81mXIIz9spfU1jrHQqrGaYerrnkV/3yJ69kmwtfXJDQjePL5mzZ/0lIZiypr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737222770; c=relaxed/simple;
-	bh=MqQa2haTPDBqjkN4qsoe8jXlHi9SBeRvVhURc5EoEiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r6Of59vwMLTF8ktM+/0QG45EodXDElZx8leUTIFZabIpI/DaWILV84YEOos56qkHYq6RCbT++44Jyo2/qby502FUhX6IYhjkgeF369lCvBQMxM56I3zfMKZ3qTSVcCGT7/WT61lcZxLEpWCpRHIjfQTX3q3KCROFiphbr8SDfdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KeACc/+H; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1737234969; c=relaxed/simple;
+	bh=dr4YDSDNJkmVcet6NYSK0BD7RdBaTbEDMGXHZHUsXg4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nuB2RujjUqdGCmdFb8dki5YBvoYp5dtIdTHFA9z/IsU4afy9Q5Twj5K/di4FMPaCE3lKp/Yoh20a/svfLpn6OJo/EbpePq26ii4r5bY+P+ALk+2TzgACfrAbH0gPIVz98MF4OtI++N2nYCeLESeZg4wyaU6t+NCWtfJLEHDZTVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acJPPMnc; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KeACc/+H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acJPPMnc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737222769; x=1768758769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MqQa2haTPDBqjkN4qsoe8jXlHi9SBeRvVhURc5EoEiE=;
-  b=KeACc/+H2w7V6Oxz6H31jQQykH8kAWdxs5hKMLj1jQsjoiax5q+PCv6P
-   R7z4uX+8s/AhhDy4ci6nKI4AovrmPYC/vJRnDnO7Sz9DU3Dw0AZlaK5lb
-   CPNyBeKtRFCG3OuSnGwMdK4jPmbZOZwGl6I6xgtVkThITNw6yhCZd3qrk
-   aDlLHAYmp9KSdpwlq+2tKwL66nTMqWKTmB2fRAeHzfFeGvj3tYF96G359
-   9SJDReyUuHqc6i+FV93CydE7ExDDX595sz7o+6TyajPEbLHRQllOBQ/61
-   Xv1Xr0FmzcgzVIb6nuOJEqMzWKNKyTnAoIzyvEvCgpBihblL8i14rpUZG
-   Q==;
-X-CSE-ConnectionGUID: 5DeicGl0QhyIPrypOTSTXg==
-X-CSE-MsgGUID: Ca+dlvWiQq6vv7PqIaSVQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="41398683"
+  t=1737234965; x=1768770965;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dr4YDSDNJkmVcet6NYSK0BD7RdBaTbEDMGXHZHUsXg4=;
+  b=acJPPMnciJ8vTtTdP77Z3Q5Rib7yhhncG2j6X81r+qEQXekn36cShMgd
+   8AdFA+Ui7S82HKXnybg7E9JJp8vLeeA/py71RXoN4MRz/PBGt3HRDpgYc
+   pvUcz/vSzsNPWrIACRVI6Hc/NdLl8cJ2aqI0BGTK9AI1SpI9J56ziNRle
+   8YxA+FOMRdJEGIgHQVzxlKpgzUoCCIMvgXcpTozJtv7EDem0PjgN4msO0
+   BIiFvsV7Q+zEUWHWYjA+uOWfcpRu77SoXGRo2F5jJOX7UVGhnVFZQPNUj
+   Xx/2idpL4iZOPmntZAO35i7adXQO7rY8qSKLWbHU0tbcR8UwXevfabXkN
+   A==;
+X-CSE-ConnectionGUID: OwZZhVEtRmarKGbFzRmuQQ==
+X-CSE-MsgGUID: GV8pFPRRRVytG6F6i/RfbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="37881551"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="41398683"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 09:52:49 -0800
-X-CSE-ConnectionGUID: hPt2FJGlRR2pAyqTZTZbwA==
-X-CSE-MsgGUID: C+71uOlhR3KzOgpmVdqw2A==
+   d="scan'208";a="37881551"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 13:16:04 -0800
+X-CSE-ConnectionGUID: mGG/A8y1SoOPizn9o1ICZw==
+X-CSE-MsgGUID: NM2HquAlTOiEVlfHKKi71A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="111069689"
+X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
+   d="scan'208";a="136952119"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Jan 2025 09:52:44 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Jan 2025 13:16:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZCzx-000Ugh-39;
-	Sat, 18 Jan 2025 17:52:41 +0000
-Date: Sun, 19 Jan 2025 01:52:25 +0800
+	id 1tZGAi-000Uop-1Z;
+	Sat, 18 Jan 2025 21:16:00 +0000
+Date: Sun, 19 Jan 2025 05:15:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shuai Xue <xueshuai@linux.alibaba.com>, rostedt@goodmis.org,
-	lukas@wunner.de, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, helgaas@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com, tony.luck@intel.com,
-	bp@alien8.de, xueshuai@linux.alibaba.com, mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com, oleg@redhat.com, naveen@kernel.org,
-	davem@davemloft.net, anil.s.keshavamurthy@intel.com,
-	mark.rutland@arm.com, peterz@infradead.org,
-	tianruidong@linux.alibaba.com
-Subject: Re: [PATCH v6] PCI: hotplug: Add a generic RAS tracepoint for
- hotplug event
-Message-ID: <202501190108.tRReJA1Z-lkp@intel.com>
-References: <20250115013753.49126-1-xueshuai@linux.alibaba.com>
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [tiwai-sound:for-next 50/51] sound/usb/fcp.c:889:22: error:
+ assignment to 'long int (*)(struct snd_hwdep *, char *, long int,  loff_t
+ *)' {aka 'long int (*)(struct snd_hwdep *, char *, long int,  long long int
+ *)'} from incompatible pointer type 'ssize_t (*)(struct snd_hwdep *, char
+ ...
+Message-ID: <202501190536.A2CiOP0a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,38 +65,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115013753.49126-1-xueshuai@linux.alibaba.com>
 
-Hi Shuai,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.13-rc7 next-20250117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-hotplug-Add-a-generic-RAS-tracepoint-for-hotplug-event/20250115-094016
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250115013753.49126-1-xueshuai%40linux.alibaba.com
-patch subject: [PATCH v6] PCI: hotplug: Add a generic RAS tracepoint for hotplug event
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250119/202501190108.tRReJA1Z-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+head:   0ce204d3af3beca1825018e9ca128635ccc8aa85
+commit: 46757a3e7d50dac923888e7fbe68377736f13c70 [50/51] ALSA: FCP: Add Focusrite Control Protocol driver
+config: i386-buildonly-randconfig-004-20250119 (https://download.01.org/0day-ci/archive/20250119/202501190536.A2CiOP0a-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501190108.tRReJA1Z-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501190536.A2CiOP0a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501190108.tRReJA1Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501190536.A2CiOP0a-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/linux/pci.h:22:10: fatal error: linux/tracepoint.h: No such file or directory
-      22 | #include <linux/tracepoint.h>
-         |          ^~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   sound/usb/fcp.c: In function 'fcp_hwdep_init':
+>> sound/usb/fcp.c:889:22: error: assignment to 'long int (*)(struct snd_hwdep *, char *, long int,  loff_t *)' {aka 'long int (*)(struct snd_hwdep *, char *, long int,  long long int *)'} from incompatible pointer type 'ssize_t (*)(struct snd_hwdep *, char *, ssize_t,  loff_t *)' {aka 'int (*)(struct snd_hwdep *, char *, int,  long long int *)'} [-Werror=incompatible-pointer-types]
+     889 |         hw->ops.read = fcp_hwdep_read;
+         |                      ^
+   cc1: some warnings being treated as errors
+
+
+vim +889 sound/usb/fcp.c
+
+   874	
+   875	static int fcp_hwdep_init(struct usb_mixer_interface *mixer)
+   876	{
+   877		struct snd_hwdep *hw;
+   878		int err;
+   879	
+   880		err = snd_hwdep_new(mixer->chip->card, "Focusrite Control", 0, &hw);
+   881		if (err < 0)
+   882			return err;
+   883	
+   884		hw->private_data = mixer;
+   885		hw->exclusive = 1;
+   886		hw->ops.open = fcp_hwdep_open;
+   887		hw->ops.ioctl = fcp_hwdep_ioctl;
+   888		hw->ops.ioctl_compat = fcp_hwdep_ioctl;
+ > 889		hw->ops.read = fcp_hwdep_read;
+   890		hw->ops.poll = fcp_hwdep_poll;
+   891		hw->ops.release = fcp_hwdep_release;
+   892	
+   893		return 0;
+   894	}
+   895	
 
 -- 
 0-DAY CI Kernel Test Service
