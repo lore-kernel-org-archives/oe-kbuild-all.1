@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A4923C9;
-	Sat, 18 Jan 2025 23:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8691E531
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 23:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737243681; cv=none; b=IflU5OT0Pu5vlDgMuKlxfQQ6BAFqG/JHj4jZcJH6LlchqV91/PrnlxccFhAqIWgQhiAITjVKmvEt3kbOEl1wA0QOvRACewEL/moGtwLJKAMrVcntNVXzzH7my0j541Amp4w2Sfv3L9weH8jVj4cqHtGqx0mbHofqfJJJtn44MXs=
+	t=1737244342; cv=none; b=V7aEywux9ifT9XKXPbTp8KX0CUTLXcTkdH05MxyhS9sIDRZQrVW/NVFNnEf8pN1twJ83+pejzONCSJg9iMhumWB5tkfGWe0R2Bjy6N+hBf13rAztkaACjND6VFi54l58JjBCtd9svTrGU/EJ/xLFs63LyEik60eCKXrEc5LLtZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737243681; c=relaxed/simple;
-	bh=oa6w2JEKRhV/hebvVvDigyjxFc1RTwquDpgM3S2i344=;
+	s=arc-20240116; t=1737244342; c=relaxed/simple;
+	bh=UMGX59yHl8LTmx8NtJkt5hUoGjajkCbeNm/aG3E7PII=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LgG/5eykliWXc/y/nLHfITPYwGl6DXkAlFZp+EIt7dCOR6/5C5t6a39sQV/omQn00r2RatAeqWf3YVLONJWdX3LPxaMbhBORClIhr+EiP/QsqICPsoPGIeqS3ptPpoVAqTS7dsOGwZY/VhOzgDEDbu7GmqkcEAAwzAeD1IeDCm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BzfJCcDG; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=gEwgaooqG+xDVOSFoVLqvyRmH9yFQaiNAsopfnkdh1eiSdrlvlRfGC+m6XoNCKy9iCNOpwUcdGHDN37fUBPDwlEZxjDUTj+dDl/EaVg9TtSaQOKDjxdLPxuAlEz8CqGG017hd1rf6KgHolkScpvvbL+LFkHOT0hiBWObokiQjjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPIq7/lh; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BzfJCcDG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPIq7/lh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737243680; x=1768779680;
+  t=1737244341; x=1768780341;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oa6w2JEKRhV/hebvVvDigyjxFc1RTwquDpgM3S2i344=;
-  b=BzfJCcDGRoFtczlNpOpq2IEr9bGzfWrMeTg/OwbNvsXTiqSYdsPGW881
-   sMlxuKn9CBX3kQZnm3FERf5sp2h4+6aPXPbKMUERKqglkixPz9qCJpxFG
-   tq6bTm0e91sshU9zLjY/h4a10Uk4XuI4kNwkxapS6gUODVdEeDRifduRP
-   Gj/PJ1iJMkTJWKlRs50mCwPW/+PVXdHMniry6sv3hiTC32dTdHdODAu+Q
-   nxb7GVTT7gTtbUf6CA4hWg2W8QfErT8AIGumnX3LhXI39vt43teWVvsMS
-   BAFfa7oF2bGsg4432aAj+I2DS88M/lG+OjLPFsCIMzI7B/OYKkOfn2l9q
-   g==;
-X-CSE-ConnectionGUID: Lh6PkJiyTn+2K7uZgZm2KA==
-X-CSE-MsgGUID: iCZkz3U8SvGkGD6eBNLeuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="37665400"
+  bh=UMGX59yHl8LTmx8NtJkt5hUoGjajkCbeNm/aG3E7PII=;
+  b=NPIq7/lhw26OlNqh2dFyuMFTMh6ppYkSRWoi0AObPSGOtwDwwh6/VGlr
+   //tnIhjAk92a/Br0vm4BpKT0Wusj3omjOnDexKI51q2i9Jt2xBBqAMc0w
+   dJ1UbiX3Gw8OQmitLe5vDnJ+x12Dt4QUUqyksQ2cCSQ62ByBPEVQ7mMQ7
+   pbm3gmk49ATePa4XJPsMXFNf3h1OaBx1Tbr1OBRut3WvMfk8Kp1I4wHtK
+   VNpu4UrKa39/R5mZ1Adjw1rmOOdMLQd28zqu/aHsUmEgfcM5V/wTCkXwQ
+   0Fp1YJOlDnz5KzXi1z6hLf+ZCskAOhQbNlLZsodfhIiHa7BBDr6mtFXsk
+   w==;
+X-CSE-ConnectionGUID: 1YVRaHSgQ9uSjCcy2ywBlQ==
+X-CSE-MsgGUID: ts8r2wljT7+a4b+fKTTKAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="41406310"
 X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="37665400"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 15:41:19 -0800
-X-CSE-ConnectionGUID: I//1zuMSTuGcLP9a3pZQPw==
-X-CSE-MsgGUID: AF5+3RocR7un/a+tkd3jCQ==
+   d="scan'208";a="41406310"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 15:52:20 -0800
+X-CSE-ConnectionGUID: JcqEUk76QzOBf+lPdUSQjA==
+X-CSE-MsgGUID: 6Dz1WbsCQZqGhB5Fz9Ky/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="136966810"
+   d="scan'208";a="106686909"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Jan 2025 15:41:17 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 18 Jan 2025 15:52:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZIRH-000Uw3-0t;
-	Sat, 18 Jan 2025 23:41:15 +0000
-Date: Sun, 19 Jan 2025 07:41:02 +0800
+	id 1tZIbw-000UwZ-0Y;
+	Sat, 18 Jan 2025 23:52:16 +0000
+Date: Sun, 19 Jan 2025 07:51:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jj-apparmor:apparmor-next 17/19] security/apparmor/file.c:544:17:
- warning: unused variable 'sock'
-Message-ID: <202501190757.myuLxLyL-lkp@intel.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>
+Subject: [linux-next:master 8642/9563]
+ drivers/net/phy/realtek/realtek_main.c:442:3-12: opportunity for
+ str_enabled_disabled(val_rxdly)
+Message-ID: <202501190707.qQS8PGHW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,90 +64,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
-head:   e6b087676954e36a7b1ed51249362bb499f8c1c2
-commit: c05e705812d179f4b85aeacc34a555a42bc4f9ac [17/19] apparmor: add fine grained af_unix mediation
-config: i386-buildonly-randconfig-005-20250119 (https://download.01.org/0day-ci/archive/20250119/202501190757.myuLxLyL-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501190757.myuLxLyL-lkp@intel.com/reproduce)
+Hi Heiner,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0907e7fb35756464aa34c35d6abb02998418164b
+commit: 1416a9b2ba710d31954131c06d46f298e340aa2c [8642/9563] net: phy: move realtek PHY driver to its own subdirectory
+config: parisc-randconfig-r054-20250119 (https://download.01.org/0day-ci/archive/20250119/202501190707.qQS8PGHW-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501190757.myuLxLyL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501190707.qQS8PGHW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/phy/realtek/realtek_main.c:442:3-12: opportunity for str_enabled_disabled(val_rxdly)
+>> drivers/net/phy/realtek/realtek_main.c:427:3-12: opportunity for str_enabled_disabled(val_txdly)
 
-   In file included from security/apparmor/file.c:17:
-   In file included from security/apparmor/include/af_unix.h:16:
-   In file included from include/net/af_unix.h:9:
-   In file included from include/net/sock.h:46:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> security/apparmor/file.c:544:17: warning: unused variable 'sock' [-Wunused-variable]
-     544 |         struct socket *sock = (struct socket *) file->private_data;
-         |                        ^~~~
-   2 warnings generated.
---
->> security/apparmor/af_unix.c:590: warning: Cannot understand  *
-    on line 590 - I thought it was a doc line
---
->> security/apparmor/lsm.c:1130: warning: Function parameter or struct member 'sk' not described in 'apparmor_unix_stream_connect'
->> security/apparmor/lsm.c:1130: warning: Function parameter or struct member 'peer_sk' not described in 'apparmor_unix_stream_connect'
->> security/apparmor/lsm.c:1130: warning: Function parameter or struct member 'newsk' not described in 'apparmor_unix_stream_connect'
->> security/apparmor/lsm.c:1162: warning: Function parameter or struct member 'sock' not described in 'apparmor_unix_may_send'
->> security/apparmor/lsm.c:1162: warning: Function parameter or struct member 'peer' not described in 'apparmor_unix_may_send'
-   security/apparmor/lsm.c:1270: warning: Function parameter or struct member 'sock' not described in 'apparmor_socket_bind'
-   security/apparmor/lsm.c:1270: warning: Function parameter or struct member 'address' not described in 'apparmor_socket_bind'
-   security/apparmor/lsm.c:1270: warning: Function parameter or struct member 'addrlen' not described in 'apparmor_socket_bind'
+vim +442 drivers/net/phy/realtek/realtek_main.c
 
+cf87915cb9f873 drivers/net/phy/realtek.c Heiner Kallweit     2018-07-02  373  
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  374  static int rtl8211f_config_init(struct phy_device *phydev)
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  375  {
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  376  	struct rtl821x_priv *priv = phydev->priv;
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  377  	struct device *dev = &phydev->mdio.dev;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  378  	u16 val_txdly, val_rxdly;
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  379  	int ret;
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  380  
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  381  	ret = phy_modify_paged_changed(phydev, 0xa43, RTL8211F_PHYCR1,
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  382  				       RTL8211F_ALDPS_PLL_OFF | RTL8211F_ALDPS_ENABLE | RTL8211F_ALDPS_XTAL_OFF,
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  383  				       priv->phycr1);
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  384  	if (ret < 0) {
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  385  		dev_err(dev, "aldps mode  configuration failed: %pe\n",
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  386  			ERR_PTR(ret));
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  387  		return ret;
+d90db36a9e748c drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  388  	}
+66e22932eb795f drivers/net/phy/realtek.c Jisheng Zhang       2020-09-21  389  
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  390  	switch (phydev->interface) {
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  391  	case PHY_INTERFACE_MODE_RGMII:
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  392  		val_txdly = 0;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  393  		val_rxdly = 0;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  394  		break;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  395  
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  396  	case PHY_INTERFACE_MODE_RGMII_RXID:
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  397  		val_txdly = 0;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  398  		val_rxdly = RTL8211F_RX_DELAY;
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  399  		break;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  400  
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  401  	case PHY_INTERFACE_MODE_RGMII_TXID:
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  402  		val_txdly = RTL8211F_TX_DELAY;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  403  		val_rxdly = 0;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  404  		break;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  405  
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  406  	case PHY_INTERFACE_MODE_RGMII_ID:
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  407  		val_txdly = RTL8211F_TX_DELAY;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  408  		val_rxdly = RTL8211F_RX_DELAY;
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  409  		break;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  410  
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  411  	default: /* the rest of the modes imply leaving delay as is. */
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  412  		return 0;
+1da7756e6616c7 drivers/net/phy/realtek.c Serge Semin         2019-05-09  413  	}
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  414  
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  415  	ret = phy_modify_paged_changed(phydev, 0xd08, 0x11, RTL8211F_TX_DELAY,
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  416  				       val_txdly);
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  417  	if (ret < 0) {
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  418  		dev_err(dev, "Failed to update the TX delay register\n");
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  419  		return ret;
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  420  	} else if (ret) {
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  421  		dev_dbg(dev,
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  422  			"%s 2ns TX delay (and changing the value from pin-strapping RXD1 or the bootloader)\n",
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  423  			val_txdly ? "Enabling" : "Disabling");
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  424  	} else {
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  425  		dev_dbg(dev,
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  426  			"2ns TX delay was already %s (by pin-strapping RXD1 or bootloader configuration)\n",
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26 @427  			val_txdly ? "enabled" : "disabled");
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  428  	}
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  429  
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  430  	ret = phy_modify_paged_changed(phydev, 0xd08, 0x15, RTL8211F_RX_DELAY,
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  431  				       val_rxdly);
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  432  	if (ret < 0) {
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  433  		dev_err(dev, "Failed to update the RX delay register\n");
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  434  		return ret;
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  435  	} else if (ret) {
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  436  		dev_dbg(dev,
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  437  			"%s 2ns RX delay (and changing the value from pin-strapping RXD0 or the bootloader)\n",
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  438  			val_rxdly ? "Enabling" : "Disabling");
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  439  	} else {
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  440  		dev_dbg(dev,
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  441  			"2ns RX delay was already %s (by pin-strapping RXD0 or bootloader configuration)\n",
+1b3047b5208a80 drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26 @442  			val_rxdly ? "enabled" : "disabled");
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  443  	}
+3aec743d69822d drivers/net/phy/realtek.c Martin Blumenstingl 2019-12-26  444  
+bb726b753f75a4 drivers/net/phy/realtek.c Clark Wang          2022-08-17  445  	if (priv->has_phycr2) {
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  446  		ret = phy_modify_paged(phydev, 0xa43, RTL8211F_PHYCR2,
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  447  				       RTL8211F_CLKOUT_EN, priv->phycr2);
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  448  		if (ret < 0) {
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  449  			dev_err(dev, "clkout configuration failed: %pe\n",
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  450  				ERR_PTR(ret));
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  451  			return ret;
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  452  		}
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  453  
+0a4355c2b7f8ec drivers/net/phy/realtek.c Joakim Zhang        2021-06-08  454  		return genphy_soft_reset(phydev);
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  455  	}
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  456  
+3489182b11d35f drivers/net/phy/realtek.c Siddharth Vadapalli 2024-02-20  457  	return 0;
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  458  }
+3447cf2e9a11fd drivers/net/phy/realtek.c Shengzhou Liu       2015-06-18  459  
 
-vim +/sock +544 security/apparmor/file.c
+:::::: The code at line 442 was first introduced by commit
+:::::: 1b3047b5208a80e7213bc4621f6fa4e5feb8dee4 net: phy: realtek: add support for configuring the RX delay on RTL8211F
 
-496c93196654d3 John Johansen 2017-06-09  538  
-90c436a64a6e20 John Johansen 2022-09-19  539  static int __file_sock_perm(const char *op, const struct cred *subj_cred,
-90c436a64a6e20 John Johansen 2022-09-19  540  			    struct aa_label *label,
-56974a6fcfef69 John Johansen 2017-07-18  541  			    struct aa_label *flabel, struct file *file,
-56974a6fcfef69 John Johansen 2017-07-18  542  			    u32 request, u32 denied)
-56974a6fcfef69 John Johansen 2017-07-18  543  {
-56974a6fcfef69 John Johansen 2017-07-18 @544  	struct socket *sock = (struct socket *) file->private_data;
-56974a6fcfef69 John Johansen 2017-07-18  545  	int error;
-56974a6fcfef69 John Johansen 2017-07-18  546  
-56974a6fcfef69 John Johansen 2017-07-18  547  	AA_BUG(!sock);
-56974a6fcfef69 John Johansen 2017-07-18  548  
-56974a6fcfef69 John Johansen 2017-07-18  549  	/* revalidation due to label out of date. No revocation at this time */
-56974a6fcfef69 John Johansen 2017-07-18  550  	if (!denied && aa_label_is_subset(flabel, label))
-56974a6fcfef69 John Johansen 2017-07-18  551  		return 0;
-56974a6fcfef69 John Johansen 2017-07-18  552  
-56974a6fcfef69 John Johansen 2017-07-18  553  	/* TODO: improve to skip profiles cached in flabel */
-c05e705812d179 John Johansen 2022-09-07  554  	error = aa_sock_file_perm(subj_cred, label, op, request, file);
-56974a6fcfef69 John Johansen 2017-07-18  555  	if (denied) {
-56974a6fcfef69 John Johansen 2017-07-18  556  		/* TODO: improve to skip profiles checked above */
-56974a6fcfef69 John Johansen 2017-07-18  557  		/* check every profile in file label to is cached */
-90c436a64a6e20 John Johansen 2022-09-19  558  		last_error(error, aa_sock_file_perm(subj_cred, flabel, op,
-c05e705812d179 John Johansen 2022-09-07  559  						    request, file));
-56974a6fcfef69 John Johansen 2017-07-18  560  	}
-56974a6fcfef69 John Johansen 2017-07-18  561  	if (!error)
-56974a6fcfef69 John Johansen 2017-07-18  562  		update_file_ctx(file_ctx(file), label, request);
-56974a6fcfef69 John Johansen 2017-07-18  563  
-56974a6fcfef69 John Johansen 2017-07-18  564  	return error;
-56974a6fcfef69 John Johansen 2017-07-18  565  }
-56974a6fcfef69 John Johansen 2017-07-18  566  
-
-:::::: The code at line 544 was first introduced by commit
-:::::: 56974a6fcfef69ee0825bd66ed13e92070ac5224 apparmor: add base infastructure for socket mediation
-
-:::::: TO: John Johansen <john.johansen@canonical.com>
-:::::: CC: John Johansen <john.johansen@canonical.com>
+:::::: TO: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
