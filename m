@@ -1,59 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CC718FC7B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 14:56:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBC418A6A1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 15:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737212185; cv=none; b=eX6+XtIZjcD6o8+CozxHI1TKSBOBQykxTqaboSpVCFSkZZWRLzTmYF8kZeqzsJ1okP7uv7B7fwVjmzDWj2uo8fgF9KjFQox/A7HwL3J9968tEaQJf0ToWTNHBtaXwtPd3sPA5EoAQTHZMe0zCvQGt/Vx/M4JnwyoH8PJiKyS7q0=
+	t=1737212787; cv=none; b=QS/BwBh6II4yrO7r+n60YTnHJQBnE7vtjVFxDqS56FBoV7SUTJ6UtUK4KiWQF7v4IYmLi0uPl8uarqp37bBqhiAQP9DdsJym1xWlAqp1opSSCGiOgXIbwT4IBrP55qcSwClpk9pepjhlIRV5sqSzKOxTsR4ktjIbn5t6LB7otw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737212185; c=relaxed/simple;
-	bh=Ed/vEELPGGcUZik+sGArS4IvX1rtjQtkcxu7KeY3sD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NVPLLLwLfpnKMLFRj3YXTopXK9fRMkAREgqxneQPh8g/G20Xv5xVR0cePiV2FCqWvk+xAvMt1HcYl7jSp5NohI9RZ4d77prbJL5+/2UfMgoDHzfH/Xt/ykikJEmgkw/ek8T0PDAE4DjDL5V/aoLVz382nFyc89nHw+xV6c/9UCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDgTMpql; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1737212787; c=relaxed/simple;
+	bh=jkbgZtrM2XmBN/IkJ+4GzldpC6tPh2ZxTAkwaMzPCUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AHkBPyxTlU3awdRDbeOL4rbBaru83MxcfnhLYg+JPxoX+2oONzU/mlPUdfsv5OtEk6m2EPzlAtzNqqTij2qwS4QGrKSNiTNdVJKWdIeRY89uiAY9hG4q4084hBMnYBbRDjUfLL+6dYjjtFPQpH+QREFAvPCSIk/0YhokQt1SL7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rm7Cgj/A; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDgTMpql"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rm7Cgj/A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737212184; x=1768748184;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ed/vEELPGGcUZik+sGArS4IvX1rtjQtkcxu7KeY3sD4=;
-  b=fDgTMpqlXBTe5SIkmbLruMUyIwEnXc19GbOAqc1ZS9+4cKaT8uBP4Bc2
-   KHrGDbaebslPpKQReDxMT6HvBnEcmCQyzZE4WzOEro0mHYk9BILkRufxF
-   EZbheykBgR9c6ogvnDMqiVJQCGctu2obcfLb5VqcYovcx6XnP346wT5Lb
-   xgigqft+1T9MiR1XDtXo+9V/i3YRBwNZVs1JErpslJ4SVNZO5fnAOMNGS
-   gEx1OXfS7yCVQPcbUcX70xsDQc/m9J7sj52gLtMv5QFI43CE7Mwi8E+u3
-   zcwehz1V7ia6RNleJYsyVSZvuyS0SBTt725/hOLYEBki6TjAFcn/GJt5V
+  t=1737212786; x=1768748786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jkbgZtrM2XmBN/IkJ+4GzldpC6tPh2ZxTAkwaMzPCUA=;
+  b=Rm7Cgj/AiZ7xMYc/QWbL+fBXZ9zH/N3PLJ5DmKSL85UvOzB2XlxTVeOe
+   jTftwL/+exxMskg29LnA7RLXABcuZqtQc9zo5pGgf7FRlOunK9GKwNx5z
+   C4jRfDH9Ikh00E1PkF61sYxKBVPIocWfNuqccEWKFJ3b30rpRPKy0wnhx
+   Xp6lVMjph9tGD4T2LAOoskBBg13tevYgFu1Y8GX8qTPeqUiPPWhMuRwVW
+   lJ0KeodSgybJ7iyET2oVArVCV6cQLfuVmPFh2GyHW5ceC0F6ftkQakYrQ
+   XY5QFoixSRJnBtHFRCc/m5XV+71qvQ1SIyIrTwiMxMwVZzmd5G7BvvFh3
    g==;
-X-CSE-ConnectionGUID: RHZSDLxfTvCJqyKP7x+fcg==
-X-CSE-MsgGUID: iqqqXn4BRxmzZRTyEUiiDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="40441338"
+X-CSE-ConnectionGUID: DXQaWrF1R/2yqwl9fhe3xQ==
+X-CSE-MsgGUID: b0Q/iT/LQlmiS+y2fdGBxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="40441849"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="40441338"
+   d="scan'208";a="40441849"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 06:56:22 -0800
-X-CSE-ConnectionGUID: RZq+PfOJRzK/Urn15lp8GA==
-X-CSE-MsgGUID: 7wISWs1nQ/yHjGbwv4EB7A==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 07:06:25 -0800
+X-CSE-ConnectionGUID: GVt/J22KTRigIsneYF6tCA==
+X-CSE-MsgGUID: mKToLFB0S+GrKaWFyEE2XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="105872987"
+   d="scan'208";a="105876611"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Jan 2025 06:56:20 -0800
+  by orviesa009.jf.intel.com with ESMTP; 18 Jan 2025 07:06:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZAFG-000UX4-1c;
-	Sat, 18 Jan 2025 14:56:18 +0000
-Date: Sat, 18 Jan 2025 22:55:35 +0800
+	id 1tZAOx-000UXD-0Q;
+	Sat, 18 Jan 2025 15:06:19 +0000
+Date: Sat, 18 Jan 2025 23:05:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 324/324]
- sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:55:6: warning: no previous
- prototype for function 'mt8196_aud_delay'
-Message-ID: <202501182211.qV4Ttefm-lkp@intel.com>
+To: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>,
+	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+	piotr.kwapulinski@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, michal.swiatkowski@linux.intel.com,
+	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
+Subject: Re: [PATCH v2 net-next] ixgbe: Fix endian handling for ACI
+ descriptor registers
+Message-ID: <202501182225.DicoE2L2-lkp@intel.com>
+References: <20250115034117.172999-1-dheeraj.linuxdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,254 +70,197 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250115034117.172999-1-dheeraj.linuxdev@gmail.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   c5c75fa9e727eeea4f1aac71a5838a1bdc76d0dd
-commit: fb5fd2c643575ce7373a230f0f909805c64d1155 [324/324] CHROMIUM: sound: soc/mediatek: add audio driver base for kernel-v6.6
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250118/202501182211.qV4Ttefm-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501182211.qV4Ttefm-lkp@intel.com/reproduce)
+Hi Dheeraj,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dheeraj-Reddy-Jonnalagadda/ixgbe-Fix-endian-handling-for-ACI-descriptor-registers/20250115-114330
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250115034117.172999-1-dheeraj.linuxdev%40gmail.com
+patch subject: [PATCH v2 net-next] ixgbe: Fix endian handling for ACI descriptor registers
+config: x86_64-randconfig-r133-20250118 (https://download.01.org/0day-ci/archive/20250118/202501182225.DicoE2L2-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501182225.DicoE2L2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501182211.qV4Ttefm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501182225.DicoE2L2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:116:17: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:116:17: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:116:17: sparse:     got restricted __le32 [usertype]
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:148:39: sparse: sparse: cast to restricted __le32
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:156:39: sparse: sparse: cast to restricted __le32
 
->> sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:55:6: warning: no previous prototype for function 'mt8196_aud_delay' [-Wmissing-prototypes]
-      55 | void mt8196_aud_delay(unsigned long usecs)
-         |      ^
-   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:55:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      55 | void mt8196_aud_delay(unsigned long usecs)
-         | ^
-         | static 
->> sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:108:6: warning: no previous prototype for function 'mt8196_fe_shutdown' [-Wmissing-prototypes]
-     108 | void mt8196_fe_shutdown(struct snd_pcm_substream *substream,
-         |      ^
-   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:108:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     108 | void mt8196_fe_shutdown(struct snd_pcm_substream *substream,
-         | ^
-         | static 
->> sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:132:5: warning: no previous prototype for function 'mt8196_fe_trigger' [-Wmissing-prototypes]
-     132 | int mt8196_fe_trigger(struct snd_pcm_substream *substream, int cmd,
-         |     ^
-   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:132:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     132 | int mt8196_fe_trigger(struct snd_pcm_substream *substream, int cmd,
-         | ^
-         | static 
->> sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:287:5: warning: no previous prototype for function 'mt8196_get_memif_pbuf_size' [-Wmissing-prototypes]
-     287 | int mt8196_get_memif_pbuf_size(struct snd_pcm_substream *substream)
-         |     ^
-   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:287:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     287 | int mt8196_get_memif_pbuf_size(struct snd_pcm_substream *substream)
-         | ^
-         | static 
->> sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:4837:23: warning: variable 'afe' set but not used [-Wunused-but-set-variable]
-    4837 |         struct mtk_base_afe *afe = NULL;
-         |                              ^
->> sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:4839:19: warning: variable 'card' set but not used [-Wunused-but-set-variable]
-    4839 |         struct snd_card *card = NULL;
-         |                          ^
-   6 warnings generated.
---
->> sound/soc/mediatek/mt8196/mt8196-afe-clk.c:275:5: warning: no previous prototype for function 'mt8196_afe_apll_init' [-Wmissing-prototypes]
-     275 | int mt8196_afe_apll_init(struct mtk_base_afe *afe)
-         |     ^
-   sound/soc/mediatek/mt8196/mt8196-afe-clk.c:275:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     275 | int mt8196_afe_apll_init(struct mtk_base_afe *afe)
-         | ^
-         | static 
-   1 warning generated.
---
->> sound/soc/mediatek/mt8196/mt8196-dai-i2s.c:4296:5: warning: no previous prototype for function 'mt8196_dai_i2s_get_share' [-Wmissing-prototypes]
-    4296 | int mt8196_dai_i2s_get_share(struct mtk_base_afe *afe)
-         |     ^
-   sound/soc/mediatek/mt8196/mt8196-dai-i2s.c:4296:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4296 | int mt8196_dai_i2s_get_share(struct mtk_base_afe *afe)
-         | ^
-         | static 
->> sound/soc/mediatek/mt8196/mt8196-dai-i2s.c:4315:5: warning: no previous prototype for function 'mt8196_dai_i2s_set_priv' [-Wmissing-prototypes]
-    4315 | int mt8196_dai_i2s_set_priv(struct mtk_base_afe *afe)
-         |     ^
-   sound/soc/mediatek/mt8196/mt8196-dai-i2s.c:4315:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4315 | int mt8196_dai_i2s_set_priv(struct mtk_base_afe *afe)
-         | ^
-         | static 
-   2 warnings generated.
+vim +116 drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c
 
-
-vim +/mt8196_aud_delay +55 sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
-
-    54	
-  > 55	void mt8196_aud_delay(unsigned long usecs)
-    56	{
-    57		unsigned long cycles = 0;
-    58		cycles_t start = get_cycles();
-    59	
-    60		cycles = USECS_TO_CYCLES(usecs);
-    61	
-    62		while ((get_cycles() - start) < cycles)
-    63			cpu_relax();
-    64	}
-    65	
-    66	static int mt8196_fe_startup(struct snd_pcm_substream *substream,
-    67				     struct snd_soc_dai *dai)
-    68	{
-    69		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-    70		struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
-    71		struct snd_pcm_runtime *runtime = substream->runtime;
-    72		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-    73		int memif_num = cpu_dai->id;
-    74		struct mtk_base_afe_memif *memif = &afe->memif[memif_num];
-    75		const struct snd_pcm_hardware *mtk_afe_hardware = afe->mtk_afe_hardware;
-    76		int ret;
-    77	
-    78		dev_dbg(afe->dev, "%s(), memif_num: %d.\n", __func__, memif_num);
+    35	
+    36	/**
+    37	 * ixgbe_aci_send_cmd_execute - execute sending FW Admin Command to FW Admin
+    38	 * Command Interface
+    39	 * @hw: pointer to the HW struct
+    40	 * @desc: descriptor describing the command
+    41	 * @buf: buffer to use for indirect commands (NULL for direct commands)
+    42	 * @buf_size: size of buffer for indirect commands (0 for direct commands)
+    43	 *
+    44	 * Admin Command is sent using CSR by setting descriptor and buffer in specific
+    45	 * registers.
+    46	 *
+    47	 * Return: the exit code of the operation.
+    48	 * * - 0 - success.
+    49	 * * - -EIO - CSR mechanism is not enabled.
+    50	 * * - -EBUSY - CSR mechanism is busy.
+    51	 * * - -EINVAL - buf_size is too big or
+    52	 * invalid argument buf or buf_size.
+    53	 * * - -ETIME - Admin Command X command timeout.
+    54	 * * - -EIO - Admin Command X invalid state of HICR register or
+    55	 * Admin Command failed because of bad opcode was returned or
+    56	 * Admin Command failed with error Y.
+    57	 */
+    58	static int ixgbe_aci_send_cmd_execute(struct ixgbe_hw *hw,
+    59					      struct ixgbe_aci_desc *desc,
+    60					      void *buf, u16 buf_size)
+    61	{
+    62		u16 opcode, buf_tail_size = buf_size % 4;
+    63		u32 *raw_desc = (u32 *)desc;
+    64		u32 hicr, i, buf_tail = 0;
+    65		bool valid_buf = false;
+    66	
+    67		hw->aci.last_status = IXGBE_ACI_RC_OK;
+    68	
+    69		/* It's necessary to check if mechanism is enabled */
+    70		hicr = IXGBE_READ_REG(hw, IXGBE_PF_HICR);
+    71	
+    72		if (!(hicr & IXGBE_PF_HICR_EN))
+    73			return -EIO;
+    74	
+    75		if (hicr & IXGBE_PF_HICR_C) {
+    76			hw->aci.last_status = IXGBE_ACI_RC_EBUSY;
+    77			return -EBUSY;
+    78		}
     79	
-    80		memif->substream = substream;
+    80		opcode = le16_to_cpu(desc->opcode);
     81	
-    82		snd_pcm_hw_constraint_step(substream->runtime, 0,
-    83						SNDRV_PCM_HW_PARAM_BUFFER_BYTES, 16);
+    82		if (buf_size > IXGBE_ACI_MAX_BUFFER_SIZE)
+    83			return -EINVAL;
     84	
-    85		snd_soc_set_runtime_hwparams(substream, mtk_afe_hardware);
-    86	
-    87		ret = snd_pcm_hw_constraint_integer(runtime,
-    88							SNDRV_PCM_HW_PARAM_PERIODS);
-    89		if (ret < 0)
-    90			dev_info(afe->dev, "snd_pcm_hw_constraint_integer failed\n");
-    91	
-    92		/* dynamic allocate irq to memif */
-    93		if (memif->irq_usage < 0) {
-    94			int irq_id = mtk_dynamic_irq_acquire(afe);
+    85		if (buf)
+    86			desc->flags |= cpu_to_le16(IXGBE_ACI_FLAG_BUF);
+    87	
+    88		if (desc->flags & cpu_to_le16(IXGBE_ACI_FLAG_BUF)) {
+    89			if ((buf && !buf_size) ||
+    90			    (!buf && buf_size))
+    91				return -EINVAL;
+    92			if (buf && buf_size)
+    93				valid_buf = true;
+    94		}
     95	
-    96			if (irq_id != afe->irqs_size) {
-    97				/* link */
-    98				memif->irq_usage = irq_id;
-    99			} else {
-   100				dev_info(afe->dev, "%s() error: no more asys irq\n",
-   101					__func__);
-   102				ret = -EBUSY;
-   103			}
-   104		}
-   105		return ret;
-   106	}
-   107	
- > 108	void mt8196_fe_shutdown(struct snd_pcm_substream *substream,
-   109				struct snd_soc_dai *dai)
-   110	{
-   111		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-   112		struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
-   113		struct mt8196_afe_private *afe_priv = afe->platform_priv;
-   114		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-   115		int memif_num = cpu_dai->id;
-   116		struct mtk_base_afe_memif *memif = &afe->memif[memif_num];
-   117		int irq_id = memif->irq_usage;
-   118	
-   119		dev_dbg(afe->dev, "%s(), memif_num: %d.\n", __func__, memif_num);
-   120	
-   121		memif->substream = NULL;
-   122		afe_priv->irq_cnt[memif_num] = 0;
-   123		afe_priv->xrun_assert[memif_num] = 0;
+    96		if (valid_buf) {
+    97			if (buf_tail_size)
+    98				memcpy(&buf_tail, buf + buf_size - buf_tail_size,
+    99				       buf_tail_size);
+   100	
+   101			if (((buf_size + 3) & ~0x3) > IXGBE_ACI_LG_BUF)
+   102				desc->flags |= cpu_to_le16(IXGBE_ACI_FLAG_LB);
+   103	
+   104			desc->datalen = cpu_to_le16(buf_size);
+   105	
+   106			if (desc->flags & cpu_to_le16(IXGBE_ACI_FLAG_RD)) {
+   107				for (i = 0; i < buf_size / 4; i++)
+   108					IXGBE_WRITE_REG(hw, IXGBE_PF_HIBA(i), ((u32 *)buf)[i]);
+   109				if (buf_tail_size)
+   110					IXGBE_WRITE_REG(hw, IXGBE_PF_HIBA(i), buf_tail);
+   111			}
+   112		}
+   113	
+   114		/* Descriptor is written to specific registers */
+   115		for (i = 0; i < IXGBE_ACI_DESC_SIZE_IN_DWORDS; i++)
+ > 116			IXGBE_WRITE_REG(hw, IXGBE_PF_HIDA(i), cpu_to_le32(raw_desc[i]));
+   117	
+   118		/* SW has to set PF_HICR.C bit and clear PF_HICR.SV and
+   119		 * PF_HICR_EV
+   120		 */
+   121		hicr = (IXGBE_READ_REG(hw, IXGBE_PF_HICR) | IXGBE_PF_HICR_C) &
+   122		       ~(IXGBE_PF_HICR_SV | IXGBE_PF_HICR_EV);
+   123		IXGBE_WRITE_REG(hw, IXGBE_PF_HICR, hicr);
    124	
-   125		if (!memif->const_irq) {
-   126			mtk_dynamic_irq_release(afe, irq_id);
-   127			memif->irq_usage = -1;
-   128			memif->substream = NULL;
-   129		}
-   130	}
-   131	
- > 132	int mt8196_fe_trigger(struct snd_pcm_substream *substream, int cmd,
-   133					struct snd_soc_dai *dai)
-   134	{
-   135		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-   136		struct snd_pcm_runtime *const runtime = substream->runtime;
-   137		struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
-   138		struct mt8196_afe_private *afe_priv = afe->platform_priv;
-   139		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-   140		int id = cpu_dai->id;
-   141		struct mtk_base_afe_memif *memif = &afe->memif[id];
-   142		int irq_id = memif->irq_usage;
-   143		struct mtk_base_afe_irq *irqs = &afe->irqs[irq_id];
-   144		const struct mtk_base_irq_data *irq_data = irqs->irq_data;
-   145		unsigned int counter = runtime->period_size;
-   146		unsigned int rate = runtime->rate;
-   147		int fs;
-   148		int ret = 0;
-   149		unsigned int tmp_reg = 0;
-   150	
-   151		dev_info(afe->dev, "%s(), %s cmd %d, irq_id %d\n", __func__,
-   152			memif->data->name, cmd, irq_id);
-   153	
-   154		switch (cmd) {
-   155		case SNDRV_PCM_TRIGGER_START:
-   156		case SNDRV_PCM_TRIGGER_RESUME:
-   157			dev_info(afe->dev, "%s(), %s cmd %d, id %d\n", __func__,
-   158				memif->data->name, cmd, id);
-   159			ret = mtk_memif_set_enable(afe, id);
-   160			if (ret) {
-   161				dev_err(afe->dev, "%s(), error, id %d, memif enable, ret %d\n",
-   162					__func__, id, ret);
-   163				return ret;
-   164			}
-   165	
-   166			/*
-   167			 * for small latency record
-   168			 * ul memif need read some data before irq enable
-   169			 */
-   170			if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
-   171				if ((runtime->period_size * 1000) / rate <= 10)
-   172					mt8196_aud_delay(300);
-   173			}
-   174	
-   175			/* set irq counter */
-   176			if (afe_priv->irq_cnt[id] > 0)
-   177				counter = afe_priv->irq_cnt[id];
-   178	
-   179			mtk_regmap_update_bits(afe->regmap, irq_data->irq_cnt_reg,
-   180					   irq_data->irq_cnt_maskbit,
-   181					   counter, irq_data->irq_cnt_shift);
-   182	
-   183			/* set irq fs */
-   184			fs = afe->irq_fs(substream, runtime->rate);
-   185			if (fs < 0)
-   186				return -EINVAL;
-   187	
-   188			if (irq_data->irq_fs_reg >= 0)
-   189				mtk_regmap_update_bits(afe->regmap, irq_data->irq_fs_reg,
-   190					   irq_data->irq_fs_maskbit,
-   191					   fs, irq_data->irq_fs_shift);
+   125	#define MAX_SLEEP_RESP_US 1000
+   126	#define MAX_TMOUT_RESP_SYNC_US 100000000
+   127	
+   128		/* Wait for sync Admin Command response */
+   129		read_poll_timeout(IXGBE_READ_REG, hicr,
+   130				  (hicr & IXGBE_PF_HICR_SV) ||
+   131				  !(hicr & IXGBE_PF_HICR_C),
+   132				  MAX_SLEEP_RESP_US, MAX_TMOUT_RESP_SYNC_US, true, hw,
+   133				  IXGBE_PF_HICR);
+   134	
+   135	#define MAX_TMOUT_RESP_ASYNC_US 150000000
+   136	
+   137		/* Wait for async Admin Command response */
+   138		read_poll_timeout(IXGBE_READ_REG, hicr,
+   139				  (hicr & IXGBE_PF_HICR_EV) ||
+   140				  !(hicr & IXGBE_PF_HICR_C),
+   141				  MAX_SLEEP_RESP_US, MAX_TMOUT_RESP_ASYNC_US, true, hw,
+   142				  IXGBE_PF_HICR);
+   143	
+   144		/* Read sync Admin Command response */
+   145		if ((hicr & IXGBE_PF_HICR_SV)) {
+   146			for (i = 0; i < IXGBE_ACI_DESC_SIZE_IN_DWORDS; i++) {
+   147				raw_desc[i] = IXGBE_READ_REG(hw, IXGBE_PF_HIDA(i));
+ > 148				raw_desc[i] = le32_to_cpu(raw_desc[i]);
+   149			}
+   150		}
+   151	
+   152		/* Read async Admin Command response */
+   153		if ((hicr & IXGBE_PF_HICR_EV) && !(hicr & IXGBE_PF_HICR_C)) {
+   154			for (i = 0; i < IXGBE_ACI_DESC_SIZE_IN_DWORDS; i++) {
+   155				raw_desc[i] = IXGBE_READ_REG(hw, IXGBE_PF_HIDA_2(i));
+   156				raw_desc[i] = le32_to_cpu(raw_desc[i]);
+   157			}
+   158		}
+   159	
+   160		/* Handle timeout and invalid state of HICR register */
+   161		if (hicr & IXGBE_PF_HICR_C)
+   162			return -ETIME;
+   163	
+   164		if (!(hicr & IXGBE_PF_HICR_SV) && !(hicr & IXGBE_PF_HICR_EV))
+   165			return -EIO;
+   166	
+   167		/* For every command other than 0x0014 treat opcode mismatch
+   168		 * as an error. Response to 0x0014 command read from HIDA_2
+   169		 * is a descriptor of an event which is expected to contain
+   170		 * different opcode than the command.
+   171		 */
+   172		if (desc->opcode != cpu_to_le16(opcode) &&
+   173		    opcode != ixgbe_aci_opc_get_fw_event)
+   174			return -EIO;
+   175	
+   176		if (desc->retval) {
+   177			hw->aci.last_status = (enum ixgbe_aci_err)
+   178				le16_to_cpu(desc->retval);
+   179			return -EIO;
+   180		}
+   181	
+   182		/* Write a response values to a buf */
+   183		if (valid_buf) {
+   184			for (i = 0; i < buf_size / 4; i++)
+   185				((u32 *)buf)[i] = IXGBE_READ_REG(hw, IXGBE_PF_HIBA(i));
+   186			if (buf_tail_size) {
+   187				buf_tail = IXGBE_READ_REG(hw, IXGBE_PF_HIBA(i));
+   188				memcpy(buf + buf_size - buf_tail_size, &buf_tail,
+   189				       buf_tail_size);
+   190			}
+   191		}
    192	
-   193			/* enable interrupt */
-   194			mtk_regmap_update_bits(afe->regmap, irq_data->irq_en_reg,
-   195					       1, 1, irq_data->irq_en_shift);
-   196	
-   197			return 0;
-   198		case SNDRV_PCM_TRIGGER_STOP:
-   199		case SNDRV_PCM_TRIGGER_SUSPEND:
-   200			ret = mtk_memif_set_disable(afe, id);
-   201			if (ret) {
-   202				dev_info(afe->dev,
-   203					"%s(), error, id %d, memif enable, ret %d\n",
-   204					__func__, id, ret);
-   205			}
-   206	
-   207			/* disable interrupt */
-   208			mtk_regmap_update_bits(afe->regmap, irq_data->irq_en_reg,
-   209				       1, 0, irq_data->irq_en_shift);
-   210	
-   211			/* clear pending IRQ */
-   212			regmap_read(afe->regmap, irq_data->irq_clr_reg, &tmp_reg);
-   213			regmap_update_bits(afe->regmap, irq_data->irq_clr_reg,
-   214				   AFE_IRQ_CLR_CFG_MASK_SFT | AFE_IRQ_MISS_FLAG_CLR_CFG_MASK_SFT,
-   215				   tmp_reg^(AFE_IRQ_CLR_CFG_MASK_SFT | AFE_IRQ_MISS_FLAG_CLR_CFG_MASK_SFT));
-   216	
-   217			return ret;
-   218		default:
-   219			return -EINVAL;
-   220		}
-   221	}
-   222	
+   193		return 0;
+   194	}
+   195	
 
 -- 
 0-DAY CI Kernel Test Service
