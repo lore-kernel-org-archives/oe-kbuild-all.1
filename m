@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67ECE189F36
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 12:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB5F18C00B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jan 2025 12:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737202750; cv=none; b=D8dekBBhepISfS8K9Dh2P9CVRLun4D41i+gLNpYSjDHZJwbD7sea7hu/vCYhunK6uF/JqDjwtccqVRAz1Oeneg0NTAM4FVDJtHp8/K6GALQDq1sZo98t2W8zt6Dc98UF6x33J6erxNrxNCg7vwpI1Kld1m9CLL6o7bxBikK8RiA=
+	t=1737203170; cv=none; b=jmr1Z1B993aHGDITMknd0OQ1K//plKlG/GkeBG2PewkpRCEmLtkPJ4w5kt2lgej3XXyBxhjno7nQr6J26ZK03TcKbiOeXiKL8Jzp5H2rUdXs3kM5u28s77o1gl0RM7IMJvlVAqiUdFnipYtfHfXRC1KzdeSRWj1o9Hq43lIcCg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737202750; c=relaxed/simple;
-	bh=jF7job/4IiNjKEmUPRQTPfFbzbqmdeS8TbRMvWMAIjM=;
+	s=arc-20240116; t=1737203170; c=relaxed/simple;
+	bh=9GozWhGiXzbSaJc3Gm9n9GFF06XkQppQRXajrAmB2qM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=pD7HnW1TOH3XQqf89pIp8RWR2Uq2vpcsGZoBS2QsPdadTPpnggy5cxpa0lRnD80Hc4b4Y+sImVee0dcQzTOvWPmGRD/GP2lior7dhstPN6Z4GPy5mPZ9+hCxft+Bkn6QCuKNibMYB2pH34UlyEswxG7ry6KWj4KlWjISUOqp2Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9sKpKXo; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition:In-Reply-To; b=EAnEJ5rAZT7nm8bNymLccF2Utg0+QqcFSBprg9UfbjoICMNsIpxBRGYRAwnYPBGXQXRX1STwlF2LguwshNMC7z3pjJQWOTC9r659+PwBdXGVI9jD3x67smjli6rSP9yqCi2cuaj7M2iK27kd4gnuKfrruTdnNXkWxqfjD6LMhZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BmXQdxIp; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9sKpKXo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmXQdxIp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737202748; x=1768738748;
+  t=1737203169; x=1768739169;
   h=date:from:to:cc:subject:message-id:mime-version:
    in-reply-to;
-  bh=jF7job/4IiNjKEmUPRQTPfFbzbqmdeS8TbRMvWMAIjM=;
-  b=Y9sKpKXolR4IT7rkdLKDD++3HAqdAfokmzvcOeFuE7ZNGrc7y07tMFYU
-   0jOF/U/jmOlYYDo8WAbXXjYhasNS5nDVFLUWnUeKAIfGzJYUYc1LsslOn
-   OeRruM+6lBEGZ3G9uDkcN5tVuu5AMH1+SdjTs52zS0ASJsBkTdEAaWrP8
-   Eev/f+1CevqWIAe/8Ys6lkgfVVFnJsu/LmngnObwDABpl8joPqTh60UNJ
-   J/izLpBAwICq/Ng360zS8jglEZUBHL730LUVQBZT3p1k2cCiPY3A7wD6X
-   NB5jS8iTXN1hMt0aLDqqlQ891dafJ1sNlRf8lS0LBtYBvFio5/uktKEH8
+  bh=9GozWhGiXzbSaJc3Gm9n9GFF06XkQppQRXajrAmB2qM=;
+  b=BmXQdxIp2j2GW8SS3QSE3BVubRIYTTWmBvrkA2MKsSBedtqcgzmgr2wT
+   JoDmY7qnKpnO/6c1zcssbT1SJGZ6oSsNXh18ouMERnzXK2DcEHcudd34S
+   aPoD7E5j9Nw5u9HWuD8NXnPhqV3SxQu/JozBsUOh7vCd2aF3dLYMK6adO
+   hEKVJ3KC2Smh6H0LdzGcdI0sE+SgPmE2x/8vWBIyMHdAalwfm5IYB1gL7
+   59tQQaGCFrENTV/5in5phfWliFJk7I6IxmJUD2Tl167ADItkT8aH2DXvS
+   R08xBQrHTFds5zH/ROQdP0HctzbrEzavSczX5TP6F5xZ+HcQEfY5XoOB5
    g==;
-X-CSE-ConnectionGUID: 4SNje29BQNO4kPF00jJGgw==
-X-CSE-MsgGUID: lwI6Qjc5QKG1wxh3f7WiFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="60098838"
+X-CSE-ConnectionGUID: AbIH3vzGQLKF+C/XPwNulg==
+X-CSE-MsgGUID: o+SeyWHaS6qDrarXlCdDSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="25227525"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="60098838"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 04:19:07 -0800
-X-CSE-ConnectionGUID: rGgbg5NBTbqGxrgbv4YX2g==
-X-CSE-MsgGUID: z6TH9XlGRTS2rvoFmnChQQ==
+   d="scan'208";a="25227525"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 04:26:08 -0800
+X-CSE-ConnectionGUID: 9V3KoMZuR8ahI/Gqs0ip5Q==
+X-CSE-MsgGUID: R01mUOanRGCgdr11vyhMHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143330131"
+   d="scan'208";a="110106648"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Jan 2025 04:19:06 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jan 2025 04:26:07 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZ7n5-000UPP-2J;
-	Sat, 18 Jan 2025 12:19:03 +0000
-Date: Sat, 18 Jan 2025 20:18:51 +0800
+	id 1tZ7tt-000UQl-0b;
+	Sat, 18 Jan 2025 12:26:05 +0000
+Date: Sat, 18 Jan 2025 20:26:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ron Economos <re@w6rz.net>
 Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 6.1] Partial revert of xhci: use pm_ptr() instead #ifdef
  for CONFIG_PM conditionals
-Message-ID: <Z4ucKzQG2xU0EIum@9bc2624f7252>
+Message-ID: <Z4ud2ua6GrwqaaBl@9bc2624f7252>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250118121505.4052080-1-re@w6rz.net>
+In-Reply-To: <20250118122409.4052121-1-re@w6rz.net>
 
 Hi,
 
@@ -74,7 +74,7 @@ The check is based on https://www.kernel.org/doc/html/latest/process/stable-kern
 
 Rule: The upstream commit ID must be specified with a separate line above the commit text.
 Subject: [PATCH 6.1] Partial revert of xhci: use pm_ptr() instead #ifdef for CONFIG_PM conditionals
-Link: https://lore.kernel.org/stable/20250118121505.4052080-1-re%40w6rz.net
+Link: https://lore.kernel.org/stable/20250118122409.4052121-1-re%40w6rz.net
 
 Please ignore this mail if the patch is not relevant for upstream.
 
