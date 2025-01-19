@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E574729415
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 04:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BAC29415
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 06:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737262076; cv=none; b=qh3XUxVohmVyyfFwdfwo6r4q/bD3b07rOIeJPpxTEkdnwmIGiA1kfVQ33vM5OLlFdDQt1R9GkCW0Pt+26yoqZVWEgR6u2A4pC71IkamnRz8hLiON97CKAxe/EfwqTuIfTSqEOiJTLjRAAb4xcmmyUIjwEHT7JnEkfG6UF0+Kda8=
+	t=1737268203; cv=none; b=uLs5h9/+Xsp+OBNHfYuwYPwF/Lzi+FEKs4rwYfe//gknfncXwib5FtpGqP5XE4MuaCBUENK65i8e3VuUHdkkgtswzUtTr8wZS7w0ynrKoX96FFk27+Z6HmfC3fAyDG5jzzMe7uSbJV9qmOfLnaZzGuEjTNlsB+qiAA1zMBDiUQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737262076; c=relaxed/simple;
-	bh=ENLqwJrrfgvnk9Uysjp86ORTfUsFH5KTSlUm3Muh2+o=;
+	s=arc-20240116; t=1737268203; c=relaxed/simple;
+	bh=pnnoUDOnwQkNnugAq50636pN1p+hKZBxkS1gjh74p4E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LzzbVucxJz44+yYwq/V7izoqMMFW1QKOq5j4zGWU/0YOPS6Fj3Ef0eAeT0trorxkf/iRJHpqW3NghmICGvOIXbjBNzxgIAkIK6M3XfOZf5Xe7BOa4B2hCAbY9cgS7f+CTpM5b/Cu+G64f/0YDOHRHSW61BUIIsNd82z9zf2ymCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Btoy797s; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=AtLU8Zu6tglTags3R8H2ppqvrkOFX1c3hb8KYltWpffY+wwytUa06rdhsFqC7t4SI5s8UitwzDzgWOApuqCrA9mxHuNRmv3wIphgIHkxOug+nIPbH31/RayVtSSIHlTVpJoA/KrHVpp5pTxbLKBSiNnWQVd37fRY7lP9DrDXha0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+A2xIU+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Btoy797s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+A2xIU+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737262074; x=1768798074;
+  t=1737268201; x=1768804201;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ENLqwJrrfgvnk9Uysjp86ORTfUsFH5KTSlUm3Muh2+o=;
-  b=Btoy797s/rzk0wa+oodBd5pjdTN6yNc1Fg1id2VqaoovJqXnnx+t8m4B
-   6KIT8FG3aF1jQYpp2fEw8qEvvqREwWSxGDM8TL1y3hrJG6arY6JRR75bG
-   8+t/MJSxpj6iI91cK5N/H3Ky8EbThhQLuKG8jXntvJ1Yf2AhCKWRx7FVt
-   +9e4gtaD7EWT5ik3k28oWYs5pkSPP7lgc41K6fS2YiWqRBgk8khxvVemJ
-   iH9ilZEQpVNPTjviV1TisOZj0mefwA02gTNR1bVXhMMajQ2mvZ9zAXLrG
-   TOUNGFSr/yK7f7rh4obzoAHzVcnp+2SqMdGSIJiL0QREjLbjasQNPPrsk
-   A==;
-X-CSE-ConnectionGUID: cLe3YG6/SX69RmvTEJwR8Q==
-X-CSE-MsgGUID: gBPFy0XTSiWirUDdePXsfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="36927904"
-X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="36927904"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 20:47:53 -0800
-X-CSE-ConnectionGUID: kr5KolyLRNu3FTCaIGEv6A==
-X-CSE-MsgGUID: X3iZY8mOR46Ns/mDBArNCQ==
+  bh=pnnoUDOnwQkNnugAq50636pN1p+hKZBxkS1gjh74p4E=;
+  b=b+A2xIU+eSRg5QfKz2LUb22xY+Tcc0SJ/yVWCeCj+wnLHguBEo2A9kI6
+   7UdQPT7N7k7b60fdMlpU4qYjh06S76eve1XAClKDaMOJu/hvmQHVe3grj
+   czL5my9wrdy9U6aRsW++ZaCFeS1bTPr1yAMHR2G0ztaXeTS93vOOF0V/W
+   kODIudaUG0XE5Pw9X+U1gqluhJ+L6KXZKCpuLpszdU/PG2w2F6PjLuDRV
+   qJ5Pcco3RxmKW/UE5FqT1qivOzY6cQlJ7Ib7GskMe6u8qwUSctgtfDf2K
+   MqHuARtoqXMhXZtKGVAxvHXAUiChTOwSZ4fIJa766p0yAQd7NolbQxg4C
+   Q==;
+X-CSE-ConnectionGUID: 1U16j+6TT426ArQVRYXYiw==
+X-CSE-MsgGUID: CdLLfXN0TwS1seGkCldp2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49070546"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="49070546"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 22:30:00 -0800
+X-CSE-ConnectionGUID: DewUi9xkQ8iFjiXh8Qdbng==
+X-CSE-MsgGUID: OgUW44D2TQWDtk0DXWGYQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="106715085"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="137077684"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Jan 2025 20:47:50 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 18 Jan 2025 22:29:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZNDv-000V6x-3C;
-	Sun, 19 Jan 2025 04:47:47 +0000
-Date: Sun, 19 Jan 2025 12:47:20 +0800
+	id 1tZOom-000VB5-2Q;
+	Sun, 19 Jan 2025 06:29:56 +0000
+Date: Sun, 19 Jan 2025 14:29:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2441/2441]
- drivers/iommu/intel/debugfs.c:591:13: error: implicit declaration of
- function 'copy_from_user'; did you mean 'copy_from_user_page'?
-Message-ID: <202501191234.OsnJf3br-lkp@intel.com>
+To: Rickard Andersson <rickard.andersson@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev, Richard Weinberger <richard@nod.at>,
+	Zhihao Cheng <chengzhihao1@huawei.com>
+Subject: [rw-ubifs:next 7/7] arch/riscv/include/asm/uaccess.h:33:9: error:
+ cast specifies array type
+Message-ID: <202501191405.WYnmdL0U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,123 +63,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   f1811f6442501fe34d2339158aed4f85a64f0398
-commit: c673edd0f89b25f0f785bc1a4216604a45679d3d [2441/2441] x86/pkru: Remove useless include
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250119/202501191234.OsnJf3br-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501191234.OsnJf3br-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git next
+head:   01099f635a4c68b8574d350a972ba062dd5142e9
+commit: 01099f635a4c68b8574d350a972ba062dd5142e9 [7/7] ubi: Implement ioctl for detailed erase counters
+config: riscv-randconfig-001-20250119 (https://download.01.org/0day-ci/archive/20250119/202501191405.WYnmdL0U-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501191405.WYnmdL0U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501191234.OsnJf3br-lkp@intel.com/
-
-Note: the opencloudos/linux-5.4/lts/5.4.119-20.0009.spr HEAD f1811f6442501fe34d2339158aed4f85a64f0398 builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501191405.WYnmdL0U-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/debugfs.h:15,
-                    from drivers/iommu/intel/debugfs.c:11:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   drivers/iommu/intel/debugfs.c: In function 'dmar_perf_latency_write':
->> drivers/iommu/intel/debugfs.c:591:13: error: implicit declaration of function 'copy_from_user'; did you mean 'copy_from_user_page'? [-Werror=implicit-function-declaration]
-     591 |         if (copy_from_user(&buf, ubuf, cnt))
-         |             ^~~~~~~~~~~~~~
-         |             copy_from_user_page
-   cc1: some warnings being treated as errors
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/mtd/ubi/cdev.c:25:
+   drivers/mtd/ubi/cdev.c: In function 'ubi_get_ec_info':
+>> arch/riscv/include/asm/uaccess.h:33:9: error: cast specifies array type
+      33 |         (__force __typeof__(addr))__untagged_addr_remote(current->mm, __addr);  \
+         |         ^
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   arch/riscv/include/asm/uaccess.h:42:50: note: in expansion of macro 'untagged_addr'
+      42 | #define access_ok(addr, size) likely(__access_ok(untagged_addr(addr), size))
+         |                                                  ^~~~~~~~~~~~~
+   drivers/mtd/ubi/cdev.c:854:14: note: in expansion of macro 'access_ok'
+     854 |         if (!access_ok(ureq->erase_counters, (end_peb-req.start) * sizeof(int32_t)))
+         |              ^~~~~~~~~
 
 
-vim +591 drivers/iommu/intel/debugfs.c
+vim +33 arch/riscv/include/asm/uaccess.h
 
-c4a45045c239ac Lu Baolu 2021-06-10  578  
-c4a45045c239ac Lu Baolu 2021-06-10  579  static ssize_t dmar_perf_latency_write(struct file *filp,
-c4a45045c239ac Lu Baolu 2021-06-10  580  				       const char __user *ubuf,
-c4a45045c239ac Lu Baolu 2021-06-10  581  				       size_t cnt, loff_t *ppos)
-c4a45045c239ac Lu Baolu 2021-06-10  582  {
-c4a45045c239ac Lu Baolu 2021-06-10  583  	struct dmar_drhd_unit *drhd;
-c4a45045c239ac Lu Baolu 2021-06-10  584  	struct intel_iommu *iommu;
-c4a45045c239ac Lu Baolu 2021-06-10  585  	int counting;
-c4a45045c239ac Lu Baolu 2021-06-10  586  	char buf[64];
-c4a45045c239ac Lu Baolu 2021-06-10  587  
-c4a45045c239ac Lu Baolu 2021-06-10  588  	if (cnt > 63)
-c4a45045c239ac Lu Baolu 2021-06-10  589  		cnt = 63;
-c4a45045c239ac Lu Baolu 2021-06-10  590  
-c4a45045c239ac Lu Baolu 2021-06-10 @591  	if (copy_from_user(&buf, ubuf, cnt))
-c4a45045c239ac Lu Baolu 2021-06-10  592  		return -EFAULT;
-c4a45045c239ac Lu Baolu 2021-06-10  593  
-c4a45045c239ac Lu Baolu 2021-06-10  594  	buf[cnt] = 0;
-c4a45045c239ac Lu Baolu 2021-06-10  595  
-c4a45045c239ac Lu Baolu 2021-06-10  596  	if (kstrtoint(buf, 0, &counting))
-c4a45045c239ac Lu Baolu 2021-06-10  597  		return -EINVAL;
-c4a45045c239ac Lu Baolu 2021-06-10  598  
-c4a45045c239ac Lu Baolu 2021-06-10  599  	switch (counting) {
-c4a45045c239ac Lu Baolu 2021-06-10  600  	case 0:
-c4a45045c239ac Lu Baolu 2021-06-10  601  		rcu_read_lock();
-c4a45045c239ac Lu Baolu 2021-06-10  602  		for_each_active_iommu(iommu, drhd) {
-c4a45045c239ac Lu Baolu 2021-06-10  603  			dmar_latency_disable(iommu, DMAR_LATENCY_INV_IOTLB);
-c4a45045c239ac Lu Baolu 2021-06-10  604  			dmar_latency_disable(iommu, DMAR_LATENCY_INV_DEVTLB);
-c4a45045c239ac Lu Baolu 2021-06-10  605  			dmar_latency_disable(iommu, DMAR_LATENCY_INV_IEC);
-c4a45045c239ac Lu Baolu 2021-06-10  606  			dmar_latency_disable(iommu, DMAR_LATENCY_PRQ);
-c4a45045c239ac Lu Baolu 2021-06-10  607  		}
-c4a45045c239ac Lu Baolu 2021-06-10  608  		rcu_read_unlock();
-c4a45045c239ac Lu Baolu 2021-06-10  609  		break;
-c4a45045c239ac Lu Baolu 2021-06-10  610  	case 1:
-c4a45045c239ac Lu Baolu 2021-06-10  611  		rcu_read_lock();
-c4a45045c239ac Lu Baolu 2021-06-10  612  		for_each_active_iommu(iommu, drhd)
-c4a45045c239ac Lu Baolu 2021-06-10  613  			dmar_latency_enable(iommu, DMAR_LATENCY_INV_IOTLB);
-c4a45045c239ac Lu Baolu 2021-06-10  614  		rcu_read_unlock();
-c4a45045c239ac Lu Baolu 2021-06-10  615  		break;
-c4a45045c239ac Lu Baolu 2021-06-10  616  	case 2:
-c4a45045c239ac Lu Baolu 2021-06-10  617  		rcu_read_lock();
-c4a45045c239ac Lu Baolu 2021-06-10  618  		for_each_active_iommu(iommu, drhd)
-c4a45045c239ac Lu Baolu 2021-06-10  619  			dmar_latency_enable(iommu, DMAR_LATENCY_INV_DEVTLB);
-c4a45045c239ac Lu Baolu 2021-06-10  620  		rcu_read_unlock();
-c4a45045c239ac Lu Baolu 2021-06-10  621  		break;
-c4a45045c239ac Lu Baolu 2021-06-10  622  	case 3:
-c4a45045c239ac Lu Baolu 2021-06-10  623  		rcu_read_lock();
-c4a45045c239ac Lu Baolu 2021-06-10  624  		for_each_active_iommu(iommu, drhd)
-c4a45045c239ac Lu Baolu 2021-06-10  625  			dmar_latency_enable(iommu, DMAR_LATENCY_INV_IEC);
-c4a45045c239ac Lu Baolu 2021-06-10  626  		rcu_read_unlock();
-c4a45045c239ac Lu Baolu 2021-06-10  627  		break;
-c4a45045c239ac Lu Baolu 2021-06-10  628  	case 4:
-c4a45045c239ac Lu Baolu 2021-06-10  629  		rcu_read_lock();
-c4a45045c239ac Lu Baolu 2021-06-10  630  		for_each_active_iommu(iommu, drhd)
-c4a45045c239ac Lu Baolu 2021-06-10  631  			dmar_latency_enable(iommu, DMAR_LATENCY_PRQ);
-c4a45045c239ac Lu Baolu 2021-06-10  632  		rcu_read_unlock();
-c4a45045c239ac Lu Baolu 2021-06-10  633  		break;
-c4a45045c239ac Lu Baolu 2021-06-10  634  	default:
-c4a45045c239ac Lu Baolu 2021-06-10  635  		return -EINVAL;
-c4a45045c239ac Lu Baolu 2021-06-10  636  	}
-c4a45045c239ac Lu Baolu 2021-06-10  637  
-c4a45045c239ac Lu Baolu 2021-06-10  638  	*ppos += cnt;
-c4a45045c239ac Lu Baolu 2021-06-10  639  	return cnt;
-c4a45045c239ac Lu Baolu 2021-06-10  640  }
-c4a45045c239ac Lu Baolu 2021-06-10  641  
+2e1743085887ba Samuel Holland 2024-10-16  30  
+2e1743085887ba Samuel Holland 2024-10-16  31  #define untagged_addr(addr) ({							\
+2e1743085887ba Samuel Holland 2024-10-16  32  	unsigned long __addr = (__force unsigned long)(addr);			\
+2e1743085887ba Samuel Holland 2024-10-16 @33  	(__force __typeof__(addr))__untagged_addr_remote(current->mm, __addr);	\
+2e1743085887ba Samuel Holland 2024-10-16  34  })
+2e1743085887ba Samuel Holland 2024-10-16  35  
 
-:::::: The code at line 591 was first introduced by commit
-:::::: c4a45045c239acae7673408f03e3a9cd67dbfc48 iommu/vt-d: Expose latency monitor data through debugfs
+:::::: The code at line 33 was first introduced by commit
+:::::: 2e1743085887ba3f553c2bb472a75a3ff744b242 riscv: Add support for the tagged address ABI
 
-:::::: TO: Lu Baolu <baolu.lu@linux.intel.com>
-:::::: CC: Jianping Liu <frankjpliu@tencent.com>
+:::::: TO: Samuel Holland <samuel.holland@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
