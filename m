@@ -1,198 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656581DF730;
-	Sun, 19 Jan 2025 18:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5402EB1D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 21:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737311342; cv=none; b=eqMYT1P6DmvPdPC0q/VO688vZ7T981XV4O/tk3kfkmMA708Pxisn1ozoZoxQZ1jmWDTxCaVo4UjCGRh0mktOLMWt6gZAN++jkM7Fhsd4s04FuiSktHkYbQRdjwV+N56LHfda18LNS7xEpBbc/4sRZH1/vLsXHkOmktAY14/IU8Y=
+	t=1737322413; cv=none; b=hx9iiAjMxJAM98460yoYD/06Xi9cwbyfrkqw02MHVkGbozO0DWiEqGfZeBAkapUXAcUS/JQqhvc/ql08eHqXz+J1ynhaHuq9lNU6Q53+cs5k7gSbj147W1Ik+E06qxaSV7A1ybHInYs5XibHFWK7aDCUWj+GEH67rZnSKYoal6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737311342; c=relaxed/simple;
-	bh=dtdJln9DUCS47S020Z5+ywS+CP+www9ECg77IDvoP54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AcjTMVxu1IXaOhCRVnsdbTVa6BdPdsjeDlURJ29GROKFwtfobsbXqOPTPn4+jTTpXzLabvUZDhuZwvhX4WQ31LCWtKGppfxgGbRhZZepbph9iL4iL5OFG/LFQaN8FoWGwSWFhLTNzaLOLM40Ke99s34It66Ko4Dce5r7ktBqCnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E8LIWyK1; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1737322413; c=relaxed/simple;
+	bh=ptlhVm5L56Xc726PQBKiX0ymuPgRqol8Vgv1ujs0uUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=udDsT6aZv/fhGcunXbWSrpnH2phuFaz8T2u9dlWgMeyn2jKjL7ddiUOPWN8rQ9VnBkcoJzTSIibNg6bupPqBiJZSQk/t8DzcWlb5AqDTRsl1651WDU3zlvCec2HGfk9Wtu1XpWXLKTnYRePEMQHzoIsW5glL9agRN7EeMD9p2hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMVN4IUZ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8LIWyK1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMVN4IUZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737311340; x=1768847340;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dtdJln9DUCS47S020Z5+ywS+CP+www9ECg77IDvoP54=;
-  b=E8LIWyK1Gaw+ZnBG5TO0D7xoZFthVIIeZmwPWYgONlxp6g+GzoUslmT8
-   D3NH6D9iL8nDgZA1aG/UdwvyAC1HMzxk/xRu9IohuTc7zNh/TGUZMMULN
-   +1CSCZdXHPKVZqgFBhElPwAFY3UGgy2FnPbPe+eYoZcrFNUPi83kde4rp
-   ny1uQp9KbSGgpMA7m6JfVWn2lEAbuPtIwKZqAosNIUdt5+iUIlzmy7rla
-   Djn9+g7cxyIhHHHhfbFb5OaTaUtZX8QeAzWi18iKi9m9HvCoCmVa+OHBa
-   5j9XKnaSPdv3AMuYyeyKwJVIhF3QqnjJxNhH6ARmDgOx5dwtg0WPYo4X8
+  t=1737322411; x=1768858411;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ptlhVm5L56Xc726PQBKiX0ymuPgRqol8Vgv1ujs0uUc=;
+  b=eMVN4IUZQunXaJqw204XVaIjlk5aA8JFio6SSNZQaDDTXxXlzW152L1W
+   GrNwVKz7v2ucY37YtuFpw19UuKtFaeAF9xrj16HiJM2RVeYZlOawLXGdf
+   0jwobu41h+zBcuUipfG7kebTqcIFot8xjgor/TnqBi7oSppocaaZd8tff
+   McXoFL5y0V/629M/okg0ghl2ufqeK03hoOjSDEpbh854NRRoRg6ohPcpi
+   IJGqEMpO3oZwYHbWAUsdEDc7FUS/+grR+F+SdshXm9NsU7r8/50VHTCDb
+   SHq1BLnrgId0WgErzpdZpEBN/iRI0q+lQPfOaMY+7/20GbHr0kxaoVcEd
    Q==;
-X-CSE-ConnectionGUID: WOKGjbXvTs6AuPRETN5o8Q==
-X-CSE-MsgGUID: +oxgXCbtTs6p5aqlxzjm0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="41604324"
+X-CSE-ConnectionGUID: B6QdirUbQHWlANqquwEtfA==
+X-CSE-MsgGUID: wdxHa2aOT+qG7hzLUoCZHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="25280537"
 X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="41604324"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 10:28:59 -0800
-X-CSE-ConnectionGUID: ZEPFNY+RQiqKs6R7yDTrww==
-X-CSE-MsgGUID: 7c6nzuunRrC7J0D4SBCz7w==
+   d="scan'208";a="25280537"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 13:33:31 -0800
+X-CSE-ConnectionGUID: NFrOGTOzQBWJ3dqXziqB2Q==
+X-CSE-MsgGUID: goopxSyNQ4+TnywlAGAytw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="129543362"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
+   d="scan'208";a="106856542"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Jan 2025 10:28:52 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 19 Jan 2025 13:33:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZa2U-000Vhb-0R;
-	Sun, 19 Jan 2025 18:28:50 +0000
-Date: Mon, 20 Jan 2025 02:28:44 +0800
+	id 1tZcv9-000Vs7-2a;
+	Sun, 19 Jan 2025 21:33:27 +0000
+Date: Mon, 20 Jan 2025 05:32:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Yong Zhi <yong.zhi@intel.com>, Dan Scally <djrscally@gmail.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Benoit Parrot <bparrot@ti.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	"Duc-Long, Le" <duclong.linux@gmail.com>
-Subject: Re: [PATCH v9 9/9] media: v4l: Convert the users of
- v4l2_get_link_freq to call it on a pad
-Message-ID: <202501200204.0M82bJgt-lkp@intel.com>
-References: <20250119143904.114991-10-sakari.ailus@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: drivers/gpu/drm/scheduler/sched_main.c:405: warning: Function
+ parameter or struct member 'result' not described in 'drm_sched_job_done'
+Message-ID: <202501200535.SBTvzNWJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250119143904.114991-10-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+Hi Matthew,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on c4b7779abc6633677e6edb79e2809f4f61fde157]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Support-passing-media-pad-argument-to-v4l2_get_link_freq/20250119-224053
-base:   c4b7779abc6633677e6edb79e2809f4f61fde157
-patch link:    https://lore.kernel.org/r/20250119143904.114991-10-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v9 9/9] media: v4l: Convert the users of v4l2_get_link_freq to call it on a pad
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250120/202501200204.0M82bJgt-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501200204.0M82bJgt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9528d418de4d83c7ada69314ddd8d4427b1f703a
+commit: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
+date:   1 year, 1 month ago
+config: i386-randconfig-011-20240921 (https://download.01.org/0day-ci/archive/20250120/202501200535.SBTvzNWJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501200535.SBTvzNWJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501200204.0M82bJgt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501200535.SBTvzNWJ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/qcom/camss/camss.c:14:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss.c:2057:2: error: use of undeclared identifier 'sensor_pad'
-    2057 |         sensor_pad = camss_find_sensor_pad(entity);
-         |         ^
-   drivers/media/platform/qcom/camss/camss.c:2058:7: error: use of undeclared identifier 'sensor_pad'; did you mean 'seq_pad'?
-    2058 |         if (!sensor_pad)
-         |              ^~~~~~~~~~
-         |              seq_pad
-   include/linux/seq_file.h:105:6: note: 'seq_pad' declared here
-     105 | void seq_pad(struct seq_file *m, char c);
-         |      ^
->> drivers/media/platform/qcom/camss/camss.c:2058:7: warning: address of function 'seq_pad' will always evaluate to 'true' [-Wpointer-bool-conversion]
-    2058 |         if (!sensor_pad)
-         |             ~^~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss.c:2058:7: note: prefix with the address-of operator to silence this warning
-    2058 |         if (!sensor_pad)
-         |              ^
-         |              &
-   drivers/media/platform/qcom/camss/camss.c:2061:39: error: use of undeclared identifier 'sensor_pad'
-    2061 |         subdev = media_entity_to_v4l2_subdev(sensor_pad->entity);
-         |                                              ^
-   drivers/media/platform/qcom/camss/camss.c:2061:39: error: use of undeclared identifier 'sensor_pad'
-   5 warnings and 4 errors generated.
+>> drivers/gpu/drm/scheduler/sched_main.c:405: warning: Function parameter or struct member 'result' not described in 'drm_sched_job_done'
 
 
-vim +/sensor_pad +2057 drivers/media/platform/qcom/camss/camss.c
+vim +405 drivers/gpu/drm/scheduler/sched_main.c
 
-  2043	
-  2044	/*
-  2045	 * camss_get_pixel_clock - Get pixel clock rate from sensor
-  2046	 * @entity: Media entity in the current pipeline
-  2047	 * @pixel_clock: Received pixel clock value
-  2048	 *
-  2049	 * Return 0 on success or a negative error code otherwise
-  2050	 */
-  2051	int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock)
-  2052	{
-  2053		struct media_pad *sensor;
-  2054		struct v4l2_subdev *subdev;
-  2055		struct v4l2_ctrl *ctrl;
-  2056	
-> 2057		sensor_pad = camss_find_sensor_pad(entity);
-> 2058		if (!sensor_pad)
-  2059			return -ENODEV;
-  2060	
-  2061		subdev = media_entity_to_v4l2_subdev(sensor_pad->entity);
-  2062	
-  2063		ctrl = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
-  2064	
-  2065		if (!ctrl)
-  2066			return -EINVAL;
-  2067	
-  2068		*pixel_clock = v4l2_ctrl_g_ctrl_int64(ctrl);
-  2069	
-  2070		return 0;
-  2071	}
-  2072	
+f7fe64ad0f22ff Matthew Brost    2023-10-30  397  
+71173e787cab9d Luben Tuikov     2020-12-03  398  /**
+71173e787cab9d Luben Tuikov     2020-12-03  399   * drm_sched_job_done - complete a job
+71173e787cab9d Luben Tuikov     2020-12-03  400   * @s_job: pointer to the job which is done
+71173e787cab9d Luben Tuikov     2020-12-03  401   *
+71173e787cab9d Luben Tuikov     2020-12-03  402   * Finish the job's fence and wake up the worker thread.
+71173e787cab9d Luben Tuikov     2020-12-03  403   */
+539f9ee4b52a8b Christian König  2023-04-17  404  static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
+71173e787cab9d Luben Tuikov     2020-12-03 @405  {
+71173e787cab9d Luben Tuikov     2020-12-03  406  	struct drm_sched_fence *s_fence = s_job->s_fence;
+71173e787cab9d Luben Tuikov     2020-12-03  407  	struct drm_gpu_scheduler *sched = s_fence->sched;
+71173e787cab9d Luben Tuikov     2020-12-03  408  
+a78422e9dff366 Danilo Krummrich 2023-11-10  409  	atomic_sub(s_job->credits, &sched->credit_count);
+f2f12eb9c32bc7 Christian König  2021-02-02  410  	atomic_dec(sched->score);
+71173e787cab9d Luben Tuikov     2020-12-03  411  
+71173e787cab9d Luben Tuikov     2020-12-03  412  	trace_drm_sched_process_job(s_fence);
+71173e787cab9d Luben Tuikov     2020-12-03  413  
+71173e787cab9d Luben Tuikov     2020-12-03  414  	dma_fence_get(&s_fence->finished);
+539f9ee4b52a8b Christian König  2023-04-17  415  	drm_sched_fence_finished(s_fence, result);
+71173e787cab9d Luben Tuikov     2020-12-03  416  	dma_fence_put(&s_fence->finished);
+67dd1d8c9f6543 Tvrtko Ursulin   2023-11-02  417  	__drm_sched_run_free_queue(sched);
+71173e787cab9d Luben Tuikov     2020-12-03  418  }
+71173e787cab9d Luben Tuikov     2020-12-03  419  
+
+:::::: The code at line 405 was first introduced by commit
+:::::: 71173e787cab9db4ca1fa6229477cb3d254bc285 drm/scheduler: Essentialize the job done callback
+
+:::::: TO: Luben Tuikov <luben.tuikov@amd.com>
+:::::: CC: Christian König <christian.koenig@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
