@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8696D531
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 15:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3757D184
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 16:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737301920; cv=none; b=uA7Ryg4rOTA5vYzR3lo3jsLBFfkYmj2+giCAui81bJ3cU1XXBJRLhq+JYbfSoGueElQS+gDdSTyq9R/3ColYCYC5yYth2aPZicpZTdGDDtr25YDLNbcMbNielscowFh+kVxQZNzVIN5I2gQgB2U2ZGwhlYDwIUm0sCB4nnNQNho=
+	t=1737305689; cv=none; b=hY8dV0XZ4YBqBCV6el9XR/XgznBeJH7pBX21ob8QtJSnaiepWP9qh5BATNzTBE3THDaSe3qfw4YipIzy1fAmjJZf3LQN76/s/+m09bXsO3JqzrBGkZTMydDhN9ZvW7j321PKtb4LyL5CLlIRVH37OT7WXwMBH/yJEK2DFPV+Ty4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737301920; c=relaxed/simple;
-	bh=yOIFUadwx4bpfJjz2B6aymuaXiplxpg19w7pYlH9zl0=;
+	s=arc-20240116; t=1737305689; c=relaxed/simple;
+	bh=HrGaRZ4i50b6fvhOkml2OlKn5Fc0qaAwhRbqfCv+7gY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gp0oWmWXHyLKZ2PEfPbGWaX+3uiTxVkj6R34x49FvpMh4PCx0aL4pBYH2DXa7DT8+tXPmRw9f6AAS0zgP+afwvd8OeX1+MRGzwjKN+0mctvyJW8PR8SnW6EvRxdJxdSRa2Y7szbwiG1DhL6Og74SjYG8hcReuGtPZ++GYVN2lic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/LKjVA0; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Z1gbB6IEilhIxGTTZW9fAM0kMFLjj2Fti1jVquDKDAt1vWvV0FulO9MytGHDkSQGtABz3c38JOj6k8N+JlayMq1oOUkK688pdDFac+0zz65JCHyVgat71oVOEK+iuSxTOyx43XjVsEh58AnaYIFGQx/Ag1dwLQGqgZJkAtPDcoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mroGUkFW; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/LKjVA0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mroGUkFW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737301919; x=1768837919;
+  t=1737305687; x=1768841687;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yOIFUadwx4bpfJjz2B6aymuaXiplxpg19w7pYlH9zl0=;
-  b=V/LKjVA07nx3ISP+kaWwUAFb1JLmNc7DvTzT+ZG0akVDNIZIjwPFpLt+
-   lmSJ8olPolFdiS6XAn0wr7Sq0KhhmnEhyzGX6MBN8ASkJTRfxROQR2zBr
-   2tDRrLs33iolmwdXY8MaFv2HyEcY7zbugc08W0Gdqj+qJqZ6cMPOsRtM2
-   0YzGE+gHQ/RwDwu4P0KwlQ59O60zNZTJXB+J7vDuySUhUMb1Ho8LxTYRT
-   t8A97Bpqn2x+a0sXIBVQPxRm4bMISfjs1zWzVVktVzRZH5w5qK9AIWhY+
-   vJ0RZZq/R0kkkU/HkMEenyXJIKEOofRMMHrM0m3ehj4BRSmxX1M8CrzXY
+  bh=HrGaRZ4i50b6fvhOkml2OlKn5Fc0qaAwhRbqfCv+7gY=;
+  b=mroGUkFWqEQyfSD5ujoTlLZ6gvG4vbnqcnNf2EN/jGfyMcvx16yUDJbb
+   5C1R6jzi3LtmqbYVpfROu9Glo3vLjYrJCM2knPgMI4aZVUe3zEi8f17F9
+   EHHnKXHsKoRW6a+0N6bEBqXJUWTf7wfez+WcUzDWYTJUawAT/rqKTjRBt
+   0aceWHZ/uk3lXYaUsNaYNJC1wDi25f/B4UkGlL6QjVzvDtEkWG6+BjQ9i
+   oHELJty3BeidfjS7iL6PHn/HZ5Fi8OgM333oSF/tjzfvvMvD0OvUp/pU7
+   R91Q00C48iNfHDHmFVdvambNxrPlmLaE5GnT3F0aRFKCivmQ4gn76GeYY
    Q==;
-X-CSE-ConnectionGUID: sNvdVq5oR6yC3LqUk18+wg==
-X-CSE-MsgGUID: 7/NDx6joRPy8o2mQ7Jvcvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37910521"
+X-CSE-ConnectionGUID: XSrUMSasSqqaeXKSDLfhDw==
+X-CSE-MsgGUID: 8jZW2eznRc+CHSMU4fJn7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="48342347"
 X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
-   d="scan'208";a="37910521"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 07:51:58 -0800
-X-CSE-ConnectionGUID: TWETAQ+kStCvOcjLhG5lKg==
-X-CSE-MsgGUID: v95IaoM+R4C1K8IDOq6peA==
+   d="scan'208";a="48342347"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 08:54:45 -0800
+X-CSE-ConnectionGUID: MqXiId3gTnevx5rd6VgdZA==
+X-CSE-MsgGUID: 4tBA86zsQgGT23riCvLZzw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143533223"
+X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
+   d="scan'208";a="106288038"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Jan 2025 07:51:57 -0800
+  by orviesa006.jf.intel.com with ESMTP; 19 Jan 2025 08:54:44 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZXac-000VZj-1v;
-	Sun, 19 Jan 2025 15:51:54 +0000
-Date: Sun, 19 Jan 2025 23:50:58 +0800
+	id 1tZYZO-000Vcx-1P;
+	Sun, 19 Jan 2025 16:54:42 +0000
+Date: Mon, 20 Jan 2025 00:54:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 0/2] drivers/clk/clk.c:3145:5:
- warning: no previous prototype for function 'clk_set_flags'
-Message-ID: <202501192300.TS5GpmgC-lkp@intel.com>
+To: zouxiaoh <xiaohong.zou@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, ranjan-dutta <ranjan.dutta@intel.com>
+Subject: [intel-lts:6.12/linux 25/25] drivers/media/i2c/lt6911uxe.c:653:36:
+ warning: 'lt6911uxe_acpi_ids' defined but not used
+Message-ID: <202501200054.CznLXkeC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +62,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Saravana,
+Hi zouxiaoh,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   a8bf86a0e0fa05070897a210d706d5c4d83c26ac
-commit: 3179a1a38d96f565a2229b9244285c6abf62b10a [0/2] ANDROID: GKI: clk: Add support for voltage voting
-config: x86_64-buildonly-randconfig-003-20241212 (https://download.01.org/0day-ci/archive/20250119/202501192300.TS5GpmgC-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501192300.TS5GpmgC-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.12/linux
+head:   e5247e8df469b81bea0d59bde9faf0e99e3bb259
+commit: 60faa2ac3cc3bdb592073362d055de589b87e0ff [25/25] media: i2c: add support for ar0234 and lt6911uxe
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250120/202501200054.CznLXkeC-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501200054.CznLXkeC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501192300.TS5GpmgC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501200054.CznLXkeC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/clk/clk.c:624:24: warning: variable 'ignore' set but not used [-Wunused-but-set-variable]
-     624 |         int level, rc = 0, i, ignore;
-         |                               ^
->> drivers/clk/clk.c:3145:5: warning: no previous prototype for function 'clk_set_flags' [-Wmissing-prototypes]
-    3145 | int clk_set_flags(struct clk *clk, unsigned long flags)
-         |     ^
-   drivers/clk/clk.c:3145:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3145 | int clk_set_flags(struct clk *clk, unsigned long flags)
-         | ^
-         | static 
->> drivers/clk/clk.c:3157:6: warning: no previous prototype for function 'clk_debug_print_hw' [-Wmissing-prototypes]
-    3157 | void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
-         |      ^
-   drivers/clk/clk.c:3157:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3157 | void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
-         | ^
-         | static 
-   3 warnings generated.
-   drivers/clk/clk.c:4257: warning: Function parameter or member 'dev' not described in 'devm_clk_unregister'
-   drivers/clk/clk.c:4455: warning: Function parameter or member 'get_hw' not described in 'of_clk_provider'
+>> drivers/media/i2c/lt6911uxe.c:653:36: warning: 'lt6911uxe_acpi_ids' defined but not used [-Wunused-const-variable=]
+     653 | static const struct acpi_device_id lt6911uxe_acpi_ids[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~
 
 
-vim +/clk_set_flags +3145 drivers/clk/clk.c
+vim +/lt6911uxe_acpi_ids +653 drivers/media/i2c/lt6911uxe.c
 
-  3144	
-> 3145	int clk_set_flags(struct clk *clk, unsigned long flags)
-  3146	{
-  3147		if (!clk)
-  3148			return 0;
-  3149	
-  3150		if (!clk->core->ops->set_flags)
-  3151			return -EINVAL;
-  3152	
-  3153		return clk->core->ops->set_flags(clk->core->hw, flags);
-  3154	}
-  3155	EXPORT_SYMBOL_GPL(clk_set_flags);
-  3156	
-> 3157	void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
-  3158	{
-  3159	}
-  3160	EXPORT_SYMBOL(clk_debug_print_hw);
-  3161	
+5f626592a87f58 Dongcheng Yan 2024-06-03  652  
+5f626592a87f58 Dongcheng Yan 2024-06-03 @653  static const struct acpi_device_id lt6911uxe_acpi_ids[] = {
+5f626592a87f58 Dongcheng Yan 2024-06-03  654  	{"INTC10C5"},
+5f626592a87f58 Dongcheng Yan 2024-06-03  655  	{}
+5f626592a87f58 Dongcheng Yan 2024-06-03  656  };
+5f626592a87f58 Dongcheng Yan 2024-06-03  657  MODULE_DEVICE_TABLE(acpi, lt6911uxe_acpi_ids);
+5f626592a87f58 Dongcheng Yan 2024-06-03  658  
+
+:::::: The code at line 653 was first introduced by commit
+:::::: 5f626592a87f5800a993b17223d3c4b45103a9f8 media: i2c: add support for lt6911uxe
+
+:::::: TO: Dongcheng Yan <dongcheng.yan@intel.com>
+:::::: CC: ranjan-dutta <ranjan.dutta@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
