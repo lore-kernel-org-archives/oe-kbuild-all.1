@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1911F95C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 02:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0422837B;
+	Sun, 19 Jan 2025 02:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737253781; cv=none; b=Mu0VEeIWZbeBo0iOB15K70bDl23f45GyrNDyNh03PvBS3C7aMq+QAHKfLnkob0MXPUfHgWL6bAm7DwA80jcDxrPE7JBOgGzRV0HVTVYzfIWpSd/N6oOCwHWsn6cVd/VTlnF2uqAp4yfUtbr18E1BJtY05eQGTbH8fXZ0oEMTOgo=
+	t=1737253783; cv=none; b=ipJFXDPpSwESZ435gP3c24+BkvdKcSMy01nfEfBD45NAUVn4JrMGGxB1NX9Osn6w9PUPiPug31WusKlNSVk6MWhYvOZC4KUAzSUj2I4ziO+/reake+gMWFZsJTxGfy8MipE5WXNtezp0gx0/eBDhKiPuWEzzmTbsst7YhADK6zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737253781; c=relaxed/simple;
-	bh=PGqcOoIRJ4LyWQ64qIewVTT4wQtYkLjMUfUzuzz54j0=;
+	s=arc-20240116; t=1737253783; c=relaxed/simple;
+	bh=d9yNPqAS/tOyuU4RunvBZ0U5uEbZNzchLlf0z6DMJEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qZ04CVmKx4HxnKdp/U0PxsqnHGKsv2PT+2/3VlR9bwlKzBnUWE40e4zCYpXJqH7yows9bC+LAZc8VPthby/BryL4MXTxo4hT0E+6lwCG8/BjRGyaWUC4bzgD5j5Lt2D1JAJmBxvE0en1DD6bpEwfNmXaJ0PR4upKbWN0Z7uqj3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKcYwfyn; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=jCRGqBF8i1kOAMso2KqLOtTkUrkSfi7tfFAlU+6ToTubIc0piMYpV6TmsoNREofKzS9KfaJ97i6e4HSmkROB2eSyguz5u99e9GwyVa27rR8eq5gPK8UQKmg+6tWoM2cJZqHWgwRegosLcZsGr/wN64ZyGGYFSgM541poBoYdE0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HiTv2Ziz; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKcYwfyn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HiTv2Ziz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737253779; x=1768789779;
+  t=1737253781; x=1768789781;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PGqcOoIRJ4LyWQ64qIewVTT4wQtYkLjMUfUzuzz54j0=;
-  b=kKcYwfynE1ZBWkytmPAeypGbW1Iut1u0WYPCJ+9sBOx4UAIaH8h8dOy6
-   DSbCd+Qjbb9aMsjEX/sDFTIeCtEAREhR7aJ3EheszDSUb+2RKf0JgRbrh
-   cc9Fnkrz5jIwPUPdYaoYVeKqrszoeWVcsolSL4JdvjlRlh4CR/hhGPwLs
-   oTYN5A6FR5R3ILPblzKEViooVtUY6xOEC8fI7Ljti9dtMvwglZPy7YT7J
-   5xsCjbrx5FRD5hnPNu5yq1yYYrxw54lShtxIDogkLyCkHroc8f16WF9YS
-   tCcJ4MKWOMns+G15Y2T0LlWi5pyXOGMTguMyDFjpkkkOzb1qLzv4zlR8f
+  bh=d9yNPqAS/tOyuU4RunvBZ0U5uEbZNzchLlf0z6DMJEs=;
+  b=HiTv2ZizRPvBOJlYwhvWVBCnxQhEYyXkeTBx6gMjnDg3ZlrY/v/O2Nax
+   7jq0RCikSLzTf0daAe7S0RUomX1989y68cr7x0MrmbAbzKdx2FpHEBRlG
+   ajIbZDlLBPpAMuEcYamPzXniWf9XvR2TDZ0r3HHG5A/ar5nYXTX6psq1m
+   HhnfAn/NJKyc0ZHsWpt1EWJXfKu2AIp0y4QtF0Kr85Qeok0VVWjh7dCon
+   jTwQEv5RfMEI9S9EPOK9FkGlHg4F3dw492IF8juUS7VEz2PTkSo2Do9io
+   rsVWY7a56k3M2/KaEDuU+hCzh+yCkS86U5X2yQVXnoynb1UkNNGASYBFu
    Q==;
-X-CSE-ConnectionGUID: CqS6bzsSRUOGIIiUbAsCHA==
-X-CSE-MsgGUID: Bqils48VTMGbFZci5n4/TA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37762583"
+X-CSE-ConnectionGUID: +JnrtueDRcW98PcLk9pV8w==
+X-CSE-MsgGUID: KXMzCissQXqLYQdfhKcTAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37762584"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="37762583"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
+   d="scan'208";a="37762584"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 18:29:38 -0800
-X-CSE-ConnectionGUID: hKwg1bA9S7ex7trhw0IG9w==
-X-CSE-MsgGUID: ldKfnMg6QOeBcX8qFHjjKg==
+X-CSE-ConnectionGUID: fyUGsn3mQZuSmxStr0zRtw==
+X-CSE-MsgGUID: MG/LiF47T6OicfptxdfNeQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="136988866"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110200347"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Jan 2025 18:29:37 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jan 2025 18:29:36 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZL4A-000V1f-28;
+	id 1tZL4A-000V1h-2B;
 	Sun, 19 Jan 2025 02:29:34 +0000
-Date: Sun, 19 Jan 2025 10:29:10 +0800
+Date: Sun, 19 Jan 2025 10:29:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:perf/pmu-unregister 19/27]
- kernel/events/core.c:4973:24: sparse: sparse: incorrect type in initializer
- (different address spaces)
-Message-ID: <202501191038.IUFKGID1-lkp@intel.com>
+To: Akshata Jahagirdar <akshata.jahagirdar@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matt Roper <matthew.d.roper@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison
+ of constant 274877906944 with expression of type 'resource_size_t' (aka
+ 'unsigned int') is always true
+Message-ID: <202501191052.5TwzEW5w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,349 +66,289 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/pmu-unregister
-head:   64e8e446009073e3093681fa07791114a0d5f6fe
-commit: 7be27e49faaa4bcca4ca4193d6dad6f3d7b88e7e [19/27] perf: Detach perf_cpu_pmu_context and pmu lifetimes
-config: arm64-randconfig-r122-20250119 (https://download.01.org/0day-ci/archive/20250119/202501191038.IUFKGID1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250119/202501191038.IUFKGID1-lkp@intel.com/reproduce)
+Hi Akshata,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fda5e3f284002ea55dac1c98c1498d6dd684046e
+commit: 8d79acd567db183e675cccc6cc737d2959e2a2d9 drm/xe/migrate: Add helper function to program identity map
+date:   6 months ago
+config: i386-randconfig-003-20250119 (https://download.01.org/0day-ci/archive/20250119/202501191052.5TwzEW5w-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501191052.5TwzEW5w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501191038.IUFKGID1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501191052.5TwzEW5w-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/events/core.c:1431:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1431:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:1431:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:1444:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1444:28: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:1444:28: sparse:    struct perf_event_context *
-   kernel/events/core.c:3596:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3596:20: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3596:20: sparse:    struct perf_event_context *
-   kernel/events/core.c:3600:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3600:18: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3600:18: sparse:    struct perf_event_context *
-   kernel/events/core.c:3601:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3601:23: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3601:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:3655:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3655:25: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3655:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:3656:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3656:25: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:3656:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:4033:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:4033:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:4033:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:4445:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:4445:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:4445:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:4939:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:4939:25: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:4939:25: sparse:    struct perf_event_context *
->> kernel/events/core.c:4973:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:4973:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:4973:24: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:4973:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_pmu_context *cpc @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:4973:21: sparse:     expected struct perf_cpu_pmu_context *cpc
-   kernel/events/core.c:4973:21: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:6349:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6349:9: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6349:9: sparse:    struct perf_buffer *
-   kernel/events/core.c:5868:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
-   kernel/events/core.c:5868:24: sparse:     expected restricted __poll_t [usertype] events
-   kernel/events/core.c:5868:24: sparse:     got int
-   kernel/events/core.c:6100:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6100:22: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6100:22: sparse:    struct perf_buffer *
-   kernel/events/core.c:6224:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6224:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6224:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6257:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6257:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6257:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6370:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6370:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6370:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6386:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:6386:14: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:6386:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:8294:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8294:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:8294:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:8381:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8381:13: sparse:    struct perf_buffer [noderef] __rcu *
-   kernel/events/core.c:8381:13: sparse:    struct perf_buffer *
-   kernel/events/core.c:8485:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/events/core.c:8485:61: sparse:     expected struct task_struct *p
-   kernel/events/core.c:8485:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/events/core.c:8487:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/events/core.c:8487:61: sparse:     expected struct task_struct *p
-   kernel/events/core.c:8487:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/events/core.c:9175:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:9175:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:9175:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:10309:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10309:9: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:10309:9: sparse:    struct swevent_hlist *
-   kernel/events/core.c:10348:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10348:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:10348:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:10623:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10623:23: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:10623:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:11663:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
-   kernel/events/core.c:11714:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:11714:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:11714:24: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
-   kernel/events/core.c:11714:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_pmu_context *cpc @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:11714:21: sparse:     expected struct perf_cpu_pmu_context *cpc
-   kernel/events/core.c:11714:21: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:11894:32: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:11894:32: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:11894:32: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
-   kernel/events/core.c:11894:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_pmu_context *cpc @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:11894:29: sparse:     expected struct perf_cpu_pmu_context *cpc
-   kernel/events/core.c:11894:29: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
->> kernel/events/core.c:11904:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got struct perf_cpu_pmu_context [noderef] __percpu **cpu_pmu_context @@
-   kernel/events/core.c:11904:32: sparse:     expected void [noderef] __percpu *__pdata
-   kernel/events/core.c:11904:32: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **cpu_pmu_context
->> kernel/events/core.c:11944:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_pmu_context [noderef] __percpu **cpu_pmu_context @@     got struct perf_cpu_pmu_context *[noderef] __percpu * @@
-   kernel/events/core.c:11944:30: sparse:     expected struct perf_cpu_pmu_context [noderef] __percpu **cpu_pmu_context
-   kernel/events/core.c:11944:30: sparse:     got struct perf_cpu_pmu_context *[noderef] __percpu *
-   kernel/events/core.c:11957:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:11957:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:11957:18: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:11957:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_pmu_context [noderef] __percpu * @@     got struct perf_cpu_pmu_context *cpc @@
-   kernel/events/core.c:11957:57: sparse:     expected struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:11957:57: sparse:     got struct perf_cpu_pmu_context *cpc
-   kernel/events/core.c:13506:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:13506:9: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:13506:9: sparse:    struct perf_event_context *
-   kernel/events/core.c:13600:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:13600:15: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:13600:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:13612:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:13612:9: sparse:    struct perf_event_context [noderef] __rcu *
-   kernel/events/core.c:13612:9: sparse:    struct perf_event_context *
-   kernel/events/core.c:14051:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:14051:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:14051:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:182:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
-   kernel/events/core.c:198:9: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
-   include/linux/rcupdate.h:878:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
-   kernel/events/core.c:1478:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:2900:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:1177:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_cpu_pmu_context [noderef] __percpu ** @@
-   kernel/events/core.c:1177:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/events/core.c:1177:17: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu **
->> kernel/events/core.c:1177:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_pmu_context * @@     got struct perf_cpu_pmu_context [noderef] __percpu * @@
-   kernel/events/core.c:1177:16: sparse:     expected struct perf_cpu_pmu_context *
-   kernel/events/core.c:1177:16: sparse:     got struct perf_cpu_pmu_context [noderef] __percpu *
-   kernel/events/core.c:4913:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
-   kernel/events/core.c: note: in included file:
-   kernel/events/internal.h:204:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *src @@
-   kernel/events/internal.h:204:46: sparse:     expected void const [noderef] __user *from
-   kernel/events/internal.h:204:46: sparse:     got void const *src
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:193:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
-   include/linux/rcupdate.h:880:25: sparse: sparse: context imbalance in 'perf_get_pgtable_size' - unexpected unlock
-   kernel/events/core.c: note: in included file:
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:185:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/core.c:10162:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10162:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:10162:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:10182:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10182:17: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:10182:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:10298:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10298:16: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:10298:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:10298:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10298:16: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:10298:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:10298:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:10298:16: sparse:    struct swevent_hlist [noderef] __rcu *
-   kernel/events/core.c:10298:16: sparse:    struct swevent_hlist *
+All errors (new ones prefixed by >>):
 
-vim +4973 kernel/events/core.c
+   In file included from drivers/gpu/drm/xe/xe_migrate.c:12:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison of constant 274877906944 with expression of type 'resource_size_t' (aka 'unsigned int') is always true [-Werror,-Wtautological-constant-out-of-range-compare]
+     304 |                 xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:108:54: note: expanded from macro 'xe_assert'
+     108 | #define xe_assert(xe, condition) xe_assert_msg((xe), condition, "")
+         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:111:24: note: expanded from macro 'xe_assert_msg'
+     111 |         __xe_assert_msg(__xe, condition,                                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     112 |                         "platform: %s subplatform: %d\n"                                        \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     113 |                         "graphics: %s %u.%02u step %s\n"                                        \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     114 |                         "media: %s %u.%02u step %s\n"                                           \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     115 |                         msg,                                                                    \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     116 |                         __xe->info.platform_name, __xe->info.subplatform,                       \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                         __xe->info.graphics_name,                                               \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     118 |                         __xe->info.graphics_verx100 / 100,                                      \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     119 |                         __xe->info.graphics_verx100 % 100,                                      \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     120 |                         xe_step_name(__xe->info.step.graphics),                                 \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     121 |                         __xe->info.media_name,                                                  \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     122 |                         __xe->info.media_verx100 / 100,                                         \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     123 |                         __xe->info.media_verx100 % 100,                                         \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     124 |                         xe_step_name(__xe->info.step.media),                                    \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     125 |                         ## arg);                                                                \
+         |                         ~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:84:31: note: expanded from macro '__xe_assert_msg'
+      84 |         (void)drm_WARN(&(xe)->drm, !(condition), "[" DRM_NAME "] Assertion `%s` failed!\n" msg, \
+         |               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      85 |                        __stringify(condition), ## arg);                                         \
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:635:7: note: expanded from macro 'drm_WARN'
+     635 |         WARN(condition, "%s %s: [drm] " format,                         \
+         |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     636 |                         dev_driver_string((drm)->dev),                  \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     637 |                         dev_name((drm)->dev), ## arg)
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:132:25: note: expanded from macro 'WARN'
+     132 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_migrate.c:1494:
+   drivers/gpu/drm/xe/tests/xe_migrate.c:404:12: error: too many arguments to function call, expected 10, have 11
+     402 |                 batch_size += pte_update_size(m, src_is_vram, src_is_vram, src, &src_it, &src_L0,
+         |                               ~~~~~~~~~~~~~~~
+     403 |                                               &src_L0_ofs, &src_L0_pt, 0, 0,
+     404 |                                               avail_pts);
+         |                                               ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_migrate.c:490:12: note: 'pte_update_size' declared here
+     490 | static u32 pte_update_size(struct xe_migrate *m,
+         |            ^               ~~~~~~~~~~~~~~~~~~~~~
+     491 |                            bool is_vram,
+         |                            ~~~~~~~~~~~~~
+     492 |                            struct ttm_resource *res,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+     493 |                            struct xe_res_cursor *cur,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     494 |                            u64 *L0, u64 *L0_ofs, u32 *L0_pt,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     495 |                            u32 cmd_size, u32 pt_ofs, u32 avail_pts)
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_migrate.c:1494:
+   drivers/gpu/drm/xe/tests/xe_migrate.c:408:23: error: too many arguments to function call, expected 10, have 11
+     406 |                 batch_size += pte_update_size(m, dst_is_vram, dst_is_vram, dst, &dst_it, &src_L0,
+         |                               ~~~~~~~~~~~~~~~
+     407 |                                               &dst_L0_ofs, &dst_L0_pt, 0,
+     408 |                                               avail_pts, avail_pts);
+         |                                                          ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_migrate.c:490:12: note: 'pte_update_size' declared here
+     490 | static u32 pte_update_size(struct xe_migrate *m,
+         |            ^               ~~~~~~~~~~~~~~~~~~~~~
+     491 |                            bool is_vram,
+         |                            ~~~~~~~~~~~~~
+     492 |                            struct ttm_resource *res,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+     493 |                            struct xe_res_cursor *cur,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     494 |                            u64 *L0, u64 *L0_ofs, u32 *L0_pt,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     495 |                            u32 cmd_size, u32 pt_ofs, u32 avail_pts)
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
 
-  4957	
-  4958	static struct perf_event_pmu_context *
-  4959	find_get_pmu_context(struct pmu *pmu, struct perf_event_context *ctx,
-  4960			     struct perf_event *event)
-  4961	{
-  4962		struct perf_event_pmu_context *new = NULL, *epc;
-  4963		void *task_ctx_data = NULL;
-  4964	
-  4965		if (!ctx->task) {
-  4966			/*
-  4967			 * perf_pmu_migrate_context() / __perf_pmu_install_event()
-  4968			 * relies on the fact that find_get_pmu_context() cannot fail
-  4969			 * for CPU contexts.
-  4970			 */
-  4971			struct perf_cpu_pmu_context *cpc;
-  4972	
-> 4973			cpc = *per_cpu_ptr(pmu->cpu_pmu_context, event->cpu);
-  4974			epc = &cpc->epc;
-  4975			raw_spin_lock_irq(&ctx->lock);
-  4976			if (!epc->ctx) {
-  4977				/*
-  4978				 * One extra reference for the pmu; see perf_pmu_free().
-  4979				 */
-  4980				atomic_set(&epc->refcount, 2);
-  4981				epc->embedded = 1;
-  4982				list_add(&epc->pmu_ctx_entry, &ctx->pmu_ctx_list);
-  4983				epc->ctx = ctx;
-  4984			} else {
-  4985				WARN_ON_ONCE(epc->ctx != ctx);
-  4986				atomic_inc(&epc->refcount);
-  4987			}
-  4988			raw_spin_unlock_irq(&ctx->lock);
-  4989			return epc;
-  4990		}
-  4991	
-  4992		new = kzalloc(sizeof(*epc), GFP_KERNEL);
-  4993		if (!new)
-  4994			return ERR_PTR(-ENOMEM);
-  4995	
-  4996		if (event->attach_state & PERF_ATTACH_TASK_DATA) {
-  4997			task_ctx_data = alloc_task_ctx_data(pmu);
-  4998			if (!task_ctx_data) {
-  4999				kfree(new);
-  5000				return ERR_PTR(-ENOMEM);
-  5001			}
-  5002		}
-  5003	
-  5004		__perf_init_event_pmu_context(new, pmu);
-  5005	
-  5006		/*
-  5007		 * XXX
-  5008		 *
-  5009		 * lockdep_assert_held(&ctx->mutex);
-  5010		 *
-  5011		 * can't because perf_event_init_task() doesn't actually hold the
-  5012		 * child_ctx->mutex.
-  5013		 */
-  5014	
-  5015		raw_spin_lock_irq(&ctx->lock);
-  5016		list_for_each_entry(epc, &ctx->pmu_ctx_list, pmu_ctx_entry) {
-  5017			if (epc->pmu == pmu) {
-  5018				WARN_ON_ONCE(epc->ctx != ctx);
-  5019				atomic_inc(&epc->refcount);
-  5020				goto found_epc;
-  5021			}
-  5022		}
-  5023	
-  5024		epc = new;
-  5025		new = NULL;
-  5026	
-  5027		list_add(&epc->pmu_ctx_entry, &ctx->pmu_ctx_list);
-  5028		epc->ctx = ctx;
-  5029	
-  5030	found_epc:
-  5031		if (task_ctx_data && !epc->task_ctx_data) {
-  5032			epc->task_ctx_data = task_ctx_data;
-  5033			task_ctx_data = NULL;
-  5034			ctx->nr_task_data++;
-  5035		}
-  5036		raw_spin_unlock_irq(&ctx->lock);
-  5037	
-  5038		free_task_ctx_data(pmu, task_ctx_data);
-  5039		kfree(new);
-  5040	
-  5041		return epc;
-  5042	}
-  5043	
+
+vim +304 drivers/gpu/drm/xe/xe_migrate.c
+
+   177	
+   178	static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
+   179					 struct xe_vm *vm)
+   180	{
+   181		struct xe_device *xe = tile_to_xe(tile);
+   182		u16 pat_index = xe->pat.idx[XE_CACHE_WB];
+   183		u8 id = tile->id;
+   184		u32 num_entries = NUM_PT_SLOTS, num_level = vm->pt_root[id]->level,
+   185		    num_setup = num_level + 1;
+   186		u32 map_ofs, level, i;
+   187		struct xe_bo *bo, *batch = tile->mem.kernel_bb_pool->bo;
+   188		u64 entry, pt30_ofs;
+   189	
+   190		/* Can't bump NUM_PT_SLOTS too high */
+   191		BUILD_BUG_ON(NUM_PT_SLOTS > SZ_2M/XE_PAGE_SIZE);
+   192		/* Must be a multiple of 64K to support all platforms */
+   193		BUILD_BUG_ON(NUM_PT_SLOTS * XE_PAGE_SIZE % SZ_64K);
+   194		/* And one slot reserved for the 4KiB page table updates */
+   195		BUILD_BUG_ON(!(NUM_KERNEL_PDE & 1));
+   196	
+   197		/* Need to be sure everything fits in the first PT, or create more */
+   198		xe_tile_assert(tile, m->batch_base_ofs + batch->size < SZ_2M);
+   199	
+   200		bo = xe_bo_create_pin_map(vm->xe, tile, vm,
+   201					  num_entries * XE_PAGE_SIZE,
+   202					  ttm_bo_type_kernel,
+   203					  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
+   204					  XE_BO_FLAG_PINNED);
+   205		if (IS_ERR(bo))
+   206			return PTR_ERR(bo);
+   207	
+   208		/* PT31 reserved for 2M identity map */
+   209		pt30_ofs = bo->size - 2 * XE_PAGE_SIZE;
+   210		entry = vm->pt_ops->pde_encode_bo(bo, pt30_ofs, pat_index);
+   211		xe_pt_write(xe, &vm->pt_root[id]->bo->vmap, 0, entry);
+   212	
+   213		map_ofs = (num_entries - num_setup) * XE_PAGE_SIZE;
+   214	
+   215		/* Map the entire BO in our level 0 pt */
+   216		for (i = 0, level = 0; i < num_entries; level++) {
+   217			entry = vm->pt_ops->pte_encode_bo(bo, i * XE_PAGE_SIZE,
+   218							  pat_index, 0);
+   219	
+   220			xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64, entry);
+   221	
+   222			if (vm->flags & XE_VM_FLAG_64K)
+   223				i += 16;
+   224			else
+   225				i += 1;
+   226		}
+   227	
+   228		if (!IS_DGFX(xe)) {
+   229			/* Write out batch too */
+   230			m->batch_base_ofs = NUM_PT_SLOTS * XE_PAGE_SIZE;
+   231			for (i = 0; i < batch->size;
+   232			     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
+   233			     XE_PAGE_SIZE) {
+   234				entry = vm->pt_ops->pte_encode_bo(batch, i,
+   235								  pat_index, 0);
+   236	
+   237				xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
+   238					  entry);
+   239				level++;
+   240			}
+   241			if (xe->info.has_usm) {
+   242				xe_tile_assert(tile, batch->size == SZ_1M);
+   243	
+   244				batch = tile->primary_gt->usm.bb_pool->bo;
+   245				m->usm_batch_base_ofs = m->batch_base_ofs + SZ_1M;
+   246				xe_tile_assert(tile, batch->size == SZ_512K);
+   247	
+   248				for (i = 0; i < batch->size;
+   249				     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
+   250				     XE_PAGE_SIZE) {
+   251					entry = vm->pt_ops->pte_encode_bo(batch, i,
+   252									  pat_index, 0);
+   253	
+   254					xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
+   255						  entry);
+   256					level++;
+   257				}
+   258			}
+   259		} else {
+   260			u64 batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
+   261	
+   262			m->batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
+   263	
+   264			if (xe->info.has_usm) {
+   265				batch = tile->primary_gt->usm.bb_pool->bo;
+   266				batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
+   267				m->usm_batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
+   268			}
+   269		}
+   270	
+   271		for (level = 1; level < num_level; level++) {
+   272			u32 flags = 0;
+   273	
+   274			if (vm->flags & XE_VM_FLAG_64K && level == 1)
+   275				flags = XE_PDE_64K;
+   276	
+   277			entry = vm->pt_ops->pde_encode_bo(bo, map_ofs + (u64)(level - 1) *
+   278							  XE_PAGE_SIZE, pat_index);
+   279			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level, u64,
+   280				  entry | flags);
+   281		}
+   282	
+   283		/* Write PDE's that point to our BO. */
+   284		for (i = 0; i < map_ofs / PAGE_SIZE; i++) {
+   285			entry = vm->pt_ops->pde_encode_bo(bo, (u64)i * XE_PAGE_SIZE,
+   286							  pat_index);
+   287	
+   288			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE +
+   289				  (i + 1) * 8, u64, entry);
+   290		}
+   291	
+   292		/* Set up a 1GiB NULL mapping at 255GiB offset. */
+   293		level = 2;
+   294		xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level + 255 * 8, u64,
+   295			  vm->pt_ops->pte_encode_addr(xe, 0, pat_index, level, IS_DGFX(xe), 0)
+   296			  | XE_PTE_NULL);
+   297		m->cleared_mem_ofs = (255ULL << xe_pt_shift(level));
+   298	
+   299		/* Identity map the entire vram at 256GiB offset */
+   300		if (IS_DGFX(xe)) {
+   301			u64 pt31_ofs = bo->size - XE_PAGE_SIZE;
+   302	
+   303			xe_migrate_program_identity(xe, vm, bo, map_ofs, 256, pat_index, pt31_ofs);
+ > 304			xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
+   305		}
+   306	
+   307		/*
+   308		 * Example layout created above, with root level = 3:
+   309		 * [PT0...PT7]: kernel PT's for copy/clear; 64 or 4KiB PTE's
+   310		 * [PT8]: Kernel PT for VM_BIND, 4 KiB PTE's
+   311		 * [PT9...PT27]: Userspace PT's for VM_BIND, 4 KiB PTE's
+   312		 * [PT28 = PDE 0] [PT29 = PDE 1] [PT30 = PDE 2] [PT31 = 2M vram identity map]
+   313		 *
+   314		 * This makes the lowest part of the VM point to the pagetables.
+   315		 * Hence the lowest 2M in the vm should point to itself, with a few writes
+   316		 * and flushes, other parts of the VM can be used either for copying and
+   317		 * clearing.
+   318		 *
+   319		 * For performance, the kernel reserves PDE's, so about 20 are left
+   320		 * for async VM updates.
+   321		 *
+   322		 * To make it easier to work, each scratch PT is put in slot (1 + PT #)
+   323		 * everywhere, this allows lockless updates to scratch pages by using
+   324		 * the different addresses in VM.
+   325		 */
+   326	#define NUM_VMUSA_UNIT_PER_PAGE	32
+   327	#define VM_SA_UPDATE_UNIT_SIZE		(XE_PAGE_SIZE / NUM_VMUSA_UNIT_PER_PAGE)
+   328	#define NUM_VMUSA_WRITES_PER_UNIT	(VM_SA_UPDATE_UNIT_SIZE / sizeof(u64))
+   329		drm_suballoc_manager_init(&m->vm_update_sa,
+   330					  (size_t)(map_ofs / XE_PAGE_SIZE - NUM_KERNEL_PDE) *
+   331					  NUM_VMUSA_UNIT_PER_PAGE, 0);
+   332	
+   333		m->pt_bo = bo;
+   334		return 0;
+   335	}
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
