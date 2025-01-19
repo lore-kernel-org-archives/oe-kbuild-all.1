@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A559F1946A2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 10:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB321F5FA;
+	Sun, 19 Jan 2025 10:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737281308; cv=none; b=RgmdtSsTk8YHi46IBZV/EDkLAtubohZkJIsrlj5khm9W2NBUykBlBc2MV+GvOKwRKcWTiOgYTxPisHpcyNOpl3k8tbk2ZG6QsYV+eFgdlowuGWRZhu6j9zUkNp1EOEiSpQZX4WOJf9gAXM59RPpeP1j2Q/6dXdmbQTjpJgWwQrc=
+	t=1737281907; cv=none; b=sjxAw6EhkJr1TAuNGEyjuSm+biz6Ui6blIa5rJ01RIxghySU8cpWXmFHynOvwM7vxw8X9/SpC2pMvRjz9AgQL3nFsV58y+euyPNDbGi4cBMqnOEoMXum8A9TtJKK1uaa7b4epPV+zfjjuFr+nFuO5F9FpyAw4S43Lb33EUtXOPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737281308; c=relaxed/simple;
-	bh=DqupDNn1V4Bws2Y/lJ5DTURd5wAhwBuvXh/qARyL5Ww=;
+	s=arc-20240116; t=1737281907; c=relaxed/simple;
+	bh=fbDflAL469mFiNpSh8914Re9e765/OJwGE9qPeluOUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eNRmuH52WsS7u6DuU2YtRwqWzIHjrwcbmbRjPehi3T3kmYB+Q+xKcmYPtqk8B1tgZfsKEhQCX9h3zOnlt8jMgKhvaiZfecNu+RB+bcVFj2VI9t3L2/MQlobjxhDTdH8vdrCAp86nKWJa9gcL55JuA/edkcSOEVkrOSFA9OePOO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zf73yDWy; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=KVE7OBslv+c/uJJRnIl7ns40/PMaUlclJkaMKl78LAOLyZEprpXRU0O6l+awLl1srb2ZdnUXN1jvH/sCVGsmyEAp59VfrjoQIvghccYadfq2VrhW8gWritzTyeL9Pl/wCGjkmfbEGRv4KMq8xtwCl+TQ1rWVR2jWgqNAF9dd3YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8Sjz1Qx; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zf73yDWy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8Sjz1Qx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737281307; x=1768817307;
+  t=1737281906; x=1768817906;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DqupDNn1V4Bws2Y/lJ5DTURd5wAhwBuvXh/qARyL5Ww=;
-  b=Zf73yDWyXpAba4gA3ym8F8f42NZnKBLrQWOy2rgl4Orybku8+ctVAN7m
-   /AjUv21rTS+zd7i7eEJG1OlvWcT0fudaw0l2CzwqAykvLds3q0ue9c73z
-   2YaOLkST1FAmrhH+Yh9xj5HxmEQg4Rco4Ar8hoekhj2IUZoRuuwzzk9/+
-   DoNo1RaMQMDeAl8ZVCm8qsOajGplbPzO8/RMr8QlXGJsGleCEBf9vEz99
-   O1GUPEnmlDiuxT3UOuuUDRyusRlE5Rr3uFarRUu7VwGUNhtKL9uU7FtUR
-   dQlmYcLbn8zfZNqfnrfx+GvCTsuum3K4hTDtCPPlotcjSgG6Hb1E6KAp3
+  bh=fbDflAL469mFiNpSh8914Re9e765/OJwGE9qPeluOUY=;
+  b=k8Sjz1QxHyeQvzaDQtVp0yzCVVTwg5U717Qhrf0RARoz5FkrRCqgQY6k
+   0zMPBgdFR+P3Ui4Xq14pUyWtNEwaIsIJW6Nl7gENjjwkoqKi076NWd3vR
+   Qnl8HtATlyJlDBbOa/FgGVGLLq4dTAeG0bQ3SGzsBUUsXGbejJzuJvMwf
+   Z/SfUe1OK1qqKz83SYmLeCvxbYIAacUsHzz3Rg734RSLN6preyrkSBmgO
+   BR5Rx8b+UDRxiCi22ih96rrzYvzZ3+qdw+UyYpV/jiXs4xFxlsZ7VJxv2
+   O4b/vlbD2U8C0jTcQD143YCXFpeNsVFVC+ehPuG/zqFZoHz6lpy/AGMLr
    A==;
-X-CSE-ConnectionGUID: WtM2B6zuRiaNlnFTY/Xvww==
-X-CSE-MsgGUID: mBVmqaYsQf6pGfDvHr3pvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="36880494"
+X-CSE-ConnectionGUID: urMcTazBTPiO/mHTSWLmmQ==
+X-CSE-MsgGUID: 8WJRrABXQz+MTMsWVjzDwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="48157725"
 X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
-   d="scan'208";a="36880494"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 02:08:23 -0800
-X-CSE-ConnectionGUID: eOswhTNuSp6nmLhKaZszcQ==
-X-CSE-MsgGUID: LKJSIy0USlmDmzQLSgArNQ==
+   d="scan'208";a="48157725"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 02:18:25 -0800
+X-CSE-ConnectionGUID: qmDwwgjqSf64zFyYFHaMRw==
+X-CSE-MsgGUID: pmFL76bXQUaNqIkv6w1pMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110830368"
+X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
+   d="scan'208";a="106374482"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Jan 2025 02:08:22 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 19 Jan 2025 02:18:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZSE8-000VLm-17;
-	Sun, 19 Jan 2025 10:08:20 +0000
-Date: Sun, 19 Jan 2025 18:07:58 +0800
+	id 1tZSNp-000VMF-0k;
+	Sun, 19 Jan 2025 10:18:21 +0000
+Date: Sun, 19 Jan 2025 18:18:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1327/1327] mm/vmscan.c:3257:21: error:
- implicit declaration of function 'kernel_swap_enabled'
-Message-ID: <202501191820.CX3a1XfY-lkp@intel.com>
+To: John Johansen <john.johansen@canonical.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jj-apparmor:apparmor-next 9/19] security/apparmor/label.c:206:15:
+ warning: address of array 'new->vec' will always evaluate to 'true'
+Message-ID: <202501191802.bDp2voTJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +62,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi liubo,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   52349611d09c6a9a2b558b3ce1cb1dca0d47dbe8
-commit: 44983705e56ab22fda801d66e2a6bd0d1be7ca0b [1327/1327] etmem: add original kernel swap enabled options
-config: x86_64-buildonly-randconfig-005-20241216 (https://download.01.org/0day-ci/archive/20250119/202501191820.CX3a1XfY-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
+head:   e6b087676954e36a7b1ed51249362bb499f8c1c2
+commit: de4754c801f4ceefc6ce0d13480c506e0a91b449 [9/19] apparmor: carry mediation check on label
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250119/202501191802.bDp2voTJ-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501191820.CX3a1XfY-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501191802.bDp2voTJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501191820.CX3a1XfY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501191802.bDp2voTJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/vmscan.c:23:
-   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
-     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/vmscan.c:33:
-   include/linux/mm_inline.h:32:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      32 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:34:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      34 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:350:64: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     350 |                 lru_size = node_page_state(lruvec_pgdat(lruvec), NR_LRU_BASE + lru);
-         |                                                                  ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:240:60: note: expanded from macro 'node_page_state'
-     240 | #define node_page_state(node, item) global_node_page_state(item)
-         |                                                            ^~~~
-   mm/vmscan.c:363:29: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     363 |                                        NR_ZONE_LRU_BASE + lru);
-         |                                        ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:1776:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    1776 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:127:34: note: expanded from macro '__count_zid_vm_events'
-     127 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/vmscan.c:2734:17: warning: variable 'node_lru_pages' set but not used [-Wunused-but-set-variable]
-    2734 |                 unsigned long node_lru_pages = 0;
-         |                               ^
-   mm/vmscan.c:3066:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    3066 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:127:34: note: expanded from macro '__count_zid_vm_events'
-     127 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
->> mm/vmscan.c:3257:21: error: implicit declaration of function 'kernel_swap_enabled' [-Werror,-Wimplicit-function-declaration]
-    3257 |         if (sc != NULL && !kernel_swap_enabled())
-         |                            ^
-   mm/vmscan.c:3257:21: note: did you mean 'kernfs_ns_enabled'?
-   include/linux/kernfs.h:309:20: note: 'kernfs_ns_enabled' declared here
-     309 | static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
-         |                    ^
-   8 warnings and 1 error generated.
+   In file included from security/apparmor/label.c:10:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:10:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> security/apparmor/label.c:206:15: warning: address of array 'new->vec' will always evaluate to 'true' [-Wpointer-bool-conversion]
+     206 |         AA_BUG(!new->vec);
+         |                ~~~~~~^~~
+   security/apparmor/include/lib.h:56:15: note: expanded from macro 'AA_BUG'
+      56 |                 AA_BUG_FMT((X), "" args);                                   \
+         |                             ^
+   security/apparmor/include/lib.h:61:8: note: expanded from macro 'AA_BUG_FMT'
+      61 |         WARN((X), "AppArmor WARN %s: (" #X "): " fmt, __func__, ##args)
+         |               ^
+   include/asm-generic/bug.h:132:25: note: expanded from macro 'WARN'
+     132 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   5 warnings generated.
 
 
-vim +/kernel_swap_enabled +3257 mm/vmscan.c
+vim +206 security/apparmor/label.c
 
-  3250	
-  3251	/*
-  3252	 * Check if original kernel swap is enabled
-  3253	 * turn off kernel swap,but leave page cache reclaim on
-  3254	 */
-  3255	static inline void kernel_swap_check(struct scan_control *sc)
-  3256	{
-> 3257		if (sc != NULL && !kernel_swap_enabled())
-  3258			sc->may_swap = 0;
-  3259	}
-  3260	
+   200	
+   201	static void accum_label_info(struct aa_label *new)
+   202	{
+   203		long u = FLAG_UNCONFINED;
+   204		int i;
+   205	
+ > 206		AA_BUG(!new->vec);
+   207	
+   208		/* size == 1 is a profile and flags must be set as part of creation */
+   209		if (new->size == 1)
+   210			return;
+   211	
+   212		for (i = 0; i < new->size; i++) {
+   213			u |= new->vec[i]->label.flags & (FLAG_DEBUG1 | FLAG_DEBUG2 |
+   214							 FLAG_STALE);
+   215			if (!(u & new->vec[i]->label.flags & FLAG_UNCONFINED))
+   216				u &= ~FLAG_UNCONFINED;
+   217			new->mediates |= new->vec[i]->label.mediates;
+   218		}
+   219		new->flags |= u;
+   220	}
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
