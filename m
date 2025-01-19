@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCCB2A1BA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 03:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890D62F2F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 04:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737258889; cv=none; b=Im7AO+rrEMzbmG7KAEIfY65uV5KauUKX6EuHIoZwbpFLIJL5PNkDpeI8p258g2lA0gHUAnJXG/IV5iCjPk5q4KxlT4vcEGABH6D7egQHrLOO2pNUu+zNrX9nT77mXPguKeQNfSU1Z9YPSdyyIBR2FBrqWo3YEYsRtlI07+ne1RA=
+	t=1737260752; cv=none; b=ZuZ27z9AC5Je+KAuLkTAu0uWwvhV/U6RKr9tWkZLHb76KFDbFIHZw3g60jCE8ZCkYqGMBw5dEsUJbYpwSl4H3MvLe7wyw1nfxkMo+Cd5bdmAg85DVlPXrd9CWFTXSnTHYpJOTDT0boMJXWQH/Z0gcdtycjv+vF5+h4BfpAK/aC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737258889; c=relaxed/simple;
-	bh=Fe2yVINNiw9BPb49fBbqA7h/KwY0SAlyElQCL8Rj34M=;
+	s=arc-20240116; t=1737260752; c=relaxed/simple;
+	bh=FnhbJrtr5hIMgZ1WQqIlQtbAIpCtUMGMNgzQdxMCY+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AcELpfqzxVDNQsx605pC+2MmO+mXF1P8pj9GZ+LfrNEoKtIz2Z5lpEGGh6RD1qcYDN/z3JhYcbOUFkt0FdDaZ0aEMlgFh6qWjSd3SG8p7VWcbIejm00zNLaNaELF/J3xxk08WNx0ap+3jVsDbJVqXi5bpBR6rjX+0YYxhMY/Uhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgriURKQ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=JmRrg/bykn1sLQrzEVJeIUg0hofVY6jLs+LGYfDiWtoyY1GT7JeFEpnHCIG5RVr1S2EABVHgDOSW7sMV//3bp4eAOT5YKqJThb/Vx4DqvjiVF+J5C5UG6pZfkMGZps2ro34AW3ivlQKw0yTeyKjr6cDRb5vOTCIcDO5vJFaSQtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z0p6n2lA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgriURKQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z0p6n2lA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737258887; x=1768794887;
+  t=1737260750; x=1768796750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fe2yVINNiw9BPb49fBbqA7h/KwY0SAlyElQCL8Rj34M=;
-  b=HgriURKQIGC5G3EHh2jYc3BTTH6FqEsSHoPiHVMAN8S+/euz5LmIoMnV
-   D9Y5qP4yPYpU+MEMp3noMLL7DvvirGNr+L+C3nE4eqHLe7fF5gjf6J2u6
-   UPtsJ5k9RfFgfNmTarU6zekIYtEPtpIS/1pKGQNMsYHR5Lei6fmSP/VYu
-   jqIui4BiGEJIkW4qeSB7v+CqbcGqwPpNPFro+WOTtaajoXA88p0N7myLD
-   SJLfMiiRCYBsjxu9B5kFdQgFrC0YcYJzecX/DOP7YmlDTpxPzbOP8z2me
-   pb2WUJ/YD/m46ZjbsypSwxJu+tYf5veIrB0beMPtHzPFQjpKmMX0jwpba
-   Q==;
-X-CSE-ConnectionGUID: ME3WlAXVT46ivc0f4b41wA==
-X-CSE-MsgGUID: 8J/CFeNwSFKrbPYxNyAk9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="37534259"
+  bh=FnhbJrtr5hIMgZ1WQqIlQtbAIpCtUMGMNgzQdxMCY+o=;
+  b=Z0p6n2lAsvXhbwleAA9FmSCB0in5d+UJZL/DcECKf3qnf9KpojIuu0dE
+   fj6jj7y2Du/N2Fzw+93wHU9gAwsPZ5RSSLWDACcYPQOjamXm69+7n6vRO
+   /6mptjE4qv4ybCx4wXN2XvRX+uyM/zhRlMGKQ2UZg6tWpHki1eey5sXuv
+   wZKPgFwSYjfnOEKkswHArzdd2v4lW9fOT7XaqQ8JWwRDabnbz/Wed/2D7
+   AC9/HghX3+HDPqRVIa4F6KoK2ALNNSUtsm75xhvgv3nZvt4X+S5jZ9A80
+   HKLW0k5OjNxRmbzRPg8JOSFOdlLhn/dVSKPcjv9FBo5LoolT7MGXZeNvt
+   A==;
+X-CSE-ConnectionGUID: d68z8l0mRQO5zB0U9phxsw==
+X-CSE-MsgGUID: pOHPeG59QniPvwWiJo7scA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="55207079"
 X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="37534259"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 19:54:47 -0800
-X-CSE-ConnectionGUID: 1hX+3e6NR5uL7F5uNgSs4g==
-X-CSE-MsgGUID: Qlzo+THYRy2ZG7cN+VWn3Q==
+   d="scan'208";a="55207079"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 20:25:49 -0800
+X-CSE-ConnectionGUID: OU4XYOHsQPOPm/QaZiYiPA==
+X-CSE-MsgGUID: WmJioC+ZRvG00Dqb3y/wMA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106004561"
+X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
+   d="scan'208";a="111148132"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Jan 2025 19:54:46 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 18 Jan 2025 20:25:48 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZMOY-000V5L-2y;
-	Sun, 19 Jan 2025 03:54:42 +0000
-Date: Sun, 19 Jan 2025 11:53:44 +0800
+	id 1tZMsb-000V6N-1r;
+	Sun, 19 Jan 2025 04:25:45 +0000
+Date: Sun, 19 Jan 2025 12:25:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/1]
- kernel/sched/core.c:6878:56: sparse: sparse: incorrect type in argument 3
- (different address spaces)
-Message-ID: <202501191114.xGttngOn-lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: [trace:trace/for-next 15/22] WARNING: modpost: vmlinux: section
+ mismatch in reference: __do_trace_initcall_level+0x28 (section:
+ .text.unlikely) -> initcall_level_names (section: .init.data)
+Message-ID: <202501191238.Ihxr0zmw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,305 +64,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   7127c4ff9a236436d479ddcb28182042ade17161
-commit: e4239ea599c633d8a2bc0440ffd64f96a7bfac1c [0/1] ANDROID: sched: Handle blocked-waiter migration (and return migration)
-config: i386-randconfig-063-20250119 (https://download.01.org/0day-ci/archive/20250119/202501191114.xGttngOn-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501191114.xGttngOn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/for-next
+head:   542079b4b12e89f82c8a689b6e9b119ab7d52018
+commit: cff6d93eab00bacf8b6bffdef775fc2de0273c96 [15/22] tracepoint: Reduce duplication of __DO_TRACE_CALL
+config: xtensa-randconfig-002-20250119 (https://download.01.org/0day-ci/archive/20250119/202501191238.Ihxr0zmw-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501191238.Ihxr0zmw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501191114.xGttngOn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501191238.Ihxr0zmw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:3983:31: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:3983:31: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:3983:31: sparse:     got struct rq *
-   kernel/sched/core.c:3999:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:3999:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:3999:25: sparse:     got struct rq *
-   kernel/sched/core.c:4009:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4009:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4009:25: sparse:     got struct rq *
-   kernel/sched/core.c:4014:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:4014:36: sparse:     expected struct task_struct const *p
-   kernel/sched/core.c:4014:36: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:4127:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4127:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4127:25: sparse:     got struct rq *
-   kernel/sched/core.c:4468:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4468:45: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4468:45: sparse:     got struct rq *
-   kernel/sched/core.c:4587:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4587:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4587:25: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:4593:13: sparse:     got struct rq *
-   kernel/sched/core.c:8523:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:8523:43: sparse:     expected struct task_struct *push_task
-   kernel/sched/core.c:8523:43: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:8536:42: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8536:42: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8536:42: sparse:     got struct rq *
-   kernel/sched/core.c:5400:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:5400:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:5400:25: sparse:     got struct rq *
-   kernel/sched/core.c:5585:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:5585:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:5585:24: sparse:     got struct rq *
-   kernel/sched/core.c:5605:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:5605:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:5605:16: sparse:     got struct rq *
-   kernel/sched/core.c:5611:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:5611:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:5611:16: sparse:     got struct rq *
-   kernel/sched/core.c:5620:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:5620:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:5620:24: sparse:     got struct rq *
-   kernel/sched/core.c:5634:29: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:5634:29: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:5634:29: sparse:     got struct rq *
-   kernel/sched/core.c:5832:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:5832:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:5832:25: sparse:     got struct rq *
-   kernel/sched/core.c:5845:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:5845:15: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:5845:15: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:6857:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6857:21: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6857:21: sparse:     got struct rq *
-   kernel/sched/core.c:6878:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:6878:45: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6878:45: sparse:     got struct task_struct [noderef] __rcu *donor
->> kernel/sched/core.c:6878:56: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct task_struct *next @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6878:56: sparse:     expected struct task_struct *next
-   kernel/sched/core.c:6878:56: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6879:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:6879:29: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6879:29: sparse:     got struct task_struct [noderef] __rcu *donor
->> kernel/sched/core.c:6880:28: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6880:28: sparse:     expected struct task_struct *t
-   kernel/sched/core.c:6880:28: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6881:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *next @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6881:29: sparse:     expected struct task_struct *next
-   kernel/sched/core.c:6881:29: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6883:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6883:9: sparse:    struct task_struct *
-   kernel/sched/core.c:6883:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7202:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:7202:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:7202:14: sparse:     got struct rq *
-   kernel/sched/core.c:7203:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:7203:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:7203:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:7261:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:7261:37: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:7261:37: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:7772:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7772:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7772:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:8320:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8320:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8320:25: sparse:     got struct rq *
-   kernel/sched/core.c:8478:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8478:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8478:9: sparse:     got struct rq *
-   kernel/sched/core.c:8491:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8491:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8491:25: sparse:     got struct rq *
-   kernel/sched/core.c:8500:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8500:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8500:13: sparse:     got struct rq *
-   kernel/sched/core.c:8586:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8586:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8586:25: sparse:     got struct rq *
-   kernel/sched/core.c:8607:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8607:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8607:25: sparse:     got struct rq *
-   kernel/sched/core.c:8753:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8753:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8753:25: sparse:     got struct rq *
-   kernel/sched/core.c:8791:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8791:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8791:25: sparse:     got struct rq *
-   kernel/sched/core.c:8854:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8854:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8854:25: sparse:     got struct rq *
-   kernel/sched/core.c:8926:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8926:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8926:25: sparse:     got struct rq *
-   kernel/sched/core.c:9081:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:9081:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:9081:22: sparse:     got struct rq *
-   kernel/sched/core.c:10678:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:10678:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:10678:25: sparse:     got struct rq *
-   kernel/sched/core.c:10678:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10678:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10678:25: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:10981:18: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:10981:18: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:10981:18: sparse:     got struct rq *
-   kernel/sched/core.c:11001:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:11001:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:11001:25: sparse:     got struct rq *
-   kernel/sched/core.c:11056:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:11056:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:11056:25: sparse:     got struct rq *
-   kernel/sched/core.c:11181:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:11181:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:11181:14: sparse:     got struct rq *
-   kernel/sched/core.c:11203:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:11203:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:11203:14: sparse:     got struct rq *
-   kernel/sched/core.c:11225:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:11225:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:11225:14: sparse:     got struct rq *
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:1505:17: sparse: sparse: self-comparison always evaluates to true
-   kernel/sched/core.c:628:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
-   kernel/sched/sched.h:1505:17: sparse: sparse: self-comparison always evaluates to true
-   kernel/sched/core.c:662:23: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
-   kernel/sched/core.c:678:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
-   kernel/sched/core.c:718:36: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
-   kernel/sched/core.c:760:36: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/pelt.h:106:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/pelt.h:106:13: sparse:     expected struct task_struct const *p
-   kernel/sched/pelt.h:106:13: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2289:35: sparse: sparse: context imbalance in 'wait_task_inactive' - different lock contexts for basic block
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2491:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2491:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2491:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +6878 kernel/sched/core.c
-
-  6837	
-  6838	#ifdef CONFIG_SMP
-  6839	/*
-  6840	 * If the blocked-on relationship crosses CPUs, migrate @p to the
-  6841	 * owner's CPU.
-  6842	 *
-  6843	 * This is because we must respect the CPU affinity of execution
-  6844	 * contexts (owner) but we can ignore affinity for scheduling
-  6845	 * contexts (@p). So we have to move scheduling contexts towards
-  6846	 * potential execution contexts.
-  6847	 *
-  6848	 * Note: The owner can disappear, but simply migrate to @target_cpu
-  6849	 * and leave that CPU to sort things out.
-  6850	 */
-  6851	static void proxy_migrate_task(struct rq *rq, struct rq_flags *rf,
-  6852				       struct task_struct *p, int target_cpu)
-  6853	{
-  6854		struct rq *target_rq;
-  6855	
-  6856		lockdep_assert_rq_held(rq);
-  6857		target_rq = cpu_rq(target_cpu);
-  6858	
-  6859		/*
-  6860		 * Since we're going to drop @rq, we have to put(@rq->donor) first,
-  6861		 * otherwise we have a reference that no longer belongs to us.
-  6862		 *
-  6863		 * Additionally, as we put_prev_task(prev) earlier, its possible that
-  6864		 * prev will migrate away as soon as we drop the rq lock, however we
-  6865		 * still have it marked as rq->curr, as we've not yet switched tasks.
-  6866		 *
-  6867		 * After the migration, we are going to pick_again in the __schedule
-  6868		 * logic, so backtrack a bit before we release the lock:
-  6869		 * Put rq->donor, and set rq->curr as rq->donor and set_next_task,
-  6870		 * so that we're close to the situation we had entering __schedule
-  6871		 * the first time.
-  6872		 *
-  6873		 * Then when we re-aquire the lock, we will re-put rq->curr then
-  6874		 * rq_set_donor(rq->idle) and set_next_task(rq->idle), before
-  6875		 * picking again.
-  6876		 */
-  6877		/* XXX - Added to address problems with changed dl_server semantics - double check */
-> 6878		__put_prev_set_next_dl_server(rq, rq->donor, rq->curr);
-  6879		put_prev_task(rq, rq->donor);
-> 6880		rq_set_donor(rq, rq->curr);
-  6881		set_next_task(rq, rq->curr);
-  6882	
-  6883		WARN_ON(p == rq->curr);
-  6884	
-  6885		deactivate_task(rq, p, 0);
-  6886		proxy_set_task_cpu(p, target_cpu);
-  6887	
-  6888		zap_balance_callbacks(rq);
-  6889		rq_unpin_lock(rq, rf);
-  6890		raw_spin_rq_unlock(rq);
-  6891		raw_spin_rq_lock(target_rq);
-  6892	
-  6893		activate_task(target_rq, p, 0);
-  6894		wakeup_preempt(target_rq, p, 0);
-  6895	
-  6896		raw_spin_rq_unlock(target_rq);
-  6897		raw_spin_rq_lock(rq);
-  6898		rq_repin_lock(rq, rf);
-  6899	
-  6900		/*
-  6901		 * Ok, now we have the lock again, put rq->curr and
-  6902		 * set_next_task() to idle
-  6903		 */
-  6904		proxy_resched_idle(rq);
-  6905	}
-  6906	#else /* !CONFIG_SMP */
-  6907	static inline
-  6908	void proxy_migrate_task(struct rq *rq, struct rq_flags *rf,
-  6909				struct task_struct *p, int target_cpu)
-  6910	{
-  6911	}
-  6912	#endif /* CONFIG_SMP */
-  6913	
+>> WARNING: modpost: vmlinux: section mismatch in reference: __do_trace_initcall_level+0x28 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
 
 -- 
 0-DAY CI Kernel Test Service
