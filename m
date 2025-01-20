@@ -1,143 +1,137 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC82C191F8C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 08:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6218019004D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 08:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737360913; cv=none; b=e4fUSzC/LbxuyTlzJEHT/w2qkBfXnyhL4J//AgG9OLFvhKiOvLcVJxGAsq8pbIbeZPNq1t2bz0jpqCFAcwUKtck5d2ljy2Udwhthyzs+u+CP1DktaZ+UGDYmSq0yzmx04xa5BIOyycAUaYFFYeXcGZnTyexXa1/qsrr4LS237hI=
+	t=1737362527; cv=none; b=ipMrziT+/S8kgtu3+vg4D2EV+lY7p+ADopHwSJEhPXQzQ7PkL5BRLnxIf0VQ1zfqJ9VgRhQznSx7MC+sEzBvSK8g2I/r0bQjVghN+z39No8/oejtc10gZnWXNdl3kUVoynoTyAatsuO+sfCIeM3PnEROr4uu7pxY22QZZpSw36c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737360913; c=relaxed/simple;
-	bh=qNU2pgojq4RxHg/p3aNjSgeJllAWkcFz7GgDPZJb/cI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IzPGOxmyNSwSj7MlF0oKHRUIBUeuupYgOJinjwqympTpg2MtcYLQ13F8aaaLn/4iFf20mkIfIrNf61cCA1Z+w+1UMtAGiEa5QDv/8Wj4PnfJT//ROwGPI1rqaEOLjNkr8kx3gFnoTYjHpdCrOAhr500koVoPywS+Vb1ExhQfTx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sM4LeFBM; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sM4LeFBM"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43635796b48so26024395e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 00:15:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737360909; x=1737965709; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A09ktfAOPPyu9exFxifvfSR4TKmqpkMAIRIJNi7aCSI=;
-        b=sM4LeFBMZPZJKYXwXelGNl2c7nI3Ew2Uz2PswT6ewlQSC/Svi0HM+slYZbJLjO2stz
-         CV6CZ8+cTxESHoxlrFyt1Qrr+KSLD6xo/CyQIGF2WImVsfctm1a1HN+9lx8S2KY/A35f
-         bvlETsGD5gp6oX+KcIFLoohZ+a0cEtoIx0uAhdfCRMB0qnxhFlMOXKOOBcWtUTWddk49
-         1TTR+r5zdNmNOpK60otZqZlarQVCfYPuk+7MR1irpAYbjk70lHLqDagI6WkQplioagWa
-         yksqWRC1yDOVbHx5ZrqKv4K0rYp+KQ2qah806+TxXFk3mmX3o7wsH5BlPL3FDh16+D8I
-         jNGg==
+	s=arc-20240116; t=1737362527; c=relaxed/simple;
+	bh=zUW42g9j58jlFEdIkDEjdoCMuo0GMFWbVS0XBLbNWZo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=abAN6AB0cl60H+YUGyTXwuwHLi5/9c6Sxlm8c8FO2eOQInznBDhH4RuCZbPIFVaDIei/VlLkGeWAW1B6WltziXNuxfNw0tey2hUPZaKQkGc5f2hnOXLfTcQCYmC4tk1/HRodZIdlvpGLDqH3uQeUFpoQgz0n2KHHLe0dh95E+SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-85c5a91374cso1864121241.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 00:42:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737360909; x=1737965709;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A09ktfAOPPyu9exFxifvfSR4TKmqpkMAIRIJNi7aCSI=;
-        b=jMikh+ohdqPjYzWHBrl8QM8exucMObEGlvn6GivfPZDf2U6tyyfueXswV8NDgDQati
-         2J6BUaGI/NV1bSQTrKQ9iZ4tg8nJeXat8S52qCXhziuYCKSFb+RH/aBCCSnq82aeEufw
-         Ro03jcZnBbIUA76O61vJy/XsvmJ24UYksO3NGdqmY5ReLSHS5tyRSnOjzmJZSFV+st3C
-         ejPaLIz1SUlceJpQbzlG5sMF5wRnvcfIIBfnA3gN+q+6oe0Ovme0usZRsLKoCOOf2qOk
-         R+4TIhEjZ8peyLBqF//EKYhmn2IdNNuMHHOCNIwjlOHVKCLC5EZVSNS0k/lYiRKkd3wL
-         TLZg==
-X-Forwarded-Encrypted: i=1; AJvYcCXG81pregBwVM9mLojZF1kYBo8aIEzhfAVPiLBcWfV2zZTSypJm23WZQ2umQehAiNSHufTkJ0aSvcVWdhvb@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTLt5H3HepfsUhedbzGJR8il2y0J1sMH4m592/RtLAs8wubbuM
-	aGKvvE/0yZ+ZMpK2kuSNjplUU/RwwNJNIRYplNXxqFa2UIZn7e7yZyaLZom/e00=
-X-Gm-Gg: ASbGncuzx7WtQNQFMY/hWeuSpmsiFkpKuwA7AfOmd/42gibabiO6pJObXl0+HzdAyY7
-	92RrjDfJfjN7x/dYuE7c6k1jWW3HvETEB9qAugCz24VIxsTl8wJ5DARKEo3aqSpI+7g/CiHTKxo
-	JZSrFnvbKbEjsDmvn++0b3GOvZOcevRrJ60nIpzl6YiSUUBrQR6vAU5or7WYeV/IThTPsTU6e2B
-	e2Di5mmZ3Bf8Sb3JIho7p40ckjgkrTNlwLQHUskorrGeN/5db+xTxIuht+RQ/rD02Hh8kdrzwk=
-X-Google-Smtp-Source: AGHT+IEWHv9ynMnrEE8ZJOOYjOCTr5BrSCFg9p7EuLheqv8DchREXYYPN0l/9TjEXyDyPhS98pE9uA==
-X-Received: by 2002:a05:600c:4452:b0:436:e3ea:64dd with SMTP id 5b1f17b1804b1-437c6b2dd76mr176517855e9.11.1737360909177;
-        Mon, 20 Jan 2025 00:15:09 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43890462195sm128375705e9.30.2025.01.20.00.15.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 00:15:08 -0800 (PST)
-Date: Mon, 20 Jan 2025 11:15:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>,
-	Georgi Djakov <djakov@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Odelu Kukatla <quic_okukatla@quicinc.com>,
-	Mike Tipton <mdptipton@quicinc.com>,
-	Vivek Aknurwar <viveka@quicinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Sibi Sankar <quic_sibis@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V7 1/5] interconnect: core: Add dynamic id allocation
- support
-Message-ID: <0bca7854-aa27-48c6-8612-bcecc7b68c65@stanley.mountain>
+        d=1e100.net; s=20230601; t=1737362523; x=1737967323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EkesaM2Mzs7ra5bhCoJcMSPLGakUiG+eLRjst2GonZ0=;
+        b=CFRSf/kBcAPiUOCXllmfkk2Ilnv9qBIrjkIxoDf1doFtq35FhpKmgnhGJCex145FQE
+         oOUV6dh2emirPBjyn+kxoa5t8aIUTX62GHxI63ULAXPc9M+ytZYTTSq/VwbgRP6+/own
+         BFdRJuT91xLSIxPeTj/V4rzYMD4XqamrGtQ1CL55vjaZYPfPc5Qhd10M5CxYCZLdd2a8
+         kyERlCHybjDfCt4rCBLR0Z82BOo4qfq+XKbn8iKj3a3ps74motPpcQgiycD6kxxG3czT
+         WpDkYClOhNKjI/zRQIzFP7b9gWOAPLpxBc1s+eQd5Z13Ic6YvKw/3iWxzlaEN60iuLke
+         N9AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0xMwryxbQBlcVwjj6NuMppRpa15uayjw6fQC3rYvHhcWIfJ7bNdM1CwH58WtZqxN0V+dbXUtFPYSwzJm4@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBZrDLTT8N6fg8RiQXiUxEjEgKRmaQ4VYUaHIibr87kflMn4Fy
+	N69GraW24wsPRSKX5x0yr161zBqCLYh2vgJcXCM5uKwA4G3ZBhGycx9o+ACw
+X-Gm-Gg: ASbGnctFZiP9bOW/r4ZgNcxvGiILa6MNw8ZNAfyVo8iJIXVu24/Ir5ig/1bpNbspXdH
+	EZf3vxodjtUQmZRy7x+xDrwOgvgt6Q76PLsh4uJbOyoRIMcDrmbyowxEK5oOBZMQ+d6h5trktEk
+	S4RkpRgekty1dHDgQmuMH9pU/DoY4ksTdLVpQI5shzATkRgXDID84s977oF8MXeog4BaJ7RJrBN
+	0VUadDz+HSGohY9Sh0Gpil5NLh88DRPxP4HsVsjoXil7b1MHfyNSqdsz1Jl8YTeeuMoiHDt0Rxr
+	nm5oytn99ZNN8v8y3QN366WhCgo1I98D
+X-Google-Smtp-Source: AGHT+IEzKd1nJ1RbjyX/pLcyIERfDsC9o7485T4tCdeXO1hTSXqN9RZaOoGEQuwfhqdQJXneVwEtqA==
+X-Received: by 2002:a05:6102:14aa:b0:4af:c5c8:bb4c with SMTP id ada2fe7eead31-4b690c77448mr9657457137.16.1737362523530;
+        Mon, 20 Jan 2025 00:42:03 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b68a318cfesm1664588137.21.2025.01.20.00.42.03
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jan 2025 00:42:03 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-85bad7be09dso2441361241.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 00:42:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXSvibyBeJZhLcWcGS7wrih4bDklm50K2mPMn/6Rm7K/keorEYoSn1dtbkQWfjBe75HOcrT4zNCrnScD0ih@lists.linux.dev
+X-Received: by 2002:a05:6102:f97:b0:4b4:27dc:ffe3 with SMTP id
+ ada2fe7eead31-4b69099e6f9mr9946198137.0.1737362523176; Mon, 20 Jan 2025
+ 00:42:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250111161429.51-2-quic_rlaggysh@quicinc.com>
+References: <202501200756.HycDH8wZ-lkp@intel.com> <55f6f8ec-48bf-4d0e-ab74-b5bc7c9a7f56@mailbox.org>
+In-Reply-To: <55f6f8ec-48bf-4d0e-ab74-b5bc7c9a7f56@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 20 Jan 2025 09:41:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW-hp9q_vGsbxwy1s6__Y8BoCQbPAzpzAojM9s0QNaRrg@mail.gmail.com>
+X-Gm-Features: AbW1kvZ8kECBPfivR-VOLrhAZPBoA-FmCdqwmrtY4Eeb05qipEeYCA2oas9AckY
+Message-ID: <CAMuHMdW-hp9q_vGsbxwy1s6__Y8BoCQbPAzpzAojM9s0QNaRrg@mail.gmail.com>
+Subject: Re: drivers/clk/clk-renesas-pcie.c:178:31: warning: '%d' directive
+ output may be truncated writing between 1 and 4 bytes into a region of size 2
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: kernel test robot <lkp@intel.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Raviteja,
+On Mon, Jan 20, 2025 at 8:19=E2=80=AFAM Marek Vasut <marek.vasut@mailbox.or=
+g> wrote:
+> On 1/20/25 12:45 AM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   9528d418de4d83c7ada69314ddd8d4427b1f703a
+> > commit: cd9a5c97dfdaeb9c8ac02e14d7ccbd445e8b5265 clk: rs9: Replace mode=
+l check with bitshift from chip data
+> > date:   1 year, 1 month ago
+> > config: s390-randconfig-r111-20250120 (https://download.01.org/0day-ci/=
+archive/20250120/202501200756.HycDH8wZ-lkp@intel.com/config)
+> > compiler: s390-linux-gcc (GCC) 14.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20250120/2025012007=
+56.HycDH8wZ-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501200756.HycDH8wZ-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >     drivers/clk/clk-renesas-pcie.c: In function 'rs9_probe':
+> >>> drivers/clk/clk-renesas-pcie.c:178:31: warning: '%d' directive output=
+ may be truncated writing between 1 and 4 bytes into a region of size 2 [-W=
+format-truncation=3D]
+> >       178 |         snprintf(name, 5, "DIF%d", idx);
+> >           |                               ^~
+> >     In function 'rs9_get_output_config',
+> >         inlined from 'rs9_probe' at drivers/clk/clk-renesas-pcie.c:305:=
+9:
+> >     drivers/clk/clk-renesas-pcie.c:178:27: note: directive argument in =
+the range [-250, 63]
 
-kernel test robot noticed the following build warnings:
+I'm wondering how the compiler arrives at this range?
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >       178 |         snprintf(name, 5, "DIF%d", idx);
+> >           |                           ^~~~~~~
+> >     drivers/clk/clk-renesas-pcie.c:178:9: note: 'snprintf' output betwe=
+en 5 and 8 bytes into a destination of size 5
+> >       178 |         snprintf(name, 5, "DIF%d", idx);
+> >           |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> I can extend the name variable to length 8 to mitigate this warning, but
+> there is some 8 DIF outputs maximum on this hardware, so it is known
+> this %d field would not be longer than 1 decimal number. Shall I send
+> such a patch ?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raviteja-Laggyshetty/interconnect-core-Add-dynamic-id-allocation-support/20250112-001756
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250111161429.51-2-quic_rlaggysh%40quicinc.com
-patch subject: [PATCH V7 1/5] interconnect: core: Add dynamic id allocation support
-config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250120/202501201530.UTAPd4lC-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+Gr{oetje,eeting}s,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501201530.UTAPd4lC-lkp@intel.com/
+                        Geert
 
-smatch warnings:
-drivers/interconnect/core.c:889 icc_node_create_alloc_id() warn: inconsistent returns 'global &icc_lock'.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-vim +889 drivers/interconnect/core.c
-
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  867  struct icc_node *icc_node_create_alloc_id(int start_id)
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  868  {
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  869  	struct icc_node *node;
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  870  	int id;
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  871  
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  872  	mutex_lock(&icc_lock);
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  873  
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  874  	node = kzalloc(sizeof(*node), GFP_KERNEL);
-
-Do this allocation before taking the mutex_lock(&icc_lock).  Otherwise
-you'd have to unlock before returning.
-
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  875  	if (!node)
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  876  		return ERR_PTR(-ENOMEM);
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  877  
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  878  	id = idr_alloc(&icc_idr, node, start_id, 0, GFP_KERNEL);
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  879  	if (id < 0) {
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  880  		WARN(1, "%s: couldn't get idr\n", __func__);
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  881  		kfree(node);
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  882  		node = ERR_PTR(id);
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  883  		goto out;
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  884  	}
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  885  	node->id = id;
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  886  out:
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  887  	mutex_unlock(&icc_lock);
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  888  
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11 @889  	return node;
-65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  890  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
