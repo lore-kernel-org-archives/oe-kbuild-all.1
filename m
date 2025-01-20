@@ -1,151 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4AB1917D0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 07:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DB9191F95
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 08:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737359919; cv=none; b=ZhK78M0nIM6LJQO2Coj5/YnLp5ntv026WXzueRT5ZMGY9/bhnbiLrFa2rMm1XCRUZ65KLYTsu9qm+BUuR6tNhgqrlSy+2foVfQlYCy2fn8PrMXvGeEL77Qp9l6nhZlWLcC6h7vgPJPv8gPsyZxPwAhKULB35IEnr+/OwF7zxMzg=
+	t=1737360696; cv=none; b=HeyiMYnAtQUcdnjYSUPbX9vcZTidIj15gqhDJVrye46x2YY9ZLF49p6yOToKWWKLTK6tnxvkqeoROl5ymeqADLAXhbxJf5fiIoPUGD4CcNSBXSZJBbI7vv1xpzOL1d6YPIDnzkSD2t15SknngF2jYxof3krcYNRzveYTVdgr0mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737359919; c=relaxed/simple;
-	bh=yjIzq4zpiGG38DCba2prRE16SgS8V5aQMhkPZPADz4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BMfLhlVho3RfHC/73k93kvfrqpkB+FdpfaFx72bYicg51/OhVETiz+2ptSA+SHuLUhit7OxH86xow16eYsQJKcOOphndX2EWsaJnbFIVP/97+6eUHDv+ykdfxiHvvlGCtI7MuxPzXGQdpP+tvO5rQdMV6hctuatkc3reUL8Arpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFyHbdUq; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFyHbdUq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737359917; x=1768895917;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yjIzq4zpiGG38DCba2prRE16SgS8V5aQMhkPZPADz4I=;
-  b=EFyHbdUqTiCXVlEr4A2csaEIYPwuccyHtYpOIoZ4LBO100Hqu3Etsf9t
-   BdFIRh8RXbeOyciP7aKceXOxDnw7LCEbsYgKcy7lITeDkTWArYvwca4yn
-   JMiXTifXUUe0F8GqgQKkZ5jpdMw0r12HyiDrfPrQij2SzRXNyWs35NwDs
-   TUoJNzqvP4829+BNx14A4KZSVjonmu8eyPJ+afQgP18/0+zxbX+vC5tiZ
-   FMTgQ0n9DugDXHARvKi4tiecFoC7E0I7b/cDQJUAnj7Tc6Qn0jrgTlAyk
-   cCJ8Hw33BtuVWTmQqekuUyTqwb6cwgOTLGUBVOmOxDpOssYqaeXBYLodZ
-   g==;
-X-CSE-ConnectionGUID: ZXUnZTTbS0WYKuSPsaXbSQ==
-X-CSE-MsgGUID: rpsAplpmQuWkD5wanuuTJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="55277752"
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="55277752"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 23:58:34 -0800
-X-CSE-ConnectionGUID: hiaWYtIPRE2E1nsqHLjSUA==
-X-CSE-MsgGUID: 537sh8w4RuiUYimaO7b6vw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="111411400"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 19 Jan 2025 23:58:34 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tZmg2-000WLB-2v;
-	Mon, 20 Jan 2025 07:58:30 +0000
-Date: Mon, 20 Jan 2025 15:57:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ming Yen Hsieh <mingyen.hsieh@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Felix Fietkau <nbd@nbd.name>,
-	Sean Wang <sean.wang@mediatek.com>
-Subject: [linux-next:master 8406/9563]
- drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:585 mt7925_mcu_uni_tx_ba()
- warn: unsigned 'ret' is never less than zero.
-Message-ID: <202501201525.If1lFErE-lkp@intel.com>
+	s=arc-20240116; t=1737360696; c=relaxed/simple;
+	bh=tK2iXLw3ZThRiJ38t2TxUZvQanF4q8buaiurqMWdntQ=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=ayKgA2Ksu6W49Bsw8zrYQyW4q5K0WRwn4JxID2kFL5we1iz+mqWmbAbu2zfqMZKJ5wRgBpBr1x44ejx9vzRi6ImbuImokUYVSs5ybLhoqonH+UFgRQDxaCmL31pnNnUk/rJfQ31WPvoXPP9Q64wjJcUnm1TBIp4NL38WDm1tDhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 69815298562;
+	Mon, 20 Jan 2025 09:11:30 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id eNJJWlL0oQpn; Mon, 20 Jan 2025 09:11:29 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 908DF298563;
+	Mon, 20 Jan 2025 09:11:29 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id X_ktKf3Hwj9g; Mon, 20 Jan 2025 09:11:29 +0100 (CET)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 6AFAA298562;
+	Mon, 20 Jan 2025 09:11:29 +0100 (CET)
+Date: Mon, 20 Jan 2025 09:11:29 +0100 (CET)
+From: Richard Weinberger <richard@nod.at>
+To: chengzhihao1 <chengzhihao1@huawei.com>
+Cc: kernel test robot <lkp@intel.com>, 
+	Rickard X Andersson <rickard.andersson@axis.com>, 
+	oe-kbuild-all <oe-kbuild-all@lists.linux.dev>
+Message-ID: <718606717.252982643.1737360689238.JavaMail.zimbra@nod.at>
+In-Reply-To: <dc4471c5-4181-2c0b-1232-b588c962da93@huawei.com>
+References: <202501191405.WYnmdL0U-lkp@intel.com> <304509708.249444175.1737297579621.JavaMail.zimbra@nod.at> <dc4471c5-4181-2c0b-1232-b588c962da93@huawei.com>
+Subject: Re: [rw-ubifs:next 7/7] arch/riscv/include/asm/uaccess.h:33:9:
+ error: cast specifies array type
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF133 (Linux)/8.8.12_GA_3809)
+Thread-Topic: arch/riscv/include/asm/uaccess.h:33:9: error: cast specifies array type
+Thread-Index: J9PhhBY2Ktr6pW55wTZOPP5tUK0pyw==
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0907e7fb35756464aa34c35d6abb02998418164b
-commit: eb2a9a12c6092a26f632468d6610497d4f0e40da [8406/9563] wifi: mt76: mt7925: Update mt7925_mcu_uni_[tx,rx]_ba for MLO
-config: m68k-randconfig-r072-20250120 (https://download.01.org/0day-ci/archive/20250120/202501201525.If1lFErE-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
+----- Urspr=C3=BCngliche Mail -----
+> Von: "chengzhihao1" <chengzhihao1@huawei.com>
+> An: "richard" <richard@nod.at>, "kernel test robot" <lkp@intel.com>
+> CC: "Rickard X Andersson" <rickard.andersson@axis.com>, "oe-kbuild-all" <=
+oe-kbuild-all@lists.linux.dev>
+> Gesendet: Montag, 20. Januar 2025 05:55:39
+> Betreff: Re: [rw-ubifs:next 7/7] arch/riscv/include/asm/uaccess.h:33:9: e=
+rror: cast specifies array type
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501201525.If1lFErE-lkp@intel.com/
+> =E5=9C=A8 2025/1/19 22:39, Richard Weinberger =E5=86=99=E9=81=93:
+>> ----- Urspr=C3=BCngliche Mail -----
+>>> Von: "kernel test robot" <lkp@intel.com>
+>>> An: "Rickard X Andersson" <rickard.andersson@axis.com>
+>>> CC: "oe-kbuild-all" <oe-kbuild-all@lists.linux.dev>, "richard" <richard=
+@nod.at>,
+>>> "chengzhihao1"
+>>> <chengzhihao1@huawei.com>
+>>> Gesendet: Sonntag, 19. Januar 2025 07:29:22
+>>> Betreff: [rw-ubifs:next 7/7] arch/riscv/include/asm/uaccess.h:33:9: err=
+or: cast
+>>> specifies array type
+>>=20
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git ne=
+xt
+>>> head:   01099f635a4c68b8574d350a972ba062dd5142e9
+>>> commit: 01099f635a4c68b8574d350a972ba062dd5142e9 [7/7] ubi: Implement i=
+octl for
+>>> detailed erase counters
+>>> config: riscv-randconfig-001-20250119
+>>> (https://download.01.org/0day-ci/archive/20250119/202501191405.WYnmdL0U=
+-lkp@intel.com/config)
+>>> compiler: riscv64-linux-gcc (GCC) 14.2.0
+>>> reproduce (this is a W=3D1 build):
+>>> (https://download.01.org/0day-ci/archive/20250119/202501191405.WYnmdL0U=
+-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes:
+>>> | https://lore.kernel.org/oe-kbuild-all/202501191405.WYnmdL0U-lkp@intel=
+.com/
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>    In file included from include/linux/build_bug.h:5,
+>>>                     from include/linux/container_of.h:5,
+>>>                     from include/linux/list.h:5,
+>>>                     from include/linux/module.h:12,
+>>>                     from drivers/mtd/ubi/cdev.c:25:
+>>>    drivers/mtd/ubi/cdev.c: In function 'ubi_get_ec_info':
+>>>>> arch/riscv/include/asm/uaccess.h:33:9: error: cast specifies array ty=
+pe
+>>>       33 |         (__force __typeof__(addr))__untagged_addr_remote(cur=
+rent->mm,
+>>>       __addr);  \
+>>>          |         ^
+>>>    include/linux/compiler.h:76:45: note: in definition of macro 'likely=
+'
+>>>       76 | # define likely(x)      __builtin_expect(!!(x), 1)
+>>>          |                                             ^
+>>>    arch/riscv/include/asm/uaccess.h:42:50: note: in expansion of macro
+>>>    'untagged_addr'
+>>>       42 | #define access_ok(addr, size) likely(__access_ok(untagged_ad=
+dr(addr),
+>>>       size))
+>>>          |                                                  ^~~~~~~~~~~=
+~~
+>>>    drivers/mtd/ubi/cdev.c:854:14: note: in expansion of macro 'access_o=
+k'
+>>>      854 |         if (!access_ok(ureq->erase_counters, (end_peb-req.st=
+art) *
+>>>      sizeof(int32_t)))
+>>=20
+>> I think we need a cast to (void __user *) here.
+>=20
+> Right, the root cause is that return value(unsigned long type) of
+> funtion __untagged_addr_remote() is converted to the array type, so
+> making a cast for the input parameter in advance is a solution. I sent a
+> fix patch in
+> https://lore.kernel.org/linux-mtd/20250120043824.128102-1-chengzhihao1@hu=
+awei.com/T/#u
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:585 mt7925_mcu_uni_tx_ba() warn: unsigned 'ret' is never less than zero.
-drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:589 mt7925_mcu_uni_tx_ba() error: uninitialized symbol 'ret'.
-drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:612 mt7925_mcu_uni_rx_ba() warn: unsigned 'ret' is never less than zero.
-drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:616 mt7925_mcu_uni_rx_ba() error: uninitialized symbol 'ret'.
+Thx for the patch, I have applied it.
 
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:1193 mt7925_mcu_set_mlo_roc() warn: variable dereferenced before check 'mconf' (see line 1160)
-
-vim +/ret +585 drivers/net/wireless/mediatek/mt76/mt7925/mcu.c
-
-   560	
-   561	/** starec & wtbl **/
-   562	int mt7925_mcu_uni_tx_ba(struct mt792x_dev *dev,
-   563				 struct ieee80211_vif *vif,
-   564				 struct ieee80211_ampdu_params *params,
-   565				 bool enable)
-   566	{
-   567		struct mt792x_sta *msta = (struct mt792x_sta *)params->sta->drv_priv;
-   568		struct mt792x_vif *mvif = (struct mt792x_vif *)vif->drv_priv;
-   569		struct mt792x_link_sta *mlink;
-   570		struct mt792x_bss_conf *mconf;
-   571		unsigned long usable_links = ieee80211_vif_usable_links(vif);
-   572		struct mt76_wcid *wcid;
-   573		u8 link_id, ret;
-   574	
-   575		for_each_set_bit(link_id, &usable_links, IEEE80211_MLD_MAX_NUM_LINKS) {
-   576			mconf = mt792x_vif_to_link(mvif, link_id);
-   577			mlink = mt792x_sta_to_link(msta, link_id);
-   578			wcid = &mlink->wcid;
-   579	
-   580			if (enable && !params->amsdu)
-   581				mlink->wcid.amsdu = false;
-   582	
-   583			ret = mt7925_mcu_sta_ba(&dev->mt76, &mconf->mt76, wcid, params,
-   584						enable, true);
- > 585			if (ret < 0)
-   586				break;
-   587		}
-   588	
- > 589		return ret;
-   590	}
-   591	
-   592	int mt7925_mcu_uni_rx_ba(struct mt792x_dev *dev,
-   593				 struct ieee80211_vif *vif,
-   594				 struct ieee80211_ampdu_params *params,
-   595				 bool enable)
-   596	{
-   597		struct mt792x_sta *msta = (struct mt792x_sta *)params->sta->drv_priv;
-   598		struct mt792x_vif *mvif = (struct mt792x_vif *)vif->drv_priv;
-   599		struct mt792x_link_sta *mlink;
-   600		struct mt792x_bss_conf *mconf;
-   601		unsigned long usable_links = ieee80211_vif_usable_links(vif);
-   602		struct mt76_wcid *wcid;
-   603		u8 link_id, ret;
-   604	
-   605		for_each_set_bit(link_id, &usable_links, IEEE80211_MLD_MAX_NUM_LINKS) {
-   606			mconf = mt792x_vif_to_link(mvif, link_id);
-   607			mlink = mt792x_sta_to_link(msta, link_id);
-   608			wcid = &mlink->wcid;
-   609	
-   610			ret = mt7925_mcu_sta_ba(&dev->mt76, &mconf->mt76, wcid, params,
-   611						enable, false);
- > 612			if (ret < 0)
-   613				break;
-   614		}
-   615	
- > 616		return ret;
-   617	}
-   618	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+//richard
