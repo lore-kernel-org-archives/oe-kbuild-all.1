@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88D31EEA46
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 21:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7E51EE029
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 21:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737408236; cv=none; b=qhfuNZWoDcpwCQhQBzCioW1YHP9+hzMhr1bVuyQxrKPMK6tQa855ACk2ucButEZU/Jlevj3pvJpUbN8yC3d8/10mgBBVE1mubj5S0g6LL2H6sTk4D9amQU/9UQLqmXXtEz/XOlzx7a5H1Uq7/r0X4PQROPQ+v07xyGd7lR13zC8=
+	t=1737408240; cv=none; b=Jj7BZQMLimbouOFpJXvUowB4Ud++r3KUYeuJh0OJirYl1zGrqn/T8pDl7d1Rd1P6TozXYtlsrRP4nuwQR3ocUY1T9xGMxJNXRsJKO3TxA9AFZTJhvsSdJ7/kXhjTejCXrPg9pdT2vYDz/Ku/gRxnLvzaODfgt4/6etVMVZYrESQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737408236; c=relaxed/simple;
-	bh=ic1YrMkJxR4nE3jNr5cjpGoYV6GC29ktrDXoEPyUpKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J7Etq0lmgrA62scgXCeUDz5gbiYR9YFDJ15yblFbQx6EtT6NJWNN82FedzJYzJY1Z+ah7Fx8g7fSMq6RMTsQP8UNs46AgLZYQilWL735SWCJSKNsIt+s32akmebEj0lCcyBj9CjbAOg6gBo40nNl+nggpi6ro8IhiFIYnWLtNc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etSJEyQp; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1737408240; c=relaxed/simple;
+	bh=wiCKzZ6v54i2Ndlok2YqijODsK93FxK40Q8Te+R18fU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=A4/pfst3gpTXxfhjmc8lxUuwTf5c9gcSmtb+ZFd3jA3ySLINyM5ARA1f+t5xHpFwbVzcfQ68nNeOFFFZOY78Ki+YAa1jSrb6IkoGbbw9+QgXxQvZwDae1RBOKHR4Vqiw4I1JX0ig472HOcmk6EcnR4efKQldbdZfvcjLyam0tII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdNs5vBp; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etSJEyQp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdNs5vBp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737408235; x=1768944235;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ic1YrMkJxR4nE3jNr5cjpGoYV6GC29ktrDXoEPyUpKc=;
-  b=etSJEyQpXL22fhCGMOTPsLIJDW5mSVZNHK2T+SuSWm0QaT9RbYd9EpIu
-   bqFHhQdT63v6ZSFs5Upc3FpuRY2G1VooD3i2l2qD33xccPsDvcmdgEBJU
-   q3YUmYFgwvGSzZPeKmja8nI7F7X9BU1PBSUg3z9kfD9XVBdnEeERf7unb
-   sTHRy7c1CCByhWsmn3b8yqhuqdVxDKklW4isq7j8HNiFdMsQBZ9U6kLpd
-   LQwt4WrgYFx0W+oqJ0Qzj+ryp5tHYtCURUJMJYPykninwSbK4fuGWl3TU
-   /VehrTLFRPJwL659oVE1qQzQB3I3Xvymbat94PL+zDhAUnJ7AsZtlQnr1
-   w==;
-X-CSE-ConnectionGUID: jvBiXKzLSryq+h//7ov/4g==
-X-CSE-MsgGUID: /jPkY1NGQbK45Nc2dvljlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="48475918"
+  t=1737408238; x=1768944238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wiCKzZ6v54i2Ndlok2YqijODsK93FxK40Q8Te+R18fU=;
+  b=cdNs5vBpPW2v0W30rBIewikhwgxsT5gMdLxq6lAU44BLz4JI6omKwEdG
+   Po2XlSc/1CNrOW7IfdI+Xgka3e+DLy7nUKTQf25urTAk0oHYmMVka11VC
+   0YsWS8KUJmI0aPgYSXv2a2TaMx9j3WnDCbHKSHZjxql7N1mstet/fT9pY
+   uE+vANhU74v9NxXHjejxQ6PiAFIvS8EE/FWg+S5NhI9tgjrtc9CIB6ZTJ
+   yHUzcEnv+mhvF7MV9dnFkVX8TygTNmQbPmzkqBG/iC/yn/ehP1Jbq9dFI
+   IUAyguFNOO3hpq1yGn72E8djn9Gt3CxKI4uhrEIW2GiHjjQU5KAT4+9+A
+   Q==;
+X-CSE-ConnectionGUID: COgIUTmXSHasQaKumlftSA==
+X-CSE-MsgGUID: KaIaIfRIQ5aR0gCDzSetOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="41485025"
 X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="48475918"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 13:23:53 -0800
-X-CSE-ConnectionGUID: Vp8efN4qTyCwHtM32NumhA==
-X-CSE-MsgGUID: AfvhZqVxR/O+qnBqFlRZrQ==
+   d="scan'208";a="41485025"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 13:23:58 -0800
+X-CSE-ConnectionGUID: ZMmPTZwSTEWQYNGMTpF7Sw==
+X-CSE-MsgGUID: MBwOUE3HSgqECbVqQDPJuQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="106434227"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="137508271"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2025 13:23:51 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 20 Jan 2025 13:23:51 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZzFM-000Wz1-2D;
+	id 1tZzFM-000Wz3-2H;
 	Mon, 20 Jan 2025 21:23:48 +0000
-Date: Tue, 21 Jan 2025 05:23:05 +0800
+Date: Tue, 21 Jan 2025 05:23:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	netdev@vger.kernel.org, xudu@redhat.com, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com, jacob.e.keller@intel.com,
-	jmaxwell@redhat.com, magnus.karlsson@intel.com
-Subject: Re: [Intel-wired-lan] [PATCH v3 iwl-net 3/3] ice: stop storing XDP
- verdict within ice_rx_buf
-Message-ID: <202501210750.KInYtrPt-lkp@intel.com>
-References: <20250120155016.556735-4-maciej.fijalkowski@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 294/295]
+ fs/bcachefs/btree_io.c:1922:36-37: Unneeded semicolon
+Message-ID: <202501210547.ZdLJxtbP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,91 +61,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250120155016.556735-4-maciej.fijalkowski@intel.com>
 
-Hi Maciej,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tnguy-net-queue/dev-queue]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/ice-put-Rx-buffers-after-being-done-with-current-frame/20250120-235320
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20250120155016.556735-4-maciej.fijalkowski%40intel.com
-patch subject: [Intel-wired-lan] [PATCH v3 iwl-net 3/3] ice: stop storing XDP verdict within ice_rx_buf
-config: arc-randconfig-001-20250121 (https://download.01.org/0day-ci/archive/20250121/202501210750.KInYtrPt-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210750.KInYtrPt-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   cb4af57eb5a0046c43df9141f8f0cc7aed9f49c0
+commit: 6ef9eab6f449eafe3b6c6a467500bae280a7c8be [294/295] bcachefs: bch2_btree_node_scrub()
+config: mips-randconfig-r053-20250120 (https://download.01.org/0day-ci/archive/20250121/202501210547.ZdLJxtbP-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501210750.KInYtrPt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210547.ZdLJxtbP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/btree_io.c:1922:36-37: Unneeded semicolon
 
->> drivers/net/ethernet/intel/ice/ice_txrx.c:539: warning: Excess function parameter 'rx_buf' description in 'ice_run_xdp'
+vim +1922 fs/bcachefs/btree_io.c
 
-
-vim +539 drivers/net/ethernet/intel/ice/ice_txrx.c
-
-cdedef59deb020 Anirudh Venkataramanan 2018-03-20  523  
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  524  /**
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  525   * ice_run_xdp - Executes an XDP program on initialized xdp_buff
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  526   * @rx_ring: Rx ring
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  527   * @xdp: xdp_buff used as input to the XDP program
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  528   * @xdp_prog: XDP program to run
-eb087cd828648d Maciej Fijalkowski     2021-08-19  529   * @xdp_ring: ring to be used for XDP_TX action
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  530   * @rx_buf: Rx buffer to store the XDP action
-d951c14ad237b0 Larysa Zaremba         2023-12-05  531   * @eop_desc: Last descriptor in packet to read metadata from
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  532   *
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  533   * Returns any of ICE_XDP_{PASS, CONSUMED, TX, REDIR}
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  534   */
-55a1a17189d7a5 Maciej Fijalkowski     2025-01-20  535  static u32
-e72bba21355dbb Maciej Fijalkowski     2021-08-19  536  ice_run_xdp(struct ice_rx_ring *rx_ring, struct xdp_buff *xdp,
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  537  	    struct bpf_prog *xdp_prog, struct ice_tx_ring *xdp_ring,
-55a1a17189d7a5 Maciej Fijalkowski     2025-01-20  538  	    union ice_32b_rx_flex_desc *eop_desc)
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04 @539  {
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  540  	unsigned int ret = ICE_XDP_PASS;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  541  	u32 act;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  542  
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  543  	if (!xdp_prog)
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  544  		goto exit;
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  545  
-d951c14ad237b0 Larysa Zaremba         2023-12-05  546  	ice_xdp_meta_set_desc(xdp, eop_desc);
-d951c14ad237b0 Larysa Zaremba         2023-12-05  547  
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  548  	act = bpf_prog_run_xdp(xdp_prog, xdp);
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  549  	switch (act) {
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  550  	case XDP_PASS:
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  551  		break;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  552  	case XDP_TX:
-22bf877e528f68 Maciej Fijalkowski     2021-08-19  553  		if (static_branch_unlikely(&ice_xdp_locking_key))
-22bf877e528f68 Maciej Fijalkowski     2021-08-19  554  			spin_lock(&xdp_ring->tx_lock);
-055d0920685e53 Alexander Lobakin      2023-02-10  555  		ret = __ice_xmit_xdp_ring(xdp, xdp_ring, false);
-22bf877e528f68 Maciej Fijalkowski     2021-08-19  556  		if (static_branch_unlikely(&ice_xdp_locking_key))
-22bf877e528f68 Maciej Fijalkowski     2021-08-19  557  			spin_unlock(&xdp_ring->tx_lock);
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  558  		if (ret == ICE_XDP_CONSUMED)
-89d65df024c599 Magnus Karlsson        2021-05-10  559  			goto out_failure;
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  560  		break;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  561  	case XDP_REDIRECT:
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  562  		if (xdp_do_redirect(rx_ring->netdev, xdp, xdp_prog))
-89d65df024c599 Magnus Karlsson        2021-05-10  563  			goto out_failure;
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  564  		ret = ICE_XDP_REDIR;
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  565  		break;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  566  	default:
-c8064e5b4adac5 Paolo Abeni            2021-11-30  567  		bpf_warn_invalid_xdp_action(rx_ring->netdev, xdp_prog, act);
-4e83fc934e3a04 Bruce Allan            2020-01-22  568  		fallthrough;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  569  	case XDP_ABORTED:
-89d65df024c599 Magnus Karlsson        2021-05-10  570  out_failure:
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  571  		trace_xdp_exception(rx_ring->netdev, xdp_prog, act);
-4e83fc934e3a04 Bruce Allan            2020-01-22  572  		fallthrough;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  573  	case XDP_DROP:
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  574  		ret = ICE_XDP_CONSUMED;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  575  	}
-1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  576  exit:
-55a1a17189d7a5 Maciej Fijalkowski     2025-01-20  577  	return ret;
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  578  }
-efc2214b6047b6 Maciej Fijalkowski     2019-11-04  579  
+  1886	
+  1887	static void btree_node_scrub_work(struct work_struct *work)
+  1888	{
+  1889		struct btree_node_scrub *scrub = container_of(work, struct btree_node_scrub, work);
+  1890		struct bch_fs *c = scrub->c;
+  1891		struct printbuf err = PRINTBUF;
+  1892	
+  1893		__bch2_btree_pos_to_text(&err, c, scrub->btree, scrub->level,
+  1894					 bkey_i_to_s_c(scrub->key.k));
+  1895		prt_newline(&err);
+  1896	
+  1897		if (!btree_node_scrub_check(c, scrub->buf, scrub->written, &err)) {
+  1898			struct btree_trans *trans = bch2_trans_get(c);
+  1899	
+  1900			struct btree_iter iter;
+  1901			bch2_trans_node_iter_init(trans, &iter, scrub->btree,
+  1902						  scrub->key.k->k.p, 0, scrub->level - 1, 0);
+  1903	
+  1904			struct btree *b;
+  1905			int ret = lockrestart_do(trans, PTR_ERR_OR_ZERO(b = bch2_btree_iter_peek_node(&iter)));
+  1906			if (ret)
+  1907				goto err;
+  1908	
+  1909			if (bkey_i_to_btree_ptr_v2(&b->key)->v.seq == scrub->seq) {
+  1910				bch_err(c, "error validating btree node during scrub on %s at btree %s",
+  1911					scrub->ca->name, err.buf);
+  1912	
+  1913				ret = bch2_btree_node_rewrite(trans, &iter, b, 0);
+  1914			}
+  1915	err:
+  1916			bch2_trans_iter_exit(trans, &iter);
+  1917			bch2_trans_begin(trans);
+  1918			bch2_trans_put(trans);
+  1919		}
+  1920	
+  1921		printbuf_exit(&err);
+> 1922		bch2_bkey_buf_exit(&scrub->key, c);;
+  1923		btree_bounce_free(c, c->opts.btree_node_size, scrub->used_mempool, scrub->buf);
+  1924		percpu_ref_put(&scrub->ca->io_ref);
+  1925		kfree(scrub);
+  1926		bch2_write_ref_put(c, BCH_WRITE_REF_btree_node_scrub);
+  1927	}
+  1928	
 
 -- 
 0-DAY CI Kernel Test Service
