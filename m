@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1B223A9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 21:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426D11F0E28
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 21:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737409552; cv=none; b=ihDLi7qadgFM8MNMXmyVhtl1t4cAFAZs+8O/NOQxCiu2mBCeB6gD9gpbajEaUqsF5fFtR+3NfSRhnVf84sVhIxTic96lkeaBnL0+GYR/FcyJ63YukKy9aAJzyGl2+ltn0fRNBgAY+aPSI3VeJZRIvtpe3Dahr5y9McbxdFleWKc=
+	t=1737410220; cv=none; b=rJ4gDh6OP0Ol7Thc/z6XSQ5rIdt/JFpAV/YkX2UAEHKF8Z1w48Ny2WcpUdlkwQEL+wX4KtbPhekuy0+yR7J/Dezj9ZlrCQ4KdytkDYNDBz7x6km3dUGZ6SH02/kPh/mHbzOu3R7K6kVJts+Ry/J3jCiHp4waeZlljFrzLDxBG6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737409552; c=relaxed/simple;
-	bh=NDP5a54O7REUaDj5VLJ0s1/UqSeheP0HyOGAD9F9RF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PxE4jmZAgpODMW8zo0GwxFl6UAKU0r3q6HCS/pCdSN091h+w6XukYR2ljxF+5zpWHSe1JgME+4f9XOPVEL9dHEv3Tk7sLAh4nLyf5C/RFa8esbeA11YNcAsMlOGwZh2dvSvjU4zXhUXUiQnB01CsGx6xnOBojyhsCAasxYaY87o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NasUhsFH; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1737410220; c=relaxed/simple;
+	bh=+EFqRv2B6bqOUlGn1H//PxFNhb+WsAIIPmOfXe+iHC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z3e+EFyeQ2/EVwU1sPTh/1536A6xZZidng2C2LAKoJkUo3HRv5O8WcqG1v4a0kN1pYceyOkz5xatdJxOz4x561ID/6Tn/2q7VlV1E90hbUK1fPM8OizFQRDeTAgJO0TJF06jnyXvUpTpgczsR5A/vmaKa4KV1FgMowWHwemDwic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRRUpCKG; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NasUhsFH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRRUpCKG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737409551; x=1768945551;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NDP5a54O7REUaDj5VLJ0s1/UqSeheP0HyOGAD9F9RF4=;
-  b=NasUhsFHXgMLruppXt0JkhM419K3cbNA1tHtgd8399I7s8K0UZ47Maq4
-   d5CFAt7BJZBU0GswQkJpLSrctJIoY9Ogb1tnPVyKZWF/0NFpnhYuVRXGC
-   XsHMWJfgzsuYrX0auEsus3uVUvFpbY63PhAHFweA83d4+KJTAWI+IxTLk
-   Ml90FfASRjO8QtB+JO127QIbPPxUPhwzrAJ4FoO6IqBe5jGX1RQeQInqQ
-   Et38r8cTLpS6UNAH3sVBdfJInlDpdKJlregemj+rTzy8/RmfqH3JsoTk1
-   bQKrX/bmP44uNIzVl/yUC+cagwvRFwfcblmbbLrtvAU6Sn7ckRCQyPqXx
-   Q==;
-X-CSE-ConnectionGUID: CByCk29kTAa1zF5boeOygQ==
-X-CSE-MsgGUID: issQRvPRQ5SwQFLgIbTrZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="48477511"
+  t=1737410218; x=1768946218;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+EFqRv2B6bqOUlGn1H//PxFNhb+WsAIIPmOfXe+iHC8=;
+  b=fRRUpCKGDIbLz09/ETXMPd5weP9cXTRgo9xY612Z/B29ltJbWQUIs+hr
+   gN/h5BcZsP9fak3ToiMXA+ETqoU0sRKoyHDisRzw9IT3y8CG5NzJHf+QP
+   NAxDNYICF2A0aL9xW8D/NX+Hkt6aODM7PZsRsT3os6rbEZ4wUbLaq42Ev
+   A+8elXtNE5CZNzcQCNCVqrKCDp49eAz/tefh2XAVebdY7CeDF+ua842os
+   3ZigRZIP2ZTAFJEgYHxqM+7QBTA9B+ghAsB/btPuljuVZUmHaZKDs4fuk
+   F/nzvQqR6QwSmzmAWjMIFNa8whLjW9HZ7Fa29AYe/DLzHJvl7Ljssi8w2
+   A==;
+X-CSE-ConnectionGUID: pnZE6nx2TxWh4Mjq72OQdg==
+X-CSE-MsgGUID: jpmA6g/lTX6CHp0WHyS++w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="40629211"
 X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="48477511"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 13:45:50 -0800
-X-CSE-ConnectionGUID: V1ezzcA5RCuJc1j87YdWIg==
-X-CSE-MsgGUID: iKeVZQZwRnisEZsKcbxetw==
+   d="scan'208";a="40629211"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 13:56:58 -0800
+X-CSE-ConnectionGUID: laPeCXdRQ/G3Fm2+VJSATA==
+X-CSE-MsgGUID: ZjP2SWxcQoqHHk8fpcJepg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111714742"
+X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
+   d="scan'208";a="111612110"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 20 Jan 2025 13:45:49 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 20 Jan 2025 13:56:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZzac-000XCF-2c;
-	Mon, 20 Jan 2025 21:45:46 +0000
-Date: Tue, 21 Jan 2025 05:44:58 +0800
+	id 1tZzlL-000XGZ-2v;
+	Mon, 20 Jan 2025 21:56:51 +0000
+Date: Tue, 21 Jan 2025 05:56:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
+To: Christian Hewitt <christianshewitt@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 9182/10024] kernel/trace/trace_events.c:3583:13:
- error: conflicting types for 'update_cache'; have 'void(struct trace_array
- *, struct module *)'
-Message-ID: <202501210550.Ufrj5CRn-lkp@intel.com>
+Subject: Re: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
+Message-ID: <202501210513.GCec6kts-lkp@intel.com>
+References: <20250110074458.3624094-3-christianshewitt@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +73,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250110074458.3624094-3-christianshewitt@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1573c8d4cb206a2d1454ff711e79f8df2353290b
-commit: b355247df104ef6644288884afd2c08b7bf49897 [9182/10024] tracing: Cache ":mod:" events for modules not loaded yet
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250121/202501210550.Ufrj5CRn-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210550.Ufrj5CRn-lkp@intel.com/reproduce)
+Hi Christian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.13 next-20250120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/Revert-drm-meson-vclk-fix-calculation-of-59-94-fractional-rates/20250110-154701
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250110074458.3624094-3-christianshewitt%40gmail.com
+patch subject: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
+config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501210550.Ufrj5CRn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210513.GCec6kts-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> kernel/trace/trace_events.c:3583:13: error: conflicting types for 'update_cache'; have 'void(struct trace_array *, struct module *)'
-    3583 | static void update_cache(struct trace_array *tr, struct module *mod)
-         |             ^~~~~~~~~~~~
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from include/linux/security.h:33,
-                    from kernel/trace/trace_events.c:15:
-   arch/openrisc/include/asm/pgtable.h:380:13: note: previous declaration of 'update_cache' with type 'void(struct vm_area_struct *, long unsigned int,  pte_t *)'
-     380 | extern void update_cache(struct vm_area_struct *vma,
-         |             ^~~~~~~~~~~~
-
-
-vim +3583 kernel/trace/trace_events.c
-
-  3576	
-  3577	#define for_each_event(event, start, end)			\
-  3578		for (event = start;					\
-  3579		     (unsigned long)event < (unsigned long)end;		\
-  3580		     event++)
-  3581	
-  3582	#ifdef CONFIG_MODULES
-> 3583	static void update_cache(struct trace_array *tr, struct module *mod)
-  3584	{
-  3585		struct event_mod_load *event_mod, *n;
-  3586	
-  3587		list_for_each_entry_safe(event_mod, n, &tr->mod_events, list) {
-  3588			if (strcmp(event_mod->module, mod->name) != 0)
-  3589				continue;
-  3590	
-  3591			__ftrace_set_clr_event_nolock(tr, event_mod->match,
-  3592						      event_mod->system,
-  3593						      event_mod->event, 1, mod->name);
-  3594			free_event_mod(event_mod);
-  3595		}
-  3596	}
-  3597	
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/gpib/fmh_gpib/fmh_gpib.o
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/meson/meson-drm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
