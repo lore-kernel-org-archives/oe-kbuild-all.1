@@ -1,142 +1,143 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DB9191F95
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 08:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC82C191F8C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 08:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737360696; cv=none; b=HeyiMYnAtQUcdnjYSUPbX9vcZTidIj15gqhDJVrye46x2YY9ZLF49p6yOToKWWKLTK6tnxvkqeoROl5ymeqADLAXhbxJf5fiIoPUGD4CcNSBXSZJBbI7vv1xpzOL1d6YPIDnzkSD2t15SknngF2jYxof3krcYNRzveYTVdgr0mk=
+	t=1737360913; cv=none; b=e4fUSzC/LbxuyTlzJEHT/w2qkBfXnyhL4J//AgG9OLFvhKiOvLcVJxGAsq8pbIbeZPNq1t2bz0jpqCFAcwUKtck5d2ljy2Udwhthyzs+u+CP1DktaZ+UGDYmSq0yzmx04xa5BIOyycAUaYFFYeXcGZnTyexXa1/qsrr4LS237hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737360696; c=relaxed/simple;
-	bh=tK2iXLw3ZThRiJ38t2TxUZvQanF4q8buaiurqMWdntQ=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=ayKgA2Ksu6W49Bsw8zrYQyW4q5K0WRwn4JxID2kFL5we1iz+mqWmbAbu2zfqMZKJ5wRgBpBr1x44ejx9vzRi6ImbuImokUYVSs5ybLhoqonH+UFgRQDxaCmL31pnNnUk/rJfQ31WPvoXPP9Q64wjJcUnm1TBIp4NL38WDm1tDhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 69815298562;
-	Mon, 20 Jan 2025 09:11:30 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id eNJJWlL0oQpn; Mon, 20 Jan 2025 09:11:29 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 908DF298563;
-	Mon, 20 Jan 2025 09:11:29 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id X_ktKf3Hwj9g; Mon, 20 Jan 2025 09:11:29 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 6AFAA298562;
-	Mon, 20 Jan 2025 09:11:29 +0100 (CET)
-Date: Mon, 20 Jan 2025 09:11:29 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: chengzhihao1 <chengzhihao1@huawei.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Rickard X Andersson <rickard.andersson@axis.com>, 
-	oe-kbuild-all <oe-kbuild-all@lists.linux.dev>
-Message-ID: <718606717.252982643.1737360689238.JavaMail.zimbra@nod.at>
-In-Reply-To: <dc4471c5-4181-2c0b-1232-b588c962da93@huawei.com>
-References: <202501191405.WYnmdL0U-lkp@intel.com> <304509708.249444175.1737297579621.JavaMail.zimbra@nod.at> <dc4471c5-4181-2c0b-1232-b588c962da93@huawei.com>
-Subject: Re: [rw-ubifs:next 7/7] arch/riscv/include/asm/uaccess.h:33:9:
- error: cast specifies array type
+	s=arc-20240116; t=1737360913; c=relaxed/simple;
+	bh=qNU2pgojq4RxHg/p3aNjSgeJllAWkcFz7GgDPZJb/cI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IzPGOxmyNSwSj7MlF0oKHRUIBUeuupYgOJinjwqympTpg2MtcYLQ13F8aaaLn/4iFf20mkIfIrNf61cCA1Z+w+1UMtAGiEa5QDv/8Wj4PnfJT//ROwGPI1rqaEOLjNkr8kx3gFnoTYjHpdCrOAhr500koVoPywS+Vb1ExhQfTx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sM4LeFBM; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sM4LeFBM"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43635796b48so26024395e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 00:15:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737360909; x=1737965709; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=A09ktfAOPPyu9exFxifvfSR4TKmqpkMAIRIJNi7aCSI=;
+        b=sM4LeFBMZPZJKYXwXelGNl2c7nI3Ew2Uz2PswT6ewlQSC/Svi0HM+slYZbJLjO2stz
+         CV6CZ8+cTxESHoxlrFyt1Qrr+KSLD6xo/CyQIGF2WImVsfctm1a1HN+9lx8S2KY/A35f
+         bvlETsGD5gp6oX+KcIFLoohZ+a0cEtoIx0uAhdfCRMB0qnxhFlMOXKOOBcWtUTWddk49
+         1TTR+r5zdNmNOpK60otZqZlarQVCfYPuk+7MR1irpAYbjk70lHLqDagI6WkQplioagWa
+         yksqWRC1yDOVbHx5ZrqKv4K0rYp+KQ2qah806+TxXFk3mmX3o7wsH5BlPL3FDh16+D8I
+         jNGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737360909; x=1737965709;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A09ktfAOPPyu9exFxifvfSR4TKmqpkMAIRIJNi7aCSI=;
+        b=jMikh+ohdqPjYzWHBrl8QM8exucMObEGlvn6GivfPZDf2U6tyyfueXswV8NDgDQati
+         2J6BUaGI/NV1bSQTrKQ9iZ4tg8nJeXat8S52qCXhziuYCKSFb+RH/aBCCSnq82aeEufw
+         Ro03jcZnBbIUA76O61vJy/XsvmJ24UYksO3NGdqmY5ReLSHS5tyRSnOjzmJZSFV+st3C
+         ejPaLIz1SUlceJpQbzlG5sMF5wRnvcfIIBfnA3gN+q+6oe0Ovme0usZRsLKoCOOf2qOk
+         R+4TIhEjZ8peyLBqF//EKYhmn2IdNNuMHHOCNIwjlOHVKCLC5EZVSNS0k/lYiRKkd3wL
+         TLZg==
+X-Forwarded-Encrypted: i=1; AJvYcCXG81pregBwVM9mLojZF1kYBo8aIEzhfAVPiLBcWfV2zZTSypJm23WZQ2umQehAiNSHufTkJ0aSvcVWdhvb@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTLt5H3HepfsUhedbzGJR8il2y0J1sMH4m592/RtLAs8wubbuM
+	aGKvvE/0yZ+ZMpK2kuSNjplUU/RwwNJNIRYplNXxqFa2UIZn7e7yZyaLZom/e00=
+X-Gm-Gg: ASbGncuzx7WtQNQFMY/hWeuSpmsiFkpKuwA7AfOmd/42gibabiO6pJObXl0+HzdAyY7
+	92RrjDfJfjN7x/dYuE7c6k1jWW3HvETEB9qAugCz24VIxsTl8wJ5DARKEo3aqSpI+7g/CiHTKxo
+	JZSrFnvbKbEjsDmvn++0b3GOvZOcevRrJ60nIpzl6YiSUUBrQR6vAU5or7WYeV/IThTPsTU6e2B
+	e2Di5mmZ3Bf8Sb3JIho7p40ckjgkrTNlwLQHUskorrGeN/5db+xTxIuht+RQ/rD02Hh8kdrzwk=
+X-Google-Smtp-Source: AGHT+IEWHv9ynMnrEE8ZJOOYjOCTr5BrSCFg9p7EuLheqv8DchREXYYPN0l/9TjEXyDyPhS98pE9uA==
+X-Received: by 2002:a05:600c:4452:b0:436:e3ea:64dd with SMTP id 5b1f17b1804b1-437c6b2dd76mr176517855e9.11.1737360909177;
+        Mon, 20 Jan 2025 00:15:09 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43890462195sm128375705e9.30.2025.01.20.00.15.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2025 00:15:08 -0800 (PST)
+Date: Mon, 20 Jan 2025 11:15:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>,
+	Georgi Djakov <djakov@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Odelu Kukatla <quic_okukatla@quicinc.com>,
+	Mike Tipton <mdptipton@quicinc.com>,
+	Vivek Aknurwar <viveka@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Sibi Sankar <quic_sibis@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V7 1/5] interconnect: core: Add dynamic id allocation
+ support
+Message-ID: <0bca7854-aa27-48c6-8612-bcecc7b68c65@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF133 (Linux)/8.8.12_GA_3809)
-Thread-Topic: arch/riscv/include/asm/uaccess.h:33:9: error: cast specifies array type
-Thread-Index: J9PhhBY2Ktr6pW55wTZOPP5tUK0pyw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250111161429.51-2-quic_rlaggysh@quicinc.com>
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "chengzhihao1" <chengzhihao1@huawei.com>
-> An: "richard" <richard@nod.at>, "kernel test robot" <lkp@intel.com>
-> CC: "Rickard X Andersson" <rickard.andersson@axis.com>, "oe-kbuild-all" <=
-oe-kbuild-all@lists.linux.dev>
-> Gesendet: Montag, 20. Januar 2025 05:55:39
-> Betreff: Re: [rw-ubifs:next 7/7] arch/riscv/include/asm/uaccess.h:33:9: e=
-rror: cast specifies array type
+Hi Raviteja,
 
-> =E5=9C=A8 2025/1/19 22:39, Richard Weinberger =E5=86=99=E9=81=93:
->> ----- Urspr=C3=BCngliche Mail -----
->>> Von: "kernel test robot" <lkp@intel.com>
->>> An: "Rickard X Andersson" <rickard.andersson@axis.com>
->>> CC: "oe-kbuild-all" <oe-kbuild-all@lists.linux.dev>, "richard" <richard=
-@nod.at>,
->>> "chengzhihao1"
->>> <chengzhihao1@huawei.com>
->>> Gesendet: Sonntag, 19. Januar 2025 07:29:22
->>> Betreff: [rw-ubifs:next 7/7] arch/riscv/include/asm/uaccess.h:33:9: err=
-or: cast
->>> specifies array type
->>=20
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git ne=
-xt
->>> head:   01099f635a4c68b8574d350a972ba062dd5142e9
->>> commit: 01099f635a4c68b8574d350a972ba062dd5142e9 [7/7] ubi: Implement i=
-octl for
->>> detailed erase counters
->>> config: riscv-randconfig-001-20250119
->>> (https://download.01.org/0day-ci/archive/20250119/202501191405.WYnmdL0U=
--lkp@intel.com/config)
->>> compiler: riscv64-linux-gcc (GCC) 14.2.0
->>> reproduce (this is a W=3D1 build):
->>> (https://download.01.org/0day-ci/archive/20250119/202501191405.WYnmdL0U=
--lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes:
->>> | https://lore.kernel.org/oe-kbuild-all/202501191405.WYnmdL0U-lkp@intel=
-.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>    In file included from include/linux/build_bug.h:5,
->>>                     from include/linux/container_of.h:5,
->>>                     from include/linux/list.h:5,
->>>                     from include/linux/module.h:12,
->>>                     from drivers/mtd/ubi/cdev.c:25:
->>>    drivers/mtd/ubi/cdev.c: In function 'ubi_get_ec_info':
->>>>> arch/riscv/include/asm/uaccess.h:33:9: error: cast specifies array ty=
-pe
->>>       33 |         (__force __typeof__(addr))__untagged_addr_remote(cur=
-rent->mm,
->>>       __addr);  \
->>>          |         ^
->>>    include/linux/compiler.h:76:45: note: in definition of macro 'likely=
-'
->>>       76 | # define likely(x)      __builtin_expect(!!(x), 1)
->>>          |                                             ^
->>>    arch/riscv/include/asm/uaccess.h:42:50: note: in expansion of macro
->>>    'untagged_addr'
->>>       42 | #define access_ok(addr, size) likely(__access_ok(untagged_ad=
-dr(addr),
->>>       size))
->>>          |                                                  ^~~~~~~~~~~=
-~~
->>>    drivers/mtd/ubi/cdev.c:854:14: note: in expansion of macro 'access_o=
-k'
->>>      854 |         if (!access_ok(ureq->erase_counters, (end_peb-req.st=
-art) *
->>>      sizeof(int32_t)))
->>=20
->> I think we need a cast to (void __user *) here.
->=20
-> Right, the root cause is that return value(unsigned long type) of
-> funtion __untagged_addr_remote() is converted to the array type, so
-> making a cast for the input parameter in advance is a solution. I sent a
-> fix patch in
-> https://lore.kernel.org/linux-mtd/20250120043824.128102-1-chengzhihao1@hu=
-awei.com/T/#u
+kernel test robot noticed the following build warnings:
 
-Thx for the patch, I have applied it.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-//richard
+url:    https://github.com/intel-lab-lkp/linux/commits/Raviteja-Laggyshetty/interconnect-core-Add-dynamic-id-allocation-support/20250112-001756
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250111161429.51-2-quic_rlaggysh%40quicinc.com
+patch subject: [PATCH V7 1/5] interconnect: core: Add dynamic id allocation support
+config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250120/202501201530.UTAPd4lC-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202501201530.UTAPd4lC-lkp@intel.com/
+
+smatch warnings:
+drivers/interconnect/core.c:889 icc_node_create_alloc_id() warn: inconsistent returns 'global &icc_lock'.
+
+vim +889 drivers/interconnect/core.c
+
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  867  struct icc_node *icc_node_create_alloc_id(int start_id)
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  868  {
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  869  	struct icc_node *node;
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  870  	int id;
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  871  
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  872  	mutex_lock(&icc_lock);
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  873  
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  874  	node = kzalloc(sizeof(*node), GFP_KERNEL);
+
+Do this allocation before taking the mutex_lock(&icc_lock).  Otherwise
+you'd have to unlock before returning.
+
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  875  	if (!node)
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  876  		return ERR_PTR(-ENOMEM);
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  877  
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  878  	id = idr_alloc(&icc_idr, node, start_id, 0, GFP_KERNEL);
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  879  	if (id < 0) {
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  880  		WARN(1, "%s: couldn't get idr\n", __func__);
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  881  		kfree(node);
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  882  		node = ERR_PTR(id);
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  883  		goto out;
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  884  	}
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  885  	node->id = id;
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  886  out:
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  887  	mutex_unlock(&icc_lock);
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  888  
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11 @889  	return node;
+65971f5d716cb8 Raviteja Laggyshetty 2025-01-11  890  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
