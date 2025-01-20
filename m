@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7C2195F0D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 23:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4CE185920
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 23:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737415880; cv=none; b=QAJR3xPbxBbbW3lbnrcRRqLuGwXivZFd/aV2UdsOby4wd/WMDOTYDGC00dGY0VjtZUabOyXPkeXPvwqFAaXlca1xMbWJ8cvmrhIrnuk/ytZxp++GToOgbSGOukmRD63BhhMqzvm1JsqnRhoRTCHcsR2MUyRzwcLx2DI55ZHGTHg=
+	t=1737416486; cv=none; b=uviucTiYWHcuewxsL2IMRNCWfvnS0ojqYcqYL+K/lCEd6wyNjGMaiBU4AYSX5W3m0TKaacHvVzz6Jj7RCYFYNI38ojZ+RwLXvSZcK1ky86UEuETGWm4u9DvrxA1OGv8mMNP9waL3nwYHU/+B8PmVcFMVYghW1Xtbb31077h2/nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737415880; c=relaxed/simple;
-	bh=7b/OCMsK+uN3WypvqHlkhaxGFE05DtW6dgZOsSSvZrc=;
+	s=arc-20240116; t=1737416486; c=relaxed/simple;
+	bh=yT+DQpT4VPlJiV7GZM6yoJ2gVD4c/iGfEnMDo1CZ594=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PZORXoueEaQuILbxWKDeUc3sS2Ii8SDovB8V6jri09Kw4U/Zf+436jzA3Oupc4u76w5R6ttF8gADjOaBKeD3IjpDFtj9+DNQp7bfaVV8Pt2afJSB4H73GNqKctGk6ZHRp2qwgNR8lltSSVnXlY8j0MYNOrxJq/y931Rfm5/7yaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mh1yORPl; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Xh3U8a4dJXCjaHXh8VCmHZG6223kBvfTDOtFchIs1AB5Qj62e2Dw4eyQwlcInvLscBcRB0HWxy3IOzzSR35Nrai/GJjy9BDnxby95GDKCcI2icpFNeDEfVxkgk1x7zaPGtp9DNjoP0mjeeSv8ofHYUByg7Ew0FVK74YqkNvIkKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hbEyD3VX; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mh1yORPl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbEyD3VX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737415879; x=1768951879;
+  t=1737416485; x=1768952485;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7b/OCMsK+uN3WypvqHlkhaxGFE05DtW6dgZOsSSvZrc=;
-  b=mh1yORPlVbvGo1TkFVSzFSdtEdy0Qq1BqcWu5L4GDTcBWwcmPaYQ6fvW
-   eiDXsZ5JACURaRgM4yMI03qCyOkFgu2NHug6qZMKR9HMAepqFTQEhu0Y1
-   lHPLPPpWLV5YkyB2QSJ24f1KwS+uiYn7gZ2hkzolqZooVyPyWoKsqbR/O
-   WihWqFs+c8VufFkOMrnBFniVcAb0VvsEeBRMdT23eZW9t8Pb90idkp2qX
-   qTqk1jHOm2kTKCirRf9oDxFAL+5fT9GJkeAHom3V89zlsFtS0NMdz3Twl
-   xJyQLtpgwSlCT9EL79HIpJXPloISDMuUkeXIYmyQTrRu4e8q3n1D8H1iq
-   w==;
-X-CSE-ConnectionGUID: 2h1nxK8DRDmcpyt/KR1TmQ==
-X-CSE-MsgGUID: g9GTNOvxQmWnugtgI1vYpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="63184901"
-X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="63184901"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 15:31:18 -0800
-X-CSE-ConnectionGUID: KgoQ2Q8EQhu+CH/pdgUqPw==
-X-CSE-MsgGUID: CzdLW8rNR56FdwV78D4IxA==
+  bh=yT+DQpT4VPlJiV7GZM6yoJ2gVD4c/iGfEnMDo1CZ594=;
+  b=hbEyD3VXginWPEYzGdC+d6GhT+/3oan7X0mFZuWP3Vc+c/Ik9pzCdeMd
+   B/8LiGDTHfZH1n3uLYo9ROP7GqhTgurETmSmoW2nGYspW1cw4UO/68+S/
+   aWF5M4YQHwjAFM0KnbXz6DFnC5I51vBRvN33dLAno7rgLEFlD0RUGAw9M
+   T3LrgGZEOKzHgY2NnrvubmMwcrCIkTjk6SH2hKIe5GvbFB/znVgiudlrM
+   chLvC6mxSvjkKJ1fc2OE4UxYTiM5tAlAkPglQCCOubwixXeJ9QNMKgAjR
+   32v9LDDK/jDRbKcfX9zPqBmoCIsy8ly1yUdpxdOfR8C9aO0ZxfqAt1wIk
+   Q==;
+X-CSE-ConnectionGUID: 85amXX/bS6uQShYFLNCPhg==
+X-CSE-MsgGUID: RKwzTntOTK6gk3sQVLZ1dw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37928695"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="37928695"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 15:41:24 -0800
+X-CSE-ConnectionGUID: 3itKMtI3QW6c8oL8cdF3qA==
+X-CSE-MsgGUID: 4MDTP2t6SOGmGHExDv/9Gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111731306"
+   d="scan'208";a="107070915"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 20 Jan 2025 15:31:16 -0800
+  by orviesa007.jf.intel.com with ESMTP; 20 Jan 2025 15:41:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ta1Eg-000XM3-0b;
-	Mon, 20 Jan 2025 23:31:14 +0000
-Date: Tue, 21 Jan 2025 07:30:19 +0800
+	id 1ta1OS-000XMB-1w;
+	Mon, 20 Jan 2025 23:41:20 +0000
+Date: Tue, 21 Jan 2025 07:40:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 336/336]
- drivers/soc/mediatek/mtk-mbox.c:23:6: sparse: sparse: symbol
- 'mtk_memcpy_to_tinysys' was not declared. Should it be static?
-Message-ID: <202501210757.QDicC5Ft-lkp@intel.com>
+Subject: [android-common:android12-5.10-2024-11 0/2]
+ drivers/staging/android/debug_kinfo.c:154:33: error: offsetof of incomplete
+ type 'struct module'
+Message-ID: <202501210720.gVniQkzv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,180 +63,172 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1f4dbd9903f644aa6c511f8a1e145ec3f4915d3a
-commit: 0b263763b3a9ab1dd29c899035ef2660eea35d14 [336/336] CHROMIUM: mailbox: add tinysys mailbox
-config: arm64-randconfig-r131-20250121 (https://download.01.org/0day-ci/archive/20250121/202501210757.QDicC5Ft-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2024-11
+head:   166086404cf0b7721886efbc7e0fa2b98544ed91
+commit: b8f0143948f8c85965945691b7361f34ee848bc7 [0/2] ANDROID: kernel: add module info for debug_kinfo
+config: x86_64-buildonly-randconfig-002-20250121 (https://download.01.org/0day-ci/archive/20250121/202501210720.gVniQkzv-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce: (https://download.01.org/0day-ci/archive/20250121/202501210757.QDicC5Ft-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210720.gVniQkzv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501210757.QDicC5Ft-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210720.gVniQkzv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/mediatek/mtk-mbox.c:23:6: sparse: sparse: symbol 'mtk_memcpy_to_tinysys' was not declared. Should it be static?
->> drivers/soc/mediatek/mtk-mbox.c:46:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   drivers/soc/mediatek/mtk-mbox.c:46:36: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/soc/mediatek/mtk-mbox.c:46:36: sparse:     got unsigned int [usertype] *
->> drivers/soc/mediatek/mtk-mbox.c:39:6: sparse: sparse: symbol 'mtk_memcpy_from_tinysys' was not declared. Should it be static?
->> drivers/soc/mediatek/mtk-mbox.c:137:18: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/soc/mediatek/mtk-mbox.c:563:44: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/soc/mediatek/mtk-mbox.c:747:29: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/soc/mediatek/mtk-mbox.c:756:29: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/soc/mediatek/mtk-mbox.c:762:29: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/soc/mediatek/mtk-mbox.c:770:29: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/soc/mediatek/mtk-mbox.c:778:29: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/soc/mediatek/mtk-mbox.c:786:29: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/soc/mediatek/mtk-mbox.c:46:28: sparse: sparse: dereference of noderef expression
->> drivers/soc/mediatek/mtk-mbox.c:46:28: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +/mtk_memcpy_to_tinysys +23 drivers/soc/mediatek/mtk-mbox.c
+   In file included from drivers/staging/android/debug_kinfo.c:10:
+   In file included from include/linux/kallsyms.h:12:
+   In file included from include/linux/mm.h:1556:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/staging/android/debug_kinfo.c:154:33: error: offsetof of incomplete type 'struct module'
+     154 |         info->mod_core_layout_offset = offsetof(struct module, core_layout);
+         |                                        ^        ~~~~~~
+   include/linux/stddef.h:17:32: note: expanded from macro 'offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^                   ~~~~
+   include/linux/compiler_types.h:135:35: note: expanded from macro '__compiler_offsetof'
+     135 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^                  ~
+   arch/x86/include/asm/alternative.h:76:8: note: forward declaration of 'struct module'
+      76 | struct module;
+         |        ^
+   drivers/staging/android/debug_kinfo.c:155:33: error: offsetof of incomplete type 'struct module'
+     155 |         info->mod_init_layout_offset = offsetof(struct module, init_layout);
+         |                                        ^        ~~~~~~
+   include/linux/stddef.h:17:32: note: expanded from macro 'offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^                   ~~~~
+   include/linux/compiler_types.h:135:35: note: expanded from macro '__compiler_offsetof'
+     135 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^                  ~
+   arch/x86/include/asm/alternative.h:76:8: note: forward declaration of 'struct module'
+      76 | struct module;
+         |        ^
+   drivers/staging/android/debug_kinfo.c:156:30: error: offsetof of incomplete type 'struct module'
+     156 |         info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
+         |                                     ^        ~~~~~~
+   include/linux/stddef.h:17:32: note: expanded from macro 'offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^                   ~~~~
+   include/linux/compiler_types.h:135:35: note: expanded from macro '__compiler_offsetof'
+     135 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^                  ~
+   arch/x86/include/asm/alternative.h:76:8: note: forward declaration of 'struct module'
+      76 | struct module;
+         |        ^
+   1 warning and 3 errors generated.
 
-    16	
-    17	/*
-    18	 * memory copy to tiny
-    19	 * @param dest: dest address
-    20	 * @param src: src address
-    21	 * @param size: memory size
-    22	 */
-  > 23	void mtk_memcpy_to_tinysys(void __iomem *dest, const void *src, uint32_t size)
-    24	{
-    25		int i;
-    26		u32 __iomem *t = dest;
-    27		const u32 *s = src;
-    28	
-    29		for (i = 0; i < ((size + 3) >> 2); i++)
-    30			writel(*(s + i), t + i);
-    31	}
-    32	
-    33	/*
-    34	 * memory copy from tiny
-    35	 * @param dest: dest address
-    36	 * @param src: src address
-    37	 * @param size: memory size
-    38	 */
-  > 39	void mtk_memcpy_from_tinysys(void *dest, const void __iomem *src, uint32_t size)
-    40	{
-    41		int i;
-    42		u32 *t = dest;
-    43		const u32 __iomem *s = src;
-    44	
-    45		for (i = 0; i < ((size + 3) >> 2); i++)
-  > 46			writel(*(s + i), t + i);
-    47	}
-    48	
-    49	
-    50	/*
-    51	 * write data to mbox with ipi msg header
-    52	 * function must in critical context
-    53	 */
-    54	int mtk_mbox_write_hd(struct mtk_mbox_device *mbdev, unsigned int mbox,
-    55			unsigned int slot, void *msg)
-    56	{
-    57		unsigned int slot_ofs, size;
-    58		struct mtk_mbox_info *minfo;
-    59		struct mtk_ipi_msg *ipimsg;
-    60		struct device *dev = mbdev->dev;
-    61		void __iomem *base;
-    62		uint32_t len;
-    63		unsigned long flags;
-    64	
-    65		if (!mbdev) {
-    66			dev_err(dev, "[MBOX]write header fail, dev null");
-    67			return MBOX_PLT_ERR;
-    68		}
-    69	
-    70		if (mbox >= mbdev->count || !msg) {
-    71			dev_err(dev, "[MBOX]write header config err");
-    72			return MBOX_PARA_ERR;
-    73		}
-    74	
-    75		minfo = &(mbdev->info_table[mbox]);
-    76		base = minfo->base;
-    77		slot_ofs = slot * MBOX_SLOT_SIZE;
-    78		size = minfo->slot;
-    79		ipimsg = (struct mtk_ipi_msg *)msg;
-    80		len = ipimsg->ipihd.len;
-    81	
-    82		if ((slot_ofs + sizeof(struct mtk_ipi_msg_hd) + len)
-    83			> size * MBOX_SLOT_SIZE)
-    84			return MBOX_WRITE_SZ_ERR;
-    85	
-    86		spin_lock_irqsave(&mbdev->info_table[mbox].mbox_lock, flags);
-    87		/*ipi header and payload*/
-    88		if (mbdev->memcpy_to_tiny) {
-    89			mbdev->memcpy_to_tiny((void __iomem *)(base + slot_ofs),
-    90				ipimsg, sizeof(struct mtk_ipi_msg_hd));
-    91			mbdev->memcpy_to_tiny((void __iomem *)
-    92				(base + slot_ofs + sizeof(struct mtk_ipi_msg_hd)),
-    93				ipimsg->data, len);
-    94		} else {
-    95			mtk_memcpy_to_tinysys((void __iomem *)(base + slot_ofs),
-    96				ipimsg, sizeof(struct mtk_ipi_msg_hd));
-    97			mtk_memcpy_to_tinysys((void __iomem *)
-    98			(base + slot_ofs + sizeof(struct mtk_ipi_msg_hd)),
-    99				ipimsg->data, len);
-   100		}
-   101	
-   102		minfo->record.write_count++;
-   103		spin_unlock_irqrestore(&mbdev->info_table[mbox].mbox_lock, flags);
-   104	
-   105		return MBOX_DONE;
-   106	}
-   107	EXPORT_SYMBOL_GPL(mtk_mbox_write_hd);
-   108	
-   109	/*
-   110	 * read data from mbox with ipi msg header
-   111	 * function must in critical context
-   112	 */
-   113	int mtk_mbox_read_hd(struct mtk_mbox_device *mbdev, unsigned int mbox,
-   114			unsigned int slot, void *dest)
-   115	{
-   116		unsigned int slot_ofs, size;
-   117		struct mtk_mbox_info *minfo;
-   118		struct mtk_ipi_msg_hd *ipihd;
-   119		struct device *dev = mbdev->dev;
-   120		void __iomem *base;
-   121		unsigned long flags;
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+
+
+vim +154 drivers/staging/android/debug_kinfo.c
+
+    92	
+    93	static int debug_kinfo_probe(struct platform_device *pdev)
+    94	{
+    95		struct device_node *mem_region;
+    96		struct reserved_mem *rmem;
+    97		struct kernel_all_info *all_info;
+    98		struct kernel_info *info;
+    99	
+   100		mem_region = of_parse_phandle(pdev->dev.of_node, "memory-region", 0);
+   101		if (!mem_region) {
+   102			dev_warn(&pdev->dev, "no such memory-region\n");
+   103			return -ENODEV;
+   104		}
+   105	
+   106		rmem = of_reserved_mem_lookup(mem_region);
+   107		if (!rmem) {
+   108			dev_warn(&pdev->dev, "no such reserved mem of node name %s\n",
+   109					pdev->dev.of_node->name);
+   110			return -ENODEV;
+   111		}
+   112	
+   113		if (!rmem->base || !rmem->size) {
+   114			dev_warn(&pdev->dev, "unexpected reserved memory\n");
+   115			return -EINVAL;
+   116		}
+   117	
+   118		if (rmem->size < sizeof(struct kernel_all_info)) {
+   119			dev_warn(&pdev->dev, "unexpected reserved memory size\n");
+   120			return -EINVAL;
+   121		}
    122	
-   123		if (!mbdev) {
-   124			dev_err(dev, "[MBOX]read header fail, dev null");
-   125			return MBOX_PLT_ERR;
-   126		}
-   127	
-   128		if (mbox >= mbdev->count || !dest) {
-   129			dev_err(dev, "[MBOX]read header config err");
-   130			return MBOX_PARA_ERR;
-   131		}
-   132	
-   133		minfo = &(mbdev->info_table[mbox]);
-   134		base = minfo->base;
-   135		slot_ofs = slot * MBOX_SLOT_SIZE;
-   136		size = minfo->slot;
- > 137		ipihd = (struct mtk_ipi_msg_hd *)(base + slot_ofs);
-   138	
-   139		if ((slot_ofs + sizeof(struct mtk_ipi_msg_hd) + ipihd->len)
-   140			> size * MBOX_SLOT_SIZE)
-   141			return MBOX_READ_SZ_ERR;
-   142	
-   143		spin_lock_irqsave(&mbdev->info_table[mbox].mbox_lock, flags);
-   144		/*ipi header and payload*/
-   145		if (mbdev->memcpy_from_tiny)
-   146			mbdev->memcpy_from_tiny(dest, (void __iomem *)
-   147				(base + slot_ofs + sizeof(struct mtk_ipi_msg_hd)),
-   148				ipihd->len);
-   149		else
-   150			mtk_memcpy_from_tinysys(dest, (void __iomem *)
-   151				(base + slot_ofs + sizeof(struct mtk_ipi_msg_hd)),
-   152				ipihd->len);
-   153		spin_unlock_irqrestore(&mbdev->info_table[mbox].mbox_lock, flags);
-   154	
-   155		return MBOX_DONE;
-   156	}
-   157	EXPORT_SYMBOL_GPL(mtk_mbox_read_hd);
-   158	
+   123		all_info_addr = rmem->priv;
+   124		all_info_size = rmem->size;
+   125	
+   126		memset(all_info_addr, 0, all_info_size);
+   127		all_info = (struct kernel_all_info *)all_info_addr;
+   128		info = &(all_info->info);
+   129		info->enabled_all = IS_ENABLED(CONFIG_KALLSYMS_ALL);
+   130		info->enabled_base_relative = IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE);
+   131		info->enabled_absolute_percpu = IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU);
+   132		info->enabled_cfi_clang = IS_ENABLED(CONFIG_CFI_CLANG);
+   133		info->num_syms = kallsyms_num_syms;
+   134		info->name_len = KSYM_NAME_LEN;
+   135		info->bit_per_long = BITS_PER_LONG;
+   136		info->module_name_len = MODULE_NAME_LEN;
+   137		info->symbol_len = KSYM_SYMBOL_LEN;
+   138		info->_addresses_pa = (u64)virt_to_phys((volatile void *)kallsyms_addresses);
+   139		info->_relative_pa = (u64)virt_to_phys((volatile void *)kallsyms_relative_base);
+   140		info->_stext_pa = (u64)virt_to_phys(_stext);
+   141		info->_etext_pa = (u64)virt_to_phys(_etext);
+   142		info->_sinittext_pa = (u64)virt_to_phys(_sinittext);
+   143		info->_einittext_pa = (u64)virt_to_phys(_einittext);
+   144		info->_end_pa = (u64)virt_to_phys(_end);
+   145		info->_offsets_pa = (u64)virt_to_phys((volatile void *)kallsyms_offsets);
+   146		info->_names_pa = (u64)virt_to_phys((volatile void *)kallsyms_names);
+   147		info->_token_table_pa = (u64)virt_to_phys((volatile void *)kallsyms_token_table);
+   148		info->_token_index_pa = (u64)virt_to_phys((volatile void *)kallsyms_token_index);
+   149		info->_markers_pa = (u64)virt_to_phys((volatile void *)kallsyms_markers);
+   150		info->thread_size = THREAD_SIZE;
+   151		info->swapper_pg_dir_pa = (u64)virt_to_phys(swapper_pg_dir);
+   152		strlcpy(info->last_uts_release, init_utsname()->release, sizeof(info->last_uts_release));
+   153		info->enabled_modules_tree_lookup = IS_ENABLED(CONFIG_MODULES_TREE_LOOKUP);
+ > 154		info->mod_core_layout_offset = offsetof(struct module, core_layout);
+   155		info->mod_init_layout_offset = offsetof(struct module, init_layout);
+   156		info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
+   157	
+   158		update_kernel_all_info(all_info);
+   159	
+   160		return 0;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
