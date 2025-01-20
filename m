@@ -1,68 +1,60 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380BE18E76F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 07:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4AB1917D0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 07:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737357984; cv=none; b=Fazy+JgWWRmHAR69koLXdEUQGUVw9m3vzhcT4knaJlsmlPcw6oauhmxFe051Wx1GUCcbxB3TeX6d/L7y2UploO/LbuGa3B/rxgalYmomQtjDV8jU64o2WikR8Ie4nvTHp59jAdI2pxkjmFdZY6MiKuOfpAt6o3Mh3+87Wj16pCk=
+	t=1737359919; cv=none; b=ZhK78M0nIM6LJQO2Coj5/YnLp5ntv026WXzueRT5ZMGY9/bhnbiLrFa2rMm1XCRUZ65KLYTsu9qm+BUuR6tNhgqrlSy+2foVfQlYCy2fn8PrMXvGeEL77Qp9l6nhZlWLcC6h7vgPJPv8gPsyZxPwAhKULB35IEnr+/OwF7zxMzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737357984; c=relaxed/simple;
-	bh=NxrX+d+0FJm7uBeq9Nx21TS64oGqyY66R0wlt6V+wKo=;
+	s=arc-20240116; t=1737359919; c=relaxed/simple;
+	bh=yjIzq4zpiGG38DCba2prRE16SgS8V5aQMhkPZPADz4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ZuaDTzdt+HzZtJADDG3IkSKZ7MrPOMlxa8SIJ0A99hfRM8E9PVCAkjgzVOz8976ycypTQYMn5NBjlHlUxndg5AAl+ufajLNzeTAVVnjiYiHmQ1KuxEi3bNw2AB5/fXfZRfxJSuhFxVEjmWSa0ZgYx8AWuouijtJ9doRmoz144L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IBNC5l53; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=BMfLhlVho3RfHC/73k93kvfrqpkB+FdpfaFx72bYicg51/OhVETiz+2ptSA+SHuLUhit7OxH86xow16eYsQJKcOOphndX2EWsaJnbFIVP/97+6eUHDv+ykdfxiHvvlGCtI7MuxPzXGQdpP+tvO5rQdMV6hctuatkc3reUL8Arpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFyHbdUq; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IBNC5l53"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-437a92d7b96so40876405e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jan 2025 23:26:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737357980; x=1737962780; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5NHSYRaPcEvsDMUedKc48IMCuOjSeAPTyPR3Rlj7XW8=;
-        b=IBNC5l535xIzEWfOt2xie/XXbt40Tna0MJ5rGWlmGY3uv8Q0OBAcJWNe5ZIZBIQe6L
-         +fbvbKLn13yxfZBekZDfhNFMAP9LJrerjR0qzZOZkKudi7jcFKbfV0//gnbVlV5PeM8L
-         EzjmEc9gFWiR7BhSyjMYa3MLC6AYwF6Xi2mB928Ls+IMjXLGv6Ge0zI7TALm8PM6Y0TC
-         slCQ0BhT9dVIWJevbrcYzNW4ZmgUmhG68e3Putv29IZT13PQvcifcLJWFiRk7QRVugFP
-         4C0X14H8DLQeXS+ZcAorWaSjLX/jr9kpGWabgMhE+94zaubv03V0SImFXtMODA/BVcsg
-         +7Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737357980; x=1737962780;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5NHSYRaPcEvsDMUedKc48IMCuOjSeAPTyPR3Rlj7XW8=;
-        b=VMBFuoUVtpnaBdsBOQvwPAWTIbipM7uzHX00aQIJvkza7O7MEEUMjtfomtKYtvmckT
-         BIhOVwcoYtfMU8FOz60AjB/QviYZmJH09r10hDqudK/erKCcD8x14bDZv3UUzXyXg6MY
-         +w+S0p/73YGWieM/CRMoT0FiWKZR+oYY4mUqwj7leb+dbAgHQjtB4c0PoBgN/ysp1J7f
-         dn0z3PqjotJk1pHkLTVoOQkDBLI+5ljl0ZyskoAp3sWTazb8e0lbErbwsZdPgY9UCHlE
-         lMB4HA8QW5QEqi/9Q5vDwc9Pwhu61A50NwsO3CUPEkiTSfDcbnGqF8zt0R2ecLvfQkUV
-         crmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWryaopxn8hjg3KCOaHbQ6/pMiiUkA2b/9X4cnP6Q50nPXt4v0c2wUCdFrhA0MZfOBCoPgXDX1Va0uKcXhm@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy91PtA4E6xB2tq6gp+drUpMqipOIgzNGa4Lk2RXSs4tv92qwG3
-	HePoHPfnhwDnRQyzkBNMa+zEHTXVnKIa1OiiJ8YjhJ8PSyuDWJBwh1/U0kF75s8GNCL3wTsHE2M
-	I
-X-Gm-Gg: ASbGncvsX+KSPno9YmkGwBnjEka84JzA4Sg6co/iHuIz9z7agbkrU6hNYdO+aAAsYL5
-	xykeGpLk0NlAsNZ+3q2VSfWCHavTwKHFa2+glpQHuuUSjqh4KSuZ6vgHXlCrmf4XNlq2xADU5z2
-	0hQNG/6YD5IoOFEjQ0xIGzdGDAPq9rn8AEyTPo/ftnfrEJD6cNt/k+7SBQCTwXOLplG199T4Hkx
-	99UDS4eCBT89j5ubKrj+PQg6dcszWp/5bEKFtkPM/OxSxIx/QtxuDAXvT6jTNbDkF6LBkMo98U=
-X-Google-Smtp-Source: AGHT+IFOQ4n65F/+nmAYHyUgPJBiA7g98gePoOtSSWjEuNIrNEx2PNFqoffpLVNeYjrRxM2H4+qstg==
-X-Received: by 2002:a05:6000:1a8b:b0:385:e9ba:acda with SMTP id ffacd0b85a97d-38bf56781a4mr10706340f8f.2.1737357980411;
-        Sun, 19 Jan 2025 23:26:20 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3278088sm9521175f8f.73.2025.01.19.23.26.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2025 23:26:20 -0800 (PST)
-Date: Mon, 20 Jan 2025 10:26:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Anna Schumaker <anna@kernel.org>,
-	linux-nfs@vger.kernel.org, trond.myklebust@hammerspace.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, anna@kernel.org
-Subject: Re: [PATCH 3/3] sunrpc: Add a sysfs file for adding a new xprt
-Message-ID: <8d0e2cd9-e47e-48f5-ae73-0e19d08ae807@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFyHbdUq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737359917; x=1768895917;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yjIzq4zpiGG38DCba2prRE16SgS8V5aQMhkPZPADz4I=;
+  b=EFyHbdUqTiCXVlEr4A2csaEIYPwuccyHtYpOIoZ4LBO100Hqu3Etsf9t
+   BdFIRh8RXbeOyciP7aKceXOxDnw7LCEbsYgKcy7lITeDkTWArYvwca4yn
+   JMiXTifXUUe0F8GqgQKkZ5jpdMw0r12HyiDrfPrQij2SzRXNyWs35NwDs
+   TUoJNzqvP4829+BNx14A4KZSVjonmu8eyPJ+afQgP18/0+zxbX+vC5tiZ
+   FMTgQ0n9DugDXHARvKi4tiecFoC7E0I7b/cDQJUAnj7Tc6Qn0jrgTlAyk
+   cCJ8Hw33BtuVWTmQqekuUyTqwb6cwgOTLGUBVOmOxDpOssYqaeXBYLodZ
+   g==;
+X-CSE-ConnectionGUID: ZXUnZTTbS0WYKuSPsaXbSQ==
+X-CSE-MsgGUID: rpsAplpmQuWkD5wanuuTJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="55277752"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
+   d="scan'208";a="55277752"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 23:58:34 -0800
+X-CSE-ConnectionGUID: hiaWYtIPRE2E1nsqHLjSUA==
+X-CSE-MsgGUID: 537sh8w4RuiUYimaO7b6vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="111411400"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 19 Jan 2025 23:58:34 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tZmg2-000WLB-2v;
+	Mon, 20 Jan 2025 07:58:30 +0000
+Date: Mon, 20 Jan 2025 15:57:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ming Yen Hsieh <mingyen.hsieh@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, Felix Fietkau <nbd@nbd.name>,
+	Sean Wang <sean.wang@mediatek.com>
+Subject: [linux-next:master 8406/9563]
+ drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:585 mt7925_mcu_uni_tx_ba()
+ warn: unsigned 'ret' is never less than zero.
+Message-ID: <202501201525.If1lFErE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,80 +63,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250108213632.260498-4-anna@kernel.org>
 
-Hi Anna,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Schumaker/NFS-Add-implid-to-sysfs/20250109-053732
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250108213632.260498-4-anna%40kernel.org
-patch subject: [PATCH 3/3] sunrpc: Add a sysfs file for adding a new xprt
-config: x86_64-randconfig-r073-20250119 (https://download.01.org/0day-ci/archive/20250120/202501200000.40Rg2rc6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0907e7fb35756464aa34c35d6abb02998418164b
+commit: eb2a9a12c6092a26f632468d6610497d4f0e40da [8406/9563] wifi: mt76: mt7925: Update mt7925_mcu_uni_[tx,rx]_ba for MLO
+config: m68k-randconfig-r072-20250120 (https://download.01.org/0day-ci/archive/20250120/202501201525.If1lFErE-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501200000.40Rg2rc6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501201525.If1lFErE-lkp@intel.com/
 
 New smatch warnings:
-net/sunrpc/sysfs.c:288 rpc_sysfs_xprt_switch_add_xprt_store() warn: passing zero to 'PTR_ERR'
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:585 mt7925_mcu_uni_tx_ba() warn: unsigned 'ret' is never less than zero.
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:589 mt7925_mcu_uni_tx_ba() error: uninitialized symbol 'ret'.
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:612 mt7925_mcu_uni_rx_ba() warn: unsigned 'ret' is never less than zero.
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:616 mt7925_mcu_uni_rx_ba() error: uninitialized symbol 'ret'.
 
-vim +/PTR_ERR +288 net/sunrpc/sysfs.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:1193 mt7925_mcu_set_mlo_roc() warn: variable dereferenced before check 'mconf' (see line 1160)
 
-2b155d9a088aee Anna Schumaker 2025-01-08  260  static ssize_t rpc_sysfs_xprt_switch_add_xprt_store(struct kobject *kobj,
-2b155d9a088aee Anna Schumaker 2025-01-08  261  						    struct kobj_attribute *attr,
-2b155d9a088aee Anna Schumaker 2025-01-08  262  						    const char *buf, size_t count)
-2b155d9a088aee Anna Schumaker 2025-01-08  263  {
-2b155d9a088aee Anna Schumaker 2025-01-08  264  	struct rpc_xprt_switch *xprt_switch =
-2b155d9a088aee Anna Schumaker 2025-01-08  265  		rpc_sysfs_xprt_switch_kobj_get_xprt(kobj);
-2b155d9a088aee Anna Schumaker 2025-01-08  266  	struct xprt_create xprt_create_args;
-2b155d9a088aee Anna Schumaker 2025-01-08  267  	struct rpc_xprt *xprt, *new;
-2b155d9a088aee Anna Schumaker 2025-01-08  268  
-2b155d9a088aee Anna Schumaker 2025-01-08  269  	if (!xprt_switch)
-2b155d9a088aee Anna Schumaker 2025-01-08  270  		return 0;
-2b155d9a088aee Anna Schumaker 2025-01-08  271  
-2b155d9a088aee Anna Schumaker 2025-01-08  272  	xprt = rpc_xprt_switch_get_main_xprt(xprt_switch);
-2b155d9a088aee Anna Schumaker 2025-01-08  273  	if (!xprt)
-2b155d9a088aee Anna Schumaker 2025-01-08  274  		goto out;
-2b155d9a088aee Anna Schumaker 2025-01-08  275  
-2b155d9a088aee Anna Schumaker 2025-01-08  276  	xprt_create_args.ident = xprt->xprt_class->ident;
-2b155d9a088aee Anna Schumaker 2025-01-08  277  	xprt_create_args.net = xprt->xprt_net;
-2b155d9a088aee Anna Schumaker 2025-01-08  278  	xprt_create_args.dstaddr = (struct sockaddr *)&xprt->addr;
-2b155d9a088aee Anna Schumaker 2025-01-08  279  	xprt_create_args.addrlen = xprt->addrlen;
-2b155d9a088aee Anna Schumaker 2025-01-08  280  	xprt_create_args.servername = xprt->servername;
-2b155d9a088aee Anna Schumaker 2025-01-08  281  	xprt_create_args.bc_xprt = xprt->bc_xprt;
-2b155d9a088aee Anna Schumaker 2025-01-08  282  	xprt_create_args.xprtsec = xprt->xprtsec;
-2b155d9a088aee Anna Schumaker 2025-01-08  283  	xprt_create_args.connect_timeout = xprt->connect_timeout;
-2b155d9a088aee Anna Schumaker 2025-01-08  284  	xprt_create_args.reconnect_timeout = xprt->max_reconnect_timeout;
-2b155d9a088aee Anna Schumaker 2025-01-08  285  
-2b155d9a088aee Anna Schumaker 2025-01-08  286  	new = xprt_create_transport(&xprt_create_args);
-2b155d9a088aee Anna Schumaker 2025-01-08  287  	if (IS_ERR_OR_NULL(new)) {
+vim +/ret +585 drivers/net/wireless/mediatek/mt76/mt7925/mcu.c
 
-This should just be if (IS_ERR(new)) {, otherwise we end up with a
-nonsense debate about whether impossible NULL returns should be handled
-as a error or a success.
-
-2b155d9a088aee Anna Schumaker 2025-01-08 @288  		count = PTR_ERR(new);
-2b155d9a088aee Anna Schumaker 2025-01-08  289  		goto out_put_xprt;
-2b155d9a088aee Anna Schumaker 2025-01-08  290  	}
-2b155d9a088aee Anna Schumaker 2025-01-08  291  
-2b155d9a088aee Anna Schumaker 2025-01-08  292  	rpc_xprt_switch_add_xprt(xprt_switch, new);
-2b155d9a088aee Anna Schumaker 2025-01-08  293  	xprt_put(new);
-2b155d9a088aee Anna Schumaker 2025-01-08  294  
-2b155d9a088aee Anna Schumaker 2025-01-08  295  out_put_xprt:
-2b155d9a088aee Anna Schumaker 2025-01-08  296  	xprt_put(xprt);
-2b155d9a088aee Anna Schumaker 2025-01-08  297  out:
-2b155d9a088aee Anna Schumaker 2025-01-08  298  	xprt_switch_put(xprt_switch);
-2b155d9a088aee Anna Schumaker 2025-01-08  299  	return count;
-2b155d9a088aee Anna Schumaker 2025-01-08  300  }
+   560	
+   561	/** starec & wtbl **/
+   562	int mt7925_mcu_uni_tx_ba(struct mt792x_dev *dev,
+   563				 struct ieee80211_vif *vif,
+   564				 struct ieee80211_ampdu_params *params,
+   565				 bool enable)
+   566	{
+   567		struct mt792x_sta *msta = (struct mt792x_sta *)params->sta->drv_priv;
+   568		struct mt792x_vif *mvif = (struct mt792x_vif *)vif->drv_priv;
+   569		struct mt792x_link_sta *mlink;
+   570		struct mt792x_bss_conf *mconf;
+   571		unsigned long usable_links = ieee80211_vif_usable_links(vif);
+   572		struct mt76_wcid *wcid;
+   573		u8 link_id, ret;
+   574	
+   575		for_each_set_bit(link_id, &usable_links, IEEE80211_MLD_MAX_NUM_LINKS) {
+   576			mconf = mt792x_vif_to_link(mvif, link_id);
+   577			mlink = mt792x_sta_to_link(msta, link_id);
+   578			wcid = &mlink->wcid;
+   579	
+   580			if (enable && !params->amsdu)
+   581				mlink->wcid.amsdu = false;
+   582	
+   583			ret = mt7925_mcu_sta_ba(&dev->mt76, &mconf->mt76, wcid, params,
+   584						enable, true);
+ > 585			if (ret < 0)
+   586				break;
+   587		}
+   588	
+ > 589		return ret;
+   590	}
+   591	
+   592	int mt7925_mcu_uni_rx_ba(struct mt792x_dev *dev,
+   593				 struct ieee80211_vif *vif,
+   594				 struct ieee80211_ampdu_params *params,
+   595				 bool enable)
+   596	{
+   597		struct mt792x_sta *msta = (struct mt792x_sta *)params->sta->drv_priv;
+   598		struct mt792x_vif *mvif = (struct mt792x_vif *)vif->drv_priv;
+   599		struct mt792x_link_sta *mlink;
+   600		struct mt792x_bss_conf *mconf;
+   601		unsigned long usable_links = ieee80211_vif_usable_links(vif);
+   602		struct mt76_wcid *wcid;
+   603		u8 link_id, ret;
+   604	
+   605		for_each_set_bit(link_id, &usable_links, IEEE80211_MLD_MAX_NUM_LINKS) {
+   606			mconf = mt792x_vif_to_link(mvif, link_id);
+   607			mlink = mt792x_sta_to_link(msta, link_id);
+   608			wcid = &mlink->wcid;
+   609	
+   610			ret = mt7925_mcu_sta_ba(&dev->mt76, &mconf->mt76, wcid, params,
+   611						enable, false);
+ > 612			if (ret < 0)
+   613				break;
+   614		}
+   615	
+ > 616		return ret;
+   617	}
+   618	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
