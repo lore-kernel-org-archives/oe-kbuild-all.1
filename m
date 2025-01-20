@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0611A23
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 11:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FCB1DF992
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 12:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737374314; cv=none; b=Brt08+Ig7lOrsh0vTZXS1/N66v94kI3Ksjb7VdeLkDPTyVcFMnwL2BrGVpQklojA0HCnEOYs0vvxRKdXYxZHpwVbC4mMxFmgd1N4Z9Ho6DlYKq2f9I5xpLO8TeR2oKcqp8O64T3Hhk5JtPl9UG81dRlArsG+fDbO+pIW2ujGA3A=
+	t=1737374984; cv=none; b=o9GW5w6kC77P3d2RCVxvn5qoACedriyNnyalgxKWeBTGdd5Qq59OJpzx68GZbpJXVK3dc16fbpMIO4Iy0Xn1j0m4Wc0l3kSsvr6aR5mXzSJCIvZvCrN5QCM2dv58OCYKcOb88Fe+/2DFF76FLwgQP8WpyCEcAwjd7Mze7Mytu4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737374314; c=relaxed/simple;
-	bh=Ud8mjZa0Vr1kKKXuf/VAUY7cuf1qu22Xddl85PI8jtU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sH8MpyMYlACH/isBl2ZnbCS8LvrlCUbsRrhMzg7h3182pgQv9DOsvGdcZmqp7M4ki/PBm95lWb+Bii8y6W6e1yVjw59I60uHZDSF49XF+OK5OoRAU1EvcthaSTtedqu9XzmaFMQCy/Du17XmKj1haAhpoSGEJy3ei53mG9PzXtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLb23EsP; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1737374984; c=relaxed/simple;
+	bh=YdSajOPYcPlq/YPaWf5AcufzF6rrpTyEG+hpbrugNo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gw839mbtHjaQe6k9t4X4ObqEDOllasnlekKzhOSa3N3opgiUJcivtnJA0Zx2g5hJLmEQx3F61T4OGKqim9xAWAsZNbfOvkseWO//o5k6JYoY5HKIg+sCs7fR34ClbAlIqsSpqmEL2CHYJi9sULtZuots1Os6eynzY9hqhB8WX/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejVEEsm0; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLb23EsP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejVEEsm0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737374314; x=1768910314;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ud8mjZa0Vr1kKKXuf/VAUY7cuf1qu22Xddl85PI8jtU=;
-  b=XLb23EsPIJKqxep0huRhvShZ/6Lbk6fct5FZMRayLUPRjBGTNMybmL2D
-   xqYkQzv1bGVhOePdNG1aMaK21kSGW7bJuWB3/TDWSODnCiuCxBrHC3rG/
-   9IkWcXIcagx4HnC5Umrl8EQkmpJMPeptmGzcuAf1tJ6H0Ov2h258Q90CP
-   7eDfxtgml8268C40DdJ3c7w4YxXGWe2PYu7+BvpAvZk+1cdN+JCcSPzF4
-   ouu/swkiFHHnXmXvGlNl4WMH1qFrC+EzYMH6fp2MPAnIPc2DXUmd4S/N4
-   TIRV7b14rqNiZJ4Tm8OYTpkaOW6s5Mp1k8kE6aVLhz9jO9v7R/ImsKwk4
-   Q==;
-X-CSE-ConnectionGUID: dOoJGOg9SK60vgon/jzC9Q==
-X-CSE-MsgGUID: 19LvmLGRQMGczjYKG4moyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="48254399"
+  t=1737374983; x=1768910983;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YdSajOPYcPlq/YPaWf5AcufzF6rrpTyEG+hpbrugNo0=;
+  b=ejVEEsm0z57niBDtHyvwhN3nsB3xBF1j2e3aDi673DTZ3Bvkq36tnGvk
+   HOlMSehUIqwM04NCVayW0GInAIXZl/pIFCdM+riTm6zPYt9giNsA62Ecn
+   UHkeSfU01OrovNSeSy7sV1KfEH1vv3dBZ/46SK09D2YwTOMozVAUDakPC
+   PZow8bGqzCpYxrxvWgOrGSwKd23m7j4Wykh3sxBfiCNejO/3m+nFnUXG4
+   3xyhbeaAM5Bwnlu0tf+qkmFR9boyuhy8Dbf6+auRVUg8q5Gz9VkN9Lqyo
+   tDYTllAieeqNWn+S9O25bbHIAPCjUYn1NYiCjBCLClXsdLx99jbHeP7MJ
+   A==;
+X-CSE-ConnectionGUID: p2SSVT5sQgyKgwehTKUunA==
+X-CSE-MsgGUID: 4JRUoz2cRGeNT73zW30Hvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37915237"
 X-IronPort-AV: E=Sophos;i="6.13,219,1732608000"; 
-   d="scan'208";a="48254399"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 03:58:33 -0800
-X-CSE-ConnectionGUID: IoA75u+HT/Cl169pA8qaCQ==
-X-CSE-MsgGUID: PE1bLa0GSDKvSWyIDztPNA==
+   d="scan'208";a="37915237"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 04:09:42 -0800
+X-CSE-ConnectionGUID: Xk3z/7/8S6+bojInw5wShA==
+X-CSE-MsgGUID: Es0i+N7xQyCHZSGpTavJ7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111580540"
+   d="scan'208";a="137391783"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 20 Jan 2025 03:58:28 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 20 Jan 2025 04:09:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZqQD-000WVn-1E;
-	Mon, 20 Jan 2025 11:58:25 +0000
-Date: Mon, 20 Jan 2025 19:57:22 +0800
+	id 1tZqb4-000WWO-0g;
+	Mon, 20 Jan 2025 12:09:38 +0000
+Date: Mon, 20 Jan 2025 20:09:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taniya Das <quic_tdas@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Ajit Pandey <quic_ajipan@quicinc.com>,
-	Imran Shaik <quic_imrashai@quicinc.com>,
-	Jagadeesh Kona <quic_jkona@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Taniya Das <quic_tdas@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v4 07/10] clk: qcom: gpucc-qcs615: Add QCS615 graphics
- clock controller driver
-Message-ID: <202501201928.ZrWmF3Kl-lkp@intel.com>
-References: <20250119-qcs615-mm-v4-clockcontroller-v4-7-5d1bdb5a140c@quicinc.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: drivers/most/most_snd.c:58: warning: Excess struct member 'opened'
+ description in 'channel'
+Message-ID: <202501201910.qK26lfmz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,32 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250119-qcs615-mm-v4-clockcontroller-v4-7-5d1bdb5a140c@quicinc.com>
 
-Hi Taniya,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0907e7fb35756464aa34c35d6abb02998418164b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-clk-alpha-pll-Add-support-for-dynamic-update-for-slewing-PLLs/20250119-182754
-base:   0907e7fb35756464aa34c35d6abb02998418164b
-patch link:    https://lore.kernel.org/r/20250119-qcs615-mm-v4-clockcontroller-v4-7-5d1bdb5a140c%40quicinc.com
-patch subject: [PATCH v4 07/10] clk: qcom: gpucc-qcs615: Add QCS615 graphics clock controller driver
-config: arm-kismet-CONFIG_QCS_GCC_615-CONFIG_QCS_GPUCC_615-0-0 (https://download.01.org/0day-ci/archive/20250120/202501201928.ZrWmF3Kl-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250120/202501201928.ZrWmF3Kl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+commit: 512d092d78823f9813f4af38090b33c454137a4c ALSA: Enable build with UML
+date:   1 year, 6 months ago
+config: um-randconfig-001-20240624 (https://download.01.org/0day-ci/archive/20250120/202501201910.qK26lfmz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501201910.qK26lfmz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501201928.ZrWmF3Kl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501201910.qK26lfmz-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for QCS_GCC_615 when selected by QCS_GPUCC_615
-   WARNING: unmet direct dependencies detected for QCS_GCC_615
-     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
-     Selected by [y]:
-     - QCS_GPUCC_615 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+All warnings (new ones prefixed by >>):
+
+>> drivers/most/most_snd.c:58: warning: Excess struct member 'opened' description in 'channel'
+
+
+vim +58 drivers/most/most_snd.c
+
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  26  
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  27  /**
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  28   * struct channel - private structure to keep channel specific data
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  29   * @substream: stores the substream structure
+fba3993e86cc44 drivers/most/most_snd.c                Randy Dunlap    2023-01-12  30   * @pcm_hardware: low-level hardware description
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  31   * @iface: interface for which the channel belongs to
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  32   * @cfg: channel configuration
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  33   * @card: registered sound card
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  34   * @list: list for private use
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  35   * @id: channel index
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  36   * @period_pos: current period position (ring buffer)
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  37   * @buffer_pos: current buffer position (ring buffer)
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  38   * @is_stream_running: identifies whether a stream is running or not
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  39   * @opened: set when the stream is opened
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  40   * @playback_task: playback thread
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  41   * @playback_waitq: waitq used by playback thread
+fba3993e86cc44 drivers/most/most_snd.c                Randy Dunlap    2023-01-12  42   * @copy_fn: copy function for PCM-specific format and width
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  43   */
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  44  struct channel {
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  45  	struct snd_pcm_substream *substream;
+d801887248312f drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-09-28  46  	struct snd_pcm_hardware pcm_hardware;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  47  	struct most_interface *iface;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  48  	struct most_channel_config *cfg;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  49  	struct snd_card *card;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  50  	struct list_head list;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  51  	int id;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  52  	unsigned int period_pos;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  53  	unsigned int buffer_pos;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  54  	bool is_stream_running;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  55  	struct task_struct *playback_task;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  56  	wait_queue_head_t playback_waitq;
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  57  	void (*copy_fn)(void *alsa, void *most, unsigned int bytes);
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24 @58  };
+54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  59  
+
+:::::: The code at line 58 was first introduced by commit
+:::::: 54b4856fb3624609dd5d9ed013bfec7d67083622 Staging: most: add MOST driver's aim-sound module
+
+:::::: TO: Christian Gromm <christian.gromm@microchip.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
