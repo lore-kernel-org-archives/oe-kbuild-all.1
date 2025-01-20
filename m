@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426D11F0E28
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 21:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFC8191F98
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 22:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737410220; cv=none; b=rJ4gDh6OP0Ol7Thc/z6XSQ5rIdt/JFpAV/YkX2UAEHKF8Z1w48Ny2WcpUdlkwQEL+wX4KtbPhekuy0+yR7J/Dezj9ZlrCQ4KdytkDYNDBz7x6km3dUGZ6SH02/kPh/mHbzOu3R7K6kVJts+Ry/J3jCiHp4waeZlljFrzLDxBG6s=
+	t=1737411491; cv=none; b=IlTdsZYid5b/iu8TFP9xrBcICdbdS0XwRyv6GVSoOu6+SqJRcMoGGwVLyScEBEGPfr+DtQ5bBGZkf/+8XoI6CnB3/SQSWBIl0/BZP0Uxmd+JYbhDhSi4TA+Z8jOgEQIICLkPFjXK73kpb7WzZA5r/uGn8z9CQ7EwvxeQQrCyvl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737410220; c=relaxed/simple;
-	bh=+EFqRv2B6bqOUlGn1H//PxFNhb+WsAIIPmOfXe+iHC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3e+EFyeQ2/EVwU1sPTh/1536A6xZZidng2C2LAKoJkUo3HRv5O8WcqG1v4a0kN1pYceyOkz5xatdJxOz4x561ID/6Tn/2q7VlV1E90hbUK1fPM8OizFQRDeTAgJO0TJF06jnyXvUpTpgczsR5A/vmaKa4KV1FgMowWHwemDwic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRRUpCKG; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1737411491; c=relaxed/simple;
+	bh=Gi6DhsSoVRUDIUKWSrq+zN1+Q9ZyMihQHCCjAhK5GLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mDBkafNlKVvZGedb9t8Zz5EnVtlkueE3aHLinPZOfb9OuISBgBsrRX4uhSEXQZsjSxA38aTxVCnt7TWfVuqLauvSUDdBrOJfOqxGGTriW/mm0vv6bi8jeMy01cAdLW0g+Nj9FvDTpdXUeC9VOn+q0TJ8ifKVgh2ELB2OGQTPghY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XstzOnvQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRRUpCKG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XstzOnvQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737410218; x=1768946218;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+EFqRv2B6bqOUlGn1H//PxFNhb+WsAIIPmOfXe+iHC8=;
-  b=fRRUpCKGDIbLz09/ETXMPd5weP9cXTRgo9xY612Z/B29ltJbWQUIs+hr
-   gN/h5BcZsP9fak3ToiMXA+ETqoU0sRKoyHDisRzw9IT3y8CG5NzJHf+QP
-   NAxDNYICF2A0aL9xW8D/NX+Hkt6aODM7PZsRsT3os6rbEZ4wUbLaq42Ev
-   A+8elXtNE5CZNzcQCNCVqrKCDp49eAz/tefh2XAVebdY7CeDF+ua842os
-   3ZigRZIP2ZTAFJEgYHxqM+7QBTA9B+ghAsB/btPuljuVZUmHaZKDs4fuk
-   F/nzvQqR6QwSmzmAWjMIFNa8whLjW9HZ7Fa29AYe/DLzHJvl7Ljssi8w2
-   A==;
-X-CSE-ConnectionGUID: pnZE6nx2TxWh4Mjq72OQdg==
-X-CSE-MsgGUID: jpmA6g/lTX6CHp0WHyS++w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="40629211"
+  t=1737411489; x=1768947489;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Gi6DhsSoVRUDIUKWSrq+zN1+Q9ZyMihQHCCjAhK5GLw=;
+  b=XstzOnvQXfKB+1vVicYAK7O6WMwllhCtR48pUE4nEY5MLSYuBvAKbENO
+   tCCqAtIx6ODGLpeCPk6Sy2km5w4uIrX6DQSMKe+6ngIHd5nELHwS/yCKz
+   DLtG/wXeMuNkDU5MJKwMXybxSDdwPqzK8A/v9eVeXlRG/rIzAQJvAl72i
+   lKIdXXm6LB2thY3Xjx5uN5Dg0IDqkfoTnSZQ8K48Z5fiJDnPnxG+38tCO
+   jRC0koJ4Jqb0SZXCe6dudJM/PO98Doj35mKNWP6XD7h0XAf2uqi5q22pU
+   7mKiH98w+YY6rhl5FfMLaJQMjSx0DjIVwE7xPF64aiwR6WVw4p5RnOYVB
+   g==;
+X-CSE-ConnectionGUID: 79H5JQ4JRSGTp7jxe5lsPA==
+X-CSE-MsgGUID: oxBD3NS3RxSSGKsFN8Qexw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37086958"
 X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="40629211"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 13:56:58 -0800
-X-CSE-ConnectionGUID: laPeCXdRQ/G3Fm2+VJSATA==
-X-CSE-MsgGUID: ZjP2SWxcQoqHHk8fpcJepg==
+   d="scan'208";a="37086958"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 14:18:08 -0800
+X-CSE-ConnectionGUID: sYoyps/4TdaLkkG6XUyUlQ==
+X-CSE-MsgGUID: Zy42K8kURKaeBFMBIyRHEw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="111612110"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="111255784"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Jan 2025 13:56:54 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 20 Jan 2025 14:18:07 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZzlL-000XGZ-2v;
-	Mon, 20 Jan 2025 21:56:51 +0000
-Date: Tue, 21 Jan 2025 05:56:35 +0800
+	id 1ta05t-000XHm-12;
+	Mon, 20 Jan 2025 22:18:05 +0000
+Date: Tue, 21 Jan 2025 06:17:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Hewitt <christianshewitt@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Joel Granados <joel.granados@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
-Message-ID: <202501210513.GCec6kts-lkp@intel.com>
-References: <20250110074458.3624094-3-christianshewitt@gmail.com>
+Subject: [joel-granados:jag/mv_ctltables 10/10] arch/x86/kernel/nmi.c:237:13:
+ error: 'panic_on_unrecovered_nmi' undeclared
+Message-ID: <202501210620.dRFI2i3Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,37 +61,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110074458.3624094-3-christianshewitt@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.13 next-20250120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/Revert-drm-meson-vclk-fix-calculation-of-59-94-fractional-rates/20250110-154701
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250110074458.3624094-3-christianshewitt%40gmail.com
-patch subject: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
-config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/mv_ctltables
+head:   18654655ca1b5e5bc57b89c5e88645cd3284764c
+commit: 18654655ca1b5e5bc57b89c5e88645cd3284764c [10/10] x86: Move sysctls into arch/x86
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20250121/202501210620.dRFI2i3Y-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210620.dRFI2i3Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501210513.GCec6kts-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210620.dRFI2i3Y-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/gpib/fmh_gpib/fmh_gpib.o
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/meson/meson-drm.ko] undefined!
+   arch/x86/kernel/nmi.c: In function 'pci_serr_error':
+>> arch/x86/kernel/nmi.c:237:13: error: 'panic_on_unrecovered_nmi' undeclared (first use in this function)
+     237 |         if (panic_on_unrecovered_nmi)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/nmi.c:237:13: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kernel/nmi.c: In function 'io_check_error':
+>> arch/x86/kernel/nmi.c:262:13: error: 'panic_on_io_nmi' undeclared (first use in this function); did you mean 'panic_on_taint'?
+     262 |         if (panic_on_io_nmi) {
+         |             ^~~~~~~~~~~~~~~
+         |             panic_on_taint
+   arch/x86/kernel/nmi.c: In function 'unknown_nmi_error':
+   arch/x86/kernel/nmi.c:310:34: error: 'panic_on_unrecovered_nmi' undeclared (first use in this function)
+     310 |         if (unknown_nmi_panic || panic_on_unrecovered_nmi)
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/x86/kernel/setup.c:153:36: error: 'panic_on_unrecovered_nmi' undeclared here (not in a function)
+     153 |                 .data           = &panic_on_unrecovered_nmi,
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/setup.c:160:36: error: 'panic_on_io_nmi' undeclared here (not in a function); did you mean 'panic_on_taint'?
+     160 |                 .data           = &panic_on_io_nmi,
+         |                                    ^~~~~~~~~~~~~~~
+         |                                    panic_on_taint
+
+
+vim +/panic_on_unrecovered_nmi +237 arch/x86/kernel/nmi.c
+
+c9126b2ee8adb9 Don Zickus       2011-09-30  226  
+9326638cbee2d3 Masami Hiramatsu 2014-04-17  227  static void
+1d48922c14b636 Don Zickus       2011-09-30  228  pci_serr_error(unsigned char reason, struct pt_regs *regs)
+1d48922c14b636 Don Zickus       2011-09-30  229  {
+553222f3e81f18 Don Zickus       2012-03-29  230  	/* check to see if anyone registered against these types of errors */
+bf9f2ee28d475a Andy Lutomirski  2015-07-20  231  	if (nmi_handle(NMI_SERR, regs))
+553222f3e81f18 Don Zickus       2012-03-29  232  		return;
+553222f3e81f18 Don Zickus       2012-03-29  233  
+1d48922c14b636 Don Zickus       2011-09-30  234  	pr_emerg("NMI: PCI system error (SERR) for reason %02x on CPU %d.\n",
+1d48922c14b636 Don Zickus       2011-09-30  235  		 reason, smp_processor_id());
+1d48922c14b636 Don Zickus       2011-09-30  236  
+1d48922c14b636 Don Zickus       2011-09-30 @237  	if (panic_on_unrecovered_nmi)
+58c5661f2144c0 Hidehiro Kawai   2015-12-14  238  		nmi_panic(regs, "NMI: Not continuing");
+1d48922c14b636 Don Zickus       2011-09-30  239  
+1d48922c14b636 Don Zickus       2011-09-30  240  	pr_emerg("Dazed and confused, but trying to continue\n");
+1d48922c14b636 Don Zickus       2011-09-30  241  
+1d48922c14b636 Don Zickus       2011-09-30  242  	/* Clear and disable the PCI SERR error line. */
+1d48922c14b636 Don Zickus       2011-09-30  243  	reason = (reason & NMI_REASON_CLEAR_MASK) | NMI_REASON_CLEAR_SERR;
+1d48922c14b636 Don Zickus       2011-09-30  244  	outb(reason, NMI_REASON_PORT);
+1d48922c14b636 Don Zickus       2011-09-30  245  }
+9326638cbee2d3 Masami Hiramatsu 2014-04-17  246  NOKPROBE_SYMBOL(pci_serr_error);
+1d48922c14b636 Don Zickus       2011-09-30  247  
+9326638cbee2d3 Masami Hiramatsu 2014-04-17  248  static void
+1d48922c14b636 Don Zickus       2011-09-30  249  io_check_error(unsigned char reason, struct pt_regs *regs)
+1d48922c14b636 Don Zickus       2011-09-30  250  {
+1d48922c14b636 Don Zickus       2011-09-30  251  	unsigned long i;
+1d48922c14b636 Don Zickus       2011-09-30  252  
+553222f3e81f18 Don Zickus       2012-03-29  253  	/* check to see if anyone registered against these types of errors */
+bf9f2ee28d475a Andy Lutomirski  2015-07-20  254  	if (nmi_handle(NMI_IO_CHECK, regs))
+553222f3e81f18 Don Zickus       2012-03-29  255  		return;
+553222f3e81f18 Don Zickus       2012-03-29  256  
+1d48922c14b636 Don Zickus       2011-09-30  257  	pr_emerg(
+1d48922c14b636 Don Zickus       2011-09-30  258  	"NMI: IOCK error (debug interrupt?) for reason %02x on CPU %d.\n",
+1d48922c14b636 Don Zickus       2011-09-30  259  		 reason, smp_processor_id());
+57da8b960b9a25 Jan Beulich      2012-05-09  260  	show_regs(regs);
+1d48922c14b636 Don Zickus       2011-09-30  261  
+1717f2096b543c Hidehiro Kawai   2015-12-14 @262  	if (panic_on_io_nmi) {
+58c5661f2144c0 Hidehiro Kawai   2015-12-14  263  		nmi_panic(regs, "NMI IOCK error: Not continuing");
+1717f2096b543c Hidehiro Kawai   2015-12-14  264  
+1717f2096b543c Hidehiro Kawai   2015-12-14  265  		/*
+1717f2096b543c Hidehiro Kawai   2015-12-14  266  		 * If we end up here, it means we have received an NMI while
+1717f2096b543c Hidehiro Kawai   2015-12-14  267  		 * processing panic(). Simply return without delaying and
+1717f2096b543c Hidehiro Kawai   2015-12-14  268  		 * re-enabling NMIs.
+1717f2096b543c Hidehiro Kawai   2015-12-14  269  		 */
+1717f2096b543c Hidehiro Kawai   2015-12-14  270  		return;
+1717f2096b543c Hidehiro Kawai   2015-12-14  271  	}
+1d48922c14b636 Don Zickus       2011-09-30  272  
+1d48922c14b636 Don Zickus       2011-09-30  273  	/* Re-enable the IOCK line, wait for a few seconds */
+1d48922c14b636 Don Zickus       2011-09-30  274  	reason = (reason & NMI_REASON_CLEAR_MASK) | NMI_REASON_CLEAR_IOCHK;
+1d48922c14b636 Don Zickus       2011-09-30  275  	outb(reason, NMI_REASON_PORT);
+1d48922c14b636 Don Zickus       2011-09-30  276  
+1d48922c14b636 Don Zickus       2011-09-30  277  	i = 20000;
+1d48922c14b636 Don Zickus       2011-09-30  278  	while (--i) {
+1d48922c14b636 Don Zickus       2011-09-30  279  		touch_nmi_watchdog();
+1d48922c14b636 Don Zickus       2011-09-30  280  		udelay(100);
+1d48922c14b636 Don Zickus       2011-09-30  281  	}
+1d48922c14b636 Don Zickus       2011-09-30  282  
+1d48922c14b636 Don Zickus       2011-09-30  283  	reason &= ~NMI_REASON_CLEAR_IOCHK;
+1d48922c14b636 Don Zickus       2011-09-30  284  	outb(reason, NMI_REASON_PORT);
+1d48922c14b636 Don Zickus       2011-09-30  285  }
+9326638cbee2d3 Masami Hiramatsu 2014-04-17  286  NOKPROBE_SYMBOL(io_check_error);
+1d48922c14b636 Don Zickus       2011-09-30  287  
+
+:::::: The code at line 237 was first introduced by commit
+:::::: 1d48922c14b6363f6d5febb12464d804bb5cc53f x86, nmi: Split out nmi from traps.c
+
+:::::: TO: Don Zickus <dzickus@redhat.com>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
