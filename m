@@ -1,178 +1,230 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5F81DA3D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 12:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B731E1041
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 13:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737377310; cv=none; b=EDGrnFu0KIhkqhtAMqY5gIlM0LS88kF/mWZEYu9MaKd2tDs+nBfPBpja+mkuZQ1P9hAoQV2Br8N3k4sqKiHho6voSVAqpwuoIgqD0wvR+ikiwszQmGzpj6RkP7WnEwc3sbd2OowY2QPmS1pf3ge7R/s42Ws3muvcpT+KA/NhNW8=
+	t=1737378129; cv=none; b=TQY0KV/zNeUIwNzCa8C1unDSTDKnBr5E6Os/wx8ZjN5Gb9hmWRjLKPMSDS5iQWRGnK9ozcZI2lEq3kIF4HxQ8SH2MmTQqt143heD/v+0yBmdn9hTY5CrfacFXhLV93/sLeC8UhsJXpGBsMijn9S2FC9suEFVIo6n6pwh1cAb//g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737377310; c=relaxed/simple;
-	bh=684y5TgtzaetJ5FHig4I7kEvShgmSEw5UyHsxZrm6GY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iboScrYPX3wH0fCGm1QwP9dStWNFFfuIPgGPlgEqGjUkFW7IViGN+vwtMQXFyvAOZpqOP/AQfcXaClLd26qGN3zqonFaubJjL2H8Kg4hDnLn19ORokd4yrF2iQm9IRX87xXLPMgknaISPSjNM3ffMgcf3jnNgz4p/UuZWGAdcio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=h/68vzQ2; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1737378129; c=relaxed/simple;
+	bh=qJdDHElCR9Y5mAxQJBceyiXnBDMGcW2KsEeQii/kSN0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ufG9eQG1NLkpxZtCJDnfEFkZQEh1euK6jBLMY4zYNp5DxPABhnvwZSPynHha/KsUBdBoUqyG/KQpfVAd5y/hO1/8uuIXMaW4PPE8p/Ic2Wj5DZEQR+0O2+HM9Dvpjt8R+FL/vaPttQ67TUAHix5oaNrHNP0TlllcItpQon9njq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h0NlBufp; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="h/68vzQ2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1737377306;
-	bh=684y5TgtzaetJ5FHig4I7kEvShgmSEw5UyHsxZrm6GY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h/68vzQ2kj1u6XJAWkwkJjoqjQB58BPRUlrbonE05/VzN/Eo5n1vhdj/RtMz0TIH8
-	 VUhjxqqcTceRVmPERQ4BJ/jg992486b+2t8ehoVfdPp4hRntL5nLXA6yT7mXDK2i/Y
-	 Sjq4Q8Ob+dLN7gMEi3MOhgOLGo+//R2vCt4mzdMZ54PEjGjK2gmVMzKUDwOKmhDU55
-	 ycwxXreJT2ItP0CTC4wNZ+WjRLFKmekQ1eDeHenvzT4dY0pxJ0M5GP4b9A5gkU1Ufc
-	 Z9wxd4whMjgbzejawA4TZnpKYTN+8rUshssT8opsOg6yHGLUWHH5deZAdDlLEERrEP
-	 ScECJUAm/5sbw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B192117E0F66;
-	Mon, 20 Jan 2025 13:48:24 +0100 (CET)
-Message-ID: <0dddf0b6-e87f-4d70-be64-b6705b33466d@collabora.com>
-Date: Mon, 20 Jan 2025 13:48:23 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h0NlBufp"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e53a5ff2233so7944660276.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 05:02:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737378126; x=1737982926; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zrSz6Pj76V1WqpJ3uXrfekI51Rp7RSd4U/RfF9APccc=;
+        b=h0NlBufpZtY8mRVyerIjCP6C75NG0CSm578bJh6wjawt0isnjMUVMIwyGhR+K2fxna
+         RMkUuByT4CX64ehcUHqzn7ROMihhT1vJ04/cb+pO0rCPO19kqlDSkgiW1LwJfGMzc+vU
+         VV1+J4//X/HTBgPab2YEM+/Dv5B2/ZzuI/EK5vEecobAsXqpejlpE27qBH1rePsYG+oS
+         GY0ivx1cDuWoxx0Y/UtjOLYLgieosSD9euofTK/sFDfqovmsVCHoOleAWoFf/nlXTfeV
+         u1NUVzhZecJsX12i4tGuoqUPqzfetCxiT9sAUhKMNij+1YgaME5VsI8Egh1aVLhHFm9B
+         N+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737378126; x=1737982926;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zrSz6Pj76V1WqpJ3uXrfekI51Rp7RSd4U/RfF9APccc=;
+        b=Wqw28Z4NQdYc3CICvGrZYxX3htbQ2Abcf87CahyIz4Cl7CT9jr2Nl+KWFpw8EU+Lgh
+         AiJgQQFLLM06pHPULTFzhSz0nyKyEf527jzAAzILzrPIIENndCk0wBqET5wS368n5w7a
+         t6cSZHEaZPte2XIlICuboRDMXyGt6sSbnmBiBmZnZMW5BEVL4ewqPesWe+bl3RX3YR2O
+         TzdeTPJyyvB7MPkJqb3SyFhxfLbnUUREkzxS7ZC1ZD4pcK5o4AhuzvMACwY/7ud84BJU
+         Dbhvk47kxyUCxyn0BYv6NmtHkqmLUuKUGoWs/nf1/fFoXtK1sVyKKHVggpW5YlIWwWFf
+         AkyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXd+4gjd/I2z6GvIFFX+UQiFg55iPOuKWeRDt7y0FMCIyv+JUb4vqFOWbnhllP3E9grCDwWKjD1K/UuUun/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcqImDOG6y9mEbyr1yGntckwLwsiyaCe4xq4PkWb79vdZz7k5B
+	yxgjFAb8wZ00g/fSvA0/nuBVdh5dizOdPm+En1LoBuxLqH0X4kkDpkhL3DfyZCTEYIAb04EtBKF
+	rMq+A+bL4NVvBo7k8NAQmTVUPUzSQx5/1Iv2fkw==
+X-Gm-Gg: ASbGncsnl4PgTbICyMl3+h/yYQKyAJnqmueUn0CcqPXp0Y57ZMzgcaydw0MrLEj/lH7
+	Hiqc0DZ+Tgt06U1bmSQrzEI+jlKDgpYHUbKlsdjMOUXVVxQ6uwNFTKMhw0xG9fsc=
+X-Google-Smtp-Source: AGHT+IG7+9Gi7/TxpQ89EIO46nUbJ0N0XvzXIb8CmW7RSAwgrTfuGorv5TgJo4GiVfH0K0mrYj5hBCl8fTq2cApId20=
+X-Received: by 2002:a05:6902:2b0e:b0:e57:442a:befa with SMTP id
+ 3f1490d57ef6-e57b13310efmr7758796276.48.1737378125990; Mon, 20 Jan 2025
+ 05:02:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-To: kernel test robot <lkp@intel.com>, chunkuang.hu@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com, ck.hu@mediatek.com,
- jitao.shi@mediatek.com, jie.qiu@mediatek.com, junzhi.zhao@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
- dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
- jason-jh.lin@mediatek.com
-References: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
- <202501180524.qKnNpITh-lkp@intel.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <202501180524.qKnNpITh-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <202501201840.XmpHXpQ4-lkp@intel.com> <CA+_ehUysXuqYk_SWs7TFTPPT9Nu5gPEcNU+nspuh6sn+==tj5A@mail.gmail.com>
+In-Reply-To: <CA+_ehUysXuqYk_SWs7TFTPPT9Nu5gPEcNU+nspuh6sn+==tj5A@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 20 Jan 2025 14:01:30 +0100
+X-Gm-Features: AbW1kvbWjLl1zoAghchHylQScyjEi2MKhWacXgKAbimMsRkQrL_a-qeiz58hJSM
+Message-ID: <CAPDyKFqrvPr0NXtgfsY1SdVCeEZOghheXnuncN=QzbF_VxftGw@mail.gmail.com>
+Subject: Re: [linux-next:master 9185/10024] drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c:59:2:
+ error: write to reserved register 'R7'
+To: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>, Sudeep Holla <sudeep.holla@arm.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Il 17/01/25 23:04, kernel test robot ha scritto:
-> Hi AngeloGioacchino,
-> 
-> kernel test robot noticed the following build warnings:
-> 
++ Sudeep,
 
-CK, if there's no other concern about this submission, and you deem it ready to
-be applied - can you please resolve this error while applying by adding
+On Mon, 20 Jan 2025 at 11:37, Christian Marangi (Ansuel)
+<ansuelsmth@gmail.com> wrote:
+>
+> Il giorno lun 20 gen 2025 alle ore 11:32 kernel test robot
+> <lkp@intel.com> ha scritto:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   1573c8d4cb206a2d1454ff711e79f8df2353290b
+> > commit: 82e703dd438b71432cc0ccbb90925d1e32dd014a [9185/10024] pmdomain: airoha: Add Airoha CPU PM Domain support
+> > config: arm-randconfig-001-20250120 (https://download.01.org/0day-ci/archive/20250120/202501201840.XmpHXpQ4-lkp@intel.com/config)
+> > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501201840.XmpHXpQ4-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501201840.XmpHXpQ4-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c:59:2: error: write to reserved register 'R7'
+> >       59 |         arm_smccc_1_1_invoke(AIROHA_SIP_AVS_HANDLE, AIROHA_AVS_OP_FREQ_DYN_ADJ,
+> >          |         ^
+> >    include/linux/arm-smccc.h:632:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+> >      632 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+> >          |                         ^
+> >    include/linux/arm-smccc.h:575:48: note: expanded from macro 'arm_smccc_1_1_smc'
+> >      575 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+> >          |                                                 ^
+> >    include/linux/arm-smccc.h:477:24: note: expanded from macro 'SMCCC_SMC_INST'
+> >      477 | #define SMCCC_SMC_INST  __SMC(0)
+> >          |                         ^
+> >    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+> >    arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
+> >      215 |         __inst_thumb32(thumb_opcode)
+> >          |         ^
+> >    arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
+> >      205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
+> >          |                           ^
+> >    arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
+> >      230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
+> >          |         ^
+> > >> drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c:59:2: error: write to reserved register 'R7'
+> >    include/linux/arm-smccc.h:629:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+> >      629 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+> >          |                         ^
+> >    include/linux/arm-smccc.h:591:48: note: expanded from macro 'arm_smccc_1_1_hvc'
+> >      591 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+> >          |                                                 ^
+> >    include/linux/arm-smccc.h:478:24: note: expanded from macro 'SMCCC_HVC_INST'
+> >      478 | #define SMCCC_HVC_INST  __HVC(0)
+> >          |                         ^
+> >    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+> >    arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
+> >      215 |         __inst_thumb32(thumb_opcode)
+> >          |         ^
+> >    arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
+> >      205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
+> >          |                           ^
+> >    arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
+> >      230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
+> >          |         ^
+> > >> drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c:59:2: error: write to reserved register 'R7'
+> >    include/linux/arm-smccc.h:635:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+> >      635 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
+> >          |                         ^
+> >    include/linux/arm-smccc.h:602:8: note: expanded from macro '__fail_smccc_1_1'
+> >      602 |                 asm ("" :                                               \
+> >          |                      ^
+> >    drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c:35:2: error: write to reserved register 'R7'
+> >       35 |         arm_smccc_1_1_invoke(AIROHA_SIP_AVS_HANDLE, AIROHA_AVS_OP_GET_FREQ,
+> >          |         ^
+> >    include/linux/arm-smccc.h:632:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+> >      632 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+> >          |                         ^
+> >    include/linux/arm-smccc.h:575:48: note: expanded from macro 'arm_smccc_1_1_smc'
+> >      575 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+> >          |                                                 ^
+> >    include/linux/arm-smccc.h:477:24: note: expanded from macro 'SMCCC_SMC_INST'
+> >      477 | #define SMCCC_SMC_INST  __SMC(0)
+> >          |                         ^
+> >    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+> >    arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
+> >      215 |         __inst_thumb32(thumb_opcode)
+> >          |         ^
+> >    arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
+> >      205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
+> >          |                           ^
+> >    arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
+> >      230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
+> >          |         ^
+> >    drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c:35:2: error: write to reserved register 'R7'
+> >    include/linux/arm-smccc.h:629:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+> >      629 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+> >          |                         ^
+> >    include/linux/arm-smccc.h:591:48: note: expanded from macro 'arm_smccc_1_1_hvc'
+> >      591 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+> >          |                                                 ^
+> >    include/linux/arm-smccc.h:478:24: note: expanded from macro 'SMCCC_HVC_INST'
+> >      478 | #define SMCCC_HVC_INST  __HVC(0)
+> >          |                         ^
+> >    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+> >    arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
+> >      215 |         __inst_thumb32(thumb_opcode)
+> >          |         ^
+> >    arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
+> >      205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
+> >          |                           ^
+> >    arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
+> >      230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
+> >          |         ^
+> >    drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c:35:2: error: write to reserved register 'R7'
+> >    include/linux/arm-smccc.h:635:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+> >      635 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
+> >          |                         ^
+> >    include/linux/arm-smccc.h:602:8: note: expanded from macro '__fail_smccc_1_1'
+> >      602 |                 asm ("" :                                               \
+> >          |                      ^
+> >    6 errors generated.
+> >
+> >
+> > vim +/R7 +59 drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c
+> >
+> >     53
+> >     54  static int airoha_cpu_pmdomain_set_performance_state(struct generic_pm_domain *domain,
+> >     55                                                       unsigned int state)
+> >     56  {
+> >     57          struct arm_smccc_res res;
+> >     58
+> >   > 59          arm_smccc_1_1_invoke(AIROHA_SIP_AVS_HANDLE, AIROHA_AVS_OP_FREQ_DYN_ADJ,
+> >     60                               0, state, 0, 0, 0, 0, &res);
+> >     61
+> >     62          /* SMC signal correct apply by unsetting BIT 0 */
+> >     63          return res.a0 & BIT(0) ? -EINVAL : 0;
+> >     64  }
+> >     65
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+>
+> Mhhhh.... Any idea how to fix this? Maybe we have to exclude some flags?
+> Error is "error: write to reserved register 'R7'" and I guess it's very specific
+> to some kind of ARM ERRATA.
 
-`#include <linux/bitfield.h>`  before  `#include <linux/clk.h>`
+I don't know to be honest. The arm-scmi transport driver
+(drivers/firmware/arm_scmi/transports/smc.c) is having similar calls
+with 9 parameters to arm_smccc_1_1_invoke(). Not sure why it's a
+problem here and not there?
 
-without me resending a 34 patches bomb for a one-line change?
+Anyway, do you need all the parameters? Perhaps try to drop some?
 
-Many thanks,
-Angelo
+That said, I am keeping the offending patch as is and expecting to get
+a fix as soon as possible.
 
-> [auto build test WARNING on next-20250113]
-> [cannot apply to robh/for-next pza/reset/next linus/master pza/imx-drm/next drm-misc/drm-misc-next v6.13-rc7 v6.13-rc6 v6.13-rc5 v6.13-rc7]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20250113-225554
-> base:   next-20250113
-> patch link:    https://lore.kernel.org/r/20250113145232.227674-33-angelogioacchino.delregno%40collabora.com
-> patch subject: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-> config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250118/202501180524.qKnNpITh-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180524.qKnNpITh-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501180524.qKnNpITh-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddc_check_and_rise_low_bus':
->     drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:59:36: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
->        59 |                                    FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLOCK_SCL));
->           |                                    ^~~~~~~~~~
->     In file included from ./arch/openrisc/include/generated/asm/div64.h:1,
->                      from include/linux/math.h:6,
->                      from include/linux/kernel.h:27,
->                      from include/linux/clk.h:13,
->                      from drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:11:
->     drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddcm_read_hdmi':
->>> include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
->       183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
->           |                                   ^~
->     drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
->       139 |                 rem = do_div(loop_counter, temp_length);
->           |                       ^~~~~~
->     In file included from include/linux/err.h:5,
->                      from include/linux/clk.h:12:
->>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
->       195 |         } else if (likely(((n) >> 32) == 0)) {          \
->           |                                ^~
->     include/linux/compiler.h:76:45: note: in definition of macro 'likely'
->        76 | # define likely(x)      __builtin_expect(!!(x), 1)
->           |                                             ^
->     drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
->       139 |                 rem = do_div(loop_counter, temp_length);
->           |                       ^~~~~~
->     include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
->       199 |                 __rem = __div64_32(&(n), __base);       \
->           |                                    ^~~~
->           |                                    |
->           |                                    u16 * {aka short unsigned int *}
->     drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
->       139 |                 rem = do_div(loop_counter, temp_length);
->           |                       ^~~~~~
->     include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'u16 *' {aka 'short unsigned int *'}
->       174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
->           |                            ~~~~~~~~~~^~~~~~~~
->     drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:207:47: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
->       207 |                         puc_value[read_idx] = FIELD_GET(DDC_DATA_OUT, val);
->           |                                               ^~~~~~~~~
-> 
-> 
-> vim +183 include/asm-generic/div64.h
-> 
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  176
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  179   */
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16 @183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
-> 911918aa7ef6f8 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
-> 911918aa7ef6f8 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
-> 911918aa7ef6f8 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
-> 911918aa7ef6f8 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
-> c747ce4706190e Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
-> 461a5e51060c93 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
-> 461a5e51060c93 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
-> 461a5e51060c93 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
-> 461a5e51060c93 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
-> 461a5e51060c93 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
-> 461a5e51060c93 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
-> 911918aa7ef6f8 Nicolas Pitre      2015-11-02 @195  	} else if (likely(((n) >> 32) == 0)) {		\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
-> c747ce4706190e Geert Uytterhoeven 2021-08-11  198  	} else {					\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  199  		__rem = __div64_32(&(n), __base);	\
-> c747ce4706190e Geert Uytterhoeven 2021-08-11  200  	}						\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  201  	__rem;						\
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  202   })
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16  203
-> 
-
+Kind regards
+Uffe
