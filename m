@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B8E1EF080;
-	Mon, 20 Jan 2025 19:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71611E9900;
+	Mon, 20 Jan 2025 20:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737402239; cv=none; b=CVdoCuCwDu6qVX328/m0pOEWQCPVDYQrystTTPtTFmjaQg8fLEPqX7hVSESlxxzlDZro7ZNPwyHsVNcVPOusSZPl8APdyB2s99ZDMf1A0q+W3rFL8b1v/wkCMsm1xyBEYp4QmpezEnY56j26bu2eiAmEKCld6fbtNeXDw3VPtIU=
+	t=1737405496; cv=none; b=rJb/IY+VcUKTwGDdZVvqvMVirn/navRQl2jWIg7uktczXKNzMSgHXYexTfv5LVs82Sq3beimbu1B64LoK2IcQnD3Cm7KUt1V/uUOPhUYXTAWf6TDDt9ybqfqy2dM+xDSycHRLS+Wd6BEfpBDYt4zphDeA49siMy61ZG4fQWHkXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737402239; c=relaxed/simple;
-	bh=KIwQ96tcbKsNvtTiJ7Sp5Kac727a4bUVsOQMTqS4RJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UQN4G7KOr+a/jKa2ADdkxMbovmJZhV1ld43V7IohPjhXTlIdqaRjEbDjil99U/nZiN6ymSCC/cj0iObcv6dZmsQO5f3BsDzcYRS6rQcQ5eXt98+jggcakyspO30RdUjY0WMvbjpVcBYCEGBJd9t1lJQQ54uL3DXdy4PBB+1I5/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KkIDy/mE; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1737405496; c=relaxed/simple;
+	bh=ZGlJcfb+mjvgEQKC7aceo3qv6vk+4Ok45JskTTIOMQQ=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UdfYCDHBF6IkKX+HScNJyAUpOEn+rPdfJ1mKAxncWy2Xw2ia2v6kJFPHRukDxZYh8cxyy2HsFXowAZqHS86j1N3N38m5ByILGlqhUNuwtTm+F5/Vo95L2UxF6to9w2WS8hOjLxM+rkEW2PqF1aQVthg+g6RMyyE3BUgheZh1+k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3U6IW7W; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KkIDy/mE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3U6IW7W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737402238; x=1768938238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KIwQ96tcbKsNvtTiJ7Sp5Kac727a4bUVsOQMTqS4RJg=;
-  b=KkIDy/mEqlsA/s5AP5l3MwAqc80Ixp04bTbTyVPkcV15J5kstDJivrED
-   PelqBEczZDZEwto0ff32PTFQiWbqpfhaCVnzVzY+sa4ROvuenH+ru4LZG
-   Nj+XQaudKmUT80ZWajJ9ueR90xvuGNrwkII/BH2xTrNSIR4Ta2WVc+IoW
-   q9ba1v9iy0oUowG+x4IieUjcUsv0c6sr/bWoUrRFQ7BMCNy16YPl4FBGP
-   zVn2pqueJMbc6p1R+tmK+D3O9BAuCYbOd1lJiGTaE2wIWF4PMKExch1a+
-   ZB5bbYGnLTVy3os+h3oQKggbzhMlrXtyh/991cmYEpFRDGJo1zIWgLU2X
-   w==;
-X-CSE-ConnectionGUID: 9QgIs4ypTgml+M2hnFHX8w==
-X-CSE-MsgGUID: CybPZVwkSmK2pwt1clH55Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37681902"
+  t=1737405493; x=1768941493;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=ZGlJcfb+mjvgEQKC7aceo3qv6vk+4Ok45JskTTIOMQQ=;
+  b=T3U6IW7WVxYg7RewWXgkOCSCsrlQh1d1uzpTRAEBJS5n+8SJ5cLYpvEA
+   6W9GmM4tHQo+uU3qbMqbW+W/bSHSsqkqiC1qZ0yXxgx1DyopbBLvS09vD
+   ghV1lBknlNd5SvBqWbnxR8X68v1lDOXZGhH3921lWEAxLA83mH/xNQjv5
+   uktpeBNojtGn5aVVuzYcck4fkCfPiPdB9YJiOHtmLXlFyTFslS+77mp1Q
+   bCBnNJHVuF5ZXxVuBzwPGaozRjhtPWenbE+bd4rmq42WRfCYf4hre7Jmq
+   4iTivbbTzDYU5qW4lwy0RVuv7rBR7LWe3mVN9dmrbcHq8qP7J2GzcaCau
+   A==;
+X-CSE-ConnectionGUID: jimJYRTzQ8OusLC5j+4tPw==
+X-CSE-MsgGUID: H8lUszdvR2yo9JgVx7KgDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="55218694"
 X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="37681902"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 11:43:57 -0800
-X-CSE-ConnectionGUID: zmRDdNRTRJ6GTy6M+h+jzQ==
-X-CSE-MsgGUID: kPy9akuURPWUJQvFuXE8rQ==
+   d="scan'208";a="55218694"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 12:38:13 -0800
+X-CSE-ConnectionGUID: QvxKx9fQRjywuE64EIdY1A==
+X-CSE-MsgGUID: 7hdWKQQxRwmoWc9Tg/HLpw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="106419830"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107044780"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2025 11:43:53 -0800
+  by orviesa007.jf.intel.com with ESMTP; 20 Jan 2025 12:38:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZxgd-000Wvf-2W;
-	Mon, 20 Jan 2025 19:43:51 +0000
-Date: Tue, 21 Jan 2025 03:43:09 +0800
+	id 1tZyXB-000Wx5-2i;
+	Mon, 20 Jan 2025 20:38:09 +0000
+Date: Tue, 21 Jan 2025 04:37:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v12 4/5] firmware: imx: add driver for NXP EdgeLock
- Enclave
-Message-ID: <202501210346.wYxcOI66-lkp@intel.com>
-References: <20250120-imx-se-if-v12-4-c5ec9754570c@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [linux-next:master 8906/8908] ld.lld: error: vmlinux.o:(function
+ btrfs_submit_bio: .text.btrfs_submit_bio+0x42): relocation R_RISCV_HI20 out
+ of range: 525826 is not in [-524288, 524287]; references
+ 'btrfs_raid56_end_io'
+Message-ID: <202501210435.wBJFjhHC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,70 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250120-imx-se-if-v12-4-c5ec9754570c@nxp.com>
 
-Hi Pankaj,
+TO: Eric Biggers <ebiggers@google.com>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20250120-193050
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250120-imx-se-if-v12-4-c5ec9754570c%40nxp.com
-patch subject: [PATCH v12 4/5] firmware: imx: add driver for NXP EdgeLock Enclave
-config: arm64-randconfig-002-20250121 (https://download.01.org/0day-ci/archive/20250121/202501210346.wYxcOI66-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210346.wYxcOI66-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1573c8d4cb206a2d1454ff711e79f8df2353290b
+commit: d368a0c80472b9d1b10c5ad2d971f1d71079f88d [8906/8908] Merge branch 'crc-next' of git://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git
+config: riscv-randconfig-002-20250120 (https://download.01.org/0day-ci/archive/20250121/202501210435.wBJFjhHC-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210435.wBJFjhHC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501210346.wYxcOI66-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210435.wBJFjhHC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/firmware/imx/se_ctrl.c:505:12: warning: 'se_resume' defined but not used [-Wunused-function]
-     505 | static int se_resume(struct device *dev)
-         |            ^~~~~~~~~
->> drivers/firmware/imx/se_ctrl.c:491:12: warning: 'se_suspend' defined but not used [-Wunused-function]
-     491 | static int se_suspend(struct device *dev)
-         |            ^~~~~~~~~~
-   drivers/firmware/imx/se_ctrl.c:228:12: warning: 'se_load_firmware' defined but not used [-Wunused-function]
-     228 | static int se_load_firmware(struct se_if_priv *priv)
-         |            ^~~~~~~~~~~~~~~~
-
-
-vim +/se_resume +505 drivers/firmware/imx/se_ctrl.c
-
-   490	
- > 491	static int se_suspend(struct device *dev)
-   492	{
-   493		struct se_if_priv *priv = dev_get_drvdata(dev);
-   494		struct se_fw_load_info *load_fw;
-   495		int ret = 0;
-   496	
-   497		load_fw = get_load_fw_instance(priv);
-   498	
-   499		if (load_fw->imem_mgmt)
-   500			ret = se_save_imem_state(priv, &load_fw->imem);
-   501	
-   502		return ret;
-   503	}
-   504	
- > 505	static int se_resume(struct device *dev)
-   506	{
-   507		struct se_if_priv *priv = dev_get_drvdata(dev);
-   508		struct se_fw_load_info *load_fw;
-   509	
-   510		load_fw = get_load_fw_instance(priv);
-   511	
-   512		if (load_fw->imem_mgmt)
-   513			se_restore_imem_state(priv, &load_fw->imem);
-   514	
-   515		return 0;
-   516	}
-   517	
+>> ld.lld: error: vmlinux.o:(function btrfs_submit_bio: .text.btrfs_submit_bio+0x42): relocation R_RISCV_HI20 out of range: 525826 is not in [-524288, 524287]; references 'btrfs_raid56_end_io'
+   >>> referenced by bio.c:495 (fs/btrfs/bio.c:495)
+   >>> defined in vmlinux.o
+--
+>> ld.lld: error: vmlinux.o:(function pixcir_stop: .text.pixcir_stop+0x5c): relocation R_RISCV_HI20 out of range: 528428 is not in [-524288, 524287]; references '.L.str.51'
+   >>> referenced by pixcir_i2c_ts.c:374 (drivers/input/touchscreen/pixcir_i2c_ts.c:374)
+   >>> defined in vmlinux.o
 
 -- 
 0-DAY CI Kernel Test Service
