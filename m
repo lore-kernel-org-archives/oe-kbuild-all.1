@@ -1,57 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6625763CB;
-	Mon, 20 Jan 2025 01:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540AA8BEC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 01:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737337110; cv=none; b=elfS5HkpC47I5RlTzfrMvRGG4BIx4dQ9+F4FwhobKUe4ju9v60AoLkb4UPViWZvpXR5FRCA9gxzUuApljxc7pG11EBpc1pPyZTY7ac3oGKRhZ4N2EqgsFlS4YkYSe3sxa2+ZODczjmzISpPMBEOarDpBQCRkcIhh8DQKcERL8YE=
+	t=1737337112; cv=none; b=eu5lQ9yoamFlwgwfu/ZSn0j1eJ57/93wsYMQepGH5ZKy46/LoM2Tl1GoNjVf0S01cyCCkA+UlxxnG97y2NFIUuBmZTyxPeWS84+6rjcsG0b6AqwkVFCURKDXgXTF5OYBGk+tHRZ1mIpT/Q1zM4WQeHsSwFv9ZJi5YNQs06Sk1DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737337110; c=relaxed/simple;
-	bh=m8hfQaeeAZ1PG/HkD93vAifRJiE4J1xOoGar6YICN+E=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bx1FmtKHYcKY1BvU+XvPSALMvwBpPldR9cRRkBVfv6aNwte6nvNkbpIjxAlZvGmfS9puQtm3ecWjDkxZcMUdbBHitYpo2Ea5PX04FKeeP5/5TjsNp8cTTY9RVeK/vQbwywF0UXgTfINvlUg8JngazTIDSb+kYuozfULpTWHJ8Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWtol2s5; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1737337112; c=relaxed/simple;
+	bh=MkRjEbuembR7kYWDqJjEBUNJDdnhoKQeXC6vHhgfNys=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jrgy/3oKgKsUB0VDjy6ZtBDLNEou/CcwiT0qg/pa4BrSPmSXt9vpzzdBa/mw2/no3nNpxwbeeMeIO8Kiuo5NNuWN595aDTvGtk1af/9Ebz9OWv0t9g3O+jq8RVPkzyGSgyq+LJHTROHKOXIOn+xZd6VKuOwGI3gVuiXCMrltmTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eqkkO8tr; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWtol2s5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqkkO8tr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737337109; x=1768873109;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=m8hfQaeeAZ1PG/HkD93vAifRJiE4J1xOoGar6YICN+E=;
-  b=CWtol2s50iPFGNN/5DR+T5GIl7Kp/upsvUi1rVYDz6og/Nfv2/18B0AA
-   4oO+i7c93TyDNz8asILIFfWIk5WumjZytzt0Wl3gNAWwKUFE24aBLpx2H
-   +3cyRfCUb8Cb/nG4iWgD8WscBmILueXnUhSc6rGCeF+NDuPZftTxQ0TVT
-   fDvFr6WgiwIUCt41gflPvFuVOeZBtZU/m1U4tdFMGrRfpamIHJMAF4CEY
-   HLHKmJTRe3KPswTxcoti8w/7QyZS/QU84OGO50WIRxPuhkUU58cqKsSg2
-   YV3DnrPVFtmB4wgWg4P2LtP4RMRnOmng0oJWL5juI/bET8n+5tYja8Oxb
+  t=1737337111; x=1768873111;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MkRjEbuembR7kYWDqJjEBUNJDdnhoKQeXC6vHhgfNys=;
+  b=eqkkO8trPnQTldg6nkmf8CDLesdHrMN61BjEpxvgo8edG7ABxqjWojrC
+   x5xj4g4JD/OWNnTnX4T1VTUUhEcRTW+P5Z6qzxh1WGYgDTYYcRCWQyRbU
+   QvAIQFDkz0PHirI/7xZKeLlbLXqjxEuuvSZBUVPvUu9eJPEG//JQQoTtD
+   CTkeuIQBKWgxnlSDrBWsV3bQi0lsW29Dc0tfhIgr/8DH67Kh3wqjfwKcI
+   auZBETN1jIzxaCeZ589v0EnGAju65YvbCVLOM+ebsKIgh/Xn32axsDwKH
+   OAPAKP+F2KS/fbaCExdcaTouhXwc5FJS7elxOvMVPflh9kz9imnoWDDex
    g==;
-X-CSE-ConnectionGUID: hoWbFdPYSHqadT+dE/V0MQ==
-X-CSE-MsgGUID: qdgzo1k2RBOGmKqZLzHEIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="41365401"
+X-CSE-ConnectionGUID: 9LgU12EiSJSwkbj9MAKSGQ==
+X-CSE-MsgGUID: f/OMUHbnSBuYrzeK9JJ6tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="41365403"
 X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="41365401"
+   d="scan'208";a="41365403"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 17:38:27 -0800
-X-CSE-ConnectionGUID: bvICwsZ9ShuMbLqFVE5gug==
-X-CSE-MsgGUID: 6VK0a0ReRQ2LkPriaZfw9w==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 17:38:29 -0800
+X-CSE-ConnectionGUID: t8gaRFDOR9u6gw2bJigvOw==
+X-CSE-MsgGUID: EuiplYBkRm6isXdbEknGow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="111319562"
+   d="scan'208";a="111319567"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 19 Jan 2025 17:38:25 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZgkB-000W1n-0R;
+	id 1tZgkB-000W1s-0Z;
 	Mon, 20 Jan 2025 01:38:23 +0000
 Date: Mon, 20 Jan 2025 09:37:27 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH v3 10/10] wifi: ath12k: Add peer extended Rx statistics
- debugfs support
-Message-ID: <202501200931.mFKm0hsW-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2441/2441]
+ drivers/gpu/drm/exynos/exynos_drm_gem.c:51:24: error:
+ 'DMA_ATTR_NON_CONSISTENT' undeclared
+Message-ID: <202501200947.UDgyqcGY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,204 +67,172 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In-Reply-To: <20250119135751.2221902-11-quic_periyasa@quicinc.com>
-References: <20250119135751.2221902-11-quic_periyasa@quicinc.com>
-TO: Karthikeyan Periyasamy <quic_periyasa@quicinc.com>
-TO: ath12k@lists.infradead.org
-CC: linux-wireless@vger.kernel.org
-CC: Karthikeyan Periyasamy <quic_periyasa@quicinc.com>
-CC: P Praneesh <quic_ppranees@quicinc.com>
-CC: Balamurugan Mahalingam <quic_bmahalin@quicinc.com>
-
-Hi Karthikeyan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e7ef944b3e2c31b608800925e784f67596375770]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karthikeyan-Periyasamy/wifi-ath12k-Add-HAL_PHYRX_GENERIC_U_SIG-TLV-parsing-support/20250119-220042
-base:   e7ef944b3e2c31b608800925e784f67596375770
-patch link:    https://lore.kernel.org/r/20250119135751.2221902-11-quic_periyasa%40quicinc.com
-patch subject: [PATCH v3 10/10] wifi: ath12k: Add peer extended Rx statistics debugfs support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250120/202501200931.mFKm0hsW-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501200931.mFKm0hsW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   f1811f6442501fe34d2339158aed4f85a64f0398
+commit: 0764432a5ada7a09ce36b0e980ec40340fae2a30 [2441/2441] dma-mapping: add a new dma_alloc_pages API
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250120/202501200947.UDgyqcGY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501200947.UDgyqcGY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501200931.mFKm0hsW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501200947.UDgyqcGY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the opencloudos/linux-5.4/lts/5.4.119-20.0009.spr HEAD f1811f6442501fe34d2339158aed4f85a64f0398 builds fine.
+      It only hurts bisectability.
 
-   In file included from drivers/net/wireless/ath/ath12k/debugfs_sta.c:8:
-   In file included from drivers/net/wireless/ath/ath12k/debugfs_sta.h:9:
-   In file included from include/net/mac80211.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/ath/ath12k/debugfs_sta.c:80:32: warning: arithmetic between different enumeration types ('enum hal_rx_bw' and 'enum hal_rx_gi') [-Wenum-enum-conversion]
-      80 |         for (i = 0; i < HAL_RX_BW_MAX * HAL_RX_GI_MAX * HAL_RX_MAX_NSS; i++) {
-         |                         ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath12k/debugfs_sta.c:162:3: error: cannot jump from this goto statement to its label
-     162 |                 goto out;
-         |                 ^
-   drivers/net/wireless/ath/ath12k/debugfs_sta.c:167:6: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     167 |         u8 *buf __free(kfree) = kzalloc(size, GFP_KERNEL);
-         |             ^
-   drivers/net/wireless/ath/ath12k/debugfs_sta.c:156:3: error: cannot jump from this goto statement to its label
-     156 |                 goto out;
-         |                 ^
-   drivers/net/wireless/ath/ath12k/debugfs_sta.c:167:6: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     167 |         u8 *buf __free(kfree) = kzalloc(size, GFP_KERNEL);
-         |             ^
-   4 warnings and 2 errors generated.
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/bug.h:6,
+                    from include/linux/bug.h:5,
+                    from include/linux/scatterlist.h:7,
+                    from include/linux/dma-buf.h:18,
+                    from drivers/gpu/drm/exynos/exynos_drm_gem.c:9:
+   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
+       8 | #define instrumentation_begin() ({                                      \
+         | 
+   In file included from include/linux/file.h:9,
+                    from include/linux/dma-buf.h:16:
+   include/linux/compiler.h:139: note: this is the location of the previous definition
+     139 | #define instrumentation_begin() ({                                      \
+         | 
+   drivers/gpu/drm/exynos/exynos_drm_gem.c: In function 'exynos_drm_alloc_buf':
+>> drivers/gpu/drm/exynos/exynos_drm_gem.c:51:24: error: 'DMA_ATTR_NON_CONSISTENT' undeclared (first use in this function)
+      51 |                 attr = DMA_ATTR_NON_CONSISTENT;
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/exynos/exynos_drm_gem.c:51:24: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from arch/x86/include/asm/bug.h:6,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:15,
+                    from drivers/scsi/53c700.c:108:
+   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
+       8 | #define instrumentation_begin() ({                                      \
+         | 
+   In file included from include/linux/export.h:42,
+                    from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:8,
+                    from drivers/scsi/53c700.c:105:
+   include/linux/compiler.h:139: note: this is the location of the previous definition
+     139 | #define instrumentation_begin() ({                                      \
+         | 
+   drivers/scsi/53c700.c: In function 'NCR_700_detect':
+>> drivers/scsi/53c700.c:287:46: error: 'DMA_ATTR_NON_CONSISTENT' undeclared (first use in this function)
+     287 |                                  GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/53c700.c:287:46: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/scsi/53c700.c: In function 'NCR_700_release':
+   drivers/scsi/53c700.c:399:43: error: 'DMA_ATTR_NON_CONSISTENT' undeclared (first use in this function)
+     399 |                        hostdata->pScript, DMA_ATTR_NON_CONSISTENT);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/53c700.c: In function 'NCR_700_intr':
+   drivers/scsi/53c700.c:1488:41: warning: variable 'state' set but not used [-Wunused-but-set-variable]
+    1488 |                 enum NCR_700_Host_State state;
+         |                                         ^~~~~
+   drivers/scsi/53c700.c: In function 'NCR_700_queuecommand_lck':
+   drivers/scsi/53c700.c:1742:33: warning: variable 'direction' set but not used [-Wunused-but-set-variable]
+    1742 |         enum dma_data_direction direction;
+         |                                 ^~~~~~~~~
 
 
-vim +80 drivers/net/wireless/ath/ath12k/debugfs_sta.c
+vim +/DMA_ATTR_NON_CONSISTENT +51 drivers/gpu/drm/exynos/exynos_drm_gem.c
 
-    14	
-    15	static
-    16	u32 ath12k_dbg_sta_dump_rate_stats(u8 *buf, u32 offset, const int size,
-    17					   bool he_rates_avail,
-    18					   const struct ath12k_rx_peer_rate_stats *stats)
-    19	{
-    20		static const char *legacy_rate_str[HAL_RX_MAX_NUM_LEGACY_RATES] = {
-    21						"1 Mbps", "2 Mbps", "5.5 Mbps", "6 Mbps",
-    22						"9 Mbps", "11 Mbps", "12 Mbps", "18 Mbps",
-    23						"24 Mbps", "36 Mbps", "48 Mbps", "54 Mbps"};
-    24		int mcs = 0, bw = 0, nss = 0, gi = 0, bw_num = 0;
-    25		u32 i, len = offset;
-    26		bool found;
-    27	
-    28		len += scnprintf(buf + len, size - len, "\nEHT stats:\n");
-    29		for (i = 0; i <= HAL_RX_MAX_MCS_BE; i++)
-    30			len += scnprintf(buf + len, size - len,
-    31					   "MCS %d: %llu%s", i, stats->be_mcs_count[i],
-    32					   (i + 1) % 8 ? "\t" : "\n");
-    33	
-    34		len += scnprintf(buf + len, size - len, "\nHE stats:\n");
-    35		for (i = 0; i <= HAL_RX_MAX_MCS_HE; i++)
-    36			len += scnprintf(buf + len, size - len,
-    37					   "MCS %d: %llu%s", i, stats->he_mcs_count[i],
-    38					   (i + 1) % 6 ? "\t" : "\n");
-    39	
-    40		len += scnprintf(buf + len, size - len, "\nVHT stats:\n");
-    41		for (i = 0; i <= HAL_RX_MAX_MCS_VHT; i++)
-    42			len += scnprintf(buf + len, size - len,
-    43					   "MCS %d: %llu%s", i, stats->vht_mcs_count[i],
-    44					   (i + 1) % 5 ? "\t" : "\n");
-    45	
-    46		len += scnprintf(buf + len, size - len, "\nHT stats:\n");
-    47		for (i = 0; i <= HAL_RX_MAX_MCS_HT; i++)
-    48			len += scnprintf(buf + len, size - len,
-    49					   "MCS %d: %llu%s", i, stats->ht_mcs_count[i],
-    50					   (i + 1) % 8 ? "\t" : "\n");
-    51	
-    52		len += scnprintf(buf + len, size - len, "\nLegacy stats:\n");
-    53		for (i = 0; i < HAL_RX_MAX_NUM_LEGACY_RATES; i++)
-    54			len += scnprintf(buf + len, size - len,
-    55					   "%s: %llu%s", legacy_rate_str[i],
-    56					   stats->legacy_count[i],
-    57					   (i + 1) % 4 ? "\t" : "\n");
-    58	
-    59		len += scnprintf(buf + len, size - len, "\nNSS stats:\n");
-    60		for (i = 0; i < HAL_RX_MAX_NSS; i++)
-    61			len += scnprintf(buf + len, size - len,
-    62					   "%dx%d: %llu ", i + 1, i + 1,
-    63					   stats->nss_count[i]);
-    64	
-    65		len += scnprintf(buf + len, size - len,
-    66				  "\n\nGI: 0.8 us %llu 0.4 us %llu 1.6 us %llu 3.2 us %llu\n",
-    67				  stats->gi_count[0],
-    68				  stats->gi_count[1],
-    69				  stats->gi_count[2],
-    70				  stats->gi_count[3]);
-    71	
-    72		len += scnprintf(buf + len, size - len,
-    73				   "BW: 20 MHz %llu 40 MHz %llu 80 MHz %llu 160 MHz %llu 320 MHz %llu\n",
-    74				   stats->bw_count[0],
-    75				   stats->bw_count[1],
-    76				   stats->bw_count[2],
-    77				   stats->bw_count[3],
-    78				   stats->bw_count[4]);
-    79	
-  > 80		for (i = 0; i < HAL_RX_BW_MAX * HAL_RX_GI_MAX * HAL_RX_MAX_NSS; i++) {
-    81			found = false;
-    82	
-    83			for (mcs = 0; mcs <= HAL_RX_MAX_MCS_HT; mcs++) {
-    84				if (stats->rx_rate[bw][gi][nss][mcs]) {
-    85					found = true;
-    86					break;
-    87				}
-    88			}
-    89	
-    90			if (!found)
-    91				goto skip_report;
-    92	
-    93			switch (bw) {
-    94			case HAL_RX_BW_20MHZ:
-    95				bw_num = 20;
-    96				break;
-    97			case HAL_RX_BW_40MHZ:
-    98				bw_num = 40;
-    99				break;
-   100			case HAL_RX_BW_80MHZ:
-   101				bw_num = 80;
-   102				break;
-   103			case HAL_RX_BW_160MHZ:
-   104				bw_num = 160;
-   105				break;
-   106			case HAL_RX_BW_320MHZ:
-   107				bw_num = 320;
-   108				break;
-   109			}
-   110	
-   111			len += scnprintf(buf + len, size - len, "\n%d Mhz gi %d us %dx%d : ",
-   112					 bw_num, gi, nss + 1, nss + 1);
-   113	
-   114			for (mcs = 0; mcs <= HAL_RX_MAX_MCS_HT; mcs++) {
-   115				if (stats->rx_rate[bw][gi][nss][mcs])
-   116					len += scnprintf(buf + len, size - len,
-   117							 " %d:%llu", mcs,
-   118							 stats->rx_rate[bw][gi][nss][mcs]);
-   119			}
-   120	
-   121	skip_report:
-   122			if (nss++ >= HAL_RX_MAX_NSS - 1) {
-   123				nss = 0;
-   124				if (gi++ >= HAL_RX_GI_MAX - 1) {
-   125					gi = 0;
-   126					if (bw < HAL_RX_BW_MAX - 1)
-   127						bw++;
-   128				}
-   129			}
-   130		}
-   131	
-   132		len += scnprintf(buf + len, size - len, "\n");
-   133	
-   134		return len - offset;
-   135	}
-   136	
+1c248b7d2960fa Inki Dae            2011-10-04   19  
+813fd67b57ffca Joonyoung Shim      2015-10-02   20  static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem)
+2a8cb489454089 Joonyoung Shim      2015-08-16   21  {
+813fd67b57ffca Joonyoung Shim      2015-10-02   22  	struct drm_device *dev = exynos_gem->base.dev;
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   23  	unsigned long attr;
+2a8cb489454089 Joonyoung Shim      2015-08-16   24  	unsigned int nr_pages;
+df547bf7735a62 Marek Szyprowski    2015-10-13   25  	struct sg_table sgt;
+df547bf7735a62 Marek Szyprowski    2015-10-13   26  	int ret = -ENOMEM;
+2a8cb489454089 Joonyoung Shim      2015-08-16   27  
+813fd67b57ffca Joonyoung Shim      2015-10-02   28  	if (exynos_gem->dma_addr) {
+6be900563a9e74 Inki Dae            2019-04-15   29  		DRM_DEV_DEBUG_KMS(to_dma_dev(dev), "already allocated.\n");
+2a8cb489454089 Joonyoung Shim      2015-08-16   30  		return 0;
+2a8cb489454089 Joonyoung Shim      2015-08-16   31  	}
+2a8cb489454089 Joonyoung Shim      2015-08-16   32  
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   33  	exynos_gem->dma_attrs = 0;
+2a8cb489454089 Joonyoung Shim      2015-08-16   34  
+2a8cb489454089 Joonyoung Shim      2015-08-16   35  	/*
+2a8cb489454089 Joonyoung Shim      2015-08-16   36  	 * if EXYNOS_BO_CONTIG, fully physically contiguous memory
+2a8cb489454089 Joonyoung Shim      2015-08-16   37  	 * region will be allocated else physically contiguous
+2a8cb489454089 Joonyoung Shim      2015-08-16   38  	 * as possible.
+2a8cb489454089 Joonyoung Shim      2015-08-16   39  	 */
+813fd67b57ffca Joonyoung Shim      2015-10-02   40  	if (!(exynos_gem->flags & EXYNOS_BO_NONCONTIG))
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   41  		exynos_gem->dma_attrs |= DMA_ATTR_FORCE_CONTIGUOUS;
+2a8cb489454089 Joonyoung Shim      2015-08-16   42  
+2a8cb489454089 Joonyoung Shim      2015-08-16   43  	/*
+2a8cb489454089 Joonyoung Shim      2015-08-16   44  	 * if EXYNOS_BO_WC or EXYNOS_BO_NONCACHABLE, writecombine mapping
+2a8cb489454089 Joonyoung Shim      2015-08-16   45  	 * else cachable mapping.
+2a8cb489454089 Joonyoung Shim      2015-08-16   46  	 */
+813fd67b57ffca Joonyoung Shim      2015-10-02   47  	if (exynos_gem->flags & EXYNOS_BO_WC ||
+813fd67b57ffca Joonyoung Shim      2015-10-02   48  			!(exynos_gem->flags & EXYNOS_BO_CACHABLE))
+2a8cb489454089 Joonyoung Shim      2015-08-16   49  		attr = DMA_ATTR_WRITE_COMBINE;
+2a8cb489454089 Joonyoung Shim      2015-08-16   50  	else
+2a8cb489454089 Joonyoung Shim      2015-08-16  @51  		attr = DMA_ATTR_NON_CONSISTENT;
+2a8cb489454089 Joonyoung Shim      2015-08-16   52  
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   53  	exynos_gem->dma_attrs |= attr;
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   54  	exynos_gem->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
+2a8cb489454089 Joonyoung Shim      2015-08-16   55  
+813fd67b57ffca Joonyoung Shim      2015-10-02   56  	nr_pages = exynos_gem->size >> PAGE_SHIFT;
+2a8cb489454089 Joonyoung Shim      2015-08-16   57  
+2098105ec65cb3 Michal Hocko        2017-05-17   58  	exynos_gem->pages = kvmalloc_array(nr_pages, sizeof(struct page *),
+2098105ec65cb3 Michal Hocko        2017-05-17   59  			GFP_KERNEL | __GFP_ZERO);
+813fd67b57ffca Joonyoung Shim      2015-10-02   60  	if (!exynos_gem->pages) {
+6f83d20838c099 Inki Dae            2019-04-15   61  		DRM_DEV_ERROR(to_dma_dev(dev), "failed to allocate pages.\n");
+2a8cb489454089 Joonyoung Shim      2015-08-16   62  		return -ENOMEM;
+2a8cb489454089 Joonyoung Shim      2015-08-16   63  	}
+2a8cb489454089 Joonyoung Shim      2015-08-16   64  
+f43c35966a5ac6 Marek Szyprowski    2016-02-29   65  	exynos_gem->cookie = dma_alloc_attrs(to_dma_dev(dev), exynos_gem->size,
+813fd67b57ffca Joonyoung Shim      2015-10-02   66  					     &exynos_gem->dma_addr, GFP_KERNEL,
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   67  					     exynos_gem->dma_attrs);
+813fd67b57ffca Joonyoung Shim      2015-10-02   68  	if (!exynos_gem->cookie) {
+6f83d20838c099 Inki Dae            2019-04-15   69  		DRM_DEV_ERROR(to_dma_dev(dev), "failed to allocate buffer.\n");
+df547bf7735a62 Marek Szyprowski    2015-10-13   70  		goto err_free;
+2a8cb489454089 Joonyoung Shim      2015-08-16   71  	}
+2a8cb489454089 Joonyoung Shim      2015-08-16   72  
+f43c35966a5ac6 Marek Szyprowski    2016-02-29   73  	ret = dma_get_sgtable_attrs(to_dma_dev(dev), &sgt, exynos_gem->cookie,
+df547bf7735a62 Marek Szyprowski    2015-10-13   74  				    exynos_gem->dma_addr, exynos_gem->size,
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   75  				    exynos_gem->dma_attrs);
+df547bf7735a62 Marek Szyprowski    2015-10-13   76  	if (ret < 0) {
+6f83d20838c099 Inki Dae            2019-04-15   77  		DRM_DEV_ERROR(to_dma_dev(dev), "failed to get sgtable.\n");
+df547bf7735a62 Marek Szyprowski    2015-10-13   78  		goto err_dma_free;
+2a8cb489454089 Joonyoung Shim      2015-08-16   79  	}
+df547bf7735a62 Marek Szyprowski    2015-10-13   80  
+df547bf7735a62 Marek Szyprowski    2015-10-13   81  	if (drm_prime_sg_to_page_addr_arrays(&sgt, exynos_gem->pages, NULL,
+df547bf7735a62 Marek Szyprowski    2015-10-13   82  					     nr_pages)) {
+6f83d20838c099 Inki Dae            2019-04-15   83  		DRM_DEV_ERROR(to_dma_dev(dev), "invalid sgtable.\n");
+df547bf7735a62 Marek Szyprowski    2015-10-13   84  		ret = -EINVAL;
+df547bf7735a62 Marek Szyprowski    2015-10-13   85  		goto err_sgt_free;
+2a8cb489454089 Joonyoung Shim      2015-08-16   86  	}
+2a8cb489454089 Joonyoung Shim      2015-08-16   87  
+df547bf7735a62 Marek Szyprowski    2015-10-13   88  	sg_free_table(&sgt);
+df547bf7735a62 Marek Szyprowski    2015-10-13   89  
+6be900563a9e74 Inki Dae            2019-04-15   90  	DRM_DEV_DEBUG_KMS(to_dma_dev(dev), "dma_addr(0x%lx), size(0x%lx)\n",
+813fd67b57ffca Joonyoung Shim      2015-10-02   91  			(unsigned long)exynos_gem->dma_addr, exynos_gem->size);
+2a8cb489454089 Joonyoung Shim      2015-08-16   92  
+2a8cb489454089 Joonyoung Shim      2015-08-16   93  	return 0;
+df547bf7735a62 Marek Szyprowski    2015-10-13   94  
+df547bf7735a62 Marek Szyprowski    2015-10-13   95  err_sgt_free:
+df547bf7735a62 Marek Szyprowski    2015-10-13   96  	sg_free_table(&sgt);
+df547bf7735a62 Marek Szyprowski    2015-10-13   97  err_dma_free:
+f43c35966a5ac6 Marek Szyprowski    2016-02-29   98  	dma_free_attrs(to_dma_dev(dev), exynos_gem->size, exynos_gem->cookie,
+00085f1efa387a Krzysztof Kozlowski 2016-08-03   99  		       exynos_gem->dma_addr, exynos_gem->dma_attrs);
+df547bf7735a62 Marek Szyprowski    2015-10-13  100  err_free:
+2098105ec65cb3 Michal Hocko        2017-05-17  101  	kvfree(exynos_gem->pages);
+df547bf7735a62 Marek Szyprowski    2015-10-13  102  
+df547bf7735a62 Marek Szyprowski    2015-10-13  103  	return ret;
+2a8cb489454089 Joonyoung Shim      2015-08-16  104  }
+2a8cb489454089 Joonyoung Shim      2015-08-16  105  
+
+:::::: The code at line 51 was first introduced by commit
+:::::: 2a8cb48945408984cd04c850b293f467b32ec5af drm/exynos: merge exynos_drm_buf.c to exynos_drm_gem.c
+
+:::::: TO: Joonyoung Shim <jy0922.shim@samsung.com>
+:::::: CC: Inki Dae <inki.dae@samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
