@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9091148FE6;
-	Tue, 21 Jan 2025 03:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E4126281
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jan 2025 03:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737428528; cv=none; b=Nx9xVh6Rla25BYuDAiMoVOutCJn55f2T5FG5UqaP6ryS5AO2UT3e8S+vZ87DXR1mLcEbIn5mnuynqVg3rLfPZhI70Q9s1SfsbLYHawRjG+rS3hSLHrTeWw+q0aUPToM31Nr0jRFOebXWtbP0s4q+FBXroCkQ95b15O73IoZ3jls=
+	t=1737430396; cv=none; b=uQOxjTbQGaayoeTUwK1MnjQg/blDekYtowjeqyvaCqxG2vnSDiycbw1WYnfNMvLFxtBtCNygdmpj4la+2EBJpp8V/TFJF+KNBGqHdTdnCiOX3B1R7euRMq98/y6W91qO7+Xp5l6q8Slk1YENJQVklxLXxngLvPXuDiP/Emd3N5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737428528; c=relaxed/simple;
-	bh=VngkI13m0a6394z7V6bn+vTOXKQRZK2y/gQ+ebv30+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u3kyjV9r/3D8DhvBf+Qnulsh85PS61HNWGAvIBJsCzBRV7F/arji5yGaz6RAmtStLLXUY+VswUnODoncILKDHI3rEf3Fe4hhgVoPfdMf21AxwBx8hu8tHP6V3COwvkW4LqzmJJxuy4ms7i5wEZa6ApV3AWFhFI5Qk9Ru34XqhwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3+VLWdA; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1737430396; c=relaxed/simple;
+	bh=K1YSzZbu4SLN1YTVntSB2K6gqsUqhH6YUP0jgp0dWXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dqRg1YCO2ylydt9Yb/MUNB9/x6SRYip6Lc7bKpLKzrbGvmzSvP86gjIrTa0Wotde9ufU8mLQU3VD3QFCTkV75fA0v90gS0j8Ix7W/XQvIV3LIIfjJPHIDFZDI8eo/A7QtDq+BlRFZXPSbYVpd77U3O2ZmRx+bm8dCcfAGjp9Xbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kCOOikIa; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3+VLWdA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCOOikIa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737428526; x=1768964526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VngkI13m0a6394z7V6bn+vTOXKQRZK2y/gQ+ebv30+A=;
-  b=X3+VLWdA69NzM8DPT3IORP0st+8bW/wxqOBiq46bcV5XgHnnWrQe4Sfs
-   LC236aiyuWeVefIigXE62OKiqfmtImd5Jsh143APG2MLQxiKIS0REoK7R
-   LWma4Dc9v0rB3QouwD0j445bHh0wQCT1krDv2HYQYrxsCMDjf2uWHpD/h
-   3rVaWcgcLtG3h3EMRF0hx+6d8IZg/s1T/37Sc9t/XhiLG51MOx25InPJZ
-   Y9QNN1qhWbp+FnI4rqLrnivBxG1G5NPmGk8u7j8ielC1NiAaxyjDfDHTL
-   n8okDWJrH2TZiHnsGx071hUVDcVCvKi5UwoBBcSEYViOxlVh6xDtJgR97
-   g==;
-X-CSE-ConnectionGUID: JoYM1YMlTju0FDNyfuRkgw==
-X-CSE-MsgGUID: HgvsX/MER36Zf2qetouV4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37712696"
+  t=1737430395; x=1768966395;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K1YSzZbu4SLN1YTVntSB2K6gqsUqhH6YUP0jgp0dWXo=;
+  b=kCOOikIa4tY4TL/xOYOuNuHhcbHv1dQRBYfP/iTNTv/046VvNxUGEtiA
+   kBY+iCnq9MvmjOY/2zPXptbStDWEICYOF+t/ZDpb2twaEJXRrgfO8/nKR
+   imClscZVQbVHSl4pkNIplGlBsUFo0w+/7KAdx0Uk5X+164zNpeZxUiLO9
+   7dZ9gqDv9RjNAryfer2i1PbefGLBIjlY9i3DMQAbI+Te4h6sgocfKzSBO
+   S3VtO5E+omn8uczkFP8RineoroAvjUunG24m4/rwyng+8y6zW1sE7MTcU
+   C8RFhNKPni34idU+6U0Yx9lUzao2sVwMHQlYplOMSKRsK18iwfHDlAmIw
+   Q==;
+X-CSE-ConnectionGUID: V3/lBAkSToC4x9cErZ5dnQ==
+X-CSE-MsgGUID: QpNhLrbnRva9FuLsWDEjpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37703731"
 X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="37712696"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 19:02:05 -0800
-X-CSE-ConnectionGUID: 3V1WsWUHQzOgyn0Q857QFg==
-X-CSE-MsgGUID: BSmIHu4KSnu+cjc77rvf6A==
+   d="scan'208";a="37703731"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 19:33:14 -0800
+X-CSE-ConnectionGUID: FGxj9RqgTp+0JD2Ku0mnSg==
+X-CSE-MsgGUID: QzQVeDC9TziCYUAVyb/uHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="106483671"
+   d="scan'208";a="106804372"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2025 19:02:02 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 20 Jan 2025 19:33:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ta4Wd-000XWp-3B;
-	Tue, 21 Jan 2025 03:01:59 +0000
-Date: Tue, 21 Jan 2025 11:01:25 +0800
+	id 1ta50p-000XZH-19;
+	Tue, 21 Jan 2025 03:33:11 +0000
+Date: Tue, 21 Jan 2025 11:32:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Potin Lai <potin.lai.pt@gmail.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Patrick Williams <patrick@stwcx.xyz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Cosmo Chou <cosmo.chou@quantatw.com>,
-	Potin Lai <potin.lai@quantatw.com>
-Subject: Re: [PATCH] hwmon: ina238: Add support for shunt voltage scaling
-Message-ID: <202501211015.8Szwv3Cd-lkp@intel.com>
-References: <20250121-potin-ina238-shunt-voltage-scaling-v1-1-36d5dfe027f5@gmail.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efi-zboot 29/30] x86-bzimage.c:undefined reference to
+ `kaslr_get_random_long'
+Message-ID: <202501211130.RHcGFaDQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,47 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250121-potin-ina238-shunt-voltage-scaling-v1-1-36d5dfe027f5@gmail.com>
 
-Hi Potin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on fc033cf25e612e840e545f8d5ad2edd6ba613ed5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Potin-Lai/hwmon-ina238-Add-support-for-shunt-voltage-scaling/20250121-002826
-base:   fc033cf25e612e840e545f8d5ad2edd6ba613ed5
-patch link:    https://lore.kernel.org/r/20250121-potin-ina238-shunt-voltage-scaling-v1-1-36d5dfe027f5%40gmail.com
-patch subject: [PATCH] hwmon: ina238: Add support for shunt voltage scaling
-config: x86_64-buildonly-randconfig-004-20250121 (https://download.01.org/0day-ci/archive/20250121/202501211015.8Szwv3Cd-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211015.8Szwv3Cd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-zboot
+head:   d9643e73517e2ecc1c3dac9a4724ddfb866620c3
+commit: 8785c948523908af9cab93e4f845bdf476c653dc [29/30] efistub/x86: Refactor decompression flow to prepare for zboot support
+config: i386-buildonly-randconfig-001-20250121 (https://download.01.org/0day-ci/archive/20250121/202501211130.RHcGFaDQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211130.RHcGFaDQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501211015.8Szwv3Cd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501211130.RHcGFaDQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/hwmon/ina238.c:120:30: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
-     120 |         return sprintf(buf, "%d\n", data->shunt_volt_scale);
-         |                              ~~     ^~~~~~~~~~~~~~~~~~~~~~
-         |                              %ld
-   1 warning generated.
-
-
-vim +120 drivers/hwmon/ina238.c
-
-   114	
-   115	static ssize_t shunt_volt_scale_show(struct device *dev,
-   116					     struct device_attribute *attr, char *buf)
-   117	{
-   118		struct ina238_data *data = dev_get_drvdata(dev);
-   119	
- > 120		return sprintf(buf, "%d\n", data->shunt_volt_scale);
-   121	}
-   122	
+   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_pe_common_entry':
+>> drivers/firmware/efi/libstub/x86-stub.c:457:9: warning: implicit declaration of function 'efi_stub_entry'; did you mean 'efi_pe_entry'? [-Wimplicit-function-declaration]
+     457 |         efi_stub_entry(handle, sys_table_arg, boot_params);
+         |         ^~~~~~~~~~~~~~
+         |         efi_pe_entry
+--
+   ld: Unexpected GOT/PLT entries detected!
+   ld: Unexpected run-time procedure linkages detected!
+>> ld: Unexpected run-time relocations (.rel) detected!
+   ld: drivers/firmware/efi/libstub/x86-bzimage.stub.o: in function `efi_get_seed':
+>> x86-bzimage.c:(.text+0x51): undefined reference to `kaslr_get_random_long'
+   ld: drivers/firmware/efi/libstub/x86-stub.stub.o: in function `efi_pe_common_entry':
+>> x86-stub.c:(.text+0x212): undefined reference to `efi_stub_entry'
+   ld: arch/x86/boot/compressed/vmlinux: hidden symbol `kaslr_get_random_long' isn't defined
+   ld: final link failed: bad value
 
 -- 
 0-DAY CI Kernel Test Service
