@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF4C8BFF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jan 2025 00:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BD34A32;
+	Tue, 21 Jan 2025 01:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737420978; cv=none; b=fmUMoJlTr7+ULATENpvkZq0TXWMNEKrUWHf7vflxgXAgpKCxEJ2h2BGyKUcW/c88+Ipep3VqDj47k9KHFuh1w7JgvcnRGayT3wxM2NoDwQTBYIQhaafZm3zTP+7wOObuecSBVtNc1AnGW4RdV95Cgyx2ATTXNBEsIE0tpGKkNBw=
+	t=1737424730; cv=none; b=jNBDJhIXlhEovA0sf/EfdX/KBK3OHTpE0AX0bsW2s6wLbx+qMZ/9Bam6zpO4IEZs4hVRGAd7OucdEaZlqAEq18gibYFAkyy6xA3KoO+fMiPp3a1mWhAcqi0i0QZpEXXlzQ6hkDKBWYp0iraD4H44KaGmzkMUiV/lEH2Ent9yLYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737420978; c=relaxed/simple;
-	bh=OQ2ktPGFzjTLTawECSRTl0A8LRgwbsYMTI2ahG3KsOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FiuMooZmw0Kr0f2kTqGZD4IgGiXhz6WK2+81Yv2Cu7cZTJIec3P8JJHgzR0BmCC+5xfFKXeNxrrzqkDn2CN8MS7xU1xOq4GMLjBGvpCjciSF/MzLlLrSubifCS9nNuqz2nXqqB4baihHqSvwCkrH9Pcp9GmdcLkWTqVG9c9UmVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkeJDcIZ; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1737424730; c=relaxed/simple;
+	bh=raUKQDAysB8UV6QvG6k5sxNodocoD71iLSB6wRtr70k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=onfqh2VzICMAxI09ksYeNv6sgKO7aatM4khsnQ7m5VUMg6D6cVROc6XTA0IhdhilG69FHIwOIqwTeVUJJBMZfQyyDMr/17FQIYoHmE9KzSl6untxttnrOlvvqN1DrSlS8umIcI1VY1S8YCcTNs8RPBOqZJc+VI7YxrZvZ4yjAOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PF33qMqV; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkeJDcIZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF33qMqV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737420976; x=1768956976;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OQ2ktPGFzjTLTawECSRTl0A8LRgwbsYMTI2ahG3KsOE=;
-  b=RkeJDcIZRtTf4DO8szEbvxoTk/MJIUXeean1rApyPHciy3cZAWhGbYBF
-   /aKs8hajdDFT0actP5rphYE5tSzC9JDuY4ZsIDrl4OPouuiSy+tqwdf7K
-   QpasayqpAG1wDCZdXtdQuQBIVCuLjaWYLPm6VAorn3Sq/q7NUh7tmQLtq
-   m1n6q4gK+9LxAB47oCwnQyoUph+awgSrGLBNQejvBslDvZ7QqzPeCrMDZ
-   iMmqdglIJnxQiVqS9RSA7BhKtVcSshPm4QgBXKFzC0nI0wWlvIPcmn3ql
-   yEmtueRJBKlBsSHSPcEoqbyRMgN5/L5EUmGk9tP9tbRg5tuZ88p1Z3Aoa
+  t=1737424728; x=1768960728;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=raUKQDAysB8UV6QvG6k5sxNodocoD71iLSB6wRtr70k=;
+  b=PF33qMqVmVMQEJyQieD7ZrORJ7SY7QHhpIJ1biAdsxBMGYNyXfCyW2Rn
+   SUr703iZAPyz9WNw5JPgTM4UjljAy8KQhiPw8IhejycBRThhenJIZtITf
+   Wp1YWAl4uuXloLkCMqEueUj6ficrvbRuwGsu10K12h1CYGijOuEsSFadi
+   SOQ1yUcW4OVp9JK9/dyRpa/2B0MNY5u4/9HBO/HrCdAbzk1ntNI7vkltC
+   zoAMBqXEmSJUgfPBImmAa5oujnpWoz+3P6w4Tarbg+av5F3/kCXQbOU+K
+   LnX83PEO37VjW9gnbeyCIVKNbqWRK5caXrQPAZ8pfpWO1lQyeDFw90Zr+
    Q==;
-X-CSE-ConnectionGUID: dVxpJ7cjR0iiGtH21EcpYg==
-X-CSE-MsgGUID: /p3apqJaRveemp4QZO6jzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="55229344"
+X-CSE-ConnectionGUID: fLkYCQUiQcub+hAzmRoNVA==
+X-CSE-MsgGUID: ek401QlSRCK7dL2w8/K0Zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="25425232"
 X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="55229344"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 16:56:15 -0800
-X-CSE-ConnectionGUID: 4CpagogkRC+scKzLz/L4vg==
-X-CSE-MsgGUID: aTXdX0ozRQuNsx860JO4GA==
+   d="scan'208";a="25425232"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 17:58:47 -0800
+X-CSE-ConnectionGUID: JhXlER2rQUGYG7miP5JBow==
+X-CSE-MsgGUID: 7eqw6VScS0iNql5ZnzO5Ww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
-   d="scan'208";a="111637333"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="111634959"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Jan 2025 16:56:14 -0800
+  by orviesa003.jf.intel.com with ESMTP; 20 Jan 2025 17:58:46 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ta2Yu-000XQh-0N;
-	Tue, 21 Jan 2025 00:56:12 +0000
-Date: Tue, 21 Jan 2025 08:55:45 +0800
+	id 1ta3XP-000XTz-06;
+	Tue, 21 Jan 2025 01:58:43 +0000
+Date: Tue, 21 Jan 2025 09:57:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 336/336] drivers/rtc/rtc-mt6685.c:22:6:
- sparse: sparse: symbol 'power_on_mclk' was not declared. Should it be
- static?
-Message-ID: <202501210804.UBzLda6o-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Basharath Hussain Khaja <basharath@couthit.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Subject: Re: [PATCH 2/2] of: address: Add kunit test for
+ __of_address_resource_bounds()
+Message-ID: <202501210916.KXb12BAV-lkp@intel.com>
+References: <20250120-of-address-overflow-v1-2-dd68dbf47bce@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,37 +68,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250120-of-address-overflow-v1-2-dd68dbf47bce@linutronix.de>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1f4dbd9903f644aa6c511f8a1e145ec3f4915d3a
-commit: 2fd541a9d43eceddbb3b4bfd2872a1655f335e09 [336/336] CHROMIUM: rtc: mediatek: Add mt6685 RTC driver
-config: arm64-randconfig-r131-20250121 (https://download.01.org/0day-ci/archive/20250121/202501210804.UBzLda6o-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce: (https://download.01.org/0day-ci/archive/20250121/202501210804.UBzLda6o-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/of-address-Fix-empty-resource-handling-in-__of_address_resource_bounds/20250120-221141
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250120-of-address-overflow-v1-2-dd68dbf47bce%40linutronix.de
+patch subject: [PATCH 2/2] of: address: Add kunit test for __of_address_resource_bounds()
+config: powerpc-randconfig-001-20250121 (https://download.01.org/0day-ci/archive/20250121/202501210916.KXb12BAV-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210916.KXb12BAV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501210804.UBzLda6o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210916.KXb12BAV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/rtc/rtc-mt6685.c:22:6: sparse: sparse: symbol 'power_on_mclk' was not declared. Should it be static?
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/power_on_mclk +22 drivers/rtc/rtc-mt6685.c
-
-    21	
-  > 22	void power_on_mclk(struct mt6685_rtc *rtc)
-    23	{
-    24		guard(mutex)(&rtc->clk_lock);
-    25		/* Power on RTC MCLK and 32k clk before write RTC register */
-    26		regmap_write(rtc->regmap, RG_RTC_32K_CK_PDN_CLR, RG_RTC_32K_CK_PDN_MASK);
-    27		regmap_write(rtc->regmap, RG_RTC_MCLK_PDN_CLR, RG_RTC_MCLK_PDN_MASK);
-    28	
-    29		rtc->clk_cnt++;
-    30	
-    31		mdelay(1);
-    32	}
-    33	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+>> WARNING: modpost: module of_test uses symbol __of_address_resource_bounds from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
