@@ -1,72 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA57C1F1307;
-	Tue, 21 Jan 2025 10:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56D31BBBD4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jan 2025 11:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737456843; cv=none; b=cXo2H1hEpN6K7cL0ON6x5Zb/IDP5WsJplki9X0ouMXqzJeVihRucTfc8RkmJR+8xkZUTszqjfr2XM5Rh5VIyTe+p5IUtZOuA+Qe9N7UQrdmDqaR9Imzv9d2Rl+KNI/l0JpJXI3XpWlNaeXqjKQZGo5K1oDai0hDCsHeOGgK1Nwo=
+	t=1737457443; cv=none; b=DHG8jnpOTAHxyJpauDzoriVO5WMxyCZ4PT/esBQrAE95D2MwK8jo2010FvOaVa6gU/P+K2PjUSqkC6P6fI79pr6NMgSqQT40HhNQOPCyXg7UVW39I8RpuGbq1k601ddihYjwAKhYPZZQ/W06x0KeQAlyEFqDzTm5tlKMRvd5aZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737456843; c=relaxed/simple;
-	bh=gyH292xQIxBO5MQVhSMOh9N7Ct/+tb2k3ECH3xnl5uc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d9IGVHm2OSuKyRYG7u2T44fTamytHHK4FTd1lyy0X1GbnUzKVhX+yUO9aBVQPKdlA9Gt90NWPe5TC/M3kMDRUOFcDfVZi/mTydvLgW/18tXa2jYL0AgQ7gBaVHwACrdXWMkVaVLcU3z0qXpDm7Bd/0Wg0Y/NKe7mxvaVOrsOOFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjrWeWII; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1737457443; c=relaxed/simple;
+	bh=Ie4bn2gxik3YhzQ9PB+KOrxcA3Vl8Vr9qyeA27K6Unw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c5OuxggYxRJ+frwH4ozIvbK/E5jApYR798FfJDdYvLYCveMnbSP8+Z2s3ThcyGvO3je+DCI/OxxTxhOAXVJNfTNNgJ/L85fdLFtGa+daXsP2POLGBzLapGViYreTbA/dbJ21hBXDQ+jM9Gts23DpkfkC0zPSXIz5WrAOrHoWp4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4DD09Ba; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjrWeWII"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4DD09Ba"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737456842; x=1768992842;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gyH292xQIxBO5MQVhSMOh9N7Ct/+tb2k3ECH3xnl5uc=;
-  b=VjrWeWIIaD8/xeuPvw4gOhT/vjklMbhFTEe+7drfp+rf0OxWpTkqxv0j
-   j5WTVh5nKouIEmlV8UfXb5jn/x7tvvbs25TMU6lln8vlH3udTqDMoxaRC
-   lLk7xKMAOYUSWrR6ElitdVoHhRAsgrOLPzcq9H6ghCb4yQLnKc8ViblQh
-   b75Eh8VQlBcBLusn/uhdzgmhDbAZb0aw5jeU+kx3F1sfQtfYWs2IxDcoo
-   oNM5KU+ddTAA34ft69N7M8HlbMBifvzZuu9adQM3SDYo+B5c4PrwUbqZs
-   qr/4iXKpWHdfxkCO1l0ZRNen+4S4D4Z9aizaKsayrlaNSZqY4M/OB1QcF
-   w==;
-X-CSE-ConnectionGUID: 3eklPAFyR/Oc3zKh59Giuw==
-X-CSE-MsgGUID: JphKqw2mRBecomk8/RJwAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37076289"
+  t=1737457441; x=1768993441;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ie4bn2gxik3YhzQ9PB+KOrxcA3Vl8Vr9qyeA27K6Unw=;
+  b=L4DD09BaKMryhgOqxVH/38I9jg01VhEaKTm/vpGSSN/fJWbMOFBsJ8aJ
+   0C3PDZyP8HIz+/cvhhF7YuFvpxkOQhymAmQotGp775EC8u9AZ0kVld4GI
+   1X7iYlB6Ssotl4m9mxVhSX/GfTT3hGqZjjrNkyIFkPWqaN2h0/irSwJRV
+   qg+XNf5pJP1BRl3WMRVKUNQlQvtnGPSjlWvFyB0XfmGzJVZzyHbEbusmt
+   ZtFh5wJGNSi6z8Vba2ASGDZ6S0p/uNBIcQ5MpT/+ul0V3jmCeS+apGazt
+   4ovEBA3DxG5iY1idPSy1CwzSjznWj4jpAw65K9cB+T9pZx9ZX8PfuJbws
+   Q==;
+X-CSE-ConnectionGUID: O1DtfpZxRM+TXYpDH94XwQ==
+X-CSE-MsgGUID: ImUPNujuQVqpSM0IqmQHDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="60336488"
 X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
-   d="scan'208";a="37076289"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 02:54:01 -0800
-X-CSE-ConnectionGUID: T/UXhYd5QlSPYDORjZvWcA==
-X-CSE-MsgGUID: TsFzvSDLTYCU5NRxAUYLyg==
+   d="scan'208";a="60336488"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 03:04:00 -0800
+X-CSE-ConnectionGUID: aqydhnleSq6sL4awnr0GHA==
+X-CSE-MsgGUID: y/BWRwkwRJuewdhEIyXJqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="107201662"
+   d="scan'208";a="110831528"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 21 Jan 2025 02:53:57 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 21 Jan 2025 03:03:59 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1taBtK-000XxH-1v;
-	Tue, 21 Jan 2025 10:53:54 +0000
-Date: Tue, 21 Jan 2025 18:53:12 +0800
+	id 1taC32-000Xxr-2J;
+	Tue, 21 Jan 2025 11:03:56 +0000
+Date: Tue, 21 Jan 2025 19:03:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Schrefl <chrisi.schrefl@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Christian Schrefl <chrisi.schrefl@gmail.com>
-Subject: Re: [PATCH 2/3] rust: miscdevice: Add additional data to
- MiscDeviceRegistration
-Message-ID: <202501211825.Vefi6H2q-lkp@intel.com>
-References: <20250119-b4-rust_miscdevice_registrationdata-v1-2-edbf18dde5fc@gmail.com>
+To: Eric Biggers <ebiggers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:crc-x86 4/5] arch/x86/lib/crc-pclmul-template.S:57: Error:
+ `pextrq' is only supported in 64-bit mode
+Message-ID: <202501211830.R7X096Rc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,105 +61,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250119-b4-rust_miscdevice_registrationdata-v1-2-edbf18dde5fc@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 01b3cb620815fc3feb90ee117d9445a5b608a9f7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Schrefl/rust-add-Aliased-type/20250120-061340
-base:   01b3cb620815fc3feb90ee117d9445a5b608a9f7
-patch link:    https://lore.kernel.org/r/20250119-b4-rust_miscdevice_registrationdata-v1-2-edbf18dde5fc%40gmail.com
-patch subject: [PATCH 2/3] rust: miscdevice: Add additional data to MiscDeviceRegistration
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250121/202501211825.Vefi6H2q-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211825.Vefi6H2q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crc-x86
+head:   f31bd31f442cdda8a269eca5bf673a3066d40233
+commit: 4b1b1259644653acbde3ac8c6132e1744d5543ed [4/5] x86/crc32: implement crc32_le using new template
+config: i386-buildonly-randconfig-001-20250121 (https://download.01.org/0day-ci/archive/20250121/202501211830.R7X096Rc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211830.R7X096Rc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501211825.Vefi6H2q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501211830.R7X096Rc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   505 |                            item];
-   |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   512 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   525 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
-   ***
-   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
-   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
-   *** unless patched (like Debian's).
-   ***   Your bindgen version:  0.65.1
-   ***   Your libclang version: 19.1.3
-   ***
-   ***
-   *** Please see Documentation/rust/quick-start.rst for details
-   *** on how to set up the Rust support.
-   ***
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   505 |                            item];
-   |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   512 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   525 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->> error[E0658]: associated type bounds are unstable
-   --> rust/kernel/miscdevice.rs:64:27
-   |
-   64 | unsafe impl<T: MiscDevice<RegistrationData: Send>> Send for MiscDeviceRegistration<T> {}
-   |                           ^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: see issue #52662 <https://github.com/rust-lang/rust/issues/52662> for more information
-   = help: add `#![feature(associated_type_bounds)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
+   arch/x86/lib/crc-pclmul-template.S: Assembler messages:
+>> arch/x86/lib/crc-pclmul-template.S:57: Error: `pextrq' is only supported in 64-bit mode
+   arch/x86/lib/crc-pclmul-template.S:510:  Info: macro invoked from here
+   arch/x86/lib/crc32-pclmul.S:6:   Info: macro invoked from here
+>> arch/x86/lib/crc-pclmul-template.S:65: Error: `vpextrq' is only supported in 64-bit mode
+   arch/x86/lib/crc-pclmul-template.S:510:  Info: macro invoked from here
+   arch/x86/lib/crc32-pclmul.S:6:   Info: macro invoked from here
+>> arch/x86/lib/crc-pclmul-template.S:65: Error: `vpextrq' is only supported in 64-bit mode
+   arch/x86/lib/crc-pclmul-template.S:510:  Info: macro invoked from here
+   arch/x86/lib/crc32-pclmul.S:6:   Info: macro invoked from here
+>> arch/x86/lib/crc-pclmul-template.S:65: Error: `vpextrq' is only supported in 64-bit mode
+   arch/x86/lib/crc-pclmul-template.S:510:  Info: macro invoked from here
+   arch/x86/lib/crc32-pclmul.S:6:   Info: macro invoked from here
+
+
+vim +57 arch/x86/lib/crc-pclmul-template.S
+
+3bd7e844db281b Eric Biggers 2025-01-20  20  
+3bd7e844db281b Eric Biggers 2025-01-20  21  // Emit a VEX (or EVEX) coded instruction if allowed, or emulate it using the
+3bd7e844db281b Eric Biggers 2025-01-20  22  // corresponding non-VEX instruction plus any needed moves.  \insn gives the
+3bd7e844db281b Eric Biggers 2025-01-20  23  // instruction without a "v" prefix and including any immediate argument, and
+3bd7e844db281b Eric Biggers 2025-01-20  24  // \arg1-\arg3 give up to three non-immediate arguments as expected by the
+3bd7e844db281b Eric Biggers 2025-01-20  25  // VEX-coded form of the instruction.  If \arg1 is an unaligned mem operand,
+3bd7e844db281b Eric Biggers 2025-01-20  26  // \unaligned_mem_tmp must be specified as a temporary register.  If \arg3 is
+3bd7e844db281b Eric Biggers 2025-01-20  27  // given and \arg2 != \arg3, then it is required that \arg1 != \arg3.
+3bd7e844db281b Eric Biggers 2025-01-20  28  .macro	_cond_vex	insn:req, arg1:req, arg2:req, arg3, unaligned_mem_tmp
+3bd7e844db281b Eric Biggers 2025-01-20  29  .if AVX_LEVEL == 0
+3bd7e844db281b Eric Biggers 2025-01-20  30    // VEX not allowed.  Emulate it.
+3bd7e844db281b Eric Biggers 2025-01-20  31    .ifnb \arg3 // Three arguments
+3bd7e844db281b Eric Biggers 2025-01-20  32      .ifc "\arg2", "\arg3" // arg2 == arg3?
+3bd7e844db281b Eric Biggers 2025-01-20  33        .ifnb \unaligned_mem_tmp
+3bd7e844db281b Eric Biggers 2025-01-20  34  	movdqu		\arg1, \unaligned_mem_tmp
+3bd7e844db281b Eric Biggers 2025-01-20  35  	\insn		\unaligned_mem_tmp, \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  36        .else
+3bd7e844db281b Eric Biggers 2025-01-20  37  	\insn		\arg1, \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  38        .endif
+3bd7e844db281b Eric Biggers 2025-01-20  39      .else // arg2 != arg3
+3bd7e844db281b Eric Biggers 2025-01-20  40        .ifc "\arg1", "\arg3"
+3bd7e844db281b Eric Biggers 2025-01-20  41  	.error "Can't have arg1 == arg3 when arg2 != arg3"
+3bd7e844db281b Eric Biggers 2025-01-20  42        .endif
+3bd7e844db281b Eric Biggers 2025-01-20  43        .ifnb \unaligned_mem_tmp
+3bd7e844db281b Eric Biggers 2025-01-20  44  	movdqu		\arg1, \unaligned_mem_tmp
+3bd7e844db281b Eric Biggers 2025-01-20  45  	movdqa		\arg2, \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  46  	\insn		\unaligned_mem_tmp, \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  47        .else
+3bd7e844db281b Eric Biggers 2025-01-20  48  	movdqa		\arg2, \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  49  	\insn		\arg1, \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  50        .endif
+3bd7e844db281b Eric Biggers 2025-01-20  51      .endif
+3bd7e844db281b Eric Biggers 2025-01-20  52    .else // Only two arguments
+3bd7e844db281b Eric Biggers 2025-01-20  53      .ifnb \unaligned_mem_tmp
+3bd7e844db281b Eric Biggers 2025-01-20  54  	movdqu		\arg1, \unaligned_mem_tmp
+3bd7e844db281b Eric Biggers 2025-01-20  55  	\insn		\unaligned_mem_tmp, \arg2
+3bd7e844db281b Eric Biggers 2025-01-20  56      .else
+3bd7e844db281b Eric Biggers 2025-01-20 @57  	\insn		\arg1, \arg2
+3bd7e844db281b Eric Biggers 2025-01-20  58      .endif
+3bd7e844db281b Eric Biggers 2025-01-20  59    .endif
+3bd7e844db281b Eric Biggers 2025-01-20  60  .else
+3bd7e844db281b Eric Biggers 2025-01-20  61    // VEX is allowed.  Emit the desired instruction directly.
+3bd7e844db281b Eric Biggers 2025-01-20  62    .ifnb \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  63  	v\insn		\arg1, \arg2, \arg3
+3bd7e844db281b Eric Biggers 2025-01-20  64    .else
+3bd7e844db281b Eric Biggers 2025-01-20 @65  	v\insn		\arg1, \arg2
+3bd7e844db281b Eric Biggers 2025-01-20  66    .endif
+3bd7e844db281b Eric Biggers 2025-01-20  67  .endif
+3bd7e844db281b Eric Biggers 2025-01-20  68  .endm
+3bd7e844db281b Eric Biggers 2025-01-20  69  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: 3bd7e844db281b29970bffe661fb38fa157123e1 x86/crc: add "template" for [V]PCLMULQDQ based CRC functions
+
+:::::: TO: Eric Biggers <ebiggers@google.com>
+:::::: CC: Eric Biggers <ebiggers@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
