@@ -1,67 +1,58 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A111898F2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jan 2025 07:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A3813D297
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jan 2025 07:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737443377; cv=none; b=WLTGammelunBsur6sS0DyDcX69UgiK2ADcjxfmHkVncUYjUyHeCItn0Y45lVXC7yQw1u23vGPvBMsRHAf2pyVV67C4IWLt7YjLnan2gGseM5AmbhLKASooZMXAYS8gMSDhSpwF2ka1c8st42EKzKTdKhoACEWh0Kb6m/SKkTlqo=
+	t=1737446106; cv=none; b=HaKcU2B2nBMT0sz8T8HVUH3GzCXsS3hQ7XzhKqKbX2UXdBjQpnqf0pRi/J+zXLhDC9SfhBWwBTAhALcyRxLZp3p0lhVSLloY943kqvbM5Zc1GJ2DmDbvEFL2A3TV6SDnzfgdMG2kUMQ0t/SbBoXq+RoqNzq/QIQ5wMxk4q8XwmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737443377; c=relaxed/simple;
-	bh=zCAYhKIdevfZxt2csTVqb3aNKvXBzgzF7fOPI7w/KQo=;
+	s=arc-20240116; t=1737446106; c=relaxed/simple;
+	bh=QRDq5++D1sV6BnDoMg7bw7jyzPxluejs8R+lGOmFeo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s467Fmw4wA9KazULNU6JkQGAw4iSDYXBkZ/eNPsaH0PNhcQYUelLLLkeduo44P2Cl+8CEWkasH4nMYmK5BrmaHgjUSFk9tfz+AV5cnexc9Mow7Xmc8/0i9LzXtXXRwzXesGycU7U63pcZt3BVXqELitqDbINjctXqb0NTZ/6Org=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uKXDyP2Q; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=BkhB+4H3lWaZJPDCSymlbv8MHcJ98It69ARdnG121Nl3ZxZt/PETtcufzmRFgE/l4G/j3T/tc8vE4KpLlLNvY636VaDrSX5AA7Gjw/ITAcdfmda8pVw9/vxY35oRpgKhHtHN3iooF5gX5IlrIPqiaid4yKLEFxDFTCcsMFeDIlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFJsxlhz; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uKXDyP2Q"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4368a293339so60357515e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jan 2025 23:09:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737443373; x=1738048173; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8tWgZXjbSf96OZ4eHqXocyVloofnFnvy8Ppl87RH61U=;
-        b=uKXDyP2QfEPobffs8kxv3ISSq0XjbMRIGm0Y/OliOgtMxi1lxdEDo2RNZzUn4RWBpm
-         RAcec8fEslX3E4eQqtVC3yKeUacIEcCzLS9+G3XU+KfiZBsNfZpuBcv8oIW0MUbiLJ82
-         4z+f6NvvehZF6O3mDcVq4olnbfgohfO/+nJFVivb5aJGBbyX6w1M2BRkz2FM+VVzyWT/
-         pxxmWTwP9BTsSDGU1vRD33mhepefW4qw7xM4xVgkxmHME80YblQWVa3jpfsVoMqX8XXZ
-         ZfVW+SyZg50JiEANs8SdP9UfaS0b3qAJnxy149vP90EKFBEAVjjKdXwnhvBZPEZOZXsO
-         Kxgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737443373; x=1738048173;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8tWgZXjbSf96OZ4eHqXocyVloofnFnvy8Ppl87RH61U=;
-        b=JbyA46tYfxEdc9nLAGVJ8AnjeepzQI/axQJpUoXOlLnUfbenp7m4z0WabIdjIvFW0L
-         eIPe8NRzv4m/xYD3saaZvpyEzdTJhR3ODb4kqywdXkmVARblXNfzYGi6rQORTYE6xOQ5
-         vl56WrLCYoD4ZGPvJ5bFHgOuzUbeTNsGSHud1Zp9XJRhsSp7fiZC5WAY4y/sGY7cQ15n
-         0KMK1DF9rUV/67tVkEciyTh+zPAo44/ncgsBq8Tv7HQMyGLJpij1g9j/gyWDU5n3J2wl
-         oszVibAAU8MBWFX78874olnsZKgUz5JWlYBnnN0TFG45SeCx+g1Zd8ht3NxRpYbzyk18
-         mOoA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIv76C/DIuaJ98g8irALR0URqv+EJ07HUimjUHSj996+gZbjad5r26y2ieRnsdFPZgRMEdUtteJuTTTf6F@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTjeJda8VcV1M1Ud6rZA6NhwIAavvhWMADVJUFCvSx4rolIdXT
-	slgUZSSGHw2MsiMJr9SIbYE9nCyV/1mk0dJiuqKD5CnuVba120dKmX9elHO/yUs=
-X-Gm-Gg: ASbGncss7CbPn6Kp2Q/gtobEeuzm2kXKb2wCAnSHzFSdz66tA/PdjkW3PN7hZB+WXFU
-	dF2ygR109YawA/c5AoldYKhkrCJc9689F2W0n+zBS3Of/xBa5ssSN3L9TumHn3FEsfqKzBBdrU7
-	fAPDo1AJGDjXVxhLjFhl+pRkiU/bcX8R20EraehnbLc/ghTJ+Y9zjY/U9dXh5/NC+2xjFKbVcpw
-	hi3YSLt6MTvOAyRFcGZG9m20Hi5hF+J/qztX2HVEZoTpduNQUhBR5GRHoH6YCF+1mZ4gOu6fpQ=
-X-Google-Smtp-Source: AGHT+IFTp45xpXqco1mefDqnZlUy7yMl6jV8aPjRMFUewU8BFCaQJB9RojtaR8+XAvgdSVJGaMbfCg==
-X-Received: by 2002:a05:600c:ccc:b0:434:e9ee:c3d with SMTP id 5b1f17b1804b1-4389141c1e5mr127294965e9.20.1737443373266;
-        Mon, 20 Jan 2025 23:09:33 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3214fc9sm12239640f8f.6.2025.01.20.23.09.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 23:09:32 -0800 (PST)
-Date: Tue, 21 Jan 2025 10:09:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 13/13] drivers/ufs/core/ufshcd.c:5518
- __ufshcd_transfer_req_compl() error: we previously assumed 'compl_cmd' could
- be null (see line 5517)
-Message-ID: <7dc49ef8-95bb-47ee-b123-959fa266aeee@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFJsxlhz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737446104; x=1768982104;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QRDq5++D1sV6BnDoMg7bw7jyzPxluejs8R+lGOmFeo4=;
+  b=mFJsxlhzGoQYdJsbPNVWqQDWtj2ugs+EsB0ywsJ1TNrBf7VQA5Q52kt/
+   nBvevATyviCj6KNxYMBexXkDJxLHVAMGd7Cc7Pxy2cc7cLMVZWOi09kEd
+   Pb8QkAs8yZnV4hte8oK4CQ2fz7Fr7chDM8qnE8A9OIW630QjqQhAnFYUp
+   37CBjRAwJz8c2wV5VK4tXxVf+pTiMuby0GLpBRb8+R2WbPfxe+gZn6t5z
+   a3MuxiMKX8vB6xTwwunDcKmFkaxoINzSX7wF5JETQorlClWxcBhXGcT6m
+   6+JB0KQhskO4882E2uGx2Xk8lhA0VM+monzAEhy4oVIntxyvSR5h9ZmXg
+   g==;
+X-CSE-ConnectionGUID: fD8uUk8XSpWri/jcpmSH3Q==
+X-CSE-MsgGUID: OrpOZbYRRi2VZPM689+Gjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37115136"
+X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
+   d="scan'208";a="37115136"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 23:55:04 -0800
+X-CSE-ConnectionGUID: dBXP5nHZTGySKt/uiK0LcQ==
+X-CSE-MsgGUID: eDtfHYicQCedehC9hLBGsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110786355"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Jan 2025 23:55:03 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ta96C-000Xo3-2p;
+	Tue, 21 Jan 2025 07:55:00 +0000
+Date: Tue, 21 Jan 2025 15:54:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1] aarch64-linux-ld:
+ isp1704_charger.c:undefined reference to `devm_usb_get_phy'
+Message-ID: <202501211525.IjmlegTR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,42 +62,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   21a8754aa33228c1b822c1104d24fce691357678
-commit: 8563ce58954679187f0c269a504520d8def37e41 [13/13] BACKPORT: FROMLIST: scsi: ufs: Make the polling code report which command has been completed
-config: x86_64-randconfig-161-20250120 (https://download.01.org/0day-ci/archive/20250121/202501210143.ZyDTG1tQ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Sandeep,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   f22dfe9625b11d8041c35682344f932cbc9ca30b
+commit: adb016dd5328f53cccfabd3af74fd1be9ca02fad [1/1] ANDROID: GKI: Enable CONFIG_USB_PHY for usb drivers like dwc3
+config: arm64-randconfig-002-20250121 (https://download.01.org/0day-ci/archive/20250121/202501211525.IjmlegTR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211525.IjmlegTR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501210143.ZyDTG1tQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501211525.IjmlegTR-lkp@intel.com/
 
-New smatch warnings:
-drivers/ufs/core/ufshcd.c:5518 __ufshcd_transfer_req_compl() error: we previously assumed 'compl_cmd' could be null (see line 5517)
+All errors (new ones prefixed by >>):
 
-vim +/compl_cmd +5518 drivers/ufs/core/ufshcd.c
+   aarch64-linux-ld: warning: -z norelro ignored
+   aarch64-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_cleanup':
+   hvc_console.c:(.text+0x36c): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_set_winsz':
+   hvc_console.c:(.text+0x3c4): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0x3f8): undefined reference to `tty_do_resize'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_hangup':
+   hvc_console.c:(.text+0x4ec): undefined reference to `tty_port_tty_set'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_open':
+   hvc_console.c:(.text+0x578): undefined reference to `tty_port_tty_set'
+   aarch64-linux-ld: hvc_console.c:(.text+0x634): undefined reference to `tty_port_tty_set'
+   aarch64-linux-ld: hvc_console.c:(.text+0x640): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_close':
+   hvc_console.c:(.text+0x694): undefined reference to `tty_hung_up_p'
+   aarch64-linux-ld: hvc_console.c:(.text+0x6fc): undefined reference to `tty_port_tty_set'
+   aarch64-linux-ld: hvc_console.c:(.text+0x748): undefined reference to `tty_wait_until_sent'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `__hvc_poll':
+   hvc_console.c:(.text+0x7bc): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0x810): undefined reference to `tty_buffer_request_room'
+   aarch64-linux-ld: hvc_console.c:(.text+0x854): undefined reference to `__tty_insert_flip_char'
+   aarch64-linux-ld: hvc_console.c:(.text+0x90c): undefined reference to `tty_flip_buffer_push'
+   aarch64-linux-ld: hvc_console.c:(.text+0x978): undefined reference to `tty_buffer_request_room'
+   aarch64-linux-ld: hvc_console.c:(.text+0xa20): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0xa60): undefined reference to `tty_wakeup'
+   aarch64-linux-ld: hvc_console.c:(.text+0xaa0): undefined reference to `tty_wakeup'
+   aarch64-linux-ld: hvc_console.c:(.text+0xacc): undefined reference to `tty_wakeup'
+   aarch64-linux-ld: hvc_console.c:(.text+0xaf0): undefined reference to `tty_hangup'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_install':
+   hvc_console.c:(.text+0xefc): undefined reference to `tty_port_install'
+   aarch64-linux-ld: hvc_console.c:(.text+0xf20): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_instantiate':
+   hvc_console.c:(.text+0xfe0): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
+   hvc_console.c:(.text+0x10dc): undefined reference to `__tty_alloc_driver'
+   aarch64-linux-ld: hvc_console.c:(.text+0x10f4): undefined reference to `tty_std_termios'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `tty_std_termios' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   hvc_console.c:(.text+0x10f4): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: hvc_console.c:(.text+0x10f8): undefined reference to `tty_std_termios'
+   aarch64-linux-ld: hvc_console.c:(.text+0x1148): undefined reference to `tty_set_operations'
+   aarch64-linux-ld: hvc_console.c:(.text+0x1188): undefined reference to `tty_register_driver'
+   aarch64-linux-ld: hvc_console.c:(.text+0x11e4): undefined reference to `tty_port_init'
+   aarch64-linux-ld: hvc_console.c:(.text+0x1368): undefined reference to `put_tty_driver'
+   aarch64-linux-ld: hvc_console.c:(.text+0x1390): undefined reference to `put_tty_driver'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_remove':
+   hvc_console.c:(.text+0x13b4): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0x140c): undefined reference to `tty_port_put'
+   aarch64-linux-ld: hvc_console.c:(.text+0x1418): undefined reference to `tty_vhangup'
+   aarch64-linux-ld: drivers/power/supply/wm831x_power.o: in function `wm831x_power_probe':
+   wm831x_power.c:(.text+0x9fc): undefined reference to `devm_usb_get_phy_by_phandle'
+   aarch64-linux-ld: drivers/power/supply/rt9455_charger.o: in function `rt9455_probe':
+   rt9455_charger.c:(.text+0x1958): undefined reference to `devm_usb_get_phy'
+   aarch64-linux-ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
+   isp1704_charger.c:(.text+0x198): undefined reference to `devm_usb_get_phy_by_phandle'
+>> aarch64-linux-ld: isp1704_charger.c:(.text+0x3b4): undefined reference to `devm_usb_get_phy'
+   aarch64-linux-ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
+   bq25890_charger.c:(.text+0x84c): undefined reference to `devm_usb_get_phy'
+   aarch64-linux-ld: drivers/power/supply/sc2731_charger.o: in function `sc2731_charger_probe':
+   sc2731_charger.c:(.text+0x6b0): undefined reference to `devm_usb_get_phy_by_phandle'
+>> aarch64-linux-ld: sc2731_charger.c:(.text+0x6f8): undefined reference to `usb_phy_get_charger_current'
 
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5509  static void __ufshcd_transfer_req_compl(struct ufs_hba *hba,
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11  5510  					unsigned long completed_reqs,
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11  5511  					struct scsi_cmnd **compl_cmd)
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5512  {
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5513  	int tag;
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5514  
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5515  	for_each_set_bit(tag, &completed_reqs, hba->nutrs)
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11  5516  		if (ufshcd_compl_one_cqe(hba, tag, NULL,
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11 @5517  					 compl_cmd ? *compl_cmd : NULL))
-                                                                                                                 ^^^^^^^^^
-Check for NULL
-
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11 @5518  			*compl_cmd = NULL;
-                                                                                                ^^^^^^^^^^
-Unchecked dereference
-
-a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  5519  }
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
