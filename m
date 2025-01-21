@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9E21B4245
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jan 2025 08:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10793BBE5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jan 2025 09:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737449188; cv=none; b=Q2A3tY6fmVuiYeGDu3xp1jvOd1RFk8gF31CVQ/RMR48KlRGNcC925O30FLf9nnQX39Mp2b6NnljJ43Uv8BMrxODPGI5irrQYjJsuxZQKLpp+0NreZErk43vy6oGPEk0b+T8j3y2pigMpSc4CED84Zeyp6fOOQHSYAn6yKw6Phkc=
+	t=1737453069; cv=none; b=aFV0CWI7Fawt3NiChYxccc5zrB1XuKYOP7NBiCAg8Wo9KBUkVFIdh3ei3WBdUmbQticanrJF8ttUqCiCtPGaBqzGoxDju5/2zs6rSxgYkBbd/dE6V7nMkXbfp3lXrcAQxncZnIff6P/u2LDRW7sLo+U4aeqiGUqYWhgV7JuC9CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737449188; c=relaxed/simple;
-	bh=8JWJiztHzM8S/EGNVvCWqE2eyJZu58jL3Ab1RmK0sKg=;
+	s=arc-20240116; t=1737453069; c=relaxed/simple;
+	bh=Q3593g1xjsWh8513vZR0IlpdAQRXlZlBTo7aAbYpOuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FddUszpXeS5nkjsNNAF7T4AfmACm2Nml1BmZO1hz8M22r4HBA5kDQQinaI5Z5wTtVPByhFhVtAdm9zRhrlY0NS2YZIbEFtPMSpE6Eh6TQGWpZODlaIHGNnZr93V8071LY3R0ZEWACO52I69bvfDas5j/OZYYX7xfUPTza0kk5YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQSM+rWd; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=TwRCt6Roi0YFK+1OOhuvohDKW+ZS6JCUdPe/4RMxVbdsmRa3o1zpC/+FaQoRlh3zmrLX9c5ejiSrlXJjbO3rh3eGj1H63dRhZXraBTUGoFmekQkf2JH+myljTLVrP8BkGUWjCuutGwHgUSqymsmVQhjKDS01Y/57AyXi63s8Yn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXVdEKJP; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQSM+rWd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXVdEKJP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737449187; x=1768985187;
+  t=1737453068; x=1768989068;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8JWJiztHzM8S/EGNVvCWqE2eyJZu58jL3Ab1RmK0sKg=;
-  b=LQSM+rWdSvFxIe2hGJuPHzxzbSqvIaxEyVeojPEW66zXM68A423TynTn
-   bzjtn2j0nrAR7hcKErmZQXGnupE188ze+etswtqYqhjU9Nk8YJE0zGd9q
-   w8sWZTH/xCATxIM2ea14PWPcQftHVBR5TTq0N8lNA6bk6Xf3WWUoQP6pH
-   shOiKukA+nskDtX6sLK1Vav6xIS8YCxdrMEsSHXlFXB7wgdvYqgjtCxIQ
-   Qw4js1vfCek+dmkbSQSAIzimuk5f+iyFtfn3v/eftuf2FqQF6KBx2M7Ly
-   U8uMqCWf7Od7WkXrWHgpMVMrcwiJy3Bh6pMZZcUYVz4GQIze5z0tgR05u
-   Q==;
-X-CSE-ConnectionGUID: rMTct0e1SWOIOvTddDASYQ==
-X-CSE-MsgGUID: qDkKIJzKSpKZK+YSO1XeZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="25451135"
+  bh=Q3593g1xjsWh8513vZR0IlpdAQRXlZlBTo7aAbYpOuU=;
+  b=bXVdEKJPUmR7Jf2vhcs13TzRiPRATGeBTR2WB28ZYlUfMtVig1XiIk7k
+   kzSSkJVKsX5ljS1UtfEbxYx04AEgVI15U6NKQbYCSef0yp4k62GnJIkSA
+   vDXI8JPyLp7mkbALL7Leukx01PqfxC5aO90DGBqvEQyQ/UgYxjINPq2nf
+   Ct49kwnPuKksJlUbVcT4duTIdt56IFGHwyql9D8dj6VCErDdKAKIiGBn9
+   CGbqRDyQ1tDCEprtVr1p1qR4BesjhMlDNjtzliamN7q558c7cvns/D+Ol
+   abfcAPVktjs9xih+8kgJ4GPQNNGFWfOuc3RdJJT6SKN3WHOabmw2O448x
+   A==;
+X-CSE-ConnectionGUID: APvPP+nRQQyBHxpFJz1u2g==
+X-CSE-MsgGUID: kncmWrLDRVyHtw5BItFdCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37553714"
 X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
-   d="scan'208";a="25451135"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 00:46:26 -0800
-X-CSE-ConnectionGUID: t+ncFJPISqeu4ydWw4zG1Q==
-X-CSE-MsgGUID: o0cscHX0QxGmafAFhS5I7Q==
+   d="scan'208";a="37553714"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 01:51:06 -0800
+X-CSE-ConnectionGUID: RfFfZvv6S560gphSecnnxA==
+X-CSE-MsgGUID: utphp1dhRJekWazQ9lfNTA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="144002280"
+X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
+   d="scan'208";a="106691129"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Jan 2025 00:46:25 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 21 Jan 2025 01:50:52 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ta9tu-000XrH-0W;
-	Tue, 21 Jan 2025 08:46:22 +0000
-Date: Tue, 21 Jan 2025 16:45:58 +0800
+	id 1taAuI-000XuB-25;
+	Tue, 21 Jan 2025 09:50:50 +0000
+Date: Tue, 21 Jan 2025 17:49:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 333/333]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /: regulator@0: 'anyOf'
- conditional failed, one must be fixed:
-Message-ID: <202501211647.KXl06wfZ-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1834/1834]
+ drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:37: error: 'NR_syscalls'
+ undeclared; did you mean 'si_syscall'?
+Message-ID: <202501211756.LmO1gDKg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1f4dbd9903f644aa6c511f8a1e145ec3f4915d3a
-commit: 1468cdcfa0ac2513ba51ea93a575e951453e928f [333/333] CHROMIUM: arm64: dts: mt8196: Add usb dts
-config: arm64-randconfig-052-20250120 (https://download.01.org/0day-ci/archive/20250121/202501211647.KXl06wfZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211647.KXl06wfZ-lkp@intel.com/reproduce)
+Hi chench00,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   75c81bcddd82381fbd4cef477a5b56eb2fe56697
+commit: 3ad98583441f7c8a2553e1e8d6340ed4397033e2 [1834/1834] crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
+config: x86_64-buildonly-randconfig-006-20250121 (https://download.01.org/0day-ci/archive/20250121/202501211756.LmO1gDKg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211756.LmO1gDKg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501211647.KXl06wfZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501211756.LmO1gDKg-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dts:19.27-26.4: Warning (unit_address_vs_reg): /regulator@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8196.dtsi:569.37-594.5: Warning (avoid_unnecessary_addr_size): /soc/interrupt-controller@c400000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /: regulator@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8196-evb', 'mediatek,mt8196']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8196-evb', 'mediatek,mt8196']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: idle-states: entry-method:0: 'psci' was expected
-   	from schema $id: http://devicetree.org/schemas/cpu/idle-states.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: idle-states: 'clusteroff-b', 'clusteroff-l', 'clusteroff-m', 'cpuoff-b', 'cpuoff-l', 'cpuoff-m', 'mcusysoff-b', 'mcusysoff-l', 'mcusysoff-m', 's2idle', 'system-vcore' do not match any of the regexes: '^(cpu|cluster)-', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/cpu/idle-states.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clk-ao: $nodename:0: 'clk-ao' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
---
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mtk-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: spi@16340000: clocks: [[38, 188], [33, 60], [33, 64], [33, 66], [33, 68], [33, 62]] is too long
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mtk-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: spi@16340000: clock-names: ['spi', 'sf', 'axi', 'axi_s', 'bclk', '27m'] is too long
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mtk-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: spi@16340000: Unevaluated properties are not allowed ('clock-names', 'clocks', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mtk-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@16340000: failed to match any schema with compatible: ['mediatek,mt8196-nor', 'mediatek,mt8186-nor']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@16640000: failed to match any schema with compatible: ['mediatek,mt8196-pericfg-ao', 'mediatek,mt8196-pericfg_ao', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@16640000: failed to match any schema with compatible: ['mediatek,mt8196-pericfg-ao', 'mediatek,mt8196-pericfg_ao', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: compatible:0: 'mediatek,mtk-xhci' is not one of ['mediatek,mt2701-xhci', 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci', 'mediatek,mt7629-xhci', 'mediatek,mt7986-xhci', 'mediatek,mt8173-xhci', 'mediatek,mt8183-xhci', 'mediatek,mt8186-xhci', 'mediatek,mt8188-xhci', 'mediatek,mt8192-xhci', 'mediatek,mt8195-xhci', 'mediatek,mt8365-xhci']
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: compatible: ['mediatek,mtk-xhci'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: clock-names:1: 'ref_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: clock-names:2: 'mcu_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: mediatek,syscon-wakeup:0:2: 107 is not one of [1, 2, 101, 102, 103, 104, 105, 106]
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb@16700000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb1@16710000: compatible:0: 'mediatek,mtk-xhci' is not one of ['mediatek,mt2701-xhci', 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci', 'mediatek,mt7629-xhci', 'mediatek,mt7986-xhci', 'mediatek,mt8173-xhci', 'mediatek,mt8183-xhci', 'mediatek,mt8186-xhci', 'mediatek,mt8188-xhci', 'mediatek,mt8192-xhci', 'mediatek,mt8195-xhci', 'mediatek,mt8365-xhci']
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb1@16710000: compatible: ['mediatek,mtk-xhci'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb1@16710000: clock-names:1: 'ref_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb1@16710000: clock-names:2: 'mcu_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb1@16710000: mediatek,syscon-wakeup:0:2: 108 is not one of [1, 2, 101, 102, 103, 104, 105, 106]
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy0@16730000: $nodename:0: 'usb-phy0@16730000' does not match '^xs-phy@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy0@16730000: compatible:0: 'mediatek,xsphy' is not one of ['mediatek,mt3611-xsphy', 'mediatek,mt3612-xsphy']
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy0@16730000: compatible: ['mediatek,xsphy'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy0@16730000: 'usb2-phy0@0' does not match any of the regexes: '^usb-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy1@16740000: $nodename:0: 'usb-phy1@16740000' does not match '^xs-phy@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy1@16740000: compatible:0: 'mediatek,xsphy' is not one of ['mediatek,mt3611-xsphy', 'mediatek,mt3612-xsphy']
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy1@16740000: compatible: ['mediatek,xsphy'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb-phy1@16740000: 'usb2-phy1@0' does not match any of the regexes: '^usb-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb3-phy0@16773000: $nodename:0: 'usb3-phy0@16773000' does not match '^xs-phy@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb3-phy0@16773000: compatible:0: 'mediatek,xsphy' is not one of ['mediatek,mt3611-xsphy', 'mediatek,mt3612-xsphy']
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb3-phy0@16773000: compatible: ['mediatek,xsphy'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: usb3-phy0@16773000: 'power-domains', 'usb3-phy0@16773400' do not match any of the regexes: '^usb-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@167a0000: failed to match any schema with compatible: ['mediatek,mt8196-usbwkcfg-ao', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@16890000: failed to match any schema with compatible: ['mediatek,mt8196-ufscfg-ao-sec', 'mediatek,mt8196-ufscfg_ao_sec', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@16890000: failed to match any schema with compatible: ['mediatek,mt8196-ufscfg-ao-sec', 'mediatek,mt8196-ufscfg_ao_sec', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@168a0000: failed to match any schema with compatible: ['mediatek,mt8196-ufscfg-ao', 'mediatek,mt8196-ufscfg_ao', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@168a0000: failed to match any schema with compatible: ['mediatek,mt8196-ufscfg-ao', 'mediatek,mt8196-ufscfg_ao', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
+All errors (new ones prefixed by >>):
+
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous prototype for 'tdm_service_run' [-Wmissing-prototypes]
+     151 | int tdm_service_run(struct tdm_security_enhance *data)
+         |     ^~~~~~~~~~~~~~~
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: warning: no previous prototype for 'tdm_service_exit' [-Wmissing-prototypes]
+     212 | int tdm_service_exit(struct tdm_security_enhance *data)
+         |     ^~~~~~~~~~~~~~~~
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c: In function 'kernel_security_enhance_init':
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:37: error: 'NR_syscalls' undeclared (first use in this function); did you mean 'si_syscall'?
+     308 |                 eh_objs[SCT].size = NR_syscalls * sizeof(char *);
+         |                                     ^~~~~~~~~~~
+         |                                     si_syscall
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:37: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +308 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
+
+   286	
+   287		sct_addr = (unsigned long *)kallsyms_lookup_name("sys_call_table");
+   288	#endif
+   289		if (!sct_addr) {
+   290			ret = -DYN_ERR_API;
+   291			pr_err("kallsyms_lookup_name for sys_call_table failed!");
+   292			goto end;
+   293		}
+   294	
+   295		asm("sidt %0":"=m"(idtr));
+   296	
+   297		if (!psp_check_tdm_support())
+   298			return 0;
+   299	
+   300		for (i = 0; i < MAX_OBJ; i++) {
+   301			memset(&eh_objs[i], 0, sizeof(eh_objs[i]));
+   302			eh_objs[i].context = CONTEXT_CHECK_MODNAME;
+   303			eh_objs[i].obj_name = obj_names[i];
+   304		}
+   305	
+   306		if ((eh_obj == -1) || (eh_obj & (1 << SCT))) {
+   307			eh_objs[SCT].vaddr = (uint64_t)sct_addr;
+ > 308			eh_objs[SCT].size = NR_syscalls * sizeof(char *);
+   309		}
+   310		if ((eh_obj == -1) || (eh_obj & (1 << IDT))) {
+   311			eh_objs[IDT].vaddr = idtr.address;
+   312			eh_objs[IDT].size = idtr.size;
+   313		}
+   314	
+   315		for (i = 0; i < MAX_OBJ; i++) {
+   316			if (eh_objs[i].vaddr)
+   317				tdm_service_run(&eh_objs[i]);
+   318		}
+   319	
+   320		pr_info("Hygon TDM guard load successfully!\n");
+   321	
+   322	end:
+   323		return ret;
+   324	}
+   325	
 
 -- 
 0-DAY CI Kernel Test Service
