@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A7120FA86
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Jan 2025 08:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C438B1C3C05
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Jan 2025 09:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737535578; cv=none; b=PLshOJYyXj72xZ4JRlDkrzOuEfUllNh8HQEUNWss4+zJeNykUZ8rnb1z1iVOl6wEhgflSPNWQoUl1jd3YkaDuDGtM1D9XaED3YYr4D0UNX/B/kLdb5znnYzqpBteUAZ68YE+V2/apVDDw5OpLO/ydsWt6VbWwkMnzxJExEINoFE=
+	t=1737536782; cv=none; b=PXxZXI+PEiJNAXK9OVsfvO389wLgUWJeOe22+tceXMOEdmbzntcQahcVvS0do5GJj2Bi/wJAXLf8hUv8QuX9ow27uT8JSVlVz94EHrYTmQOnbt7ic8IVhEoYynmieteQlVOWLdITTd/V7s4jWDtfzDb3JH99g63vt1BRIgdaJpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737535578; c=relaxed/simple;
-	bh=sCPmNWSQAKyEPUKf2fiadM9QBv5aP3PGk/1+eTQnWeA=;
+	s=arc-20240116; t=1737536782; c=relaxed/simple;
+	bh=DM4/dY+P3HsVW38kY2mrcFNhkyOxCFKH2+J9Nioi4fQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m4E39g4La4xJfc9lOCewAtb15S4+OF6snnXPjlfHyH0DaQijA8m7xGiqPMPltMGMg6G2q/fGuU2x7Lh1SBE9FvhrPRMGEKat6PFHtGLqMZNYCEbMWtL/ln+10tfjYOVnqelOw0oOAgdjFQFjkT8AV4A4QzdBKxJoKeztOsBPS78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGQ4ri+g; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=AHPQ88goJLlJj0JDLC6AxJ5gDnHuCTpSvJeR/qqp4cCJCS4J3B+F4OMSm95+FBStEMYYefK3TBC9zGle/XNIf/05P/8UEGLVY4Ap7YUy+yGuU+OkiNjHh2eeuJ5mQAw5B610i2H2lA1ZQZFDBz1epRU/Z6avUm1s6OOg+zXKWag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2OfCSpf; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGQ4ri+g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2OfCSpf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737535576; x=1769071576;
+  t=1737536780; x=1769072780;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sCPmNWSQAKyEPUKf2fiadM9QBv5aP3PGk/1+eTQnWeA=;
-  b=RGQ4ri+gkMmIWGw104rg0TZtNStvUiwFVvFeyaMxTHYR9drUP15LdnPG
-   bwC03BhB0QooXAxY7hLaicvoZ0TBsGmpbvnuA2tBfXZsSGxB1hVflRi2l
-   M8WgF2WWD5AslwZAjtxMiMYH06wjPK0Qp3pQaqtl8MmUvzm2pi6PQ5lFR
-   kOCkJX1UaF9R3sLRf07bobcRuRbDkCYoKCM4aWdPQETFJY8SWNXjluNzH
-   ZLZ0p5q2+slP+A8qAB7jRPDaM/eyl22t8Y7/D2UoeZe8hP2vmWIsTpJ1O
-   ctmL14MncvUWs1hzUK9esY1POZZAQTn5OanbKeavOoMiNNH+wn9t4v3lQ
-   A==;
-X-CSE-ConnectionGUID: bqJ00LN5S6KKh9ikeRKR+A==
-X-CSE-MsgGUID: 6F5MSWI0TomWcej59dCckw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="37897963"
+  bh=DM4/dY+P3HsVW38kY2mrcFNhkyOxCFKH2+J9Nioi4fQ=;
+  b=J2OfCSpfC4HyOf1xeWPqDcMdUVwoZ14QM0T8eXthZnlB1xANOH3mS+Ds
+   qjgl6D89NNNQpmALORr3qj8EAgmss7LhYELFOgYBIyWdPo7uTp3eOw/id
+   5yHikkCAvgP3QdSURuT1DDwWoWQDZohCmZaME3kk7zBSZkwLwikq31vJf
+   0/QxdpNzuNSnJfmK/6nkpH+LVGXASvPY/M5ZldnjlYO1FQfQutyN0raY4
+   YmdD3XlhOym9y5UJH0MO0sxYgBiMF5/Qz+8uqqGlsamBnLh8BnB3bslKG
+   h3jgFfNqu9Mmy+i/kYZgQ4Wb02rC+ZhDD4rbdbRypvPumjMfS/5aFWnG5
+   Q==;
+X-CSE-ConnectionGUID: iA6eZ85MQ0eTz/Noc96+Fw==
+X-CSE-MsgGUID: BvXxObepTrONNkxA8VTm7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="48648670"
 X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; 
-   d="scan'208";a="37897963"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 00:46:15 -0800
-X-CSE-ConnectionGUID: R5O3c/9ZQf2SzGCC4KGwxA==
-X-CSE-MsgGUID: lpO8MBWzT46UByQo6VtYXw==
+   d="scan'208";a="48648670"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 01:06:18 -0800
+X-CSE-ConnectionGUID: R6AlqNB2SnSES/GVj91gcA==
+X-CSE-MsgGUID: cRLFyU1PT3+9fndAfMJy3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="144328555"
+   d="scan'208";a="111099364"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Jan 2025 00:46:14 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 22 Jan 2025 01:06:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1taWNH-000Zf9-29;
-	Wed, 22 Jan 2025 08:46:11 +0000
-Date: Wed, 22 Jan 2025 16:45:16 +0800
+	id 1taWgg-000Zg7-2j;
+	Wed, 22 Jan 2025 09:06:14 +0000
+Date: Wed, 22 Jan 2025 17:05:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 67/67]
- drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:509:44: error:
- incompatible type for argument 3 of 'dml1_extract_rq_regs'
-Message-ID: <202501221657.PokgVSAg-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1834/1834]
+ drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1741:9:
+ sparse: sparse: Using plain integer as NULL pointer
+Message-ID: <202501221622.ZyAVvHaC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,175 +63,236 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Harry,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   c88990ac86aff8cf0984a1e9a5d94360e7226471
-commit: 1b3cfadf63b5d793a2480689dcf38814178c4ea6 [67/67] BACKPORT: drm/amd/display: Allocate structs needed by dcn_bw_calc_rq_dlg_ttu in pipe_ctx
-config: i386-buildonly-randconfig-002-20250122 (https://download.01.org/0day-ci/archive/20250122/202501221657.PokgVSAg-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   75c81bcddd82381fbd4cef477a5b56eb2fe56697
+commit: 4b4aa2fdd905bb63f965668452f1d1986555e1a3 [1834/1834] Huawei BMA: Adding Huawei BMA driver: cdev_veth_drv
+config: x86_64-randconfig-121-20250122 (https://download.01.org/0day-ci/archive/20250122/202501221622.ZyAVvHaC-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250122/202501221657.PokgVSAg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250122/202501221622.ZyAVvHaC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501221657.PokgVSAg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501221622.ZyAVvHaC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1741:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1750:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1764:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1812:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1816:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1832:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1838:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1842:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1849:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:56:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:56:17: sparse:     expected restricted __poll_t ( *poll )( ... )
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:56:17: sparse:     got unsigned int ( * )( ... )
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:52:30: sparse: sparse: symbol 'g_eth_edma_cdev_fops' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:68:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:71:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:75:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:61:6: sparse: sparse: symbol 'dump_global_info' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:112:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:99:6: sparse: sparse: symbol 'edma_veth_free_tx_resources' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:115:6: sparse: sparse: symbol 'edma_veth_free_all_tx_resources' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:133:17: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:124:5: sparse: sparse: symbol 'edma_veth_setup_tx_resources' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:158:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:148:5: sparse: sparse: symbol 'edma_veth_setup_all_tx_resources' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:201:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:192:5: sparse: sparse: symbol 'edma_veth_setup_rx_resources' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:226:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:216:5: sparse: sparse: symbol 'edma_veth_setup_all_rx_resources' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:273:9: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:259:6: sparse: sparse: symbol 'edma_veth_free_rx_resources' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:276:6: sparse: sparse: symbol 'edma_veth_free_all_rx_resources' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:316:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:322:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:334:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:346:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:352:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:364:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:285:5: sparse: sparse: symbol 'edma_veth_setup_all_rxtx_queue' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:381:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:385:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:390:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:394:9: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:369:6: sparse: sparse: symbol 'edma_veth_dump' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:398:5: sparse: sparse: symbol 'edma_veth_setup_resource' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:424:5: sparse: sparse: symbol 'edma_veth_free_rxtx_queue' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:466:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:469:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:472:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:463:6: sparse: sparse: symbol 'edma_veth_free_resource' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:484:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:492:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:500:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:506:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:525:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:475:5: sparse: sparse: symbol 'edma_veth_send_one_pkt' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:577:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:608:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:615:33: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:631:33: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:647:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:652:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:661:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:673:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:684:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:716:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:722:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:740:33: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:745:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:746:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:754:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:764:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:772:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:787:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:833:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:840:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:843:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:858:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:875:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:801:5: sparse: sparse: symbol 'edma_veth_recv_pkt' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:883:6: sparse: sparse: symbol 'edma_task_do_packet_recv' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:916:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:923:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:908:5: sparse: sparse: symbol '__dmacmp_err_deal_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:941:5: sparse: sparse: symbol 'edma_veth_check_dma_status' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1005:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1008:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1023:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1026:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:962:5: sparse: sparse: symbol '__check_dmacmp_H_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1059:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1078:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1096:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1042:5: sparse: sparse: symbol '__checkspace_H_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1147:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1167:17: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1116:5: sparse: sparse: symbol '__make_dmalistbd_h2b_H_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1227:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1249:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1198:5: sparse: sparse: symbol '__make_dmalistbd_b2h_H_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1289:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1309:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1278:5: sparse: sparse: symbol '__start_dmalist_H_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1322:5: sparse: sparse: symbol 'check_dma_queue_fault_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1361:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1367:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1376:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1383:25: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1352:5: sparse: sparse: symbol '__dma_rxtx_H_2' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1424:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1425:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1439:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1440:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1419:6: sparse: sparse: symbol 'edma_task_do_data_transmit' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1456:5: sparse: sparse: symbol 'edma_tasklet_setup' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1504:6: sparse: sparse: symbol 'edma_tasklet_free' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1554:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1577:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1588:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1598:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1612:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1619:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1645:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1680:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1693:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1720:17: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1725:9: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1405:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:1405:25: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c:94:26: sparse: sparse: cast removes address space '__iomem' of expression
 
-   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c: In function 'dcn_bw_calc_rq_dlg_ttu':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:508:55: error: 'input' is a pointer; did you mean to use '->'?
-     508 |         dml1_rq_dlg_get_rq_params(dml, rq_param, input.pipe.src);
-         |                                                       ^
-         |                                                       ->
->> drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:509:44: error: incompatible type for argument 3 of 'dml1_extract_rq_regs'
-     509 |         dml1_extract_rq_regs(dml, rq_regs, rq_param);
-         |                                            ^~~~~~~~
-         |                                            |
-         |                                            struct _vcs_dpi_display_rq_params_st *
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:35:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.h:36:60: note: expected 'const struct _vcs_dpi_display_rq_params_st' but argument is of type 'struct _vcs_dpi_display_rq_params_st *'
-      36 |                 const struct _vcs_dpi_display_rq_params_st rq_param);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:515:25: error: incompatible type for argument 5 of 'dml1_rq_dlg_get_dlg_params'
-     515 |                         dlg_sys_param,
-         |                         ^~~~~~~~~~~~~
-         |                         |
-         |                         struct _vcs_dpi_display_dlg_sys_params_st *
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.h:59:65: note: expected 'const struct _vcs_dpi_display_dlg_sys_params_st' but argument is of type 'struct _vcs_dpi_display_dlg_sys_params_st *'
-      59 |                 const struct _vcs_dpi_display_dlg_sys_params_st dlg_sys_param,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:516:25: error: incompatible type for argument 6 of 'dml1_rq_dlg_get_dlg_params'
-     516 |                         input,
-         |                         ^~~~~
-         |                         |
-         |                         struct _vcs_dpi_display_e2e_pipe_params_st *
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.h:60:66: note: expected 'const struct _vcs_dpi_display_e2e_pipe_params_st' but argument is of type 'struct _vcs_dpi_display_e2e_pipe_params_st *'
-      60 |                 const struct _vcs_dpi_display_e2e_pipe_params_st e2e_pipe_param,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c: At top level:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:742:14: warning: no previous prototype for 'get_highest_allowed_voltage_level' [-Wmissing-prototypes]
-     742 | unsigned int get_highest_allowed_voltage_level(uint32_t hw_internal_rev, uint32_t pci_revision_id)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:86,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/resource.h:28,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:32:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/inc/hw/dpp.h:50:42: warning: 'dpp_input_csc_matrix' defined but not used [-Wunused-const-variable=]
-      50 | static const struct dpp_input_csc_matrix dpp_input_csc_matrix[] = {
-         |                                          ^~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:124:22: warning: 'DP_DVI_CONVERTER_ID_4' defined but not used [-Wunused-const-variable=]
-     124 | static const uint8_t DP_DVI_CONVERTER_ID_4[] = "m2DVIa";
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:122:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
-     122 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:120:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
-     120 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:33,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services.h:37,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:27:
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
-      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
-      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
-         |                                ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
-      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
-         |                                ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
-      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
-         |                                ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
-      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
-         |                                ^~~~~~~~~~~
+vim +1741 drivers/net/ethernet/huawei/bma/cdev_veth_drv/virtual_cdev_eth_net.c
 
-
-vim +/dml1_extract_rq_regs +509 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c
-
-74c49c7ac14f3a Harry Wentland     2017-05-08  451  
-74c49c7ac14f3a Harry Wentland     2017-05-08  452  static void dcn_bw_calc_rq_dlg_ttu(
-fb3466a450cc46 Bhawanpreet Lakha  2017-08-01  453  		const struct dc *dc,
-74c49c7ac14f3a Harry Wentland     2017-05-08  454  		const struct dcn_bw_internal_vars *v,
-0d18d7bb801324 Charlene Liu       2017-08-01  455  		struct pipe_ctx *pipe,
-0d18d7bb801324 Charlene Liu       2017-08-01  456  		int in_idx)
-74c49c7ac14f3a Harry Wentland     2017-05-08  457  {
-74c49c7ac14f3a Harry Wentland     2017-05-08  458  	struct display_mode_lib *dml = (struct display_mode_lib *)(&dc->dml);
-74c49c7ac14f3a Harry Wentland     2017-05-08  459  	struct _vcs_dpi_display_dlg_regs_st *dlg_regs = &pipe->dlg_regs;
-74c49c7ac14f3a Harry Wentland     2017-05-08  460  	struct _vcs_dpi_display_ttu_regs_st *ttu_regs = &pipe->ttu_regs;
-74c49c7ac14f3a Harry Wentland     2017-05-08  461  	struct _vcs_dpi_display_rq_regs_st *rq_regs = &pipe->rq_regs;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  462  	struct _vcs_dpi_display_rq_params_st *rq_param = &pipe->dml_rq_param;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  463  	struct _vcs_dpi_display_dlg_sys_params_st *dlg_sys_param = &pipe->dml_dlg_sys_param;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  464  	struct _vcs_dpi_display_e2e_pipe_params_st *input = &pipe->dml_input;
-74c49c7ac14f3a Harry Wentland     2017-05-08  465  	float total_active_bw = 0;
-74c49c7ac14f3a Harry Wentland     2017-05-08  466  	float total_prefetch_bw = 0;
-74c49c7ac14f3a Harry Wentland     2017-05-08  467  	int total_flip_bytes = 0;
-74c49c7ac14f3a Harry Wentland     2017-05-08  468  	int i;
-74c49c7ac14f3a Harry Wentland     2017-05-08  469  
-b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  470  	memset(dlg_regs, 0, sizeof(*dlg_regs));
-b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  471  	memset(ttu_regs, 0, sizeof(*ttu_regs));
-b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  472  	memset(rq_regs, 0, sizeof(*rq_regs));
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  473  	memset(rq_param, 0, sizeof(*rq_param));
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  474  	memset(dlg_sys_param, 0, sizeof(*dlg_sys_param));
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  475  	memset(input, 0, sizeof(*input));
-b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  476  
-74c49c7ac14f3a Harry Wentland     2017-05-08  477  	for (i = 0; i < number_of_planes; i++) {
-74c49c7ac14f3a Harry Wentland     2017-05-08  478  		total_active_bw += v->read_bandwidth[i];
-74c49c7ac14f3a Harry Wentland     2017-05-08  479  		total_prefetch_bw += v->prefetch_bandwidth[i];
-74c49c7ac14f3a Harry Wentland     2017-05-08  480  		total_flip_bytes += v->total_immediate_flip_bytes[i];
-74c49c7ac14f3a Harry Wentland     2017-05-08  481  	}
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  482  	dlg_sys_param->total_flip_bw = v->return_bw - dcn_bw_max2(total_active_bw, total_prefetch_bw);
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  483  	if (dlg_sys_param->total_flip_bw < 0.0)
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  484  		dlg_sys_param->total_flip_bw = 0;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  485  
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  486  	dlg_sys_param->t_mclk_wm_us = v->dram_clock_change_watermark;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  487  	dlg_sys_param->t_sr_wm_us = v->stutter_enter_plus_exit_watermark;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  488  	dlg_sys_param->t_urg_wm_us = v->urgent_watermark;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  489  	dlg_sys_param->t_extra_us = v->urgent_extra_latency;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  490  	dlg_sys_param->deepsleep_dcfclk_mhz = v->dcf_clk_deep_sleep;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  491  	dlg_sys_param->total_flip_bytes = total_flip_bytes;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  492  
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  493  	pipe_ctx_to_e2e_pipe_params(pipe, &input->pipe);
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  494  	input->clks_cfg.dcfclk_mhz = v->dcfclk;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  495  	input->clks_cfg.dispclk_mhz = v->dispclk;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  496  	input->clks_cfg.dppclk_mhz = v->dppclk;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  497  	input->clks_cfg.refclk_mhz = dc->res_pool->ref_clocks.dchub_ref_clock_inKhz / 1000.0;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  498  	input->clks_cfg.socclk_mhz = v->socclk;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  499  	input->clks_cfg.voltage = v->voltage_level;
-74c49c7ac14f3a Harry Wentland     2017-05-08  500  //	dc->dml.logger = pool->base.logger;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  501  	input->dout.output_format = (v->output_format[in_idx] == dcn_bw_420) ? dm_420 : dm_444;
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  502  	input->dout.output_type  = (v->output[in_idx] == dcn_bw_hdmi) ? dm_hdmi : dm_dp;
-0d18d7bb801324 Charlene Liu       2017-08-01  503  	//input[in_idx].dout.output_standard;
-74c49c7ac14f3a Harry Wentland     2017-05-08  504  
-74c49c7ac14f3a Harry Wentland     2017-05-08  505  	/*todo: soc->sr_enter_plus_exit_time??*/
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  506  	dlg_sys_param->t_srx_delay_us = dc->dcn_ip->dcfclk_cstate_latency / v->dcf_clk_deep_sleep;
-74c49c7ac14f3a Harry Wentland     2017-05-08  507  
-1b3cfadf63b5d7 Harry Wentland     2021-09-07 @508  	dml1_rq_dlg_get_rq_params(dml, rq_param, input.pipe.src);
-6d04ee9dc10149 Dmytro Laktyushkin 2017-08-23 @509  	dml1_extract_rq_regs(dml, rq_regs, rq_param);
-6d04ee9dc10149 Dmytro Laktyushkin 2017-08-23  510  	dml1_rq_dlg_get_dlg_params(
-74c49c7ac14f3a Harry Wentland     2017-05-08  511  			dml,
-74c49c7ac14f3a Harry Wentland     2017-05-08  512  			dlg_regs,
-74c49c7ac14f3a Harry Wentland     2017-05-08  513  			ttu_regs,
-1b3cfadf63b5d7 Harry Wentland     2021-09-07  514  			rq_param->dlg,
-74c49c7ac14f3a Harry Wentland     2017-05-08 @515  			dlg_sys_param,
-74c49c7ac14f3a Harry Wentland     2017-05-08  516  			input,
-74c49c7ac14f3a Harry Wentland     2017-05-08  517  			true,
-74c49c7ac14f3a Harry Wentland     2017-05-08  518  			true,
-74c49c7ac14f3a Harry Wentland     2017-05-08  519  			v->pte_enable == dcn_bw_yes,
-3be5262e353b8a Harry Wentland     2017-07-27  520  			pipe->plane_state->flip_immediate);
-74c49c7ac14f3a Harry Wentland     2017-05-08  521  }
-74c49c7ac14f3a Harry Wentland     2017-05-08  522  
-
-:::::: The code at line 509 was first introduced by commit
-:::::: 6d04ee9dc10149db842d41de66eca201c9d91b60 drm/amd/display: Restructuring and cleaning up DML
-
-:::::: TO: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+  1736	
+  1737	int cdev_open(struct inode *inode_ptr, struct file *filp)
+  1738	{
+  1739		struct cdev_dev_s *dev = &g_eth_edmaprivate.cdev;
+  1740	
+> 1741		LOG(DLOG_DEBUG, "Open device.");
+  1742	
+  1743		if (!inode_ptr || !filp)
+  1744			return -EFAULT;
+  1745	
+  1746		/* only one instance is allowed. */
+  1747		if (IS_CDEV_IN_OPEN_STATE())
+  1748			return -EBUSY;
+  1749	
+  1750		LOG(DLOG_DEBUG, "Init flag, rx: %d, tx:%d",
+  1751		    g_eth_edmaprivate.prx_queue->pshmqhd_v->init,
+  1752		    g_eth_edmaprivate.ptx_queue->pshmqhd_v->init);
+  1753	
+  1754		/* save to private data. */
+  1755		filp->private_data = dev;
+  1756		SET_CDEV_OPEN_STATE(CDEV_OPENED);
+  1757		g_read_pos = 0;
+  1758	
+  1759		return 0;
+  1760	}
+  1761	
+  1762	int cdev_release(struct inode *inode_ptr, struct file *filp)
+  1763	{
+  1764		LOG(DLOG_DEBUG, "Close device.");
+  1765	
+  1766		if (!filp)
+  1767			return 0;
+  1768	
+  1769		filp->private_data = NULL;
+  1770	
+  1771		SET_CDEV_OPEN_STATE(CDEV_CLOSED);
+  1772	
+  1773		return 0;
+  1774	}
+  1775	
+  1776	unsigned int cdev_poll(struct file *filp, poll_table *wait)
+  1777	{
+  1778		unsigned int mask = 0;
+  1779		wait_queue_head_t *queue_head = NULL;
+  1780	
+  1781		if (!filp)
+  1782			return 0;
+  1783	
+  1784		edma_veth_dump();
+  1785	
+  1786		queue_head = (wait_queue_head_t *)
+  1787		    bma_cdev_get_wait_queue(GET_PRIVATE_DATA(filp));
+  1788		if (!queue_head)
+  1789			return 0;
+  1790	
+  1791		/* check or add to wait queue. */
+  1792		poll_wait(filp, queue_head, wait);
+  1793	
+  1794		if (!edma_is_queue_ready(g_eth_edmaprivate.prx_queue))
+  1795			return 0;
+  1796	
+  1797		if (cdev_check_ring_recv() > 0)
+  1798			mask = (POLLIN | POLLRDNORM);
+  1799	
+  1800		return mask;
+  1801	}
+  1802	
+  1803	ssize_t cdev_read(struct file *filp, char __user *data,
+  1804			  size_t count, loff_t *ppos)
+  1805	{
+  1806		struct edma_eth_dev_s *dev = &g_eth_edmaprivate;
+  1807		ssize_t length = 0;
+  1808	
+  1809		if (!data || count >= MAX_PACKET_LEN)
+  1810			return -EFAULT;
+  1811	
+  1812		LOG(DLOG_DEBUG, "read begin, count: %zu, pos: %u.", count, g_read_pos);
+  1813	
+  1814		length = cdev_copy_packet_to_user(dev, data, count);
+  1815	
+> 1816		LOG(DLOG_DEBUG, "read done, length: %zd, pos: %u.", length, g_read_pos);
+  1817	
+  1818		return length;
+  1819	}
+  1820	
 
 -- 
 0-DAY CI Kernel Test Service
