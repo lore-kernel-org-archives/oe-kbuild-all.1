@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB9C1DFFD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Jan 2025 07:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78820203705
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Jan 2025 08:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737531792; cv=none; b=pP8oWSpJlOP3amEC51pIr7E4NvbEy4PEbxsPQGygGQUTQ0pU3FcAkcAUEsviHzdWthRxlZ2kcaZprJ2yNLfyJ2HyYm1lSXonaJr1kw16psenDsRJoDy23iQhG7EAkYmET2IL+lFakexpEC6EE5y04m2oIwhM1nPV8S/7Q/4QF+A=
+	t=1737534315; cv=none; b=rqpJOwcPwoQAjIDex+mRpEVR+WAO4FB1WCDAn1Y9SwTGV6n2s3Ijx36w1MUyTb/suQ2J7ubYtTL4cnxqMsPqX5yQ2dhZSh6Mbvfouv4RIp8tGWNRP0HrKKlWLlAEWU3XBsEqO0rKCazOU5hCy7cKKs34ccu8FxzwzgRjDuAOU+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737531792; c=relaxed/simple;
-	bh=98AwB6Kppog+VQrqZXlFbfBwHPH7UsnQvM92LZJMuBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+9HjRnC5w7ifzP2wDmRkq0Zh7mOeQ7cQIVRQhlNwKhL1oTqhjyaoVGi/X94AIupgT/RorUqxKOzQcOwr6I3EbYanZSxhEVznIlTAUwk5XeVgJQx6NBCOCSAIWikLP+mMyUK4TkI1HkgHxLZBVWGUCvcgPZFn0U9vsFTOQz3Pbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5wiEvQf; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1737534315; c=relaxed/simple;
+	bh=nDRNqI1tAhR7rseupjtfft0HzHCzrSZlSXs70lLOdUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iFsRSLAiD5e67LfesKGGw9zcGTSmS50fh4I26HnOsPq0BLPYvQxIgAxOkO/cLWFtqIDCo8Va2PsPZ8c3uYqAeyb/2FOuIHG7Hu+Hb+oJ8Txqx4GZ/RdF4grlFTc0NcRpPimDpla88lL2AVszD+0rZrwxSqBEtcbaazTSCYLx/Mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWKjL68q; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5wiEvQf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWKjL68q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737531792; x=1769067792;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=98AwB6Kppog+VQrqZXlFbfBwHPH7UsnQvM92LZJMuBk=;
-  b=g5wiEvQf6R+/gn70xViCqZeZ44vff8cxRE+YbiZxNmgxMkI2PdmS4yXm
-   GTz5SIp0Y3sNcblvOkPG0D3u9csxpQsTGPFJf3gMQS1kIW2uuMD9oa/II
-   XkvquDowhm6pKxmG1mTVIWt1pZ/2ilqo9omm5T3d2MJHyjLUfAxKK0rYM
-   tRINkFKjUtS7RdnxtRDVYa6WuucZ0Lg1ni0LE26ZsSAmy7gWBKA8pjTly
-   oph5cQZqrab1LnJ0vim19i88zK4+Uq2y281hTBbSDO37giM9+8UGQEGLK
-   n+z+a3/rsgp++8qSvalUcl3I6/9fqR5ye9XqWjMNA2cK3IWlfyjXZr8cK
-   Q==;
-X-CSE-ConnectionGUID: 4WIh+llrToukdGkTWjlv4Q==
-X-CSE-MsgGUID: YcDKGAskSC2kd0KX0XjFvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="49372923"
+  t=1737534313; x=1769070313;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nDRNqI1tAhR7rseupjtfft0HzHCzrSZlSXs70lLOdUk=;
+  b=NWKjL68qeTnSyZbY74+TF08v3AIyA5qE0Xovls1iGeFeuoS/OCv6g16h
+   UCt6TraJlWQKY80fMOLU4//jH6zRDnsAp2xQv0xuTAnwOgX61B3sF6pzm
+   TzRBItLvr+TaeUEhEGesLgvtljruk6X72WSMgu49YzAGcJY7Jdk1UnfzG
+   ZUsZj0fa3D0TU6O5rOM0ASk779RACNEOFxgp19ulku6Msj3PbSqxANlWv
+   ZbXYUCq8y+pqW4ZaKTEWBuwIWKOvgFJ4ub97f/5m4QlBim20pUCbNTiqK
+   tF8XKWI/wBp+S6JoyUh3/KTIuP9MY0hTeN6hnY2+glOMPcuutKFWY7zWU
+   w==;
+X-CSE-ConnectionGUID: v2KQAUKDQjSb7G4/uC9BJQ==
+X-CSE-MsgGUID: z9p2ZxVOQLyzE6v/jZN2dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="40798368"
 X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; 
-   d="scan'208";a="49372923"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 23:43:11 -0800
-X-CSE-ConnectionGUID: JXwhL4XtQrq86NpgWXMfUA==
-X-CSE-MsgGUID: H2a1tTaHQf667a0cWNk5tg==
+   d="scan'208";a="40798368"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 00:25:12 -0800
+X-CSE-ConnectionGUID: i1lYFtD0Q7CezdJ/eLFs4g==
+X-CSE-MsgGUID: L+MBFikhTBWhNmICkMbCqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112131092"
+X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; 
+   d="scan'208";a="112067520"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Jan 2025 23:43:07 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Jan 2025 00:25:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1taVOD-000Zcp-0d;
-	Wed, 22 Jan 2025 07:43:05 +0000
-Date: Wed, 22 Jan 2025 15:42:31 +0800
+	id 1taW2v-000ZeN-2c;
+	Wed, 22 Jan 2025 08:25:09 +0000
+Date: Wed, 22 Jan 2025 16:24:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mahesh Rao <mahesh.rao@intel.com>, Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fpga@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mahesh Rao <mahesh.rao@altera.com>
-Subject: Re: [PATCH 2/3] dt-bindings: firmware: stratix10: Convert to
- json-schema
-Message-ID: <202501221710.7llON7lZ-lkp@intel.com>
-References: <20250122-socfpga_sip_svc_misc-v1-2-cbdcd034ae34@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1410/1410] arch/x86/entry/entry_64.o:
+ warning: objtool: If this is a retpoline, please patch it in with
+ alternatives and annotate it with ANNOTATE_NOSPEC_ALTERNATIVE.
+Message-ID: <202501221629.J60ha3Fd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,35 +62,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250122-socfpga_sip_svc_misc-v1-2-cbdcd034ae34@intel.com>
 
-Hi Mahesh,
+Hi Peter,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mahesh-Rao/dt-bindings-fpga-stratix10-Convert-to-json-schema/20250122-140026
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250122-socfpga_sip_svc_misc-v1-2-cbdcd034ae34%40intel.com
-patch subject: [PATCH 2/3] dt-bindings: firmware: stratix10: Convert to json-schema
-reproduce: (https://download.01.org/0day-ci/archive/20250122/202501221710.7llON7lZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4d48400e0254b5310842eb2ad33c6ccba43b0f1d
+commit: 3acbac72baea337e0ac79801a8ba4b81e3b67014 [1410/1410] x86/speculation: Change FILL_RETURN_BUFFER to work with objtool
+config: x86_64-randconfig-102-20250121 (https://download.01.org/0day-ci/archive/20250122/202501221629.J60ha3Fd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250122/202501221629.J60ha3Fd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501221710.7llON7lZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501221629.J60ha3Fd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/firmware/intel,stratix10-svc.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
-   Using alabaster theme
+>> arch/x86/entry/entry_64.o: warning: objtool: .entry.text+0x1e2: unsupported intra-function call
+>> arch/x86/entry/entry_64.o: warning: objtool: If this is a retpoline, please patch it in with alternatives and annotate it with ANNOTATE_NOSPEC_ALTERNATIVE.
 
 -- 
 0-DAY CI Kernel Test Service
