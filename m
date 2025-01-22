@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC585213E9C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Jan 2025 13:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F16214229
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Jan 2025 14:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737553925; cv=none; b=N68qEyHrPsyjd8PN2uCqHl2ydJzozFyMRM/WKaJ7XAmrQR1kR7WCvOgRIurCw+f6OYSs7eBDAQSSYvmSYENSOyWJfY1AqvOXhT8drDALV3RcunHIuEXqpF78zof+jEyuzpdwH88dNA1MgJcTgvnRB/dcX0HS7gALz4qjaaq7HSg=
+	t=1737557052; cv=none; b=LoJvSFBB8CDBJQhSDTBCNl9Tq/+5VuE4JbJPKyQnkSTVWpVlHDdRJFNbPg3L1ESkTtIA5p3mMLSY6mmiCgbTsD1dGYSjjsu0ljLtK0apOBuCX+r0sKKbcQBy/JJg1o/A+G/K6RB9+zg63N7M4AZcLdF1rjVqb4ExmDUqo609exk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737553925; c=relaxed/simple;
-	bh=5B0XroXRRwT3NYeGn8+w6hMP874gcwx3m3lGTlfE61w=;
+	s=arc-20240116; t=1737557052; c=relaxed/simple;
+	bh=/XR+K/mMPboodityNB/7BQU8qHWFY/5w2OQXHe/jYlU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aNd0pDTG4ZHFhzFGUGsRKjBLZY0Xn7K6bv0DXUccO6SIYbgy8FeGXWOryu6VYEm7UoToOEy2KZLSQPFsIkuV6czoauYv5xG5SOKCzX/WwXfYz5YcWokA2hEjwlbmOlh5nFsDB8WEKJZdT1Wi8DVhB6MxQzLUAfVi8umhGoyvdyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3xvxGPY; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Rsv3NG8SHCRVouto0Bcwan/imKYegUMEMyRTBM/s1Jk6braozOucLvVjiBhOQ5GU+KfWlmZO1aEKaRYEqS+jUMOIA+Psv+yVofwDG4wB6e+jAtkLw2o6LybbuwhrSXE6AN0UWfCTJ4CSGiYAtL9BNyzChqix39uaowcrD+A+9Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cJIVia9H; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3xvxGPY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJIVia9H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737553923; x=1769089923;
+  t=1737557050; x=1769093050;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5B0XroXRRwT3NYeGn8+w6hMP874gcwx3m3lGTlfE61w=;
-  b=d3xvxGPYzJYB/PQ1VKO7mibXKuFSUHYaM2EeC2aKJvfC+x/IRiUANho1
-   Oy7Gj5GFyedjLtIqB4Mn6E6a+pDIBpljvCoYK3QamkAasnh6cS7vVPChj
-   V/Llro8gKM4SBbcM5Mr0x+9f73XT7KRmV552VLY56DOTNpU2FZwS2AjPu
-   PCKAPKBE15+rHL5AH4R0QiYLUCyTDreoA/6qBM4Z8GWXfndnPNjh/xW1f
-   3YU2vw+v3U2+dogG0fTTXiIauRmGbJAULLkEGx/AeawdHwMkpDaO6UNDq
-   IFAadcMeovgqbaBbI0hQsVcpiE9wfbQhIMmR+4853+W4wIlq7kDiAaD2C
+  bh=/XR+K/mMPboodityNB/7BQU8qHWFY/5w2OQXHe/jYlU=;
+  b=cJIVia9Hc4BHqUexJk3VR6hEN3ebqt5QcPXPvjhRqb9iRCXoZJY013CB
+   1iXwW3oQU1+dnD69YmexF9JmNU8BYglR5B/wGCdVI+cZz/6b4jnWv6UpB
+   gnKr0W+S/Ur4FRAVkXvwZVzoqZvya8h39Z7Z5iYQJ/H1MXFpeOClF4Z/V
+   Wp1yIBHLRGTQ7FBPCHvNyNkCTv/mt8OjJBAYQhvM030MvZqSoVIpUal4o
+   8tp5HAobC+kKqJPC9xCZsLlqiFJ+JedMIbCzKCRtdMDR6LdQiZtSy3EWL
+   XDivEtgDG6NNualR+fl0JnZ9nvoDHaN3zEpkqrTFxBus3UFh1LKyVW2c/
    w==;
-X-CSE-ConnectionGUID: 6X1lI2TLRUKheJUR/8aZ9w==
-X-CSE-MsgGUID: xHjJC7IcTnSkg+p6bNIrCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="37894168"
+X-CSE-ConnectionGUID: tXWex4YISwKO66xFkXyZkA==
+X-CSE-MsgGUID: WhN12EoeSOeqCv4Moe5Uqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="37714650"
 X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="37894168"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 05:52:03 -0800
-X-CSE-ConnectionGUID: +cnrdMwOSaaRBfC1yxIbow==
-X-CSE-MsgGUID: iiOpoP+bTzCu0cvQ530elg==
+   d="scan'208";a="37714650"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 06:44:09 -0800
+X-CSE-ConnectionGUID: aIg8YGIoSDmIB6OYRVh3dw==
+X-CSE-MsgGUID: GbSfAbyxQLugE7sCV+mx8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="107672525"
+   d="scan'208";a="107268332"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Jan 2025 05:52:01 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 22 Jan 2025 06:44:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tab9D-000Zv1-0X;
-	Wed, 22 Jan 2025 13:51:59 +0000
-Date: Wed, 22 Jan 2025 21:51:46 +0800
+	id 1tabxd-000ZyR-17;
+	Wed, 22 Jan 2025 14:44:05 +0000
+Date: Wed, 22 Jan 2025 22:43:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1]
- kernel/sched/core.c:1660:14: error: 'struct sched_entity' has no member
- named 'avg'
-Message-ID: <202501222146.1ElFnvTn-lkp@intel.com>
+Subject: [android-common:mirror-chromeos-5.10-arcvm 0/1]
+ fs/fuse/file.c:2777:19: warning: result of comparison of constant 4294967291
+ with expression of type '__u16' (aka 'unsigned short') is always false
+Message-ID: <202501222250.O12F0E2Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,207 +63,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi David,
+Hi Chirantan,
 
 FYI, the error/warning still remains.
 
 tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
 head:   f2a45e7307e73a366b48781aa253aec45ff1fd5a
-commit: e0515f89730a8597730e11f244a80d37c7970d4a [1/1] CHROMIUM: FROMLIST: sched/fair: Add util_guest for tasks
-config: arm-randconfig-003-20250122 (https://download.01.org/0day-ci/archive/20250122/202501222146.1ElFnvTn-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250122/202501222146.1ElFnvTn-lkp@intel.com/reproduce)
+commit: 7f33c2b5012b1ada851aafcf8620e1723b8db574 [0/1] CHROMIUM: Support fsverity in fuse
+config: i386-buildonly-randconfig-004-20250122 (https://download.01.org/0day-ci/archive/20250122/202501222250.O12F0E2Y-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250122/202501222250.O12F0E2Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501222146.1ElFnvTn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501222250.O12F0E2Y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/core.c: In function '__setscheduler_task_util':
->> kernel/sched/core.c:1660:14: error: 'struct sched_entity' has no member named 'avg'
-    1660 |         p->se.avg.util_guest = attr->sched_util_min;
-         |              ^
-   kernel/sched/core.c: In function 'ttwu_stat':
-   kernel/sched/core.c:2629:20: warning: variable 'rq' set but not used [-Wunused-but-set-variable]
-    2629 |         struct rq *rq;
-         |                    ^~
-   kernel/sched/core.c: At top level:
-   kernel/sched/core.c:4917:35: warning: no previous prototype for 'schedule_user' [-Wmissing-prototypes]
-    4917 | asmlinkage __visible void __sched schedule_user(void)
-         |                                   ^~~~~~~~~~~~~
---
-   kernel/sched/fair.c:4594:6: warning: no previous prototype for 'set_next_entity' [-Wmissing-prototypes]
-    4594 | void set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
-         |      ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5577:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
-    5577 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         |      ^~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   kernel/sched/fair.c: In function 'enqueue_task_fair':
->> kernel/sched/fair.c:5712:28: error: 'struct sched_entity' has no member named 'avg'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:297:23: note: in definition of macro '__compiletime_assert'
-     297 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:317:9: note: in expansion of macro '_compiletime_assert'
-     317 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5712:13: note: in expansion of macro 'READ_ONCE'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:5712:28: error: 'struct sched_entity' has no member named 'avg'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:297:23: note: in definition of macro '__compiletime_assert'
-     297 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:317:9: note: in expansion of macro '_compiletime_assert'
-     317 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5712:13: note: in expansion of macro 'READ_ONCE'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:5712:28: error: 'struct sched_entity' has no member named 'avg'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:297:23: note: in definition of macro '__compiletime_assert'
-     297 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:317:9: note: in expansion of macro '_compiletime_assert'
-     317 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5712:13: note: in expansion of macro 'READ_ONCE'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:5712:28: error: 'struct sched_entity' has no member named 'avg'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:297:23: note: in definition of macro '__compiletime_assert'
-     297 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:317:9: note: in expansion of macro '_compiletime_assert'
-     317 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5712:13: note: in expansion of macro 'READ_ONCE'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:5712:28: error: 'struct sched_entity' has no member named 'avg'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:297:23: note: in definition of macro '__compiletime_assert'
-     297 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:317:9: note: in expansion of macro '_compiletime_assert'
-     317 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5712:13: note: in expansion of macro 'READ_ONCE'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:5712:28: error: 'struct sched_entity' has no member named 'avg'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:274:27: note: in definition of macro '__unqual_scalar_typeof'
-     274 |                 _Generic((x),                                           \
-         |                           ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   kernel/sched/fair.c:5712:13: note: in expansion of macro 'READ_ONCE'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
-   In file included from ./arch/arm/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:248,
-                    from arch/arm/include/uapi/asm/swab.h:19,
-                    from arch/arm/include/asm/swab.h:19,
-                    from include/uapi/linux/swab.h:8,
-                    from include/linux/swab.h:5,
-                    from arch/arm/include/asm/opcodes.h:86,
-                    from arch/arm/include/asm/bug.h:7,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/current.h:5,
-                    from ./arch/arm/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from kernel/sched/sched.h:5,
-                    from kernel/sched/fair.c:23:
->> kernel/sched/fair.c:5712:28: error: 'struct sched_entity' has no member named 'avg'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   kernel/sched/fair.c:5712:13: note: in expansion of macro 'READ_ONCE'
-    5712 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:11510:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
-   11510 | void free_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11512:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   11512 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11517:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
-   11517 | void online_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11519:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   11519 | void unregister_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/fuse/file.c:9:
+   In file included from fs/fuse/fuse_i.h:22:
+   In file included from include/linux/mm.h:1593:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/fuse/file.c:2777:19: warning: result of comparison of constant 4294967291 with expression of type '__u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+    2777 |                 if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
+         |                 ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                     ~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+      69 |         (cond) ?                                        \
+         |          ^~~~
+>> fs/fuse/file.c:2777:19: warning: result of comparison of constant 4294967291 with expression of type '__u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+    2777 |                 if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
+         |                 ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> fs/fuse/file.c:2777:19: warning: result of comparison of constant 4294967291 with expression of type '__u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+    2777 |                 if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
+         |                 ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
+      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   4 warnings generated.
 
 
-vim +1660 kernel/sched/core.c
+vim +2777 fs/fuse/file.c
 
-  1656	
-  1657		if (likely(!(attr->sched_flags & SCHED_FLAG_UTIL_GUEST)))
-  1658			return;
-  1659	
-> 1660		p->se.avg.util_guest = attr->sched_util_min;
-  1661	}
-  1662	
+  2745	
+  2746	static int fuse_get_ioctl_len(unsigned int cmd, unsigned long arg, size_t *len)
+  2747	{
+  2748		switch (cmd) {
+  2749		case FS_IOC_GETFLAGS:
+  2750		case FS_IOC_SETFLAGS:
+  2751			*len = sizeof(int);
+  2752			break;
+  2753		case FS_IOC_GET_ENCRYPTION_POLICY_EX: {
+  2754			__u64 policy_size;
+  2755			struct fscrypt_get_policy_ex_arg __user *uarg =
+  2756				(struct fscrypt_get_policy_ex_arg __user *)arg;
+  2757	
+  2758			if (copy_from_user(&policy_size, &uarg->policy_size,
+  2759					   sizeof(policy_size)))
+  2760				return -EFAULT;
+  2761	
+  2762			if (policy_size > SIZE_MAX - sizeof(policy_size))
+  2763				return -EINVAL;
+  2764	
+  2765			*len = sizeof(policy_size) + policy_size;
+  2766			break;
+  2767		}
+  2768		case FS_IOC_MEASURE_VERITY: {
+  2769			__u16 digest_size;
+  2770			struct fsverity_digest __user *uarg =
+  2771				(struct fsverity_digest __user *)arg;
+  2772	
+  2773			if (copy_from_user(&digest_size, &uarg->digest_size,
+  2774					   sizeof(digest_size)))
+  2775				return -EFAULT;
+  2776	
+> 2777			if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
+  2778				return -EINVAL;
+  2779	
+  2780			*len = sizeof(struct fsverity_digest) + digest_size;
+  2781			break;
+  2782		}
+  2783		default:
+  2784			*len = _IOC_SIZE(cmd);
+  2785			break;
+  2786		}
+  2787	
+  2788		return 0;
+  2789	}
+  2790	
 
 -- 
 0-DAY CI Kernel Test Service
