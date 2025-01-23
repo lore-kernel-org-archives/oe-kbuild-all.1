@@ -1,63 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871752914
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 02:10:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883AD3232;
+	Thu, 23 Jan 2025 02:20:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737598245; cv=none; b=ARx68p8VJYMZK6KWcHCDP5Buh1lbZQzVfZar5MH5gvgjZUiYhLCTT+eYheSU/nuG8TinDmLchmt7LD2iyVFTwpzTvMCozmXD7CgWxIygZWGCAZzJFE2Dx3sUBc/kKP4464cBHsDEe5n8IY6uhQFzMXm9+cDjA2wsHG9PLgOYazA=
+	t=1737598853; cv=none; b=RwJu6tLZs4QnvOim2+z2YnhR5L6oUsDDw2XZFouc4v2Bz4eQ6rRfHnqxxdfiwqmE9UbXfmuo4UNSVS/K/sRnTiX8BWzmue0AnyL52MGZOnjxKA6qh3X+7WEpNqMhFxVYn0FTz4NZgvxh4VdNbSku8RpeOrKLvGam/B7XneEz+I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737598245; c=relaxed/simple;
-	bh=YjSG446FTvCJweSF3NrdN7+t8+WLI0W+hnHlpRheVjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rPO+E5t60bXTl7y/f/4q6hK/5/RCYdJBjKPZpGkNqXcgdrDPkNqY9a3v73j0jwBJc1cvgY9HRloE/0ygOQIoA3nM9IPByJT57YFb0UD+6QMp+yOMuAMtbcVRA24ohfHszyCYFCGISXFzLAV89g/oB0MLaoEJ0dDox8qTTqYUkQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ug/TTbg0; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1737598853; c=relaxed/simple;
+	bh=l/StfvmlLCHjYY/yKMI2jnYQai+YQWNw/5zxejp8VnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HSaWy1B0Ba/RqD8M4l9G/fJ8l0a+AmKSu2z6qbUlG19yDoM5wwJG4CJ59snCnSt0rimVfU62ocaRmPIi+rQT3jjngGcLBO0tFFFPhBFTNzZivZ9Mr3HlPCOv1fCm5feqF6bYwkqXbW1wpFwG1v0B4x3ePJnCAfC9Pyzpz/1SczQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j347b9I4; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ug/TTbg0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j347b9I4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737598243; x=1769134243;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YjSG446FTvCJweSF3NrdN7+t8+WLI0W+hnHlpRheVjs=;
-  b=Ug/TTbg0jxLGRQi2TyIEqgIwtz73a/DrPMqjSMbTb5+z5VMpu9MBZMd/
-   Gd9Hxe1MlwXdAtSk5oRm1Nfbj5cTkm2kJ6ebfPEmrQGfDqe3JY2R5qoh9
-   jo/5VJUlynyunzlwzMvBXMbaVH5CTw6UqZ6yb0Cm/FaTIg2Tv1X8HyXy7
-   ZZD/YSo0M7ELepfLbE6BnRkTUM6mxawQqJprS7QwUDXGsRvqNjn+IihU4
-   EsdIYtPY/zMocoN30NsvtLGTxkwzAbeO6/H5RIA19AO6VXzN7ALIV8q3H
-   mc/40hCQKRJJwaoWPEmbbv5is/sJ0FA5pkkG8/hqrr7B7z+q9U2WefVhd
+  t=1737598851; x=1769134851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l/StfvmlLCHjYY/yKMI2jnYQai+YQWNw/5zxejp8VnM=;
+  b=j347b9I4RPTACDvDmMCCIw85Quw/o5wkgzBPGkb6ZFQqF21aNjk2R/bw
+   PhVfBSDYETjAd2/HpXVJuiAqd5z4wt9vpUwFZANKxRaPhoZVuo7Jda97z
+   H8WdX88wZxJeJ5xHbgdg0OyBLkK/L6UMMtm61UpN8KVcm80kvL/1vJDEH
+   z85h6LcpwS+xfoqt+S6rijDaKCTXcSEZWakZwa8oAa3VL/kRFzHghHUy7
+   Za7rbMRydC2adaylz7Crt+AMYbDix8v3VYlOecwWAZJVIci1EzE5WaY1f
+   wTrYFwnxoN9YdEfPQ3kSZVjdg0TK2ne0APUMJqRyTi6KAom1jMrlS2D91
    g==;
-X-CSE-ConnectionGUID: Jo7ccM0NSlGVrL31EvmVjw==
-X-CSE-MsgGUID: NGffJU1hSnW15hAlbspDpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="40908657"
+X-CSE-ConnectionGUID: teBLr02BTX+atdb1IHIleQ==
+X-CSE-MsgGUID: JMiOXmpbSVGG9FIt6FCvTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="40909793"
 X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; 
-   d="scan'208";a="40908657"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 18:10:42 -0800
-X-CSE-ConnectionGUID: XGuwjfTeS1Ky3nVjJjx0Ig==
-X-CSE-MsgGUID: T8jqsQBUS/SGHvAvQelKfw==
+   d="scan'208";a="40909793"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 18:20:50 -0800
+X-CSE-ConnectionGUID: 3n85Ta0JSaqGOmkesv0Qcw==
+X-CSE-MsgGUID: UWPh49TsQsiTplxHLgQS6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; 
-   d="scan'208";a="112346971"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112433445"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Jan 2025 18:10:39 -0800
+  by orviesa005.jf.intel.com with ESMTP; 22 Jan 2025 18:20:47 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tamg0-000aXZ-1S;
-	Thu, 23 Jan 2025 02:10:36 +0000
-Date: Thu, 23 Jan 2025 10:09:47 +0800
+	id 1tampo-000aYJ-11;
+	Thu, 23 Jan 2025 02:20:44 +0000
+Date: Thu, 23 Jan 2025 10:20:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2441/2441]
- drivers/iommu/intel/svm.c:1260:29: warning: variable 'dmar_domain' set but
- not used
-Message-ID: <202501231000.tJpdVJur-lkp@intel.com>
+To: Alexandre Courbot <gnurou@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Albert Esteve <aesteve@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	gurchetansingh@google.com, daniel.almeida@collabora.com,
+	changyeon@google.com, nicolas.dufresne@collabora.com,
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	Alexandre Courbot <acourbot@google.com>
+Subject: Re: [PATCH] media: add virtio-media driver
+Message-ID: <202501231055.JvzBf96Y-lkp@intel.com>
+References: <20250123-virtio-media-v1-1-81e2549b86b9@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,64 +73,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250123-virtio-media-v1-1-81e2549b86b9@gmail.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   f1811f6442501fe34d2339158aed4f85a64f0398
-commit: e5bce0398cb6abc96d88265486f2fe9a89320c3a [2441/2441] iommu/vt-d: Check pasid ownership in intel_svm_page_response
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250123/202501231000.tJpdVJur-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501231000.tJpdVJur-lkp@intel.com/reproduce)
+Hi Alexandre,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Courbot/media-add-virtio-media-driver/20250123-085559
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250123-virtio-media-v1-1-81e2549b86b9%40gmail.com
+patch subject: [PATCH] media: add virtio-media driver
+reproduce: (https://download.01.org/0day-ci/archive/20250123/202501231055.JvzBf96Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501231000.tJpdVJur-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501231055.JvzBf96Y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from arch/x86/include/asm/paravirt.h:15,
-                    from arch/x86/include/asm/irqflags.h:72,
-                    from include/linux/irqflags.h:16,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rbtree.h:22,
-                    from include/linux/iova.h:14,
-                    from include/linux/intel-iommu.h:14,
-                    from drivers/iommu/intel/svm.c:8:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:8,
-                    from include/linux/iova.h:13:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   drivers/iommu/intel/svm.c: In function 'intel_svm_page_response':
->> drivers/iommu/intel/svm.c:1260:29: warning: variable 'dmar_domain' set but not used [-Wunused-but-set-variable]
-    1260 |         struct dmar_domain *dmar_domain;
-         |                             ^~~~~~~~~~~
-   drivers/iommu/intel/svm.c: At top level:
-   drivers/iommu/intel/svm.c:41:13: warning: 'pasid_private_remove' defined but not used [-Wunused-function]
-      41 | static void pasid_private_remove(ioasid_t pasid)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/svm.c:35:12: warning: 'pasid_private_add' defined but not used [-Wunused-function]
-      35 | static int pasid_private_add(ioasid_t pasid, void *priv)
-         |            ^~~~~~~~~~~~~~~~~
-
-
-vim +/dmar_domain +1260 drivers/iommu/intel/svm.c
-
-  1253	
-  1254	int intel_svm_page_response(struct iommu_domain *domain,
-  1255				    struct device *dev,
-  1256				    struct iommu_fault_event *evt,
-  1257				    struct iommu_page_response *msg)
-  1258	{
-  1259		struct iommu_fault_page_request *prm;
-> 1260		struct dmar_domain *dmar_domain;
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+>> ./drivers/media/virtio/virtio_media_driver.c: 22 linux/version.h not needed.
+   ./drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c: 13 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 424: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
