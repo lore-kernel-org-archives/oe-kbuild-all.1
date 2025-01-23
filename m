@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D442729B0;
-	Thu, 23 Jan 2025 11:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AD520E306
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 12:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737633316; cv=none; b=moBy/Ou3+p4MwruvgrJuLsfYIwzUMx2FOWqP29L7pNiUELjJR/zsumPIUl3WnMgU2OqLemXKhTuDRLSWa+8BcsHdTsdklPyPU73gb7fN7XQbio7zojp1L8DHSAVU1LyIAo7TuP9GzEdhw7KdTdFjs/j6wcdaz+6RJJlgpgTIZcE=
+	t=1737634277; cv=none; b=fnMKrnWFKcki7EJL5GOrzdHXAbJwQkG33dsfnb0uabefJvLj2sJ0EbzC3XR0IN8vdfH1wGhQ+VnQG1rkocGAMlJRlSNInzHQwoftSKr2Uh54odg4hH1dOPbVTdQBT1DY8hPxKMp/yjicPz9hnZlZV11ZDcl4b0H+qJTzob6QXQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737633316; c=relaxed/simple;
-	bh=P6Km8srof5mA6WEeJG5U9M4FtGeOcGvSbWdKjnJxEWQ=;
+	s=arc-20240116; t=1737634277; c=relaxed/simple;
+	bh=4DUbtNxlktKbBBd1hn73LeWxk9EhHpL1qrkN3nyliIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T7EmMhCtO3aNG0LCO+tCvX1teFqaUSEl2X5sYaAunbVqmmdqnUPVN8gWoLvwk2m66HJcygYG5H0lI+/LJv/pafOI8+Z+1JqGgnAUsIwQj/kOvIpQh/3+03HanqBr6wJRBWiU9CyOA4LDhxBPxS55cqwHK6UaCNoij7CshMP92JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OVWFHS79; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition:In-Reply-To; b=Vs305+JLeYvNiK0xUjgCl97o+DJVZij+8w+l7SFzUG7PATvooqoELI9cUKD5nk+UnGwDYq2FhK/gAtH3OXzSJIZK7/SuHI5/g9Apx2fCNI7vBHlYR4Y3EpGZAu9jXdJI4LqAwv/1N2MkYzT87e5hcJaquT6ywI5A2Ok1oPeNZuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQKJVu3h; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OVWFHS79"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQKJVu3h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737633315; x=1769169315;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P6Km8srof5mA6WEeJG5U9M4FtGeOcGvSbWdKjnJxEWQ=;
-  b=OVWFHS79SCaB9qE0JJT3wa3BGB0Mm/E0IsmPw66+Z9WBC+5CFUsfTwbS
-   DQO2+PfAgqPV+uot1WokFFOuNpuwUUo2SkztJ2H4twZ4s2Mzupt+CDd6b
-   WphgzyJFSLPZHOKEL1PRHLY3bHdFBOPzu9ec5uQtwgFUQyF4fzwIHT4PT
-   bxkf/tLoJp3ZuQcOuL9uyG8XNj6mSRzYOx2ghwKgOUsqJoh/MkuIFqmdI
-   prdLt9bRWpT4QLs8x8GrjcJrIWSANsisJ/ovVvY1ukyhW2GciKbPy0+On
-   RLIHHiXn8SVh/Snx+UYsHLiZU2BkwyQAUOBae2C0onqKb1JPhZ+Q3JJq1
-   g==;
-X-CSE-ConnectionGUID: P5b/3jBfQfuHcXFxl7iSRg==
-X-CSE-MsgGUID: mKWX3SPuTguPH+xc9aSvFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48792614"
+  t=1737634276; x=1769170276;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=4DUbtNxlktKbBBd1hn73LeWxk9EhHpL1qrkN3nyliIw=;
+  b=RQKJVu3h5Hby8/Ud+zK2YrHUQ44q4eT7Ny0tQWgTboo5Fg1ebrmjDF2O
+   tsRfVN5eo5Y8xE8qP9jWCkihgqMqC8orF5SOhia2QjgiZHS8eFQge9ERt
+   QI6GxU+VX0nO4s19DllhNGL/1StAD3KUcgNbHxdnYM8RYTFS6TNfFhJ5q
+   PJ7of3DgFPyfiy8OBNq6QJkj05I0TKQbRBkGxHdIMW/O8mQlY07xPWyAr
+   HK1EVzBLBqtgpT0A+t5k7c+viKfyC7yNMAt6TF1Ks7iAEy98gkY/tZNEZ
+   duafa3gFaBJFaVUGCixy67ku1S1OXhM2MMxLOXT+cuEOcECZI6IAiu40v
+   Q==;
+X-CSE-ConnectionGUID: 69A0kmvQSNWlZ+H7ZBVRog==
+X-CSE-MsgGUID: eB/RFtJtQoaRoyUjqwktfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="41794848"
 X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
-   d="scan'208";a="48792614"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 03:55:14 -0800
-X-CSE-ConnectionGUID: aM53XUAsTUqDYIJkqa2F9w==
-X-CSE-MsgGUID: opHTRDHfS7+rRSutNK/pjw==
+   d="scan'208";a="41794848"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 04:11:15 -0800
+X-CSE-ConnectionGUID: Bkf83a6GS26q5cIPsiXL3A==
+X-CSE-MsgGUID: 49ZF+iQJSr6mNag5uYpiDA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="112403311"
+X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
+   d="scan'208";a="138311028"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Jan 2025 03:55:13 -0800
+  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2025 04:11:15 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tavni-000b8e-35;
-	Thu, 23 Jan 2025 11:55:10 +0000
-Date: Thu, 23 Jan 2025 19:54:20 +0800
+	id 1taw3E-000b9P-13;
+	Thu, 23 Jan 2025 12:11:12 +0000
+Date: Thu, 23 Jan 2025 20:10:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:slub-tiny-kfree_rcu 7/7] ERROR: modpost: "kvfree_call_rcu"
- [kernel/rcu/rcuscale.ko] undefined!
-Message-ID: <202501231907.BX4JFBtN-lkp@intel.com>
+To: Shubham Pushpkar <spushpka@cisco.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] drm/amd/display: Check link_index before accessing
+ dc->links[]
+Message-ID: <Z5IxwrG7d6QFi2AE@34f1432cedf0>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,33 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250123120822.1983325-1-spushpka@cisco.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-tiny-kfree_rcu
-head:   d8cf97ccfbdeb8f997ea14888a148a02384b3188
-commit: d8cf97ccfbdeb8f997ea14888a148a02384b3188 [7/7] slab: don't batch kvfree_rcu() with SLUB_TINY
-config: arm64-randconfig-003-20250123 (https://download.01.org/0day-ci/archive/20250123/202501231907.BX4JFBtN-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501231907.BX4JFBtN-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501231907.BX4JFBtN-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> ERROR: modpost: "kvfree_call_rcu" [kernel/rcu/rcuscale.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [fs/autofs/autofs4.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [fs/orangefs/orangefs.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [fs/xfs/xfs.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [fs/ceph/ceph.ko] undefined!
-ERROR: modpost: "kvfree_call_rcu" [lib/test_vmalloc.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [drivers/gpu/drm/etnaviv/etnaviv.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [drivers/infiniband/core/ib_core.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [drivers/infiniband/core/ib_cm.ko] undefined!
->> ERROR: modpost: "kvfree_call_rcu" [drivers/infiniband/core/ib_uverbs.ko] undefined!
-WARNING: modpost: suppressed 26 unresolved symbol warnings because there were too many)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] drm/amd/display: Check link_index before accessing dc->links[]
+Link: https://lore.kernel.org/stable/20250123120822.1983325-1-spushpka%40cisco.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
