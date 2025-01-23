@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BE01BBBC8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 20:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4755F13E41A;
+	Thu, 23 Jan 2025 20:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737664518; cv=none; b=m9PKKbVUFmRYLyRj3jESdWoYq5PggboU79yNGyCc+f5Xmol5WfB/UeCDLCIm6i6KnmmdVXMabN2e/tP3bLFLTY57x63AJxUQawdJpPtS4vYSbC0j+sPE48bRJJ863YVuDUsCtT683toM6jEkMWy22MKIRjGDQGHrr7H0+AbNTMA=
+	t=1737665840; cv=none; b=F89HOohjbQthv7DTA/DtDdh5+MejKiGZ4maZlF00Q/NwHlPPQFykVDYHbuCOJWAUi3tu2NrunNAfsJA1lX4gXTZsegT/yQNGTGwvch+YXvZke/OFIePkKhQETdNs7sPavV1Nf1TRU0oCpggZ+onBOwoDjAHriUeGwh/63T0XzFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737664518; c=relaxed/simple;
-	bh=qbVVTHm/1xF4KTtRNurqT/7QvXccTglXdVoUZYCnJs4=;
+	s=arc-20240116; t=1737665840; c=relaxed/simple;
+	bh=vcgzOAWW1RnY5DFAuGmop61CEvLD/zcS5/f/ggmWOU4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gIE0m5gpyHMBJ/+gm8hh3+HTUeeKqPx2A+sizcTZMygD81ZWjZdtmIsESLtV+U9hj3sjlPJ2m2l21UwUunMN6hrLW4JE5Q7xnjx8+YhFiDsRWrTys7JjafWs6aD4LuUqLNnSyrtUPc+p5Xn3U2PuLDeu8zcsrLbm9tlrNPOmqtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFuh4uV3; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=SR5a6j4eN5p7IKZroQm6pULg69ZEFH5RmU0DeMQPiHQ3vzPB0/O8uZKErO411x3TxrlU4RE8GCMKpLn2YOb0qsWNH3256J73QXask7YfpHBVlU6//PWNg7WrInEFv9lnnE+mcEaAPsO2eLrxZtcJmvlMCk7JENeQkQjVtgnDPCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBta2iSX; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFuh4uV3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBta2iSX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737664517; x=1769200517;
+  t=1737665839; x=1769201839;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qbVVTHm/1xF4KTtRNurqT/7QvXccTglXdVoUZYCnJs4=;
-  b=VFuh4uV3QA6YFj+6vxhxeBpq4V7w+H6BqXCWG6pF+839bmsoJHuM4AlT
-   5LKT/qKr6lZLOAhcVszFaHbBQzWrwHCU0QUgEaRWvqDkDUxucVxXnC+eL
-   Oga5NBDEAnpSGPE6SHJvIssSxZU0pOn+S+/ElFjEeP6oKxdAnnM/U/FME
-   oZZr1oTCQj44s8TmI1yQRRy/4ymlQnAT+EtrEH/SgukgtOd4egprAeC2g
-   uHzUrUF2afC8DhS8p0LoBdOvpxPDGd8VhVu8fzzuly9gXAN2tzU09WyW3
-   eL9KTLrBqhz3aT32bAu6l2Auh2VFBZhtwtDXaHhgBMRb5XepfN8CzhH6n
-   Q==;
-X-CSE-ConnectionGUID: 5Dow3JPbTRaI+NjAhcuPZw==
-X-CSE-MsgGUID: 3IARx/8oSp+7v8fxqGZ1QQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38290455"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="38290455"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 12:35:14 -0800
-X-CSE-ConnectionGUID: MCGkn2UvRouuxNL1XbAKkQ==
-X-CSE-MsgGUID: 2Q9e+mpQRo2h4/sjoSsW8Q==
+  bh=vcgzOAWW1RnY5DFAuGmop61CEvLD/zcS5/f/ggmWOU4=;
+  b=aBta2iSXhrOReBkJT+ADJAqmKlUjT1zCnFkLXHfoLl15q/MrHCyiAtyP
+   2Xa+4wRC/QlhZgcxzOj+HhN6D17NaM+NtP9MkH6eIZkhgLb6TQX/oqT8/
+   lFbzhRsjXY3F7AE8BIM5z8RB+cHvqqYVCLO534CVdc3BTV8VQqtRfbyVo
+   qNbTxyvhPCLF+71L7LXkEIoaTlxjqsBkoRJkV6Sn4hIIitqf3VxmCkzlA
+   lEaIp6tLhhrCOZXdTIdBeQLlkmBRRbaiu88ZWSIP5jq3tMvhupdsXSmr2
+   kdkIiLp7SMoMn5FgQb++a4tC6KdhsDja0MauZPcyP9vrQkYsnXYobvY+V
+   w==;
+X-CSE-ConnectionGUID: KNSmRPxtSQmx84C3B9qwaA==
+X-CSE-MsgGUID: KC5tOZwkQZe9BzQHZFqkNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38079144"
+X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
+   d="scan'208";a="38079144"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 12:57:17 -0800
+X-CSE-ConnectionGUID: xiy2+7ojQGyzgTpuUS4SQQ==
+X-CSE-MsgGUID: TeUzAgiUT3i7VPaYrDBjLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
-   d="scan'208";a="108116317"
+   d="scan'208";a="107572638"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Jan 2025 12:35:13 -0800
+  by orviesa006.jf.intel.com with ESMTP; 23 Jan 2025 12:57:16 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb3ux-000bed-0r;
-	Thu, 23 Jan 2025 20:35:11 +0000
-Date: Fri, 24 Jan 2025 04:34:13 +0800
+	id 1tb4GH-000bfz-1h;
+	Thu, 23 Jan 2025 20:57:13 +0000
+Date: Fri, 24 Jan 2025 04:56:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [jgunthorpe:iommu_rm_ops_pgsize 22/23]
- drivers/iommu/s390-iommu.c:804:10: error: 'const struct iommu_ops' has no
- member named 'pgsize_bitmap'
-Message-ID: <202501240402.iNhofxjq-lkp@intel.com>
+ drivers/iommu/riscv/iommu.c:1535:3: error: field designator 'pgsize_bitmap'
+ does not refer to any field in type 'const struct iommu_ops'
+Message-ID: <202501240431.7HOXfICP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,64 +66,43 @@ Content-Disposition: inline
 tree:   https://github.com/jgunthorpe/linux iommu_rm_ops_pgsize
 head:   8e7229d631eab655526324f9d867904ee1351605
 commit: 7e198028456d41f2aa10f07650728e74a09f427a [22/23] iommu: Remove ops->pgsize_bitmap
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250124/202501240402.iNhofxjq-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240402.iNhofxjq-lkp@intel.com/reproduce)
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20250124/202501240431.7HOXfICP-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240431.7HOXfICP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501240402.iNhofxjq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501240431.7HOXfICP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iommu/s390-iommu.c:804:10: error: 'const struct iommu_ops' has no member named 'pgsize_bitmap'
-     804 |         .pgsize_bitmap = SZ_4K,
-         |          ^~~~~~~~~~~~~
-   In file included from include/linux/mm.h:28,
-                    from arch/s390/include/asm/pgalloc.h:18,
-                    from arch/s390/include/asm/mmu_context.h:11,
-                    from arch/s390/include/asm/elf.h:181,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/pci.h:37,
-                    from drivers/iommu/s390-iommu.c:9:
->> include/linux/sizes.h:23:41: error: initialization of 'void (*)(struct device *, struct list_head *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      23 | #define SZ_4K                           0x00001000
-         |                                         ^~~~~~~~~~
-   drivers/iommu/s390-iommu.c:804:26: note: in expansion of macro 'SZ_4K'
-     804 |         .pgsize_bitmap = SZ_4K,
-         |                          ^~~~~
-   include/linux/sizes.h:23:41: note: (near initialization for 's390_iommu_ops.get_resv_regions')
-      23 | #define SZ_4K                           0x00001000
-         |                                         ^~~~~~~~~~
-   drivers/iommu/s390-iommu.c:804:26: note: in expansion of macro 'SZ_4K'
-     804 |         .pgsize_bitmap = SZ_4K,
-         |                          ^~~~~
-   drivers/iommu/s390-iommu.c:805:29: warning: initialized field overwritten [-Woverride-init]
-     805 |         .get_resv_regions = s390_iommu_get_resv_regions,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/s390-iommu.c:805:29: note: (near initialization for 's390_iommu_ops.get_resv_regions')
+>> drivers/iommu/riscv/iommu.c:1535:3: error: field designator 'pgsize_bitmap' does not refer to any field in type 'const struct iommu_ops'
+    1535 |         .pgsize_bitmap = SZ_4K,
+         |         ~^~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +804 drivers/iommu/s390-iommu.c
+vim +1535 drivers/iommu/riscv/iommu.c
 
-ecda483339a515 Matthew Rosato  2024-09-10  796  
-cceb84519520c7 Arvind Yadav    2017-08-28  797  static const struct iommu_ops s390_iommu_ops = {
-ecda483339a515 Matthew Rosato  2024-09-10  798  	.blocked_domain		= &blocking_domain,
-ecda483339a515 Matthew Rosato  2024-09-10  799  	.release_domain		= &blocking_domain,
-8128f23c436d0d Gerald Schaefer 2015-08-27  800  	.capable = s390_iommu_capable,
-4efd98d41ea718 Jason Gunthorpe 2023-09-13  801  	.domain_alloc_paging = s390_domain_alloc_paging,
-9a630a4b41a263 Lu Baolu        2022-02-16  802  	.probe_device = s390_iommu_probe_device,
-9a630a4b41a263 Lu Baolu        2022-02-16  803  	.device_group = generic_device_group,
-b4d8ae0e907b09 Niklas Schnelle 2022-10-25 @804  	.pgsize_bitmap = SZ_4K,
+488ffbf181718b Tomasz Jeznach 2024-10-15  1533  
+822e8bc6850582 Tomasz Jeznach 2024-10-15  1534  static const struct iommu_ops riscv_iommu_ops = {
+488ffbf181718b Tomasz Jeznach 2024-10-15 @1535  	.pgsize_bitmap = SZ_4K,
+822e8bc6850582 Tomasz Jeznach 2024-10-15  1536  	.of_xlate = riscv_iommu_of_xlate,
+822e8bc6850582 Tomasz Jeznach 2024-10-15  1537  	.identity_domain = &riscv_iommu_identity_domain,
+1bac10c557adb2 Tomasz Jeznach 2024-10-15  1538  	.blocked_domain = &riscv_iommu_blocking_domain,
+1bac10c557adb2 Tomasz Jeznach 2024-10-15  1539  	.release_domain = &riscv_iommu_blocking_domain,
+488ffbf181718b Tomasz Jeznach 2024-10-15  1540  	.domain_alloc_paging = riscv_iommu_alloc_paging_domain,
+822e8bc6850582 Tomasz Jeznach 2024-10-15  1541  	.device_group = riscv_iommu_device_group,
+822e8bc6850582 Tomasz Jeznach 2024-10-15  1542  	.probe_device = riscv_iommu_probe_device,
+488ffbf181718b Tomasz Jeznach 2024-10-15  1543  	.release_device	= riscv_iommu_release_device,
+822e8bc6850582 Tomasz Jeznach 2024-10-15  1544  };
+822e8bc6850582 Tomasz Jeznach 2024-10-15  1545  
 
-:::::: The code at line 804 was first introduced by commit
-:::::: b4d8ae0e907b096583491101ddfc5143b7c08918 iommu/s390: Fix incorrect pgsize_bitmap
+:::::: The code at line 1535 was first introduced by commit
+:::::: 488ffbf181718b9ad8c1838cb249d60973e78eda iommu/riscv: Paging domain support
 
-:::::: TO: Niklas Schnelle <schnelle@linux.ibm.com>
+:::::: TO: Tomasz Jeznach <tjeznach@rivosinc.com>
 :::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
