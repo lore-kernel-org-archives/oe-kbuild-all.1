@@ -1,226 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AD720F070
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 12:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996E1136E3B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 12:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737635361; cv=none; b=WuPkZvIgB1uH0p+sSmv4X4Rlwc/GanR65921YeiFchMtz9+h2zA6EPgqaXtzwrSd8HORTywvOBTzVQPDuDOXjiQg7lLb7YQl7kwJGGKCEYj9XxAquNOV+o1GNrwpQXK2N+irbPpCzSCjaA+uTox88Va4Xn+mUIP2OExKzcPIbtA=
+	t=1737636082; cv=none; b=Ow5Lqn8aDhHRhxZjBqVf7kuAiI7zNjyntozb5CUG/qBk+39Or1+EdLvUwO5yOHa6/pShAd7Ug1LHqqGbH2qPZ1UEPaGoH7vVKwBBNAObKzRf5sm3lEOBdBbw1PmRtcwPFMHYOZiM/QSJDRq+vD+hFVYQaM7ZPAAvOAoT4HqTP5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737635361; c=relaxed/simple;
-	bh=NZts1Cw8iQN/IlBbOmjcU2nN0yDD2rBc44Ak+wtbr0U=;
+	s=arc-20240116; t=1737636082; c=relaxed/simple;
+	bh=hK4MSDbcbO5Y5ISQxEQTIHAqK9Qq6pXTEQby4rDv+lc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I5QsUOWI21mnyR0RY36c5GRxJD00W2sWRERtxbF4lsoktDcObgW08s3zIZOM068RMoeHwbUHuU5vFAEJxEYaRnHWiawONlBEBgePAhTQ4UcGeqkfeNZFFLN70aYgRv6OCB0wmiUyrGGsWcWsQzSdPMzrnw7c+h1qq2q18Lz2tn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dvlj+XAu; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=QSyQ8oCgQt+FgC3SOhZcjtcoc+wkMKylQOVAeESnxR/eiYMPtbHHeePGhizZ0V2c8qs3Dq40PTo3hDKmRUJEmpX3EkeF/n3VQsmPuAen76Ykq4tqICecyqFkvXQrTfFsQGo0MQiEVK+5mgjhoHEpGqVzOxWTFiORjs2Yswmm/p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwdiBk4g; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dvlj+XAu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwdiBk4g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737635359; x=1769171359;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NZts1Cw8iQN/IlBbOmjcU2nN0yDD2rBc44Ak+wtbr0U=;
-  b=Dvlj+XAu73Fix3RsGHg0ApHzD2t9IvEXkLUpSRrA0BxcgydxL7aDwjmH
-   yD+sMuvs3GtqdXs6Ym0NKk9xnzL2rzshxksrjAHHXE335Oi9AU2kDfNhT
-   KnsC7IXCjujoDHfDBy6EHmoe3j1SpMuL+BV7Tv8dSP0dQBebOx1qta0fS
-   6/+Yh0a3Xy1/ZAHougNb9jcYxyq93SGvpiCF2tVFOKweLpEHj/nZHk0E4
-   9q5PZ1Bzw+klUs+2ksP7m6U3aWmkxSS5wiBGYMXZdj3VuzysVFg0DBs7q
-   nxeX8WWFWVtkgAJPDtsS9RaO9m2lMgxOLNmufyyZEN7iHapbfW0WWPkqV
-   w==;
-X-CSE-ConnectionGUID: XOi3hooFTf+Guft/PUny3Q==
-X-CSE-MsgGUID: HVOK3vJETRmZmZyuIbmqeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38010447"
+  t=1737636081; x=1769172081;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hK4MSDbcbO5Y5ISQxEQTIHAqK9Qq6pXTEQby4rDv+lc=;
+  b=PwdiBk4gJibJs76z/n1XhMJwXYERDSkGYGMtwTnFKnq24M1IfIzl0uja
+   wniCfb4fTOGORRialkTrPIimfifyMRqRK2VvvSyA6US2JBUicAD5+5SOl
+   7wA++zDUJgN7klELwWlR3tN4LIYMXKchK9dwNSWSVFw8kJlMT8szUbJOV
+   WK1TMecG1EjnrS1isiE4lm6Hy6z4bTPiFmoU9rExMEIKYoGGH8Qmc4V+B
+   WSUKlx9wMm24qd3hE13c7XFX/z6rxI46ZITPL4oe8ZVivzswH6eg1P/it
+   n0+iDlrobcJ/JaKltoHYRnua6YGCwsXrDJpCd1j4toHAuBke0jQxQxA8H
+   g==;
+X-CSE-ConnectionGUID: Tti8Mjg8TsCaiSMhLA3HqQ==
+X-CSE-MsgGUID: O4AXdLwoTweWAbpn4MuJWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="41886279"
 X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
-   d="scan'208";a="38010447"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 04:29:19 -0800
-X-CSE-ConnectionGUID: v7zsk9jBQeK/hKFgyORucg==
-X-CSE-MsgGUID: qI5PWkf9QtKRiIReEHt2Nw==
+   d="scan'208";a="41886279"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 04:41:20 -0800
+X-CSE-ConnectionGUID: k/zuajrPQGWfaUmzsJiuNg==
+X-CSE-MsgGUID: m1l/Jdd4T7idtHsSD1eOWg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
-   d="scan'208";a="112440607"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="138318815"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Jan 2025 04:29:17 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 23 Jan 2025 04:41:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tawKh-000bA7-27;
-	Thu, 23 Jan 2025 12:29:15 +0000
-Date: Thu, 23 Jan 2025 20:28:29 +0800
+	id 1tawWK-000bAd-1u;
+	Thu, 23 Jan 2025 12:41:16 +0000
+Date: Thu, 23 Jan 2025 20:40:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Subject: drivers/gpu/drm/imx/dcss/dcss-scaler.c:174: warning: Function
- parameter or struct member 'phase0_identity' not described in
- 'dcss_scaler_gaussian_filter'
-Message-ID: <202501232041.R736koGV-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: [bcachefs:bcachefs-testing 302/305] ERROR: modpost:
+ "time_stats_reset" [fs/bcachefs/bcachefs.ko] undefined!
+Message-ID: <202501232019.czbq81HY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Ville,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   21266b8df5224c4f677acf9f353eecc9094731f0
-commit: 004555a18d57fbad42553c2e98e00a054bbe618c drm/imx/dcss: Allow build with COMPILE_TEST=y
-date:   3 months ago
-config: arc-randconfig-001-20250102 (https://download.01.org/0day-ci/archive/20250123/202501232041.R736koGV-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501232041.R736koGV-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   9f73221be57f43a312dec7cdbd8ae087006f8676
+commit: 9763acc0c6a67f5a2b642a79d0fa5bb25ab08223 [302/305] time_stats: Promote to lib/
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250123/202501232019.czbq81HY-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501232019.czbq81HY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501232041.R736koGV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501232019.czbq81HY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/gpu/drm/imx/dcss/dcss-scaler.c:174: warning: Function parameter or struct member 'phase0_identity' not described in 'dcss_scaler_gaussian_filter'
->> drivers/gpu/drm/imx/dcss/dcss-scaler.c:271: warning: Function parameter or struct member 'phase0_identity' not described in 'dcss_scaler_filter_design'
->> drivers/gpu/drm/imx/dcss/dcss-scaler.c:271: warning: Function parameter or struct member 'nn_interpolation' not described in 'dcss_scaler_filter_design'
-
-
-vim +174 drivers/gpu/drm/imx/dcss/dcss-scaler.c
-
-9021c317b77024 Laurentiu Palcu 2020-07-31  164  
-9021c317b77024 Laurentiu Palcu 2020-07-31  165  /**
-9021c317b77024 Laurentiu Palcu 2020-07-31  166   * dcss_scaler_gaussian_filter() - Generate gaussian prototype filter.
-9021c317b77024 Laurentiu Palcu 2020-07-31  167   * @fc_q: fixed-point cutoff frequency normalized to range [0, 1]
-9021c317b77024 Laurentiu Palcu 2020-07-31  168   * @use_5_taps: indicates whether to use 5 taps or 7 taps
-9021c317b77024 Laurentiu Palcu 2020-07-31  169   * @coef: output filter coefficients
-9021c317b77024 Laurentiu Palcu 2020-07-31  170   */
-9021c317b77024 Laurentiu Palcu 2020-07-31  171  static void dcss_scaler_gaussian_filter(int fc_q, bool use_5_taps,
-9021c317b77024 Laurentiu Palcu 2020-07-31  172  					bool phase0_identity,
-9021c317b77024 Laurentiu Palcu 2020-07-31  173  					int coef[][PSC_NUM_TAPS])
-9021c317b77024 Laurentiu Palcu 2020-07-31 @174  {
-9021c317b77024 Laurentiu Palcu 2020-07-31  175  	int sigma_q, g0_q, g1_q, g2_q;
-9021c317b77024 Laurentiu Palcu 2020-07-31  176  	int tap_cnt1, tap_cnt2, tap_idx, phase_cnt;
-9021c317b77024 Laurentiu Palcu 2020-07-31  177  	int mid;
-9021c317b77024 Laurentiu Palcu 2020-07-31  178  	int phase;
-9021c317b77024 Laurentiu Palcu 2020-07-31  179  	int i;
-9021c317b77024 Laurentiu Palcu 2020-07-31  180  	int taps;
-9021c317b77024 Laurentiu Palcu 2020-07-31  181  
-9021c317b77024 Laurentiu Palcu 2020-07-31  182  	if (use_5_taps)
-9021c317b77024 Laurentiu Palcu 2020-07-31  183  		for (phase = 0; phase < PSC_STORED_PHASES; phase++) {
-9021c317b77024 Laurentiu Palcu 2020-07-31  184  			coef[phase][0] = 0;
-9021c317b77024 Laurentiu Palcu 2020-07-31  185  			coef[phase][PSC_NUM_TAPS - 1] = 0;
-9021c317b77024 Laurentiu Palcu 2020-07-31  186  		}
-9021c317b77024 Laurentiu Palcu 2020-07-31  187  
-9021c317b77024 Laurentiu Palcu 2020-07-31  188  	/* seed coefficient scanner */
-9021c317b77024 Laurentiu Palcu 2020-07-31  189  	taps = use_5_taps ? PSC_NUM_TAPS_RGBA : PSC_NUM_TAPS;
-9021c317b77024 Laurentiu Palcu 2020-07-31  190  	mid = (PSC_NUM_PHASES * taps) / 2 - 1;
-9021c317b77024 Laurentiu Palcu 2020-07-31  191  	phase_cnt = (PSC_NUM_PHASES * (PSC_NUM_TAPS + 1)) / 2;
-9021c317b77024 Laurentiu Palcu 2020-07-31  192  	tap_cnt1 = (PSC_NUM_PHASES * PSC_NUM_TAPS) / 2;
-9021c317b77024 Laurentiu Palcu 2020-07-31  193  	tap_cnt2 = (PSC_NUM_PHASES * PSC_NUM_TAPS) / 2;
-9021c317b77024 Laurentiu Palcu 2020-07-31  194  
-9021c317b77024 Laurentiu Palcu 2020-07-31  195  	/* seed gaussian filter generator */
-9021c317b77024 Laurentiu Palcu 2020-07-31  196  	sigma_q = div_q(PSC_Q_ROUND_OFFSET, fc_q);
-9021c317b77024 Laurentiu Palcu 2020-07-31  197  	g0_q = 1 << PSC_Q_FRACTION;
-9021c317b77024 Laurentiu Palcu 2020-07-31  198  	g1_q = exp_approx_q(div_q(-PSC_Q_ROUND_OFFSET,
-9021c317b77024 Laurentiu Palcu 2020-07-31  199  				  mult_q(sigma_q, sigma_q)));
-9021c317b77024 Laurentiu Palcu 2020-07-31  200  	g2_q = mult_q(g1_q, g1_q);
-9021c317b77024 Laurentiu Palcu 2020-07-31  201  	coef[phase_cnt & PSC_PHASE_MASK][tap_cnt1 >> PSC_BITS_FOR_PHASE] = g0_q;
-9021c317b77024 Laurentiu Palcu 2020-07-31  202  
-9021c317b77024 Laurentiu Palcu 2020-07-31  203  	for (i = 0; i < mid; i++) {
-9021c317b77024 Laurentiu Palcu 2020-07-31  204  		phase_cnt++;
-9021c317b77024 Laurentiu Palcu 2020-07-31  205  		tap_cnt1--;
-9021c317b77024 Laurentiu Palcu 2020-07-31  206  		tap_cnt2++;
-9021c317b77024 Laurentiu Palcu 2020-07-31  207  
-9021c317b77024 Laurentiu Palcu 2020-07-31  208  		g0_q = mult_q(g0_q, g1_q);
-9021c317b77024 Laurentiu Palcu 2020-07-31  209  		g1_q = mult_q(g1_q, g2_q);
-9021c317b77024 Laurentiu Palcu 2020-07-31  210  
-9021c317b77024 Laurentiu Palcu 2020-07-31  211  		if ((phase_cnt & PSC_PHASE_MASK) <= 8) {
-9021c317b77024 Laurentiu Palcu 2020-07-31  212  			tap_idx = tap_cnt1 >> PSC_BITS_FOR_PHASE;
-9021c317b77024 Laurentiu Palcu 2020-07-31  213  			coef[phase_cnt & PSC_PHASE_MASK][tap_idx] = g0_q;
-9021c317b77024 Laurentiu Palcu 2020-07-31  214  		}
-9021c317b77024 Laurentiu Palcu 2020-07-31  215  		if (((-phase_cnt) & PSC_PHASE_MASK) <= 8) {
-9021c317b77024 Laurentiu Palcu 2020-07-31  216  			tap_idx = tap_cnt2 >> PSC_BITS_FOR_PHASE;
-9021c317b77024 Laurentiu Palcu 2020-07-31  217  			coef[(-phase_cnt) & PSC_PHASE_MASK][tap_idx] = g0_q;
-9021c317b77024 Laurentiu Palcu 2020-07-31  218  		}
-9021c317b77024 Laurentiu Palcu 2020-07-31  219  	}
-9021c317b77024 Laurentiu Palcu 2020-07-31  220  
-9021c317b77024 Laurentiu Palcu 2020-07-31  221  	phase_cnt++;
-9021c317b77024 Laurentiu Palcu 2020-07-31  222  	tap_cnt1--;
-9021c317b77024 Laurentiu Palcu 2020-07-31  223  	coef[phase_cnt & PSC_PHASE_MASK][tap_cnt1 >> PSC_BITS_FOR_PHASE] = 0;
-9021c317b77024 Laurentiu Palcu 2020-07-31  224  
-9021c317b77024 Laurentiu Palcu 2020-07-31  225  	/* override phase 0 with identity filter if specified */
-9021c317b77024 Laurentiu Palcu 2020-07-31  226  	if (phase0_identity)
-9021c317b77024 Laurentiu Palcu 2020-07-31  227  		for (i = 0; i < PSC_NUM_TAPS; i++)
-9021c317b77024 Laurentiu Palcu 2020-07-31  228  			coef[0][i] = i == (PSC_NUM_TAPS >> 1) ?
-9021c317b77024 Laurentiu Palcu 2020-07-31  229  						(1 << PSC_COEFF_PRECISION) : 0;
-9021c317b77024 Laurentiu Palcu 2020-07-31  230  
-9021c317b77024 Laurentiu Palcu 2020-07-31  231  	/* normalize coef */
-9021c317b77024 Laurentiu Palcu 2020-07-31  232  	for (phase = 0; phase < PSC_STORED_PHASES; phase++) {
-9021c317b77024 Laurentiu Palcu 2020-07-31  233  		int sum = 0;
-9021c317b77024 Laurentiu Palcu 2020-07-31  234  		s64 ll_temp;
-9021c317b77024 Laurentiu Palcu 2020-07-31  235  
-9021c317b77024 Laurentiu Palcu 2020-07-31  236  		for (i = 0; i < PSC_NUM_TAPS; i++)
-9021c317b77024 Laurentiu Palcu 2020-07-31  237  			sum += coef[phase][i];
-9021c317b77024 Laurentiu Palcu 2020-07-31  238  		for (i = 0; i < PSC_NUM_TAPS; i++) {
-9021c317b77024 Laurentiu Palcu 2020-07-31  239  			ll_temp = coef[phase][i];
-9021c317b77024 Laurentiu Palcu 2020-07-31  240  			ll_temp <<= PSC_COEFF_PRECISION;
-9021c317b77024 Laurentiu Palcu 2020-07-31  241  			ll_temp += sum >> 1;
-f2cab5a0e8c3a4 Ville Syrjälä   2024-10-03  242  			ll_temp = div_s64(ll_temp, sum);
-9021c317b77024 Laurentiu Palcu 2020-07-31  243  			coef[phase][i] = (int)ll_temp;
-9021c317b77024 Laurentiu Palcu 2020-07-31  244  		}
-9021c317b77024 Laurentiu Palcu 2020-07-31  245  	}
-9021c317b77024 Laurentiu Palcu 2020-07-31  246  }
-9021c317b77024 Laurentiu Palcu 2020-07-31  247  
-05faf1559de524 Laurentiu Palcu 2020-11-05  248  static void dcss_scaler_nearest_neighbor_filter(bool use_5_taps,
-05faf1559de524 Laurentiu Palcu 2020-11-05  249  						int coef[][PSC_NUM_TAPS])
-05faf1559de524 Laurentiu Palcu 2020-11-05  250  {
-05faf1559de524 Laurentiu Palcu 2020-11-05  251  	int i, j;
-05faf1559de524 Laurentiu Palcu 2020-11-05  252  
-05faf1559de524 Laurentiu Palcu 2020-11-05  253  	for (i = 0; i < PSC_STORED_PHASES; i++)
-05faf1559de524 Laurentiu Palcu 2020-11-05  254  		for (j = 0; j < PSC_NUM_TAPS; j++)
-05faf1559de524 Laurentiu Palcu 2020-11-05  255  			coef[i][j] = j == PSC_NUM_TAPS >> 1 ?
-05faf1559de524 Laurentiu Palcu 2020-11-05  256  						(1 << PSC_COEFF_PRECISION) : 0;
-05faf1559de524 Laurentiu Palcu 2020-11-05  257  }
-05faf1559de524 Laurentiu Palcu 2020-11-05  258  
-9021c317b77024 Laurentiu Palcu 2020-07-31  259  /**
-9021c317b77024 Laurentiu Palcu 2020-07-31  260   * dcss_scaler_filter_design() - Compute filter coefficients using
-9021c317b77024 Laurentiu Palcu 2020-07-31  261   *				 Gaussian filter.
-9021c317b77024 Laurentiu Palcu 2020-07-31  262   * @src_length: length of input
-9021c317b77024 Laurentiu Palcu 2020-07-31  263   * @dst_length: length of output
-9021c317b77024 Laurentiu Palcu 2020-07-31  264   * @use_5_taps: 0 for 7 taps per phase, 1 for 5 taps
-9021c317b77024 Laurentiu Palcu 2020-07-31  265   * @coef: output coefficients
-9021c317b77024 Laurentiu Palcu 2020-07-31  266   */
-9021c317b77024 Laurentiu Palcu 2020-07-31  267  static void dcss_scaler_filter_design(int src_length, int dst_length,
-9021c317b77024 Laurentiu Palcu 2020-07-31  268  				      bool use_5_taps, bool phase0_identity,
-05faf1559de524 Laurentiu Palcu 2020-11-05  269  				      int coef[][PSC_NUM_TAPS],
-05faf1559de524 Laurentiu Palcu 2020-11-05  270  				      bool nn_interpolation)
-9021c317b77024 Laurentiu Palcu 2020-07-31 @271  {
-9021c317b77024 Laurentiu Palcu 2020-07-31  272  	int fc_q;
-9021c317b77024 Laurentiu Palcu 2020-07-31  273  
-9021c317b77024 Laurentiu Palcu 2020-07-31  274  	/* compute cutoff frequency */
-9021c317b77024 Laurentiu Palcu 2020-07-31  275  	if (dst_length >= src_length)
-9021c317b77024 Laurentiu Palcu 2020-07-31  276  		fc_q = div_q(1, PSC_NUM_PHASES);
-9021c317b77024 Laurentiu Palcu 2020-07-31  277  	else
-9021c317b77024 Laurentiu Palcu 2020-07-31  278  		fc_q = div_q(dst_length, src_length * PSC_NUM_PHASES);
-9021c317b77024 Laurentiu Palcu 2020-07-31  279  
-05faf1559de524 Laurentiu Palcu 2020-11-05  280  	if (nn_interpolation)
-05faf1559de524 Laurentiu Palcu 2020-11-05  281  		dcss_scaler_nearest_neighbor_filter(use_5_taps, coef);
-05faf1559de524 Laurentiu Palcu 2020-11-05  282  	else
-9021c317b77024 Laurentiu Palcu 2020-07-31  283  		/* compute gaussian filter coefficients */
-9021c317b77024 Laurentiu Palcu 2020-07-31  284  		dcss_scaler_gaussian_filter(fc_q, use_5_taps, phase0_identity, coef);
-9021c317b77024 Laurentiu Palcu 2020-07-31  285  }
-9021c317b77024 Laurentiu Palcu 2020-07-31  286  
-
-:::::: The code at line 174 was first introduced by commit
-:::::: 9021c317b77024fb2642af7e84ad944769ae0949 drm/imx: Add initial support for DCSS on iMX8MQ
-
-:::::: TO: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-:::::: CC: Lucas Stach <l.stach@pengutronix.de>
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/mean_and_variance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/time_stats.o
+>> ERROR: modpost: "time_stats_reset" [fs/bcachefs/bcachefs.ko] undefined!
+ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
