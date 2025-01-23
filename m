@@ -1,63 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623E35A4D5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 17:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AE514883C;
+	Thu, 23 Jan 2025 17:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737653693; cv=none; b=R7yI6J0htmvLr0Q+2v/abZmnmazIW4EhiweTJdH29REngyeEYBpysTNAfQoxXUGZkn0eUCGXzDzMNs71BWC9JLBOpxvxzzOMwxY1INRBNGsb5+zu7QRRHet1QoG5qHurc2FiEzCL+ZtvbQCYoyqkFBx/heLBeASJJCYR0d1GP+c=
+	t=1737653693; cv=none; b=oinIBy9ZAEMearJnUkePQOmwI+YE2cpufrtDyPLBgzV3FYQbo/Nrt7cos2vJWSqbLp5hxOxFdlSUgorIDbVljKdTfrCAg7B0PCMvaEQNuaSIeC7O37wbxc1RebgJkS0Iaw4QSUtivPZJ47zFo5sDhSKUR1i00dPQzpsM60qLQxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737653693; c=relaxed/simple;
-	bh=DX5KAbw65sVxxr4lV6xmTvk7c6YLHu2b8n3MFCMzAY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qQx/Q7PYofTrxltqSnbhIK1Jo2n40WLuUOaqxlip9c6ZKXxCm45JrmOS9eDLAdI+0HX6ZVFu/Y7rYOXo92iBV8HCZxidc+1JaOLcQU6GPccfM2eriksdCIiw/qKUSsFcjAbarKse6R8sHNZ4zLe798edjXKtf0usbJCd4M0LIvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDvdjXby; arc=none smtp.client-ip=192.198.163.15
+	bh=Vi0yvCwo30fwVsqjLO0cONScA/8TLk0SHxBzQlbNSOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tvmCg4MIKwOCMTEpIDA9Cyo/KJCzCo9YYsm+Wgdy5JcUvchlDjtPLB0PZUTEdxKbJ8jBwgqmZn+jibftYEwXRIfK1Qr0FP19scB0dBn9uXYdoPsG4K6xaeURntXhkuQjQ1YwkgaFcraeQUMp0oserP9BEfK0ampByL3DHMoKIjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NIVTlryw; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDvdjXby"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NIVTlryw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737653691; x=1769189691;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DX5KAbw65sVxxr4lV6xmTvk7c6YLHu2b8n3MFCMzAY8=;
-  b=JDvdjXbyZEjy4oKUarM5C9UcBUhRmSUsAP61NJQ2co2OfOSL867WJKPF
-   qSpCgtJIHAh7Eqtx5zK5nRibfdzpG5CNoOALOSDL7ag7uUq1X5ymy1co6
-   yJd46ItrUIYh+tomyr1DtISrE7w01fFaHlYLWfMMMS+BwHH3O0jsSbGfl
-   /XEEXG9AtcljbPfegT97dcMUxPb5xdmo6oY6sls8YSEWKibOTgAwAEBfW
-   ahGuLNOv/PEcn/gaJHQpB+a5tarhC+Unktooha4kYSYbhaqg6wJciWo3L
-   MNP/QG6Edwj/Xuthtkgt8u6nSim/K14O3ywde68An8Sx5CpmmtNJbxPEH
-   g==;
-X-CSE-ConnectionGUID: 21+RuVqzS4G9EVjOBvUnqw==
-X-CSE-MsgGUID: alVEtsPEQJeEYoxar0/pxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38333042"
+  t=1737653692; x=1769189692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vi0yvCwo30fwVsqjLO0cONScA/8TLk0SHxBzQlbNSOA=;
+  b=NIVTlryw+8tzOvlKaGlPelDh6OlMObfPFCjzbkS917BeGkV5Z05Uj275
+   wvme1THRLKZpojfrPdQlqsPVY25Ll+ZGGUWz1HqlvBXYbDBvtLq+7zQOm
+   LIr9EE9gRODqg8cRXKl5c/MhK2a9XG9r4cvylAE95FWaGhWpj7TtF5ZlT
+   a8tZuiVawlhMrUz/RjnZkL6toIkGE3ahWQJrdoHDgXL40Uq5wgGaqwIZn
+   U+ymY36zqSBrcL1+f5kFt9drK41QIOzH0ldfPN4rBkO39CmE3GVpi8Xl3
+   Z9by0bk4kNyj2JCtEAENkuzVmnQWDUOIF1BeSa4VUWbZ4IAQTWbkPic4s
+   w==;
+X-CSE-ConnectionGUID: wC6uVFZ+QyicsvmJ1kBI5w==
+X-CSE-MsgGUID: ftFyYc4uR6C47+3RcIxnxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="55715297"
 X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
-   d="scan'208";a="38333042"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 09:34:50 -0800
-X-CSE-ConnectionGUID: spvfKswJTJ6oliLeTZp2HQ==
-X-CSE-MsgGUID: Qu1BHeUMQFeiv8C8rukSwA==
+   d="scan'208";a="55715297"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 09:34:51 -0800
+X-CSE-ConnectionGUID: fCU09iDaQ72rUo9Zyl9MFA==
+X-CSE-MsgGUID: t4CAraI5QsqUroLarf1qXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112168336"
+   d="scan'208";a="108403010"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Jan 2025 09:34:47 -0800
+  by orviesa008.jf.intel.com with ESMTP; 23 Jan 2025 09:34:48 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb16L-000bRh-1V;
+	id 1tb16L-000bRf-1R;
 	Thu, 23 Jan 2025 17:34:45 +0000
-Date: Fri, 24 Jan 2025 01:34:03 +0800
+Date: Fri, 24 Jan 2025 01:34:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	lin.x.wang@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2441/2441]
- drivers/iommu/intel/debugfs.c:642:37: warning: 'dmar_perf_latency_fops'
- defined but not used
-Message-ID: <202501240117.wcOARjLR-lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH 4/4] entry: Inline syscall_exit_to_user_mode()
+Message-ID: <202501240101.mSdGpEoH-lkp@intel.com>
+References: <20250122-riscv_optimize_entry-v1-4-4ee95559cfd0@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,106 +72,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250122-riscv_optimize_entry-v1-4-4ee95559cfd0@rivosinc.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   f1811f6442501fe34d2339158aed4f85a64f0398
-commit: 589132a513fbf4f1c0b7627cda829e7bba9e7e5f [2441/2441] iommu/vt-d: Expose latency monitor data through debugfs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250124/202501240117.wcOARjLR-lkp@intel.com/config)
+Hi Charlie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ffd294d346d185b70e28b1a28abe367bbfe53c04]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-entry-Convert-ret_from_fork-to-C/20250123-065957
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250122-riscv_optimize_entry-v1-4-4ee95559cfd0%40rivosinc.com
+patch subject: [PATCH 4/4] entry: Inline syscall_exit_to_user_mode()
+config: x86_64-randconfig-072-20250123 (https://download.01.org/0day-ci/archive/20250124/202501240101.mSdGpEoH-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240117.wcOARjLR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240101.mSdGpEoH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501240117.wcOARjLR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501240101.mSdGpEoH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:6,
+   In file included from arch/x86/include/asm/bug.h:99,
                     from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/debugfs.h:15,
-                    from drivers/iommu/intel/debugfs.c:11:
-   include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   drivers/iommu/intel/debugfs.c: In function 'dmar_perf_latency_write':
-   drivers/iommu/intel/debugfs.c:591:13: error: implicit declaration of function 'copy_from_user'; did you mean 'copy_from_user_page'? [-Werror=implicit-function-declaration]
-     591 |         if (copy_from_user(&buf, ubuf, cnt))
-         |             ^~~~~~~~~~~~~~
-         |             copy_from_user_page
-   drivers/iommu/intel/debugfs.c: At top level:
-   drivers/iommu/intel/debugfs.c:650:13: error: redefinition of 'latency_show_one'
-     650 | static void latency_show_one(struct seq_file *m, struct intel_iommu *iommu,
-         |             ^~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:545:13: note: previous definition of 'latency_show_one' with type 'void(struct seq_file *, struct intel_iommu *, struct dmar_drhd_unit *)'
-     545 | static void latency_show_one(struct seq_file *m, struct intel_iommu *iommu,
-         |             ^~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:666:12: error: redefinition of 'latency_show'
-     666 | static int latency_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:561:12: note: previous definition of 'latency_show' with type 'int(struct seq_file *, void *)'
-     561 | static int latency_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:679:12: error: redefinition of 'dmar_perf_latency_open'
-     679 | static int dmar_perf_latency_open(struct inode *inode, struct file *filp)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:574:12: note: previous definition of 'dmar_perf_latency_open' with type 'int(struct inode *, struct file *)'
-     574 | static int dmar_perf_latency_open(struct inode *inode, struct file *filp)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:684:16: error: redefinition of 'dmar_perf_latency_write'
-     684 | static ssize_t dmar_perf_latency_write(struct file *filp,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:579:16: note: previous definition of 'dmar_perf_latency_write' with type 'ssize_t(struct file *, const char *, size_t,  loff_t *)' {aka 'long int(struct file *, const char *, long unsigned int,  long long int *)'}
-     579 | static ssize_t dmar_perf_latency_write(struct file *filp,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:747:37: error: redefinition of 'dmar_perf_latency_fops'
-     747 | static const struct file_operations dmar_perf_latency_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:642:37: note: previous definition of 'dmar_perf_latency_fops' with type 'const struct file_operations'
-     642 | static const struct file_operations dmar_perf_latency_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c: In function 'intel_iommu_debugfs_init':
-   drivers/iommu/intel/debugfs.c:774:36: error: 'qi_done_fops' undeclared (first use in this function)
-     774 |                             NULL, &qi_done_fops);
-         |                                    ^~~~~~~~~~~~
-   drivers/iommu/intel/debugfs.c:774:36: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/intel/debugfs.c: At top level:
->> drivers/iommu/intel/debugfs.c:642:37: warning: 'dmar_perf_latency_fops' defined but not used [-Wunused-const-variable=]
-     642 | static const struct file_operations dmar_perf_latency_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+                    from include/linux/thread_info.h:13,
+                    from include/linux/sched.h:14,
+                    from arch/x86/mm/fault.c:7:
+   include/linux/entry-common.h: In function 'syscall_exit_to_user_mode_work':
+>> include/linux/entry-common.h:397:34: error: 'CONTEXT_KERNEL' undeclared (first use in this function); did you mean 'PERF_CONTEXT_KERNEL'?
+     397 |         CT_WARN_ON(ct_state() != CONTEXT_KERNEL);
+         |                                  ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/linux/entry-common.h:397:9: note: in expansion of macro 'CT_WARN_ON'
+     397 |         CT_WARN_ON(ct_state() != CONTEXT_KERNEL);
+         |         ^~~~~~~~~~
+   include/linux/entry-common.h:397:34: note: each undeclared identifier is reported only once for each function it appears in
+     397 |         CT_WARN_ON(ct_state() != CONTEXT_KERNEL);
+         |                                  ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/linux/entry-common.h:397:9: note: in expansion of macro 'CT_WARN_ON'
+     397 |         CT_WARN_ON(ct_state() != CONTEXT_KERNEL);
+         |         ^~~~~~~~~~
 
 
-vim +/dmar_perf_latency_fops +642 drivers/iommu/intel/debugfs.c
+vim +397 include/linux/entry-common.h
 
-c4a45045c239ac Lu Baolu 2021-06-10  641  
-c4a45045c239ac Lu Baolu 2021-06-10 @642  static const struct file_operations dmar_perf_latency_fops = {
-c4a45045c239ac Lu Baolu 2021-06-10  643  	.open		= dmar_perf_latency_open,
-c4a45045c239ac Lu Baolu 2021-06-10  644  	.write		= dmar_perf_latency_write,
-c4a45045c239ac Lu Baolu 2021-06-10  645  	.read		= seq_read,
-c4a45045c239ac Lu Baolu 2021-06-10  646  	.llseek		= seq_lseek,
-c4a45045c239ac Lu Baolu 2021-06-10  647  	.release	= single_release,
-c4a45045c239ac Lu Baolu 2021-06-10  648  };
-c4a45045c239ac Lu Baolu 2021-06-10  649  
-
-:::::: The code at line 642 was first introduced by commit
-:::::: c4a45045c239acae7673408f03e3a9cd67dbfc48 iommu/vt-d: Expose latency monitor data through debugfs
-
-:::::: TO: Lu Baolu <baolu.lu@linux.intel.com>
-:::::: CC: Jianping Liu <frankjpliu@tencent.com>
+   378	
+   379	/**
+   380	 * syscall_exit_to_user_mode_work - Handle work before returning to user mode
+   381	 * @regs:	Pointer to currents pt_regs
+   382	 *
+   383	 * Same as step 1 and 2 of syscall_exit_to_user_mode() but without calling
+   384	 * exit_to_user_mode() to perform the final transition to user mode.
+   385	 *
+   386	 * Calling convention is the same as for syscall_exit_to_user_mode() and it
+   387	 * returns with all work handled and interrupts disabled. The caller must
+   388	 * invoke exit_to_user_mode() before actually switching to user mode to
+   389	 * make the final state transitions. Interrupts must stay disabled between
+   390	 * return from this function and the invocation of exit_to_user_mode().
+   391	 */
+   392	static __always_inline void syscall_exit_to_user_mode_work(struct pt_regs *regs)
+   393	{
+   394		unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+   395		unsigned long nr = syscall_get_nr(current, regs);
+   396	
+ > 397		CT_WARN_ON(ct_state() != CONTEXT_KERNEL);
+   398	
+   399		if (IS_ENABLED(CONFIG_PROVE_LOCKING)) {
+   400			if (WARN(irqs_disabled(), "syscall %lu left IRQs disabled", nr))
+   401				local_irq_enable();
+   402		}
+   403	
+   404		rseq_syscall(regs);
+   405	
+   406		/*
+   407		 * Do one-time syscall specific work. If these work items are
+   408		 * enabled, we want to run them exactly once per syscall exit with
+   409		 * interrupts enabled.
+   410		 */
+   411		if (unlikely(work & SYSCALL_WORK_EXIT))
+   412			syscall_exit_work(regs, work);
+   413		local_irq_disable_exit_to_user();
+   414		exit_to_user_mode_prepare(regs);
+   415	}
+   416	
 
 -- 
 0-DAY CI Kernel Test Service
