@@ -1,171 +1,253 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F0F20B7F0;
-	Thu, 23 Jan 2025 07:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6AF26AF5;
+	Thu, 23 Jan 2025 08:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737618278; cv=none; b=TgO1I7qzwzfqYZd4loP5/dw9pKsWM3dD/AIFO6t4DfrDA/xfnjhTc7oWy7dTI+QB1E6M6JDUhuGtIpTQmvF6IY1fcExFtysv1GqyFQ2oVCE4DBs8FUu3cFVEwnagp8jE416tGDW74UO2UNUwtHFpMNFz0NQIchEYZgxpOAOaN0w=
+	t=1737619401; cv=none; b=lPkPL5VmU3ym2qlRXzl333GJawoCHMRm78nGUzDRQF47/h4sCyAawpcmVgzMqDyyLiJVtMhiU3PVOyfz+Nn4f4dtuzs2iyup2ytOTvcmYz7G+dbouZZAiXcw/tUsI+fMoUK11fheNvKrReByccxsyEwOJdOs9RSxCiV+OCqI9TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737618278; c=relaxed/simple;
-	bh=ZZalJcNdYEu+B5B2jQ5zFe3nPUKmm3vz1sYjPlJ5/R0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TTJa/srZ7rysqVkpIqGSkOXe6YSbLgeMZ6YA/+vmBkljHCIAIOd5nwwsk4nk1LDkrhop13A448z4z2oMoqkRt3hA4x82oLBOiS59L81ahr6DZ7jbLwo1G0+16Pe8nQsH9wwFQorbxXxdsPHKEJBlnMrbLRlXyzQSSPpeTB9Bmpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LHJvea4s; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1737619401; c=relaxed/simple;
+	bh=/se8P4KTT0Lrdhagi2bnRCwMe/IvgFk2gWNs6gJzsSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oCMGZWJLoUU77eBdXUDqTnlaDbdjfuq9DDR2t3vjD7S4G6FAaqt61lu7PVsewfc4bwR91zoXvbLdt/ot5ypq3bL+nJ1k3zxNOcU0u8HgArsyefH3PTI4MboLGesZNrI9f5dlnp5gtflozOSKN3z+KOIgRrrHyFpwcX6zzq0pa/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wo517BGn; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LHJvea4s"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=ibn2RyewmOxU+1YqJgXQvfU96KdDM5Oay+ukrmvALaE=; b=LHJvea4sR9t52Bl7owYJPc1u9u
-	m9Iu3RkDsBgfYhHG3MFXQbNDowI+7D0dFKl0G5FqX4a/gcpx1lMD1FZLYHmKn0LBvwYtx6NqP0Jqr
-	U/zGe+pmIJzyrnQNtDNfvcyhk+h8rjoGY+2wEaQfKM0iTFzWa5+mdj4zkmLMXxW240pwTlNMmT5Il
-	Ow+50KbdZhBiZgJqKQFc4Nf/7wR5gCloLdVXLWSJMXHk1HgQ8hRt6AdWoGzm23Cq+hmzNMIPFb9Ok
-	7iC9SEH3Av17140U+ObefiDWeom0pYdKfsz9vth2avpf+75m3vdPrLgWcZjP1lgZQWwgT7bfKSjOD
-	55yOSuoA==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tart6-0000000DkdE-0Ijx;
-	Thu, 23 Jan 2025 07:44:29 +0000
-Message-ID: <46151c97-9f2e-407d-a9b7-fec1034281fb@infradead.org>
-Date: Wed, 22 Jan 2025 23:44:21 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wo517BGn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737619399; x=1769155399;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/se8P4KTT0Lrdhagi2bnRCwMe/IvgFk2gWNs6gJzsSI=;
+  b=Wo517BGnYB/2Zl8Ug/bQUn6Zm/MVQRxuh3KmqZGINN/NCh/uQ66ErLSP
+   RwXLLWy4n25Z9oXH29uxq6D5NBD65ILB5D+TaqKtLEso7sDZaQDZy/qhf
+   eKlnXPTG8K6XH+880goT6Um7uzg7rGZHRJm36gpD/1VAJVVui/8YuAY4L
+   wRTWbmjrQzIaYN9aKvGEGzpdDYIvDYYDYVA54olIOXuinN6kWoDUGkM3I
+   ZijwrgOh6TrOYzzturPfiWnwPlqNHVMf2g3+36VoftrLk49FhZV5Rdwz3
+   XkpwO23BsfJp64P09dNghY9hlsIkqG+hndp+97BGPHA3ej3c+wGmgkh0w
+   g==;
+X-CSE-ConnectionGUID: 6p1rZFsMRTS74irf37tcnQ==
+X-CSE-MsgGUID: MkEJX6RUTsuC9x1vr4cWMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="38356587"
+X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; 
+   d="scan'208";a="38356587"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 00:03:17 -0800
+X-CSE-ConnectionGUID: pVojxfXVTre8wDeWFdQBIA==
+X-CSE-MsgGUID: Cp7OlIc3RQe7UEnzkgz1Tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112033618"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Jan 2025 00:03:15 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tasBF-000au3-21;
+	Thu, 23 Jan 2025 08:03:13 +0000
+Date: Thu, 23 Jan 2025 16:02:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sarika Sharma <quic_sarishar@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 2/3] wifi: ath12k: add link support for multi-link in
+ arsta
+Message-ID: <202501231541.MkWxZOQ7-lkp@intel.com>
+References: <20250122133424.1226555-3-quic_sarishar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/base/power/runtime.c:362: warning: Excess function
- parameter 'dev' description in '__rpm_callback'
-To: kernel test robot <lkp@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202501231452.84vwjQqo-lkp@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202501231452.84vwjQqo-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250122133424.1226555-3-quic_sarishar@quicinc.com>
 
-Hi robot,
+Hi Sarika,
 
-On 1/22/25 10:59 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   21266b8df5224c4f677acf9f353eecc9094731f0
-> commit: 7be6a87c2473957090995b7eb541e31d57a2c801 sparc: allow PM configs for sparc32 COMPILE_TEST
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-^^^ Not relevant.
+[auto build test WARNING on e7ef944b3e2c31b608800925e784f67596375770]
 
-> date:   1 year, 11 months ago
-> config: sparc-randconfig-r032-20230416 (https://download.01.org/0day-ci/archive/20250123/202501231452.84vwjQqo-lkp@intel.com/config)
-> compiler: sparc-linux-gcc (GCC) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501231452.84vwjQqo-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501231452.84vwjQqo-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/base/power/runtime.c:362: warning: Excess function parameter 'dev' description in '__rpm_callback'
-> 
-> 
-> vim +362 drivers/base/power/runtime.c
-> 
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  354  
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  355  /**
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  356   * __rpm_callback - Run a given runtime PM callback for a given device.
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  357   * @cb: Runtime PM callback to run.
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  358   * @dev: Device to run the callback for.
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  359   */
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  360  static int __rpm_callback(int (*cb)(struct device *), struct device *dev)
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  361  	__releases(&dev->power.lock) __acquires(&dev->power.lock)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarika-Sharma/wifi-mac80211-correct-RX-stats-packet-increment-for-multi-link/20250122-213719
+base:   e7ef944b3e2c31b608800925e784f67596375770
+patch link:    https://lore.kernel.org/r/20250122133424.1226555-3-quic_sarishar%40quicinc.com
+patch subject: [PATCH RFC 2/3] wifi: ath12k: add link support for multi-link in arsta
+config: i386-buildonly-randconfig-006-20250123 (https://download.01.org/0day-ci/archive/20250123/202501231541.MkWxZOQ7-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501231541.MkWxZOQ7-lkp@intel.com/reproduce)
 
-The kernel-doc warning is a bug in scripts/kernel-doc.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501231541.MkWxZOQ7-lkp@intel.com/
 
-I don't know of anyone who is working on that bug.
+All warnings (new ones prefixed by >>):
 
-The only fix that I know of for now is to change the /** to plain /* to that the
-comment is not considered as kernel-doc notation. That should be OK since this is
-a static function, not exported.
+>> drivers/net/wireless/ath/ath12k/dp_rx.c:1364:24: warning: variable 'sta' set but not used [-Wunused-but-set-variable]
+    1364 |         struct ieee80211_sta *sta;
+         |                               ^
+   1 warning generated.
 
 
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27 @362  {
-> 63d00be69348fd Ulf Hansson       2021-06-08  363  	int retval = 0, idx;
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  364  	bool use_links = dev->power.links_count > 0;
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  365  
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  366  	if (dev->power.irq_safe) {
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  367  		spin_unlock(&dev->power.lock);
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  368  	} else {
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  369  		spin_unlock_irq(&dev->power.lock);
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  370  
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  371  		/*
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  372  		 * Resume suppliers if necessary.
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  373  		 *
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  374  		 * The device's runtime PM status cannot change until this
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  375  		 * routine returns, so it is safe to read the status outside of
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  376  		 * the lock.
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  377  		 */
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  378  		if (use_links && dev->power.runtime_status == RPM_RESUMING) {
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  379  			idx = device_links_read_lock();
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  380  
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  381  			retval = rpm_get_suppliers(dev);
-> 5244f5e2d80125 Rafael J. Wysocki 2021-03-19  382  			if (retval) {
-> 5244f5e2d80125 Rafael J. Wysocki 2021-03-19  383  				rpm_put_suppliers(dev);
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  384  				goto fail;
-> 5244f5e2d80125 Rafael J. Wysocki 2021-03-19  385  			}
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  386  
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  387  			device_links_read_unlock(idx);
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  388  		}
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  389  	}
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  390  
-> 63d00be69348fd Ulf Hansson       2021-06-08  391  	if (cb)
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  392  		retval = cb(dev);
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  393  
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  394  	if (dev->power.irq_safe) {
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  395  		spin_lock(&dev->power.lock);
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  396  	} else {
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  397  		/*
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  398  		 * If the device is suspending and the callback has returned
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  399  		 * success, drop the usage counters of the suppliers that have
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  400  		 * been reference counted on its resume.
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  401  		 *
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  402  		 * Do that if resume fails too.
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  403  		 */
-> dbfa44782787dc Rafael J. Wysocki 2022-12-05  404  		if (use_links &&
-> dbfa44782787dc Rafael J. Wysocki 2022-12-05  405  		    ((dev->power.runtime_status == RPM_SUSPENDING && !retval) ||
-> dbfa44782787dc Rafael J. Wysocki 2022-12-05  406  		    (dev->power.runtime_status == RPM_RESUMING && retval))) {
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  407  			idx = device_links_read_lock();
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  408  
-> 5244f5e2d80125 Rafael J. Wysocki 2021-03-19  409  			__rpm_put_suppliers(dev, false);
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  410  
-> 5244f5e2d80125 Rafael J. Wysocki 2021-03-19  411  fail:
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  412  			device_links_read_unlock(idx);
-> 0cab893f409c53 Rafael J. Wysocki 2021-03-19  413  		}
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  414  
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  415  		spin_lock_irq(&dev->power.lock);
-> 21d5c57b372616 Rafael J. Wysocki 2016-10-30  416  	}
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  417  
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  418  	return retval;
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  419  }
-> ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  420  
-> 
-> :::::: The code at line 362 was first introduced by commit
-> :::::: ad3c36a534bc7b945d7bffdda1c62e13bf93489a PM / Runtime: Don't run callbacks under lock for power.irq_safe set
-> 
-> :::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-> :::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+vim +/sta +1364 drivers/net/wireless/ath/ath12k/dp_rx.c
 
-So why is this email not sent to Rafael?
-I added his email address.
+d889913205cf7e Kalle Valo    2022-11-28  1357  
+d889913205cf7e Kalle Valo    2022-11-28  1358  static void
+d889913205cf7e Kalle Valo    2022-11-28  1359  ath12k_update_per_peer_tx_stats(struct ath12k *ar,
+d889913205cf7e Kalle Valo    2022-11-28  1360  				struct htt_ppdu_stats *ppdu_stats, u8 user)
+d889913205cf7e Kalle Valo    2022-11-28  1361  {
+d889913205cf7e Kalle Valo    2022-11-28  1362  	struct ath12k_base *ab = ar->ab;
+d889913205cf7e Kalle Valo    2022-11-28  1363  	struct ath12k_peer *peer;
+d889913205cf7e Kalle Valo    2022-11-28 @1364  	struct ieee80211_sta *sta;
+b89b5dbea65294 Sriram R      2024-10-15  1365  	struct ath12k_link_sta *arsta;
+d889913205cf7e Kalle Valo    2022-11-28  1366  	struct htt_ppdu_stats_user_rate *user_rate;
+d889913205cf7e Kalle Valo    2022-11-28  1367  	struct ath12k_per_peer_tx_stats *peer_stats = &ar->peer_tx_stats;
+d889913205cf7e Kalle Valo    2022-11-28  1368  	struct htt_ppdu_user_stats *usr_stats = &ppdu_stats->user_stats[user];
+d889913205cf7e Kalle Valo    2022-11-28  1369  	struct htt_ppdu_stats_common *common = &ppdu_stats->common;
+d889913205cf7e Kalle Valo    2022-11-28  1370  	int ret;
+d889913205cf7e Kalle Valo    2022-11-28  1371  	u8 flags, mcs, nss, bw, sgi, dcm, rate_idx = 0;
+d889913205cf7e Kalle Valo    2022-11-28  1372  	u32 v, succ_bytes = 0;
+d889913205cf7e Kalle Valo    2022-11-28  1373  	u16 tones, rate = 0, succ_pkts = 0;
+d889913205cf7e Kalle Valo    2022-11-28  1374  	u32 tx_duration = 0;
+d889913205cf7e Kalle Valo    2022-11-28  1375  	u8 tid = HTT_PPDU_STATS_NON_QOS_TID;
+d889913205cf7e Kalle Valo    2022-11-28  1376  	bool is_ampdu = false;
+d889913205cf7e Kalle Valo    2022-11-28  1377  
+d889913205cf7e Kalle Valo    2022-11-28  1378  	if (!(usr_stats->tlv_flags & BIT(HTT_PPDU_STATS_TAG_USR_RATE)))
+d889913205cf7e Kalle Valo    2022-11-28  1379  		return;
+d889913205cf7e Kalle Valo    2022-11-28  1380  
+d889913205cf7e Kalle Valo    2022-11-28  1381  	if (usr_stats->tlv_flags & BIT(HTT_PPDU_STATS_TAG_USR_COMPLTN_COMMON))
+d889913205cf7e Kalle Valo    2022-11-28  1382  		is_ampdu =
+d889913205cf7e Kalle Valo    2022-11-28  1383  			HTT_USR_CMPLTN_IS_AMPDU(usr_stats->cmpltn_cmn.flags);
+d889913205cf7e Kalle Valo    2022-11-28  1384  
+d889913205cf7e Kalle Valo    2022-11-28  1385  	if (usr_stats->tlv_flags &
+d889913205cf7e Kalle Valo    2022-11-28  1386  	    BIT(HTT_PPDU_STATS_TAG_USR_COMPLTN_ACK_BA_STATUS)) {
+d889913205cf7e Kalle Valo    2022-11-28  1387  		succ_bytes = le32_to_cpu(usr_stats->ack_ba.success_bytes);
+d889913205cf7e Kalle Valo    2022-11-28  1388  		succ_pkts = le32_get_bits(usr_stats->ack_ba.info,
+d889913205cf7e Kalle Valo    2022-11-28  1389  					  HTT_PPDU_STATS_ACK_BA_INFO_NUM_MSDU_M);
+d889913205cf7e Kalle Valo    2022-11-28  1390  		tid = le32_get_bits(usr_stats->ack_ba.info,
+d889913205cf7e Kalle Valo    2022-11-28  1391  				    HTT_PPDU_STATS_ACK_BA_INFO_TID_NUM);
+d889913205cf7e Kalle Valo    2022-11-28  1392  	}
+d889913205cf7e Kalle Valo    2022-11-28  1393  
+d889913205cf7e Kalle Valo    2022-11-28  1394  	if (common->fes_duration_us)
+d889913205cf7e Kalle Valo    2022-11-28  1395  		tx_duration = le32_to_cpu(common->fes_duration_us);
+d889913205cf7e Kalle Valo    2022-11-28  1396  
+d889913205cf7e Kalle Valo    2022-11-28  1397  	user_rate = &usr_stats->rate;
+d889913205cf7e Kalle Valo    2022-11-28  1398  	flags = HTT_USR_RATE_PREAMBLE(user_rate->rate_flags);
+d889913205cf7e Kalle Valo    2022-11-28  1399  	bw = HTT_USR_RATE_BW(user_rate->rate_flags) - 2;
+d889913205cf7e Kalle Valo    2022-11-28  1400  	nss = HTT_USR_RATE_NSS(user_rate->rate_flags) + 1;
+d889913205cf7e Kalle Valo    2022-11-28  1401  	mcs = HTT_USR_RATE_MCS(user_rate->rate_flags);
+d889913205cf7e Kalle Valo    2022-11-28  1402  	sgi = HTT_USR_RATE_GI(user_rate->rate_flags);
+d889913205cf7e Kalle Valo    2022-11-28  1403  	dcm = HTT_USR_RATE_DCM(user_rate->rate_flags);
+d889913205cf7e Kalle Valo    2022-11-28  1404  
+d889913205cf7e Kalle Valo    2022-11-28  1405  	/* Note: If host configured fixed rates and in some other special
+d889913205cf7e Kalle Valo    2022-11-28  1406  	 * cases, the broadcast/management frames are sent in different rates.
+d889913205cf7e Kalle Valo    2022-11-28  1407  	 * Firmware rate's control to be skipped for this?
+d889913205cf7e Kalle Valo    2022-11-28  1408  	 */
+d889913205cf7e Kalle Valo    2022-11-28  1409  
+d889913205cf7e Kalle Valo    2022-11-28  1410  	if (flags == WMI_RATE_PREAMBLE_HE && mcs > ATH12K_HE_MCS_MAX) {
+d889913205cf7e Kalle Valo    2022-11-28  1411  		ath12k_warn(ab, "Invalid HE mcs %d peer stats",  mcs);
+d889913205cf7e Kalle Valo    2022-11-28  1412  		return;
+d889913205cf7e Kalle Valo    2022-11-28  1413  	}
+d889913205cf7e Kalle Valo    2022-11-28  1414  
+d889913205cf7e Kalle Valo    2022-11-28  1415  	if (flags == WMI_RATE_PREAMBLE_VHT && mcs > ATH12K_VHT_MCS_MAX) {
+d889913205cf7e Kalle Valo    2022-11-28  1416  		ath12k_warn(ab, "Invalid VHT mcs %d peer stats",  mcs);
+d889913205cf7e Kalle Valo    2022-11-28  1417  		return;
+d889913205cf7e Kalle Valo    2022-11-28  1418  	}
+d889913205cf7e Kalle Valo    2022-11-28  1419  
+d889913205cf7e Kalle Valo    2022-11-28  1420  	if (flags == WMI_RATE_PREAMBLE_HT && (mcs > ATH12K_HT_MCS_MAX || nss < 1)) {
+d889913205cf7e Kalle Valo    2022-11-28  1421  		ath12k_warn(ab, "Invalid HT mcs %d nss %d peer stats",
+d889913205cf7e Kalle Valo    2022-11-28  1422  			    mcs, nss);
+d889913205cf7e Kalle Valo    2022-11-28  1423  		return;
+d889913205cf7e Kalle Valo    2022-11-28  1424  	}
+d889913205cf7e Kalle Valo    2022-11-28  1425  
+d889913205cf7e Kalle Valo    2022-11-28  1426  	if (flags == WMI_RATE_PREAMBLE_CCK || flags == WMI_RATE_PREAMBLE_OFDM) {
+d889913205cf7e Kalle Valo    2022-11-28  1427  		ret = ath12k_mac_hw_ratecode_to_legacy_rate(mcs,
+d889913205cf7e Kalle Valo    2022-11-28  1428  							    flags,
+d889913205cf7e Kalle Valo    2022-11-28  1429  							    &rate_idx,
+d889913205cf7e Kalle Valo    2022-11-28  1430  							    &rate);
+d889913205cf7e Kalle Valo    2022-11-28  1431  		if (ret < 0)
+d889913205cf7e Kalle Valo    2022-11-28  1432  			return;
+d889913205cf7e Kalle Valo    2022-11-28  1433  	}
+d889913205cf7e Kalle Valo    2022-11-28  1434  
+d889913205cf7e Kalle Valo    2022-11-28  1435  	rcu_read_lock();
+d889913205cf7e Kalle Valo    2022-11-28  1436  	spin_lock_bh(&ab->base_lock);
+d889913205cf7e Kalle Valo    2022-11-28  1437  	peer = ath12k_peer_find_by_id(ab, usr_stats->peer_id);
+d889913205cf7e Kalle Valo    2022-11-28  1438  
+d889913205cf7e Kalle Valo    2022-11-28  1439  	if (!peer || !peer->sta) {
+d889913205cf7e Kalle Valo    2022-11-28  1440  		spin_unlock_bh(&ab->base_lock);
+d889913205cf7e Kalle Valo    2022-11-28  1441  		rcu_read_unlock();
+d889913205cf7e Kalle Valo    2022-11-28  1442  		return;
+d889913205cf7e Kalle Valo    2022-11-28  1443  	}
+d889913205cf7e Kalle Valo    2022-11-28  1444  
+d889913205cf7e Kalle Valo    2022-11-28  1445  	sta = peer->sta;
+16188cf35df3cd Sarika Sharma 2025-01-22  1446  	arsta = ath12k_peer_get_link_sta(ab, peer);
+16188cf35df3cd Sarika Sharma 2025-01-22  1447  	if (!arsta) {
+16188cf35df3cd Sarika Sharma 2025-01-22  1448  		spin_unlock_bh(&ab->base_lock);
+16188cf35df3cd Sarika Sharma 2025-01-22  1449  		rcu_read_unlock();
+16188cf35df3cd Sarika Sharma 2025-01-22  1450  		return;
+16188cf35df3cd Sarika Sharma 2025-01-22  1451  	}
+d889913205cf7e Kalle Valo    2022-11-28  1452  
+d889913205cf7e Kalle Valo    2022-11-28  1453  	memset(&arsta->txrate, 0, sizeof(arsta->txrate));
+d889913205cf7e Kalle Valo    2022-11-28  1454  
+d889913205cf7e Kalle Valo    2022-11-28  1455  	switch (flags) {
+d889913205cf7e Kalle Valo    2022-11-28  1456  	case WMI_RATE_PREAMBLE_OFDM:
+d889913205cf7e Kalle Valo    2022-11-28  1457  		arsta->txrate.legacy = rate;
+d889913205cf7e Kalle Valo    2022-11-28  1458  		break;
+d889913205cf7e Kalle Valo    2022-11-28  1459  	case WMI_RATE_PREAMBLE_CCK:
+d889913205cf7e Kalle Valo    2022-11-28  1460  		arsta->txrate.legacy = rate;
+d889913205cf7e Kalle Valo    2022-11-28  1461  		break;
+d889913205cf7e Kalle Valo    2022-11-28  1462  	case WMI_RATE_PREAMBLE_HT:
+d889913205cf7e Kalle Valo    2022-11-28  1463  		arsta->txrate.mcs = mcs + 8 * (nss - 1);
+d889913205cf7e Kalle Valo    2022-11-28  1464  		arsta->txrate.flags = RATE_INFO_FLAGS_MCS;
+d889913205cf7e Kalle Valo    2022-11-28  1465  		if (sgi)
+d889913205cf7e Kalle Valo    2022-11-28  1466  			arsta->txrate.flags |= RATE_INFO_FLAGS_SHORT_GI;
+d889913205cf7e Kalle Valo    2022-11-28  1467  		break;
+d889913205cf7e Kalle Valo    2022-11-28  1468  	case WMI_RATE_PREAMBLE_VHT:
+d889913205cf7e Kalle Valo    2022-11-28  1469  		arsta->txrate.mcs = mcs;
+d889913205cf7e Kalle Valo    2022-11-28  1470  		arsta->txrate.flags = RATE_INFO_FLAGS_VHT_MCS;
+d889913205cf7e Kalle Valo    2022-11-28  1471  		if (sgi)
+d889913205cf7e Kalle Valo    2022-11-28  1472  			arsta->txrate.flags |= RATE_INFO_FLAGS_SHORT_GI;
+d889913205cf7e Kalle Valo    2022-11-28  1473  		break;
+d889913205cf7e Kalle Valo    2022-11-28  1474  	case WMI_RATE_PREAMBLE_HE:
+d889913205cf7e Kalle Valo    2022-11-28  1475  		arsta->txrate.mcs = mcs;
+d889913205cf7e Kalle Valo    2022-11-28  1476  		arsta->txrate.flags = RATE_INFO_FLAGS_HE_MCS;
+d889913205cf7e Kalle Valo    2022-11-28  1477  		arsta->txrate.he_dcm = dcm;
+d889913205cf7e Kalle Valo    2022-11-28  1478  		arsta->txrate.he_gi = ath12k_he_gi_to_nl80211_he_gi(sgi);
+d889913205cf7e Kalle Valo    2022-11-28  1479  		tones = le16_to_cpu(user_rate->ru_end) -
+d889913205cf7e Kalle Valo    2022-11-28  1480  			le16_to_cpu(user_rate->ru_start) + 1;
+d889913205cf7e Kalle Valo    2022-11-28  1481  		v = ath12k_he_ru_tones_to_nl80211_he_ru_alloc(tones);
+d889913205cf7e Kalle Valo    2022-11-28  1482  		arsta->txrate.he_ru_alloc = v;
+d889913205cf7e Kalle Valo    2022-11-28  1483  		break;
+d889913205cf7e Kalle Valo    2022-11-28  1484  	}
+d889913205cf7e Kalle Valo    2022-11-28  1485  
+d889913205cf7e Kalle Valo    2022-11-28  1486  	arsta->txrate.nss = nss;
+d889913205cf7e Kalle Valo    2022-11-28  1487  	arsta->txrate.bw = ath12k_mac_bw_to_mac80211_bw(bw);
+d889913205cf7e Kalle Valo    2022-11-28  1488  	arsta->tx_duration += tx_duration;
+d889913205cf7e Kalle Valo    2022-11-28  1489  	memcpy(&arsta->last_txrate, &arsta->txrate, sizeof(struct rate_info));
+d889913205cf7e Kalle Valo    2022-11-28  1490  
+d889913205cf7e Kalle Valo    2022-11-28  1491  	/* PPDU stats reported for mgmt packet doesn't have valid tx bytes.
+d889913205cf7e Kalle Valo    2022-11-28  1492  	 * So skip peer stats update for mgmt packets.
+d889913205cf7e Kalle Valo    2022-11-28  1493  	 */
+d889913205cf7e Kalle Valo    2022-11-28  1494  	if (tid < HTT_PPDU_STATS_NON_QOS_TID) {
+d889913205cf7e Kalle Valo    2022-11-28  1495  		memset(peer_stats, 0, sizeof(*peer_stats));
+d889913205cf7e Kalle Valo    2022-11-28  1496  		peer_stats->succ_pkts = succ_pkts;
+d889913205cf7e Kalle Valo    2022-11-28  1497  		peer_stats->succ_bytes = succ_bytes;
+d889913205cf7e Kalle Valo    2022-11-28  1498  		peer_stats->is_ampdu = is_ampdu;
+d889913205cf7e Kalle Valo    2022-11-28  1499  		peer_stats->duration = tx_duration;
+d889913205cf7e Kalle Valo    2022-11-28  1500  		peer_stats->ba_fails =
+d889913205cf7e Kalle Valo    2022-11-28  1501  			HTT_USR_CMPLTN_LONG_RETRY(usr_stats->cmpltn_cmn.flags) +
+d889913205cf7e Kalle Valo    2022-11-28  1502  			HTT_USR_CMPLTN_SHORT_RETRY(usr_stats->cmpltn_cmn.flags);
+d889913205cf7e Kalle Valo    2022-11-28  1503  	}
+d889913205cf7e Kalle Valo    2022-11-28  1504  
+d889913205cf7e Kalle Valo    2022-11-28  1505  	spin_unlock_bh(&ab->base_lock);
+d889913205cf7e Kalle Valo    2022-11-28  1506  	rcu_read_unlock();
+d889913205cf7e Kalle Valo    2022-11-28  1507  }
+d889913205cf7e Kalle Valo    2022-11-28  1508  
 
-Thanks so much!
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
