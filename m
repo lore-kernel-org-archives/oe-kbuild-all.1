@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE890200B8C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 07:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD64113B7A3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 07:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737615611; cv=none; b=V0fhmOtmUPUUFYB+v//e74+VKb9NmBKBYY2ialVt5pfqyVXWdT4Y+c+A57ik5r9pvUw0C64ouxxxIGtuJ2o9GV0UesdwlJkkdSytL/aaPcApMiIa18wSJZmUJ2sTfjiZtDXlU/t2k/3ET6EtyfRKude38JfE5AdCbKTYvNhr7xw=
+	t=1737616212; cv=none; b=d1h3y5DTGSmUAw/FjuH1+c1xtjYnBP5JgbRK5wvl9O49H3g1BMjt10P8MHy5akrzuVkn4eakdcd9n9WXdIlHpaCizMFIkgJrLY2usCmMt1KiapqRMwd+SUXiLEwugzwBFJi3jtH5Z2U6CmmdJHKCiJIKkOhNzowipxtmv5/4ZIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737615611; c=relaxed/simple;
-	bh=kS4RzeOpRXl6IG+eqBVepRaT+klnaSo0/a4onyerHaA=;
+	s=arc-20240116; t=1737616212; c=relaxed/simple;
+	bh=Gu89el8KzxbmhO9NPYyscmHGrl1HMALGlH9Oke1OqMw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q3cN8pj7Af+M+cnidk2EajHYgbMxIx40EGPs+LWRsZbFXELF4OuTQ5iuvOHiO9fUzu83vF16PJ8lDpwRSO83Q30SBumM7Jd50JlbTWRU8kAZ6AwcmXLrg2WmprTnTWQfmK3CIVw/n18w/3kSU+sG19Q7awFBMbykge5oiKzRwjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A12RKg7a; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=pGuoDblfcrZGAJzHK6ZABuN1BbLJNfIh0NLnKa/ljFdsntHUF4p0LIZNFUJzsLsuWGuEqxHXbSwbYXf8Nw85dI0v7BVPp04vtOXvdt533vaoHKwlLNwnFK7jl8qU6ck1zhbM5wGtjHskk5dWobd3t32vk/15XRWmru3EyCTRj6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lV+OxmGU; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A12RKg7a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lV+OxmGU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737615609; x=1769151609;
+  t=1737616211; x=1769152211;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kS4RzeOpRXl6IG+eqBVepRaT+klnaSo0/a4onyerHaA=;
-  b=A12RKg7aeOAYicZQK2yNS/5/CBmPWCRS/8p66OsSX02Mayh1oXmOoiNy
-   U3PzNjFS23RV0ntnWDQIbkoB5VOSzDdk7EbwTx8P0u0ScRw1uOBFKGIXj
-   xGAp5nzoUIQpQlWdJjfHR/j/exOv8dmg7gY3nPRk2pEYb7erBa5dUnzGX
-   9t4/vtLq9AnnKyjdfkDdPeV75ynJfw0uhHBXUe1cgRdrxkrjierkUXDbV
-   z3p87IbFewYZW8pZhKLNK84LvUAVgBJb4yVM4snSDEE1Iv9/OT69sibD3
-   DtZmIziqjIPz9QbvzFADA542L3QknpE2BddrFI+8EKNGD+RAzepDwWoQg
-   Q==;
-X-CSE-ConnectionGUID: EzvZyXUiRj+Az3y8RdTu9A==
-X-CSE-MsgGUID: 50f6k37RTHa7RaOc7ZJpAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="63450311"
-X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; 
-   d="scan'208";a="63450311"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 23:00:08 -0800
-X-CSE-ConnectionGUID: WSC3ra2tSzGFjx+kP5enmw==
-X-CSE-MsgGUID: t7l2Fz9ySI+SMoSbDFSSuw==
+  bh=Gu89el8KzxbmhO9NPYyscmHGrl1HMALGlH9Oke1OqMw=;
+  b=lV+OxmGUDVbLO3TMbEELPgJPbk39Vx7ZWrKDfTfvt9y2LHS3bWi08xGE
+   7dY/xNXn3AjJw4s3xCG2HNAmg8zckp0rUFtPE6ehwPUPvSKb8eA1BwMB7
+   Jpb8LyKn1knqTuprNhoDoRiZRYAgh3ODVudXfzOWll6wXPFfwWgjUqxFj
+   7GbihO2s1YbbtgsbQQf+amiGbGzLuAJ+asYqsSnmBE3NB7UUksuwQdCeU
+   rybWd19mOKek4U0fUpFd4WkW8K8UOTYAz2DLiZXUw42pNMEa+IilA/G1/
+   m/VO3JOUHtG88907kMf+JsvZkombkvyuoHli5b4OYQxvytbtCyg8Q6CWS
+   A==;
+X-CSE-ConnectionGUID: LbftoFSSTgGSImoQ7iQQjg==
+X-CSE-MsgGUID: jja7Jv02TgWJa5Jg9DF5Og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38205247"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="38205247"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 23:10:11 -0800
+X-CSE-ConnectionGUID: 4LMjoFQsRrW0iNvw+VvmHg==
+X-CSE-MsgGUID: 5tgs2LiRR4S2CYnSxwfI4Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="112343451"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107230506"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2025 23:00:06 -0800
+  by orviesa010.jf.intel.com with ESMTP; 22 Jan 2025 23:10:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tarC7-000arG-2u;
-	Thu, 23 Jan 2025 07:00:03 +0000
-Date: Thu, 23 Jan 2025 14:59:41 +0800
+	id 1tarLq-000arv-0c;
+	Thu, 23 Jan 2025 07:10:06 +0000
+Date: Thu, 23 Jan 2025 15:09:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: drivers/base/power/runtime.c:362: warning: Excess function parameter
- 'dev' description in '__rpm_callback'
-Message-ID: <202501231452.84vwjQqo-lkp@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Subject: [thesofproject:topic/sof-dev-rebase 36/83]
+ drivers/soundwire/debugfs.c:300:30: warning: format '%ld' expects argument
+ of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'}
+Message-ID: <202501231507.gOqcfPTX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,99 +67,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   21266b8df5224c4f677acf9f353eecc9094731f0
-commit: 7be6a87c2473957090995b7eb541e31d57a2c801 sparc: allow PM configs for sparc32 COMPILE_TEST
-date:   1 year, 11 months ago
-config: sparc-randconfig-r032-20230416 (https://download.01.org/0day-ci/archive/20250123/202501231452.84vwjQqo-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501231452.84vwjQqo-lkp@intel.com/reproduce)
+tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
+head:   4dbf0a74815675188836424b784024cdf13365f9
+commit: feae4ee142eeeccad34203a42a4d63019a46062c [36/83] soundwire: debugfs: add interface for BPT/BRA transfers
+config: arm-randconfig-003-20250123 (https://download.01.org/0day-ci/archive/20250123/202501231507.gOqcfPTX-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501231507.gOqcfPTX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501231452.84vwjQqo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501231507.gOqcfPTX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/base/power/runtime.c:362: warning: Excess function parameter 'dev' description in '__rpm_callback'
+   In file included from include/linux/printk.h:610,
+                    from include/asm-generic/bug.h:22,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/soundwire/debugfs.c:5:
+   drivers/soundwire/debugfs.c: In function 'cmd_go':
+>> drivers/soundwire/debugfs.c:300:30: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     300 |         dev_dbg(&slave->dev, "command completed, num_byte %ld status %d, time %lld ms\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/soundwire/debugfs.c:300:9: note: in expansion of macro 'dev_dbg'
+     300 |         dev_dbg(&slave->dev, "command completed, num_byte %ld status %d, time %lld ms\n",
+         |         ^~~~~~~
+   drivers/soundwire/debugfs.c:300:61: note: format string is defined here
+     300 |         dev_dbg(&slave->dev, "command completed, num_byte %ld status %d, time %lld ms\n",
+         |                                                           ~~^
+         |                                                             |
+         |                                                             long int
+         |                                                           %d
 
 
-vim +362 drivers/base/power/runtime.c
+vim +300 drivers/soundwire/debugfs.c
 
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  354  
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  355  /**
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  356   * __rpm_callback - Run a given runtime PM callback for a given device.
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  357   * @cb: Runtime PM callback to run.
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  358   * @dev: Device to run the callback for.
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  359   */
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  360  static int __rpm_callback(int (*cb)(struct device *), struct device *dev)
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  361  	__releases(&dev->power.lock) __acquires(&dev->power.lock)
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27 @362  {
-63d00be69348fd Ulf Hansson       2021-06-08  363  	int retval = 0, idx;
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  364  	bool use_links = dev->power.links_count > 0;
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  365  
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  366  	if (dev->power.irq_safe) {
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  367  		spin_unlock(&dev->power.lock);
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  368  	} else {
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  369  		spin_unlock_irq(&dev->power.lock);
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  370  
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  371  		/*
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  372  		 * Resume suppliers if necessary.
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  373  		 *
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  374  		 * The device's runtime PM status cannot change until this
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  375  		 * routine returns, so it is safe to read the status outside of
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  376  		 * the lock.
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  377  		 */
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  378  		if (use_links && dev->power.runtime_status == RPM_RESUMING) {
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  379  			idx = device_links_read_lock();
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  380  
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  381  			retval = rpm_get_suppliers(dev);
-5244f5e2d80125 Rafael J. Wysocki 2021-03-19  382  			if (retval) {
-5244f5e2d80125 Rafael J. Wysocki 2021-03-19  383  				rpm_put_suppliers(dev);
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  384  				goto fail;
-5244f5e2d80125 Rafael J. Wysocki 2021-03-19  385  			}
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  386  
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  387  			device_links_read_unlock(idx);
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  388  		}
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  389  	}
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  390  
-63d00be69348fd Ulf Hansson       2021-06-08  391  	if (cb)
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  392  		retval = cb(dev);
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  393  
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  394  	if (dev->power.irq_safe) {
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  395  		spin_lock(&dev->power.lock);
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  396  	} else {
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  397  		/*
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  398  		 * If the device is suspending and the callback has returned
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  399  		 * success, drop the usage counters of the suppliers that have
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  400  		 * been reference counted on its resume.
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  401  		 *
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  402  		 * Do that if resume fails too.
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  403  		 */
-dbfa44782787dc Rafael J. Wysocki 2022-12-05  404  		if (use_links &&
-dbfa44782787dc Rafael J. Wysocki 2022-12-05  405  		    ((dev->power.runtime_status == RPM_SUSPENDING && !retval) ||
-dbfa44782787dc Rafael J. Wysocki 2022-12-05  406  		    (dev->power.runtime_status == RPM_RESUMING && retval))) {
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  407  			idx = device_links_read_lock();
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  408  
-5244f5e2d80125 Rafael J. Wysocki 2021-03-19  409  			__rpm_put_suppliers(dev, false);
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  410  
-5244f5e2d80125 Rafael J. Wysocki 2021-03-19  411  fail:
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  412  			device_links_read_unlock(idx);
-0cab893f409c53 Rafael J. Wysocki 2021-03-19  413  		}
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  414  
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  415  		spin_lock_irq(&dev->power.lock);
-21d5c57b372616 Rafael J. Wysocki 2016-10-30  416  	}
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  417  
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  418  	return retval;
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  419  }
-ad3c36a534bc7b Rafael J. Wysocki 2011-09-27  420  
-
-:::::: The code at line 362 was first introduced by commit
-:::::: ad3c36a534bc7b945d7bffdda1c62e13bf93489a PM / Runtime: Don't run callbacks under lock for power.irq_safe set
-
-:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+   234	
+   235	static int cmd_go(void *data, u64 value)
+   236	{
+   237		const struct firmware *fw = NULL;
+   238		struct sdw_slave *slave = data;
+   239		ktime_t start_t;
+   240		ktime_t finish_t;
+   241		int ret;
+   242	
+   243		if (value != 1)
+   244			return -EINVAL;
+   245	
+   246		/* one last check */
+   247		if (start_addr > SDW_REG_MAX ||
+   248		    num_bytes == 0 || num_bytes > MAX_CMD_BYTES)
+   249			return -EINVAL;
+   250	
+   251		ret = pm_runtime_get_sync(&slave->dev);
+   252		if (ret < 0 && ret != -EACCES) {
+   253			pm_runtime_put_noidle(&slave->dev);
+   254			return ret;
+   255		}
+   256	
+   257		if (cmd == 0) {
+   258			ret = request_firmware(&fw, firmware_file, &slave->dev);
+   259			if (ret < 0) {
+   260				dev_err(&slave->dev, "firmware %s not found\n", firmware_file);
+   261				goto out;
+   262			}
+   263			if (fw->size < num_bytes) {
+   264				dev_err(&slave->dev,
+   265					"firmware %s: firmware size %zd, desired %zd\n",
+   266					firmware_file, fw->size, num_bytes);
+   267				goto out;
+   268			}
+   269		}
+   270	
+   271		/* Userspace changed the hardware state behind the kernel's back */
+   272		add_taint(TAINT_USER, LOCKDEP_STILL_OK);
+   273	
+   274		dev_dbg(&slave->dev, "starting command\n");
+   275		start_t = ktime_get();
+   276	
+   277		if (cmd == 0) {
+   278			if (cmd_type)
+   279				ret = do_bpt_sequence(slave, true, (u8 *)fw->data);
+   280			else
+   281				ret = sdw_nwrite_no_pm(slave, start_addr, num_bytes, fw->data);
+   282		} else {
+   283			memset(read_buffer, 0, sizeof(read_buffer));
+   284	
+   285			if (cmd_type)
+   286				ret = do_bpt_sequence(slave, false, read_buffer);
+   287			else
+   288				ret = sdw_nread_no_pm(slave, start_addr, num_bytes, read_buffer);
+   289		}
+   290	
+   291		finish_t = ktime_get();
+   292	
+   293	out:
+   294		if (fw)
+   295			release_firmware(fw);
+   296	
+   297		pm_runtime_mark_last_busy(&slave->dev);
+   298		pm_runtime_put(&slave->dev);
+   299	
+ > 300		dev_dbg(&slave->dev, "command completed, num_byte %ld status %d, time %lld ms\n",
+   301			num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
+   302	
+   303		return ret;
+   304	}
+   305	DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
+   306				 cmd_go, "%llu\n");
+   307	
 
 -- 
 0-DAY CI Kernel Test Service
