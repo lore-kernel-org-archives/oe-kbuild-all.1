@@ -1,70 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883AD3232;
-	Thu, 23 Jan 2025 02:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD0535953;
+	Thu, 23 Jan 2025 02:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737598853; cv=none; b=RwJu6tLZs4QnvOim2+z2YnhR5L6oUsDDw2XZFouc4v2Bz4eQ6rRfHnqxxdfiwqmE9UbXfmuo4UNSVS/K/sRnTiX8BWzmue0AnyL52MGZOnjxKA6qh3X+7WEpNqMhFxVYn0FTz4NZgvxh4VdNbSku8RpeOrKLvGam/B7XneEz+I8=
+	t=1737600734; cv=none; b=RTYihoX6FZl79ZOIWXMqbstu3/7Jy//usc06R4/y/+LjvBHD5fNJIsUzxsxd7iIdX/j4jXsuEgvsOS16Sr2QhJ2B/gbx4GAAd1uiC4f0pAUQTVCxxbnhya0am4PvnIRni4vew0kafjdcioAPAhaTrMj2BbySkWZnj3TzDEbdoPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737598853; c=relaxed/simple;
-	bh=l/StfvmlLCHjYY/yKMI2jnYQai+YQWNw/5zxejp8VnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HSaWy1B0Ba/RqD8M4l9G/fJ8l0a+AmKSu2z6qbUlG19yDoM5wwJG4CJ59snCnSt0rimVfU62ocaRmPIi+rQT3jjngGcLBO0tFFFPhBFTNzZivZ9Mr3HlPCOv1fCm5feqF6bYwkqXbW1wpFwG1v0B4x3ePJnCAfC9Pyzpz/1SczQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j347b9I4; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1737600734; c=relaxed/simple;
+	bh=wDtOq+sejLWGcOoyl110f6ndMPVWly3RIixaIZwijzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=paCQkWWYenIlW+NtvhoCZdlB6kbfGDkaiGDpxhZdPYPplvOLItIcJBzR+PtMP5h5Aise2TZJpijHGKDbdd+FQrup1wy++rii/dhB635As4olBiX0Pnfh20QTiVdrmz0UK6h31mCT8cksIDsueuXpjUnvQGDkQdTOU9fyKzCEdBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUARFwuR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j347b9I4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUARFwuR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737598851; x=1769134851;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l/StfvmlLCHjYY/yKMI2jnYQai+YQWNw/5zxejp8VnM=;
-  b=j347b9I4RPTACDvDmMCCIw85Quw/o5wkgzBPGkb6ZFQqF21aNjk2R/bw
-   PhVfBSDYETjAd2/HpXVJuiAqd5z4wt9vpUwFZANKxRaPhoZVuo7Jda97z
-   H8WdX88wZxJeJ5xHbgdg0OyBLkK/L6UMMtm61UpN8KVcm80kvL/1vJDEH
-   z85h6LcpwS+xfoqt+S6rijDaKCTXcSEZWakZwa8oAa3VL/kRFzHghHUy7
-   Za7rbMRydC2adaylz7Crt+AMYbDix8v3VYlOecwWAZJVIci1EzE5WaY1f
-   wTrYFwnxoN9YdEfPQ3kSZVjdg0TK2ne0APUMJqRyTi6KAom1jMrlS2D91
-   g==;
-X-CSE-ConnectionGUID: teBLr02BTX+atdb1IHIleQ==
-X-CSE-MsgGUID: JMiOXmpbSVGG9FIt6FCvTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="40909793"
+  t=1737600733; x=1769136733;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wDtOq+sejLWGcOoyl110f6ndMPVWly3RIixaIZwijzk=;
+  b=TUARFwuR7uHjUBIjs76feabEnim6kYHfIpdKOl6KDPlg0SarFFQ1YANW
+   82QbIuTitNoQjkmMEaLB3Ejb+b8Aox95aSKzZCie6CnAhK5/BfRbg0WJt
+   Ogv8wM71rRmn3YfhoqFP6UTGZO2wSLCqGPWF50Fl5nSfsUM4R2McUIT7A
+   98VyWskp0Am3msynRj8bzgzjbme6MN0aGQtcgbNSAmJuKVtVvPIBkgIeP
+   iRAUy4XAPr2aX2v9q5vRl31CQr0EYm7n0kGxgOlTQaZvvql5XOW8HvL+/
+   ON5PBJGDD+g3Pb7GkW4k4hukjIrTTH/k9Kd3d/rXcA1CiDy2BB+cccdko
+   A==;
+X-CSE-ConnectionGUID: 7LhLP8egQ/+Wi+CCAGTzSA==
+X-CSE-MsgGUID: 5cw3uv01Td6cme7Pw1yfeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="41843835"
 X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; 
-   d="scan'208";a="40909793"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 18:20:50 -0800
-X-CSE-ConnectionGUID: 3n85Ta0JSaqGOmkesv0Qcw==
-X-CSE-MsgGUID: UWPh49TsQsiTplxHLgQS6w==
+   d="scan'208";a="41843835"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 18:52:12 -0800
+X-CSE-ConnectionGUID: meTZRkCXQP6wIadkX7FzTg==
+X-CSE-MsgGUID: CcGxtojXQY6kSwZKE69sWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112433445"
+X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; 
+   d="scan'208";a="112322594"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 22 Jan 2025 18:20:47 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Jan 2025 18:52:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tampo-000aYJ-11;
-	Thu, 23 Jan 2025 02:20:44 +0000
-Date: Thu, 23 Jan 2025 10:20:08 +0800
+	id 1tanKB-000aa9-12;
+	Thu, 23 Jan 2025 02:52:07 +0000
+Date: Thu, 23 Jan 2025 10:51:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Courbot <gnurou@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Albert Esteve <aesteve@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	gurchetansingh@google.com, daniel.almeida@collabora.com,
-	changyeon@google.com, nicolas.dufresne@collabora.com,
-	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	Alexandre Courbot <acourbot@google.com>
-Subject: Re: [PATCH] media: add virtio-media driver
-Message-ID: <202501231055.JvzBf96Y-lkp@intel.com>
-References: <20250123-virtio-media-v1-1-81e2549b86b9@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, Farrah Chen <farrah.chen@intel.com>,
+	Kai Huang <kai.huang@intel.com>
+Subject: [kvm:kvm-coco-queue 39/125] WARNING: modpost:
+ arch/x86/kvm/kvm-intel: section mismatch in reference: init_module+0x32
+ (section: .init.text) -> vmx_exit (section: .exit.text)
+Message-ID: <202501231000.7Uhj46SO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,42 +64,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250123-virtio-media-v1-1-81e2549b86b9@gmail.com>
 
-Hi Alexandre,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Courbot/media-add-virtio-media-driver/20250123-085559
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250123-virtio-media-v1-1-81e2549b86b9%40gmail.com
-patch subject: [PATCH] media: add virtio-media driver
-reproduce: (https://download.01.org/0day-ci/archive/20250123/202501231055.JvzBf96Y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
+head:   46bf7963a06a56a6c411329d06642836450d19a7
+commit: 45c7c4a6fbf00d0ca3f033f30c39e6c12c517381 [39/125] KVM: VMX: Refactor VMX module init/exit functions
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250123/202501231000.7Uhj46SO-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501231000.7Uhj46SO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501231055.JvzBf96Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501231000.7Uhj46SO-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/media/virtio/virtio_media_driver.c: 22 linux/version.h not needed.
-   ./drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c: 13 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 424: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: arch/x86/kvm/kvm-intel: section mismatch in reference: init_module+0x32 (section: .init.text) -> vmx_exit (section: .exit.text)
 
 -- 
 0-DAY CI Kernel Test Service
