@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6FD3DBB6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 21:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE1116EC19
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 21:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737667164; cv=none; b=LJXUPOeTPBHHThNa/DRhlPCO96PQn2LOmYrm8rpS9nLxrcwD6DheV8UhNgqMoTRvNn3rFN325K1WR2m1QqA/V6vlGCPtxkgLvZMehctZsNIiljlQ4riSfVUcNlfQy2ir3/eCtptIqSkx1kP4WaFYPPAmTY3qig7ki4RqXCR2/GQ=
+	t=1737667828; cv=none; b=ZznCFmt8mrNGcitGOifhbA863RV0ePACz8gsFipNZ7qE+IAqqycYBA3P5mKJrUWYls1rKKpxE248gBiqsKNU/4+b2YPccWkIUVYrPm376cVvx7Y/FPW0LrhStFhxnUC4LA2qB+F2NfcC5VqBzjgahsdhvn4NDIDg/Eh0JQsgU9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737667164; c=relaxed/simple;
-	bh=h4EGFy6xhHtJDa8PmDoWE0qVmcNu1JQtecYCzbjd2PY=;
+	s=arc-20240116; t=1737667828; c=relaxed/simple;
+	bh=FxnA7Q4/dmo579chY4ZdOjNATyDSxIekI/spV++j/Ak=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g2ersXUvN1R765B2mQG3tZsTZKfm3qNeGVgh3RqJ9GzePNbb4ZRmq0CYzdwkBjbCKWt038ioXwRXGa0KOpW1Z4w0WF/+oVfJXI2ycnwFOQUXcv1Z2i8GhABIZQX2zv+SZDzCXLCdUw4315Qm6upYjY/5PCwy9tkhCGY1OOXSX2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vsiua9E1; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=D6EIbc0v3Xr8mDHgnrNHA97GH+gRlTw8vZ0SHGhUmsvjzzxGGy5azQEpvv/lLSntCEpiaheR9rDlDfmjPkkbB2NAiPmo04CO0CJJCe4vm7EkwN0qxnfPtOO1TZmrz0uUC8YVGhZvOuD4mFs1GwEgPPeQo3J7qWBr/ym+Kiw20UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=geRQfB/h; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vsiua9E1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="geRQfB/h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737667163; x=1769203163;
+  t=1737667826; x=1769203826;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h4EGFy6xhHtJDa8PmDoWE0qVmcNu1JQtecYCzbjd2PY=;
-  b=Vsiua9E1/kF/0CiIAWZWjRVkFaAybBRkV9Pex4tK/4zRyynXfM4fGe4s
-   XBY6jyBkeQrUju1OnAybTHlNaBl0AsDKcnQnSiOXIm2v1pM/U5bh6wjOh
-   OLuQbdMqlmPLWWZnvF8xgVO4BSDoI+EsfAm7GfwPHXR/kl9QHrI+irly7
-   0mykRjlgobR5S2hBL+YUb44p8qHQ4IT5Ojtzw61b9Cacv6ohqINGZghrG
-   rVLpaFGnvDGd6bnPMd+oGhSxGHVnRjAsKIHy+c56DuIdynoRhff2gCKZj
-   W0Kr6fmNK8/SE7qs1bqeHSD+qaJJuMpfJ6XSons0kjwu0NhPMnOsZ6NJJ
-   w==;
-X-CSE-ConnectionGUID: MiFjA4bVT1i7ibXMwWk7fg==
-X-CSE-MsgGUID: /MmfHhtpSMC66Hg6PY/lrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49613324"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="49613324"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 13:19:21 -0800
-X-CSE-ConnectionGUID: XlelEY3MTzKGprcj7QKm6g==
-X-CSE-MsgGUID: vRmkymzLTgWUFoG8tX9OAQ==
+  bh=FxnA7Q4/dmo579chY4ZdOjNATyDSxIekI/spV++j/Ak=;
+  b=geRQfB/ho06QyJas4Yw01iQzCVC6rC+Sz8GOlTkwqk9Bu38ejQd14O/M
+   0Y+yUZWREjgRVnxSQH4KXvUhfxLh1v/6xvGOLlZ0nBi9EVOGjubmjyWUd
+   ri8yNjRj1cA6n50894HS6ZnI3NtkAm1rYPbkW+BW/yP+cNSo4DpnpCZO0
+   hJR3fFu8f9ezkMsYqI7JjwxauXVTOt3JXJaggSV4w9zK2yxrSz303co5h
+   fz3w2Io+0wAkDvFIs2E7TTMtKLezi2+Tg/WElvox2prT5wyhw3utEEHpN
+   UERLvZimiGLoZLZZiiDvgsZUGUe0ZZsdY/ji48hXLSQbcvUgqD4FWysNJ
+   Q==;
+X-CSE-ConnectionGUID: 0qtlXQqcSRCCNnHVj1ctEg==
+X-CSE-MsgGUID: eiQd/tiRQ82bE+eUq2Jm2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="41025557"
+X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
+   d="scan'208";a="41025557"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 13:30:26 -0800
+X-CSE-ConnectionGUID: 9pt5VfppTb6HghNhCSshAg==
+X-CSE-MsgGUID: bTlIMfQ3Q2+OVFsIlb7Cig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108014755"
+   d="scan'208";a="108465517"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Jan 2025 13:19:20 -0800
+  by orviesa008.jf.intel.com with ESMTP; 23 Jan 2025 13:30:25 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb4bd-000bil-1P;
-	Thu, 23 Jan 2025 21:19:17 +0000
-Date: Fri, 24 Jan 2025 05:18:22 +0800
+	id 1tb4mL-000bjP-2M;
+	Thu, 23 Jan 2025 21:30:21 +0000
+Date: Fri, 24 Jan 2025 05:29:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- drivers/virt/gunyah/rsc_mgr.c:148: warning: Function parameter or struct
- member 'adev' not described in 'gunyah_rm'
-Message-ID: <202501240518.5anqZJzl-lkp@intel.com>
+Subject: [l1k:spdm-future 1/31] include/linux/mmzone.h:1870:27: error:
+ variable length array declaration not allowed at file scope
+Message-ID: <202501240530.5escs4DC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,99 +62,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   a84c03887e4c9929136cc9493017503dd96087e3
-commit: 8c11dcc79b79d48d00d84d14ccdd9132dac08176 [1/1] ANDROID: gunyah: Add support for Gunyah vendor modules
-config: arm64-randconfig-003-20250124 (https://download.01.org/0day-ci/archive/20250124/202501240518.5anqZJzl-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240518.5anqZJzl-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux spdm-future
+head:   1429a7f741a85a0115afb4e1cdbc56b8ca525f2e
+commit: cb3e63129bf354a30602aa836e07fd2dd591b4dd [1/31] crypto: Harden against integer overflows in DIV_ROUND_UP()
+config: arm-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501240530.5escs4DC-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240530.5escs4DC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501240518.5anqZJzl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501240530.5escs4DC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/virt/gunyah/rsc_mgr.c:112: warning: Excess struct member 'ret' description in 'gunyah_rm_message'
->> drivers/virt/gunyah/rsc_mgr.c:148: warning: Function parameter or struct member 'adev' not described in 'gunyah_rm'
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+>> include/linux/mmzone.h:1870:39: warning: variable length array used [-Wvla]
+    1870 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                                       ^~~~~~~~~~~~~~~~
+   include/linux/mmzone.h:1864:26: note: expanded from macro 'NR_SECTION_ROOTS'
+    1864 | #define NR_SECTION_ROOTS        DIV_ROUND_UP(NR_MEM_SECTIONS, SECTIONS_PER_ROOT)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math.h:50:30: note: expanded from macro 'DIV_ROUND_UP'
+      50 |         (__builtin_constant_p(d) && is_power_of_2(d)                    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      51 |                 ? DIV_ROUND_UP_POW2(n, d)                               \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      52 |                 : __KERNEL_DIV_ROUND_UP(n, d))
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+>> include/linux/mmzone.h:1870:27: error: variable length array declaration not allowed at file scope
+    1870 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^           ~~~~~~~~~~~~~~~~
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1133:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
-   Depends on [n]: DMADEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DMA_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
 
+vim +1870 include/linux/mmzone.h
 
-vim +148 drivers/virt/gunyah/rsc_mgr.c
+802f192e4a600f Bob Picco          2005-09-03  1866  
+3e347261a80b57 Bob Picco          2005-09-03  1867  #ifdef CONFIG_SPARSEMEM_EXTREME
+83e3c48729d9eb Kirill A. Shutemov 2017-09-29  1868  extern struct mem_section **mem_section;
+802f192e4a600f Bob Picco          2005-09-03  1869  #else
+3e347261a80b57 Bob Picco          2005-09-03 @1870  extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+3e347261a80b57 Bob Picco          2005-09-03  1871  #endif
+d41dee369bff3b Andy Whitcroft     2005-06-23  1872  
 
-4c11c572f413d0 Elliot Berman 2024-02-22  113  
-4c11c572f413d0 Elliot Berman 2024-02-22  114  /**
-4c11c572f413d0 Elliot Berman 2024-02-22  115   * struct gunyah_rm - private data for communicating w/Gunyah resource manager
-4c11c572f413d0 Elliot Berman 2024-02-22  116   * @dev: pointer to RM platform device
-4c11c572f413d0 Elliot Berman 2024-02-22  117   * @tx_ghrsc: message queue resource to TX to RM
-4c11c572f413d0 Elliot Berman 2024-02-22  118   * @rx_ghrsc: message queue resource to RX from RM
-4c11c572f413d0 Elliot Berman 2024-02-22  119   * @active_rx_message: ongoing gunyah_rm_message for which we're receiving fragments
-4c11c572f413d0 Elliot Berman 2024-02-22  120   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
-4c11c572f413d0 Elliot Berman 2024-02-22  121   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
-4c11c572f413d0 Elliot Berman 2024-02-22  122   * @recv_msg: cached allocation for Rx messages
-4c11c572f413d0 Elliot Berman 2024-02-22  123   * @send_msg: cached allocation for Tx messages. Must hold @send_lock to manipulate.
-4c11c572f413d0 Elliot Berman 2024-02-22  124   * @send_lock: synchronization to allow only one request to be sent at a time
-4c11c572f413d0 Elliot Berman 2024-02-22  125   * @send_ready: completed when we know Tx message queue can take more messages
-4c11c572f413d0 Elliot Berman 2024-02-22  126   * @nh: notifier chain for clients interested in RM notification messages
-b387fa408e4054 Elliot Berman 2024-02-22  127   * @miscdev: /dev/gunyah
-9281f214814eb6 Elliot Berman 2024-02-22  128   * @parent_fwnode: Parent IRQ fwnode to translate Gunyah hwirqs to Linux irqs
-4c11c572f413d0 Elliot Berman 2024-02-22  129   */
-4c11c572f413d0 Elliot Berman 2024-02-22  130  struct gunyah_rm {
-4c11c572f413d0 Elliot Berman 2024-02-22  131  	struct device *dev;
-4c11c572f413d0 Elliot Berman 2024-02-22  132  	struct gunyah_resource tx_ghrsc;
-4c11c572f413d0 Elliot Berman 2024-02-22  133  	struct gunyah_resource rx_ghrsc;
-4c11c572f413d0 Elliot Berman 2024-02-22  134  	struct gunyah_rm_message *active_rx_message;
-4c11c572f413d0 Elliot Berman 2024-02-22  135  
-4c11c572f413d0 Elliot Berman 2024-02-22  136  	struct xarray call_xarray;
-4c11c572f413d0 Elliot Berman 2024-02-22  137  	u32 next_seq;
-4c11c572f413d0 Elliot Berman 2024-02-22  138  
-4c11c572f413d0 Elliot Berman 2024-02-22  139  	unsigned char recv_msg[GUNYAH_RM_MSGQ_MSG_SIZE];
-4c11c572f413d0 Elliot Berman 2024-02-22  140  	unsigned char send_msg[GUNYAH_RM_MSGQ_MSG_SIZE];
-4c11c572f413d0 Elliot Berman 2024-02-22  141  	struct mutex send_lock;
-4c11c572f413d0 Elliot Berman 2024-02-22  142  	struct completion send_ready;
-4c11c572f413d0 Elliot Berman 2024-02-22  143  	struct blocking_notifier_head nh;
-b387fa408e4054 Elliot Berman 2024-02-22  144  
-8c11dcc79b79d4 Sreenad Menon 2024-05-02  145  	struct auxiliary_device adev;
-b387fa408e4054 Elliot Berman 2024-02-22  146  	struct miscdevice miscdev;
-9281f214814eb6 Elliot Berman 2024-02-22  147  	struct fwnode_handle *parent_fwnode;
-4c11c572f413d0 Elliot Berman 2024-02-22 @148  };
-4c11c572f413d0 Elliot Berman 2024-02-22  149  
+:::::: The code at line 1870 was first introduced by commit
+:::::: 3e347261a80b57df792ab9464b5f0ed59add53a8 [PATCH] sparsemem extreme implementation
 
-:::::: The code at line 148 was first introduced by commit
-:::::: 4c11c572f413d00b06538a5b8c1ab6c5267232ea FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
-
-:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+:::::: TO: Bob Picco <bob.picco@hp.com>
+:::::: CC: Linus Torvalds <torvalds@evo.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
