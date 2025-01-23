@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC8012FB1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 20:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BE01BBBC8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jan 2025 20:35:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737664516; cv=none; b=qbyO4RHb7mepcc5GaUviAS+C/bIMFTteKakm4JdJM/pcyvW09YsYai34zNGs2PWawk4HWK7b4ETUpVPRuzf0uK5ZYsCh6GmGljo/Z6A/WlYJHLwfssycD+cFpnmSFNJPT48nZgn5HrjM/fG0y8ewU4dEKl80eo8Q4tz9u9/XU28=
+	t=1737664518; cv=none; b=m9PKKbVUFmRYLyRj3jESdWoYq5PggboU79yNGyCc+f5Xmol5WfB/UeCDLCIm6i6KnmmdVXMabN2e/tP3bLFLTY57x63AJxUQawdJpPtS4vYSbC0j+sPE48bRJJ863YVuDUsCtT683toM6jEkMWy22MKIRjGDQGHrr7H0+AbNTMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737664516; c=relaxed/simple;
-	bh=xxuovqnQN55OkhCJKZYU80qP3oY34zT5VsRe/Mnn5dc=;
+	s=arc-20240116; t=1737664518; c=relaxed/simple;
+	bh=qbVVTHm/1xF4KTtRNurqT/7QvXccTglXdVoUZYCnJs4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q+zzKHGonmvxC7GgLhvvlh1hRO6X9FRhV7kxSKDKlbDzfmlNBIiSaJ+opOXro1oaivVCo9D5lY/znHDlEbHAX9fOU6pmmh9Ql/QDPhVokaVxEHcknaGeJVbLKwC58M5FuvnHrgoHjt8RQKJH6VFcT1yTI8LRcdNcl+aT+sZ2iNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNBOD5I5; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=gIE0m5gpyHMBJ/+gm8hh3+HTUeeKqPx2A+sizcTZMygD81ZWjZdtmIsESLtV+U9hj3sjlPJ2m2l21UwUunMN6hrLW4JE5Q7xnjx8+YhFiDsRWrTys7JjafWs6aD4LuUqLNnSyrtUPc+p5Xn3U2PuLDeu8zcsrLbm9tlrNPOmqtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFuh4uV3; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNBOD5I5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFuh4uV3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737664515; x=1769200515;
+  t=1737664517; x=1769200517;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xxuovqnQN55OkhCJKZYU80qP3oY34zT5VsRe/Mnn5dc=;
-  b=dNBOD5I56/NrObfW0GqXL4onbtuVK06UJF0eyBVASj6Nep8EXqGiDkfq
-   fdEnmuG5+63QWJcRVbUoTCHix3dIZTYet1hfszwcJi3XUr2zSJpNRYsy1
-   E1vg5EieAG5HteJ506wzIMAqeNS4PlbZC4h5+/wwzQ/Xqk+wwRguj87T5
-   lfVUHJEgeGtn4MkhXzQcPL/bXoouW3F4PEhMoKTyqh1SEkcRSOblHVSJ9
-   As1sMwzOp5cd0Kq33UGMYVZa8tt00G/O4kugPO+R++pH8lO7TNwBSAnzp
-   bzzlcxuoqHv4kIU01CKCRWNuKJC1HtRhcKR5D0jIPAibss6Zth5h2QHv+
+  bh=qbVVTHm/1xF4KTtRNurqT/7QvXccTglXdVoUZYCnJs4=;
+  b=VFuh4uV3QA6YFj+6vxhxeBpq4V7w+H6BqXCWG6pF+839bmsoJHuM4AlT
+   5LKT/qKr6lZLOAhcVszFaHbBQzWrwHCU0QUgEaRWvqDkDUxucVxXnC+eL
+   Oga5NBDEAnpSGPE6SHJvIssSxZU0pOn+S+/ElFjEeP6oKxdAnnM/U/FME
+   oZZr1oTCQj44s8TmI1yQRRy/4ymlQnAT+EtrEH/SgukgtOd4egprAeC2g
+   uHzUrUF2afC8DhS8p0LoBdOvpxPDGd8VhVu8fzzuly9gXAN2tzU09WyW3
+   eL9KTLrBqhz3aT32bAu6l2Auh2VFBZhtwtDXaHhgBMRb5XepfN8CzhH6n
    Q==;
-X-CSE-ConnectionGUID: IBBheJ2oTXCRF8nlaUeX0w==
-X-CSE-MsgGUID: cMnxp3xBT7mznwCJzr0KKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38290451"
+X-CSE-ConnectionGUID: 5Dow3JPbTRaI+NjAhcuPZw==
+X-CSE-MsgGUID: 3IARx/8oSp+7v8fxqGZ1QQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38290455"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="38290451"
+   d="scan'208";a="38290455"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 12:35:14 -0800
-X-CSE-ConnectionGUID: s5m/TWqnQf64b5+bi7gBAg==
-X-CSE-MsgGUID: PkNqPuF+TleEKNVH53rRcg==
+X-CSE-ConnectionGUID: MCGkn2UvRouuxNL1XbAKkQ==
+X-CSE-MsgGUID: 2Q9e+mpQRo2h4/sjoSsW8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
-   d="scan'208";a="108116318"
+   d="scan'208";a="108116317"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 23 Jan 2025 12:35:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb3ux-000bej-1D;
+	id 1tb3ux-000bed-0r;
 	Thu, 23 Jan 2025 20:35:11 +0000
-Date: Fri, 24 Jan 2025 04:34:14 +0800
+Date: Fri, 24 Jan 2025 04:34:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.13/bbr3 1/1] ERROR: modpost: "__divdi3" [net/ipv4/tcp_bbr.ko]
- undefined!
-Message-ID: <202501240438.Igr5BuQa-lkp@intel.com>
+Subject: [jgunthorpe:iommu_rm_ops_pgsize 22/23]
+ drivers/iommu/s390-iommu.c:804:10: error: 'const struct iommu_ops' has no
+ member named 'pgsize_bitmap'
+Message-ID: <202501240402.iNhofxjq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.13/bbr3
-head:   aa2658ab3fba8f0f16c6d9c838776502980974ed
-commit: aa2658ab3fba8f0f16c6d9c838776502980974ed [1/1] tcp/bbr3: initial import
-config: arc-randconfig-002-20250124 (https://download.01.org/0day-ci/archive/20250124/202501240438.Igr5BuQa-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240438.Igr5BuQa-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_rm_ops_pgsize
+head:   8e7229d631eab655526324f9d867904ee1351605
+commit: 7e198028456d41f2aa10f07650728e74a09f427a [22/23] iommu: Remove ops->pgsize_bitmap
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250124/202501240402.iNhofxjq-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240402.iNhofxjq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501240438.Igr5BuQa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501240402.iNhofxjq-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
->> ERROR: modpost: "__divdi3" [net/ipv4/tcp_bbr.ko] undefined!
+>> drivers/iommu/s390-iommu.c:804:10: error: 'const struct iommu_ops' has no member named 'pgsize_bitmap'
+     804 |         .pgsize_bitmap = SZ_4K,
+         |          ^~~~~~~~~~~~~
+   In file included from include/linux/mm.h:28,
+                    from arch/s390/include/asm/pgalloc.h:18,
+                    from arch/s390/include/asm/mmu_context.h:11,
+                    from arch/s390/include/asm/elf.h:181,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/pci.h:37,
+                    from drivers/iommu/s390-iommu.c:9:
+>> include/linux/sizes.h:23:41: error: initialization of 'void (*)(struct device *, struct list_head *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      23 | #define SZ_4K                           0x00001000
+         |                                         ^~~~~~~~~~
+   drivers/iommu/s390-iommu.c:804:26: note: in expansion of macro 'SZ_4K'
+     804 |         .pgsize_bitmap = SZ_4K,
+         |                          ^~~~~
+   include/linux/sizes.h:23:41: note: (near initialization for 's390_iommu_ops.get_resv_regions')
+      23 | #define SZ_4K                           0x00001000
+         |                                         ^~~~~~~~~~
+   drivers/iommu/s390-iommu.c:804:26: note: in expansion of macro 'SZ_4K'
+     804 |         .pgsize_bitmap = SZ_4K,
+         |                          ^~~~~
+   drivers/iommu/s390-iommu.c:805:29: warning: initialized field overwritten [-Woverride-init]
+     805 |         .get_resv_regions = s390_iommu_get_resv_regions,
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/s390-iommu.c:805:29: note: (near initialization for 's390_iommu_ops.get_resv_regions')
+
+
+vim +804 drivers/iommu/s390-iommu.c
+
+ecda483339a515 Matthew Rosato  2024-09-10  796  
+cceb84519520c7 Arvind Yadav    2017-08-28  797  static const struct iommu_ops s390_iommu_ops = {
+ecda483339a515 Matthew Rosato  2024-09-10  798  	.blocked_domain		= &blocking_domain,
+ecda483339a515 Matthew Rosato  2024-09-10  799  	.release_domain		= &blocking_domain,
+8128f23c436d0d Gerald Schaefer 2015-08-27  800  	.capable = s390_iommu_capable,
+4efd98d41ea718 Jason Gunthorpe 2023-09-13  801  	.domain_alloc_paging = s390_domain_alloc_paging,
+9a630a4b41a263 Lu Baolu        2022-02-16  802  	.probe_device = s390_iommu_probe_device,
+9a630a4b41a263 Lu Baolu        2022-02-16  803  	.device_group = generic_device_group,
+b4d8ae0e907b09 Niklas Schnelle 2022-10-25 @804  	.pgsize_bitmap = SZ_4K,
+
+:::::: The code at line 804 was first introduced by commit
+:::::: b4d8ae0e907b096583491101ddfc5143b7c08918 iommu/s390: Fix incorrect pgsize_bitmap
+
+:::::: TO: Niklas Schnelle <schnelle@linux.ibm.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
