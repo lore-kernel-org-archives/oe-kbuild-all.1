@@ -1,118 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AB03C00
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 08:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6008D166F32
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 08:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737705975; cv=none; b=EfXNsMDMVptfUOdDluTCqpencQad9QqzpfyFobYgJg6DFAMW2Xcpt2wdk4BC0pv34BnYieSzU5kgApIyIKFi8w1lVxfXqC/RuK7IFdhTtfNT9H6Kj10ubOw5pgKmiPr4tcfF/uTKua+jQilEVk6zQurbTzRw2CQbi6/ZurP8BqY=
+	t=1737708066; cv=none; b=aScA42M4FCV/LRUh7ZhMakaw6XqiIECoQNg0BLPrCV80n9YjypiG9na425pXL+gaHEyDVLeL6Ojb4daHBCDSjbwCBecKU5uyvgapspiZsX+YXZVUaJBFFAkLukfdNTY4K+Zi0GJxz/SMdmVrfDPVhh62vqdoaq9le+q2oy4uGHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737705975; c=relaxed/simple;
-	bh=pj+mHQaNWfitLBPZYBfSC2xXx+037GaPX/9xJkNrrEM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rRDv0QWesIbjJhbGO4n69KV1trW20V1amkMQSI0uB7R4i2tSZ+8qiJ50el9M8GLHyWnyqzd/+wh2Q0kth07nvJoRKf0pUedW3qdLojLacFPT4uPbYy/VJZML9/ts4qsF2UyEpEsHGzNiwvnKPVT9+47eZJseTDVzyLTymWV406w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ez6B2/2o; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ez6B2/2o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737705973; x=1769241973;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pj+mHQaNWfitLBPZYBfSC2xXx+037GaPX/9xJkNrrEM=;
-  b=Ez6B2/2oYa7AT13VPBMtR46AOKVJDOhqv+YL3y3Dh9AjR366K8isL1eR
-   YNOywFLdpyps5qOaYlKkvsRVY/pSLqcSWXfHFatD/PvPl7YCEzlO3/1WK
-   WzRAeHGw5EsxAkLSXzgcjrxNHXqpbxZK/NblfnCSgqlyaAQ/HW19khpwH
-   8mqtZB7tBYOBnLFSzGsKBqHJnZs+sPVgTleuEVfVpAQRCuIqeSsJPJW60
-   qCu+DwoNc8yHNWHkMOpk88VIeBnIR06qNLyBTLDC0Pu4NJxxgAmN6NpVE
-   MtvbuMmkcGNlSCDAolCLul/+3y1lGXR0NJCKWstHgAoVLRcULxh8i+9rW
-   Q==;
-X-CSE-ConnectionGUID: l4RBlTdSR0iOitvMLy7EjQ==
-X-CSE-MsgGUID: xg7+OE70Q92lnP8qcwJOFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="63586756"
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="63586756"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 00:06:12 -0800
-X-CSE-ConnectionGUID: YtKQLaruQ3aogvk2IFv7gg==
-X-CSE-MsgGUID: Q8uqRGXFQJSFLKfKHf4Kvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="107509719"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Jan 2025 00:06:11 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tbEhc-000cPp-2w;
-	Fri, 24 Jan 2025 08:06:08 +0000
-Date: Fri, 24 Jan 2025 16:05:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhengchao Shao <shaozhengchao@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1841/1841] include/trace/stages/init.h:2:23:
- warning: 'str__bonding__trace_system_name' defined but not used
-Message-ID: <202501241646.6wTHZP2L-lkp@intel.com>
+	s=arc-20240116; t=1737708066; c=relaxed/simple;
+	bh=yTEhmrd7q8uhCnNcQMgzTpcT6bnmYSI7LKzH8cxdo9Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mXtpGdSB47TI216VlvwM0M0DFNzPUYCVsJgI4/fkhGAkE9Er4oVimZjj0V9ODuVPE02mlDL5UfCXeuK/+WS7bJ7yuVT5n9XUodPC6KJa9c/9oLx2Ah8yEfSzGe5SmjZIraPUdYVuR6EErAYGdRMhiew+N0HcxYhkXS7K79V2q+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86112ab1ad4so484656241.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 00:41:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737708062; x=1738312862;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EWUI4a/iKijMy690fG92u2fVqzWDkOQYravo4+In6go=;
+        b=q2yrhIbioZcjL9+zPNJ7WOVSdcTXqlftlqAnbZvvmrVmtJL7ZPzGgI1NqSvM/aZ3rS
+         SoitN9YpOEPswEODuLTIcxq5hnJYNlCSzet/OL7eUvSF1w7sBet/KO0va91swQ0u149K
+         JfKU84lvucuK6uAsb9RvEYfdmiuCbACCA6XNAqtwyJUwig1AdMcmuGZjlKuzGXX/qihe
+         SgUmuA+/pF1r4K+sdJniFCc2lQ5xU6/uwqRysvu8mtlxmNXmQL4Un/IiZKsLccaWuY+b
+         mYgorj0chR3KfLwf6ivkdzWmfFGKm50vbtGnVs/gwQQrXb5LP2LkoqXm4383YsY+AsMZ
+         EhkA==
+X-Forwarded-Encrypted: i=1; AJvYcCUM+jrfJ1i4xqenqljS3/Oqf1BkbVXmWPNAhPzZ71Dym8CvVGLR7gD5fSgPxW+iQ6gs3CbrJIXAqOgCtr7Z@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyo5D31Y9qzSw5OLs4Q5knEcMJ4rJXOBCZ/zilsRtildWHVyS49
+	CUrzeZmyVAkAdP5AgYoi51HLR8ZsNXMC2QLM4CQa0qEt5fXPcB9FiWUibcNF
+X-Gm-Gg: ASbGncsZnrITORRUD5DJQB1qBAevHIS6woDB8syQbjRmuKzBW0KCCwPKfhb0lBa87cw
+	ITDGvlvV9ZQ6HLqzWu9bAjdK2IwQAdAbMzyc6FalLQR8yy/gCZa3+S//ILhQ7T1M6EsYcc3Ati3
+	2WAPN2ayvDBOL8lRdh4Pc7jO2zQPVOW6iY1wd7EDZQ/aps7Mvpttp/U/XWvARIpiPFT21KII7qT
+	yyN51z6ETxm6Fx8CBxrLUlgaST4VKrQUFwBLRm3sz3/UL1Lh2GawR4riXZK25omrN8Uwv6u3FIZ
+	sKOWFAh9Iy9h2CNa/Lorabhcxhn+HO/D6Kh/cAz6W+c=
+X-Google-Smtp-Source: AGHT+IESCIEkPf+0JQt9r++w4d+3etwnTpXuhFaDyTKuGVT+sZNULVje+CNXFZQ1mbCQz8F6ZI32Dw==
+X-Received: by 2002:a05:6102:3ec8:b0:4b2:49ff:9786 with SMTP id ada2fe7eead31-4b690cdd7f6mr25893480137.17.1737708062111;
+        Fri, 24 Jan 2025 00:41:02 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b7097b4bb5sm320462137.12.2025.01.24.00.41.01
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jan 2025 00:41:01 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4afd56903b7so511033137.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 00:41:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVIa80FyqCeeO/7ySPdVRmircJ+hL1fINdg6mAcDa2jiN8LC29TTPcpd6cY4WBFd+DgnvpXpCteCpP+2Yl7@lists.linux.dev
+X-Received: by 2002:a05:6102:3ec9:b0:4b1:1b24:7241 with SMTP id
+ ada2fe7eead31-4b690c3a394mr24735063137.15.1737708061521; Fri, 24 Jan 2025
+ 00:41:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202501240836.OvXqmANX-lkp@intel.com>
+In-Reply-To: <202501240836.OvXqmANX-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 24 Jan 2025 09:40:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVkK4vuM+HtEUfGqzSDB16rzn_oKq7hcyFnxwUWt5zEog@mail.gmail.com>
+X-Gm-Features: AWEUYZlSmR-zvC1YHQLEGAwqIWzHsnWAMz8656O70UU6HmRWOQUWN7vg_xRkWug
+Message-ID: <CAMuHMdVkK4vuM+HtEUfGqzSDB16rzn_oKq7hcyFnxwUWt5zEog@mail.gmail.com>
+Subject: Re: kismet: WARNING: unmet direct dependencies detected for
+ SND_SOC_DA7210 when selected by SH_ECOVEC
+To: kernel test robot <lkp@intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Wei,
+On Fri, Jan 24, 2025 at 2:09=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   8883957b3c9de2087fb6cf9691c1188cccf1ac9c
+> commit: ce0c97f8a2936d05951da7093b881c8eaaee72e0 ASoC: Fix SND_SOC_ALL_CO=
+DECS imply SPI fallout
+> date:   4 years, 11 months ago
+> config: sh-kismet-CONFIG_SND_SOC_DA7210-CONFIG_SH_ECOVEC-0-0 (https://dow=
+nload.01.org/0day-ci/archive/20250124/202501240836.OvXqmANX-lkp@intel.com/c=
+onfig)
+> reproduce: (https://download.01.org/0day-ci/archive/20250124/202501240836=
+.OvXqmANX-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501240836.OvXqmANX-lkp=
+@intel.com/
+>
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for SND_SOC_DA7210=
+ when selected by SH_ECOVEC
+>    WARNING: unmet direct dependencies detected for SND_SOC_DA7210
+>      Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy]=
+ && I2C [=3Dn]
+>      Selected by [y]:
+>      - SH_ECOVEC [=3Dy] && CPU_SUBTYPE_SH7724 [=3Dy] && SND_SIMPLE_CARD [=
+=3Dy]
+>
+>    WARNING: unmet direct dependencies detected for SND_SOC_AK4642
+>      Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy]=
+ && I2C [=3Dn]
+>      Selected by [y]:
+>      - SH_7724_SOLUTION_ENGINE [=3Dy] && CPU_SUBTYPE_SH7724 [=3Dy] && SND=
+_SIMPLE_CARD [=3Dy]
 
-FYI, the error/warning still remains.
+Thanks, I have submitted a fix
+https://lore.kernel.org/8329d88cecc1e419f6a0f3f215695d3cfcb549aa.1737707880=
+.git.geert+renesas@glider.be
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   1b973c5f4ead8093d8018eb8c3aad83f34724173
-commit: 69ddcb21328bd29cfd2f64710bdac158f4c90bf6 [1841/1841] drivers: hooks: add bonding driver vendor hooks
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250124/202501241646.6wTHZP2L-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241646.6wTHZP2L-lkp@intel.com/reproduce)
+Gr{oetje,eeting}s,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241646.6wTHZP2L-lkp@intel.com/
+                        Geert
 
-All warnings (new ones prefixed by >>):
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bonding.h:27,
-                    from drivers/hooks/vendor_hooks.c:11:
->> include/trace/stages/init.h:2:23: warning: 'str__bonding__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/str__bonding__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
