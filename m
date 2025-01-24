@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E55223B0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 04:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316FC1D63FB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 04:21:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737692505; cv=none; b=GQknOaudbqnyL4ICWgvAPMHaXWoHlL4MrvXJnfi8oM/n67Xx3wQOy1XukuKHmAwkTlPhLaGSGVMwyOseatsVn93sGdty/EPdH0rF7eJUTTkW+Fq/MpL0fdS5G8irWTu9xxYg/r0KRM9aMQB9fmY4zm67ldUqY+FN+duOFAcrVtM=
+	t=1737692506; cv=none; b=mFzCMT+1L92zLyrRbazzRS7F1AERKpJrqyfu4J+X+zVKAmI6OGUjcl5Tk0N8opViHEN0Kyh6A6wJkF47OnQIVslpnmHO/+1oLgbo+0OoPwH6GRkvhE14mVmd5afX26i0OXlnFgvStpUQZCuu5dbNsZqUI42rZw0eiSjdGluH5ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737692505; c=relaxed/simple;
-	bh=ERuCSPtDdKj1NtE3jpbJaVHCV+9fVL+o0QB6Rl5PP/s=;
+	s=arc-20240116; t=1737692506; c=relaxed/simple;
+	bh=Nh4MKb4W6YzJrBWNF8tpyj3aXmaFYL3VY6KYKMstGQ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AS/7UPuPWkyghR86xzY8pAQ0/ZQAYKgOAkQreyRq3izGsUjUAHc3I5aab3QlXV7akWHKpuHvTlOF3S26c9e4ljEK8piJIJxP0ruCjwnDKSZkLM1VASTNnPDBjm2Lpt3X5GvpcGMiZMI0MytG9u6QcY3SnHrwDvzmUb6YQkTJ2x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuSsvae+; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=d4mKMx0iVuHG7/FGX9tPb4xldf8XNNJfyCvFaC4dKgDHoMfGv+WNR7Fa2PkIIPRPw6k83NvR4S94EhsHDQGXpBdNfo173+oMRESlRcl4bvjlFL9+H0MEwOVq3F9kTUmh068QX7Vyox5y0GoZ2kGHNtoP3wPVFvsN0tkPGaMX6lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eByBzclv; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuSsvae+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eByBzclv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737692503; x=1769228503;
+  t=1737692505; x=1769228505;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ERuCSPtDdKj1NtE3jpbJaVHCV+9fVL+o0QB6Rl5PP/s=;
-  b=CuSsvae+HFthfVmqQ+GQDU1TItZxTiYiiNtdpAPisMt2AAub336tG+Ly
-   PDw5CN5x8GOdSdS0wZ9ZYYZ/o9ad8AE2c9Jd050XhLDs3vqy00DBG5TYY
-   +dlMFEjh9cJarNjQ3iODCJLa2Mgn4zy9mVlXutkDEDTh5NBN1QNcZC3Ne
-   jUKAsXNMDcoMm92bpGTyMR4xyf2CtwRc665AeLK98F5fNNg4FU1UuVHlS
-   LKcojedgFgqxeJyRUvzRp00sJmBp/PkRzlj+L6t7S4Av+CxalOb4iF7Fs
-   mGNA/r/ven0BlF0Ua0TUZtv7e7lUcR8ITJCKgjVYmNTvsm6cI++JkNwH4
-   Q==;
-X-CSE-ConnectionGUID: O/fMNt4hQ4KpNqzkPKGw9A==
-X-CSE-MsgGUID: xwECHutJSnySa+mMTWTHwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="42147989"
+  bh=Nh4MKb4W6YzJrBWNF8tpyj3aXmaFYL3VY6KYKMstGQ4=;
+  b=eByBzclvZ38Z4H6BcslP3kTrUNnOOPJKo0Oq3LdUjDxl51EiWk9FJIkU
+   tAQ2K5BQ8o0LaBc8NpdN4cgnTaBil3p8OCrZ7qAau5QIiObcgLSb1ltKk
+   Unaf/YFHUakSLd7cltWREblgQZzqZBlag4b7KvkqaieWzZkH42KoqRm9T
+   fAIRomI2mPXM2tQv38u8Xw4s2Cat4Ug7eaO8+RCZtExe/afCEg87dtTg9
+   8JCeBbxJJvmyfE6vHEyKEUSkOb5KYE4ka8a2GHZrPynqXVeIc1smJbucQ
+   UP6UNfJL1//cmC2jRI3LEEPz5QhLbHnl9JLkeBtt3lBOWE9neZGxkQVCw
+   w==;
+X-CSE-ConnectionGUID: 9jtviDkNQrWAl5RExkVs1Q==
+X-CSE-MsgGUID: pjTwICWIRzyoxynZv2fxJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="42147990"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="42147989"
+   d="scan'208";a="42147990"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 20:21:42 -0800
-X-CSE-ConnectionGUID: AKK8xGifTpygxtk9hm1e2g==
-X-CSE-MsgGUID: Askd0pMhTkWzw4vTQoMxXA==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 20:21:43 -0800
+X-CSE-ConnectionGUID: VxvuWHt4Rmep9z1VjR+dQg==
+X-CSE-MsgGUID: dNVD0RNETdW+Lr9FiLzh/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="107479075"
+   d="scan'208";a="107479076"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 23 Jan 2025 20:21:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbBCN-000c8h-1o;
+	id 1tbBCN-000c8j-20;
 	Fri, 24 Jan 2025 04:21:39 +0000
-Date: Fri, 24 Jan 2025 12:21:34 +0800
+Date: Fri, 24 Jan 2025 12:21:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.13/invlpgb 9/12] arch/x86/mm/tlb.c:1317:3: error: call to
- undeclared function 'broadcast_tlb_flush'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202501241212.SQtopXFd-lkp@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: mm/mprotect.c:450:23: sparse: sparse: cast to non-scalar
+Message-ID: <202501241212.q9AAshQc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +63,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.13/invlpgb
-head:   0eac464fd4b743bca914b4703038caae98b43b12
-commit: 804d8b879afa408752ba12eb641ba95be1e865e8 [9/12] x86/mm: enable broadcast TLB invalidation for multi-threaded processes
-config: x86_64-buildonly-randconfig-004-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241212.SQtopXFd-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241212.SQtopXFd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bc8198dc7ebc492ec3e9fa1617dcdfbe98e73b17
+commit: cb0f01beb16669e91510fcdb2cea213931aee017 mm/mprotect: fix dax pud handlings
+date:   5 months ago
+config: alpha-randconfig-r112-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241212.q9AAshQc-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241212.q9AAshQc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241212.SQtopXFd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241212.q9AAshQc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/mprotect.c: note: in included file (through include/linux/mm.h, include/linux/pagewalk.h):
+   include/linux/pgtable.h:317:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:317:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:317:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:317:16: sparse: sparse: cast from non-scalar
+   mm/mprotect.c:291:9: sparse: sparse: context imbalance in 'change_pte_range' - unexpected unlock
+>> mm/mprotect.c:450:23: sparse: sparse: cast to non-scalar
+>> mm/mprotect.c:450:23: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:324:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:324:16: sparse: sparse: cast from non-scalar
+   mm/mprotect.c:480:47: sparse: sparse: self-comparison always evaluates to false
+   mm/mprotect.c:506:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/pgtable.h:317:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:317:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:317:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:317:16: sparse: sparse: cast from non-scalar
 
-   arch/x86/mm/tlb.c:1316:52: error: no member named 'broadcast_asid' in 'mm_context_t'
-    1316 |         if (IS_ENABLED(CONFIG_CPU_SUP_AMD) && mm->context.broadcast_asid) {
-         |                                               ~~~~~~~~~~~ ^
->> arch/x86/mm/tlb.c:1317:3: error: call to undeclared function 'broadcast_tlb_flush'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1317 |                 broadcast_tlb_flush(info);
-         |                 ^
-   arch/x86/mm/tlb.c:1317:3: note: did you mean 'trace_tlb_flush'?
-   include/trace/events/tlb.h:38:1: note: 'trace_tlb_flush' declared here
-      38 | TRACE_EVENT(tlb_flush,
-         | ^
-   include/linux/tracepoint.h:611:2: note: expanded from macro 'TRACE_EVENT'
-     611 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:473:2: note: expanded from macro 'DECLARE_TRACE'
-     473 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:278:21: note: expanded from macro '__DECLARE_TRACE'
-     278 |         static inline void trace_##name(proto)                          \
-         |                            ^
-   <scratch space>:67:1: note: expanded from here
-      67 | trace_tlb_flush
-         | ^
->> arch/x86/mm/tlb.c:1320:3: error: call to undeclared function 'count_tlb_flush'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1320 |                 count_tlb_flush(mm);
-         |                 ^
-   arch/x86/mm/tlb.c:1320:3: note: did you mean 'trace_tlb_flush'?
-   include/trace/events/tlb.h:38:1: note: 'trace_tlb_flush' declared here
-      38 | TRACE_EVENT(tlb_flush,
-         | ^
-   include/linux/tracepoint.h:611:2: note: expanded from macro 'TRACE_EVENT'
-     611 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:473:2: note: expanded from macro 'DECLARE_TRACE'
-     473 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:278:21: note: expanded from macro '__DECLARE_TRACE'
-     278 |         static inline void trace_##name(proto)                          \
-         |                            ^
-   <scratch space>:67:1: note: expanded from here
-      67 | trace_tlb_flush
-         | ^
-   3 errors generated.
+vim +450 mm/mprotect.c
 
-
-vim +/broadcast_tlb_flush +1317 arch/x86/mm/tlb.c
-
-  1283	
-  1284	void flush_tlb_mm_range(struct mm_struct *mm, unsigned long start,
-  1285					unsigned long end, unsigned int stride_shift,
-  1286					bool freed_tables)
-  1287	{
-  1288		struct flush_tlb_info *info;
-  1289		unsigned long threshold = tlb_single_page_flush_ceiling;
-  1290		u64 new_tlb_gen;
-  1291		int cpu;
-  1292	
-  1293		if (static_cpu_has(X86_FEATURE_INVLPGB))
-  1294			threshold *= invlpgb_count_max;
-  1295	
-  1296		cpu = get_cpu();
-  1297	
-  1298		/* Should we flush just the requested range? */
-  1299		if ((end == TLB_FLUSH_ALL) ||
-  1300		    ((end - start) >> stride_shift) > threshold) {
-  1301			start = 0;
-  1302			end = TLB_FLUSH_ALL;
-  1303		}
-  1304	
-  1305		/* This is also a barrier that synchronizes with switch_mm(). */
-  1306		new_tlb_gen = inc_mm_tlb_gen(mm);
-  1307	
-  1308		info = get_flush_tlb_info(mm, start, end, stride_shift, freed_tables,
-  1309					  new_tlb_gen);
-  1310	
-  1311		/*
-  1312		 * flush_tlb_multi() is not optimized for the common case in which only
-  1313		 * a local TLB flush is needed. Optimize this use-case by calling
-  1314		 * flush_tlb_func_local() directly in this case.
-  1315		 */
-  1316		if (IS_ENABLED(CONFIG_CPU_SUP_AMD) && mm->context.broadcast_asid) {
-> 1317			broadcast_tlb_flush(info);
-  1318		} else if (cpumask_any_but(mm_cpumask(mm), cpu) < nr_cpu_ids) {
-  1319			flush_tlb_multi(mm_cpumask(mm), info);
-> 1320			count_tlb_flush(mm);
-  1321		} else if (mm == this_cpu_read(cpu_tlbstate.loaded_mm)) {
-  1322			lockdep_assert_irqs_enabled();
-  1323			local_irq_disable();
-  1324			flush_tlb_func(info);
-  1325			local_irq_enable();
-  1326		}
-  1327	
-  1328		put_flush_tlb_info();
-  1329		put_cpu();
-  1330		mmu_notifier_arch_invalidate_secondary_tlbs(mm, start, end);
-  1331	}
-  1332	
+   428	
+   429	static inline long change_pud_range(struct mmu_gather *tlb,
+   430			struct vm_area_struct *vma, p4d_t *p4d, unsigned long addr,
+   431			unsigned long end, pgprot_t newprot, unsigned long cp_flags)
+   432	{
+   433		struct mmu_notifier_range range;
+   434		pud_t *pudp, pud;
+   435		unsigned long next;
+   436		long pages = 0, ret;
+   437	
+   438		range.start = 0;
+   439	
+   440		pudp = pud_offset(p4d, addr);
+   441		do {
+   442	again:
+   443			next = pud_addr_end(addr, end);
+   444			ret = change_prepare(vma, pudp, pmd, addr, cp_flags);
+   445			if (ret) {
+   446				pages = ret;
+   447				break;
+   448			}
+   449	
+ > 450			pud = READ_ONCE(*pudp);
+   451			if (pud_none(pud))
+   452				continue;
+   453	
+   454			if (!range.start) {
+   455				mmu_notifier_range_init(&range,
+   456							MMU_NOTIFY_PROTECTION_VMA, 0,
+   457							vma->vm_mm, addr, end);
+   458				mmu_notifier_invalidate_range_start(&range);
+   459			}
+   460	
+   461			if (pud_leaf(pud)) {
+   462				if ((next - addr != PUD_SIZE) ||
+   463				    pgtable_split_needed(vma, cp_flags)) {
+   464					__split_huge_pud(vma, pudp, addr);
+   465					goto again;
+   466				} else {
+   467					ret = change_huge_pud(tlb, vma, pudp,
+   468							      addr, newprot, cp_flags);
+   469					if (ret == 0)
+   470						goto again;
+   471					/* huge pud was handled */
+   472					if (ret == HPAGE_PUD_NR)
+   473						pages += HPAGE_PUD_NR;
+   474					continue;
+   475				}
+   476			}
+   477	
+   478			pages += change_pmd_range(tlb, vma, pudp, addr, next, newprot,
+   479						  cp_flags);
+   480		} while (pudp++, addr = next, addr != end);
+   481	
+   482		if (range.start)
+   483			mmu_notifier_invalidate_range_end(&range);
+   484	
+   485		return pages;
+   486	}
+   487	
 
 -- 
 0-DAY CI Kernel Test Service
