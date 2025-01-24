@@ -1,116 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BA319005D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 18:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B732236F1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 18:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737742696; cv=none; b=mD66uBOKs+KE8oxcyB22GBxOn59y5nGFYf0IOj6ckRS8qDWYy8lWXo7md5zvILKaVPECmcuaN99Z7R6LQ87NofDwaUgJnSG6HnOyO4GY418vqcNiKf/EOkoXnVNkQSCfoXMWXNsy6T9DAHsb4NvXryfOhIqb6d+w6EZhjLgMD3E=
+	t=1737744198; cv=none; b=u+7jOhfoStbNsHeB/YI5vwMUEPF6eer7QLztYvf78Qh/APKr0fGI9pcsk5ACwYt7HTm3XIZKcTg8NofH6X+l3HgSPIjjGyZ4zacAM955IeEtt4+x+rcXfXMFm8iKwcr7vEW2iMYRmOE/HwgEwUsNe9n4jwrfM8coO10D8Uq0RwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737742696; c=relaxed/simple;
-	bh=vidEi6dSzm6kWYfv5x8ApZW0zw8D9yv+MNRSsVKU+GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SSWDKP8eIHg8EcR6V6F+OT6ssSYLD90LX2MlWft6isMQ+fpL1btM8zCcgP/0zl8gUcK+2Zs4lzlkHaNgIx4nMfO86yaY+dkaH28zmSFjqqehVCsThg5XEA5mEyB4/T3ZGAYHW817Pgw2NIQd841Bi15uX8hcctz5H+lDPqzBf4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoqH/FH4; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737744198; c=relaxed/simple;
+	bh=E6ro15Rdkh1EjMnx0YxrFTlmPBXvD5/CvbMHiPHKM4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=r7FuVlbkiKf8uO37gICQZqFLVzAp9+hrlo+7i7t8mzcUz8WrTH4knu/kE9GRf6/aMM4E755egr+vgMJJ8fcQb+B1KRCOcSZE/K1N9hBDwXjRw8xU+v1kzjHzigpq8QbJtn+vhA4j77gykbpJBAaOMLLat2yZAz9dcqhjHvf6vFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KIcCIbSv; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoqH/FH4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737742694; x=1769278694;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vidEi6dSzm6kWYfv5x8ApZW0zw8D9yv+MNRSsVKU+GE=;
-  b=YoqH/FH4CN1qBEpqjKCxsMff43X1hfBAb0jd94DZjUDaObwfm9Db+Tx8
-   BgV2czWu27cfPDIp9hvenda2/S+hsSfmxUiiQ+NKpjiJ9GNqtCtt1PuQc
-   0JZ01Zl7oGniOQLySVttZQwgzwijAkIaRgFEsX4Byeu+SeUmm8uuKpEl4
-   tMR0d5rVrKMbxa1LmUsr06mkhiqnszWF1C9D78UI9I7lgOrf9g+D6IyyQ
-   mj4IQ5ANTzQD/dNrvZlb55/OaHn4JcGxYdHutwac3lPH6hDqqutBc9LFC
-   enTjTWFpUEChFJ5OncMkp+1QhCHUoPYgKadwCYS1FHTDMEJcXoJMaomdQ
-   A==;
-X-CSE-ConnectionGUID: a7M6/fy+R5Gyko0cCDIoBg==
-X-CSE-MsgGUID: VEV3PFbZSd+Q/sCqyLcQaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38389426"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="38389426"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 10:18:13 -0800
-X-CSE-ConnectionGUID: LTSACMNFR2Crna7fDK2apg==
-X-CSE-MsgGUID: koS2yVvQRKeM/GuprqilUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112976205"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Jan 2025 10:18:13 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tbOFu-000cxl-2L;
-	Fri, 24 Jan 2025 18:18:10 +0000
-Date: Sat, 25 Jan 2025 02:17:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Jian <liujian56@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1842/1842] include/net/tcp.h: linux/kabi.h is
- included more than once.
-Message-ID: <202501250220.0DIDHdPf-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KIcCIbSv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737744192;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oqP93IEyNiqxaVkRzdBD14FzWHz6Qk4+0A2lcHdruh8=;
+	b=KIcCIbSvFMudhBkZ81yvTQFWFHf7/V6tEXid4Ohpuoe0uFVZ7dYcHttN3DgdjgBjufcQF1
+	EnUc0qgDZHfgSLyBfIp+J2FX7aIjlKdMOtiIFoYIt7daHDRjVYso47xP856G41wu7do8dy
+	95FQDyxU/8qGodtJTqgmANKKcipUeho=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-655-zbvNNdPkM--PBjfAHEJfmw-1; Fri, 24 Jan 2025 13:43:10 -0500
+X-MC-Unique: zbvNNdPkM--PBjfAHEJfmw-1
+X-Mimecast-MFC-AGG-ID: zbvNNdPkM--PBjfAHEJfmw
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-467be89d064so27690691cf.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 10:43:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737744190; x=1738348990;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oqP93IEyNiqxaVkRzdBD14FzWHz6Qk4+0A2lcHdruh8=;
+        b=at95GIs3BeDZVnI01yNXYtQELei1qhOcxRe6BFEFj+NATXWsAv/kclHrSaLaM6SvWW
+         coNgyuWiNweVzQlm7uvhi54HVRDbhuJ5qbTALfYXbkEUZdNS2n5kLJPwUWvmGiYEP12D
+         SSiTiWmjFg3QlJvzgIn5o1S0Xaec0yAaIi94sOU4o0UJfFQbcIE/jiSHx8NEemkHECuQ
+         bDZhQ9m8yhyJ+xGDqnvt+qt/xZw6XThv7j7/xmunsCItI4WxkiHlyAPQuKqAAo9UPBrT
+         Cdw6wxEXK91Y4zS4PaMTnFhLfidL++pW53mHFJ1he+OGxcyD2kFbnN73jKFMSNl8O4ta
+         76Hw==
+X-Gm-Message-State: AOJu0YxD8O45ixA6GkCm629o+2cBa7XO/m5c/NHmxjRJL0KBl+Z5SWNQ
+	Tv6WjPFHCNPaa9b+FBpgveRhpP2MJqU6hF7WjeJV7rxOtgjoBwLYtun63hJXzKKpkdesI6iZYKW
+	MfFVRl5KAdSZGlIc8jNHnaJPoX9X0YM0zmYj+aAoxi6M7+Gg7/QgOjpFnmmTqoCs=
+X-Gm-Gg: ASbGncs9LmqJCxCE2EJvMbiY/koZwJSZiTxPsqohEcLzWlnbQVVrkpZMr+eat9Rthrl
+	2fNrsAdoR5VLi+F0wKhjeWQ3Dcj374v990ZQLflaYr8f1NVpXnE6hMqCt4pfUjb2rDrjGixYwSs
+	o7U8EHtjuD5yGVtHdEkoLwAbuLyeaiq6T8bKkHLOWPJgUmOgiILQBUdx4/lTdSxwuULr7yjNlEv
+	6MiIJFOirMoZmAWi5hPFyMnWFXiLHzvYMcNUd0jAHOy7ttTYuJ5HBmbpPi0t8pAawRELmUAGXzV
+	Bj0bJhHJoV6XACVaPQYg3TGY57Vo9D0=
+X-Received: by 2002:ac8:7d52:0:b0:467:70ce:75e9 with SMTP id d75a77b69052e-46e12a96eacmr451131271cf.23.1737744189953;
+        Fri, 24 Jan 2025 10:43:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEBfjwlQTNorfux/EB0BQpnnWz1g5Icksygxw6u3hdARhf1/RKjg+NOxCMXv7X52TnMiXVBeQ==
+X-Received: by 2002:ac8:7d52:0:b0:467:70ce:75e9 with SMTP id d75a77b69052e-46e12a96eacmr451130801cf.23.1737744189439;
+        Fri, 24 Jan 2025 10:43:09 -0800 (PST)
+Received: from x1n (pool-99-254-114-190.cpe.net.cable.rogers.com. [99.254.114.190])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46e6687e3b0sm12639361cf.21.2025.01.24.10.43.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 10:43:08 -0800 (PST)
+Date: Fri, 24 Jan 2025 13:43:05 -0500
+From: Peter Xu <peterx@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Will Deacon <will@kernel.org>
+Subject: Re: mm/gup.c:778:15: sparse: sparse: cast to non-scalar
+Message-ID: <Z5PfOZ1D6dNKTzw6@x1n>
+References: <202501240922.a4YzQD7u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <202501240922.a4YzQD7u-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: -bzK_aR225a4bwcNrHshUadcxyZZPBdD_hyvu3uQJIs_1737744190
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   6b6d5871437c4adda78a8fb495b923380a7f9d2e
-commit: b809fb63adcda7223e4c19370fcc567128332e49 [1842/1842] kabi: reserve space for struct rate_sample
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+On Fri, Jan 24, 2025 at 10:01:40AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   e0b1f59142746f74476a03040f745329c8355a7e
+> commit: e6fd5564c07c3c749ff3d1b2aa35540b4047e395 mm/gup: cache p4d in follow_p4d_mask()
+> date:   9 months ago
+> config: alpha-randconfig-r112-20250124 (https://download.01.org/0day-ci/archive/20250124/202501240922.a4YzQD7u-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 14.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20250124/202501240922.a4YzQD7u-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501240922.a4YzQD7u-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> mm/gup.c:778:15: sparse: sparse: cast to non-scalar
+> >> mm/gup.c:778:15: sparse: sparse: cast from non-scalar
+>    mm/gup.c: note: in included file (through include/linux/mm.h):
+>    include/linux/pgtable.h:315:16: sparse: sparse: cast to non-scalar
+>    include/linux/pgtable.h:315:16: sparse: sparse: cast from non-scalar
+>    include/linux/pgtable.h:315:16: sparse: sparse: cast to non-scalar
+>    include/linux/pgtable.h:315:16: sparse: sparse: cast from non-scalar
+>    mm/gup.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+>    include/linux/page-flags.h:241:46: sparse: sparse: self-comparison always evaluates to false
+>    mm/gup.c:682:9: sparse: sparse: context imbalance in 'follow_page_pte' - unexpected unlock
+>    mm/gup.c: note: in included file (through include/linux/mm.h):
+>    include/linux/pgtable.h:322:16: sparse: sparse: cast to non-scalar
+>    include/linux/pgtable.h:322:16: sparse: sparse: cast from non-scalar
+>    include/linux/pgtable.h:315:16: sparse: sparse: cast to non-scalar
+>    include/linux/pgtable.h:315:16: sparse: sparse: cast from non-scalar
+>    mm/gup.c:911:18: sparse: sparse: context imbalance in 'get_gate_page' - unexpected unlock
+> 
+> vim +778 mm/gup.c
+> 
+>    769	
+>    770	static struct page *follow_p4d_mask(struct vm_area_struct *vma,
+>    771					    unsigned long address, pgd_t *pgdp,
+>    772					    unsigned int flags,
+>    773					    struct follow_page_context *ctx)
+>    774	{
+>    775		p4d_t *p4dp, p4d;
+>    776	
+>    777		p4dp = p4d_offset(pgdp, address);
+>  > 778		p4d = READ_ONCE(*p4dp);
+>    779		if (p4d_none(p4d))
+>    780			return no_page_table(vma, flags);
+>    781		BUILD_BUG_ON(p4d_huge(p4d));
+>    782		if (unlikely(p4d_bad(p4d)))
+>    783			return no_page_table(vma, flags);
+>    784	
+>    785		return follow_pud_mask(vma, address, p4dp, flags, ctx);
+>    786	}
+>    787	
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501250220.0DIDHdPf-lkp@intel.com/
+There's one more similar sparse warning here, both reported today:
 
-includecheck warnings: (new ones prefixed by >>)
->> include/net/tcp.h: linux/kabi.h is included more than once.
+https://lore.kernel.org/all/202501241212.q9AAshQc-lkp@intel.com/
 
-vim +29 include/net/tcp.h
+Firstly, I reproduced this sparse warning locally. And yes it yells about
+that line, and even one more similar case of READ_ONCE().
 
-    18	
-    19	#include <linux/list.h>
-    20	#include <linux/tcp.h>
-    21	#include <linux/bug.h>
-    22	#include <linux/slab.h>
-    23	#include <linux/cache.h>
-    24	#include <linux/percpu.h>
-    25	#include <linux/skbuff.h>
-    26	#include <linux/kref.h>
-    27	#include <linux/ktime.h>
-    28	#include <linux/indirect_call_wrapper.h>
-  > 29	#include <linux/kabi.h>
-    30	
-    31	#include <net/inet_connection_sock.h>
-    32	#include <net/inet_timewait_sock.h>
-    33	#include <net/inet_hashtables.h>
-    34	#include <net/checksum.h>
-    35	#include <net/request_sock.h>
-    36	#include <net/sock_reuseport.h>
-    37	#include <net/sock.h>
-    38	#include <net/snmp.h>
-    39	#include <net/ip.h>
-    40	#include <net/tcp_states.h>
-    41	#include <net/inet_ecn.h>
-    42	#include <net/dst.h>
-    43	#include <net/mptcp.h>
-    44	
-    45	#include <linux/seq_file.h>
-    46	#include <linux/memcontrol.h>
-    47	#include <linux/bpf-cgroup.h>
-    48	#include <linux/siphash.h>
-  > 49	#include <linux/kabi.h>
-    50	
+The question is I thought READ_ONCE() should be ok to be used on things
+like p4d_t, even if they can be structs / non-scalar types.  At least from
+sparse POV I cannot trigger similar sparse on non-alpha.  So looks like
+Alpha has something special.
+
+Then I noticed that Alpha indeed has a custom definition of __READ_ONCE()
+which is probably needed due to the mb():
+
+#define __READ_ONCE(x)							\
+({									\
+	__unqual_scalar_typeof(x) __x =					\
+		(*(volatile typeof(__x) *)(&(x)));			\
+	mb();								\
+	(typeof(x))__x;							\
+})
+
+I didn't obviously see yet on how that could affect sparse, if READ_ONCE()
+works for non-scalar somehow on most of the rest archs.
+
+I tried to switch to the default __READ_ONCE for alpha build (it misses
+mb() so it isn't correct, but trying to figure out whether it'll trigger
+similar sparse warning), then the warning is gone.
+
+Then I found that this change can also work for alpha:
+
+diff --git a/arch/alpha/include/asm/rwonce.h b/arch/alpha/include/asm/rwonce.h
+index 35542bcf92b3..0d61183ff764 100644
+--- a/arch/alpha/include/asm/rwonce.h
++++ b/arch/alpha/include/asm/rwonce.h
+@@ -25,7 +25,7 @@
+        __unqual_scalar_typeof(x) __x =                                 \
+                (*(volatile typeof(__x) *)(&(x)));                      \
+        mb();                                                           \
+-       (typeof(x))__x;                                                 \
++       __x;                                                    \
+ })
+
+I had a feeling that sparse somehow thinks the "typeof(x)" isn't the same
+struct v.s. "__unqual_scalar_typeof(x)" above, even if IIUC the macro was
+only trying to tear down type qualifiers.  Especially in Alpha's case IIUC
+p4d_t is a struct (in my case, STRICT_MM_TYPECHECKS=n):
+
+        typedef struct { pgd_t pgd; } p4d_t;
+        typedef unsigned long pgd_t;
+
+So I suppose __unqual_scalar_typeof() should do nothing on a non-scalar
+type.
+
+So even if above oneliner seems to fix this specific sparse warning, I
+don't really know how it worked.
+
+I copied Will (who introduced both the alpha's __READ_ONCE, and the unqual
+macro for generic code) in case he has some thoughts..
+
+Thanks,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Peter Xu
+
