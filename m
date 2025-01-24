@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CEB23B0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 04:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560471D63C9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 04:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737691843; cv=none; b=uJMVuzMph02RU4UsUrYlMx87zvIB9j/pRrnukkiGG2djCMRmcPrqR1JnfJMBxOxSR0OkFcIGCN+ULwITUP8CuEp1vNZ+HBd9nYusS07fp3oKCWAy9tRuhxGS4XcabJgKPEQTsTFBDu1MJ42Q/VdTUgDrKVrJYJVOTlU6xoQ/yZI=
+	t=1737691848; cv=none; b=aJ9i071lPCRnsMwPpCgtA6DHAECtJAg7J8/mmE48JQU/PODE6OermyJ++Y9PZViazJ+PFPpt+Dwt1XvGcBTm08QAcaiq1SevPIlq9ui6H1sBwgfEk8geDaC6F1wbA/zgNuq7WfxLKn0N8O2JJtv6LAoMkRaB1T0JSKq6+jp0VSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737691843; c=relaxed/simple;
-	bh=xLx30xJ+tqueWxRl/INY13g4Avvshwt77Om+kGJ4u/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QV2UjEQOxG8Ztn0ARtk58LbYwNmGAWCcdF8W69R4HlVlCi3PWImK041BJofacsS9rVRla2XPWFKzBd5qVMziQBbL7xwnIpFheex7SpV2F0Ddqa/AN8rvIKzfSg1l/tjfU+RGR811q9tgNzx1prlsByS4z+YTyM+Tf39pQK1aTFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTzoL/Sq; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1737691848; c=relaxed/simple;
+	bh=MIJ1jgZDwALjGwqZaVentcWeZw4dsL9WAxAAZDG/1Uo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ov9ciUA6S0t9w7ivl3ag9MpoO9oOTgXuLHr7zJz4tCLBjJtUZD615ARb/I6s612ObN/Fpg8vkp8v1rshPWoJhMnxB/MJOx838V4iRvEsdOIfXutOiOjfc7qe90zmsKyND/3QpSzM2CExQrAWJwY0IZHLwIse1rrp8uqhHa3t8VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M881ePrX; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTzoL/Sq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M881ePrX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737691842; x=1769227842;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xLx30xJ+tqueWxRl/INY13g4Avvshwt77Om+kGJ4u/s=;
-  b=nTzoL/SqZbxsCB/uqG5Vqe+7qykyJ+CutbCX9PEFpCVP2xjaRYjXPuH9
-   5eZFMeyV7UX10XumN68HxOqhpNnFRB1qkkil1NyHrjQeG6LVT/LXkDDqg
-   z8M5MLfUwPzDSAzEEGN2Ej8aGFhpBRkdhH/Rg2B9kPGNvIZrNqSAczO0s
-   Hb/hLtkklcnQnAYuHPCQJv6L0bucFwoOhQOR3a0/fNDqt+jPi5Rpz4GJS
-   C1Xg8vRtW6MTPe2Od1hp1ivPnChqcE2lG1rSJowND4dPDt8tGTrzJQWVx
-   tbH7ViVz5gcI02GkSDiQQsFJTWq/DbvQ4suxYvJYlCzh4XRubTlEJCs4Q
-   w==;
-X-CSE-ConnectionGUID: EMcZWahhRMqID645HbOcLA==
-X-CSE-MsgGUID: UbzvSHCCROeLRICN9sL4wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49640023"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="49640023"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 20:10:41 -0800
-X-CSE-ConnectionGUID: bQSONEZTSbioGFnmJpve+A==
-X-CSE-MsgGUID: j7u7xBg7TMivlz6aOm7laA==
+  t=1737691846; x=1769227846;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MIJ1jgZDwALjGwqZaVentcWeZw4dsL9WAxAAZDG/1Uo=;
+  b=M881ePrXFXOhtarPbrt78dCJw3SkhnSf4VpyHv8cgtBamSQimTyu579W
+   mIB5EqwD9GPhE0INC2461FXA+FIimvDokuEclWkpLkaJRWq5DFf9amake
+   UpHtKNG5B2t7pktiJ45Byd8DciCZ4gaxlg5ZWXYDTHoK/2jgt+MWEInIy
+   gI7oohUMDHw0UfQGOy+VitAI3tBNmGkmDGHL05TpJwIFcobrq+fjd5X3c
+   D9qcU8eRMtpYUfrQ0FmN13QjyFOU5c2ZNev9Um3v03KUWrGuiVXndTtyz
+   nN0J8nxwEf496Syr9jlfXQyTxn+uLlxOuZR3ygw8bIf1DIkw3r38qaA87
+   A==;
+X-CSE-ConnectionGUID: bD9ag42XQeySGnaMK3alYQ==
+X-CSE-MsgGUID: KR/J37wwSTeSLDeJ7W054w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="55764026"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="55764026"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 20:10:45 -0800
+X-CSE-ConnectionGUID: KBf9L3xqRj2dTmcFB3GFfA==
+X-CSE-MsgGUID: 6iz2VM1SRCWJIdgpFZtQ5w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="130954322"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="112671059"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Jan 2025 20:10:40 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 23 Jan 2025 20:10:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbB1i-000c84-1E;
+	id 1tbB1i-000c7v-10;
 	Fri, 24 Jan 2025 04:10:38 +0000
-Date: Fri, 24 Jan 2025 12:10:26 +0800
+Date: Fri, 24 Jan 2025 12:10:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2717/2717] include/trace/trace_events.h:27:23:
- warning: 'str__fs__trace_system_name' defined but not used
-Message-ID: <202501241230.GPAoTpQP-lkp@intel.com>
+To: Suman Ghosh <sumang@marvell.com>, horms@kernel.org,
+	sgoutham@marvell.com, gakula@marvell.com, sbhatta@marvell.com,
+	hkelam@marvell.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lcherian@marvell.com,
+	jerinj@marvell.com, john.fastabend@gmail.com, bbhushan2@marvell.com,
+	hawk@kernel.org, andrew+netdev@lunn.ch, ast@kernel.org,
+	daniel@iogearbox.net, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Suman Ghosh <sumang@marvell.com>
+Subject: Re: [net-next PATCH v4 3/6] octeontx2-pf: AF_XDP zero copy receive
+ support
+Message-ID: <202501241139.g1v0lH4V-lkp@intel.com>
+References: <20250116191116.3357181-4-sumang@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,53 +70,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250116191116.3357181-4-sumang@marvell.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   683824f7f33a10565e9afcc9358ed8004d851077
-commit: fb8a60ca5cddddd060fa14bc7348fea7ac035d8d [2717/2717] vfs: add bare tracepoints for vfs read and release
-config: x86_64-randconfig-121-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241230.GPAoTpQP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241230.GPAoTpQP-lkp@intel.com/reproduce)
+Hi Suman,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suman-Ghosh/octeontx2-pf-Don-t-unmap-page-pool-buffer/20250117-031510
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250116191116.3357181-4-sumang%40marvell.com
+patch subject: [net-next PATCH v4 3/6] octeontx2-pf: AF_XDP zero copy receive support
+config: loongarch-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241139.g1v0lH4V-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241139.g1v0lH4V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241230.GPAoTpQP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241139.g1v0lH4V-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/events/fs.h:33,
-                    from fs/read_write.c:28:
->> include/trace/trace_events.h:27:23: warning: 'str__fs__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c: In function 'otx2_probe':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:3222:1: warning: label 'err_dcbnl_set_ops' defined but not used [-Wunused-label]
+    3222 | err_dcbnl_set_ops:
+         | ^~~~~~~~~~~~~~~~~
 
 
-vim +/str__fs__trace_system_name +27 include/trace/trace_events.h
+vim +/err_dcbnl_set_ops +3222 drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+  3217	
+  3218		otx2_qos_init(pf, qos_txqs);
+  3219	
+  3220		return 0;
+  3221	
+> 3222	err_dcbnl_set_ops:
+  3223		bitmap_free(pf->af_xdp_zc_qidx);
+  3224	err_af_xdp_zc:
+  3225		otx2_sriov_vfcfg_cleanup(pf);
+  3226	err_pf_sriov_init:
+  3227		otx2_shutdown_tc(pf);
+  3228	err_mcam_flow_del:
+  3229		otx2_mcam_flow_del(pf);
+  3230	err_unreg_netdev:
+  3231		unregister_netdev(netdev);
+  3232	err_ipsec_clean:
+  3233		cn10k_ipsec_clean(pf);
+  3234	err_mcs_free:
+  3235		cn10k_mcs_free(pf);
+  3236	err_del_mcam_entries:
+  3237		otx2_mcam_flow_del(pf);
+  3238	err_ptp_destroy:
+  3239		otx2_ptp_destroy(pf);
+  3240	err_detach_rsrc:
+  3241		if (pf->hw.lmt_info)
+  3242			free_percpu(pf->hw.lmt_info);
+  3243		if (test_bit(CN10K_LMTST, &pf->hw.cap_flag))
+  3244			qmem_free(pf->dev, pf->dync_lmt);
+  3245		otx2_detach_resources(&pf->mbox);
+  3246		otx2_disable_mbox_intr(pf);
+  3247		otx2_pfaf_mbox_destroy(pf);
+  3248		pci_free_irq_vectors(hw->pdev);
+  3249	err_free_netdev:
+  3250		pci_set_drvdata(pdev, NULL);
+  3251		free_netdev(netdev);
+  3252	err_release_regions:
+  3253		pci_release_regions(pdev);
+  3254		return err;
+  3255	}
+  3256	
 
 -- 
 0-DAY CI Kernel Test Service
