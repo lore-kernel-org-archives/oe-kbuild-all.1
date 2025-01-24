@@ -1,164 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991901DB120
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 08:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0AD1DB134
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 08:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737708560; cv=none; b=alxLHT/zQij7o05eDmYKObfu+9CZnONcNKg+YrXtOPMg4JMIyCzTliASuURwWaoUbDTut4jGAwyDM3ou8Qc+3KrM7M1Bieqyz/SnHh1tWiNjMRwvuzyYUaY9WYVaZ+Jv1XWTkRx4/3xDf4vv7YBvgzuGx/UPJTKWEg55sBsblcc=
+	t=1737708814; cv=none; b=bjCY6xDalGBEYZdCdnGAaYFYhhE88BeH3tfh7UgPODiGRvg9ruulw9NtknC87pcFZnqFt1L5NFs4ah2eQfIMyPhcVcWW6HQ93yH0gVLTpU3yPiqyrh6TXGo+B2W/JW/X5dqyjzCIS2tKGMOzOo47eMkDc+otAgQAfIxBkpE12X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737708560; c=relaxed/simple;
-	bh=8umo5R5a4gh5yqcF5U22Shgpo2ULpGHiYlAFMmqzXaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bth+qI5JU4DcpuA0flNX4uuCTDKkvl5UBTGpp42sNwxkDZP7OwILP28j1/I4xFzFd0tDUya8eHO9+oSnEvQ3cYeF0mTm9tkwBkLCBxXxTv7IhYVaNYc0EDtNfivKbC5d5OEtcT90+Xgdp9/luselzAvmUSewVto50QhQASh+ddc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEnnfSqu; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEnnfSqu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737708558; x=1769244558;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8umo5R5a4gh5yqcF5U22Shgpo2ULpGHiYlAFMmqzXaQ=;
-  b=YEnnfSqu5aHDANldnJgpMu7Q0lzm29IkgZwLNE4J4Q3BoXxx3CxPBD+r
-   dozoKGQOzBL1mYIdQydKIKrXDX7b/c81VhshJ2CMJLJEmnI85fDCxpDWR
-   2QEqkdSBWvDzTej5g20p082kYZuwdRCHM6ObrsM1OD3myLlTo6agaod3p
-   ShEF6httVeFhBKIkq0XNM9SlkQudlg5Lm+rqXFqKIka8WDrC60oQ9FHDF
-   X5df+mV3dBUA/8ESZelXMeKW8bOhxxgBnSie3stmA41Qxsv66aDtr63pa
-   ZUWaRSMB1OGmN8q9u/okOKnkZutNI2mSsXN8L5n3AsoBnJySLu6ATMviq
-   g==;
-X-CSE-ConnectionGUID: mLQCZR2mTrCkNTm4C/JLgA==
-X-CSE-MsgGUID: AUs479Y1SJWEcJ+LLKeIzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="55650474"
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="55650474"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 00:49:17 -0800
-X-CSE-ConnectionGUID: nHlhF4LjS7GRuSCBtchWMg==
-X-CSE-MsgGUID: aNbmjr2DTvGS+jEbZOI6eQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="107531892"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Jan 2025 00:49:16 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tbFNJ-000cSL-2l;
-	Fri, 24 Jan 2025 08:49:13 +0000
-Date: Fri, 24 Jan 2025 16:48:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.13/zen-sauce 6/31]
- drivers/pci/controller/intel-nvme-remap.c:129:9: sparse: sparse: cast
- truncates bits from constant value (10601 becomes 1)
-Message-ID: <202501241616.0JmUyzfG-lkp@intel.com>
+	s=arc-20240116; t=1737708814; c=relaxed/simple;
+	bh=FItlSzho/bQG90h0RfbXHRaG8KbYB0RlN1p5AKc3Ldo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dDwuXzXGAjH32eFqW2JwNeYL8Qdr4oXCCSVYWhb0v4NugX0cjVyn04mQTVK0EUXKT3MpEtIItTO70KGbHBYqLXApkg9PK85K5VJIvn2WwEX+jMxMkXPRPJRonU/ShGJuyZWJTsF1oqhtE+enyTLq2NQr9JBh0tKhTLPCcSUSzrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4afeb79b52fso537331137.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 00:53:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737708811; x=1738313611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hDFWf6Xu82hlwWvuFpCfiLWs2Tf0jqIF5NOVPKoCOEE=;
+        b=VfpHsDtUROcFEoqEiw8ku1yYjHWjuUrplvv0Omhh4/0OFk8TML2luM0stdVBCl7/5M
+         hWtArj8EOqaAWBfJ3NJ7aopT+Ywzj5+hRhnKW13eSMyhHwnInuCIfgVp3GPhvVG0YpFz
+         /1KGGac2PFHwXG/EduZ13fTFvqxVq6FwVIIA6Y9lpLKwjKyyN5MdZmRFx92IoUsIlQkN
+         v1UdjpJ6myTksssj6038mH7cLEfrmmWjqIwN+ydpgB4cof2EuEhQRSGlRpTfSM2MpA/g
+         iofqCfkAFqd5gDkSI62iebYD8Ncd93h7ENf7O0gAX3plZMZw6Vp7BbJ0Hcr8UyxxKeIB
+         MuMA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2Q0XMoxozwfVpRnyN8B6IRrBZmnC+FaKTiT8NmRfSU1HTIwtnPxHXE1XkxdnY1w5MavWaWZDAmKGGjLxu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yww2Zi1aB40lePbmYYB+J8Uz8QHxSFAJ24ur1Q3waMy/MG0+nGD
+	V0KW0iV1/MAuqy6ioC08lmsZKVg9LNMIM7i1p3umKQ1lJhsSXvup1U8cTh+M
+X-Gm-Gg: ASbGncu0FJ0nc1hwI1NfF9R7gD6Q2yzBEv7Aq6BshncY4c2oycaDEiCKXHUvFSvVTH4
+	eJZLTC0Bk+Ez4KrlGTjK+Tcr/3xul1YU5nMCTe7VeZg3cCalEhruGFN2022YO+HGI1LPgKr5Ba3
+	RlptY2HOl9unQR7tALjpQF0ZxxPmDt5hLIj7tnWBWRf0pfWb4PzVDQ2++YhiK11AmtOzD36z4k+
+	GkuMsuydvciBbXYTF1xE9sO00G6szX75DgFCbxPH0EHWf3zPgeNATWqHUPs41/5HlzaCotLcWYv
+	J4Yb98O2VV6Ka02B3sAsd1nPEz7GWoKec9h7lCIPcXo=
+X-Google-Smtp-Source: AGHT+IEwzF4AZL5/Ru67NKVP2kg1qDBuWNrIFwBW+oFhJarcR6aX6bFtUeDrdw7J2AkK4ekuygvceA==
+X-Received: by 2002:a05:6102:b0a:b0:4af:be6e:f0aa with SMTP id ada2fe7eead31-4b690d3b346mr24099527137.25.1737708810730;
+        Fri, 24 Jan 2025 00:53:30 -0800 (PST)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b7097aa5b0sm330220137.10.2025.01.24.00.53.30
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jan 2025 00:53:30 -0800 (PST)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-85c4557fce0so362617241.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 00:53:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX5c5UIAeFbGNqYc7Ud6JE/WbJcWrwSrf9lNM0NXffLgHTn9sz+Xij726djNWDxxLZRooECdfZ9vIiJWwpM@lists.linux.dev
+X-Received: by 2002:a05:6102:5129:b0:4b2:5c0a:9aff with SMTP id
+ ada2fe7eead31-4b690bb53c0mr26366922137.3.1737708810066; Fri, 24 Jan 2025
+ 00:53:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202501241032.oOmsmzvk-lkp@intel.com>
+In-Reply-To: <202501241032.oOmsmzvk-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 24 Jan 2025 09:53:18 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWe54-r39qrkfkw8M6VpKY7bc1mLuamTADxf8OQq0wkrQ@mail.gmail.com>
+X-Gm-Features: AWEUYZkfKKZIObDCupUu9Z656a8qeMZQNVMnSW06AifxTo89MdfhoqCQzovOleQ
+Message-ID: <CAMuHMdWe54-r39qrkfkw8M6VpKY7bc1mLuamTADxf8OQq0wkrQ@mail.gmail.com>
+Subject: Re: kismet: WARNING: unmet direct dependencies detected for
+ SND_SOC_SH4_SIU when selected by SND_SIU_MIGOR
+To: kernel test robot <lkp@intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Gazzillo <paul@pgazz.com>, 
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.13/zen-sauce
-head:   ae96db84281e1b10aee61ef832aabd0941743e99
-commit: 5d011d56a251d34b662ab84ce3ce22a317f396e6 [6/31] ZEN: PCI: Add Intel remapped NVMe device support
-config: x86_64-randconfig-122-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241616.0JmUyzfG-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241616.0JmUyzfG-lkp@intel.com/reproduce)
+On Fri, Jan 24, 2025 at 3:54=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   606489dbfa979dce53797f24840c512d0e7510f9
+> commit: 2dbf11ec7d3a63ebde946b5747ad6bd74d45adb1 ASoC: sh: Replace 'selec=
+t' DMADEVICES 'with depends on'
+> date:   4 years, 6 months ago
+> config: sh-kismet-CONFIG_SND_SOC_SH4_SIU-CONFIG_SND_SIU_MIGOR-0-0 (https:=
+//download.01.org/0day-ci/archive/20250124/202501241032.oOmsmzvk-lkp@intel.=
+com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241032=
+.oOmsmzvk-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501241032.oOmsmzvk-lkp=
+@intel.com/
+>
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for SND_SOC_SH4_SI=
+U when selected by SND_SIU_MIGOR
+>    WARNING: unmet direct dependencies detected for SND_SOC_SH4_SIU
+>      Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy]=
+ && (SUPERH [=3Dy] || ARCH_RENESAS || COMPILE_TEST [=3Dn]) && ARCH_SHMOBILE=
+ [=3Dy] && HAVE_CLK [=3Dy] && DMADEVICES [=3Dn]
+>      Selected by [y]:
+>      - SND_SIU_MIGOR [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] && SND_=
+SOC [=3Dy] && (SUPERH [=3Dy] || ARCH_RENESAS || COMPILE_TEST [=3Dn]) && SH_=
+MIGOR [=3Dy] && I2C [=3Dy]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241616.0JmUyzfG-lkp@intel.com/
+Thanks, I have submitted a fix
+https://lore.kernel.org/8c17ff52584ce824b8b42d08ea1b942ebeb7f4d9.1737708688=
+.git.geert+renesas@glider.be
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pci/controller/intel-nvme-remap.c:129:9: sparse: sparse: cast truncates bits from constant value (10601 becomes 1)
-   drivers/pci/controller/intel-nvme-remap.c:129:9: sparse: sparse: cast truncates bits from constant value (106 becomes 6)
->> drivers/pci/controller/intel-nvme-remap.c:143:17: sparse: sparse: cast truncates bits from constant value (c000 becomes 0)
-   drivers/pci/controller/intel-nvme-remap.c:168:9: sparse: sparse: cast truncates bits from constant value (8086 becomes 86)
-   drivers/pci/controller/intel-nvme-remap.c:174:9: sparse: sparse: cast truncates bits from constant value (10802 becomes 2)
-   drivers/pci/controller/intel-nvme-remap.c:174:9: sparse: sparse: cast truncates bits from constant value (108 becomes 8)
->> drivers/pci/controller/intel-nvme-remap.c:446:17: sparse: sparse: Initializer entry defined twice
-   drivers/pci/controller/intel-nvme-remap.c:447:18: sparse:   also defined here
+Gr{oetje,eeting}s,
 
-vim +129 drivers/pci/controller/intel-nvme-remap.c
+                        Geert
 
-    79	
-    80	/*
-    81	 * Helper macros for tweaking returned contents of PCI configuration space.
-    82	 *
-    83	 * value contains len bytes of data read from reg.
-    84	 * If fixup_reg is included in that range, fix up the contents of that
-    85	 * register to fixed_value.
-    86	 */
-    87	#define NR_FIX8(fixup_reg, fixed_value) do { \
-    88			if (reg <= fixup_reg && fixup_reg < reg + len) \
-    89				((u8 *) value)[fixup_reg - reg] = (u8) (fixed_value); \
-    90		} while (0)
-    91	
-    92	#define NR_FIX16(fixup_reg, fixed_value) do { \
-    93			NR_FIX8(fixup_reg, fixed_value); \
-    94			NR_FIX8(fixup_reg + 1, fixed_value >> 8); \
-    95		} while (0)
-    96	
-    97	#define NR_FIX24(fixup_reg, fixed_value) do { \
-    98			NR_FIX8(fixup_reg, fixed_value); \
-    99			NR_FIX8(fixup_reg + 1, fixed_value >> 8); \
-   100			NR_FIX8(fixup_reg + 2, fixed_value >> 16); \
-   101		} while (0)
-   102	
-   103	#define NR_FIX32(fixup_reg, fixed_value) do { \
-   104			NR_FIX16(fixup_reg, (u16) fixed_value); \
-   105			NR_FIX16(fixup_reg + 2, fixed_value >> 16); \
-   106		} while (0)
-   107	
-   108	/*
-   109	 * Read PCI config space of the slot 0 (AHCI) device.
-   110	 * We pass through the read request to the underlying device, but
-   111	 * tweak the results in some cases.
-   112	 */
-   113	static int nvme_remap_pci_read_slot0(struct pci_bus *bus, int reg,
-   114					     int len, u32 *value)
-   115	{
-   116		struct nvme_remap_dev *nrdev = nrdev_from_bus(bus);
-   117		struct pci_bus *ahci_dev_bus = nrdev->dev->bus;
-   118		int ret;
-   119	
-   120		ret = ahci_dev_bus->ops->read(ahci_dev_bus, nrdev->dev->devfn,
-   121					      reg, len, value);
-   122		if (ret)
-   123			return ret;
-   124	
-   125		/*
-   126		 * Adjust the device class, to prevent this driver from attempting to
-   127		 * additionally probe the device we're simulating here.
-   128		 */
- > 129		NR_FIX24(PCI_CLASS_PROG, PCI_CLASS_STORAGE_SATA_AHCI);
-   130	
-   131		/*
-   132		 * Unset interrupt pin, otherwise ACPI tries to find routing
-   133		 * info for our virtual IRQ, fails, and complains.
-   134		 */
-   135		NR_FIX8(PCI_INTERRUPT_PIN, 0);
-   136	
-   137		/*
-   138		 * Truncate the AHCI BAR to not include the region that covers the
-   139		 * hidden devices. This will cause the ahci driver to successfully
-   140		 * probe th new device (instead of handing it over to this driver).
-   141		 */
-   142		if (nrdev->bar_sizing) {
- > 143			NR_FIX32(PCI_BASE_ADDRESS_5, ~(SZ_16K - 1));
-   144			nrdev->bar_sizing = false;
-   145		}
-   146	
-   147		return PCIBIOS_SUCCESSFUL;
-   148	}
-   149	
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
