@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD6B28F5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 02:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D1B1D5CD4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 02:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737685952; cv=none; b=dNulX3PRwNF+9kXmfOrPUmGT9flpgvaNb7fIlFDvAz1UdjoaohkTae+GiVyFh2NMplvx12yWqcdeVdJtIBdnblR1XrMi5RFfjqU/DiS6kJtbYoIsb4m5ri/ZOI89iHIlNHK1UmpvHVwdkqL04cPGWdNCObHjSh02kcT7z4Ho/UQ=
+	t=1737686613; cv=none; b=F2RQgBbtPaFukx87QPZyfS/yQ5IzH5TyoDGUoU1/7Jes7TxycFf+55v4xQVpaofYUUoEOXJjNNG/WR95LY/SyP0CcX/B5oOttsdT8Vp9TNQtkykMpp/tcYDvEH/kPulrvYcAmmlTES5S2nsiiEjDxjuIOr5F0VTUQcmPUJtWn6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737685952; c=relaxed/simple;
-	bh=LmDFR/ZwCUrZhI3dgT6Ur52udj3kvxhrsI3w+0j7C9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HRcgmeiIBoXId70gBU4QQiqDd4LCMTtsCydgnNpJZV/Tlwm3bgzjQlbxP42yygvXjRL7dEaGbPFTVxv6151xbwCr1P9Fti50mH+o+0pgAcV8iy7svXQ1x8PzuY5Y5wlm3r5UzrOT5YXxZ+AbpdAoV5UjOxzm4dlnPw1VMiIKygs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEvd8jH0; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1737686613; c=relaxed/simple;
+	bh=UDJw6klU5GC5OvWvKPQ6ddT5q8IZcysi3RWSZDH7Kno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PrFlNuTpyj64gIEdySzD45g3naQ9a70MXLmgsXMF+Hu0yT3DD58tMuXagjIzGirTEUqyI02T01VybEG4xGswhCcrvvRD6eomyt7A67gYW9Q8PFDK0SWGtoNj4BeN+EyBbCk2YfITUQFmh4LnMixiyBm+fWtx8rDjpSx+R1skKi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W2bDsZOp; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEvd8jH0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W2bDsZOp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737685951; x=1769221951;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LmDFR/ZwCUrZhI3dgT6Ur52udj3kvxhrsI3w+0j7C9w=;
-  b=nEvd8jH0lNidqHLP3jPh5vPpSZg1Fxh5XSzoQR622NvBP4vb/GsUDEBy
-   NGuIWlOfNEazELhjWb+4b+WPkC5l9vKxBg2kkTFmrOxvyTT3NxJxG8phq
-   VfkANFPCzyMa7p4E50d4dKGuKdKsTP4BBC/gBiqt1DpUeg6il6Yxkw9wu
-   Q3YjtpvXOghFsmDDrcjJwk0VONHqxsiWa0hLrUiJ0mFlQDSrJ6B6Vely1
-   eRFf6XEyobLR/P+FLR3QPQe0MWKdawotnRtMBSrxM7hgpie0K7sjlmHbA
-   On95CmeZNJh9dlNtE1YTJnmCHNp81WYi94E9Vl/pchSsWM/Zlod+5yJdS
-   w==;
-X-CSE-ConnectionGUID: 436LmaM9TxS7W5+fEzoCqQ==
-X-CSE-MsgGUID: mLZPibWNTfayn2seEpLOBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48801398"
+  t=1737686611; x=1769222611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UDJw6klU5GC5OvWvKPQ6ddT5q8IZcysi3RWSZDH7Kno=;
+  b=W2bDsZOpESSA3bFdcgLL/H+NqS6PtOII10TUTxYDd68/heEU9JjnFSZg
+   scmXB4sfULdYQWn0mCLjmssnpjxAJE/mI+D6lwihV5Meow75T15L9D+Hu
+   xjo5lqZufNYb+WwZhCvpjXLWopgsVAMlyB7+QMB3ydv5VTvB6C7F+wjl8
+   6qMjmUJUqSAnfpocGqZqtPQ2HS0fOH8Zp3tEb4R+N4gkE3KGRxMAI7YQ3
+   oKN+J2CCCH8ZkJreZLLlVAn1SOfqYdJNqR5iB/aBvw2yf85hwHjWITz3u
+   8PemocQMy7KZuW3SILrUx8dTfIP1rUNkY0rHWFYkt2g7aymaKNUkxLxJj
+   g==;
+X-CSE-ConnectionGUID: /bHAX+eWSc6QlRlD9aBU+g==
+X-CSE-MsgGUID: l2mSwMzRSLyUIejFUGWtPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38469248"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="48801398"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 18:32:30 -0800
-X-CSE-ConnectionGUID: VQHm92B0Rxe/Zxj4bhUL+Q==
-X-CSE-MsgGUID: Yq9j1RrnSJmqLwO3ih7ezw==
+   d="scan'208";a="38469248"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 18:43:31 -0800
+X-CSE-ConnectionGUID: Ws85L+DpTkyDXH1n8NnZRw==
+X-CSE-MsgGUID: Q4/os04ZRnaob4ujie2NGA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="107496633"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="138519428"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 23 Jan 2025 18:32:29 -0800
+  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2025 18:43:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb9Ug-000c2X-1Y;
-	Fri, 24 Jan 2025 02:32:26 +0000
-Date: Fri, 24 Jan 2025 10:32:13 +0800
+	id 1tb9fL-000c2z-1h;
+	Fri, 24 Jan 2025 02:43:27 +0000
+Date: Fri, 24 Jan 2025 10:43:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Pearson <markpearson@lenovo.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: drivers/platform/x86/think-lmi.c:758:51: warning: '%s' directive
- argument is null
-Message-ID: <202501241043.Mn4wJfgU-lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 4/4] slab: don't batch kvfree_rcu() with SLUB_TINY
+Message-ID: <202501241007.NYO5XTeM-lkp@intel.com>
+References: <20250123-slub-tiny-kfree_rcu-v1-4-0e386ef1541a@suse.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +62,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250123-slub-tiny-kfree_rcu-v1-4-0e386ef1541a@suse.cz>
 
-Hi Mark,
+Hi Vlastimil,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e0b1f59142746f74476a03040f745329c8355a7e
-commit: b49f72e7f96d4ed147447428f2ae5b4cea598ca7 platform/x86: think-lmi: Certificate authentication support
-date:   2 years, 10 months ago
-config: x86_64-randconfig-161-20230920 (https://download.01.org/0day-ci/archive/20250124/202501241043.Mn4wJfgU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241043.Mn4wJfgU-lkp@intel.com/reproduce)
+[auto build test ERROR on e492fac3657b60b8dd78a6e8ca26d1d14706c7b3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vlastimil-Babka/slab-rcu-move-TINY_RCU-variant-of-kvfree_rcu-to-SLAB/20250123-183930
+base:   e492fac3657b60b8dd78a6e8ca26d1d14706c7b3
+patch link:    https://lore.kernel.org/r/20250123-slub-tiny-kfree_rcu-v1-4-0e386ef1541a%40suse.cz
+patch subject: [PATCH RFC 4/4] slab: don't batch kvfree_rcu() with SLUB_TINY
+config: arc-randconfig-002-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241007.NYO5XTeM-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241007.NYO5XTeM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241043.Mn4wJfgU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241007.NYO5XTeM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/platform/x86/think-lmi.c: In function 'certificate_store':
->> drivers/platform/x86/think-lmi.c:758:51: warning: '%s' directive argument is null [-Wformat-overflow=]
-     758 |                 auth_str = kasprintf(GFP_KERNEL, "%s,%s",
-         |                                                   ^~
-
-
-vim +758 drivers/platform/x86/think-lmi.c
-
-   727	
-   728	static ssize_t certificate_store(struct kobject *kobj,
-   729					  struct kobj_attribute *attr,
-   730					  const char *buf, size_t count)
-   731	{
-   732		struct tlmi_pwd_setting *setting = to_tlmi_pwd_setting(kobj);
-   733		char *auth_str, *new_cert;
-   734		char *guid;
-   735		int ret;
-   736	
-   737		if (!capable(CAP_SYS_ADMIN))
-   738			return -EPERM;
-   739	
-   740		if (!tlmi_priv.certificate_support)
-   741			return -EOPNOTSUPP;
-   742	
-   743		new_cert = kstrdup(buf, GFP_KERNEL);
-   744		if (!new_cert)
-   745			return -ENOMEM;
-   746		/* Strip out CR if one is present */
-   747		strip_cr(new_cert);
-   748	
-   749		/* If empty then clear installed certificate */
-   750		if (new_cert[0] == '\0') { /* Clear installed certificate */
-   751			kfree(new_cert);
-   752	
-   753			/* Check that signature is set */
-   754			if (!setting->signature || !setting->signature[0])
-   755				return -EACCES;
-   756	
-   757			/* Format: 'serial#, signature' */
- > 758			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
-   759					dmi_get_system_info(DMI_PRODUCT_SERIAL),
-   760					setting->signature);
-   761			if (!auth_str)
-   762				return -ENOMEM;
-   763	
-   764			ret = tlmi_simple_call(LENOVO_CLEAR_BIOS_CERT_GUID, auth_str);
-   765			kfree(auth_str);
-   766			if (ret)
-   767				return ret;
-   768	
-   769			kfree(setting->certificate);
-   770			setting->certificate = NULL;
-   771			return count;
-   772		}
-   773	
-   774		if (setting->cert_installed) {
-   775			/* Certificate is installed so this is an update */
-   776			if (!setting->signature || !setting->signature[0]) {
-   777				kfree(new_cert);
-   778				return -EACCES;
-   779			}
-   780			guid = LENOVO_UPDATE_BIOS_CERT_GUID;
-   781			/* Format: 'Certificate,Signature' */
-   782			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
-   783					new_cert, setting->signature);
-   784		} else {
-   785			/* This is a fresh install */
-   786			if (!setting->valid || !setting->password[0]) {
-   787				kfree(new_cert);
-   788				return -EACCES;
-   789			}
-   790			guid = LENOVO_SET_BIOS_CERT_GUID;
-   791			/* Format: 'Certificate,Admin-password' */
-   792			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
-   793					new_cert, setting->password);
-   794		}
-   795		if (!auth_str) {
-   796			kfree(new_cert);
-   797			return -ENOMEM;
-   798		}
-   799	
-   800		ret = tlmi_simple_call(guid, auth_str);
-   801		kfree(auth_str);
-   802		if (ret) {
-   803			kfree(new_cert);
-   804			return ret;
-   805		}
-   806	
-   807		kfree(setting->certificate);
-   808		setting->certificate = new_cert;
-   809		return count;
-   810	}
-   811	
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
+ERROR: modpost: "kvfree_call_rcu" [fs/ext4/ext4.ko] undefined!
+>> ERROR: modpost: "kvfree_call_rcu" [fs/ext2/ext2.ko] undefined!
+ERROR: modpost: "kvfree_call_rcu" [fs/fuse/fuse.ko] undefined!
+ERROR: modpost: "kvfree_call_rcu" [fs/overlayfs/overlay.ko] undefined!
+ERROR: modpost: "kvfree_call_rcu" [fs/btrfs/btrfs.ko] undefined!
+>> ERROR: modpost: "kvfree_call_rcu" [lib/dim/dimlib.ko] undefined!
+ERROR: modpost: "kvfree_call_rcu" [drivers/gpu/drm/etnaviv/etnaviv.ko] undefined!
+ERROR: modpost: "kvfree_call_rcu" [drivers/infiniband/core/ib_core.ko] undefined!
+ERROR: modpost: "kvfree_call_rcu" [drivers/infiniband/core/ib_cm.ko] undefined!
+ERROR: modpost: "kvfree_call_rcu" [drivers/infiniband/core/ib_uverbs.ko] undefined!
+WARNING: modpost: suppressed 9 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
