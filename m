@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5297F13AC1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 07:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A7E1D9A7E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 08:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737704591; cv=none; b=BHsuk/ShWMqNzZBToIXJ98uE4Z6RTNPih01gGwJAOjvALbHwvIY3fMe59J4JT65E8YPLRqei+SQzlePxLC/9an79mWW/pbyfp8OAZjHo6nxQA8dN79JNV+QKYk6A3q1TeeytAbXLhl9oZYdpa7oK/M6My3KMZxNY6XLbvIiCiaU=
+	t=1737705975; cv=none; b=AK00Hemm9AMrUlxlknWzjix/bqzSqrqfVAqPiOHwZOh/YjB7hHAEcXl6NRiRmZXkManeFZ8TmiNgbPvaZrhEB3YiowOxytGrqalbz19GopMcG4ECt/wlcVau+AV58EtNMKNyGToW9ZW1aedAW5lG3nvHmwY8xKKclQYRwuDda7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737704591; c=relaxed/simple;
-	bh=pTmnLeFd0IgqFN2Grb+T9epxWByafSJfs4M8RFQ5QuY=;
+	s=arc-20240116; t=1737705975; c=relaxed/simple;
+	bh=l/+ucf7lHcXp96NICjBWROIjcoS05nC/gVOb/rW01Yw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r5md/7jjiivfjaD2ezlny0osf1edSU19wkhkg/TceRmOA+90pnNeCioeCZzdsg8+N3kSzQs1pltr/+N8M1k47Tifg42+W023x2MfA/Qau//uGr19oPfsvFcvvW9+PeoProDHH4RSu1IpKePz2h57N72BWwAFwkB7gq+TlbtS3ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYpDQCki; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=UYhz0gohU/ZCP96B4+lLhxcIK9sCPGS9lvNecttNTIPeqXS9d8HfgY+4mGZL/RBVO8YOdaUbDpx5PW4SsJagetwPkGlYgmUpTMxmLFTxawJXCFjqpeeKpcKGim+7G+5WCM7tFkTNzCUAT100MDXXZPp++IMgaVJFMkswq4jXSXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mREH7FTb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYpDQCki"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mREH7FTb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737704590; x=1769240590;
+  t=1737705973; x=1769241973;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pTmnLeFd0IgqFN2Grb+T9epxWByafSJfs4M8RFQ5QuY=;
-  b=UYpDQCkiIBcUhq8QoNSmerr2I+3OtvMhth9Bv+E+FXnSzKlwQUi7wgLx
-   ig40xqDfaWwm+DZ8GPGmdJAeKO4JVatDjY5bU/54QxL7WA0Z9HHGjJIUK
-   V5mbTlO5mZIGG3qbH2Y2Nz6SqA6B4k5bZ4H1NbdOrmbA9AcL5VMTAAbiF
-   fKY87P7mxpnRS1NG6e9yKnWwu6hbU01FYDVTBwJM4Jm3BAzY1sBq96+49
-   Jm68WQL77Ud5GkGWuTwHI7/yatxyY3aAoLcCIHmw/K3Tsq2fmwlCv4FT1
-   y2uOG/PqxDhlfHChXN4B/RhedBRpjRcvpTMonuBnzu96bBnQp2yqf8Yit
+  bh=l/+ucf7lHcXp96NICjBWROIjcoS05nC/gVOb/rW01Yw=;
+  b=mREH7FTbmu6K/8zx0im7HPysWJdrax25hnXyvVj8HSo9EeHvqHubZ1nw
+   rbhJIwBXv1qTNwtPXd+cDbCco7F2+R3l84FNa8Bs2WQWNEuGbhUy/hMqQ
+   8OfORpM8QKFm9OF0U8/lu59ynTgyr7R8NSwPRTy/h9y81zbZCOyW/zOQk
+   rsFeWAhaXZpMeWZTfg/ONW7/sVXE8MJ/8v71Axqh+TVEhD/msdzlZLlXz
+   DXgGvHmz6qzg3zPp8dxkyaeQll1+abQ+ZYzQgdLefynuF+TDDdBcJkP08
+   lCipqDY5uwo33WIQTwR5PKhSaULUzvxjcFMXYpipiUN+OcllOgKT56S/1
    Q==;
-X-CSE-ConnectionGUID: +W6qqOeVR1iLrP9/zik74Q==
-X-CSE-MsgGUID: 50JHiCEwTR6ehEShMuvqwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="41896310"
+X-CSE-ConnectionGUID: l+XRyh5oRLiV6hKbtjHD8A==
+X-CSE-MsgGUID: 3UCm91PDT+C2y1oiKWdxdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48897487"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="41896310"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 23:43:09 -0800
-X-CSE-ConnectionGUID: j/0Nnq3/Szm9uOCL+AF1BQ==
-X-CSE-MsgGUID: UdjSLwNyTGubRTFrdgnZbw==
+   d="scan'208";a="48897487"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 00:06:12 -0800
+X-CSE-ConnectionGUID: 8FTYogaXTIOEh0u83K5gmw==
+X-CSE-MsgGUID: XaOeUHMqR7S8uP4RUUyEfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112333049"
+   d="scan'208";a="107550023"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Jan 2025 23:43:07 -0800
+  by orviesa010.jf.intel.com with ESMTP; 24 Jan 2025 00:06:11 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbELI-000cMP-30;
-	Fri, 24 Jan 2025 07:43:04 +0000
-Date: Fri, 24 Jan 2025 15:42:58 +0800
+	id 1tbEhc-000cPn-2r;
+	Fri, 24 Jan 2025 08:06:08 +0000
+Date: Fri, 24 Jan 2025 16:05:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- SND_SOC_WM9712 when selected by SND_MPC52xx_SOC_PCM030
-Message-ID: <202501241519.l6GwYVpH-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 13/13]
+ drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:10: error:
+ incompatible integer to pointer conversion returning 'int' from a function
+ with result type 'struct regmap *'
+Message-ID: <202501241544.pJvvH7RS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,29 +64,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bc8198dc7ebc492ec3e9fa1617dcdfbe98e73b17
-commit: 5a309875787db47d69610e45f00a727ef9e62aa0 ASoC: Fix SND_SOC_ALL_CODECS imply ac97 fallout
-date:   4 years, 11 months ago
-config: powerpc-kismet-CONFIG_SND_SOC_WM9712-CONFIG_SND_MPC52xx_SOC_PCM030-0-0 (https://download.01.org/0day-ci/archive/20250124/202501241519.l6GwYVpH-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241519.l6GwYVpH-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   f612ad76bc03d33dccc654778308af5496867eb5
+commit: ae0429c5708a06415ad0022fc8a148202780b402 [13/13] CHROMIUM: soc: mediatek: apu: Add mt8196 apu power driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250124/202501241544.pJvvH7RS-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241544.pJvvH7RS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241519.l6GwYVpH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241544.pJvvH7RS-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_SOC_WM9712 when selected by SND_MPC52xx_SOC_PCM030
-   WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC52xx [=y] && PPC_BESTCOMM [=n]
-     Selected by [y]:
-     - SND_MPC52xx_SOC_PCM030 [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC5200_SIMPLE [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_WM9712
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_SOC_AC97_BUS [=n]
-     Selected by [y]:
-     - SND_MPC52xx_SOC_PCM030 [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC5200_SIMPLE [=y]
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:43:5: warning: no previous prototype for function 'mtk_apu_get_rpc_status' [-Wmissing-prototypes]
+      43 | int mtk_apu_get_rpc_status(struct platform_device *pdev)
+         |     ^
+   drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:43:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      43 | int mtk_apu_get_rpc_status(struct platform_device *pdev)
+         | ^
+         | static 
+>> drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:63:5: warning: no previous prototype for function 'mtk_apu_get_rpc_pwr_status' [-Wmissing-prototypes]
+      63 | int mtk_apu_get_rpc_pwr_status(struct platform_device *pdev)
+         |     ^
+   drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:63:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      63 | int mtk_apu_get_rpc_pwr_status(struct platform_device *pdev)
+         | ^
+         | static 
+   2 warnings generated.
+--
+>> drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct regmap *' [-Wint-conversion]
+      77 |                 return dev_err_probe(dev, -EPROBE_DEFER,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      78 |                                      "failed to add device link between power and mailbox\n");
+         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +77 drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c
+
+    53	
+    54	static struct regmap *get_mbox_regmap(struct device *dev)
+    55	{
+    56		struct device_node *mbox_node;
+    57		struct platform_device *mbox_pdev;
+    58		struct regmap *regmap = NULL;
+    59		struct device_link *link;
+    60	
+    61		mbox_node = of_parse_phandle(dev->of_node, "mediatek,mbox-spare-reg", 0);
+    62		if (!mbox_node)
+    63			return ERR_PTR(-ENODEV);
+    64	
+    65		mbox_pdev = of_find_device_by_node(mbox_node);
+    66		if (!mbox_pdev) {
+    67			regmap = ERR_PTR(-EPROBE_DEFER);
+    68			goto out_put_node;
+    69		}
+    70	
+    71		regmap = dev_get_regmap(&mbox_pdev->dev, NULL);
+    72		if (!regmap)
+    73			regmap = ERR_PTR(-EINVAL);
+    74	
+    75		link = device_link_add(dev, &mbox_pdev->dev, DL_FLAG_PM_RUNTIME);
+    76		if (!link)
+  > 77			return dev_err_probe(dev, -EPROBE_DEFER,
+    78					     "failed to add device link between power and mailbox\n");
+    79	
+    80		platform_device_put(mbox_pdev);
+    81	
+    82	out_put_node:
+    83		of_node_put(mbox_node);
+    84		return regmap;
+    85	}
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
