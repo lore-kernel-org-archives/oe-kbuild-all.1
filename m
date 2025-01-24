@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2C61D63FB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 04:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C6A1D63FB;
+	Fri, 24 Jan 2025 04:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737691904; cv=none; b=cdBeu0yJIS1qx9lh5yjn7lDbiu3bhQ/hAOXxNwBiSc3+aXo7LesXK3G5HB9Ze62gcDF9oAuXbX9iaEvqaOpNTmwLIPMciX6FAzmdG2yRrPiWEUPmI6zGEn7/pgt4+C2QSKh3o+HEv8kukvlc9ab1tUbTHLSPaUcLlOHxv23tgqE=
+	t=1737691907; cv=none; b=RMupTxSmQX4Kzo/E2Wo4SR/lmMUCf7MZGp9Y7sQgxefEHYpkrSqoSkTY/kpt0C18I5Nsr9EOknoJJFKJ1B2mE04qZtQoxlXCAU86Nt164u93OW868C3peNNbJcUrdsMZrsAg90MC/JYXxbTtRfiJUy+9ysr9DIPMjPn0moatON4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737691904; c=relaxed/simple;
-	bh=htWCQ6fuLgVDUrwtJLdGAsgycgn8QwjfxxB87oGKnnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tr/aZ3/aPbVwJ5QzD5E0OnOwuqnIHe2JaoLUXCFGl4KtleIjK3wXaAtp3+SU3eOSwQHia5XYJbOFF5XcT1SwleHekGR3QnQ//7pCeAxfYrBEqntPdXYej6cX2RFHWIAr6KRK5t0WZZu7+V+7CtrSb7VSRJL4GiJ+S4YvjJ//JM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckj/XuYh; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1737691907; c=relaxed/simple;
+	bh=jCliCqH9ud0GLTM7b/xWwloQkS4OyN5sqqdPDtXblVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BRnj5SgyZikskRLK1ZsXQ2VL+dajoOGJ3FVhP3jdbjhTur4qyZ5BTdmmXaEst6qZOPHLOEcZfe78LgaoTG0EEduJ045u/7o6Rsthhfsma6otOkUGrV5CvnR7Mzt99sqwkTEQ6OZlKLtLHgZV4n8qjd8ptO18huYWrdzSKw9h3II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/x/aSS2; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckj/XuYh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/x/aSS2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737691902; x=1769227902;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=htWCQ6fuLgVDUrwtJLdGAsgycgn8QwjfxxB87oGKnnc=;
-  b=ckj/XuYhiwTl0W3/q3UBzdL0nIhK0w5N0czx74SO6v+gaybYbi1CNdLl
-   vL+runelAoF9RQSyJkovALrv+wD7Pyu0HYCH1V0V3kHt2peZ+WeSiGbUJ
-   2qVK9X2gKIZl/GyAGw8kiVMQr4M3JgDdi0dbQx8TwStW2djOCrV687Sd1
-   UiglS0A9PS2vCQCLvjLJvL6/mFFmej/gQNMtKhUQ5al0XtLYjj3nbPlUz
-   cAfFFwWk62rH0MTLD/ucMTekA8u+N/bHctsiillWt0w6y1unBLIb2atIc
-   pJcluFf8GAXVGxKXeAuIEKayzIgRZ2eYmJKsw5Ssz6VPoy+tKG6RwdXTE
+  t=1737691905; x=1769227905;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jCliCqH9ud0GLTM7b/xWwloQkS4OyN5sqqdPDtXblVo=;
+  b=K/x/aSS212UbTbCAaYVYRGEZy+2MLZXgS2FvDedPEe/hFQ7OUsk5t7af
+   Miri0F0kX7s+Cnz4OOVFhB05Wto/oVp1Pbq030jSqO76ihLdcdziZcOP8
+   P938cYnXVKmbky5MyZte7mLKP0AvMRTuGu+vwZU3ktUJ15DkJ/pc7TLGb
+   euTk9OTqhgAbLxbKKHh7vIbOe5sFnoVR8KvCgrOp9rPEOJyM2KkshTIBh
+   n56ulAosxGy4WC8NA26r2H4X2/HFOeXxirQl8xJNFj+kqU5lhYAxOfDD/
+   Vvf1lr3r/9s4DpSkaLkZr8O0OD64gbMUeJcquhAM1y+xxsLdar3ZgmAsZ
    g==;
-X-CSE-ConnectionGUID: +ZqT7g+9TpqNtvZZSaYzmQ==
-X-CSE-MsgGUID: DjExtVFVSd2pxBZ6pUSUNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48725431"
+X-CSE-ConnectionGUID: Ih9SrMWQQ+CIquSTY4Ayuw==
+X-CSE-MsgGUID: KY4EkdSXTj+ocORYiBEZfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="37475494"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="48725431"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 20:11:42 -0800
-X-CSE-ConnectionGUID: 0DAFLexAQPO96KchbY+tuw==
-X-CSE-MsgGUID: He91Ja7LQ0CdNrwRkfsRSQ==
+   d="scan'208";a="37475494"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 20:11:44 -0800
+X-CSE-ConnectionGUID: NOpEyIMyQP2jMN0VJml8TQ==
+X-CSE-MsgGUID: QoqUchVYRu+8UvM4RR+nfg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="107789793"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="112623071"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Jan 2025 20:11:40 -0800
+  by orviesa003.jf.intel.com with ESMTP; 23 Jan 2025 20:11:41 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbB2g-000c8E-1s;
+	id 1tbB2g-000c8B-1f;
 	Fri, 24 Jan 2025 04:11:38 +0000
-Date: Fri, 24 Jan 2025 12:11:11 +0800
+Date: Fri, 24 Jan 2025 12:11:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1414/1414] kismet: WARNING: unmet
- direct dependencies detected for UACCE when selected by CRYPTO_DEV_HISI_QM
-Message-ID: <202501241258.8qIBGGVy-lkp@intel.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 2/5] firmware: arm_scmi: imx: Add i.MX95 CPU Protocol
+Message-ID: <202501241148.0CI9mBP5-lkp@intel.com>
+References: <20250121-imx-lmm-cpu-v1-2-0eab7e073e4e@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +70,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250121-imx-lmm-cpu-v1-2-0eab7e073e4e@nxp.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   da51139d17e9d53d61a9877d9042e43b85d71ee1
-commit: c89f49b5f6b23b319f338f7e9e7e9b077ec8f5ff [1414/1414] crypto: hisilicon delete invlaid api and config
-config: arm64-kismet-CONFIG_UACCE-CONFIG_CRYPTO_DEV_HISI_QM-0-0 (https://download.01.org/0day-ci/archive/20250124/202501241258.8qIBGGVy-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241258.8qIBGGVy-lkp@intel.com/reproduce)
+Hi Peng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0907e7fb35756464aa34c35d6abb02998418164b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/firmware-arm_scmi-imx-Add-i-MX95-LMM-protocol/20250121-231254
+base:   0907e7fb35756464aa34c35d6abb02998418164b
+patch link:    https://lore.kernel.org/r/20250121-imx-lmm-cpu-v1-2-0eab7e073e4e%40nxp.com
+patch subject: [PATCH 2/5] firmware: arm_scmi: imx: Add i.MX95 CPU Protocol
+config: arm64-randconfig-r122-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241148.0CI9mBP5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241148.0CI9mBP5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241258.8qIBGGVy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241148.0CI9mBP5-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for UACCE when selected by CRYPTO_DEV_HISI_QM
-   WARNING: unmet direct dependencies detected for UACCE
-     Depends on [n]: IOMMU_API [=n]
-     Selected by [y]:
-     - CRYPTO_DEV_HISI_QM [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && ARM64 [=y] && PCI [=y]
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:139:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got unsigned long @@
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:139:19: sparse:     expected restricted __le32 [usertype] flags
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:139:19: sparse:     got unsigned long
+>> drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:140:19: sparse: sparse: invalid assignment: |=
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:140:19: sparse:    left side has type restricted __le32
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:140:19: sparse:    right side has type unsigned long
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:141:19: sparse: sparse: invalid assignment: |=
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:141:19: sparse:    left side has type restricted __le32
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:141:19: sparse:    right side has type unsigned long
+>> drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:173:25: sparse: sparse: restricted __le32 degrades to integer
+   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:205:32: sparse: sparse: restricted __le32 degrades to integer
+
+vim +139 drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
+
+   119	
+   120	static int scmi_imx_cpu_reset_vector_set(const struct scmi_protocol_handle *ph,
+   121						 u32 cpuid, u64 vector, bool start,
+   122						 bool boot, bool resume)
+   123	{
+   124		struct scmi_imx_cpu_reset_vector_set_in *in;
+   125		struct scmi_xfer *t;
+   126		int ret;
+   127	
+   128		ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
+   129		if (ret)
+   130			return ret;
+   131	
+   132		ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_RESET_VECTOR_SET, sizeof(*in),
+   133					      0, &t);
+   134		if (ret)
+   135			return ret;
+   136	
+   137		in = t->tx.buf;
+   138		in->cpuid = cpu_to_le32(cpuid);
+ > 139		in->flags = start ? CPU_VEC_FLAGS_START : 0;
+ > 140		in->flags |= boot ? CPU_VEC_FLAGS_BOOT : 0;
+   141		in->flags |= resume ? CPU_VEC_FLAGS_BOOT : 0;
+   142		in->resetvectorlow = cpu_to_le32(lower_32_bits(vector));
+   143		in->resetvectorhigh = cpu_to_le32(upper_32_bits(vector));
+   144		ret = ph->xops->do_xfer(ph, t);
+   145	
+   146		ph->xops->xfer_put(ph, t);
+   147	
+   148		return ret;
+   149	}
+   150	
+   151	static int scmi_imx_cpu_started(const struct scmi_protocol_handle *ph, u32 cpuid,
+   152					bool *started)
+   153	{
+   154		struct scmi_imx_cpu_info_get_out *out;
+   155		struct scmi_xfer *t;
+   156		int ret;
+   157	
+   158		*started = false;
+   159		ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
+   160		if (ret)
+   161			return ret;
+   162	
+   163		ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_INFO_GET, sizeof(u32),
+   164					      0, &t);
+   165		if (ret)
+   166			return ret;
+   167	
+   168		put_unaligned_le32(cpuid, t->tx.buf);
+   169		ret = ph->xops->do_xfer(ph, t);
+   170		if (!ret) {
+   171			out = t->rx.buf;
+   172			if ((out->runmode == CPU_RUN_MODE_START) ||
+ > 173			    (out->runmode == CPU_RUN_MODE_SLEEP))
+   174				*started = true;
+   175		}
+   176	
+   177		ph->xops->xfer_put(ph, t);
+   178	
+   179		return ret;
+   180	}
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
