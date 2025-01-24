@@ -1,318 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2286E4A1D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 11:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9671D5AD8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 12:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737719739; cv=none; b=Dhouf1nNJp6dS9Agu2Kq52u0l0PRs4Y7R28Ic9wR4Xf0Yo8cpi+8erX39h4EGdFGGQrHwXxsnXWEIGiRqSZ36KrpjmiuFdqH5RQcZ1qfMGR99OpCvhgkccHmmVfccvnTRRJ6lRxKk/1UjlLb1rtbM7tUnjE1MWrijZGraOK0WFE=
+	t=1737720403; cv=none; b=HeYGuj4s+FPEFewKobmgYni7IEqlUJH/Ix4aJCKQkYLhDF4h91+pRiRbR/eyi8Qy2FrS/mB2cGOe/5q9+SrRwkz/ZDAKNqnKUY6fdscA820IC24ZxS0tRwYlogljr3yuAVtHu7XG7uwaOcIkq/xXoc4hWa+FcFhpxemjh1IOZkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737719739; c=relaxed/simple;
-	bh=fPpRmI4MoqlbHxD88tLRgXu2V7uikMsF9O5HLLMRoeM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Py0zu2a9Kt/+psIBDyJaeR2+rYeuOh7VGi2gqi8BJR61WDCiO6qYdTH1pqMMHrEQ5H0/wt17waGVUOHWpUD3IZgVlT2s7K7hiDZsYjbuZsqwVGLyuX+RFSnivel+2LixHqjZ24uOtGk/VDEo+J6rlHyQUiA4+ZuvOz2hC4Zc+5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJo2IUdc; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1737720403; c=relaxed/simple;
+	bh=FlsHX7XKI6oH9V/UmwN26+YBU8lwk7xjRh/EqJQ/HIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZdUybJDKF0RiTd8ttB7siIM8uy9gdxOnOmD4a7/r3SauyqJTx+NlSxzMq2OE7yMsssvbqoWIfMvBJjY1N/WgAd6hRZaAPV50QnsEzpK0pJG3YqD5FvMyumkSVf6CiKjtfIRGcUWBUGQJ5PfeJKOWiF3FmDwkVBi4rB/luloq2Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=erBPIjy6; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJo2IUdc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="erBPIjy6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737719738; x=1769255738;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fPpRmI4MoqlbHxD88tLRgXu2V7uikMsF9O5HLLMRoeM=;
-  b=jJo2IUdcKXCNY8ivOmuGCf1oL/cL/qqSo1vdXG3WyyTX2gLmWA6oSSX3
-   PY57wmjp0Qp5pkrN7dBadSSL73CjfJONONhBdj1EN8Xti870ItZ1CuEd6
-   RhniggW0D3Lt0ylrAnvToxCG6PHa1rgtwP+F525bU/Kxfa4uDyK9cWkUe
-   /OYH0UGktTDxqOGrhUf0aU901WHFeiZLEP3ps9qkamLEaHsM/1wGtJUAN
-   v+ghrIVdaHliE/IBNjXzuDdoDewH3Wfe+kQSGGgawV5Lk+TyKhecKPboP
-   CWmgzT6+nduc5O7mrGroQRdI1P4dRWJw5B/uH9yqWsuXon+LEvZlv+5Bv
-   g==;
-X-CSE-ConnectionGUID: QnOhvzqxTFCQQLUnNH6wQA==
-X-CSE-MsgGUID: HKoWvxi2SW2C3Ifw9ULvgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="42012820"
+  t=1737720401; x=1769256401;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=FlsHX7XKI6oH9V/UmwN26+YBU8lwk7xjRh/EqJQ/HIA=;
+  b=erBPIjy6dytPkVvWS/iIlqr3kS+RZq5LFUI9veR9jDvo00YmNpB7YR71
+   gQuip32u9hkBORSSsiHH/8mVN1waMJmn1OlKaR7SK7EXtj5v0d+Iq0LHc
+   IFzQbMTcCcbtMP6HNbWV+Uv3yTiIMfXrGQrCXT9BuBxqxPMCoenuhcX30
+   m7Z/JIEjnuhyyLI3fjSqYIYyHD6s7kVcOSYjgBxDKDZylKgKQO5D0pt6H
+   FFmXsvdhWccrjJQXlOEnHw6xi0i7G3OVOBFLKRk104ELKbmtmHIRE9sDE
+   jRjxn9d37pLRv1HYrMeRONIRcwSSO9rT72A/h8yW9BUUwCqhiCV477sbC
+   Q==;
+X-CSE-ConnectionGUID: au5GrH75R86ZwpD6zILHfg==
+X-CSE-MsgGUID: IQ7Sc+qvRju8+ppAOhnwlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="63603975"
 X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; 
-   d="scan'208";a="42012820"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 03:55:37 -0800
-X-CSE-ConnectionGUID: hn6yWoWjQzm+3cilCQDvRA==
-X-CSE-MsgGUID: Qpus7MZsSmqh560ytCnX2w==
+   d="scan'208";a="63603975"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 04:06:40 -0800
+X-CSE-ConnectionGUID: SNVz+z9wREqH87SSJT8xzA==
+X-CSE-MsgGUID: 9UTJgMD4Q8iLxqG4l0Z5iA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; 
-   d="scan'208";a="107553100"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="112703979"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Jan 2025 03:55:35 -0800
+  by orviesa003.jf.intel.com with ESMTP; 24 Jan 2025 04:06:37 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbIHc-000cdN-36;
-	Fri, 24 Jan 2025 11:55:32 +0000
-Date: Fri, 24 Jan 2025 19:55:18 +0800
+	id 1tbISI-000ceZ-0i;
+	Fri, 24 Jan 2025 12:06:34 +0000
+Date: Fri, 24 Jan 2025 20:06:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:compat_get_cpumask 6/8] include/linux/cpumask.h:631:29:
- error: conflicting types for 'cpumask_clear'
-Message-ID: <202501241939.BlYfVqWL-lkp@intel.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+	Mihail Atanassov <mihail.atanassov@arm.com>
+Subject: Re: [PATCH v9 3/5] drm/panthor: Expose size of driver internal BO's
+ over fdinfo
+Message-ID: <202501241937.7HbajZjV-lkp@intel.com>
+References: <20250123225325.3271764-4-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250123225325.3271764-4-adrian.larumbe@collabora.com>
 
-tree:   https://github.com/norov/linux compat_get_cpumask
-head:   fcdaaa19ef642222d180bc0ac83bcc1fcc90ddfe
-commit: 6f976707ef5fdb55383287e3a0960eadefda5184 [6/8] compat: add compat_get_cpumask
-config: i386-buildonly-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241939.BlYfVqWL-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241939.BlYfVqWL-lkp@intel.com/reproduce)
+Hi Adrián,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c6eabbab359c156669e10d5dec3e71e80ff09bd2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/Documentation-gpu-Clarify-format-of-driver-specific-fidnfo-keys/20250124-065603
+base:   c6eabbab359c156669e10d5dec3e71e80ff09bd2
+patch link:    https://lore.kernel.org/r/20250123225325.3271764-4-adrian.larumbe%40collabora.com
+patch subject: [PATCH v9 3/5] drm/panthor: Expose size of driver internal BO's over fdinfo
+config: i386-buildonly-randconfig-005-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241937.7HbajZjV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241937.7HbajZjV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241939.BlYfVqWL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241937.7HbajZjV-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:63:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:13:
->> include/linux/cpumask.h:631:29: error: conflicting types for 'cpumask_clear'
-     631 | static __always_inline void cpumask_clear(struct cpumask *dstp, unsigned long cpu)
-         |                             ^
-   include/linux/cpumask.h:620:29: note: previous definition is here
-     620 | static __always_inline void cpumask_clear(struct cpumask *dstp)
-         |                             ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
---
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:163:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     163 | _SIG_SET_BINOP(sigandnsets, _sig_andn)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:141:3: note: expanded from macro '_SIG_SET_BINOP'
-     141 |                 r->sig[2] = op(a2, b2);                                 \
-         |                 ^      ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:27: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:10: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                 ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:20: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:3: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                 ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:18:
-   In file included from arch/x86/include/asm/sigframe.h:8:
->> include/linux/compat.h:955:32: warning: declaration of 'struct cpumask_t' will not be visible outside of this function [-Wvisibility]
-     955 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
-         |                                ^
-   29 warnings and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=2352420575
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1264: prepare0] Error 2 shuffle=2352420575
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=2352420575
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=2352420575
-   make: Target 'prepare' not remade because of errors.
+   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'idle' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'mem' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'input' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'output' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'ref' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'gt' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'sync64' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'bo' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'offset' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'kmap' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'lock' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'id' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'seqno' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'last_fence' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'slots' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'slot_count' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'seqno' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:691: warning: Excess struct member 'data' description in 'panthor_group'
+   drivers/gpu/drm/panthor/panthor_sched.c:691: warning: Excess struct member 'lock' description in 'panthor_group'
+   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'size' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'latest_flush' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'end' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'mask' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'slot' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:1756: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:1756: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:2649: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+>> drivers/gpu/drm/panthor/panthor_sched.c:3646: warning: expecting prototype for panthor_group_kbo_sizes(). Prototype was for panthor_fdinfo_gather_group_mem_info() instead
 
 
-vim +/cpumask_clear +631 include/linux/cpumask.h
+vim +3646 drivers/gpu/drm/panthor/panthor_sched.c
 
-   624	
-   625	/**
-   626	 * cpumask_clear_from - clear all cpus (< nr_cpu_ids) in a cpumask,
-   627	 *			starting from a given one
-   628	 * @dstp: the cpumask pointer
-   629	 * @cpu: CPU to begin with
-   630	 */
- > 631	static __always_inline void cpumask_clear(struct cpumask *dstp, unsigned long cpu)
-   632	{
-   633		bitmap_clear(cpumask_bits(dstp), cpu, large_cpumask_bits);
-   634	}
-   635	
+  3635	
+  3636	/**
+  3637	 * panthor_group_kbo_sizes() - Retrieve aggregate size of all private kernel BO's
+  3638	 * belonging to all the groups owned by an open Panthor file
+  3639	 * @pfile: File.
+  3640	 * @stats: Memory statistics to be updated.
+  3641	 *
+  3642	 */
+  3643	void
+  3644	panthor_fdinfo_gather_group_mem_info(struct panthor_file *pfile,
+  3645					     struct drm_memory_stats *stats)
+> 3646	{
+  3647		struct panthor_group_pool *gpool = pfile->groups;
+  3648		struct panthor_group *group;
+  3649		unsigned long i;
+  3650	
+  3651		if (IS_ERR_OR_NULL(gpool))
+  3652			return;
+  3653	
+  3654		xa_lock(&gpool->xa);
+  3655		xa_for_each(&gpool->xa, i, group) {
+  3656			stats->resident += group->fdinfo.kbo_sizes;
+  3657			if (group->csg_id >= 0)
+  3658				stats->active += group->fdinfo.kbo_sizes;
+  3659		}
+  3660		xa_unlock(&gpool->xa);
+  3661	}
+  3662	
 
 -- 
 0-DAY CI Kernel Test Service
