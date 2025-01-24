@@ -1,124 +1,106 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0AD1DB134
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 08:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39BB13D520
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 10:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737708814; cv=none; b=bjCY6xDalGBEYZdCdnGAaYFYhhE88BeH3tfh7UgPODiGRvg9ruulw9NtknC87pcFZnqFt1L5NFs4ah2eQfIMyPhcVcWW6HQ93yH0gVLTpU3yPiqyrh6TXGo+B2W/JW/X5dqyjzCIS2tKGMOzOo47eMkDc+otAgQAfIxBkpE12X8=
+	t=1737714148; cv=none; b=aD/x1twui9F0K5rBTS8iFmTmR49SmKC26qa4kptwcfZsbut6wWdHfL7oO0KQN0CabJ+eHavTsHnQvfq0ICzDm1Q4DpOrpYqpZ/gpcIoynCFQ3Sl07P3a1J5VnzFngPTQgsmwtrn+5h1JENqZcPqpVYEtXIUPWWbcvBlbKnGRTgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737708814; c=relaxed/simple;
-	bh=FItlSzho/bQG90h0RfbXHRaG8KbYB0RlN1p5AKc3Ldo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dDwuXzXGAjH32eFqW2JwNeYL8Qdr4oXCCSVYWhb0v4NugX0cjVyn04mQTVK0EUXKT3MpEtIItTO70KGbHBYqLXApkg9PK85K5VJIvn2WwEX+jMxMkXPRPJRonU/ShGJuyZWJTsF1oqhtE+enyTLq2NQr9JBh0tKhTLPCcSUSzrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4afeb79b52fso537331137.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 00:53:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737708811; x=1738313611;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hDFWf6Xu82hlwWvuFpCfiLWs2Tf0jqIF5NOVPKoCOEE=;
-        b=VfpHsDtUROcFEoqEiw8ku1yYjHWjuUrplvv0Omhh4/0OFk8TML2luM0stdVBCl7/5M
-         hWtArj8EOqaAWBfJ3NJ7aopT+Ywzj5+hRhnKW13eSMyhHwnInuCIfgVp3GPhvVG0YpFz
-         /1KGGac2PFHwXG/EduZ13fTFvqxVq6FwVIIA6Y9lpLKwjKyyN5MdZmRFx92IoUsIlQkN
-         v1UdjpJ6myTksssj6038mH7cLEfrmmWjqIwN+ydpgB4cof2EuEhQRSGlRpTfSM2MpA/g
-         iofqCfkAFqd5gDkSI62iebYD8Ncd93h7ENf7O0gAX3plZMZw6Vp7BbJ0Hcr8UyxxKeIB
-         MuMA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2Q0XMoxozwfVpRnyN8B6IRrBZmnC+FaKTiT8NmRfSU1HTIwtnPxHXE1XkxdnY1w5MavWaWZDAmKGGjLxu@lists.linux.dev
-X-Gm-Message-State: AOJu0Yww2Zi1aB40lePbmYYB+J8Uz8QHxSFAJ24ur1Q3waMy/MG0+nGD
-	V0KW0iV1/MAuqy6ioC08lmsZKVg9LNMIM7i1p3umKQ1lJhsSXvup1U8cTh+M
-X-Gm-Gg: ASbGncu0FJ0nc1hwI1NfF9R7gD6Q2yzBEv7Aq6BshncY4c2oycaDEiCKXHUvFSvVTH4
-	eJZLTC0Bk+Ez4KrlGTjK+Tcr/3xul1YU5nMCTe7VeZg3cCalEhruGFN2022YO+HGI1LPgKr5Ba3
-	RlptY2HOl9unQR7tALjpQF0ZxxPmDt5hLIj7tnWBWRf0pfWb4PzVDQ2++YhiK11AmtOzD36z4k+
-	GkuMsuydvciBbXYTF1xE9sO00G6szX75DgFCbxPH0EHWf3zPgeNATWqHUPs41/5HlzaCotLcWYv
-	J4Yb98O2VV6Ka02B3sAsd1nPEz7GWoKec9h7lCIPcXo=
-X-Google-Smtp-Source: AGHT+IEwzF4AZL5/Ru67NKVP2kg1qDBuWNrIFwBW+oFhJarcR6aX6bFtUeDrdw7J2AkK4ekuygvceA==
-X-Received: by 2002:a05:6102:b0a:b0:4af:be6e:f0aa with SMTP id ada2fe7eead31-4b690d3b346mr24099527137.25.1737708810730;
-        Fri, 24 Jan 2025 00:53:30 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b7097aa5b0sm330220137.10.2025.01.24.00.53.30
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jan 2025 00:53:30 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-85c4557fce0so362617241.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 00:53:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX5c5UIAeFbGNqYc7Ud6JE/WbJcWrwSrf9lNM0NXffLgHTn9sz+Xij726djNWDxxLZRooECdfZ9vIiJWwpM@lists.linux.dev
-X-Received: by 2002:a05:6102:5129:b0:4b2:5c0a:9aff with SMTP id
- ada2fe7eead31-4b690bb53c0mr26366922137.3.1737708810066; Fri, 24 Jan 2025
- 00:53:30 -0800 (PST)
+	s=arc-20240116; t=1737714148; c=relaxed/simple;
+	bh=l/RPtmlHlfxZ2p5NsNGrj/8x+hN8uSaPjJEy1cHU7b0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pBWwEiQMSwCgO2iHTxK2S7ZibgNPChhIEUVAOctNEvdAq7jx74nCMGAy09bxzuhYBSGWJAVPkNBAnieU+WwN8Cn53BVGbAwImsrr3zTDBGAl6RZ6rJ/hTKSfx3wudBMKmSyD8t7lCULjAk1bKRydt4Dm7jQVXj4iaDW1B9XVuiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/QrrLbB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/QrrLbB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737714147; x=1769250147;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l/RPtmlHlfxZ2p5NsNGrj/8x+hN8uSaPjJEy1cHU7b0=;
+  b=f/QrrLbBAYj1PM0TLsNswBy0/8lewy9/EUZhYS9blY0WLPpfTSwe5b/s
+   gD78t74cPpANHI6+Dz4TlZlkQ16ovwatZd0832QeQYcTLUMrBTkU84lwp
+   Ud3vHqrS65wBqH0NM2K45BJ5s2qoURTZ+7i45LR4CtC9fenMedB4Z8vq0
+   8k7xGEn1NDVlLYimSEQXmnmrrKoExE/en8QPEF6ezrf6nvq0IJOXNblm6
+   b6K2UFsNK2/zlVpyR/o0XeSCLGzvqFHALz/aiH8xYmQOc51oNuuNXnh19
+   Qh0LihnNHK1sQRAnqx0jX+UYu9ty0zKAe2Mr3N+p5OgEFRYJNNhi1kPKH
+   g==;
+X-CSE-ConnectionGUID: MIdnf5X1ROCRgUwiRulNQw==
+X-CSE-MsgGUID: dj/atvOgS7mo5gv0CKIKmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="42170963"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="42170963"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 02:22:26 -0800
+X-CSE-ConnectionGUID: X7pR136ITp6LTBhZ0OFfbw==
+X-CSE-MsgGUID: E+4IV4koRMSdSzl8fZ/jPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112362065"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2025 02:22:25 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tbGpT-000cYt-0e;
+	Fri, 24 Jan 2025 10:22:23 +0000
+Date: Fri, 24 Jan 2025 18:21:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1413/1413]
+ drivers/clk/qcom/dispcc-sdm845.o: warning: objtool: missing symbol for
+ section .exit.text
+Message-ID: <202501241852.Lcc4ytWS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501241032.oOmsmzvk-lkp@intel.com>
-In-Reply-To: <202501241032.oOmsmzvk-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Jan 2025 09:53:18 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWe54-r39qrkfkw8M6VpKY7bc1mLuamTADxf8OQq0wkrQ@mail.gmail.com>
-X-Gm-Features: AWEUYZkfKKZIObDCupUu9Z656a8qeMZQNVMnSW06AifxTo89MdfhoqCQzovOleQ
-Message-ID: <CAMuHMdWe54-r39qrkfkw8M6VpKY7bc1mLuamTADxf8OQq0wkrQ@mail.gmail.com>
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for
- SND_SOC_SH4_SIU when selected by SND_SIU_MIGOR
-To: kernel test robot <lkp@intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Gazzillo <paul@pgazz.com>, 
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jan 24, 2025 at 3:54=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   606489dbfa979dce53797f24840c512d0e7510f9
-> commit: 2dbf11ec7d3a63ebde946b5747ad6bd74d45adb1 ASoC: sh: Replace 'selec=
-t' DMADEVICES 'with depends on'
-> date:   4 years, 6 months ago
-> config: sh-kismet-CONFIG_SND_SOC_SH4_SIU-CONFIG_SND_SIU_MIGOR-0-0 (https:=
-//download.01.org/0day-ci/archive/20250124/202501241032.oOmsmzvk-lkp@intel.=
-com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241032=
-.oOmsmzvk-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501241032.oOmsmzvk-lkp=
-@intel.com/
->
-> kismet warnings: (new ones prefixed by >>)
-> >> kismet: WARNING: unmet direct dependencies detected for SND_SOC_SH4_SI=
-U when selected by SND_SIU_MIGOR
->    WARNING: unmet direct dependencies detected for SND_SOC_SH4_SIU
->      Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy]=
- && (SUPERH [=3Dy] || ARCH_RENESAS || COMPILE_TEST [=3Dn]) && ARCH_SHMOBILE=
- [=3Dy] && HAVE_CLK [=3Dy] && DMADEVICES [=3Dn]
->      Selected by [y]:
->      - SND_SIU_MIGOR [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] && SND_=
-SOC [=3Dy] && (SUPERH [=3Dy] || ARCH_RENESAS || COMPILE_TEST [=3Dn]) && SH_=
-MIGOR [=3Dy] && I2C [=3Dy]
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   da51139d17e9d53d61a9877d9042e43b85d71ee1
+commit: 81351776c9fbbbd0de1dc1542f30aacfe68efc4e [1413/1413] clk: qcom: Add display clock controller driver for SDM845
+config: x86_64-buildonly-randconfig-004-20250122 (https://download.01.org/0day-ci/archive/20250124/202501241852.Lcc4ytWS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241852.Lcc4ytWS-lkp@intel.com/reproduce)
 
-Thanks, I have submitted a fix
-https://lore.kernel.org/8c17ff52584ce824b8b42d08ea1b942ebeb7f4d9.1737708688=
-.git.geert+renesas@glider.be
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241852.Lcc4ytWS-lkp@intel.com/
 
-Gr{oetje,eeting}s,
+All warnings (new ones prefixed by >>):
 
-                        Geert
+   In file included from drivers/clk/qcom/dispcc-sdm845.c:7:
+   include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'disp_cc_sdm845_exit': 'cold' [-Wmissing-attributes]
+     138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   drivers/clk/qcom/dispcc-sdm845.c:682:1: note: in expansion of macro 'module_exit'
+     682 | module_exit(disp_cc_sdm845_exit);
+         | ^~~~~~~~~~~
+   drivers/clk/qcom/dispcc-sdm845.c:678:20: note: 'cleanup_module' target declared here
+     678 | static void __exit disp_cc_sdm845_exit(void)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'disp_cc_sdm845_init': 'cold' [-Wmissing-attributes]
+     132 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/module.h:115:41: note: in expansion of macro 'module_init'
+     115 | #define subsys_initcall(fn)             module_init(fn)
+         |                                         ^~~~~~~~~~~
+   drivers/clk/qcom/dispcc-sdm845.c:676:1: note: in expansion of macro 'subsys_initcall'
+     676 | subsys_initcall(disp_cc_sdm845_init);
+         | ^~~~~~~~~~~~~~~
+   drivers/clk/qcom/dispcc-sdm845.c:672:19: note: 'init_module' target declared here
+     672 | static int __init disp_cc_sdm845_init(void)
+         |                   ^~~~~~~~~~~~~~~~~~~
+>> drivers/clk/qcom/dispcc-sdm845.o: warning: objtool: missing symbol for section .exit.text
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
