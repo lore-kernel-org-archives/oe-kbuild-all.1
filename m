@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A5D29406
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 14:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235AF15A84E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 16:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737727251; cv=none; b=MZnTZq80lt5sbkkme04ogYBbPckqQI7otRiGuG+57fnpksJiGcF1Uw3gNIIjkJlfgbCEVqVT0KMjRwFiJQmSY5JHWrVFnIbqzwDC0LLcprSTPQ+rFJDiCDgSgFzuswkvsZBBLHqsp6KlNoHiz4SDsprGkp2J39XpNZYnHPcdiJk=
+	t=1737736566; cv=none; b=sfr7faa70Ua69tuMdnTTPRWN8evApx9y8Z1HT87m9MwNUqhKjjuIB1ToKvVDMwiVXH53FYOyG+exPpQ4krNe8OLn7gExqY716SKcAXmeI7k2MyMyIH5Q0jngsFtcFExMfiwnYBdrLhtPXGiuVBvLCN/BE+thwq1+Hs/5ienxct8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737727251; c=relaxed/simple;
-	bh=4DcF3/Rs8nzmVYHsfV0XKvZ7JXzSzbOvIkJoDeAzTLE=;
+	s=arc-20240116; t=1737736566; c=relaxed/simple;
+	bh=hJuDJ6yASvvirdOkg2HSv+8RJEXY3wtBuUGCtfUEYXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lXz7Cl55H9ui2OYQ0oLozcGIHQWBcByeM7MFdjUMdazRxC48yDoHynUh3XFo/c1+dNIw9EmSHpUY59J+P1lvIH8MOI2oUPbQHfonJFYuj9WSC0YWMv3WIxFGocqzwY59i15DDq3UfJFrbUfSG/Ged6qWU+OQK8RiXKKbbhW0WA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODkpVJPE; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=YlxWRfc5NXZLIuBtty1P/21vPYQ8VqVbFpUFUhftyVKX6sIo3GpyB5E2y4r68agDUXW7uKr+MDKB9Gk4y34l1H5lFHfHIrifbZg5ECcjH657xeql1AmQhMWG/Jg3OE5zw+jtP02kJ9sTXJ9Mdol+PSi/fWkhaJ9i4mfghNfi7kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DRuaj6wv; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODkpVJPE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DRuaj6wv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737727250; x=1769263250;
+  t=1737736565; x=1769272565;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4DcF3/Rs8nzmVYHsfV0XKvZ7JXzSzbOvIkJoDeAzTLE=;
-  b=ODkpVJPEhizphGAi8nLn3P2ZTdrDEPlr6WUsZzIxzugAfL15hwuluXHi
-   MfisloH7DCs7n87ueSQEmIGwiPQljHI/BYQPN68D3l+/vHtXSjy2XALbK
-   xqL2CfiQR1eMEaiES060u38vHur6e089swiA2cpuBahJw8Alsm8EBUSMz
-   0K5iYNskZljRW0EcNoDpEPDvVyz90hSj/am623UtMe+T4xf5NphjK8L6d
-   UuHjTqJLaNoiU1rxaWD83n3HmEsYqyEcN2CMgZPw01wDa8EbQP693RPx/
-   UByhP7GH/4xJGzPVVPCBBxMiRXg8uHUteKJJE/ftgAFuzpi8a+Y0hAzWZ
-   A==;
-X-CSE-ConnectionGUID: 1p0k3VAaQBO9Tj9x11Zwcg==
-X-CSE-MsgGUID: KgSi9hmbR4Ol2ETwMHEn4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38360949"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="38360949"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 06:00:49 -0800
-X-CSE-ConnectionGUID: gQJF3KbtTrah/hwb6FGAww==
-X-CSE-MsgGUID: 1JaGieZdSVeV8z1DF1ktNQ==
-X-ExtLoop1: 1
+  bh=hJuDJ6yASvvirdOkg2HSv+8RJEXY3wtBuUGCtfUEYXk=;
+  b=DRuaj6wvHXJmYmRgw22AqBWYyX87sz4uR7quItOtiS6raybCV7CFsP9P
+   jqnqLTFrHrQZnvU9e0ZyvZzGFEvzhmwyvvjt0lrvLqiFoX3Iv9MetaesV
+   EInRlJCLOY02AYJFBDxM3+L4NZouV4hgz3WsXx1Yh+u23y7edfgyrD3y4
+   769CYV18k6fhsqblxmgwJIIPpLCdYDjLS/F4BiLpplRnoY3JHFI8S7kqO
+   jmwbt+WGzA/rLG0C/0CHj5sffj2Yls9Nwg+BgILQsHQhQXWDuJH+fYa32
+   KMZiLpX1XPVCCgS9NmG9fpri9A4bDsn3WL1y5M1DBbHlDuuu0LzotHL+H
+   g==;
+X-CSE-ConnectionGUID: 8v+Ae/rWSj6BHkj48Bjrtg==
+X-CSE-MsgGUID: CpM7HJ3kRY6ODgO6QjVbZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="37526082"
 X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; 
-   d="scan'208";a="108314752"
+   d="scan'208";a="37526082"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 08:36:04 -0800
+X-CSE-ConnectionGUID: iLLgGSdATr6yoQ0By3vaEw==
+X-CSE-MsgGUID: Cp9HRq/LTuqtVlNmZpBIHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112942292"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Jan 2025 06:00:48 -0800
+  by orviesa005.jf.intel.com with ESMTP; 24 Jan 2025 08:36:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbKEn-000cjf-1v;
-	Fri, 24 Jan 2025 14:00:45 +0000
-Date: Fri, 24 Jan 2025 22:00:36 +0800
+	id 1tbMf2-000crP-0l;
+	Fri, 24 Jan 2025 16:36:00 +0000
+Date: Sat, 25 Jan 2025 00:35:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] kismet: WARNING: unmet direct
- dependencies detected for SND_JACK_INPUT_DEV when selected by
- GKI_HIDDEN_SND_CONFIGS
-Message-ID: <202501242143.5CIrRAn1-lkp@intel.com>
+To: Matthew Sakai <msakai@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mikulas Patocka <mpatocka@redhat.com>
+Subject: drivers/md/dm-vdo/recovery-journal.c:1369: warning: Function
+ parameter or struct member 'context' not described in 'write_block'
+Message-ID: <202501250031.VDNPqIqw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,48 +63,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   6c8f4d44bf2509856209eeac0dd81cdef3e5230b
-commit: 1e702f432d551041753c46ec0d6d49484e776441 [1/1] ANDROID: GKI: Added missing SND configs
-config: arm64-kismet-CONFIG_SND_JACK_INPUT_DEV-CONFIG_GKI_HIDDEN_SND_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250124/202501242143.5CIrRAn1-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250124/202501242143.5CIrRAn1-lkp@intel.com/reproduce)
+Hi Matthew,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ab18b8fff124c9b76ea12692571ca822dcd92854
+commit: 19ac19e02ffa318e77f6b086b8fb3917da0aa893 dm vdo: fix function doc comment formatting
+date:   9 weeks ago
+config: x86_64-randconfig-161-20241019 (https://download.01.org/0day-ci/archive/20250125/202501250031.VDNPqIqw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501250031.VDNPqIqw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501242143.5CIrRAn1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501250031.VDNPqIqw-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV when selected by GKI_HIDDEN_SND_CONFIGS
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-     Depends on [n]: SOUND [=n] && !UML && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_JACK
-     Depends on [n]: SOUND [=n] && !UML && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-     Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-     Depends on [n]: SOUND [=n] && !UML && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for QCOM_RPMHPD
-     Depends on [n]: QCOM_RPMH [=n] && QCOM_COMMAND_DB [=n]
-     Selected by [y]:
-     - GKI_QCOM_CLKS_CONFIGS [=y] && ARCH_QCOM [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-     Depends on [n]: SOUND [=n] && !UML && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+All warnings (new ones prefixed by >>):
+
+   drivers/md/dm-vdo/recovery-journal.c:268: warning: Function parameter or struct member 'waiter' not described in 'continue_waiter'
+   drivers/md/dm-vdo/recovery-journal.c:268: warning: Function parameter or struct member 'context' not described in 'continue_waiter'
+   drivers/md/dm-vdo/recovery-journal.c:1085: warning: Function parameter or struct member 'waiter' not described in 'assign_entry'
+   drivers/md/dm-vdo/recovery-journal.c:1085: warning: Function parameter or struct member 'context' not described in 'assign_entry'
+   drivers/md/dm-vdo/recovery-journal.c:1172: warning: Function parameter or struct member 'waiter' not described in 'continue_committed_waiter'
+   drivers/md/dm-vdo/recovery-journal.c:1172: warning: Function parameter or struct member 'context' not described in 'continue_committed_waiter'
+   drivers/md/dm-vdo/recovery-journal.c:1369: warning: Function parameter or struct member 'waiter' not described in 'write_block'
+>> drivers/md/dm-vdo/recovery-journal.c:1369: warning: Function parameter or struct member 'context' not described in 'write_block'
+   drivers/md/dm-vdo/recovery-journal.c:1620: warning: Function parameter or struct member 'state' not described in 'initiate_drain'
+
+
+vim +1369 drivers/md/dm-vdo/recovery-journal.c
+
+95a72357688803 Matthew Sakai 2023-11-16  1362  
+95a72357688803 Matthew Sakai 2023-11-16  1363  /**
+95a72357688803 Matthew Sakai 2023-11-16  1364   * write_block() - Issue a block for writing.
+95a72357688803 Matthew Sakai 2023-11-16  1365   *
+95a72357688803 Matthew Sakai 2023-11-16  1366   * Implements waiter_callback_fn.
+95a72357688803 Matthew Sakai 2023-11-16  1367   */
+19ac19e02ffa31 Matthew Sakai 2024-10-02  1368  static void write_block(struct vdo_waiter *waiter, void __always_unused *context)
+95a72357688803 Matthew Sakai 2023-11-16 @1369  {
+95a72357688803 Matthew Sakai 2023-11-16  1370  	struct recovery_journal_block *block =
+95a72357688803 Matthew Sakai 2023-11-16  1371  		container_of(waiter, struct recovery_journal_block, write_waiter);
+95a72357688803 Matthew Sakai 2023-11-16  1372  	struct recovery_journal *journal = block->journal;
+95a72357688803 Matthew Sakai 2023-11-16  1373  	struct packed_journal_header *header = get_block_header(block);
+95a72357688803 Matthew Sakai 2023-11-16  1374  
+d6e260cc426164 Mike Snitzer  2023-11-20  1375  	if (block->committing || !vdo_waitq_has_waiters(&block->entry_waiters) ||
+d6e260cc426164 Mike Snitzer  2023-11-20  1376  	    is_read_only(journal))
+95a72357688803 Matthew Sakai 2023-11-16  1377  		return;
+95a72357688803 Matthew Sakai 2023-11-16  1378  
+d6e260cc426164 Mike Snitzer  2023-11-20  1379  	block->entries_in_commit = vdo_waitq_num_waiters(&block->entry_waiters);
+95a72357688803 Matthew Sakai 2023-11-16  1380  	add_queued_recovery_entries(block);
+95a72357688803 Matthew Sakai 2023-11-16  1381  
+95a72357688803 Matthew Sakai 2023-11-16  1382  	journal->pending_write_count += 1;
+95a72357688803 Matthew Sakai 2023-11-16  1383  	journal->events.blocks.written += 1;
+95a72357688803 Matthew Sakai 2023-11-16  1384  	journal->events.entries.written += block->entries_in_commit;
+95a72357688803 Matthew Sakai 2023-11-16  1385  
+95a72357688803 Matthew Sakai 2023-11-16  1386  	header->block_map_head = __cpu_to_le64(journal->block_map_head);
+95a72357688803 Matthew Sakai 2023-11-16  1387  	header->slab_journal_head = __cpu_to_le64(journal->slab_journal_head);
+95a72357688803 Matthew Sakai 2023-11-16  1388  	header->entry_count = __cpu_to_le16(block->entry_count);
+95a72357688803 Matthew Sakai 2023-11-16  1389  
+95a72357688803 Matthew Sakai 2023-11-16  1390  	block->committing = true;
+95a72357688803 Matthew Sakai 2023-11-16  1391  
+95a72357688803 Matthew Sakai 2023-11-16  1392  	/*
+95a72357688803 Matthew Sakai 2023-11-16  1393  	 * We must issue a flush and a FUA for every commit. The flush is necessary to ensure that
+95a72357688803 Matthew Sakai 2023-11-16  1394  	 * the data being referenced is stable. The FUA is necessary to ensure that the journal
+95a72357688803 Matthew Sakai 2023-11-16  1395  	 * block itself is stable before allowing overwrites of the lbn's previous data.
+95a72357688803 Matthew Sakai 2023-11-16  1396  	 */
+f7f46761ccd9b4 Mike Snitzer  2023-08-25  1397  	vdo_submit_metadata_vio(&block->vio, journal->origin + block->block_number,
+b863d7f7503c42 Mike Snitzer  2024-02-05  1398  				complete_write_endio, handle_write_error,
+b863d7f7503c42 Mike Snitzer  2024-02-05  1399  				REQ_OP_WRITE | REQ_PRIO | REQ_PREFLUSH | REQ_SYNC | REQ_FUA);
+95a72357688803 Matthew Sakai 2023-11-16  1400  }
+95a72357688803 Matthew Sakai 2023-11-16  1401  
+
+:::::: The code at line 1369 was first introduced by commit
+:::::: 95a72357688803736bf60db973cbf94c0ff3a6da dm vdo: add the recovery journal
+
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
