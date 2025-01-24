@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147E95733A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6311D63DF
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 06:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737701465; cv=none; b=QsbpVk8QRhPqha6keCfjb0bXxXb5VmdMkXICUCMnixrGcNhKyDxG1my/o0lRYHv+D/MkE+4NceRwCLgiZzngohx0/8gl+NONBAZpTffGSHF0XRPuLNN0fINqGT1BRuIrBd4MMeHF5ULms8CLB4QYgI3zjgjpW9o7NnvqHHKv1ns=
+	t=1737701465; cv=none; b=cyk3XIxNxpklPqmLBFuAet6fqArmzejguc0/l8jGyxe+vpGm1iN+L4613VUm6YU50Xygaz5gVT1mk9lDzUNY5hBeobIqsJkIc08Fhn3g2iLbqmzVRFBU3fmZadLXfZPyvpz/gZRa6TCxEqLKy2fi3VxH+USm7rmMzCjBRxlI62M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737701465; c=relaxed/simple;
-	bh=iCGqFJ/xNk3UukdHRIYLoitQ9Z4BhybY+ktb8labl5A=;
+	bh=+DKQPnQYjREYilHG65ZecGmzsrLmj8qRNOLEquXH1Eg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ma7JNHJhuwO/eqxGCEp78xgqXZd4cC+Qc94JmUFHofW3SghLdiE9agKODoN4MnuBdOzxuSmh+lmOmwKVFqumZFYPyQzBbjO4gpAja+h2hOcOan4EaaaRJRNAsFjvIIgi2t4vfHnp8uLKNDxd9EaT/eIvkUxvcuMREqG/TU21tps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0LV+uUf; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=QIgpfMRZ7rHBCEsdt4opc7addZpG1t8LnMofRnqAWWJEVwsDS8W5tJPtBwOjk84BysATsgiX3G5RUFw9lVpp+jGJgIf9IixttvZ5QBq48BBts1G7gVgMJNlVtItdOV3y9Dco6jdjf+D1sHg7XKEDhwGqnSNoTpYZOGXt0kjecAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPnE2/tN; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0LV+uUf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPnE2/tN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1737701463; x=1769237463;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iCGqFJ/xNk3UukdHRIYLoitQ9Z4BhybY+ktb8labl5A=;
-  b=h0LV+uUfGrI3MnGcOTiP3USHwJKR4MnxT/AUOnGsI5Kb7pv+b/yaD8Gc
-   BMM9ycUomPs5d6xQI5p3psJfpJ9qu7kg82BqemEXdc/Zt1ez3ISKuil8w
-   e6bYCaxWGtJe/RSpj63QZjhiytLEm24WSRfnFeRails9qwK4xhPGbeG8D
-   Ydvz5SvxD2dA+jOerkXiqNnlxKudnbXz3SX0OaHg73nlkMPl7E78oKIaI
-   3b74roN89UZMLdPdhnCamy4DHIqST8fq7jxu+5cq+eKkdNMRyNwwuPv5f
-   8NjanNltdQHM/LWhTpUvXlVSPfniGdfuKTTS79Yhdp9o9GPc7LD71dnE2
-   g==;
-X-CSE-ConnectionGUID: DUUO2yPYSkyQtNhsJifhxw==
-X-CSE-MsgGUID: bR2v54ziRfCpqnHHLj4lcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38140670"
+  bh=+DKQPnQYjREYilHG65ZecGmzsrLmj8qRNOLEquXH1Eg=;
+  b=FPnE2/tNK855kRGi003iVCnQ2iql4h4ZGhhEIQdLkF5tzbU/dvR7U7KO
+   GwRExncJLNkQrYvavDrrntZdHqcdSS9TVopZw6qjnQWRbk5qxqyFLMJe+
+   WQnuerU/MZ5ouYEBI+kxFykQ+dXACndNlcXgpmjzSsqDSyqR42s0gHL3W
+   LvJIfI7R3Oj/Ed+wym7j5d4QzV0EYxTf+kqQ4lqxLWVwYb5ZAsOlIEJ9v
+   S9yMcgS9Ub9O1itx64JAgC8Tc8r6MXh3301jB2ordw/Q5bSxdE37Ih3Xy
+   9Hfr7b4L4t+Zbz7ex6VHeTg3P0jVC4uHSPFnCZHsecGgJosBvFmrwvDOI
+   w==;
+X-CSE-ConnectionGUID: OXN5q8cvSLeBr6pDy9WSVQ==
+X-CSE-MsgGUID: mUgp/68OReW/5QC2cs3eEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="42155573"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="38140670"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 22:51:02 -0800
-X-CSE-ConnectionGUID: zTYd4qiBS0ecjuBDgDGlMQ==
-X-CSE-MsgGUID: c1X/G3VtQxipb2TLd5wYaA==
+   d="scan'208";a="42155573"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 22:51:02 -0800
+X-CSE-ConnectionGUID: 82lCoGzMTOmwLyUgsqIOpA==
+X-CSE-MsgGUID: EjKKRNNATdCzup/sP8VQkw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108123548"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="112703253"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Jan 2025 22:51:00 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 23 Jan 2025 22:51:00 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbDWs-000cIs-1Q;
+	id 1tbDWs-000cIp-0z;
 	Fri, 24 Jan 2025 06:50:58 +0000
-Date: Fri, 24 Jan 2025 14:50:44 +0800
+Date: Fri, 24 Jan 2025 14:50:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.12/tlb 1/1] mm/vmscan.c:1494:48: error: too few arguments to
- function 'pageout'
-Message-ID: <202501241459.s5PAcdT9-lkp@intel.com>
+Subject: [zen:6.12/tlb 1/1] mm/vmscan.c:1490:31: error: call to undeclared
+ function 'folio_test_young'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202501241435.qZqQH9W3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,27 +66,71 @@ Content-Disposition: inline
 tree:   https://github.com/zen-kernel/zen-kernel 6.12/tlb
 head:   eacae6d88bcc8a925124f97b7788bb2bfac8b267
 commit: eacae6d88bcc8a925124f97b7788bb2bfac8b267 [1/1] mm: Optimize TLB flushes during page reclaim
-config: i386-buildonly-randconfig-003-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241459.s5PAcdT9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241459.s5PAcdT9-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241435.qZqQH9W3-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241435.qZqQH9W3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241459.s5PAcdT9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241435.qZqQH9W3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/vmscan.c: In function 'shrink_folio_list':
->> mm/vmscan.c:1494:48: error: too few arguments to function 'pageout'
+   In file included from mm/vmscan.c:15:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:30:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:402:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     402 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
+         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/vmscan.c:1490:31: error: call to undeclared function 'folio_test_young'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1490 |                            (folio_mapped(folio) && folio_test_young(folio)))
+         |                                                    ^
+>> mm/vmscan.c:1494:63: error: too few arguments to function call, expected 4, have 3
     1494 |                        pageout_t pageout_res = pageout(folio, mapping, &plug);
-         |                                                ^~~~~~~
-   mm/vmscan.c:631:18: note: declared here
+         |                                                ~~~~~~~                      ^
+   mm/vmscan.c:631:18: note: 'pageout' declared here
      631 | static pageout_t pageout(struct folio *folio, struct address_space *mapping,
-         |                  ^~~~~~~
+         |                  ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     632 |                          struct swap_iocb **plug, struct list_head *folio_list)
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:1758:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    1758 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/vmscan.c:2263:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2263 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
+         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
+   mm/vmscan.c:2264:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2264 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
+         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
+   mm/vmscan.c:4465:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    4465 |                         __count_zid_vm_events(PGSCAN_SKIP, zone, skipped_zone);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/vmscan.c:6284:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    6284 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
+     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   9 warnings and 2 errors generated.
 
 
-vim +/pageout +1494 mm/vmscan.c
+vim +/folio_test_young +1490 mm/vmscan.c
 
   1038	
   1039	/*
@@ -539,7 +584,7 @@ vim +/pageout +1494 mm/vmscan.c
   1487	
   1488			       /* Recheck if page got reactivated */
   1489			       if (folio_test_active(folio) ||
-  1490				   (folio_mapped(folio) && folio_test_young(folio)))
+> 1490				   (folio_mapped(folio) && folio_test_young(folio)))
   1491				       goto skip_pageout_locked;
   1492	
   1493			       mapping = folio_mapping(folio);
