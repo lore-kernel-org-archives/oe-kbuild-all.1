@@ -1,58 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7B7218EB9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 19:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BF41DC991;
+	Fri, 24 Jan 2025 21:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737746424; cv=none; b=CELxxmu5+tVqMv0iRbPnyF5h32e9cU6jPP8UTxp8BaYzz2jP/CtcVWO+MCMvOZ2+mCgVOmuPCDlF2ZvZucdUzjWE9jnvv7GGlGMJqyiRLUekFqIYxZviRmyl14Y7ML/KNCNdYaA3w/98wuqfjqT9jMg065J44To+N899mkUa/ts=
+	t=1737754419; cv=none; b=jxQtLf6mbGLD8wPhIVMleXKMPZ3CYZ7OmSOZgqaXGCa8dyqZzI2xjj0ZQUNQQlL8k8gHVUCLIAGBlBzlKl7kMJsuAiS7Ags49A+8yoNT+2vvgIIinJ6UOFvJv95kHSeqHva6x/BGZGjCF9XsR5Bg5EQuAdplTKpYr6W1G3yX3pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737746424; c=relaxed/simple;
-	bh=LSbWFz1UWLUAuKH6TY7Y5r7axz9/9fx35/UJFu305UY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ibm0t+fJD+6WBnEKOO3eYVbKEtGx4VZwqAYkpKLch3hqEjIb5baqu5PgwWNiDxKHfO9wTW2T7C0i0VOzVO888OqI6IxcNQfb6LNp1m/B96+NX+mw8rfHDtklzk6rTWRpUB+faPSVxYFk2Jg6/z4sRD2LhU1eB9RJaWhWGnZmiAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JUuf+IoD; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1737754419; c=relaxed/simple;
+	bh=ZV+CoJSZ+wVV/344CBzff1eeJ9Hjk9q/8p3TD4Hsxtw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JNZm0KVUCARxneYHxKo2/CAWKINBMMobEko1/GwnRX6yML0HTtdYDrXXwSZcnFYwnisCxEocEoTLni4x1Km/2FOTI/todgL66tq0AnXKSQjKJmoxzKU0H+8F14ItjQg9mDQR4vdsxuoV4rjZluBlE8j7xuXLAPPc6tX1MEAYwhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gB3lCqBi; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JUuf+IoD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gB3lCqBi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737746423; x=1769282423;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LSbWFz1UWLUAuKH6TY7Y5r7axz9/9fx35/UJFu305UY=;
-  b=JUuf+IoDCq8rtExUhK421nHBhVRVpLmGzKOX5atxZs+RYE2MP/sFxej4
-   EqdDJH7YlMP5fx02OqkVt8pB+GwXVsx9w+dGVwC8tGNvHxn9roFUb12ZX
-   sS9E9JMgSN/AZk/k6FTg66jQb/gKG0x6SLtTjPRPMZMueGSJHWCITb2Pk
-   JNHnP+RbtX8YVGW65qbkEzdYdPm96Z/tY9HPG3tW8mG9x0M0n7UwOJI4D
-   ldWwOwZZSgMIm4Km9WTKyQ3OyzNYwc0tjxvvxpIzea24Bl+ol+br2D5PH
-   pFuQw76fFkVeHVGN1Wag7HhGk5JrokkhYzbv3VdlrOzEVHxRzPPZ0W3Gi
+  t=1737754418; x=1769290418;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZV+CoJSZ+wVV/344CBzff1eeJ9Hjk9q/8p3TD4Hsxtw=;
+  b=gB3lCqBinbT/6DedKJFMqqWC4OaVE/+FBZwdsFbSvnHvYJOta/nvdp/S
+   IbU9G79JaUUObSY9K3AlK8ykfHp+wq575u/rmloQ31PF5Sri5et03quO+
+   TbGhHwSLCSqd0wb6XuebXgcC6qs6ES3NuVeE0oczsnUT9ce2OSPMcxslR
+   G9qX2x62ENRZigbnzCJa8Ku9+65EGOKHiPQxa7NOfGQ78kO0N31SLuCnO
+   b+EQK+z6Ql1dRDWy71u0Y6YA+9fpumxs2UbtYLu/BpTobqERjHuBDgUDu
+   jC559vArQBpMvky7rKaQBceSbyCWLfnE747RmBBwv4UDfa5+t4cPGawpT
    A==;
-X-CSE-ConnectionGUID: tbBtrAt7Q+SHB1nftLvQlw==
-X-CSE-MsgGUID: AkZxc35MRHKGqkq0SSZp+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="48953798"
-X-IronPort-AV: E=Sophos;i="6.13,232,1732608000"; 
-   d="scan'208";a="48953798"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 11:20:22 -0800
-X-CSE-ConnectionGUID: UM6RcJ92QaWF8czSE82WHA==
-X-CSE-MsgGUID: wliyyND1RDq9GLTYYkwC0Q==
+X-CSE-ConnectionGUID: 9mCbja4JQJaGkOkSbWHY/Q==
+X-CSE-MsgGUID: bfNzEMMkRuaxFiDOJI8aYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49718511"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="49718511"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 13:33:37 -0800
+X-CSE-ConnectionGUID: g4+/9ZLtQsOQaUV3ZgoZ4w==
+X-CSE-MsgGUID: CHXgLetET/Spk4p+CUHLlg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108765418"
+X-IronPort-AV: E=Sophos;i="6.13,232,1732608000"; 
+   d="scan'208";a="107782823"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Jan 2025 11:20:21 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 24 Jan 2025 13:33:33 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbPE2-000d3f-2a;
-	Fri, 24 Jan 2025 19:20:18 +0000
-Date: Sat, 25 Jan 2025 03:19:33 +0800
+	id 1tbRIw-000d9T-2h;
+	Fri, 24 Jan 2025 21:33:30 +0000
+Date: Sat, 25 Jan 2025 05:33:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/x86/kernel/head_64.o: warning: objtool: xen_hypercall_hvm+0x30:
- sibling call from callable instruction with modified stack frame
-Message-ID: <202501250304.8hkFCG3K-lkp@intel.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 3/3] clk: scmi: Support spread spectrum
+Message-ID: <202501250520.evxxfDdY-lkp@intel.com>
+References: <20250124-clk-ssc-v1-3-2d39f6baf2af@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,27 +77,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250124-clk-ssc-v1-3-2d39f6baf2af@nxp.com>
 
-Hi Juergen,
+Hi Peng,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ab18b8fff124c9b76ea12692571ca822dcd92854
-commit: b4845bb6383821a9516ce30af3a27dc873e37fd4 x86/xen: add central hypercall functions
-date:   6 weeks ago
-config: x86_64-randconfig-161-20241019 (https://download.01.org/0day-ci/archive/20250125/202501250304.8hkFCG3K-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501250304.8hkFCG3K-lkp@intel.com/reproduce)
+[auto build test WARNING on 5ffa57f6eecefababb8cbe327222ef171943b183]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/clk-Introduce-clk_set_spread_spectrum/20250124-212050
+base:   5ffa57f6eecefababb8cbe327222ef171943b183
+patch link:    https://lore.kernel.org/r/20250124-clk-ssc-v1-3-2d39f6baf2af%40nxp.com
+patch subject: [PATCH 3/3] clk: scmi: Support spread spectrum
+config: i386-buildonly-randconfig-005-20250125 (https://download.01.org/0day-ci/archive/20250125/202501250520.evxxfDdY-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501250520.evxxfDdY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501250304.8hkFCG3K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501250520.evxxfDdY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/head_64.o: warning: objtool: xen_hypercall_hvm+0x30: sibling call from callable instruction with modified stack frame
+>> drivers/clk/clk-scmi.c:298: warning: cannot understand function prototype: 'const char * const scmi_clk_ssc_allowlist[] = '
+
+
+vim +298 drivers/clk/clk-scmi.c
+
+   286	
+   287	/**
+   288	 * scmi_clk_ops_alloc() - Alloc and configure clock operations
+   289	 * @dev: A device reference for devres
+   290	 * @feats_key: A bitmap representing the desired clk_ops capabilities
+   291	 *
+   292	 * Allocate and configure a proper set of clock operations depending on the
+   293	 * specifically required SCMI clock features.
+   294	 *
+   295	 * Return: A pointer to the allocated and configured clk_ops on success,
+   296	 *	   or NULL on allocation failure.
+   297	 */
+ > 298	static const char * const scmi_clk_ssc_allowlist[] = {
+   299		"fsl,imx95",
+   300		NULL
+   301	};
+   302	
 
 -- 
 0-DAY CI Kernel Test Service
