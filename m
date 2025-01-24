@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACCD1D9A48
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 06:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1D11D7E50
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 06:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737698878; cv=none; b=cSLSLaV9COZmQ6K3kUfxaJngSW5xE/u2Qg7/f2CMqfIUPNGg3NVUI00IxOztBZyeBAD/U8FCIv0P3hRk0CUFncewVloe/uMNV1kVNjOscYrZLw7HF44HltL/NBeYX7zkduUCWfCI61uSXFmhUprKd4zzJ0mn6IJAydqiSHdYmaE=
+	t=1737699599; cv=none; b=t/Dn7Qp75s2ekPbj5mIMIGHiwhkMwiOyFojfiSdH/cYln8RMYeNqzqFRCTgJlnpthHktVOWxRrBZ/FBvWVkccd/PTmpCiTmfd5OkRjiyLvX913igp5/DaR76ymWSMQlmtx/97pBx6oop7M7tCqnAzsJAc/zlD9Odc+pcWinbAcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737698878; c=relaxed/simple;
-	bh=wBG6Efa1cDicOfRdhAxmzL/1tmOJUHn/tU6XU5KJXnM=;
+	s=arc-20240116; t=1737699599; c=relaxed/simple;
+	bh=1wF21TaX3mMDeeGb5ewvQkxygNkkbBpOkiiMKgT6O6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ezMdDPfuVNhVSqNr1abvLFZQUMqKxmlTYWFqC91USZWTCe3RAKinDo75kO9zGmyTAZhO4O5l6ml+QLihwqWqzqpReXeRTm1WJWGebdPLY/OY9pZiBAg9VyeCKqTWH+qn0ouhKcd+dsgtfkhJXF/pJSYEUG/R7tlNuvu2103qMoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tnr+8V+K; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=AOZvzxLIjgMsCtN3VqRccbRhk9FUD0JX8I9nSvehOhSFC4fkUHHwlBjnEwTAS7zTjUVXa67oIKL2TUD8a31FUqxjcUyueZIaSyidA9T+DkeQ8i06zm1WCK6kAF/UvDY9CMAwrwh+PpuL9RxMqRFKd+VByXpnrh7cIi6MNjzFaJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GBwDdU+G; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tnr+8V+K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GBwDdU+G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737698876; x=1769234876;
+  t=1737699597; x=1769235597;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wBG6Efa1cDicOfRdhAxmzL/1tmOJUHn/tU6XU5KJXnM=;
-  b=Tnr+8V+KJpW6/o+fNGMOlZNONYEjibW0Tsf//Vn+KoFUIvOsYHvKHST1
-   tvjE3n/7qh3NQej+TZ8E+YsdKr8/1rfn/ymdSpil8pKFlIQaUtUT3w4kj
-   WwyJnX/dglCE1Cbxx+/TYkjH1jjJ0KMt1oDUMsMhZ4AFCX9iOaCyQAj89
-   qvFGF6u+gMFXfZRH1NYFOTpd3MlvQTwp/PvoBx2yyqP+gW5/2ZPD3XBqB
-   LkYppMh5YPdqKNZZyFIuwJATWPbLqCEsBsxj8ExyiHLCgyAiPuxtVLZ+s
-   8RssEcmTUJUxNhptxV2I1t/CSbDIcvDw7IoyKQM9wWQocBzTgeO8cpIwI
-   g==;
-X-CSE-ConnectionGUID: DDBEG5qsRcyWa+VESHRnFg==
-X-CSE-MsgGUID: MMjQwDSJQ1e0CRsKyNv98w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="41988050"
+  bh=1wF21TaX3mMDeeGb5ewvQkxygNkkbBpOkiiMKgT6O6U=;
+  b=GBwDdU+GDzQlBMkWgnpf7b7DJhehOrN4vfMYz7pIzCVtfpTFktlT9itY
+   Ma4ka9dsibb24moK+9B4CUFuiF384AipFNaFMmFlRWrZfQHaoivn4j6t7
+   Jejbm6CcWtDW/pX3bU6RV03X73HtWsqB3/F+n99TsAr1Ol7T1iLG9dORI
+   ZUfv3s7IkxE0ryWh2614KkKYoePnRq8D4qP48o1AIwP+nJSP9D95uVSGh
+   BYPJxEwGarzqBTvkQMdufNLtYUtrk+CdXfDR+RhQNnTkC6xl/rY/HVGFy
+   Jp7nrJKc7/SGqY+/E0wY6/2obe7Y0Hc3Xd2wT6fXHnhfbJuyUjP+KklFa
+   Q==;
+X-CSE-ConnectionGUID: 4A/Am1dXSAi4WjjvSJxxPQ==
+X-CSE-MsgGUID: 2Wu1KvX4SyCaxhR69Se3ww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="63580390"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="41988050"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 22:07:55 -0800
-X-CSE-ConnectionGUID: wzEv1t6RQtCGEQYfJm4AsQ==
-X-CSE-MsgGUID: o5PwbrQeRuSL751NOE48Zg==
+   d="scan'208";a="63580390"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 22:19:57 -0800
+X-CSE-ConnectionGUID: xx+M63/XRban3vupgzwRIA==
+X-CSE-MsgGUID: kNqU8EZPQBOGdUlhPsZceA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="107488951"
+   d="scan'208";a="107685414"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jan 2025 22:07:54 -0800
+  by orviesa006.jf.intel.com with ESMTP; 23 Jan 2025 22:19:56 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbCrA-000cFL-0d;
-	Fri, 24 Jan 2025 06:07:52 +0000
-Date: Fri, 24 Jan 2025 14:07:11 +0800
+	id 1tbD2n-000cGZ-1o;
+	Fri, 24 Jan 2025 06:19:53 +0000
+Date: Fri, 24 Jan 2025 14:18:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 228/228]
- mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol 'kasan_ptr_result' was
- not declared. Should it be static?
-Message-ID: <202501241450.C7PC0znL-lkp@intel.com>
+Subject: [android-common:android-mainline-desktop 1/1] kismet: WARNING: unmet
+ direct dependencies detected for DIMLIB when selected by
+ GKI_HIDDEN_VIRTUAL_CONFIGS
+Message-ID: <202501241409.aLqdZ97n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +63,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   2c8b3afe8866ca4bb189aa69f1185ff225dabfa3
-commit: f7e01ab828fd4bf6d25b1f143a3994241e8572bf [228/228] kasan: move tests to mm/kasan/
-config: arm-randconfig-r132-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241450.C7PC0znL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241450.C7PC0znL-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   cdffeeb8cf4188b4609dcaaed0a7586856c3f903
+commit: 1dfbe413d21f18f714cca818435299947bf5649a [1/1] Merge 6706415bf9f3 ("Merge tag 'gfs2-v6.10-rc1-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2") into android-mainline
+config: x86_64-kismet-CONFIG_DIMLIB-CONFIG_GKI_HIDDEN_VIRTUAL_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250124/202501241409.aLqdZ97n-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241409.aLqdZ97n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241450.C7PC0znL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241409.aLqdZ97n-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol 'kasan_ptr_result' was not declared. Should it be static?
->> mm/kasan/kasan_test.c:37:5: sparse: sparse: symbol 'kasan_int_result' was not declared. Should it be static?
-
-vim +/kasan_ptr_result +36 mm/kasan/kasan_test.c
-
-f33a01492a24a2 lib/test_kasan.c Walter Wu        2020-08-06  31  
-adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  32  /*
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  33   * Some tests use these global variables to store return values from function
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  34   * calls that could otherwise be eliminated by the compiler as dead code.
-adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  35   */
-adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03 @36  void *kasan_ptr_result;
-83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13 @37  int kasan_int_result;
-83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13  38  
-
-:::::: The code at line 36 was first introduced by commit
-:::::: adb72ae1915db28f934e9e02c18bfcea2f3ed3b7 kasan: stop tests being eliminated as dead code with FORTIFY_SOURCE
-
-:::::: TO: Daniel Axtens <dja@axtens.net>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DIMLIB when selected by GKI_HIDDEN_VIRTUAL_CONFIGS
+   WARNING: unmet direct dependencies detected for DIMLIB
+     Depends on [n]: NET [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+     Depends on [n]: TTY [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
