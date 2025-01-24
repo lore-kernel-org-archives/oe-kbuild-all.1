@@ -1,176 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9671D5AD8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 12:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA1321B8EC;
+	Fri, 24 Jan 2025 12:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737720403; cv=none; b=HeYGuj4s+FPEFewKobmgYni7IEqlUJH/Ix4aJCKQkYLhDF4h91+pRiRbR/eyi8Qy2FrS/mB2cGOe/5q9+SrRwkz/ZDAKNqnKUY6fdscA820IC24ZxS0tRwYlogljr3yuAVtHu7XG7uwaOcIkq/xXoc4hWa+FcFhpxemjh1IOZkk=
+	t=1737721664; cv=none; b=ElK+JvPhq7pjOAFNn2aT2qOaYe/hbJk27JiU4rR6sn9PgOlV33u+uFfB3qlP5HcqFtgqVqKla5pRKv7ttA0Ulk6OpRX0hH56H/AT3ApFLLywqm7wD9hY8LyLXbpHD9ls6Kt1SDvKS1QkJsh5fCp1jnCZP90pQCo2WGnGTcC5c3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737720403; c=relaxed/simple;
-	bh=FlsHX7XKI6oH9V/UmwN26+YBU8lwk7xjRh/EqJQ/HIA=;
+	s=arc-20240116; t=1737721664; c=relaxed/simple;
+	bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZdUybJDKF0RiTd8ttB7siIM8uy9gdxOnOmD4a7/r3SauyqJTx+NlSxzMq2OE7yMsssvbqoWIfMvBJjY1N/WgAd6hRZaAPV50QnsEzpK0pJG3YqD5FvMyumkSVf6CiKjtfIRGcUWBUGQJ5PfeJKOWiF3FmDwkVBi4rB/luloq2Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=erBPIjy6; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFvM84B3GLe1djvpGkOa7IuqpRump/ScDyUrvPeyUigPEnmGutZizA60aUAkLcFAnpwbO4wgMGH/uphGtPQINs1zwi8wm8MbhgWCXBF0MiEBGW3CLH2Vn5vXWHnLvQ5esOki/ysdU1yGQUrcz6hhFBqnyYc/q8eQCIOrGCz5xVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDAnucqU; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="erBPIjy6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDAnucqU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737720401; x=1769256401;
+  t=1737721663; x=1769257663;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FlsHX7XKI6oH9V/UmwN26+YBU8lwk7xjRh/EqJQ/HIA=;
-  b=erBPIjy6dytPkVvWS/iIlqr3kS+RZq5LFUI9veR9jDvo00YmNpB7YR71
-   gQuip32u9hkBORSSsiHH/8mVN1waMJmn1OlKaR7SK7EXtj5v0d+Iq0LHc
-   IFzQbMTcCcbtMP6HNbWV+Uv3yTiIMfXrGQrCXT9BuBxqxPMCoenuhcX30
-   m7Z/JIEjnuhyyLI3fjSqYIYyHD6s7kVcOSYjgBxDKDZylKgKQO5D0pt6H
-   FFmXsvdhWccrjJQXlOEnHw6xi0i7G3OVOBFLKRk104ELKbmtmHIRE9sDE
-   jRjxn9d37pLRv1HYrMeRONIRcwSSO9rT72A/h8yW9BUUwCqhiCV477sbC
-   Q==;
-X-CSE-ConnectionGUID: au5GrH75R86ZwpD6zILHfg==
-X-CSE-MsgGUID: IQ7Sc+qvRju8+ppAOhnwlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="63603975"
+   mime-version:in-reply-to;
+  bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
+  b=PDAnucqUMltE6oXGK240JcxcMzI1rIlJ9YTKwZMMqkYLl5HqYCESOf0r
+   /m/eF/MwmGcz+L1xOC2LaixJNK/2bPvJnVRGUzIE16xEPgF2Ed+JOhsjy
+   3al0mWcT6lhuj4xWt9EZbuQsiJ16eodUIrrBRdc03svoMHUD2raQK/aGl
+   eKf2xA8RVcQ7cOj6TO8her1zuYf5lwEqdfA1feSMgt8SmQ7OFfb+D+F8O
+   n3mvGBQE5+SCCLtvapqFSYqXVCOEih6JehRD8vNJpQnd0Xhc/0wl0ArFi
+   Dt+uEkOwvSDolZIlLRYR7jsBPhfzJU507+u8/7AIjRRHoWrR7oXN0UXFL
+   g==;
+X-CSE-ConnectionGUID: osDiBHTCRzy7SdXmX76kqQ==
+X-CSE-MsgGUID: PH/2RQzIRV+k+KEWE7GooA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="37458579"
 X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; 
-   d="scan'208";a="63603975"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 04:06:40 -0800
-X-CSE-ConnectionGUID: SNVz+z9wREqH87SSJT8xzA==
-X-CSE-MsgGUID: 9UTJgMD4Q8iLxqG4l0Z5iA==
+   d="scan'208";a="37458579"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 04:27:42 -0800
+X-CSE-ConnectionGUID: TcKqrqbOStiT63Vx3rUJ8g==
+X-CSE-MsgGUID: 5YTnTvwzTZiG18df72xk5Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="112703979"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112390003"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 24 Jan 2025 04:06:37 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2025 04:27:38 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbISI-000ceZ-0i;
-	Fri, 24 Jan 2025 12:06:34 +0000
-Date: Fri, 24 Jan 2025 20:06:08 +0800
+	id 1tbImd-000cfL-38;
+	Fri, 24 Jan 2025 12:27:35 +0000
+Date: Fri, 24 Jan 2025 20:26:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
+To: "Jiao, Joey" <quic_jiangenj@quicinc.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	Mihail Atanassov <mihail.atanassov@arm.com>
-Subject: Re: [PATCH v9 3/5] drm/panthor: Expose size of driver internal BO's
- over fdinfo
-Message-ID: <202501241937.7HbajZjV-lkp@intel.com>
-References: <20250123225325.3271764-4-adrian.larumbe@collabora.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kernel@quicinc.com
+Subject: Re: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
+Message-ID: <202501242043.KmrFufhL-lkp@intel.com>
+References: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250123225325.3271764-4-adrian.larumbe@collabora.com>
+In-Reply-To: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
 
-Hi Adrián,
+Hi Joey,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on c6eabbab359c156669e10d5dec3e71e80ff09bd2]
+[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/Documentation-gpu-Clarify-format-of-driver-specific-fidnfo-keys/20250124-065603
-base:   c6eabbab359c156669e10d5dec3e71e80ff09bd2
-patch link:    https://lore.kernel.org/r/20250123225325.3271764-4-adrian.larumbe%40collabora.com
-patch subject: [PATCH v9 3/5] drm/panthor: Expose size of driver internal BO's over fdinfo
-config: i386-buildonly-randconfig-005-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241937.7HbajZjV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241937.7HbajZjV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiao-Joey/kcov-introduce-new-kcov-KCOV_TRACE_UNIQ_PC-mode/20250114-133713
+base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
+patch link:    https://lore.kernel.org/r/20250114-kcov-v1-4-004294b931a2%40quicinc.com
+patch subject: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
+config: x86_64-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241937.7HbajZjV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501242043.KmrFufhL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'idle' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'mem' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'input' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'output' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'ref' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'gt' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'sync64' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'bo' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'offset' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'kmap' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'lock' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'id' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'last_fence' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'slots' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'slot_count' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:691: warning: Excess struct member 'data' description in 'panthor_group'
-   drivers/gpu/drm/panthor/panthor_sched.c:691: warning: Excess struct member 'lock' description in 'panthor_group'
-   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'size' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'latest_flush' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'end' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'mask' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:827: warning: Excess struct member 'slot' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:1756: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1756: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:2649: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
->> drivers/gpu/drm/panthor/panthor_sched.c:3646: warning: expecting prototype for panthor_group_kbo_sizes(). Prototype was for panthor_fdinfo_gather_group_mem_info() instead
+>> kernel/kcov.c:309:41: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                       ~~~~~  ^
+   kernel/kcov.c:309:54: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                                      ~~~  ^
+>> kernel/kcov.c:310:15: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                             ~~~~~  ^
+   kernel/kcov.c:310:28: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                            ~~~  ^
+>> kernel/kcov.c:310:43: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                         ~~~~~  ^
+   kernel/kcov.c:310:56: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                                        ~~~  ^
+   kernel/kcov.c:343:29: error: no member named 'type' in 'struct kcov_entry'
+     343 |                         area[start_index] = ent->type;
+         |                                             ~~~  ^
+   kernel/kcov.c:344:33: error: no member named 'arg1' in 'struct kcov_entry'
+     344 |                         area[start_index + 1] = ent->arg1;
+         |                                                 ~~~  ^
+   kernel/kcov.c:345:33: error: no member named 'arg2' in 'struct kcov_entry'
+     345 |                         area[start_index + 2] = ent->arg2;
+         |                                                 ~~~  ^
+   9 errors generated.
 
 
-vim +3646 drivers/gpu/drm/panthor/panthor_sched.c
+vim +309 kernel/kcov.c
 
-  3635	
-  3636	/**
-  3637	 * panthor_group_kbo_sizes() - Retrieve aggregate size of all private kernel BO's
-  3638	 * belonging to all the groups owned by an open Panthor file
-  3639	 * @pfile: File.
-  3640	 * @stats: Memory statistics to be updated.
-  3641	 *
-  3642	 */
-  3643	void
-  3644	panthor_fdinfo_gather_group_mem_info(struct panthor_file *pfile,
-  3645					     struct drm_memory_stats *stats)
-> 3646	{
-  3647		struct panthor_group_pool *gpool = pfile->groups;
-  3648		struct panthor_group *group;
-  3649		unsigned long i;
-  3650	
-  3651		if (IS_ERR_OR_NULL(gpool))
-  3652			return;
-  3653	
-  3654		xa_lock(&gpool->xa);
-  3655		xa_for_each(&gpool->xa, i, group) {
-  3656			stats->resident += group->fdinfo.kbo_sizes;
-  3657			if (group->csg_id >= 0)
-  3658				stats->active += group->fdinfo.kbo_sizes;
-  3659		}
-  3660		xa_unlock(&gpool->xa);
-  3661	}
-  3662	
+   290	
+   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
+   292						struct task_struct *t, unsigned int mode)
+   293	{
+   294		struct kcov *kcov;
+   295		struct kcov_entry *entry;
+   296		unsigned int key = hash_key(ent);
+   297		unsigned long pos, start_index, end_pos, max_pos, *area;
+   298	
+   299		kcov = t->kcov;
+   300	
+   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
+   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
+   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+   304				if (entry->ent == ent->ent)
+   305					return;
+   306			}
+   307		else
+   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+ > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
+ > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+   311					return;
+   312				}
+   313			}
+   314	
+   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
+   316		if (unlikely(!entry))
+   317			return;
+   318	
+   319		barrier();
+   320		memcpy(entry, ent, sizeof(*entry));
+   321		hash_add_rcu(map->buckets, &entry->node, key);
+   322	
+   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
+   324			area = t->kcov_area;
+   325		else
+   326			area = kcov->map_edge->area;
+   327	
+   328		pos = READ_ONCE(area[0]) + 1;
+   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
+   330			if (likely(pos < t->kcov_size)) {
+   331				WRITE_ONCE(area[0], pos);
+   332				barrier();
+   333				area[pos] = ent->ent;
+   334			}
+   335		} else {
+   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
+   337			max_pos = t->kcov_size * sizeof(unsigned long);
+   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
+   339			if (likely(end_pos <= max_pos)) {
+   340				/* See comment in __sanitizer_cov_trace_pc(). */
+   341				WRITE_ONCE(area[0], pos);
+   342				barrier();
+   343				area[start_index] = ent->type;
+   344				area[start_index + 1] = ent->arg1;
+   345				area[start_index + 2] = ent->arg2;
+   346				area[start_index + 3] = ent->ent;
+   347			}
+   348		}
+   349	}
+   350	
 
 -- 
 0-DAY CI Kernel Test Service
