@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1026188717
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 02:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD6B28F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 02:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737684753; cv=none; b=OzeIOy58o5RE2hg90cZ5oYNsM+zPx7jUM9gvq3Q+ybtvZe0/KIt+hiygjHVOnUOULmobFytEL821ihQxsYuNsyzo7ds9GfTqzp2LHAsr9Rk8uSo1D4wb65QMnLJieC+8cVGZHc7pcS/Ek6SygIFi6/0rau1mqQMdGSX/7ILdOuM=
+	t=1737685952; cv=none; b=dNulX3PRwNF+9kXmfOrPUmGT9flpgvaNb7fIlFDvAz1UdjoaohkTae+GiVyFh2NMplvx12yWqcdeVdJtIBdnblR1XrMi5RFfjqU/DiS6kJtbYoIsb4m5ri/ZOI89iHIlNHK1UmpvHVwdkqL04cPGWdNCObHjSh02kcT7z4Ho/UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737684753; c=relaxed/simple;
-	bh=ZVWsL5TzIlssbUAp6wHsmMyTAmfxKSHrFnKGbtmAIBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RxkjAWyrVIv/mgfdcQsCQKNVPXDA427UxR7vN5skMm7PLKNtVSMHxWa8RWP5KnYCkQEKc3GoeZf4otYNZ7gPyXOx4nfdv1reFKwwRmT4x1TZ2aMT+JkgvGZCtwEou3YjMzwMiJqtBEXhFCll/U68RZrFwCQ9skbioXKXjYgBMmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OG8hqtoH; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1737685952; c=relaxed/simple;
+	bh=LmDFR/ZwCUrZhI3dgT6Ur52udj3kvxhrsI3w+0j7C9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HRcgmeiIBoXId70gBU4QQiqDd4LCMTtsCydgnNpJZV/Tlwm3bgzjQlbxP42yygvXjRL7dEaGbPFTVxv6151xbwCr1P9Fti50mH+o+0pgAcV8iy7svXQ1x8PzuY5Y5wlm3r5UzrOT5YXxZ+AbpdAoV5UjOxzm4dlnPw1VMiIKygs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEvd8jH0; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OG8hqtoH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEvd8jH0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737684752; x=1769220752;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZVWsL5TzIlssbUAp6wHsmMyTAmfxKSHrFnKGbtmAIBQ=;
-  b=OG8hqtoH3g6HxD/G+haygLSszt0FIMs1fjge9NAIYMUP2fvcRwAmS6v+
-   VCvYZ0S1T/YK9/szlSwzgGcXVWADrd2r6OjZDvMsMWptKnu/vIp1mtAc/
-   v5uZLUX2820Dkdxb9ALlSAPivpxbP6lxqslXWo66MHYvAdq0IGPi9yKfO
-   RzG/gLkBT6SkTFz7ysEgfqAlk72uotWaGOYvfdouQNE5qII3sPzf0OkwP
-   wB67HoUUhXjkghGgj3n51eF3xd5FLspe7W9BUYe/Dc27ERvCkWk1zFBgD
-   0HAFcQJgEjchKsiAmrZzn33W0JyAO9z9+8kynXfV0o+VK8AwygTKn4+/h
-   A==;
-X-CSE-ConnectionGUID: 9FiUdUolQf+Mq2d4DCNTmQ==
-X-CSE-MsgGUID: xQBSktsATqCP0fAVk5nOQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48875990"
+  t=1737685951; x=1769221951;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LmDFR/ZwCUrZhI3dgT6Ur52udj3kvxhrsI3w+0j7C9w=;
+  b=nEvd8jH0lNidqHLP3jPh5vPpSZg1Fxh5XSzoQR622NvBP4vb/GsUDEBy
+   NGuIWlOfNEazELhjWb+4b+WPkC5l9vKxBg2kkTFmrOxvyTT3NxJxG8phq
+   VfkANFPCzyMa7p4E50d4dKGuKdKsTP4BBC/gBiqt1DpUeg6il6Yxkw9wu
+   Q3YjtpvXOghFsmDDrcjJwk0VONHqxsiWa0hLrUiJ0mFlQDSrJ6B6Vely1
+   eRFf6XEyobLR/P+FLR3QPQe0MWKdawotnRtMBSrxM7hgpie0K7sjlmHbA
+   On95CmeZNJh9dlNtE1YTJnmCHNp81WYi94E9Vl/pchSsWM/Zlod+5yJdS
+   w==;
+X-CSE-ConnectionGUID: 436LmaM9TxS7W5+fEzoCqQ==
+X-CSE-MsgGUID: mLZPibWNTfayn2seEpLOBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48801398"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="48875990"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 18:12:31 -0800
-X-CSE-ConnectionGUID: nXYMOnQESfGam5t5ZaclGw==
-X-CSE-MsgGUID: 6JPi4DtnRJujUu4v4yIVnA==
+   d="scan'208";a="48801398"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 18:32:30 -0800
+X-CSE-ConnectionGUID: VQHm92B0Rxe/Zxj4bhUL+Q==
+X-CSE-MsgGUID: Yq9j1RrnSJmqLwO3ih7ezw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="107645960"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107496633"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Jan 2025 18:12:27 -0800
+  by orviesa010.jf.intel.com with ESMTP; 23 Jan 2025 18:32:29 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb9BI-000c19-0j;
-	Fri, 24 Jan 2025 02:12:24 +0000
-Date: Fri, 24 Jan 2025 10:11:52 +0800
+	id 1tb9Ug-000c2X-1Y;
+	Fri, 24 Jan 2025 02:32:26 +0000
+Date: Fri, 24 Jan 2025 10:32:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiao, Joey" <quic_jiangenj@quicinc.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kernel@quicinc.com
-Subject: Re: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
-Message-ID: <202501240959.61XLxBYF-lkp@intel.com>
-References: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
+To: Mark Pearson <markpearson@lenovo.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: drivers/platform/x86/think-lmi.c:758:51: warning: '%s' directive
+ argument is null
+Message-ID: <202501241043.Mn4wJfgU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,122 +62,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
 
-Hi Joey,
+Hi Mark,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiao-Joey/kcov-introduce-new-kcov-KCOV_TRACE_UNIQ_PC-mode/20250114-133713
-base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-patch link:    https://lore.kernel.org/r/20250114-kcov-v1-4-004294b931a2%40quicinc.com
-patch subject: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
-config: mips-randconfig-r073-20250124 (https://download.01.org/0day-ci/archive/20250124/202501240959.61XLxBYF-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240959.61XLxBYF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e0b1f59142746f74476a03040f745329c8355a7e
+commit: b49f72e7f96d4ed147447428f2ae5b4cea598ca7 platform/x86: think-lmi: Certificate authentication support
+date:   2 years, 10 months ago
+config: x86_64-randconfig-161-20230920 (https://download.01.org/0day-ci/archive/20250124/202501241043.Mn4wJfgU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241043.Mn4wJfgU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501240959.61XLxBYF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241043.Mn4wJfgU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/kcov.c: In function 'kcov_map_add':
->> kernel/kcov.c:309:60: error: 'struct kcov_entry' has no member named 'type'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                            ^~
-   kernel/kcov.c:309:73: error: 'struct kcov_entry' has no member named 'type'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                                         ^~
->> kernel/kcov.c:310:34: error: 'struct kcov_entry' has no member named 'arg1'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                  ^~
-   kernel/kcov.c:310:47: error: 'struct kcov_entry' has no member named 'arg1'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                               ^~
->> kernel/kcov.c:310:62: error: 'struct kcov_entry' has no member named 'arg2'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                              ^~
-   kernel/kcov.c:310:75: error: 'struct kcov_entry' has no member named 'arg2'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                                           ^~
-   kernel/kcov.c:343:48: error: 'struct kcov_entry' has no member named 'type'
-     343 |                         area[start_index] = ent->type;
-         |                                                ^~
-   kernel/kcov.c:344:52: error: 'struct kcov_entry' has no member named 'arg1'
-     344 |                         area[start_index + 1] = ent->arg1;
-         |                                                    ^~
-   kernel/kcov.c:345:52: error: 'struct kcov_entry' has no member named 'arg2'
-     345 |                         area[start_index + 2] = ent->arg2;
-         |                                                    ^~
+   drivers/platform/x86/think-lmi.c: In function 'certificate_store':
+>> drivers/platform/x86/think-lmi.c:758:51: warning: '%s' directive argument is null [-Wformat-overflow=]
+     758 |                 auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+         |                                                   ^~
 
 
-vim +309 kernel/kcov.c
+vim +758 drivers/platform/x86/think-lmi.c
 
-   290	
-   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
-   292						struct task_struct *t, unsigned int mode)
-   293	{
-   294		struct kcov *kcov;
-   295		struct kcov_entry *entry;
-   296		unsigned int key = hash_key(ent);
-   297		unsigned long pos, start_index, end_pos, max_pos, *area;
-   298	
-   299		kcov = t->kcov;
-   300	
-   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
-   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
-   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
-   304				if (entry->ent == ent->ent)
-   305					return;
-   306			}
-   307		else
-   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
- > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
- > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-   311					return;
-   312				}
-   313			}
-   314	
-   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
-   316		if (unlikely(!entry))
-   317			return;
-   318	
-   319		barrier();
-   320		memcpy(entry, ent, sizeof(*entry));
-   321		hash_add_rcu(map->buckets, &entry->node, key);
-   322	
-   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
-   324			area = t->kcov_area;
-   325		else
-   326			area = kcov->map_edge->area;
-   327	
-   328		pos = READ_ONCE(area[0]) + 1;
-   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
-   330			if (likely(pos < t->kcov_size)) {
-   331				WRITE_ONCE(area[0], pos);
-   332				barrier();
-   333				area[pos] = ent->ent;
-   334			}
-   335		} else {
-   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
-   337			max_pos = t->kcov_size * sizeof(unsigned long);
-   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
-   339			if (likely(end_pos <= max_pos)) {
-   340				/* See comment in __sanitizer_cov_trace_pc(). */
-   341				WRITE_ONCE(area[0], pos);
-   342				barrier();
-   343				area[start_index] = ent->type;
-   344				area[start_index + 1] = ent->arg1;
-   345				area[start_index + 2] = ent->arg2;
-   346				area[start_index + 3] = ent->ent;
-   347			}
-   348		}
-   349	}
-   350	
+   727	
+   728	static ssize_t certificate_store(struct kobject *kobj,
+   729					  struct kobj_attribute *attr,
+   730					  const char *buf, size_t count)
+   731	{
+   732		struct tlmi_pwd_setting *setting = to_tlmi_pwd_setting(kobj);
+   733		char *auth_str, *new_cert;
+   734		char *guid;
+   735		int ret;
+   736	
+   737		if (!capable(CAP_SYS_ADMIN))
+   738			return -EPERM;
+   739	
+   740		if (!tlmi_priv.certificate_support)
+   741			return -EOPNOTSUPP;
+   742	
+   743		new_cert = kstrdup(buf, GFP_KERNEL);
+   744		if (!new_cert)
+   745			return -ENOMEM;
+   746		/* Strip out CR if one is present */
+   747		strip_cr(new_cert);
+   748	
+   749		/* If empty then clear installed certificate */
+   750		if (new_cert[0] == '\0') { /* Clear installed certificate */
+   751			kfree(new_cert);
+   752	
+   753			/* Check that signature is set */
+   754			if (!setting->signature || !setting->signature[0])
+   755				return -EACCES;
+   756	
+   757			/* Format: 'serial#, signature' */
+ > 758			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+   759					dmi_get_system_info(DMI_PRODUCT_SERIAL),
+   760					setting->signature);
+   761			if (!auth_str)
+   762				return -ENOMEM;
+   763	
+   764			ret = tlmi_simple_call(LENOVO_CLEAR_BIOS_CERT_GUID, auth_str);
+   765			kfree(auth_str);
+   766			if (ret)
+   767				return ret;
+   768	
+   769			kfree(setting->certificate);
+   770			setting->certificate = NULL;
+   771			return count;
+   772		}
+   773	
+   774		if (setting->cert_installed) {
+   775			/* Certificate is installed so this is an update */
+   776			if (!setting->signature || !setting->signature[0]) {
+   777				kfree(new_cert);
+   778				return -EACCES;
+   779			}
+   780			guid = LENOVO_UPDATE_BIOS_CERT_GUID;
+   781			/* Format: 'Certificate,Signature' */
+   782			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+   783					new_cert, setting->signature);
+   784		} else {
+   785			/* This is a fresh install */
+   786			if (!setting->valid || !setting->password[0]) {
+   787				kfree(new_cert);
+   788				return -EACCES;
+   789			}
+   790			guid = LENOVO_SET_BIOS_CERT_GUID;
+   791			/* Format: 'Certificate,Admin-password' */
+   792			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+   793					new_cert, setting->password);
+   794		}
+   795		if (!auth_str) {
+   796			kfree(new_cert);
+   797			return -ENOMEM;
+   798		}
+   799	
+   800		ret = tlmi_simple_call(guid, auth_str);
+   801		kfree(auth_str);
+   802		if (ret) {
+   803			kfree(new_cert);
+   804			return ret;
+   805		}
+   806	
+   807		kfree(setting->certificate);
+   808		setting->certificate = new_cert;
+   809		return count;
+   810	}
+   811	
 
 -- 
 0-DAY CI Kernel Test Service
