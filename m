@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A7E1D9A7E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AB03C00
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 08:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737705975; cv=none; b=AK00Hemm9AMrUlxlknWzjix/bqzSqrqfVAqPiOHwZOh/YjB7hHAEcXl6NRiRmZXkManeFZ8TmiNgbPvaZrhEB3YiowOxytGrqalbz19GopMcG4ECt/wlcVau+AV58EtNMKNyGToW9ZW1aedAW5lG3nvHmwY8xKKclQYRwuDda7o=
+	t=1737705975; cv=none; b=EfXNsMDMVptfUOdDluTCqpencQad9QqzpfyFobYgJg6DFAMW2Xcpt2wdk4BC0pv34BnYieSzU5kgApIyIKFi8w1lVxfXqC/RuK7IFdhTtfNT9H6Kj10ubOw5pgKmiPr4tcfF/uTKua+jQilEVk6zQurbTzRw2CQbi6/ZurP8BqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737705975; c=relaxed/simple;
-	bh=l/+ucf7lHcXp96NICjBWROIjcoS05nC/gVOb/rW01Yw=;
+	bh=pj+mHQaNWfitLBPZYBfSC2xXx+037GaPX/9xJkNrrEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UYhz0gohU/ZCP96B4+lLhxcIK9sCPGS9lvNecttNTIPeqXS9d8HfgY+4mGZL/RBVO8YOdaUbDpx5PW4SsJagetwPkGlYgmUpTMxmLFTxawJXCFjqpeeKpcKGim+7G+5WCM7tFkTNzCUAT100MDXXZPp++IMgaVJFMkswq4jXSXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mREH7FTb; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=rRDv0QWesIbjJhbGO4n69KV1trW20V1amkMQSI0uB7R4i2tSZ+8qiJ50el9M8GLHyWnyqzd/+wh2Q0kth07nvJoRKf0pUedW3qdLojLacFPT4uPbYy/VJZML9/ts4qsF2UyEpEsHGzNiwvnKPVT9+47eZJseTDVzyLTymWV406w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ez6B2/2o; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mREH7FTb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ez6B2/2o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1737705973; x=1769241973;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l/+ucf7lHcXp96NICjBWROIjcoS05nC/gVOb/rW01Yw=;
-  b=mREH7FTbmu6K/8zx0im7HPysWJdrax25hnXyvVj8HSo9EeHvqHubZ1nw
-   rbhJIwBXv1qTNwtPXd+cDbCco7F2+R3l84FNa8Bs2WQWNEuGbhUy/hMqQ
-   8OfORpM8QKFm9OF0U8/lu59ynTgyr7R8NSwPRTy/h9y81zbZCOyW/zOQk
-   rsFeWAhaXZpMeWZTfg/ONW7/sVXE8MJ/8v71Axqh+TVEhD/msdzlZLlXz
-   DXgGvHmz6qzg3zPp8dxkyaeQll1+abQ+ZYzQgdLefynuF+TDDdBcJkP08
-   lCipqDY5uwo33WIQTwR5PKhSaULUzvxjcFMXYpipiUN+OcllOgKT56S/1
+  bh=pj+mHQaNWfitLBPZYBfSC2xXx+037GaPX/9xJkNrrEM=;
+  b=Ez6B2/2oYa7AT13VPBMtR46AOKVJDOhqv+YL3y3Dh9AjR366K8isL1eR
+   YNOywFLdpyps5qOaYlKkvsRVY/pSLqcSWXfHFatD/PvPl7YCEzlO3/1WK
+   WzRAeHGw5EsxAkLSXzgcjrxNHXqpbxZK/NblfnCSgqlyaAQ/HW19khpwH
+   8mqtZB7tBYOBnLFSzGsKBqHJnZs+sPVgTleuEVfVpAQRCuIqeSsJPJW60
+   qCu+DwoNc8yHNWHkMOpk88VIeBnIR06qNLyBTLDC0Pu4NJxxgAmN6NpVE
+   MtvbuMmkcGNlSCDAolCLul/+3y1lGXR0NJCKWstHgAoVLRcULxh8i+9rW
    Q==;
-X-CSE-ConnectionGUID: l+XRyh5oRLiV6hKbtjHD8A==
-X-CSE-MsgGUID: 3UCm91PDT+C2y1oiKWdxdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48897487"
+X-CSE-ConnectionGUID: l4RBlTdSR0iOitvMLy7EjQ==
+X-CSE-MsgGUID: xg7+OE70Q92lnP8qcwJOFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="63586756"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="48897487"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 00:06:12 -0800
-X-CSE-ConnectionGUID: 8FTYogaXTIOEh0u83K5gmw==
-X-CSE-MsgGUID: XaOeUHMqR7S8uP4RUUyEfA==
+   d="scan'208";a="63586756"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 00:06:12 -0800
+X-CSE-ConnectionGUID: YtKQLaruQ3aogvk2IFv7gg==
+X-CSE-MsgGUID: Q8uqRGXFQJSFLKfKHf4Kvg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="107550023"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="107509719"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Jan 2025 00:06:11 -0800
+  by orviesa009.jf.intel.com with ESMTP; 24 Jan 2025 00:06:11 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbEhc-000cPn-2r;
+	id 1tbEhc-000cPp-2w;
 	Fri, 24 Jan 2025 08:06:08 +0000
-Date: Fri, 24 Jan 2025 16:05:17 +0800
+Date: Fri, 24 Jan 2025 16:05:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Zhengchao Shao <shaozhengchao@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 13/13]
- drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:10: error:
- incompatible integer to pointer conversion returning 'int' from a function
- with result type 'struct regmap *'
-Message-ID: <202501241544.pJvvH7RS-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1841/1841] include/trace/stages/init.h:2:23:
+ warning: 'str__bonding__trace_system_name' defined but not used
+Message-ID: <202501241646.6wTHZP2L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   f612ad76bc03d33dccc654778308af5496867eb5
-commit: ae0429c5708a06415ad0022fc8a148202780b402 [13/13] CHROMIUM: soc: mediatek: apu: Add mt8196 apu power driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250124/202501241544.pJvvH7RS-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241544.pJvvH7RS-lkp@intel.com/reproduce)
+Hi Wei,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   1b973c5f4ead8093d8018eb8c3aad83f34724173
+commit: 69ddcb21328bd29cfd2f64710bdac158f4c90bf6 [1841/1841] drivers: hooks: add bonding driver vendor hooks
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250124/202501241646.6wTHZP2L-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501241646.6wTHZP2L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241544.pJvvH7RS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241646.6wTHZP2L-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:43:5: warning: no previous prototype for function 'mtk_apu_get_rpc_status' [-Wmissing-prototypes]
-      43 | int mtk_apu_get_rpc_status(struct platform_device *pdev)
-         |     ^
-   drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:43:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      43 | int mtk_apu_get_rpc_status(struct platform_device *pdev)
-         | ^
-         | static 
->> drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:63:5: warning: no previous prototype for function 'mtk_apu_get_rpc_pwr_status' [-Wmissing-prototypes]
-      63 | int mtk_apu_get_rpc_pwr_status(struct platform_device *pdev)
-         |     ^
-   drivers/soc/mediatek/apusys/power/mtk_aputop_drv.c:63:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      63 | int mtk_apu_get_rpc_pwr_status(struct platform_device *pdev)
-         | ^
-         | static 
-   2 warnings generated.
---
->> drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct regmap *' [-Wint-conversion]
-      77 |                 return dev_err_probe(dev, -EPROBE_DEFER,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      78 |                                      "failed to add device link between power and mailbox\n");
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bonding.h:27,
+                    from drivers/hooks/vendor_hooks.c:11:
+>> include/trace/stages/init.h:2:23: warning: 'str__bonding__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +77 drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c
+vim +/str__bonding__trace_system_name +2 include/trace/stages/init.h
 
-    53	
-    54	static struct regmap *get_mbox_regmap(struct device *dev)
-    55	{
-    56		struct device_node *mbox_node;
-    57		struct platform_device *mbox_pdev;
-    58		struct regmap *regmap = NULL;
-    59		struct device_link *link;
-    60	
-    61		mbox_node = of_parse_phandle(dev->of_node, "mediatek,mbox-spare-reg", 0);
-    62		if (!mbox_node)
-    63			return ERR_PTR(-ENODEV);
-    64	
-    65		mbox_pdev = of_find_device_by_node(mbox_node);
-    66		if (!mbox_pdev) {
-    67			regmap = ERR_PTR(-EPROBE_DEFER);
-    68			goto out_put_node;
-    69		}
-    70	
-    71		regmap = dev_get_regmap(&mbox_pdev->dev, NULL);
-    72		if (!regmap)
-    73			regmap = ERR_PTR(-EINVAL);
-    74	
-    75		link = device_link_add(dev, &mbox_pdev->dev, DL_FLAG_PM_RUNTIME);
-    76		if (!link)
-  > 77			return dev_err_probe(dev, -EPROBE_DEFER,
-    78					     "failed to add device link between power and mailbox\n");
-    79	
-    80		platform_device_put(mbox_pdev);
-    81	
-    82	out_put_node:
-    83		of_node_put(mbox_node);
-    84		return regmap;
-    85	}
-    86	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
