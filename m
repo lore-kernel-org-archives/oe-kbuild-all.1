@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38EB1D968E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACCD1D9A48
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 06:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737698877; cv=none; b=tzDItMTkF3Yp1icRjGqpeXRr9kIEOCCdNoMlDLZvnLIluGS/nfw17DTGkZbOR14yNU7Hr9yEM1Rf75iogci2ZkjZD728e3C6M4hwoxP1v2BJCEZaTIG6oKOMd8JBciOUtLEI5TGhTv4fRyxN/J0+sM6g3KqA0p9YZIyT+34umPY=
+	t=1737698878; cv=none; b=cSLSLaV9COZmQ6K3kUfxaJngSW5xE/u2Qg7/f2CMqfIUPNGg3NVUI00IxOztBZyeBAD/U8FCIv0P3hRk0CUFncewVloe/uMNV1kVNjOscYrZLw7HF44HltL/NBeYX7zkduUCWfCI61uSXFmhUprKd4zzJ0mn6IJAydqiSHdYmaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737698877; c=relaxed/simple;
-	bh=4RIg8J9BwenUQVXi+xlAozRK2C+OXO+y70BivbC3jpA=;
+	s=arc-20240116; t=1737698878; c=relaxed/simple;
+	bh=wBG6Efa1cDicOfRdhAxmzL/1tmOJUHn/tU6XU5KJXnM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H/7FsBh8dkEzFzrVmMS+IbwEwbeYWtB0USCmyVaJJt529nQNAXgqpjh8eZFhRoo0ankifvkBSh4IfAY9z/ffwuPFBThyVSgq54/lKNluADAGKmrCEQ8Uo/Lt9A5VDrBYUV7+IKxlN/b/mjIZkMtuxrBHS4/bBthveo7Fqbel2/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRcaSVPJ; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ezMdDPfuVNhVSqNr1abvLFZQUMqKxmlTYWFqC91USZWTCe3RAKinDo75kO9zGmyTAZhO4O5l6ml+QLihwqWqzqpReXeRTm1WJWGebdPLY/OY9pZiBAg9VyeCKqTWH+qn0ouhKcd+dsgtfkhJXF/pJSYEUG/R7tlNuvu2103qMoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tnr+8V+K; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRcaSVPJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tnr+8V+K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1737698876; x=1769234876;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4RIg8J9BwenUQVXi+xlAozRK2C+OXO+y70BivbC3jpA=;
-  b=KRcaSVPJfAk3OnRrLZ5j/QvVAm7u5OoZsVkdkqMRm/u/BSDhjIskBZLd
-   JeP7qdBs6jg1Gkd9C/5HTAwXd/I0HzAtX2z8ni7EGxvq8vbe6pSSsifTF
-   G8m5E2uChBcAIwoeFHpSaZtUcJc7bCAVwoOzqU9DHFNfu+fW/MDu6isvh
-   6OS0XaFu0XZzf7AyPwzrrzXJk+AfLlpQARmT1shuHjmKiHtWSHzG2p3Le
-   IyDzRbRDJSfszwohj3EjtTQ5Ywmat5ipJqP+f2HKfOApWX4lNW7yLNncl
-   mec6QUZYzKy3BAANJ28hDUCEhDLSGiO6oXtT3oBr+KDv8UqZHOyhVlywV
-   Q==;
-X-CSE-ConnectionGUID: KnmhB09nTA2mzCeezwTUMw==
-X-CSE-MsgGUID: upD0zY34TJmnsodTQ65XNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38369228"
+  bh=wBG6Efa1cDicOfRdhAxmzL/1tmOJUHn/tU6XU5KJXnM=;
+  b=Tnr+8V+KJpW6/o+fNGMOlZNONYEjibW0Tsf//Vn+KoFUIvOsYHvKHST1
+   tvjE3n/7qh3NQej+TZ8E+YsdKr8/1rfn/ymdSpil8pKFlIQaUtUT3w4kj
+   WwyJnX/dglCE1Cbxx+/TYkjH1jjJ0KMt1oDUMsMhZ4AFCX9iOaCyQAj89
+   qvFGF6u+gMFXfZRH1NYFOTpd3MlvQTwp/PvoBx2yyqP+gW5/2ZPD3XBqB
+   LkYppMh5YPdqKNZZyFIuwJATWPbLqCEsBsxj8ExyiHLCgyAiPuxtVLZ+s
+   8RssEcmTUJUxNhptxV2I1t/CSbDIcvDw7IoyKQM9wWQocBzTgeO8cpIwI
+   g==;
+X-CSE-ConnectionGUID: DDBEG5qsRcyWa+VESHRnFg==
+X-CSE-MsgGUID: MMjQwDSJQ1e0CRsKyNv98w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="41988050"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="38369228"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 22:07:56 -0800
-X-CSE-ConnectionGUID: wy9R0mG1Tgq+/H5bLq0tNQ==
-X-CSE-MsgGUID: DGdV/rOuQQOBUJAFRPZF9g==
+   d="scan'208";a="41988050"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 22:07:55 -0800
+X-CSE-ConnectionGUID: wzEv1t6RQtCGEQYfJm4AsQ==
+X-CSE-MsgGUID: o5PwbrQeRuSL751NOE48Zg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108115795"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="107488951"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Jan 2025 22:07:55 -0800
+  by orviesa009.jf.intel.com with ESMTP; 23 Jan 2025 22:07:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbCrA-000cFN-0i;
+	id 1tbCrA-000cFL-0d;
 	Fri, 24 Jan 2025 06:07:52 +0000
-Date: Fri, 24 Jan 2025 14:07:10 +0800
+Date: Fri, 24 Jan 2025 14:07:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 1/1] kismet: WARNING: unmet
- direct dependencies detected for DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE when
- selected by DRM_I915_DEBUG
-Message-ID: <202501241353.Yrh5T1GX-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 228/228]
+ mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol 'kasan_ptr_result' was
+ not declared. Should it be static?
+Message-ID: <202501241450.C7PC0znL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +63,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   347178a7b340b18dd42720734014ac33ad71e0da
-commit: 1faa166c29d789b4b0d6337b95355fdc2e7422f3 [1/1] UPSTREAM: drm/i915/dp: Add support for DP tunnel BW allocation
-config: i386-kismet-CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE-CONFIG_DRM_I915_DEBUG-0-0 (https://download.01.org/0day-ci/archive/20250124/202501241353.Yrh5T1GX-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241353.Yrh5T1GX-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   2c8b3afe8866ca4bb189aa69f1185ff225dabfa3
+commit: f7e01ab828fd4bf6d25b1f143a3994241e8572bf [228/228] kasan: move tests to mm/kasan/
+config: arm-randconfig-r132-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241450.C7PC0znL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241450.C7PC0znL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241353.Yrh5T1GX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501241450.C7PC0znL-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE when selected by DRM_I915_DEBUG
-   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
-     Depends on [n]: HAS_IOMEM [=y] && REF_TRACKER [=n] && DRM_DISPLAY_DP_TUNNEL [=y] && DEBUG_KERNEL [=y] && EXPERT [=y]
-     Selected by [y]:
-     - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && !COMPILE_TEST [=n] && DRM_I915_DP_TUNNEL [=y]
+sparse warnings: (new ones prefixed by >>)
+>> mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol 'kasan_ptr_result' was not declared. Should it be static?
+>> mm/kasan/kasan_test.c:37:5: sparse: sparse: symbol 'kasan_int_result' was not declared. Should it be static?
+
+vim +/kasan_ptr_result +36 mm/kasan/kasan_test.c
+
+f33a01492a24a2 lib/test_kasan.c Walter Wu        2020-08-06  31  
+adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  32  /*
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  33   * Some tests use these global variables to store return values from function
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  34   * calls that could otherwise be eliminated by the compiler as dead code.
+adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  35   */
+adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03 @36  void *kasan_ptr_result;
+83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13 @37  int kasan_int_result;
+83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13  38  
+
+:::::: The code at line 36 was first introduced by commit
+:::::: adb72ae1915db28f934e9e02c18bfcea2f3ed3b7 kasan: stop tests being eliminated as dead code with FORTIFY_SOURCE
+
+:::::: TO: Daniel Axtens <dja@axtens.net>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
