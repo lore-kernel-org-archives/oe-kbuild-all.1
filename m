@@ -1,62 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267F92FC52;
-	Fri, 24 Jan 2025 00:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B680A4C91
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jan 2025 01:09:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737680298; cv=none; b=mMp3wR2tnwkDd2mwFmK5hgtyLVzguz0kuyY/Tikx/93dwUzu55U1TJqWYfeycGWcN4BkmS1vlCdCENA+HRFujmWF3vzSXOfo6rA9DofUXZlW5Qmk1mx0Lyu7UCDWGzTcA0bY4UAM01kv+6j7Dq6weViVURltNvJJ12OUNRWl1NI=
+	t=1737680962; cv=none; b=m6AINb95UEaqD2LD/0sPLrIh3QiERi4FXskMJFHQuTTR8gW+AotQ9A9iDAiI3Al/2QXfM8rJR7gv2hxoZnNGhPf98cV5RbwCXYysgWGZ42YVcVQZQadOu+0wiLPuCyS0K+IpvoIFQn5a3cGr7FKfFox2iifUmfVJWdsBCvRZwKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737680298; c=relaxed/simple;
-	bh=LJBWz7gpPx6pYor80sUUmn3yFQaUSRq1SmFUxTQS2wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FDpbz3U/b64ln3R1oalokUQ0rVfI2MUHF9jl6sODVB1IVpVtnhUEqDlZGYN6Y0rrfQHPP63f7wYU+EfUaVlJOS2M1ICT2D2bqeWww3Ee82LoOQehNgq4A0FUVbvsBtBW5ll58Q3K0HZprv03/oGqQnCaHVZ8tcBc7hBrmp0he2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDOhq5Qn; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1737680962; c=relaxed/simple;
+	bh=wM1WhsLIf9eUZgRkUsTND9YUSOLOJCvHPAdjnqPayNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZyS6fO1TbRvKHyzr5xCs1L4/BREtQ0T/q2dXbz+gE8J/vqmw2cc/Sd0QbrGLQ7uz+OQ/9ZTwJjcfI2TdQuF4Hq/KmqlBCr1f9wehEiCoKA/akgJTs2XGL5/eBW723aqD1BPHxNUNUKsGLz5Qmsxx3pXjgIhjkPsT5aC0umY48h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F6cntcqx; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDOhq5Qn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F6cntcqx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737680297; x=1769216297;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LJBWz7gpPx6pYor80sUUmn3yFQaUSRq1SmFUxTQS2wY=;
-  b=XDOhq5QnuhHEvTa+6KpajxUXvsgIGrpSa2UGK3eHkwDkkZqrTdbMWpGC
-   ZRDYD2K8H+6o3/FOkwNpgRfQ2IcI2FeSJTs+q43vq7yek5Il7Ati/JUok
-   PveGMfBNv72bRhKolZZdiqvMIi470ECyhnfifggVogkWPozZShFU6uO3H
-   f+fNgaXA2lP3THUce+D7ZpXHDA+U9RJ74jw9OCxBIexl86EEQeZZzQfdT
-   +aT3O56w7r6GhmMFw5zIK51RthhKOsuVqRBvvbHO/JBaa31mVpQzV/myW
-   1j4pW5iSkG0gHIbAyI0W104e4Msur7UFmZkRIJDPCGNkAQRylMH+XU93g
+  t=1737680960; x=1769216960;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wM1WhsLIf9eUZgRkUsTND9YUSOLOJCvHPAdjnqPayNg=;
+  b=F6cntcqxKMppWChFab61LzyB30P5AOucgPTVgWv9EtMk4oYijb1FoVmG
+   g3xAEvGjPcCkAptSOv11ia36bhpDxIXcCdbeM0nmRY+OTuivXb5HnyFj4
+   w0dyLjeeeVnULS7ml8o0iKcgSVPhlBzeIvGq+5tiqwslu3zREvrLKTHGd
+   hjOtd8iclnI2AsHTm43MvDpuX27fld/80CQCnponQhk3xZSHXURmumZku
+   J1ZWpUDX9SKclEnybuGGJq45Id6EL7UXw85l6g7+RKViztKdHj9sEhBeV
+   3p0TIQZGdX6UUwLC5VP3F/5NjF1JUMGidMjld38GtHPAcgcbfQ/KDcpAG
    g==;
-X-CSE-ConnectionGUID: 7TLdNkMPTkupd3tBryaVVQ==
-X-CSE-MsgGUID: iuo6iUQfR1uqKMJhirct7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="25811792"
+X-CSE-ConnectionGUID: VbT/TprAT+OROT7F9L8ZcA==
+X-CSE-MsgGUID: qgt6sFL6RB6X57rm5i9r7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="25812906"
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="25811792"
+   d="scan'208";a="25812906"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 16:58:15 -0800
-X-CSE-ConnectionGUID: 4UsT8Xz8R32ht4pJyvthmg==
-X-CSE-MsgGUID: ELh5nu3KRZCA+ABFH0wYDQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 17:09:18 -0800
+X-CSE-ConnectionGUID: 4p/dJin2R1mMUcahUWq12Q==
+X-CSE-MsgGUID: O8OgAx4PTQubPvwTsmZGXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="138490980"
+   d="scan'208";a="138495645"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2025 16:58:14 -0800
+  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2025 17:09:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb81S-000bvn-30;
-	Fri, 24 Jan 2025 00:58:10 +0000
-Date: Fri, 24 Jan 2025 08:57:12 +0800
+	id 1tb8CA-000bwZ-35;
+	Fri, 24 Jan 2025 01:09:14 +0000
+Date: Fri, 24 Jan 2025 09:08:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Olga Kornievskaia <okorniev@redhat.com>, chuck.lever@oracle.com,
-	jlayton@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, Olga Kornievskaia <okorniev@redhat.com>
-Subject: Re: [PATCH 1/3] llist: add ability to remove a particular entry from
- the list
-Message-ID: <202501240848.ZH81rjTD-lkp@intel.com>
-References: <20250115232406.44815-2-okorniev@redhat.com>
+To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1841/1841] kismet: WARNING: unmet direct
+ dependencies detected for ARM64_ERRATUM_845719 when selected by ARCH_MXC
+Message-ID: <202501240914.Uj7VFpnN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,92 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115232406.44815-2-okorniev@redhat.com>
 
-Hi Olga,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on brauner-vfs/vfs.all linus/master v6.13 next-20250123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Olga-Kornievskaia/llist-add-ability-to-remove-a-particular-entry-from-the-list/20250116-072951
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250115232406.44815-2-okorniev%40redhat.com
-patch subject: [PATCH 1/3] llist: add ability to remove a particular entry from the list
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20250124/202501240848.ZH81rjTD-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240848.ZH81rjTD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   30472c94514880cf07700ef041e5c611a6d6888e
+commit: f9b54a6714445cde83aeff0318cf767b3b81229d [1841/1841] arm64:ilp32: add ARM64_ILP32 to Kconfig
+config: arm64-kismet-CONFIG_ARM64_ERRATUM_845719-CONFIG_ARCH_MXC-0-0 (https://download.01.org/0day-ci/archive/20250124/202501240914.Uj7VFpnN-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250124/202501240914.Uj7VFpnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501240848.ZH81rjTD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501240914.Uj7VFpnN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from lib/test_bitops.c:10:
-   In file included from include/linux/module.h:17:
-   In file included from include/linux/kmod.h:9:
-   In file included from include/linux/umh.h:4:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:63:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:15:
-   In file included from include/linux/smp_types.h:5:
->> include/linux/llist.h:283:7: error: variable 'pos' is uninitialized when used here [-Werror,-Wuninitialized]
-     283 |                 if (pos->next == entry) {
-         |                     ^~~
-   include/linux/llist.h:269:24: note: initialize the variable 'pos' to silence this warning
-     269 |         struct llist_node *pos;
-         |                               ^
-         |                                = NULL
-   1 error generated.
-
-
-vim +/pos +283 include/linux/llist.h
-
-   255	
-   256	/**
-   257	 * llist_del_entry - remove a particular entry from a lock-less list
-   258	 * @head: head of the list to remove the entry from
-   259	 * @entry: entry to be removed from the list
-   260	 *
-   261	 * Walk the list, find the given entry and remove it from the list.
-   262	 * The caller must ensure that nothing can race in and change the
-   263	 * list while this is running.
-   264	 *
-   265	 * Returns true if the entry was found and removed.
-   266	 */
-   267	static inline bool llist_del_entry(struct llist_head *head, struct llist_node *entry)
-   268	{
-   269		struct llist_node *pos;
-   270	
-   271		if (!head->first)
-   272			return false;
-   273	
-   274		/* Is it the first entry? */
-   275		if (head->first == entry) {
-   276			head->first = entry->next;
-   277			entry->next = entry;
-   278			return true;
-   279		}
-   280	
-   281		/* Find it in the list */
-   282		llist_for_each(head->first, pos) {
- > 283			if (pos->next == entry) {
-   284				pos->next = entry->next;
-   285				entry->next = entry;
-   286				return true;
-   287			}
-   288		}
-   289		return false;
-   290	}
-   291	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ARM64_ERRATUM_845719 when selected by ARCH_MXC
+   WARNING: unmet direct dependencies detected for ARM64_ERRATUM_845719
+     Depends on [n]: AARCH32_EL0 [=n]
+     Selected by [y]:
+     - ARCH_MXC [=y] && ARCH_NXP [=y] && COMPAT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
