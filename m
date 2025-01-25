@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9252066CB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 22:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D751DD0E1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 22:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737843837; cv=none; b=bOU62iMpJuWW288IAaxiKKPhTjbY3D8O2bsUkRIiplarUxIr5fxKTCkpvhcVwCz4YgQKJ19QtBbpuFlwOTuFC6IsCwOnZcxAM6IEtBiZRpeUm0VUdMTKMsVFBEnQ6pPIpBKujzZoUYHB0EtUiH39QLSTeTGfxIXL3jcdz8eI2vU=
+	t=1737845101; cv=none; b=UD+aqSJMHiiPIcJLr3ntecKnuh4V5Z/gq8fPDVJpuyRehuFIYvlxbtI3owWYqSpN/5Ah+zXPzhtT2scC77hR0Q2O+9C1D8eu9lLbQQHI3VAwYeR/nQUEIHTjAl0u1AJRnL4/EwSq0dyEN94e8mLmiqr8YoCvYZ6qfu40BypVVhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737843837; c=relaxed/simple;
-	bh=2Yh8CkgBbTBhXBFm3u1cDdBgI47bZuZ+uMLKfSRm1IE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YqgsKm24dG1l5LlLtQnHTczAged9MlqMFh1ifc81DQlHk45M1eOQ4jAfialECRON8G5LkEszu/ra2G6T0AllCP5RR/Z06GK+hgIvb493BsaX19oZyecDvDGPk2LDUtht/tjErFVTnoDpN5qmwqm+BeCk5rS604eafY9LmyhGzhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej8EdOAT; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1737845101; c=relaxed/simple;
+	bh=DeQLUVmZC2Rc3T0+MevSflhr0WmfIZJsddHgeFzZfDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mR8DzTV0UgtsRkUxYOayGEk6WR1CBukdd1NoYdFGuMNNYg40N2DoADTRpT3DHjYUY3erBT7m94IVoqAdR7R1ywQU44+dFN8J45rFlrIJPHWFNoi60lLobvqziDxuxe2vmBNN4817c9gATdz95KK6SKeiqv+l5RM+JaJaJ8W3JO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHCqjFya; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej8EdOAT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHCqjFya"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737843836; x=1769379836;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Yh8CkgBbTBhXBFm3u1cDdBgI47bZuZ+uMLKfSRm1IE=;
-  b=ej8EdOATw16rdVpeqq0i7ZI6iq4V0aUq7Dlmp6Zz0dxWmMvsUth2wUAX
-   AK/1xEpXgVgr2zVDnDHVZ7/DwdKWdwOiR7yiPpXWl+TBdjafHKd032uuy
-   DDfewF0tnPaQ3Ywlgb5IbBOuVksTd8RL18sWwEKeK42rDeNymTRtTg77t
-   cf3QhwURaaHe/3ruY9m3hJJhBQ6+vNt/RZ2WJbA/mOSJUVLvNQ2kowRYY
-   wgAXoTyBPNjMjy0VFSxRldK+BQRaRNex1frGOtPx7plqxMaFohmOHDUn2
-   +kZjJUjdHIufQ0UA9rZH1Pc7dktb+Q+NOYNJEIMPF9srBNF3iuZzHQTc5
-   A==;
-X-CSE-ConnectionGUID: 2MvZt5tLRiu8HQxUE7rf4Q==
-X-CSE-MsgGUID: JINkpKjiR7+bywdyvvF/kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="49741045"
+  t=1737845100; x=1769381100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DeQLUVmZC2Rc3T0+MevSflhr0WmfIZJsddHgeFzZfDg=;
+  b=GHCqjFyaTxUwOX7t3w5D0J6Vk+ML6dIdauUOdeGRUE6jZT6pt2ACOMHU
+   pvNgFPrgjqufdhU/KO0Voa5OwPVejyzGpnrH36toQtWX06rfoXMihjVaU
+   tAa3Sx6afj2LPaf0yixdY00FiK4pvCE48VWPOcbM1I3JNiieCUO2Q5Uay
+   y37BV5uvpi/7swDq6rfwV7vjXL2fh+txyxOnc9Fn4/kJN/+RY6+eHesqa
+   7Q2aj8ybM69zrdRGr/qCN3ER97h3GtrDnH3etfL5/oa27Nll3j1+q9zFb
+   qZYH+VcBQRv4jzHPNDjfng/lQ0LX+EaDF1TOh80j8yJSCI68hVmNFtPi5
+   w==;
+X-CSE-ConnectionGUID: shTz2De1T9+4Qa7n2uQDvw==
+X-CSE-MsgGUID: /6dvqKLzS6a4HGXOFu6pmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="42010912"
 X-IronPort-AV: E=Sophos;i="6.13,235,1732608000"; 
-   d="scan'208";a="49741045"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 14:23:55 -0800
-X-CSE-ConnectionGUID: 9nTtMkcJQ26EycKTORrhlQ==
-X-CSE-MsgGUID: RwAXExIgR+eT16dphfNWxw==
+   d="scan'208";a="42010912"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 14:44:59 -0800
+X-CSE-ConnectionGUID: fLHmbytyS/ySgrxbDisPsw==
+X-CSE-MsgGUID: 15lFYMFmS4ydpvrZwrdT+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="107934969"
+   d="scan'208";a="131380871"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 25 Jan 2025 14:23:54 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 25 Jan 2025 14:44:56 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tboZE-000eIF-0I;
-	Sat, 25 Jan 2025 22:23:52 +0000
-Date: Sun, 26 Jan 2025 06:23:23 +0800
+	id 1tbotZ-000eJT-2s;
+	Sat, 25 Jan 2025 22:44:53 +0000
+Date: Sun, 26 Jan 2025 06:44:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 0/1]
- include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in
- comparison expression (different address spaces):
-Message-ID: <202501260614.SQrfOXlQ-lkp@intel.com>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/lt3074): add support for lt3074
+Message-ID: <202501260605.Ad7sJxQM-lkp@intel.com>
+References: <20250124-upstream-lt3074-v1-2-7603f346433e@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +72,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250124-upstream-lt3074-v1-2-7603f346433e@analog.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   cf32d6ffe2eb44f4f011f25c0692458cf0032772
-commit: a905086c85cb076b98620df34ee237ece7c0599f [0/1] ANDROID: userfaultfd: allow SPF for UFFD_FEATURE_SIGBUS on private+anon
-config: x86_64-randconfig-123-20250125 (https://download.01.org/0day-ci/archive/20250126/202501260614.SQrfOXlQ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260614.SQrfOXlQ-lkp@intel.com/reproduce)
+Hi Cedric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a76539b293677c5c163b9285b0cd8dd420d33989]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-trivial-devices-add-lt3074/20250124-234209
+base:   a76539b293677c5c163b9285b0cd8dd420d33989
+patch link:    https://lore.kernel.org/r/20250124-upstream-lt3074-v1-2-7603f346433e%40analog.com
+patch subject: [PATCH 2/2] hwmon: (pmbus/lt3074): add support for lt3074
+config: hexagon-randconfig-r073-20250126 (https://download.01.org/0day-ci/archive/20250126/202501260605.Ad7sJxQM-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260605.Ad7sJxQM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501260614.SQrfOXlQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501260605.Ad7sJxQM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mmap.c: note: in included file (through include/linux/kernel.h):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/mmap.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/mmap.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/mmap.c: note: in included file (through include/linux/hugetlb.h):
->> include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx *
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx [noderef] __rcu *
->> include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx *
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx [noderef] __rcu *
+All warnings (new ones prefixed by >>):
 
-vim +81 include/linux/userfaultfd_k.h
+   In file included from drivers/hwmon/pmbus/lt3074.c:8:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/pmbus/lt3074.c:103:34: warning: unused variable 'lt3074_of_match' [-Wunused-const-variable]
+     103 | static const struct of_device_id lt3074_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~
+   2 warnings generated.
 
-    58	
-    59	extern int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-    60					    struct vm_area_struct *dst_vma,
-    61					    unsigned long dst_addr, struct page *page,
-    62					    bool newly_allocated, bool wp_copy);
-    63	
-    64	extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
-    65				    unsigned long src_start, unsigned long len,
-    66				    bool *mmap_changing, __u64 mode);
-    67	extern ssize_t mfill_zeropage(struct mm_struct *dst_mm,
-    68				      unsigned long dst_start,
-    69				      unsigned long len,
-    70				      bool *mmap_changing);
-    71	extern ssize_t mcopy_continue(struct mm_struct *dst_mm, unsigned long dst_start,
-    72				      unsigned long len, bool *mmap_changing);
-    73	extern int mwriteprotect_range(struct mm_struct *dst_mm,
-    74				       unsigned long start, unsigned long len,
-    75				       bool enable_wp, bool *mmap_changing);
-    76	
-    77	/* mm helpers */
-    78	static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
-    79						struct vm_userfaultfd_ctx vm_ctx)
-    80	{
-  > 81		return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-    82	}
-    83	
+
+vim +/lt3074_of_match +103 drivers/hwmon/pmbus/lt3074.c
+
+   102	
+ > 103	static const struct of_device_id lt3074_of_match[] = {
+   104		{ .compatible = "adi,lt3074" },
+   105		{}
+   106	};
+   107	MODULE_DEVICE_TABLE(of, lt3074_of_match);
+   108	
 
 -- 
 0-DAY CI Kernel Test Service
