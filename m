@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208F019E997
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 08:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9113A207E12;
+	Sat, 25 Jan 2025 08:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737792094; cv=none; b=Pm6tXYFUMsa43pUYCenkGjLl7+AzSEWAytnlL4mtxfM84rMEMvpYNJhDcXgwXop+LOfLQqqzAvGHQEyEtD/z271zIamfpIcOeWeZJN8W8p6YHHWNAGyOD5Vl3+2ThNCQDLCEylMkuGRYI/R8EDjNJNjVsVCv/l7gN3q7S5e7kQw=
+	t=1737794618; cv=none; b=Y3OkVLhZzAaA8CPYYT2FcHgBmmj2+jOCP/g/EXHH88DMPxeEP4D8KQOgKzkOolbET90+CPRkXwjQpiabSd7NbFg0giplB9CFiU2Ja2Heyy6+uPT8wtcJOgvLY1pynZPLAfuTgL0O9YIdRI1KiOyvqjM0oWeyAwGCdJhNIzvwjoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737792094; c=relaxed/simple;
-	bh=xqXWpunpaZE3AOPRn8LiZME23XC67NIqSqUse7eKOJ0=;
+	s=arc-20240116; t=1737794618; c=relaxed/simple;
+	bh=ssV8UAzqiMZoXTLEJlx6yEGlSCSedwPAcEW0cdJoSNk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HhK7iW4wSQHogmOlemS/3ezNW9YYNv01gTUaCzq4QUfeh3GZR9Hpy60EKGkEOFbjKhaTJwLjbUcgkeIaCi5x7pdUYvuZYTHAeawGul8pecNnwKnw9LB/h9Tk4LfJdSki6oBckgnD9+bpwEHdW9JJDBPvc+F4+h1TEv/CXl0nbHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UjkX1EXK; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=P1xa2VUYoLh6IzUfpTIREdYf3771dliLiqEQGMqeMptXk8a6RI3V8qBL6qlv14euA69C9f46lCCUUo+ko4WS0Qh7UY4nSccObaNTG/AJSZP7WqD+P0ze3ujthk0mt7h9ptxaMQPy8Nk80nK7fnZBUWF6xpPi5ldFMFqffPPTALs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AtdC+z8f; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UjkX1EXK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AtdC+z8f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737792093; x=1769328093;
+  t=1737794616; x=1769330616;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xqXWpunpaZE3AOPRn8LiZME23XC67NIqSqUse7eKOJ0=;
-  b=UjkX1EXKM0NkIR547sPYiQjgnaAH6O0VHeg+NU5KqO/wogQptYdBh9MN
-   F77R0XsnL7rj1XVmeLmgVly3VkD5hDXP1yPjuykTycSOaR3t0bDhu41Sv
-   fpCD6B+2ccukQko3SJySUnanwkGC2kK5O5oGmonvsFkVxy5CFuz9HU/dP
-   eR0rmR3Rn86SZNamxZq6Xq1Ue8rx9hSuC/M3UfV8fWzW14Q4HKq1xZk+S
-   PPXjqi5U2V2AaTvn+G/NAeEbcHWwesgvDTJFew1b/esyqgnQwPwv5H5Jf
-   H/ZUNQW/zutZx40XUpEzE9kMkj7HOtD+msrrlauIbf8eVY56eCCTcFzcG
-   A==;
-X-CSE-ConnectionGUID: qLSXuoJMSMWpjEpHUtrNhg==
-X-CSE-MsgGUID: iRqfJpSdSZ+enK8e8Kvwzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="38026675"
+  bh=ssV8UAzqiMZoXTLEJlx6yEGlSCSedwPAcEW0cdJoSNk=;
+  b=AtdC+z8fv6sm/sT/tpfgaNiBmk4KG6vKyomEcvPBXFYNdi/gl8CXxwYe
+   6Cksg1m/ICi2j+P9Us9L5ml2eV+sYqa7Fp43btVg+g1oTW8WRej3ECaBS
+   P2SOB0iqvJBvGc+YwhiikdLctc0SAPI/fIlg+VAqY6KHjIeokX5opq81q
+   O3ob+dnEe0c9xhdSuvdCk7j6fwSlwdc3aoe2YWG89wmJCwaHyBbwQr1xi
+   4WYw6klzEVCbddQqMA7chNJah+8jexJklsOiy1pYneZ8YgVDcSz6b5uZj
+   xRyyqilhXX4tCZQG9gr3f9GtNtAdHusYD8xmwXQ3x+bGP04VKp6P0Kou2
+   g==;
+X-CSE-ConnectionGUID: dPGtpgtmTGCtyR2EUvf++Q==
+X-CSE-MsgGUID: +ScWWgAFQ0+IJidaeSfU2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="37584365"
 X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; 
-   d="scan'208";a="38026675"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 00:01:33 -0800
-X-CSE-ConnectionGUID: s34UFXpNSr6MJbSNLgUN1w==
-X-CSE-MsgGUID: yKrnVaOoS/quu9rSBsx5PA==
+   d="scan'208";a="37584365"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 00:43:35 -0800
+X-CSE-ConnectionGUID: fJModYWNT62wW6j0m9yQmQ==
+X-CSE-MsgGUID: Jt2wiQj/QISvAWxVcS3a5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112594224"
+   d="scan'208";a="113120138"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Jan 2025 00:01:31 -0800
+  by orviesa005.jf.intel.com with ESMTP; 25 Jan 2025 00:43:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbb6f-000dct-0B;
-	Sat, 25 Jan 2025 08:01:29 +0000
-Date: Sat, 25 Jan 2025 16:01:16 +0800
+	id 1tbblM-000ddn-0E;
+	Sat, 25 Jan 2025 08:43:32 +0000
+Date: Sat, 25 Jan 2025 16:42:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:device_private 12/12] mm/migrate.c:294:33: error:
- implicit declaration of function 'make_device_private_entry'; did you mean
- 'is_device_private_entry'?
-Message-ID: <202501251551.At4FVF82-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:device_private 12/12] mm/migrate.c:294:12: error:
+ call to undeclared function 'make_device_private_entry'; ISO C99 and later
+ do not support implicit function declarations
+Message-ID: <202501251612.MocJKRGH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,27 +66,38 @@ Content-Disposition: inline
 tree:   https://github.com/davidhildenbrand/linux device_private
 head:   1693aa537b530ade1b82a54169a772386b4b7af7
 commit: 1693aa537b530ade1b82a54169a772386b4b7af7 [12/12] mm: combine readable and writable device exclusive entries into SWP_DEVICE_EXCLUSIVE
-config: arc-randconfig-001-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251551.At4FVF82-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251551.At4FVF82-lkp@intel.com/reproduce)
+config: arm-randconfig-004-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251612.MocJKRGH-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251612.MocJKRGH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501251551.At4FVF82-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501251612.MocJKRGH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/migrate.c: In function 'remove_migration_pte':
->> mm/migrate.c:294:33: error: implicit declaration of function 'make_device_private_entry'; did you mean 'is_device_private_entry'? [-Werror=implicit-function-declaration]
+   In file included from mm/migrate.c:22:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/migrate.c:294:12: error: call to undeclared function 'make_device_private_entry'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      294 |                         entry = make_device_private_entry(page_to_pfn(new));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 is_device_private_entry
->> mm/migrate.c:294:33: error: incompatible types when assigning to type 'swp_entry_t' from type 'int'
-   cc1: some warnings being treated as errors
+         |                                 ^
+   mm/migrate.c:294:12: note: did you mean 'is_device_private_entry'?
+   include/linux/swapops.h:210:20: note: 'is_device_private_entry' declared here
+     210 | static inline bool is_device_private_entry(swp_entry_t entry)
+         |                    ^
+>> mm/migrate.c:294:10: error: assigning to 'swp_entry_t' from incompatible type 'int'
+     294 |                         entry = make_device_private_entry(page_to_pfn(new));
+         |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 2 errors generated.
 
 
-vim +294 mm/migrate.c
+vim +/make_device_private_entry +294 mm/migrate.c
 
    235	
    236	/*
