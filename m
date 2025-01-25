@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C8C4A1D;
-	Sat, 25 Jan 2025 07:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895AC3224
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 08:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737791433; cv=none; b=l5M2+VXAT/0/A2c/Sk87ySDLMmvRbnRCm8UAId1kDnETpN69M8zUSTu6zxixbp5KiiwYQRH/ZHTk9ypepjnKUHIdkiWnN0YvP/lEHf/pKg3OAmd/PxVCl9pXoTHe8jDR1lQgWzAcFdfmFONWtaiFt58ix/w3ftH41n6ndcMMaR8=
+	t=1737792094; cv=none; b=opNWlw5yxWvhaAJbL4YRmaWkpwDs4jt+FStcmCA7GgmiLIs/cTtZ4VejpFr4pkR01WDPDNbejtPohDRSZV4ENDXEik1ALjCDQZO2U8eZmDX6b8q+pV+ZwnF5gtULi4WAUyG1/OMg7ECxcwdzKa8RL9t/Ig4NZ+7J7mLh6Sl2o9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737791433; c=relaxed/simple;
-	bh=BtySbS/8ACsHUX8CUsFFZO/zLD2dLUmD37Nz+ggjtCI=;
+	s=arc-20240116; t=1737792094; c=relaxed/simple;
+	bh=zEL48JsWe67oOewEfHTUAEuXwNo6tIHyj3rmGQDhqXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eKQhFlTiafLFET9pev9GF1LLmxRjrh4onXULIa5EzjYmx9Y8bzDmuvD/N+kpFqVviHNL40C156xehARC10v/2mCma6lQsjCF4Q69JCk//7kwTs79TmtK6HNL/qBK4QajDx7gxhbOvCI+j8MmyqvHXXa+sDsPVdKXDcq8GX1hiKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPRH6E9n; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=TxUnEu8XlrLf3SgVcdCNzmgCz529ClqPsOGpcOmka5us4e4pYPZ5pJ34NPpx+Kh2BXNoxMrIrauhUbH3M53X6BJZSpr0sQNAIWeYKFLtPL61dl59qV9EpD5ZCu50JKmYQcSlNI5cyjasaGkFJls78uqFzOjSAYSxP2uTz/qS9Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeDRRO2S; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPRH6E9n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeDRRO2S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737791432; x=1769327432;
+  t=1737792092; x=1769328092;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BtySbS/8ACsHUX8CUsFFZO/zLD2dLUmD37Nz+ggjtCI=;
-  b=jPRH6E9nsIL6DEzZvBygrEucpjTxGvtm38GH6VRHXNVFCzN+XtkxD+Wk
-   nRwtrwMpw/D6930/jLzwHIHFM6uEwJg/QSkeHLW4+bvhxPLufO3fNB7cY
-   XGPT7D9paGQagG9IRd5W8QfXfuGwvHWte9HC4FOIGJFZCUqu1K+blflnH
-   5Xo/fSy09Y3KC5o1/T4vm2Jc0nTzGTsFs/0/h3tUbLN/0bqNplvyv6j2P
-   5WvkWdpUThqb749Zq90J7MU+BpsyR2uICJ/lxBOix1FwH3mcsbncbym+w
-   gJhlUNlwtew/U2OT9/3A8Q+yT8+jjDkv/7wpAEvlcbqtMmUmmkP+Jtltl
+  bh=zEL48JsWe67oOewEfHTUAEuXwNo6tIHyj3rmGQDhqXY=;
+  b=HeDRRO2SF8Yfz9KAgvX8i+/oCAC5pt7eQDZXacrTCzoYS6BUe++QQw9n
+   PxEEya1TVgQmbi9+PRXTEFoSmkeIj5+TB7QLg0nB6u+QKFqo+zexMRg9T
+   wkJfvuEgmBuHTreX+oMnquPBATIvAiRF+sjYOqRUYBCUk5xiRitJqqTg2
+   tJfpiDhxAL52V/erSgEkEstHzt4qI+vkfFdZZd8PpzmooeMP2DzdB9b08
+   UvkXym0OvyS607MSa01mr9pK2Tq215Y+OB2PXrMITHXN88cap0YG7uV9Y
+   74idRvQ8wcm2M69q//4FKwI5CSVpaZQUrsZmld/YjFnWt865F5+W8n7l1
    g==;
-X-CSE-ConnectionGUID: bt6eMS+4QO6myVjIS3VU4w==
-X-CSE-MsgGUID: uGoxcoXDQpmZcR3SWzW1LA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="60795446"
+X-CSE-ConnectionGUID: FEGqKxFsRDGpA3oFip1SWw==
+X-CSE-MsgGUID: 5emKEFOsTz+eebBCMg7SVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="25926902"
 X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; 
-   d="scan'208";a="60795446"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 23:50:31 -0800
-X-CSE-ConnectionGUID: Q1JX8qZARF6jE6bxnazFfw==
-X-CSE-MsgGUID: KYfKwv4iTGObmfgCwmSShw==
+   d="scan'208";a="25926902"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 00:01:32 -0800
+X-CSE-ConnectionGUID: 05VBTYOHR9maXerkx10WzA==
+X-CSE-MsgGUID: Cilg0AvdTN+7naNT1Rt2tA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; 
-   d="scan'208";a="107954684"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="138835448"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 24 Jan 2025 23:50:29 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Jan 2025 00:01:31 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbavz-000dcR-1a;
-	Sat, 25 Jan 2025 07:50:27 +0000
-Date: Sat, 25 Jan 2025 15:49:32 +0800
+	id 1tbb6f-000dcv-0G;
+	Sat, 25 Jan 2025 08:01:29 +0000
+Date: Sat, 25 Jan 2025 16:01:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:device_private 11/12] mm/memory.c:730:2: error:
- use of undeclared identifier 'entry'
-Message-ID: <202501251554.1DXJI1g3-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:compat_get_cpumask 8/8] kernel/compat.c:120:37: error:
+ passing argument 1 of 'compat_get_cpumask' from incompatible pointer type
+Message-ID: <202501251547.LqczwrrY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +62,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davidhildenbrand/linux device_private
-head:   1693aa537b530ade1b82a54169a772386b4b7af7
-commit: 838bd156d6fb55c5fd169934f349829386bc28d7 [11/12] mm/memory: detect writability in restore_exclusive_pte() through can_change_pte_writable()
-config: arm-randconfig-004-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251554.1DXJI1g3-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251554.1DXJI1g3-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux compat_get_cpumask
+head:   b7162e407638adc57cdf6d6f1acea90f9d84a638
+commit: b7162e407638adc57cdf6d6f1acea90f9d84a638 [8/8] kernel/compat
+config: arm64-randconfig-002-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251547.LqczwrrY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251547.LqczwrrY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501251554.1DXJI1g3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501251547.LqczwrrY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/memory.c:44:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/memory.c:730:2: error: use of undeclared identifier 'entry'
-     730 |         entry = pte_to_swp_entry(orig_pte);
-         |         ^
->> mm/memory.c:737:25: error: too few arguments to function call, expected 2, have 1
-     737 |                         pte = pte_mkwrite(pte);
-         |                               ~~~~~~~~~~~    ^
-   include/linux/pgtable.h:839:21: note: 'pte_mkwrite' declared here
-     839 | static inline pte_t pte_mkwrite(pte_t pte, struct vm_area_struct *vma)
-         |                     ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 2 errors generated.
+   In file included from kernel/compat.c:12:
+   include/linux/compat.h:955:32: warning: 'struct cpumask_t' declared inside parameter list will not be visible outside of this definition or declaration
+     955 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
+         |                                ^~~~~~~~~
+   kernel/compat.c: In function '__do_compat_sys_sched_setaffinity':
+>> kernel/compat.c:120:37: error: passing argument 1 of 'compat_get_cpumask' from incompatible pointer type [-Wincompatible-pointer-types]
+     120 |         retval = compat_get_cpumask(new_mask, user_mask_ptr, len);
+         |                                     ^~~~~~~~
+         |                                     |
+         |                                     cpumask_var_t {aka struct cpumask *}
+   include/linux/compat.h:955:43: note: expected 'struct cpumask_t *' but argument is of type 'cpumask_var_t' {aka 'struct cpumask *'}
+     955 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
+         |                         ~~~~~~~~~~~~~~~~~~^~~~~~~
+   kernel/compat.c: At top level:
+   kernel/compat.c:208:32: warning: 'struct cpumask_t' declared inside parameter list will not be visible outside of this definition or declaration
+     208 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
+         |                                ^~~~~~~~~
+   kernel/compat.c:208:6: error: conflicting types for 'compat_get_cpumask'; have 'long int(struct cpumask_t *, const compat_ulong_t *, unsigned int)' {aka 'long int(struct cpumask_t *, const unsigned int *, unsigned int)'}
+     208 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
+         |      ^~~~~~~~~~~~~~~~~~
+   include/linux/compat.h:955:6: note: previous declaration of 'compat_get_cpumask' with type 'long int(struct cpumask_t *, const compat_ulong_t *, unsigned int)' {aka 'long int(struct cpumask_t *, const unsigned int *, unsigned int)'}
+     955 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
+         |      ^~~~~~~~~~~~~~~~~~
+   In file included from include/linux/cpumask.h:13,
+                    from arch/arm64/include/asm/cpufeature.h:27,
+                    from arch/arm64/include/asm/hwcap.h:9,
+                    from arch/arm64/include/asm/arch_timer.h:12,
+                    from arch/arm64/include/asm/timex.h:8,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/compat.h:10:
+   kernel/compat.c: In function 'compat_get_cpumask':
+   include/linux/cpumask_types.h:18:37: error: invalid use of undefined type 'struct cpumask_t'
+      18 | #define cpumask_bits(maskp) ((maskp)->bits)
+         |                                     ^~
+   kernel/compat.c:214:33: note: in expansion of macro 'cpumask_bits'
+     214 |         ret = compat_get_bitmap(cpumask_bits(cpumask), umask, ncpus);
+         |                                 ^~~~~~~~~~~~
+   kernel/compat.c:216:36: error: passing argument 1 of 'cpumask_clear_from' from incompatible pointer type [-Wincompatible-pointer-types]
+     216 |                 cpumask_clear_from(cpumask, ncpus);
+         |                                    ^~~~~~~
+         |                                    |
+         |                                    struct cpumask_t *
+   include/linux/cpumask.h:631:64: note: expected 'struct cpumask *' but argument is of type 'struct cpumask_t *'
+     631 | static __always_inline void cpumask_clear_from(struct cpumask *dstp, unsigned long cpu)
+         |                                                ~~~~~~~~~~~~~~~~^~~~
 
 
-vim +/entry +730 mm/memory.c
+vim +/compat_get_cpumask +120 kernel/compat.c
 
-28093f9f34cede Gerald Schaefer   2016-04-28  717  
-b756a3b5e7ead8 Alistair Popple   2021-06-30  718  static void restore_exclusive_pte(struct vm_area_struct *vma,
-f7fd4c350285c7 David Hildenbrand 2025-01-22  719  		struct folio *folio, struct page *page, unsigned long address,
-f7fd4c350285c7 David Hildenbrand 2025-01-22  720  		pte_t *ptep, pte_t orig_pte)
-b756a3b5e7ead8 Alistair Popple   2021-06-30  721  {
-b756a3b5e7ead8 Alistair Popple   2021-06-30  722  	pte_t pte;
-b756a3b5e7ead8 Alistair Popple   2021-06-30  723  
-f7fd4c350285c7 David Hildenbrand 2025-01-22  724  	VM_WARN_ON_FOLIO(!folio_test_locked(folio), folio);
-f7fd4c350285c7 David Hildenbrand 2025-01-22  725  
-b756a3b5e7ead8 Alistair Popple   2021-06-30  726  	pte = pte_mkold(mk_pte(page, READ_ONCE(vma->vm_page_prot)));
-c33c794828f212 Ryan Roberts      2023-06-12  727  	if (pte_swp_soft_dirty(orig_pte))
-b756a3b5e7ead8 Alistair Popple   2021-06-30  728  		pte = pte_mksoft_dirty(pte);
-b756a3b5e7ead8 Alistair Popple   2021-06-30  729  
-c33c794828f212 Ryan Roberts      2023-06-12 @730  	entry = pte_to_swp_entry(orig_pte);
-c33c794828f212 Ryan Roberts      2023-06-12  731  	if (pte_swp_uffd_wp(orig_pte))
-b756a3b5e7ead8 Alistair Popple   2021-06-30  732  		pte = pte_mkuffd_wp(pte);
-838bd156d6fb55 David Hildenbrand 2025-01-24  733  
-838bd156d6fb55 David Hildenbrand 2025-01-24  734  	if ((vma->vm_flags & VM_WRITE) &&
-838bd156d6fb55 David Hildenbrand 2025-01-24  735  	    can_change_pte_writable(vma, address, pte)) {
-838bd156d6fb55 David Hildenbrand 2025-01-24  736  		if (folio_test_dirty(folio))
-838bd156d6fb55 David Hildenbrand 2025-01-24 @737  			pte = pte_mkwrite(pte);
-838bd156d6fb55 David Hildenbrand 2025-01-24  738  		pte = pte_mkwrite(pte, vma);
-838bd156d6fb55 David Hildenbrand 2025-01-24  739  	}
-b756a3b5e7ead8 Alistair Popple   2021-06-30  740  
-b832a354d787bf David Hildenbrand 2023-12-20  741  	VM_BUG_ON_FOLIO(pte_write(pte) && (!folio_test_anon(folio) &&
-b832a354d787bf David Hildenbrand 2023-12-20  742  					   PageAnonExclusive(page)), folio);
-1eba86c096e35e Pasha Tatashin    2022-01-14  743  	set_pte_at(vma->vm_mm, address, ptep, pte);
-1eba86c096e35e Pasha Tatashin    2022-01-14  744  
-b756a3b5e7ead8 Alistair Popple   2021-06-30  745  	/*
-b756a3b5e7ead8 Alistair Popple   2021-06-30  746  	 * No need to invalidate - it was non-present before. However
-b756a3b5e7ead8 Alistair Popple   2021-06-30  747  	 * secondary CPUs may have mappings that need invalidating.
-b756a3b5e7ead8 Alistair Popple   2021-06-30  748  	 */
-b756a3b5e7ead8 Alistair Popple   2021-06-30  749  	update_mmu_cache(vma, address, ptep);
-b756a3b5e7ead8 Alistair Popple   2021-06-30  750  }
-b756a3b5e7ead8 Alistair Popple   2021-06-30  751  
-
-:::::: The code at line 730 was first introduced by commit
-:::::: c33c794828f21217f72ce6fc140e0d34e0d56bff mm: ptep_get() conversion
-
-:::::: TO: Ryan Roberts <ryan.roberts@arm.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   109	
+   110	COMPAT_SYSCALL_DEFINE3(sched_setaffinity, compat_pid_t, pid,
+   111			       unsigned int, len,
+   112			       compat_ulong_t __user *, user_mask_ptr)
+   113	{
+   114		cpumask_var_t new_mask;
+   115		int retval;
+   116	
+   117		if (!alloc_cpumask_var(&new_mask, GFP_KERNEL))
+   118			return -ENOMEM;
+   119	
+ > 120		retval = compat_get_cpumask(new_mask, user_mask_ptr, len);
+   121		if (retval)
+   122			goto out;
+   123	
+   124		retval = sched_setaffinity(pid, new_mask);
+   125	out:
+   126		free_cpumask_var(new_mask);
+   127		return retval;
+   128	}
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
