@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B42F6DCE1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 16:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCC57083C;
+	Sat, 25 Jan 2025 16:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737823405; cv=none; b=NnyEu698HkLzzZeQjLiqqiq0Efu7MZ0crzn/ari6JkdVh4khV2QPceHfO/Rh5vUc8aF74MMfF8TBVOfqqO33zPurCJFFdvXSPkW6+HtKjJmjSkefLqCqT7DoT8N9SZE39j8EONX9FMYIhIDESW7jLzoe/hVNZ33+wFsOFpL6XNw=
+	t=1737823408; cv=none; b=jtOBPrVqkpeqpTAKIO6W4b1NKqyNffKVZHSxnaZ/Huxx6e0kRzs4ygPsRMKbbxxtWoXuF5VqNRsi0abnvksbcqFOmmXdxD1g57rRQZ+fztqWkwZWOndf2Ow50oCdzucfcu+1W/FtgzJnRpyApNkzE7ec8P6Sqo6Cs1PWhab+GiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737823405; c=relaxed/simple;
-	bh=SwyfdjgIXrp6DoAx2z5Mo3UQHm1rGfujHk7QvDqzYYw=;
+	s=arc-20240116; t=1737823408; c=relaxed/simple;
+	bh=9tFTdgZqre9E46+B1satkBaOYn5XrFcYPVYMWcyyJN0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C0n0Cm0Xd8/ajU1mpwLU1AZGqRv6z5pfCGN3DeJAfrxg2dRxVlhj6ELrnWGHwQrXzNokG7I8SSK3t6Ad2K/CIBFsX8/babXkYJrrtDyK9VAyf+55ZR8mdQCiQ+SaRdDsrXNxDjJY5OwhjC+pG0QnuVS3W0D6bfeI74RA9WMtQ/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyagWJIC; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=DLvvU7OUdZ1NPQZyBY+A6M03Gt72Vpw8PCOnVNIFnR6qkAqYDdmWSBS5ZOAKRY0McsWKXFFKKnHGRFq0sIJzYYfVLMSFXLXqRcw3QbgexlRprwLIhvLPxxv0dWdYKu/KG+O/7a+t6S3HuW5u78xIK+OYx7o7GQek5NLOQokzqY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTvWdg2C; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyagWJIC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTvWdg2C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737823404; x=1769359404;
+  t=1737823406; x=1769359406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SwyfdjgIXrp6DoAx2z5Mo3UQHm1rGfujHk7QvDqzYYw=;
-  b=hyagWJICxn00kdm+K0eEz6YASBYka8fwpxxvvuYpw1/+z3gU799Wv0IY
-   f0HDoPfqGv4aemW9H9iTjeYjOsfd4gD0ynF5U4ndJy45p8xSjdubnhdqa
-   c71VN/8Nec3HZLmx9OpxRJzyfJnERHop7hla3829xxvzd2YYZ6IjkfthO
-   HhxtZploXxigVL9VRKJzGp6B9PGGjIUPMJ3ZOvCEilqqPHausEL5CZsrl
-   ksHo/PDtbZzIcA5VMq/LS8yPEuvK8VLrkJ0ladMO3JJEPTZsgF6sUHizq
-   L67pZBRjcRYEyISuxyMTm8kPh260eGEyW+w0BvVY73+rSdINUAQEV/DF/
-   g==;
-X-CSE-ConnectionGUID: 4Sys86+MR46S1t+Axpn2Dw==
-X-CSE-MsgGUID: vrqduaexTee1cJBF3iYEtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="42001803"
+  bh=9tFTdgZqre9E46+B1satkBaOYn5XrFcYPVYMWcyyJN0=;
+  b=XTvWdg2Cr2dAhwt0QmHTzJ+33wFXXkBo7Eg753Y64JpCJ1hURtaN/G24
+   YwbSdpec6KnhsOX3hzaTLnrtj02Qr03a0C5634CRGdWBtfLT/320cEmTX
+   mtEvg1kR0AtT7H7SaJStNDHsws7NxVWn2MyhIaukIWZMecvWsX+52IlBK
+   xy1OKgv4fLB2yiK7yaDVByS4tsb2fjB+A2mNAxsgpal67CNUOsPmaZpJQ
+   iNvK9VjvDWaqiuvwmOsKGKZ5CNYChegyIL+iisDJbgv35HqFxqP7eDVGO
+   C6v+R41j4qSLaadjRzTygD5OnkeOBiM+PZV9jdUALl0gm4y4rZb4mH1Ap
+   w==;
+X-CSE-ConnectionGUID: IS+HO/7NQd6sXT+/a/NO7g==
+X-CSE-MsgGUID: WzwkCeVhTjee8qI17DvZEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="42001806"
 X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
-   d="scan'208";a="42001803"
+   d="scan'208";a="42001806"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 08:43:23 -0800
-X-CSE-ConnectionGUID: ioFuANrmTA+YdHprL/UgZQ==
-X-CSE-MsgGUID: kOdZPSRLTvC4g3auu2A3cQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 08:43:24 -0800
+X-CSE-ConnectionGUID: P8czEk31RYOlKvixeZDHhw==
+X-CSE-MsgGUID: Q9S77bi5RPKha+fSiUPAGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="145280507"
+   d="scan'208";a="145280505"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 25 Jan 2025 08:43:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbjFf-000e1k-2f;
+	id 1tbjFf-000e1n-2j;
 	Sat, 25 Jan 2025 16:43:19 +0000
-Date: Sun, 26 Jan 2025 00:42:21 +0800
+Date: Sun, 26 Jan 2025 00:42:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bigeasy-staging:ucount 4/4] kernel/ucount.c:141:29: error: implicit
- declaration of function 'rcuref_get'; did you mean 'kref_get'?
-Message-ID: <202501260054.fO3hdK0y-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bigeasy-staging:ucount 4/4] kernel/ucount.c:14:11: error: field
+ designator 'refcnt' does not refer to any field in type 'atomic_t'
+Message-ID: <202501260026.51BnOJBu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,57 +65,45 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git ucount
 head:   e9941c1a05c13c6c791c76ab322b385f5e535a6f
 commit: e9941c1a05c13c6c791c76ab322b385f5e535a6f [4/4] ucount: use rcuref
-config: arm-randconfig-001-20250125 (https://download.01.org/0day-ci/archive/20250126/202501260054.fO3hdK0y-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260054.fO3hdK0y-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250126/202501260026.51BnOJBu-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260026.51BnOJBu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501260054.fO3hdK0y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501260026.51BnOJBu-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/stat.h:5,
-                    from include/linux/stat.h:7,
-                    from kernel/ucount.c:3:
->> include/linux/types.h:192:28: error: 'atomic_t' has no member named 'refcnt'
+>> kernel/ucount.c:14:11: error: field designator 'refcnt' does not refer to any field in type 'atomic_t'
+      14 |         .count = RCUREF_INIT(1),
+         |                  ^~~~~~~~~~~~~~
+   include/linux/types.h:192:27: note: expanded from macro 'RCUREF_INIT'
      192 | #define RCUREF_INIT(i)  { .refcnt = ATOMIC_INIT(i - 1) }
-         |                            ^~~~~~
-   kernel/ucount.c:14:18: note: in expansion of macro 'RCUREF_INIT'
-      14 |         .count = RCUREF_INIT(1),
-         |                  ^~~~~~~~~~~
->> kernel/ucount.c:14:9: warning: braces around scalar initializer
-      14 |         .count = RCUREF_INIT(1),
-         |         ^
-   kernel/ucount.c:14:9: note: (near initialization for 'init_ucounts.count.counter')
-   kernel/ucount.c: In function 'find_ucounts':
->> kernel/ucount.c:141:29: error: implicit declaration of function 'rcuref_get'; did you mean 'kref_get'? [-Wimplicit-function-declaration]
+         |                           ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/ucount.c:141:8: error: call to undeclared function 'rcuref_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      141 |                         if (rcuref_get(&ucounts->count))
-         |                             ^~~~~~~~~~
-         |                             kref_get
-   kernel/ucount.c: In function 'alloc_ucounts':
->> kernel/ucount.c:172:9: error: implicit declaration of function 'rcuref_init'; did you mean 'cred_init'? [-Wimplicit-function-declaration]
+         |                             ^
+   kernel/ucount.c:141:8: note: did you mean 'kref_get'?
+   include/linux/kref.h:43:20: note: 'kref_get' declared here
+      43 | static inline void kref_get(struct kref *kref)
+         |                    ^
+>> kernel/ucount.c:172:2: error: call to undeclared function 'rcuref_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      172 |         rcuref_init(&new->count, 1);
-         |         ^~~~~~~~~~~
-         |         cred_init
-   kernel/ucount.c: In function 'put_ucounts':
->> kernel/ucount.c:200:13: error: implicit declaration of function 'rcuref_put'; did you mean 'kref_put'? [-Wimplicit-function-declaration]
+         |         ^
+>> kernel/ucount.c:200:6: error: call to undeclared function 'rcuref_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      200 |         if (rcuref_put(&ucounts->count)) {
-         |             ^~~~~~~~~~
-         |             kref_put
+         |             ^
+   kernel/ucount.c:200:6: note: did you mean 'kref_put'?
+   include/linux/kref.h:62:19: note: 'kref_put' declared here
+      62 | static inline int kref_put(struct kref *kref, void (*release)(struct kref *kref))
+         |                   ^
+   4 errors generated.
 
 
-vim +141 kernel/ucount.c
+vim +14 kernel/ucount.c
 
-     2	
-   > 3	#include <linux/stat.h>
-     4	#include <linux/sysctl.h>
-     5	#include <linux/slab.h>
-     6	#include <linux/cred.h>
-     7	#include <linux/hash.h>
-     8	#include <linux/kmemleak.h>
-     9	#include <linux/user_namespace.h>
     10	
     11	struct ucounts init_ucounts = {
     12		.ns    = &init_user_ns,
