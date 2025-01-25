@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC5217996
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956F5200CB
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 16:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737822143; cv=none; b=uk5cYtiKE2CZVwnzodpA9o6TDsc8tIJegGoCwccfOLLZzmSekSxwJghi5UURaq1wfZxD3hwUCbxLJ5vkLs2YklUBpMyjakfv8HLlRuYgRC8xWA/sKWSABc0r22Z6OHk7p2NvXk270CZRSZOuv/HxT/Tg7tzYD9cu9LugeG4/Btk=
+	t=1737822143; cv=none; b=Z0IMB/XOTToitt4HwC6A2KKqXmAtWCRVSlE0FDbh8tdnCthG3sRf6ZuxrQLQf8+piGbpAm0uJwBbGL+QiT0FB4rrHJ81hDpDGanHNdtmih0ZpLISrsgp2NsdPtbgkM2kzRTRV/E0VnZ0Ofuh/LlNpRLS8bKmNJYKsryXfU3SuPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737822143; c=relaxed/simple;
-	bh=1AVLHKXRsw2fdnfsQzma5gSixcvnrTrOTusu+GwWzss=;
+	bh=twvfuCvVKEbB1ZPojjUzEKUTZUJu2Lpq7be4CYT5GXo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wy7Y/DC1L6+HBH+nDDShRBfVAWi5G6nC6IQWe21c08q+0EPNb7QvVn3UQ74roDJeQUxOyqVf/Gofv496LnZzKF+3W2soG8Sxsp7xkiSt7NmGQEWvGWwHR5+i+gE/cxIf7zxwG5D8ovvviQ+pq3dd2dYkb57IphiVbG0tAlP3mtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Se0PMxee; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=mr4DGwKUdAhMEM33UkoR5QWlI4TPOR6XbEH9YHo3QP++T1vWlC1jz4aA+gc11p7chJmeyVCpRMpR3IT+i2sDUiSvuH59U7AfFukomFpmoLjPcVNr3wAPykFH8sWJ7MRGLNqR+uWX1l3n3l4wKmhprlgXJLqoAcDtwhgpHVVcRn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdsvE0qP; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Se0PMxee"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdsvE0qP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1737822142; x=1769358142;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1AVLHKXRsw2fdnfsQzma5gSixcvnrTrOTusu+GwWzss=;
-  b=Se0PMxeegiIWLub606Q3OpW95yfzXrbupV7JDRvUrKTGYSirb8sDzVKi
-   Coyd/V/qEy9mbXGscM7wXjdJhz7gEPD2vsgwMkjJokmAAaXB65kNk2okX
-   Mzc0q/ho75aIXwIRRg3FiTz9/tkF3ZGLengMAd9XDWyRyNWNSZVykiVWh
-   v4rT3coNjZCJujRHnocKAieI6K54aWyPHzzYP1942cMZFWWFyjdE7RcEN
-   CJdo+4m6+bPCp7FchMHZJXXB3wdqpPNJkYuENcWTmnSyr9fbAmD1BYQHy
-   wAtFOomrHOTQW5zD3f7xrPYzGvcwSRGBtrf3jNArMEfir3g4qFFKNFuGo
-   g==;
-X-CSE-ConnectionGUID: D25RoxiySsOeRNkZiCby/g==
-X-CSE-MsgGUID: HdpXxL8hRMa+Goe2n5Fsag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="63694716"
+  bh=twvfuCvVKEbB1ZPojjUzEKUTZUJu2Lpq7be4CYT5GXo=;
+  b=LdsvE0qPja1F7/fbIUmFlaTBXVb02beS7V7MNjUTFBvMZb3chQgLknhR
+   AbKEYb6w+mhEKUjEmT+6MyuJUcNeKO5LO/wZGpYfhdkNQozQxMd9Zlvft
+   0Iofb9d4Vk5HEx3VQk514XtggamrBFJubWDtkPS35Gn8CpzfthcDHrMxe
+   zG50UW343qiMi7N3aplLJS+CxNU4mLAs6wuBq1wLzBNieHErM8ft+ppii
+   6uV1I6u0pMb2ez/HYV/HBS0c11BgZRWblKkVuPFEX+F2OrgSmRPwYxTB8
+   oxodwOpNeQCcyKaYvBMns7A5/dZBpngMmnrylzBteoqBYwu4dXKApM9cJ
+   Q==;
+X-CSE-ConnectionGUID: mylDIwLqT2OrTbOOz6qT7A==
+X-CSE-MsgGUID: 1I1nA+4xTUW7rCpimr0Eyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="48843421"
 X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
-   d="scan'208";a="63694716"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 08:22:21 -0800
-X-CSE-ConnectionGUID: perJEIoGRXGMQGQuTDo33w==
-X-CSE-MsgGUID: pCZSosDbRIqFm8gNwEaLDw==
+   d="scan'208";a="48843421"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 08:22:21 -0800
+X-CSE-ConnectionGUID: kZUAtC+rSAaFOcCNv180rA==
+X-CSE-MsgGUID: 99vMyKqhRCqr2s+EFwJGPQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
-   d="scan'208";a="113045628"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107891914"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Jan 2025 08:22:20 -0800
+  by orviesa010.jf.intel.com with ESMTP; 25 Jan 2025 08:22:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbivJ-000e0y-2X;
+	id 1tbivJ-000e0v-2T;
 	Sat, 25 Jan 2025 16:22:17 +0000
-Date: Sun, 26 Jan 2025 00:21:40 +0800
+Date: Sun, 26 Jan 2025 00:21:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Slaby <jslaby@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/tty/serial/pic32_uart.c:904:34: warning:
- 'pic32_serial_dt_ids' defined but not used
-Message-ID: <202501260006.ecUsBidz-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:compat_get_cpumask 7/8] io_uring/register.c:241:42: error:
+ passing argument 1 of 'compat_get_cpumask' from incompatible pointer type
+Message-ID: <202501260050.iJS9eGMt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +62,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jiri,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b46c89c08f4146e7987fc355941a93b12e2c03ef
-commit: e3e7b13bffae85e2806c73e3ccacd4447bcb19ed serial: allow COMPILE_TEST for some drivers
-date:   2 years, 9 months ago
-config: mips-randconfig-s051-20221112 (https://download.01.org/0day-ci/archive/20250126/202501260006.ecUsBidz-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260006.ecUsBidz-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux compat_get_cpumask
+head:   b7162e407638adc57cdf6d6f1acea90f9d84a638
+commit: bba742e7f4aab4b879cc1620c1b57be76607bff8 [7/8] io_uring/register.c: use compat_get_cpumask
+config: x86_64-randconfig-004-20250125 (https://download.01.org/0day-ci/archive/20250126/202501260050.iJS9eGMt-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260050.iJS9eGMt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501260006.ecUsBidz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501260050.iJS9eGMt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/tty/serial/pic32_uart.c:904:34: warning: 'pic32_serial_dt_ids' defined but not used [-Wunused-const-variable=]
-     904 | static const struct of_device_id pic32_serial_dt_ids[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/ia32.h:7,
+                    from arch/x86/include/asm/elf.h:10,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/static_call.h:135,
+                    from include/linux/tracepoint.h:22,
+                    from include/trace/syscall.h:5,
+                    from include/linux/syscalls.h:94,
+                    from io_uring/register.c:9:
+   include/linux/compat.h:955:32: warning: 'struct cpumask_t' declared inside parameter list will not be visible outside of this definition or declaration
+     955 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
+         |                                ^~~~~~~~~
+   io_uring/register.c: In function 'io_register_iowq_aff':
+>> io_uring/register.c:241:42: error: passing argument 1 of 'compat_get_cpumask' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     241 |                 ret = compat_get_cpumask(new_mask, (const compat_ulong_t __user *)arg, len);
+         |                                          ^~~~~~~~
+         |                                          |
+         |                                          struct cpumask *
+   In file included from arch/x86/include/asm/ia32.h:7,
+                    from arch/x86/include/asm/elf.h:10,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/static_call.h:135,
+                    from include/linux/tracepoint.h:22,
+                    from include/trace/syscall.h:5,
+                    from include/linux/syscalls.h:94,
+                    from io_uring/register.c:9:
+   include/linux/compat.h:955:43: note: expected 'struct cpumask_t *' but argument is of type 'struct cpumask *'
+     955 | long compat_get_cpumask(struct cpumask_t *cpumask, const compat_ulong_t __user *umask,
+         |                         ~~~~~~~~~~~~~~~~~~^~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/pic32_serial_dt_ids +904 drivers/tty/serial/pic32_uart.c
+vim +/compat_get_cpumask +241 io_uring/register.c
 
-157b9394709ed5 Andrei Pistirica 2016-01-13  903  
-157b9394709ed5 Andrei Pistirica 2016-01-13 @904  static const struct of_device_id pic32_serial_dt_ids[] = {
-157b9394709ed5 Andrei Pistirica 2016-01-13  905  	{ .compatible = "microchip,pic32mzda-uart" },
-157b9394709ed5 Andrei Pistirica 2016-01-13  906  	{ /* sentinel */ }
-157b9394709ed5 Andrei Pistirica 2016-01-13  907  };
-157b9394709ed5 Andrei Pistirica 2016-01-13  908  MODULE_DEVICE_TABLE(of, pic32_serial_dt_ids);
-157b9394709ed5 Andrei Pistirica 2016-01-13  909  
-
-:::::: The code at line 904 was first introduced by commit
-:::::: 157b9394709ed5233288986a293405def22792ed serial: pic32_uart: Add PIC32 UART driver
-
-:::::: TO: Andrei Pistirica <andrei.pistirica@microchip.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+   229	
+   230	static __cold int io_register_iowq_aff(struct io_ring_ctx *ctx,
+   231					       void __user *arg, unsigned len)
+   232	{
+   233		cpumask_var_t new_mask;
+   234		int ret;
+   235	
+   236		if (!alloc_cpumask_var(&new_mask, GFP_KERNEL))
+   237			return -ENOMEM;
+   238	
+   239	#ifdef CONFIG_COMPAT
+   240		if (in_compat_syscall())
+ > 241			ret = compat_get_cpumask(new_mask, (const compat_ulong_t __user *)arg, len);
+   242		else
+   243	#endif
+   244			ret = copy_iowq_aff_cpus(new_mask, arg, len);
+   245	
+   246		if (ret) {
+   247			free_cpumask_var(new_mask);
+   248			return -EFAULT;
+   249		}
+   250	
+   251		ret = __io_register_iowq_aff(ctx, new_mask);
+   252		free_cpumask_var(new_mask);
+   253		return ret;
+   254	}
+   255	
 
 -- 
 0-DAY CI Kernel Test Service
