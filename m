@@ -1,73 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78821E7C08
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 12:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE261E87B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 13:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737809043; cv=none; b=O9B0fo1e1f+uDRu1dAfxVqzPlzWw3zIowTsB6pDGEkJguoI3VT6C2/6/cqSEwFlmlM6bUoaQr7su2RreoLW5mVYnP1OG5PfgLJZGhxwVAjswcqkh9O+lMnAEe1t9V00yLV2mjb7Dcezu191o3/CCkDZrUniHco8aZu8DwJguanY=
+	t=1737810491; cv=none; b=k6hFNtg+mT9cX4TLRCCaMu7fUmHT1zT6K4asm/tPO03Hcoi0EqV8cLT23oRzjTl8ah2zyLpfZqLT5/Ak7OO2+rWRyKxGSL3SW63eXmTdImZGkfbyT7G5JTOR5dhr+Ewd9CMVdsVHU1bUGoPb+YMbuSVD9npVCiYXp1HTUJhb/sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737809043; c=relaxed/simple;
-	bh=NlaAKhY+IZwJhCTyPYWy+HGapQ1kdZ3i1g6TA8GP9Qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mhqwsyZKRBbSG3oN3HMZiHUk6Hhd7mnzfoa9uH+vEtiM/5Yr0WkCc/hRi0RdqgcYqIY+PtASV1WulK7MiISTwkN3DEfj7IMbgeN7jhKhtudLsMEkIx0ruXMguzK8KcGurbdYLoYiCkP01uHfK0ESG06wrv+X1h6cJYfedpJCDFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxK0sMKU; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737810491; c=relaxed/simple;
+	bh=6sY5cyJc0jnNRiM4MzMSW3soHKIy9kpUlZWYU96xtCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=h51Nm2yBsuX6vJBWJW5TlbgFVfsj7Vzpyo9HqUXKpgOx1akmCwJR3UEMX9p0Vmj7az9XbovRJoEN0Ivx5RzJhE9opi3bklABhnXyDZ2DMz8/CvXWBwnAgixzpRztbSiRQJLXhiMoK61LxNsIMT9CGu3AFIUU32cmGNicHIpx0G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QYYFlF7h; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxK0sMKU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737809042; x=1769345042;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NlaAKhY+IZwJhCTyPYWy+HGapQ1kdZ3i1g6TA8GP9Qc=;
-  b=PxK0sMKUkHnBZSgN0X58EW67Cr0Msygtba7zGeO4SBuOderSJP6dcCCF
-   QMGIJb2qzaMK8eVPUU0yk2tkb64zcWciIINmt1UWsY6ISOPCjE2/O6CGp
-   6h1dM/toBTqoWMGmaNWnu9kB7RShnU5MIx7p0Oyk0os4fDCD1KAEnc5xA
-   86T8DZ+fHPurTL+YKPXigmMTvH+fLHfkRot/qqgHvTfPevwxFsE+9Zgtk
-   qdVX7nXkv7dSj9bVXHjwychtlEHa31zw9Lll5YNvqm7HCptWPwOoaQTrn
-   EuZY0JhP23vXPmU+WTqGPjtnGa8cNzcbImWVTTdra1HFu9LZ9Pv2odUTi
-   g==;
-X-CSE-ConnectionGUID: YAv7n9mrQ6+rl1Ubp875ow==
-X-CSE-MsgGUID: LRV8b7jhQFW6MRJta75O1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="37590030"
-X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
-   d="scan'208";a="37590030"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 04:44:01 -0800
-X-CSE-ConnectionGUID: aZKkiA7rSxWOWJZF61T1sw==
-X-CSE-MsgGUID: Qskw6ZrORVSq3BsHg4s8JQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="131311353"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Jan 2025 04:43:57 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tbfVz-000doF-1O;
-	Sat, 25 Jan 2025 12:43:55 +0000
-Date: Sat, 25 Jan 2025 20:43:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radu Sabau <radu.sabau@analog.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051,
- adp1055 and ltp8800
-Message-ID: <202501252028.3VEwAFiG-lkp@intel.com>
-References: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QYYFlF7h"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4361f65ca01so31090055e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 05:08:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737810487; x=1738415287; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gAGvgsOljIxqqUnQeHNI81x7TBIIT9NusLAHj9xrSY8=;
+        b=QYYFlF7hapet1qsVL39NxLDh2Rh/l7Czzq0ecPvtCTaqr7sGseYnA24pyVGlNOjeKg
+         S/MtJjty8vKHfuwULUIhFVbR6tr7P+ek5t23ls0MD2LgvDoc/gv2mXjAAmogm0otqKZK
+         6GcfHKcbdplqnoIeAQok7NEJKvZieB++O15StZbUtgxd7Ocm3QVRhGVsoDfChtVXZfd7
+         6Jj4To8ViCUeXwC/M2jf95QTdaFaBcOU0seQKI1NINhJSaUIL3WRE/qBhwgDX4PeamS8
+         I1Q3XlG1Tg5bqOwziL+Nmu4a1rHX8QjKbAeeMUL+VTedniyTbl6TWvqFqZHw3E/hx6Sq
+         Ft7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737810487; x=1738415287;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gAGvgsOljIxqqUnQeHNI81x7TBIIT9NusLAHj9xrSY8=;
+        b=fcGdaigpSXMDY7UVK8031xOnbFojjXh8shJVjhFV1rSGrWX7+8aG+SuQRWYbT+1Fik
+         eB/3NuEXM+rq+50HPAyrHmF0SQfEcgkqdLP4A8l2YP6V4qW919GtPJRuhbFCBV5rkngo
+         FLrPxRAiUrSzoekVoU3GLCdbECr1RCxwgfP4vj+ck8p3a9ouAOqR0sLIoWER2nD5NSsd
+         AfwKDLC5Cva/j5tAOOlMUxvp8u21Co800CElXmwdkOKOC/ifBUc1b0lAu8h/X0DeGqdW
+         K5G6AkgSMjjEDqNUvKoY3tcp2TXmxdnnMtRUv3Q1ffOb5tjIT2gBXRfauNp7+qy/RGBs
+         LbnA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRosTU86Rg7UVB+A3T8NWhS1YLgDLUbKIBd2kRMeF/YyOeMwCUWLbWCxF8YxfgLIjxC4e0EETvF2tVu9jR@lists.linux.dev
+X-Gm-Message-State: AOJu0YysYdY7qcA4zEkswM2B5ZWZ4M36i/wrXXB2EBA0NBp69VybrjvZ
+	sruuov7I2nWRdlnYOb0MttnNRKoh7VRQpROI+2JXTA4NDVk9lOel4WxqiMwBIU8=
+X-Gm-Gg: ASbGncvX77ULJ7Gr3rV6vboP7GAPSYKc2l5I0oUo6NDLD40rtDlPzFIE2ozm96tZaXN
+	4ihirg0SjnC6i+8eYNTvhS52e6QJaYLERFY6M5BIpzAiVEEe9bEgHlE3161gcrEboE50vwQIkf6
+	/tr/ZaqciA7p6Z32j0XcUoOZ500+jTZODe4FukvKdYcaVbWm0LqIlCz6bF4KA/6JhJRSn/UAazK
+	KxnHdPC7/GVpG+MFyKxdpl2gKuZ3JElvmX1XzzxFU5RhPZXyqBkKAYiPcyiBtS3YvdJcibsVJQV
+	vpQh/qy0EsWPZXvWKqm+
+X-Google-Smtp-Source: AGHT+IFTbsOp9MXX2tvYNoeS6Ugr0YQflFcdLIe/WGLt6GMkazpITSyAtQNNs6vdpz37fDwN6p7W9w==
+X-Received: by 2002:a05:600c:3544:b0:434:a781:f5e2 with SMTP id 5b1f17b1804b1-438913cabedmr287954845e9.8.1737810487227;
+        Sat, 25 Jan 2025 05:08:07 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd47f0fdsm61254465e9.5.2025.01.25.05.08.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jan 2025 05:08:06 -0800 (PST)
+Date: Sat, 25 Jan 2025 16:08:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jyri Sarha <jyri.sarha@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:capture-hw-mute-indicator 7/9]
+ sound/soc/sof/ipc4-control.c:868 sof_scomp_get_card() warn: variable
+ dereferenced before check 'scomp' (see line 866)
+Message-ID: <1f3e7076-28e3-49c4-a552-42d674bfaa21@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,47 +71,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
 
-Hi Cedric,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a76539b293677c5c163b9285b0cd8dd420d33989]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-adp1051-adp1055-and-ltp8800/20250124-233047
-base:   a76539b293677c5c163b9285b0cd8dd420d33989
-patch link:    https://lore.kernel.org/r/20250124151746.1130-3-cedricjustine.encarnacion%40analog.com
-patch subject: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051, adp1055 and ltp8800
-config: arm-randconfig-r133-20250125 (https://download.01.org/0day-ci/archive/20250125/202501252028.3VEwAFiG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250125/202501252028.3VEwAFiG-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux capture-hw-mute-indicator
+head:   34df55e2634f610fc34f29047badf07ddf41ba2e
+commit: 1569062204a940115428cee1c098cc286c23f43a [7/9] ASoC: sof: global-capture-hw-mute-indicattor; Mixer created
+config: csky-randconfig-r072-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251110.vdLQOt9D-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501252028.3VEwAFiG-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202501251110.vdLQOt9D-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/pmbus/adp1050.c:74:14: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct pmbus_driver_info *info @@     got void const * @@
-   drivers/hwmon/pmbus/adp1050.c:74:14: sparse:     expected struct pmbus_driver_info *info
-   drivers/hwmon/pmbus/adp1050.c:74:14: sparse:     got void const *
+New smatch warnings:
+sound/soc/sof/ipc4-control.c:868 sof_scomp_get_card() warn: variable dereferenced before check 'scomp' (see line 866)
 
-vim +74 drivers/hwmon/pmbus/adp1050.c
+Old smatch warnings:
+sound/soc/sof/ipc4-control.c:519 sof_ipc4_bytes_ext_put() warn: potential user controlled sizeof overflow 'header.length + 8' '0-u32max + 8'
 
-    69	
-    70	static int adp1050_probe(struct i2c_client *client)
-    71	{
-    72		struct pmbus_driver_info *info;
-    73	
-  > 74		info = i2c_get_match_data(client);
-    75		if (!info)
-    76			return -ENODEV;
-    77	
-    78		return pmbus_do_probe(client, info);
-    79	}
-    80	
+vim +/scomp +868 sound/soc/sof/ipc4-control.c
+
+1569062204a940 Jyri Sarha 2025-01-20  864  static struct snd_card *sof_scomp_get_card( struct snd_soc_component *scomp)
+23f60efe259d22 Jyri Sarha 2025-01-20  865  {
+1569062204a940 Jyri Sarha 2025-01-20 @866  	struct device *dev = scomp->dev;
+                                                                     ^^^^^^^^^^
+Dereference
+
+23f60efe259d22 Jyri Sarha 2025-01-20  867  
+1569062204a940 Jyri Sarha 2025-01-20 @868  	if (!scomp) {
+                                                     ^^^^^
+Checked too late
+
+1569062204a940 Jyri Sarha 2025-01-20  869  		dev_err(dev, "%s: scomp == NULL", __func__);
+23f60efe259d22 Jyri Sarha 2025-01-20  870  		return NULL;
+1569062204a940 Jyri Sarha 2025-01-20  871  	}
+23f60efe259d22 Jyri Sarha 2025-01-20  872  
+1569062204a940 Jyri Sarha 2025-01-20  873  	if (!scomp->card) {
+1569062204a940 Jyri Sarha 2025-01-20  874  		dev_err(dev, "%s: No snd_soc_card", __func__);
+23f60efe259d22 Jyri Sarha 2025-01-20  875  		return NULL;
+1569062204a940 Jyri Sarha 2025-01-20  876  	}
+23f60efe259d22 Jyri Sarha 2025-01-20  877  
+1569062204a940 Jyri Sarha 2025-01-20  878  	return scomp->card->snd_card;
+23f60efe259d22 Jyri Sarha 2025-01-20  879  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
