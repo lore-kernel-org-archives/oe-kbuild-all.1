@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AB2192B74
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 11:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C37E1E1C26
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 11:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737805855; cv=none; b=sqYxyp2lM+38cVpAUsC/ir5pdwKhjyic81xJHH9hvTOGPjtFYZj2AzTTtBmI6JyknEQGFBn+CNEaUS2TmZ8pZKYFherWw+0cKIT6/knqAnNRvvmz5jUd/efpZsjPlFzGJfvmpUCLzgkeN7WIi2J3u69dK6cClPSyd5plkYiyFOY=
+	t=1737805856; cv=none; b=smCj3KUJ6rNX9XhjkzoyqJoTDXYiQ0rdQXXeFHnzFHGIqJ4mPpfFJxtfpJwdlgyn3bpMdDdBY4xPdwy71gLRw/SlSaY9ucDRSoB2ev8buDmEj67DTf7JI7XGTbrGjFoW9yFta9R8r41hRHmnqresXjA8ma9GSrWo12phm3rDD9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737805855; c=relaxed/simple;
-	bh=BP0jT4gXyq529z5GtZQwQY5f4z9DTZHD17yPa8bsoV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eTMKlLV+/9I3YRGK6HCGJdnE6QdT+PtEupJtuOT2O1918liczjloDCdwctK36nmAOdjZDXiN9pmGOeT0QqlAOZJ6yXdGDPRAQlSolmGdJJWeoyR7VHe2tXUw5YODCfKlHUGbj2cYf6EqLbaO0/2lSC+CIbTD4swmYHGkM6TDHuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aK9L4eNJ; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1737805856; c=relaxed/simple;
+	bh=tLQxd9PZHnxIw8x47h8Ket6AvGPO8g7//q4h0rLHhcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4HUiE9NkJ+yve5Ir5Sxw4sGrKIjmhKzppA1oWZnCuuSTc+syMh1IvDT/IomLE7HiUPtrB2KCV/PrZdhbYS3JP94QF9oJwDfnEO8vlFObjOQviEoSMRH1SFjzB1o5pJUWvidAjjYvMPBNglI/JRxw906kM+9ku37RR8arD9W6Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H1UJqSEQ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aK9L4eNJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H1UJqSEQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737805854; x=1769341854;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BP0jT4gXyq529z5GtZQwQY5f4z9DTZHD17yPa8bsoV8=;
-  b=aK9L4eNJxTqHEq8orTiRFFbykZKywEDXGieckt7pJsQ6lNovgHkxyVde
-   P+wSCUvBKMV1vFilUfTo9ZaPoG7UWeuSAryX1SCLo2IcVUrA0iNsrNj9p
-   8NxpDrC0ORU6zLi8CQJbB/K/SMlvbpJAK2Si9cLm7IDwiKunPPYHD8L1S
-   dIuXlgD25/FZyxrBZbUqqNf+5fpPVMB2QVUIyMNnN+1K/OFNnjUxv1CkA
-   RyyWGdw0XAFnz3dVYxUjuzTScFpf6oudyr2gnEDvCMWLsD1JYouJrl/l9
-   1qABcjC4KAk1MHwqsMpD34h9Yil2M/6Y96qkFDJ6jVUGC9f+gFY0cn4Qt
-   g==;
-X-CSE-ConnectionGUID: yJxUIQfvS+6Sy6kWkGgmdQ==
-X-CSE-MsgGUID: uf8rCyNHQJ6EEXwyMz7Z8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49748157"
+  t=1737805855; x=1769341855;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tLQxd9PZHnxIw8x47h8Ket6AvGPO8g7//q4h0rLHhcA=;
+  b=H1UJqSEQve0dEZHOlZ+AIcQPsFz4z41e+NNkIhXUT3iXG8H8sBK9ta5O
+   EFW3ckBebgqt+H3doIQTBfsAcWcKv41CLIq/NXViK+2QVZ+hjOTb5f0EV
+   MLiMK9KOjLbE1qZn8V1GkaT0LYxaFVOnHNZy+Vun06yS3fulPJ/NAhjEE
+   v4xBFi62qO5jpDOyRw4uxJ9aBVo6dsO7dxvkT/jH3kkFZrHpaDqyB7mcq
+   ws4z09+QdTVqfIu40BqAMTEye50m/UBW3/2YqE+8SGetH2jU6v32zMxvr
+   bAI8JUDK5mxIFOQV14ENH3H7HXG5/mUws5CM/yEDKjEkn2nTIFVZ+Xde3
+   w==;
+X-CSE-ConnectionGUID: /t/3TVb1ScuL/8df+sXVpQ==
+X-CSE-MsgGUID: y+6vIBteTN+nRRob80qrnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38433479"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="49748157"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 03:50:53 -0800
-X-CSE-ConnectionGUID: rFWAVs4sQjOH1bml5qoBDg==
-X-CSE-MsgGUID: oPIuGKTkSx6jgpdvL3tt7g==
+   d="scan'208";a="38433479"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 03:50:54 -0800
+X-CSE-ConnectionGUID: lO88u461THulesFgCqr6aw==
+X-CSE-MsgGUID: QKB0x6pYTEWDxtaVcPsF5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
-   d="scan'208";a="108537798"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="108437501"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Jan 2025 03:50:53 -0800
+  by orviesa007.jf.intel.com with ESMTP; 25 Jan 2025 03:50:52 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbegc-000dmT-1W;
+	id 1tbegc-000dmR-1S;
 	Sat, 25 Jan 2025 11:50:50 +0000
-Date: Sat, 25 Jan 2025 19:50:00 +0800
+Date: Sat, 25 Jan 2025 19:49:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1]
- kernel/rcu/rcuscale.o: warning: objtool: rcu_scale_writer()+0x371:
- unreachable instruction
-Message-ID: <202501251921.xJn1leM6-lkp@intel.com>
+To: Roopni Devanathan <quic_rdevanat@quicinc.com>,
+	ath12k@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Roopni Devanathan <quic_rdevanat@quicinc.com>
+Subject: Re: [PATCH v2 3/5] wifi: mac80211: Set RTS threshold on per-radio
+ basis
+Message-ID: <202501251909.8i7nEm4H-lkp@intel.com>
+References: <20250124171756.3418663-4-quic_rdevanat@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +65,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250124171756.3418663-4-quic_rdevanat@quicinc.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   cf32d6ffe2eb44f4f011f25c0692458cf0032772
-commit: ceff6f5e71735251c43a2647c03bdccac9f32c64 [1/1] rcuscale: Provide clear error when async specified without primitives
-config: x86_64-buildonly-randconfig-003-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251921.xJn1leM6-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251921.xJn1leM6-lkp@intel.com/reproduce)
+Hi Roopni,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on e7ef944b3e2c31b608800925e784f67596375770]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roopni-Devanathan/wifi-cfg80211-Add-Support-to-Set-RTS-Threshold-for-each-Radio/20250125-012016
+base:   e7ef944b3e2c31b608800925e784f67596375770
+patch link:    https://lore.kernel.org/r/20250124171756.3418663-4-quic_rdevanat%40quicinc.com
+patch subject: [PATCH v2 3/5] wifi: mac80211: Set RTS threshold on per-radio basis
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250125/202501251909.8i7nEm4H-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251909.8i7nEm4H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501251921.xJn1leM6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501251909.8i7nEm4H-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/rcu/rcuscale.o: warning: objtool: rcu_scale_writer()+0x371: unreachable instruction
+>> drivers/net/wireless/rsi/rsi_91x_mac80211.c:1211: warning: Function parameter or struct member 'radio_id' not described in 'rsi_mac80211_set_rts_threshold'
+
+
+vim +1211 drivers/net/wireless/rsi/rsi_91x_mac80211.c
+
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1200  
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1201  /**
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1202   * rsi_mac80211_set_rts_threshold() - This function sets rts threshold value.
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1203   * @hw: Pointer to the ieee80211_hw structure.
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1204   * @value: Rts threshold value.
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1205   *
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1206   * Return: 0 on success.
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1207   */
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1208  static int rsi_mac80211_set_rts_threshold(struct ieee80211_hw *hw,
+607be4e860ab07 Roopni Devanathan 2025-01-24  1209  					  u8 radio_id,
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1210  					  u32 value)
+dad0d04fa7ba41 Fariya Fatima     2014-03-16 @1211  {
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1212  	struct rsi_hw *adapter = hw->priv;
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1213  	struct rsi_common *common = adapter->priv;
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1214  
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1215  	mutex_lock(&common->mutex);
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1216  	common->rts_threshold = value;
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1217  	mutex_unlock(&common->mutex);
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1218  
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1219  	return 0;
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1220  }
+dad0d04fa7ba41 Fariya Fatima     2014-03-16  1221  
 
 -- 
 0-DAY CI Kernel Test Service
