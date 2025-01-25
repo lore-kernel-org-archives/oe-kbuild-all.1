@@ -1,74 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B262046AD;
-	Sat, 25 Jan 2025 04:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E833C47B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 05:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737780261; cv=none; b=XQ7OrY9s6MCNs+eWpcnMCrynpXAeiWN7UmYz7/zbvLyd84zpzPRetSXsr5BIiBRrMfG52e2Iby7ooXSVLzdXstmSF96U9nJYW5N/+LY/LtGXEvkUizDjM82fPcM4dSmDuSz5k6oaa3rbpqdzh9xlR/h2OCE5CnDWRA+015+jCko=
+	t=1737781521; cv=none; b=DWB7ZktwWLLqgM20mpT4KPWdbssSrP6AonYy9h5Fe39/8/HSNHXrvxwo3Nqp+reXERyQaes469Ra/5Sjs1QqocVWjnSbvGBkTkUvSXv34ds9kXAa5n7ma/j4DmR/OseS8uhXmzqvHoLzsyjpPBdpwLqTq3sJcJTxOGxfqSkYNrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737780261; c=relaxed/simple;
-	bh=GeK+ivtm9xNDqBOzHa6NJe8s56YeRpslIZPxkq3MgSI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rAlCDKaA4zgs//2SJ5lJzgiT2s5BM9cXspVVA0MdrrkDNowPSIjgBaKMjEubbY6cRpVvkc94MtI9f+tqmkwutDYY/by7hAb00mdu7IQHQKx8txj17g5Qz+RnilwhbgEoiYK6ok0XiiGcOEagZ2B3aHVo73j/k82GHThoUGBj+fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nq4xBhkX; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1737781521; c=relaxed/simple;
+	bh=EIcYSpeQ5yjAnpnHU2pVI2gUGqeTfdrwhFjY3COquF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ehff1q9xAgZ/57erHyTTScPPRm777AQdi14uFxqvs1B85inN2FZVoQvnIpdb2+2F1cUyzoW8NH+u3fbniT9H6T4v8MqEZW1fdXHMY7mENibhlNvsiB6bBP+UxCgYRW5kiyX69F4pwOYQObd/rKRaLGv3rFF9grwHHAAp5mr50Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGdz1LJ8; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nq4xBhkX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGdz1LJ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737780259; x=1769316259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GeK+ivtm9xNDqBOzHa6NJe8s56YeRpslIZPxkq3MgSI=;
-  b=Nq4xBhkX18MNWtTqnOCSVb1p0ploAf3CzYfY2IPNW3ovQim5Jj1kUXIF
-   yDrONRC8k9iiiwwYxRtxYrn/N1fz6SMfFQO1be2368nJBPdREMctciOqK
-   yMyGkdCvyhVDjM31Tm2JVuOS5WwOmFPrDjt0ZMzQF86jUavB4wI76AIJQ
-   mUMjfguS2HUJtlfn28+rIWTAOkZmaKc30BnjSJbr8U1zL3GLVbb4pSGUI
-   T8QdVvK0kjiUz6k7fbAJ2Ro9sYDLjW43fB7XNjjz88DsQQAbW3dwIL4V0
-   O5LPLGBwcCFZjWjzg4f9bZMJplIPuqAhliVQkgeRbyl+Y7095fAt8WmDc
-   A==;
-X-CSE-ConnectionGUID: QtynhaIaR8+ZCP8ZtKkntA==
-X-CSE-MsgGUID: aRBM85hvQHy7PYRf1u6NrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="42082561"
+  t=1737781520; x=1769317520;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EIcYSpeQ5yjAnpnHU2pVI2gUGqeTfdrwhFjY3COquF8=;
+  b=fGdz1LJ8ako3ap1cy7YuHgzFmSAjgtfXULAS19HGfg2unOkcIqFqot3J
+   f2ARPP8y9UgNbMmr+lkfYacNC4VDaSZRxpK6kMc1Agaa5EFHa9WH7pkl9
+   RI93BGYlMw4EL2fRKBjD7OAbaD8lTmzTRcC53sW/uqQmO9wzmJbNtZcaF
+   f8tlzLcBBC+UWd9o081o6a+12xr7E/z95cdo8mkdhbigxVT2So6tBQImo
+   T4bM4JWoGEPU/SfppHWXEM6Jj1qAvKEqTLHcOozDwBXry44QxV2YbPAEy
+   RDsB8ptNsutT4VbLWM810g42Pc8rkoQE+c/DTmEng+yUpLnkcyu5VmGFr
+   w==;
+X-CSE-ConnectionGUID: T4UEFKmnSyeT8JJJ/Ha5sg==
+X-CSE-MsgGUID: hmwfc1m7TLKW9ELKu0nc5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="38209851"
 X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; 
-   d="scan'208";a="42082561"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 20:44:19 -0800
-X-CSE-ConnectionGUID: 8Xh/AhveRQ+v/LGju9F9HQ==
-X-CSE-MsgGUID: mxQRwmRITJSKxgS1h5tsZA==
+   d="scan'208";a="38209851"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 21:05:19 -0800
+X-CSE-ConnectionGUID: sJvRgJevTaiTGYwTQ1o+0Q==
+X-CSE-MsgGUID: /GMARTDHTaWDCcevu91Wqw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; 
-   d="scan'208";a="108483131"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112574241"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Jan 2025 20:44:14 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2025 21:05:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbY1j-000dTz-2j;
-	Sat, 25 Jan 2025 04:44:11 +0000
-Date: Sat, 25 Jan 2025 12:44:09 +0800
+	id 1tbYM7-000dWf-1B;
+	Sat, 25 Jan 2025 05:05:15 +0000
+Date: Sat, 25 Jan 2025 13:04:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radu Sabau <radu.sabau@analog.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051,
- adp1055 and ltp8800
-Message-ID: <202501251226.f8RpjAfp-lkp@intel.com>
-References: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
+To: Piotr =?iso-8859-1?Q?Pi=F3rkowski?= <piotr.piorkowski@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>,
+	"Zawawi, Muhammad Zul Husni" <muhammad.zul.husni.zawawi@intel.com>
+Subject: [intel-lts:6.12/linux 0/6] include/uapi/linux/const.h:20:25:
+ warning: conversion from 'long long unsigned int' to 'size_t' {aka 'const
+ unsigned int'} changes value from '4294967296' to '0'
+Message-ID: <202501251211.EQ0aaexr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,49 +63,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
 
-Hi Cedric,
+Hi Piotr,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on a76539b293677c5c163b9285b0cd8dd420d33989]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-adp1051-adp1055-and-ltp8800/20250124-233047
-base:   a76539b293677c5c163b9285b0cd8dd420d33989
-patch link:    https://lore.kernel.org/r/20250124151746.1130-3-cedricjustine.encarnacion%40analog.com
-patch subject: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051, adp1055 and ltp8800
-config: arm-randconfig-003-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251226.f8RpjAfp-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251226.f8RpjAfp-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.12/linux
+head:   f90d04942b56016c8b10b96b7ee22e548ecf24cf
+commit: 9b622d237b5e58a4487cdd78f397ee43161ebab0 [0/6] drm/i915/iov: Shadow GGTT mock selftestes
+config: i386-buildonly-randconfig-006-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251211.EQ0aaexr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251211.EQ0aaexr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501251226.f8RpjAfp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501251211.EQ0aaexr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/pmbus/adp1050.c:74:7: error: assigning to 'struct pmbus_driver_info *' from 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-      74 |         info = i2c_get_match_data(client);
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/uapi/linux/kernel.h:6,
+                    from include/linux/cache.h:5,
+                    from include/linux/slab.h:15,
+                    from include/linux/io-mapping.h:10,
+                    from drivers/gpu/drm/i915/gt/intel_gtt.h:19,
+                    from drivers/gpu/drm/i915/gt/iov/intel_iov_ggtt.h:9,
+                    from drivers/gpu/drm/i915/gt/iov/intel_iov_ggtt.c:7:
+   drivers/gpu/drm/i915/gt/iov/selftests/selftest_mock_iov_ggtt.c: In function 'mock_ggtt_shadow_restore_new_vfid':
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'const unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:46:41: note: in expansion of macro '_AC'
+      46 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   drivers/gpu/drm/i915/gt/iov/selftests/selftest_mock_iov_ggtt.c:318:34: note: in expansion of macro 'SZ_4G'
+     318 |         const size_t ggtt_size = SZ_4G;
+         |                                  ^~~~~
 
 
-vim +74 drivers/hwmon/pmbus/adp1050.c
+vim +20 include/uapi/linux/const.h
 
-    69	
-    70	static int adp1050_probe(struct i2c_client *client)
-    71	{
-    72		struct pmbus_driver_info *info;
-    73	
-  > 74		info = i2c_get_match_data(client);
-    75		if (!info)
-    76			return -ENODEV;
-    77	
-    78		return pmbus_do_probe(client, info);
-    79	}
-    80	
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
+6df95fd7ad9a84 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  19  #else
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02 @20  #define __AC(X,Y)	(X##Y)
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define _AC(X,Y)	__AC(X,Y)
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  22  #define _AT(T,X)	((T)(X))
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  23  #endif
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  24  
+
+:::::: The code at line 20 was first introduced by commit
+:::::: 9d291e787b2b71d1b57e5fbb24ba9c70e748ed84 [PATCH] x86-64: Assembly safe page.h and pgtable.h
+
+:::::: TO: Vivek Goyal <vgoyal@in.ibm.com>
+:::::: CC: Andi Kleen <andi@basil.nowhere.org>
 
 -- 
 0-DAY CI Kernel Test Service
