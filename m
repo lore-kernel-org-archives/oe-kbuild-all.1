@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1061E5716
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jan 2025 01:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EC31FAC50;
+	Sat, 25 Jan 2025 01:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737767940; cv=none; b=aqFFyLAKbOdNXNWcXGCoRY2Zj+Kc2KkzVqiJmXsqCCPQvPX2AvsZaEkFZK/cv3p63nl2uTn/lMAhe9iDwJCoIs0UD4bd8lM5PiWfrfl2aIIu02gtBXlJCu2sdChcBVuZon3COpiVudF5LBYelxoHYoI0tANMO6GzWg7YdyfTlX8=
+	t=1737769141; cv=none; b=gvOUYb5zOHYx2AAYD/6i4QJt/Yg67nnRyHXTTEb5yWnascBOqefgOZpb0FpE0nYh55V5tXwNuc3MRQGY+yHSU5R0/0BjyfQP4IKcvMWSaVeqfYq2TqnDcTe6mAz2vWL7BdXrOPNBDkz4YuM9uDH6qamUPSoxf9sZSkRFCZKB+64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737767940; c=relaxed/simple;
-	bh=I/rSaoP3GOcaUx1CvLpGGHikEnjez1vIS2VZmWLos1c=;
+	s=arc-20240116; t=1737769141; c=relaxed/simple;
+	bh=7FbQ+zImABYAz8a9adEJ0lTrG2jkVR3v2NK6FtnBSuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CGk7xvsOLeoHH1hm89gqEHJ/DfnCCIwA4pCFCwKLx5Gt6OnzKYgfO8rlCvCV9SUTmyvqvc6MtiKhzi6/fNXNVOYsMIjP29hXY/fOuFIkSIWlxo1AuDMSUmjnByY6IfesZjjGcjE1RV+TAA2vj87fwxUoxdmL2jnxQ7wdgS7625A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NCk9kVkA; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=dcffO1zlS/U0v9TQC8ALAmqXJr+2ejoxo+WcRjjZWJCPw1eYuBolNjm2n/hepsTygH+SaxzP3wUCyPGQlo1kPSyo4fdQhcav5KmHCRUlsJu8/AziNLasXGW7e9ZaWvlpDBXCNP4Tqv+idaWq+RtWTxm9QVZn2xTNkEYXjByAK1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ItPvtjLw; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCk9kVkA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ItPvtjLw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737767938; x=1769303938;
+  t=1737769139; x=1769305139;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I/rSaoP3GOcaUx1CvLpGGHikEnjez1vIS2VZmWLos1c=;
-  b=NCk9kVkAeNNMveSm+4BO6U3P5TW1KTRSlIwwbcxXmgyY2pnFHTC/Qs89
-   s/XD+rGutko/k4+E6XJo/oUoI3StPw2rsYb46zmdZlyy6/MnczNEkVGqh
-   GDGJOpxwWtXIK1eB1F8yKdoEon2TmgdAGL4/wRcgRquKyOYpKaCV39O1C
-   0WPY/Oo3UlV3UYgRhsnBPu2tlmQidxw8TVZn8p4c5D1PdPmQgg4Y9Eqc8
-   8cc/io8UQk0qBDcwanNkZA/u/Lsqho7oC24JEOhABS9RAzl3ieudZWXHw
-   C/M4/Q4AovFwJxRjL1HTZEMMJXa/jLI78yt89bOZFPQci/1ZvdakwfqYd
+  bh=7FbQ+zImABYAz8a9adEJ0lTrG2jkVR3v2NK6FtnBSuM=;
+  b=ItPvtjLwK71jh9EWl+EFTDKGveXlTi5LVnkRkrUwOr8YbbnJ5+AUHa9d
+   2JBE5Xn3kuYyFYYb/huVDJf7IFFwZ/WoImDQatZhNH/GYb8a4X6Qy0dil
+   JNj75sIUMbcQjilB/xrxfUV0e//UPZTOVQlSdtTeH9cujeLyJH/WqXDmh
+   da0l/XJwEtJejTTjCqQ5hgYqEY8wRzq9IpK/ooGah1twfFhFc38iTIDDO
+   NKTGalyi0qMWdkoudPNZp3ljfr3qOxJJ1z7d7REBM5bnnr9k0MEoOXUkC
+   eQ1+3dku/ABWPwKaJJx4i3vYc5Gp7HL4Kh94IoIhJXs8GFHKeqZbAE1yu
    w==;
-X-CSE-ConnectionGUID: nlxcJhx/SIaIbUA6OJX05w==
-X-CSE-MsgGUID: kxsjAYnVQaiiGG0thwPPBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="38483510"
+X-CSE-ConnectionGUID: fJ7ymOY4RIKqWVbJHv98Zw==
+X-CSE-MsgGUID: guFSNLttQwK/71WFczh9YA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="38568956"
 X-IronPort-AV: E=Sophos;i="6.13,232,1732608000"; 
-   d="scan'208";a="38483510"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 17:18:57 -0800
-X-CSE-ConnectionGUID: Pp9SEMDNQHakHaNglODSyw==
-X-CSE-MsgGUID: HTNM5G7fRfGDIR9ugFXE6g==
+   d="scan'208";a="38568956"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 17:38:59 -0800
+X-CSE-ConnectionGUID: a8Oi7h/QRo6mgoaCK9OoTA==
+X-CSE-MsgGUID: iEoH1kYKT2uux8AMBGQ65A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,232,1732608000"; 
-   d="scan'208";a="112940268"
+   d="scan'208";a="108458167"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Jan 2025 17:18:56 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 24 Jan 2025 17:38:57 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbUp3-000dLP-36;
-	Sat, 25 Jan 2025 01:18:53 +0000
-Date: Sat, 25 Jan 2025 09:18:15 +0800
+	id 1tbV8R-000dM7-2B;
+	Sat, 25 Jan 2025 01:38:55 +0000
+Date: Sat, 25 Jan 2025 09:38:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1414/1414] kismet: WARNING: unmet
- direct dependencies detected for SPI_PHYTIUM when selected by
- SPI_PHYTIUM_PCI
-Message-ID: <202501250926.0Py02eTR-lkp@intel.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:kexec-debug-6 5/7] arch/x86/kernel/early_printk.c:148:3:
+ error: use of undeclared identifier 'kexec_debug_8250_port'
+Message-ID: <202501250944.JEBhawoz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +62,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   da51139d17e9d53d61a9877d9042e43b85d71ee1
-commit: e8483fcd43fc1dbb8d21bb7eacce804cbab6a7c6 [1414/1414] spi: add phytium spi support
-config: x86_64-kismet-CONFIG_SPI_PHYTIUM-CONFIG_SPI_PHYTIUM_PCI-0-0 (https://download.01.org/0day-ci/archive/20250125/202501250926.0Py02eTR-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250125/202501250926.0Py02eTR-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux kexec-debug-6
+head:   145ae55a8834381a4011861d8607cb4c0f9cf88e
+commit: 3d8ea5d45b0a2079e58cd0c72e0a1ac28fd431ca [5/7] x86/kexec: Add 8250 serial port output
+config: x86_64-randconfig-076-20250124 (https://download.01.org/0day-ci/archive/20250125/202501250944.JEBhawoz-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501250944.JEBhawoz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501250926.0Py02eTR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501250944.JEBhawoz-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PCI
-   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
-     Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SPI_PHYTIUM_PCI [=y] && SPI [=y] && SPI_MASTER [=y] && PCI [=y]
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/kernel/early_printk.c:4:
+   In file included from include/linux/kexec.h:18:
+   In file included from include/linux/vmcore_info.h:6:
+   In file included from include/linux/elfcore.h:11:
+   In file included from include/linux/ptrace.h:10:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/x86/kernel/early_printk.c:148:3: error: use of undeclared identifier 'kexec_debug_8250_port'
+     148 |                 kexec_debug_8250_port = early_serial_base;
+         |                 ^
+   1 warning and 1 error generated.
+
+
+vim +/kexec_debug_8250_port +148 arch/x86/kernel/early_printk.c
+
+   130	
+   131	static __init void early_serial_hw_init(unsigned divisor)
+   132	{
+   133		unsigned char c;
+   134	
+   135		serial_out(early_serial_base, LCR, 0x3);	/* 8n1 */
+   136		serial_out(early_serial_base, IER, 0);	/* no interrupt */
+   137		serial_out(early_serial_base, FCR, 0);	/* no fifo */
+   138		serial_out(early_serial_base, MCR, 0x3);	/* DTR + RTS */
+   139	
+   140		c = serial_in(early_serial_base, LCR);
+   141		serial_out(early_serial_base, LCR, c | DLAB);
+   142		serial_out(early_serial_base, DLL, divisor & 0xff);
+   143		serial_out(early_serial_base, DLH, (divisor >> 8) & 0xff);
+   144		serial_out(early_serial_base, LCR, c & ~DLAB);
+   145	
+   146	#ifdef CONFIG_KEXEC_DEBUG
+   147		if (serial_in == io_serial_in)
+ > 148			kexec_debug_8250_port = early_serial_base;
+   149	#endif
+   150	}
+   151	
 
 -- 
 0-DAY CI Kernel Test Service
