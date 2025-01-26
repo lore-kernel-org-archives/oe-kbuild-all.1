@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0216025A645
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jan 2025 00:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5114F25A626
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jan 2025 01:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737853100; cv=none; b=IitgbcJ1bfCYV447uvcmPd7zIZWmGDBDM1EeL0rpZN7rC4qkAhH/C65VTk8sC+xMScSlOUkY0pUgUjUoLmnDlKlFohBZ/O5afCDkYCPJWr3AbPkLQCs/CQnTyzXthcb6IJaDprdadkQRExsuo2y0ZsBO+xPBZwQlkSH71QKzGYI=
+	t=1737854361; cv=none; b=EWCc+hNJm6Y4GuAaizR3a3i3WR5+2I9Uqye7+xBeFSFonv2pdRnruu5IBn+CD4Lq1yK8ZCHEeQKQ2n+GQP3t1XIQjnvMrTU8lFC7KlNUq8u8StfFnn/hoJr5xo3MbXEavD+6BUBepBuujCqm0n6PGkO22CWgCGx+G1yXVwTIn2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737853100; c=relaxed/simple;
-	bh=zBPiPeDnH7+FxjZ6Nd2rdio228j6Ycp0shocsmlwuLo=;
+	s=arc-20240116; t=1737854361; c=relaxed/simple;
+	bh=u/BLiTgauypCIXWmbfFLPk2ukgbWqWY3bLGxvTRK++I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jLFWX0j1KvxbG/gfxB6LLdJO8VNg1YXIW/8FH4qhwXllIbxH/nR9zYL1IKt+of9L1WCFsPaumtbGBvFPCws6Hb9wMBGusuywG+jpYsXhO/NwXPm/4qXp2Rok31lKGDuxMCRSokTfmA8yVVqy3VuLxYHL1PwtBa9+smFHvTBeCLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YK6zHLfi; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=l0OJNO1yfPJ+huWyaYrZFTy0PPZtOMWclMMQQPYAoCP7baIxjJsF/oG/fLAkECKi8PeBoYpwzLy8pLl+2r9Z1ecJr+FGzPuZRtDVklb3pVd2JU/CoHHJFuDt1PhX3Q7Len5LsdMaPiTxa8kVdP9Tq9E/GjpL0H7Ajjz5ZPe47CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UM9eh0LV; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YK6zHLfi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UM9eh0LV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737853099; x=1769389099;
+  t=1737854360; x=1769390360;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zBPiPeDnH7+FxjZ6Nd2rdio228j6Ycp0shocsmlwuLo=;
-  b=YK6zHLfi72FxWZoxCQABb3zs004r3Pz2ceMlgK+d95M7AHjVYyypjfEQ
-   16liq04dDwh1D8Ct/UAeNoqgYxa/GZtiAXH61v5NBbVecoQQJ6d10V/op
-   IONSnQvs68UqSDEAz4/s2PJ4DnE0ukbdYgtBF/A2O5y/2BtYOkc+zWJ/Z
-   PIrYv2gCXtR07yIMwOzMVOfaXLEt1rYC/CQqSeHHiteT4jJE/KgW3XqKa
-   AP99urlxew72OYV1acaMJjHARXUjzmygdQeVQWTisZ+NvAnAvPMJXZjrR
-   FB+ihzGrRHD7Z7xr51hNTu0CYUofknoGoysKNJenb5BdD6+3koM3kD0OT
-   w==;
-X-CSE-ConnectionGUID: dK3UEgtmScWMk0L3A+qziA==
-X-CSE-MsgGUID: MtedK5RyQu+frvpJVguOeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="42110758"
+  bh=u/BLiTgauypCIXWmbfFLPk2ukgbWqWY3bLGxvTRK++I=;
+  b=UM9eh0LVIdBNsKr0l7Gcsc+xk4SKtYyyHgzHWe6eZ2hSuA/7C29bEg0G
+   bGmi3aweLyOrh4IdB0iZ+AnPKG/I5/oPWUrnUTYjabRN/W3G6jt+57grQ
+   mx2egxxZIXHD56W3TdSOEYMYWq0S2x5rDSBv8EXx7PLpr6Cu7RgrrmJvE
+   Kgl9OBXNx/PhqpXNTtalbh0rMeCwmDhHhWx2gpMPvFjtrCg44PdKvJBbw
+   O7E7EcArSmj0eglWft9wwOQNcqdPgek63tK1S0TMG51J3ZiLaJ1cwjGSq
+   j4WRl+YQYyprdbaICS7AoDK6CJIahNDVyM8WYlzU5PSNSx8Hxn933Ir1r
+   Q==;
+X-CSE-ConnectionGUID: n6ngc19oQNWj4vPIZ+jodA==
+X-CSE-MsgGUID: BjZhbgZvSLaWkNgcBugiig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="38519861"
 X-IronPort-AV: E=Sophos;i="6.13,235,1732608000"; 
-   d="scan'208";a="42110758"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 16:58:18 -0800
-X-CSE-ConnectionGUID: aYqgz8abQ0e/HSHXfSrDcw==
-X-CSE-MsgGUID: QodXO0DuRtasqnPoXrrsnw==
+   d="scan'208";a="38519861"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 17:19:19 -0800
+X-CSE-ConnectionGUID: WIInHA23TO2g37Z9l2al2g==
+X-CSE-MsgGUID: 9Ndc1xnsQn66x+Si0b/xWQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="145341373"
+X-IronPort-AV: E=Sophos;i="6.13,235,1732608000"; 
+   d="scan'208";a="108630518"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 25 Jan 2025 16:58:17 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 25 Jan 2025 17:19:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tbqyc-000ehD-0E;
-	Sun, 26 Jan 2025 00:58:14 +0000
-Date: Sun, 26 Jan 2025 08:57:58 +0800
+	id 1tbrIx-000ei7-29;
+	Sun, 26 Jan 2025 01:19:15 +0000
+Date: Sun, 26 Jan 2025 09:18:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.13/zen-sauce 2/31] include/asm-generic/io.h:549:31: error:
- performing pointer arithmetic on a null pointer has undefined behavior
-Message-ID: <202501260842.RcWbfy0R-lkp@intel.com>
+Subject: [zen:6.13/zen-sauce 7/31] fs/xfs/xfs_xattr.c:246:9: warning:
+ 'strncpy' output truncated before terminating nul copying 16 bytes from a
+ string of the same length
+Message-ID: <202501260907.eV30HLlA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,200 +65,86 @@ Content-Disposition: inline
 
 tree:   https://github.com/zen-kernel/zen-kernel 6.13/zen-sauce
 head:   ae96db84281e1b10aee61ef832aabd0941743e99
-commit: f9b71a07f5071c27d40a84a19588128df45565c7 [2/31] ZEN: Add VHBA driver
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250126/202501260842.RcWbfy0R-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260842.RcWbfy0R-lkp@intel.com/reproduce)
+commit: 1ab0facb6ae236af57bbcd06956a74fcf0599311 [7/31] ZEN: Restore CONFIG_OPTIMIZE_FOR_PERFORMANCE_O3
+config: csky-randconfig-r063-20250126 (https://download.01.org/0day-ci/archive/20250126/202501260907.eV30HLlA-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260907.eV30HLlA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501260842.RcWbfy0R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501260907.eV30HLlA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/scsi/vhba/vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
->> include/asm-generic/io.h:549:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/scsi/vhba/vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/scsi/vhba/vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror,-Wunused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^
-   drivers/scsi/vhba/vhba.c:1087:15: error: incompatible function pointer types initializing 'void (*)(struct platform_device *)' with an expression of type 'int (struct platform_device *)' [-Wincompatible-function-pointer-types]
-    1087 |     .remove = vhba_remove,
-         |               ^~~~~~~~~~~
-   14 errors generated.
+   In function '__xfs_xattr_put_listent',
+       inlined from 'xfs_xattr_put_listent' at fs/xfs/xfs_xattr.c:278:4,
+       inlined from 'xfs_xattr_put_listent' at fs/xfs/xfs_xattr.c:256:1:
+>> fs/xfs/xfs_xattr.c:246:9: warning: 'strncpy' output truncated before terminating nul copying 16 bytes from a string of the same length [-Wstringop-truncation]
+     246 |         strncpy(offset, (char *)name, namelen);                 /* real name */
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function '__xfs_xattr_put_listent',
+       inlined from 'xfs_xattr_put_listent' at fs/xfs/xfs_xattr.c:286:4,
+       inlined from 'xfs_xattr_put_listent' at fs/xfs/xfs_xattr.c:256:1:
+   fs/xfs/xfs_xattr.c:246:9: warning: 'strncpy' output truncated before terminating nul copying 17 bytes from a string of the same length [-Wstringop-truncation]
+     246 |         strncpy(offset, (char *)name, namelen);                 /* real name */
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
-   In file included from vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
->> include/asm-generic/io.h:549:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   vhba.c:192:23: error: variable 'vhost' set but not used [-Werror,-Wunused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^
-   vhba.c:1087:15: error: incompatible function pointer types initializing 'void (*)(struct platform_device *)' with an expression of type 'int (struct platform_device *)' [-Wincompatible-function-pointer-types]
-    1087 |     .remove = vhba_remove,
-         |               ^~~~~~~~~~~
-   14 errors generated.
+   drivers/scsi/scsi_transport_spi.c: In function 'spi_display_xfer_agreement':
+>> drivers/scsi/scsi_transport_spi.c:90:39: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+      90 |         int result = sprintf(dest, "%d", value / denom);
+         |                                       ^
+   In function 'sprint_frac',
+       inlined from 'spi_display_xfer_agreement' at drivers/scsi/scsi_transport_spi.c:1163:3:
+   drivers/scsi/scsi_transport_spi.c:90:22: note: 'sprintf' output between 2 and 9 bytes into a destination of size 8
+      90 |         int result = sprintf(dest, "%d", value / denom);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +549 include/asm-generic/io.h
+vim +/strncpy +246 fs/xfs/xfs_xattr.c
 
-3f7e212df82ca0 Arnd Bergmann   2009-05-13  534  
-9216efafc52ff9 Thierry Reding  2014-10-01  535  /*
-9216efafc52ff9 Thierry Reding  2014-10-01  536   * {in,out}{b,w,l}() access little endian I/O. {in,out}{b,w,l}_p() can be
-9216efafc52ff9 Thierry Reding  2014-10-01  537   * implemented on hardware that needs an additional delay for I/O accesses to
-9216efafc52ff9 Thierry Reding  2014-10-01  538   * take effect.
-9216efafc52ff9 Thierry Reding  2014-10-01  539   */
-9216efafc52ff9 Thierry Reding  2014-10-01  540  
-f009c89df79abe John Garry      2020-03-28  541  #if !defined(inb) && !defined(_inb)
-f009c89df79abe John Garry      2020-03-28  542  #define _inb _inb
-6f043e75744596 Niklas Schnelle 2024-10-24  543  #ifdef CONFIG_HAS_IOPORT
-214ba3584b2e2c Stafford Horne  2020-07-26  544  static inline u8 _inb(unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  545  {
-87fe2d543f8173 Sinan Kaya      2018-04-05  546  	u8 val;
-87fe2d543f8173 Sinan Kaya      2018-04-05  547  
-87fe2d543f8173 Sinan Kaya      2018-04-05  548  	__io_pbr();
-87fe2d543f8173 Sinan Kaya      2018-04-05 @549  	val = __raw_readb(PCI_IOBASE + addr);
-abbbbc83a210e9 Will Deacon     2019-02-22  550  	__io_par(val);
-87fe2d543f8173 Sinan Kaya      2018-04-05  551  	return val;
-9216efafc52ff9 Thierry Reding  2014-10-01  552  }
-6f043e75744596 Niklas Schnelle 2024-10-24  553  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  554  u8 _inb(unsigned long addr)
-6f043e75744596 Niklas Schnelle 2024-10-24  555  	__compiletime_error("inb()) requires CONFIG_HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  556  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  557  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  558  
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  219  
+f7a136aee3c1c3 fs/xfs/xfs_xattr.c           Eric Sandeen        2016-12-05  220  static void
+5d92b75c753ae2 fs/xfs/xfs_xattr.c           Andreas Gruenbacher 2015-12-02  221  __xfs_xattr_put_listent(
+a9273ca5c6814f fs/xfs/linux-2.6/xfs_xattr.c Dave Chinner        2010-01-20  222  	struct xfs_attr_list_context *context,
+5d92b75c753ae2 fs/xfs/xfs_xattr.c           Andreas Gruenbacher 2015-12-02  223  	char *prefix,
+5d92b75c753ae2 fs/xfs/xfs_xattr.c           Andreas Gruenbacher 2015-12-02  224  	int prefix_len,
+a9273ca5c6814f fs/xfs/linux-2.6/xfs_xattr.c Dave Chinner        2010-01-20  225  	unsigned char *name,
+5d92b75c753ae2 fs/xfs/xfs_xattr.c           Andreas Gruenbacher 2015-12-02  226  	int namelen)
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  227  {
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  228  	char *offset;
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  229  	int arraytop;
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  230  
+3b50086f0c0d78 fs/xfs/xfs_xattr.c           Darrick J. Wong     2019-02-13  231  	if (context->count < 0 || context->seen_enough)
+3b50086f0c0d78 fs/xfs/xfs_xattr.c           Darrick J. Wong     2019-02-13  232  		return;
+3b50086f0c0d78 fs/xfs/xfs_xattr.c           Darrick J. Wong     2019-02-13  233  
+a9c8c69b496117 fs/xfs/xfs_xattr.c           Christoph Hellwig   2020-02-26  234  	if (!context->buffer)
+5d92b75c753ae2 fs/xfs/xfs_xattr.c           Andreas Gruenbacher 2015-12-02  235  		goto compute_size;
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  236  
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  237  	arraytop = context->count + prefix_len + namelen + 1;
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  238  	if (arraytop > context->firstu) {
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  239  		context->count = -1;	/* insufficient space */
+791cc43b36eb1f fs/xfs/xfs_xattr.c           Artem Savkov        2016-09-14  240  		context->seen_enough = 1;
+f7a136aee3c1c3 fs/xfs/xfs_xattr.c           Eric Sandeen        2016-12-05  241  		return;
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  242  	}
+a9c8c69b496117 fs/xfs/xfs_xattr.c           Christoph Hellwig   2020-02-26  243  	offset = context->buffer + context->count;
+fd5beaff250d7e fs/xfs/xfs_xattr.c           Darrick J. Wong     2022-11-28  244  	memcpy(offset, prefix, prefix_len);
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  245  	offset += prefix_len;
+a9273ca5c6814f fs/xfs/linux-2.6/xfs_xattr.c Dave Chinner        2010-01-20 @246  	strncpy(offset, (char *)name, namelen);			/* real name */
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  247  	offset += namelen;
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  248  	*offset = '\0';
+5d92b75c753ae2 fs/xfs/xfs_xattr.c           Andreas Gruenbacher 2015-12-02  249  
+5d92b75c753ae2 fs/xfs/xfs_xattr.c           Andreas Gruenbacher 2015-12-02  250  compute_size:
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  251  	context->count += prefix_len + namelen + 1;
+f7a136aee3c1c3 fs/xfs/xfs_xattr.c           Eric Sandeen        2016-12-05  252  	return;
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  253  }
+f9e09f095f3239 fs/xfs/linux-2.6/xfs_xattr.c Lachlan McIlroy     2008-06-23  254  
 
-:::::: The code at line 549 was first introduced by commit
-:::::: 87fe2d543f817300e13f0ea683f38c122737856e io: change inX() to have their own IO barrier overrides
+:::::: The code at line 246 was first introduced by commit
+:::::: a9273ca5c6814f393e18ed66645f817b2b71e9ad xfs: convert attr to use unsigned names
 
-:::::: TO: Sinan Kaya <okaya@codeaurora.org>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+:::::: TO: Dave Chinner <david@fromorbit.com>
+:::::: CC: Dave Chinner <david@fromorbit.com>
 
 -- 
 0-DAY CI Kernel Test Service
