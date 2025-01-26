@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7257B25A64C;
-	Sun, 26 Jan 2025 14:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300BA25A652
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jan 2025 14:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737900584; cv=none; b=pq6w4pWSorcyVk4Z4m3YJHR8389GcXJUnUV8w8ze2aFUynKvwbBtf8TBYrEElq6mvVWu8vcAZY/Vg3r0PlH+Va3Pjx4rxjel0sel4ZxkJlGhg9O+KZSmYGhXwZ1aj7u9EZyJGpUlSDDF+VMc7+q7gKTqh66lKB1YrVgFJ/uC+xs=
+	t=1737901786; cv=none; b=Z6+nmd8K23WL7k6bXaams2/hvGqyJGdSHFZRJeco/ERA7Ohn/Z9DwVjQn4Yn5tOKjUyogi/Twvd/I1K8CMinEm5nimUTK6isbpZckuBYYw15gYHhL3DNxkq596yHfkwSEQCc1NYfsTRRZoFGsAXuu/KYN7hFhW1fb1mG61CylSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737900584; c=relaxed/simple;
-	bh=SN28Hz4kBPo9CE4Gfvp1PzH22or5pSlMhQJuJbCKFdE=;
+	s=arc-20240116; t=1737901786; c=relaxed/simple;
+	bh=ICwCtmajtbeCHxXOWQp9heFfoiRu9FikxqdBEmxACJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iS7eN2Qe4HPCkclTR/AzqpGUMBtKxTDIFsPlvvr+YVDNaQ+EZgn9F2Py5ljp3K1YVRWTWlZxDdCDWsvcXJZAVkXOg4dPulrCuVlIlE/cLApTx5p7iaRrQYdGqwOQelvisHjAiXiciIOFcj/ZK8JOn5DZ7vR1EV2Z3l2x26ovXWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CIn+aKcO; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0DTf7hWFln0Mqd0GqzFkK47v/WaMLXM0jhLsKXinRy5udKdzkois+bWutIOyZVFVKBKfHxO4Lz9SETcl66Eit4zkC+zD5AweP4RwAiH/MXsOsU6743fn7JhAIHZbjn9m+Pe0yVtPTKNLDP/RCVIHm0l7p7dCQ/v1ifpra8ZrN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMeTi7qr; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CIn+aKcO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMeTi7qr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737900582; x=1769436582;
+  t=1737901783; x=1769437783;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SN28Hz4kBPo9CE4Gfvp1PzH22or5pSlMhQJuJbCKFdE=;
-  b=CIn+aKcO8KTSNYaLtfo+fJhg5iPpbSE0Kn3N6C2LAmDhjTa1863u50zp
-   eW6eg+9SEJkvjMPcmw1C/uJ9BguS3V1XQsv6rRUNHSXeBLOydHBnzBHj9
-   Ft+t0UYu9/70j6siTUYTNH+6COf0bbt6NLOaIfmNgjRXe0pdhDwaG1W63
-   bPeDDTJH8tTwzlKux6YLyZFH6S5kbMN0NLN6K3zbd9ai/qetk41YllF0J
-   k2A3LmLDrTu8PIUuCAAUtiBDUohk4tTGPQz8O+1TocqTSHqy2+HNloY3H
-   6nU0QCkKzIv/TZeGNnxqp2TVLSGjd+hdbpdS38tOSWfWuiXB5OzqZg8pg
-   A==;
-X-CSE-ConnectionGUID: M+rLhA01QCGNJFtSXRrDXw==
-X-CSE-MsgGUID: kclsBV0sSOi2MEXz8wXdqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="63729722"
+  bh=ICwCtmajtbeCHxXOWQp9heFfoiRu9FikxqdBEmxACJE=;
+  b=nMeTi7qrVfSB6t0pYUUSCg7AAdbB8qan1xfC9vBIra01pLiamAaqkQ0l
+   owaukwVxKqeJQZfLSKDxfiN858VEFKqiHP4XnHvEIbVqeiCnC5eKshW4Z
+   /zrPlXcL4lUzz7+YjYJFvVZ3ew0ZF+s9LdITThFS/aJO8Ao7BMFR1rJCA
+   /bLNjIYSScUoC3nr2/v+beBV9clK6ZJ99SmJnr6J4VppA6fGCsvBESQ1E
+   58EJyZdFOwS2M12B9EntwocSwcFeuTPawLmA8lklDUH1Yi/V4HYhjQG6K
+   +jU1VXizRYTneo7iJZqAYw+7Muj3riOr986LD3aWUUcF0a12ZFjMiFb7r
+   g==;
+X-CSE-ConnectionGUID: erKIGUgaRFWFy25q2N1NXg==
+X-CSE-MsgGUID: ck1HSTiWTVCv8La3dUmeEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="55915036"
 X-IronPort-AV: E=Sophos;i="6.13,236,1732608000"; 
-   d="scan'208";a="63729722"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2025 06:09:42 -0800
-X-CSE-ConnectionGUID: 1LQVlRlOSDSoDpCzpDXxAQ==
-X-CSE-MsgGUID: xny16wPYTAeSahberUmNcQ==
+   d="scan'208";a="55915036"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2025 06:29:43 -0800
+X-CSE-ConnectionGUID: znWr7inoSsCAeGOhhkVZsw==
+X-CSE-MsgGUID: K0eMfUkJR3SFuE/oprmQyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,236,1732608000"; 
-   d="scan'208";a="113233046"
+   d="scan'208";a="108794286"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 26 Jan 2025 06:09:39 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 26 Jan 2025 06:29:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tc3KS-000fPz-1h;
-	Sun, 26 Jan 2025 14:09:36 +0000
-Date: Sun, 26 Jan 2025 22:08:37 +0800
+	id 1tc3dp-000fQd-2J;
+	Sun, 26 Jan 2025 14:29:37 +0000
+Date: Sun, 26 Jan 2025 22:28:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jordan Rome <linux@jordanrome.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
 	Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
 	Andrii Nakryiko <andrii@kernel.org>,
@@ -59,7 +59,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
 	Shakeel Butt <shakeel.butt@linux.dev>,
 	Alexander Potapenko <glider@google.com>
 Subject: Re: [bpf-next v4 1/3] mm: add copy_remote_vm_str
-Message-ID: <202501262133.9mKauA5U-lkp@intel.com>
+Message-ID: <202501262241.ZEkByWKM-lkp@intel.com>
 References: <20250126124147.3154108-1-linux@jordanrome.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -86,52 +86,49 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Rome/bpf-Add-bpf_c
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
 patch link:    https://lore.kernel.org/r/20250126124147.3154108-1-linux%40jordanrome.com
 patch subject: [bpf-next v4 1/3] mm: add copy_remote_vm_str
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20250126/202501262133.9mKauA5U-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501262133.9mKauA5U-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20250126 (https://download.01.org/0day-ci/archive/20250126/202501262241.ZEkByWKM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501262241.ZEkByWKM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501262133.9mKauA5U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501262241.ZEkByWKM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/nommu.c:1717:2: error: use of undeclared identifier 'vma'
+   mm/nommu.c: In function '__copy_remote_vm_str':
+>> mm/nommu.c:1717:9: error: 'vma' undeclared (first use in this function); did you mean 'vmap'?
     1717 |         vma = find_vma(mm, addr);
-         |         ^
-   mm/nommu.c:1718:6: error: use of undeclared identifier 'vma'; did you mean 'vmap'?
-    1718 |         if (vma) {
-         |             ^~~
-         |             vmap
-   mm/nommu.c:303:15: note: 'vmap' declared here
-     303 | EXPORT_SYMBOL(vmap);
-         |               ^
-   mm/nommu.c:1720:21: error: use of undeclared identifier 'vma'
-    1720 |                 if (addr + len >= vma->vm_end)
-         |                                   ^
-   mm/nommu.c:1721:10: error: use of undeclared identifier 'vma'
-    1721 |                         len = vma->vm_end - addr;
-         |                               ^
-   mm/nommu.c:1724:7: error: use of undeclared identifier 'vma'
-    1724 |                 if (vma->vm_flags & VM_MAYREAD) {
-         |                     ^
->> mm/nommu.c:1725:23: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'const char *' [-Wint-conversion]
+         |         ^~~
+         |         vmap
+   mm/nommu.c:1717:9: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/nommu.c:20:
+>> mm/nommu.c:1725:44: error: passing argument 2 of 'sized_strscpy' makes pointer from integer without a cast [-Wint-conversion]
     1725 |                         ret = strscpy(buf, addr, len);
          |                                            ^~~~
-   include/linux/string.h:113:55: note: expanded from macro 'strscpy'
-     113 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |                                                              ^~~
-   include/linux/string.h:82:21: note: expanded from macro '__strscpy1'
+         |                                            |
+         |                                            long unsigned int
+   include/linux/string.h:82:28: note: in definition of macro '__strscpy1'
       82 |         sized_strscpy(dst, src, size + __must_be_cstr(dst) + __must_be_cstr(src))
          |                            ^~~
-   include/linux/string.h:72:43: note: passing argument to parameter here
+   mm/nommu.c:1725:31: note: in expansion of macro 'strscpy'
+    1725 |                         ret = strscpy(buf, addr, len);
+         |                               ^~~~~~~
+   include/linux/string.h:72:31: note: expected 'const char *' but argument is of type 'long unsigned int'
       72 | ssize_t sized_strscpy(char *, const char *, size_t);
-         |                                           ^
-   6 errors generated.
+         |                               ^~~~~~~~~~~~
 
 
-vim +/vma +1717 mm/nommu.c
+vim +1717 mm/nommu.c
 
   1703	
   1704	/*
@@ -150,7 +147,7 @@ vim +/vma +1717 mm/nommu.c
 > 1717		vma = find_vma(mm, addr);
   1718		if (vma) {
   1719			/* don't overrun this mapping */
-> 1720			if (addr + len >= vma->vm_end)
+  1720			if (addr + len >= vma->vm_end)
   1721				len = vma->vm_end - addr;
   1722	
   1723			/* only read mappings where it is permitted */
