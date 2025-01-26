@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A321A13AA20
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jan 2025 13:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7257B25A64C;
+	Sun, 26 Jan 2025 14:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737898660; cv=none; b=fFQfCEYSgkf2FdyKUL80JZX4WV4qoyLKUuZ8iKgd8YGCriwqtvJOueutj9T29Lgg1nNsT9ElJpZJOk2lC0c0HbGhsmGM0TVnjd3oF2m84qdrxFpDc0ImdgBACcnoBrqz7Hw9x0Dz955hLehaYEHHNXED73o/7tYwG8R76NNUppw=
+	t=1737900584; cv=none; b=pq6w4pWSorcyVk4Z4m3YJHR8389GcXJUnUV8w8ze2aFUynKvwbBtf8TBYrEElq6mvVWu8vcAZY/Vg3r0PlH+Va3Pjx4rxjel0sel4ZxkJlGhg9O+KZSmYGhXwZ1aj7u9EZyJGpUlSDDF+VMc7+q7gKTqh66lKB1YrVgFJ/uC+xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737898660; c=relaxed/simple;
-	bh=GrVrASTuaNzT9u+43PdMjTaePkNR/C76pvu0Vfd3JJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C6ZmJWlgsdiZdkW/rsFHv9gt4VbV0SGu7qS9H+yMJmYIGix7i2aIFf3ZjLmSKfsmpQtRyUHXdPzmeKgziknYn0icZe7roXqzsk9eE5O+Ea/Tbl/ddfJGv9jkT8K3xITJ38NyCe3y+aPFXCi8ywxCwxCepO7ZxaLuRjeUFG8XEjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QeMdkCum; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1737900584; c=relaxed/simple;
+	bh=SN28Hz4kBPo9CE4Gfvp1PzH22or5pSlMhQJuJbCKFdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iS7eN2Qe4HPCkclTR/AzqpGUMBtKxTDIFsPlvvr+YVDNaQ+EZgn9F2Py5ljp3K1YVRWTWlZxDdCDWsvcXJZAVkXOg4dPulrCuVlIlE/cLApTx5p7iaRrQYdGqwOQelvisHjAiXiciIOFcj/ZK8JOn5DZ7vR1EV2Z3l2x26ovXWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CIn+aKcO; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QeMdkCum"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CIn+aKcO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737898658; x=1769434658;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GrVrASTuaNzT9u+43PdMjTaePkNR/C76pvu0Vfd3JJc=;
-  b=QeMdkCumDpNerQgcdeSdnku0rCtev07dEDNclnMBR29TBxfXUc/Qyyni
-   ENOfPZR2+nHgFM9AQBh1jz7e+Rq15AFG1C0nXNR3fpD7NlTmW37+x0yck
-   C9i9RyhsA/8TcnB6x2Wq2sKhNrvOTbIM4KTH9Dly03Obs+F/Lz09HgD0S
-   WuIiIkd51ZxxwaYsWVdcvml0QlCJYPEBBvm4EKWM7cjsy7x1CNZBtA4Ct
-   cZUqdBBWBwrJ1CUN9sba8uZSdOKbEqrBk9zrZSCbm7PzwahW2BdRq3cYJ
-   G7o9Z7+nQc1iP/M67PadDl23GnzPuX8bFtlHyahsyhXiu688o2uIgTnLU
-   Q==;
-X-CSE-ConnectionGUID: fjaPfCI5TiqUscbCVFe1xg==
-X-CSE-MsgGUID: VMlPQyQaR+eMt4pR8ksQmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="38628671"
+  t=1737900582; x=1769436582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SN28Hz4kBPo9CE4Gfvp1PzH22or5pSlMhQJuJbCKFdE=;
+  b=CIn+aKcO8KTSNYaLtfo+fJhg5iPpbSE0Kn3N6C2LAmDhjTa1863u50zp
+   eW6eg+9SEJkvjMPcmw1C/uJ9BguS3V1XQsv6rRUNHSXeBLOydHBnzBHj9
+   Ft+t0UYu9/70j6siTUYTNH+6COf0bbt6NLOaIfmNgjRXe0pdhDwaG1W63
+   bPeDDTJH8tTwzlKux6YLyZFH6S5kbMN0NLN6K3zbd9ai/qetk41YllF0J
+   k2A3LmLDrTu8PIUuCAAUtiBDUohk4tTGPQz8O+1TocqTSHqy2+HNloY3H
+   6nU0QCkKzIv/TZeGNnxqp2TVLSGjd+hdbpdS38tOSWfWuiXB5OzqZg8pg
+   A==;
+X-CSE-ConnectionGUID: M+rLhA01QCGNJFtSXRrDXw==
+X-CSE-MsgGUID: kclsBV0sSOi2MEXz8wXdqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="63729722"
 X-IronPort-AV: E=Sophos;i="6.13,236,1732608000"; 
-   d="scan'208";a="38628671"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2025 05:37:37 -0800
-X-CSE-ConnectionGUID: y2qw5ozeSLSAX5xVbiQblQ==
-X-CSE-MsgGUID: hFFY01IPR223V/ccgP9ubA==
+   d="scan'208";a="63729722"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2025 06:09:42 -0800
+X-CSE-ConnectionGUID: 1LQVlRlOSDSoDpCzpDXxAQ==
+X-CSE-MsgGUID: xny16wPYTAeSahberUmNcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,236,1732608000"; 
-   d="scan'208";a="113187888"
+   d="scan'208";a="113233046"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Jan 2025 05:37:35 -0800
+  by orviesa004.jf.intel.com with ESMTP; 26 Jan 2025 06:09:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tc2pR-000fOR-0w;
-	Sun, 26 Jan 2025 13:37:33 +0000
-Date: Sun, 26 Jan 2025 21:37:24 +0800
+	id 1tc3KS-000fPz-1h;
+	Sun, 26 Jan 2025 14:09:36 +0000
+Date: Sun, 26 Jan 2025 22:08:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kashyap Desai <kashyap.desai@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Hannes Reinecke <hare@suse.de>, Tomas Henzl <thenzl@redhat.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive
- output may be truncated writing up to 31 bytes into a region of size 11
-Message-ID: <202501262141.CoWXdqty-lkp@intel.com>
+To: Jordan Rome <linux@jordanrome.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Kernel Team <kernel-team@fb.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Alexander Potapenko <glider@google.com>
+Subject: Re: [bpf-next v4 1/3] mm: add copy_remote_vm_str
+Message-ID: <202501262133.9mKauA5U-lkp@intel.com>
+References: <20250126124147.3154108-1-linux@jordanrome.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,130 +69,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250126124147.3154108-1-linux@jordanrome.com>
 
-Hi Kashyap,
+Hi Jordan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aa22f4da2a46b484a257d167c67a2adc1b7aaf68
-commit: 672ae26c82166d63e0352403b7ea16ab4705edc1 scsi: mpi3mr: Add support for internal watchdog thread
-date:   3 years, 8 months ago
-config: x86_64-randconfig-r121-20240105 (https://download.01.org/0day-ci/archive/20250126/202501262141.CoWXdqty-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501262141.CoWXdqty-lkp@intel.com/reproduce)
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master linus/master v6.13 next-20250124]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Rome/bpf-Add-bpf_copy_from_user_task_str-kfunc/20250126-204439
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250126124147.3154108-1-linux%40jordanrome.com
+patch subject: [bpf-next v4 1/3] mm: add copy_remote_vm_str
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20250126/202501262133.9mKauA5U-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501262133.9mKauA5U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501262141.CoWXdqty-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501262133.9mKauA5U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_setup_isr':
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:58: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
-         |                                                          ^~
-   In function 'mpi3mr_request_irq',
-       inlined from 'mpi3mr_setup_isr' at drivers/scsi/mpi3mr/mpi3mr_fw.c:528:12:
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 255]
-     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
-         |                                                       ^~~~~~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 65507]
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:9: note: 'snprintf' output between 8 and 45 bytes into a destination of size 32
-     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     454 |             mrioc->driver_name, mrioc->id, index);
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_start_watchdog':
->> drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive output may be truncated writing up to 31 bytes into a region of size 11 [-Wformat-truncation=]
-    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-         |                                                            ^~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:50: note: directive argument in the range [0, 255]
-    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-         |                                                  ^~~~~~~~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:1548:9: note: 'snprintf' output between 11 and 44 bytes into a destination of size 20
-    1548 |         snprintf(mrioc->watchdog_work_q_name,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1550 |             mrioc->id);
-         |             ~~~~~~~~~~
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:17,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:6,
-                    from include/linux/sched.h:12,
-                    from include/linux/blkdev.h:5,
-                    from drivers/scsi/mpi3mr/mpi3mr.h:13,
-                    from drivers/scsi/mpi3mr/mpi3mr_fw.c:10:
-   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_init_ioc':
-   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
-         |                         ^~~~~~~~
-   include/linux/printk.h:373:16: note: in expansion of macro 'KERN_INFO'
-     373 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_debug.h:51:9: note: in expansion of macro 'pr_info'
-      51 |         pr_info("%s: " fmt, (ioc)->name, ##__VA_ARGS__)
-         |         ^~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:2427:9: note: in expansion of macro 'ioc_info'
-    2427 |         ioc_info(mrioc, "IOC in %s state during detection\n",
-         |         ^~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
-         |                         ^~~~~~~~
-   include/linux/printk.h:373:16: note: in expansion of macro 'KERN_INFO'
-     373 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_debug.h:51:9: note: in expansion of macro 'pr_info'
-      51 |         pr_info("%s: " fmt, (ioc)->name, ##__VA_ARGS__)
-         |         ^~~~~~~
-   drivers/scsi/mpi3mr/mpi3mr_fw.c:2438:17: note: in expansion of macro 'ioc_info'
-    2438 |                 ioc_info(mrioc,
-         |                 ^~~~~~~~
+>> mm/nommu.c:1717:2: error: use of undeclared identifier 'vma'
+    1717 |         vma = find_vma(mm, addr);
+         |         ^
+   mm/nommu.c:1718:6: error: use of undeclared identifier 'vma'; did you mean 'vmap'?
+    1718 |         if (vma) {
+         |             ^~~
+         |             vmap
+   mm/nommu.c:303:15: note: 'vmap' declared here
+     303 | EXPORT_SYMBOL(vmap);
+         |               ^
+   mm/nommu.c:1720:21: error: use of undeclared identifier 'vma'
+    1720 |                 if (addr + len >= vma->vm_end)
+         |                                   ^
+   mm/nommu.c:1721:10: error: use of undeclared identifier 'vma'
+    1721 |                         len = vma->vm_end - addr;
+         |                               ^
+   mm/nommu.c:1724:7: error: use of undeclared identifier 'vma'
+    1724 |                 if (vma->vm_flags & VM_MAYREAD) {
+         |                     ^
+>> mm/nommu.c:1725:23: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'const char *' [-Wint-conversion]
+    1725 |                         ret = strscpy(buf, addr, len);
+         |                                            ^~~~
+   include/linux/string.h:113:55: note: expanded from macro 'strscpy'
+     113 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |                                                              ^~~
+   include/linux/string.h:82:21: note: expanded from macro '__strscpy1'
+      82 |         sized_strscpy(dst, src, size + __must_be_cstr(dst) + __must_be_cstr(src))
+         |                            ^~~
+   include/linux/string.h:72:43: note: passing argument to parameter here
+      72 | ssize_t sized_strscpy(char *, const char *, size_t);
+         |                                           ^
+   6 errors generated.
 
 
-vim +1549 drivers/scsi/mpi3mr/mpi3mr_fw.c
+vim +/vma +1717 mm/nommu.c
 
-  1532	
-  1533	/**
-  1534	 * mpi3mr_start_watchdog - Start watchdog
-  1535	 * @mrioc: Adapter instance reference
-  1536	 *
-  1537	 * Create and start the watchdog thread to monitor controller
-  1538	 * faults.
-  1539	 *
-  1540	 * Return: Nothing.
-  1541	 */
-  1542	void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
-  1543	{
-  1544		if (mrioc->watchdog_work_q)
-  1545			return;
-  1546	
-  1547		INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
-  1548		snprintf(mrioc->watchdog_work_q_name,
-> 1549		    sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-  1550		    mrioc->id);
-  1551		mrioc->watchdog_work_q =
-  1552		    create_singlethread_workqueue(mrioc->watchdog_work_q_name);
-  1553		if (!mrioc->watchdog_work_q) {
-  1554			ioc_err(mrioc, "%s: failed (line=%d)\n", __func__, __LINE__);
-  1555			return;
-  1556		}
-  1557	
-  1558		if (mrioc->watchdog_work_q)
-  1559			queue_delayed_work(mrioc->watchdog_work_q,
-  1560			    &mrioc->watchdog_work,
-  1561			    msecs_to_jiffies(MPI3MR_WATCHDOG_INTERVAL));
-  1562	}
-  1563	
+  1703	
+  1704	/*
+  1705	 * Copy a string from another process's address space as given in mm.
+  1706	 * If there is any error return -EFAULT.
+  1707	 */
+  1708	static int __copy_remote_vm_str(struct mm_struct *mm, unsigned long addr,
+  1709				      void *buf, int len)
+  1710	{
+  1711		int ret;
+  1712	
+  1713		if (mmap_read_lock_killable(mm))
+  1714			return -EFAULT;
+  1715	
+  1716		/* the access must start within one of the target process's mappings */
+> 1717		vma = find_vma(mm, addr);
+  1718		if (vma) {
+  1719			/* don't overrun this mapping */
+> 1720			if (addr + len >= vma->vm_end)
+  1721				len = vma->vm_end - addr;
+  1722	
+  1723			/* only read mappings where it is permitted */
+  1724			if (vma->vm_flags & VM_MAYREAD) {
+> 1725				ret = strscpy(buf, addr, len);
+  1726				if (ret < 0)
+  1727					ret = len - 1;
+  1728			} else {
+  1729				ret = -EFAULT;
+  1730			}
+  1731		} else {
+  1732			ret = -EFAULT;
+  1733		}
+  1734	
+  1735		mmap_read_unlock(mm);
+  1736		return ret;
+  1737	}
+  1738	
 
 -- 
 0-DAY CI Kernel Test Service
