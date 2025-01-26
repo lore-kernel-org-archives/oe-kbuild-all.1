@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A481F25765
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jan 2025 12:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A321A13AA20
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jan 2025 13:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737894393; cv=none; b=AkZWr425b4n279tpXXvmO2cWPixutw2nDfH5evxThxGw3JrwUnBaHMTK++ASSX8r5wtldlJSF8bkX1llsePnUF2ODsS7wOYpFn8o9ddctkJyeLIDLeXEjmYOQFGBywDzYGbF1T/0xP8eQ0RVTV+TcGTIYvPNkhTRDaR1Ut94xKI=
+	t=1737898660; cv=none; b=fFQfCEYSgkf2FdyKUL80JZX4WV4qoyLKUuZ8iKgd8YGCriwqtvJOueutj9T29Lgg1nNsT9ElJpZJOk2lC0c0HbGhsmGM0TVnjd3oF2m84qdrxFpDc0ImdgBACcnoBrqz7Hw9x0Dz955hLehaYEHHNXED73o/7tYwG8R76NNUppw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737894393; c=relaxed/simple;
-	bh=oLPG594PFIEsR+E/hlfwXyhqFX+QnfKLxyVmKlUGCJk=;
+	s=arc-20240116; t=1737898660; c=relaxed/simple;
+	bh=GrVrASTuaNzT9u+43PdMjTaePkNR/C76pvu0Vfd3JJc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r2edCH+bwHSGJt+I/Oja4n3s+mO8MvY60I37CvbiGyTgfRaXucgaDLnZ5ivhilcoas/c00tOzPxnTrVJ/FrBWLUaXPBswTB3C1Gn85tLApfBGshZ684IMDoO+ai6X34laX9aWO/d7/tldh95Mn01zKMnTKHSbymnpNCNn5LV6D4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gJysUtlT; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=C6ZmJWlgsdiZdkW/rsFHv9gt4VbV0SGu7qS9H+yMJmYIGix7i2aIFf3ZjLmSKfsmpQtRyUHXdPzmeKgziknYn0icZe7roXqzsk9eE5O+Ea/Tbl/ddfJGv9jkT8K3xITJ38NyCe3y+aPFXCi8ywxCwxCepO7ZxaLuRjeUFG8XEjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QeMdkCum; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gJysUtlT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QeMdkCum"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737894390; x=1769430390;
+  t=1737898658; x=1769434658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oLPG594PFIEsR+E/hlfwXyhqFX+QnfKLxyVmKlUGCJk=;
-  b=gJysUtlTmM1Ihmn0gFJE6scE0xndbYbBWrlhQiQpSfXiON41t6dJD8al
-   XGZVaDPuK+21QCtG/F5cDZPpqPvhVtvBI8EKANYdO8VhWWsSRtpUvsmsF
-   wcITN6TY2KSB5bmflPD34vbwzzJq7rW9WO+5LZWCR+EhpuOsbZiZHhiQQ
-   PSnpJD6uxmopwNnYPb2SVOuNmnsB/JLIFspD6sOAksuLR0vEVswxAxqml
-   KvpctCAbausYy7Nxkmvhe1QTGvjG6iCN8fpAjuDcNj98ysKD65LoT+66c
-   D2umPFkWmMtzUQEUJoh+G7P3N9JGgK3yxwedX0WpwX6mFvuOBHQ05MDLn
-   A==;
-X-CSE-ConnectionGUID: ah//MUaiQWa3uHHxgJu6zA==
-X-CSE-MsgGUID: EM4YWNoxTkm6bq2iw92bbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="38260339"
+  bh=GrVrASTuaNzT9u+43PdMjTaePkNR/C76pvu0Vfd3JJc=;
+  b=QeMdkCumDpNerQgcdeSdnku0rCtev07dEDNclnMBR29TBxfXUc/Qyyni
+   ENOfPZR2+nHgFM9AQBh1jz7e+Rq15AFG1C0nXNR3fpD7NlTmW37+x0yck
+   C9i9RyhsA/8TcnB6x2Wq2sKhNrvOTbIM4KTH9Dly03Obs+F/Lz09HgD0S
+   WuIiIkd51ZxxwaYsWVdcvml0QlCJYPEBBvm4EKWM7cjsy7x1CNZBtA4Ct
+   cZUqdBBWBwrJ1CUN9sba8uZSdOKbEqrBk9zrZSCbm7PzwahW2BdRq3cYJ
+   G7o9Z7+nQc1iP/M67PadDl23GnzPuX8bFtlHyahsyhXiu688o2uIgTnLU
+   Q==;
+X-CSE-ConnectionGUID: fjaPfCI5TiqUscbCVFe1xg==
+X-CSE-MsgGUID: VMlPQyQaR+eMt4pR8ksQmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="38628671"
 X-IronPort-AV: E=Sophos;i="6.13,236,1732608000"; 
-   d="scan'208";a="38260339"
+   d="scan'208";a="38628671"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2025 04:26:30 -0800
-X-CSE-ConnectionGUID: nYkZwD/+SoyIk0ay9YRGew==
-X-CSE-MsgGUID: tXvpZApPTs6/9XR64yfXYw==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2025 05:37:37 -0800
+X-CSE-ConnectionGUID: y2qw5ozeSLSAX5xVbiQblQ==
+X-CSE-MsgGUID: hFFY01IPR223V/ccgP9ubA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,236,1732608000"; 
-   d="scan'208";a="113178471"
+   d="scan'208";a="113187888"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Jan 2025 04:26:29 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 26 Jan 2025 05:37:35 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tc1id-000fLH-05;
-	Sun, 26 Jan 2025 12:26:27 +0000
-Date: Sun, 26 Jan 2025 20:25:38 +0800
+	id 1tc2pR-000fOR-0w;
+	Sun, 26 Jan 2025 13:37:33 +0000
+Date: Sun, 26 Jan 2025 21:37:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 0/1] mm/mempolicy.c:499:22: warning:
- variable 'mapped_pte' set but not used
-Message-ID: <202501262022.K1QalLEn-lkp@intel.com>
+To: Kashyap Desai <kashyap.desai@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Hannes Reinecke <hare@suse.de>, Tomas Henzl <thenzl@redhat.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive
+ output may be truncated writing up to 31 bytes into a region of size 11
+Message-ID: <202501262141.CoWXdqty-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,108 +65,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Shijie,
+Hi Kashyap,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   49530c73f82d0377a960e70d167621ca922d4d59
-commit: c1f729c7dec0df04d62550d981af849f970a660d [0/1] mm: mempolicy: fix potential pte_unmap_unlock pte error
-config: i386-randconfig-063-20250126 (https://download.01.org/0day-ci/archive/20250126/202501262022.K1QalLEn-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501262022.K1QalLEn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aa22f4da2a46b484a257d167c67a2adc1b7aaf68
+commit: 672ae26c82166d63e0352403b7ea16ab4705edc1 scsi: mpi3mr: Add support for internal watchdog thread
+date:   3 years, 8 months ago
+config: x86_64-randconfig-r121-20240105 (https://download.01.org/0day-ci/archive/20250126/202501262141.CoWXdqty-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501262141.CoWXdqty-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501262022.K1QalLEn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501262141.CoWXdqty-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/mempolicy.c: In function 'queue_pages_pte_range':
->> mm/mempolicy.c:499:22: warning: variable 'mapped_pte' set but not used [-Wunused-but-set-variable]
-     499 |         pte_t *pte, *mapped_pte;
-         |                      ^~~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_setup_isr':
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:58: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
+         |                                                          ^~
+   In function 'mpi3mr_request_irq',
+       inlined from 'mpi3mr_setup_isr' at drivers/scsi/mpi3mr/mpi3mr_fw.c:528:12:
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 255]
+     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
+         |                                                       ^~~~~~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 65507]
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:9: note: 'snprintf' output between 8 and 45 bytes into a destination of size 32
+     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     454 |             mrioc->driver_name, mrioc->id, index);
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_start_watchdog':
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive output may be truncated writing up to 31 bytes into a region of size 11 [-Wformat-truncation=]
+    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+         |                                                            ^~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:50: note: directive argument in the range [0, 255]
+    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+         |                                                  ^~~~~~~~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:1548:9: note: 'snprintf' output between 11 and 44 bytes into a destination of size 20
+    1548 |         snprintf(mrioc->watchdog_work_q_name,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1550 |             mrioc->id);
+         |             ~~~~~~~~~~
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:17,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:6,
+                    from include/linux/sched.h:12,
+                    from include/linux/blkdev.h:5,
+                    from drivers/scsi/mpi3mr/mpi3mr.h:13,
+                    from drivers/scsi/mpi3mr/mpi3mr_fw.c:10:
+   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_init_ioc':
+   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:373:16: note: in expansion of macro 'KERN_INFO'
+     373 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_debug.h:51:9: note: in expansion of macro 'pr_info'
+      51 |         pr_info("%s: " fmt, (ioc)->name, ##__VA_ARGS__)
+         |         ^~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:2427:9: note: in expansion of macro 'ioc_info'
+    2427 |         ioc_info(mrioc, "IOC in %s state during detection\n",
+         |         ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:373:16: note: in expansion of macro 'KERN_INFO'
+     373 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_debug.h:51:9: note: in expansion of macro 'pr_info'
+      51 |         pr_info("%s: " fmt, (ioc)->name, ##__VA_ARGS__)
+         |         ^~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:2438:17: note: in expansion of macro 'ioc_info'
+    2438 |                 ioc_info(mrioc,
+         |                 ^~~~~~~~
 
 
-vim +/mapped_pte +499 mm/mempolicy.c
+vim +1549 drivers/scsi/mpi3mr/mpi3mr_fw.c
 
-   478	
-   479	/*
-   480	 * Scan through pages checking if pages follow certain conditions,
-   481	 * and move them to the pagelist if they do.
-   482	 *
-   483	 * queue_pages_pte_range() has three possible return values:
-   484	 * 0 - pages are placed on the right node or queued successfully.
-   485	 * 1 - there is unmovable page, and MPOL_MF_MOVE* & MPOL_MF_STRICT were
-   486	 *     specified.
-   487	 * -EIO - only MPOL_MF_STRICT was specified and an existing page was already
-   488	 *        on a node that does not follow the policy.
-   489	 */
-   490	static int queue_pages_pte_range(pmd_t *pmd, unsigned long addr,
-   491				unsigned long end, struct mm_walk *walk)
-   492	{
-   493		struct vm_area_struct *vma = walk->vma;
-   494		struct page *page;
-   495		struct queue_pages *qp = walk->private;
-   496		unsigned long flags = qp->flags;
-   497		int ret;
-   498		bool has_unmovable = false;
- > 499		pte_t *pte, *mapped_pte;
-   500		spinlock_t *ptl;
-   501	
-   502		ptl = pmd_trans_huge_lock(pmd, vma);
-   503		if (ptl) {
-   504			ret = queue_pages_pmd(pmd, ptl, addr, end, walk);
-   505			if (ret != 2)
-   506				return ret;
-   507		}
-   508		/* THP was split, fall through to pte walk */
-   509	
-   510		if (pmd_trans_unstable(pmd))
-   511			return 0;
-   512	
-   513		mapped_pte = pte = pte_offset_map_lock(walk->mm, pmd, addr, &ptl);
-   514		for (; addr != end; pte++, addr += PAGE_SIZE) {
-   515			if (!pte_present(*pte))
-   516				continue;
-   517			page = vm_normal_page(vma, addr, *pte);
-   518			if (!page)
-   519				continue;
-   520			/*
-   521			 * vm_normal_page() filters out zero pages, but there might
-   522			 * still be PageReserved pages to skip, perhaps in a VDSO.
-   523			 */
-   524			if (PageReserved(page))
-   525				continue;
-   526			if (!queue_pages_required(page, qp))
-   527				continue;
-   528			if (flags & (MPOL_MF_MOVE | MPOL_MF_MOVE_ALL)) {
-   529				/* MPOL_MF_STRICT must be specified if we get here */
-   530				if (!vma_migratable(vma)) {
-   531					has_unmovable = true;
-   532					break;
-   533				}
-   534	
-   535				/*
-   536				 * Do not abort immediately since there may be
-   537				 * temporary off LRU pages in the range.  Still
-   538				 * need migrate other LRU pages.
-   539				 */
-   540				if (migrate_page_add(page, qp->pagelist, flags))
-   541					has_unmovable = true;
-   542			} else
-   543				break;
-   544		}
-   545		pte_unmap_unlock(mapped_pte, ptl);
-   546		cond_resched();
-   547	
-   548		if (has_unmovable)
-   549			return 1;
-   550	
-   551		return addr != end ? -EIO : 0;
-   552	}
-   553	
+  1532	
+  1533	/**
+  1534	 * mpi3mr_start_watchdog - Start watchdog
+  1535	 * @mrioc: Adapter instance reference
+  1536	 *
+  1537	 * Create and start the watchdog thread to monitor controller
+  1538	 * faults.
+  1539	 *
+  1540	 * Return: Nothing.
+  1541	 */
+  1542	void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
+  1543	{
+  1544		if (mrioc->watchdog_work_q)
+  1545			return;
+  1546	
+  1547		INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
+  1548		snprintf(mrioc->watchdog_work_q_name,
+> 1549		    sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+  1550		    mrioc->id);
+  1551		mrioc->watchdog_work_q =
+  1552		    create_singlethread_workqueue(mrioc->watchdog_work_q_name);
+  1553		if (!mrioc->watchdog_work_q) {
+  1554			ioc_err(mrioc, "%s: failed (line=%d)\n", __func__, __LINE__);
+  1555			return;
+  1556		}
+  1557	
+  1558		if (mrioc->watchdog_work_q)
+  1559			queue_delayed_work(mrioc->watchdog_work_q,
+  1560			    &mrioc->watchdog_work,
+  1561			    msecs_to_jiffies(MPI3MR_WATCHDOG_INTERVAL));
+  1562	}
+  1563	
 
 -- 
 0-DAY CI Kernel Test Service
