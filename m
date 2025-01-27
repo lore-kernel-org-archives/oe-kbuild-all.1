@@ -1,65 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B663481A3;
-	Mon, 27 Jan 2025 11:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291901FE479
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jan 2025 12:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737976555; cv=none; b=lik2yZLqQnB5bVVotuUkHZ1xyuAi7McTIQJHgkTXnhwUyxrRE9Y5qyyKTHB/YTEJ5IhAvMlSycb3U++0cGjvrcQxbf7OrkaoqX2DIJ63cWaglaFpS8blZ/7EGi2f88YFNm/4UVRmnWyD8VKI4+2aFXK8J51PkPBHiLG7reAVCfc=
+	t=1737980885; cv=none; b=P3cIDRxSr1qcFoUluvUlGM7Qhly1RvHBd8ORzmzdynHhpmEPCJJL1KnT8APVeNHf1IcA9IZiajWsyPRgApRv2hek/ugrE72l3JAwkNHT0XwIN2MuYKfDr1/kD0Z/gSKmO861jrmuTzna4c+Ctr32njSULdeSCT5r+msApIITuH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737976555; c=relaxed/simple;
-	bh=dnt5G5cTLN6et5WLfWpNYAoPzrYL0gIYizEfFHiPTp8=;
+	s=arc-20240116; t=1737980885; c=relaxed/simple;
+	bh=bg9amlmFdK/h2r1MnHxwVsOFVnMATC4b5ax0Y6Sl1Us=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jFQXB+SnJTB8S7yr/KioIimO02pcBo2pjzKpQrdyfHoVmMqcOYxoA0KOVF5hu0hZuDrttAzQ+3MYwHHPi4ikLAxKydKiZEoQRT9aCHF03Tez/2I5/vHHqEdtOkT+2OWJt9E0GS0SnDrOPttfyS3Scfe7xYzpA3kpFXC5emyjJuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nI3rP9Cy; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=ezambLxDDCMvqlifYuv/qqRnwG2PPmr4EmVt5NEmTh9WlyQW4eNLeMkALxDxzWUhn0v/NsKIK7D7+utC8Qsg2WKzikmnw7TJIHq6nIfxGClFLcB0Whr958Tp0SGyfeS20fh9M8rxVSvjLAzO0zUBT8rwhHEnSwfpDjEsaQlIGPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHfGpRTF; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nI3rP9Cy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHfGpRTF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737976554; x=1769512554;
+  t=1737980884; x=1769516884;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dnt5G5cTLN6et5WLfWpNYAoPzrYL0gIYizEfFHiPTp8=;
-  b=nI3rP9CyBDGAXlf/k1fb40zb5PSbsS44hb9X85RPDHCdZscJ0gRBfgTg
-   /RqnZK0jK4phktVuSUlzKACx0Vc9hByFRe0JV/GTgqY5iG4k6565mvjGO
-   NG2zXXb+JhKhjvsHtR05h4VUNcM5B5ZsLqwjVYgf50T6vEtKO7LGdXZOe
-   vGWQzkTWHH+VcoOONVfed4nu35SDR05efFOEulyAfjOqeECt7e21wW6xZ
-   OET+n8pJvcscOY3IG/AMF8eUD9/Eg9/UdsprcTzMFgUj/mdIgAjpcEG1y
-   RVuNcI4UZ1JBiA2OX5h3sUEYRgT60dAKyM1UIJz5xLLg0+qa+yu5Gli2/
-   w==;
-X-CSE-ConnectionGUID: S0RakxMJSm20LVLhE+PW+w==
-X-CSE-MsgGUID: tP5T4sqtS0y/sP+hzZ9qBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="38602133"
+  bh=bg9amlmFdK/h2r1MnHxwVsOFVnMATC4b5ax0Y6Sl1Us=;
+  b=JHfGpRTFmfxy9nepMa2pNhD5whreQbRfxuaz5D+qkyQh+id2fQUkqJl7
+   2kjhzJokl/Fey4cMeUIWVvcJZel3EKRb6GSX3RwQwdygqLH3p6L9QtOOE
+   N15hN6bYhnARrJM0H1IepEmZtMFkfEZIq5Oy7o2JOLKjJse0JOYy2o7Il
+   yCLoXGDXnxABnD6Bj8TSixWajJUfH15KzFz/SlKY965EPtYbwo0eSmCgY
+   3V7JY8ioMct6IB6ZI3tWr6SUBr6zLlUwFc5y8vo9vfVZNfnmaimQsKJJ2
+   lD1Y+EJi5VPKAD4SFgKdoG8qMfSCHhLe/iUWgp1c4m+0y88T9IunbDbfG
+   g==;
+X-CSE-ConnectionGUID: dnTE7/M0TleowrtOoTed8Q==
+X-CSE-MsgGUID: yOUuW1OKTSGvW+AdshtHdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="49032858"
 X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; 
-   d="scan'208";a="38602133"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 03:15:54 -0800
-X-CSE-ConnectionGUID: B0HQc5HGTz2NrWoQIe/KsQ==
-X-CSE-MsgGUID: 3xAqkLeoS1G65HTBgIXvJQ==
+   d="scan'208";a="49032858"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 04:28:03 -0800
+X-CSE-ConnectionGUID: /nXOYI4iSHqijSeaDJ5RCQ==
+X-CSE-MsgGUID: k6fZ0skxT2KoCiodPqeCXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; 
-   d="scan'208";a="139283529"
+   d="scan'208";a="108218730"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Jan 2025 03:15:51 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 27 Jan 2025 04:27:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tcN5o-000ghP-2g;
-	Mon, 27 Jan 2025 11:15:48 +0000
-Date: Mon, 27 Jan 2025 19:15:45 +0800
+	id 1tcODc-000gkp-0T;
+	Mon, 27 Jan 2025 12:27:56 +0000
+Date: Mon, 27 Jan 2025 20:27:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Basharath Hussain Khaja <basharath@couthit.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Subject: Re: [PATCH v2] of: address: Add kunit test for
- __of_address_resource_bounds()
-Message-ID: <202501271803.wd0vg8zR-lkp@intel.com>
-References: <20250127-of-address-overflow-v2-1-61b5046044e9@linutronix.de>
+To: Levi Zim via B4 Relay <devnull+rsworktech.outlook.com@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Levi Zim <rsworktech@outlook.com>
+Subject: Re: [PATCH bpf-next v2 2/7] bpf: Implement
+ bpf_probe_read_user_dynptr helper
+Message-ID: <202501272059.wikSvChi-lkp@intel.com>
+References: <20250125-bpf_dynptr_probe-v2-2-c42c87f97afe@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,130 +80,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250127-of-address-overflow-v2-1-61b5046044e9@linutronix.de>
+In-Reply-To: <20250125-bpf_dynptr_probe-v2-2-c42c87f97afe@outlook.com>
 
-Hi Thomas,
+Hi Levi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 15e2f65f2ecfeb8e39315522e2b5cfdc5651fc10]
+[auto build test WARNING on d0d106a2bd21499901299160744e5fe9f4c83ddb]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/of-address-Add-kunit-test-for-__of_address_resource_bounds/20250127-165902
-base:   15e2f65f2ecfeb8e39315522e2b5cfdc5651fc10
-patch link:    https://lore.kernel.org/r/20250127-of-address-overflow-v2-1-61b5046044e9%40linutronix.de
-patch subject: [PATCH v2] of: address: Add kunit test for __of_address_resource_bounds()
-config: hexagon-randconfig-001-20250127 (https://download.01.org/0day-ci/archive/20250127/202501271803.wd0vg8zR-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250127/202501271803.wd0vg8zR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Levi-Zim-via-B4-Relay/bpf-Implement-bpf_probe_read_kernel_dynptr-helper/20250125-163114
+base:   d0d106a2bd21499901299160744e5fe9f4c83ddb
+patch link:    https://lore.kernel.org/r/20250125-bpf_dynptr_probe-v2-2-c42c87f97afe%40outlook.com
+patch subject: [PATCH bpf-next v2 2/7] bpf: Implement bpf_probe_read_user_dynptr helper
+config: x86_64-randconfig-122-20250127 (https://download.01.org/0day-ci/archive/20250127/202501272059.wikSvChi-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250127/202501272059.wikSvChi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501271803.wd0vg8zR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501272059.wikSvChi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/bpf_trace.c:899:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr @@     got void * @@
+   kernel/trace/bpf_trace.c:899:41: sparse:     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr
+   kernel/trace/bpf_trace.c:899:41: sparse:     got void *
+>> kernel/trace/bpf_trace.c:235:39: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const [noderef] __user *unsafe_ptr @@     got void *unsafe_ptr @@
+   kernel/trace/bpf_trace.c:235:39: sparse:     expected void const [noderef] __user *unsafe_ptr
+   kernel/trace/bpf_trace.c:235:39: sparse:     got void *unsafe_ptr
+   kernel/trace/bpf_trace.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   kernel/trace/bpf_trace.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:880:25: sparse: sparse: context imbalance in 'uprobe_prog_run' - unexpected unlock
 
->> drivers/of/of_test.c:140:42: warning: implicit conversion from 'long long' to 'resource_size_t' (aka 'unsigned int') changes value from 4294971390 to 4094 [-Wconstant-conversion]
-     135 |         {
-         |         ~
-     136 |                 .start = 0x1000,
-     137 |                 .size = 0xffffffff,
-     138 |                 .ret = resource_size_32bit() ? -EOVERFLOW : 0,
-     139 |                 .res_start = 0x1000,
-     140 |                 .res_end = resource_size_32bit() ? 0 : 0x100000ffe,
-         |                                                        ^~~~~~~~~~~
-   drivers/of/of_test.c:133:42: warning: implicit conversion from 'long long' to 'resource_size_t' (aka 'unsigned int') changes value from 4294967296 to 0 [-Wconstant-conversion]
-     128 |         {
-         |         ~
-     129 |                 .start = 0x100000000ULL,
-     130 |                 .size = 1,
-     131 |                 .ret = resource_size_32bit() ? -EOVERFLOW : 0,
-     132 |                 .res_start = resource_size_32bit() ? 0 : 0x100000000,
-     133 |                 .res_end = resource_size_32bit() ? 0 : 0x100000000,
-         |                                                        ^~~~~~~~~~~
-   drivers/of/of_test.c:132:44: warning: implicit conversion from 'long long' to 'resource_size_t' (aka 'unsigned int') changes value from 4294967296 to 0 [-Wconstant-conversion]
-     128 |         {
-         |         ~
-     129 |                 .start = 0x100000000ULL,
-     130 |                 .size = 1,
-     131 |                 .ret = resource_size_32bit() ? -EOVERFLOW : 0,
-     132 |                 .res_start = resource_size_32bit() ? 0 : 0x100000000,
-         |                                                          ^~~~~~~~~~~
-   3 warnings generated.
+vim +235 kernel/trace/bpf_trace.c
 
-
-vim +140 drivers/of/of_test.c
-
-    74	
-    75	static const struct of_address_resource_bounds_case of_address_resource_bounds_cases[] = {
-    76		{
-    77			.start = 0,
-    78			.size = 0,
-    79			.ret = 0,
-    80			.res_start = 0,
-    81			.res_end = -1,
-    82		},
-    83		{
-    84			.start = 0,
-    85			.size = 0x1000,
-    86			.ret = 0,
-    87			.res_start = 0,
-    88			.res_end = 0xfff,
-    89		},
-    90		{
-    91			.start = 0x1000,
-    92			.size = 0,
-    93			.ret = 0,
-    94			.res_start = 0x1000,
-    95			.res_end = 0xfff,
-    96		},
-    97		{
-    98			.start = 0x1000,
-    99			.size = 0x1000,
-   100			.ret = 0,
-   101			.res_start = 0x1000,
-   102			.res_end = 0x1fff,
-   103		},
-   104		{
-   105			.start = 1,
-   106			.size = RESOURCE_SIZE_MAX,
-   107			.ret = 0,
-   108			.res_start = 1,
-   109			.res_end = RESOURCE_SIZE_MAX,
-   110		},
-   111		{
-   112			.start = RESOURCE_SIZE_MAX,
-   113			.size = 1,
-   114			.ret = 0,
-   115			.res_start = RESOURCE_SIZE_MAX,
-   116			.res_end = RESOURCE_SIZE_MAX,
-   117		},
-   118		{
-   119			.start = 2,
-   120			.size = RESOURCE_SIZE_MAX,
-   121			.ret = -EOVERFLOW,
-   122		},
-   123		{
-   124			.start = RESOURCE_SIZE_MAX,
-   125			.size = 2,
-   126			.ret = -EOVERFLOW,
-   127		},
-   128		{
-   129			.start = 0x100000000ULL,
-   130			.size = 1,
-   131			.ret = resource_size_32bit() ? -EOVERFLOW : 0,
-   132			.res_start = resource_size_32bit() ? 0 : 0x100000000,
-   133			.res_end = resource_size_32bit() ? 0 : 0x100000000,
-   134		},
-   135		{
-   136			.start = 0x1000,
-   137			.size = 0xffffffff,
-   138			.ret = resource_size_32bit() ? -EOVERFLOW : 0,
-   139			.res_start = 0x1000,
- > 140			.res_end = resource_size_32bit() ? 0 : 0x100000ffe,
-   141		},
-   142	};
-   143	
+   228	
+   229	BPF_CALL_5(bpf_probe_read_user_dynptr, const struct bpf_dynptr_kern *, dst,
+   230		u32, offset, u32, size, void *, unsafe_ptr, u64, flags)
+   231	{
+   232		int ret = bpf_probe_read_check_dynptr(dst, offset, size, flags);
+   233	
+   234		return ret ?: bpf_probe_read_user_common(dst->data + dst->offset + offset,
+ > 235					size, unsafe_ptr);
+   236	}
+   237	
 
 -- 
 0-DAY CI Kernel Test Service
