@@ -1,226 +1,310 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8811A0B08
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F03828DA1
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jan 2025 23:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738105488; cv=none; b=ILWsH7el+rcIR4kF+b0WJ7UX9H7AHg+QtixuCtz3LyLyIdQCvocOoOPC7df5ReSaspLc3kkg96dVWKPoIpkZ+OapG5JBy0SLYMZQblVPZRZibMJdnEXFRBgwIKZ5+dwyvQCMADqVR9NSZvUvoNsuFbLFDznluYeN+k82RrIk7Hg=
+	t=1738105490; cv=none; b=s1HdHYtnpgnXdf4GNqfgtVqhNfCYSUPAwvDcU1qtOLxMePEKrNKeacl8U3B2l/DkNR2MW5IqBxD78PEoD1Toonyk6oNjrN1ehvOYEqqIkdGzgAJ8t0WJN/zyn4gSdwPjiKoehi5J/kPrkdtvNHuNygiFH+03P4W2TYzsde6TTBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738105488; c=relaxed/simple;
-	bh=On3cZ82D1k6wvyVorI2QRCn6MGmVG4i181OHC/QduZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JISMubljyIieIMoNDS/V9Pe6ccyUWniXGx0JKujietPYFjUaTO51M5G/JstIA37xA0PP4zDZwreyJHKYMl7wV/e5a8IqyHzha+ATIEH9pnW5cLumXJWZ0TB45dKd7m9ku/yd+0nIPjP6jp93ddYA6vpE9IN98TyPjlLSC73hMSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OVCJr5nq; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1738105490; c=relaxed/simple;
+	bh=kWvrlbYHfpxc+vuv5qXXYmIuiLBKi6d7M8n7YSzz+cA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dt8Rt9oN/rluV0e/GBgK4bVUW0oy0Y0u6KSpKx/izXSv6Nn33NOr1ZYzrhYdIiCJMDiRcms0Vv0cSI9DVZzQM1JnbBZJ+vBsQtP6nafEgOaF2QqfihtY8SiPjEuam8/8A2I3Hh4BRQrI8GZf7xXAdxYC/6SbRSzktb4xSjyvWyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jL/omOiW; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OVCJr5nq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jL/omOiW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738105487; x=1769641487;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=On3cZ82D1k6wvyVorI2QRCn6MGmVG4i181OHC/QduZE=;
-  b=OVCJr5nqzzBayutDWrK2Ck9zXJfoCg6CyQls16kQ6q8Z6R8EIKGoCk5A
-   5hWiJE6zSiUF/Uxcuxi1+6B3h3z2RU+WRxsdyx3jYAgdoyqv4xguHDzlG
-   XvWbvC++fMsZcmGgBNKTADm6pr4ycQcEK84A4IUMf8cgk7Hdf5zkQy48s
-   p0vp8LGZGbYb9I8NgGGkJXazKRH6AXa013oB91W8dboeT+vAyn2B0U7q3
-   fX0+szHHAovmmrzmeySRN63eONag4C6mCTE62Fa9V72Vua4Iu7n0x9jF9
-   8ZO7+x2V/SgvCbOeOCksbLizcHX4NIN2qxDxJeqbwqG1JYgem8JDYTVM1
-   w==;
-X-CSE-ConnectionGUID: vblob8SGQXKPdnQz/TajjQ==
-X-CSE-MsgGUID: dJcvn6MDT0Wi4dBuwgRLJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="38516270"
+  t=1738105488; x=1769641488;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kWvrlbYHfpxc+vuv5qXXYmIuiLBKi6d7M8n7YSzz+cA=;
+  b=jL/omOiWeFHsB3J0ARAo6NDdM2D5382Gj9SLadkgCQDjWBOijN7ZttqF
+   eq0LtmJqmeUGPPDYcz0KOZclyru2jYhJdLmq7umJk99WgxV8BUOiCHSd2
+   8t2VcInb4gpYvptBaVtTFr00pepR+WU/DUYbgBtv/Hwp7/L4FaZIHTMmH
+   yhvbBkRlPlSKhziilwHycBVHPRV95WKPDyR7OjwehjYIa7r2xlGLvKOHS
+   F0a/qh9zVlG2BKM6kEXgI1YphkNV4WQ2h16sgUuEwXIZuJrPnsb7ADRV6
+   mBFNGxVVE8NA4oxHL5TuDWG+U+iVBxQl163ivPFmdsFx/97Ban7Li4BSy
+   A==;
+X-CSE-ConnectionGUID: zzsYSYGvRqWeoqHQPch38g==
+X-CSE-MsgGUID: UVqef5brRdGTDaSYA7Bseg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="38516271"
 X-IronPort-AV: E=Sophos;i="6.13,242,1732608000"; 
-   d="scan'208";a="38516270"
+   d="scan'208";a="38516271"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 15:04:43 -0800
-X-CSE-ConnectionGUID: aaG4Uu3+T228lfJpymdLHw==
-X-CSE-MsgGUID: L7rF33VDQCSpQcMEEB9Ijw==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 15:04:44 -0800
+X-CSE-ConnectionGUID: 1TvE62FMTlW/4Bson/6sPQ==
+X-CSE-MsgGUID: hMxkqvYuSCqNLPBJ9sl6Gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="109788551"
+   d="scan'208";a="109788552"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 28 Jan 2025 15:04:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tcudL-000iK7-2p;
-	Tue, 28 Jan 2025 23:04:39 +0000
-Date: Wed, 29 Jan 2025 07:04:12 +0800
+	id 1tcudM-000iKB-05;
+	Tue, 28 Jan 2025 23:04:40 +0000
+Date: Wed, 29 Jan 2025 07:04:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 04/14] x86/virt/tdx: Add SEAMCALL wrappers for TDX
- page cache management
-Message-ID: <202501290644.uFIc4hv8-lkp@intel.com>
-References: <20250115160912.617654-5-pbonzini@redhat.com>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/170-atcphy 4/18] drivers/phy/apple/atc.c:1908:32:
+ sparse: sparse: symbol 'atcphy_dwc3_reset_ops' was not declared. Should it
+ be static?
+Message-ID: <202501290639.48hISD7H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250115160912.617654-5-pbonzini@redhat.com>
 
-Hi Paolo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/x86/tdx]
-[also build test ERROR on kvm/queue kvm/next linus/master v6.13 next-20250128]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/x86-virt-tdx-Add-SEAMCALL-wrappers-for-TDX-KeyID-management/20250116-001537
-base:   tip/x86/tdx
-patch link:    https://lore.kernel.org/r/20250115160912.617654-5-pbonzini%40redhat.com
-patch subject: [PATCH v3 04/14] x86/virt/tdx: Add SEAMCALL wrappers for TDX page cache management
-config: x86_64-randconfig-076-20250128 (https://download.01.org/0day-ci/archive/20250129/202501290644.uFIc4hv8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250129/202501290644.uFIc4hv8-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   8114ff3960a57070f30ef1f7fd59911dc463ea04
+commit: 659bcb31c64831353cfc8ff500e709edfc5a0573 [4/18] WIP: phy: apple: Add Apple Type-C PHY
+config: arm64-randconfig-r121-20250129 (https://download.01.org/0day-ci/archive/20250129/202501290639.48hISD7H-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250129/202501290639.48hISD7H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501290644.uFIc4hv8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501290639.48hISD7H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/apple/atc.c:1908:32: sparse: sparse: symbol 'atcphy_dwc3_reset_ops' was not declared. Should it be static?
+>> drivers/phy/apple/atc.c:2104:44: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 const [usertype] *cur @@     got restricted __le32 const [usertype] *p @@
+   drivers/phy/apple/atc.c:2104:44: sparse:     expected restricted __be32 const [usertype] *cur
+   drivers/phy/apple/atc.c:2104:44: sparse:     got restricted __le32 const [usertype] *p
+>> drivers/phy/apple/atc.c:2104:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 const [usertype] *p @@     got restricted __be32 const [usertype] * @@
+   drivers/phy/apple/atc.c:2104:19: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/phy/apple/atc.c:2104:19: sparse:     got restricted __be32 const [usertype] *
+   drivers/phy/apple/atc.c:2105:44: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 const [usertype] *cur @@     got restricted __le32 const [usertype] *p @@
+   drivers/phy/apple/atc.c:2105:44: sparse:     expected restricted __be32 const [usertype] *cur
+   drivers/phy/apple/atc.c:2105:44: sparse:     got restricted __le32 const [usertype] *p
+   drivers/phy/apple/atc.c:2105:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 const [usertype] *p @@     got restricted __be32 const [usertype] * @@
+   drivers/phy/apple/atc.c:2105:19: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/phy/apple/atc.c:2105:19: sparse:     got restricted __be32 const [usertype] *
+   drivers/phy/apple/atc.c:2106:44: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 const [usertype] *cur @@     got restricted __le32 const [usertype] *p @@
+   drivers/phy/apple/atc.c:2106:44: sparse:     expected restricted __be32 const [usertype] *cur
+   drivers/phy/apple/atc.c:2106:44: sparse:     got restricted __le32 const [usertype] *p
+   drivers/phy/apple/atc.c:2106:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 const [usertype] *p @@     got restricted __be32 const [usertype] * @@
+   drivers/phy/apple/atc.c:2106:19: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/phy/apple/atc.c:2106:19: sparse:     got restricted __be32 const [usertype] *
 
-   In file included from arch/x86/include/asm/page.h:89,
-                    from arch/x86/include/asm/processor.h:20,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/clocksource.h:13,
-                    from arch/x86/kernel/kvmclock.c:6:
-   arch/x86/include/asm/tdx.h: In function 'mk_keyed_paddr':
->> include/asm-generic/memory_model.h:38:58: error: 'vmemmap' undeclared (first use in this function); did you mean 'mem_map'?
-      38 | #define __page_to_pfn(page)     (unsigned long)((page) - vmemmap)
-         |                                                          ^~~~~~~
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:70:31: note: in expansion of macro 'page_to_pfn'
-      70 |         unsigned long __pfn = page_to_pfn(page);                        \
-         |                               ^~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:148:15: note: in expansion of macro 'page_to_phys'
-     148 |         ret = page_to_phys(page);
-         |               ^~~~~~~~~~~~
-   include/asm-generic/memory_model.h:38:58: note: each undeclared identifier is reported only once for each function it appears in
-      38 | #define __page_to_pfn(page)     (unsigned long)((page) - vmemmap)
-         |                                                          ^~~~~~~
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:70:31: note: in expansion of macro 'page_to_pfn'
-      70 |         unsigned long __pfn = page_to_pfn(page);                        \
-         |                               ^~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:148:15: note: in expansion of macro 'page_to_phys'
-     148 |         ret = page_to_phys(page);
-         |               ^~~~~~~~~~~~
---
-   In file included from arch/x86/include/asm/page.h:89,
-                    from arch/x86/include/asm/processor.h:20,
-                    from arch/x86/kernel/cpu/hypervisor.c:26:
-   arch/x86/include/asm/tdx.h: In function 'mk_keyed_paddr':
-   include/asm-generic/memory_model.h:38:58: error: 'vmemmap' undeclared (first use in this function)
-      38 | #define __page_to_pfn(page)     (unsigned long)((page) - vmemmap)
-         |                                                          ^~~~~~~
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:70:31: note: in expansion of macro 'page_to_pfn'
-      70 |         unsigned long __pfn = page_to_pfn(page);                        \
-         |                               ^~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:148:15: note: in expansion of macro 'page_to_phys'
-     148 |         ret = page_to_phys(page);
-         |               ^~~~~~~~~~~~
-   include/asm-generic/memory_model.h:38:58: note: each undeclared identifier is reported only once for each function it appears in
-      38 | #define __page_to_pfn(page)     (unsigned long)((page) - vmemmap)
-         |                                                          ^~~~~~~
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:70:31: note: in expansion of macro 'page_to_pfn'
-      70 |         unsigned long __pfn = page_to_pfn(page);                        \
-         |                               ^~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:148:15: note: in expansion of macro 'page_to_phys'
-     148 |         ret = page_to_phys(page);
-         |               ^~~~~~~~~~~~
-   In file included from arch/x86/include/asm/bug.h:99,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/percpu.h:5,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/interrupt.h:11,
-                    from arch/x86/include/asm/kvm_para.h:7,
-                    from arch/x86/include/asm/hypervisor.h:37,
-                    from arch/x86/kernel/cpu/hypervisor.c:27:
->> include/asm-generic/memory_model.h:72:23: error: implicit declaration of function 'pfn_valid' [-Werror=implicit-function-declaration]
-      72 |         WARN_ON_ONCE(!pfn_valid(__pfn));                                \
-         |                       ^~~~~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:148:15: note: in expansion of macro 'page_to_phys'
-     148 |         ret = page_to_phys(page);
-         |               ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +/atcphy_dwc3_reset_ops +1908 drivers/phy/apple/atc.c
 
-
-vim +38 include/asm-generic/memory_model.h
-
-8f6aac419bd590 Christoph Lameter  2007-10-16  35  
-af901ca181d92a André Goddard Rosa 2009-11-14  36  /* memmap is virtually contiguous.  */
-8f6aac419bd590 Christoph Lameter  2007-10-16  37  #define __pfn_to_page(pfn)	(vmemmap + (pfn))
-32272a26974d20 Martin Schwidefsky 2008-12-25 @38  #define __page_to_pfn(page)	(unsigned long)((page) - vmemmap)
-8f6aac419bd590 Christoph Lameter  2007-10-16  39  
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  40  #elif defined(CONFIG_SPARSEMEM)
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  41  /*
-1a49123b343461 Zhang Yanfei       2013-10-03  42   * Note: section's mem_map is encoded to reflect its start_pfn.
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  43   * section[i].section_mem_map == mem_map's address - start_pfn;
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  44   */
-67de648211fa04 Andy Whitcroft     2006-06-23  45  #define __page_to_pfn(pg)					\
-aa462abe8aaf21 Ian Campbell       2011-08-17  46  ({	const struct page *__pg = (pg);				\
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  47  	int __sec = page_to_section(__pg);			\
-f05b6284ee5d3b Randy Dunlap       2007-02-10  48  	(unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec)));	\
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  49  })
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  50  
-67de648211fa04 Andy Whitcroft     2006-06-23  51  #define __pfn_to_page(pfn)				\
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  52  ({	unsigned long __pfn = (pfn);			\
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  53  	struct mem_section *__sec = __pfn_to_section(__pfn);	\
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  54  	__section_mem_map_addr(__sec) + __pfn;		\
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  55  })
-bb1c50d3967f69 Mike Rapoport      2021-06-28  56  #endif /* CONFIG_FLATMEM/SPARSEMEM */
-67de648211fa04 Andy Whitcroft     2006-06-23  57  
-012dcef3f05838 Christoph Hellwig  2015-08-07  58  /*
-012dcef3f05838 Christoph Hellwig  2015-08-07  59   * Convert a physical address to a Page Frame Number and back
-012dcef3f05838 Christoph Hellwig  2015-08-07  60   */
-8f235d1a3eb719 Chen Gang          2016-01-14  61  #define	__phys_to_pfn(paddr)	PHYS_PFN(paddr)
-ae4f976968896f Tyler Baker        2015-09-19  62  #define	__pfn_to_phys(pfn)	PFN_PHYS(pfn)
-012dcef3f05838 Christoph Hellwig  2015-08-07  63  
-67de648211fa04 Andy Whitcroft     2006-06-23  64  #define page_to_pfn __page_to_pfn
-67de648211fa04 Andy Whitcroft     2006-06-23  65  #define pfn_to_page __pfn_to_page
-a117e66ed45ac0 KAMEZAWA Hiroyuki  2006-03-27  66  
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  67  #ifdef CONFIG_DEBUG_VIRTUAL
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  68  #define page_to_phys(page)						\
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  69  ({									\
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  70  	unsigned long __pfn = page_to_pfn(page);			\
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  71  									\
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23 @72  	WARN_ON_ONCE(!pfn_valid(__pfn));				\
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  73  	PFN_PHYS(__pfn);						\
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  74  })
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  75  #else
-c5c3238d9b8cee Christoph Hellwig  2024-10-23  76  #define page_to_phys(page)	PFN_PHYS(page_to_pfn(page))
-3e25d5a49f99b7 Christoph Hellwig  2024-10-23  77  #endif /* CONFIG_DEBUG_VIRTUAL */
-c5c3238d9b8cee Christoph Hellwig  2024-10-23  78  #define phys_to_page(phys)	pfn_to_page(PHYS_PFN(phys))
-c5c3238d9b8cee Christoph Hellwig  2024-10-23  79  
+  1907	
+> 1908	const struct reset_control_ops atcphy_dwc3_reset_ops = {
+  1909		.assert = atcphy_dwc3_reset_assert,
+  1910		.deassert = atcphy_dwc3_reset_deassert,
+  1911	};
+  1912	
+  1913	static int atcphy_reset_xlate(struct reset_controller_dev *rcdev,
+  1914				      const struct of_phandle_args *reset_spec)
+  1915	{
+  1916		return 0;
+  1917	}
+  1918	
+  1919	static int atcphy_probe_rcdev(struct apple_atcphy *atcphy)
+  1920	{
+  1921		atcphy->rcdev.owner = THIS_MODULE;
+  1922		atcphy->rcdev.nr_resets = 1;
+  1923		atcphy->rcdev.ops = &atcphy_dwc3_reset_ops;
+  1924		atcphy->rcdev.of_node = atcphy->dev->of_node;
+  1925		atcphy->rcdev.of_reset_n_cells = 0;
+  1926		atcphy->rcdev.of_xlate = atcphy_reset_xlate;
+  1927	
+  1928		return devm_reset_controller_register(atcphy->dev, &atcphy->rcdev);
+  1929	}
+  1930	
+  1931	static int atcphy_sw_set(struct typec_switch_dev *sw,
+  1932				 enum typec_orientation orientation)
+  1933	{
+  1934		struct apple_atcphy *atcphy = typec_switch_get_drvdata(sw);
+  1935	
+  1936		trace_atcphy_sw_set(orientation);
+  1937	
+  1938		mutex_lock(&atcphy->lock);
+  1939		switch (orientation) {
+  1940		case TYPEC_ORIENTATION_NONE:
+  1941			break;
+  1942		case TYPEC_ORIENTATION_NORMAL:
+  1943			atcphy->swap_lanes = false;
+  1944			break;
+  1945		case TYPEC_ORIENTATION_REVERSE:
+  1946			atcphy->swap_lanes = true;
+  1947			break;
+  1948		}
+  1949		mutex_unlock(&atcphy->lock);
+  1950	
+  1951		return 0;
+  1952	}
+  1953	
+  1954	static int atcphy_probe_switch(struct apple_atcphy *atcphy)
+  1955	{
+  1956		struct typec_switch_desc sw_desc = {
+  1957			.drvdata = atcphy,
+  1958			.fwnode = atcphy->dev->fwnode,
+  1959			.set = atcphy_sw_set,
+  1960		};
+  1961	
+  1962		return PTR_ERR_OR_ZERO(typec_switch_register(atcphy->dev, &sw_desc));
+  1963	}
+  1964	
+  1965	static void atcphy_mux_set_work(struct work_struct *work)
+  1966	{
+  1967		struct apple_atcphy *atcphy = container_of(work, struct apple_atcphy, mux_set_work);
+  1968	
+  1969		mutex_lock(&atcphy->lock);
+  1970		/*
+  1971		 * If we're transitiong to TYPEC_STATE_SAFE dwc3 will have gotten
+  1972		 * a usb-role-switch event to ROLE_NONE which is deferred to a work
+  1973		 * queue. dwc3 will try to switch the pipehandler mux to USB2 and
+  1974		 * we have to make sure that has happened before we disable ATCPHY.
+  1975		 * If we instead disable ATCPHY first dwc3 will get stuck and the
+  1976		 * port won't work anymore until a full SoC reset.
+  1977		 * We're guaranteed that no other role switch event will be generated
+  1978		 * before we return because the mux_set callback runs in the same
+  1979		 * thread that generates these. We can thus unlock the mutex, wait
+  1980		 * for dwc3_shutdown_event from the usb3 phy's power_off callback after
+  1981		 * it has taken the mutex and the lock again.
+  1982		 */
+  1983		if (atcphy->dwc3_online && atcphy->target_mode == APPLE_ATCPHY_MODE_OFF) {
+  1984			reinit_completion(&atcphy->dwc3_shutdown_event);
+  1985			mutex_unlock(&atcphy->lock);
+  1986			wait_for_completion_timeout(&atcphy->dwc3_shutdown_event,
+  1987						    msecs_to_jiffies(1000));
+  1988			mutex_lock(&atcphy->lock);
+  1989			WARN_ON(atcphy->dwc3_online);
+  1990		}
+  1991	
+  1992		switch (atcphy->target_mode) {
+  1993		case APPLE_ATCPHY_MODE_DP:
+  1994		case APPLE_ATCPHY_MODE_USB3_DP:
+  1995		case APPLE_ATCPHY_MODE_USB3:
+  1996		case APPLE_ATCPHY_MODE_USB4:
+  1997			atcphy_cio_configure(atcphy, atcphy->target_mode);
+  1998			break;
+  1999		default:
+  2000			dev_warn(atcphy->dev, "Unknown mode %d in atcphy_mux_set\n",
+  2001				 atcphy->target_mode);
+  2002			fallthrough;
+  2003		case APPLE_ATCPHY_MODE_USB2:
+  2004		case APPLE_ATCPHY_MODE_OFF:
+  2005			atcphy->mode = APPLE_ATCPHY_MODE_OFF;
+  2006			atcphy_disable_dp_aux(atcphy);
+  2007			atcphy_cio_power_off(atcphy);
+  2008		}
+  2009	
+  2010		complete(&atcphy->atcphy_online_event);
+  2011		mutex_unlock(&atcphy->lock);
+  2012	}
+  2013	
+  2014	static int atcphy_mux_set(struct typec_mux_dev *mux,
+  2015				  struct typec_mux_state *state)
+  2016	{
+  2017		struct apple_atcphy *atcphy = typec_mux_get_drvdata(mux);
+  2018	
+  2019		// TODO: 
+  2020		flush_work(&atcphy->mux_set_work);
+  2021	
+  2022		mutex_lock(&atcphy->lock);
+  2023		trace_atcphy_mux_set(state);
+  2024	
+  2025		if (state->mode == TYPEC_STATE_SAFE) {
+  2026			atcphy->target_mode = APPLE_ATCPHY_MODE_OFF;
+  2027		} else if (state->mode == TYPEC_STATE_USB) {
+  2028			atcphy->target_mode = APPLE_ATCPHY_MODE_USB3;
+  2029		} else if (state->alt && state->alt->svid == USB_TYPEC_DP_SID) {
+  2030			switch (state->mode) {
+  2031			case TYPEC_DP_STATE_C:
+  2032			case TYPEC_DP_STATE_E:
+  2033				atcphy->target_mode = APPLE_ATCPHY_MODE_DP;
+  2034				break;
+  2035			case TYPEC_DP_STATE_D:
+  2036				atcphy->target_mode = APPLE_ATCPHY_MODE_USB3_DP;
+  2037				break;
+  2038			default:
+  2039				dev_err(atcphy->dev,
+  2040					"Unsupported DP pin assignment: 0x%lx.\n",
+  2041					state->mode);
+  2042				atcphy->target_mode = APPLE_ATCPHY_MODE_OFF;
+  2043			}
+  2044		} else if (state->alt && state->alt->svid == USB_TYPEC_TBT_SID) {
+  2045			dev_err(atcphy->dev, "USB4/TBT mode is not supported yet.\n");
+  2046			atcphy->target_mode = APPLE_ATCPHY_MODE_OFF;
+  2047		} else if (state->alt) {
+  2048			dev_err(atcphy->dev, "Unknown alternate mode SVID: 0x%x\n",
+  2049				state->alt->svid);
+  2050			atcphy->target_mode = APPLE_ATCPHY_MODE_OFF;
+  2051		} else {
+  2052			dev_err(atcphy->dev, "Unknown mode: 0x%lx\n", state->mode);
+  2053			atcphy->target_mode = APPLE_ATCPHY_MODE_OFF;
+  2054		}
+  2055	
+  2056		if (atcphy->mode != atcphy->target_mode)
+  2057			WARN_ON(!schedule_work(&atcphy->mux_set_work));
+  2058	
+  2059		mutex_unlock(&atcphy->lock);
+  2060	
+  2061		return 0;
+  2062	}
+  2063	
+  2064	static int atcphy_probe_mux(struct apple_atcphy *atcphy)
+  2065	{
+  2066		struct typec_mux_desc mux_desc = {
+  2067			.drvdata = atcphy,
+  2068			.fwnode = atcphy->dev->fwnode,
+  2069			.set = atcphy_mux_set,
+  2070		};
+  2071	
+  2072		return PTR_ERR_OR_ZERO(typec_mux_register(atcphy->dev, &mux_desc));
+  2073	}
+  2074	
+  2075	static int atcphy_parse_legacy_tunable(struct apple_atcphy *atcphy,
+  2076					       struct atcphy_tunable *tunable,
+  2077					       const char *name)
+  2078	{
+  2079		struct property *prop;
+  2080		const __le32 *p = NULL;
+  2081		int i;
+  2082	
+  2083	#if 0
+  2084		WARN_TAINT_ONCE(1, TAINT_FIRMWARE_WORKAROUND,
+  2085				"parsing legacy tunable; please update m1n1");
+  2086	#endif
+  2087	
+  2088		prop = of_find_property(atcphy->np, name, NULL);
+  2089		if (!prop) {
+  2090			dev_err(atcphy->dev, "tunable %s not found\n", name);
+  2091			return -ENOENT;
+  2092		}
+  2093	
+  2094		if (prop->length % (3 * sizeof(u32)))
+  2095			return -EINVAL;
+  2096	
+  2097		tunable->sz = prop->length / (3 * sizeof(u32));
+  2098		tunable->values = devm_kcalloc(atcphy->dev, tunable->sz,
+  2099					       sizeof(*tunable->values), GFP_KERNEL);
+  2100		if (!tunable->values)
+  2101			return -ENOMEM;
+  2102	
+  2103		for (i = 0; i < tunable->sz; ++i) {
+> 2104			p = of_prop_next_u32(prop, p, &tunable->values[i].offset);
+  2105			p = of_prop_next_u32(prop, p, &tunable->values[i].mask);
+  2106			p = of_prop_next_u32(prop, p, &tunable->values[i].value);
+  2107		}
+  2108	
+  2109		trace_atcphy_parsed_tunable(name, tunable);
+  2110	
+  2111		return 0;
+  2112	}
+  2113	
 
 -- 
 0-DAY CI Kernel Test Service
