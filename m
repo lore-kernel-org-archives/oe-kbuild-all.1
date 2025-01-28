@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C44C291E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jan 2025 06:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5450129CF0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jan 2025 07:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738044716; cv=none; b=Lgw0NefRuQS8IIwEF0Vyh5SFIflWFuep21XLzDTcCm3vzXL2rx2wvfzBcU420XSstWOYW5/6CaPDtPY0+NGgvWJ9ToDGO9TXs8aoPfl0y5E1xnVpCXVXJIz1cxm/Z2CUezO9yyHmf1Ck+E7xAjFKAESaySSNXQQtkMR7cAA0JoM=
+	t=1738050914; cv=none; b=WeeLVmqVRXsMWKVl3mq8+r+v6nIdaVYVoO+TjXBAd0F0O2j4P8cZkI7mrBYwy35I8/gf3ZKhkMJVX1Qen3Vt4H/YBR+hY1ywRHDhQ/uXrr1c8eD9koKzGOoSyunpchwsPCUkV7A7NhV6Apc+om8ZCraJCfq9kRW8+1Laa9JnIMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738044716; c=relaxed/simple;
-	bh=SbE8lsGI/s6WooL1v1ZdL54dtN4mUSBAsTr3GvfPG6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V7Nm9ilz3fW2U3nF1LS7tD3zrvldW++UZa/uiC9v4mtU1OHSrk22q0IH6MOhyeHPoLTBBlL9epbhsd5HRUyFEmb7mecyh9omAx64DOX0VAuNE5qa7k3PDP1Ad9jboS+r+Fal7u+GXBfw9N90QKefDEMO3urZCuT3BLviPQyY0s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJVrOaNS; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1738050914; c=relaxed/simple;
+	bh=uQOanispcV0QkoA5gaunZwuANtARGgKkmZ+9ZZ/ihKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cf5r9V3BEzyZlXLlmucJYmYWEYQ7LATP8vDVcn7k8ijKT4LrrNNvfyL514gZKY8+YAGueIyX81eJaCXCwwJcEfnpPO+f92zaRFjfJnoX7Jqn8oQpY7rWLR7Dvc2g9C3MUl1ETfvz/Tx3Ysen1zUsvX+ZZIvgrHXtUPLcA0qZO1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBeD5xyz; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJVrOaNS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBeD5xyz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738044713; x=1769580713;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SbE8lsGI/s6WooL1v1ZdL54dtN4mUSBAsTr3GvfPG6k=;
-  b=BJVrOaNSFslqEpI/3a8otmew8GteQVLzbwHo/Dh3d0rFx8dvdlnPxH6R
-   DPiWebq9qHTNZk/oVKbaVOTNh+8WXwino1ArJb8q8MHqyg8qVVEfQuWUl
-   Cb8If5yFPRVTFMNN1y4ZBjuXkSiOcBnU/SNJ5tuZ57tZO9qMaiC/ycDGm
-   tWliJMnw7x4vjU9CaMXUxjjY26R9YITzgK5wKFajVIc2flIDbAQSludBY
-   XDvz9vMTlGrphnvWDVFyNlDsHfDqByT92ZhQh10sxKIvm7FTp3FSAWDxY
-   Bg2h5UBpklQXyP2xqUi4Io/8MMYB0d4wga3dgPwG4l1IoFjLLerp3Im2+
-   w==;
-X-CSE-ConnectionGUID: K6eyEviRQ8Co4udxRZe5zw==
-X-CSE-MsgGUID: 4GBX5KJKSxOXrtM4heYXIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="41358501"
+  t=1738050911; x=1769586911;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uQOanispcV0QkoA5gaunZwuANtARGgKkmZ+9ZZ/ihKQ=;
+  b=VBeD5xyzLlX724EMrUNFiUQ327Zxyov0BnNzHKSfgpF2HIsjANRCNzoU
+   kAYKcOmh32G1eC9xfDSRgzOaRQeIa0j5QFM5cWW6aUkAkWHmq2EdBpXBi
+   IimGmkOa8jH5s1baN+sHrFjfIJ2Vre2ilZIJOG/BgLhAkH9doCNs+D0xp
+   FD7H3jbfe+6IT4KSZDuMrCZvwtaC/RVwJfyuzMvvsnQ1DD5WN9pPiuSu1
+   4cAzqXKS7CMxp4gBctprvMrqcQuto6Fp2pmNK/Oeu5xyxBRaFMgmGYTLK
+   fHhg8R0x15Fr8wYoAh+L+lTLQ2JOBUhlqjGBaZBuQm5AyZl5ew8bDMZsU
+   g==;
+X-CSE-ConnectionGUID: b2nZVvfGTAOC0rw1WSfXfA==
+X-CSE-MsgGUID: F+89uWTdRLWGwvF7XeHjiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="38230059"
 X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; 
-   d="scan'208";a="41358501"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 22:11:53 -0800
-X-CSE-ConnectionGUID: MElPkEMfQtyszn8d2mHVBQ==
-X-CSE-MsgGUID: 5lAdsZ5aRpCNNnH1Elc/VQ==
+   d="scan'208";a="38230059"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 23:55:11 -0800
+X-CSE-ConnectionGUID: swnX6S4+TJ2a0AQcUZRkjQ==
+X-CSE-MsgGUID: t9z8pAgYRoKnNqnWLJ9Jfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; 
-   d="scan'208";a="113651051"
+   d="scan'208";a="108475377"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Jan 2025 22:11:51 -0800
+  by orviesa009.jf.intel.com with ESMTP; 27 Jan 2025 23:55:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tcepB-000hUx-1Q;
-	Tue, 28 Jan 2025 06:11:49 +0000
-Date: Tue, 28 Jan 2025 14:11:00 +0800
+	id 1tcgR7-000hZ1-3C;
+	Tue, 28 Jan 2025 07:55:05 +0000
+Date: Tue, 28 Jan 2025 15:54:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 228/228]
- include/trace/stages/init.h:2:23: warning: 'str__thermal__trace_system_name'
- defined but not used
-Message-ID: <202501281447.VKiKe7Zf-lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] mm: completely abstract unnecessary adj_start
+ calculation
+Message-ID: <202501281552.zDLVA5oq-lkp@intel.com>
+References: <ef00aec42a892fe6ac9557b3a11f18f30a2e51b3.1737929364.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,143 +68,295 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ef00aec42a892fe6ac9557b3a11f18f30a2e51b3.1737929364.git.lorenzo.stoakes@oracle.com>
 
-Hi Manaf,
+Hi Lorenzo,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   e5fc03b1d66087b9158c122f7f24450666e55cda
-commit: a56bbec0f4b4b13c3706a69940ac543f0e785029 [228/228] ANDROID: thermal: vendor hook to disable thermal cooling stats
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250128/202501281447.VKiKe7Zf-lkp@intel.com/config)
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-simplify-vma-merge-structure-and-expand-comments/20250127-235322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/ef00aec42a892fe6ac9557b3a11f18f30a2e51b3.1737929364.git.lorenzo.stoakes%40oracle.com
+patch subject: [PATCH 5/5] mm: completely abstract unnecessary adj_start calculation
+config: x86_64-randconfig-122-20250128 (https://download.01.org/0day-ci/archive/20250128/202501281552.zDLVA5oq-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250128/202501281447.VKiKe7Zf-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250128/202501281552.zDLVA5oq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501281447.VKiKe7Zf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501281552.zDLVA5oq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/vma.c:518:57: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected long adjust_next @@     got void * @@
+   mm/vma.c:518:57: sparse:     expected long adjust_next
+   mm/vma.c:518:57: sparse:     got void *
+>> mm/vma.c:704:42: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected long adjust_next @@     got struct vm_area_struct * @@
+   mm/vma.c:704:42: sparse:     expected long adjust_next
+   mm/vma.c:704:42: sparse:     got struct vm_area_struct *
+   mm/vma.c:1141:48: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected long adjust_next @@     got void * @@
+   mm/vma.c:1141:48: sparse:     expected long adjust_next
+   mm/vma.c:1141:48: sparse:     got void *
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/thermal.h:28,
-                    from drivers/android/vendor_hooks.c:57:
->> include/trace/stages/init.h:2:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:35,
-                    from drivers/android/vendor_hooks.c:56:
-   include/trace/stages/init.h:2:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:26,
-                    from drivers/android/vendor_hooks.c:55:
-   include/trace/stages/init.h:2:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/power.h:21,
-                    from drivers/android/vendor_hooks.c:54:
-   include/trace/stages/init.h:2:23: warning: 'str__power__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/softlockup.h:17,
-                    from drivers/android/vendor_hooks.c:53:
-   include/trace/stages/init.h:2:23: warning: 'str__softlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bug.h:16,
-                    from drivers/android/vendor_hooks.c:52:
-   include/trace/stages/init.h:2:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
+vim +518 mm/vma.c
 
-
-vim +/str__thermal__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   459	
+   460	/*
+   461	 * __split_vma() bypasses sysctl_max_map_count checking.  We use this where it
+   462	 * has already been checked or doesn't make sense to fail.
+   463	 * VMA Iterator will point to the original VMA.
+   464	 */
+   465	static __must_check int
+   466	__split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+   467		    unsigned long addr, int new_below)
+   468	{
+   469		struct vma_prepare vp;
+   470		struct vm_area_struct *new;
+   471		int err;
+   472	
+   473		WARN_ON(vma->vm_start >= addr);
+   474		WARN_ON(vma->vm_end <= addr);
+   475	
+   476		if (vma->vm_ops && vma->vm_ops->may_split) {
+   477			err = vma->vm_ops->may_split(vma, addr);
+   478			if (err)
+   479				return err;
+   480		}
+   481	
+   482		new = vm_area_dup(vma);
+   483		if (!new)
+   484			return -ENOMEM;
+   485	
+   486		if (new_below) {
+   487			new->vm_end = addr;
+   488		} else {
+   489			new->vm_start = addr;
+   490			new->vm_pgoff += ((addr - vma->vm_start) >> PAGE_SHIFT);
+   491		}
+   492	
+   493		err = -ENOMEM;
+   494		vma_iter_config(vmi, new->vm_start, new->vm_end);
+   495		if (vma_iter_prealloc(vmi, new))
+   496			goto out_free_vma;
+   497	
+   498		err = vma_dup_policy(vma, new);
+   499		if (err)
+   500			goto out_free_vmi;
+   501	
+   502		err = anon_vma_clone(new, vma);
+   503		if (err)
+   504			goto out_free_mpol;
+   505	
+   506		if (new->vm_file)
+   507			get_file(new->vm_file);
+   508	
+   509		if (new->vm_ops && new->vm_ops->open)
+   510			new->vm_ops->open(new);
+   511	
+   512		vma_start_write(vma);
+   513		vma_start_write(new);
+   514	
+   515		init_vma_prep(&vp, vma);
+   516		vp.insert = new;
+   517		vma_prepare(&vp);
+ > 518		vma_adjust_trans_huge(vma, vma->vm_start, addr, NULL);
+   519	
+   520		if (new_below) {
+   521			vma->vm_start = addr;
+   522			vma->vm_pgoff += (addr - new->vm_start) >> PAGE_SHIFT;
+   523		} else {
+   524			vma->vm_end = addr;
+   525		}
+   526	
+   527		/* vma_complete stores the new vma */
+   528		vma_complete(&vp, vmi, vma->vm_mm);
+   529		validate_mm(vma->vm_mm);
+   530	
+   531		/* Success. */
+   532		if (new_below)
+   533			vma_next(vmi);
+   534		else
+   535			vma_prev(vmi);
+   536	
+   537		return 0;
+   538	
+   539	out_free_mpol:
+   540		mpol_put(vma_policy(new));
+   541	out_free_vmi:
+   542		vma_iter_free(vmi);
+   543	out_free_vma:
+   544		vm_area_free(new);
+   545		return err;
+   546	}
+   547	
+   548	/*
+   549	 * Split a vma into two pieces at address 'addr', a new vma is allocated
+   550	 * either for the first part or the tail.
+   551	 */
+   552	static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+   553			     unsigned long addr, int new_below)
+   554	{
+   555		if (vma->vm_mm->map_count >= sysctl_max_map_count)
+   556			return -ENOMEM;
+   557	
+   558		return __split_vma(vmi, vma, addr, new_below);
+   559	}
+   560	
+   561	/*
+   562	 * dup_anon_vma() - Helper function to duplicate anon_vma
+   563	 * @dst: The destination VMA
+   564	 * @src: The source VMA
+   565	 * @dup: Pointer to the destination VMA when successful.
+   566	 *
+   567	 * Returns: 0 on success.
+   568	 */
+   569	static int dup_anon_vma(struct vm_area_struct *dst,
+   570				struct vm_area_struct *src, struct vm_area_struct **dup)
+   571	{
+   572		/*
+   573		 * Easily overlooked: when mprotect shifts the boundary, make sure the
+   574		 * expanding vma has anon_vma set if the shrinking vma had, to cover any
+   575		 * anon pages imported.
+   576		 */
+   577		if (src->anon_vma && !dst->anon_vma) {
+   578			int ret;
+   579	
+   580			vma_assert_write_locked(dst);
+   581			dst->anon_vma = src->anon_vma;
+   582			ret = anon_vma_clone(dst, src);
+   583			if (ret)
+   584				return ret;
+   585	
+   586			*dup = dst;
+   587		}
+   588	
+   589		return 0;
+   590	}
+   591	
+   592	#ifdef CONFIG_DEBUG_VM_MAPLE_TREE
+   593	void validate_mm(struct mm_struct *mm)
+   594	{
+   595		int bug = 0;
+   596		int i = 0;
+   597		struct vm_area_struct *vma;
+   598		VMA_ITERATOR(vmi, mm, 0);
+   599	
+   600		mt_validate(&mm->mm_mt);
+   601		for_each_vma(vmi, vma) {
+   602	#ifdef CONFIG_DEBUG_VM_RB
+   603			struct anon_vma *anon_vma = vma->anon_vma;
+   604			struct anon_vma_chain *avc;
+   605	#endif
+   606			unsigned long vmi_start, vmi_end;
+   607			bool warn = 0;
+   608	
+   609			vmi_start = vma_iter_addr(&vmi);
+   610			vmi_end = vma_iter_end(&vmi);
+   611			if (VM_WARN_ON_ONCE_MM(vma->vm_end != vmi_end, mm))
+   612				warn = 1;
+   613	
+   614			if (VM_WARN_ON_ONCE_MM(vma->vm_start != vmi_start, mm))
+   615				warn = 1;
+   616	
+   617			if (warn) {
+   618				pr_emerg("issue in %s\n", current->comm);
+   619				dump_stack();
+   620				dump_vma(vma);
+   621				pr_emerg("tree range: %px start %lx end %lx\n", vma,
+   622					 vmi_start, vmi_end - 1);
+   623				vma_iter_dump_tree(&vmi);
+   624			}
+   625	
+   626	#ifdef CONFIG_DEBUG_VM_RB
+   627			if (anon_vma) {
+   628				anon_vma_lock_read(anon_vma);
+   629				list_for_each_entry(avc, &vma->anon_vma_chain, same_vma)
+   630					anon_vma_interval_tree_verify(avc);
+   631				anon_vma_unlock_read(anon_vma);
+   632			}
+   633	#endif
+   634			/* Check for a infinite loop */
+   635			if (++i > mm->map_count + 10) {
+   636				i = -1;
+   637				break;
+   638			}
+   639		}
+   640		if (i != mm->map_count) {
+   641			pr_emerg("map_count %d vma iterator %d\n", mm->map_count, i);
+   642			bug = 1;
+   643		}
+   644		VM_BUG_ON_MM(bug, mm);
+   645	}
+   646	#endif /* CONFIG_DEBUG_VM_MAPLE_TREE */
+   647	
+   648	/*
+   649	 * Based on the vmg flag indicating whether we need to adjust the vm_start field
+   650	 * for the middle or next VMA, we calculate what the range of the newly adjusted
+   651	 * VMA ought to be, and set the VMA's range accordingly.
+   652	 */
+   653	static void vmg_adjust_set_range(struct vma_merge_struct *vmg)
+   654	{
+   655		unsigned long flags = vmg->merge_flags;
+   656		struct vm_area_struct *adjust;
+   657		pgoff_t pgoff;
+   658	
+   659		if (flags & __VMG_FLAG_ADJUST_MIDDLE_START) {
+   660			adjust = vmg->middle;
+   661			pgoff = adjust->vm_pgoff + PHYS_PFN(vmg->end - adjust->vm_start);
+   662		} else if (flags & __VMG_FLAG_ADJUST_NEXT_START) {
+   663			adjust = vmg->next;
+   664			pgoff = adjust->vm_pgoff - PHYS_PFN(adjust->vm_start - vmg->end);
+   665		} else {
+   666			return;
+   667		}
+   668	
+   669		vma_set_range(adjust, vmg->end, adjust->vm_end, pgoff);
+   670	}
+   671	
+   672	/*
+   673	 * Actually perform the VMA merge operation.
+   674	 *
+   675	 * On success, returns the merged VMA. Otherwise returns NULL.
+   676	 */
+   677	static int commit_merge(struct vma_merge_struct *vmg)
+   678	{
+   679		struct vm_area_struct *vma;
+   680		struct vma_prepare vp;
+   681		bool adj_middle = vmg->merge_flags & __VMG_FLAG_ADJUST_MIDDLE_START;
+   682	
+   683		if (vmg->merge_flags & __VMG_FLAG_ADJUST_NEXT_START) {
+   684			/* In this case we manipulate middle and return next. */
+   685			vma = vmg->middle;
+   686			vma_iter_config(vmg->vmi, vmg->end, vmg->next->vm_end);
+   687		} else {
+   688			vma = vmg->target;
+   689			 /* Note: vma iterator must be pointing to 'start'. */
+   690			vma_iter_config(vmg->vmi, vmg->start, vmg->end);
+   691		}
+   692	
+   693		init_multi_vma_prep(&vp, vma, vmg);
+   694	
+   695		if (vma_iter_prealloc(vmg->vmi, vma))
+   696			return -ENOMEM;
+   697	
+   698		vma_prepare(&vp);
+   699		/*
+   700		 * THP pages may need to do additional splits if we increase
+   701		 * middle->vm_start.
+   702		 */
+   703		vma_adjust_trans_huge(vma, vmg->start, vmg->end,
+ > 704				      adj_middle ? vmg->middle : NULL);
+   705		vma_set_range(vma, vmg->start, vmg->end, vmg->pgoff);
+   706		vmg_adjust_set_range(vmg);
+   707		vma_iter_store(vmg->vmi, vmg->target);
+   708	
+   709		vma_complete(&vp, vmg->vmi, vma->vm_mm);
+   710	
+   711		return 0;
+   712	}
+   713	
 
 -- 
 0-DAY CI Kernel Test Service
