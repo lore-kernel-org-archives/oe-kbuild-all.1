@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1193B1DED67
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jan 2025 08:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4544E4A1D;
+	Tue, 28 Jan 2025 08:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738054281; cv=none; b=NKQvWxZK+NBlpyXdYfNkjhFtqga5Jgzd+qm7Fhjr/8PhWc7mY3cp0lEr9nKVRJGg8s0FsrMD+ztPM0HDLhdh6S8aYtfF4vgm3CM6UkV8UdsNSL3x5ycAHGewKHu8JIbRG61+ZSx9Jkkj75CW9bza+BllMvTexl/16tAfZVjcTkw=
+	t=1738054761; cv=none; b=Nilk5TZaTJeHQoDULUKbCtLylSk0Eu6GXV+SdT5yRhNDzvJ8vNXYKFAc1PKNXsHjxVusz+kizYM+nDIgXNxFR6e9zHSMiF/eyv/Pfjo81TlcgIXWk11pZ7JDbm9aFN0rM7oDBY2Lu/kf6tUh2jrq6neN8iaMAuZfyQxBS47haHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738054281; c=relaxed/simple;
-	bh=A+Q8O0o26jlQCvbSgY1s0bS35Mbjzz2jRwm0usJi3dM=;
+	s=arc-20240116; t=1738054761; c=relaxed/simple;
+	bh=gx6dYKi7oGABr+WugjD5T75yTLQLxXoWHTkPv2BS8VI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qnxCQdPK44nagtbLXOmMRm9X+L7fw4Jn9WZxFsevIE1xF77c0i/9xSsvA2fUwN5YrG62wczXdsHjbCJ3tOsOMnu5ZhDRlJBnyQ0UaLQxZ6K5yIsSYKB93OAp4SH7kW0vRyeAuwYiEom/DGjfTxWMtEHv0lQ9qTJi6xLVSnDCK1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XyqQl3+w; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=JOg39UtHl5FtT1fuWjrB6UVLs1RJlnLeIEEXuVgn3dz2T6O5TpD/VswhdIWC3AZzbh1SXQ6746kueq3Y6pnM6THdIb4aXY5pnxP4u1X6fskJNdYKsfdcuybJNaU93J5/qMX6l+yCS1a1yeexKvAL2dV0lj4LDiAsrwM40phTvWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgwTbixF; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XyqQl3+w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgwTbixF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738054280; x=1769590280;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=A+Q8O0o26jlQCvbSgY1s0bS35Mbjzz2jRwm0usJi3dM=;
-  b=XyqQl3+wav+yhRBNyPzR/Bfbo+ngvZGSZ2tCXmduTdc9wy3uxG0Q9TzK
-   IKPgL+gKNc+AWwq4FTJYqybHRE9/XOxDU7P/1bULZkXeh9mgiSKI6RIgy
-   mbkDshtv6/q4r2mK0IzrXTSqzwk27PonLLD0DaHY5gGE78Uyte27T7HF0
-   OOTZF1GxVA0XlZsVsY/tCMprrkdmWkDiDiOMQW2QW5ryUeb54xP9KlEyN
-   iMre+NTH6mRu7OTQipfysNX5IHabmA9H+sp0qUGsd1ag2mjBL3MhRitiV
-   y7xR6X5OLwPMscTlnQ9tbR0efTfTBhulkt2hDSAoIrkgIvXDFzryrCqAI
+  t=1738054760; x=1769590760;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gx6dYKi7oGABr+WugjD5T75yTLQLxXoWHTkPv2BS8VI=;
+  b=hgwTbixF8kCNwNyE2u8Qi7uMfaOpJf0wrfHTWIv0FAa+MqjWELbHsUE/
+   X9HMOMfEGv4Xps5S7JO2Xq8fqg1UgEcd1QUN3vy9D39DXDTfUDCobdWvR
+   f9OU+VCzOlupfgytCav4Pgdoz6d+L8fU6ppslkoTuxmHhNLR0YsLCY5i1
+   HL0TzKmFvSIfMnp6CdDa2nkp4TFqxy/eWCfjVlJ2EDEWQTnDTWooo+Siw
+   A/pqScMVxextscB8UEPfbD9GHvtnCVMtVdphVlWLxkHsz94y7jgg3DD/6
+   Cu1l2+bmK2oQviZsUx1b9XgTycRsoXB3Yojxa85PJg5CLQ4t2YaOD2upC
    g==;
-X-CSE-ConnectionGUID: VZiZGyF6QNm0sswzGDOghQ==
-X-CSE-MsgGUID: m0X6dux7R7WtGHBGAVImmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="26129875"
+X-CSE-ConnectionGUID: 8Fx2HkKcTZSh6WJL0ihlLw==
+X-CSE-MsgGUID: JDAs5sF6TP+STcdj0UJIqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="60999058"
 X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; 
-   d="scan'208";a="26129875"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 00:51:18 -0800
-X-CSE-ConnectionGUID: 8tNA1nh/RI60yr5ArAjXNA==
-X-CSE-MsgGUID: /mGIgVTlTEqQ4Y9LfPDldA==
+   d="scan'208";a="60999058"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 00:59:20 -0800
+X-CSE-ConnectionGUID: S387vRjdQGG1e7zjsmmo8g==
+X-CSE-MsgGUID: AAXe1U/KR1+16GAduWGfTQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="113649185"
+X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; 
+   d="scan'208";a="108786425"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Jan 2025 00:51:17 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 28 Jan 2025 00:59:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tchJS-000hcJ-2e;
-	Tue, 28 Jan 2025 08:51:14 +0000
-Date: Tue, 28 Jan 2025 16:51:08 +0800
+	id 1tchRD-000hch-1N;
+	Tue, 28 Jan 2025 08:59:15 +0000
+Date: Tue, 28 Jan 2025 16:58:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6.12 hotfix] mm/zswap: fix inconsistent charging when
- zswap_store_page() fails
-Message-ID: <Z5iafG5Y7LN88lEh@fbd72656772d>
+To: =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [drm-xe:drm-xe-next 3/3] drivers/gpu/drm/xe/xe_guc_ct.c:1727:43:
+ warning: format specifies type 'unsigned long' but the argument has type
+ 'size_t' (aka 'unsigned int')
+Message-ID: <202501281659.elCnHJvL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +64,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250128174938.2638-1-42.hyeyoo@gmail.com>
 
-Hi,
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   cb1f868ca13756c0c18ba54d1591332476760d07
+commit: cb1f868ca13756c0c18ba54d1591332476760d07 [3/3] drm/xe: Make GUC binaries dump consistent with other binaries in devcoredump
+config: i386-buildonly-randconfig-004-20250128 (https://download.01.org/0day-ci/archive/20250128/202501281659.elCnHJvL-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250128/202501281659.elCnHJvL-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501281659.elCnHJvL-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+   In file included from drivers/gpu/drm/xe/xe_guc_ct.c:20:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/xe/xe_guc_ct.c:1727:43: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1727 |                         drm_printf(p, "[CTB].length: 0x%lx\n", snapshot->ctb_size);
+         |                                                        ~~~     ^~~~~~~~~~~~~~~~~~
+         |                                                        %zx
+   2 warnings generated.
+--
+   In file included from drivers/gpu/drm/xe/xe_guc_log.c:13:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/xe/xe_guc_log.c:207:41: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     207 |         drm_printf(p, "[LOG].length: 0x%lx\n", snapshot->size);
+         |                                        ~~~     ^~~~~~~~~~~~~~
+         |                                        %zx
+   2 warnings generated.
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH v6.12 hotfix] mm/zswap: fix inconsistent charging when zswap_store_page() fails
-Link: https://lore.kernel.org/stable/20250128174938.2638-1-42.hyeyoo%40gmail.com
 
-Please ignore this mail if the patch is not relevant for upstream.
+vim +1727 drivers/gpu/drm/xe/xe_guc_ct.c
+
+  1703	
+  1704	/**
+  1705	 * xe_guc_ct_snapshot_print - Print out a given GuC CT snapshot.
+  1706	 * @snapshot: GuC CT snapshot object.
+  1707	 * @p: drm_printer where it will be printed out.
+  1708	 *
+  1709	 * This function prints out a given GuC CT snapshot object.
+  1710	 */
+  1711	void xe_guc_ct_snapshot_print(struct xe_guc_ct_snapshot *snapshot,
+  1712				      struct drm_printer *p)
+  1713	{
+  1714		if (!snapshot)
+  1715			return;
+  1716	
+  1717		if (snapshot->ct_enabled) {
+  1718			drm_puts(p, "H2G CTB (all sizes in DW):\n");
+  1719			guc_ctb_snapshot_print(&snapshot->h2g, p);
+  1720	
+  1721			drm_puts(p, "G2H CTB (all sizes in DW):\n");
+  1722			guc_ctb_snapshot_print(&snapshot->g2h, p);
+  1723			drm_printf(p, "\tg2h outstanding: %d\n",
+  1724				   snapshot->g2h_outstanding);
+  1725	
+  1726			if (snapshot->ctb) {
+> 1727				drm_printf(p, "[CTB].length: 0x%lx\n", snapshot->ctb_size);
+  1728				xe_print_blob_ascii85(p, "[CTB].data", '\n',
+  1729						      snapshot->ctb, 0, snapshot->ctb_size);
+  1730			}
+  1731		} else {
+  1732			drm_puts(p, "CT disabled\n");
+  1733		}
+  1734	}
+  1735	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
