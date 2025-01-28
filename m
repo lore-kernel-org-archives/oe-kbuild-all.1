@@ -1,171 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5921DED7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jan 2025 22:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2045B194A6B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jan 2025 22:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738101709; cv=none; b=dAwYTabXwE5q2saTxUTeDb3CQrBt4wg83RgqYl0YB0GIChFcpPDxLKUY60znJ3zD0femHwj35wiqBLLJPQH7U0s7XHrqfQ6cdHZue7X+CXjTNBEKsJrtrfiSsPPKrjb62GELmTLYY7ERc97oQ9hEXSOl//HVqUmpplQtIeaaJpA=
+	t=1738103624; cv=none; b=hK+goi5OXCfeGH0MkK3K14lj0zBtx2nfoaD6Mfpq7skIUkYbjJMHnA6QNVRybC9M96L1Mg5rWt8L4WXM24pU+KyNSzBTsjRmBABeH6lSGEtce2a798skk+2RJTuUvQ4U2YIbeWozMpOGIF6xAy0PbrdFwvR+cicougLf9XlnGFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738101709; c=relaxed/simple;
-	bh=/Eyt7eH8WfZTpBEPnaqZUMj1OIFvqEInMn/SaE5t4go=;
+	s=arc-20240116; t=1738103624; c=relaxed/simple;
+	bh=dh7VGcnlMb1Tm1pwS5FoAPGoqRcgFE2ayu/cvVFGmyo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V0yCRV6FcclgMsYQ0VlkfcH06GZPJk+0+yJvjcL9QEYpaGIwjLnk1Ob3ibzraiIvPJnY4N6/4buqsCbPqNcBSq8i7sjn3fNbPWybtGo9Woof5z6AdESSRU0lPB9LWvN4DaJiZ71t5im2xxODSej/89kcJltBwo3VRn3uL/2qMF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0ZZzMFt; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=rHzs/lLnfqlKEFbh7bcsqSHLQouZDttBPBXo96XvRhEMcgoFbxst28BomY1XooK3frpI7LJbEUYshCVwJV1Te/AYj6nDYEahlvcTRFl3w/VRuITAaUSQS0lMdLdw7sFYIk/ryz2dtxj93fy40ZF+X6H7bEyPepsvQxsZLx7urZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lLqONuoy; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0ZZzMFt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lLqONuoy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738101708; x=1769637708;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Eyt7eH8WfZTpBEPnaqZUMj1OIFvqEInMn/SaE5t4go=;
-  b=B0ZZzMFtmIyqzAFXvLNTSi/E4H1KCxGvcQwrfa5X1EdGY2P+1MEkuP/b
-   6ds3Fx8Ulo/jXeTyAs4fbgMh5aXjgpik2rLZotEpmd7yoR1tUfsrolRWR
-   i1vgOK6gJwwCvVs2M2oZsSon3G4bJZWTMv9L969uqJ/xcfiF3gr61rA+L
-   thtYaYy5KQf2E33d/KxpzpB44md2WdMbJPtMQRfJiVlh99SoWJAE1s/bc
-   AB95H7O/pOFW6YikK0ChybbPEehaRpEE1h1/k3znn2T6udVg94xcz0XhO
-   DC3y6BLPGl7XMuyWWq3yfCLZY2rF3gWKomN0o70BETuOmvmSJXGFemi6a
+  t=1738103622; x=1769639622;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dh7VGcnlMb1Tm1pwS5FoAPGoqRcgFE2ayu/cvVFGmyo=;
+  b=lLqONuoy1UaLh5Iky1Cg4AEHdCBLPpSHvUvk97KK+GHQJ+mh3kCv4lKE
+   26oS2R76Sbl+XqHPVIUZDdUpAPndKzpOHKSRDFdPkbc5Ivc9OIFZJPov+
+   p8hQcXXolTtQT9NUkEcVcZVxgkCVvwWOPNiKbnXcz1YrpvJCY7/YAs4Y3
+   aS5tluEArfVbewihs7MB+ortdXkGfctJe5t9Q9IG21IkzpF/dFeoBhR52
+   AkyqmFegyyhEnvnvRu3b/nxpfo4U36Jogj3JSKo980etjx4xM+qUIufif
+   yKEQyN9NtJneDLtulZos1VY6jBgFlG3B8PXEIavEMl/5a9HjIjH10GiJR
    Q==;
-X-CSE-ConnectionGUID: FSCZH8vQQEuf6wrH9K0JIQ==
-X-CSE-MsgGUID: 6nkBL+zNTPq4IuhtGCdIrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="38488453"
+X-CSE-ConnectionGUID: QKwrnqaXRQek/FFj87poIQ==
+X-CSE-MsgGUID: mJfqcd9eTNyebSpkNMMKrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="26204108"
 X-IronPort-AV: E=Sophos;i="6.13,242,1732608000"; 
-   d="scan'208";a="38488453"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 14:01:38 -0800
-X-CSE-ConnectionGUID: 0PCAhL4mSx+aIWTUKhtlfA==
-X-CSE-MsgGUID: hP6YcLrwSRaIrsQpgUN3xA==
+   d="scan'208";a="26204108"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 14:33:41 -0800
+X-CSE-ConnectionGUID: Pub4IpVTSBSrZwPJ/y1Jkg==
+X-CSE-MsgGUID: +dfHyeZSR1yHOnint9EWcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,242,1732608000"; 
-   d="scan'208";a="108664124"
+   d="scan'208";a="113898341"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Jan 2025 14:01:36 -0800
+  by orviesa004.jf.intel.com with ESMTP; 28 Jan 2025 14:33:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tcteI-000iHX-1w;
-	Tue, 28 Jan 2025 22:01:34 +0000
-Date: Wed, 29 Jan 2025 06:00:48 +0800
+	id 1tcu9J-000iIl-1y;
+	Tue, 28 Jan 2025 22:33:37 +0000
+Date: Wed, 29 Jan 2025 06:32:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 10065/10398] security/tomoyo/common.c:2010:
- warning: Function parameter or struct member 'colon' not described in
- 'tomoyo_patternize_proc_path'
-Message-ID: <202501290505.bKuh2g52-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 1/1] mm/hmm.c:595:21: error:
+ implicit declaration of function 'mmu_interval_check_retry'
+Message-ID: <202501290642.bjAIuHH1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9a87ce288fe30f268b3a598422fe76af9bb2c2d2
-commit: 7788cabfc9cf4c8210a131fdd87e0f94f65ab70c [10065/10398] tomoyo: use better patterns for procfs in learning mode
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250129/202501290505.bKuh2g52-lkp@intel.com/config)
+Hi Ryan,
+
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   ee01ea4f1b9ee19a82b4258ea9b8ce1ba7dcf84d
+commit: e481300819c9576070aa3b7b8edc2da716d0e3c4 [1/1] ANDROID: GKI: x86: add HMM_MIRROR as DRM hidden dep
+config: x86_64-randconfig-102-20250128 (https://download.01.org/0day-ci/archive/20250129/202501290642.bjAIuHH1-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250129/202501290505.bKuh2g52-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250129/202501290642.bjAIuHH1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501290505.bKuh2g52-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501290642.bjAIuHH1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/tomoyo/common.c:2010: warning: Function parameter or struct member 'colon' not described in 'tomoyo_patternize_proc_path'
->> security/tomoyo/common.c:2010: warning: Excess function parameter 'column' description in 'tomoyo_patternize_proc_path'
+   mm/hmm.c: In function 'hmm_range_fault':
+>> mm/hmm.c:595:21: error: implicit declaration of function 'mmu_interval_check_retry' [-Werror=implicit-function-declaration]
+     595 |                 if (mmu_interval_check_retry(range->notifier,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && 64BIT [=y]
 
 
-vim +2010 security/tomoyo/common.c
+vim +/mmu_interval_check_retry +595 mm/hmm.c
 
-  1998	
-  1999	/**
-  2000	 * tomoyo_patternize_proc_path - Make patterns for procfs path. Used by learning mode.
-  2001	 *
-  2002	 * @buffer: Original line.
-  2003	 * @column: Location of ':' in @buffer.
-  2004	 * @len:    Size of @buffer.
-  2005	 *
-  2006	 * Returns new line.
-  2007	 */
-  2008	static char *tomoyo_patternize_proc_path(char * const buffer, const char * const colon,
-  2009						 const int len)
-> 2010	{
-  2011		char *new_buffer;
-  2012		const char *src = colon;
-  2013		char *dest;
-  2014		int const_len;
-  2015		int variable_len;
-  2016	
-  2017		/* Nothing to do if process id part does not follow "proc:/". */
-  2018		const_len = colon + 2 - buffer;
-  2019		variable_len = tomoyo_digits_len(buffer + const_len);
-  2020		if (!variable_len)
-  2021			return buffer;
-  2022		/* Allocate larger buffer for using "\$" pattern. */
-  2023		new_buffer = kmalloc(len + 16, GFP_NOFS | __GFP_ZERO);
-  2024		if (!new_buffer)
-  2025			return buffer;
-  2026		memmove(new_buffer, buffer, const_len);
-  2027		src = buffer + const_len;
-  2028		dest = new_buffer + const_len;
-  2029		/*
-  2030		 * Don't patternize process id part if pid == 1, for several
-  2031		 * programs access only files in /proc/1/ directory.
-  2032		 */
-  2033		if (variable_len == 1 && *src == '1') {
-  2034			*dest++ = *src++;
-  2035		} else {
-  2036			src += variable_len;
-  2037			*dest++ = '\\';
-  2038			*dest++ = '$';
-  2039		}
-  2040		/* Patternize thread id part if "/task/" follows. */
-  2041		if (!strncmp(src, "/task/", 6)) {
-  2042			memmove(dest, src, 6);
-  2043			src += 6;
-  2044			dest += 6;
-  2045			variable_len = tomoyo_digits_len(src);
-  2046			if (variable_len >= 1) {
-  2047				src += variable_len;
-  2048				*dest++ = '\\';
-  2049				*dest++ = '$';
-  2050			}
-  2051		}
-  2052		/* Patternize file descriptor part if "/fdinfo/" or "/fd/" follows. */
-  2053		if (!strncmp(src, "/fdinfo/", 8)) {
-  2054			memmove(dest, src, 8);
-  2055			src += 8;
-  2056			dest += 8;
-  2057			variable_len = tomoyo_digits_len(src);
-  2058			if (variable_len >= 1) {
-  2059				src += variable_len;
-  2060				*dest++ = '\\';
-  2061				*dest++ = '$';
-  2062			}
-  2063		} else if (!strncmp(src, "/fd/", 4)) {
-  2064			memmove(dest, src, 4);
-  2065			src += 4;
-  2066			dest += 4;
-  2067			variable_len = tomoyo_digits_len(src);
-  2068			if (variable_len >= 1) {
-  2069				src += variable_len;
-  2070				*dest++ = '\\';
-  2071				*dest++ = '$';
-  2072			}
-  2073		}
-  2074		/* Copy remaining part if any (e.g, $CMD part of "file ioctl" request). */
-  2075		if (*src)
-  2076			memmove(dest, src, strlen(src) + 1);
-  2077		kfree(buffer);
-  2078		return new_buffer;
-  2079	}
-  2080	
+7b86ac3371b70c Christoph Hellwig 2019-08-28  562  
+9a4903e49e495b Christoph Hellwig 2019-07-25  563  /**
+9a4903e49e495b Christoph Hellwig 2019-07-25  564   * hmm_range_fault - try to fault some address in a virtual address range
+f970b977e068aa Jason Gunthorpe   2020-03-27  565   * @range:	argument structure
+9a4903e49e495b Christoph Hellwig 2019-07-25  566   *
+be957c886d92aa Jason Gunthorpe   2020-05-01  567   * Returns 0 on success or one of the following error codes:
+73231612dc7c90 Jérôme Glisse     2019-05-13  568   *
+9a4903e49e495b Christoph Hellwig 2019-07-25  569   * -EINVAL:	Invalid arguments or mm or virtual address is in an invalid vma
+9a4903e49e495b Christoph Hellwig 2019-07-25  570   *		(e.g., device file vma).
+73231612dc7c90 Jérôme Glisse     2019-05-13  571   * -ENOMEM:	Out of memory.
+9a4903e49e495b Christoph Hellwig 2019-07-25  572   * -EPERM:	Invalid permission (e.g., asking for write and range is read
+9a4903e49e495b Christoph Hellwig 2019-07-25  573   *		only).
+9a4903e49e495b Christoph Hellwig 2019-07-25  574   * -EBUSY:	The range has been invalidated and the caller needs to wait for
+9a4903e49e495b Christoph Hellwig 2019-07-25  575   *		the invalidation to finish.
+f970b977e068aa Jason Gunthorpe   2020-03-27  576   * -EFAULT:     A page was requested to be valid and could not be made valid
+f970b977e068aa Jason Gunthorpe   2020-03-27  577   *              ie it has no backing VMA or it is illegal to access
+74eee180b935fc Jérôme Glisse     2017-09-08  578   *
+f970b977e068aa Jason Gunthorpe   2020-03-27  579   * This is similar to get_user_pages(), except that it can read the page tables
+f970b977e068aa Jason Gunthorpe   2020-03-27  580   * without mutating them (ie causing faults).
+74eee180b935fc Jérôme Glisse     2017-09-08  581   */
+be957c886d92aa Jason Gunthorpe   2020-05-01  582  int hmm_range_fault(struct hmm_range *range)
+74eee180b935fc Jérôme Glisse     2017-09-08  583  {
+d28c2c9a487708 Ralph Campbell    2019-11-04  584  	struct hmm_vma_walk hmm_vma_walk = {
+d28c2c9a487708 Ralph Campbell    2019-11-04  585  		.range = range,
+d28c2c9a487708 Ralph Campbell    2019-11-04  586  		.last = range->start,
+d28c2c9a487708 Ralph Campbell    2019-11-04  587  	};
+a22dd506400d0f Jason Gunthorpe   2019-11-12  588  	struct mm_struct *mm = range->notifier->mm;
+74eee180b935fc Jérôme Glisse     2017-09-08  589  	int ret;
+74eee180b935fc Jérôme Glisse     2017-09-08  590  
+42fc541404f249 Michel Lespinasse 2020-06-08  591  	mmap_assert_locked(mm);
+74eee180b935fc Jérôme Glisse     2017-09-08  592  
+a3e0d41c2b1f86 Jérôme Glisse     2019-05-13  593  	do {
+a3e0d41c2b1f86 Jérôme Glisse     2019-05-13  594  		/* If range is no longer valid force retry. */
+a22dd506400d0f Jason Gunthorpe   2019-11-12 @595  		if (mmu_interval_check_retry(range->notifier,
+
+:::::: The code at line 595 was first introduced by commit
+:::::: a22dd506400d0f4784ad596f073b9eb5ed7c6a2a mm/hmm: remove hmm_mirror and related
+
+:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 -- 
 0-DAY CI Kernel Test Service
