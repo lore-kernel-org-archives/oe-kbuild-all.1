@@ -1,131 +1,99 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCF85C96;
-	Wed, 29 Jan 2025 12:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A7523AD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jan 2025 13:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738155085; cv=none; b=OJZ7jLmSXq8tpkDcOUiK1NzqTZxMCe/vzLZuN5Q9o2Uw+vrPr0mb2LlSxN7bC0YwuL2pAJwrBTpXVT7u5rOqDtrfOxiBHjYFfm7U8kW2aaZvmJPPxSWX6Z+tRqsNIgaWscUe1tUmQ/QW8fLuAY/eb/FiFEBBaCHBsDHgjv9NsxE=
+	t=1738156922; cv=none; b=C1ornj5BWnupXDEHeIZYgkdwvB3C6SzYRqOBwbYT/uoqWMh3VjUz2zLtSGnQGHVFfW5Uksamh4HYSBh7GYWBM96ugISCobE4Z/8bOtb469cHZ7RBsEk7++sCZYaoIpStM+/2NJl3x0w9znvoSrhw5x1m1rZ63AH+eWVHiA4k5O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738155085; c=relaxed/simple;
-	bh=/BvvYMJVxHgyIQYJ25vJZnHAoKA2dprtmC8M8nyIzlo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nzFXauVm+ur0WXIP9iiGCQPPJBdeWdmoXFijjaAc1VPlM3pVHnlTL7weJC3r069vXO5MWIVJTHkuwV2FBWZGFiF7a2mAsoILzZyxH2vPjPKG896Laehn3ChnpzIrFOd1aQ5E7kPxJkuFRhH55sVLk3r8c9QaTBAC3adlabMJ5KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DODWrfnp; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738156922; c=relaxed/simple;
+	bh=cAdeKhVmfbKhX+NcknZBaa1sj4yD1YsDTeFwxCEeAkA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dyvtCGgYgtLSB0ZPf7V/Rx+qOm159uz71jCfhc9466uams7G+qMxPggdTPXNpU0sA79//OP8OZfy6PfwiMaozKInqxIMbL1YfkZP858j25eIgZJM/lSMsh/4XeWDAQI9o9Qy0iSVLP7NMrhSHNjMA2DFqWV39vHalXLrw0jNcOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ahtjkSEL; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DODWrfnp"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaee0b309adso335456266b.3;
-        Wed, 29 Jan 2025 04:51:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738155082; x=1738759882; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FanCwFPzbcPnVRjW9s5tqNLHpgFG0FzkxFM4ckxI4js=;
-        b=DODWrfnpAjMEG26simU6cwhx9f78N0RwcE6v6z7WTgqci48+oXcQj0AyN+D7CM3oww
-         ldQRDk/3hP4BbiQy22ntMh8cSpaAwpePd559sQwshBtyOZUJmgMJUJYq99BEzGhhrSVR
-         f5CFgKcBmwsGlGpQIYKsdHHD1eFKde28bm2Z0sbXXjhQLtmkpyI9ICl4PQi+lSHhDIiS
-         ULCWogcOQoiFls80ijNcnXz3pgV1UI7PyMDSxVVMtuz0CNyt/7Jmo1flYu7Hk67W7rcB
-         iviX2ViHw5+RuSYG7bNwtdbyYMRlIXuCakbcN16Y41XI8PQgy4/12T9x3cPMPV9EskqV
-         SNZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738155082; x=1738759882;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FanCwFPzbcPnVRjW9s5tqNLHpgFG0FzkxFM4ckxI4js=;
-        b=QFl1QQPEvkp6vQDeb1Ma2NUUpYD2pFA7Zw+bPyTr3ibs9T3qCAwyYEknL+LUv8DhPV
-         gtdOZG3mtydYM+B/C9htPLz46zeeYVRAsMyVF70YE1KqTeIeX7rB2wJeodJFpuuGq7KW
-         Tb/xTeq0qnl9W/0bGVXxr+EZt5UPqBMosCP3J6QvA1hBv2ikGoy8hflD/vlGbzsnw7bd
-         XdPvbTIll4ztCX0ndjSo8KbJpKOzZn8kb9CmOVNQf8LBXPB7u+zo8PpU15nyCzu93qOd
-         1k3Af5IDUmuyN8KwqUFM84OR6UInz6EIlVDCMBJwTglAChjriTXDJ/PqC5jU9xOhUUUP
-         jmhA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEUn/7sdelWa2ASG32VU8J5mrIb+vW9Yhiiunz9q+9WONTOdoeECgupOFzfp4JCShFc06NlNuUgVw+LNjwIA==@lists.linux.dev, AJvYcCXb8yZ0jBLO2wk/K+xfEb5CarNj5hHAiuy2XFApjXEoKQWtRt8ZFBtoERimY8GjASAmHmZQ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5EHo6LRL0SOVS/Ev1V6foNzEEBgVvKwo55DbJz6VUQPrtosKM
-	6n3kizhv+muDpqbq1HJIIYcqAqMhimLqxeFac7jSyEXQ9ActPASdDRYnLpNgdXWb4vxzGJM8+Za
-	9OenYCyX+PMhLAaGvHkLSy8Jkj8LZninkJQU=
-X-Gm-Gg: ASbGncvBxapW3SmHmtcGqoIQ8SVt0C/B54/BoR2beyAIaIpeOxEGpMyNEx0Tik+0qOu
-	Fd0of3jsiYNQdDeC5sUG0mr4ueMbkgP80XFBHUiXBT5UrufbUJ/WZibp5VycCIcm2zZlZICRn3n
-	w=
-X-Google-Smtp-Source: AGHT+IEcGWLKcr+am9UM30QmyJxngJATQyXwiUm/mspZNyTEJR1JppSBetjluBtyM3FoBe1JX3Hz7xp7J6CubfHqGD4=
-X-Received: by 2002:a17:907:1c21:b0:aa6:80ed:e9a3 with SMTP id
- a640c23a62f3a-ab6cfdbc4demr324382866b.35.1738155081884; Wed, 29 Jan 2025
- 04:51:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ahtjkSEL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738156920; x=1769692920;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cAdeKhVmfbKhX+NcknZBaa1sj4yD1YsDTeFwxCEeAkA=;
+  b=ahtjkSELisgDKXgYJNVOC5rU3t6pUR3vnZFhKAMg8Om964pvFsTTxpSe
+   S76To0jaqVyP5t4Z3hF3TQVp1Lyj0Z9lEWm9bPpy8aSCBVUjG/pPFlRCe
+   qpT7BO6kdgeenU4ea3gZjZcZd25vED6OEMCx6Cs+PPbw06vy2lrf4Omvp
+   52QCvqE0aW/xzGYnj7gD2n3gJhdzqckCYEzTSvTBHinRj1jMyovjOqXAK
+   4desS1ZKgZGocfMqrvuN2V7mphT5yww5Gi8Rl9H+rGrvV/7UyY/QJiCvr
+   4R0F2Oz5K4IPhpiDJAvQF/9OoD0ENKZDbI1lsaOTHB9g4xQgnkPlHCHBE
+   A==;
+X-CSE-ConnectionGUID: /QwxbnypSg69nEzpdsZFuA==
+X-CSE-MsgGUID: r767pL8cTQGRUGND0Boqvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50083239"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="50083239"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 05:22:00 -0800
+X-CSE-ConnectionGUID: JEybQh7wSgKvS5YzdjNq2A==
+X-CSE-MsgGUID: A0oWZsR9QvyjStyaY/l2tA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="109945380"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 29 Jan 2025 05:21:59 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1td80y-000iyh-2U;
+	Wed, 29 Jan 2025 13:21:56 +0000
+Date: Wed, 29 Jan 2025 21:21:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/optimized_usdt_13 12/18]
+ arch/x86/kernel/uprobes.c:317:12: warning: 'is_call_insn' defined but not
+ used
+Message-ID: <202501292124.eb934HOp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501291646.VtwF98qd-lkp@intel.com> <CAHp75VcOYyVx=wcopvi-0iA5XePsGOrNO1wUSzYcYB4q86=7gA@mail.gmail.com>
-In-Reply-To: <CAHp75VcOYyVx=wcopvi-0iA5XePsGOrNO1wUSzYcYB4q86=7gA@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 29 Jan 2025 14:50:45 +0200
-X-Gm-Features: AWEUYZmW_0VbPnN6nRm6EhSLIDCGBxPcf6z0HbvMFPUaLWrUoSom5VktXE6dlkU
-Message-ID: <CAHp75VcUEaUSeu5K2GDbkgevTkFjR8=4ppw_e5FAy28iW=NhSQ@mail.gmail.com>
-Subject: Re: drivers/platform/surface/surface3_power.c:243:2: warning:
- 'snprintf' will always be truncated; specified size is 10, but format string
- expands to at least 12
-To: kernel test robot <lkp@intel.com>
-Cc: Maximilian Luz <luzmaximilian@gmail.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Jan 29, 2025 at 2:45=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Jan 29, 2025 at 10:09=E2=80=AFAM kernel test robot <lkp@intel.com=
-> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_13
+head:   a264266ebd33899155a0cf37feac0ef4e300cec0
+commit: 4f491bb5453694500c4681edd76e1843c8f4de4e [12/18] uprobes/x86: Add support to optimize uprobes
+config: i386-randconfig-r063-20250129 (https://download.01.org/0day-ci/archive/20250129/202501292124.eb934HOp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250129/202501292124.eb934HOp-lkp@intel.com/reproduce)
 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git master
-> > head:   05dbaf8dd8bf537d4b4eb3115ab42a5fb40ff1f5
-> > commit: 85f7582cd484dbf491b6d9bb2af6ef1467a024d2 platform/surface: Move=
- Surface 3 Power OpRegion driver to platform/surface
-> > date:   4 years, 3 months ago
-> > config: x86_64-randconfig-071-20241231 (https://download.01.org/0day-ci=
-/archive/20250129/202501291646.VtwF98qd-lkp@intel.com/config)
-> > compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab=
-51eccf88f5321e7c60591c5546b254b6afab99)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250129/202501291646.VtwF98qd-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501291646.VtwF98qd-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> > >> drivers/platform/surface/surface3_power.c:243:2: warning: 'snprintf'=
- will always be truncated; specified size is 10, but format string expands =
-to at least 12 [-Wformat-truncation-non-kprintf]
-> >      243 |         snprintf(bix->serial, ARRAY_SIZE(bix->serial), "%3pE=
-%6pE", buf + 7, buf);
->
-> 3 + 'E' + 6 + 'E' + NUL, that's how the compiler thinks about this
-> formatting string...
->
-> >          |         ^
-> >    1 warning generated.
->
-> I do not know how to properly address this because it's false positive
-> due to the compiler not being aware of pointer extensions used in
-> Linux kernel. The w/a is to increase the buffer if we can, but is it
-> practical? OTOH, this warning will be translated to a compilation
-> error in case of default WERROR settings on `make W=3D1` builds which is
-> also annoying to people who want to have that clean.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501292124.eb934HOp-lkp@intel.com/
 
-Actually using %pE implies that the buffer should be 4 times bigger
-than the input string. So, with the given format string the
-ARRAY_SIZE(bix->serial) has to be equal to or greater than 3 * 4 + 6 *
-4 + 1, i.e. 37.
+All warnings (new ones prefixed by >>):
 
---=20
-With Best Regards,
-Andy Shevchenko
+>> arch/x86/kernel/uprobes.c:317:12: warning: 'is_call_insn' defined but not used [-Wunused-function]
+     317 | static int is_call_insn(uprobe_opcode_t *insn)
+         |            ^~~~~~~~~~~~
+   arch/x86/kernel/uprobes.c:312:12: warning: 'is_nop5_insn' defined but not used [-Wunused-function]
+     312 | static int is_nop5_insn(uprobe_opcode_t *insn)
+         |            ^~~~~~~~~~~~
+
+
+vim +/is_call_insn +317 arch/x86/kernel/uprobes.c
+
+   316	
+ > 317	static int is_call_insn(uprobe_opcode_t *insn)
+   318	{
+   319		return *insn == CALL_INSN_OPCODE;
+   320	}
+   321	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
