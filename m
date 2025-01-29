@@ -1,117 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF5B1917C7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jan 2025 22:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4933B18DF60;
+	Wed, 29 Jan 2025 22:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738188420; cv=none; b=WfDS6SeY7CGHK9CJzJmko3gE18UZj2o5EaqmAue+EUw2ucSzTdBoe5vl4NS1wYDZWlFB8jHXSMV0URr3rFH95Zsmw2wkrx/MUmcCQy3sz18ODbJC+StBZwRiCwdIDzPHhWATVkkxNndFyqI/JXbX2wFK7iZbSZq/shC/bYGW5eQ=
+	t=1738188979; cv=none; b=aqNIqdJ7kdXCRaSY4fMW9A01zn2eVDGj1neJykSM1qHZpZ6jIwzxRNTuMEYmgKDx3r6vJv48qpzys8ooc4E4h2tTxUeP2yrqhC0DQ9LSFt9Qaz2sAG8YwOxaU5/w+fhfg+xvnLx3Z2xtvNnZDK8q3h2x7Xtzi3L+zbfD0KQSH64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738188420; c=relaxed/simple;
-	bh=Xdq9FzOksR2fKanqkM9yw9HcHROQfNmRB2UTBZGLX34=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=efOZXvunAVllSHeOWUptx7SAyRriKsk37K8JD3w7AoyXN4yrt42yTOVUDAxKVJaQzH+YtIESr4gAtP0fkCjT853RPfY05FUefySpB0fyX56mRp7tbSSOXhP62RsmQZ9ojeoNe679WKq1M/d6qsbB1qpJMqKU0Nriq9cNwDkgIzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCFWzBeE; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738188979; c=relaxed/simple;
+	bh=CBjBxfBArHaP5+KFSMSovBvLkn91zi5YvQjUjm6Fkxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VDb4fiQxM0EkVwcopx9+xeAZCKtA1uXj6yi9VrCVg9r24e+ffnV9K3s6BGPV64Y+XNHbKHsS68CKDAKGsTPqfRsHxW7HHPllCixTAcnz5nqHz5gsPFiYGeecg5+LP9U/KO4/w7N804rXQvV+MRfjN6ED740BYGneTvgINCJFyes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AP5iDm4J; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCFWzBeE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738188418; x=1769724418;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xdq9FzOksR2fKanqkM9yw9HcHROQfNmRB2UTBZGLX34=;
-  b=FCFWzBeE3PnIu0pFGN3l1rexpBwcmfmG/DzfL2W/awc8ScdoDe3QKEdp
-   zJG1epZ/Gi5NAL/HEKWM+E42jiW6MGaEfxMMdwgrX9sBttao+40WiRsCm
-   RaDkr2sTVD6jQQM8koffjH/IMiAMonDEh/yu61fCNSNxJb1Jfd3X9kQQ7
-   YeTrYDd3WQlvGdlbgzWgRTngv1ADv4J/JBwEY8NyTHihaGYTcIP2Uxp50
-   w2q4E8qhDlAono5tBUhRXrtvAfnEfSCc3pwNm3cV6dt0kTJ2lDykRHiRh
-   Rw+fxCdc8KTnfgvhiBIjC63MU9VmcCcBU5YS7RzotD8FIlsVI4HfeW/gA
-   g==;
-X-CSE-ConnectionGUID: Ho6SQGhvRKOcL9N/FTbqpw==
-X-CSE-MsgGUID: nrGJ0BBeQOGW4JYgT2InJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="38990937"
-X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="38990937"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 14:06:58 -0800
-X-CSE-ConnectionGUID: LHxl3vTxTZ+caJelFDdkvg==
-X-CSE-MsgGUID: 3Wos6ucLQeqK2485RVMleQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113167833"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Jan 2025 14:06:57 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tdGD0-000jP5-1t;
-	Wed, 29 Jan 2025 22:06:54 +0000
-Date: Thu, 30 Jan 2025 06:06:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-devel:renesas-drivers-for-v6.15 4/6]
- drivers/soc/renesas/r9a09g047-sys.c:51:13: error: implicit declaration of
- function 'FIELD_GET'
-Message-ID: <202501300600.APok2iDU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AP5iDm4J"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-436ce2ab251so594935e9.1;
+        Wed, 29 Jan 2025 14:16:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738188975; x=1738793775; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=daPgdxKytpeJo/vzJrQd3hQxPDtGozJJzmn9okR5/Yk=;
+        b=AP5iDm4J61USKZzIiPBvvGkvFNoQxZE+7zuxDBgNj7HM02LnQ9QN9OoNqQIvuWeA1P
+         YiNoZIZv8bnn4cXC/bwoGMOcdzCsUo2gTMZUCX4p9uGzla9Orz9wintfOBQ0YbOAEkhb
+         nLtDo1gBOA36ElXKr7Tck/aM6o941r4uMaqQfhBygCzqeXytDGXOYI7crl6z1ZWaEepu
+         DwUjXZ3Xjzwz6M7eIdvywN3Je+90iDpTSbXcTbWb6PNAJsUSA8rMcCq6/cL6PjPe9cW0
+         Jni9leGYbMUU35OoIKMz46gHFFtF9Jr73eMW2CAqYMzPXna7/47PBorsGVySUJokCwdm
+         wBPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738188975; x=1738793775;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=daPgdxKytpeJo/vzJrQd3hQxPDtGozJJzmn9okR5/Yk=;
+        b=QiKGw2lTXBdk5g2oLJZri0Fs+J1RzLbpF2aODYj3erTCp4neAX/Yqmjk/vl47fUuNm
+         bDPNeWYBnefF7po73M3yWGSE6hPGjlDFJgwVQpjo5oAkSwJ3E4UEALUt4AS+QTN6WkIO
+         0zPEjB5CTvFdOl8Hs1H0YypIVWNbhH0pa0NIFAbff0ebPokRPY7OXp5IJp94EqLwiPhx
+         +a/dhXfIW3QY/tqkxgKoihAG/4shUh9xK5YFs8P64vCSjBWykMemOwa0xcOUI3eTZ4tk
+         2on+BnHSkU0NhNkKvNow4f0Kefn9ZrmhGAsOoUYWJ53z/KpgiaSDnsqd6zDZj9cseH5q
+         Tx7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUdMmlN75KcTtkv0D4kY9NI/2uuq6ZYve8Hjoard4CYcHC3EHDeS2zZzDxNwtGT+Ld9xxe/@lists.linux.dev, AJvYcCXyEca1KaQawB3w5R5eDz7NYyDbwcHxIExw30AickX6a6RKpF97+eMzntoo3THFErvgCchfGWbmPmuZY1aWNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/+w5XHMJdgBCNwW1Z2P8XPzhtSpRlARcG+PThxlNfJ6xBqkcj
+	iBJoqAMcHDLfwK1O647ADshmkinZ5UqyLN3ZNZlXJ9eXUK2o7DIz
+X-Gm-Gg: ASbGncusqM/JLtZGrijAHgSzHarWkdqKZqULncPANhsSOHSeTmZAxnChkbnxATur3RV
+	AL08WmLM2eiR56AzjV/jZCUliJu+cr878xwzTxlsXeGIoBqSuRfbk8xA+H7Nz4nTE//PsnOxrBD
+	7ryDvmoRzPNa22JTI7D4qlDF3CbAYUE2jSXX1krQiHYsCR3DAPhLcOfJcRM4tPYDwK21QivZA4Q
+	nzPfhVGp/m6TsMPoZ4cS924iydqKeKRwj/QU6qIFPrFjOjf4lesvmELGL2N/b0aFODhGN3+7gzy
+	oU1UUopq3lNtUL7VfNERdpXg9gKQ9CRoTywQoFBZnasia19sm+ZIhQ==
+X-Google-Smtp-Source: AGHT+IEi0h/P9Ax4zfeG0ZIoZCiltydXmJWGbhNxx79y1e5qOKwoDDFKlFRLIG3wS4UCeaXx6Lgc2A==
+X-Received: by 2002:a05:600c:474f:b0:434:a10f:c3 with SMTP id 5b1f17b1804b1-438dc3c346fmr36972515e9.9.1738188975404;
+        Wed, 29 Jan 2025 14:16:15 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec7f1sm68166f8f.9.2025.01.29.14.16.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 14:16:15 -0800 (PST)
+Date: Wed, 29 Jan 2025 22:16:14 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, kernel test robot <lkp@intel.com>, Maximilian Luz
+ <luzmaximilian@gmail.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Hans de Goede
+ <hdegoede@redhat.com>
+Subject: Re: drivers/platform/surface/surface3_power.c:243:2: warning:
+ 'snprintf' will always be truncated; specified size is 10, but format
+ string expands to at least 12
+Message-ID: <20250129221614.6510f165@pumpkin>
+In-Reply-To: <20250129134648.GA3884012@ax162>
+References: <202501291646.VtwF98qd-lkp@intel.com>
+	<CAHp75VcOYyVx=wcopvi-0iA5XePsGOrNO1wUSzYcYB4q86=7gA@mail.gmail.com>
+	<20250129134648.GA3884012@ax162>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.15
-head:   106b182b2d7f05703d27e37cbcf23a6fb652872f
-commit: 1e5827262bc7f29b3735889919009b744ea8f55d [4/6] soc: renesas: rz-sysc: Add support for RZ/G3E family
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250130/202501300600.APok2iDU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250130/202501300600.APok2iDU-lkp@intel.com/reproduce)
+On Wed, 29 Jan 2025 06:46:48 -0700
+Nathan Chancellor <nathan@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501300600.APok2iDU-lkp@intel.com/
+> On Wed, Jan 29, 2025 at 02:45:38PM +0200, Andy Shevchenko wrote:
+> > On Wed, Jan 29, 2025 at 10:09=E2=80=AFAM kernel test robot <lkp@intel.c=
+om> wrote: =20
+> > >
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git master
+> > > head:   05dbaf8dd8bf537d4b4eb3115ab42a5fb40ff1f5
+> > > commit: 85f7582cd484dbf491b6d9bb2af6ef1467a024d2 platform/surface: Mo=
+ve Surface 3 Power OpRegion driver to platform/surface
+> > > date:   4 years, 3 months ago
+> > > config: x86_64-randconfig-071-20241231 (https://download.01.org/0day-=
+ci/archive/20250129/202501291646.VtwF98qd-lkp@intel.com/config)
+> > > compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project =
+ab51eccf88f5321e7c60591c5546b254b6afab99)
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20250129/202501291646.VtwF98qd-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202501291646.VtwF98qd=
+-lkp@intel.com/
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > > =20
+> > > >> drivers/platform/surface/surface3_power.c:243:2: warning: 'snprint=
+f' will always be truncated; specified size is 10, but format string expand=
+s to at least 12 [-Wformat-truncation-non-kprintf] =20
+> > >      243 |         snprintf(bix->serial, ARRAY_SIZE(bix->serial), "%3=
+pE%6pE", buf + 7, buf); =20
+> >=20
+> > 3 + 'E' + 6 + 'E' + NUL, that's how the compiler thinks about this
+> > formatting string...
+> >  =20
+> > >          |         ^
+> > >    1 warning generated. =20
+> >=20
+> > I do not know how to properly address this because it's false positive
+> > due to the compiler not being aware of pointer extensions used in
+> > Linux kernel. The w/a is to increase the buffer if we can, but is it
+> > practical? OTOH, this warning will be translated to a compilation
+> > error in case of default WERROR settings on `make W=3D1` builds which is
+> > also annoying to people what want have that clean. =20
+>=20
+> Hmmm, I missed that -Wformat-truncation-non-kprintf was only disabled in
+> the non-W=3D1 block in scripts/Makefile.extrawarn. We never want to see
+> these warnings at any level because they will almost always be a false
+> positive, that's why the "non-kprintf" flags even exist in the first
+> place:
+...
 
-All errors (new ones prefixed by >>):
+There is a separate issue that it doesn't seem to be easy to mark a specific
+snprintf() as one that will not actually overflow or where truncation is fi=
+ne.
 
-   drivers/soc/renesas/r9a09g047-sys.c: In function 'rzg3e_sys_print_id':
->> drivers/soc/renesas/r9a09g047-sys.c:51:13: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      51 |         if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) != SYS_LSI_MODE_CA55_1_7GHZ)
-         |             ^~~~~~~~~
+Persuading the compiler that the buffer size isn't constant currently works,
+but I expect the compiler will start double checking against ARRAY_SIZE(buf=
+fer)
+'any time soon' which will require the same treatment applied to the buffer
+address.
 
-
-vim +/FIELD_GET +51 drivers/soc/renesas/r9a09g047-sys.c
-
-    30	
-    31	static void rzg3e_sys_print_id(struct device *dev,
-    32					void __iomem *sysc_base,
-    33					struct soc_device_attribute *soc_dev_attr)
-    34	{
-    35		bool is_quad_core, npu_enabled;
-    36		u32 prr_val, mode_val;
-    37	
-    38		prr_val = readl(sysc_base + SYS_LSI_PRR);
-    39		mode_val = readl(sysc_base + SYS_LSI_MODE);
-    40	
-    41		/* Check CPU and NPU configuration */
-    42		is_quad_core = !(prr_val & SYS_LSI_PRR_CA55_DIS);
-    43		npu_enabled = !(prr_val & SYS_LSI_PRR_NPU_DIS);
-    44	
-    45		dev_info(dev, "Detected Renesas %s Core %s %s Rev %s%s\n",
-    46			 is_quad_core ? "Quad" : "Dual", soc_dev_attr->family,
-    47			 soc_dev_attr->soc_id, soc_dev_attr->revision,
-    48			 npu_enabled ? " with Ethos-U55" : "");
-    49	
-    50		/* Check CA55 PLL configuration */
-  > 51		if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) != SYS_LSI_MODE_CA55_1_7GHZ)
-    52			dev_warn(dev, "CA55 PLL is not set to 1.7GHz\n");
-    53	}
-    54	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	David
