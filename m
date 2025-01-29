@@ -1,59 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C533F190072;
-	Wed, 29 Jan 2025 08:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB712D627
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jan 2025 09:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738138777; cv=none; b=eSBHpvK2lmo5PeaPORMl0E2r2xLp7gORs7RsJ6Ms+tuMTkslFMbOTJuCxyNkG8JYlulyyO4L9q1nZrDpQkm56Ss2rD1Gb/4iQkRCKrhZaL8UV8rfnmRqsjVAlBFA/OSWYlC637ZmgEl3Wy1BXVcz3BfC3aUHWhXy6y0lpS5NvRk=
+	t=1738142509; cv=none; b=dMrjLL+fM+DMf0tLHW8tdN8RLsugFp8bt4aN9Nz6jIfYAEbHFM9eJAMf+2m4UZ0AiWf0dq95leAhP3U2d9h1XYjzIlvfvJZPfUVY97ns8IbHRQHkJX92G0A9+1Hii3tZ3ECsMW70/WzUslrY0n85goo/sic80vtDbRtzipdOkZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738138777; c=relaxed/simple;
-	bh=ICSlWXGrLcjz7oos7aXj90z/WkA/0dcXFNnVmIYTYPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t/I9zRaZrXbl6RaCrju2VqSgHip4IrrOLcHL4ZvDP0DPgFgoE4Myhf0IL3n9gMbrZjuWohbH1ulX4k24SeV2AL6xBj+LvgvW2NINaCS0esCXX48VtQ0O95kYRCUobUaCgNt57vCcIBUbOdszoPKyRK8loYTfOqOkqz6KRYGBy28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmnW8HAc; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1738142509; c=relaxed/simple;
+	bh=4Zfe+xk81gVPdpJJoFc216R1nJHu5ZSHh/ShR1p8ZtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IVIHeXSKTXZmIUKsh+8bv1ZE8CbyRk66h258ZMF/Fn+y2UqwbCjqGjQvWm35/jpC7kM/zdrMzJBXQhrJOlxcqJaFnSCbMi7xzD58Ot/WiGP4a/qOvoxjtCTVbrMyTmSFQ/vzXciaJ4XLAEum9GD/CSfiEdHXCorSBOqB1ZGdvNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fyDhj6Ly; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmnW8HAc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyDhj6Ly"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738138776; x=1769674776;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ICSlWXGrLcjz7oos7aXj90z/WkA/0dcXFNnVmIYTYPk=;
-  b=nmnW8HAcAFSLQ2aWO8H59MCfUDplZ4hH41/q5UExokwsG48n/AdN7yxI
-   0aL67vW59nQiZQel+nDM1BUINscJqRtfDLoJZAzced9sSnxFASUPBkwFD
-   bUlo0KZILRZGopc1/VT+z3lhC2VAMuA400qz0Qvz///ufyYxJ/YZ0BTra
-   LfdZ4jFjihGZkV4okCTpEUXCd39naaCPvyaUoWSOfg3Wwf+GOUE0PpvaF
-   BWeRqyzbRwLlEP+dmxg7/OruXeZ30amON0ifKXqn2UTfieIJOcNJd+xlP
-   6K2QeW5VxHNCEFhLMfNpQv5G4UNiF7RU+KINB+o5xPg/GhWVtSiSI3ptO
-   g==;
-X-CSE-ConnectionGUID: DA2CYCM5R7GttuCw6xc7nA==
-X-CSE-MsgGUID: jTVk3/CwRDuNjmL76zQ3BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="38545727"
-X-IronPort-AV: E=Sophos;i="6.13,242,1732608000"; 
-   d="scan'208";a="38545727"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 00:19:35 -0800
-X-CSE-ConnectionGUID: gfznwO0/SAmXZsTxnsZxTA==
-X-CSE-MsgGUID: pfnwO8kPStWz/f/5enr5xg==
+  t=1738142507; x=1769678507;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4Zfe+xk81gVPdpJJoFc216R1nJHu5ZSHh/ShR1p8ZtA=;
+  b=fyDhj6Lyafi8+GAwMJtSotRiTGnAKkjaCWBR/g8aiaHhWqzc/ZOs0Yef
+   O7GIsLB/BvtDMXXM27GTJIc2EFZUi5g/1BhzfikExzw9FDtlCupdCzszN
+   LweMgPH/7WdEWn1lgl7h6mIQOm8UhKsNHRSrD3ubq1L02xNqv+1V/7iFS
+   F/L2rJSA6R/wNO3eFDszXpR9rVzQ5MYnixBnrM2lG0ortjpcJ0KR6gEfT
+   2x/wF4dbFehZa6+xCbvIQykCAs7mFTKk8pT7oslJ5NfGPFRKzrIKaYGpm
+   BHh2JxXBYpFX4GrStBRxnPfJ3+RYQqkyR15gnVAFWtGvsMhEuLVykKnw8
+   w==;
+X-CSE-ConnectionGUID: VfezI6NmRx6UTa8lyREFgA==
+X-CSE-MsgGUID: ypCLcU5gSkG+MyrF5nsJQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="42305397"
+X-IronPort-AV: E=Sophos;i="6.13,243,1732608000"; 
+   d="scan'208";a="42305397"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 01:21:46 -0800
+X-CSE-ConnectionGUID: osFVEZx+TRCA5qLmMB0/Bg==
+X-CSE-MsgGUID: EMZ0S6JyQgKsc1TlA40shw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="114094360"
+   d="scan'208";a="109433459"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 29 Jan 2025 00:19:34 -0800
+  by orviesa007.jf.intel.com with ESMTP; 29 Jan 2025 01:21:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1td3IJ-000il9-0b;
-	Wed, 29 Jan 2025 08:19:31 +0000
-Date: Wed, 29 Jan 2025 16:18:56 +0800
+	id 1td4GO-000inL-0Y;
+	Wed, 29 Jan 2025 09:21:36 +0000
+Date: Wed, 29 Jan 2025 17:20:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pages 6/20] drivers/iommu/iommu-pages.c:38:40:
- error: use of undeclared identifier 'NR_IOMMU_PAGES'; did you mean
- 'NR_MEMMAP_PAGES'?
-Message-ID: <202501291628.UWEGyLaJ-lkp@intel.com>
+To: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+	Xinliang Liu <xinliang.liu@linaro.org>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Yongqin Liu <yongqin.liu@linaro.org>,
+	John Stultz <jstultz@google.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 09/14] drm/sti: move to devm_platform_ioremap_resource()
+ usage
+Message-ID: <202501291706.fN5l7Eii-lkp@intel.com>
+References: <20250128-cocci-memory-api-v1-9-0d1609a29587@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +89,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250128-cocci-memory-api-v1-9-0d1609a29587@redhat.com>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pages
-head:   470a82a6588cba1a19210a78a710620a15b6019b
-commit: 6c72aac62af905e9c969c12aa399d8bed4b4d033 [6/20] iommu/pages: De-inline the substantial functions
-config: hexagon-randconfig-002-20250129 (https://download.01.org/0day-ci/archive/20250129/202501291628.UWEGyLaJ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250129/202501291628.UWEGyLaJ-lkp@intel.com/reproduce)
+Hi Anusha,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on c4b9570cfb63501638db720f3bee9f6dfd044b82]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/drm-aspeed-move-to-devm_platform_ioremap_resource-usage/20250129-063524
+base:   c4b9570cfb63501638db720f3bee9f6dfd044b82
+patch link:    https://lore.kernel.org/r/20250128-cocci-memory-api-v1-9-0d1609a29587%40redhat.com
+patch subject: [PATCH 09/14] drm/sti: move to devm_platform_ioremap_resource() usage
+config: csky-randconfig-002-20250129 (https://download.01.org/0day-ci/archive/20250129/202501291706.fN5l7Eii-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250129/202501291706.fN5l7Eii-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501291628.UWEGyLaJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501291706.fN5l7Eii-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iommu/iommu-pages.c:38:40: error: use of undeclared identifier 'NR_IOMMU_PAGES'; did you mean 'NR_MEMMAP_PAGES'?
-      38 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-         |                                               ^~~~~~~~~~~~~~
-         |                                               NR_MEMMAP_PAGES
-   include/linux/vmstat.h:42:2: note: 'NR_MEMMAP_PAGES' declared here
-      42 |         NR_MEMMAP_PAGES,        /* page metadata allocated through buddy allocator */
-         |         ^
-   drivers/iommu/iommu-pages.c:38:40: warning: implicit conversion from enumeration type 'enum vm_stat_item' to different enumeration type 'enum node_stat_item' [-Wenum-conversion]
-      38 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-         |         ~~~~~~~~~~~~~~~~~~~                   ^~~~~~~~~~~~~~
-   drivers/iommu/iommu-pages.c:50:40: error: use of undeclared identifier 'NR_IOMMU_PAGES'; did you mean 'NR_MEMMAP_PAGES'?
-      50 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
-         |                                               ^~~~~~~~~~~~~~
-         |                                               NR_MEMMAP_PAGES
-   include/linux/vmstat.h:42:2: note: 'NR_MEMMAP_PAGES' declared here
-      42 |         NR_MEMMAP_PAGES,        /* page metadata allocated through buddy allocator */
-         |         ^
-   drivers/iommu/iommu-pages.c:50:40: warning: implicit conversion from enumeration type 'enum vm_stat_item' to different enumeration type 'enum node_stat_item' [-Wenum-conversion]
-      50 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
-         |         ~~~~~~~~~~~~~~~~~~~                   ^~~~~~~~~~~~~~
-   2 warnings and 2 errors generated.
+   drivers/gpu/drm/sti/sti_hda.c: In function 'sti_hda_probe':
+>> drivers/gpu/drm/sti/sti_hda.c:756:9: error: 'res' undeclared (first use in this function)
+     756 |         res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+         |         ^~~
+   drivers/gpu/drm/sti/sti_hda.c:756:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +38 drivers/iommu/iommu-pages.c
+vim +/res +756 drivers/gpu/drm/sti/sti_hda.c
 
-     9	
-    10	/**
-    11	 * iommu_alloc_pages_node - Allocate a zeroed page of a given order from
-    12	 *                          specific NUMA node
-    13	 * @nid: memory NUMA node id
-    14	 * @gfp: buddy allocator flags
-    15	 * @order: page order
-    16	 *
-    17	 * Returns the virtual address of the allocated page. The page must be
-    18	 * freed either by calling iommu_free_page() or via iommu_put_pages_list().
-    19	 */
-    20	void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order)
-    21	{
-    22		const unsigned long pgcnt = 1UL << order;
-    23		struct page *page;
-    24	
-    25		page = alloc_pages_node(nid, gfp | __GFP_ZERO | __GFP_COMP, order);
-    26		if (unlikely(!page))
-    27			return NULL;
-    28	
-    29		/*
-    30		 * All page allocations that should be reported to as "iommu-pagetables"
-    31		 * to userspace must use one of the functions below. This includes
-    32		 * allocations of page-tables and other per-iommu_domain configuration
-    33		 * structures.
-    34		 *
-    35		 * This is necessary for the proper accounting as IOMMU state can be
-    36		 * rather large, i.e. multiple gigabytes in size.
-    37		 */
-  > 38		mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-    39		mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
-    40	
-    41		return page_address(page);
-    42	}
-    43	EXPORT_SYMBOL_GPL(iommu_alloc_pages_node);
-    44	
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  739  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  740  static int sti_hda_probe(struct platform_device *pdev)
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  741  {
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  742  	struct device *dev = &pdev->dev;
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  743  	struct sti_hda *hda;
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  744  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  745  	DRM_INFO("%s\n", __func__);
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  746  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  747  	hda = devm_kzalloc(dev, sizeof(*hda), GFP_KERNEL);
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  748  	if (!hda)
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  749  		return -ENOMEM;
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  750  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  751  	hda->dev = pdev->dev;
+9235f657a03071 Anusha Srivatsa   2025-01-28  752  	hda->regs = devm_platform_ioremap_resource_byname(pdev, "hda-reg");
+5024a2b7ae9a92 Wei Yongjun       2014-08-26  753  	if (!hda->regs)
+5024a2b7ae9a92 Wei Yongjun       2014-08-26  754  		return -ENOMEM;
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  755  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30 @756  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  757  			"video-dacs-ctrl");
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  758  	if (res) {
+4bdc0d676a6431 Christoph Hellwig 2020-01-06  759  		hda->video_dacs_ctrl = devm_ioremap(dev, res->start,
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  760  				resource_size(res));
+5024a2b7ae9a92 Wei Yongjun       2014-08-26  761  		if (!hda->video_dacs_ctrl)
+5024a2b7ae9a92 Wei Yongjun       2014-08-26  762  			return -ENOMEM;
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  763  	} else {
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  764  		/* If no existing video-dacs-ctrl resource continue the probe */
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  765  		DRM_DEBUG_DRIVER("No video-dacs-ctrl resource\n");
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  766  		hda->video_dacs_ctrl = NULL;
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  767  	}
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  768  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  769  	/* Get clock resources */
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  770  	hda->clk_pix = devm_clk_get(dev, "pix");
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  771  	if (IS_ERR(hda->clk_pix)) {
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  772  		DRM_ERROR("Cannot get hda_pix clock\n");
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  773  		return PTR_ERR(hda->clk_pix);
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  774  	}
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  775  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  776  	hda->clk_hddac = devm_clk_get(dev, "hddac");
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  777  	if (IS_ERR(hda->clk_hddac)) {
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  778  		DRM_ERROR("Cannot get hda_hddac clock\n");
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  779  		return PTR_ERR(hda->clk_hddac);
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  780  	}
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  781  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  782  	platform_set_drvdata(pdev, hda);
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  783  
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  784  	return component_add(&pdev->dev, &sti_hda_ops);
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  785  }
+c86a5f6e1b9c84 Benjamin Gaignard 2014-07-30  786  
 
 -- 
 0-DAY CI Kernel Test Service
