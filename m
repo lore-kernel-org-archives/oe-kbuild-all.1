@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264A61EEA3D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 17:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD241EB9E1;
+	Thu, 30 Jan 2025 17:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738258474; cv=none; b=fZKg5fK7gxcTd32a6+wEM6+agqAHfTtgWFq7VGPSaCaJY7zOSVG5b/iqTJZEr11OEmCyu6FugKiBhUgAa+Ndi2045SZHpi/EvMsr79hutKjP2wnYLXeI7GUveYo7QuIY2+w++eZaiLmS0nMcTUla+yFzkrZagxkHmZwJrx9uk+A=
+	t=1738259738; cv=none; b=s9rmfH7eCF1aozojQRFtbjxjfJOWVbD25F6WHifo/RX1uQWFIjSXGExawgQ9pMAr6GSNBGCjrPz45i+JmJLq+AWJooIOGJrDkcDMQdi05A0Wrz7fWk3G2rWm2W8x3wmatGIIpbrmDvOS9dSLKysPbHcJ0BZTkzhmtD25LNedCUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738258474; c=relaxed/simple;
-	bh=9cljiz+hF/J3yRpMsxyASsQfff/o/uCBSbtAbrVUmNY=;
+	s=arc-20240116; t=1738259738; c=relaxed/simple;
+	bh=HN4oaVw6L4NZ7pdZIl7QwpK6oiJkLd7pgPdgW/nJ+wQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r3q7bDMBm8lKcyl8iaYN/mV4aUdb39uH6b0kLlap5TF8sf+i5GI+ml+wf//M2CPgBrmkToW6asP0y1TImjECJgSQp02lYEqNEJfwOJ9Z+1xnXg8f0Emv3GaaNrRmG+pMRYLSiH1sjOsnCJLxqmmzSLEO3ura66eqQqhShFbk8R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NL/BLkjF; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=XDT0YjjW/+8FuPob/NOnA7V7vTXKSWSBIbjrv9wk5d3Dq+dNESQjIvAg9XRKjV88lpoIfdkxyvtTXb19R5C38aa0olULSqS7GBuXmTqpsIXxRlNg/51pgfljmC91BaBp7NE1h3Oo+t9tKHg9whTsuaLboZTbrSISHiU0mGGt0sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AYv3eFNx; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NL/BLkjF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AYv3eFNx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738258472; x=1769794472;
+  t=1738259736; x=1769795736;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9cljiz+hF/J3yRpMsxyASsQfff/o/uCBSbtAbrVUmNY=;
-  b=NL/BLkjFdUaYbgmPz8iic2jg7Ttz3bVqzmVKgDzogQ6EkxuOjlPpLBvw
-   3jb3L+IDPv14ifsI6Q8P0mTAPyNDbxElgT7cVQRAxAAYTOb+1fVBqG2um
-   Q12NDLVG8G5FqaFn5evhuo2DB3roXfhioqjph33ZF7i3cgth6DKmuNS5a
-   GsCmZErmMg4Qv2uNTiA355gxruP/6mkL0z2K4ZgXQP/q2iXdFZ1s+UTRU
-   xvKX4TSQecEviwoywDjSCdQdyUVJAHs0+LuK+OLY0MkSgaXrUNLXIe01h
-   CoKx9zqiIQ2d5l2LaDcw5LkpuSwtHGmYF9Pl1sdntsOOoi5edn+P6Pqgf
-   w==;
-X-CSE-ConnectionGUID: tlvRi6lSToe7rCN8bEQfYQ==
-X-CSE-MsgGUID: J+LjD2j5R0+EWU9eS+2C2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="49408209"
+  bh=HN4oaVw6L4NZ7pdZIl7QwpK6oiJkLd7pgPdgW/nJ+wQ=;
+  b=AYv3eFNxlteNE82iGiPBFZ5j01F0QV/maMzSrB96dZcbYIGOdQVSI8a+
+   h9lUzvP2DPy7dwNqPhh21IQ6IGPlUo+OA8aALFiu2saLVgWsbV4iObeIW
+   ii0m2hrQl8tB9Mian6xGWa0uXuiv4EHDrNDC165Rcq2L4NQHu1wFsuyZk
+   0VV533d5IBnSMHyfnrejsiUjcouew78Ef8jlyIoUOQUGl7f94OSv8xjuO
+   VJX8lOQjEkEOGKO4ATgHx0enLK5RUuJhPgDBXU8xafmVQLtXXF++hv8g0
+   uMhqz5s/N/jcvTBh8SocrKZNgmuUQ4l/P8yiOAQXasoz8nL9EBwy4UkVv
+   A==;
+X-CSE-ConnectionGUID: zQXPGaWXR3usAtwrqJ0ODg==
+X-CSE-MsgGUID: 9vr4nuIBSqSMX7vsc1z8dA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="49477206"
 X-IronPort-AV: E=Sophos;i="6.13,246,1732608000"; 
-   d="scan'208";a="49408209"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 09:34:31 -0800
-X-CSE-ConnectionGUID: NDkoOywkSBKa+xCv4Qi/Eg==
-X-CSE-MsgGUID: qeX7dYZ2Sn21ww3ogzqwgw==
+   d="scan'208";a="49477206"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 09:55:35 -0800
+X-CSE-ConnectionGUID: jWsZPQwBROyZGkQvzxsUrg==
+X-CSE-MsgGUID: Aufc8seVSM2gN8kE4nLRKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="132662714"
+   d="scan'208";a="110295082"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Jan 2025 09:34:30 -0800
+  by orviesa008.jf.intel.com with ESMTP; 30 Jan 2025 09:55:33 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdYQu-000klR-1h;
-	Thu, 30 Jan 2025 17:34:28 +0000
-Date: Fri, 31 Jan 2025 01:33:34 +0800
+	id 1tdYlH-000kn1-16;
+	Thu, 30 Jan 2025 17:55:31 +0000
+Date: Fri, 31 Jan 2025 01:55:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/um-io 3/3] drivers/pci/quirks.c:3724:22:
- error: implicit declaration of function 'ioread32be'
-Message-ID: <202501310118.ohSkxgLk-lkp@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mptcp@lists.linux.dev, matthieu.baerts@tessares.net,
+	Jakub Kicinski <kuba@kernel.org>,
+	Matthieu Baerts <matttbe@kernel.org>
+Subject: net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but not
+ used
+Message-ID: <202501310132.oGDmspPN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,124 +65,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/um-io
-head:   1e7aceb3e7b5d015e6778e77383db706a4ae066b
-commit: 1e7aceb3e7b5d015e6778e77383db706a4ae066b [3/3] iomap: Fix -Wmissing-prototypes on UM
-config: m68k-m5475evb_defconfig (https://download.01.org/0day-ci/archive/20250131/202501310118.ohSkxgLk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501310118.ohSkxgLk-lkp@intel.com/reproduce)
+Hi Geert,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72deda0abee6e705ae71a93f69f55e33be5bca5c
+commit: 010b430d5df556d5d232e3751ac691ba9e88c041 mptcp: MPTCP_IPV6 should depend on IPV6 instead of selecting it
+date:   4 years, 3 months ago
+config: csky-randconfig-p001-20220406 (https://download.01.org/0day-ci/archive/20250131/202501310132.oGDmspPN-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501310132.oGDmspPN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501310118.ohSkxgLk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501310132.oGDmspPN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/quirks.c: In function 'mellanox_check_broken_intx_masking':
->> drivers/pci/quirks.c:3724:22: error: implicit declaration of function 'ioread32be' [-Wimplicit-function-declaration]
-    3724 |         fw_maj_min = ioread32be(fw_ver);
-         |                      ^~~~~~~~~~
-   drivers/pci/quirks.c: In function 'reset_ivb_igd':
->> drivers/pci/quirks.c:3954:9: error: implicit declaration of function 'iowrite32'; did you mean 'gf_iowrite32'? [-Wimplicit-function-declaration]
-    3954 |         iowrite32(0x00000002, mmio_base + MSG_CTL);
-         |         ^~~~~~~~~
-         |         gf_iowrite32
->> drivers/pci/quirks.c:3964:15: error: implicit declaration of function 'ioread32'; did you mean 'gf_ioread32'? [-Wimplicit-function-declaration]
-    3964 |         val = ioread32(mmio_base + PCH_PP_CONTROL) & 0xfffffffe;
-         |               ^~~~~~~~
-         |               gf_ioread32
-   drivers/pci/quirks.c: In function 'reset_hinic_vf_dev':
->> drivers/pci/quirks.c:4180:9: error: implicit declaration of function 'iowrite32be' [-Wimplicit-function-declaration]
-    4180 |         iowrite32be(val, bar + HINIC_VF_OP);
-         |         ^~~~~~~~~~~
-   drivers/pci/quirks.c: In function 'quirk_switchtec_ntb_dma_alias':
->> drivers/pci/quirks.c:5843:21: error: implicit declaration of function 'ioread8'; did you mean 'readb'? [-Wimplicit-function-declaration]
-    5843 |         partition = ioread8(&mmio_ntb->partition_id);
-         |                     ^~~~~~~
-         |                     readb
->> drivers/pci/quirks.c:5861:28: error: implicit declaration of function 'ioread16' [-Wimplicit-function-declaration]
-    5861 |                 table_sz = ioread16(&mmio_peer_ctrl->req_id_table_size);
-         |                            ^~~~~~~~
+   net/ipv4/ip_gre.c: In function 'ipgre_err':
+>> net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but not used [-Wunused-but-set-variable]
+     141 |         unsigned int data_len = 0;
+         |                      ^~~~~~~~
 
 
-vim +/ioread32be +3724 drivers/pci/quirks.c
+vim +/data_len +141 net/ipv4/ip_gre.c
 
-1600f62534b7b3 Noa Osherovich   2016-11-15  3676  
-1600f62534b7b3 Noa Osherovich   2016-11-15  3677  /*
-1600f62534b7b3 Noa Osherovich   2016-11-15  3678   * Check ConnectX-4/LX FW version to see if it supports legacy interrupts.
-1600f62534b7b3 Noa Osherovich   2016-11-15  3679   * If so, don't mark it as broken.
-1600f62534b7b3 Noa Osherovich   2016-11-15  3680   * FW minor > 99 means older FW version format and no INTx masking support.
-1600f62534b7b3 Noa Osherovich   2016-11-15  3681   * FW minor < 14 means new FW version format and no INTx masking support.
-1600f62534b7b3 Noa Osherovich   2016-11-15  3682   */
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3683  static void mellanox_check_broken_intx_masking(struct pci_dev *pdev)
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3684  {
-1600f62534b7b3 Noa Osherovich   2016-11-15  3685  	__be32 __iomem *fw_ver;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3686  	u16 fw_major;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3687  	u16 fw_minor;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3688  	u16 fw_subminor;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3689  	u32 fw_maj_min;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3690  	u32 fw_sub_min;
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3691  	int i;
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3692  
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3693  	for (i = 0; i < ARRAY_SIZE(mellanox_broken_intx_devs); i++) {
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3694  		if (pdev->device == mellanox_broken_intx_devs[i]) {
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3695  			pdev->broken_intx_masking = 1;
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3696  			return;
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3697  		}
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3698  	}
-1600f62534b7b3 Noa Osherovich   2016-11-15  3699  
-82e1719c4cd65b Bjorn Helgaas    2018-05-02  3700  	/*
-82e1719c4cd65b Bjorn Helgaas    2018-05-02  3701  	 * Getting here means Connect-IB cards and up. Connect-IB has no INTx
-1600f62534b7b3 Noa Osherovich   2016-11-15  3702  	 * support so shouldn't be checked further
-1600f62534b7b3 Noa Osherovich   2016-11-15  3703  	 */
-1600f62534b7b3 Noa Osherovich   2016-11-15  3704  	if (pdev->device == PCI_DEVICE_ID_MELLANOX_CONNECTIB)
-1600f62534b7b3 Noa Osherovich   2016-11-15  3705  		return;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3706  
-1600f62534b7b3 Noa Osherovich   2016-11-15  3707  	if (pdev->device != PCI_DEVICE_ID_MELLANOX_CONNECTX4 &&
-1600f62534b7b3 Noa Osherovich   2016-11-15  3708  	    pdev->device != PCI_DEVICE_ID_MELLANOX_CONNECTX4_LX)
-1600f62534b7b3 Noa Osherovich   2016-11-15  3709  		return;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3710  
-1600f62534b7b3 Noa Osherovich   2016-11-15  3711  	/* For ConnectX-4 and ConnectX-4LX, need to check FW support */
-1600f62534b7b3 Noa Osherovich   2016-11-15  3712  	if (pci_enable_device_mem(pdev)) {
-7506dc79899332 Frederick Lawler 2018-01-18  3713  		pci_warn(pdev, "Can't enable device memory\n");
-1600f62534b7b3 Noa Osherovich   2016-11-15  3714  		return;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3715  	}
-1600f62534b7b3 Noa Osherovich   2016-11-15  3716  
-1600f62534b7b3 Noa Osherovich   2016-11-15  3717  	fw_ver = ioremap(pci_resource_start(pdev, 0), 4);
-1600f62534b7b3 Noa Osherovich   2016-11-15  3718  	if (!fw_ver) {
-7506dc79899332 Frederick Lawler 2018-01-18  3719  		pci_warn(pdev, "Can't map ConnectX-4 initialization segment\n");
-1600f62534b7b3 Noa Osherovich   2016-11-15  3720  		goto out;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3721  	}
-1600f62534b7b3 Noa Osherovich   2016-11-15  3722  
-1600f62534b7b3 Noa Osherovich   2016-11-15  3723  	/* Reading from resource space should be 32b aligned */
-1600f62534b7b3 Noa Osherovich   2016-11-15 @3724  	fw_maj_min = ioread32be(fw_ver);
-1600f62534b7b3 Noa Osherovich   2016-11-15  3725  	fw_sub_min = ioread32be(fw_ver + 1);
-1600f62534b7b3 Noa Osherovich   2016-11-15  3726  	fw_major = fw_maj_min & 0xffff;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3727  	fw_minor = fw_maj_min >> 16;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3728  	fw_subminor = fw_sub_min & 0xffff;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3729  	if (fw_minor > CONNECTX_4_CURR_MAX_MINOR ||
-1600f62534b7b3 Noa Osherovich   2016-11-15  3730  	    fw_minor < CONNECTX_4_INTX_SUPPORT_MINOR) {
-7506dc79899332 Frederick Lawler 2018-01-18  3731  		pci_warn(pdev, "ConnectX-4: FW %u.%u.%u doesn't support INTx masking, disabling. Please upgrade FW to %d.14.1100 and up for INTx support\n",
-1600f62534b7b3 Noa Osherovich   2016-11-15  3732  			 fw_major, fw_minor, fw_subminor, pdev->device ==
-1600f62534b7b3 Noa Osherovich   2016-11-15  3733  			 PCI_DEVICE_ID_MELLANOX_CONNECTX4 ? 12 : 14);
-1600f62534b7b3 Noa Osherovich   2016-11-15  3734  		pdev->broken_intx_masking = 1;
-1600f62534b7b3 Noa Osherovich   2016-11-15  3735  	}
-1600f62534b7b3 Noa Osherovich   2016-11-15  3736  
-1600f62534b7b3 Noa Osherovich   2016-11-15  3737  	iounmap(fw_ver);
-1600f62534b7b3 Noa Osherovich   2016-11-15  3738  
-1600f62534b7b3 Noa Osherovich   2016-11-15  3739  out:
-1600f62534b7b3 Noa Osherovich   2016-11-15  3740  	pci_disable_device(pdev);
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3741  }
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3742  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_MELLANOX, PCI_ANY_ID,
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3743  			mellanox_check_broken_intx_masking);
-d76d2fe05fd936 Noa Osherovich   2016-11-15  3744  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  122  
+071f92d05967a0 Rami Rosen               2008-05-21  123  	/* All the routers (except for Linux) return only
+^1da177e4c3f41 Linus Torvalds           2005-04-16  124  	   8 bytes of packet payload. It means, that precise relaying of
+^1da177e4c3f41 Linus Torvalds           2005-04-16  125  	   ICMP in the real Internet is absolutely infeasible.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  126  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  127  	   Moreover, Cisco "wise men" put GRE key to the third word
+c5441932145563 Pravin B Shelar          2013-03-25  128  	   in GRE header. It makes impossible maintaining even soft
+c5441932145563 Pravin B Shelar          2013-03-25  129  	   state for keyed GRE tunnels with enabled checksum. Tell
+c5441932145563 Pravin B Shelar          2013-03-25  130  	   them "thank you".
+^1da177e4c3f41 Linus Torvalds           2005-04-16  131  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  132  	   Well, I wonder, rfc1812 was written by Cisco employee,
+bff528578fc3c4 stephen hemminger        2012-02-24  133  	   what the hell these idiots break standards established
+bff528578fc3c4 stephen hemminger        2012-02-24  134  	   by themselves???
+^1da177e4c3f41 Linus Torvalds           2005-04-16  135  	   */
+c5441932145563 Pravin B Shelar          2013-03-25  136  	struct net *net = dev_net(skb->dev);
+c5441932145563 Pravin B Shelar          2013-03-25  137  	struct ip_tunnel_net *itn;
+96f5a846bdd609 Eric Dumazet             2013-05-18  138  	const struct iphdr *iph;
+88c7664f13bd1a Arnaldo Carvalho de Melo 2007-03-13  139  	const int type = icmp_hdr(skb)->type;
+88c7664f13bd1a Arnaldo Carvalho de Melo 2007-03-13  140  	const int code = icmp_hdr(skb)->code;
+20e1954fe238db Eric Dumazet             2016-06-18 @141  	unsigned int data_len = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  142  	struct ip_tunnel *t;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  143  
+32bbd8793f24b0 Stefano Brivio           2018-11-08  144  	if (tpi->proto == htons(ETH_P_TEB))
+32bbd8793f24b0 Stefano Brivio           2018-11-08  145  		itn = net_generic(net, gre_tap_net_id);
+32bbd8793f24b0 Stefano Brivio           2018-11-08  146  	else if (tpi->proto == htons(ETH_P_ERSPAN) ||
+32bbd8793f24b0 Stefano Brivio           2018-11-08  147  		 tpi->proto == htons(ETH_P_ERSPAN2))
+32bbd8793f24b0 Stefano Brivio           2018-11-08  148  		itn = net_generic(net, erspan_net_id);
+32bbd8793f24b0 Stefano Brivio           2018-11-08  149  	else
+32bbd8793f24b0 Stefano Brivio           2018-11-08  150  		itn = net_generic(net, ipgre_net_id);
+32bbd8793f24b0 Stefano Brivio           2018-11-08  151  
+32bbd8793f24b0 Stefano Brivio           2018-11-08  152  	iph = (const struct iphdr *)(icmp_hdr(skb) + 1);
+32bbd8793f24b0 Stefano Brivio           2018-11-08  153  	t = ip_tunnel_lookup(itn, skb->dev->ifindex, tpi->flags,
+32bbd8793f24b0 Stefano Brivio           2018-11-08  154  			     iph->daddr, iph->saddr, tpi->key);
+32bbd8793f24b0 Stefano Brivio           2018-11-08  155  
+32bbd8793f24b0 Stefano Brivio           2018-11-08  156  	if (!t)
+32bbd8793f24b0 Stefano Brivio           2018-11-08  157  		return -ENOENT;
+32bbd8793f24b0 Stefano Brivio           2018-11-08  158  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  159  	switch (type) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  160  	default:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  161  	case ICMP_PARAMETERPROB:
+32bbd8793f24b0 Stefano Brivio           2018-11-08  162  		return 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  163  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  164  	case ICMP_DEST_UNREACH:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  165  		switch (code) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  166  		case ICMP_SR_FAILED:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  167  		case ICMP_PORT_UNREACH:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  168  			/* Impossible event. */
+32bbd8793f24b0 Stefano Brivio           2018-11-08  169  			return 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  170  		default:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  171  			/* All others are translated to HOST_UNREACH.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  172  			   rfc2003 contains "deep thoughts" about NET_UNREACH,
+^1da177e4c3f41 Linus Torvalds           2005-04-16  173  			   I believe they are just ether pollution. --ANK
+^1da177e4c3f41 Linus Torvalds           2005-04-16  174  			 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  175  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  176  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  177  		break;
+9f57c67c379d88 Pravin B Shelar          2015-08-07  178  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  179  	case ICMP_TIME_EXCEEDED:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  180  		if (code != ICMP_EXC_TTL)
+32bbd8793f24b0 Stefano Brivio           2018-11-08  181  			return 0;
+20e1954fe238db Eric Dumazet             2016-06-18  182  		data_len = icmp_hdr(skb)->un.reserved[1] * 4; /* RFC 4884 4.1 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  183  		break;
+55be7a9c6074f7 David S. Miller          2012-07-11  184  
+55be7a9c6074f7 David S. Miller          2012-07-11  185  	case ICMP_REDIRECT:
+55be7a9c6074f7 David S. Miller          2012-07-11  186  		break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  187  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  188  
 
-:::::: The code at line 3724 was first introduced by commit
-:::::: 1600f62534b7b3da7978b43b52231a54c24df287 PCI: Support INTx masking on ConnectX-4 with firmware x.14.1100+
+:::::: The code at line 141 was first introduced by commit
+:::::: 20e1954fe238dbe5f8d3a979e593fe352bd703cf ipv6: RFC 4884 partial support for SIT/GRE tunnels
 
-:::::: TO: Noa Osherovich <noaos@mellanox.com>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
