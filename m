@@ -1,71 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449821E8840;
-	Thu, 30 Jan 2025 14:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771051E284C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 15:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738248303; cv=none; b=BdGSmF03ATyQ9TMDm4bDzCYF76MyDGMNC7pZYnxnDWkuJsVWdwClN1298zrIvEe1M50gE9q8iaGGP/x4Ac2uzmEKjfXjOkd1Zui8xGhhoHHeognfGGqldvZ84Bene1qfYGrU0J3knH/gXG92Fc0Dzy68g6eivhl3nniZB2ooCow=
+	t=1738250283; cv=none; b=fx4IJYDrTeFrfNpg3geL6QKf9ZoRtSpd08W/0eiHZW8USrgS1t9W8iHyLEP7M/Uw9K46ZDcWbgHoxVO/dHxJrBuqNie9OQhvQdrmc01Qv1kFdmKrB++UKpHWDct6GnnDnJa4dDCdHuhtT719WvdxoX+z1nVSxnGFPi4h1l+MHlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738248303; c=relaxed/simple;
-	bh=AZPmeMpWTs/FvCNVmUDUjDmiufPBvdZlrjwaesT1MXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iTsS06yPiXZqADHdyCkX/+xsBvW0WVoQdBUrFJnNZADck1CWDLw+StOrsfuoDWXXDJdf47O+gR7xqx3Z3Mje3/y2xLARQ6HTWeGW3V6gwKlYLfZXs3eu1kIExC6pwK4RNJ266IHYBeTD3lmJ/RAjhsv5pcgiFpFhJRthPRnDpaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xn58YuJ2; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1738250283; c=relaxed/simple;
+	bh=6u+XZayCYsNtcm3JDOjqrQdAnjjUsC4liMixZvnyE9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R9QFHLeFLwjQueT1Not86wEHfWY01MFiWSi0C92XzY5f5bRG47jbKAYbU47VdMYo3zgeLoxMU258PCGGfCM+HCpsw7zZ4lY4nEvhrNiDWBzsEraDJaILnjk/nV5jBb3tCO7xNwnOxnynfB130QgPUpTotNn5lIPqXx2ZU3ebJAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2B2qMEG; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xn58YuJ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2B2qMEG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738248302; x=1769784302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AZPmeMpWTs/FvCNVmUDUjDmiufPBvdZlrjwaesT1MXc=;
-  b=Xn58YuJ2vnjbTSc7oeBsXUqysmGwNfNc+ppj2dMBXTbDUffYfVuw4tGg
-   6YF0cMmH68+Nf6HF/52GIMU3dNhI5rX6wsMDYXyodz279xmzrJnHz71pi
-   aCJoCBHALnNNTzSnJU3UcrdJsg2tBymQ4skzYd/67l584XuO2oMxeCKel
-   c0yURqCn8YJNgtpEKkArfqD/WWxQoiA01PhEQBUnx+n4GM/g6FJTSQ3VU
-   VtWTsyHv9CGe/p0n8FRxKaTKGx3xh5/7gmStQmp8uqxdHC/2JF7YSzvFo
-   RO1IWKn1bLpbbK9YlfMO7qTrBRdXEkcLVd7CV+PY3sD61XEE2AJwUYEHS
-   Q==;
-X-CSE-ConnectionGUID: cRRtmfJqRMeBvOsY8DAiRQ==
-X-CSE-MsgGUID: 7u57WB7LQua5iBbw+1kWAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="42546432"
+  t=1738250281; x=1769786281;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6u+XZayCYsNtcm3JDOjqrQdAnjjUsC4liMixZvnyE9k=;
+  b=C2B2qMEGrPxxOQkTUH3pNKAMHeepTJ25p3aNT5TlMVAQVzIFnUhj2M51
+   rHbOUa8MtRHZ0Kzs2K2q9UzDOwbR+6E1cbXnbuRr1nYZGuBeKCxHFhaL+
+   Fg5fUIDCOswDoJBgrkK3opZVVub4XGqy8C4HEPUl7ctjsukMHQut2LOMZ
+   iGWXUDDq8pYFgoZg9knulodHOZMsPfqAP06EbH+i6AfeSo7PeW2mTDNem
+   FOFGF/mWmlVWTb6JENCxqN0FMouJD2kL7y6xO2rsWT+SVOZS/iSsTFUot
+   XVZWh6GKtDzAKllv6jJZXu8TEk4S8w7+1sTND2zIoFWi046wyMpMFk1ya
+   g==;
+X-CSE-ConnectionGUID: Ejjr6qvKSQ2utnefXiM+dw==
+X-CSE-MsgGUID: Kqdc4MAXSfK/7K2/3papYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="42454785"
 X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; 
-   d="scan'208";a="42546432"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 06:45:01 -0800
-X-CSE-ConnectionGUID: 542qaY2lTQ2arFXf8h9Wbg==
-X-CSE-MsgGUID: H1elkPQiRbSd4gNjC/DyMw==
+   d="scan'208";a="42454785"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 07:18:01 -0800
+X-CSE-ConnectionGUID: jJ98L6YETiupQ+tJnkFHvA==
+X-CSE-MsgGUID: dtMwGkkzQ6SMhsRIVUlvlg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="146537060"
+X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; 
+   d="scan'208";a="109158706"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Jan 2025 06:44:56 -0800
+  by orviesa009.jf.intel.com with ESMTP; 30 Jan 2025 07:18:00 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdVmo-000kZX-07;
-	Thu, 30 Jan 2025 14:44:54 +0000
-Date: Thu, 30 Jan 2025 22:44:51 +0800
+	id 1tdWIn-000kb5-17;
+	Thu, 30 Jan 2025 15:17:57 +0000
+Date: Thu, 30 Jan 2025 23:17:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fiona Behrens <me@kloenk.dev>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Fiona Behrens <me@kloenk.dev>
-Subject: Re: [PATCH v2] rust: io: move offset_valid and io_addr(_assert) to
- IoRaw
-Message-ID: <202501302233.VecDQamx-lkp@intel.com>
-References: <20250128-rust-io-offset-v2-1-222de7c96a34@kloenk.dev>
+To: Stanimir Varbanov <svarbanov@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: [linux-next:master 10345/10607]
+ arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /axi/pcie@1000100000:
+ failed to match any schema with compatible: ['brcm,bcm2712-pcie']
+Message-ID: <202501302350.cR4cz4nl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,115 +63,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250128-rust-io-offset-v2-1-222de7c96a34@kloenk.dev>
 
-Hi Fiona,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 01b3cb620815fc3feb90ee117d9445a5b608a9f7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fiona-Behrens/rust-io-move-offset_valid-and-io_addr-_assert-to-IoRaw/20250128-204724
-base:   01b3cb620815fc3feb90ee117d9445a5b608a9f7
-patch link:    https://lore.kernel.org/r/20250128-rust-io-offset-v2-1-222de7c96a34%40kloenk.dev
-patch subject: [PATCH v2] rust: io: move offset_valid and io_addr(_assert) to IoRaw
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250130/202501302233.VecDQamx-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250130/202501302233.VecDQamx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a13f6e0f405ed0d3bcfd37c692c7d7fa3c052154
+commit: 6e313687a8885d654b12e5978fc3ef6f1e1e1a5f [10345/10607] arm64: dts: broadcom: bcm2712: Add PCIe DT nodes
+config: arm64-randconfig-051-20250129 (https://download.01.org/0day-ci/archive/20250130/202501302350.cR4cz4nl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250130/202501302350.cR4cz4nl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501302233.VecDQamx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501302350.cR4cz4nl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   505 |                            item];
-   |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   512 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   525 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
-   ***
-   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
-   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
-   *** unless patched (like Debian's).
-   ***   Your bindgen version:  0.65.1
-   ***   Your libclang version: 19.1.3
-   ***
-   ***
-   *** Please see Documentation/rust/quick-start.rst for details
-   *** on how to set up the Rust support.
-   ***
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   505 |                            item];
-   |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   512 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   525 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->> error[E0658]: use of unstable library feature 'unchecked_math': niche optimization path
-   --> rust/kernel/io.rs:82:33
-   |
-   82 |         Ok(unsafe { self.addr().unchecked_add(offset) })
-   |                                 ^^^^^^^^^^^^^
-   |
-   = note: see issue #85122 <https://github.com/rust-lang/rust/issues/85122> for more information
-   = help: add `#![feature(unchecked_math)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/mop@7c500000: failed to match any schema with compatible: ['brcm,bcm2712-mop']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/moplet@7c501000: failed to match any schema with compatible: ['brcm,bcm2712-moplet']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/hdmi@7c701400: failed to match any schema with compatible: ['brcm,bcm2712-hdmi0']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/hdmi@7c706400: failed to match any schema with compatible: ['brcm,bcm2712-hdmi1']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: firmware: '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/power: failed to match any schema with compatible: ['raspberrypi,bcm2835-power']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: axi: gpu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /axi/gpu: failed to match any schema with compatible: ['brcm,bcm2712-vc6']
+>> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /axi/pcie@1000100000: failed to match any schema with compatible: ['brcm,bcm2712-pcie']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /axi/pcie@1000110000: failed to match any schema with compatible: ['brcm,bcm2712-pcie']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /axi/pcie@1000120000: failed to match any schema with compatible: ['brcm,bcm2712-pcie']
+>> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /axi/msi-controller@1000130000: failed to match any schema with compatible: ['brcm,bcm2712-mip']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /axi/msi-controller@1000131000: failed to match any schema with compatible: ['brcm,bcm2712-mip']
+   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /hvs@107c580000: failed to match any schema with compatible: ['brcm,bcm2712-hvs']
 --
->> error[E0658]: use of unstable library feature 'unchecked_math': niche optimization path
-   --> rust/kernel/io.rs:99:30
-   |
-   99 |         unsafe { self.addr().unchecked_add(offset) }
-   |                              ^^^^^^^^^^^^^
-   |
-   = note: see issue #85122 <https://github.com/rust-lang/rust/issues/85122> for more information
-   = help: add `#![feature(unchecked_math)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /soc@107c000000/mop@7c500000: failed to match any schema with compatible: ['brcm,bcm2712-mop']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /soc@107c000000/moplet@7c501000: failed to match any schema with compatible: ['brcm,bcm2712-moplet']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /soc@107c000000/hdmi@7c701400: failed to match any schema with compatible: ['brcm,bcm2712-hdmi0']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /soc@107c000000/hdmi@7c706400: failed to match any schema with compatible: ['brcm,bcm2712-hdmi1']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: firmware: '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /soc@107c000000/power: failed to match any schema with compatible: ['raspberrypi,bcm2835-power']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: axi: gpu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /axi/gpu: failed to match any schema with compatible: ['brcm,bcm2712-vc6']
+>> arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /axi/pcie@1000100000: failed to match any schema with compatible: ['brcm,bcm2712-pcie']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /axi/pcie@1000110000: failed to match any schema with compatible: ['brcm,bcm2712-pcie']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /axi/pcie@1000120000: failed to match any schema with compatible: ['brcm,bcm2712-pcie']
+>> arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /axi/msi-controller@1000130000: failed to match any schema with compatible: ['brcm,bcm2712-mip']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /axi/msi-controller@1000131000: failed to match any schema with compatible: ['brcm,bcm2712-mip']
+   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /hvs@107c580000: failed to match any schema with compatible: ['brcm,bcm2712-hvs']
 
 -- 
 0-DAY CI Kernel Test Service
