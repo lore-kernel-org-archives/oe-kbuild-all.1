@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A2033987;
-	Thu, 30 Jan 2025 06:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932DC4A35
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 06:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738218227; cv=none; b=oGRqAX9iJ4lT9u4TWbzltv8O17FMVvkuv1GxrWuk4QrivcqQd6lMOgfK5zUiV/b1ueVq29DVOmpN9SgJXFtU89oFl/HSnIu+riIrK19i4+jB92nWPajJRPpfiyqX6TlP2wIr+bPYebql235FcVIu4M8m5SZIdsY4r0EvZasZ+3k=
+	t=1738219549; cv=none; b=KN9fC9m1iiBQvDq5XI3e+nXk7e08Lp1s/2lGq33F8VgiF0RQ9gGko0Q3RYkk4En2ghRm5sEDeKQaqE8Cg7q4xawZfKr2fZWYufR1IHJgMyT4m9mCkawC52YKzub7kOFbC6biZDrBmd+biDc5kA9WulCIfgCY/eLoKdTB6C5IJa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738218227; c=relaxed/simple;
-	bh=Nl/YWI1yKOVuCByauSXO2HREAsA55kmP4bTZqJ5HIPo=;
+	s=arc-20240116; t=1738219549; c=relaxed/simple;
+	bh=TnfmVXtyH5vkqJmOca8kSnY0yu3gKLgRdp1UxerYE8M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DXFPHdmOlWwiGG9B3pt7jP+xWlM+q6vGzb3p/oFq041mVRJwv+PQXcIn1PfPkTLqYmAZt9cY40Xpqq6as0EVioLhlYvhtNuwta5Pm3XF1rVecIAlKgzZ2IFqxQsmUnFEKV3xu1Cm9gtyL30uEQAg0gS2eTuWjpuq8k14dRwMGz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JojvjWC7; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=NNe+utxAUj1f6pQyyEaSW2QFAcYJV+1OxW1fFPB3AVfP9K89E6E9qiPvwjFfv9IWiGUb1hESnwXTT1Wyi5IICyCVqX8htM/3rJRhZ6h3EBHQJhRrzCYRCCt650c/5mxMJ6mbRThqbKATscK1cnMdWeGDBQQHyu9NRKPW9LDypmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eqhow0et; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JojvjWC7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eqhow0et"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738218227; x=1769754227;
+  t=1738219547; x=1769755547;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nl/YWI1yKOVuCByauSXO2HREAsA55kmP4bTZqJ5HIPo=;
-  b=JojvjWC7bxWzgEU+e4dW4QeOPEMjTG6wHbpKeKzDBXB2y2RfD0FVKqQR
-   DsRz5BSO7I7cdHQDWfamGrMPazXPjK/V+9hIqmlg3TboQCNsjSsFBpCCb
-   ToImOE1AkS/bst8ljbFG9+SH3Y9T8fkfzYDc6Os4xi/bU2B8xUxButkFQ
-   w6ciZWNMngAViULxYYm8y2GshxrPSs7POBLbqTQr2bA29WEnzGUCce96t
-   WXqNfH/7mxVFJF5DqHMrmBcbU4LrC6l/sv5h0N14Ox91snGh3hUEOXCs1
-   SJTZyLSkPPh3lMhmnSXgZwVGQgGfc3kh9oudbtE3v9HEd6leYBtaT0zqs
-   w==;
-X-CSE-ConnectionGUID: eimVnbUJTZClTKIYz2T/kg==
-X-CSE-MsgGUID: DmRof4HaQ4ytqeDa3+cqXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="61225400"
+  bh=TnfmVXtyH5vkqJmOca8kSnY0yu3gKLgRdp1UxerYE8M=;
+  b=Eqhow0etg2c0UO+PYk/eJAJLyxgARG55XNd9kBHFpfoiG3/kWlItcHzK
+   kXI4hTnPcHJpYoVE9gWxAPGbwdYINNqg9yVc3deQbVgKdPq6WX3bAVAE9
+   H3szVVgtS9OZDGohRi0GJHJg0nPUnlaQ29dutxUdPchsBxT/lWJqG4Rcp
+   5TsBd3hadiboXMiMAt3WjIXWBNmPFSUK278QAmReHeMJhKXSAEUsuIa/X
+   A7mPQfgG9h9Mp/OPNoETStmQdzAsf+J6esYt7I3GbqN8r2DxnLosIUWM9
+   o8hZpn2ldPyPF/TQzFUYxFNMZvwpMpGwVTuz3M2CI3yIHjfBt4jm62rve
+   A==;
+X-CSE-ConnectionGUID: 0RQ/ITDJQ2W+7tNVxTatAg==
+X-CSE-MsgGUID: 5N7qeoWwS4+ydchi0kwPZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="38784809"
 X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="61225400"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 22:23:43 -0800
-X-CSE-ConnectionGUID: S7eBHSxUQxm0ihZas/e9eQ==
-X-CSE-MsgGUID: mhbBBZ+TRKeSMVE+4eNFRA==
+   d="scan'208";a="38784809"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 22:45:44 -0800
+X-CSE-ConnectionGUID: OfyCml4ARpKXIFRN288qgQ==
+X-CSE-MsgGUID: QyGc/73WSvK1uMyrkfxdfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113853400"
+   d="scan'208";a="110152950"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2025 22:23:41 -0800
+  by orviesa008.jf.intel.com with ESMTP; 29 Jan 2025 22:45:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdNxj-000jkJ-0B;
-	Thu, 30 Jan 2025 06:23:39 +0000
-Date: Thu, 30 Jan 2025 14:23:05 +0800
+	id 1tdOJ2-000jkp-1H;
+	Thu, 30 Jan 2025 06:45:40 +0000
+Date: Thu, 30 Jan 2025 14:44:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-devel:renesas-drivers-for-v6.15 4/6]
- drivers/soc/renesas/r9a09g047-sys.c:51:6: error: call to undeclared function
- 'FIELD_GET'; ISO C99 and later do not support implicit function declarations
-Message-ID: <202501301435.kjJVK6kR-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 9/9] htmldocs:
+ drivers/gpu/mediatek/arm/mali/Kbuild:252:
+ drivers/gpu/mediatek/arm/mali/platform//mtk_platform_common/Kbuild: No such
+ file or directory
+Message-ID: <202501301428.K9fXocZv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,53 +64,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.15
-head:   106b182b2d7f05703d27e37cbcf23a6fb652872f
-commit: 1e5827262bc7f29b3735889919009b744ea8f55d [4/6] soc: renesas: rz-sysc: Add support for RZ/G3E family
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250130/202501301435.kjJVK6kR-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250130/202501301435.kjJVK6kR-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   20c6549501f674937409aba5411ee8c5c0ab133a
+commit: 20c6549501f674937409aba5411ee8c5c0ab133a [9/9] CHROMIUM: gpu/mediatek: Enable Kconfig and build target
+reproduce: (https://download.01.org/0day-ci/archive/20250130/202501301428.K9fXocZv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501301435.kjJVK6kR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501301428.K9fXocZv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/renesas/r9a09g047-sys.c:51:6: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      51 |         if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) != SYS_LSI_MODE_CA55_1_7GHZ)
-         |             ^
-   1 error generated.
+>> drivers/gpu/mediatek/arm/mali/Kbuild:252: drivers/gpu/mediatek/arm/mali/platform//mtk_platform_common/Kbuild: No such file or directory
+>> make[7]: *** No rule to make target 'drivers/gpu/mediatek/arm/mali/platform//mtk_platform_common/Kbuild'.
+   drivers/gpu/mediatek/arm/mali/Kbuild:252: Failed to remake makefile 'drivers/gpu/mediatek/arm/mali/platform//mtk_platform_common/Kbuild'.
+   make[6]: *** [scripts/Makefile.clean:61: drivers/gpu/mediatek/arm/mali] Error 2
+   make[6]: Target '__clean' not remade because of errors.
+   make[5]: *** [scripts/Makefile.clean:61: drivers/gpu/mediatek/arm] Error 2
+   make[5]: Target '__clean' not remade because of errors.
 
 
-vim +/FIELD_GET +51 drivers/soc/renesas/r9a09g047-sys.c
+vim +252 drivers/gpu/mediatek/arm/mali/Kbuild
 
-    30	
-    31	static void rzg3e_sys_print_id(struct device *dev,
-    32					void __iomem *sysc_base,
-    33					struct soc_device_attribute *soc_dev_attr)
-    34	{
-    35		bool is_quad_core, npu_enabled;
-    36		u32 prr_val, mode_val;
-    37	
-    38		prr_val = readl(sysc_base + SYS_LSI_PRR);
-    39		mode_val = readl(sysc_base + SYS_LSI_MODE);
-    40	
-    41		/* Check CPU and NPU configuration */
-    42		is_quad_core = !(prr_val & SYS_LSI_PRR_CA55_DIS);
-    43		npu_enabled = !(prr_val & SYS_LSI_PRR_NPU_DIS);
-    44	
-    45		dev_info(dev, "Detected Renesas %s Core %s %s Rev %s%s\n",
-    46			 is_quad_core ? "Quad" : "Dual", soc_dev_attr->family,
-    47			 soc_dev_attr->soc_id, soc_dev_attr->revision,
-    48			 npu_enabled ? " with Ethos-U55" : "");
-    49	
-    50		/* Check CA55 PLL configuration */
-  > 51		if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) != SYS_LSI_MODE_CA55_1_7GHZ)
-    52			dev_warn(dev, "CA55 PLL is not set to 1.7GHz\n");
-    53	}
-    54	
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15  249  
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15  250  # *** MTK Proprietary ***
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15  251  export MALI_PLATFORM_DIR
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15 @252  include $(src)/platform/$(MALI_PLATFORM_DIR)/mtk_platform_common/Kbuild
+
+:::::: The code at line 252 was first introduced by commit
+:::::: 2b0918badca3b06a0371cf4cb21785d202033004 CHROMIUM: gpu/mediatek: update gpu kernel driver(r51p0) with mtk modification
+
+:::::: TO: Alvin Liu <alvin.liu@mediatek.corp-partner.google.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
