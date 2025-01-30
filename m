@@ -1,197 +1,190 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AFA17A5A4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 05:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B731509BF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 05:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738215598; cv=none; b=Uh0kglX/FtrKNhGLos+XBt0hzI/FiZwFQl9VLJz4EUCkKGqhFTl+fxLT8rUYfPzmoXUr2uWD/iLhsdmjDvVjFc6eZLhazvvzkeAwenf6P4M1/j3rAph0xGncK3k7rCQ++aldtyvqvss4Y0guK7YE6TDPuXTjNOosTzL7Sm+vsxM=
+	t=1738216303; cv=none; b=CkZ1fMKjwVnuYcpYFL9hHsGlW5CDdVTlyBs598VhsfJEJ1/JDu0euJQn9f+O9vjPbfkO1OXdxXzgOtAbbh4DNMm2VzkyiMRwVZcw+YfRY1iK+y/sUOq0mvTWlCIIGQlAdfYoFUBACLTlZ+woHfr8af8Tgkc9bIfQOQgzci4zWXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738215598; c=relaxed/simple;
-	bh=k2TB9RI4DUrjT39n463CRE8WJy+MBsg3App0eKbjl2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ump4gVhu1WkVCTGosip1vt31UXEd/zDRrYaMfoRWYWpcnPp5mOWUStfXN/ZE5B+FyEe6lnVtU1IglwwBgHPs4scItp+XjLWk3+rEMmiB+tnRIKE6H3jYtuZzEE6XhuxulPtRxsd1DE++O8cbcrAEsxPYgkdSbjCKjRO5JFuba88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xcY/DbKO; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738216303; c=relaxed/simple;
+	bh=gx2gNCXXob56NNw05t32Ay1x2X0k8FVr1JMuJ4YZ+s4=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SatQOcp8HAlR93/jR9J9c/K0IfBKNcXHnKG00pxoJocgbYjMZ7XdX10Wj9tTET2gKE9spnodZR/dN3VmMTFgpb2FcRIQ/0hHAUHIEsay0GtUBzewtcOIqprTKPVQ2AuoMJXPzjFaPDN3A0nxbP9wWebIrA7oJ/+opwo/OUne2SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPD1O15s; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xcY/DbKO"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4361815b96cso2062425e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jan 2025 21:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738215595; x=1738820395; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tawOs+rXlsMzCwf+LGEPYlHYgGznelnhxMiN2FkCFWk=;
-        b=xcY/DbKOQ82dMHnC0eNXrxImTdQ57inwWraJZvB7UoSAgNy/eZwwdKLjdCum1qei9i
-         FUv5qv0WjiOO+K4e+eLMdaB+ZDAAg4aLScpuE2E86OicxWN44y+lBY2Lz15Stq88kcLp
-         WuuMi4siXJvzX1/731eMpeOZNr0irEY2x4Gycs3HuDXy8kSG/3w5HNZoaOXrTFqCk39i
-         dCBcC3DaHYrMZSmszoWH27+ljwtBorzkt8UXJUc2EnikGmR4CkA3Nh2Yukct7w5lMk8M
-         1xEcaOqMo1yHpduXk2KQvwOnNwtyV8HR9t/FteM2r87Mm1qRusba+Vj6yQ8CYqa+0cvi
-         9FFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738215595; x=1738820395;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tawOs+rXlsMzCwf+LGEPYlHYgGznelnhxMiN2FkCFWk=;
-        b=m9bQCYP2VuDficfdxk7zHtBmNYoDKZmimz2mWTmMNadInY9Z6PctR5NoV5FRgn6TP1
-         QJh4Jl2xngyU4W1W4bAT2vUnGIvt7zZdjYqGAhjOWzMjGXU+bKa89sJHqW+XMg0Efzf3
-         9KyI11YlVzFiowzOZgnBwekKdhYf3p5Q0/gIk0f1m3BbnVpZ2F98H50zkSWA/n27bEeI
-         mBoQ50l17sUt9xhtfuGR1zf3L4aetNU77CYHqdBqemcEZLqQz2lFS3hy4k0RmWdP8hU4
-         pLU++kofOBCQenQ+brrLOu5ts2yNM+R8m8wXlPXsPHPreZVq2YfGs74wl9QP2MHvcypE
-         CLPA==
-X-Forwarded-Encrypted: i=1; AJvYcCWw2uYphQ2q4EMlaf7gsBib3L1FxSPZ/gz0PoNncQwCwwz2kkdP44RMs0+lh+AZbsTI8tyMldK8l5OXeHP8@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywo6ucFPimMpozM3eKDk3NMrhwCw4pas4ieJ86EV/UtALph3Alx
-	LdWshKyvP3wjvaXKlCfzrr4uP3OfBGAuiV7YzdBW9z5wh/fPf+L607ezNh2PTOY=
-X-Gm-Gg: ASbGncuIWrZh0h3Qk7z0XpDKFynu4AwMorEZDvcRwTt6Omg2lR3bsGn82q7ABl2i9Xw
-	PrUGmfAXTFR3/aI/TiFwK5qvgaDpujVYPw288tUhlcMGep9NvT1BBtW53W//DenrAhhAjNCql5t
-	GdJJJL9ptMZ3HjDs/SnlpgysXH7dv2H32CNEFgaH2obbgwXDjdZ6BPDWcQFXpqYS1XzRAKbeam8
-	scnp/hSfYC4y7gsdOvPm5JRjmZ+l7nPJQG38CKzbOLiMesaqHcbGlBJVnVR7jsEq4zaYKnTuHXo
-	d3UFOm0sg8A4KeM+CeV9
-X-Google-Smtp-Source: AGHT+IGkob8f5Rg4ltVari8jUgRwXDAeSVmbKqSg9q5LIabRwV6jxbIS5q51TZ7Z/+nr1pGS6FTS1Q==
-X-Received: by 2002:a05:600c:1d1e:b0:431:5e3c:2ff0 with SMTP id 5b1f17b1804b1-438dc3bd896mr50750435e9.8.1738215595009;
-        Wed, 29 Jan 2025 21:39:55 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e244eb0dsm9882645e9.27.2025.01.29.21.39.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 21:39:54 -0800 (PST)
-Date: Thu, 30 Jan 2025 08:39:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Michael Chan <michael.chan@broadcom.com>,
-	davem@davemloft.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, pavan.chebbi@broadcom.com,
-	andrew.gospodarek@broadcom.com, michal.swiatkowski@linux.intel.com,
-	helgaas@kernel.org, Somnath Kotur <somnath.kotur@broadcom.com>,
-	Ajit Khaparde <ajit.khaparde@broadcom.com>,
-	David Wei <dw@davidwei.uk>
-Subject: Re: [PATCH net-next v2 09/10] bnxt_en: Extend queue stop/start for
- TX rings
-Message-ID: <8a4bcb57-ca1a-4fa2-95d6-cff55b41de44@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPD1O15s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738216300; x=1769752300;
+  h=date:from:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gx2gNCXXob56NNw05t32Ay1x2X0k8FVr1JMuJ4YZ+s4=;
+  b=dPD1O15sJn21MMZ6Oz+CqOewlPHofGL7/CWrWnELsjafdwvXs366TOO3
+   uRoX00GV2MISvJBitIlL1a+KPGaaOK29eL4a3DJD/IyN95QhaqIoPzz5h
+   L2SyNksBHTASqZN6EeilcnnWg76Ovc5Ru0lk9qEklQCkiwhVibs/JpUWN
+   9xmx7+7doweKxb5CSBppPgTQf1jpB01Xsa8NmvsFwPbvt336Lbi+jRgmF
+   ZHCvrVdKNtxsjaRbctmCDxS48OUqOWLbG3Z9DvbEPskgaGxtRBZ0+nNs1
+   c5z0BZCt3y3f4Wee03Qs0lpVozLy515arAa//+ef9ygWlCdl5MvfGyBNT
+   w==;
+X-CSE-ConnectionGUID: Yn5+JBTQRGS93MLRhm9zng==
+X-CSE-MsgGUID: H2NubCS/TyG5FGHkkD7uog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50169671"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="50169671"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 21:51:40 -0800
+X-CSE-ConnectionGUID: ZL2bYIhsQmqDkUmTI6hTUw==
+X-CSE-MsgGUID: 3FsUHnGNQTCGU/4Y1HCwpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="132502977"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 29 Jan 2025 21:51:39 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tdNSi-000jir-1X;
+	Thu, 30 Jan 2025 05:51:36 +0000
+Date: Thu, 30 Jan 2025 13:50:56 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/mtd/mtdpart.c:985:34: warning: '%s' directive argument is
+ null
+Message-ID: <202501301350.XWliXFDW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250116192343.34535-10-michael.chan@broadcom.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Michael,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Chan/bnxt_en-Set-NAPR-1-2-support-when-registering-with-firmware/20250117-032822
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250116192343.34535-10-michael.chan%40broadcom.com
-patch subject: [PATCH net-next v2 09/10] bnxt_en: Extend queue stop/start for TX rings
-config: x86_64-randconfig-r071-20250126 (https://download.01.org/0day-ci/archive/20250130/202501300808.5bqgHMA6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72deda0abee6e705ae71a93f69f55e33be5bca5c
+commit: 239a5791ffd5559f51815df442c4dbbe7fc21ade dynamic_debug: allow to work if debugfs is disabled
+date:   5 years ago
+config: um-randconfig-r113-20240905 (https://download.01.org/0day-ci/archive/20250130/202501301350.XWliXFDW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250130/202501301350.XWliXFDW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501300808.5bqgHMA6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501301350.XWliXFDW-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:15769 bnxt_queue_start() error: uninitialized symbol 'cpr'.
+All warnings (new ones prefixed by >>):
 
-vim +/cpr +15769 drivers/net/ethernet/broadcom/bnxt/bnxt.c
+   cc1: warning: arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
+   In file included from include/linux/kernel.h:15,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:12,
+                    from drivers/mtd/mtdpart.c:10:
+   drivers/mtd/mtdpart.c: In function 'parse_mtd_partitions':
+>> drivers/mtd/mtdpart.c:985:34: warning: '%s' directive argument is null [-Wformat-overflow=]
+     985 |                         pr_debug("%s: got parser %s\n", master->name,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:288:21: note: in definition of macro 'pr_fmt'
+     288 | #define pr_fmt(fmt) fmt
+         |                     ^~~
+   include/linux/dynamic_debug.h:143:9: note: in expansion of macro '__dynamic_func_call'
+     143 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:153:9: note: in expansion of macro '_dynamic_func_call'
+     153 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:335:9: note: in expansion of macro 'dynamic_pr_debug'
+     335 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/mtd/mtdpart.c:985:25: note: in expansion of macro 'pr_debug'
+     985 |                         pr_debug("%s: got parser %s\n", master->name,
+         |                         ^~~~~~~~
+   drivers/mtd/mtdpart.c:985:50: note: format string is defined here
+     985 |                         pr_debug("%s: got parser %s\n", master->name,
+         |                                                  ^~
 
-2d694c27d32efc David Wei     2024-06-18  15691  static int bnxt_queue_start(struct net_device *dev, void *qmem, int idx)
-2d694c27d32efc David Wei     2024-06-18  15692  {
-2d694c27d32efc David Wei     2024-06-18  15693  	struct bnxt *bp = netdev_priv(dev);
-2d694c27d32efc David Wei     2024-06-18  15694  	struct bnxt_rx_ring_info *rxr, *clone;
-2d694c27d32efc David Wei     2024-06-18  15695  	struct bnxt_cp_ring_info *cpr;
-b9d2956e869c78 David Wei     2024-08-07  15696  	struct bnxt_vnic_info *vnic;
-5d2310614bc883 Somnath Kotur 2025-01-16  15697  	struct bnxt_napi *bnapi;
-b9d2956e869c78 David Wei     2024-08-07  15698  	int i, rc;
-2d694c27d32efc David Wei     2024-06-18  15699  
-2d694c27d32efc David Wei     2024-06-18  15700  	rxr = &bp->rx_ring[idx];
-2d694c27d32efc David Wei     2024-06-18  15701  	clone = qmem;
-2d694c27d32efc David Wei     2024-06-18  15702  
-2d694c27d32efc David Wei     2024-06-18  15703  	rxr->rx_prod = clone->rx_prod;
-2d694c27d32efc David Wei     2024-06-18  15704  	rxr->rx_agg_prod = clone->rx_agg_prod;
-2d694c27d32efc David Wei     2024-06-18  15705  	rxr->rx_sw_agg_prod = clone->rx_sw_agg_prod;
-2d694c27d32efc David Wei     2024-06-18  15706  	rxr->rx_next_cons = clone->rx_next_cons;
-bd649c5cc95816 David Wei     2024-12-03  15707  	rxr->rx_tpa = clone->rx_tpa;
-bd649c5cc95816 David Wei     2024-12-03  15708  	rxr->rx_tpa_idx_map = clone->rx_tpa_idx_map;
-2d694c27d32efc David Wei     2024-06-18  15709  	rxr->page_pool = clone->page_pool;
-bd649c5cc95816 David Wei     2024-12-03  15710  	rxr->head_pool = clone->head_pool;
-b537633ce57b29 Taehee Yoo    2024-07-21  15711  	rxr->xdp_rxq = clone->xdp_rxq;
-2d694c27d32efc David Wei     2024-06-18  15712  
-2d694c27d32efc David Wei     2024-06-18  15713  	bnxt_copy_rx_ring(bp, rxr, clone);
-2d694c27d32efc David Wei     2024-06-18  15714  
-5d2310614bc883 Somnath Kotur 2025-01-16  15715  	bnapi = rxr->bnapi;
-2d694c27d32efc David Wei     2024-06-18  15716  	rc = bnxt_hwrm_rx_ring_alloc(bp, rxr);
-2d694c27d32efc David Wei     2024-06-18  15717  	if (rc)
-5d2310614bc883 Somnath Kotur 2025-01-16  15718  		goto err_reset_rx;
 
-cpr isn't initialized
+vim +985 drivers/mtd/mtdpart.c
 
-377e78a9e08ce5 Somnath Kotur 2025-01-16  15719  
-377e78a9e08ce5 Somnath Kotur 2025-01-16  15720  	rc = bnxt_hwrm_cp_ring_alloc_p5(bp, rxr->rx_cpr);
-2d694c27d32efc David Wei     2024-06-18  15721  	if (rc)
-5d2310614bc883 Somnath Kotur 2025-01-16  15722  		goto err_reset_rx;
-2d694c27d32efc David Wei     2024-06-18  15723  
-377e78a9e08ce5 Somnath Kotur 2025-01-16  15724  	rc = bnxt_hwrm_rx_agg_ring_alloc(bp, rxr);
-377e78a9e08ce5 Somnath Kotur 2025-01-16  15725  	if (rc)
-5d2310614bc883 Somnath Kotur 2025-01-16  15726  		goto err_reset_rx;
-377e78a9e08ce5 Somnath Kotur 2025-01-16  15727  
-2d694c27d32efc David Wei     2024-06-18  15728  	bnxt_db_write(bp, &rxr->rx_db, rxr->rx_prod);
-2d694c27d32efc David Wei     2024-06-18  15729  	if (bp->flags & BNXT_FLAG_AGG_RINGS)
-2d694c27d32efc David Wei     2024-06-18  15730  		bnxt_db_write(bp, &rxr->rx_agg_db, rxr->rx_agg_prod);
-2d694c27d32efc David Wei     2024-06-18  15731  
-5d2310614bc883 Somnath Kotur 2025-01-16  15732  	cpr = &bnapi->cp_ring;
-2d694c27d32efc David Wei     2024-06-18  15733  	cpr->sw_stats->rx.rx_resets++;
-2d694c27d32efc David Wei     2024-06-18  15734  
-5d2310614bc883 Somnath Kotur 2025-01-16  15735  	if (bp->flags & BNXT_FLAG_SHARED_RINGS) {
-5d2310614bc883 Somnath Kotur 2025-01-16  15736  		cpr->sw_stats->tx.tx_resets++;
-5d2310614bc883 Somnath Kotur 2025-01-16  15737  		rc = bnxt_tx_queue_start(bp, idx);
-5d2310614bc883 Somnath Kotur 2025-01-16  15738  		if (rc) {
-5d2310614bc883 Somnath Kotur 2025-01-16  15739  			netdev_warn(bp->dev,
-5d2310614bc883 Somnath Kotur 2025-01-16  15740  				    "tx queue restart failed: rc=%d\n", rc);
-5d2310614bc883 Somnath Kotur 2025-01-16  15741  			bnapi->tx_fault = 1;
-5d2310614bc883 Somnath Kotur 2025-01-16  15742  			goto err_reset;
-5d2310614bc883 Somnath Kotur 2025-01-16  15743  		}
-5d2310614bc883 Somnath Kotur 2025-01-16  15744  	}
-5d2310614bc883 Somnath Kotur 2025-01-16  15745  
-5d2310614bc883 Somnath Kotur 2025-01-16  15746  	napi_enable(&bnapi->napi);
-5d2310614bc883 Somnath Kotur 2025-01-16  15747  	bnxt_db_nq_arm(bp, &cpr->cp_db, cpr->cp_raw_cons);
-5d2310614bc883 Somnath Kotur 2025-01-16  15748  
-b9d2956e869c78 David Wei     2024-08-07  15749  	for (i = 0; i <= BNXT_VNIC_NTUPLE; i++) {
-b9d2956e869c78 David Wei     2024-08-07  15750  		vnic = &bp->vnic_info[i];
-5ac066b7b062ee Somnath Kotur 2024-11-22  15751  
-5ac066b7b062ee Somnath Kotur 2024-11-22  15752  		rc = bnxt_hwrm_vnic_set_rss_p5(bp, vnic, true);
-5ac066b7b062ee Somnath Kotur 2024-11-22  15753  		if (rc) {
-5ac066b7b062ee Somnath Kotur 2024-11-22  15754  			netdev_err(bp->dev, "hwrm vnic %d set rss failure rc: %d\n",
-5ac066b7b062ee Somnath Kotur 2024-11-22  15755  				   vnic->vnic_id, rc);
-5ac066b7b062ee Somnath Kotur 2024-11-22  15756  			return rc;
-5ac066b7b062ee Somnath Kotur 2024-11-22  15757  		}
-b9d2956e869c78 David Wei     2024-08-07  15758  		vnic->mru = bp->dev->mtu + ETH_HLEN + VLAN_HLEN;
-b9d2956e869c78 David Wei     2024-08-07  15759  		bnxt_hwrm_vnic_update(bp, vnic,
-b9d2956e869c78 David Wei     2024-08-07  15760  				      VNIC_UPDATE_REQ_ENABLES_MRU_VALID);
-b9d2956e869c78 David Wei     2024-08-07  15761  	}
-b9d2956e869c78 David Wei     2024-08-07  15762  
-2d694c27d32efc David Wei     2024-06-18  15763  	return 0;
-2d694c27d32efc David Wei     2024-06-18  15764  
-5d2310614bc883 Somnath Kotur 2025-01-16  15765  err_reset_rx:
-5d2310614bc883 Somnath Kotur 2025-01-16  15766  	rxr->bnapi->in_reset = true;
-5d2310614bc883 Somnath Kotur 2025-01-16  15767  err_reset:
-5d2310614bc883 Somnath Kotur 2025-01-16  15768  	napi_enable(&bnapi->napi);
-5d2310614bc883 Somnath Kotur 2025-01-16 @15769  	bnxt_db_nq_arm(bp, &cpr->cp_db, cpr->cp_raw_cons);
-                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Uninitialized variable
+5b644aa012f67f Rafał Miłecki           2018-03-14   941  
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   942  /**
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   943   * parse_mtd_partitions - parse and register MTD partitions
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   944   *
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   945   * @master: the master partition (describes whole MTD device)
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   946   * @types: names of partition parsers to try or %NULL
+c7975330154af1 Dmitry Eremin-Solenikov 2011-06-10   947   * @data: MTD partition parser-specific data
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   948   *
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   949   * This function tries to find & register partitions on MTD device @master. It
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   950   * uses MTD partition parsers, specified in @types. However, if @types is %NULL,
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   951   * then the default list of parsers is used. The default list contains only the
+d26c87d64eff27 Dmitry Eremin-Solenikov 2011-05-29   952   * "cmdlinepart" and "ofpart" parsers ATM.
+c51803ddba10d8 Huang Shijie            2012-08-18   953   * Note: If there are more then one parser in @types, the kernel only takes the
+c51803ddba10d8 Huang Shijie            2012-08-18   954   * partitions parsed out by the first parser.
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   955   *
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   956   * This function may return:
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   957   * o a negative error code in case of failure
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   958   * o number of found partitions otherwise
+ad274cecdbce18 Artem Bityutskiy        2011-06-08   959   */
+26a4734623e4f0 Artem Bityutskiy        2013-03-11   960  int parse_mtd_partitions(struct mtd_info *master, const char *const *types,
+c7975330154af1 Dmitry Eremin-Solenikov 2011-06-10   961  			 struct mtd_part_parser_data *data)
+^1da177e4c3f41 Linus Torvalds          2005-04-16   962  {
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   963  	struct mtd_partitions pparts = { };
+^1da177e4c3f41 Linus Torvalds          2005-04-16   964  	struct mtd_part_parser *parser;
+5a2415b0769233 Brian Norris            2015-10-11   965  	int ret, err = 0;
+^1da177e4c3f41 Linus Torvalds          2005-04-16   966  
+5c4eefbd5bb82a Dmitry Eremin-Solenikov 2011-06-02   967  	if (!types)
+76a832254ab055 Rafał Miłecki           2018-07-13   968  		types = mtd_is_partition(master) ? default_subpartition_types :
+76a832254ab055 Rafał Miłecki           2018-07-13   969  			default_mtd_part_types;
+5c4eefbd5bb82a Dmitry Eremin-Solenikov 2011-06-02   970  
+5a2415b0769233 Brian Norris            2015-10-11   971  	for ( ; *types; types++) {
+5b644aa012f67f Rafał Miłecki           2018-03-14   972  		/*
+5b644aa012f67f Rafał Miłecki           2018-03-14   973  		 * ofpart is a special type that means OF partitioning info
+5b644aa012f67f Rafał Miłecki           2018-03-14   974  		 * should be used. It requires a bit different logic so it is
+5b644aa012f67f Rafał Miłecki           2018-03-14   975  		 * handled in a separated function.
+5b644aa012f67f Rafał Miłecki           2018-03-14   976  		 */
+5b644aa012f67f Rafał Miłecki           2018-03-14   977  		if (!strcmp(*types, "ofpart")) {
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   978  			ret = mtd_part_of_parse(master, &pparts);
+5b644aa012f67f Rafał Miłecki           2018-03-14   979  		} else {
+5b644aa012f67f Rafał Miłecki           2018-03-14   980  			pr_debug("%s: parsing partitions %s\n", master->name,
+5b644aa012f67f Rafał Miłecki           2018-03-14   981  				 *types);
+5531ae4818fb04 Brian Norris            2015-12-04   982  			parser = mtd_part_parser_get(*types);
+^1da177e4c3f41 Linus Torvalds          2005-04-16   983  			if (!parser && !request_module("%s", *types))
+5531ae4818fb04 Brian Norris            2015-12-04   984  				parser = mtd_part_parser_get(*types);
+8e2c992b59fcb5 Michal Suchanek         2015-08-18  @985  			pr_debug("%s: got parser %s\n", master->name,
+8e2c992b59fcb5 Michal Suchanek         2015-08-18   986  				parser ? parser->name : NULL);
+7c802fbd541448 Artem Bityutskiy        2011-05-17   987  			if (!parser)
+^1da177e4c3f41 Linus Torvalds          2005-04-16   988  				continue;
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   989  			ret = mtd_part_do_parse(parser, master, &pparts, data);
+5b644aa012f67f Rafał Miłecki           2018-03-14   990  			if (ret <= 0)
+5b644aa012f67f Rafał Miłecki           2018-03-14   991  				mtd_part_parser_put(parser);
+5b644aa012f67f Rafał Miłecki           2018-03-14   992  		}
+01f9c7240a900d Brian Norris            2017-05-23   993  		/* Found partitions! */
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   994  		if (ret > 0) {
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   995  			err = add_mtd_partitions(master, pparts.parts,
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   996  						 pparts.nr_parts);
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   997  			mtd_part_parser_cleanup(&pparts);
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   998  			return err ? err : pparts.nr_parts;
+5ac67ce36cfe38 Rafał Miłecki           2018-03-27   999  		}
+5a2415b0769233 Brian Norris            2015-10-11  1000  		/*
+5a2415b0769233 Brian Norris            2015-10-11  1001  		 * Stash the first error we see; only report it if no parser
+5a2415b0769233 Brian Norris            2015-10-11  1002  		 * succeeds
+5a2415b0769233 Brian Norris            2015-10-11  1003  		 */
+5a2415b0769233 Brian Norris            2015-10-11  1004  		if (ret < 0 && !err)
+5a2415b0769233 Brian Norris            2015-10-11  1005  			err = ret;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1006  	}
+5a2415b0769233 Brian Norris            2015-10-11  1007  	return err;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1008  }
+5daa7b21496aeb Roman Tereshonkov       2010-09-17  1009  
 
-5d2310614bc883 Somnath Kotur 2025-01-16  15770  	bnxt_reset_task(bp, true);
-2d694c27d32efc David Wei     2024-06-18  15771  	return rc;
-2d694c27d32efc David Wei     2024-06-18  15772  }
+:::::: The code at line 985 was first introduced by commit
+:::::: 8e2c992b59fcb5e56e3667f5c30c7d26fbbf14a2 mtd: mtdpart: add debug prints to partition parser.
+
+:::::: TO: Michal Suchanek <hramrach@gmail.com>
+:::::: CC: Brian Norris <computersforpeace@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
