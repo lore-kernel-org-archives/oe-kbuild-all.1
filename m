@@ -1,150 +1,109 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6621B4144;
-	Thu, 30 Jan 2025 08:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B6525634
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 09:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738227424; cv=none; b=izaa6QLK6io19f+x2zpgU0TGeJYhw5je/Ma7Wvh6TYRF8+hDjkdRUCZrb2yAxNWviEAzh/Ef4UzTXjcviWhAwUQolxdThUsOQmHr+6TrW26HYxSjXO8drqsnGaJcdczx/NbFlZi2g4jLH0GRJDqEWbCLiYG72zY/Sn8DkZiwUjs=
+	t=1738227810; cv=none; b=ZjsKilEwpqU/NIR7a3550e19YK3wcAy2GAWECDt5cEYus789kT+pd5E8ZffFEeBTkJn+D18hr0BOu+LINP+DbwiPRs4fcJhrUYZEoChYP6fnksLUrwa+Uoc5DL498l267m6ojKsPs3NJ1STB3+s57BPqSJnzstXdnk6z/H9SDgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738227424; c=relaxed/simple;
-	bh=H6AeHUVjoA+VFoeRyLlW4tNiCef23TVcyY1wg2oyQUs=;
+	s=arc-20240116; t=1738227810; c=relaxed/simple;
+	bh=Q4wcKs1NrEEn3+9O8a9Lk2hLaDkPh5JBoglNq961VPY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VHuLaO3K/SkZCEGq5t+7AMx+CaBx+OX3ZpufqJcKZDKeJnb8CVJ0MgsmQA4UcY9oabnm2qnhIoG44hb69KHggWUAc6fLaQZFTHXJ+ezQqclme2iQXHSM7AjDz2ZSK6/Mp8Ug4PnNnqLBDF/QppRYtIh+AHoe5Uaw5sSjCnDqR/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+	 To:Cc:Content-Type; b=WqfGxnMyhIWb73cqK0WsttDrvqCPUctaQkAIlQ8Ek+KpXw5G7s39/nkqZR1wbnJwnh9kPjpytttgBsq4RQ9Knd9nMyLnkSXIKEYw9Oq8/tqalnmrh9BbkeDR5x4Ijo+bTlJv2m1jMlDG6g2FNfnuRXHcLKJkcLkf6ae/0AGw9ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5174db4e34eso1057769e0c.0;
-        Thu, 30 Jan 2025 00:57:02 -0800 (PST)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4afdf300d07so374041137.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 01:03:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738227420; x=1738832220;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ov2YCY989UGke35/WwFQcDGlSTiE2zF57DyCrlhClqQ=;
-        b=XN5LnQqfpcZVH9y1jH9a9e7XxaVmrpUd77qMIUObFmfjbhpXk7ZLpJ5+psTAdgx/35
-         ZLVseI5JCSM4QZYR3fARd6mosEJ+5cnjZXdu9P++gOIAUDYPCdsVx0wdRMVj7tVELNYA
-         T720AlFwAeq4Yiuo498KiJhDG30xRGC3k4iIgVL/dGs2qP9bsTa243qqTZp3mq6ILHOZ
-         u7Be4AIg1Mx+tJE0YAcV5DQbzCkyHyvx7k8V/DDNQsqtnFA7PKxw4ePH8j5BBdVTrPLR
-         PD3QAIJzmOJL49pP6Sv+GoBXupKY9vNqXo4m3qT3f9QUrAuMTg+7yWtvktphaLXngS9b
-         bm8A==
-X-Forwarded-Encrypted: i=1; AJvYcCU1A/DTCkZ0qceCZXWZn0TOv1ylTWBEJIy8jOk+N+NGAcECK+hmQLGzZxUcdWRrdpvup2/+@lists.linux.dev, AJvYcCUIlM8cl4xDjI2sDqm8+5oCMYCARn6XjDo9kXHgiZSaA4B4xqc/gQ62Xv/4r0pCH76P96i7Mp15Uyeo2Fvj7w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDJFe2idSvafvlw2XIKV/5TkeGJk0SGxdXODdQX9ow3twoOt1G
-	paAuJWhcW4q8GCRSJ/ngKWkdI1TatswpQ6uLq6EHl1ZyvWCAXpro2rtVSNS3
-X-Gm-Gg: ASbGncuka1WaRmjMFM+leak/C8tDEyJs+pPOWAfMa45io7jMLYbvW2UOmmXcdhEsm4y
-	k+gJNbKoPkQ7evCFnxGtAriTZQrmZqrERFgGsk4keKh1ZDSdghROUOnmUJOyvIs/+71sJOLuIMp
-	kT5Mxn4Uhs2YFbTFvT0f68Z4N8+48D9eDEUfyAEVaIIgbJo7BSJIJQ5KTb2U+UKlWD82sarRh/2
-	yDScdvMqGZibxIm/Ww4y0d8/xxVpbi/eD2cf9vIOGD/mV7d2pqeIg0VO6c3gueXvwuas7vrY4qf
-	jH4jTqYSi0xMECB6lh3xbrvUtYXfFRwaHcxiaeoj39bQwvIwBu93Gg==
-X-Google-Smtp-Source: AGHT+IEH7n37TX5sqGX+7ZpTEfahm842Yx7eO1a3LmMYyAKRXyV+wtbhp6aDiUvpj4fW9CrJnovJRg==
-X-Received: by 2002:a05:6122:2504:b0:516:1ab3:700e with SMTP id 71dfb90a1353d-51eaefedfc9mr1904212e0c.3.1738227420468;
-        Thu, 30 Jan 2025 00:57:00 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51eb1d8adbbsm142405e0c.39.2025.01.30.00.57.00
+        d=1e100.net; s=20230601; t=1738227807; x=1738832607;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K6pCLkUySXuvE2ot+OueCX8LTwAM+45fREeEKYQp2mA=;
+        b=et3NqGZT55xOzFKrHZy/8m6Ym2pDjRCImkCgfaOxRh1YprK7b4+ZTWksxKTDbPAJ7k
+         QpgwCsGYc4CFwjHxUNgVJVh+ngMzxXDEEn/cxDnOyfM8/fhWGnfOmTKlwMPQNdTPVEbw
+         NLUZEK2RzrFGedF5RUaFZTP4V/12ROFDLXYrBXhX/tIwmvetiRXQzjzli2UbwQK3vmhs
+         gk7OxVJemn4YoI9xmOhx23xZE34QHMoCpHtAgwP0gA1Mfs4S8eiYizIpxKUF3aB51fSk
+         EAd0M1lgu9yaBe0HNtXnqVyJtCUbKZtUOATbERS1m6X65TK7gk7ZaxQ1b5EUgRHvSTPG
+         ttnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVress4W61efS9pPFxzrkoz0HB7I8CzYjBnBAHgcMtPCHRlAkUbCpBN+5y5365BFQD9DTdyR+ZNFhqjcPL1@lists.linux.dev
+X-Gm-Message-State: AOJu0YzQO54Sx037Gp+WUzxbUG6mI4GhVW7KWcp60CBPiGCrmb/xTunE
+	RBQgi73VNPX2BcYYu5EYJzjVzcDd0s1XI24WbZIvIVyiXK3Pk9Qt+nBccMYD
+X-Gm-Gg: ASbGncvNiNe9joeiT4vQ20zN9EJ3vwEt9/jfclIGzBKLGgOsOyuN9yp5Pf98iUtrzlv
+	P9o7djbRVuxir+MFJfSXttFblcKAa/XtvpNZSKkzlmqWzRPRThy/TH54VJZ6m6aLjnUkjUVEjgl
+	5XBXIiomT9CqUDi0Ux8BF3dNgmlCj7k2kD5ysanaWxrFYo8Y0AxROWGGiTRVsKwB6r6THVTen+V
+	KJdG1JZ2wtIpUS3ZB6FKLBAbxf5Ha8ZURR8DI7EOS22zWbbyrrLi6XKIEXZlBb7G0iFmTmDI0Rn
+	I3GWJ/5cypg6eJX/Tf4ovzJ7igAY4/R70ARE7NToE9jSmYa8pPUIHw==
+X-Google-Smtp-Source: AGHT+IGhxA6gaq3re46YYAB2cKwTaQTfIUn9Ez2YgszANd/9PULI745dlGDlYRB8BAYbj4JWyss/Qw==
+X-Received: by 2002:a05:6102:1495:b0:4b2:5d16:2902 with SMTP id ada2fe7eead31-4b9a4f24005mr6166316137.6.1738227806923;
+        Thu, 30 Jan 2025 01:03:26 -0800 (PST)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b9baa9aefcsm170497137.12.2025.01.30.01.03.26
+        for <oe-kbuild-all@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 00:57:00 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-85ba8b1c7b9so311096241.1;
-        Thu, 30 Jan 2025 00:57:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVKvTsuotDf20SMvw60Koof1BjXh5Mybq/uCgTtT88wVA29WJihCWkTu5YN0zXFaAFK4PaC+Rp5S2QlxkBtDA==@lists.linux.dev, AJvYcCWSfHPdfuiQrSMTxmnR0aFDLyOseaNmuY7lHgq2y+GcmKC/nfyxi3PXK7eQyg5ioBaxpsk9@lists.linux.dev
-X-Received: by 2002:a05:6102:442a:b0:4b5:c302:37b3 with SMTP id
- ada2fe7eead31-4b9b7187ff0mr2254180137.5.1738227420046; Thu, 30 Jan 2025
- 00:57:00 -0800 (PST)
+        Thu, 30 Jan 2025 01:03:26 -0800 (PST)
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4b24bc0cc65so390978137.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 01:03:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW2OvdIl4lftOJ43ZBcvrd3MBvkQF4KVH+HFTnYuMSLKKIzAVFgDQbiPT4I9sg07L82hGyEzvHu90kOF4HG@lists.linux.dev
+X-Received: by 2002:a05:6102:2ac9:b0:4b1:1a24:e19c with SMTP id
+ ada2fe7eead31-4b9a4f25ee5mr5781363137.7.1738227806317; Thu, 30 Jan 2025
+ 01:03:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501291646.VtwF98qd-lkp@intel.com> <CAHp75VcOYyVx=wcopvi-0iA5XePsGOrNO1wUSzYcYB4q86=7gA@mail.gmail.com>
- <CAHp75VcUEaUSeu5K2GDbkgevTkFjR8=4ppw_e5FAy28iW=NhSQ@mail.gmail.com>
-In-Reply-To: <CAHp75VcUEaUSeu5K2GDbkgevTkFjR8=4ppw_e5FAy28iW=NhSQ@mail.gmail.com>
+References: <202501300600.APok2iDU-lkp@intel.com>
+In-Reply-To: <202501300600.APok2iDU-lkp@intel.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 Jan 2025 09:56:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVsCt=x_3KdHKHFmr9xgqcMvFNjKGjd4WNHx+LEwiEDOA@mail.gmail.com>
-X-Gm-Features: AWEUYZmbGOlHaKJVd-BR1--srbTjC39-5HvMappwqGN083hGvwhvSO18LYQeNkw
-Message-ID: <CAMuHMdVsCt=x_3KdHKHFmr9xgqcMvFNjKGjd4WNHx+LEwiEDOA@mail.gmail.com>
-Subject: Re: drivers/platform/surface/surface3_power.c:243:2: warning:
- 'snprintf' will always be truncated; specified size is 10, but format string
- expands to at least 12
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Maximilian Luz <luzmaximilian@gmail.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Hans de Goede <hdegoede@redhat.com>
+Date: Thu, 30 Jan 2025 10:03:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXfZbH3bPjpDKm5-PMg-MSh2sDzoeYCzr6kkyvkD8cJFA@mail.gmail.com>
+X-Gm-Features: AWEUYZmW56A7_7HJFKbvmHUgFJBvv92mFWPQ4viezAJWlG2D0Li4N3XPNOsB8GA
+Message-ID: <CAMuHMdXfZbH3bPjpDKm5-PMg-MSh2sDzoeYCzr6kkyvkD8cJFA@mail.gmail.com>
+Subject: Re: [geert-renesas-devel:renesas-drivers-for-v6.15 4/6]
+ drivers/soc/renesas/r9a09g047-sys.c:51:13: error: implicit declaration of
+ function 'FIELD_GET'
+To: kernel test robot <lkp@intel.com>
+Cc: John Madieu <john.madieu.xa@bp.renesas.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Jan 2025 at 13:51, Andy Shevchenko <andy.shevchenko@gmail.com> w=
-rote:
-> On Wed, Jan 29, 2025 at 2:45=E2=80=AFPM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Wed, Jan 29, 2025 at 10:09=E2=80=AFAM kernel test robot <lkp@intel.c=
-om> wrote:
+Hi Kernel Test Robot,
+
+On Wed, 29 Jan 2025 at 23:07, kernel test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.15
+> head:   106b182b2d7f05703d27e37cbcf23a6fb652872f
+> commit: 1e5827262bc7f29b3735889919009b744ea8f55d [4/6] soc: renesas: rz-sysc: Add support for RZ/G3E family
+> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250130/202501300600.APok2iDU-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250130/202501300600.APok2iDU-lkp@intel.com/reproduce)
 >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
-x.git master
-> > > head:   05dbaf8dd8bf537d4b4eb3115ab42a5fb40ff1f5
-> > > commit: 85f7582cd484dbf491b6d9bb2af6ef1467a024d2 platform/surface: Mo=
-ve Surface 3 Power OpRegion driver to platform/surface
-> > > date:   4 years, 3 months ago
-> > > config: x86_64-randconfig-071-20241231 (https://download.01.org/0day-=
-ci/archive/20250129/202501291646.VtwF98qd-lkp@intel.com/config)
-> > > compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project =
-ab51eccf88f5321e7c60591c5546b254b6afab99)
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20250129/202501291646.VtwF98qd-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202501291646.VtwF98qd=
--lkp@intel.com/
-> > >
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > > >> drivers/platform/surface/surface3_power.c:243:2: warning: 'snprint=
-f' will always be truncated; specified size is 10, but format string expand=
-s to at least 12 [-Wformat-truncation-non-kprintf]
-> > >      243 |         snprintf(bix->serial, ARRAY_SIZE(bix->serial), "%3=
-pE%6pE", buf + 7, buf);
-> >
-> > 3 + 'E' + 6 + 'E' + NUL, that's how the compiler thinks about this
-> > formatting string...
-> >
-> > >          |         ^
-> > >    1 warning generated.
-> >
-> > I do not know how to properly address this because it's false positive
-> > due to the compiler not being aware of pointer extensions used in
-> > Linux kernel. The w/a is to increase the buffer if we can, but is it
-> > practical? OTOH, this warning will be translated to a compilation
-> > error in case of default WERROR settings on `make W=3D1` builds which i=
-s
-> > also annoying to people who want to have that clean.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501300600.APok2iDU-lkp@intel.com/
 >
-> Actually using %pE implies that the buffer should be 4 times bigger
-> than the input string. So, with the given format string the
-> ARRAY_SIZE(bix->serial) has to be equal to or greater than 3 * 4 + 6 *
-> 4 + 1, i.e. 37.
+> All errors (new ones prefixed by >>):
+>
+>    drivers/soc/renesas/r9a09g047-sys.c: In function 'rzg3e_sys_print_id':
+> >> drivers/soc/renesas/r9a09g047-sys.c:51:13: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+>       51 |         if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) != SYS_LSI_MODE_CA55_1_7GHZ)
+>          |             ^~~~~~~~~
 
-    #define SURFACE_3_STRLEN                10
-
-    struct bix {
-            ...
-            char    serial[SURFACE_3_STRLEN];
-
-Oops...
+Thank you, adding "#include <linux/bitfield.h>" to both
+drivers/soc/renesas/r9a09g0[45]7-sys.c.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
