@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8E01925A3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 06:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93EF33987;
+	Thu, 30 Jan 2025 06:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738218224; cv=none; b=nW4DM6V6RWI/vhoObWeKp4nJz1GY5Lv5fAtnCPbEw3tesjUYyLUfsSCvU3HaonMzNLE7hN2V0cVbesXhXreCd1YqkGOpVuX9snHE4ysZWczta9CgW/mw8mi65AD9x/xQck6RQPjZM7ewlMYoJLfCNq/zr4Nk2lKUfo3NYZ9ybTk=
+	t=1738218226; cv=none; b=F5vpAprN/I5hyx8Ylsy1yQBaCIrsFWRuAgUvzZpv5ciOOOcgcOGBbk4oWdrJ/NTE/rCJ+A4bEb4zsOxr+Rae1CjkvBDPdXh80ZJdHRNrsJcs/o9FbVpVqDLjuG3EhUdsFb9G5cxHmDqy0oYVLHRlPRsL6VXA2OSlhFpouNui2zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738218224; c=relaxed/simple;
-	bh=DWc5UfhxMaeT6RhAe4fgWrRCTKI8hjdC8cUboAB0AeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oVdHydmyTekEm1MJRizYdv+wF/Om1JGtsSwubDmTAO26Vd8su0bB/QH8dZbwCW93hy5OdBTl3GAB/UJ0mQ00koOuOjiDA4XNGRhFbF3sH3Ek1VbYfyW6XhTrYdhHl1FTkOvIhp8i5/ftUApBJUBTPTEYiYolZls4c0Zl85eFRv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nky9q5sn; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1738218226; c=relaxed/simple;
+	bh=LfCdPygos0pL+AlQegcU9RLuu0UcBJUY6KwAT8p1Vro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WAXiKLJG+rpyWao8nCtw9x9j6SRaQJ/lPBWx/pv6fENE5JmyJAAQwGJcsJRx2YgRYmpZ9wIAfB4up2o68a0Xr05VxhFwoPqBPxQghLV2I4A0f0ysk94nRsXq9D6YlnqqWC3gc0w6Rl/sMrYCvchvxSV275QeVDb3UCUOiQ7tdEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPBbPf1f; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nky9q5sn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPBbPf1f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738218224; x=1769754224;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DWc5UfhxMaeT6RhAe4fgWrRCTKI8hjdC8cUboAB0AeU=;
-  b=Nky9q5snuld82DnpxMTSknb0Q1SQjnqiYyV97Yf0G5VR9AlcxetoztFa
-   pNFRxI8lszfSjPnUA292Wr5lIaKWnjtJ/bJWF2ihnDzALQrZu+wMwVjbx
-   YrmEwRY6DNWcoCV5MSDUajIYTNBTeXIjP/eamzUEn1OiAlBVPZ6yH5TUy
-   SAQvvQ09UBsC0mr5ge4GGnxyY4pHgtZqN6b95u/K6BqiTe6ZQ3OyOwCsd
-   oLrskwl+bI7d9AaWtlGt1PnVcdQkeFM9HryHs3y2MLHNP4AvCKdv16oxz
-   vPs1iO6xLyIseO4M+FwHtrgH4zvTxB76+uHDzpjDTu5lgvb/FUrWdjwAR
+  t=1738218222; x=1769754222;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LfCdPygos0pL+AlQegcU9RLuu0UcBJUY6KwAT8p1Vro=;
+  b=ZPBbPf1fEOLLGWpCVD3RClKRT8bua5Vpj2q9WT4s9IwMw+aBWt5vlrqf
+   In/jk3M9+mHEzHuv5NeGA+rLHVyVmdOfix5G34PdMO06V3dwSfyLMfGRw
+   lOIm/T4+hHJp3iUfhdQP7oTEBaHLRGJ20UDAC5lizFmglNCn+Wp7xsZoh
+   BRF/3hd15YtNpLh54EEeLGxLuxsUDiAkd3SneLfpA/nO1XE9Bq960lTzD
+   hNdQC8XRPyemDpUOAxinKS3ieJ1YJhQqREtt0AjpErmeRJgR0OLXVHjHd
+   l+lGw8+0Wie0EbqCEcLbCnnCi96UGUpeKRvVO7Bb31fd/kr9lTQwfOFOY
    A==;
-X-CSE-ConnectionGUID: 15m+w/jBSdWM9ziPkEc6/A==
-X-CSE-MsgGUID: ZRrYOclFRx+8Xe+6lsB8rA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="61225397"
+X-CSE-ConnectionGUID: 5fBPknGtQdyjGHP4sEE94A==
+X-CSE-MsgGUID: oHiqOUKtRJyxJuS3hBaLTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="42678655"
 X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="61225397"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 22:23:42 -0800
-X-CSE-ConnectionGUID: MvTIRGU2S3up+2XoSjRbGA==
-X-CSE-MsgGUID: yuST46hOQWm+pNdmpaMo6A==
+   d="scan'208";a="42678655"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 22:23:42 -0800
+X-CSE-ConnectionGUID: 820QTpr2QvyODJN9PLs5XQ==
+X-CSE-MsgGUID: stO9517kTQyWJZ+LQm/8bA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113853398"
+   d="scan'208";a="113253956"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2025 22:23:41 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 29 Jan 2025 22:23:41 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdNxj-000jkD-03;
+	id 1tdNxi-000jkB-3D;
 	Thu, 30 Jan 2025 06:23:39 +0000
-Date: Thu, 30 Jan 2025 14:23:16 +0800
+Date: Thu, 30 Jan 2025 14:23:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 9/9] htmldocs: Warning:
- drivers/gpu/mediatek/arm/mali/debug/mali_kbase_debug_ktrace.c references a
- file that doesn't exist: Documentation/filesystems/seq_file.txt
-Message-ID: <202501301438.8PpAXFGF-lkp@intel.com>
+To: Joe Damato <jdamato@fastly.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC net-next 1/2] netdev-genl: Add an XSK attribute to queues
+Message-ID: <202501301434.ZoSDVYrs-lkp@intel.com>
+References: <20250129172431.65773-2-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +62,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250129172431.65773-2-jdamato@fastly.com>
 
-Hi Yu-Che,
+Hi Joe,
 
-First bad commit (maybe != root cause):
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   20c6549501f674937409aba5411ee8c5c0ab133a
-commit: 3347e43f1763e946c8db116bb3241731d1417cab [9/9] CHROMIUM: gpu/mediatek: Rename midgard to mali
-reproduce: (https://download.01.org/0day-ci/archive/20250130/202501301438.8PpAXFGF-lkp@intel.com/reproduce)
+[auto build test ERROR on 0ad9617c78acbc71373fb341a6f75d4012b01d69]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netdev-genl-Add-an-XSK-attribute-to-queues/20250130-012820
+base:   0ad9617c78acbc71373fb341a6f75d4012b01d69
+patch link:    https://lore.kernel.org/r/20250129172431.65773-2-jdamato%40fastly.com
+patch subject: [RFC net-next 1/2] netdev-genl: Add an XSK attribute to queues
+config: hexagon-randconfig-002-20250130 (https://download.01.org/0day-ci/archive/20250130/202501301434.ZoSDVYrs-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250130/202501301434.ZoSDVYrs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501301438.8PpAXFGF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501301434.ZoSDVYrs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/starfive,jh7110-pwmdac.yaml
-   Warning: drivers/gpu/arm/mali/debug/mali_kbase_debug_ktrace.c references a file that doesn't exist: Documentation/filesystems/seq_file.txt
->> Warning: drivers/gpu/mediatek/arm/mali/debug/mali_kbase_debug_ktrace.c references a file that doesn't exist: Documentation/filesystems/seq_file.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
-   Using alabaster theme
+>> net/core/netdev-genl.c:397:51: error: no member named 'pool' in 'struct netdev_rx_queue'
+     397 |                 if (nla_put_u32(rsp, NETDEV_A_QUEUE_XSK, !!rxq->pool))
+         |                                                            ~~~  ^
+>> net/core/netdev-genl.c:407:51: error: no member named 'pool' in 'struct netdev_queue'
+     407 |                 if (nla_put_u32(rsp, NETDEV_A_QUEUE_XSK, !!txq->pool))
+         |                                                            ~~~  ^
+   2 errors generated.
+
+
+vim +397 net/core/netdev-genl.c
+
+   366	
+   367	static int
+   368	netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
+   369				 u32 q_idx, u32 q_type, const struct genl_info *info)
+   370	{
+   371		struct net_devmem_dmabuf_binding *binding;
+   372		struct netdev_rx_queue *rxq;
+   373		struct netdev_queue *txq;
+   374		void *hdr;
+   375	
+   376		hdr = genlmsg_iput(rsp, info);
+   377		if (!hdr)
+   378			return -EMSGSIZE;
+   379	
+   380		if (nla_put_u32(rsp, NETDEV_A_QUEUE_ID, q_idx) ||
+   381		    nla_put_u32(rsp, NETDEV_A_QUEUE_TYPE, q_type) ||
+   382		    nla_put_u32(rsp, NETDEV_A_QUEUE_IFINDEX, netdev->ifindex))
+   383			goto nla_put_failure;
+   384	
+   385		switch (q_type) {
+   386		case NETDEV_QUEUE_TYPE_RX:
+   387			rxq = __netif_get_rx_queue(netdev, q_idx);
+   388			if (rxq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
+   389						     rxq->napi->napi_id))
+   390				goto nla_put_failure;
+   391	
+   392			binding = rxq->mp_params.mp_priv;
+   393			if (binding &&
+   394			    nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF, binding->id))
+   395				goto nla_put_failure;
+   396	
+ > 397			if (nla_put_u32(rsp, NETDEV_A_QUEUE_XSK, !!rxq->pool))
+   398				goto nla_put_failure;
+   399	
+   400			break;
+   401		case NETDEV_QUEUE_TYPE_TX:
+   402			txq = netdev_get_tx_queue(netdev, q_idx);
+   403			if (txq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
+   404						     txq->napi->napi_id))
+   405				goto nla_put_failure;
+   406	
+ > 407			if (nla_put_u32(rsp, NETDEV_A_QUEUE_XSK, !!txq->pool))
+   408				goto nla_put_failure;
+   409		}
+   410	
+   411		genlmsg_end(rsp, hdr);
+   412	
+   413		return 0;
+   414	
+   415	nla_put_failure:
+   416		genlmsg_cancel(rsp, hdr);
+   417		return -EMSGSIZE;
+   418	}
+   419	
 
 -- 
 0-DAY CI Kernel Test Service
