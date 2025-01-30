@@ -1,249 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551CB1EE00C;
-	Thu, 30 Jan 2025 16:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264A61EEA3D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 17:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738255951; cv=none; b=nJOAWfUhDQhxyXUaeIM/xL0lK5HAt6UwdJx+i663fzkIyYN+BXcwVmro9B7gLMiXn6l/QHDbOo2UQ2fp1AkxiuDQX7hwXxTf1FTG1aAG4E1qYknH0i6XT04luxUEFkKUOcsmUVVuxso4Hbc+Crcl41pOLdHm44NzUoas0Dztx4E=
+	t=1738258474; cv=none; b=fZKg5fK7gxcTd32a6+wEM6+agqAHfTtgWFq7VGPSaCaJY7zOSVG5b/iqTJZEr11OEmCyu6FugKiBhUgAa+Ndi2045SZHpi/EvMsr79hutKjP2wnYLXeI7GUveYo7QuIY2+w++eZaiLmS0nMcTUla+yFzkrZagxkHmZwJrx9uk+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738255951; c=relaxed/simple;
-	bh=gTCzPVXosgUEETTalL24zDupPKVLW4lYvJqjGKXNU6o=;
+	s=arc-20240116; t=1738258474; c=relaxed/simple;
+	bh=9cljiz+hF/J3yRpMsxyASsQfff/o/uCBSbtAbrVUmNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bTS9D8uKxmyLNt2Qysc42v+pZ7E34SM+38I/Znsx7qxL0U+JtYOidrXdhRf1B/VN7hARs2RGyi5/1/nmpGCgM/sH2JQ1rOWX9aHTmkWopu0NfFH7wU5PcRR/9qO8G04AN871Twf29nmE9rTcyohjLkvvVs9TNjWb0QXatdmzEaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=COGAsPwo; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=r3q7bDMBm8lKcyl8iaYN/mV4aUdb39uH6b0kLlap5TF8sf+i5GI+ml+wf//M2CPgBrmkToW6asP0y1TImjECJgSQp02lYEqNEJfwOJ9Z+1xnXg8f0Emv3GaaNrRmG+pMRYLSiH1sjOsnCJLxqmmzSLEO3ura66eqQqhShFbk8R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NL/BLkjF; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="COGAsPwo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NL/BLkjF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738255949; x=1769791949;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gTCzPVXosgUEETTalL24zDupPKVLW4lYvJqjGKXNU6o=;
-  b=COGAsPwomfFxzmo2Wu+XqLHUq4EOVyBETL+f5eYJZ3w6ll3s/R7IDhsI
-   gMTgns+uwU6vsRPwhagm/0sf3dP/Ze6XkgXhySkScngA1uYDUHG2CsSeg
-   7jpD4baz0ZC/0OAIGqjn+SGYlj73DuQfiXTzsXb7v25PG7ce0S6BUo+Ty
-   g9g6EE0HoQj0RHyZkw/wXuI71P6QJQ95fkasa9UtxKPTrpKduAJ8z0VZi
-   NDDUL5HMGhR5+DlTz6fU9jkNMSntvNR+pHPZEImIJwAMfr/5Chyr2ANZQ
-   wlV+Ukb0zOT2yOWJ3JOAGHTPV4rW1CY76qX2wJij5hiSik1upZ0pEMyQ7
+  t=1738258472; x=1769794472;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9cljiz+hF/J3yRpMsxyASsQfff/o/uCBSbtAbrVUmNY=;
+  b=NL/BLkjFdUaYbgmPz8iic2jg7Ttz3bVqzmVKgDzogQ6EkxuOjlPpLBvw
+   3jb3L+IDPv14ifsI6Q8P0mTAPyNDbxElgT7cVQRAxAAYTOb+1fVBqG2um
+   Q12NDLVG8G5FqaFn5evhuo2DB3roXfhioqjph33ZF7i3cgth6DKmuNS5a
+   GsCmZErmMg4Qv2uNTiA355gxruP/6mkL0z2K4ZgXQP/q2iXdFZ1s+UTRU
+   xvKX4TSQecEviwoywDjSCdQdyUVJAHs0+LuK+OLY0MkSgaXrUNLXIe01h
+   CoKx9zqiIQ2d5l2LaDcw5LkpuSwtHGmYF9Pl1sdntsOOoi5edn+P6Pqgf
    w==;
-X-CSE-ConnectionGUID: DJY536KcRpqs5nVyysY6SQ==
-X-CSE-MsgGUID: pURbpgxyRb+vU/OGL+cdVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38012951"
-X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; 
-   d="scan'208";a="38012951"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 08:52:27 -0800
-X-CSE-ConnectionGUID: h+F1imDXQpCjBphDdemcwg==
-X-CSE-MsgGUID: KD5W2GOBQdStyPOPLPxOmw==
+X-CSE-ConnectionGUID: tlvRi6lSToe7rCN8bEQfYQ==
+X-CSE-MsgGUID: J+LjD2j5R0+EWU9eS+2C2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="49408209"
+X-IronPort-AV: E=Sophos;i="6.13,246,1732608000"; 
+   d="scan'208";a="49408209"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 09:34:31 -0800
+X-CSE-ConnectionGUID: NDkoOywkSBKa+xCv4Qi/Eg==
+X-CSE-MsgGUID: qeX7dYZ2Sn21ww3ogzqwgw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; 
-   d="scan'208";a="140275358"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="132662714"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2025 08:52:25 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 30 Jan 2025 09:34:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdXmB-000ki7-0S;
-	Thu, 30 Jan 2025 16:52:23 +0000
-Date: Fri, 31 Jan 2025 00:52:06 +0800
+	id 1tdYQu-000klR-1h;
+	Thu, 30 Jan 2025 17:34:28 +0000
+Date: Fri, 31 Jan 2025 01:33:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 48/49] drivers/usb/serial/console.c:146:19: error:
- incompatible pointer types passing 'struct xarray *' to parameter of type
- 'struct list_head *'
-Message-ID: <202501310050.yF1EHHMy-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/um-io 3/3] drivers/pci/quirks.c:3724:22:
+ error: implicit declaration of function 'ioread32be'
+Message-ID: <202501310118.ohSkxgLk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   a2ea6ca94c68a7ab616969102e07614d1be0a5a8
-commit: 4e755fc98e41dca2debd4bb09e1d10d59d9168da [48/49] tty: use xarray for tty's file list
-config: i386-buildonly-randconfig-001-20250130 (https://download.01.org/0day-ci/archive/20250131/202501310050.yF1EHHMy-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501310050.yF1EHHMy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/um-io
+head:   1e7aceb3e7b5d015e6778e77383db706a4ae066b
+commit: 1e7aceb3e7b5d015e6778e77383db706a4ae066b [3/3] iomap: Fix -Wmissing-prototypes on UM
+config: m68k-m5475evb_defconfig (https://download.01.org/0day-ci/archive/20250131/202501310118.ohSkxgLk-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501310118.ohSkxgLk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501310050.yF1EHHMy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501310118.ohSkxgLk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/serial/console.c:146:19: error: incompatible pointer types passing 'struct xarray *' to parameter of type 'struct list_head *' [-Werror,-Wincompatible-pointer-types]
-     146 |                         INIT_LIST_HEAD(&tty->tty_files);
-         |                                        ^~~~~~~~~~~~~~~
-   include/linux/list.h:35:53: note: passing argument to parameter 'list' here
-      35 | static inline void INIT_LIST_HEAD(struct list_head *list)
-         |                                                     ^
-   1 error generated.
+   drivers/pci/quirks.c: In function 'mellanox_check_broken_intx_masking':
+>> drivers/pci/quirks.c:3724:22: error: implicit declaration of function 'ioread32be' [-Wimplicit-function-declaration]
+    3724 |         fw_maj_min = ioread32be(fw_ver);
+         |                      ^~~~~~~~~~
+   drivers/pci/quirks.c: In function 'reset_ivb_igd':
+>> drivers/pci/quirks.c:3954:9: error: implicit declaration of function 'iowrite32'; did you mean 'gf_iowrite32'? [-Wimplicit-function-declaration]
+    3954 |         iowrite32(0x00000002, mmio_base + MSG_CTL);
+         |         ^~~~~~~~~
+         |         gf_iowrite32
+>> drivers/pci/quirks.c:3964:15: error: implicit declaration of function 'ioread32'; did you mean 'gf_ioread32'? [-Wimplicit-function-declaration]
+    3964 |         val = ioread32(mmio_base + PCH_PP_CONTROL) & 0xfffffffe;
+         |               ^~~~~~~~
+         |               gf_ioread32
+   drivers/pci/quirks.c: In function 'reset_hinic_vf_dev':
+>> drivers/pci/quirks.c:4180:9: error: implicit declaration of function 'iowrite32be' [-Wimplicit-function-declaration]
+    4180 |         iowrite32be(val, bar + HINIC_VF_OP);
+         |         ^~~~~~~~~~~
+   drivers/pci/quirks.c: In function 'quirk_switchtec_ntb_dma_alias':
+>> drivers/pci/quirks.c:5843:21: error: implicit declaration of function 'ioread8'; did you mean 'readb'? [-Wimplicit-function-declaration]
+    5843 |         partition = ioread8(&mmio_ntb->partition_id);
+         |                     ^~~~~~~
+         |                     readb
+>> drivers/pci/quirks.c:5861:28: error: implicit declaration of function 'ioread16' [-Wimplicit-function-declaration]
+    5861 |                 table_sz = ioread16(&mmio_peer_ctrl->req_id_table_size);
+         |                            ^~~~~~~~
 
 
-vim +146 drivers/usb/serial/console.c
+vim +/ioread32be +3724 drivers/pci/quirks.c
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16   49  
-^1da177e4c3f415 Linus Torvalds     2005-04-16   50  /*
-^1da177e4c3f415 Linus Torvalds     2005-04-16   51   * The parsing of the command line works exactly like the
-^1da177e4c3f415 Linus Torvalds     2005-04-16   52   * serial.c code, except that the specifier is "ttyUSB" instead
-^1da177e4c3f415 Linus Torvalds     2005-04-16   53   * of "ttyS".
-^1da177e4c3f415 Linus Torvalds     2005-04-16   54   */
-69a4bf7c9525e5c Paul Fulghum       2006-04-12   55  static int usb_console_setup(struct console *co, char *options)
-^1da177e4c3f415 Linus Torvalds     2005-04-16   56  {
-^1da177e4c3f415 Linus Torvalds     2005-04-16   57  	struct usbcons_info *info = &usbcons_info;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   58  	int baud = 9600;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   59  	int bits = 8;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   60  	int parity = 'n';
-^1da177e4c3f415 Linus Torvalds     2005-04-16   61  	int doflow = 0;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   62  	int cflag = CREAD | HUPCL | CLOCAL;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   63  	char *s;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   64  	struct usb_serial *serial;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   65  	struct usb_serial_port *port;
-7bd032dc2793afc Alan Stern         2009-09-04   66  	int retval;
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13   67  	struct tty_struct *tty = NULL;
-92d2c5e4badc622 Jason Wessel       2010-03-16   68  	struct ktermios dummy;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   69  
-^1da177e4c3f415 Linus Torvalds     2005-04-16   70  	if (options) {
-^1da177e4c3f415 Linus Torvalds     2005-04-16   71  		baud = simple_strtoul(options, NULL, 10);
-^1da177e4c3f415 Linus Torvalds     2005-04-16   72  		s = options;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   73  		while (*s >= '0' && *s <= '9')
-^1da177e4c3f415 Linus Torvalds     2005-04-16   74  			s++;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   75  		if (*s)
-^1da177e4c3f415 Linus Torvalds     2005-04-16   76  			parity = *s++;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   77  		if (*s)
-^1da177e4c3f415 Linus Torvalds     2005-04-16   78  			bits   = *s++ - '0';
-^1da177e4c3f415 Linus Torvalds     2005-04-16   79  		if (*s)
-^1da177e4c3f415 Linus Torvalds     2005-04-16   80  			doflow = (*s++ == 'r');
-^1da177e4c3f415 Linus Torvalds     2005-04-16   81  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16   82  
-c17ee886976b64d Alan Cox           2008-07-22   83  	/* Sane default */
-c17ee886976b64d Alan Cox           2008-07-22   84  	if (baud == 0)
-^1da177e4c3f415 Linus Torvalds     2005-04-16   85  		baud = 9600;
-c17ee886976b64d Alan Cox           2008-07-22   86  
-^1da177e4c3f415 Linus Torvalds     2005-04-16   87  	switch (bits) {
-^1da177e4c3f415 Linus Torvalds     2005-04-16   88  	case 7:
-^1da177e4c3f415 Linus Torvalds     2005-04-16   89  		cflag |= CS7;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   90  		break;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   91  	default:
-^1da177e4c3f415 Linus Torvalds     2005-04-16   92  	case 8:
-^1da177e4c3f415 Linus Torvalds     2005-04-16   93  		cflag |= CS8;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   94  		break;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   95  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16   96  	switch (parity) {
-^1da177e4c3f415 Linus Torvalds     2005-04-16   97  	case 'o': case 'O':
-^1da177e4c3f415 Linus Torvalds     2005-04-16   98  		cflag |= PARODD;
-^1da177e4c3f415 Linus Torvalds     2005-04-16   99  		break;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  100  	case 'e': case 'E':
-^1da177e4c3f415 Linus Torvalds     2005-04-16  101  		cflag |= PARENB;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  102  		break;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  103  	}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  104  
-cabe0785ff14e94 Johan Hovold       2020-07-01  105  	if (doflow)
-cabe0785ff14e94 Johan Hovold       2020-07-01  106  		cflag |= CRTSCTS;
-cabe0785ff14e94 Johan Hovold       2020-07-01  107  
-27680d232b04d43 Aristeu Rozanski   2007-11-12  108  	/*
-27680d232b04d43 Aristeu Rozanski   2007-11-12  109  	 * no need to check the index here: if the index is wrong, console
-27680d232b04d43 Aristeu Rozanski   2007-11-12  110  	 * code won't call us
-27680d232b04d43 Aristeu Rozanski   2007-11-12  111  	 */
-e5b1e2062e0535e Greg Kroah-Hartman 2013-06-07  112  	port = usb_serial_port_get_by_minor(co->index);
-e5b1e2062e0535e Greg Kroah-Hartman 2013-06-07  113  	if (port == NULL) {
-^1da177e4c3f415 Linus Torvalds     2005-04-16  114  		/* no device is connected yet, sorry :( */
-92931d243b5cafa Greg Kroah-Hartman 2012-09-13  115  		pr_err("No USB device connected to ttyUSB%i\n", co->index);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  116  		return -ENODEV;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  117  	}
-e5b1e2062e0535e Greg Kroah-Hartman 2013-06-07  118  	serial = port->serial;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  119  
-7bd032dc2793afc Alan Stern         2009-09-04  120  	retval = usb_autopm_get_interface(serial->interface);
-7bd032dc2793afc Alan Stern         2009-09-04  121  	if (retval)
-7bd032dc2793afc Alan Stern         2009-09-04  122  		goto error_get_interface;
-7bd032dc2793afc Alan Stern         2009-09-04  123  
-4a90f09b20f4622 Alan Cox           2008-10-13  124  	tty_port_tty_set(&port->port, NULL);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  125  
-^1da177e4c3f415 Linus Torvalds     2005-04-16  126  	info->port = port;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  127  
-95da310e66ee809 Alan Cox           2008-07-22  128  	++port->port.count;
-d41861ca19c9e96 Peter Hurley       2016-04-09  129  	if (!tty_port_initialized(&port->port)) {
-^1da177e4c3f415 Linus Torvalds     2005-04-16  130  		if (serial->type->set_termios) {
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  131  			/*
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  132  			 * allocate a fake tty so the driver can initialize
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  133  			 * the termios structure, then later call set_termios to
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  134  			 * configure according to command line arguments
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  135  			 */
-7ac9da10af7ffd9 Burman Yan         2006-11-22  136  			tty = kzalloc(sizeof(*tty), GFP_KERNEL);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  137  			if (!tty) {
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  138  				retval = -ENOMEM;
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  139  				goto reset_open_count;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  140  			}
-e5404586a499f7d Kevin Hao          2008-12-01  141  			kref_init(&tty->kref);
-92d2c5e4badc622 Jason Wessel       2010-03-16  142  			tty->driver = usb_serial_tty_driver;
-92d2c5e4badc622 Jason Wessel       2010-03-16  143  			tty->index = co->index;
-d269d4434c72ed0 Johan Hovold       2015-01-05  144  			init_ldsem(&tty->ldisc_sem);
-14816b16fa0adac Johan Hovold       2017-02-08  145  			spin_lock_init(&tty->files_lock);
-32a4bf2e81ec378 Johan Hovold       2015-01-05 @146  			INIT_LIST_HEAD(&tty->tty_files);
-32a4bf2e81ec378 Johan Hovold       2015-01-05  147  			kref_get(&tty->driver->kref);
-5ee0089b1f7057d Johan Hovold       2015-02-16  148  			__module_get(tty->driver->owner);
-32a4bf2e81ec378 Johan Hovold       2015-01-05  149  			tty->ops = &usb_console_fake_tty_ops;
-a3123fd0a4a5f9d Peter Hurley       2016-01-09  150  			tty_init_termios(tty);
-32a4bf2e81ec378 Johan Hovold       2015-01-05  151  			tty_port_tty_set(&port->port, tty);
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  152  		}
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  153  
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  154  		/* only call the device specific open if this
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  155  		 * is the first time the port is opened */
-a509a7e478e4766 Alan Cox           2009-09-19  156  		retval = serial->type->open(NULL, port);
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  157  		if (retval) {
-085fb962623b727 Greg Kroah-Hartman 2012-04-20  158  			dev_err(&port->dev, "could not open USB console port\n");
-92d2c5e4badc622 Jason Wessel       2010-03-16  159  			goto fail;
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  160  		}
-^1da177e4c3f415 Linus Torvalds     2005-04-16  161  
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  162  		if (serial->type->set_termios) {
-2d8a1001ee0e961 Stephen Rothwell   2012-07-20  163  			tty->termios.c_cflag = cflag;
-2d8a1001ee0e961 Stephen Rothwell   2012-07-20  164  			tty_termios_encode_baud_rate(&tty->termios, baud, baud);
-92d2c5e4badc622 Jason Wessel       2010-03-16  165  			memset(&dummy, 0, sizeof(struct ktermios));
-06dd881f59b3c07 Jason Wessel       2008-09-08  166  			serial->type->set_termios(tty, port, &dummy);
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  167  
-4a90f09b20f4622 Alan Cox           2008-10-13  168  			tty_port_tty_set(&port->port, NULL);
-f51ccf46217c287 Johan Hovold       2018-12-04  169  			tty_save_termios(tty);
-32a4bf2e81ec378 Johan Hovold       2015-01-05  170  			tty_kref_put(tty);
-^1da177e4c3f415 Linus Torvalds     2005-04-16  171  		}
-515be7baeddb04d Ilpo Järvinen      2023-01-17  172  		tty_port_set_initialized(&port->port, true);
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  173  	}
-6e4061210150d1d Jason Wessel       2009-06-22  174  	/* Now that any required fake tty operations are completed restore
-6e4061210150d1d Jason Wessel       2009-06-22  175  	 * the tty port count */
-6e4061210150d1d Jason Wessel       2009-06-22  176  	--port->port.count;
-6e4061210150d1d Jason Wessel       2009-06-22  177  	/* The console is special in terms of closing the device so
-6e4061210150d1d Jason Wessel       2009-06-22  178  	 * indicate this port is now acting as a system console. */
-336cee42dd52824 Jason Wessel       2010-03-08  179  	port->port.console = 1;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  180  
-7bd032dc2793afc Alan Stern         2009-09-04  181  	mutex_unlock(&serial->disc_mutex);
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  182  	return retval;
-7bd032dc2793afc Alan Stern         2009-09-04  183  
-92d2c5e4badc622 Jason Wessel       2010-03-16  184   fail:
-4a90f09b20f4622 Alan Cox           2008-10-13  185  	tty_port_tty_set(&port->port, NULL);
-32a4bf2e81ec378 Johan Hovold       2015-01-05  186  	tty_kref_put(tty);
-c87d6a4f67657f4 Aristeu Rozanski   2007-11-13  187   reset_open_count:
-95da310e66ee809 Alan Cox           2008-07-22  188  	port->port.count = 0;
-299d7572e46f985 Johan Hovold       2017-10-04  189  	info->port = NULL;
-7bd032dc2793afc Alan Stern         2009-09-04  190  	usb_autopm_put_interface(serial->interface);
-7bd032dc2793afc Alan Stern         2009-09-04  191   error_get_interface:
-7bd032dc2793afc Alan Stern         2009-09-04  192  	mutex_unlock(&serial->disc_mutex);
-61dfa797c731754 Liang He           2022-09-19  193  	usb_serial_put(serial);
-7bd032dc2793afc Alan Stern         2009-09-04  194  	return retval;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  195  }
-^1da177e4c3f415 Linus Torvalds     2005-04-16  196  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3676  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3677  /*
+1600f62534b7b3 Noa Osherovich   2016-11-15  3678   * Check ConnectX-4/LX FW version to see if it supports legacy interrupts.
+1600f62534b7b3 Noa Osherovich   2016-11-15  3679   * If so, don't mark it as broken.
+1600f62534b7b3 Noa Osherovich   2016-11-15  3680   * FW minor > 99 means older FW version format and no INTx masking support.
+1600f62534b7b3 Noa Osherovich   2016-11-15  3681   * FW minor < 14 means new FW version format and no INTx masking support.
+1600f62534b7b3 Noa Osherovich   2016-11-15  3682   */
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3683  static void mellanox_check_broken_intx_masking(struct pci_dev *pdev)
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3684  {
+1600f62534b7b3 Noa Osherovich   2016-11-15  3685  	__be32 __iomem *fw_ver;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3686  	u16 fw_major;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3687  	u16 fw_minor;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3688  	u16 fw_subminor;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3689  	u32 fw_maj_min;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3690  	u32 fw_sub_min;
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3691  	int i;
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3692  
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3693  	for (i = 0; i < ARRAY_SIZE(mellanox_broken_intx_devs); i++) {
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3694  		if (pdev->device == mellanox_broken_intx_devs[i]) {
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3695  			pdev->broken_intx_masking = 1;
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3696  			return;
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3697  		}
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3698  	}
+1600f62534b7b3 Noa Osherovich   2016-11-15  3699  
+82e1719c4cd65b Bjorn Helgaas    2018-05-02  3700  	/*
+82e1719c4cd65b Bjorn Helgaas    2018-05-02  3701  	 * Getting here means Connect-IB cards and up. Connect-IB has no INTx
+1600f62534b7b3 Noa Osherovich   2016-11-15  3702  	 * support so shouldn't be checked further
+1600f62534b7b3 Noa Osherovich   2016-11-15  3703  	 */
+1600f62534b7b3 Noa Osherovich   2016-11-15  3704  	if (pdev->device == PCI_DEVICE_ID_MELLANOX_CONNECTIB)
+1600f62534b7b3 Noa Osherovich   2016-11-15  3705  		return;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3706  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3707  	if (pdev->device != PCI_DEVICE_ID_MELLANOX_CONNECTX4 &&
+1600f62534b7b3 Noa Osherovich   2016-11-15  3708  	    pdev->device != PCI_DEVICE_ID_MELLANOX_CONNECTX4_LX)
+1600f62534b7b3 Noa Osherovich   2016-11-15  3709  		return;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3710  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3711  	/* For ConnectX-4 and ConnectX-4LX, need to check FW support */
+1600f62534b7b3 Noa Osherovich   2016-11-15  3712  	if (pci_enable_device_mem(pdev)) {
+7506dc79899332 Frederick Lawler 2018-01-18  3713  		pci_warn(pdev, "Can't enable device memory\n");
+1600f62534b7b3 Noa Osherovich   2016-11-15  3714  		return;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3715  	}
+1600f62534b7b3 Noa Osherovich   2016-11-15  3716  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3717  	fw_ver = ioremap(pci_resource_start(pdev, 0), 4);
+1600f62534b7b3 Noa Osherovich   2016-11-15  3718  	if (!fw_ver) {
+7506dc79899332 Frederick Lawler 2018-01-18  3719  		pci_warn(pdev, "Can't map ConnectX-4 initialization segment\n");
+1600f62534b7b3 Noa Osherovich   2016-11-15  3720  		goto out;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3721  	}
+1600f62534b7b3 Noa Osherovich   2016-11-15  3722  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3723  	/* Reading from resource space should be 32b aligned */
+1600f62534b7b3 Noa Osherovich   2016-11-15 @3724  	fw_maj_min = ioread32be(fw_ver);
+1600f62534b7b3 Noa Osherovich   2016-11-15  3725  	fw_sub_min = ioread32be(fw_ver + 1);
+1600f62534b7b3 Noa Osherovich   2016-11-15  3726  	fw_major = fw_maj_min & 0xffff;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3727  	fw_minor = fw_maj_min >> 16;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3728  	fw_subminor = fw_sub_min & 0xffff;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3729  	if (fw_minor > CONNECTX_4_CURR_MAX_MINOR ||
+1600f62534b7b3 Noa Osherovich   2016-11-15  3730  	    fw_minor < CONNECTX_4_INTX_SUPPORT_MINOR) {
+7506dc79899332 Frederick Lawler 2018-01-18  3731  		pci_warn(pdev, "ConnectX-4: FW %u.%u.%u doesn't support INTx masking, disabling. Please upgrade FW to %d.14.1100 and up for INTx support\n",
+1600f62534b7b3 Noa Osherovich   2016-11-15  3732  			 fw_major, fw_minor, fw_subminor, pdev->device ==
+1600f62534b7b3 Noa Osherovich   2016-11-15  3733  			 PCI_DEVICE_ID_MELLANOX_CONNECTX4 ? 12 : 14);
+1600f62534b7b3 Noa Osherovich   2016-11-15  3734  		pdev->broken_intx_masking = 1;
+1600f62534b7b3 Noa Osherovich   2016-11-15  3735  	}
+1600f62534b7b3 Noa Osherovich   2016-11-15  3736  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3737  	iounmap(fw_ver);
+1600f62534b7b3 Noa Osherovich   2016-11-15  3738  
+1600f62534b7b3 Noa Osherovich   2016-11-15  3739  out:
+1600f62534b7b3 Noa Osherovich   2016-11-15  3740  	pci_disable_device(pdev);
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3741  }
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3742  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_MELLANOX, PCI_ANY_ID,
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3743  			mellanox_check_broken_intx_masking);
+d76d2fe05fd936 Noa Osherovich   2016-11-15  3744  
 
-:::::: The code at line 146 was first introduced by commit
-:::::: 32a4bf2e81ec378e5925d4e069e0677a6c86a6ad USB: console: fix potential use after free
+:::::: The code at line 3724 was first introduced by commit
+:::::: 1600f62534b7b3da7978b43b52231a54c24df287 PCI: Support INTx masking on ConnectX-4 with firmware x.14.1100+
 
-:::::: TO: Johan Hovold <johan@kernel.org>
-:::::: CC: Johan Hovold <johan@kernel.org>
+:::::: TO: Noa Osherovich <noaos@mellanox.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
