@@ -1,134 +1,126 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B1814B092
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 15:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F0D8467
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 16:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738338169; cv=none; b=DhN+m0l13iEy4nR7Pi9NuffLRT9pNoNCLXh3rG6BfoyDYYbaFEyv1id20GbKSTayBgwR2ZyxZsGrheL+tpOvdyVea2FJhm4gUwsKT0AwR62cMXL8pQ+fyfbug8+d7wDRBoOm6uFx/emlxUtBJ0xwkT6gQxMYmj0ke3iCtB5V5fc=
+	t=1738340253; cv=none; b=pc8R899IjuIE9j5+hTfXGQM7cYieuToQ9ynGDK3etNBSqQ+iTKh70GAYLESQYolADVAxGVB+0edB0eBr7TqaktCg8fb0toVtXiJlMv0vHWxBA8gh43sTMAT+nRgKPl26leXQA9XO18autrbORAygVcgYIF5omJBakyHGBaED16E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738338169; c=relaxed/simple;
-	bh=n9Gz9bG3IIEKIMS8XJwC/jZ68fSHVat70F1hfq0BtcM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pgW3O318ihF9OjDi0DIbsTQezM73K/MdyKRPh4q7SkszNcX+UtU/7YlGYvU93CtfhKAR4h7O8mxzWBKumOVTUzx6FSGpZ78tcCHxUj2gOpaUZQWzYWIUMOA1wmJ4HizP5gqAoeX/GFYsg9ivSAY1cmOqhSkhkT8LEkHVOBTvNJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+RWX5Hf; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738340253; c=relaxed/simple;
+	bh=CX8XWmlcUPcWN04gaJBCqBHRqJL43Hm1YOPIGOoL+GA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b7gkX9VI0KN2FqiMb/NnDScJvv+zbimOccJo4XdX/gqe+cXho4Ul1MyfEU3jcM8lAyNc5j5bCYwUEJxwKXTM/DnN26EQ6guNlJj+IgF1Idd5tVCByoNB+49E1zqI90YogXSSIg+yPUud/VMaTjl9SW0V8T56yH8IOZByy73XS10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUC4sGAk; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+RWX5Hf"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30616d71bb0so21599911fa.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 07:42:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738338165; x=1738942965; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0bUtGCXebxJB/NUgo0wgvoy0ZsdfeWWX1Pfldx3r/dk=;
-        b=F+RWX5HfeqYQcdkEDPz7CYG37w6C8cEnfyC0oBwAOZujq0RVzSUzXCnKJTXgmSEikv
-         AaRzz7KfTc/I2L5lqYiAhD+ecrgqgiOoZP9vSHfXKHy76xQ2j7sxvXQ1mTi8gWo0A33g
-         Ye2B7WpmCIkADslos5Ns3Uh4S4Z988NYaM0qgWNSGcQWAHB7wTN2sA61XbCoBKx/PQxj
-         sX3SDYToG2dG7DKpbts7aHy/BOEhDZuzh4HwQAsVjxKBYXDKmwai7RWItyZsb/k8Gw8M
-         Xna0BzyxPMbZyhj59g0LDlAzYwD/tZ4wxGZx789I3wvjxuLnusP8ybIq4YjxJ2587KtJ
-         ECMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738338165; x=1738942965;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0bUtGCXebxJB/NUgo0wgvoy0ZsdfeWWX1Pfldx3r/dk=;
-        b=U3W61Y7q2a0zIEdRQ9g1iT4+YwlVf4n52YLzSU1LHIqUotHK8FfzMKHh8TE+mPiqam
-         YjIt9Fp3POLttW3/uU9U/V87KL/7aTDs49jOXi9UiRvXJP4bSOsL4hg2zZDzuaSvww9D
-         lCPaIfG65KlvSZJ8+1esJkGI3JHll2e2clx2Y5du6LoaOZy8BUwN+TUoT5KEEw9Gje/S
-         OGpJ0NUA8125OqVXViUH/tpCD185GFBrJjcc6F86zZyKNyywaZoZBe/NLxKx+4Y8No/v
-         FCRQqC92qQfDK6y8Y5ko16PcAlt2mjgudr7od7l/PgKPtDUBZtvp1phkDfeia+Rak3xr
-         AxgA==
-X-Forwarded-Encrypted: i=1; AJvYcCW1hQtx4MU4AhjziCPdGIVKRJe5gDdAUfFYjqwbnEwQWLMsOC7V1UFTSCwjuznv1IiONIjOi04UgoG0oORI@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxk2ZqVBPw3uuRq1JEBq9CKXCuaufFbgIEndOkoW7YD3bxSFHs4
-	e7CeiFgvPhD6xaIVajWVspq0dSicoDKapjasmy6Kp7Ml+fPIYMtLHKkNi+1JR1rWVRu8tsX/XJ5
-	DWJzE9GuMGjjxwnY9X9EXpVmgqo4=
-X-Gm-Gg: ASbGncvDvLIl8Ye3ahJoWAtiKjIxCangZZ3ee7fefzVIxSEw76WTlWf92cyhzDHClEA
-	4bGevSQqSTRZm33gl+/oCTZrF5GzadCOH81fHXwAxCs0NOiQvLx+xJOrhpmb9Bc942MGUqvQw
-X-Google-Smtp-Source: AGHT+IFNrV95VHDgen0+CB3k2ntv9AqrMK4uGIr3VosIu2APJo+JZYKDsp9rhOjtLezKHw60AGcVcNWNWYiN2weKWp8=
-X-Received: by 2002:a2e:9a0e:0:b0:302:1b18:2bfa with SMTP id
- 38308e7fff4ca-307968e0aa5mr50215381fa.23.1738338165239; Fri, 31 Jan 2025
- 07:42:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUC4sGAk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738340252; x=1769876252;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CX8XWmlcUPcWN04gaJBCqBHRqJL43Hm1YOPIGOoL+GA=;
+  b=cUC4sGAkHflkFammXd4nhkTUekEzaQ0XhSYOALduZa/J8Mu5Psp9cDTa
+   AJP0X5aH7ETPspISGfoIRLOQ8PC3BqOfugbgUjxuXmUF+H74UMG+d9c/G
+   MjNw9IoqBnYpB5g6IwI/TCQuXqlxwaThLOEoXXR2/N13IbDr8hvqkH1Zl
+   SDdvYrXy/Ajo64ln1SAp21dNJ8d1qrNDg1jd7tfl8JzIYsIl95XZFRQPf
+   tVw4jJO0pYA/xU9tyHHa0cr3jjJFaWO8f17ScNyjDROLcKxvKZa9hjM5Y
+   QwxwytMXgiORV8Sn0EjrrLTXOVA3zPotZVOyXV+HwSWtDoFkw+mbvjk54
+   w==;
+X-CSE-ConnectionGUID: suulkSEDQYy3ZPreoTVT2A==
+X-CSE-MsgGUID: TNH/sOoKTi2D611aWu7rdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="39071328"
+X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; 
+   d="scan'208";a="39071328"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 08:17:31 -0800
+X-CSE-ConnectionGUID: keVrDeodRzSnqEvU0lw/3A==
+X-CSE-MsgGUID: PRmVYGAMSz6Qz7dKJZRaZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; 
+   d="scan'208";a="110239611"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 31 Jan 2025 08:17:30 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tdthw-000mZk-11;
+	Fri, 31 Jan 2025 16:17:28 +0000
+Date: Sat, 1 Feb 2025 00:17:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.13/zen-sauce 2/31] drivers/scsi/vhba/vhba.c:192:23: error:
+ variable 'vhost' set but not used
+Message-ID: <202502010020.dlXHLcHO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501312159.l6jNRaYy-lkp@intel.com> <CAFULd4bYhA+XsJH3rr=i98O4DJr_jjZe5HtBETGV_4Sm0S0QnQ@mail.gmail.com>
- <CAKbZUD0N7bkuw_Le3Pr9o1V2BjjcY_YiLm8a8DPceubTdZ00GQ@mail.gmail.com>
-In-Reply-To: <CAKbZUD0N7bkuw_Le3Pr9o1V2BjjcY_YiLm8a8DPceubTdZ00GQ@mail.gmail.com>
-From: Uros Bizjak <ubizjak@gmail.com>
-Date: Fri, 31 Jan 2025 16:42:32 +0100
-X-Gm-Features: AWEUYZkkKGT6RsJh1QHVVEHFurmEuGz4J6nhpgm-gTCdnK1YGW2DY0LDl8hmIn4
-Message-ID: <CAFULd4YZkRtcaE2T+v9DjUWVgYK08RPRPU94WXzAd7tq4mA66Q@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 52/52] lib/bch.c:317:undefined
- reference to `__paritydi2'
-To: Pedro Falcato <pedro.falcato@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jan 31, 2025 at 3:34=E2=80=AFPM Pedro Falcato <pedro.falcato@gmail.=
-com> wrote:
->
-> On Fri, Jan 31, 2025 at 1:23=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> w=
-rote:
-> >
-> > On Fri, Jan 31, 2025 at 2:12=E2=80=AFPM kernel test robot <lkp@intel.co=
-m> wrote:
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git m=
-m-nonmm-unstable
-> > > head:   1b9f78ccbffefb107cd92e20cfccd03ff2fa9d0e
-> > > commit: 1b9f78ccbffefb107cd92e20cfccd03ff2fa9d0e [52/52] lib/bch.c: u=
-se __builtin_parity() when available
-> > > config: arm64-randconfig-002-20250131 (https://download.01.org/0day-c=
-i/archive/20250131/202501312159.l6jNRaYy-lkp@intel.com/config)
-> > > compiler: aarch64-linux-gcc (GCC) 14.2.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20250131/202501312159.l6jNRaYy-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202501312159.l6jNRaYy=
--lkp@intel.com/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > >    aarch64-linux-ld: lib/bch.o: in function `parity':
-> > > >> lib/bch.c:317:(.text+0x10e8): undefined reference to `__paritydi2'
-> > > >> lib/bch.c:317:(.text+0x10e8): relocation truncated to fit: R_AARCH=
-64_CALL26 against undefined symbol `__paritydi2'
-> >
-> > This config for some reason generates a call to the library function.
-> > But I have tested this with a crosscompiler:
-> >
-> >        fmov    s31, w0
-> >        cnt     v31.8b, v31.8b
-> >        addv    b31, v31.8b
-> >        fmov    w0, s31
-> >        and     w0, w0, 1
-> >        ret
-> >
-> > It looks that __has_builtin() does not mean that there will be no call
-> > to a library function?!
->
-> Yep, __builtin functions aren't strictly required to be inlined and
-> can generate a library call if the compiler so chooses (how often this
-> happens depends on the optimization level and architecture).
-> e.g: https://godbolt.org/z/zKPb9hbaM
+tree:   https://github.com/zen-kernel/zen-kernel 6.13/zen-sauce
+head:   ae96db84281e1b10aee61ef832aabd0941743e99
+commit: f9b71a07f5071c27d40a84a19588128df45565c7 [2/31] ZEN: Add VHBA driver
+config: nios2-randconfig-r113-20250131 (https://download.01.org/0day-ci/archive/20250201/202502010020.dlXHLcHO-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250201/202502010020.dlXHLcHO-lkp@intel.com/reproduce)
 
-Thanks for the example!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502010020.dlXHLcHO-lkp@intel.com/
 
-I have to retract the patch.
+All errors (new ones prefixed by >>):
 
-Thanks,
-Uros.
+   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
+>> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
+     192 |     struct vhba_host *vhost;
+         |                       ^~~~~
+   drivers/scsi/vhba/vhba.c: At top level:
+   drivers/scsi/vhba/vhba.c:1087:15: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Wincompatible-pointer-types]
+    1087 |     .remove = vhba_remove,
+         |               ^~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1087:15: note: (near initialization for 'vhba_platform_driver.remove')
+   cc1: all warnings being treated as errors
+
+
+vim +/vhost +192 drivers/scsi/vhba/vhba.c
+
+   189	
+   190	static int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+   191	{
+ > 192	    struct vhba_host *vhost;
+   193	    struct vhba_command *vcmd;
+   194	    unsigned long flags;
+   195	
+   196	    vhost = platform_get_drvdata(&vhba_platform_device);
+   197	
+   198	    vcmd = vhba_alloc_command();
+   199	    if (!vcmd) {
+   200	        return SCSI_MLQUEUE_HOST_BUSY;
+   201	    }
+   202	
+   203	    vcmd->cmd = cmd;
+   204	
+   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
+   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
+   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
+   208	#else
+   209	    vcmd->metatag = vcmd->cmd->request->tag;
+   210	#endif
+   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
+   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   213	
+   214	    wake_up_interruptible(&vdev->cmd_wq);
+   215	
+   216	    return 0;
+   217	}
+   218	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
