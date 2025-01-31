@@ -1,126 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D29145B3F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 07:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABFF1FAA;
+	Fri, 31 Jan 2025 08:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738307193; cv=none; b=Nu3qyHwy+jfwH94iITn7HV1COcLevZOWjWYQuI8ln4SwsRD2Vjq+rGmY9qHfJUn3fGeqXSMtqD11az24EOjN+qS42vJ94meIBUPLb8m2Xl4SniAFlPTcAKCxMxp4dz5M4nutiTHcfVO30cqTb+OnVGEC51OK1J7Ow1nnk6vsXok=
+	t=1738311520; cv=none; b=Qnjxj7emNuTzCGb4Yww+BB1KRtSLh2fxlvO/56wxCIrJaVLO/FDXryfpXHCEx7YO/T/LdoumR0dcKAR22iM2gmLIlw2BF1RTg/OXcrqbQvez1zSWARirtXNgM6T4FV1C0E9/50VxCc3rk/keLmrjkTZQmpY+qzXKnHwfutKoH6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738307193; c=relaxed/simple;
-	bh=zOrrtSgX7CZSyiq4mgybdFcv+4KBEcNP5sep2xb2dTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ghRnWHmzcwoRXuhrOpsSbjjrSJ3m5yeL8QV3FIVw9TOq5r1r/AVFyEEu1T7b1m7yPu+sUFnz/C0ujhM6JYd7RvmaF9jNt6Afuq9W7ASYHJYKcr/e+efNJI9HkOtI55OzRuY/YVQiS9GfkKYKMz3xRnT1ASJt1vNNpxu4CxZh4no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUw3jnJz; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUw3jnJz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738307191; x=1769843191;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zOrrtSgX7CZSyiq4mgybdFcv+4KBEcNP5sep2xb2dTE=;
-  b=WUw3jnJz/dHab/g3fZYCYxcBrFwve1p1RgOyBU1LkX9P6fhsLERU1G0Z
-   uOUE6U38ixTiqLQh+hrj5Ozf8B+hd+GuouFxEpsSfYGmBwsdt2/gk4Jy9
-   dxOaoB8rJLQksPJ1g5ICS34z1D/+ATDqqmyTT8frzr2TVH61DtLUQfYNs
-   7C+KIxc6YRoz3GJyEApU6VggwrvpwtinlnAQsIcry+CZRfeJ1YqBL8gOt
-   NjdKplLMT1WFbEaljA0rMrc4PlnOb9K+L11Nqbn08WvG09eHHooyN2fhL
-   vK6B8gZQPK/FDOgev3qjgDQKfgN4m+c2kfazyITRYXJCKVK0s5r+t6C8J
-   A==;
-X-CSE-ConnectionGUID: 30RbEgDBQOSig87/3Q46Dw==
-X-CSE-MsgGUID: MmOmkkmoR0+aNw7mA7Qy/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="49863684"
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="49863684"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 23:06:30 -0800
-X-CSE-ConnectionGUID: toRm1x3RQ/aUNmmXvhHBbQ==
-X-CSE-MsgGUID: jnvC9LM6RlmC/uaDqvvFNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="110132404"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Jan 2025 23:06:29 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tdl6h-000m7b-08;
-	Fri, 31 Jan 2025 07:06:27 +0000
-Date: Fri, 31 Jan 2025 15:05:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-msiof-2025-01-30 2/2]
- sound/soc/renesas/rcar/msiof.c:356:9: sparse: sparse: statement expected
- after case label
-Message-ID: <202501311443.YYRcwfUV-lkp@intel.com>
+	s=arc-20240116; t=1738311520; c=relaxed/simple;
+	bh=XQAyDEsftPjo4BUnpRrzUo4hXISSwy4f0FYmQpPlKmc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R+b6cXCHZMqiSfyQPCaAfcESQUz4cpGKyzT/0q3CWuQClfeami2IJJ/f51gHw9UpocPOfxxRfefPcTMxpC+QgK7gTVkMaSSOaTLa5wRqT/cY2k8fBYoc8ChsPKEsFwJMiNMzqHGhNLJIw7ovUhp/hevnyOuNyNhO6kK1ebkBjFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-860af3331feso1553804241.1;
+        Fri, 31 Jan 2025 00:18:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738311517; x=1738916317;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O7YJgHULp2WAjtiPEkDFTcvV/zsoNwPARiiJx2ktMxk=;
+        b=dnSTZyWSk7M3k2t2WDJAaP5NMyOln3JzaUD3+DCxcJNaofkkbO/cwq1Q3cIJIVRjV9
+         a96/70B3lkgI3WHRgmm7FvKEdQtDkQb1YGeykrstTmVglrDoTmP4lw4DiU0lEQLV1ut7
+         Ro+xvKgRmEXacNoH6jcHT0wBaCLbd04JW8kUylRAVlDLOy7oV6bL927Fo8w/6wEk1SrV
+         j9biAUNe+pfh6REYV1jIaEArzO8OjS+dJRrGkVxBMEAHXNRldwF1qTfQzjEdxIeffLut
+         z4jXWLpqyJmxqPOhRFyg4pzD2wA42i2D+1hI28UzyFWZ9+cDl2+r+JF7940gUJo8c+a/
+         fSSw==
+X-Forwarded-Encrypted: i=1; AJvYcCVBOqSbgKcnb2VJaa0/MgKpVdhFIcRXASCepFHjCl5GYkP7ru96VlhVvyxlUGwQh8BWdXZWrQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBow19nMOlX1ZkdtMghyTbtDYcEZI+W+VfmrlXu8AJfBVLLO7c
+	WHKoUZTuL/P+guOUX3Eg4sqUAFJTm37X58Pb4GwyGO5+7G4t0pnFOR3UqY8TqI8=
+X-Gm-Gg: ASbGncu4isrwSdu89JQSkDhCK0roh0MHkPLIo9HjTyhs+pM9VTqJ+1ld2Ja3Wter/mo
+	YItxf/bafPSNRK18pi1B+8MwyBtVUJcFpEa0/r5OBq6hKEIGIubvE7toz+am9PCiA8jsQK93x9M
+	1uKl2ZhdYzPxBeUhYjQWsZhym8xwIGHTTE/4c9SnL4+/nHMUe/intZOISZarIJde9QQqptDwzPU
+	8zvJtSaZNMs5nPdipbGdN4t5HXfSHAd7GYbBB0aMISTwyU1bknrXd/fX1MhSpl0p/q9WxvsAzWV
+	KWO/bEdl7M83O8E6stscqJslg4j57yNyNJ9+St51gqWo58tL0yLYWp0yhQ==
+X-Google-Smtp-Source: AGHT+IFN/Y2xMhCjMD5Fn5xL+vl/iCo6i3YOToMvgeRmwaWHEqqybUQhjbda7kMB0QJoPwS64oyfFQ==
+X-Received: by 2002:a05:6122:2104:b0:50d:39aa:7881 with SMTP id 71dfb90a1353d-51eaedbaf26mr5804058e0c.0.1738311517008;
+        Fri, 31 Jan 2025 00:18:37 -0800 (PST)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51eb1d91b6bsm463452e0c.45.2025.01.31.00.18.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jan 2025 00:18:36 -0800 (PST)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-518799f2828so882341e0c.0;
+        Fri, 31 Jan 2025 00:18:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUiQMCQOd39ExoDiOc1Ccmlq19y9l9Z+9WEhY48/KjL+WvS4f3mPVigCzrmtt9BiIdEdbYrxQ==@lists.linux.dev
+X-Received: by 2002:a05:6122:459a:b0:516:dc0f:c925 with SMTP id
+ 71dfb90a1353d-51ebe666828mr1912542e0c.6.1738311516552; Fri, 31 Jan 2025
+ 00:18:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202501310132.oGDmspPN-lkp@intel.com>
+In-Reply-To: <202501310132.oGDmspPN-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 31 Jan 2025 09:18:25 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX9=KRJ7jhzrMdnjCiTpBhqJT6fC5ZR=HKUVPzdygKBsw@mail.gmail.com>
+X-Gm-Features: AWEUYZkLT5ckFgNiGcY41nm9el4Hb73i2R4W479F_ewOJKXPN37hxSWvlqWURJA
+Message-ID: <CAMuHMdX9=KRJ7jhzrMdnjCiTpBhqJT6fC5ZR=HKUVPzdygKBsw@mail.gmail.com>
+Subject: Re: net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but
+ not used
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	mptcp@lists.linux.dev, matthieu.baerts@tessares.net, 
+	Jakub Kicinski <kuba@kernel.org>, Matthieu Baerts <matttbe@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/morimoto/linux sound-msiof-2025-01-30
-head:   d9a82c93cca8d2f5381062d77bbab0736dd6dc5b
-commit: d9a82c93cca8d2f5381062d77bbab0736dd6dc5b [2/2] msiof
-config: loongarch-randconfig-r122-20250131 (https://download.01.org/0day-ci/archive/20250131/202501311443.YYRcwfUV-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250131/202501311443.YYRcwfUV-lkp@intel.com/reproduce)
+Hi Kernel Test Roboty,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501311443.YYRcwfUV-lkp@intel.com/
+On Thu, 30 Jan 2025 at 18:55, kernel test robot <lkp@intel.com> wrote:
+> FYI, the error/warning still remains.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   72deda0abee6e705ae71a93f69f55e33be5bca5c
+> commit: 010b430d5df556d5d232e3751ac691ba9e88c041 mptcp: MPTCP_IPV6 should depend on IPV6 instead of selecting it
+> date:   4 years, 3 months ago
+> config: csky-randconfig-p001-20220406 (https://download.01.org/0day-ci/archive/20250131/202501310132.oGDmspPN-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 12.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501310132.oGDmspPN-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501310132.oGDmspPN-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    net/ipv4/ip_gre.c: In function 'ipgre_err':
+> >> net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but not used [-Wunused-but-set-variable]
+>      141 |         unsigned int data_len = 0;
+>          |                      ^~~~~~~~
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/renesas/rcar/msiof.c:356:9: sparse: sparse: statement expected after case label
+https://lore.kernel.org/all/67956320a8ee663f2582cc75f0e8047d69da5f6a.1737371364.git.geert@linux-m68k.org/#t
+Waiting for the merge window to close to repost...
 
-vim +356 sound/soc/renesas/rcar/msiof.c
+Gr{oetje,eeting}s,
 
-   332	
-   333	static int msiof_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
-   334	{
-   335		struct msiof_priv *priv = snd_soc_dai_get_drvdata(dai);
-   336	
-   337		switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-   338		case SND_SOC_DAIFMT_BP_FP:
-   339			priv->is_provider = 1;
-   340			break;
-   341		case SND_SOC_DAIFMT_BC_FC:
-   342			priv->is_provider = 0;
-   343			break;
-   344		default:
-   345			return -EINVAL;
-   346		}
-   347	
-   348		switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-   349		case SND_SOC_DAIFMT_NB_IF:
-   350		case SND_SOC_DAIFMT_IB_NF:
-   351		case SND_SOC_DAIFMT_IB_IF:
-   352			return -EINVAL;
-   353		/* it supports NB_NF only */
-   354		case SND_SOC_DAIFMT_NB_NF:
-   355		default:
- > 356		}
-   357	
-   358		switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-   359		case SND_SOC_DAIFMT_I2S:
-   360			priv->need_delay = 1;
-   361			break;
-   362		case SND_SOC_DAIFMT_LEFT_J:
-   363			priv->need_delay = 0;
-   364			break;
-   365		default:
-   366			return -EINVAL;
-   367		}
-   368	
-   369		return 0;
-   370	}
-   371	
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
