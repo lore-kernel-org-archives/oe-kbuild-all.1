@@ -1,245 +1,257 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761C2F9FE;
-	Fri, 31 Jan 2025 21:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F6B1B413E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 22:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738360286; cv=none; b=gCwFIBe61w10rLTerRTDUWp7LUBmzX0T/StW5LFunWyAYYEUcDLHF328zJBksHlu55EYkmMpL0HDH3WeiR/EC9uRUdSDWleyOLGPywBh9qI290yYFJlgQH375cx+SY2ywGIEpKF6mU3TuBhg47BWM5QcApGH1YQndI96oK/nfjQ=
+	t=1738363900; cv=none; b=sUbJr2OzExHJMNhdU7MfCVLw1vJKg5TU6F04QGaBU4jD6+CGv9DH9L3yZwiPRHgcWIYdXnoDjL1eAlocX6z3eGdxDFln0dKu5tfieZz737Zu5lz61gXyRjCjZ1FvEbltrQ4a58EZ1IWOpbmZkNZi4vwNAM+FdiqyeTCeboAKEtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738360286; c=relaxed/simple;
-	bh=oV7m9mCHY5qOTl4DvSLEx80+A3Vl32dz+XiHA3RBadY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nl4Byh+o1K4ASsVKnXYTT4oZdHJxae40rHkd///EuEU5WF+W8iSQ1m5Buot/f7e0aI0uij5U4VdRVuJpH6+sKJ2CBiJgHmqSNMTnN4au0hVSvkc1xqlINeo1TTt8es06qUjAdJJGs4IkJImjvaMrOBZn7Q4+sMNcNSmxrjM+N0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UupMOWBB; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738363900; c=relaxed/simple;
+	bh=C1h6Z2sFOraagiETj1CBal6IdPQUgA7SBT1KnqE4yig=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=StIHjwC9kgLuzJZF39ogsXs4fQ9HVDb8ehhAR2miz5og3cmY7tQYa7KTpRes2GpQdIoPn3Gy0INQ2ztGuMmp61g3rNOO8vh7satEyu4E3sGNBZxaNkv89Ec3tgxvN3c0NtU/oa3bkBwqFHWMoYwn1AS9xUX79LgP8HpzQmceOb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MQHhsheV; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UupMOWBB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738360285; x=1769896285;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oV7m9mCHY5qOTl4DvSLEx80+A3Vl32dz+XiHA3RBadY=;
-  b=UupMOWBBMmE97bNsQ3AxtD3MOJx4FahKfIWNikGj5UOzHH99f3Dl6org
-   upAJrhg9D/0zeccig2iJj7Mu29kXHVoTwiqxR9X9pZ3TJif3EKKE6YhTw
-   71Lpohm8cDRlwLPg4KSouddZuUzEaAJamlpXZ/2fJcj6w9k6hlQUSOZnp
-   DJZuvC3F+1RdSQ98RKayEtCG0oaGIAxK4DQ+BH1yQ9LmRljiu85kdJcLt
-   2sqa5Fmr0ft9KyBJfHE+poARBelOBtnzIY1hDqYJXuRzYItFevA7/+DH1
-   4lUjqufRrAL0ZXIR3mtj2qQ5w4uaZEwTIo34jFYIFJ6Ik9yicMPFJzbYx
-   A==;
-X-CSE-ConnectionGUID: hkFmOGamQAypTXZYywbnHA==
-X-CSE-MsgGUID: KKRxsr40Q56ItbITDwgwxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="39077924"
-X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; 
-   d="scan'208";a="39077924"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 13:51:24 -0800
-X-CSE-ConnectionGUID: fI7imHPRT8uIebJxC6x7vg==
-X-CSE-MsgGUID: iU6i5L7FTPuf46YvsyD0FQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="132995507"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Jan 2025 13:51:22 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tdyv2-000nGn-0Y;
-	Fri, 31 Jan 2025 21:51:20 +0000
-Date: Sat, 1 Feb 2025 05:50:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:crypto-krb5 33/33] fs/afs/cm_security.c:253:10:
- warning: format specifies type 'size_t' (aka 'unsigned int') but the
- argument has type 'unsigned long'
-Message-ID: <202502010518.LCA4OLR3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MQHhsheV"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4678c9310afso40511cf.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 14:51:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1738363897; x=1738968697; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CRVZdM+iGM9ixXB9jH54KsnnAGGH880gk3OgBWFCBzc=;
+        b=MQHhsheVjFRp1HASGIU9MA660bvQHDCltKiJZEGD/LUrLH2xxDKWI/jY3SUkhLNkK+
+         XAN+u8z/D9wis4DkqcdmtkTTT1xE5P04WJr+0wwsqmvks6O37LIQWzK18WO9rSpC+uJH
+         KSUOctC2UPO1SAQCNLSJFKybWIrfUv+15gj0JlfCQXbSWLwFSlEe8J9lCjqBJ4pxLPac
+         rp560giUENAyVfl2kmlZ6/9xTWLjftR2TEfcgoCK/7JfDh2kJ1mIS9Qb6aOBlzPeN8QX
+         dA5PzOSMrAEx+ltL5btq+gx2wISx01/tyD3UCSIpSLy7UPYbWvZIKPakvB4Z2Nr+LXpg
+         c6iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738363897; x=1738968697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CRVZdM+iGM9ixXB9jH54KsnnAGGH880gk3OgBWFCBzc=;
+        b=iNW9xS1akNqBXvobulynV0Krgrb83Y+VSWeoWGyjvSAZKPB5sld29olKNxl2okdGJr
+         CfaCqA4fmgeTRn/v+1lGkGSe3rbLKVO2xPIb5ow4vbcNd8NWJPZlIKxLR0lhsP3YnhVt
+         /tz2n3K3TwC/uHnfb8KVqvjR7bQBhAPqVra2Dpq5+Cudr22fPnngJjociEMB+IRwa2iG
+         ytRBxvqjleH9pbGLVQ1/dXzDEvHoFtCqU1X5hWdJg43yT2Q+aLfes/fzKXwkSNFHKu3i
+         mnWMdaNu3axW6bl1L1ZZd6grtcaLlb9VydfkzMdbv2Z//oj1FjF+6Vq4YHWUSUqD7OQl
+         tKsw==
+X-Gm-Message-State: AOJu0YzyBGFKs7pTpV+3FcSwfhyTJNEtH7krJ0mVFpjEzObvWR4deUei
+	DOo2bfdS5n6LCWvCDVItvvvF7+cNJyYqlxevHLnrokilmgXqPyZBGLq3SvW0fj5Sb7py4ezgjVY
+	4O+Q7CBhQJC02GNM8VgIXzBIgKhALgW0xyZVk
+X-Gm-Gg: ASbGncujFBsfLEwZT3ey3k8EgCU0bV6VJbo8je8zMY67etto6kFkY6uUb0nAFrEf3to
+	IYEBLu+ev0wL9MSb+UvBCAWKwkAXde2GXtGP9xgH/qMDra+R4eQfTYCgQTx0jNUxqLPw3y+WV
+X-Google-Smtp-Source: AGHT+IFn95EDOnLUL1dUh/vKQ/WcHaa4smXqFzp8XNAWIroKTAhFFlnSIRV81inl9dFmq/5Ed0TXvh8N3q1yC6FeJQc=
+X-Received: by 2002:a05:622a:5888:b0:466:90dd:19f3 with SMTP id
+ d75a77b69052e-46ffa8a3422mr323001cf.7.1738363897110; Fri, 31 Jan 2025
+ 14:51:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202501310832.kiAeOt2z-lkp@intel.com> <CAJuCfpGrtTK=reeVPrS+GQngs=WS-cZvy_YU9-JGyRgVFdofAw@mail.gmail.com>
+In-Reply-To: <CAJuCfpGrtTK=reeVPrS+GQngs=WS-cZvy_YU9-JGyRgVFdofAw@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 31 Jan 2025 14:51:26 -0800
+X-Gm-Features: AWEUYZlLsJlinlpuc_ktKy61kMuqHR2WwvZrzqjG4qkcCrG5A1g2N4iZxUIhXLA
+Message-ID: <CAJuCfpF56btBuHKn6j2SzY8KRUbjQ_oHCYtj5oqP88HBBBQ_3A@mail.gmail.com>
+Subject: Re: drivers/auxdisplay/panel.c:1454:2: error: call to
+ __compiletime_assert_309 declared with 'error' attribute: BUILD_BUG_ON
+ failed: !__builtin_constant_p(_dest_len) || _dest_len == (size_t)-1
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git crypto-krb5
-head:   3108d67c535aa3ea00a95b1daf8efdc15bb074b4
-commit: 3108d67c535aa3ea00a95b1daf8efdc15bb074b4 [33/33] afs: Use rxgk RESPONSE to pass token for callback channel
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250201/202502010518.LCA4OLR3-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250201/202502010518.LCA4OLR3-lkp@intel.com/reproduce)
+On Fri, Jan 31, 2025 at 8:55=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> On Thu, Jan 30, 2025 at 4:06=E2=80=AFPM kernel test robot <lkp@intel.com>=
+ wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   b4b0881156fb8209bf5ef6cb63211bb0ad6e1a6b
+> > commit: 07438779313caafe52ac1a1a6958d735a5938988 alloc_tag: avoid curre=
+nt->alloc_tag manipulations when profiling is disabled
+> > date:   5 days ago
+> > config: hexagon-randconfig-r133-20250131 (https://download.01.org/0day-=
+ci/archive/20250131/202501310832.kiAeOt2z-lkp@intel.com/config)
+> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f2=
+8c006a5895fc0e329fe15fead81e37457cb1d1)
+> > reproduce: (https://download.01.org/0day-ci/archive/20250131/2025013108=
+32.kiAeOt2z-lkp@intel.com/reproduce)
+>
+> Just saw this report (was on vacation). Will try to figure out what's goi=
+ng on.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502010518.LCA4OLR3-lkp@intel.com/
+I confirmed that my change at
+https://lore.kernel.org/all/20241226211639.1357704-1-surenb@google.com
+indeed causes this.
+Looks like due to the additional mem_alloc_profiling_enabled() check,
+the compiler considers allocation size as unknown at compile time
+(__builtin_object_size(obj) returns -1) even though both branches of
+that condition make the same exact allocation.
+I tried changing it to:
 
-All warnings (new ones prefixed by >>):
+#define alloc_hooks_tag(_tag, _do_alloc) \
+({ \
+        typeof(_do_alloc) _res; \
+        struct alloc_tag * __maybe_unused _old; \
+         if (mem_alloc_profiling_enabled()) \
+                _old =3D alloc_tag_save(_tag); \
+        _res =3D _do_alloc; \
+         if (mem_alloc_profiling_enabled()) \
+                 alloc_tag_restore(_tag, _old); \
+        _res; \
+})
 
->> fs/afs/cm_security.c:253:10: warning: format specifies type 'size_t' (aka 'unsigned int') but the argument has type 'unsigned long' [-Wformat]
-     252 |                 pr_err("Appdata size incorrect %zx != %zx\n",
-         |                                                ~~~
-         |                                                %lx
-     253 |                        (unsigned long)xdr - (unsigned long)token, adatasize);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:544:33: note: expanded from macro 'pr_err'
-     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:501:60: note: expanded from macro 'printk'
-     501 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:473:19: note: expanded from macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   fs/afs/cm_security.c:170:2: warning: variable 'toksize' is uninitialized when used here [-Wuninitialized]
-     170 |         toksize += keysize + 8 + 4 + 4 + 8 + xdr_len_object(authsize);
-         |         ^~~~~~~
-   fs/afs/cm_security.c:131:45: note: initialize the variable 'toksize' to silence this warning
-     131 |         size_t keysize, uuidsize, authsize, toksize, encsize, contsize, adatasize, offset;
-         |                                                    ^
-         |                                                     = 0
-   2 warnings generated.
+and that fixes the problem, however this would require two static key
+checks... I wonder if there is a way to tell the compiler that both
+branches cause the same result. Let me dig around.
 
-
-vim +253 fs/afs/cm_security.c
-
-   119	
-   120	/*
-   121	 * Create an RxGK GSS token to use as a ticket to the specified fileserver.
-   122	 */
-   123	int afs_create_cm_token(struct afs_server *server)
-   124	{
-   125		const struct krb5_enctype *krb5;
-   126		const struct krb5_buffer *server_key;
-   127		struct crypto_aead *aead;
-   128		struct scatterlist sg;
-   129		struct afs_net *net = server->cell->net;
-   130		const struct key *key = net->fs_cm_token_key;
-   131		size_t keysize, uuidsize, authsize, toksize, encsize, contsize, adatasize, offset;
-   132		__be32 *xdr;
-   133		void *token, *K0, *encxdr;
-   134		int ret;
-   135	
-   136		if (!key)
-   137			return -ENOKEY;
-   138	
-   139		krb5 = crypto_krb5_find_enctype(KRB5_ENCTYPE_AES128_CTS_HMAC_SHA1_96);
-   140		if (!krb5)
-   141			return -ENOPKG;
-   142		server_key = (const void *)&key->payload.data[2];
-   143	
-   144		/* struct rxgk_key {
-   145		 *	afs_uint32	enctype;
-   146		 *	opaque		key<>;
-   147		 * };
-   148		 */
-   149		keysize = 4 + xdr_len_object(krb5->key_len);
-   150	
-   151		/* struct RXGK_AuthName {
-   152		 *	afs_int32	kind;
-   153		 *	opaque		data<AUTHDATAMAX>;
-   154		 *	opaque		display<AUTHPRINTABLEMAX>;
-   155		 * };
-   156		 */
-   157		uuidsize = sizeof(server->uuid);
-   158		authsize = 4 + xdr_len_object(uuidsize) + xdr_len_object(0);
-   159	
-   160		/* struct RXGK_Token {
-   161		 *	rxgk_key		K0;
-   162		 *	RXGK_Level		level;
-   163		 *	rxgkTime		starttime;
-   164		 *	afs_int32		lifetime;
-   165		 *	afs_int32		bytelife;
-   166		 *	rxgkTime		expirationtime;
-   167		 *	struct RXGK_AuthName	identities<>;
-   168		 * };
-   169		 */
-   170		toksize += keysize + 8 + 4 + 4 + 8 + xdr_len_object(authsize);
-   171	
-   172		offset = 0;
-   173		encsize = crypto_krb5_how_much_buffer(krb5, KRB5_ENCRYPT_MODE, toksize, &offset);
-   174	
-   175		/* struct RXGK_TokenContainer {
-   176		 *	afs_int32	kvno;
-   177		 *	afs_int32	enctype;
-   178		 *	opaque		encrypted_token<>;
-   179		 * };
-   180		 */
-   181		contsize = 4 + 4 + xdr_len_object(encsize);
-   182	
-   183		/*
-   184		 * struct RXGK_Authenticator_AFSAppData {
-   185		 *	afsUUID client_uuid;
-   186		 *	RXGK_Data cb_tok;
-   187		 *	RXGK_Data cb_key;
-   188		 *	afs_int32 enctype;
-   189		 *	afsUUID target_uuid;
-   190		 * };
-   191		 */
-   192		adatasize = 44 + xdr_len_object(contsize) + xdr_len_object(krb5->key_len) + 4 + 44;
-   193	
-   194		ret = -ENOMEM;
-   195		token = kzalloc(adatasize, GFP_KERNEL);
-   196		if (!token)
-   197			goto out;
-   198		xdr = token;
-   199	
-   200		xdr[0] = net->uuid.time_low;	/* appdata.client_uuid */
-   201		xdr[1] = htonl(ntohs(net->uuid.time_mid));
-   202		xdr[2] = htonl(ntohs(net->uuid.time_hi_and_version));
-   203		xdr[3] = htonl((s8) net->uuid.clock_seq_hi_and_reserved);
-   204		xdr[4] = htonl((s8) net->uuid.clock_seq_low);
-   205		for (int loop = 0; loop < 6; loop++)
-   206			xdr[loop + 5] = htonl((s8)net->uuid.node[loop]);
-   207		xdr += 11;
-   208	
-   209		*xdr++ = htonl(contsize);		/* appdata.cb_tok.len */
-   210		*xdr++ = htonl(1);			/* cont.kvno */
-   211		*xdr++ = htonl(krb5->etype);		/* cont.enctype */
-   212		*xdr++ = htonl(encsize);		/* cont.encrypted_token.len */
-   213	
-   214		encxdr = xdr;
-   215		xdr += offset / 4;
-   216		*xdr++ = htonl(krb5->etype);		/* token.K0.enctype */
-   217		*xdr++ = htonl(krb5->key_len);		/* token.K0.key.len */
-   218		K0 = xdr;
-   219		get_random_bytes(K0, krb5->key_len);	/* token.K0.key.data */
-   220		xdr += xdr_round_up(krb5->key_len) / 4;
-   221	
-   222		*xdr++ = htonl(RXRPC_SECURITY_ENCRYPT);	/* token.level */
-   223		*xdr++ = htonl(0);			/* token.starttime */
-   224		*xdr++ = htonl(0);			/* " */
-   225		*xdr++ = htonl(0);			/* token.lifetime */
-   226		*xdr++ = htonl(0);			/* token.bytelife */
-   227		*xdr++ = htonl(0);			/* token.expirationtime */
-   228		*xdr++ = htonl(0);			/* " */
-   229		*xdr++ = htonl(1);			/* token.identities.count */
-   230		*xdr++ = htonl(0);			/* token.identities[0].kind */
-   231		*xdr++ = htonl(uuidsize);		/* token.identities[0].data.len */
-   232		memcpy(xdr, &server->uuid, uuidsize);
-   233		xdr += xdr_round_up(uuidsize) / 4;
-   234		*xdr++ = htonl(0);			/* token.identities[0].display.len */
-   235	
-   236		xdr = encxdr + xdr_round_up(encsize);
-   237	
-   238		*xdr++ = htonl(krb5->key_len);		/* appdata.cb_key.len */
-   239		memcpy(xdr, K0, krb5->key_len);		/* appdata.cb_key.data */
-   240		xdr += xdr_round_up(krb5->key_len) / 4;
-   241		*xdr++ = htonl(krb5->etype);		/* appdata.enctype */
-   242		xdr[0] = server->_uuid.time_low;	/* appdata.target_uuid */
-   243		xdr[1] = htonl(ntohs(server->_uuid.time_mid));
-   244		xdr[2] = htonl(ntohs(server->_uuid.time_hi_and_version));
-   245		xdr[3] = htonl((s8) server->_uuid.clock_seq_hi_and_reserved);
-   246		xdr[4] = htonl((s8) server->_uuid.clock_seq_low);
-   247		for (int loop = 0; loop < 6; loop++)
-   248			xdr[loop + 5] = htonl((s8)server->_uuid.node[loop]);
-   249		xdr += 11;
-   250	
-   251		if ((unsigned long)xdr - (unsigned long)token != adatasize)
-   252			pr_err("Appdata size incorrect %zx != %zx\n",
- > 253			       (unsigned long)xdr - (unsigned long)token, adatasize);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202501310832.kiAeOt2z-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> drivers/auxdisplay/panel.c:1454:2: error: call to __compiletime_asse=
+rt_309 declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_con=
+stant_p(_dest_len) || _dest_len =3D=3D (size_t)-1
+> >            strtomem_pad(key->u.kbd.release_str, release, '\0');
+> >            ^
+> >    include/linux/string.h:417:2: note: expanded from macro 'strtomem_pa=
+d'
+> >            BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||            =
+    \
+> >            ^
+> >    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG=
+_ON'
+> >            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #conditi=
+on)
+> >            ^
+> >    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BU=
+G_ON_MSG'
+> >    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+> >                                        ^
+> >    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-lim=
+it=3D0 to see all)
+> >    include/linux/compiler_types.h:530:2: note: expanded from macro '_co=
+mpiletime_assert'
+> >            __compiletime_assert(condition, msg, prefix, suffix)
+> >            ^
+> >    include/linux/compiler_types.h:523:4: note: expanded from macro '__c=
+ompiletime_assert'
+> >                            prefix ## suffix();                         =
+    \
+> >                            ^
+> >    <scratch space>:127:1: note: expanded from here
+> >    __compiletime_assert_309
+> >    ^
+> >    1 error generated.
+> >
+> >
+> > vim +/error +1454 drivers/auxdisplay/panel.c
+> >
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1426
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1427  /* tries to bind a key to the signal name <name>. The key =
+will send the
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1428   * strings <press>, <repeat>, <release> for these respecti=
+ve events.
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1429   * Returns the pointer to the new key if ok, NULL if the k=
+ey could not be bound.
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1430   */
+> > 36d2041a3d57b9 drivers/staging/panel/panel.c Peter Huewe              2=
+013-02-15  1431  static struct logical_input *panel_bind_key(const char *na=
+me, const char *press,
+> > 36d2041a3d57b9 drivers/staging/panel/panel.c Peter Huewe              2=
+013-02-15  1432                                              const char *re=
+peat,
+> > 36d2041a3d57b9 drivers/staging/panel/panel.c Peter Huewe              2=
+013-02-15  1433                                              const char *re=
+lease)
+> > 698b1515f03914 drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-22  1434  {
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1435          struct logical_input *key;
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1436
+> > fdf4a4948ca8a1 drivers/staging/panel/panel.c Dominique van den Broeck 2=
+014-05-21  1437          key =3D kzalloc(sizeof(*key), GFP_KERNEL);
+> > eb073a9bf2b6ed drivers/staging/panel/panel.c Toshiaki Yamane          2=
+012-07-12  1438          if (!key)
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1439                  return NULL;
+> > eb073a9bf2b6ed drivers/staging/panel/panel.c Toshiaki Yamane          2=
+012-07-12  1440
+> > 698b1515f03914 drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-22  1441          if (!input_name2mask(name, &key->mask, &key->value=
+, &scan_mask_i,
+> > cb46f472cbb08c drivers/staging/panel/panel.c Kulikov Vasiliy          2=
+010-07-12  1442                               &scan_mask_o)) {
+> > cb46f472cbb08c drivers/staging/panel/panel.c Kulikov Vasiliy          2=
+010-07-12  1443                  kfree(key);
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1444                  return NULL;
+> > cb46f472cbb08c drivers/staging/panel/panel.c Kulikov Vasiliy          2=
+010-07-12  1445          }
+> > 698b1515f03914 drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-22  1446
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1447          key->type =3D INPUT_TYPE_KBD;
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1448          key->state =3D INPUT_ST_LOW;
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1449          key->rise_time =3D 1;
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1450          key->fall_time =3D 1;
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1451
+> > a952abcdaa2211 drivers/auxdisplay/panel.c    Justin Stitt             2=
+023-09-11  1452          strtomem_pad(key->u.kbd.press_str, press, '\0');
+> > a952abcdaa2211 drivers/auxdisplay/panel.c    Justin Stitt             2=
+023-09-11  1453          strtomem_pad(key->u.kbd.repeat_str, repeat, '\0');
+> > a952abcdaa2211 drivers/auxdisplay/panel.c    Justin Stitt             2=
+023-09-11 @1454          strtomem_pad(key->u.kbd.release_str, release, '\0'=
+);
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1455          list_add(&key->list, &logical_inputs);
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1456          return key;
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1457  }
+> > 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            2=
+008-11-13  1458
+> >
+> > :::::: The code at line 1454 was first introduced by commit
+> > :::::: a952abcdaa22116d940ca9cb9253caad1622ae93 auxdisplay: panel: Repl=
+ace deprecated strncpy() with strtomem_pad()
+> >
+> > :::::: TO: Justin Stitt <justinstitt@google.com>
+> > :::::: CC: Kees Cook <keescook@chromium.org>
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
