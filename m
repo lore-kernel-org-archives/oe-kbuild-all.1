@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B24322B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 09:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF94155393
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 09:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738315908; cv=none; b=fu8ZfDfNyDRZE8SfeOjCAb/MHiDWTi1EkoxvZST8HcYAdlNfg9AqJsIW8O75FDN9vh3EEkURQ9ayrgepkC9HMwmvyI7z830q+vDE1Dfxx9aqfbqemD+0EulFLwo01zpodk1ob6B6bQH2qZZ36E7en/e5DQHxwFgRKnOx8xEAwKU=
+	t=1738316630; cv=none; b=f6gxALmbN3JEjjxmK7H4vtt/7LX06CdaSBLgNgZYQrq5qUpjJSwXsKTjN1aiG3m4iog3ESQnti6TIajkGfg0oTAzWFRit1iXw+1wXUoF9Ie0gCXlXaHvqz9CX2e4W/dlEiRrExJ1p//ENmZv4u5KzVGO+POyRS7a9yxJDceMYc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738315908; c=relaxed/simple;
-	bh=ePzY1L+j7Es0M/ewTTG5qs8c2o9Uosgq/L01OwvO1Wo=;
+	s=arc-20240116; t=1738316630; c=relaxed/simple;
+	bh=diKMeJL0V3hcP8Jgt+2RnGv6+JURXF7Q67NIBKwA8fs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fXKjZKv1ZMDwOeawrtBBBaHWIRpln2SNLrUSvXDzT1VA6vsAMwudNgW9EFhclTNgGXlx+8uFww90zx6tS1BPsTcDhzKYY/yYfexqmDt+qcDvEitchhXE9Ga34nFrqEALv9CuuRc+BYyPWJMpBpZquGlTXm/53stnRt9kqe1GEYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YeA732KO; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=SqmdPI1MJjzXrCRLbECCb9xpq+fCMROetCmUbnukia28NmK+iONS+Nn56CpA1COQPUz+dlb8TEkTZCCX4S5/Z9wkQ/dj2nmqMneGANOyT8EQQyOX/p3c0FPAWwWbUbtFCresJhO6HDsHUIiU4WJPiQIKbEfLzCKt7hLhLNwPiDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bs3IECBi; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YeA732KO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bs3IECBi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738315907; x=1769851907;
+  t=1738316628; x=1769852628;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ePzY1L+j7Es0M/ewTTG5qs8c2o9Uosgq/L01OwvO1Wo=;
-  b=YeA732KONXr5hGYXsjkfku7B467jAbtTJEznre310WBFb29dCuiCr0dQ
-   Ivkej5eufX3WyjzmJ2IaOzKQGr8rrvX9eqJ/B0G3smvHtPRze/jB2eay5
-   LaLy4rjr17mkl/TmQdz3lkOHUrauwAvodxzXXjC1psCpaGyH/pHhWiNUZ
-   74NN1Tq0s6GoikDbBmuH/ozcTMixx1/nb+zej+uznlrqI/0C5g/x0CBQn
-   gFebnUv0/kXVs40D/T6hq+Z3O5zootAfbDhmj5BSuEIV6df0mxJGBL9ln
-   gQQi5nn1ak5T7FJH96aFd0JPRIZLCI43g0xfMQl7xLzgFI8NSfYvEGVQV
-   g==;
-X-CSE-ConnectionGUID: QEL9EzjzS0S+o1CUekzojQ==
-X-CSE-MsgGUID: wDSZX/lfREmqxEwxet+frg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="49541554"
+  bh=diKMeJL0V3hcP8Jgt+2RnGv6+JURXF7Q67NIBKwA8fs=;
+  b=bs3IECBiusw9getdj9bUqg5esdcBikzvGe3FqwRBh3eQKDWXVHdThDwZ
+   eOXhujKJYrRG3960iEFR6ptdnDMADAi7hSHq9+FXM+sKCE0TqqFCB62L0
+   vmTkLRUB+dLFSybp0WrhOBcO/Iy7rHI6PyRFbGU+uiSn9cwBftIbp5tgo
+   Vo3XhYaeilG3ew16tQEVi1VQSWFKRSvKRamOipulfNpZZTEHJCsVymYew
+   /3xhwYs3oobdbSP6s7bnk7EB0Y54bFidc27RG7/OigJ4zUOPac4K+Z+cs
+   AWohvPYlm8RC2EoLYBD/m4DRMenT44g4VPbIeIyhJVMWNdgnWqpdqaRyG
+   w==;
+X-CSE-ConnectionGUID: 7rJNxlMVTHipXI94yJcvfQ==
+X-CSE-MsgGUID: s4/KJsaiQLWYPt1dl4f1/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="64245814"
 X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
-   d="scan'208";a="49541554"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 01:31:46 -0800
-X-CSE-ConnectionGUID: unsbIpuaT/KQWee15xsamQ==
-X-CSE-MsgGUID: EDQtfkdvS32MoUXQKpLNFg==
+   d="scan'208";a="64245814"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 01:43:47 -0800
+X-CSE-ConnectionGUID: lkvCy5UeTSqxhJnDIUbe0Q==
+X-CSE-MsgGUID: goo+jNchQNO0oBRdzV4Aiw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110457719"
+X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
+   d="scan'208";a="109425615"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 31 Jan 2025 01:31:45 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 31 Jan 2025 01:43:45 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdnNG-000mED-0e;
-	Fri, 31 Jan 2025 09:31:42 +0000
-Date: Fri, 31 Jan 2025 17:31:41 +0800
+	id 1tdnYt-000mEV-0K;
+	Fri, 31 Jan 2025 09:43:43 +0000
+Date: Fri, 31 Jan 2025 17:43:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Varshini Rajendran <varshini.rajendran@microchip.com>,
-	=?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
-Subject: drivers/spi/atmel-quadspi.c:244: warning: Function parameter or
- struct member 'pclk_div' not described in 'atmel_qspi_pcal'
-Message-ID: <202501311707.Ltj0qXse-lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: [akpm-mm:mm-unstable 106/111] include/linux/kern_levels.h:5:25:
+ warning: unknown conversion type character 'b' in format
+Message-ID: <202501311708.dRI35epU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,45 +65,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tudor,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   69e858e0b8b2ea07759e995aa383e8780d9d140c
-commit: 5af42209a4d23adc9a09e59e586d1b47fef3cc86 spi: atmel-quadspi: Add support for sama7g5 QSPI
-date:   6 weeks ago
-config: mips-randconfig-r024-20220830 (https://download.01.org/0day-ci/archive/20250131/202501311707.Ltj0qXse-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311707.Ltj0qXse-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   f5604ad70091eabe663ea7106ced99449d653320
+commit: 951452b2ec82d352a69f14cfffdeb7c08461eefb [106/111] mm: further refactor commit_merge()
+config: x86_64-buildonly-randconfig-001-20250131 (https://download.01.org/0day-ci/archive/20250131/202501311708.dRI35epU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311708.dRI35epU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501311707.Ltj0qXse-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501311708.dRI35epU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/spi/atmel-quadspi.c:244: warning: Function parameter or struct member 'pclk_div' not described in 'atmel_qspi_pcal'
->> drivers/spi/atmel-quadspi.c:244: warning: Excess struct member 'pclkdiv' description in 'atmel_qspi_pcal'
+   In file included from include/linux/kernel.h:31,
+                    from mm/debug.c:9:
+   mm/debug.c: In function 'dump_vmg':
+>> include/linux/kern_levels.h:5:25: warning: unknown conversion type character 'b' in format [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:473:25: note: in definition of macro 'printk_index_wrap'
+     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:554:16: note: in expansion of macro 'KERN_WARNING'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   mm/debug.c:262:9: note: in expansion of macro 'pr_warn'
+     262 |         pr_warn("vmg %px state: mm %px pgoff %lx\n"
+         |         ^~~~~~~
+>> include/linux/kern_levels.h:5:25: warning: unknown conversion type character 'b' in format [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:473:25: note: in definition of macro 'printk_index_wrap'
+     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:554:16: note: in expansion of macro 'KERN_WARNING'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   mm/debug.c:262:9: note: in expansion of macro 'pr_warn'
+     262 |         pr_warn("vmg %px state: mm %px pgoff %lx\n"
+         |         ^~~~~~~
+>> include/linux/kern_levels.h:5:25: warning: unknown conversion type character 'b' in format [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:473:25: note: in definition of macro 'printk_index_wrap'
+     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:554:16: note: in expansion of macro 'KERN_WARNING'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   mm/debug.c:262:9: note: in expansion of macro 'pr_warn'
+     262 |         pr_warn("vmg %px state: mm %px pgoff %lx\n"
+         |         ^~~~~~~
+>> include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:473:25: note: in definition of macro 'printk_index_wrap'
+     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:554:16: note: in expansion of macro 'KERN_WARNING'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   mm/debug.c:262:9: note: in expansion of macro 'pr_warn'
+     262 |         pr_warn("vmg %px state: mm %px pgoff %lx\n"
+         |         ^~~~~~~
 
 
-vim +244 drivers/spi/atmel-quadspi.c
+vim +/b +5 include/linux/kern_levels.h
 
-   232	
-   233	/* Use PIO for small transfers. */
-   234	#define ATMEL_QSPI_DMA_MIN_BYTES	16
-   235	/**
-   236	 * struct atmel_qspi_pcal - Pad Calibration Clock Division
-   237	 * @pclk_rate: peripheral clock rate.
-   238	 * @pclkdiv: calibration clock division. The clock applied to the calibration
-   239	 *           cell is divided by pclkdiv + 1.
-   240	 */
-   241	struct atmel_qspi_pcal {
-   242		u32 pclk_rate;
-   243		u8 pclk_div;
- > 244	};
-   245	
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
