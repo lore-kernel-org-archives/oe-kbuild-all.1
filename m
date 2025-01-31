@@ -1,149 +1,225 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C983C1E9B02
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 16:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE11F03D2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 16:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738341653; cv=none; b=I0bo2WzaXfwbAHJZaxm6J5QwURqY/QqmjTvMfR6JmOfW7SgD8aAOMAPHY2I8TdC4562YgtZMRACpwiVQQaGnGLzBNwQQ/r6fdlMRVxvAQ1uQuIZyrANpSFeLbr20Qy9ezUfnIRcfybo8WPKTnJO/Z1m/eBXBNZ/3uWhJh6qY1kY=
+	t=1738342521; cv=none; b=bXDGCTJEXzoW58xIKJ+YwY+27+BtwL969OVPqmmzYJtleS1JViOlM88pcTlfj9RWpyJlw1u6XoALOB8l24gk7FtNnSNFWA1HEPsRrBhBB1cFTxbNZw5ckCicVitfM/ghcJaMLanPEvhhSIGqUVV/rGmazfufsJ94EoxcZjIy1Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738341653; c=relaxed/simple;
-	bh=VGrfosRryCIuxP6ecNC1iOjg9qycJaOLjVz10AUGQe8=;
+	s=arc-20240116; t=1738342521; c=relaxed/simple;
+	bh=pjps5y8eCDakmlM5FC2/Anvhtb8QY5n2MJnEURvNdFQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QXk44EEbzPEbDjznrzSTb3kznKGY/q1964vzVGOHeFx3UJrivnL2mPB348w/OrP1pnyNIQbVMn5iswvFGVyGr/WTcn9S3A4fpUQiPLCsIvkjJlEbcw821q86kyV/RrS/VbueCLu8ac1Fcr6dMpFkgBCyHISwtUauG/CbLwl6dm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xUO1en1V; arc=none smtp.client-ip=209.85.160.169
+	 To:Cc:Content-Type; b=kktCekl7J+wppImo+h8HBmchfPQ+h5qMzfqlUG3hlWqz/EFK7Qr2BsYXGMi14GWAtL5DujR0weLW7B6bmRQYf0wSQfj/00UZxWaMhLPCVT9BEawCURU18Z94PLBrWu4HWsxIg4kdQx6gzf1wPLo+2nsN2geCmintbv0f7ClrZhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xTQ+2F/B; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xUO1en1V"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4679b5c66d0so231351cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 08:40:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xTQ+2F/B"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-467abce2ef9so275761cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 08:55:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738341650; x=1738946450; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1738342518; x=1738947318; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IdxBuZHfYMpiuPPvivE+mj/S5KS/kuYJy2WfQwwjP1Q=;
-        b=xUO1en1V774uNURlmsF2rDsoRiuQoCENvrOZHA80BRJCvJHGMPpnsjgoFo/OeVGXOU
-         8I+LAKco4OTqQ1a3WlQkeyEMlxH+VeTsCM9OadN6Urv3XOXQjLalDxhui/jNmSlVZ8EX
-         uEwPFDVvYsTNcXQCergj3z0zsb+4W/B1x+9Md7fiHuGqQUUymv7Pq6CJeuUNUYHZ85FV
-         oUzIaQWrIh3NECHQztdeD7prtHwVxe8apRpZ7tMuhHOrJulf3+Ah3lNrufWepDb3uGuc
-         xvBwaW2q71ei90WVcGwmrz1dXqD+p3XWAQW7fIMiNrUD30FvvtzToPHye7x84LsJ6pPG
-         3yzA==
+        bh=CiUpenCZxJlzpmTDMs9YPmAFAkUqTeg5FHFQqHk9RHY=;
+        b=xTQ+2F/BiGiNdxK9De5ttlEvVgUP0maRlTsSou38j8NXr5DQZrGi/ea88wlS0gpPm1
+         SWlfCdr9tnZbL+bpdsB3hUZ8f7/0XR8FRxlhjb/UxOsum3lC6btiAt2pJ7MwXKb7T+Wi
+         84EB7sbXDdSOAqEqut0O/G2eRFQFajcdPNLQWqHhNpAfsqa3hpthGpOhFmIN7AgoDCY+
+         vVgP/o1lfYt+qyXJ8ASlpMhKNPeB4ZLa0k80VOAyp5qKPd8qcdrgpZWMecZvZ9flQrOx
+         7tLo7o5LllOskRhiUA5w7mh9PHudq0NjIEER/GqMgrkps6QQLlV4I8iJE3CN8Q055cDD
+         4jpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738341650; x=1738946450;
+        d=1e100.net; s=20230601; t=1738342518; x=1738947318;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IdxBuZHfYMpiuPPvivE+mj/S5KS/kuYJy2WfQwwjP1Q=;
-        b=JYsLD1GWBQ2GOPIAI/WoMnemIj1iJq5cRhlRyIy7JXLpat6M/rzxV8p2MTfINd5Gub
-         Qv2jDof3LuneMlnnyFGN/AuIMe56dZb2e8p2mn+x+UNbSF4MJOWGwJmlDQs8QOjGrkux
-         2ivT0TzU2c7qLZT8wUFJk+s41TDPqJwcW92bBY/Gbifdkb66EOhYz2tB2eliVbMEZi/0
-         zYeKxd7+N0bbN0b6tBdjZNTZ4ZhjSUDtQGaDduY34xXljmAGIpv1xt/JxdMI2XRNYXQp
-         U57ZBOo5lvhqB8+3tTBveEufElvHs8oYWSR6IcRN1vmmqQWg/gr3J5nIvz3BPFrH5+do
-         /P3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUPrm4F5YO0/zsGkZeuVBupw5TBQBL4Ujs5m0BPIhJpK/74x9H0N57Z0YUxdvsNOtF9rl9RwXwP/QlcNvve@lists.linux.dev
-X-Gm-Message-State: AOJu0YzojNHVz0Sya5QMC29jw6KailWuRlFJ9MLFJ1T1023f51GqTCOT
-	go9ejSde8xEljMQ2w6iZsg6R2TtyxNBTsIUIHgmR5yZ5dRLXn8eY2w/LYmj/398twM0SfRPqks0
-	KQD5kfyIriw84Cf58Dbm7eKJf057zzYUawRhn
-X-Gm-Gg: ASbGncuSKUw8g80vtDaT0FHRmgg0WVASwElBf7mwG0oZ4XZ6exf2STgyopy7+0KzJK7
-	BJFeA3jqw9yZcUuMqZjEVLC02Xa8FzmLKLKAJPkOj3RLze/pxId086/zYPWMXHRcdIEwS8g==
-X-Google-Smtp-Source: AGHT+IHVZupShShMQVvFrTsj/qwh4zWX4r0XFuj2/CNc2c2zC9hpNvltw2cpNnEQ9tTH9earWU2PXRQM3iRt7WcTeRI=
-X-Received: by 2002:a05:622a:1a1c:b0:46c:7cf2:d7b2 with SMTP id
- d75a77b69052e-46feaf31710mr3533471cf.18.1738341650365; Fri, 31 Jan 2025
- 08:40:50 -0800 (PST)
+        bh=CiUpenCZxJlzpmTDMs9YPmAFAkUqTeg5FHFQqHk9RHY=;
+        b=sj83AKTU9ffhWD8bmmTZndVeyl8KdXhs9S27zliPGCnCSKm5vKmuFxnM9lDQG36kfx
+         rr3sznR0+PjCJ4PPjITXd5WyABeskgDN6YjWJr757k9hrPn+kdQpBZvVMTRysQIqlttF
+         4r7OkV2qLgV6HT2YBTwrcoE7pcp/2CahsKx5v3mqPn40m//Nr5ZGJC0lkBzGXMs8Xheo
+         OrxchkDxFpgwYpgwujDPYbNmSpT+2XCTSUqtqQghwLnVWeCVELxarPcIWHfgpnIvOMf4
+         K4PmykT3eYO5OUe3Fq+cvzl8VxDkzRos6zQOCqdrN0vVAgU+R9PwjznDySVE3OcyUPSA
+         5j6g==
+X-Gm-Message-State: AOJu0Yyi4mgm+X1Gbr7Zj7ei4iYH04TYiiabN7PbZremlT4pDlGXBzpM
+	i5Jwiip8h48e4hjgzHs0SJD+f6zKMRzR8Eh7WSpSZoWMWzDqK0Ynz3rrd2KTQ3aQbeTXsWM6NLY
+	Zerf8bLv3Jt1jHqLcdstkhc2LiupMPwdilUuh
+X-Gm-Gg: ASbGncsMnHKksuGC+PQwfN33UTOXolA5UWvBFoAwca78bacbT05l7OdotStTdwGJlxf
+	vsp0tP/scNREyesoGhVno4Uyby6udabZHz1DD/HB0YT5UdrgVYl+Avetd+tGpe+2u59ntMUyH
+X-Google-Smtp-Source: AGHT+IFMf+rwBBW0+s+U4Vnm90r1939kVenRZFSqmclphCk64JCB0JGIQO9cHEfYkOZIskrJCqf7t8+3AvdsvNV4Nrg=
+X-Received: by 2002:a05:622a:6098:b0:46e:131e:5ba6 with SMTP id
+ d75a77b69052e-46fead85a14mr4010531cf.0.1738342518324; Fri, 31 Jan 2025
+ 08:55:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501311826.hU85Yygn-lkp@intel.com>
-In-Reply-To: <202501311826.hU85Yygn-lkp@intel.com>
-From: Frank van der Linden <fvdl@google.com>
-Date: Fri, 31 Jan 2025 08:40:38 -0800
-X-Gm-Features: AWEUYZmNCfVOeO6J90nfUdQZ5ICG3gnC-a2IZ971btT0oRVQZsMy0WIgHJTtie4
-Message-ID: <CAPTztWZZEhhzqAjj2EeD_4Ro9Fa8gMTaP988Jn74Fez+xR4xhQ@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-unstable 69/88] arch/powerpc/mm/init_64.c:390:6:
- error: redefinition of 'register_page_bootmem_memmap'
+References: <202501310832.kiAeOt2z-lkp@intel.com>
+In-Reply-To: <202501310832.kiAeOt2z-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 31 Jan 2025 08:55:07 -0800
+X-Gm-Features: AWEUYZlYmGqQyjVr7VWqyAmQe2tSBpC7UL1Yuh4KOHDcRsgzbL_zqpzPBxkbf0s
+Message-ID: <CAJuCfpGrtTK=reeVPrS+GQngs=WS-cZvy_YU9-JGyRgVFdofAw@mail.gmail.com>
+Subject: Re: drivers/auxdisplay/panel.c:1454:2: error: call to
+ __compiletime_assert_309 declared with 'error' attribute: BUILD_BUG_ON
+ failed: !__builtin_constant_p(_dest_len) || _dest_len == (size_t)-1
 To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	Andrew Morton <akpm@linux-foundation.org>, 
 	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 31, 2025 at 2:16=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+On Thu, Jan 30, 2025 at 4:06=E2=80=AFPM kernel test robot <lkp@intel.com> w=
 rote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-un=
-stable
-> head:   f5604ad70091eabe663ea7106ced99449d653320
-> commit: 2acfe4c72e4e3a50a685652d89c927335b90c947 [69/88] mm/bootmem_info:=
- export register_page_bootmem_memmap
-> config: powerpc64-randconfig-003-20250131 (https://download.01.org/0day-c=
-i/archive/20250131/202501311826.hU85Yygn-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfd=
-cc7b7bf66834a761bd8de445840ef68e4d1a)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250131/202501311826.hU85Yygn-lkp@intel.com/reproduce)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   b4b0881156fb8209bf5ef6cb63211bb0ad6e1a6b
+> commit: 07438779313caafe52ac1a1a6958d735a5938988 alloc_tag: avoid current=
+->alloc_tag manipulations when profiling is disabled
+> date:   5 days ago
+> config: hexagon-randconfig-r133-20250131 (https://download.01.org/0day-ci=
+/archive/20250131/202501310832.kiAeOt2z-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c=
+006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce: (https://download.01.org/0day-ci/archive/20250131/202501310832=
+.kiAeOt2z-lkp@intel.com/reproduce)
+
+Just saw this report (was on vacation). Will try to figure out what's going=
+ on.
+
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501311826.hU85Yygn-lkp=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501310832.kiAeOt2z-lkp=
 @intel.com/
 >
 > All errors (new ones prefixed by >>):
 >
-> >> arch/powerpc/mm/init_64.c:390:6: error: redefinition of 'register_page=
-_bootmem_memmap'
->    void register_page_bootmem_memmap(unsigned long section_nr,
->         ^
->    include/linux/bootmem_info.h:63:20: note: previous definition is here
->    static inline void register_page_bootmem_memmap(unsigned long section_=
-nr,
->                       ^
+> >> drivers/auxdisplay/panel.c:1454:2: error: call to __compiletime_assert=
+_309 declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_const=
+ant_p(_dest_len) || _dest_len =3D=3D (size_t)-1
+>            strtomem_pad(key->u.kbd.release_str, release, '\0');
+>            ^
+>    include/linux/string.h:417:2: note: expanded from macro 'strtomem_pad'
+>            BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||              =
+  \
+>            ^
+>    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_O=
+N'
+>            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition=
+)
+>            ^
+>    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_=
+ON_MSG'
+>    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>                                        ^
+>    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+>    include/linux/compiler_types.h:530:2: note: expanded from macro '_comp=
+iletime_assert'
+>            __compiletime_assert(condition, msg, prefix, suffix)
+>            ^
+>    include/linux/compiler_types.h:523:4: note: expanded from macro '__com=
+piletime_assert'
+>                            prefix ## suffix();                           =
+  \
+>                            ^
+>    <scratch space>:127:1: note: expanded from here
+>    __compiletime_assert_309
+>    ^
 >    1 error generated.
 >
 >
-> vim +/register_page_bootmem_memmap +390 arch/powerpc/mm/init_64.c
+> vim +/error +1454 drivers/auxdisplay/panel.c
 >
-> 368a0590d954a6 Aneesh Kumar K.V       2023-07-25  388
-> 71b0bfe4f1608d Li Zhong               2014-06-11  389  #endif
-> f7e3334a6bcb42 Nathan Fontenot        2013-09-27 @390  void register_page=
-_bootmem_memmap(unsigned long section_nr,
-> f7e3334a6bcb42 Nathan Fontenot        2013-09-27  391                    =
-         struct page *start_page, unsigned long size)
-> f7e3334a6bcb42 Nathan Fontenot        2013-09-27  392  {
-> f7e3334a6bcb42 Nathan Fontenot        2013-09-27  393  }
-> cd3db0c4ca3d23 Benjamin Herrenschmidt 2010-07-06  394
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1426
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1427  /* tries to bind a key to the signal name <name>. The key wi=
+ll send the
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1428   * strings <press>, <repeat>, <release> for these respective=
+ events.
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1429   * Returns the pointer to the new key if ok, NULL if the key=
+ could not be bound.
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1430   */
+> 36d2041a3d57b9 drivers/staging/panel/panel.c Peter Huewe              201=
+3-02-15  1431  static struct logical_input *panel_bind_key(const char *name=
+, const char *press,
+> 36d2041a3d57b9 drivers/staging/panel/panel.c Peter Huewe              201=
+3-02-15  1432                                              const char *repe=
+at,
+> 36d2041a3d57b9 drivers/staging/panel/panel.c Peter Huewe              201=
+3-02-15  1433                                              const char *rele=
+ase)
+> 698b1515f03914 drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-22  1434  {
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1435          struct logical_input *key;
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1436
+> fdf4a4948ca8a1 drivers/staging/panel/panel.c Dominique van den Broeck 201=
+4-05-21  1437          key =3D kzalloc(sizeof(*key), GFP_KERNEL);
+> eb073a9bf2b6ed drivers/staging/panel/panel.c Toshiaki Yamane          201=
+2-07-12  1438          if (!key)
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1439                  return NULL;
+> eb073a9bf2b6ed drivers/staging/panel/panel.c Toshiaki Yamane          201=
+2-07-12  1440
+> 698b1515f03914 drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-22  1441          if (!input_name2mask(name, &key->mask, &key->value, =
+&scan_mask_i,
+> cb46f472cbb08c drivers/staging/panel/panel.c Kulikov Vasiliy          201=
+0-07-12  1442                               &scan_mask_o)) {
+> cb46f472cbb08c drivers/staging/panel/panel.c Kulikov Vasiliy          201=
+0-07-12  1443                  kfree(key);
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1444                  return NULL;
+> cb46f472cbb08c drivers/staging/panel/panel.c Kulikov Vasiliy          201=
+0-07-12  1445          }
+> 698b1515f03914 drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-22  1446
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1447          key->type =3D INPUT_TYPE_KBD;
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1448          key->state =3D INPUT_ST_LOW;
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1449          key->rise_time =3D 1;
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1450          key->fall_time =3D 1;
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1451
+> a952abcdaa2211 drivers/auxdisplay/panel.c    Justin Stitt             202=
+3-09-11  1452          strtomem_pad(key->u.kbd.press_str, press, '\0');
+> a952abcdaa2211 drivers/auxdisplay/panel.c    Justin Stitt             202=
+3-09-11  1453          strtomem_pad(key->u.kbd.repeat_str, repeat, '\0');
+> a952abcdaa2211 drivers/auxdisplay/panel.c    Justin Stitt             202=
+3-09-11 @1454          strtomem_pad(key->u.kbd.release_str, release, '\0');
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1455          list_add(&key->list, &logical_inputs);
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1456          return key;
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1457  }
+> 7005b58458e4be drivers/staging/panel/panel.c Willy Tarreau            200=
+8-11-13  1458
 >
-> :::::: The code at line 390 was first introduced by commit
-> :::::: f7e3334a6bcb42e7295a9bd9cb36ca4e6e4e66b4 powerpc: Fix memory hotpl=
-ug with sparse vmemmap
+> :::::: The code at line 1454 was first introduced by commit
+> :::::: a952abcdaa22116d940ca9cb9253caad1622ae93 auxdisplay: panel: Replac=
+e deprecated strncpy() with strtomem_pad()
 >
-> :::::: TO: Nathan Fontenot <nfont@linux.vnet.ibm.com>
-> :::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> :::::: TO: Justin Stitt <justinstitt@google.com>
+> :::::: CC: Kees Cook <keescook@chromium.org>
 >
 > --
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests/wiki
-
-Looks like my patch "mm/bootmem_info: export
-register_page_bootmem_memmap" exposed a (small) issue in the powerpc
-code: the (empty) definition of register_page_boot_memmap code is not
-wrapped in #ifdef CONFIG_HAVE_BOOTMEM_INFO_NODE, like on x86.
-
-That causes this compilation failure for this config which has
-SPARSE_VMEMMAP enabled, but MEMORY_HOTREMOVE disabled (so no
-HAVE_BOOTMEM_INFO_NODE).
-
-I'll add a fix to wrap the definition in #ifdef
-CONFIG_HAVE_BOOTMEM_INFO_NODE, like on x86, in. the aforementioned
-patch in my series. I'll spin up a v3 with it, since there were some
-other things that needed changing (checkpatch SPDX warning, and
-missing debugfs change documentation).
-
-- Frank
