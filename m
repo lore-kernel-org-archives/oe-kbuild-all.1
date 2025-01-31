@@ -1,110 +1,101 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABFF1FAA;
-	Fri, 31 Jan 2025 08:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F358EED8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 08:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738311520; cv=none; b=Qnjxj7emNuTzCGb4Yww+BB1KRtSLh2fxlvO/56wxCIrJaVLO/FDXryfpXHCEx7YO/T/LdoumR0dcKAR22iM2gmLIlw2BF1RTg/OXcrqbQvez1zSWARirtXNgM6T4FV1C0E9/50VxCc3rk/keLmrjkTZQmpY+qzXKnHwfutKoH6c=
+	t=1738312797; cv=none; b=Iq64XEw18BCZRlFTkYQLPnYgM9suC/bykj8kUk5svRO1+WEcnDPhwsIOezuNmgzXidljg+9lEI+oPg71kJ9s3LqtdgTojGlkf/F6n76MBk9bgtMY+MySAqbOAi7sm4fxhODPCwB1juyESFjfYZE11Z3pfhCYDU7uinrqRTg2Ssc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738311520; c=relaxed/simple;
-	bh=XQAyDEsftPjo4BUnpRrzUo4hXISSwy4f0FYmQpPlKmc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R+b6cXCHZMqiSfyQPCaAfcESQUz4cpGKyzT/0q3CWuQClfeami2IJJ/f51gHw9UpocPOfxxRfefPcTMxpC+QgK7gTVkMaSSOaTLa5wRqT/cY2k8fBYoc8ChsPKEsFwJMiNMzqHGhNLJIw7ovUhp/hevnyOuNyNhO6kK1ebkBjFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-860af3331feso1553804241.1;
-        Fri, 31 Jan 2025 00:18:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738311517; x=1738916317;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O7YJgHULp2WAjtiPEkDFTcvV/zsoNwPARiiJx2ktMxk=;
-        b=dnSTZyWSk7M3k2t2WDJAaP5NMyOln3JzaUD3+DCxcJNaofkkbO/cwq1Q3cIJIVRjV9
-         a96/70B3lkgI3WHRgmm7FvKEdQtDkQb1YGeykrstTmVglrDoTmP4lw4DiU0lEQLV1ut7
-         Ro+xvKgRmEXacNoH6jcHT0wBaCLbd04JW8kUylRAVlDLOy7oV6bL927Fo8w/6wEk1SrV
-         j9biAUNe+pfh6REYV1jIaEArzO8OjS+dJRrGkVxBMEAHXNRldwF1qTfQzjEdxIeffLut
-         z4jXWLpqyJmxqPOhRFyg4pzD2wA42i2D+1hI28UzyFWZ9+cDl2+r+JF7940gUJo8c+a/
-         fSSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVBOqSbgKcnb2VJaa0/MgKpVdhFIcRXASCepFHjCl5GYkP7ru96VlhVvyxlUGwQh8BWdXZWrQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBow19nMOlX1ZkdtMghyTbtDYcEZI+W+VfmrlXu8AJfBVLLO7c
-	WHKoUZTuL/P+guOUX3Eg4sqUAFJTm37X58Pb4GwyGO5+7G4t0pnFOR3UqY8TqI8=
-X-Gm-Gg: ASbGncu4isrwSdu89JQSkDhCK0roh0MHkPLIo9HjTyhs+pM9VTqJ+1ld2Ja3Wter/mo
-	YItxf/bafPSNRK18pi1B+8MwyBtVUJcFpEa0/r5OBq6hKEIGIubvE7toz+am9PCiA8jsQK93x9M
-	1uKl2ZhdYzPxBeUhYjQWsZhym8xwIGHTTE/4c9SnL4+/nHMUe/intZOISZarIJde9QQqptDwzPU
-	8zvJtSaZNMs5nPdipbGdN4t5HXfSHAd7GYbBB0aMISTwyU1bknrXd/fX1MhSpl0p/q9WxvsAzWV
-	KWO/bEdl7M83O8E6stscqJslg4j57yNyNJ9+St51gqWo58tL0yLYWp0yhQ==
-X-Google-Smtp-Source: AGHT+IFN/Y2xMhCjMD5Fn5xL+vl/iCo6i3YOToMvgeRmwaWHEqqybUQhjbda7kMB0QJoPwS64oyfFQ==
-X-Received: by 2002:a05:6122:2104:b0:50d:39aa:7881 with SMTP id 71dfb90a1353d-51eaedbaf26mr5804058e0c.0.1738311517008;
-        Fri, 31 Jan 2025 00:18:37 -0800 (PST)
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51eb1d91b6bsm463452e0c.45.2025.01.31.00.18.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2025 00:18:36 -0800 (PST)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-518799f2828so882341e0c.0;
-        Fri, 31 Jan 2025 00:18:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUiQMCQOd39ExoDiOc1Ccmlq19y9l9Z+9WEhY48/KjL+WvS4f3mPVigCzrmtt9BiIdEdbYrxQ==@lists.linux.dev
-X-Received: by 2002:a05:6122:459a:b0:516:dc0f:c925 with SMTP id
- 71dfb90a1353d-51ebe666828mr1912542e0c.6.1738311516552; Fri, 31 Jan 2025
- 00:18:36 -0800 (PST)
+	s=arc-20240116; t=1738312797; c=relaxed/simple;
+	bh=uDqhFf7xeLMD4FbD1XwfSDQUVBfh0ZvFCI2Qo5+Tkkk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P/tUPxwlpa4kfPij+OnGacRjYnxOGkdQyksZwv30IPelyqTLqaW7WQL+SlppKKxedq8Ln/+chigaI5lCkigtb/4jmXJcQhrwskvk0T26u+uMRB38GyCKLLZ/6SDVy53Tn/u5eMzzX6OtJTCDolCCNv6I/Wd+dR2atm3GfJw9iwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ngr6oKAQ; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ngr6oKAQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738312794; x=1769848794;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uDqhFf7xeLMD4FbD1XwfSDQUVBfh0ZvFCI2Qo5+Tkkk=;
+  b=Ngr6oKAQ9UXe9XqHuyJhXcFsnZSAb/aVE+GjRF2KYeI2YDK4q6clJRji
+   tpBeZ30uzf6CA+loV6nQigE0gCloRPug+Io3sjjdsoAyt4Ie7thJbGqC1
+   qd7Io5GCGU6iZA+8ZuBjDmYiOX7jMfOFxxJVoPvVHH5gpTNLtnGgbijZ/
+   U0VfBTSk7cfXtK4pK8q2q50+MC88sSQpqxsBuERRvrHVrTjVT8tyf1wYD
+   xSFyzcNLdGLNmGkK/lF4XM2S5YkUDL5o37EO7jSwJhasrGd0MM5nA+3nO
+   bVVPwnwUm72Wdcjz3YbIJdY65Ks9lWWYU5cvMYDJ6YVMrT9njaHvo9CjZ
+   Q==;
+X-CSE-ConnectionGUID: MnVhUCI2Sm2qLZHBoR/XmA==
+X-CSE-MsgGUID: JNU0C3b1Tc6mxISvWyB96A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38583198"
+X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
+   d="scan'208";a="38583198"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 00:39:40 -0800
+X-CSE-ConnectionGUID: p6kMNP6pQW6Ju8ONPUageA==
+X-CSE-MsgGUID: eUgZnimYRWejEJuCoTqS8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110448665"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 31 Jan 2025 00:39:39 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tdmYq-000mBj-1I;
+	Fri, 31 Jan 2025 08:39:36 +0000
+Date: Fri, 31 Jan 2025 16:38:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank van der Linden <fvdl@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 71/88] mm/hugetlb.c: linux/page-isolation.h is
+ included more than once.
+Message-ID: <202501311653.mOxDNCYy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501310132.oGDmspPN-lkp@intel.com>
-In-Reply-To: <202501310132.oGDmspPN-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 31 Jan 2025 09:18:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX9=KRJ7jhzrMdnjCiTpBhqJT6fC5ZR=HKUVPzdygKBsw@mail.gmail.com>
-X-Gm-Features: AWEUYZkLT5ckFgNiGcY41nm9el4Hb73i2R4W479F_ewOJKXPN37hxSWvlqWURJA
-Message-ID: <CAMuHMdX9=KRJ7jhzrMdnjCiTpBhqJT6fC5ZR=HKUVPzdygKBsw@mail.gmail.com>
-Subject: Re: net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but
- not used
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	mptcp@lists.linux.dev, matthieu.baerts@tessares.net, 
-	Jakub Kicinski <kuba@kernel.org>, Matthieu Baerts <matttbe@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kernel Test Roboty,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   495206a68b359eb6117d0860861578113bbb94e7
+commit: 0dfce6b46bf52a9cf68a600eeac4eab00dbfd554 [71/88] mm/hugetlb: set migratetype for bootmem folios
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
-On Thu, 30 Jan 2025 at 18:55, kernel test robot <lkp@intel.com> wrote:
-> FYI, the error/warning still remains.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   72deda0abee6e705ae71a93f69f55e33be5bca5c
-> commit: 010b430d5df556d5d232e3751ac691ba9e88c041 mptcp: MPTCP_IPV6 should depend on IPV6 instead of selecting it
-> date:   4 years, 3 months ago
-> config: csky-randconfig-p001-20220406 (https://download.01.org/0day-ci/archive/20250131/202501310132.oGDmspPN-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501310132.oGDmspPN-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501310132.oGDmspPN-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    net/ipv4/ip_gre.c: In function 'ipgre_err':
-> >> net/ipv4/ip_gre.c:141:22: warning: variable 'data_len' set but not used [-Wunused-but-set-variable]
->      141 |         unsigned int data_len = 0;
->          |                      ^~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501311653.mOxDNCYy-lkp@intel.com/
 
-https://lore.kernel.org/all/67956320a8ee663f2582cc75f0e8047d69da5f6a.1737371364.git.geert@linux-m68k.org/#t
-Waiting for the merge window to close to repost...
+includecheck warnings: (new ones prefixed by >>)
+>> mm/hugetlb.c: linux/page-isolation.h is included more than once.
 
-Gr{oetje,eeting}s,
+vim +39 mm/hugetlb.c
 
-                        Geert
+  > 39	#include <linux/page-isolation.h>
+    40	
+    41	#include <asm/page.h>
+    42	#include <asm/pgalloc.h>
+    43	#include <asm/tlb.h>
+    44	#include <asm/setup.h>
+    45	
+    46	#include <linux/io.h>
+    47	#include <linux/hugetlb.h>
+    48	#include <linux/hugetlb_cgroup.h>
+    49	#include <linux/node.h>
+    50	#include <linux/page_owner.h>
+    51	#include "internal.h"
+    52	#include "hugetlb_vmemmap.h"
+  > 53	#include <linux/page-isolation.h>
+    54	
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
