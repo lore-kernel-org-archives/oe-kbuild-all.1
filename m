@@ -1,328 +1,180 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D6420EB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 05:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72EC4174A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 05:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738300912; cv=none; b=kxcHktOs+0QJ1AckEkG93ELsfZ9P7NmuKUU3TyvR0ampSA8MzxOdTMH8x+TnJ26ReMyGWmsUZx6RKH/AhoA3EFGDCAp7P9z4jthmaCvR7Ew6UsoROAX7cQ0dyIFSJOupSLp8dN1LutdAZroQhJwXeZxW4k0CJy7we4aZ/8sheHs=
+	t=1738301422; cv=none; b=s6y1XsLyptC8/KtkVwnuw5uXTyhjwMGYs8UkMsj1GjjTYnJzQGZSfmy43Nq0YFnPXFphBlyz/5kk3ACwu8XJj6qm36QaG1Ip5127nN1i6maRfmz+KhOsafM8PFP2gxPcmmsHqUraz+DctED7qk97JEk2yWhNZMfqZPfD5usgkFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738300912; c=relaxed/simple;
-	bh=M+JMwDODYnecH3P2/9NJR6GJ/9mSRUTzwO+JKpEw4JA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EVBwojP5Hp2yWAka2ThK5ijl2rwe7KEknlDBsifnCHpSHzap2da2S0adI71FY4fVHZwSo6r62B02f8ZxkNz7xRacUQ0csqQvGDPGRHfhhQL49Wf6LszGDjgyDJHbfslGV79go6FCEXGUMaUxczTSscquzFXZTJoiRjeHsnp1TBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b=jONokwTx; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp
+	s=arc-20240116; t=1738301422; c=relaxed/simple;
+	bh=SyYKu4BB43VyePhrgbsXhXJUCXetN1DTUFIFTnkvqaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MR4Diz6/GraXVnS4yYyQfvRQ4RSHdZB29SDmzcz6tuR8L6XDvbs4rfiUm9OwAjSIRbQxIjat9dqERYXud6y3//FksjlxrMKvRg/Y5OKaG1gJTOuvPSapoSdwujNf6YaU6NvBc5cKb0Al0MTe94pXoiIdbOhGRJcFhZCATxxUclE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mamCHQui; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="jONokwTx"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21661be2c2dso26462605ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jan 2025 21:21:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1738300909; x=1738905709; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TECEfBx/YlJzKHUiIw7NNpbsIMGVbyaE2w7qpMl8TVA=;
-        b=jONokwTxSo+tCfI75kJvLSCHS10BzNS4gpmeqeM2sQot1t2fjuP4JK2tLgaxu7PVlP
-         BBI+k2cYpykDjHMlBI8lt6xX2HHGI3/t1kMc0MaovoxVB83fGVb9PTePrOowJvu0KfUX
-         rLM58dux+3mV/st0wGdVjEJ8JYFoHC1f4caAvgYMZffE5wYsI6GRT8BPe9h5eXYsvBdq
-         ze7QTb5FUa0Hm3nEVZYwsJ7YeFgU44/eE7RY8HMgZGDyOu8V4/aLlFtvSiE98syz0E5E
-         h7bDw2skq2F7ShTVziRFIXnu18qIhnVSNPKmgcERHYaBaUbS5K2/MXhGPcOxzTM3rdBC
-         /Q4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738300909; x=1738905709;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TECEfBx/YlJzKHUiIw7NNpbsIMGVbyaE2w7qpMl8TVA=;
-        b=V/25D2ON9IFZNitpMmlhtgEbbw6+7/6Sk0HxkEf1z7FXT7OBiYNnqun18WMn1sGoEV
-         05fbJjQXmMWgkzlyl6fIWePoak7AbSo2fB2wreelopjE3EKpltfnpnNJyD/evSCZUdL9
-         dYYcI30sO/NURBQXkkisPWzTuuEyRDQH9DphgJP7Yhoodab0FXg24tE63eeHRqXEdihc
-         DTdgyjuurPvFL4i5BLwEPTRKeV2zretczaRJYkAMNz4uTsb+wQR9i/ZwY6jE1glYgoXD
-         HxpA3M2pd961DOhvN2UZ93mqAF2kKTJHNMgxuRnrZSDmp2bBmq4pN556VV5NLkYr/97O
-         lz6w==
-X-Forwarded-Encrypted: i=1; AJvYcCXInOZzSCuuolfJ+d6/K1nFsbnfwB0dgtinHIsMkGkzr5ulDurPQdoXsxbT1TqUF7fJfZvgQNrtmzlutzeV@lists.linux.dev
-X-Gm-Message-State: AOJu0YzIrprT2++vDlJmVThbbS3E7BYW/HoffIOTnqdK56AMG//nAgb6
-	fArfRtWpPkOCnirTcvciCsXK+LMbCwbUebEghhhYApnd5L4mlOGbx39AUaqd9c4=
-X-Gm-Gg: ASbGnctPRIqxdcSxPf0w1azxciYJrANoq2Y0ZIvTnBohCLRNHVguXkhld5pBEMzeFU3
-	5IuMe+rvZfFlLjAc6/gx9LiS9zBkhiZpPH0cx02MxC8oBxDfdQ2Aay9UBOE6ER8kiuTVFHQzn4f
-	gC4Zf2T1rwSIirljYItsaoUs71thVw5XrjQ8ys1zYK454YOG1K2CK0lLT1TdQMIdthh2vmnkfzf
-	E164n3C2uw8dn2qo3jho3btASMxKkLCUOkzBXH9sV6hIaYkHQ3d1K+v8xl04dMHSJIjGQJQ0WHh
-	TfxyPzrobXPvinK+eaSjPlZW3J5RIXFsQKLKBMHJohFwsKd4ctKeb9Q5l7MHW8CzFoy1
-X-Google-Smtp-Source: AGHT+IEzIef9ccRDBG1mg6yk0Xd5oFvkh4KVzK2H3lccnDMhesKjXBhEF8WrqTCAXYBkKEolMuwkmw==
-X-Received: by 2002:a17:903:2990:b0:215:a04a:89d5 with SMTP id d9443c01a7336-21dd7c4c2b5mr155916475ad.2.1738300909228;
-        Thu, 30 Jan 2025 21:21:49 -0800 (PST)
-Received: from [192.168.0.78] (133-32-227-190.east.xps.vectant.ne.jp. [133.32.227.190])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de3323e5bsm22438815ad.223.2025.01.30.21.21.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 21:21:48 -0800 (PST)
-Message-ID: <61884b77-a3fb-4d2d-8236-bdcfe47d26e7@pf.is.s.u-tokyo.ac.jp>
-Date: Fri, 31 Jan 2025 14:21:43 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mamCHQui"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738301421; x=1769837421;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SyYKu4BB43VyePhrgbsXhXJUCXetN1DTUFIFTnkvqaE=;
+  b=mamCHQuidufgr1rqT1Shjn2JtK65VTW8mWs2qMHJv6ytRoHVIUEpYaBK
+   ZB9+4FfOHv3aiLz12sjUe+5pKAREmgV2esDdCyfVGA/945aOUda6W6AOO
+   6lBlMNEUzWTwFh7myiTRE8IY43sBz/zdzZP/15LUjcGL4/0O5hEo3BwW4
+   n6RO95m3h+bXuQSNvgwnscf8WuvxecnpMoHAQMiiixTj3ddzzy4/chWim
+   POy+lpb90QZuDzrURzwWNgc+J+DpG+TaOIMtd01pckcE0zpPcTT/v1j9m
+   VXLAbqRK9PT7rIwh1C9/B+LjcOWSgCsm5M7gGa8hmTZlWdfHDp2RtGd3U
+   A==;
+X-CSE-ConnectionGUID: uh6IRD15SdS7l63uaLg02A==
+X-CSE-MsgGUID: vrldqQSpSBmPYCUNmD7ybw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38068350"
+X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
+   d="scan'208";a="38068350"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 21:30:20 -0800
+X-CSE-ConnectionGUID: d6n344mKT6GaVqNhHMp59A==
+X-CSE-MsgGUID: saVzjQbNQk2MM+XVfG1kVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
+   d="scan'208";a="140428023"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2025 21:30:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tdjbc-000m1L-1c;
+	Fri, 31 Jan 2025 05:30:16 +0000
+Date: Fri, 31 Jan 2025 13:29:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank van der Linden <fvdl@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 77/88] mm/hugetlb_vmemmap.c:704:17: error:
+ label 'out' used but not defined
+Message-ID: <202501311312.ZTWda9Ip-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/bridge: display-connector: implement the error
- path of .probe()
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <7606924f-b3b2-41d2-8617-700bc287d2b5@stanley.mountain>
-Content-Language: en-US
-From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-In-Reply-To: <7606924f-b3b2-41d2-8617-700bc287d2b5@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+Hi Frank,
 
-Sorry for the late reply.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-On 1/6/25 18:02, Dan Carpenter wrote:
-> Hi Joe,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Hattori/drm-bridge-display-connector-implement-the-error-path-of-probe/20241214-230605
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20241214012652.2104807-1-joe%40pf.is.s.u-tokyo.ac.jp
-> patch subject: [PATCH v2] drm/bridge: display-connector: implement the error path of .probe()
-> config: x86_64-randconfig-161-20241220 (https://download.01.org/0day-ci/archive/20241221/202412212129.OT9Bt8p0-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202412212129.OT9Bt8p0-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/gpu/drm/bridge/display-connector.c:397 display_connector_probe() error: uninitialized symbol 'ret'.
-> 
-> vim +/ret +397 drivers/gpu/drm/bridge/display-connector.c
-> 
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  205  static int display_connector_probe(struct platform_device *pdev)
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  206  {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  207  	struct display_connector *conn;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  208  	unsigned int type;
-> 189723fbe9aca18 Dan Carpenter        2021-10-13  209  	const char *label = NULL;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  210  	int ret;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  211
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  212  	conn = devm_kzalloc(&pdev->dev, sizeof(*conn), GFP_KERNEL);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  213  	if (!conn)
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  214  		return -ENOMEM;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  215
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  216  	platform_set_drvdata(pdev, conn);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  217
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  218  	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  219
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  220  	/* Get the exact connector type. */
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  221  	switch (type) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  222  	case DRM_MODE_CONNECTOR_DVII: {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  223  		bool analog, digital;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  224
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  225  		analog = of_property_read_bool(pdev->dev.of_node, "analog");
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  226  		digital = of_property_read_bool(pdev->dev.of_node, "digital");
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  227  		if (analog && !digital) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  228  			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  229  		} else if (!analog && digital) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  230  			conn->bridge.type = DRM_MODE_CONNECTOR_DVID;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  231  		} else if (analog && digital) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  232  			conn->bridge.type = DRM_MODE_CONNECTOR_DVII;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  233  		} else {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  234  			dev_err(&pdev->dev, "DVI connector with no type\n");
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  235  			return -EINVAL;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  236  		}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  237  		break;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  238  	}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  239
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  240  	case DRM_MODE_CONNECTOR_HDMIA: {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  241  		const char *hdmi_type;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  242
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  243  		ret = of_property_read_string(pdev->dev.of_node, "type",
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  244  					      &hdmi_type);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  245  		if (ret < 0) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  246  			dev_err(&pdev->dev, "HDMI connector with no type\n");
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  247  			return -EINVAL;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  248  		}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  249
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  250  		if (!strcmp(hdmi_type, "a") || !strcmp(hdmi_type, "c") ||
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  251  		    !strcmp(hdmi_type, "d") || !strcmp(hdmi_type, "e")) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  252  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  253  		} else if (!strcmp(hdmi_type, "b")) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  254  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIB;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  255  		} else {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  256  			dev_err(&pdev->dev,
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  257  				"Unsupported HDMI connector type '%s'\n",
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  258  				hdmi_type);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  259  			return -EINVAL;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  260  		}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  261
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  262  		break;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  263  	}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  264
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  265  	default:
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  266  		conn->bridge.type = type;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  267  		break;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  268  	}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  269
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  270  	/* All the supported connector types support interlaced modes. */
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  271  	conn->bridge.interlace_allowed = true;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  272
-> d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  273  	if (type == DRM_MODE_CONNECTOR_HDMIA ||
-> d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  274  	    type == DRM_MODE_CONNECTOR_DisplayPort)
-> d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  275  		conn->bridge.ycbcr_420_allowed = true;
-> d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  276
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  277  	/* Get the optional connector label. */
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  278  	of_property_read_string(pdev->dev.of_node, "label", &label);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  279
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  280  	/*
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  281  	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  282  	 * edge interrupts, register an interrupt handler.
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  283  	 */
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  284  	if (type == DRM_MODE_CONNECTOR_DVII ||
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  285  	    type == DRM_MODE_CONNECTOR_HDMIA ||
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  286  	    type == DRM_MODE_CONNECTOR_DisplayPort) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  287  		conn->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd",
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  288  							 GPIOD_IN);
-> ed8f4e1002781c4 Ye Xingchen          2023-03-22  289  		if (IS_ERR(conn->hpd_gpio))
-> ed8f4e1002781c4 Ye Xingchen          2023-03-22  290  			return dev_err_probe(&pdev->dev, PTR_ERR(conn->hpd_gpio),
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  291  					     "Unable to retrieve HPD GPIO\n");
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  292
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  293  		conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  294  	} else {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  295  		conn->hpd_irq = -EINVAL;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  296  	}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  297
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  298  	if (conn->hpd_irq >= 0) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  299  		ret = devm_request_threaded_irq(&pdev->dev, conn->hpd_irq,
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  300  						NULL, display_connector_hpd_irq,
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  301  						IRQF_TRIGGER_RISING |
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  302  						IRQF_TRIGGER_FALLING |
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  303  						IRQF_ONESHOT,
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  304  						"HPD", conn);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  305  		if (ret) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  306  			dev_info(&pdev->dev,
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  307  				 "Failed to request HPD edge interrupt, falling back to polling\n");
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  308  			conn->hpd_irq = -EINVAL;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  309  		}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  310  	}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  311
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  312  	/* Retrieve the DDC I2C adapter for DVI, HDMI and VGA connectors. */
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  313  	if (type == DRM_MODE_CONNECTOR_DVII ||
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  314  	    type == DRM_MODE_CONNECTOR_HDMIA ||
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  315  	    type == DRM_MODE_CONNECTOR_VGA) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  316  		struct device_node *phandle;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  317
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  318  		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  319  		if (phandle) {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  320  			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  321  			of_node_put(phandle);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  322  			if (!conn->bridge.ddc)
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  323  				return -EPROBE_DEFER;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  324  		} else {
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  325  			dev_dbg(&pdev->dev,
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  326  				"No I2C bus specified, disabling EDID readout\n");
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  327  		}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  328  	}
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  329
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  330  	/* Get the DP PWR for DP connector. */
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  331  	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  332  		int ret;
-> 
-> Shadow variable.
-> 
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  333
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  334  		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  335  		if (ret < 0) {
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  336  			ret = dev_err_probe(&pdev->dev, ret,
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  337  					    "failed to get DP PWR regulator\n");
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  338  			goto err_put;
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  339  		}
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  340  	}
-> 2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  341
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  342  	/* enable DDC */
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  343  	if (type == DRM_MODE_CONNECTOR_HDMIA) {
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  344  		int ret;
-> 
-> This "ret" shadows an earlier declaration and leads to an error code bug.
-> 
-> I feel like say that ret is one of those variables which should *always*
-> be declared with function scope even if we don't return the error code.
-> These sorts of bugs aren't super common.  We probably only get a couple
-> per year.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   495206a68b359eb6117d0860861578113bbb94e7
+commit: 383ad37bda9ba2414ce6abff61fecdc09afc623a [77/88] mm/hugetlb: add pre-HVO framework
+config: x86_64-buildonly-randconfig-001-20250131 (https://download.01.org/0day-ci/archive/20250131/202501311312.ZTWda9Ip-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311312.ZTWda9Ip-lkp@intel.com/reproduce)
 
-Thank you for the report. Should be fixed in the V3 patch [1].
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501311312.ZTWda9Ip-lkp@intel.com/
 
-[1]: 
-https://lore.kernel.org/all/20250131051918.549781-1-joe@pf.is.s.u-tokyo.ac.jp/
+All errors (new ones prefixed by >>):
 
-> 
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  345
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  346  		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  347  						       GPIOD_OUT_HIGH);
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  348
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  349  		if (IS_ERR(conn->ddc_en)) {
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  350  			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  351  			ret = PTR_ERR(conn->ddc_en);
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  352  			goto err_put;
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  353  		}
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  354
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  355  		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  356  		if (ret < 0) {
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  357  			ret = dev_err_probe(
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  358  				&pdev->dev, ret,
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  359  				"failed to get HDMI +5V Power regulator\n");
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  360  			goto err_put;
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  361  		}
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  362  	}
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  363
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  364  	if (conn->supply) {
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  365  		ret = regulator_enable(conn->supply);
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  366  		if (ret) {
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  367  			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  368  			goto err_put;
-> 6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  369  		}
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  370  	}
-> 6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  371
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  372  	conn->bridge.funcs = &display_connector_bridge_funcs;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  373  	conn->bridge.of_node = pdev->dev.of_node;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  374
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  375  	if (conn->bridge.ddc)
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  376  		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  377  				 |  DRM_BRIDGE_OP_DETECT;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  378  	if (conn->hpd_gpio)
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  379  		conn->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  380  	if (conn->hpd_irq >= 0)
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  381  		conn->bridge.ops |= DRM_BRIDGE_OP_HPD;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  382
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  383  	dev_dbg(&pdev->dev,
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  384  		"Found %s display connector '%s' %s DDC bus and %s HPD GPIO (ops 0x%x)\n",
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  385  		drm_get_connector_type_name(conn->bridge.type),
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  386  		label ? label : "<unlabelled>",
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  387  		conn->bridge.ddc ? "with" : "without",
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  388  		conn->hpd_gpio ? "with" : "without",
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  389  		conn->bridge.ops);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  390
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  391  	drm_bridge_add(&conn->bridge);
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  392
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  393  	return 0;
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  394
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  395  err_put:
-> a7afd1756ad7c06 Joe Hattori          2024-12-14  396  	i2c_put_adapter(conn->bridge.ddc);
-> a7afd1756ad7c06 Joe Hattori          2024-12-14 @397  	return ret;
-> 0c275c30176b2e7 Laurent Pinchart     2020-02-26  398  }
-> 
+   mm/hugetlb_vmemmap.c: In function '__hugetlb_vmemmap_optimize_folios':
+>> mm/hugetlb_vmemmap.c:704:17: error: label 'out' used but not defined
+     704 |                 goto out;
+         |                 ^~~~
 
-Best,
-Joe
+
+vim +/out +704 mm/hugetlb_vmemmap.c
+
+   651	
+   652	static void __hugetlb_vmemmap_optimize_folios(struct hstate *h,
+   653						      struct list_head *folio_list,
+   654						      bool boot)
+   655	{
+   656		struct folio *folio;
+   657		int nr_to_optimize;
+   658		LIST_HEAD(vmemmap_pages);
+   659		unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH | VMEMMAP_SYNCHRONIZE_RCU;
+   660	
+   661		nr_to_optimize = 0;
+   662		list_for_each_entry(folio, folio_list, lru) {
+   663			int ret;
+   664			unsigned long spfn, epfn;
+   665	
+   666			if (boot && folio_test_hugetlb_vmemmap_optimized(folio)) {
+   667				/*
+   668				 * Already optimized by pre-HVO, just map the
+   669				 * mirrored tail page structs RO.
+   670				 */
+   671				spfn = (unsigned long)&folio->page;
+   672				epfn = spfn + pages_per_huge_page(h);
+   673				vmemmap_wrprotect_hvo(spfn, epfn, folio_nid(folio),
+   674						HUGETLB_VMEMMAP_RESERVE_SIZE);
+   675				register_page_bootmem_memmap(pfn_to_section_nr(spfn),
+   676						&folio->page,
+   677						HUGETLB_VMEMMAP_RESERVE_SIZE);
+   678				static_branch_inc(&hugetlb_optimize_vmemmap_key);
+   679				continue;
+   680			}
+   681	
+   682			nr_to_optimize++;
+   683	
+   684			ret = hugetlb_vmemmap_split_folio(h, folio);
+   685	
+   686			/*
+   687			 * Spliting the PMD requires allocating a page, thus lets fail
+   688			 * early once we encounter the first OOM. No point in retrying
+   689			 * as it can be dynamically done on remap with the memory
+   690			 * we get back from the vmemmap deduplication.
+   691			 */
+   692			if (ret == -ENOMEM)
+   693				break;
+   694		}
+   695	
+   696		if (!nr_to_optimize)
+   697			/*
+   698			 * All pre-HVO folios, nothing left to do. It's ok if
+   699			 * there is a mix of pre-HVO and not yet HVO-ed folios
+   700			 * here, as __hugetlb_vmemmap_optimize_folio() will
+   701			 * skip any folios that already have the optimized flag
+   702			 * set, see vmemmap_should_optimize_folio().
+   703			 */
+ > 704			goto out;
+   705	
+   706		flush_tlb_all();
+   707	
+   708		list_for_each_entry(folio, folio_list, lru) {
+   709			int ret;
+   710	
+   711			ret = __hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, flags);
+   712			/* only need to synchronize_rcu() once for each batch */
+   713			flags &= ~VMEMMAP_SYNCHRONIZE_RCU;
+   714	
+   715			/*
+   716			 * Pages to be freed may have been accumulated.  If we
+   717			 * encounter an ENOMEM,  free what we have and try again.
+   718			 * This can occur in the case that both spliting fails
+   719			 * halfway and head page allocation also failed. In this
+   720			 * case __hugetlb_vmemmap_optimize_folio() would free memory
+   721			 * allowing more vmemmap remaps to occur.
+   722			 */
+   723			if (ret == -ENOMEM && !list_empty(&vmemmap_pages)) {
+   724				flush_tlb_all();
+   725				free_vmemmap_page_list(&vmemmap_pages);
+   726				INIT_LIST_HEAD(&vmemmap_pages);
+   727				__hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, flags);
+   728			}
+   729		}
+   730	
+   731		flush_tlb_all();
+   732		free_vmemmap_page_list(&vmemmap_pages);
+   733	}
+   734	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
