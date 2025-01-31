@@ -1,60 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16C41F151B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 19:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB5915B546
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 20:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738353426; cv=none; b=Wgf+LCq9AXCyBMnszKsYgYIO2ngDADVIU4L7C/WSwO+UtPwQCZH7IcW5AJ9KtD8KcCZuQHNrn8wSpP2u6rAxgB9HKGFGQ0NEGi1d6RhB93b/M0d0Yu9DJikjpISLfNjE5AcXZhsxO0V74TrTK2jOniQwjYsrIWvQyftD7rzrgzs=
+	t=1738354090; cv=none; b=Cm0iRQlAAft+2GDNbzjGi7fjJYIa2G/uMWT4kDvwSyVjc+0yeT7eNoYicXmp8oXx+l10n0Flzb4LSbUrotSFZhqXMb2AHaBq1hZ9WVoSw9cRFnq7r0Dfem5kOZdkPZ5XkTmeI290zPFVl5PZV86puxIV120+wkdATCnrRy4oLdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738353426; c=relaxed/simple;
-	bh=l5sD+pNPBAcougMmecSXpNNNNP0rxIj4zEZLBekUeUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b/ZVQL0yuMl9nbKNc6BqV8rbSIt1wZyNSDLWJOCdtK3m2Us+b9UvczLz/OUPDQMJqeKkRWR6J0l3vZgEFSr8Lupa8Y6JXpRIOX2UFgOkonycCC/X5jcCexzGVvCpbwy8uyJd1eVWXGLonCPdD5U6/043UT7o7OBlVkrqTfA5ZB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gaQsTFHx; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1738354090; c=relaxed/simple;
+	bh=COXth9vzC9L4DLry/6VVSSD8GXZn+nuLwV2IJYzQEqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ds3/R01Z3/jaDpLYHkitihVfZHjCilQJ9StT1SK3LzPhPCfBwnvzBWM1PtSqUSgUP4O/YZf0F3IBAvHoRva3AoRhYzwna+ywGZJJTwlLmmzNz+WTE4c8kM8Xv8rIHaDxng6HSPdQb8aggEkyfEgosDqX/GX4KXkLzXX4L55nVkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l0XR6LBg; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gaQsTFHx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l0XR6LBg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738353425; x=1769889425;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l5sD+pNPBAcougMmecSXpNNNNP0rxIj4zEZLBekUeUI=;
-  b=gaQsTFHxi1dEOuRvtChU3iwIt41SlDOAsYV5Nugh/dyoBCjP72ibjkLL
-   E9hVYJuteaQf9Bdcs0zWoWcKjFELGZR6pEn0E9WMawu67GnpRxYu9Z5ry
-   bwaXJcCoFvHH+WPEcSApgj+TnOhI67syYpR+eoD2qJMGYWsiBYqea7ME2
-   OXh361qFLWLKi49IGUVebYXaYPorjcw2AASzD3tWeIVsv94Jzu5wBYj4Y
-   p9UtTJCoX7C7pcQRHzSeBL2OYG4w8/wWFYVwYQFGfMltCa3jyYV+hZR/u
-   FXEPwp6wfVzxff+eNRqh8415ax/4beOuBgW1vwBj+oWSNNc+uiF+2HKBF
-   g==;
-X-CSE-ConnectionGUID: NVXwpgCVQvSEeLYVlFhwQw==
-X-CSE-MsgGUID: 6Pc98n8iTPCFSaaPaFNEig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="38635201"
+  t=1738354088; x=1769890088;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=COXth9vzC9L4DLry/6VVSSD8GXZn+nuLwV2IJYzQEqY=;
+  b=l0XR6LBgA9yOp/GxMcF0BLCdUMbGXMF2KQAWDL/GCsZHH3y8oxoJirH+
+   IU1NlIt4PW8IBGWAIdt3SP0qma4PAQKm3x0B+1aI8/YzsVZr77YthADBN
+   AaRxoRCNQaLXptxubWenhp7fv+aYUfnEtsZwptJ4Fz4k/itGJ4DmGWnus
+   yQ1MnLgvDFDIdJIXtus8emyTJuJBg61JcKdeTsfXF6A1EK5o+jJD9uHpO
+   98zViztUHLetMl2VuGY+rK16i9xM3zQQyNociiYQKdRCNBcMks8B2IEst
+   iHQfYhfhBEtByFnM8c0ieCNaYT4NmY6DOsRwphDvExd3JEt/HCxWDi7Dq
+   A==;
+X-CSE-ConnectionGUID: +L7+PwqsSRuLSWiDgz7KxQ==
+X-CSE-MsgGUID: VEiKMzg+QBS65PyI8Se5Wg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="50316417"
 X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; 
-   d="scan'208";a="38635201"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 11:57:04 -0800
-X-CSE-ConnectionGUID: 2pD+SzKZRqOJ6/OnqJ9uPA==
-X-CSE-MsgGUID: IgGNH6aSQA+HZ72z60gPvQ==
+   d="scan'208";a="50316417"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 12:08:08 -0800
+X-CSE-ConnectionGUID: h5yofnzcQ4u8Trpgo7S3FQ==
+X-CSE-MsgGUID: PxFX4g1OS/GH68anfo97Hw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="140603054"
+X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; 
+   d="scan'208";a="109655773"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Jan 2025 11:57:02 -0800
+  by orviesa006.jf.intel.com with ESMTP; 31 Jan 2025 12:08:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdx8O-000n2j-1X;
-	Fri, 31 Jan 2025 19:57:00 +0000
-Date: Sat, 1 Feb 2025 03:56:57 +0800
+	id 1tdxJ3-000n3L-1P;
+	Fri, 31 Jan 2025 20:08:01 +0000
+Date: Sat, 1 Feb 2025 04:07:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:folio-mk-pte 7/9]
- arch/um/include/asm/pgtable.h:272:3: error: call to undeclared function
- 'pte_mknewprot'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202502010351.5JZ51lnR-lkp@intel.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	Pengyu Luo <mitltlatltl@gmail.com>
+Subject: Re: [PATCH RESEND v6 2/3] platform: arm64: add Huawei Matebook E Go
+ EC driver
+Message-ID: <202502010344.KWDBQUG9-lkp@intel.com>
+References: <20250131092139.6065-3-mitltlatltl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,208 +75,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250131092139.6065-3-mitltlatltl@gmail.com>
 
-tree:   git://git.infradead.org/users/willy/pagecache folio-mk-pte
-head:   44333e58349adcdfcb5b34f6086bf7c01dfd9c9a
-commit: a225e946006795d33af26ec560a4f454379959e1 [7/9] um: Remove custom definition of mk_pte()
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20250201/202502010351.5JZ51lnR-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250201/202502010351.5JZ51lnR-lkp@intel.com/reproduce)
+Hi Pengyu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 853d1f41ba73e78d22e7075d9a95670aab187eba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pengyu-Luo/dt-bindings-platform-Add-Huawei-Matebook-E-Go-EC/20250131-172427
+base:   853d1f41ba73e78d22e7075d9a95670aab187eba
+patch link:    https://lore.kernel.org/r/20250131092139.6065-3-mitltlatltl%40gmail.com
+patch subject: [PATCH RESEND v6 2/3] platform: arm64: add Huawei Matebook E Go EC driver
+config: powerpc64-randconfig-003-20250201 (https://download.01.org/0day-ci/archive/20250201/202502010344.KWDBQUG9-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250201/202502010344.KWDBQUG9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502010351.5JZ51lnR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502010344.KWDBQUG9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:30:
-   In file included from include/linux/pgtable.h:6:
->> arch/um/include/asm/pgtable.h:272:3: error: call to undeclared function 'pte_mknewprot'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                 ^
->> arch/um/include/asm/pgtable.h:272:17: error: call to undeclared function 'pte_mknewpage'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                               ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from fs/open.c:9:
-   In file included from include/linux/mm.h:1133:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
---
-   In file included from fs/read_write.c:14:
-   In file included from include/linux/fsnotify.h:16:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:30:
-   In file included from include/linux/pgtable.h:6:
->> arch/um/include/asm/pgtable.h:272:3: error: call to undeclared function 'pte_mknewprot'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                 ^
->> arch/um/include/asm/pgtable.h:272:17: error: call to undeclared function 'pte_mknewpage'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                               ^
-   2 errors generated.
---
-   In file included from fs/statfs.c:2:
-   In file included from include/linux/syscalls.h:94:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:30:
-   In file included from include/linux/pgtable.h:6:
->> arch/um/include/asm/pgtable.h:272:3: error: call to undeclared function 'pte_mknewprot'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                 ^
->> arch/um/include/asm/pgtable.h:272:17: error: call to undeclared function 'pte_mknewpage'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                               ^
-   fs/statfs.c:129:3: warning: 'memcpy' will always overflow; destination buffer has size 64, but size argument is 84 [-Wfortify-source]
-     129 |                 memcpy(&buf, st, sizeof(*st));
-         |                 ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memcpy'
-     150 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-         |                         ^
-   1 warning and 2 errors generated.
---
-   In file included from fs/aio.c:20:
-   In file included from include/linux/syscalls.h:94:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:30:
-   In file included from include/linux/pgtable.h:6:
->> arch/um/include/asm/pgtable.h:272:3: error: call to undeclared function 'pte_mknewprot'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                 ^
->> arch/um/include/asm/pgtable.h:272:17: error: call to undeclared function 'pte_mknewpage'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 pte_mknewprot(pte_mknewpage(pte));
-         |                               ^
-   In file included from fs/aio.c:29:
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     159 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
-     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     160 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
-     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   2 warnings and 2 errors generated.
+   powerpc64-linux-ld: warning: discarding dynamic section .glink
+   powerpc64-linux-ld: warning: discarding dynamic section .plt
+   powerpc64-linux-ld: linkage table error against `devm_hwmon_device_register_with_info'
+   powerpc64-linux-ld: stubs don't match calculated size
+   powerpc64-linux-ld: can not build stubs: bad value
+   powerpc64-linux-ld: drivers/platform/arm64/huawei-gaokun-ec.o: in function `gaokun_ec_probe':
+>> drivers/platform/arm64/huawei-gaokun-ec.c:786:(.text+0x16ac): undefined reference to `devm_hwmon_device_register_with_info'
 
 
-vim +/pte_mknewprot +272 arch/um/include/asm/pgtable.h
+vim +786 drivers/platform/arm64/huawei-gaokun-ec.c
 
-   265	
-   266	static inline pte_t pfn_pte(unsigned long pfn, pgprot_t pgprot)
-   267	{
-   268		pte_t pte;
-   269	
-   270		pte_set_val(pte, pfn_to_phys(pfn), pgprot);
-   271		if (pte_present(pte))
- > 272			pte_mknewprot(pte_mknewpage(pte));
-   273	
-   274		return pte;
-   275	}
-   276	
+   740	
+   741	static int gaokun_ec_probe(struct i2c_client *client)
+   742	{
+   743		struct device *dev = &client->dev;
+   744		struct gaokun_ec *ec;
+   745		int ret;
+   746	
+   747		ec = devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
+   748		if (!ec)
+   749			return -ENOMEM;
+   750	
+   751		ret = devm_mutex_init(dev, &ec->lock);
+   752		if (ret)
+   753			return ret;
+   754	
+   755		ec->client = client;
+   756		i2c_set_clientdata(client, ec);
+   757		BLOCKING_INIT_NOTIFIER_HEAD(&ec->notifier_list);
+   758	
+   759		/* Lid switch */
+   760		ec->idev = devm_input_allocate_device(dev);
+   761		if (!ec->idev)
+   762			return -ENOMEM;
+   763	
+   764		ec->idev->name = "LID";
+   765		ec->idev->phys = "gaokun-ec/input0";
+   766		input_set_capability(ec->idev, EV_SW, SW_LID);
+   767	
+   768		ret = input_register_device(ec->idev);
+   769		if (ret)
+   770			return dev_err_probe(dev, ret, "Failed to register input device\n");
+   771	
+   772		ret = gaokun_aux_init(dev, GAOKUN_DEV_PSY, ec);
+   773		if (ret)
+   774			return ret;
+   775	
+   776		ret = gaokun_aux_init(dev, GAOKUN_DEV_UCSI, ec);
+   777		if (ret)
+   778			return ret;
+   779	
+   780		ret = devm_request_threaded_irq(dev, client->irq, NULL,
+   781						gaokun_ec_irq_handler, IRQF_ONESHOT,
+   782						dev_name(dev), ec);
+   783		if (ret)
+   784			return dev_err_probe(dev, ret, "Failed to request IRQ\n");
+   785	
+ > 786		ec->hwmon_dev = devm_hwmon_device_register_with_info(dev, "gaokun_ec_hwmon",
+   787								     ec, &gaokun_ec_hwmon_chip_info, NULL);
+   788		if (IS_ERR(ec->hwmon_dev))
+   789			return dev_err_probe(dev, PTR_ERR(ec->hwmon_dev),
+   790					     "Failed to register hwmon device\n");
+   791	
+   792		return 0;
+   793	}
+   794	
 
 -- 
 0-DAY CI Kernel Test Service
