@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8FD14B08C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 06:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D29145B3F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 07:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738305871; cv=none; b=T56t72rxADNIuq5NEgxAtpDK1GPBy2lphTPOeV/bCrdKxV/aqUvyWPpiliPFsdWWJ+9NbzSPMS72/o5rIO2vrRSBHXcqnVjg3woaHW+cyL0TLtrsnldIb07m4o826wqeACfxHnJ5o2Ew6E8fnRBut4piucxc925pWyMvYhWS8DU=
+	t=1738307193; cv=none; b=Nu3qyHwy+jfwH94iITn7HV1COcLevZOWjWYQuI8ln4SwsRD2Vjq+rGmY9qHfJUn3fGeqXSMtqD11az24EOjN+qS42vJ94meIBUPLb8m2Xl4SniAFlPTcAKCxMxp4dz5M4nutiTHcfVO30cqTb+OnVGEC51OK1J7Ow1nnk6vsXok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738305871; c=relaxed/simple;
-	bh=teQlFhgZ1fHacBUYUtGVuB5nuqA3XQeBDjjbGzx+lgE=;
+	s=arc-20240116; t=1738307193; c=relaxed/simple;
+	bh=zOrrtSgX7CZSyiq4mgybdFcv+4KBEcNP5sep2xb2dTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JOS5aJ3/Tf+mqwGoC7bnXPF9QKnn30iKqssCnxiXfznzr+w3KXnFD543SQSogAlxlOWw8YYY10SULIWGv+ZswjaP1OIt5PT9v3xc0UoomJNJQWUGNMqUALiioIg6k54frMDrUu3SFThHXK0unqzrm7Q1wzr28Q1bLhyPXLroqGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nk7VEqPe; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=ghRnWHmzcwoRXuhrOpsSbjjrSJ3m5yeL8QV3FIVw9TOq5r1r/AVFyEEu1T7b1m7yPu+sUFnz/C0ujhM6JYd7RvmaF9jNt6Afuq9W7ASYHJYKcr/e+efNJI9HkOtI55OzRuY/YVQiS9GfkKYKMz3xRnT1ASJt1vNNpxu4CxZh4no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUw3jnJz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nk7VEqPe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUw3jnJz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738305869; x=1769841869;
+  t=1738307191; x=1769843191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=teQlFhgZ1fHacBUYUtGVuB5nuqA3XQeBDjjbGzx+lgE=;
-  b=nk7VEqPeDBCSKbT2dZprhOdq7NQH5F46nokcZawxLK5VO6OK1kRU4DDM
-   OHh5lrfmZJJe1mDrwpDZZtIWNn3+Ln+Ng7vt2mNIgMLIKVdDNaehSiUSL
-   Yg1tt3KN4aZZ8lnxmm78SRM3VJCVJ1kjcPgR42gkxky/UCBw5D9hgkbl3
-   igJNvg/282NxaN5Wr+RcOQv4VqQg50XBQTBD8r1UcRE9bPm9Vm7jvuKzm
-   LvxkidOORSQ+5jFm37W1K2oRK6La4uUMKqQJLd70aDuZHPlHMSGFl2XGs
-   okPtzvbCdMGOb7fxnujkZy3zZcUlbwnldtm8t/dlrejPjBT8uoq82K833
-   Q==;
-X-CSE-ConnectionGUID: F7dkpC/ORiKBPUuUyA5zDw==
-X-CSE-MsgGUID: AF0nTYGoSx+BUY8zXUiDTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38577072"
+  bh=zOrrtSgX7CZSyiq4mgybdFcv+4KBEcNP5sep2xb2dTE=;
+  b=WUw3jnJz/dHab/g3fZYCYxcBrFwve1p1RgOyBU1LkX9P6fhsLERU1G0Z
+   uOUE6U38ixTiqLQh+hrj5Ozf8B+hd+GuouFxEpsSfYGmBwsdt2/gk4Jy9
+   dxOaoB8rJLQksPJ1g5ICS34z1D/+ATDqqmyTT8frzr2TVH61DtLUQfYNs
+   7C+KIxc6YRoz3GJyEApU6VggwrvpwtinlnAQsIcry+CZRfeJ1YqBL8gOt
+   NjdKplLMT1WFbEaljA0rMrc4PlnOb9K+L11Nqbn08WvG09eHHooyN2fhL
+   vK6B8gZQPK/FDOgev3qjgDQKfgN4m+c2kfazyITRYXJCKVK0s5r+t6C8J
+   A==;
+X-CSE-ConnectionGUID: 30RbEgDBQOSig87/3Q46Dw==
+X-CSE-MsgGUID: MmOmkkmoR0+aNw7mA7Qy/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="49863684"
 X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="38577072"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 22:44:28 -0800
-X-CSE-ConnectionGUID: Am8MDMYBTt+qXH+2EN5Gxw==
-X-CSE-MsgGUID: lllX/4IIRjeH8MB5hw1ltg==
+   d="scan'208";a="49863684"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 23:06:30 -0800
+X-CSE-ConnectionGUID: toRm1x3RQ/aUNmmXvhHBbQ==
+X-CSE-MsgGUID: jnvC9LM6RlmC/uaDqvvFNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="109393822"
+   d="scan'208";a="110132404"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Jan 2025 22:44:26 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 30 Jan 2025 23:06:29 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdklM-000m6Y-15;
-	Fri, 31 Jan 2025 06:44:24 +0000
-Date: Fri, 31 Jan 2025 14:44:13 +0800
+	id 1tdl6h-000m7b-08;
+	Fri, 31 Jan 2025 07:06:27 +0000
+Date: Fri, 31 Jan 2025 15:05:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:2112: warning: cannot
- understand function prototype: 'struct rpc_ucode_libos_print_v1e_08 '
-Message-ID: <202501311431.Od7RxfB4-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-msiof-2025-01-30 2/2]
+ sound/soc/renesas/rcar/msiof.c:356:9: sparse: sparse: statement expected
+ after case label
+Message-ID: <202501311443.YYRcwfUV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,133 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Timur,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   69e858e0b8b2ea07759e995aa383e8780d9d140c
-commit: 214c9539cf2f5a0116051dc8e2a36b0577383a5e drm/nouveau: expose GSP-RM logging buffers via debugfs
-date:   8 weeks ago
-config: alpha-randconfig-r026-20211101 (https://download.01.org/0day-ci/archive/20250131/202501311431.Od7RxfB4-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311431.Od7RxfB4-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-msiof-2025-01-30
+head:   d9a82c93cca8d2f5381062d77bbab0736dd6dc5b
+commit: d9a82c93cca8d2f5381062d77bbab0736dd6dc5b [2/2] msiof
+config: loongarch-randconfig-r122-20250131 (https://download.01.org/0day-ci/archive/20250131/202501311443.YYRcwfUV-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250131/202501311443.YYRcwfUV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501311431.Od7RxfB4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501311443.YYRcwfUV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/renesas/rcar/msiof.c:356:9: sparse: sparse: statement expected after case label
 
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1136: warning: cannot understand function prototype: 'struct registry_list_entry '
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1340: warning: cannot understand function prototype: 'const struct nv_gsp_registry_entries r535_registry_entries[] = '
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:2112: warning: cannot understand function prototype: 'struct rpc_ucode_libos_print_v1e_08 '
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:2174: warning: expecting prototype for create_debufgs(). Prototype was for create_debugfs() instead
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:2800: warning: Function parameter or struct member 'parent' not described in 'r535_gsp_copy_log'
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:2800: warning: Function parameter or struct member 'name' not described in 'r535_gsp_copy_log'
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:2800: warning: Function parameter or struct member 's' not described in 'r535_gsp_copy_log'
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:2800: warning: Function parameter or struct member 't' not described in 'r535_gsp_copy_log'
---
->> drivers/gpu/drm/nouveau/nouveau_drm.c:129: warning: Function parameter or struct member 'gsp_logs' not described in 'NVIF_LOGS_DECLARE'
->> drivers/gpu/drm/nouveau/nouveau_drm.c:129: warning: expecting prototype for gsp_logs(). Prototype was for NVIF_LOGS_DECLARE() instead
+vim +356 sound/soc/renesas/rcar/msiof.c
 
-
-vim +2112 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-
-  2102	
-  2103	/**
-  2104	 * rpc_ucode_libos_print_v1E_08 - RPC payload for libos print buffers
-  2105	 * @ucode_eng_desc: the engine descriptor
-  2106	 * @libos_print_buf_size: the size of the libos_print_buf[]
-  2107	 * @libos_print_buf: the actual buffer
-  2108	 *
-  2109	 * The engine descriptor is divided into 31:8 "class ID" and 7:0 "instance
-  2110	 * ID". We only care about messages from PMU.
-  2111	 */
-> 2112	struct rpc_ucode_libos_print_v1e_08 {
-  2113		u32 ucode_eng_desc;
-  2114		u32 libos_print_buf_size;
-  2115		u8 libos_print_buf[];
-  2116	};
-  2117	
-  2118	/**
-  2119	 * r535_gsp_msg_libos_print - capture log message from the PMU
-  2120	 * @priv: gsp pointer
-  2121	 * @fn: function number (ignored)
-  2122	 * @repv: pointer to libos print RPC
-  2123	 * @repc: message size
-  2124	 *
-  2125	 * Called when we receive a UCODE_LIBOS_PRINT event RPC from GSP-RM. This RPC
-  2126	 * contains the contents of the libos print buffer from PMU. It is typically
-  2127	 * only written to when PMU encounters an error.
-  2128	 *
-  2129	 * Technically this RPC can be used to pass print buffers from any number of
-  2130	 * GSP-RM engines, but we only expect to receive them for the PMU.
-  2131	 *
-  2132	 * For the PMU, the buffer is 4K in size and the RPC always contains the full
-  2133	 * contents.
-  2134	 */
-  2135	static int
-  2136	r535_gsp_msg_libos_print(void *priv, u32 fn, void *repv, u32 repc)
-  2137	{
-  2138		struct nvkm_gsp *gsp = priv;
-  2139		struct nvkm_subdev *subdev = &gsp->subdev;
-  2140		struct rpc_ucode_libos_print_v1e_08 *rpc = repv;
-  2141		unsigned int class = rpc->ucode_eng_desc >> 8;
-  2142	
-  2143		nvkm_debug(subdev, "received libos print from class 0x%x for %u bytes\n",
-  2144			   class, rpc->libos_print_buf_size);
-  2145	
-  2146		if (class != NV_GSP_MSG_EVENT_UCODE_LIBOS_CLASS_PMU) {
-  2147			nvkm_warn(subdev,
-  2148				  "received libos print from unknown class 0x%x\n",
-  2149				  class);
-  2150			return -ENOMSG;
-  2151		}
-  2152	
-  2153		if (rpc->libos_print_buf_size > GSP_PAGE_SIZE) {
-  2154			nvkm_error(subdev, "libos print is too large (%u bytes)\n",
-  2155				   rpc->libos_print_buf_size);
-  2156			return -E2BIG;
-  2157		}
-  2158	
-  2159		memcpy(gsp->blob_pmu.data, rpc->libos_print_buf, rpc->libos_print_buf_size);
-  2160	
-  2161		return 0;
-  2162	}
-  2163	
-  2164	/**
-  2165	 * create_debufgs - create a blob debugfs entry
-  2166	 * @gsp: gsp pointer
-  2167	 * @name: name of this dentry
-  2168	 * @blob: blob wrapper
-  2169	 *
-  2170	 * Creates a debugfs entry for a logging buffer with the name 'name'.
-  2171	 */
-  2172	static struct dentry *create_debugfs(struct nvkm_gsp *gsp, const char *name,
-  2173					     struct debugfs_blob_wrapper *blob)
-> 2174	{
-  2175		struct dentry *dent;
-  2176	
-  2177		dent = debugfs_create_blob(name, 0444, gsp->debugfs.parent, blob);
-  2178		if (IS_ERR(dent)) {
-  2179			nvkm_error(&gsp->subdev,
-  2180				   "failed to create %s debugfs entry\n", name);
-  2181			return NULL;
-  2182		}
-  2183	
-  2184		/*
-  2185		 * For some reason, debugfs_create_blob doesn't set the size of the
-  2186		 * dentry, so do that here.  See [1]
-  2187		 *
-  2188		 * [1] https://lore.kernel.org/r/linux-fsdevel/20240207200619.3354549-1-ttabi@nvidia.com/
-  2189		 */
-  2190		i_size_write(d_inode(dent), blob->size);
-  2191	
-  2192		return dent;
-  2193	}
-  2194	
+   332	
+   333	static int msiof_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+   334	{
+   335		struct msiof_priv *priv = snd_soc_dai_get_drvdata(dai);
+   336	
+   337		switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+   338		case SND_SOC_DAIFMT_BP_FP:
+   339			priv->is_provider = 1;
+   340			break;
+   341		case SND_SOC_DAIFMT_BC_FC:
+   342			priv->is_provider = 0;
+   343			break;
+   344		default:
+   345			return -EINVAL;
+   346		}
+   347	
+   348		switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
+   349		case SND_SOC_DAIFMT_NB_IF:
+   350		case SND_SOC_DAIFMT_IB_NF:
+   351		case SND_SOC_DAIFMT_IB_IF:
+   352			return -EINVAL;
+   353		/* it supports NB_NF only */
+   354		case SND_SOC_DAIFMT_NB_NF:
+   355		default:
+ > 356		}
+   357	
+   358		switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+   359		case SND_SOC_DAIFMT_I2S:
+   360			priv->need_delay = 1;
+   361			break;
+   362		case SND_SOC_DAIFMT_LEFT_J:
+   363			priv->need_delay = 0;
+   364			break;
+   365		default:
+   366			return -EINVAL;
+   367		}
+   368	
+   369		return 0;
+   370	}
+   371	
 
 -- 
 0-DAY CI Kernel Test Service
