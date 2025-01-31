@@ -1,113 +1,127 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB9715F330
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 13:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456AF1C54A6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 13:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738329971; cv=none; b=e1SOLk3wR/+hdm83tQi/BVnGAL0p9x2ULtWBKqs5h3ZO92a+gsdjf0gs2jNP43GkFeXAYegDXcRA1CMhcSLValqgACVdbxzDiCDr0nyXSHFlMcOUDJAfTTy+wFVfKTAecVyFVKqNiASTzcnHHn7RbuA8O8+9OMP1GJ+0d8BQOOM=
+	t=1738331056; cv=none; b=uxPTKgjZONQeiRELeQZZEcCebUSeRnNRPYP3aLsqbFX0+drRB50Kt+E/0x87Yu9bncGLbuL5oHPYOVPWSEMsUIQTJdNDEhQD8cSwsSccKjKpYEc5klUph/yMW/SuL0OrXZJnryRa6iihc2QlQswoLzTgR73v+A9SPH6fVsCLkjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738329971; c=relaxed/simple;
-	bh=AeYMe9tw82DdRL0WQ5f5iY/17y+yilEk0XFVTGbT1N8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j/ZZP/2SGsLIiipLHQeUgABytvFx17uYbx5GbzxB0szORqyEOVerQpw30YONtuiRAIrGh8l4fhUmvS3+EMIi2yKPAtU0Jzfu9sM7eqPs5vS5RkevVW1xVAZPxp0FruY4UawUnyECZOaKCMNQ1Wn7FqY3lUbSQ/TSY3zVLMcFALM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=njn5SqJq; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738331056; c=relaxed/simple;
+	bh=ZTnumPN0hO6W8SA+XJ4TwwIzgqswOeC8ByqSfrB1TcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tH02Y0y2zMlbVwm7pS7YzVHTI9FGX935GvNgE8dFvzx8XsloW2c5yquUxxMqvf/aQa8kTMM5wXyg4NJ5GNtkcg52kVT6561C9rp7puL0bK9zBTYm7wiYIIwtucQYSk4pxwsnGLP5UmRHEdlA4GTeZl1H8cE+rb+6vrztmkM305A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CGAGjFYi; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="njn5SqJq"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30034ad2ca3so15357601fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 05:26:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738329967; x=1738934767; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lCJ/JEUblGM8xXeJ9eraP5+q+PP0rIj2Q1ZN6CtIb3k=;
-        b=njn5SqJqgB5CL86numjkmbPiFwAw9e+x9k7rpeV3x4IIKxtjxm9r9N1uHzN0zoO/iT
-         mwIWyjgtDOSKjDQUtamvFYVHBdgrySFTXfFCNo48UnIKSmbi+YDrRHSIFVwIUTwqEnsk
-         sResoNP2QP5lpVlmc46+MdiQgHDl2cXwAXBrTqve274+XxvclL/aFaYfghKn5a07cQ+Y
-         ZP6BL3NWOqiK4iAR3L0JKRXyMQHrht/d+sfzMtgExuyLs/5YgFt8H1JE788kAsRE280S
-         5Vyw7QUN5dAlQzyzTMTvOJ2f7rAuXpgOVqSIA4afX904BpemN+XKPNYWTT5jthDdTzQO
-         wo/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738329967; x=1738934767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lCJ/JEUblGM8xXeJ9eraP5+q+PP0rIj2Q1ZN6CtIb3k=;
-        b=tl3CWDrpB3aKFFA/ewo9N5UmgsL5aeHF6DjoTY0Fl5pPPbrdY11W0u/0QFVQU13XcF
-         hivl41Kpc5vSGpi1HFtTXWN19DhGNtTbKTlb4C8Zxv75aRZxEnFJzj09KYZqUkj+6ZCW
-         82WuEOjWjh4eOzMNZt8yHH7RkM1TwP3oJfPi69lD7h7LYkFqLUlGOUFNLOQymch+AZYa
-         g+yW/xJJd6l+3QZIHxYkYag3qPAeIJEmiBYAUE/vUhQbkLBg/Sq/alXaoW81rGzaEz6e
-         yxWhtioZV1XSaUfLEl4GZ4LX7bTlMZaCMDmY1weO8nEY7omdZxz8FGq2SfTjYxOyoEXS
-         RzFA==
-X-Gm-Message-State: AOJu0YwhTtNGkshLBvmiDzplDMDJzPvIcTn5tmIZ5CuSy5lyPv5YA4Hi
-	zXJfsa6ZawE606kCfZT2NECqVIumgimk2jdir2jKyvmGPmBb1Cnn9cDTU9oO2MAJFbUDNNF8GKE
-	sBLmQqcrrDqG3mkcq8oG1QziI12Zn/a6hhG0=
-X-Gm-Gg: ASbGncvRmHElhWeWfQpCot6hySqNlusWZgrnauTZyUdcXWUx+TD9rHJNZ1RT1ODkuJ9
-	VaviauQYMgOiP10AmwBGeSfpQebRSTM4rVsI69W7rbcdGHEy1HQPYyG9gAyuzqxf8Te8gVHvR
-X-Google-Smtp-Source: AGHT+IGe/6VEtzNpbOfm1faZyMh4OUwNA9EhOY/44Wb4qaftPUGHBxEimHysdmWFZO5ZqRjsJPBYpsxN94kZieZU3DY=
-X-Received: by 2002:a05:651c:896:b0:302:2bd8:2653 with SMTP id
- 38308e7fff4ca-3079681f8f0mr42044661fa.6.1738329967080; Fri, 31 Jan 2025
- 05:26:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGAGjFYi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738331053; x=1769867053;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZTnumPN0hO6W8SA+XJ4TwwIzgqswOeC8ByqSfrB1TcQ=;
+  b=CGAGjFYiPYY/OMtc6KwDyShKAVADneF9CLfrM22QU7cvmeJffj3BLj8j
+   QPbJfKXbnHcO4iT7NlJviZUK4sVFAQk5R3ucqJpOceK0tUG3EqsQgyy0s
+   XIyC8lAvYx14ncW2FT25Tk/+gRmaStnyCSvpoxUMDyiy3dm0MExv0phSX
+   PiAZ9dEEvJkKO9Cq3KywNKzFtwWrQavqCq36RHCd20KfhqXVkgFUjykEQ
+   eUhLyGAh6v4TNvGqk/dUtpNLAfY/JCm76Efya7onLzojRGN8QOPl+nYdI
+   Q7S6iBXv8xyLG+idSsyBiMWigmiFUqEyadc/Qs41/JWOHC+1tpHOXE0rT
+   Q==;
+X-CSE-ConnectionGUID: oZp+6IAFRE+e+yFI3d8TIg==
+X-CSE-MsgGUID: BWlGsmQqSkOatxXqCbPvQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="64261044"
+X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
+   d="scan'208";a="64261044"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 05:44:13 -0800
+X-CSE-ConnectionGUID: mAOG6B2yQ6KpL4JBtHC8Lg==
+X-CSE-MsgGUID: nD3E8qP5RFyLYMD7BZDhDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="132889101"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 31 Jan 2025 05:44:12 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tdrJa-000mQv-09;
+	Fri, 31 Jan 2025 13:44:10 +0000
+Date: Fri, 31 Jan 2025 21:43:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kai Huang <kai.huang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Farrah Chen <farrah.chen@intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [kvm:kvm-coco-queue-20250129 43/129] include/linux/init.h:319:27:
+ error: redefinition of '__exitcall_vt_exit'
+Message-ID: <202501312122.IIuMSJu4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202501312051.0vJPrrIL-lkp@intel.com>
-In-Reply-To: <202501312051.0vJPrrIL-lkp@intel.com>
-From: Uros Bizjak <ubizjak@gmail.com>
-Date: Fri, 31 Jan 2025 14:25:54 +0100
-X-Gm-Features: AWEUYZkkQmDhxcYqheY-MERj7thpTxRKLNdsnydSIcwTmG8NMYUkuVc1vAyFBM0
-Message-ID: <CAFULd4Y7r-ELNr-XBP2u6Ka1JCgYGYn_yOu25h9ehBNbzuG3TQ@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 52/52] bch.c:undefined reference to `__paritydi2'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jan 31, 2025 at 2:02=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-no=
-nmm-unstable
-> head:   1b9f78ccbffefb107cd92e20cfccd03ff2fa9d0e
-> commit: 1b9f78ccbffefb107cd92e20cfccd03ff2fa9d0e [52/52] lib/bch.c: use _=
-_builtin_parity() when available
-> config: loongarch-randconfig-001-20250131 (https://download.01.org/0day-c=
-i/archive/20250131/202501312051.0vJPrrIL-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250131/202501312051.0vJPrrIL-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501312051.0vJPrrIL-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    loongarch64-linux-ld: lib/bch.o: in function `solve_linear_system.cons=
-tprop.0.isra.0':
-> >> bch.c:(.text+0xd18): undefined reference to `__paritydi2'
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue-20250129
+head:   0bc4f452607db4e7eee4d3056cd6ec98636260bc
+commit: 4b55a8f7c5f508fe1dd0005aecc81bbb5676aaec [43/129] KVM: VMX: Refactor VMX module init/exit functions
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250131/202501312122.IIuMSJu4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501312122.IIuMSJu4-lkp@intel.com/reproduce)
 
-Hm, my config cross-compiles to:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501312122.IIuMSJu4-lkp@intel.com/
 
-       bstrpick.d      $r4,$r4,31,0
-       vrepli.d        $vr0,0
-       vinsgr2vr.d     $vr0,$r4,0
-       vpcnt.d $vr0,$vr0
-       vpickve2gr.du   $r4,$vr0,0
-       andi    $r4,$r4,1
-       jr      $r1
+All errors (new ones prefixed by >>):
 
-It looks that __has_builtin() does not mean that there will be no call
-to a library function?!
+   In file included from include/linux/moduleparam.h:5,
+                    from arch/x86/kvm/vmx/main.c:2:
+   arch/x86/kvm/vmx/main.c:176:13: error: 'vt_exit' undeclared here (not in a function); did you mean 'vmx_exit'?
+     176 | module_exit(vt_exit);
+         |             ^~~~~~~
+   include/linux/init.h:319:57: note: in definition of macro '__exitcall'
+     319 |         static exitcall_t __exitcall_##fn __exit_call = fn
+         |                                                         ^~
+   arch/x86/kvm/vmx/main.c:176:1: note: in expansion of macro 'module_exit'
+     176 | module_exit(vt_exit);
+         | ^~~~~~~~~~~
+>> include/linux/init.h:319:27: error: redefinition of '__exitcall_vt_exit'
+     319 |         static exitcall_t __exitcall_##fn __exit_call = fn
+         |                           ^~~~~~~~~~~
+   include/linux/module.h:100:25: note: in expansion of macro '__exitcall'
+     100 | #define module_exit(x)  __exitcall(x);
+         |                         ^~~~~~~~~~
+   arch/x86/kvm/vmx/main.c:183:1: note: in expansion of macro 'module_exit'
+     183 | module_exit(vt_exit);
+         | ^~~~~~~~~~~
+   include/linux/init.h:319:27: note: previous definition of '__exitcall_vt_exit' with type 'exitcall_t' {aka 'void (*)(void)'}
+     319 |         static exitcall_t __exitcall_##fn __exit_call = fn
+         |                           ^~~~~~~~~~~
+   include/linux/module.h:100:25: note: in expansion of macro '__exitcall'
+     100 | #define module_exit(x)  __exitcall(x);
+         |                         ^~~~~~~~~~
+   arch/x86/kvm/vmx/main.c:176:1: note: in expansion of macro 'module_exit'
+     176 | module_exit(vt_exit);
+         | ^~~~~~~~~~~
 
-Uros.
+
+vim +/__exitcall_vt_exit +319 include/linux/init.h
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  317  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  318  #define __exitcall(fn)						\
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @319  	static exitcall_t __exitcall_##fn __exit_call = fn
+^1da177e4c3f41 Linus Torvalds 2005-04-16  320  
+
+:::::: The code at line 319 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
