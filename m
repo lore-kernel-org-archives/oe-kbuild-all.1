@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56335E571
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 03:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445AE139E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 03:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738293791; cv=none; b=fdvuczG3HdztLDcfcQoESO+JkBwDA1pWfGzv7WMFsEc1tV7JXFHU7iDDYRfSa2Z3U6ktwimaUcyG4VEWCgTXO+CjHjrT1Gstmpk6YzrJ5G0EVwh75zjL4Gu0T4JRSupNCLOfQBKKmHV84qc66F6xAnszzUDGuTNyBiid70Y6bDE=
+	t=1738294510; cv=none; b=AjCHw/7O5iCp7x+g0R5vQvnEPCvHsR/Qa9sqanuwi+ONS9E8OC8oh02rZWnzct12dclkTW04se6QQ+JNaO6nQCWh0r5poZswvMuFifRZ28bXDyGDyo3t3K9jDT8K/l3Mt2NRb/u6CBy2eN3adwqGenF54O0+SeVaWi8ouAXzQBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738293791; c=relaxed/simple;
-	bh=5VozoLr8tQW3am7yxHe1qli+c6RGvZGqPIhVvMrmPxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z2Yr21Igfoq0dhgqWXtNzEkfD0MX1VOX/Yuc9He7sfj0uKvPRMaqk6Xi2P9fJp9paK27uZrVk3370NgOUCT0u9gh2Ul47Zq4/4iCxBvnSEUfB4CrG1mHrHSO/Ubzu83UwJjOGyliry2KqWSU590iBS8INn4iVZBl52sZ/oNJTpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S3R0CN8o; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1738294510; c=relaxed/simple;
+	bh=cg6bJdKfqd4yDHUF/vNdH6MAs9vW28seWl4OXdnbhH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sB3SdX8ckILgNq2xkF4Wig5r3wqKLat8dvvuK3xX2L9ANOkY2swxDjfwxspLS9zkIQ3w08RQmJk4k3NMEd/eMlve1q5oVjjc0Z2pJpYr8kBM5kmVm2JZWR0n2fPRnpYeTTgkJhj2dapmiOHPDRhhSnCo3nccNTuHfamFsYffMJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SMhy6lHk; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S3R0CN8o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMhy6lHk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738293789; x=1769829789;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5VozoLr8tQW3am7yxHe1qli+c6RGvZGqPIhVvMrmPxA=;
-  b=S3R0CN8oQ3USexAhggSuqsLXQ//PevO0NeTuZdERAD3wS7sSDCRBC5o7
-   TMHXuC4PTbI/5kdM7UdoDU/zsUNmbGCGXtVzN0jB1CkSYAqHni0iyD0rv
-   LPE8u+OgK1GdBbm3eewbIsNf1ap/PXFfpi1vm78OlMHEZ7JOmfowPNQze
-   70LyM0Pqhib6JCSTUQp+Dgpp3FNA8qSi1vct4NitBCFBdMgdhftaLtYKU
-   jd4iN4TukfvJi23LD7DEufUKbcB0jHGGBDBTX4qmKe/GaInhMbaYTpCLK
-   JBbwqQjQ1KR0BO0V3zO+STaBiya3tstVMEwEuTqSfikCD3cQhvWKYnCxH
-   w==;
-X-CSE-ConnectionGUID: X55k0eHjQnakatqOON+/AQ==
-X-CSE-MsgGUID: Z+fIV9k2R9eCawbXV1e7gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38891321"
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="38891321"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 19:23:08 -0800
-X-CSE-ConnectionGUID: OOcWRf14RsuM2DlMknQG4Q==
-X-CSE-MsgGUID: PrwJDTp9RDq9gEWz0jA8/Q==
+  t=1738294508; x=1769830508;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cg6bJdKfqd4yDHUF/vNdH6MAs9vW28seWl4OXdnbhH0=;
+  b=SMhy6lHkaSq7kySlfx1zqC15kATgHXRXPcX+7CSRb4zrjShGJtQAxkw4
+   cK+05a54MwBozIHKYB5DU/SVDW9Yjmbe5PU8EHljJKZ71fFvErpu3qy0p
+   rkVWxq0feq+w3nPiVnNuRtSIy2jsXZHB0s9htIbI9w+nWmpVnbvmV/HHv
+   DJOTmAONqToj2SHJKMNuINqbXTzM3yo7+wZQvZKKQHiHfw6HqJcaAF9DU
+   ewI+s7TYTGJQF6+TPPK2UUyo71N7nr3OnVN7m5Ncu2X1U7oInPZYxLcww
+   26J29HxQNbg3gIpzBtCbRTyxuNXtYMY9Vo+cME97j8dZTsqEJsLTW7Z96
+   g==;
+X-CSE-ConnectionGUID: smFa99R5TPiuuvXICVnthQ==
+X-CSE-MsgGUID: X7VVMv0rTR62HJjBzL44Wg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38967061"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="38967061"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 19:35:08 -0800
+X-CSE-ConnectionGUID: KPPMDc6nRt69biBqFB8olw==
+X-CSE-MsgGUID: ZjTA2HAcRPGHnoR5nCKV7g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="114520898"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="114518334"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Jan 2025 19:23:02 -0800
+  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2025 19:35:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdhcR-000lpn-0X;
-	Fri, 31 Jan 2025 03:22:59 +0000
-Date: Fri, 31 Jan 2025 11:22:55 +0800
+	id 1tdho5-000lrL-2t;
+	Fri, 31 Jan 2025 03:35:01 +0000
+Date: Fri, 31 Jan 2025 11:34:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank van der Linden <fvdl@google.com>
+To: Lyude Paul <lyude@redhat.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 61/88] mm/cma.c:811: warning: Function
- parameter or struct member 'gfp' not described in '__cma_alloc'
-Message-ID: <202501311137.rMiQNfi3-lkp@intel.com>
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Zijun Hu <quic_zijuhu@quicinc.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Lukas Wunner <lukas@wunner.de>, Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH] WIP: drivers/base: Add virtual_device_create()
+Message-ID: <202501311112.BDhClMYs-lkp@intel.com>
+References: <20250130212843.659437-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +72,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250130212843.659437-1-lyude@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   495206a68b359eb6117d0860861578113bbb94e7
-commit: 77cbd63e91fa6c5f6157a30e61a380b6c47c1443 [61/88] mm, cma: support multiple contiguous ranges, if requested
-config: x86_64-buildonly-randconfig-001-20250131 (https://download.01.org/0day-ci/archive/20250131/202501311137.rMiQNfi3-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311137.rMiQNfi3-lkp@intel.com/reproduce)
+Hi Lyude,
+
+kernel test robot noticed the following build warnings:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20250131-052936/Lyude-Paul/rust-kernel-Add-platform-Device-from_raw/20250123-075718
+base:   the 2th patch of https://lore.kernel.org/r/20250122235340.2145383-3-lyude%40redhat.com
+patch link:    https://lore.kernel.org/r/20250130212843.659437-1-lyude%40redhat.com
+patch subject: [PATCH] WIP: drivers/base: Add virtual_device_create()
+config: arc-randconfig-001-20250131 (https://download.01.org/0day-ci/archive/20250131/202501311112.BDhClMYs-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311112.BDhClMYs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501311137.rMiQNfi3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501311112.BDhClMYs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/cma.c:811: warning: Function parameter or struct member 'gfp' not described in '__cma_alloc'
->> mm/cma.c:811: warning: expecting prototype for cma_alloc(). Prototype was for __cma_alloc() instead
+>> drivers/base/core.c:4409: warning: Excess function parameter 'class' description in 'virtual_device_create'
 
 
-vim +811 mm/cma.c
+vim +4409 drivers/base/core.c
 
-   798	
-   799	/**
-   800	 * cma_alloc() - allocate pages from contiguous area
-   801	 * @cma:   Contiguous memory region for which the allocation is performed.
-   802	 * @count: Requested number of pages.
-   803	 * @align: Requested alignment of pages (in PAGE_SIZE order).
-   804	 * @no_warn: Avoid printing message about failed allocation
-   805	 *
-   806	 * This function allocates part of contiguous memory on specific
-   807	 * contiguous memory area.
-   808	 */
-   809	static struct page *__cma_alloc(struct cma *cma, unsigned long count,
-   810			       unsigned int align, gfp_t gfp)
- > 811	{
-   812		struct page *page = NULL;
-   813		int ret = -ENOMEM, r;
-   814		unsigned long i;
-   815		const char *name = cma ? cma->name : NULL;
-   816	
-   817		trace_cma_alloc_start(name, count, align);
-   818	
-   819		if (!cma || !cma->count)
-   820			return page;
-   821	
-   822		pr_debug("%s(cma %p, name: %s, count %lu, align %d)\n", __func__,
-   823			(void *)cma, cma->name, count, align);
-   824	
-   825		if (!count)
-   826			return page;
-   827	
-   828		for (r = 0; r < cma->nranges; r++) {
-   829			page = NULL;
-   830	
-   831			ret = cma_range_alloc(cma, &cma->ranges[r], count, align,
-   832					       &page, gfp);
-   833			if (ret != -EBUSY || page)
-   834				break;
-   835		}
-   836	
-   837		/*
-   838		 * CMA can allocate multiple page blocks, which results in different
-   839		 * blocks being marked with different tags. Reset the tags to ignore
-   840		 * those page blocks.
-   841		 */
-   842		if (page) {
-   843			for (i = 0; i < count; i++)
-   844				page_kasan_tag_reset(nth_page(page, i));
-   845		}
-   846	
-   847		if (ret && !(gfp & __GFP_NOWARN)) {
-   848			pr_err_ratelimited("%s: %s: alloc failed, req-size: %lu pages, ret: %d\n",
-   849					   __func__, cma->name, count, ret);
-   850			cma_debug_show_areas(cma);
-   851		}
-   852	
-   853		pr_debug("%s(): returned %p\n", __func__, page);
-   854		trace_cma_alloc_finish(name, page ? page_to_pfn(page) : 0,
-   855				       page, count, align, ret);
-   856		if (page) {
-   857			count_vm_event(CMA_ALLOC_SUCCESS);
-   858			cma_sysfs_account_success_pages(cma, count);
-   859		} else {
-   860			count_vm_event(CMA_ALLOC_FAIL);
-   861			cma_sysfs_account_fail_pages(cma, count);
-   862		}
-   863	
-   864		return page;
-   865	}
-   866	
+  4392	
+  4393	/**
+  4394	 * virtual_device_create - creates a virtual device and registers it with sysfs
+  4395	 * @class: optional pointer to a struct class this device should be registered to
+  4396	 * @drvdata: the data to be added to the device for the callbacks
+  4397	 * @fmt: string for the device's name
+  4398	 *
+  4399	 * This function can be used to create standalone virtual devices, optionally
+  4400	 * registered to a specific class. Drivers which create virtual devices can use
+  4401	 * this. The device will live in /sys/devices/virtual.
+  4402	 *
+  4403	 * A pointer to the struct device will be returned from the call. Any further
+  4404	 * sysfs files that might be required can be created using this pointer.
+  4405	 *
+  4406	 * Returns &struct device pointer on success or ERR_PTR() on error.
+  4407	 */
+  4408	struct device *virtual_device_create(void *drvdata, const char *fmt, ...)
+> 4409	{
+  4410		va_list vargs;
+  4411		struct device *dev;
+  4412	
+  4413		va_start(vargs, fmt);
+  4414		dev = device_create_groups_vargs(NULL, NULL, 0, drvdata, NULL,
+  4415						 fmt, vargs);
+  4416		va_end(vargs);
+  4417		return dev;
+  4418	}
+  4419	EXPORT_SYMBOL_GPL(virtual_device_create);
+  4420	
 
 -- 
 0-DAY CI Kernel Test Service
