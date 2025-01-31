@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72EC4174A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 05:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D69418C31;
+	Fri, 31 Jan 2025 05:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738301422; cv=none; b=s6y1XsLyptC8/KtkVwnuw5uXTyhjwMGYs8UkMsj1GjjTYnJzQGZSfmy43Nq0YFnPXFphBlyz/5kk3ACwu8XJj6qm36QaG1Ip5127nN1i6maRfmz+KhOsafM8PFP2gxPcmmsHqUraz+DctED7qk97JEk2yWhNZMfqZPfD5usgkFY=
+	t=1738302083; cv=none; b=Nm6kDlnW7mFoGWKIXQ/PdxuTg4btxwfTUwXSbB0nsjaW0wR1CLGydh7FfchkHI4UGYBWpZfwsBpivBp4igNtgF+X81BjrqgA05kpo7VMAhNqDzHct87W9tMinrHPRau9MjXYNv28KlhP9Li+kMZ5+nSCPYUQheCT7CBzTpWU1BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738301422; c=relaxed/simple;
-	bh=SyYKu4BB43VyePhrgbsXhXJUCXetN1DTUFIFTnkvqaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MR4Diz6/GraXVnS4yYyQfvRQ4RSHdZB29SDmzcz6tuR8L6XDvbs4rfiUm9OwAjSIRbQxIjat9dqERYXud6y3//FksjlxrMKvRg/Y5OKaG1gJTOuvPSapoSdwujNf6YaU6NvBc5cKb0Al0MTe94pXoiIdbOhGRJcFhZCATxxUclE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mamCHQui; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1738302083; c=relaxed/simple;
+	bh=pkknZO5pcaD4z6AViT3LsXU1gjlPCqeB7kG4vXmhMuU=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lfHaV6Zcn1s/QW6t9p9QdDdmIEBdX2zharwyZbYTCffpEt5ZYUYNcnwB+PORNswe9vdvuwlKT5/gcdFVyJ8L7bCWu47rwc1bJy90gc+srm/SjWrvB7KpzJlN/8SD6wLndI3QKsdBPF/0gd70JgRWwlHXeG8duo/8ADZfBMkNZtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FuaYZFa5; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mamCHQui"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FuaYZFa5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738301421; x=1769837421;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SyYKu4BB43VyePhrgbsXhXJUCXetN1DTUFIFTnkvqaE=;
-  b=mamCHQuidufgr1rqT1Shjn2JtK65VTW8mWs2qMHJv6ytRoHVIUEpYaBK
-   ZB9+4FfOHv3aiLz12sjUe+5pKAREmgV2esDdCyfVGA/945aOUda6W6AOO
-   6lBlMNEUzWTwFh7myiTRE8IY43sBz/zdzZP/15LUjcGL4/0O5hEo3BwW4
-   n6RO95m3h+bXuQSNvgwnscf8WuvxecnpMoHAQMiiixTj3ddzzy4/chWim
-   POy+lpb90QZuDzrURzwWNgc+J+DpG+TaOIMtd01pckcE0zpPcTT/v1j9m
-   VXLAbqRK9PT7rIwh1C9/B+LjcOWSgCsm5M7gGa8hmTZlWdfHDp2RtGd3U
+  t=1738302081; x=1769838081;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=pkknZO5pcaD4z6AViT3LsXU1gjlPCqeB7kG4vXmhMuU=;
+  b=FuaYZFa5oR9c0KnCvKiIPrIlPQDdOPhV+dlBRB5rfYNAL8J3VaQox/T9
+   WI3Tv5cq6rS4JxS8kMGkfu8XLaJ+kL7Wdt94msfq/XJWYbODPoYHl8Szo
+   FHGwxP0P5ENQpLEyu6PLBNH7Kb0bZTRWBAHaDmp8JJyEjzid9Nmfb7PCp
+   OOg/rSXTUKb6omAhgRgfC39eLQXLtmVSg/Qij4em8OWLBhuQf4GCGIG7H
+   iK59NOrvlDYrD/IwIMKVQXp069darkIne1JT+Bp45fy+D6lUxkk4ULRUW
+   ftUCmJxhvPoZrJFFckckR3bmbO7yNNF7wXLC/4+8AoMdXa9E8M6wR99Cr
    A==;
-X-CSE-ConnectionGUID: uh6IRD15SdS7l63uaLg02A==
-X-CSE-MsgGUID: vrldqQSpSBmPYCUNmD7ybw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38068350"
+X-CSE-ConnectionGUID: WZDBhbxGRLSd3Yo20uacXg==
+X-CSE-MsgGUID: QqB1do1MTySX6WOtlNasFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="49528854"
 X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="38068350"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 21:30:20 -0800
-X-CSE-ConnectionGUID: d6n344mKT6GaVqNhHMp59A==
-X-CSE-MsgGUID: saVzjQbNQk2MM+XVfG1kVA==
+   d="scan'208";a="49528854"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 21:41:21 -0800
+X-CSE-ConnectionGUID: 2amJJEb/TKC/ivk4DepU7g==
+X-CSE-MsgGUID: 7fh5mGONSWm31ekBs2ffpw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="140428023"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="113565400"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2025 21:30:18 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2025 21:41:19 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdjbc-000m1L-1c;
-	Fri, 31 Jan 2025 05:30:16 +0000
-Date: Fri, 31 Jan 2025 13:29:18 +0800
+	id 1tdjmH-000m2Q-2H;
+	Fri, 31 Jan 2025 05:41:17 +0000
+Date: Fri, 31 Jan 2025 13:40:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank van der Linden <fvdl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 77/88] mm/hugetlb_vmemmap.c:704:17: error:
- label 'out' used but not defined
-Message-ID: <202501311312.ZTWda9Ip-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: drivers/platform/surface/surface_hotplug.c:79:39: warning:
+ arithmetic between different enumeration types ('enum shps_dsm_fn' and 'enum
+ shps_irq_type')
+Message-ID: <202501311309.bcshLrq3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,116 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Frank,
+CC: linux-kernel@vger.kernel.org
+TO: Maximilian Luz <luzmaximilian@gmail.com>
+CC: Hans de Goede <hdegoede@redhat.com>
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   495206a68b359eb6117d0860861578113bbb94e7
-commit: 383ad37bda9ba2414ce6abff61fecdc09afc623a [77/88] mm/hugetlb: add pre-HVO framework
-config: x86_64-buildonly-randconfig-001-20250131 (https://download.01.org/0day-ci/archive/20250131/202501311312.ZTWda9Ip-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311312.ZTWda9Ip-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   69e858e0b8b2ea07759e995aa383e8780d9d140c
+commit: bd69bcce4aa089435e2891222236b1cb20395bec platform/surface: Add Surface Hot-Plug driver
+date:   4 years ago
+config: x86_64-randconfig-071-20241231 (https://download.01.org/0day-ci/archive/20250131/202501311309.bcshLrq3-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311309.bcshLrq3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501311312.ZTWda9Ip-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501311309.bcshLrq3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/hugetlb_vmemmap.c: In function '__hugetlb_vmemmap_optimize_folios':
->> mm/hugetlb_vmemmap.c:704:17: error: label 'out' used but not defined
-     704 |                 goto out;
-         |                 ^~~~
+>> drivers/platform/surface/surface_hotplug.c:79:39: warning: arithmetic between different enumeration types ('enum shps_dsm_fn' and 'enum shps_irq_type') [-Wenum-enum-conversion]
+      79 |         return SHPS_DSM_FN_IRQ_BASE_PRESENCE + type;
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~
+   1 warning generated.
 
 
-vim +/out +704 mm/hugetlb_vmemmap.c
+vim +79 drivers/platform/surface/surface_hotplug.c
 
-   651	
-   652	static void __hugetlb_vmemmap_optimize_folios(struct hstate *h,
-   653						      struct list_head *folio_list,
-   654						      bool boot)
-   655	{
-   656		struct folio *folio;
-   657		int nr_to_optimize;
-   658		LIST_HEAD(vmemmap_pages);
-   659		unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH | VMEMMAP_SYNCHRONIZE_RCU;
-   660	
-   661		nr_to_optimize = 0;
-   662		list_for_each_entry(folio, folio_list, lru) {
-   663			int ret;
-   664			unsigned long spfn, epfn;
-   665	
-   666			if (boot && folio_test_hugetlb_vmemmap_optimized(folio)) {
-   667				/*
-   668				 * Already optimized by pre-HVO, just map the
-   669				 * mirrored tail page structs RO.
-   670				 */
-   671				spfn = (unsigned long)&folio->page;
-   672				epfn = spfn + pages_per_huge_page(h);
-   673				vmemmap_wrprotect_hvo(spfn, epfn, folio_nid(folio),
-   674						HUGETLB_VMEMMAP_RESERVE_SIZE);
-   675				register_page_bootmem_memmap(pfn_to_section_nr(spfn),
-   676						&folio->page,
-   677						HUGETLB_VMEMMAP_RESERVE_SIZE);
-   678				static_branch_inc(&hugetlb_optimize_vmemmap_key);
-   679				continue;
-   680			}
-   681	
-   682			nr_to_optimize++;
-   683	
-   684			ret = hugetlb_vmemmap_split_folio(h, folio);
-   685	
-   686			/*
-   687			 * Spliting the PMD requires allocating a page, thus lets fail
-   688			 * early once we encounter the first OOM. No point in retrying
-   689			 * as it can be dynamically done on remap with the memory
-   690			 * we get back from the vmemmap deduplication.
-   691			 */
-   692			if (ret == -ENOMEM)
-   693				break;
-   694		}
-   695	
-   696		if (!nr_to_optimize)
-   697			/*
-   698			 * All pre-HVO folios, nothing left to do. It's ok if
-   699			 * there is a mix of pre-HVO and not yet HVO-ed folios
-   700			 * here, as __hugetlb_vmemmap_optimize_folio() will
-   701			 * skip any folios that already have the optimized flag
-   702			 * set, see vmemmap_should_optimize_folio().
-   703			 */
- > 704			goto out;
-   705	
-   706		flush_tlb_all();
-   707	
-   708		list_for_each_entry(folio, folio_list, lru) {
-   709			int ret;
-   710	
-   711			ret = __hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, flags);
-   712			/* only need to synchronize_rcu() once for each batch */
-   713			flags &= ~VMEMMAP_SYNCHRONIZE_RCU;
-   714	
-   715			/*
-   716			 * Pages to be freed may have been accumulated.  If we
-   717			 * encounter an ENOMEM,  free what we have and try again.
-   718			 * This can occur in the case that both spliting fails
-   719			 * halfway and head page allocation also failed. In this
-   720			 * case __hugetlb_vmemmap_optimize_folio() would free memory
-   721			 * allowing more vmemmap remaps to occur.
-   722			 */
-   723			if (ret == -ENOMEM && !list_empty(&vmemmap_pages)) {
-   724				flush_tlb_all();
-   725				free_vmemmap_page_list(&vmemmap_pages);
-   726				INIT_LIST_HEAD(&vmemmap_pages);
-   727				__hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, flags);
-   728			}
-   729		}
-   730	
-   731		flush_tlb_all();
-   732		free_vmemmap_page_list(&vmemmap_pages);
-   733	}
-   734	
+    76	
+    77	static enum shps_dsm_fn shps_dsm_fn_for_irq(enum shps_irq_type type)
+    78	{
+  > 79		return SHPS_DSM_FN_IRQ_BASE_PRESENCE + type;
+    80	}
+    81	
 
 -- 
 0-DAY CI Kernel Test Service
