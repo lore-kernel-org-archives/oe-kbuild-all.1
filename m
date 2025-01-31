@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12F915575D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 23:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E087E1A840D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jan 2025 23:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738365402; cv=none; b=CQAhM2o2ppthhcefrSgP5LfE/uQ9pgEQCSh4BvMOEGMpM8LXnVMjWiJh/Hk2Su+6i/5TEixwnhfLZ4JxJJDr3qT3u2+uhkXy5imtM4AGyLtU/fS4m1saO6i2hwdzeJTwgKINubcEpCjvrAPTQjHCsmflGuD9u0xDfS4cSEtOI/c=
+	t=1738367262; cv=none; b=nENJQbLcEFFw1KkjpfYM/7WftLeyAeFuhoxqK4AfMYjDPHswH8jE8ODdpUq3/XEdD/geWI0aqUUhCONIsleKLNpvpU5WPZvyrUqXGFAdqiSOpcZsSre6jSEwvc8hBq5jcJNKHRUSoEVrS7iUjwAx6qWCemCimnpX8sL7PmX/sFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738365402; c=relaxed/simple;
-	bh=YiSEASy1Fx9cgoMO1KGocUIFUwIasgY9X8lhTxd0rjo=;
+	s=arc-20240116; t=1738367262; c=relaxed/simple;
+	bh=Ho0vv4BiG1C1aYAWTl4onBfhoSdgY1cGMOyHVUUMoBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZbqA5JuyeNhHJa45uMyimxerfG5LoFMTM6QKQ3ACRJre+zzL5Fbp6g/TdJANNn4L+3+Jp6RhIBZD/Iy+5y3jBshtpfi2Say7/p5v33hQaIpIFEocfO5OHzJ2xGX/DoMj5z40T26VFM0ENS6BrlUR/B6rtbvPsUer8wFb/g2N/p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NGSJB2J8; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=g5wMv3TqenacW5+vDY2199G/Zxep1tt0GOEmLNnH/Toi+bEAL+HckQdbYRpc2LX4Tvx29C5+4UNcRQkE3NkEeDSyED33T5ZR07PChF0wjp4ngctjOSeyClKNjFDgzs7+00ZAswzgQnACayXpW+gQ5lqlJU0GkQPVty8+AfGtkcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YfUKnQfk; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NGSJB2J8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YfUKnQfk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738365401; x=1769901401;
+  t=1738367260; x=1769903260;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YiSEASy1Fx9cgoMO1KGocUIFUwIasgY9X8lhTxd0rjo=;
-  b=NGSJB2J8ODJFpsEaqY+BAA90iuJJWhoYjpUiytOm7lP9+g0G95f2HGWn
-   KoZTNbMEEwd+p/x1Ek0XrtHkOi+zEH1qYdBB6bS9rfnjb1+d0xVJ6FWGN
-   0tkNbwxwheyJChl+6n+f2rXUFSWg9pPEkBFP8STD73xuAIUgsJABbK/aV
-   U8whVYALZyjZtZwcAONv3IsJQbO+Su1ARaT310ERqmZaMOlLq8MuXkowp
-   0ekNnPZq4IlCc9RRm3SalYPJUmtBOY5dFrFJfdVnQkvhw+2nAixO/2+/2
-   k82tnbCxWQM3RwN2qzzOKzltk6qaX7Y5L1fzYyPLsG7dQVTf5Zef8VCvS
-   w==;
-X-CSE-ConnectionGUID: COMcfH1pRe+Wvq4m6HmyEg==
-X-CSE-MsgGUID: C5n7jRWVSjSuXCcjg1WcsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="38151759"
+  bh=Ho0vv4BiG1C1aYAWTl4onBfhoSdgY1cGMOyHVUUMoBA=;
+  b=YfUKnQfktFZLf5fviuHEi+O64o5/9qfakYXHa0mICKWk/Cb75OEbOPs9
+   /g2H72KwGjqxfNm26h804emYU4652X8PriAf6V1rX2NWxuckjuYpc4FGG
+   wkOTi3SE4AqS2HRSD2nK+3z4WURFnh6bTEl5Wh45GReBFClLxXcKrqsrz
+   p/rzddqkvRdxO4mrc1kuO9EhdEYK4o/p9jZtmZbgekT8QzQ+yNitxMbKP
+   2E47D3CKwN7yCvfcRQfzWCtvIqNzA8km60QRuVV2LUuWCy3HM/MtYOY62
+   9uj/GJ5N4QyrmGeAi3/xriDXipjM/0qrys/h4MkTozqlTQ91x7/a/Lph/
+   Q==;
+X-CSE-ConnectionGUID: qaiSCg5PSi2s4Gj9MIRKGw==
+X-CSE-MsgGUID: oiZV8f9oRmWYdiuWBBKsOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="49544545"
 X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; 
-   d="scan'208";a="38151759"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 15:16:35 -0800
-X-CSE-ConnectionGUID: Z7HsY5x+R8u3euZpYWcTaA==
-X-CSE-MsgGUID: JGxN1sg7Q+Oide9anHeN1w==
+   d="scan'208";a="49544545"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 15:47:39 -0800
+X-CSE-ConnectionGUID: 0huj2Ou7SCqLVP7Fspy+hA==
+X-CSE-MsgGUID: vYz8jqEZS5C32vMpZKpniA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; 
-   d="scan'208";a="109530078"
+   d="scan'208";a="109590215"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 31 Jan 2025 15:16:33 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 31 Jan 2025 15:47:37 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1te0FS-000nNx-2M;
-	Fri, 31 Jan 2025 23:16:30 +0000
-Date: Sat, 1 Feb 2025 07:15:45 +0800
+	id 1te0jX-000nQd-21;
+	Fri, 31 Jan 2025 23:47:35 +0000
+Date: Sat, 1 Feb 2025 07:46:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank van der Linden <fvdl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 78/111] mm/hugetlb.c:66:26: sparse: sparse:
- symbol 'hstate_boot_nrinvalid' was not declared. Should it be static?
-Message-ID: <202502010728.A5WFMTpS-lkp@intel.com>
+To: Shay Drory <shayd@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.h:48:34: warning:
+ '%s' directive argument is null
+Message-ID: <202502010749.671SSYTr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,32 +65,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   f5604ad70091eabe663ea7106ced99449d653320
-commit: d1feef9effa479261c600b78dd0e1a83e730c0d8 [78/111] mm/hugetlb: check bootmem pages for zone intersections
-config: x86_64-randconfig-122-20250201 (https://download.01.org/0day-ci/archive/20250201/202502010728.A5WFMTpS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250201/202502010728.A5WFMTpS-lkp@intel.com/reproduce)
+Hi Shay,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fd8c09ad0d87783b9b6a27900d66293be45b7bad
+commit: 71e084e26414b0f27d8befa1c30b74d39d9cb2a1 net/mlx5: Allocating a pool of MSI-X vectors for SFs
+date:   3 years, 8 months ago
+config: mips-randconfig-r015-20230807 (https://download.01.org/0day-ci/archive/20250201/202502010749.671SSYTr-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250201/202502010749.671SSYTr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502010728.A5WFMTpS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502010749.671SSYTr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/hugetlb.c:66:26: sparse: sparse: symbol 'hstate_boot_nrinvalid' was not declared. Should it be static?
-   mm/hugetlb.c:672:12: sparse: sparse: context imbalance in 'allocate_file_region_entries' - wrong count at exit
-   mm/hugetlb.c:743:13: sparse: sparse: context imbalance in 'region_add' - wrong count at exit
-   mm/hugetlb.c:810:13: sparse: sparse: context imbalance in 'region_chg' - wrong count at exit
-   mm/hugetlb.c:5606:24: sparse: sparse: self-comparison always evaluates to false
-   mm/hugetlb.c:6051:9: sparse: sparse: context imbalance in 'hugetlb_wp' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +/hstate_boot_nrinvalid +66 mm/hugetlb.c
+   In file included from include/linux/topology.h:33,
+                    from include/linux/irq.h:19,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/mips/include/asm/hardirq.h:16,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/net/ethernet/mellanox/mlx5/core/pci_irq.c:4:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1320:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1320 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1306:27: note: 'mem_section' declared here
+    1306 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   In file included from include/linux/printk.h:409,
+                    from include/linux/kernel.h:17,
+                    from include/linux/interrupt.h:6:
+   In function 'irq_pool_alloc',
+       inlined from 'irq_pools_init' at drivers/net/ethernet/mellanox/mlx5/core/pci_irq.c:332:19,
+       inlined from 'mlx5_irq_table_create' at drivers/net/ethernet/mellanox/mlx5/core/pci_irq.c:437:8:
+>> drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.h:48:34: warning: '%s' directive argument is null [-Wformat-overflow=]
+      48 |         dev_dbg((__dev)->device, "%s:%d:(pid %d): " format,             \
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:134:29: note: in definition of macro '__dynamic_func_call'
+     134 |                 func(&id, ##__VA_ARGS__);               \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:166:9: note: in expansion of macro '_dynamic_func_call'
+     166 |         _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:123:9: note: in expansion of macro 'dynamic_dev_dbg'
+     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:123:30: note: in expansion of macro 'dev_fmt'
+     123 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.h:48:9: note: in expansion of macro 'dev_dbg'
+      48 |         dev_dbg((__dev)->device, "%s:%d:(pid %d): " format,             \
+         |         ^~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/pci_irq.c:307:9: note: in expansion of macro 'mlx5_core_dbg'
+     307 |         mlx5_core_dbg(dev, "pool->name = %s, pool->size = %d, pool->start = %d",
+         |         ^~~~~~~~~~~~~
 
-    64	
-    65	__initdata struct list_head huge_boot_pages[MAX_NUMNODES];
-  > 66	__initdata unsigned long hstate_boot_nrinvalid[HUGE_MAX_HSTATE];
-    67	
+
+vim +48 drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.h
+
+e126ba97dba9ed Eli Cohen    2013-07-07  46  
+5a7883989b1c57 Eli Cohen    2015-10-08  47  #define mlx5_core_dbg(__dev, format, ...)				\
+27b942fbbd3107 Parav Pandit 2019-04-29 @48  	dev_dbg((__dev)->device, "%s:%d:(pid %d): " format,		\
+9e5b2fc1d39b31 Kamal Heib   2016-12-06  49  		 __func__, __LINE__, current->pid,			\
+1a91de28831a1b Joe Perches  2014-05-07  50  		 ##__VA_ARGS__)
+e126ba97dba9ed Eli Cohen    2013-07-07  51  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: 27b942fbbd3107d4e969ece133925cd646239ef4 net/mlx5: Get rid of storing copy of device name
+
+:::::: TO: Parav Pandit <parav@mellanox.com>
+:::::: CC: Saeed Mahameed <saeedm@mellanox.com>
 
 -- 
 0-DAY CI Kernel Test Service
