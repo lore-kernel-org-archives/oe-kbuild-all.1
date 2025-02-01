@@ -1,105 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CA9BA34;
-	Sat,  1 Feb 2025 19:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84651C5D68
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Feb 2025 19:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738438434; cv=none; b=g2sX1yKy+VQw/bWqHDlraM4rNADnOWCjjZ9004cxvOrgV0Xx4Bi6cQ9TovTNLIORW/qHWKlEeAR5upBtOWVb0xZQ+x7G6mwUr8wLR293h9u8mhC+6PA7SUsLiEubYp5vC8psSJW/BiwIM7MNltxbsFgeG5y0uLPlfOA7gLO+Aak=
+	t=1738439125; cv=none; b=Tv+WvGXEzJkAOVyuNs/Wknw20pZFQjy1w0vdUOZ7LA6XBMJgEW7CaTcB3pE5ClEZcLIwWelPHq+JOcVK3PwaoRmambC+kPSpuaKmVbjvJX77vYsnt0PxC356/Dq2rHUgWQSlnkGVf1NQE/7uyfxvmX5GtphRWFeHxQmHpzzDENc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738438434; c=relaxed/simple;
-	bh=HOguQcweYm7+8t2SoN89Q4GhyRyM0dWyanuvRDrhlDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iWpnfrnosmaX4S0mZC+sQlG+fw81PracKPBIlMqQbDDngbc81jYIL7mfVk8KfO/lacGw/citOyezv/yhSt+YU4owKAQrM64jhBIJzLVU3ZU9Vgvyb/1E0y3iPARstwrsFO/hQHdCRzMYfTopiOK0WmyJELbHYsNbexdkbOaQeqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAojHnWU; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738439125; c=relaxed/simple;
+	bh=61Lt/tsYVXcPMgot8PjraJHrvO2vuhIMkrJEEv9Iqjc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zxpko0LlUnnDsE5O4pfgfeCpo3ynuxTYisFCqrsCRaFT3NgDbuZ6ikcqLq0ORKEP1nKQpdlNsks8cCvSpwq16Nlxn8UpJQ+6UhehoDU6sCVRqvzBjn/FDRlI0esPQvyHHUjXiPmuyIUaGQnv37w2H01BFG/RmaaMgByjZ26fUBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l2Ihz//R; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAojHnWU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738438432; x=1769974432;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HOguQcweYm7+8t2SoN89Q4GhyRyM0dWyanuvRDrhlDk=;
-  b=AAojHnWUwNYyyFZ3DlA1CXTgqByLOJdzukVODcyCgYbmzPGqjZF5stU5
-   EgPd5GTjOh0Ot27QyGG13nuf0nbl3Miu+nuS0lNSxFLx5VSpZ3ygDbRQp
-   Yhq1N4r8bn0ZAehuOp0mM0O84qnQG2yPRIitRIHJEoKAc0030M+ecnpoY
-   jtAJMB3niw1uucyidbMPiW6c6UGV415ujKmg/mYpxg/u3kHBDKwIjM6Gq
-   zr9R9iqGLQ2Ptlv4S3s3+4Qpt0QKDzYA0zy2/n2p7ooEBiFGjVcty4sAr
-   SJRDAnXmV8v8c8wmBi1agIKK4loIwRyHnKjBK3jEBS9gwIn9oup3FwlM9
-   g==;
-X-CSE-ConnectionGUID: xGsJx6STQsOnnTIiaQ4fSg==
-X-CSE-MsgGUID: y1oC7NsuQtWEOOHGI7U2wA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11333"; a="50367548"
-X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
-   d="scan'208";a="50367548"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2025 11:33:51 -0800
-X-CSE-ConnectionGUID: haxzTaxdRK6whPfXTMSXHQ==
-X-CSE-MsgGUID: 4RX9PwLiSk+goPWiZQRx9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
-   d="scan'208";a="109852489"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Feb 2025 11:33:49 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1teJFT-000oW3-1c;
-	Sat, 01 Feb 2025 19:33:47 +0000
-Date: Sun, 2 Feb 2025 03:33:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org
-Subject: [driver-core:virtual_bus_1 1/1] include/linux/device/virtual.h:6:9:
- warning: '_VIRTUAL_DEVICE_H' is used as a header guard here, followed by
- #define of a different macro
-Message-ID: <202502020308.ZrRc2WdO-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l2Ihz//R"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-467abce2ef9so196171cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 01 Feb 2025 11:45:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1738439123; x=1739043923; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+M3fhLrcctFEXvIJBPdTWYwaTVXraRCfDvDbgK+2F94=;
+        b=l2Ihz//RtQ/P+QZDi0jUX3MoEV+6wRszcGgJ2yiARmezUMjzc0tGgktmjHUDzHVaLI
+         Zib5Uf18PQluQdzFU+eMQyIibtvDWKdkScBLtFeRCztvjamVkXJtYm01WvBJk536+MpX
+         X62Zsz/bH5t2JOX7pWMBXrE4U+2SLgSGfkQVV+edMpNBTGxNpHQoVXeJuTXsBBRIxPjh
+         wT0chqMb85jA/hSRqld0tII9orPPFBJd3E/mv9I8AfEg2VWPuZOz3HWU8r5mzsKIKytv
+         erQD4RXB2hChT7jk8mKt6ZgARcaqagw0RSGpP0nWGvdhJ3hLjQWUIwhLo3N0YdJkRkkg
+         8fhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738439123; x=1739043923;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+M3fhLrcctFEXvIJBPdTWYwaTVXraRCfDvDbgK+2F94=;
+        b=OpP6Fni3Znbu4wPtISceGuu4Ny5zVu9+0VY32IuTr3YRdCXl7nDaoBkI54xbThh2b8
+         Mzn3nmooAA09vT4LMPLFkseUzTWl2wUpCebdPFlawkok56oakTUoTNA4iJp4Ge+SihX7
+         qPvT9TPA8SixMFzf4X6Lm7bQTp+ftAmGCNs9gko8CxeNwORruA8oKrSD8qRsUVFhkRzS
+         4csH8p1sXRR8OIaR4MGiXg40NsBVaFVjk1q5iLuq5U/mvkONdfniBBM+BCf8DtHWVafL
+         V8rhH2t5NK+887t1dOfC6XMxfUN77X5ZK26kWW0s9W03rFugbiUmnTJDV8Wymp+/mHyp
+         RXxQ==
+X-Gm-Message-State: AOJu0Yz6fv1QPEnPlEx2qB0Q7nXtxTD7TNXfHlBeQoqbhltnHzHkjFJm
+	eNMcU+89mbbxOMFQKCONuWLpGNC47tlyigrnHDcpnYzuRWXiKBKhoGm28lzRdxTyvEXd46z9ofk
+	REsy35yjZRgNUzo1+FR2yceXftbb5tp/p3nWV
+X-Gm-Gg: ASbGncspeFOLFP2N68Y7hDIY9YFu37kLBvh0hm4DLWGLEUiWBynw5n28krBXyrZGR1m
+	BMbazoeiU84MwKgF7u6AJwzAQbjjBxibyVtT9+uCR3O+lmDu1KNpb/+vRv2+qfy43VP887A==
+X-Google-Smtp-Source: AGHT+IEFvo9PNZ3HprsBi8wDvkLdtiB2CEKSrtEW3p7Q3TNUIC3xX+kJ3vOo8EuwOdq7/6Uf+4p/5RiDwOB6FbyiOBE=
+X-Received: by 2002:a05:622a:52:b0:447:e59b:54eb with SMTP id
+ d75a77b69052e-46ff88a3463mr2567191cf.26.1738439122355; Sat, 01 Feb 2025
+ 11:45:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202502010728.A5WFMTpS-lkp@intel.com>
+In-Reply-To: <202502010728.A5WFMTpS-lkp@intel.com>
+From: Frank van der Linden <fvdl@google.com>
+Date: Sat, 1 Feb 2025 11:45:10 -0800
+X-Gm-Features: AWEUYZmmToH9ArNEULQYu234yNz7TRon8ACxDti1blXT2Gfz6oRxLJv9sJGKE2E
+Message-ID: <CAPTztWaeKD7muULky9+dstumPbDs0XBmYDB3reEqSC4FOPtojA@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-unstable 78/111] mm/hugetlb.c:66:26: sparse: sparse:
+ symbol 'hstate_boot_nrinvalid' was not declared. Should it be static?
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git virtual_bus_1
-head:   ca49dd1ebb4a2a65abbc7d9f250edf9af4b87e11
-commit: ca49dd1ebb4a2a65abbc7d9f250edf9af4b87e11 [1/1] driver core: Create a virtural bus for anyone to use
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250202/202502020308.ZrRc2WdO-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502020308.ZrRc2WdO-lkp@intel.com/reproduce)
+On Fri, Jan 31, 2025 at 3:16=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-un=
+stable
+> head:   f5604ad70091eabe663ea7106ced99449d653320
+> commit: d1feef9effa479261c600b78dd0e1a83e730c0d8 [78/111] mm/hugetlb: che=
+ck bootmem pages for zone intersections
+> config: x86_64-randconfig-122-20250201 (https://download.01.org/0day-ci/a=
+rchive/20250201/202502010728.A5WFMTpS-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250201/202502010728.A5WFMTpS-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502010728.A5WFMTpS-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> mm/hugetlb.c:66:26: sparse: sparse: symbol 'hstate_boot_nrinvalid' was=
+ not declared. Should it be static?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502020308.ZrRc2WdO-lkp@intel.com/
+I suppose, yes. Will be fixed in v3.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/base/virtual.c:6:
->> include/linux/device/virtual.h:6:9: warning: '_VIRTUAL_DEVICE_H' is used as a header guard here, followed by #define of a different macro [-Wheader-guard]
-       6 | #ifndef _VIRTUAL_DEVICE_H
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/device/virtual.h:7:9: note: '_VIRTUAL_DEVICE_H_' is defined here; did you mean '_VIRTUAL_DEVICE_H'?
-       7 | #define _VIRTUAL_DEVICE_H_
-         |         ^~~~~~~~~~~~~~~~~~
-         |         _VIRTUAL_DEVICE_H
-   1 warning generated.
---
->> drivers/base/virtual.c:133: warning: Function parameter or struct member 'virt_dev' not described in 'virtual_device_put'
->> drivers/base/virtual.c:133: warning: Excess function parameter 'virtual' description in 'virtual_device_put'
->> drivers/base/virtual.c:171: warning: Function parameter or struct member 'virt_drv' not described in 'virtual_driver_unregister'
->> drivers/base/virtual.c:171: warning: Excess function parameter 'drv' description in 'virtual_driver_unregister'
-
-
-vim +/_VIRTUAL_DEVICE_H +6 include/linux/device/virtual.h
-
-   > 6	#ifndef _VIRTUAL_DEVICE_H
-     7	#define _VIRTUAL_DEVICE_H_
-     8	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Frank
