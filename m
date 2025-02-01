@@ -1,103 +1,105 @@
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A88535DC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Feb 2025 19:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CA9BA34;
+	Sat,  1 Feb 2025 19:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738438053; cv=none; b=YPx4abGmeC5Jzz3sha9LkAFkYIfoaXyqk1hceYrghrl19TisU6p5QbytZYc5zd5CmQHIZdo5zH/hPW3YumJdrGjlq+cqT5LdMgEyl0tgu8QFSok860/im80FxcycH+BiZmrsIK3J7Bq9ln9SJHsf2mc1IRXKPLI7UcdWIE1JZfE=
+	t=1738438434; cv=none; b=g2sX1yKy+VQw/bWqHDlraM4rNADnOWCjjZ9004cxvOrgV0Xx4Bi6cQ9TovTNLIORW/qHWKlEeAR5upBtOWVb0xZQ+x7G6mwUr8wLR293h9u8mhC+6PA7SUsLiEubYp5vC8psSJW/BiwIM7MNltxbsFgeG5y0uLPlfOA7gLO+Aak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738438053; c=relaxed/simple;
-	bh=eymA08TVmttHtuMxWqShj7bR9WF0e0M7QHesKiCh9NE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tU2DHDo7GlpwWCTytF5xFTGf5yC41u6A0zn5EBNhKxPEXdjUChGApru7pTrByf7vNQNk+hOb81QrvuX2S/4ZkccmSEcQHi9LBKDUxdp1sWySDafl5tGsCUfioRwf34qqKheKKB9lnnHseOtRcd2JUJ68806/ZC+9ihcufmcAIA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=f8ouIYPb; arc=none smtp.client-ip=91.218.175.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1738438434; c=relaxed/simple;
+	bh=HOguQcweYm7+8t2SoN89Q4GhyRyM0dWyanuvRDrhlDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iWpnfrnosmaX4S0mZC+sQlG+fw81PracKPBIlMqQbDDngbc81jYIL7mfVk8KfO/lacGw/citOyezv/yhSt+YU4owKAQrM64jhBIJzLVU3ZU9Vgvyb/1E0y3iPARstwrsFO/hQHdCRzMYfTopiOK0WmyJELbHYsNbexdkbOaQeqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAojHnWU; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="f8ouIYPb"
-Date: Sat, 1 Feb 2025 14:27:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1738438033;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sSHuoeSCWYWDMrU9YLhoP5a3ZUn6qwlD8/eMeyymnrA=;
-	b=f8ouIYPbx1ko+gcS5f3MrsvzbpceA3Ve1jIv6bcFGFZB7Ku4cN3F0SqbW8AHkgjYmB5fag
-	v8yOjqUszJ3SZKIpkmpqYMT3slg8OVnJzF9Asn9mhBVw7MpRj27cRtygY813ltMR8fHvFC
-	RDoosUOBG7mJVfuc4tOkne/YttqvO4w=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Kees Cook <keescook@chromium.org>
-Subject: Re: drivers/auxdisplay/panel.c:1454:2: error: call to
- __compiletime_assert_309 declared with 'error' attribute: BUILD_BUG_ON
- failed: !__builtin_constant_p(_dest_len) || _dest_len == (size_t)-1
-Message-ID: <qbmazoiryyqygjk2x6bc7puqvmik7gyitzo3xnryzsodnrrjek@tahia33lvpli>
-References: <202501310832.kiAeOt2z-lkp@intel.com>
- <CAJuCfpGrtTK=reeVPrS+GQngs=WS-cZvy_YU9-JGyRgVFdofAw@mail.gmail.com>
- <CAJuCfpF56btBuHKn6j2SzY8KRUbjQ_oHCYtj5oqP88HBBBQ_3A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAojHnWU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738438432; x=1769974432;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HOguQcweYm7+8t2SoN89Q4GhyRyM0dWyanuvRDrhlDk=;
+  b=AAojHnWUwNYyyFZ3DlA1CXTgqByLOJdzukVODcyCgYbmzPGqjZF5stU5
+   EgPd5GTjOh0Ot27QyGG13nuf0nbl3Miu+nuS0lNSxFLx5VSpZ3ygDbRQp
+   Yhq1N4r8bn0ZAehuOp0mM0O84qnQG2yPRIitRIHJEoKAc0030M+ecnpoY
+   jtAJMB3niw1uucyidbMPiW6c6UGV415ujKmg/mYpxg/u3kHBDKwIjM6Gq
+   zr9R9iqGLQ2Ptlv4S3s3+4Qpt0QKDzYA0zy2/n2p7ooEBiFGjVcty4sAr
+   SJRDAnXmV8v8c8wmBi1agIKK4loIwRyHnKjBK3jEBS9gwIn9oup3FwlM9
+   g==;
+X-CSE-ConnectionGUID: xGsJx6STQsOnnTIiaQ4fSg==
+X-CSE-MsgGUID: y1oC7NsuQtWEOOHGI7U2wA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11333"; a="50367548"
+X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
+   d="scan'208";a="50367548"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2025 11:33:51 -0800
+X-CSE-ConnectionGUID: haxzTaxdRK6whPfXTMSXHQ==
+X-CSE-MsgGUID: 4RX9PwLiSk+goPWiZQRx9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
+   d="scan'208";a="109852489"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 01 Feb 2025 11:33:49 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1teJFT-000oW3-1c;
+	Sat, 01 Feb 2025 19:33:47 +0000
+Date: Sun, 2 Feb 2025 03:33:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org
+Subject: [driver-core:virtual_bus_1 1/1] include/linux/device/virtual.h:6:9:
+ warning: '_VIRTUAL_DEVICE_H' is used as a header guard here, followed by
+ #define of a different macro
+Message-ID: <202502020308.ZrRc2WdO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpF56btBuHKn6j2SzY8KRUbjQ_oHCYtj5oqP88HBBBQ_3A@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jan 31, 2025 at 02:51:26PM -0800, Suren Baghdasaryan wrote:
-> On Fri, Jan 31, 2025 at 8:55 AM Suren Baghdasaryan <surenb@google.com> wrote:
-> >
-> > On Thu, Jan 30, 2025 at 4:06 PM kernel test robot <lkp@intel.com> wrote:
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   b4b0881156fb8209bf5ef6cb63211bb0ad6e1a6b
-> > > commit: 07438779313caafe52ac1a1a6958d735a5938988 alloc_tag: avoid current->alloc_tag manipulations when profiling is disabled
-> > > date:   5 days ago
-> > > config: hexagon-randconfig-r133-20250131 (https://download.01.org/0day-ci/archive/20250131/202501310832.kiAeOt2z-lkp@intel.com/config)
-> > > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > > reproduce: (https://download.01.org/0day-ci/archive/20250131/202501310832.kiAeOt2z-lkp@intel.com/reproduce)
-> >
-> > Just saw this report (was on vacation). Will try to figure out what's going on.
-> 
-> I confirmed that my change at
-> https://lore.kernel.org/all/20241226211639.1357704-1-surenb@google.com
-> indeed causes this.
-> Looks like due to the additional mem_alloc_profiling_enabled() check,
-> the compiler considers allocation size as unknown at compile time
-> (__builtin_object_size(obj) returns -1) even though both branches of
-> that condition make the same exact allocation.
-> I tried changing it to:
-> 
-> #define alloc_hooks_tag(_tag, _do_alloc) \
-> ({ \
->         typeof(_do_alloc) _res; \
->         struct alloc_tag * __maybe_unused _old; \
->          if (mem_alloc_profiling_enabled()) \
->                 _old = alloc_tag_save(_tag); \
->         _res = _do_alloc; \
->          if (mem_alloc_profiling_enabled()) \
->                  alloc_tag_restore(_tag, _old); \
->         _res; \
-> })
-> 
-> and that fixes the problem, however this would require two static key
-> checks... I wonder if there is a way to tell the compiler that both
-> branches cause the same result. Let me dig around.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git virtual_bus_1
+head:   ca49dd1ebb4a2a65abbc7d9f250edf9af4b87e11
+commit: ca49dd1ebb4a2a65abbc7d9f250edf9af4b87e11 [1/1] driver core: Create a virtural bus for anyone to use
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250202/202502020308.ZrRc2WdO-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502020308.ZrRc2WdO-lkp@intel.com/reproduce)
 
-strtomem_pad() looks pretty suspect to me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502020308.ZrRc2WdO-lkp@intel.com/
 
-I'm not seeing any reason for it to be using __builtin_object_size(),
-(and __builtin_object_size() failing looks like perhaps a bizarre
-compiler bug?).
+All warnings (new ones prefixed by >>):
 
-It looks to me like ARRAY_SIZE() would be better here, and also there
-really should be some actual typechecking on the source and dest
-arguments - like strcpy(), they should be char *.
+   In file included from drivers/base/virtual.c:6:
+>> include/linux/device/virtual.h:6:9: warning: '_VIRTUAL_DEVICE_H' is used as a header guard here, followed by #define of a different macro [-Wheader-guard]
+       6 | #ifndef _VIRTUAL_DEVICE_H
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/device/virtual.h:7:9: note: '_VIRTUAL_DEVICE_H_' is defined here; did you mean '_VIRTUAL_DEVICE_H'?
+       7 | #define _VIRTUAL_DEVICE_H_
+         |         ^~~~~~~~~~~~~~~~~~
+         |         _VIRTUAL_DEVICE_H
+   1 warning generated.
+--
+>> drivers/base/virtual.c:133: warning: Function parameter or struct member 'virt_dev' not described in 'virtual_device_put'
+>> drivers/base/virtual.c:133: warning: Excess function parameter 'virtual' description in 'virtual_device_put'
+>> drivers/base/virtual.c:171: warning: Function parameter or struct member 'virt_drv' not described in 'virtual_driver_unregister'
+>> drivers/base/virtual.c:171: warning: Excess function parameter 'drv' description in 'virtual_driver_unregister'
+
+
+vim +/_VIRTUAL_DEVICE_H +6 include/linux/device/virtual.h
+
+   > 6	#ifndef _VIRTUAL_DEVICE_H
+     7	#define _VIRTUAL_DEVICE_H_
+     8	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
