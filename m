@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7855085C5E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Feb 2025 16:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C9D1C2325
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Feb 2025 16:17:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738426655; cv=none; b=h62QhLjbKFaJtGI4TEGO8nAzLOStYBkJnEEmlA7eNeSpZ2Ak/x6wSuwUEHVutx4rOxKT9yS6+NWauH4RnEOI6+mqUb7lIEXX8rbxzZ5oWkeHZNKLnYYctulnbF/Qn5O4o3q2ZYQfwEfTpMm4McKEspsfmsO2dqrZZ29w/2VAUYQ=
+	t=1738426657; cv=none; b=Psjyjsx4jfbbhq7nFyeds4mOrwByUraCnHCRm/g8RFfXbrpNtkClTdlDVSnmamCCj97iLjT4CqER1eUwuzNn6BgAr+2tr5yCAXUNRioTE+GbtyHbILimJ6o2iLbQruNVFmXCatJrokqoSI7Li3YHPVxN8ZKwCciWt/HAMNMmtfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738426655; c=relaxed/simple;
-	bh=g075cmlAK0h6Qe6Qx5uu3du9CKhmUBD8llkCr9SHv8M=;
+	s=arc-20240116; t=1738426657; c=relaxed/simple;
+	bh=gLJjcz444djT/qHqORc82k527vn03eJD6MLUiwvqPG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DtXcmpW+A9u6loHvMyEczZgeKT9lQYl9ps4qgtzzkQjGamMfj6F5KpeMbiz/0XvCD87eq6oIqY31D/vSLX2K6u1+BekvuuqJMPfLEgLQyl4yUPvvbqXHQxP890SA36t8gHf6vb7370g7JLka+Ypq3nk3J0pMxNxbpcJphfMHCPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y79F0kOw; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=VvLPdIhSiN98jB9Kv2xzoDHMbGxAi0zI1lqgEXq5bd3wKKFMhaIG2rXc4ro68CSAlSbnQ0jORXYYkulx57UAAcF+FMrHN/UeHxk2eI1XJQ4t7Qz9yGs5Ovma+JLT57gAOVTUkN0PKyVJw7XJC+l+UMoGIcaftbMiBH8kvy7KFZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCtK+GWU; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y79F0kOw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCtK+GWU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738426652; x=1769962652;
+  t=1738426655; x=1769962655;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g075cmlAK0h6Qe6Qx5uu3du9CKhmUBD8llkCr9SHv8M=;
-  b=Y79F0kOwjXsiBEPL3yL1Uu10TP6FlJb1IgFaNxL8TreoV+mbldvnhZOy
-   5Yr2KGYbGfmTSDFJk/tnN2fMdpdyNXlUQk7jJYncndvqbwSBH5e45bsCc
-   pxmGp5x7lbGj+tzpB1xoCoBzbE71+qukkh67/qdGK9ILkpV/Zjq781cET
-   jT/zvKj2TDW3nC4EAVbmS2fWB3UqZdCh3ON4pRT+iBGU0js8nyOv2qO9M
-   sGWq2A1i5gU7/HLKZgB1to8nkgiJ2EGCpaBdUzXlBTZ6pIIFTe3UD3a+1
-   IVB1VPdk+kGinQU/x+GFW1204gMi3aPTDKEzibwytx2rzyXqn5iI6NIaL
+  bh=gLJjcz444djT/qHqORc82k527vn03eJD6MLUiwvqPG8=;
+  b=jCtK+GWU8TFfuhPAzv6eAUVdUjZwHBtqRbc6TLNRfQ7dTWQnJVnqxo/q
+   hDMV9NqF7wNiPrJnuhKwh5hNEpDbpx7r0PWbTe9KTRXYx6UrIV7tmgmxM
+   QKJV55+zdaFdvFDFZRdDjj46k0UmeHTdBl059sWw2Is+tZn3135T+IKNV
+   dXulYXXdhD1v1yXC4pvdHXvkSpoe6+Zb7fhFWOuWTFx/T3bUiV53kNciL
+   fHYdpga7SPqZxbRbtC7A1ySTN0LW+pS81pBFM+xp0zwMeYMJCJgTtAu8O
+   h92Rt7Zkh4s+/lQtX+a17p7LZTP+Kn7jhOV9E8Xc/AVaw5PYhwkR20o/9
    g==;
-X-CSE-ConnectionGUID: RKQcSBsTRGyGhdsTpOc0Aw==
-X-CSE-MsgGUID: pWSpz/kaSM+5Sm3VAMut3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11333"; a="42723594"
+X-CSE-ConnectionGUID: ju8N33RWRYmQFsC2rq599w==
+X-CSE-MsgGUID: PQ52Av35ReOTD+g/fpcx+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11333"; a="42723595"
 X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
-   d="scan'208";a="42723594"
+   d="scan'208";a="42723595"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2025 08:17:32 -0800
-X-CSE-ConnectionGUID: iMSwR5jlTAqMofwLLE+CoQ==
-X-CSE-MsgGUID: RCw3sXf6QE+k8rM9WjPGLg==
+X-CSE-ConnectionGUID: C6h05ZtTS860dYDHB2Y+oA==
+X-CSE-MsgGUID: XPkpRMuOShSvNJZbwP3m1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
-   d="scan'208";a="110460083"
+   d="scan'208";a="110460086"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 01 Feb 2025 08:17:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1teGBU-000oKn-2R;
+	id 1teGBU-000oKl-2N;
 	Sat, 01 Feb 2025 16:17:28 +0000
-Date: Sun, 2 Feb 2025 00:16:56 +0800
+Date: Sun, 2 Feb 2025 00:16:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1] fs/proc/task_mmu.c:1858:8:
- sparse: sparse: symbol '__pagemap_lseek' was not declared. Should it be
- static?
-Message-ID: <202502020007.RjeLVkFe-lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 75/80]
+ drivers/video/fbdev/core/fb_defio.c:272:17: error: implicit declaration of
+ function 'mapping_wrprotect_page'
+Message-ID: <202502020030.MnEJ847Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +65,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   807ce3b4f02f37ed863053f05604ba866e8847a9
-commit: 0715c0e2078d5e9bf1b2da50fae4a738cd346016 [0/1] ANDROID: 16K: Emulate /proc/pid/pagemap
-config: x86_64-randconfig-122-20250201 (https://download.01.org/0day-ci/archive/20250202/202502020007.RjeLVkFe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502020007.RjeLVkFe-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   7de6fd8ab65003f050aa58e705592745717ed318
+commit: 6a9318f28d7e371692838677c364145fe04b1093 [75/80] fb_defio: do not use deprecated page->mapping, index fields
+config: sh-randconfig-002-20250201 (https://download.01.org/0day-ci/archive/20250202/202502020030.MnEJ847Z-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502020030.MnEJ847Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502020007.RjeLVkFe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502020030.MnEJ847Z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/proc/task_mmu.c:1858:8: sparse: sparse: symbol '__pagemap_lseek' was not declared. Should it be static?
-   fs/proc/task_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'smaps_pte_range' - unexpected unlock
-   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'clear_refs_pte_range' - unexpected unlock
-   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'pagemap_pmd_range' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +/__pagemap_lseek +1858 fs/proc/task_mmu.c
+   drivers/video/fbdev/core/fb_defio.c: In function 'fb_deferred_io_work':
+>> drivers/video/fbdev/core/fb_defio.c:272:17: error: implicit declaration of function 'mapping_wrprotect_page' [-Wimplicit-function-declaration]
+     272 |                 mapping_wrprotect_page(fbdefio->mapping, pgoff, 1, page);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
 
-  1857	
-> 1858	loff_t __pagemap_lseek(struct file *file, loff_t offset, int orig)
-  1859	{
-  1860		unsigned long nr_subpages = __PAGE_SIZE / PAGE_SIZE;
-  1861		loff_t ret;
-  1862	
-  1863		/*
-  1864		 * Userspace thinks the pages are larger than they actually are, so adjust the
-  1865		 * offset to compensate.
-  1866		 */
-  1867		offset *= nr_subpages;
-  1868	
-  1869		ret = mem_lseek(file, offset, orig);  /* borrow this */
-  1870		if (ret < 0)
-  1871			return offset;
-  1872	
-  1873		/* Re-adjust the offset to reflect the larger userspace page size. */
-  1874		return ret / nr_subpages;
-  1875	}
-  1876	
+
+vim +/mapping_wrprotect_page +272 drivers/video/fbdev/core/fb_defio.c
+
+   258	
+   259	/* workqueue callback */
+   260	static void fb_deferred_io_work(struct work_struct *work)
+   261	{
+   262		struct fb_info *info = container_of(work, struct fb_info, deferred_work.work);
+   263		struct fb_deferred_io_pageref *pageref, *next;
+   264		struct fb_deferred_io *fbdefio = info->fbdefio;
+   265	
+   266		/* here we wrprotect the page's mappings, then do all deferred IO. */
+   267		mutex_lock(&fbdefio->lock);
+   268		list_for_each_entry(pageref, &fbdefio->pagereflist, list) {
+   269			struct page *page = pageref->page;
+   270			pgoff_t pgoff = pageref->offset >> PAGE_SHIFT;
+   271	
+ > 272			mapping_wrprotect_page(fbdefio->mapping, pgoff, 1, page);
+   273		}
+   274	
+   275		/* driver's callback with pagereflist */
+   276		fbdefio->deferred_io(info, &fbdefio->pagereflist);
+   277	
+   278		/* clear the list */
+   279		list_for_each_entry_safe(pageref, next, &fbdefio->pagereflist, list)
+   280			fb_deferred_io_pageref_put(pageref, info);
+   281	
+   282		mutex_unlock(&fbdefio->lock);
+   283	}
+   284	
 
 -- 
 0-DAY CI Kernel Test Service
