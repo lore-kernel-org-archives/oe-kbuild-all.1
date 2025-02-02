@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FA71C1F19
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Feb 2025 23:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D90F20326
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Feb 2025 05:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738453648; cv=none; b=Wu/f8PNGpcVugSuk9aKn/y9XA9iB7Cnc/gM802RE7TMpMcBjIfu6MD0nQxkEYT3YwIRIdLsBxvZ9J9PrqJ5fjGU9V9qBQH9UEVnmtPfZEo88g6nLRFAKJ2SmOY3dkDgtoh4Z1FWch3gZzqjUA6kavlWJD/g7nNHKnqtaXUFKFsA=
+	t=1738475524; cv=none; b=X7wYZ3uHmUlZ9LZ5g3PaHa9QTNo5Ykgc0edWF7XuNPI13GNsqS4h6Un8LMtwKq23p16KQVnGDqjdpCPLkk512074BIJfmC+gxwhHeuvaYvm2W9mx56KrQTuZbwIFIXWQlY3Wa+ADkEmVgnkVlRC4pPxAnO9hDNgx8Fvb3TMqMfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738453648; c=relaxed/simple;
-	bh=qpumrnEIDdgXYYvYflfERp21dUwMrjZ+JxW1nD1bMpI=;
+	s=arc-20240116; t=1738475524; c=relaxed/simple;
+	bh=JO3KoUH0tdkxbCcvEr4lgBrUzlL/jC9QKCBqOsH+7ng=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uh8Ct7Koc9aa4SjiBJZ1Zbibn7QKMOPJXk3+xPJ17CZs6fBRnikobu3niwknVqtHcYBO7eOm3nMzUCJ/DEesOeOZScAWniY2WaCl33Bk14klDSBVWDTswnmv917y1zepv9vcTl0g8Warq9jEEm/SAkUtEVpzoKhwzecnWnw3yRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PFVCjiJm; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=EfRin5pNsFf7zN7ADjEwHwd4T4z/ZSqyH8Cgmsu4y7zyzhuHrzNGD7ylPqjqcbFq8ZjrtHiuxOmej1fa8+lecG5Pu/WSKGsQEfThQE2BRk6qIxlJU5L+cUx4Vs1bBVwn2WWDHADaYSOO9Yk4ibEaQk5/ff8/Sse7tBk2/kjH9lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HnGbHuEr; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFVCjiJm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HnGbHuEr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738453647; x=1769989647;
+  t=1738475522; x=1770011522;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qpumrnEIDdgXYYvYflfERp21dUwMrjZ+JxW1nD1bMpI=;
-  b=PFVCjiJm80UTR+c74TCDZbTIzyHPzRAW0wRIv840gaReWBBVluraAV++
-   uKKE00B7LeiVbJYj89A57RGMsvzH8I3k/8vXaeKi2eDlwPWTzHhAJSkKL
-   Skz9rCm1ecLgVn7LJ71riGBYuc6h8V4si7oDRjNt33KZ0oaCCIbL3bFvZ
-   F51cjwWe0y84pcvN8qg4ElHdiC4kmtfMWuZecF8/VTAupWHOmQ+XiKImq
-   QH9D8k7/bMIu3V2tRRJu9VMqiprNUvangvxobKLiAq5m3Y3QKrqfLk6Q4
-   9O7FMi7VM0yrcipPqj0GxOTkpnVXLuFzj4NkpO16GivzOJtN6XKAHNIVo
-   Q==;
-X-CSE-ConnectionGUID: r8NWSdEMQVGxhuEu6vFEAg==
-X-CSE-MsgGUID: JXEaZ0RhT8iVZH5gLEGRpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11333"; a="42905942"
-X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
-   d="scan'208";a="42905942"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2025 15:47:26 -0800
-X-CSE-ConnectionGUID: piwQLhbPSGe0hOsN93H4vg==
-X-CSE-MsgGUID: U7pxxUfkRf64vdtPPCJgvA==
+  bh=JO3KoUH0tdkxbCcvEr4lgBrUzlL/jC9QKCBqOsH+7ng=;
+  b=HnGbHuErqbLd5aAOB053Hzcp3u8lRnmk/smvtxJXlLIGg3oEn3h5NYO1
+   tN+SXydLUx4LYmqv8JZSWyxB4r7CyvNTM7qcV5RTtl/H9rhzq4CvicdCd
+   otPmj/K27C+GOVsLUUcFppZc9YzR81higRiRfQLs6JYd9EurJ8Q/NSkqJ
+   MVTbH6osLTtIUr0XIP1dHl6mCcGKgCimLJ7Fn1soX4vnu4C0kWG2yiblr
+   jWKUF56iGZ723+Q/h9dzmmpLaQocrRiQO1Mve+hfhCazm2jwyHTPBGwlC
+   smzbO67i2CWX5xnUHzktY3sQ3PZw4iCsSf8TTwnXqx+vYLSw0qJYt8NiP
+   A==;
+X-CSE-ConnectionGUID: u/TxNTAoTqCLcgqKD0TgQA==
+X-CSE-MsgGUID: fnJh8bBiRymzlq3EYtUSSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11333"; a="56536393"
+X-IronPort-AV: E=Sophos;i="6.13,253,1732608000"; 
+   d="scan'208";a="56536393"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2025 21:52:01 -0800
+X-CSE-ConnectionGUID: VUaB7M84Qb2CXdCvCczLcQ==
+X-CSE-MsgGUID: tzZCzXbsSRepr2W9ojT2+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,252,1732608000"; 
-   d="scan'208";a="114951405"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="114974077"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Feb 2025 15:47:25 -0800
+  by orviesa003.jf.intel.com with ESMTP; 01 Feb 2025 21:52:00 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1teNCs-000p1z-3D;
-	Sat, 01 Feb 2025 23:47:22 +0000
-Date: Sun, 2 Feb 2025 07:47:07 +0800
+	id 1teSth-000pJZ-2d;
+	Sun, 02 Feb 2025 05:51:57 +0000
+Date: Sun, 2 Feb 2025 13:51:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.13-main 71/71]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pinctrl@1001f000:
- compatible: ['mediatek,mt7988-pinctrl', 'syscon'] is too long
-Message-ID: <202502020730.dnmJaBIR-lkp@intel.com>
+To: David Laight <David.Laight@aculab.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: include/linux/compiler_types.h:542:45: error: call to
+ '__compiletime_assert_413' declared with attribute error: clamp() low limit
+ source_min greater than high limit source_max
+Message-ID: <202502021352.Sidg3EVM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +65,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-main
-head:   79e1c255f01348abdf52a6cb9c09fcbd8e92c8fb
-commit: 79e1c255f01348abdf52a6cb9c09fcbd8e92c8fb [71/71] arm64: dts: add syscon fallback for ethernet-leds
-config: arm64-randconfig-051-20250202 (https://download.01.org/0day-ci/archive/20250202/202502020730.dnmJaBIR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502020730.dnmJaBIR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a86bf2283d2c9769205407e2b54777c03d012939
+commit: a5743f32baec4728711bbc01d6ac2b33d4c67040 minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+date:   8 days ago
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20250202/202502021352.Sidg3EVM-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502021352.Sidg3EVM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502020730.dnmJaBIR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502021352.Sidg3EVM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /cci: failed to match any schema with compatible: ['mediatek,mt7988-cci', 'mediatek,mt8183-cci']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: opp_table_cci: $nodename:0: 'opp_table_cci' does not match '^opp-table(-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: opp_table_cci: Unevaluated properties are not allowed ('opp-shared', 'opp00', 'opp01', 'opp02', 'opp03' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pwm-fan: '#thermal-sensor-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-active-high', 'cpu-active-low', 'cpu-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/phy-firmware@f000000: failed to match any schema with compatible: ['mediatek,2p5gphy-fw']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pinctrl@1001f000: compatible: ['mediatek,mt7988-pinctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pinctrl@1001f000: reg: [[0, 268562432, 0, 4096], [0, 297861120, 0, 4096], [0, 298844160, 0, 4096], [0, 298975232, 0, 4096], [0, 299892736, 0, 4096], [0, 300941312, 0, 4096], [0, 268480512, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys0', 'syscon', 'simple-mfd'] is too long
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7622-sgmiisys', 'mediatek,mt7629-sgmiisys', 'mediatek,mt7981-sgmiisys_0', 'mediatek,mt7981-sgmiisys_1', 'mediatek,mt7986-sgmiisys_0', 'mediatek,mt7986-sgmiisys_1']
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7988-sgmiisys0', 'mediatek,mt7988-sgmiisys1']
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: /cci: failed to match any schema with compatible: ['mediatek,mt7988-cci', 'mediatek,mt8183-cci']
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: opp_table_cci: $nodename:0: 'opp_table_cci' does not match '^opp-table(-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: opp_table_cci: Unevaluated properties are not allowed ('opp-shared', 'opp00', 'opp01', 'opp02', 'opp03' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: pwm-fan: '#thermal-sensor-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-active-high', 'cpu-active-low', 'cpu-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: /soc/phy-firmware@f000000: failed to match any schema with compatible: ['mediatek,2p5gphy-fw']
->> arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: pinctrl@1001f000: compatible: ['mediatek,mt7988-pinctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: pinctrl@1001f000: reg: [[0, 268562432, 0, 4096], [0, 297861120, 0, 4096], [0, 298844160, 0, 4096], [0, 298975232, 0, 4096], [0, 299892736, 0, 4096], [0, 300941312, 0, 4096], [0, 268480512, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: syscon@10060000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys0', 'syscon', 'simple-mfd'] is too long
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7622-sgmiisys', 'mediatek,mt7629-sgmiisys', 'mediatek,mt7981-sgmiisys_0', 'mediatek,mt7981-sgmiisys_1', 'mediatek,mt7986-sgmiisys_0', 'mediatek,mt7986-sgmiisys_1']
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7988-sgmiisys0', 'mediatek,mt7988-sgmiisys1']
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: syscon@10060000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   drivers/gpu/drm/i915/display/intel_backlight.c: In function 'scale':
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_413' declared with attribute error: clamp() low limit source_min greater than high limit source_max
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:109:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     109 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:116:9: note: in expansion of macro '__clamp_once'
+     116 |         __clamp_once(val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
+         |         ^~~~~~~~~~~~
+   include/linux/minmax.h:192:28: note: in expansion of macro '__careful_clamp'
+     192 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_backlight.c:47:22: note: in expansion of macro 'clamp'
+      47 |         source_val = clamp(source_val, source_min, source_max);
+         |                      ^~~~~
+
+
+vim +/__compiletime_assert_413 +542 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  528  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  531  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  532  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  536   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  539   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  540   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+
+:::::: The code at line 542 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
