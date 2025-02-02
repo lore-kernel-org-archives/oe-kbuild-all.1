@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EB3E573
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Feb 2025 23:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9F51D6195;
+	Sun,  2 Feb 2025 23:54:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738540441; cv=none; b=gnYNRvfqytuzAqS6xhAm1r5dII8VuB29kDGM8KKs40GxV/7nT51m/6uKC4xr9Y4YBcz/KqnuFemh47OBXeoZtCQaRLIRrz66cPAA2+QL3YdTDMK6Bo6Ke1rNLaQ+uLRCmatV8TDxuT6rNpaIm3c6/M1CfYtYeP9vymz9z040Eao=
+	t=1738540444; cv=none; b=e4k57p+UvG9XXXKJ7/lBjp+EWeD5Pm6CEF/iyz45QuRo/8Q+kutn96q30nWE0iypu6nv/PraMK2NijgzRHieARALnWjP2sZgZLd4dXa3JRxXTgEp53oUi1t67DaooWvMn72scwsH3mjUrPfD05J/B53DYKTeNIyviUpfo/qyQfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738540441; c=relaxed/simple;
-	bh=3jjSRZlKYwf7nytIbxhttGGkePopfcrb0pPBZ+5dn9Q=;
+	s=arc-20240116; t=1738540444; c=relaxed/simple;
+	bh=SUWqDsVHnwfoFPZ72GnF+anp/orwAfrIOZyK0oRQA3k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lzBD5T+am8CG7YqVx4VPnp4tjW2LknQDD3TMw6YX8idjhkhP0pAINE2N/oyvWTV0Ki+hUyd/c3+Ohx+3bzknlwOIRynxe1WmFLvwGdHVYYGiHs9k7p1NrOMG2GD42wQiaBFY4jYJ5hJPgInKVz72MrC65QjU9mydVNJpyymJjS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2LB/1er; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=hifMINj5FjaAykX4LktQdbztZ80Jd0EmMTD+IOS6eLEGZGy2yJ3TM1nmrsoSSd62EFf1esWzcN14tH1fCDX/k7Kxtan3adSGgvpVr9UkAYqlZF06bxeubNvBVfLTTy12h7H532CBCs916au6jNZYbzJ5XrTcMbJRGyz+yc3kl4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PvTc7Tec; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2LB/1er"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PvTc7Tec"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738540439; x=1770076439;
+  t=1738540442; x=1770076442;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3jjSRZlKYwf7nytIbxhttGGkePopfcrb0pPBZ+5dn9Q=;
-  b=B2LB/1er6tpi2lRLz2IJ36B2XuLOz7ospA2hbz/B1hwIlAPSzMHC75uw
-   avt0MF+p2BnII/UTwVvFH/FPoVSvol/g95i9J9gf0QrSQ2uAsVgLH+w/F
-   DxMna2HIJIHbstTaOYAovOHXpOQ0Fn6L0YQDuUeq7Ej29MyYfHOwyXqOY
-   +nQ51PFLXEEuPLC0UeWCsRMjD24nU7fHJY2y1YT26wrWjFnZ0aEl4I2s7
-   pWiR489ieCk1CsQ4buJsMDExevhnY/8zXIfqesNk3ww+qkmxGr/yshfFF
-   TJAgKOLu+vUgpgHwLxkA0P5WMdbhS/Mbs76qf/0adSr/P4l6U8+vJnSrd
-   Q==;
-X-CSE-ConnectionGUID: 9zF34I65ShOvYO0kSGPkVA==
-X-CSE-MsgGUID: ovUTfEr8TNO4TQFZlp28tQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="38910843"
+  bh=SUWqDsVHnwfoFPZ72GnF+anp/orwAfrIOZyK0oRQA3k=;
+  b=PvTc7TecPOufkAHyDCpeZSrqP8ISL0nscuPT6p2OO0AnnYExxW28D6jH
+   5f7vjjUAWGXEgrtybVXFHAN1UcYHMH/+sSY4BqbKhwTNN2WoYNRk/zLcE
+   /1XlPlmmbZuT+JHoUVXsoVthcaDJr07uDUfys19zkbWXmFwmopS3F6wf5
+   DWYsxiIdgvbc1BD85vxb9WUD9SB8CoZTBgxBVFHe2W1OyWLFbRrzeVMZR
+   53cqmo/HC0h9oJfVxDGvxAL+8vwgHOwHhj1k6Fu2YH013I1do2NhEd8rd
+   883nGHglNBqUBtOUAsxPYomgjg/uBOSYXuRsn5tKChi7rKuCS5kyk1Px+
+   w==;
+X-CSE-ConnectionGUID: flGd5YqUQ+eEGx837zSysw==
+X-CSE-MsgGUID: 6ajP9vPrRpmbvobrj4PXeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="38910844"
 X-IronPort-AV: E=Sophos;i="6.13,254,1732608000"; 
-   d="scan'208";a="38910843"
+   d="scan'208";a="38910844"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2025 15:53:59 -0800
-X-CSE-ConnectionGUID: wS+/kMgNTTyD5SfLmZV9xQ==
-X-CSE-MsgGUID: ec80PO1+ScO0Mx4h+YOHaw==
+X-CSE-ConnectionGUID: iUO26MTCSD+9TzDzAw85QA==
+X-CSE-MsgGUID: slhW8cwuTuWbrWBMsE/lNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115292450"
+   d="scan'208";a="115292449"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 02 Feb 2025 15:53:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tejml-000qGP-1T;
+	id 1tejml-000qGS-1W;
 	Sun, 02 Feb 2025 23:53:55 +0000
-Date: Mon, 3 Feb 2025 07:53:16 +0800
+Date: Mon, 3 Feb 2025 07:53:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 24/24]
- drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:433:35:
- warning: cast from pointer to integer of different size
-Message-ID: <202502030744.wfrCh5v8-lkp@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jic23-iio:sparse-friendly-direct-mode 111/166]
+ drivers/iio/adc/ad7173.c:1184:8: warning: variable 'ret' is used
+ uninitialized whenever 'if' condition is true
+Message-ID: <202502030711.VjFc2dxK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,125 +63,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   04a72490fa00fcebe6087be713eccf05755d2fe9
-commit: 04a72490fa00fcebe6087be713eccf05755d2fe9 [24/24] CHROMIUM: media: mediatek: vcodec: encoder: Add VCP backend
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250203/202502030744.wfrCh5v8-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250203/202502030744.wfrCh5v8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git sparse-friendly-direct-mode
+head:   bada9cd0235b288b74ee2bd65fd4223d71f62b02
+commit: a0df9059bd2ef36d622cf94311dfb017b6b5de5d [111/166] iio: adc: Simple cases of switch to sparse friendly iio_device_claim/release_direct()
+config: hexagon-randconfig-001-20250203 (https://download.01.org/0day-ci/archive/20250203/202502030711.VjFc2dxK-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250203/202502030711.VjFc2dxK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502030744.wfrCh5v8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502030711.VjFc2dxK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:31,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/media/videobuf2-core.h:15,
-                    from drivers/media/platform/mediatek/vcodec/encoder/venc/../mtk_vcodec_enc.h:11,
-                    from drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:6:
-   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c: In function 'mtk_venc_mem_alloc':
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:433:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     433 |                        buf->size, (u64)buf->va, buf->iova);
-         |                                   ^
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/mtk_vcodec_util.h:61:25: note: in expansion of macro 'dev_dbg'
-      61 |                         dev_dbg(&(plat_dev)->dev, "[MTK_VCODEC][%d]: %s, %d " fmt "\n", \
-         |                         ^~~~~~~
-   drivers/media/platform/mediatek/vcodec/encoder/venc/../mtk_vcodec_enc_drv.h:246:9: note: in expansion of macro 'mtk_vcodec_debug'
-     246 |         mtk_vcodec_debug((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:431:9: note: in expansion of macro 'mtk_venc_debug'
-     431 |         mtk_venc_debug(inst->ctx,
-         |         ^~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c: In function 'mtk_venc_mem_free':
-   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:447:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     447 |                        buf->size, (u64)buf->va, buf->iova);
-         |                                   ^
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/encoder/venc/../../common/mtk_vcodec_util.h:61:25: note: in expansion of macro 'dev_dbg'
-      61 |                         dev_dbg(&(plat_dev)->dev, "[MTK_VCODEC][%d]: %s, %d " fmt "\n", \
-         |                         ^~~~~~~
-   drivers/media/platform/mediatek/vcodec/encoder/venc/../mtk_vcodec_enc_drv.h:246:9: note: in expansion of macro 'mtk_vcodec_debug'
-     246 |         mtk_vcodec_debug((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:445:9: note: in expansion of macro 'mtk_venc_debug'
-     445 |         mtk_venc_debug(inst->ctx,
-         |         ^~~~~~~~~~~~~~
---
-   drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c: In function 'handle_enc_init_msg':
->> drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c:27:37: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      27 |                 vpu->vsi = (void *)((__u64)mtk_vcodec_vcp_get_vsi(fw, 0) +
-         |                                     ^
->> drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c:27:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      27 |                 vpu->vsi = (void *)((__u64)mtk_vcodec_vcp_get_vsi(fw, 0) +
-         |                            ^
---
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:47: warning: Enum value 'VENC_BS_MODE_SPS' not described in enum 'venc_bs_mode'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:47: warning: Enum value 'VENC_BS_MODE_PPS' not described in enum 'venc_bs_mode'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:47: warning: Enum value 'VENC_BS_MODE_VPS' not described in enum 'venc_bs_mode'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:47: warning: Enum value 'VENC_BS_MODE_SEQ_HDR' not described in enum 'venc_bs_mode'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:47: warning: Enum value 'VENC_BS_MODE_FRAME' not described in enum 'venc_bs_mode'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:47: warning: Enum value 'VENC_BS_MODE_FRAME_FINAL' not described in enum 'venc_bs_mode'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:47: warning: Enum value 'VENC_BS_MODE_MAX' not described in enum 'venc_bs_mode'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:118: warning: Function parameter or member 'pa_64' not described in 'venc_work_buf'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:118: warning: Function parameter or member 'va' not described in 'venc_work_buf'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:118: warning: Function parameter or member 'va_padding' not described in 'venc_work_buf'
->> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c:118: warning: Function parameter or member 'size_padding' not described in 'venc_work_buf'
+>> drivers/iio/adc/ad7173.c:1184:8: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1184 |                         if (freq >= st->info->sinc5_data_rates[i])
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/ad7173.c:1198:9: note: uninitialized use occurs here
+    1198 |         return ret;
+         |                ^~~
+   drivers/iio/adc/ad7173.c:1184:4: note: remove the 'if' if its condition is always false
+    1184 |                         if (freq >= st->info->sinc5_data_rates[i])
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1185 |                                 break;
+         |                                 ~~~~~
+>> drivers/iio/adc/ad7173.c:1183:39: warning: variable 'ret' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
+    1183 |                 for (i = st->info->odr_start_value; i < st->info->num_sinc5_data_rates - 1; i++)
+         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/ad7173.c:1198:9: note: uninitialized use occurs here
+    1198 |         return ret;
+         |                ^~~
+   drivers/iio/adc/ad7173.c:1183:39: note: remove the condition if it is always true
+    1183 |                 for (i = st->info->odr_start_value; i < st->info->num_sinc5_data_rates - 1; i++)
+         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/ad7173.c:1160:9: note: initialize the variable 'ret' to silence this warning
+    1160 |         int ret;
+         |                ^
+         |                 = 0
+   2 warnings generated.
 
 
-vim +433 drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c
+vim +1184 drivers/iio/adc/ad7173.c
 
-   415	
-   416	static int mtk_venc_mem_alloc(struct venc_inst *inst,
-   417				      struct device *dev,
-   418				      struct venc_work_buf *buf)
-   419	{
-   420		dma_addr_t dma_addr;
-   421	
-   422		if (!buf || buf->size == 0)
-   423			return 0;
-   424	
-   425		buf->va = dma_alloc_coherent(dev, buf->size, &dma_addr, GFP_KERNEL);
-   426		if (!buf->va)
-   427			return -ENOMEM;
-   428	
-   429		buf->iova = (unsigned long long)dma_addr;
-   430	
-   431		mtk_venc_debug(inst->ctx,
-   432			       "allocate buffer, size: %d, va: 0x%llx, iova: 0x%llx",
- > 433			       buf->size, (u64)buf->va, buf->iova);
-   434	
-   435		return 0;
-   436	}
-   437	
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1152  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1153  static int ad7173_write_raw(struct iio_dev *indio_dev,
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1154  			    struct iio_chan_spec const *chan,
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1155  			    int val, int val2, long info)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1156  {
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1157  	struct ad7173_state *st = iio_priv(indio_dev);
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1158  	struct ad7173_channel_config *cfg;
+182bc496dc63ca Dumitru Ceclan   2024-05-30  1159  	unsigned int freq, i;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1160  	int ret;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1161  
+a0df9059bd2ef3 Jonathan Cameron 2025-02-02  1162  	if (!iio_device_claim_direct(indio_dev))
+a0df9059bd2ef3 Jonathan Cameron 2025-02-02  1163  		return -EBUSY;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1164  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1165  	switch (info) {
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1166  	/*
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1167  	 * This attribute sets the sampling frequency for each channel individually.
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1168  	 * There are no issues for raw or buffered reads of an individual channel.
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1169  	 *
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1170  	 * When multiple channels are enabled in buffered mode, the effective
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1171  	 * sampling rate of a channel is lowered in correlation to the number
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1172  	 * of channels enabled and the sampling rate of the other channels.
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1173  	 *
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1174  	 * Example: 3 channels enabled with rates CH1:6211sps CH2,CH3:10sps
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1175  	 * While the reading of CH1 takes only 0.16ms, the reading of CH2 and CH3
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1176  	 * will take 100ms each.
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1177  	 *
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1178  	 * This will cause the reading of CH1 to be actually done once every
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1179  	 * 200.16ms, an effective rate of 4.99sps.
+f87b076b934f72 Dumitru Ceclan   2024-06-07  1180  	 */
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1181  	case IIO_CHAN_INFO_SAMP_FREQ:
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1182  		freq = val * MILLI + val2 / MILLI;
+37ae8381ccda3c Dumitru Ceclan   2024-03-06 @1183  		for (i = st->info->odr_start_value; i < st->info->num_sinc5_data_rates - 1; i++)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28 @1184  			if (freq >= st->info->sinc5_data_rates[i])
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1185  				break;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1186  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1187  		cfg = &st->channels[chan->address].cfg;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1188  		cfg->odr = i;
+182bc496dc63ca Dumitru Ceclan   2024-05-30  1189  		cfg->live = false;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1190  		break;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1191  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1192  	default:
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1193  		ret = -EINVAL;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1194  		break;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1195  	}
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1196  
+a0df9059bd2ef3 Jonathan Cameron 2025-02-02  1197  	iio_device_release_direct(indio_dev);
+76a1e6a4280211 Dumitru Ceclan   2024-02-28 @1198  	return ret;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1199  }
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1200  
+
+:::::: The code at line 1184 was first introduced by commit
+:::::: 76a1e6a4280211b1ceffec4f79f96e492c661229 iio: adc: ad7173: add AD7173 driver
+
+:::::: TO: Dumitru Ceclan <mitrutzceclan@gmail.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
